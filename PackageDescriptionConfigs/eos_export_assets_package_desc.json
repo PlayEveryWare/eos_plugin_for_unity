@@ -1,0 +1,136 @@
+{
+    "source_to_dest": [
+        {"src":"readme.md", "dest" : ""},
+
+
+        {"src":"docs/android/*.md", "dest" : ""},
+
+        {"src":"Packages/manifest.json", "dest" : "Packages/"},
+        {"src":"Packages/packages-lock.json", "dest" : "Packages/"},
+
+        {"src":"ProjectSettings/*", "dest" : "ProjectSettings/"},
+
+        {"src":"Assets/Plugins/com.pew.eos.asmdef", "dest": "Assets/Plugins/"},
+        {"src":"Assets/Plugins/com.pew.eos.asmdef.meta", "dest": "Assets/Plugins/"},
+
+        {"src":"Assets/*.cs", "dest": "Assets/"},
+        {"src":"Assets/*.cs.meta", "dest": "Assets/"},
+
+        {"src":"Assets/EOS.meta", "dest": "Assets/"},
+        {"src":"Assets/EOS/*.png", "dest": "Assets/EOS/"},
+        {"src":"Assets/EOS/*.png.meta", "dest": "Assets/EOS/"},
+
+        {"src":"Assets/Plugins/*.cs", "dest": "Assets/Plugins/"},
+        {"src":"Assets/Plugins/*.cs.meta", "dest": "Assets/Plugins/"},
+        {"src":"Assets/Plugins/*.prefab", "dest": "Assets/Plugins/"},
+        {"src":"Assets/Plugins/*.prefab.meta", "dest": "Assets/Plugins/"},
+
+        {"src":"Assets/Plugins/Source/*.cs", "dest": "Assets/Plugins/Source/"},
+        {"src":"Assets/Plugins/Source/*.cs.meta", "dest": "Assets/Plugins/Source/"},
+
+        {"src":"Assets/Plugins/Windows.meta", "dest": "Assets/Plugins/"},
+
+        {"src":"Assets/Plugins/Windows/x64.meta", "dest": "Assets/Plugins/Windows/"},
+        {"src":"Assets/Plugins/Windows/x64/*.dll", "dest": "Assets/Plugins/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/*.dll.meta", "dest": "Assets/Plugins/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/*.lib", "dest": "Assets/Plugins/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/*.lib.meta", "dest": "Assets/Plugins/Windows/x64/"},
+
+        {"src":"Assets/Plugins/Windows/x86.meta", "dest": "Assets/Plugins/Windows/"},
+        {"src":"Assets/Plugins/Windows/x86/*.dll", "dest": "Assets/Plugins/Windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.dll.meta", "dest": "Assets/Plugins/Windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.lib", "dest": "Assets/Plugins/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.lib.meta", "dest": "Assets/Plugins/windows/x86/"},
+
+        {"src":"Assets/Plugins/Windows/*.cs", "dest": "Assets/Plugins/Windows/"},
+        {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Assets/Plugins/Windows/"},
+
+        {"src":"Assets/Plugins/Source/Editor/com.pew.eos-Editor.asmdef", "dest": "Assets/Plugins/Source/Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/com.pew.eos-Editor.asmdef.meta", "dest": "Assets/Plugins/Source/Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Assets/Plugins/Source/Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Assets/Plugins/Source/Editor/"},
+
+        {"src":"Assets/Plugins/Source/Core/*.cs", "dest": "Assets/Plugins/Source/Core/"},
+        {"src":"Assets/Plugins/Source/Core.meta", "dest": "Assets/Plugins/Source/"},
+        {"src":"Assets/Plugins/Source/Core/*.cs.meta", "dest": "Assets/Plugins/Source/Core/"},
+
+        {"src":"Assets/Plugins/Source/Generated.meta", "dest": "Assets/Plugins/Source/"},
+        {"src":"Assets/Plugins/Source/Generated/*.cs", "dest": "Assets/Plugins/Source/Generated/"},
+        {"src":"Assets/Plugins/Source/Generated/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Achievements/*.cs", "dest": "Assets/Plugins/Source/Generated/Achievements/"},
+        {"src":"Assets/Plugins/Source/Generated/Achievements/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Achievements/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Auth/*.cs", "dest": "Assets/Plugins/Source/Generated/Auth/"},
+        {"src":"Assets/Plugins/Source/Generated/Auth/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Auth/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Connect/*.cs", "dest": "Assets/Plugins/Source/Generated/Connect/"},
+        {"src":"Assets/Plugins/Source/Generated/Connect/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Connect/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Ecom/*.cs", "dest": "Assets/Plugins/Source/Generated/Ecom/"},
+        {"src":"Assets/Plugins/Source/Generated/Ecom/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Ecom/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Friends/*.cs", "dest": "Assets/Plugins/Source/Generated/Friends/"},
+        {"src":"Assets/Plugins/Source/Generated/Friends/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Friends/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Leaderboards/*.cs", "dest": "Assets/Plugins/Source/Generated/Leaderboards/"},
+        {"src":"Assets/Plugins/Source/Generated/Leaderboards/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Leaderboards/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Lobby/*.cs", "dest": "Assets/Plugins/Source/Generated/Lobby/"},
+        {"src":"Assets/Plugins/Source/Generated/Lobby/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Lobby/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Logging/*.cs", "dest": "Assets/Plugins/Source/Generated/Logging/"},
+        {"src":"Assets/Plugins/Source/Generated/Logging/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Logging/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Metrics/*.cs", "dest": "Assets/Plugins/Source/Generated/Metrics/"},
+        {"src":"Assets/Plugins/Source/Generated/Metrics/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Metrics/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Mods/*.cs", "dest": "Assets/Plugins/Source/Generated/Mods/"},
+        {"src":"Assets/Plugins/Source/Generated/Mods/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Mods/"},
+
+        {"src":"Assets/Plugins/Source/Generated/P2P/*.cs", "dest": "Assets/Plugins/Source/Generated/P2P/"},
+        {"src":"Assets/Plugins/Source/Generated/P2P/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/P2P/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Platform/*.cs", "dest": "Assets/Plugins/Source/Generated/Platform/"},
+        {"src":"Assets/Plugins/Source/Generated/Platform/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Platform/"},
+
+        {"src":"Assets/Plugins/Source/Generated/PlayerDataStorage/*.cs", "dest": "Assets/Plugins/Source/Generated/PlayerDataStorage/"},
+        {"src":"Assets/Plugins/Source/Generated/PlayerDataStorage/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/PlayerDataStorage/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Presence/*.cs", "dest": "Assets/Plugins/Source/Generated/Presence/"},
+        {"src":"Assets/Plugins/Source/Generated/Presence/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Presence/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Sessions/*.cs", "dest": "Assets/Plugins/Source/Generated/Sessions/"},
+        {"src":"Assets/Plugins/Source/Generated/Sessions/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Sessions/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Stats/*.cs", "dest": "Assets/Plugins/Source/Generated/Stats/"},
+        {"src":"Assets/Plugins/Source/Generated/Stats/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Stats/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Titlestorage/*.cs", "dest": "Assets/Plugins/Source/Generated/Titlestorage/"},
+        {"src":"Assets/Plugins/Source/Generated/Titlestorage/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Titlestorage/"},
+
+        {"src":"Assets/Plugins/Source/Generated/Ui/*.cs", "dest": "Assets/Plugins/Source/Generated/Ui/"},
+        {"src":"Assets/Plugins/Source/Generated/Ui/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/Ui/"},
+
+        {"src":"Assets/Plugins/Source/Generated/UserInfo/*.cs", "dest": "Assets/Plugins/Source/Generated/UserInfo/"},
+        {"src":"Assets/Plugins/Source/Generated/UserInfo/*.cs.meta", "dest": "Assets/Plugins/Source/Generated/UserInfo/"},
+
+        {"src":"Assets/Plugins/Source/Generated/*.meta", "dest": "Assets/Plugins/Source/Generated/"},
+
+        {"src":"Assets/Prefab.meta", "dest": "Assets/"},
+        {"src":"Assets/Prefab/*.prefab", "dest": "Assets/Prefab/"},
+        {"src":"Assets/Prefab/*.prefab.meta", "dest": "Assets/Prefab/"},
+
+        {"src":"Assets/Scenes/*.unity", "dest": "Assets/Scenes/"},
+        {"src":"Assets/Scenes/*.unity.meta", "dest": "Assets/Scenes/"},
+
+        {"src":"Assets/Scripts.meta", "dest": "Assets/"},
+        {"src":"Assets/Scripts/*.cs", "dest": "Assets/Scripts/"},
+        {"src":"Assets/Scenes/*.cs.meta", "dest": "Assets/Scripts/"},
+
+
+        {"src":"Assets/StreamingAssets.meta", "dest": "Assets/"},
+        {"src":"Assets/StreamingAssets/EOS.meta", "dest": "Assets/StreamingAssets/"}
+    ]
+}
+

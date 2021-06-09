@@ -1,0 +1,2 @@
+include ':UnityHelpers_Android'
+rootProject.name = "UnityHelpers_Android"

@@ -1,0 +1,8 @@
+x64/*.dll filter=lfs diff=lfs merge=lfs -text
+x86/*.dll filter=lfs diff=lfs merge=lfs -text
+x64/EOSSDK-Win64-Shipping.dll filter=lfs diff=lfs merge=lfs -text
+x64/NativeSharedDictionary.dll filter=lfs diff=lfs merge=lfs -text
+x86/DLL1.dll filter=lfs diff=lfs merge=lfs -text
+x86/EOSSDK-Win32-Shipping.dll filter=lfs diff=lfs merge=lfs -text
+x86/NativeSharedDictionary.dll filter=lfs diff=lfs merge=lfs -text
+x64/DLL1.dll filter=lfs diff=lfs merge=lfs -text
