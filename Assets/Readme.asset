@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf7219bab7fe46a1ad266029b2fee19, type: 3}
+  m_Name: Readme
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: d7ea06d0b17c1f2449da59482578de9c, type: 3}
+  title: 3D With Extras (Preview)
+  sections:
+  - heading: 'Standard 3D Renderer With Graphics Extras '
+    text: "This template is a good starting point for people who want to develop 3D
+      projects using Unity\u2019s built-in renderer and extra graphics features. This
+      project includes the new Post-Processing stack, several presets to jump-start
+      development, and example content."
+    linkText: 
+    url: 
+  - heading: 
+    text: 'To learn more about Post-Processing refer to the wiki page located here:'
+    linkText: Post-Processing
+    url: https://github.com/Unity-Technologies/PostProcessing/wiki
+  loadedLayout: 1
