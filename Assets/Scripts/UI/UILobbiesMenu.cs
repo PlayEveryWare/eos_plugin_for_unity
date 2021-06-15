@@ -332,7 +332,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             bool invitePresenceToggled = InvitePresence.isOn;
 
-            LobbyManager.AcceptLobbyInvite(invitePresenceToggled, UIOnLobbyUpdated);
+            LobbyManager.AcceptCurrentLobbyInvite(invitePresenceToggled, UIOnLobbyUpdated);
         }
 
         public void DeclineInviteButtonOnClick()

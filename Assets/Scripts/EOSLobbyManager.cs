@@ -147,10 +147,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     LobbyAttribute newAttribute = new LobbyAttribute();
                     newAttribute.InitFromAttribute(outAttribute);
                     Members[memberIndex].MemberAttributes[attributeIndex] = newAttribute;
-                    if (newAttribute.Key.Equals("COLOR")) // Additional values
-                    {
-                        Members[memberIndex].ColorValueStr = newAttribute.AsString;
-                    }
                 }
             }
         }
@@ -201,7 +197,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AttributeData attrData = new AttributeData();
                 attrData.Key = Key;
                 attrData.Value = new AttributeDataValue();
-                //attrData.Value.ValueType = AttributeType.String; // Read Only
 
                 switch (ValueType)
                 {
@@ -270,23 +265,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public string DisplayName;
         public List<LobbyAttribute> MemberAttributes = new List<LobbyAttribute>();
-
-        // Custom Lobby Property
-        public enum Color
-        {
-            Red = 0,
-            Green,
-            Blue
-        }
-        public Color ColorValue = LobbyMember.Color.Red;
-        public string ColorValueStr = string.Empty;
     }
 
     public class LobbyJoinRequest
     {
         string Id = string.Empty;
         LobbyDetails LobbyInfo = new LobbyDetails();
-        //bool _PresenceEnabled = false;
 
         public bool IsValid()
         {
@@ -297,7 +281,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Id = string.Empty;
             LobbyInfo = new LobbyDetails();
-            //_PresenceEnabled = false;
         }
     }
 
@@ -1495,16 +1478,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentInvite = null;
         }
 
-        public void AcceptLobbyInvite(bool enablePresence, OnLobbyCallback AcceptLobbyInviteCompleted)
+        public void AcceptCurrentLobbyInvite(bool enablePresence, OnLobbyCallback AcceptLobbyInviteCompleted)
         {
             if (CurrentInvite != null && CurrentInvite.IsValid())
             {
-                Debug.Log("Lobbies (AcceptLobbyInvite): Accepted invite, joining lobby.");
+                Debug.Log("Lobbies (AcceptCurrentLobbyInvite): Accepted invite, joining lobby.");
 
                 JoinLobby(CurrentInvite.Lobby.Id, CurrentInvite.LobbyInfo, enablePresence, AcceptLobbyInviteCompleted);
                 CurrentInvite = null;
             }
+            else
+            {
+                Debug.LogError("Lobbies (AcceptCurrentLobbyInvite): Current invite is null or invalid!");
+
+                AcceptLobbyInviteCompleted(Result.InvalidState);
+            }
         }
+
         public void AcceptLobbyInvite(LobbyInvite lobbyInvite, bool enablePresence, OnLobbyCallback AcceptLobbyInviteCompleted)
         {
             if (lobbyInvite != null && lobbyInvite.IsValid())
@@ -1512,6 +1502,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.Log("Lobbies (AcceptLobbyInvite): Accepted invite, joining lobby.");
 
                 JoinLobby(lobbyInvite.Lobby.Id, lobbyInvite.LobbyInfo, enablePresence, AcceptLobbyInviteCompleted);
+            }
+            else
+            {
+                Debug.LogError("Lobbies (AcceptLobbyInvite): lobbyInvite parameter is null or invalid!");
+
+                AcceptLobbyInviteCompleted(Result.InvalidState);
             }
         }
     }
