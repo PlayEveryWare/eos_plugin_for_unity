@@ -1256,6 +1256,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             newLobby.InitFromLobbyDetails(outLobbyDetailsHandle);
 
             JoinLobby(newLobby.Id, outLobbyDetailsHandle, true, null);
+            CurrentInvite = null;
         }
 
         private void OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo data)
@@ -1315,11 +1316,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            // InitFromLobbyDetails
-            if (CurrentLobby != null)
-            {
-                CurrentLobby.InitFromLobbyDetails(outLobbyDetailsHandle);
-            }
+            Lobby lobby = new Lobby();
+            lobby.InitFromLobbyDetails(outLobbyDetailsHandle);
+
+            JoinLobby(lobby.Id, outLobbyDetailsHandle, true, null);
+            CurrentInvite = null;
         }
 
         private void PopLobbyInvite()
