@@ -348,13 +348,13 @@ json_value_s* read_eos_config_as_json_value_from_file()
 //-------------------------------------------------------------------------
 void eos_create(EOSConfig& eosConfig)
 {
-	EOS_Platform_Options platform_options = {};
+	EOS_Platform_Options platform_options = {0};
 	platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
 	platform_options.bIsServer = EOS_FALSE;
 	platform_options.Flags = 0;
 	platform_options.CacheDirectory = GetCacheDirectory();
 
-	platform_options.EncryptionKey = eosConfig.encryptionKey.c_str();
+	platform_options.EncryptionKey = eosConfig.encryptionKey.length() > 0 ? eosConfig.encryptionKey.c_str() : nullptr;
 	platform_options.OverrideCountryCode = eosConfig.overrideCountryCode.length() > 0 ? eosConfig.overrideCountryCode.c_str() : nullptr;
 	platform_options.OverrideLocaleCode = eosConfig.overrideLocaleCode.length() > 0 ? eosConfig.overrideLocaleCode.c_str() : nullptr;
 	platform_options.ProductId = eosConfig.productID.c_str();
