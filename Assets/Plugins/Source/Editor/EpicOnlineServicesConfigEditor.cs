@@ -43,7 +43,7 @@ public class EpicOnlineServicesConfigEditor : EditorWindow
             "#define EOS_SANDBOX_ID \"{2}\"",
             "#define EOS_PRODUCT_ID \"{3}\"",
             "#define EOS_DEPLOYMENT_ID \"{4}\"",
-            "#define EOS_DEPLOYMENT_ID \"{5}\"",
+            "#define EOS_CLIENT_SECRET \"{5}\"",
             "#define EOS_CLIENT_ID \"{6}\""
         }), aEOSConfig.productName,
         aEOSConfig.productVersion,
@@ -71,7 +71,7 @@ extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
               ""productID: ""  EOS_PRODUCT_ID "",""
               ""sandboxID: ""  EOS_SANDBOX_ID "",""
               ""deploymentID: "" EOS_DEPLOYMENT_ID "",""
-              ""clientSecret: ""  EOS_DEPLOYMENT_ID "",""
+              ""clientSecret: ""  EOS_CLIENT_SECRET "",""
               ""clientID: ""  EOS_CLIENT_ID
 
            ""}""
