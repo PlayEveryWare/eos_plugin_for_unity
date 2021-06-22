@@ -28,7 +28,7 @@
 
 #if UNITY_64
 #define PLATFORM_64BITS
-#elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
+#elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA_10_0)
 #define PLATFORM_32BITS
 #endif
 
@@ -63,9 +63,9 @@ namespace PlayEveryWare.EpicOnlineServices
             public const string GfxPluginNativeRenderPath = 
 #if UNITY_STANDALONE_OSX
                 "GfxPluginNativeRender-macOS";
-#elif UNITY_STANDALONE_WIN && PLATFORM_64BITS
+#elif (UNITY_STANDALONE_WIN || UNITY_WSA_10_0) && PLATFORM_64BITS
             "GfxPluginNativeRender-x64";
-#elif UNITY_STANDALONE_WIN && PLATFORM_32BITS
+#elif (UNITY_STANDALONE_WIN || UNITY_WSA_10_0) && PLATFORM_32BITS
             "GfxPluginNativeRender-x86";
 #else
 #error Unknown platform

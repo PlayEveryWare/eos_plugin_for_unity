@@ -38,7 +38,7 @@ using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
 
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_WSA_10_0
 
 namespace PlayEveryWare.EpicOnlineServices
 {
