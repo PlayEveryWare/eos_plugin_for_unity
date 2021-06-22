@@ -28,7 +28,7 @@ using size_t = System.UIntPtr;
 
 public partial class SystemMemory
 {
-#if !(UNITY_ANDROID || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
+#if !(UNITY_ANDROID || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA_10_0)
     static public IntPtr GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes)
     {
         return Mem_generic_align_alloc(sizeInBytes, alignmentInBytes);
