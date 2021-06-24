@@ -562,7 +562,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Set Bucket Id
             AttributeData attrData = new AttributeData();
             attrData.Key = EOS_SESSIONS_SEARCH_BUCKET_ID;
-            attrData.Value.AsUtf8 = BUCKET_ID;
+            attrData.Value = new AttributeDataValue()
+            {
+                AsUtf8 = BUCKET_ID
+            };
 
             SessionModificationAddAttributeOptions attrOptions = new SessionModificationAddAttributeOptions();
             attrOptions.SessionAttribute = attrData;
