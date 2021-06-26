@@ -104,6 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyPermissionLevel = outLobbyDetailsInfo.PermissionLevel;
             AllowInvites = outLobbyDetailsInfo.AllowInvites;
             AvailableSlots = outLobbyDetailsInfo.AvailableSlots;
+            BucketId = outLobbyDetailsInfo.BucketId;
 
             // get attributes
             Attributes.Clear();
@@ -1055,11 +1056,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             outLobbySearchHandle.Find(new LobbySearchFindOptions() { LocalUserId = currentProductUserId }, null, OnLobbySearchCompleted);
         }
 
-        public void SearchByAttribute(string searchString, OnLobbySearchCallback SearchCompleted)
+        public void SearchByAttribute(string attributeKey, string attributeValue, OnLobbySearchCallback SearchCompleted)
         {
-            Debug.LogFormat("Lobbies (SearchByAttribute): searchString='{0}'", searchString);
+            Debug.LogFormat("Lobbies (SearchByAttribute): searchString='{0}'", attributeKey);
 
-            if (string.IsNullOrEmpty(searchString))
+            if (string.IsNullOrEmpty(attributeKey))
             {
                 Debug.LogError("Lobbies (SearchByAttribute): searchString is null or empty!");
                 SearchCompleted?.Invoke(Result.InvalidParameters);
@@ -1090,9 +1091,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Turn SearchString into AttributeData
             AttributeData attrData = new AttributeData();
-            attrData.Key = "LEVEL";
+            attrData.Key = attributeValue.Trim();
             attrData.Value = new AttributeDataValue();
-            attrData.Value.AsUtf8 = searchString.Trim();
+            attrData.Value.AsUtf8 = attributeKey.Trim();
             paramOptions.Parameter = attrData;
 
             result = outLobbySearchHandle.SetParameter(paramOptions);

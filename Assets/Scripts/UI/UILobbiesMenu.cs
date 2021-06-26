@@ -40,6 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UILobbyEntryPrefab;
         public GameObject SearchContentParent;
 
+        public InputField SearchByBucketIdBox;
         public InputField SearchByLevelBox;
         public InputField SearchByLobbyIdBox;
 
@@ -67,7 +68,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByLevelBox.onEndEdit.AddListener(SearchByAttributeEnterPressed);
+            SearchByBucketIdBox.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
+            SearchByLevelBox.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
             SearchByLobbyIdBox.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
 
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
@@ -435,9 +437,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Search UI
-        public void SearchByAttributeEnterPressed(string searchString)
+        public void SearchByLevelAttributeEnterPressed(string searchAttributeValue)
         {
-            LobbyManager.SearchByAttribute(searchString, UIUpateSearchResults);
+            LobbyManager.SearchByAttribute("LEVEL", searchAttributeValue, UIUpateSearchResults);
+        }
+
+        public void SearchByBucketAttributeEnterPressed(string searchAttributeValue)
+        {
+            LobbyManager.SearchByAttribute("bucket", searchAttributeValue, UIUpateSearchResults);
         }
 
         public void SearchByLobbyIdEnterPressed(string searchString)
