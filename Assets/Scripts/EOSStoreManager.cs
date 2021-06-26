@@ -51,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             var queryOfferOptions = new QueryOffersOptions();
             queryOfferOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
+            queryOfferOptions.OverrideCatalogNamespace = null;
 
             EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().QueryOffers(queryOfferOptions, null, OnQueryOffers);
         }
