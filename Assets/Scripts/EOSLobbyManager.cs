@@ -1091,9 +1091,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Turn SearchString into AttributeData
             AttributeData attrData = new AttributeData();
-            attrData.Key = attributeValue.Trim();
+            attrData.Key = attributeKey.Trim();
             attrData.Value = new AttributeDataValue();
-            attrData.Value.AsUtf8 = attributeKey.Trim();
+            attrData.Value.AsUtf8 = attributeValue.Trim();
             paramOptions.Parameter = attrData;
 
             result = outLobbySearchHandle.SetParameter(paramOptions);
