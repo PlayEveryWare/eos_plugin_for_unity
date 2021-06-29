@@ -123,6 +123,11 @@ namespace Epic.OnlineServices
 			return TryConvert(source, out target);
 		}
 
+		internal static bool TryMarshalGet(bool source, out int target)
+		{
+			return TryConvert(source, out target);
+		}
+
 		internal static bool TryMarshalGet(long source, out DateTimeOffset? target)
 		{
 			return TryConvert(source, out target);

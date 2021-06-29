@@ -411,6 +411,8 @@ EOS_RESULT_VALUE(EOS_RTC_UserKicked, 13002)
 EOS_RESULT_VALUE(EOS_RTC_UserBanned, 13003)
 /** EOS RTC room was left successfully */
 EOS_RESULT_VALUE(EOS_RTC_RoomWasLeft, 13004)
+/** Connection dropped due to long timeout */
+EOS_RESULT_VALUE(EOS_RTC_ReconnectionTimegateExpired, 13005)
 
 /** The number of available Snapshot IDs have all been exhausted. */
 EOS_RESULT_VALUE(EOS_ProgressionSnapshot_SnapshotIdUnavailable, 14000)

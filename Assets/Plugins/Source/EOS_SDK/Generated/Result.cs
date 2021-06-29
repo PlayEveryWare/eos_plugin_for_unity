@@ -782,6 +782,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		RoomWasLeft = 13004,
 		/// <summary>
+		/// Connection dropped due to long timeout
+		/// </summary>
+		ReconnectionTimegateExpired = 13005,
+		/// <summary>
 		/// The number of available Snapshot IDs have all been exhausted.
 		/// </summary>
 		ProgressionSnapshotSnapshotIdUnavailable = 14000,

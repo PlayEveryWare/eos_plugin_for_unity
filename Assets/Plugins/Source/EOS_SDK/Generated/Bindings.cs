@@ -922,6 +922,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_AddNotifyLobbyUpdateReceived));
 			EOS_Lobby_AddNotifyLobbyUpdateReceived = (EOS_Lobby_AddNotifyLobbyUpdateReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyLobbyUpdateReceivedCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_AddNotifyRTCRoomConnectionChanged));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_AddNotifyRTCRoomConnectionChanged));
+			EOS_Lobby_AddNotifyRTCRoomConnectionChanged = (EOS_Lobby_AddNotifyRTCRoomConnectionChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyRTCRoomConnectionChangedCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_Attribute_Release));
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_Attribute_Release));
 			EOS_Lobby_Attribute_Release = (EOS_Lobby_Attribute_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_Attribute_ReleaseCallback));
@@ -957,6 +961,14 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_GetInviteIdByIndex));
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_GetInviteIdByIndex));
 			EOS_Lobby_GetInviteIdByIndex = (EOS_Lobby_GetInviteIdByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_GetInviteIdByIndexCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_GetRTCRoomName));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_GetRTCRoomName));
+			EOS_Lobby_GetRTCRoomName = (EOS_Lobby_GetRTCRoomNameCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_GetRTCRoomNameCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_IsRTCRoomConnected));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_IsRTCRoomConnected));
+			EOS_Lobby_IsRTCRoomConnected = (EOS_Lobby_IsRTCRoomConnectedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_IsRTCRoomConnectedCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_JoinLobby));
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_JoinLobby));
@@ -1005,6 +1017,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RemoveNotifyLobbyUpdateReceived));
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RemoveNotifyLobbyUpdateReceived));
 			EOS_Lobby_RemoveNotifyLobbyUpdateReceived = (EOS_Lobby_RemoveNotifyLobbyUpdateReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyLobbyUpdateReceivedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged));
+			EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged = (EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_SendInvite));
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_SendInvite));
@@ -1222,6 +1238,14 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetPresenceInterface));
 			EOS_Platform_GetPresenceInterface = (EOS_Platform_GetPresenceInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetPresenceInterfaceCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetRTCAdminInterface));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetRTCAdminInterface));
+			EOS_Platform_GetRTCAdminInterface = (EOS_Platform_GetRTCAdminInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetRTCAdminInterfaceCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetRTCInterface));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetRTCInterface));
+			EOS_Platform_GetRTCInterface = (EOS_Platform_GetRTCInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetRTCInterfaceCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetReportsInterface));
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetReportsInterface));
 			EOS_Platform_GetReportsInterface = (EOS_Platform_GetReportsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetReportsInterfaceCallback));
@@ -1405,6 +1429,154 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ProductUserId_ToString));
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ProductUserId_ToString));
 			EOS_ProductUserId_ToString = (EOS_ProductUserId_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProductUserId_ToStringCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAdmin_CopyUserTokenByIndex));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAdmin_CopyUserTokenByIndex));
+			EOS_RTCAdmin_CopyUserTokenByIndex = (EOS_RTCAdmin_CopyUserTokenByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_CopyUserTokenByIndexCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAdmin_CopyUserTokenByUserId));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAdmin_CopyUserTokenByUserId));
+			EOS_RTCAdmin_CopyUserTokenByUserId = (EOS_RTCAdmin_CopyUserTokenByUserIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_CopyUserTokenByUserIdCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAdmin_Kick));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAdmin_Kick));
+			EOS_RTCAdmin_Kick = (EOS_RTCAdmin_KickCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_KickCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAdmin_QueryJoinRoomToken));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAdmin_QueryJoinRoomToken));
+			EOS_RTCAdmin_QueryJoinRoomToken = (EOS_RTCAdmin_QueryJoinRoomTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_QueryJoinRoomTokenCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAdmin_SetParticipantHardMute));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAdmin_SetParticipantHardMute));
+			EOS_RTCAdmin_SetParticipantHardMute = (EOS_RTCAdmin_SetParticipantHardMuteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_SetParticipantHardMuteCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAdmin_UserToken_Release));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAdmin_UserToken_Release));
+			EOS_RTCAdmin_UserToken_Release = (EOS_RTCAdmin_UserToken_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_UserToken_ReleaseCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_AddNotifyAudioBeforeRender));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_AddNotifyAudioBeforeRender));
+			EOS_RTCAudio_AddNotifyAudioBeforeRender = (EOS_RTCAudio_AddNotifyAudioBeforeRenderCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioBeforeRenderCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_AddNotifyAudioBeforeSend));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_AddNotifyAudioBeforeSend));
+			EOS_RTCAudio_AddNotifyAudioBeforeSend = (EOS_RTCAudio_AddNotifyAudioBeforeSendCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioBeforeSendCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_AddNotifyAudioDevicesChanged));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_AddNotifyAudioDevicesChanged));
+			EOS_RTCAudio_AddNotifyAudioDevicesChanged = (EOS_RTCAudio_AddNotifyAudioDevicesChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioDevicesChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_AddNotifyAudioInputState));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_AddNotifyAudioInputState));
+			EOS_RTCAudio_AddNotifyAudioInputState = (EOS_RTCAudio_AddNotifyAudioInputStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioInputStateCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_AddNotifyAudioOutputState));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_AddNotifyAudioOutputState));
+			EOS_RTCAudio_AddNotifyAudioOutputState = (EOS_RTCAudio_AddNotifyAudioOutputStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioOutputStateCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_AddNotifyParticipantUpdated));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_AddNotifyParticipantUpdated));
+			EOS_RTCAudio_AddNotifyParticipantUpdated = (EOS_RTCAudio_AddNotifyParticipantUpdatedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyParticipantUpdatedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_GetAudioInputDeviceByIndex));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_GetAudioInputDeviceByIndex));
+			EOS_RTCAudio_GetAudioInputDeviceByIndex = (EOS_RTCAudio_GetAudioInputDeviceByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioInputDeviceByIndexCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_GetAudioInputDevicesCount));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_GetAudioInputDevicesCount));
+			EOS_RTCAudio_GetAudioInputDevicesCount = (EOS_RTCAudio_GetAudioInputDevicesCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioInputDevicesCountCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_GetAudioOutputDeviceByIndex));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_GetAudioOutputDeviceByIndex));
+			EOS_RTCAudio_GetAudioOutputDeviceByIndex = (EOS_RTCAudio_GetAudioOutputDeviceByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioOutputDeviceByIndexCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_GetAudioOutputDevicesCount));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_GetAudioOutputDevicesCount));
+			EOS_RTCAudio_GetAudioOutputDevicesCount = (EOS_RTCAudio_GetAudioOutputDevicesCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioOutputDevicesCountCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_RegisterPlatformAudioUser));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_RegisterPlatformAudioUser));
+			EOS_RTCAudio_RegisterPlatformAudioUser = (EOS_RTCAudio_RegisterPlatformAudioUserCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RegisterPlatformAudioUserCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_RemoveNotifyAudioBeforeRender));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_RemoveNotifyAudioBeforeRender));
+			EOS_RTCAudio_RemoveNotifyAudioBeforeRender = (EOS_RTCAudio_RemoveNotifyAudioBeforeRenderCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioBeforeRenderCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_RemoveNotifyAudioBeforeSend));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_RemoveNotifyAudioBeforeSend));
+			EOS_RTCAudio_RemoveNotifyAudioBeforeSend = (EOS_RTCAudio_RemoveNotifyAudioBeforeSendCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioBeforeSendCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_RemoveNotifyAudioDevicesChanged));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_RemoveNotifyAudioDevicesChanged));
+			EOS_RTCAudio_RemoveNotifyAudioDevicesChanged = (EOS_RTCAudio_RemoveNotifyAudioDevicesChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioDevicesChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_RemoveNotifyAudioInputState));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_RemoveNotifyAudioInputState));
+			EOS_RTCAudio_RemoveNotifyAudioInputState = (EOS_RTCAudio_RemoveNotifyAudioInputStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioInputStateCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_RemoveNotifyAudioOutputState));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_RemoveNotifyAudioOutputState));
+			EOS_RTCAudio_RemoveNotifyAudioOutputState = (EOS_RTCAudio_RemoveNotifyAudioOutputStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioOutputStateCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_RemoveNotifyParticipantUpdated));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_RemoveNotifyParticipantUpdated));
+			EOS_RTCAudio_RemoveNotifyParticipantUpdated = (EOS_RTCAudio_RemoveNotifyParticipantUpdatedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyParticipantUpdatedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_SendAudio));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_SendAudio));
+			EOS_RTCAudio_SendAudio = (EOS_RTCAudio_SendAudioCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SendAudioCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_SetAudioInputSettings));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_SetAudioInputSettings));
+			EOS_RTCAudio_SetAudioInputSettings = (EOS_RTCAudio_SetAudioInputSettingsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SetAudioInputSettingsCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_SetAudioOutputSettings));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_SetAudioOutputSettings));
+			EOS_RTCAudio_SetAudioOutputSettings = (EOS_RTCAudio_SetAudioOutputSettingsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SetAudioOutputSettingsCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_UnregisterPlatformAudioUser));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_UnregisterPlatformAudioUser));
+			EOS_RTCAudio_UnregisterPlatformAudioUser = (EOS_RTCAudio_UnregisterPlatformAudioUserCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UnregisterPlatformAudioUserCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_UpdateReceiving));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_UpdateReceiving));
+			EOS_RTCAudio_UpdateReceiving = (EOS_RTCAudio_UpdateReceivingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UpdateReceivingCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTCAudio_UpdateSending));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTCAudio_UpdateSending));
+			EOS_RTCAudio_UpdateSending = (EOS_RTCAudio_UpdateSendingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UpdateSendingCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTC_AddNotifyDisconnected));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTC_AddNotifyDisconnected));
+			EOS_RTC_AddNotifyDisconnected = (EOS_RTC_AddNotifyDisconnectedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyDisconnectedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTC_AddNotifyParticipantStatusChanged));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTC_AddNotifyParticipantStatusChanged));
+			EOS_RTC_AddNotifyParticipantStatusChanged = (EOS_RTC_AddNotifyParticipantStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyParticipantStatusChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTC_BlockParticipant));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTC_BlockParticipant));
+			EOS_RTC_BlockParticipant = (EOS_RTC_BlockParticipantCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_BlockParticipantCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTC_GetAudioInterface));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTC_GetAudioInterface));
+			EOS_RTC_GetAudioInterface = (EOS_RTC_GetAudioInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_GetAudioInterfaceCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTC_JoinRoom));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTC_JoinRoom));
+			EOS_RTC_JoinRoom = (EOS_RTC_JoinRoomCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_JoinRoomCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTC_LeaveRoom));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTC_LeaveRoom));
+			EOS_RTC_LeaveRoom = (EOS_RTC_LeaveRoomCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_LeaveRoomCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTC_RemoveNotifyDisconnected));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTC_RemoveNotifyDisconnected));
+			EOS_RTC_RemoveNotifyDisconnected = (EOS_RTC_RemoveNotifyDisconnectedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyDisconnectedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_RTC_RemoveNotifyParticipantStatusChanged));
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_RTC_RemoveNotifyParticipantStatusChanged));
+			EOS_RTC_RemoveNotifyParticipantStatusChanged = (EOS_RTC_RemoveNotifyParticipantStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyParticipantStatusChangedCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Reports_SendPlayerBehaviorReport));
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Reports_SendPlayerBehaviorReport));
@@ -2026,6 +2198,7 @@ namespace Epic.OnlineServices
 			EOS_Lobby_AddNotifyLobbyMemberStatusReceived = null;
 			EOS_Lobby_AddNotifyLobbyMemberUpdateReceived = null;
 			EOS_Lobby_AddNotifyLobbyUpdateReceived = null;
+			EOS_Lobby_AddNotifyRTCRoomConnectionChanged = null;
 			EOS_Lobby_Attribute_Release = null;
 			EOS_Lobby_CopyLobbyDetailsHandle = null;
 			EOS_Lobby_CopyLobbyDetailsHandleByInviteId = null;
@@ -2035,6 +2208,8 @@ namespace Epic.OnlineServices
 			EOS_Lobby_DestroyLobby = null;
 			EOS_Lobby_GetInviteCount = null;
 			EOS_Lobby_GetInviteIdByIndex = null;
+			EOS_Lobby_GetRTCRoomName = null;
+			EOS_Lobby_IsRTCRoomConnected = null;
 			EOS_Lobby_JoinLobby = null;
 			EOS_Lobby_KickMember = null;
 			EOS_Lobby_LeaveLobby = null;
@@ -2047,6 +2222,7 @@ namespace Epic.OnlineServices
 			EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived = null;
 			EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived = null;
 			EOS_Lobby_RemoveNotifyLobbyUpdateReceived = null;
+			EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged = null;
 			EOS_Lobby_SendInvite = null;
 			EOS_Lobby_UpdateLobby = null;
 			EOS_Lobby_UpdateLobbyModification = null;
@@ -2101,6 +2277,8 @@ namespace Epic.OnlineServices
 			EOS_Platform_GetP2PInterface = null;
 			EOS_Platform_GetPlayerDataStorageInterface = null;
 			EOS_Platform_GetPresenceInterface = null;
+			EOS_Platform_GetRTCAdminInterface = null;
+			EOS_Platform_GetRTCInterface = null;
 			EOS_Platform_GetReportsInterface = null;
 			EOS_Platform_GetSanctionsInterface = null;
 			EOS_Platform_GetSessionsInterface = null;
@@ -2147,6 +2325,43 @@ namespace Epic.OnlineServices
 			EOS_ProductUserId_FromString = null;
 			EOS_ProductUserId_IsValid = null;
 			EOS_ProductUserId_ToString = null;
+			EOS_RTCAdmin_CopyUserTokenByIndex = null;
+			EOS_RTCAdmin_CopyUserTokenByUserId = null;
+			EOS_RTCAdmin_Kick = null;
+			EOS_RTCAdmin_QueryJoinRoomToken = null;
+			EOS_RTCAdmin_SetParticipantHardMute = null;
+			EOS_RTCAdmin_UserToken_Release = null;
+			EOS_RTCAudio_AddNotifyAudioBeforeRender = null;
+			EOS_RTCAudio_AddNotifyAudioBeforeSend = null;
+			EOS_RTCAudio_AddNotifyAudioDevicesChanged = null;
+			EOS_RTCAudio_AddNotifyAudioInputState = null;
+			EOS_RTCAudio_AddNotifyAudioOutputState = null;
+			EOS_RTCAudio_AddNotifyParticipantUpdated = null;
+			EOS_RTCAudio_GetAudioInputDeviceByIndex = null;
+			EOS_RTCAudio_GetAudioInputDevicesCount = null;
+			EOS_RTCAudio_GetAudioOutputDeviceByIndex = null;
+			EOS_RTCAudio_GetAudioOutputDevicesCount = null;
+			EOS_RTCAudio_RegisterPlatformAudioUser = null;
+			EOS_RTCAudio_RemoveNotifyAudioBeforeRender = null;
+			EOS_RTCAudio_RemoveNotifyAudioBeforeSend = null;
+			EOS_RTCAudio_RemoveNotifyAudioDevicesChanged = null;
+			EOS_RTCAudio_RemoveNotifyAudioInputState = null;
+			EOS_RTCAudio_RemoveNotifyAudioOutputState = null;
+			EOS_RTCAudio_RemoveNotifyParticipantUpdated = null;
+			EOS_RTCAudio_SendAudio = null;
+			EOS_RTCAudio_SetAudioInputSettings = null;
+			EOS_RTCAudio_SetAudioOutputSettings = null;
+			EOS_RTCAudio_UnregisterPlatformAudioUser = null;
+			EOS_RTCAudio_UpdateReceiving = null;
+			EOS_RTCAudio_UpdateSending = null;
+			EOS_RTC_AddNotifyDisconnected = null;
+			EOS_RTC_AddNotifyParticipantStatusChanged = null;
+			EOS_RTC_BlockParticipant = null;
+			EOS_RTC_GetAudioInterface = null;
+			EOS_RTC_JoinRoom = null;
+			EOS_RTC_LeaveRoom = null;
+			EOS_RTC_RemoveNotifyDisconnected = null;
+			EOS_RTC_RemoveNotifyParticipantStatusChanged = null;
 			EOS_Reports_SendPlayerBehaviorReport = null;
 			EOS_Sanctions_CopyPlayerSanctionByIndex = null;
 			EOS_Sanctions_GetPlayerSanctionCount = null;
@@ -3145,6 +3360,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Lobby_AddNotifyLobbyUpdateReceivedCallback EOS_Lobby_AddNotifyLobbyUpdateReceived;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_Lobby_AddNotifyRTCRoomConnectionChangedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnRTCRoomConnectionChangedCallbackInternal notificationFn);
+		internal static EOS_Lobby_AddNotifyRTCRoomConnectionChangedCallback EOS_Lobby_AddNotifyRTCRoomConnectionChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_Attribute_ReleaseCallback(System.IntPtr lobbyAttribute);
 		internal static EOS_Lobby_Attribute_ReleaseCallback EOS_Lobby_Attribute_Release;
 
@@ -3179,6 +3398,14 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_Lobby_GetInviteIdByIndexCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Lobby_GetInviteIdByIndexCallback EOS_Lobby_GetInviteIdByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Lobby_GetRTCRoomNameCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint inOutBufferLength);
+		internal static EOS_Lobby_GetRTCRoomNameCallback EOS_Lobby_GetRTCRoomName;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Lobby_IsRTCRoomConnectedCallback(System.IntPtr handle, System.IntPtr options, ref int bOutIsConnected);
+		internal static EOS_Lobby_IsRTCRoomConnectedCallback EOS_Lobby_IsRTCRoomConnected;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_JoinLobbyCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnJoinLobbyCallbackInternal completionDelegate);
@@ -3227,6 +3454,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyUpdateReceivedCallback(System.IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLobbyUpdateReceivedCallback EOS_Lobby_RemoveNotifyLobbyUpdateReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedCallback(System.IntPtr handle, ulong inId);
+		internal static EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedCallback EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_SendInviteCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnSendInviteCallbackInternal completionDelegate);
@@ -3445,6 +3676,14 @@ namespace Epic.OnlineServices
 		internal static EOS_Platform_GetPresenceInterfaceCallback EOS_Platform_GetPresenceInterface;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Platform_GetRTCAdminInterfaceCallback(System.IntPtr handle);
+		internal static EOS_Platform_GetRTCAdminInterfaceCallback EOS_Platform_GetRTCAdminInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Platform_GetRTCInterfaceCallback(System.IntPtr handle);
+		internal static EOS_Platform_GetRTCInterfaceCallback EOS_Platform_GetRTCInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetReportsInterfaceCallback(System.IntPtr handle);
 		internal static EOS_Platform_GetReportsInterfaceCallback EOS_Platform_GetReportsInterface;
 
@@ -3627,6 +3866,154 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_ProductUserId_ToStringCallback(System.IntPtr accountId, System.IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_ProductUserId_ToStringCallback EOS_ProductUserId_ToString;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAdmin_CopyUserTokenByIndexCallback(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
+		internal static EOS_RTCAdmin_CopyUserTokenByIndexCallback EOS_RTCAdmin_CopyUserTokenByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAdmin_CopyUserTokenByUserIdCallback(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
+		internal static EOS_RTCAdmin_CopyUserTokenByUserIdCallback EOS_RTCAdmin_CopyUserTokenByUserId;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAdmin_KickCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnKickCompleteCallbackInternal completionDelegate);
+		internal static EOS_RTCAdmin_KickCallback EOS_RTCAdmin_Kick;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAdmin_QueryJoinRoomTokenCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnQueryJoinRoomTokenCompleteCallbackInternal completionDelegate);
+		internal static EOS_RTCAdmin_QueryJoinRoomTokenCallback EOS_RTCAdmin_QueryJoinRoomToken;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAdmin_SetParticipantHardMuteCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnSetParticipantHardMuteCompleteCallbackInternal completionDelegate);
+		internal static EOS_RTCAdmin_SetParticipantHardMuteCallback EOS_RTCAdmin_SetParticipantHardMute;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAdmin_UserToken_ReleaseCallback(System.IntPtr userToken);
+		internal static EOS_RTCAdmin_UserToken_ReleaseCallback EOS_RTCAdmin_UserToken_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioBeforeRenderCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioBeforeRenderCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioBeforeRenderCallback EOS_RTCAudio_AddNotifyAudioBeforeRender;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioBeforeSendCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioBeforeSendCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioBeforeSendCallback EOS_RTCAudio_AddNotifyAudioBeforeSend;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioDevicesChangedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioDevicesChangedCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioDevicesChangedCallback EOS_RTCAudio_AddNotifyAudioDevicesChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioInputStateCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioInputStateCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioInputStateCallback EOS_RTCAudio_AddNotifyAudioInputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioOutputStateCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioOutputStateCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioOutputStateCallback EOS_RTCAudio_AddNotifyAudioOutputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyParticipantUpdatedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnParticipantUpdatedCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyParticipantUpdatedCallback EOS_RTCAudio_AddNotifyParticipantUpdated;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_RTCAudio_GetAudioInputDeviceByIndexCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_GetAudioInputDeviceByIndexCallback EOS_RTCAudio_GetAudioInputDeviceByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_RTCAudio_GetAudioInputDevicesCountCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_GetAudioInputDevicesCountCallback EOS_RTCAudio_GetAudioInputDevicesCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_RTCAudio_GetAudioOutputDeviceByIndexCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_GetAudioOutputDeviceByIndexCallback EOS_RTCAudio_GetAudioOutputDeviceByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_RTCAudio_GetAudioOutputDevicesCountCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_GetAudioOutputDevicesCountCallback EOS_RTCAudio_GetAudioOutputDevicesCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_RegisterPlatformAudioUserCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_RegisterPlatformAudioUserCallback EOS_RTCAudio_RegisterPlatformAudioUser;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioBeforeRenderCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioBeforeRenderCallback EOS_RTCAudio_RemoveNotifyAudioBeforeRender;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioBeforeSendCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioBeforeSendCallback EOS_RTCAudio_RemoveNotifyAudioBeforeSend;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioDevicesChangedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioDevicesChangedCallback EOS_RTCAudio_RemoveNotifyAudioDevicesChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioInputStateCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioInputStateCallback EOS_RTCAudio_RemoveNotifyAudioInputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioOutputStateCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioOutputStateCallback EOS_RTCAudio_RemoveNotifyAudioOutputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyParticipantUpdatedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyParticipantUpdatedCallback EOS_RTCAudio_RemoveNotifyParticipantUpdated;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_SendAudioCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_SendAudioCallback EOS_RTCAudio_SendAudio;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_SetAudioInputSettingsCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_SetAudioInputSettingsCallback EOS_RTCAudio_SetAudioInputSettings;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_SetAudioOutputSettingsCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_SetAudioOutputSettingsCallback EOS_RTCAudio_SetAudioOutputSettings;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_UnregisterPlatformAudioUserCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_UnregisterPlatformAudioUserCallback EOS_RTCAudio_UnregisterPlatformAudioUser;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_UpdateReceivingCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnUpdateReceivingCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_UpdateReceivingCallback EOS_RTCAudio_UpdateReceiving;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_UpdateSendingCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnUpdateSendingCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_UpdateSendingCallback EOS_RTCAudio_UpdateSending;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTC_AddNotifyDisconnectedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnDisconnectedCallbackInternal completionDelegate);
+		internal static EOS_RTC_AddNotifyDisconnectedCallback EOS_RTC_AddNotifyDisconnected;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTC_AddNotifyParticipantStatusChangedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnParticipantStatusChangedCallbackInternal completionDelegate);
+		internal static EOS_RTC_AddNotifyParticipantStatusChangedCallback EOS_RTC_AddNotifyParticipantStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_BlockParticipantCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
+		internal static EOS_RTC_BlockParticipantCallback EOS_RTC_BlockParticipant;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_RTC_GetAudioInterfaceCallback(System.IntPtr handle);
+		internal static EOS_RTC_GetAudioInterfaceCallback EOS_RTC_GetAudioInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_JoinRoomCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnJoinRoomCallbackInternal completionDelegate);
+		internal static EOS_RTC_JoinRoomCallback EOS_RTC_JoinRoom;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_LeaveRoomCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnLeaveRoomCallbackInternal completionDelegate);
+		internal static EOS_RTC_LeaveRoomCallback EOS_RTC_LeaveRoom;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_RemoveNotifyDisconnectedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTC_RemoveNotifyDisconnectedCallback EOS_RTC_RemoveNotifyDisconnected;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_RemoveNotifyParticipantStatusChangedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTC_RemoveNotifyParticipantStatusChangedCallback EOS_RTC_RemoveNotifyParticipantStatusChanged;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Reports_SendPlayerBehaviorReportCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Reports.OnSendPlayerBehaviorReportCompleteCallbackInternal completionDelegate);
@@ -4691,6 +5078,9 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyUpdateReceived(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnLobbyUpdateReceivedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_Lobby_AddNotifyRTCRoomConnectionChanged(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnRTCRoomConnectionChangedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_Attribute_Release(System.IntPtr lobbyAttribute);
 
 		[DllImport(Config.LibraryName)]
@@ -4716,6 +5106,12 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_Lobby_GetInviteIdByIndex(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref int inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Lobby_GetRTCRoomName(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Lobby_IsRTCRoomConnected(System.IntPtr handle, System.IntPtr options, ref int bOutIsConnected);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_JoinLobby(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnJoinLobbyCallbackInternal completionDelegate);
@@ -4752,6 +5148,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyUpdateReceived(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged(System.IntPtr handle, ulong inId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_SendInvite(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnSendInviteCallbackInternal completionDelegate);
@@ -4916,6 +5315,12 @@ namespace Epic.OnlineServices
 		internal static extern System.IntPtr EOS_Platform_GetPresenceInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Platform_GetRTCAdminInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Platform_GetRTCInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetReportsInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
@@ -5052,6 +5457,117 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_ProductUserId_ToString(System.IntPtr accountId, System.IntPtr outBuffer, ref int inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAdmin_CopyUserTokenByIndex(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAdmin_CopyUserTokenByUserId(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAdmin_Kick(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnKickCompleteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAdmin_QueryJoinRoomToken(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnQueryJoinRoomTokenCompleteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAdmin_SetParticipantHardMute(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnSetParticipantHardMuteCompleteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAdmin_UserToken_Release(System.IntPtr userToken);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioBeforeRender(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioBeforeRenderCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioBeforeSend(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioBeforeSendCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioDevicesChanged(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioDevicesChangedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioInputState(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioInputStateCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioOutputState(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioOutputStateCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyParticipantUpdated(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnParticipantUpdatedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_RTCAudio_GetAudioInputDeviceByIndex(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_RTCAudio_GetAudioInputDevicesCount(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_RTCAudio_GetAudioOutputDeviceByIndex(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_RTCAudio_GetAudioOutputDevicesCount(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_RegisterPlatformAudioUser(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioBeforeRender(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioBeforeSend(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioDevicesChanged(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioInputState(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioOutputState(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyParticipantUpdated(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_SendAudio(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_SetAudioInputSettings(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_SetAudioOutputSettings(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_UnregisterPlatformAudioUser(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_UpdateReceiving(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnUpdateReceivingCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_UpdateSending(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnUpdateSendingCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTC_AddNotifyDisconnected(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnDisconnectedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTC_AddNotifyParticipantStatusChanged(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnParticipantStatusChangedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_BlockParticipant(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_RTC_GetAudioInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_JoinRoom(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnJoinRoomCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_LeaveRoom(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnLeaveRoomCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_RemoveNotifyDisconnected(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_RemoveNotifyParticipantStatusChanged(System.IntPtr handle, ulong notificationId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Reports_SendPlayerBehaviorReport(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Reports.OnSendPlayerBehaviorReportCompleteCallbackInternal completionDelegate);

@@ -4,7 +4,7 @@
 namespace Epic.OnlineServices.Lobby
 {
 	/// <summary>
-	/// Input parameters for the <see cref="LobbyModificationSetBucketIdOptions" /> function.
+	/// Input parameters for the <see cref="LobbyModification.SetBucketId" /> function.
 	/// </summary>
 	public class LobbyModificationSetBucketIdOptions
 	{

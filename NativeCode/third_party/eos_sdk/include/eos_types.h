@@ -15,6 +15,22 @@ EOS_STRUCT(EOS_Platform_ClientCredentials, (
 	const char* ClientSecret;
 ));
 
+/** The most recent version of the EOS_Platform_RTCOptions API. */
+#define EOS_PLATFORM_RTCOPTIONS_API_LATEST 1
+
+/** Platform RTC options. */
+EOS_STRUCT(EOS_Platform_RTCOptions, (
+	/** API Version: Set this to EOS_PLATFORM_RTCOPTIONS_API_LATEST. */
+	int32_t ApiVersion;
+	/**
+	 * This field is for platform specific initialization if any.
+	 *
+	 * If provided then the structure will be located in <System>/eos_<System>.h.
+	 * The structure will be named EOS_<System>_RTCOptions.
+	 */
+	void* PlatformSpecificOptions;
+));
+
 
 #define EOS_COUNTRYCODE_MAX_LENGTH 4
 #define EOS_COUNTRYCODE_MAX_BUFFER_LEN (EOS_COUNTRYCODE_MAX_LENGTH + 1)
@@ -72,8 +88,8 @@ EOS_STRUCT(EOS_Platform_Options, (
 	 * Zero is interpreted as "perform all available work".
 	 */
 	uint32_t TickBudgetInMilliseconds;
-	/** A reserved field that should always be nulled. */
-	void* Reserved2;
+	/** RTC options. Setting to NULL will disable RTC features (e.g. voice) */
+	const EOS_Platform_RTCOptions* RTCOptions;
 ));
 
 #pragma pack(pop)

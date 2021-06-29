@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.Lobby
 		public const int LobbymodificationRemovememberattributeApiLatest = 1;
 
 		/// <summary>
-		/// The most recent version of the <see cref="LobbyModificationSetBucketIdOptions" /> API.
+		/// The most recent version of the <see cref="SetBucketId" /> API.
 		/// </summary>
 		public const int LobbymodificationSetbucketidApiLatest = 1;
 

@@ -220,7 +220,12 @@ EOS_STRUCT(EOS_AntiCheatClient_RegisterPeerOptions, (
 	EOS_EAntiCheatCommonClientType ClientType;
 	/** Remote user's platform, if known */
 	EOS_EAntiCheatCommonClientPlatform ClientPlatform;
-	/** Account identifier for the remote user */
+	/** 
+	 * Identifier for the remote user. This is typically a string representation of an
+	 * account ID, but it can be any string which is both unique (two different users will never
+	 * have the same string) and consistent (if the same user connects to this game session
+	 * twice, the same string will be used) in the scope of a single protected game session.
+	 */
 	const char* AccountId;
 	/** 
 	 * Optional IP address for the remote user. May be null if not available.
