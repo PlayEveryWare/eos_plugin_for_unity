@@ -14,7 +14,10 @@
 
 
 //#include "eos_minimum_includes.h"
+#if PLATFORM_WINDOWS
 #include "Windows/eos_Windows_base.h"
+#include "Windows/eos_Windows.h"
+#endif
 #include "eos_sdk.h"
 
 #include "json.h"
@@ -31,6 +34,7 @@
 #define ENABLE_DLL_BASED_EOS_CONFIG 1
 #define OVERLAY_DLL_NAME "EOSOVH" DLL_PLATFORM DLL_SUFFIX
 #define SDK_DLL_NAME "EOSSDK" DLL_PLATFORM DLL_SUFFIX
+#define XAUDIO2_DLL_NAME "xaudio2_9redist.dll"
 
 #define DLL_EXPORT(return_value) extern "C" __declspec(dllexport) return_value  __stdcall
 
@@ -95,13 +99,19 @@ static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* c
 }
 
 //-------------------------------------------------------------------------
+static void show_log_as_dialog(const char* log_string)
+{
+#if PLATFORM_WINDOWS
+    MessageBoxA(NULL, log_string, "Warning", MB_ICONWARNING);
+#endif
+}
+
+//-------------------------------------------------------------------------
 // TODO: If possible, hook this up into a proper logging channel.s
 void log_warn(const char* log_string)
 {
 #if SHOW_DIALOG_BOX_ON_WARN
-#if PLATFORM_WINDOWS
-    MessageBoxA(NULL, log_string, "Warning", MB_ICONWARNING);
-#endif
+    show_log_as_dialog(log_string);
 #endif
 
     printf("WARNING: %s\n", log_string);
@@ -362,6 +372,26 @@ void eos_create(EOSConfig& eosConfig)
 	platform_options.DeploymentId = eosConfig.deploymentID.c_str();
 	platform_options.ClientCredentials.ClientId = eosConfig.clientID.c_str();
 	platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
+
+	EOS_Platform_RTCOptions rtc_options = { 0 };
+
+	rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
+#if PLATFORM_WINDOWS
+	log_warn("setting up rtc");
+	fs::path xaudio2_dll_path = get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
+	std::string xaudio2_dll_path_as_string = xaudio2_dll_path.string();
+	EOS_Windows_RTCOptions windows_rtc_options = { 0 };
+	windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
+	windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
+	log_warn(xaudio2_dll_path_as_string.c_str());
+
+	if (!fs::exists(xaudio2_dll_path))
+	{
+		log_warn("Missing XAudio dll!");
+	}
+	rtc_options.PlatformSpecificOptions = &windows_rtc_options;
+	platform_options.RTCOptions = &rtc_options;
+#endif
 
     log_warn("run EOS_Platform_Create");
     eos_platform_handle = EOS_Platform_Create_ptr(&platform_options);
