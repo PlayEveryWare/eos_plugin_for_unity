@@ -24,7 +24,8 @@
 #include "eos_reports_types.h"
 #include "eos_sanctions_types.h"
 #include "eos_kws_types.h"
-
+#include "eos_rtc_types.h"
+#include "eos_rtc_admin_types.h"
 
 /**
  * The Platform Instance is used to gain access to all other Epic Online Service interfaces and to drive internal operations through the Tick.
@@ -143,7 +144,25 @@ EOS_DECLARE_FUNC(EOS_HUserInfo) EOS_Platform_GetUserInfoInterface(EOS_HPlatform 
  */
 EOS_DECLARE_FUNC(EOS_HP2P) EOS_Platform_GetP2PInterface(EOS_HPlatform Handle);
 
+/**
+ * Get a handle to the Real Time Communications Interface (RTC).
+ * From the RTC interface you can retrieve the handle to the audio interface (RTCAudio), which is a component of RTC.
+ * @return EOS_HRTC handle
+ *
+ * @see EOS_RTC_GetAudioInterface
+ * @see eos_rtc.h
+ * @see eos_rtc_types.h
+ */
+EOS_DECLARE_FUNC(EOS_HRTC) EOS_Platform_GetRTCInterface(EOS_HPlatform Handle);
 
+/**
+ * Get a handle to the RTC Admin interface
+ * @return EOS_HRTCAdmin handle
+ *
+ * @see eos_rtc_admin.h
+ * @see eos_admin_types.h
+ */
+EOS_DECLARE_FUNC(EOS_HRTCAdmin) EOS_Platform_GetRTCAdminInterface(EOS_HPlatform Handle);
 
 /**
  * Get a handle to the PlayerDataStorage Interface.

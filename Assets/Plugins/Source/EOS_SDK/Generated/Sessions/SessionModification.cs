@@ -29,12 +29,12 @@ namespace Epic.OnlineServices.Sessions
 		public const int SessionmodificationMaxSessionAttributes = 64;
 
 		/// <summary>
-		/// Maximum number of characters a session id override
+		/// Maximum number of characters allowed in the session id override
 		/// </summary>
 		public const int SessionmodificationMaxSessionidoverrideLength = 64;
 
 		/// <summary>
-		/// Minimum number of characters the session id override
+		/// Minimum number of characters allowed in the session id override
 		/// </summary>
 		public const int SessionmodificationMinSessionidoverrideLength = 16;
 
