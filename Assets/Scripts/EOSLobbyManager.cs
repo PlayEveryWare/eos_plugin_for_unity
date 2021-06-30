@@ -147,7 +147,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     LobbyAttribute newAttribute = new LobbyAttribute();
                     newAttribute.InitFromAttribute(outAttribute);
-                    Members[memberIndex].MemberAttributes[attributeIndex] = newAttribute;
+ 
+                    Members[memberIndex].MemberAttributes.Add(newAttribute.Key, newAttribute);
                 }
             }
         }
@@ -239,6 +240,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void InitFromAttribute(Epic.OnlineServices.Lobby.Attribute attributeParam)
         {
+            Key = attributeParam.Data.Key;
             ValueType = attributeParam.Data.Value.ValueType;
 
             switch (attributeParam.Data.Value.ValueType)
@@ -265,7 +267,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public ProductUserId ProductId;
 
         public string DisplayName;
-        public List<LobbyAttribute> MemberAttributes = new List<LobbyAttribute>();
+        public Dictionary<string, LobbyAttribute> MemberAttributes = new Dictionary<string, LobbyAttribute>();
     }
 
     public class LobbyJoinRequest
@@ -579,7 +581,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
 
-            // Add Attributes
+            // Add Lobby Attributes
             for (int attributeIndex = 0; attributeIndex < lobbyUpdates.Attributes.Count; attributeIndex++)
             {
                 AttributeData attributeData = lobbyUpdates.Attributes[attributeIndex].AsAttribute;
@@ -685,6 +687,58 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetEOSLobbyInterface().SendInvite(options, null, OnSendInviteCompleted);
         }
 
+        public void SetMemberAttribute(LobbyAttribute memberAttribute)
+        {
+            if(!CurrentLobby.IsValid())
+            {
+                Debug.LogError("Lobbies (SetMemberAttribute): CurrentLobby is not valid.");
+                return;
+            }
+
+            // Modify Lobby
+
+            UpdateLobbyModificationOptions options = new UpdateLobbyModificationOptions()
+            {
+                LobbyId = CurrentLobby.Id,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().UpdateLobbyModification(options, out LobbyModification lobbyModificationHandle);
+
+            if(result != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (SetMemberAttribute): Could not create lobby modification: Error code: {0}", result);
+                return;
+            }
+
+            // Update member attribute
+
+            AttributeData attributeData = memberAttribute.AsAttribute;
+
+            LobbyModificationAddMemberAttributeOptions attrOptions = new LobbyModificationAddMemberAttributeOptions()
+            {
+                Attribute = attributeData,
+                Visibility = LobbyAttributeVisibility.Public
+            };
+
+            result = lobbyModificationHandle.AddMemberAttribute(attrOptions);
+
+            if(result != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (SetMemberAttribute): Could not add member attribute: Error code: {0}", result);
+                return;
+            }
+
+            // Trigger lobby update
+
+            UpdateLobbyOptions updateOptions = new UpdateLobbyOptions()
+            {
+                LobbyModificationHandle = lobbyModificationHandle
+            };
+
+            EOSManager.Instance.GetEOSLobbyInterface().UpdateLobby(updateOptions, null, OnUpdateLobbyCallBack);
+        }
+
         private void OnSendInviteCompleted(SendInviteCallbackInfo data)
         {
             if (data == null)
@@ -758,7 +812,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (!string.IsNullOrEmpty(lobbyId) && CurrentLobby.Id == lobbyId)
             {
                 CurrentLobby.InitFromLobbyHandle(lobbyId);
-                //TODO: SetInitialMemberAttribute
 
                 LobbyUpdateCompleted?.Invoke(Result.Success);
             }
