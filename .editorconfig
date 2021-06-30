@@ -203,3 +203,13 @@ dotnet_naming_style.begins_with_i.required_prefix = I
 dotnet_naming_style.begins_with_i.required_suffix =
 dotnet_naming_style.begins_with_i.word_separator =
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+
+# C++ files
+[*.{cpp,h}]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_size = 4
+indent_style = space
+tab_width = 4
