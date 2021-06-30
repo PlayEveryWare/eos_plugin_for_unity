@@ -24,8 +24,6 @@
 #define USE_EOS_DYNAMIC_BINDINGS
 #endif
 
-#define EOS_VERSION_1_12
-
 using System.Collections.Generic;
 
 using System.Runtime.InteropServices;
@@ -207,16 +205,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     ProductName = configData.productName, //"Ryan's Game",
                     ProductVersion = configData.productVersion, //"1.0",
-#if EOS_VERSION_1_12
-                                AllocateMemoryFunction = IntPtr.Zero,
-                                ReallocateMemoryFunction = IntPtr.Zero,
-                                ReleaseMemoryFunction = IntPtr.Zero,
-#else
-                    AllocateMemoryFunction = null,
-                    ReallocateMemoryFunction = null,
-                    ReleaseMemoryFunction = null,
-#endif
-                    SystemInitializeOptions = IntPtr.Zero
+                    AllocateMemoryFunction = IntPtr.Zero,
+                    ReallocateMemoryFunction = IntPtr.Zero,
+                    ReleaseMemoryFunction = IntPtr.Zero,
+                    SystemInitializeOptions = IntPtr.Zero,
+                    OverrideThreadAffinity = null
                 };
 
                 ConfigureSystemInitOptions(ref initOptions);

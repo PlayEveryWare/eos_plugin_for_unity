@@ -1,6 +1,4 @@
-﻿#define EOS_VERSION_1_12
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -122,26 +120,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Wrapper to handle API differences in EOS 1.12 vs 1.11
         public string GetCurrentPriceAsString(CatalogOffer catalogOffer)
         {
-            return string.Format("{0}",
-#if EOS_VERSION_1_12
-                catalogOffer.CurrentPrice64
-#else
-                catalogOffer.CurrentPrice
-#endif
-        );
+            return string.Format("{0}", catalogOffer.CurrentPrice64);
         }
 
         //-------------------------------------------------------------------------
         // Wrapper to handle API differences in EOS 1.12 vs 1.11
         public string GetOriginalPriceAsString(CatalogOffer catalogOffer)
         {
-            return string.Format("{0}",
-#if EOS_VERSION_1_12
-                catalogOffer.OriginalPrice64
-#else
-                catalogOffer.OriginalPrice
-#endif
-        );
+            return string.Format("{0}", catalogOffer.OriginalPrice64);
         }
     }
 }

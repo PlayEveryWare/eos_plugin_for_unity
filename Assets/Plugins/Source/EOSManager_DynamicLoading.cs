@@ -10,7 +10,6 @@
 #define PLATFORM_32BITS
 #endif
 
-#define EOS_VERSION_1_12
 
 #if UNITY_EDITOR
 // Define this if using the new version of the EOS 1.12
@@ -36,12 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             static private PlatformInterface s_eosPlatformInterface;
 
-            public const string EOSBinaryName =
-#if EOS_VERSION_1_12
-                Epic.OnlineServices.Config.LibraryName;
-#else
-            Epic.OnlineServices.Config.BinaryName;
-#endif
+            public const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
 
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
             public const string GfxPluginNativeRenderPath = 
