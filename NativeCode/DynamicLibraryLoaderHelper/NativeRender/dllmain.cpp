@@ -92,9 +92,9 @@ extern "C"
 static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else)
 {
 #if PLATFORM_32BITS
-	return choice_if_32bit;
+    return choice_if_32bit;
 #else
-	return choice_if_else;
+    return choice_if_else;
 #endif
 }
 
@@ -120,89 +120,89 @@ void log_warn(const char* log_string)
 //-------------------------------------------------------------------------
 static TCHAR* get_path_to_module(HMODULE module)
 {
-	DWORD module_path_length = 128;
-	TCHAR* module_path = (TCHAR*)malloc(module_path_length * sizeof(TCHAR));
+    DWORD module_path_length = 128;
+    TCHAR* module_path = (TCHAR*)malloc(module_path_length * sizeof(TCHAR));
 
-	DWORD buffer_length = 0;
-	DWORD GetModuleFileName_last_error = 0;
+    DWORD buffer_length = 0;
+    DWORD GetModuleFileName_last_error = 0;
 
-	do {
-		buffer_length = GetModuleFileName(module, module_path, module_path_length);
-		GetModuleFileName_last_error = GetLastError();
-		SetLastError(NOERROR);
+    do {
+        buffer_length = GetModuleFileName(module, module_path, module_path_length);
+        GetModuleFileName_last_error = GetLastError();
+        SetLastError(NOERROR);
 
-		if (GetModuleFileName_last_error == ERROR_INSUFFICIENT_BUFFER)
-		{
-			buffer_length = 0;
-			module_path_length += 20;
-			module_path = (TCHAR*)realloc(module_path, module_path_length * sizeof(TCHAR));
-		}
-	} while (buffer_length == 0);
+        if (GetModuleFileName_last_error == ERROR_INSUFFICIENT_BUFFER)
+        {
+            buffer_length = 0;
+            module_path_length += 20;
+            module_path = (TCHAR*)realloc(module_path, module_path_length * sizeof(TCHAR));
+        }
+    } while (buffer_length == 0);
 
-	return module_path;
+    return module_path;
 }
 
 //-------------------------------------------------------------------------
 static std::wstring get_path_to_module_as_string(HMODULE module)
 {
-	wchar_t* module_path = get_path_to_module(module);
+    wchar_t* module_path = get_path_to_module(module);
 
-	std::wstring module_file_path_string(module_path);
-	free(module_path);
-	return module_file_path_string;
+    std::wstring module_file_path_string(module_path);
+    free(module_path);
+    return module_file_path_string;
 }
 
 //-------------------------------------------------------------------------
 static fs::path get_path_relative_to_current_module(const fs::path& relative_path)
 {
-	HMODULE this_module = nullptr;
-	if (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCWSTR)&get_path_relative_to_current_module, &this_module) || !this_module)
-	{
-		return {};
-	}
+    HMODULE this_module = nullptr;
+    if (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCWSTR)&get_path_relative_to_current_module, &this_module) || !this_module)
+    {
+        return {};
+    }
 
-	std::wstring module_file_path_string = get_path_to_module_as_string(this_module);
+    std::wstring module_file_path_string = get_path_to_module_as_string(this_module);
 
-	return fs::path(module_file_path_string).remove_filename() / relative_path;
+    return fs::path(module_file_path_string).remove_filename() / relative_path;
 }
 
 
 //-------------------------------------------------------------------------
 static void* load_library_at_path(const std::filesystem::path& library_path)
 {
-	void* to_return = nullptr;
+    void* to_return = nullptr;
 
 #if PLATFORM_WINDOWS
-	log_warn(("Loading path at " + library_path.string()).c_str());
-	HMODULE handle = LoadLibrary(library_path.c_str());
-	to_return = (void*)handle;
+    log_warn(("Loading path at " + library_path.string()).c_str());
+    HMODULE handle = LoadLibrary(library_path.c_str());
+    to_return = (void*)handle;
 #endif
 
-	return to_return;
+    return to_return;
 }
 
 //-------------------------------------------------------------------------
 static void* load_function_with_name(void* library_handle, const char* function)
 {
-	void* to_return = nullptr;
+    void* to_return = nullptr;
 #if PLATFORM_WINDOWS
-	HMODULE handle = (HMODULE)library_handle;
-	to_return = (void*)GetProcAddress(handle, function);
+    HMODULE handle = (HMODULE)library_handle;
+    to_return = (void*)GetProcAddress(handle, function);
 #endif
-	return to_return;
+    return to_return;
 }
 
 //-------------------------------------------------------------------------
 template<typename T>
 T load_function_with_name(void* library_handle, const char* function)
 {
-	return reinterpret_cast<T>(load_function_with_name(library_handle, function));
+    return reinterpret_cast<T>(load_function_with_name(library_handle, function));
 }
 
 //-------------------------------------------------------------------------
 void unload_library(void* library_handle)
 {
-	FreeLibrary((HMODULE)library_handle);
+    FreeLibrary((HMODULE)library_handle);
 }
 
 //-------------------------------------------------------------------------
@@ -213,8 +213,8 @@ void eos_init(const EOSConfig& eos_config)
     SDKOptions.AllocateMemoryFunction = nullptr;
     SDKOptions.ReallocateMemoryFunction = nullptr;
     SDKOptions.ReleaseMemoryFunction = nullptr;
-	SDKOptions.ProductName = eos_config.productName.c_str();
-	SDKOptions.ProductVersion = eos_config.productVersion.c_str();
+    SDKOptions.ProductName = eos_config.productName.c_str();
+    SDKOptions.ProductVersion = eos_config.productVersion.c_str();
     SDKOptions.Reserved = nullptr;
     SDKOptions.SystemInitializeOptions = nullptr;
     SDKOptions.OverrideThreadAffinity = nullptr;
@@ -230,40 +230,40 @@ void eos_init(const EOSConfig& eos_config)
 //-------------------------------------------------------------------------
 static char* GetCacheDirectory()
 {
-	static char* lpTempPathBuffer = NULL;
+    static char* lpTempPathBuffer = NULL;
 
-	if (lpTempPathBuffer == NULL)
-	{
-		char tmp_buffer = 0;
-		DWORD buffer_size = GetTempPathA(1, &tmp_buffer) + 1;
-		lpTempPathBuffer = (char*)malloc(buffer_size);
-		GetTempPathA(buffer_size, lpTempPathBuffer);
-	}
+    if (lpTempPathBuffer == NULL)
+    {
+        char tmp_buffer = 0;
+        DWORD buffer_size = GetTempPathA(1, &tmp_buffer) + 1;
+        lpTempPathBuffer = (char*)malloc(buffer_size);
+        GetTempPathA(buffer_size, lpTempPathBuffer);
+    }
     return lpTempPathBuffer;
 }
 
 //-------------------------------------------------------------------------
 static json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json)
 {
-	log_warn(("json path" + path_to_config_json.string() ).c_str());
-	uintmax_t config_file_size = std::filesystem::file_size(path_to_config_json);
+    log_warn(("json path" + path_to_config_json.string() ).c_str());
+    uintmax_t config_file_size = std::filesystem::file_size(path_to_config_json);
 
-	FILE* file = nullptr;
-	errno_t config_file_error = _wfopen_s(&file, path_to_config_json.wstring().c_str(), L"r");
-	char* buffer = (char*)calloc(1, config_file_size);
+    FILE* file = nullptr;
+    errno_t config_file_error = _wfopen_s(&file, path_to_config_json.wstring().c_str(), L"r");
+    char* buffer = (char*)calloc(1, config_file_size);
 
-	size_t bytes_read = fread(buffer, 1, config_file_size, file);
-	fclose(file);
-	struct json_value_s* config_json = json_parse(buffer, bytes_read);
-	free(buffer);
+    size_t bytes_read = fread(buffer, 1, config_file_size, file);
+    fclose(file);
+    struct json_value_s* config_json = json_parse(buffer, bytes_read);
+    free(buffer);
 
-	return config_json;
+    return config_json;
 }
 
 //-------------------------------------------------------------------------
 static json_value_s* read_config_json_from_dll()
 {
-	struct json_value_s* config_json = nullptr;
+    struct json_value_s* config_json = nullptr;
 
 #if ENABLE_DLL_BASED_EOS_CONFIG
     static void *eos_generated_library_handle = load_library_at_path(get_path_relative_to_current_module("EOSGenerated.dll"));
@@ -286,21 +286,21 @@ static json_value_s* read_config_json_from_dll()
 //-------------------------------------------------------------------------
 static EOSConfig eos_config_from_json_value(json_value_s* config_json)
 {
-	// Create platform instance
-	struct json_object_s* config_json_object = json_value_as_object(config_json);
-	struct json_object_element_s* iter = config_json_object->start;
+    // Create platform instance
+    struct json_object_s* config_json_object = json_value_as_object(config_json);
+    struct json_object_element_s* iter = config_json_object->start;
     EOSConfig eos_config;
 
     while (iter != nullptr)
     {
-		if (!strcmp("productName", iter->name->string))
-		{
-			eos_config.productName = json_value_as_string(iter->value)->string;
-		}
-		else if (!strcmp("productVersion", iter->name->string))
-		{
-			eos_config.productVersion = json_value_as_string(iter->value)->string;
-		}
+        if (!strcmp("productName", iter->name->string))
+        {
+            eos_config.productName = json_value_as_string(iter->value)->string;
+        }
+        else if (!strcmp("productVersion", iter->name->string))
+        {
+            eos_config.productVersion = json_value_as_string(iter->value)->string;
+        }
         else if (!strcmp("productID", iter->name->string))
         {
             eos_config.productID = json_value_as_string(iter->value)->string;
@@ -329,109 +329,109 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
         {
             eos_config.overrideCountryCode = json_value_as_string(iter->value)->string;
         }
-		else if (!strcmp("overrideLocaleCode", iter->name->string))
-		{
-			eos_config.overrideLocaleCode = json_value_as_string(iter->value)->string;
-		}
+        else if (!strcmp("overrideLocaleCode", iter->name->string))
+        {
+            eos_config.overrideLocaleCode = json_value_as_string(iter->value)->string;
+        }
 
         iter = iter->next;
     }
-	
-	return eos_config;
+    
+    return eos_config;
 }
 
 
 //-------------------------------------------------------------------------
 static std::filesystem::path get_path_for_eos_service_config()
 {
-	return get_path_relative_to_current_module(std::filesystem::path("../..") / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json");
+    return get_path_relative_to_current_module(std::filesystem::path("../..") / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json");
 }
 
 //-------------------------------------------------------------------------
 json_value_s* read_eos_config_as_json_value_from_file()
 {
-	std::filesystem::path path_to_config_json = get_path_for_eos_service_config();
+    std::filesystem::path path_to_config_json = get_path_for_eos_service_config();
 
-	return read_config_json_as_json_from_path(path_to_config_json);
+    return read_config_json_as_json_from_path(path_to_config_json);
 }
 
 //-------------------------------------------------------------------------
 void eos_create(EOSConfig& eosConfig)
 {
-	EOS_Platform_Options platform_options = {0};
-	platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
-	platform_options.bIsServer = EOS_FALSE;
-	platform_options.Flags = 0;
-	platform_options.CacheDirectory = GetCacheDirectory();
+    EOS_Platform_Options platform_options = {0};
+    platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
+    platform_options.bIsServer = EOS_FALSE;
+    platform_options.Flags = 0;
+    platform_options.CacheDirectory = GetCacheDirectory();
 
-	platform_options.EncryptionKey = eosConfig.encryptionKey.length() > 0 ? eosConfig.encryptionKey.c_str() : nullptr;
-	platform_options.OverrideCountryCode = eosConfig.overrideCountryCode.length() > 0 ? eosConfig.overrideCountryCode.c_str() : nullptr;
-	platform_options.OverrideLocaleCode = eosConfig.overrideLocaleCode.length() > 0 ? eosConfig.overrideLocaleCode.c_str() : nullptr;
-	platform_options.ProductId = eosConfig.productID.c_str();
-	platform_options.SandboxId = eosConfig.sandboxID.c_str();
-	platform_options.DeploymentId = eosConfig.deploymentID.c_str();
-	platform_options.ClientCredentials.ClientId = eosConfig.clientID.c_str();
-	platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
+    platform_options.EncryptionKey = eosConfig.encryptionKey.length() > 0 ? eosConfig.encryptionKey.c_str() : nullptr;
+    platform_options.OverrideCountryCode = eosConfig.overrideCountryCode.length() > 0 ? eosConfig.overrideCountryCode.c_str() : nullptr;
+    platform_options.OverrideLocaleCode = eosConfig.overrideLocaleCode.length() > 0 ? eosConfig.overrideLocaleCode.c_str() : nullptr;
+    platform_options.ProductId = eosConfig.productID.c_str();
+    platform_options.SandboxId = eosConfig.sandboxID.c_str();
+    platform_options.DeploymentId = eosConfig.deploymentID.c_str();
+    platform_options.ClientCredentials.ClientId = eosConfig.clientID.c_str();
+    platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
 
-	EOS_Platform_RTCOptions rtc_options = { 0 };
+    EOS_Platform_RTCOptions rtc_options = { 0 };
 
-	rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
+    rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
 #if PLATFORM_WINDOWS
-	log_warn("setting up rtc");
-	fs::path xaudio2_dll_path = get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
-	std::string xaudio2_dll_path_as_string = xaudio2_dll_path.string();
-	EOS_Windows_RTCOptions windows_rtc_options = { 0 };
-	windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
-	windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
-	log_warn(xaudio2_dll_path_as_string.c_str());
+    log_warn("setting up rtc");
+    fs::path xaudio2_dll_path = get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
+    std::string xaudio2_dll_path_as_string = xaudio2_dll_path.string();
+    EOS_Windows_RTCOptions windows_rtc_options = { 0 };
+    windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
+    windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
+    log_warn(xaudio2_dll_path_as_string.c_str());
 
-	if (!fs::exists(xaudio2_dll_path))
-	{
-		log_warn("Missing XAudio dll!");
-	}
-	rtc_options.PlatformSpecificOptions = &windows_rtc_options;
-	platform_options.RTCOptions = &rtc_options;
+    if (!fs::exists(xaudio2_dll_path))
+    {
+        log_warn("Missing XAudio dll!");
+    }
+    rtc_options.PlatformSpecificOptions = &windows_rtc_options;
+    platform_options.RTCOptions = &rtc_options;
 #endif
 
     log_warn("run EOS_Platform_Create");
     eos_platform_handle = EOS_Platform_Create_ptr(&platform_options);
-	if (!eos_platform_handle)
-	{
-		log_warn("failed to create the platform");
-	}
+    if (!eos_platform_handle)
+    {
+        log_warn("failed to create the platform");
+    }
 }
 
 //-------------------------------------------------------------------------
 static bool QueryRegKey(const HKEY InKey, const TCHAR* InSubKey, const TCHAR* InValueName, std::wstring& OutData)
 {
-	bool bSuccess = false;
+    bool bSuccess = false;
 #if PLATFORM_WINDOWS
-	// Redirect key depending on system
-	for (uint32_t RegistryIndex = 0; RegistryIndex < 2 && !bSuccess; ++RegistryIndex)
-	{
-		HKEY Key = 0;
-		const uint32_t RegFlags = (RegistryIndex == 0) ? KEY_WOW64_32KEY : KEY_WOW64_64KEY;
-		if (RegOpenKeyEx(InKey, InSubKey, 0, KEY_READ | RegFlags, &Key) == ERROR_SUCCESS)
-		{
-			::DWORD Size = 0;
-			// First, we'll call RegQueryValueEx to find out how large of a buffer we need
-			if ((RegQueryValueEx(Key, InValueName, NULL, NULL, NULL, &Size) == ERROR_SUCCESS) && Size)
-			{
-				// Allocate a buffer to hold the value and call the function again to get the data
-				char *Buffer = new char[Size];
-				if (RegQueryValueEx(Key, InValueName, NULL, NULL, (LPBYTE)Buffer, &Size) == ERROR_SUCCESS)
-				{
-					const uint32_t Length = (Size / sizeof(TCHAR)) - 1;
-					OutData = (TCHAR*)Buffer;
-					bSuccess = true;
-				}
-				delete[] Buffer;
-			}
-			RegCloseKey(Key);
-		}
-	}
+    // Redirect key depending on system
+    for (uint32_t RegistryIndex = 0; RegistryIndex < 2 && !bSuccess; ++RegistryIndex)
+    {
+        HKEY Key = 0;
+        const uint32_t RegFlags = (RegistryIndex == 0) ? KEY_WOW64_32KEY : KEY_WOW64_64KEY;
+        if (RegOpenKeyEx(InKey, InSubKey, 0, KEY_READ | RegFlags, &Key) == ERROR_SUCCESS)
+        {
+            ::DWORD Size = 0;
+            // First, we'll call RegQueryValueEx to find out how large of a buffer we need
+            if ((RegQueryValueEx(Key, InValueName, NULL, NULL, NULL, &Size) == ERROR_SUCCESS) && Size)
+            {
+                // Allocate a buffer to hold the value and call the function again to get the data
+                char *Buffer = new char[Size];
+                if (RegQueryValueEx(Key, InValueName, NULL, NULL, (LPBYTE)Buffer, &Size) == ERROR_SUCCESS)
+                {
+                    const uint32_t Length = (Size / sizeof(TCHAR)) - 1;
+                    OutData = (TCHAR*)Buffer;
+                    bSuccess = true;
+                }
+                delete[] Buffer;
+            }
+            RegCloseKey(Key);
+        }
+    }
 #endif
-	return bSuccess;
+    return bSuccess;
 }
 
 //-------------------------------------------------------------------------
@@ -439,23 +439,23 @@ static bool QueryRegKey(const HKEY InKey, const TCHAR* InSubKey, const TCHAR* In
 static bool get_overlay_dll_path(fs::path* OutDllPath)
 {
 #if PLATFORM_WINDOWS
-	const TCHAR* RegKey = TEXT(R"(SOFTWARE\Epic Games\EOS)");
-	const TCHAR* RegValue = TEXT("OverlayPath");
-	std::wstring OverlayDllDirectory;
+    const TCHAR* RegKey = TEXT(R"(SOFTWARE\Epic Games\EOS)");
+    const TCHAR* RegValue = TEXT("OverlayPath");
+    std::wstring OverlayDllDirectory;
 
-	if (!QueryRegKey(HKEY_CURRENT_USER, RegKey, RegValue, OverlayDllDirectory))
-	{
-		if (!QueryRegKey(HKEY_LOCAL_MACHINE, RegKey, RegValue, OverlayDllDirectory))
-		{
-			return false;
-		}
-	}
+    if (!QueryRegKey(HKEY_CURRENT_USER, RegKey, RegValue, OverlayDllDirectory))
+    {
+        if (!QueryRegKey(HKEY_LOCAL_MACHINE, RegKey, RegValue, OverlayDllDirectory))
+        {
+            return false;
+        }
+    }
 
-	*OutDllPath = fs::path(OverlayDllDirectory) / OVERLAY_DLL_NAME;
-	return fs::exists(*OutDllPath) && fs::is_regular_file(*OutDllPath);
+    *OutDllPath = fs::path(OverlayDllDirectory) / OVERLAY_DLL_NAME;
+    return fs::exists(*OutDllPath) && fs::is_regular_file(*OutDllPath);
 #else
-	log_warn("Trying to get a DLL path on a platform without DLL paths searching");
-	return false;
+    log_warn("Trying to get a DLL path on a platform without DLL paths searching");
+    return false;
 #endif
 }
 
@@ -467,11 +467,11 @@ static bool get_overlay_dll_path(fs::path* OutDllPath)
 #endif
 DLL_EXPORT(void) UnityPluginLoad(void*)
 {
-	fs::path DllPath;
-	log_warn("On UnityPluginLoad");
-	if (get_overlay_dll_path(&DllPath))
-	{
-		s_eos_sdk_lib_handle = load_library_at_path(get_path_relative_to_current_module(SDK_DLL_NAME));
+    fs::path DllPath;
+    log_warn("On UnityPluginLoad");
+    if (get_overlay_dll_path(&DllPath))
+    {
+        s_eos_sdk_lib_handle = load_library_at_path(get_path_relative_to_current_module(SDK_DLL_NAME));
 
         //eos_sdk_overlay_lib_handle = load_library_at_path(DllPath);
         //if (eos_sdk_overlay_lib_handle)
@@ -484,35 +484,35 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
         //    }
         //}
 
-		if (s_eos_sdk_lib_handle)
-		{
-			EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
-			EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
-			log_warn("fetch eos_platform_create");
-			EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
-			EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
-			if (EOS_Initialize_ptr)
+        if (s_eos_sdk_lib_handle)
+        {
+            EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
+            EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
+            log_warn("fetch eos_platform_create");
+            EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
+            EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
+            if (EOS_Initialize_ptr)
             {
                 log_warn("start eos init");
 
                 auto path_to_config_json = get_path_for_eos_service_config();
                 json_value_s* eos_config_as_json = nullptr;
 
-				eos_config_as_json = read_config_json_from_dll();
+                eos_config_as_json = read_config_json_from_dll();
 
                 if(!eos_config_as_json && std::filesystem::exists(path_to_config_json))
                 {
                     eos_config_as_json = read_config_json_as_json_from_path(path_to_config_json);
                 }
 
-				if (!eos_config_as_json)
-				{
-					log_warn("Failed to load a valid json config for EOS");
-					return;
-				}
+                if (!eos_config_as_json)
+                {
+                    log_warn("Failed to load a valid json config for EOS");
+                    return;
+                }
                 
                 EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
-				free(eos_config_as_json);
+                free(eos_config_as_json);
 
                 eos_init(eos_config);
 
@@ -532,18 +532,18 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
                 EOS_Shutdown_ptr = NULL;
                 EOS_Platform_Create_ptr = NULL;
             }
-			else {
-				log_warn("unable to find EOS_Initialize");
-			}
-		}
-		else 
-		{
-			log_warn("Couldn't find dll "  SDK_DLL_NAME);
-		}
-	}
+            else {
+                log_warn("unable to find EOS_Initialize");
+            }
+        }
+        else 
+        {
+            log_warn("Couldn't find dll "  SDK_DLL_NAME);
+        }
+    }
     else
     {
-		log_warn("Unable to load EOS Overlay DLL");
+        log_warn("Unable to load EOS Overlay DLL");
     } 
 
 }
@@ -554,30 +554,30 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 #endif
 DLL_EXPORT(void) UnityPluginUnload()
 {
-	if (FuncApplicationWillShutdown != nullptr)
-	{
-		FuncApplicationWillShutdown();
-	}
-	unload_library(s_eos_sdk_overlay_lib_handle);
-	s_eos_sdk_overlay_lib_handle = nullptr;
+    if (FuncApplicationWillShutdown != nullptr)
+    {
+        FuncApplicationWillShutdown();
+    }
+    unload_library(s_eos_sdk_overlay_lib_handle);
+    s_eos_sdk_overlay_lib_handle = nullptr;
 }
 
 //-------------------------------------------------------------------------
 DLL_EXPORT(void) UnloadEOS()
 {
-	if (EOS_Shutdown_ptr)
-	{
-		log_warn("EOS shutdown");
-		EOS_Shutdown_ptr();
-	}
-	if (s_eos_sdk_lib_handle)
-	{
-		log_warn("Unload eos sdk handle");
-		unload_library(s_eos_sdk_lib_handle);
-	}
+    if (EOS_Shutdown_ptr)
+    {
+        log_warn("EOS shutdown");
+        EOS_Shutdown_ptr();
+    }
+    if (s_eos_sdk_lib_handle)
+    {
+        log_warn("Unload eos sdk handle");
+        unload_library(s_eos_sdk_lib_handle);
+    }
 }
 
 DLL_EXPORT(void *) EOS_GetPlatformInterface()
 {
-	return eos_platform_handle;
+    return eos_platform_handle;
 }
