@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button CreateLobbyButton;
         public Button LeaveLobbyButton;
         public Button ModifyLobbyButton;
+        public Button AddMemberAttributeButton;
 
         // Current Lobby
         public Text LobbyIdVal;
@@ -315,6 +316,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager.LeaveLobby(UIOnLeaveLobby);
         }
 
+        public void AddMemberAttributeOnClick()
+        {
+            LobbyAttribute memberAttribute = new LobbyAttribute()
+            {
+                Key = "MemberAttribute",
+                ValueType = AttributeType.String,
+                Visibility = LobbyAttributeVisibility.Public,
+                AsString = "TestValue"
+            };
+
+            LobbyManager.SetMemberAttribute(memberAttribute);
+        }
+
         public void JoinButtonOnClick(Lobby lobbyRef, LobbyDetails lobbyDetailsRef)
         {
             LobbyManager.JoinLobby(lobbyRef.Id, lobbyDetailsRef, true, UIOnLobbyUpdated);
@@ -410,6 +424,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             LeaveLobbyButton.gameObject.SetActive(true);
+            AddMemberAttributeButton.gameObject.SetActive(true);
         }
 
         private void UIOnLeaveLobby(Result result)
@@ -428,6 +443,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CreateLobbyButton.gameObject.SetActive(true);
             ModifyLobbyButton.gameObject.SetActive(false);
             LeaveLobbyButton.gameObject.SetActive(false);
+            AddMemberAttributeButton.gameObject.SetActive(false);
 
             // Destroy current UI member list
             foreach (Transform child in MemberContentParent.transform)
