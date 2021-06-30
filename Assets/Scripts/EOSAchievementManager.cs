@@ -1,5 +1,4 @@
 ﻿//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
-#define EOS_VERSION_1_12
 
 using System.Collections;
 using System.Collections.Generic;
@@ -226,11 +225,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return new QueryPlayerAchievementsOptions
             {
-#if EOS_VERSION_1_12
-            TargetUserId = productUserId
-#else
-                UserId = productUserId
-#endif
+                TargetUserId = productUserId
             };
         }
 
@@ -394,11 +389,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return new CopyPlayerAchievementByIndexOptions
             {
                 AchievementIndex = 0,
-#if EOS_VERSION_1_12
-            TargetUserId = productUserId
-#else
-                UserId = productUserId
-#endif
+                TargetUserId = productUserId
             };
         }
 
