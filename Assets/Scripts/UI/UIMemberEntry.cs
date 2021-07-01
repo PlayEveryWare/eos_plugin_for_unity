@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 isMemberEntryOwner = true;
             }
 
-            IsOwnerText.text = isMemberEntryOwner.ToString();
+            //IsOwnerText.text = isMemberEntryOwner.ToString();
 
             if (isPlayerLobbyOwner && !isMemberEntryOwner)
             {

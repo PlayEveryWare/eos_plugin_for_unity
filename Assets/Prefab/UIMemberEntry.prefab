@@ -200,8 +200,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8966261389308912877}
-        m_TargetAssemblyTypeName: UIMemberEntry, Assembly-CSharp
-        m_MethodName: MemberEntryKickButtonOnClick
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UIMemberEntry,
+          Assembly-CSharp
+        m_MethodName: MemberEntryMuteButtonOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -289,7 +290,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: '[Speaking?]'
 --- !u!1 &6802468846831341829
 GameObject:
   m_ObjectHideFlags: 0
