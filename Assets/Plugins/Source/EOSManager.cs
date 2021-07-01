@@ -381,6 +381,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 options.ContinuanceToken = token;
                 connectInterface.CreateUser(options, null, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
                 {
+                    if (createUserCallbackInfo.ResultCode == Result.Success)
+                    {
+                        SetLocalProductUserId(createUserCallbackInfo.LocalUserId);
+                    }
+
                     if (onCreateUserCallback != null)
                     {
                         onCreateUserCallback(createUserCallbackInfo);
@@ -397,11 +402,21 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     ContinuanceToken = token,
                     LinkAccountFlags = linkAccountFlags,
-                    LocalUserId = Instance.GetLocalUserId()
+                    LocalUserId = null
                 };
+
+                if (linkAccountFlags.HasFlag(LinkAccountFlags.NintendoNsaId))
+                {
+                    linkOptions.LocalUserId = Instance.GetLocalUserId();
+                }
 
                 authInterface.LinkAccount(linkOptions, null, (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
+                    if (Instance.GetLocalUserId() == null)
+                    {
+                        Instance.SetLocalUserId(linkAccountCallbackInfo.LocalUserId);
+                    }
+
                     if (callback != null)
                     {
                         callback(linkAccountCallbackInfo);
@@ -633,15 +648,14 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         loggedInAccountIDs.Add(data.LocalUserId);
 
-                        ConfigureAuthStatusCallback();
-
                         if (GetLocalUserId() == null)
                         {
                             SetLocalUserId(data.LocalUserId);
                         }
 
-                        CallOnAuthLogin(data);
+                        ConfigureAuthStatusCallback();
 
+                        CallOnAuthLogin(data);
                     }
                                         
                     if (onLoginCallback != null)
