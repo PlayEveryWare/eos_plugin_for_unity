@@ -331,7 +331,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentLobby.AllowInvites = AllowInvitesVal.isOn;
 
             // Presence Enabled (cannot be modified)
-            //currentLobby.PresenceEnabled = PresenceEnabledVal.enabled;
+            //currentLobby.PresenceEnabled = PresenceEnabledVal.isOn;
 
             LobbyManager.ModifyLobby(currentLobby, UIOnLobbyUpdated);
         }
