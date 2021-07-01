@@ -175,7 +175,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            // NOTE: on some platforms the EOS platform is init'd by another DLL. In
+            // NOTE: on some platforms the EOS platform is init'd by a native dynamic library. In
             // those cases, this code will early out.
             public void Init()
             {
@@ -233,24 +233,24 @@ namespace PlayEveryWare.EpicOnlineServices
                 Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
                 Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Verbose);
 
-                var platformOptions = new Epic.OnlineServices.Platform.Options
-                {
-                    CacheDirectory = GetTempDir(),
-                    IsServer = false,
-                    Flags =
+                var platformOptions = CreateSystemPlatformOption();
+                platformOptions.CacheDirectory = GetTempDir();
+                platformOptions.IsServer = false;
+                platformOptions.Flags =
 #if UNITY_EDITOR
-                    PlatformFlags.LoadingInEditor,
+                PlatformFlags.LoadingInEditor;
 #else
-                    PlatformFlags.None,
+                PlatformFlags.None;
 #endif
-                    EncryptionKey = configData.encryptionKey, //TODO: find a better place to put this encryption key
-                    OverrideCountryCode = null,
-                    OverrideLocaleCode = null,
-                    ProductId = configData.productID,
-                    SandboxId = configData.sandboxID,
-                    DeploymentId = configData.deploymentID,
-                    ClientCredentials = new Epic.OnlineServices.Platform.ClientCredentials()
-                };
+                platformOptions.EncryptionKey = configData.encryptionKey; 
+                platformOptions.OverrideCountryCode = null;
+                platformOptions.OverrideLocaleCode = null;
+                platformOptions.ProductId = configData.productID;
+                platformOptions.SandboxId = configData.sandboxID;
+                platformOptions.DeploymentId = configData.deploymentID;
+                platformOptions.ClientCredentials = new Epic.OnlineServices.Platform.ClientCredentials();
+
+                ConfigureSystemPlatformCreateOptions(ref platformOptions);
 
                 platformOptions.ClientCredentials.ClientId = configData.clientID;
                 platformOptions.ClientCredentials.ClientSecret = configData.clientSecret;

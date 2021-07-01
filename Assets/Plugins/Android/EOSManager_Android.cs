@@ -80,6 +80,17 @@ namespace PlayEveryWare.EpicOnlineServices
             Marshal.StructureToPtr(androidInitOptions, androidInitializeOptionsAllocH, false);
             initializeOptions.SystemInitializeOptions = androidInitializeOptionsAllocH; 
         }
+
+        //-------------------------------------------------------------------------
+        static private Options CreateSystemPlatformOption()
+        {
+            return new Options();
+        }
+
+        //-------------------------------------------------------------------------
+        static private void ConfigureSystemPlatformCreateOptions(ref Options createOptions)
+        {
+        }
     }
 }
 #endif
