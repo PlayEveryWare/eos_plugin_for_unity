@@ -15,10 +15,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         public Text MemberNameText;
         public Text IsOwnerText;
+        public Text IsTalkingText;
+        public Button MuteButton;
         public Button KickButton;
         public Button Promotebutton;
 
         // Callbacks
+        public Action<ProductUserId> MuteOnClick;
         public Action<ProductUserId> KickOnClick;
         public Action<ProductUserId> PromoteOnClick;
 
@@ -63,6 +66,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 KickButton.gameObject.SetActive(false);
                 Promotebutton.gameObject.SetActive(false);
+            }
+
+            if(lobbyManager.GetCurrentLobby().RTCRoomEnabled)
+            {
+                MuteButton.enabled = true;
+                MuteButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                MuteButton.enabled = false;
+                MuteButton.gameObject.SetActive(false);
+            }
+        }
+
+        public void MemberEntryMuteButtonOnClick()
+        {
+            if (MuteOnClick != null)
+            {
+                MuteOnClick(ProductUserId);
+            }
+            else
+            {
+                Debug.LogError("MemberEntryMuteButtonOnClick: MuteOnClick action is null!");
             }
         }
 

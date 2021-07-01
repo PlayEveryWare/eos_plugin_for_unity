@@ -22,7 +22,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Dropdown PermissionVal;
         public Toggle AllowInvitesVal;
         public Toggle PresenceEnabledVal;
- 
+        public Toggle RTCVoiceRoomEnabledVal;
+
         // Create/Modify/Leave UI
         public Button CreateLobbyButton;
         public Button LeaveLobbyButton;
@@ -172,6 +173,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             uiEntry.ProductUserId = member.ProductId;
                             //uiEntry.IsOwner = currentLobby.LobbyOwner == member.ProductId;
 
+                            if(member.RTCState.IsInRTCRoom)
+                            {
+                                if (member.RTCState.IsTalking)
+                                {
+                                    uiEntry.IsTalkingText.text = "Talking";
+                                }
+                                else if (member.RTCState.IsAudioOutputDisabled || member.RTCState.IsLocalMuted)
+                                {
+                                    uiEntry.IsTalkingText.text = "Muted";
+                                }
+                                else
+                                {
+                                    uiEntry.IsTalkingText.text = "Silent";
+                                }
+                            }
+                            else
+                            {
+                                uiEntry.IsTalkingText.text = string.Empty;
+                            }
+
+                            uiEntry.MuteOnClick = MuteButtonOnClick;
                             uiEntry.KickOnClick = KickButtonOnClick;
                             uiEntry.PromoteOnClick = PromoteButtonOnClick;
 
@@ -263,6 +285,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Presence Enabled
             lobbyProperties.PresenceEnabled = PresenceEnabledVal.enabled;
 
+            // Voice Chat
+            lobbyProperties.RTCRoomEnabled = RTCVoiceRoomEnabledVal.enabled;
+
             LobbyManager.CreateLobby(lobbyProperties, UIOnLobbyUpdated);
         }
 
@@ -332,6 +357,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void JoinButtonOnClick(Lobby lobbyRef, LobbyDetails lobbyDetailsRef)
         {
             LobbyManager.JoinLobby(lobbyRef.Id, lobbyDetailsRef, true, UIOnLobbyUpdated);
+        }
+
+        public void MuteButtonOnClick(ProductUserId productUserId)
+        {
+            LobbyManager.ToggleMute(productUserId, null);
         }
 
         public void KickButtonOnClick(ProductUserId productUserId)

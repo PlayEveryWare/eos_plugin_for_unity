@@ -5,6 +5,8 @@ using UnityEngine;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Lobby;
+using Epic.OnlineServices.RTC;
+using Epic.OnlineServices.RTCAudio;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -19,7 +21,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public LobbyPermissionLevel LobbyPermissionLevel = LobbyPermissionLevel.Publicadvertised;
         public uint AvailableSlots = 0;
         public bool AllowInvites = true;
+
+        // Cached copy of the RoomName of the RTC room that our lobby has, if any
+        public string RTCRoomName = string.Empty;
+        // Are we currently connected to an RTC room?
+        public bool RTCRoomConnected = false;
+        /** Notification for RTC connection status changes */
+        public NotifyEventHandle RTCRoomConnectionChanged; // EOS_INVALID_NOTIFICATIONID;
+        /** Notification for RTC room participant updates (new players or players leaving) */
+        public NotifyEventHandle RTCRoomParticipantUpdate; // EOS_INVALID_NOTIFICATIONID;
+        /** Notification for RTC audio updates (talking status or mute changes) */
+        public NotifyEventHandle RTCRoomParticipantAudioUpdate; // EOS_INVALID_NOTIFICATIONID;
+
         public bool PresenceEnabled = false;
+        public bool RTCRoomEnabled = false;
 
         public List<LobbyAttribute> Attributes = new List<LobbyAttribute>();
         public List<LobbyMember> Members = new List<LobbyMember>();
@@ -105,6 +120,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             AllowInvites = outLobbyDetailsInfo.AllowInvites;
             AvailableSlots = outLobbyDetailsInfo.AvailableSlots;
             BucketId = outLobbyDetailsInfo.BucketId;
+            RTCRoomEnabled = outLobbyDetailsInfo.RTCRoomEnabled;
 
             // get attributes
             Attributes.Clear();
@@ -123,6 +139,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // get members
+            List<LobbyMember> OldMembers = new List<LobbyMember>(Members);
             Members.Clear();
 
             uint memberCount = outLobbyDetailsHandle.GetMemberCount(new LobbyDetailsGetMemberCountOptions());
@@ -149,6 +166,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     newAttribute.InitFromAttribute(outAttribute);
  
                     Members[memberIndex].MemberAttributes.Add(newAttribute.Key, newAttribute);
+                }
+
+                // Copy RTC Status from old members
+                foreach(LobbyMember oldLobbyMember in OldMembers)
+                {
+                    LobbyMember newMember = Members[memberIndex];
+                    if(oldLobbyMember.ProductId != newMember.ProductId)
+                    {
+                        continue;
+                    }
+
+                    // Copy RTC status to new object
+                    newMember.RTCState = oldLobbyMember.RTCState;
+                    break;
                 }
             }
         }
@@ -268,6 +299,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public string DisplayName;
         public Dictionary<string, LobbyAttribute> MemberAttributes = new Dictionary<string, LobbyAttribute>();
+
+        public LobbyRTCState RTCState = new LobbyRTCState();
+    }
+
+    public class LobbyRTCState
+    {
+        // Is this person currently connected to the RTC room?
+        public bool IsInRTCRoom = false;
+
+        // Is this person currently talking (audible sounds from their audio output)
+        public bool IsTalking = false;
+
+        // We have locally muted this person (others can still hear them)
+        public bool IsLocalMuted = false;
+
+        // Has this person muted their own audio output (nobody can hear them)
+        public bool IsAudioOutputDisabled = false;
+
+        // Are we currently muting this person?
+        public bool MuteActionInProgress = false;
     }
 
     public class LobbyJoinRequest
@@ -320,6 +371,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private OnLobbyCallback JoinLobbyCallback;
         private OnLobbyCallback LeaveLobbyCallback;
         private OnLobbyCallback DestroyLobbyCallback;
+        private OnLobbyCallback ToggleMuteCallback;
         private OnLobbyCallback KickMemberCallback;
         private OnLobbyCallback PromoteMemberCallback;
         private OnLobbySearchCallback LobbySearchCallback;
@@ -451,6 +503,141 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             JoinLobbyAcceptedNotification.Dispose();
         }
 
+        private string GetRTCRoomName()
+        {
+            GetRTCRoomNameOptions options = new GetRTCRoomNameOptions()
+            {
+                LobbyId = CurrentLobby.Id,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().GetRTCRoomName(options, out string roomName);
+
+            if(result != Result.Success)
+            {
+                Debug.LogFormat("Lobbies (GetRTCRoomName): Could not get RTC Room Name. Error Code: {0}", result);
+                return string.Empty;
+            }
+
+            Debug.LogFormat("Lobbies (GetRTCRoomName): Found RTC Room Name for lobby. RooName={0}", roomName);
+
+            return roomName;
+        }
+
+        private void UnsubscribeFromRTCEvents()
+        {
+            if(!CurrentLobby.RTCRoomEnabled)
+            {
+                return;
+            }
+
+            CurrentLobby.RTCRoomParticipantAudioUpdate.Dispose();
+            CurrentLobby.RTCRoomParticipantUpdate.Dispose();
+            CurrentLobby.RTCRoomConnectionChanged.Dispose();
+
+            CurrentLobby.RTCRoomName = string.Empty;
+        }
+
+        private void SubscribeToRTCEvents()
+        {
+            if(!CurrentLobby.RTCRoomEnabled)
+            {
+                Debug.LogWarning("Lobbies (SubscribeToRTCEvents): RTC Room is disabled.");
+                return;
+            }
+
+            CurrentLobby.RTCRoomName = GetRTCRoomName();
+
+            if(string.IsNullOrEmpty(CurrentLobby.RTCRoomName))
+            {
+                Debug.LogError("Lobbies (SubscribeToRTCEvents): Unable to bind to RTC Room Name, failing to bind delegates.");
+                return;
+            }
+
+            LobbyInterface lobbyInterface = EOSManager.Instance.GetEOSLobbyInterface();
+
+            // Register for connection status changes
+            AddNotifyRTCRoomConnectionChangedOptions addNotifyRTCRoomConnectionChangedOptions = new AddNotifyRTCRoomConnectionChangedOptions()
+            {
+                LobbyId = CurrentLobby.Id,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+            CurrentLobby.RTCRoomConnectionChanged = new NotifyEventHandle(lobbyInterface.AddNotifyRTCRoomConnectionChanged(addNotifyRTCRoomConnectionChangedOptions, null, OnRTCRoomConnectionChangedCompleted), (ulong handle) =>
+            {
+                EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyRTCRoomConnectionChanged(handle);
+            });
+
+            if(!CurrentLobby.RTCRoomConnectionChanged.IsValid())
+            {
+                Debug.LogError("Lobbies (SubscribeToRTCEvents): Failed to bind to Lobby NotifyRTCRoomConnectionChanged notification.");
+            }
+
+            // Get the current room connection status now that we're listening for changes
+            IsRTCRoomConnectedOptions isRTCRoomConnectedOptions = new IsRTCRoomConnectedOptions()
+            {
+                LobbyId = CurrentLobby.Id,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+
+            Result result = lobbyInterface.IsRTCRoomConnected(isRTCRoomConnectedOptions, out bool isConnected);
+
+            if (result != Result.Success)
+            {
+                Debug.LogFormat("Lobbies (SubscribeToRTCEvents): Failed to get RTC Room connection status:. Error Code: {0}", result);
+            }
+            else
+            {
+                CurrentLobby.RTCRoomConnected = isConnected;
+            }
+
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            // Register for RTC Room participant changes
+            AddNotifyParticipantStatusChangedOptions addNotifyParticipantsStatusChangedOptions = new AddNotifyParticipantStatusChangedOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = CurrentLobby.RTCRoomName
+            };
+
+            CurrentLobby.RTCRoomParticipantUpdate = new NotifyEventHandle(rtcHandle.AddNotifyParticipantStatusChanged(addNotifyParticipantsStatusChangedOptions, null, OnParticipantStatusChangedCompleted), (ulong handle) =>
+            {
+                EOSManager.Instance.GetEOSRTCInterface().RemoveNotifyParticipantStatusChanged(handle);
+            });
+
+            if(!CurrentLobby.RTCRoomParticipantUpdate.IsValid())
+            {
+                Debug.LogError("Lobbies (SubscribeToRTCEvents): Failed to bind to RTC AddNotifyParticipantStatusChanged notification.");
+            }
+
+            // Register for talking changes
+            AddNotifyParticipantUpdatedOptions addNotifyParticipantUpdatedOptions = new AddNotifyParticipantUpdatedOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = CurrentLobby.RTCRoomName
+            };
+
+            CurrentLobby.RTCRoomParticipantAudioUpdate = new NotifyEventHandle(rtcAudioHandle.AddNotifyParticipantUpdated(addNotifyParticipantUpdatedOptions, null, OnParticipantUpdatedCompleted), (ulong handle) =>
+            {
+                EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().RemoveNotifyParticipantUpdated(handle);
+            });
+        }
+
+        private void OnParticipantUpdatedCompleted(ParticipantUpdatedCallbackInfo data)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnParticipantStatusChangedCompleted(ParticipantStatusChangedCallbackInfo data)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void OnRTCRoomConnectionChangedCompleted(RTCRoomConnectionChangedCallbackInfo data)
+        {
+            throw new NotImplementedException();
+        }
+
         // User Events
         public void OnLoggedIn()
         {
@@ -504,6 +691,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             createLobbyOptions.PresenceEnabled = lobbyProperties.PresenceEnabled;
             createLobbyOptions.AllowInvites = lobbyProperties.AllowInvites;
             createLobbyOptions.BucketId = lobbyProperties.BucketId;
+
+            // Voice Chat
+            if(lobbyProperties.RTCRoomEnabled)
+            {
+                LocalRTCOptions rtcOptions = new LocalRTCOptions()
+                {
+                    Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
+                    UseManualAudioInput = false,
+                    UseManualAudioOutput = false,
+                    AudioOutputStartsMuted = false
+                };
+
+                createLobbyOptions.EnableRTCRoom = true;
+                createLobbyOptions.LocalRTCOptions = rtcOptions;
+            }
+            else
+            {
+                createLobbyOptions.EnableRTCRoom = false;
+                createLobbyOptions.LocalRTCOptions = null;
+            }
 
             // Note: Attributes are handled in ModifyLobby
             LobbyCreatedCallback = CreateLobbyCompleted;
@@ -652,6 +859,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            UnsubscribeFromRTCEvents();
+
             LeaveLobbyOptions options = new LeaveLobbyOptions();
             options.LobbyId = CurrentLobby.Id;
             options.LocalUserId = EOSManager.Instance.GetProductUserId();
@@ -774,12 +983,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.Log("Lobbies (OnCreateLobbyCompleted): Lobby created.");
 
+                // OnLobbyCreated
                 if (!string.IsNullOrEmpty(createLobbyCallbackInfo.LobbyId) && CurrentLobby._BeingCreated)
                 {
                     CurrentLobby.Id = createLobbyCallbackInfo.LobbyId;
                     ModifyLobby(CurrentLobby, LobbyCreatedCallback);
-                    _Dirty = true;
+
+                    if(CurrentLobby.RTCRoomEnabled)
+                    {
+                        SubscribeToRTCEvents();
+                    }
                 }
+
+                _Dirty = true;
 
                 LobbyCreatedCallback?.Invoke(Result.Success);
             }
@@ -841,6 +1057,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            UnsubscribeFromRTCEvents();
+
             ProductUserId currentProductUserId = EOSManager.Instance.GetProductUserId();
             if (!currentProductUserId.IsValid())
             {
@@ -899,11 +1117,174 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Member Events
 
+        public void ToggleMute(ProductUserId targetUserId, OnLobbyCallback ToggleMuteCompleted)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find the correct lobby member
+                if(lobbyMember.ProductId != targetUserId)
+                {
+                    continue;
+                }
+
+                // Do not allow multiple local mute toggles at the same time
+                if(lobbyMember.RTCState.MuteActionInProgress)
+                {
+                    Debug.LogWarningFormat("Lobbies (ToggleMute): 'MuteActionInProgress' for productUserId {0}.", targetUserId);
+                    ToggleMuteCompleted?.Invoke(Result.RequestInProgress);
+                    return;
+                }
+
+                // Set mute action as in progress
+                lobbyMember.RTCState.MuteActionInProgress = true;
+
+                // Check if muting ourselves vs other member
+                if(EOSManager.Instance.GetProductUserId() == targetUserId)
+                {
+                    // Toggle our mute status
+                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        AudioStatus = lobbyMember.RTCState.IsAudioOutputDisabled ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                    };
+
+                    Debug.LogFormat("Lobbies (ToggleMute): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+                    ToggleMuteCallback = ToggleMuteCompleted;
+
+                    rtcAudioHandle.UpdateSending(sendOptions, null, OnRTCRoomUpdateSendingCompleted);
+                }
+                else
+                {
+                    // Toggle mute for remote member (this is a local-only action and does not block the other user from receiving your audio stream)
+
+                    UpdateReceivingOptions recevingOptions = new UpdateReceivingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        ParticipantId = targetUserId,
+                        AudioEnabled = lobbyMember.RTCState.IsLocalMuted
+                    };
+
+                    Debug.LogFormat("Lobbies (ToggleMute): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", targetUserId);
+
+                    ToggleMuteCallback = ToggleMuteCompleted;
+
+                    rtcAudioHandle.UpdateReceiving(recevingOptions, null, OnRTCRoomUpdateReceivingCompleted);
+                }
+            }
+        }
+
+        private void OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomUpdateSendingCompleted): UpdateSendingCallbackInfo data is null");
+                ToggleMuteCallback?.Invoke(Result.InvalidState);
+                return;
+            }
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): error code: {0}", data.ResultCode);
+                ToggleMuteCallback?.Invoke(data.ResultCode);
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Updated sending status successfully. Room={0}, AudioStatus={1}", data.RoomName, data.AudioStatus);
+
+            // Ensure this update is for our room
+            if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName", CurrentLobby.RTCRoomName, data.RoomName);
+                return;
+            }
+
+            // Ensure this update is for us
+            if(EOSManager.Instance.GetProductUserId() != data.LocalUserId)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", EOSManager.Instance.GetProductUserId(), data.LocalUserId);
+                return;
+            }
+
+            // Update our mute status
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find ourselves
+                if(lobbyMember.ProductId != data.LocalUserId)
+                {
+                    continue;
+                }
+
+                lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus == RTCAudioStatus.AdminDisabled;
+                lobbyMember.RTCState.MuteActionInProgress = false;
+
+                Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", lobbyMember.DisplayName);
+
+                _Dirty = true;
+                break;
+            }
+        }
+
+        private void OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomUpdateReceivingCompleted): UpdateSendingCallbackInfo data is null");
+                ToggleMuteCallback?.Invoke(Result.InvalidState);
+                return;
+            }
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): error code: {0}", data.ResultCode);
+                ToggleMuteCallback?.Invoke(data.ResultCode);
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Updated receiving status successfully. LocalUserId={0} Room={1}, IsMuted={2}", data.LocalUserId, data.RoomName, data.AudioEnabled == false);
+
+            // Ensure this update is for our room
+            if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName", CurrentLobby.RTCRoomName, data.RoomName);
+                return;
+            }
+
+            // Update should be for remote user
+            if (EOSManager.Instance.GetProductUserId() == data.LocalUserId)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Incorrect call for local member.");
+                return;
+            }
+
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            { 
+                if(lobbyMember.ProductId == data.LocalUserId)
+                {
+                    continue;
+                }
+
+                lobbyMember.RTCState.IsLocalMuted = data.AudioEnabled == false;
+                lobbyMember.RTCState.MuteActionInProgress = false;
+
+                Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Cache updated for '{0}'", lobbyMember.DisplayName);
+
+                _Dirty = true;
+                break;
+            }
+        }
+
         public void KickMember(ProductUserId productUserId, OnLobbyCallback KickMemberCompleted)
         {
             if (!productUserId.IsValid())
             {
                 Debug.LogError("Lobbies (KickMember): productUserId is invalid!");
+                KickMemberCompleted?.Invoke(Result.InvalidState);
                 return;
             }
 
@@ -911,6 +1292,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (!currentUserId.IsValid())
             {
                 Debug.LogError("Lobbies (KickMember): Current player is invalid!");
+                KickMemberCompleted?.Invoke(Result.InvalidState);
                 return;
             }
 
@@ -1232,6 +1614,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchCallback?.Invoke(Result.Success);
         }
 
+        private void OnLobbyJoinFailed(string lobbyId)
+        {
+            _Dirty = true;
+
+            PopLobbyInvite();
+        }
 
         // Invite
 
@@ -1452,19 +1840,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogErrorFormat("Lobbies (OnJoinLobbyFinished): error code: {0}", data.ResultCode);
+                Debug.LogErrorFormat("Lobbies (OnJoinLobbyCompleted): error code: {0}", data.ResultCode);
+                OnLobbyJoinFailed(data.LobbyId);
                 JoinLobbyCallback?.Invoke(data.ResultCode);
                 return;
             }
 
             Debug.Log("Lobbies (OnJoinLobbyCompleted): Lobby join finished.");
 
+            // OnLobbyJoined
             if (CurrentLobby.IsValid() && !string.Equals(CurrentLobby.Id, data.LobbyId))
             {
                 LeaveLobby(null);
             }
 
             CurrentLobby.InitFromLobbyHandle(data.LobbyId);
+
+            if(CurrentLobby.RTCRoomEnabled)
+            {
+                SubscribeToRTCEvents();
+            }
+
+            _Dirty = true;
+
+            PopLobbyInvite();
 
             JoinLobbyCallback?.Invoke(Result.Success);
         }
