@@ -247,12 +247,16 @@ static json_value_s* read_config_json_as_json_from_path(std::filesystem::path pa
 {
     log_warn(("json path" + path_to_config_json.string() ).c_str());
     uintmax_t config_file_size = std::filesystem::file_size(path_to_config_json);
+    if (config_file_size > SIZE_MAX)
+    {
+        throw std::filesystem::filesystem_error("File is too large", std::make_error_code(std::errc::file_too_large));
+    }
 
     FILE* file = nullptr;
     errno_t config_file_error = _wfopen_s(&file, path_to_config_json.wstring().c_str(), L"r");
-    char* buffer = (char*)calloc(1, config_file_size);
+    char* buffer = (char*)calloc(1, static_cast<size_t>(config_file_size));
 
-    size_t bytes_read = fread(buffer, 1, config_file_size, file);
+    size_t bytes_read = fread(buffer, 1, static_cast<size_t>(config_file_size), file);
     fclose(file);
     struct json_value_s* config_json = json_parse(buffer, bytes_read);
     free(buffer);
