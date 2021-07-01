@@ -289,7 +289,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Is Talking
+  m_Text: 
 --- !u!1 &6802468846831341829
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,7 +886,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6802468848338988764
 RectTransform:
   m_ObjectHideFlags: 0
