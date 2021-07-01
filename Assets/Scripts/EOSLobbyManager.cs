@@ -562,7 +562,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LobbyId = CurrentLobby.Id,
                 LocalUserId = EOSManager.Instance.GetProductUserId()
             };
-            CurrentLobby.RTCRoomConnectionChanged = new NotifyEventHandle(lobbyInterface.AddNotifyRTCRoomConnectionChanged(addNotifyRTCRoomConnectionChangedOptions, null, OnRTCRoomConnectionChangedCompleted), (ulong handle) =>
+            CurrentLobby.RTCRoomConnectionChanged = new NotifyEventHandle(lobbyInterface.AddNotifyRTCRoomConnectionChanged(addNotifyRTCRoomConnectionChangedOptions, null, OnRTCRoomConnectionChangedReceived), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyRTCRoomConnectionChanged(handle);
             });
@@ -600,7 +600,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RoomName = CurrentLobby.RTCRoomName
             };
 
-            CurrentLobby.RTCRoomParticipantUpdate = new NotifyEventHandle(rtcHandle.AddNotifyParticipantStatusChanged(addNotifyParticipantsStatusChangedOptions, null, OnParticipantStatusChangedCompleted), (ulong handle) =>
+            CurrentLobby.RTCRoomParticipantUpdate = new NotifyEventHandle(rtcHandle.AddNotifyParticipantStatusChanged(addNotifyParticipantsStatusChangedOptions, null, OnRTCRoomParticipantStatusChanged), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSRTCInterface().RemoveNotifyParticipantStatusChanged(handle);
             });
@@ -617,25 +617,148 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RoomName = CurrentLobby.RTCRoomName
             };
 
-            CurrentLobby.RTCRoomParticipantAudioUpdate = new NotifyEventHandle(rtcAudioHandle.AddNotifyParticipantUpdated(addNotifyParticipantUpdatedOptions, null, OnParticipantUpdatedCompleted), (ulong handle) =>
+            CurrentLobby.RTCRoomParticipantAudioUpdate = new NotifyEventHandle(rtcAudioHandle.AddNotifyParticipantUpdated(addNotifyParticipantUpdatedOptions, null, OnRTCRoomParticipantAudioUpdateRecieved), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().RemoveNotifyParticipantUpdated(handle);
             });
         }
 
-        private void OnParticipantUpdatedCompleted(ParticipantUpdatedCallbackInfo data)
+        private void OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo data)
         {
-            throw new NotImplementedException();
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomConnectionChangedReceived): RTCRoomConnectionChangedCallbackInfo data is null");
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomConnectionChangedReceived): connection status changed. LobbyId={0}, IsConnected={1}, DisconnectReason={2}", data.LobbyId, data.IsConnected, data.DisconnectReason);
+
+            // OnRTCRoomConnectionChanged
+
+            if(!CurrentLobby.IsValid() || CurrentLobby.Id != data.LobbyId)
+            {
+                return;
+            }
+
+            if(EOSManager.Instance.GetLocalUserId() != data.LocalUserId)
+            {
+                return;
+            }
+
+            CurrentLobby.RTCRoomConnected = data.IsConnected;
+
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                if(lobbyMember.ProductId == EOSManager.Instance.GetProductUserId())
+                {
+                    lobbyMember.RTCState.IsInRTCRoom = data.IsConnected;
+                    if(!data.IsConnected)
+                    {
+                        lobbyMember.RTCState.IsTalking = false;
+                    }
+                    break;
+                }
+            }
+
+            _Dirty = true;
         }
 
-        private void OnParticipantStatusChangedCompleted(ParticipantStatusChangedCallbackInfo data)
+        private void OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo data)
         {
-            throw new NotImplementedException();
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomParticipantStatusChanged): ParticipantStatusChangedCallbackInfo data is null");
+                return;
+            }
+
+            int metadataCount = 0;
+            if (data.ParticipantMetadata != null)
+            {
+                metadataCount = data.ParticipantMetadata.Length;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomParticipantStatusChanged): LocalUserId={0}, Room={1}, ParticipantUserId={2}, ParticipantStatus={3}, MetadataCount={4}",
+                data.LocalUserId, 
+                data.RoomName, 
+                data.ParticipantId, 
+                data.ParticipantStatus == RTCParticipantStatus.Joined ? "Joined" : "Left",
+                metadataCount);
+
+            // Ensure this update is for our room
+            if (string.IsNullOrEmpty(CurrentLobby.RTCRoomName) || CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            //OnRTCRoomParticipantJoined / OnRTCRoomParticipantLeft
+
+            // Find this participant in our list
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                if(lobbyMember.ProductId != data.ParticipantId)
+                {
+                    continue;
+                }
+
+                // Update in-room status
+                if (data.ParticipantStatus == RTCParticipantStatus.Joined)
+                {
+                    lobbyMember.RTCState.IsInRTCRoom = true;
+                }
+                else
+                {
+                    lobbyMember.RTCState.IsInRTCRoom = false;
+                    lobbyMember.RTCState.IsTalking = false;
+                }
+
+                _Dirty = true;
+                break;
+            }
         }
 
-        private void OnRTCRoomConnectionChangedCompleted(RTCRoomConnectionChangedCallbackInfo data)
+        private void OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo data)
         {
-            throw new NotImplementedException();
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): ParticipantUpdatedCallbackInfo data is null");
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): participant audio updated. LocalUserId={0}, Room={1}, ParticipantUserId={2}, IsTalking={3}, IsAudioDisabled={4}",
+                data.LocalUserId,
+                data.RoomName,
+                data.ParticipantId,
+                data.Speaking,
+                data.AudioStatus != RTCAudioStatus.Enabled);
+
+            // OnRTCRoomParticipantAudioUpdated
+
+            // Ensure this update is for our room
+            if (string.IsNullOrEmpty(CurrentLobby.RTCRoomName) || CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            // Find this participant in our list
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                if(lobbyMember.ProductId != data.ParticipantId)
+                {
+                    continue;
+                }
+
+                // Update talking status
+                lobbyMember.RTCState.IsTalking = data.Speaking;
+
+                // Only update the audio status for other players (we control their own status)
+                if(lobbyMember.ProductId != EOSManager.Instance.GetProductUserId())
+                {
+                    lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus != RTCAudioStatus.Enabled;
+                }
+
+                _Dirty = true;
+                break;
+            }
         }
 
         // User Events

@@ -280,13 +280,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Allow Invites
-            lobbyProperties.AllowInvites = AllowInvitesVal.enabled;
+            lobbyProperties.AllowInvites = AllowInvitesVal.isOn;
 
             // Presence Enabled
-            lobbyProperties.PresenceEnabled = PresenceEnabledVal.enabled;
+            lobbyProperties.PresenceEnabled = PresenceEnabledVal.isOn;
 
             // Voice Chat
-            lobbyProperties.RTCRoomEnabled = RTCVoiceRoomEnabledVal.enabled;
+            lobbyProperties.RTCRoomEnabled = RTCVoiceRoomEnabledVal.isOn;
 
             LobbyManager.CreateLobby(lobbyProperties, UIOnLobbyUpdated);
         }
@@ -328,10 +328,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Allow Invites
-            currentLobby.AllowInvites = AllowInvitesVal.enabled;
+            currentLobby.AllowInvites = AllowInvitesVal.isOn;
 
             // Presence Enabled (cannot be modified)
-            //currentLobby.PresenceEnabled = PresenceEnabledVal.enabled;
+            //currentLobby.PresenceEnabled = PresenceEnabledVal.isOn;
 
             LobbyManager.ModifyLobby(currentLobby, UIOnLobbyUpdated);
         }
