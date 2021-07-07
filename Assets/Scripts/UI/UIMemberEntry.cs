@@ -72,11 +72,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 MuteButton.enabled = true;
                 MuteButton.gameObject.SetActive(true);
+
+                foreach(LobbyMember member in lobbyManager.GetCurrentLobby().Members)
+                {
+                    if(member.ProductId == ProductUserId)
+                    {
+                        // Update Talking state
+                        if (member.RTCState.IsTalking)
+                        {
+                            IsTalkingText.text = "Talking";
+                        }
+                        else if (member.RTCState.IsAudioOutputDisabled || member.RTCState.IsLocalMuted)
+                        {
+                            IsTalkingText.text = "Muted";
+                        }
+                        else
+                        {
+                            IsTalkingText.text = "Silent";
+                        }
+                        break;
+                    }
+                }
             }
             else
             {
                 MuteButton.enabled = false;
                 MuteButton.gameObject.SetActive(false);
+
+                IsTalkingText.text = string.Empty;
             }
         }
 

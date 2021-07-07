@@ -1343,7 +1343,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     continue;
                 }
 
-                lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus == RTCAudioStatus.AdminDisabled;
+                lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus == RTCAudioStatus.Disabled;
                 lobbyMember.RTCState.MuteActionInProgress = false;
 
                 Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", lobbyMember.DisplayName);

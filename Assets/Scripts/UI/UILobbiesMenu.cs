@@ -57,6 +57,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private ProductUserId currentLobbyOwnerCache;
         private bool lastCurrentLobbyIsValid = false;
 
+        private List<UIMemberEntry> UIMemberEntries = new List<UIMemberEntry>();
+
         private EOSLobbyManager LobbyManager;
         private EOSFriendsManager FriendsManager;
 
@@ -153,6 +155,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         GameObject.Destroy(child.gameObject);
                     }
 
+                    UIMemberEntries.Clear();
+
                     //members
                     foreach (LobbyMember member in currentLobby.Members)
                     {
@@ -173,33 +177,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             uiEntry.ProductUserId = member.ProductId;
                             //uiEntry.IsOwner = currentLobby.LobbyOwner == member.ProductId;
 
-                            if(member.RTCState.IsInRTCRoom)
-                            {
-                                if (member.RTCState.IsTalking)
-                                {
-                                    uiEntry.IsTalkingText.text = "Talking";
-                                }
-                                else if (member.RTCState.IsAudioOutputDisabled || member.RTCState.IsLocalMuted)
-                                {
-                                    uiEntry.IsTalkingText.text = "Muted";
-                                }
-                                else
-                                {
-                                    uiEntry.IsTalkingText.text = "Silent";
-                                }
-                            }
-                            else
-                            {
-                                uiEntry.IsTalkingText.text = string.Empty;
-                            }
+                            uiEntry.IsTalkingText.text = "---";
 
                             uiEntry.MuteOnClick = MuteButtonOnClick;
                             uiEntry.KickOnClick = KickButtonOnClick;
                             uiEntry.PromoteOnClick = PromoteButtonOnClick;
 
-                            uiEntry.UpdateUI();
+                            UIMemberEntries.Add(uiEntry);
                         }
                     }
+                }
+
+                foreach(UIMemberEntry uiEntry in UIMemberEntries)
+                {
+                    uiEntry.UpdateUI();
                 }
             }
 
