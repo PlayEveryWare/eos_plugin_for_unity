@@ -49,10 +49,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Achievments
         public void OnGetAchievmentsClick()
         {
-            if (achievementManager.GetAchievementDefinitionCount() > 1)
+            uint achievementDefCount = achievementManager.GetAchievementDefinitionCount();
+
+            if (achievementDefCount > 1)
             {
                 scrollRect.gameObject.SetActive(true);
-                scrollRect.content.sizeDelta = new Vector2(0, achievementManager.GetAchievementDefinitionCount() * 30);
+                scrollRect.content.sizeDelta = new Vector2(0, achievementDefCount * 30);
 
                 int i = 0;
                 foreach (var achievementDef in achievementManager.EnumerateCachedAchievementDefinitions())
