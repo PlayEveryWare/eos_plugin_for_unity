@@ -734,7 +734,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // OnRTCRoomParticipantAudioUpdated
 
             // Ensure this update is for our room
-            if (string.IsNullOrEmpty(CurrentLobby.RTCRoomName) || CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(CurrentLobby.RTCRoomName) || !CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -748,7 +748,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 // Update talking status
-                lobbyMember.RTCState.IsTalking = data.Speaking;
+                if(lobbyMember.RTCState.IsTalking != data.Speaking)
+                {
+                    lobbyMember.RTCState.IsTalking = data.Speaking;
+                }
 
                 // Only update the audio status for other players (we control their own status)
                 if(lobbyMember.ProductId != EOSManager.Instance.GetProductUserId())
@@ -1346,7 +1349,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus == RTCAudioStatus.Disabled;
                 lobbyMember.RTCState.MuteActionInProgress = false;
 
-                Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", lobbyMember.DisplayName);
+                Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", lobbyMember.ProductId);
 
                 _Dirty = true;
                 break;
@@ -1379,7 +1382,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Update should be for remote user
-            if (EOSManager.Instance.GetProductUserId() == data.LocalUserId)
+            if (EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
                 Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Incorrect call for local member.");
                 return;
@@ -1395,7 +1398,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lobbyMember.RTCState.IsLocalMuted = data.AudioEnabled == false;
                 lobbyMember.RTCState.MuteActionInProgress = false;
 
-                Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Cache updated for '{0}'", lobbyMember.DisplayName);
+                Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Cache updated for '{0}'", lobbyMember.ProductId);
 
                 _Dirty = true;
                 break;
