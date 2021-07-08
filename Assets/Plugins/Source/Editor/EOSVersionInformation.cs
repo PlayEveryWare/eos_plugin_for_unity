@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices
             GUILayout.Label(eos_library_version);
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            GUILayout.Label("PlayEveryWare Unity Plugin for EOS:", EditorStyles.boldLabel);
+            GUILayout.Label("Epic Online Services Plugin For Unity:", EditorStyles.boldLabel);
             GUILayout.Label(eos_plugin_version);
             GUILayout.EndHorizontal();
 
