@@ -365,6 +365,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var getAchievementDefinitionCountOptions = new GetAchievementDefinitionCountOptions();
 
             uint achievementDefinitionCount = GetEOSAchievementInterface().GetAchievementDefinitionCount(getAchievementDefinitionCountOptions);
+
+            UnityEngine.Debug.LogFormat("Achievements (GetAchievementDefinitionCount): Count={0}", achievementDefinitionCount);
+
             return achievementDefinitionCount;
         }
 
@@ -459,6 +462,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void cacheAchievementDef(DefinitionV2 achievementDef)
         {
             achievementDefinitionCache.Add(achievementDef);
+
+            UnityEngine.Debug.LogFormat("Achievements (cacheAchievementDef): Id={0}, LockedDisplayName={1}", achievementDef.AchievementId, achievementDef.LockedDisplayName);
+
             DownloadIconDataFromURI(achievementDef.LockedIconURL);
             DownloadIconDataFromURI(achievementDef.UnlockedIconURL);
         }
