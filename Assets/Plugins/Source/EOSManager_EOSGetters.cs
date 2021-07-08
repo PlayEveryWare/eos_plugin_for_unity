@@ -130,6 +130,16 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
+            /// Helper to get the RTC interface.
+            /// </summary>
+            /// <returns></returns>
+            public Epic.OnlineServices.RTC.RTCInterface GetEOSRTCInterface()
+            {
+                return GetEOSPlatformInterface().GetRTCInterface();
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
             /// Helper to get the Sessions interface.
             /// </summary>
             /// <returns></returns>

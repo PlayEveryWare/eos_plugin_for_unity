@@ -249,12 +249,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void CreateNewSessionOnClick()
         {
             Session session = new Session();
-            session.AllowJoinInProgress = JoinInProgressVal.enabled;
-            session.PresenceSession = PresenceVal.enabled;
-            session.InvitesAllowed = InvitesAllowedVal.enabled;
+            session.AllowJoinInProgress = JoinInProgressVal.isOn;
+            session.PresenceSession = PresenceVal.isOn;
+            session.InvitesAllowed = InvitesAllowedVal.isOn;
             session.MaxPlayers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
             session.Name = SessionNameVal.text;
-            session.PermissionLevel = PublicVal.enabled ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
+            session.PermissionLevel = PublicVal.isOn ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
 
             SessionAttribute attribute = new SessionAttribute();
             attribute.Key = "Level";
@@ -300,8 +300,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Session session = new Session(); //EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().GetSession(sessionName);
             session.Name = sessionName;
             session.MaxPlayers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
-            session.AllowJoinInProgress = JoinInProgressVal.enabled;
-            session.InvitesAllowed = InvitesAllowedVal.enabled;
+            session.AllowJoinInProgress = JoinInProgressVal.isOn;
+            session.InvitesAllowed = InvitesAllowedVal.isOn;
             session.PermissionLevel = PublicVal.enabled ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
 
             SessionAttribute attr = new SessionAttribute();
