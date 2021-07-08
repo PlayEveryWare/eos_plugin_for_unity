@@ -22,7 +22,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Dropdown PermissionVal;
         public Toggle AllowInvitesVal;
         public Toggle PresenceEnabledVal;
- 
+        public Toggle RTCVoiceRoomEnabledVal;
+
         // Create/Modify/Leave UI
         public Button CreateLobbyButton;
         public Button LeaveLobbyButton;
@@ -55,6 +56,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private int lastMemberCount = 0;
         private ProductUserId currentLobbyOwnerCache;
         private bool lastCurrentLobbyIsValid = false;
+
+        private List<UIMemberEntry> UIMemberEntries = new List<UIMemberEntry>();
 
         private EOSLobbyManager LobbyManager;
         private EOSFriendsManager FriendsManager;
@@ -152,6 +155,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         GameObject.Destroy(child.gameObject);
                     }
 
+                    UIMemberEntries.Clear();
+
                     //members
                     foreach (LobbyMember member in currentLobby.Members)
                     {
@@ -172,12 +177,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             uiEntry.ProductUserId = member.ProductId;
                             //uiEntry.IsOwner = currentLobby.LobbyOwner == member.ProductId;
 
+                            uiEntry.IsTalkingText.text = "---";
+
+                            uiEntry.MuteOnClick = MuteButtonOnClick;
                             uiEntry.KickOnClick = KickButtonOnClick;
                             uiEntry.PromoteOnClick = PromoteButtonOnClick;
 
-                            uiEntry.UpdateUI();
+                            UIMemberEntries.Add(uiEntry);
                         }
                     }
+                }
+
+                foreach(UIMemberEntry uiEntry in UIMemberEntries)
+                {
+                    uiEntry.UpdateUI();
                 }
             }
 
@@ -258,10 +271,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Allow Invites
-            lobbyProperties.AllowInvites = AllowInvitesVal.enabled;
+            lobbyProperties.AllowInvites = AllowInvitesVal.isOn;
 
             // Presence Enabled
-            lobbyProperties.PresenceEnabled = PresenceEnabledVal.enabled;
+            lobbyProperties.PresenceEnabled = PresenceEnabledVal.isOn;
+
+            // Voice Chat
+            lobbyProperties.RTCRoomEnabled = RTCVoiceRoomEnabledVal.isOn;
 
             LobbyManager.CreateLobby(lobbyProperties, UIOnLobbyUpdated);
         }
@@ -303,10 +319,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Allow Invites
-            currentLobby.AllowInvites = AllowInvitesVal.enabled;
+            currentLobby.AllowInvites = AllowInvitesVal.isOn;
 
             // Presence Enabled (cannot be modified)
-            //currentLobby.PresenceEnabled = PresenceEnabledVal.enabled;
+            //currentLobby.PresenceEnabled = PresenceEnabledVal.isOn;
 
             LobbyManager.ModifyLobby(currentLobby, UIOnLobbyUpdated);
         }
@@ -332,6 +348,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void JoinButtonOnClick(Lobby lobbyRef, LobbyDetails lobbyDetailsRef)
         {
             LobbyManager.JoinLobby(lobbyRef.Id, lobbyDetailsRef, true, UIOnLobbyUpdated);
+        }
+
+        public void MuteButtonOnClick(ProductUserId productUserId)
+        {
+            LobbyManager.ToggleMute(productUserId, null);
         }
 
         public void KickButtonOnClick(ProductUserId productUserId)
