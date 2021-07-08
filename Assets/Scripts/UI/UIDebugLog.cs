@@ -13,6 +13,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private Queue<string> logCacheList = new Queue<string>();
 
+        private bool _dirty = false;
+        private string logCache = string.Empty;
+
         void OnEnable()
         {
             Application.logMessageReceived += UpdateLogCache;
@@ -45,18 +48,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             logCacheList.Enqueue(logEntry);
+
+            if(logCacheList.Count > 100)
+            {
+                logCacheList.Dequeue();
+            }
+
+            _dirty = true;
         }
 
         string GetLastEntries()
         {
-            string log = string.Empty;
-
-            foreach (string logEntry in logCacheList)
+            if(_dirty)
             {
-                log += '\n' + logEntry;
+                logCache = string.Empty;
+
+                foreach (string logEntry in logCacheList)
+                {
+                    logCache += '\n' + logEntry;
+                }
+                _dirty = false;
             }
 
-            return log;
+            return logCache;
         }
 
         private void Update()
