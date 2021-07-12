@@ -67,6 +67,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
 
+#if UNITY_EDITOR
+            RTCVoiceRoomEnabledVal.interactable = false;
+#endif
+
             HideMenu();
         }
 

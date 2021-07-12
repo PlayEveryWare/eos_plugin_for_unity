@@ -818,9 +818,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             createLobbyOptions.AllowInvites = lobbyProperties.AllowInvites;
             createLobbyOptions.BucketId = lobbyProperties.BucketId;
 
+
             // Voice Chat
             if(lobbyProperties.RTCRoomEnabled)
             {
+#if UNITY_EDITOR
+                Debug.LogWarning("Lobbies (Create Lobby): RTCRoom cannot be enabled in-editor.  Only Standalone builds.");
+                createLobbyOptions.EnableRTCRoom = false;
+                createLobbyOptions.LocalRTCOptions = null;
+#else
                 LocalRTCOptions rtcOptions = new LocalRTCOptions()
                 {
                     Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
@@ -831,6 +837,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 createLobbyOptions.EnableRTCRoom = true;
                 createLobbyOptions.LocalRTCOptions = rtcOptions;
+#endif
             }
             else
             {
