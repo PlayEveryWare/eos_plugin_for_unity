@@ -7,13 +7,6 @@
 #include <assert.h>
 
 
-#if PLATFORM_WINDOWS
-#include "DynamicLibraryLoaderHelper_Win32.h"
-#endif
-
-
-// TODO: Do I need to load the NRR file for Unity?
-
 // Create heap data for storing random things, if need be on a given platform
 STATIC_EXPORT(void *) DLLH_create_context()
 {
@@ -34,9 +27,7 @@ STATIC_EXPORT(void *) DLLH_load_library_at_path(void *ctx, const char *library_p
     DLLHContext *dllh_ctx = static_cast<DLLHContext*>(ctx);
     void *to_return = nullptr;
     
-#if PLATFORM_WINDOWS
-    to_return = DLLH_Win32_load_library_at_path(dllh_ctx, library_path);
-#endif
+    to_return = platform::DLLH_load_library_at_path(dllh_ctx, library_path);
 
     return to_return;
 }
@@ -48,9 +39,7 @@ STATIC_EXPORT(void *) DLLH_load_function_with_name(void *ctx, void *library_hand
     void *to_return = nullptr;
     DLLHContext *dllh_ctx = static_cast<DLLHContext*>(ctx);
 
-#if PLATFORM_WINDOWS
-    to_return = DLLH_Win32_load_function_with_name(dllh_ctx, library_handle, function);
-#endif
+    to_return = platform::DLLH_load_function_with_name(dllh_ctx, library_handle, function);
 
     return to_return;
 }
