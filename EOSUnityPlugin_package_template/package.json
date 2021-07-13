@@ -1,19 +1,19 @@
 {
     "name": "com.playeveryware.eos",
     "version": "0.0.4-preview",
-    "displayName": "Unity EOS Plugin",
+    "displayName": "Epic Online Services Plugin for Unity",
     "description": "Friendly Plugin for Epic Online Services",
     "keywords": [
         "EOS", "Epic", "Epic Online Service", "Console"
     ],
     "samples": [
         {
-            "displayName": "PUP-E Samples",
+            "displayName": "EOS Plugin for Unity Samples",
             "description": "Samples to get started with the PlayEveryWare Unity Plugin For EOS",
             "path": "Samples~/Samples/"
         }
     ],
     "com_playeveryware": {
-        "git_build_sha": "68e98a9f404a90717abab7622a197e87e4745ce1"
+        "git_build_sha": "18c5657296c7c2421ef2467f63add74d97ee6aae"
     }
 }
