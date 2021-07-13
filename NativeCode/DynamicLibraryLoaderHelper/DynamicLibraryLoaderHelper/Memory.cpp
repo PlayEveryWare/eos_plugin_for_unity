@@ -10,7 +10,7 @@ STATIC_EXPORT(void *) Mem_generic_align_alloc(size_t size_in_bytes, size_t align
 #if _WIN64 || _WIN32
     to_return = Mem_win_crt_align_alloc(size_in_bytes, alignment_in_bytes);
 #else
-    to_return = aligned_alloc(size_in_bytes, alignment_in_bytes);
+#error "Missing implementation for Mem_generic_align_alloc"
 #endif
 
     return to_return;
