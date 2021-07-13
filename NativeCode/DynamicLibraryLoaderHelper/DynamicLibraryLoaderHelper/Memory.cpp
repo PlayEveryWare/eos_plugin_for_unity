@@ -20,8 +20,11 @@ STATIC_EXPORT(void *) Mem_generic_align_realloc(void *ptr, size_t size_in_bytes,
 {
     void * to_return = nullptr;
 
-    // Assumes that the alignment won't matter
-    to_return = realloc(ptr, size_in_bytes);
+#if _WIN64 || _WIN32
+    to_return = Mem_win_crt_align_realloc(ptr, size_in_bytes);
+#else
+#error "Missing implementation for Mem_generic_align_realloc"
+#endif
 
     return to_return;
 }
