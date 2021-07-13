@@ -3,6 +3,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Added
+### Changed
+### Removed
+### Fixed
+
+## [0.0.4-preview] - 2021-07-12
 
 ### Added
 - feat: enable voice chat interface.
@@ -10,15 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - feat: Lobbies RTCRoom
 - feat: add 'copy log' button
 - feat: implement lobby RTCRoom (voice chat)
-- feat: implement lobby RTCRoom (voice chat) [part 2]
 - feat: lobbies rtc, implement toggle mute, display IsSpeaking state
 - feat: lobbies voice implement remote mute and finish IsTalking
 - feat: lobbies implement SetMemberAttribute and MemberAttribute dictionary
 - feat: add lobby searchByBucketId functionality
 - feat: accept a specific invite in EOSLobbyManager
 
-
 ### Changed
+- releases going forward will not have the SHA they were made from. Instead a branch matching the name is used
 - Upgrade to EOS SDK 1.13
 - log GetAchievementDefinitionCount
 - update EOSVersion UI with 'Epic Online Services Plugin For Unity'
