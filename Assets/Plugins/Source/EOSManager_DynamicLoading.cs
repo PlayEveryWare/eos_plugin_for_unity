@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     if(EOS_GetPlatformInterface() == IntPtr.Zero)
                     {
-                        throw new Exception("bad eos platform ");
+                        throw new Exception("NULL EOS Platform returned by native code: issue probably occurred in GFX Plugin!");
                     }
                     SetEOSPlatformInterface(new Epic.OnlineServices.Platform.PlatformInterface(EOS_GetPlatformInterface()));
                 }
