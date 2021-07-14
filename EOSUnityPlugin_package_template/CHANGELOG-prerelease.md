@@ -3,6 +3,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+### Added
+### Changed
+### Removed
+### Fixed
+
+## [0.0.4-preview] - 2021-07-12
+
+### Added
+- feat: enable voice chat interface.
+- enable RTC support when using the C# code to init the EOS Platform
+- feat: Lobbies RTCRoom
+- feat: add 'copy log' button
+- feat: implement lobby RTCRoom (voice chat)
+- feat: lobbies rtc, implement toggle mute, display IsSpeaking state
+- feat: lobbies voice implement remote mute and finish IsTalking
+- feat: lobbies implement SetMemberAttribute and MemberAttribute dictionary
+- feat: add lobby searchByBucketId functionality
+- feat: accept a specific invite in EOSLobbyManager
+
+### Changed
+- releases going forward will not have the SHA they were made from. Instead a branch matching the name is used
+- Upgrade to EOS SDK 1.13
+- log GetAchievementDefinitionCount
+- update EOSVersion UI with 'Epic Online Services Plugin For Unity'
+- update samples with 'Epic Online Services Plugin For Unity'
+- Normalize formatting of C++ files
+
+### Removed
+- remove "old" EOS_VERSION_1_12 define
+
+### Fixed
+- disable Lobby RTCRoom in Unity editor (crashes)
+- correct samples name
+- cache UIDebugLog and only show last 100 log entries
+- ui toggles corrected to use isOn vs enabled
+- ensure that the local user id is set when linking with an external account.
+- truncation warnings for Win32 builds
+- change dll loading settings so both the x86 and x64 dll aren't loaded at the same time.
+- lobby searchByBucketId swap key and value
+- handle case where the encryption key is empty
+- join lobby via overlay no longer hangs
+
+## [0.0.3-preview+f9188a7876567ff756f68af69b49de049e49fcf5] - 2021-06-22
+### Fixed
+- Fix copy paste error in EpicOnlineServicesConfigEditor with code generation
+- Fix error in IL2CPP resulting from non-existing functions (static libs don't work on windows)
 
 ### Added
 - feat: enable voice chat interface.
