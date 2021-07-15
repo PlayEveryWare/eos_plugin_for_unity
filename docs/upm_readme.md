@@ -14,6 +14,7 @@ Things this plugin provides:
 ----------------------------------------------------------------------------------------
 ## Integration Notes
 For best results, Unity 2020 is preferred. 
+Installation of the Epic Game store is required.
 
 ### Installing it from a tarball
 1. From the Unity Editor, open up the Package Manager.
