@@ -280,6 +280,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        //-------------------------------------------------------------------------
+        private void StartConnectLoginWithLoginCallbackInfo(LoginCallbackInfo loginCallbackInfo)
+        {
+            EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
+            {
+                if (connectLoginCallbackInfo.ResultCode == Result.Success)
+                {
+                    print("Connect Login Successful. [" + loginCallbackInfo.ResultCode + "]");
+                    ConfigureUIForLogout();
+                }
+                else if (connectLoginCallbackInfo.ResultCode == Result.InvalidUser)
+                {
+                    // ask user if they want to connect; sample assumes they do
+                    EOSManager.Instance.CreateConnectUserWithContinuanceToken(connectLoginCallbackInfo.ContinuanceToken, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
+                    {
+                        print("Creating new connect user");
+                        EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo retryConnectLoginCallbackInfo) =>
+                        {
+                            if (retryConnectLoginCallbackInfo.ResultCode == Result.Success)
+                            {
+                                ConfigureUIForLogout();
+                            }
+                        });
+                    });
+                }
+            });
+        }
 
         //-------------------------------------------------------------------------
         public void StartLoginWithLoginTypeAndTokenCallback(LoginCallbackInfo loginCallbackInfo)
@@ -288,16 +315,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 // collect MFA
                 // do something to give the MFA to the SDK
-                print("MFA Authentication not supported. [" + loginCallbackInfo.ResultCode + "]");
+                print("MFA Authentication not supported in sample. [" + loginCallbackInfo.ResultCode + "]");
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
             {
-                EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
+                StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+            }
+            else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.InvalidUser)
+            {
+                EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, LinkAccountFlags.NoFlags, (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
-                    print("Login Successful. [" + loginCallbackInfo.ResultCode + "]");
-                    ConfigureUIForLogout();
+                    StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
                 });
             }
+
             else
             {
                 print("Error logging in. [" + loginCallbackInfo.ResultCode + "]");
