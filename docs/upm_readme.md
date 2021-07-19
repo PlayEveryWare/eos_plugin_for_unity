@@ -1,4 +1,4 @@
-# PlayEveryWare Unity Plugin for Epic Online Services
+# Epic Online Services Plugin for Unity
 
 ----------------------------------------------------------------------------------------
 ## Overview
