@@ -473,82 +473,80 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 {
     fs::path DllPath;
     log_warn("On UnityPluginLoad");
-    if (get_overlay_dll_path(&DllPath))
+    if (!get_overlay_dll_path(&DllPath))
     {
-        s_eos_sdk_lib_handle = load_library_at_path(get_path_relative_to_current_module(SDK_DLL_NAME));
+        show_log_as_dialog("Missing Overlay DLL!\n Overlay functionality will not work!");
+    }
 
-        //eos_sdk_overlay_lib_handle = load_library_at_path(DllPath);
-        //if (eos_sdk_overlay_lib_handle)
-        //{
-        //    log_warn("loaded eos overlay sdk");
-        //    FuncApplicationWillShutdown = load_function_with_name<FSig_ApplicationWillShutdown>(eos_sdk_overlay_lib_handle, "EOS_Overlay_Initilize");
-        //    if(FuncApplicationWillShutdown == nullptr)
-        //    {
-        //        log_warn("Unable to find overlay function");
-        //    }
-        //}
+    s_eos_sdk_lib_handle = load_library_at_path(get_path_relative_to_current_module(SDK_DLL_NAME));
 
-        if (s_eos_sdk_lib_handle)
+    //eos_sdk_overlay_lib_handle = load_library_at_path(DllPath);
+    //if (eos_sdk_overlay_lib_handle)
+    //{
+    //    log_warn("loaded eos overlay sdk");
+    //    FuncApplicationWillShutdown = load_function_with_name<FSig_ApplicationWillShutdown>(eos_sdk_overlay_lib_handle, "EOS_Overlay_Initilize");
+    //    if(FuncApplicationWillShutdown == nullptr)
+    //    {
+    //        log_warn("Unable to find overlay function");
+    //    }
+    //}
+
+    if (s_eos_sdk_lib_handle)
+    {
+        EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
+        EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
+        log_warn("fetch eos_platform_create");
+        EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
+        EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
+        if (EOS_Initialize_ptr)
         {
-            EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
-            EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
-            log_warn("fetch eos_platform_create");
-            EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
-            EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
-            if (EOS_Initialize_ptr)
+            log_warn("start eos init");
+
+            auto path_to_config_json = get_path_for_eos_service_config();
+            json_value_s* eos_config_as_json = nullptr;
+
+            eos_config_as_json = read_config_json_from_dll();
+
+            if(!eos_config_as_json && std::filesystem::exists(path_to_config_json))
             {
-                log_warn("start eos init");
-
-                auto path_to_config_json = get_path_for_eos_service_config();
-                json_value_s* eos_config_as_json = nullptr;
-
-                eos_config_as_json = read_config_json_from_dll();
-
-                if(!eos_config_as_json && std::filesystem::exists(path_to_config_json))
-                {
-                    eos_config_as_json = read_config_json_as_json_from_path(path_to_config_json);
-                }
-
-                if (!eos_config_as_json)
-                {
-                    log_warn("Failed to load a valid json config for EOS");
-                    return;
-                }
-                
-                EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
-                free(eos_config_as_json);
-
-                eos_init(eos_config);
-
-                //log_warn("start eos create");
-                eos_create(eos_config);
-
-                // This code is commented out because the handle is now handed off to the C# code
-                //EOS_Platform_Release(eos_platform_handle);
-                //eos_platform_handle = NULL;
-                //log_warn("start eos shutdown");
-                //EOS_Shutdown();
-                //log_warn("unload eos sdk");
-                //unload_library(s_eos_sdk_lib_handle);
-
-                s_eos_sdk_lib_handle = NULL;
-                EOS_Initialize_ptr = NULL;
-                EOS_Shutdown_ptr = NULL;
-                EOS_Platform_Create_ptr = NULL;
+                eos_config_as_json = read_config_json_as_json_from_path(path_to_config_json);
             }
-            else {
-                log_warn("unable to find EOS_Initialize");
+
+            if (!eos_config_as_json)
+            {
+                log_warn("Failed to load a valid json config for EOS");
+                return;
             }
+
+            EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
+            free(eos_config_as_json);
+
+            eos_init(eos_config);
+
+            //log_warn("start eos create");
+            eos_create(eos_config);
+
+            // This code is commented out because the handle is now handed off to the C# code
+            //EOS_Platform_Release(eos_platform_handle);
+            //eos_platform_handle = NULL;
+            //log_warn("start eos shutdown");
+            //EOS_Shutdown();
+            //log_warn("unload eos sdk");
+            //unload_library(s_eos_sdk_lib_handle);
+
+            s_eos_sdk_lib_handle = NULL;
+            EOS_Initialize_ptr = NULL;
+            EOS_Shutdown_ptr = NULL;
+            EOS_Platform_Create_ptr = NULL;
         }
-        else 
-        {
-            log_warn("Couldn't find dll "  SDK_DLL_NAME);
+        else {
+            log_warn("unable to find EOS_Initialize");
         }
     }
     else
     {
-        log_warn("Unable to load EOS Overlay DLL");
-    } 
+        log_warn("Couldn't find dll "  SDK_DLL_NAME);
+    }
 
 }
 
