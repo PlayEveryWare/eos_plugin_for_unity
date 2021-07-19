@@ -204,6 +204,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
+                    Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
+                    Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
                     return;
                 }
 
