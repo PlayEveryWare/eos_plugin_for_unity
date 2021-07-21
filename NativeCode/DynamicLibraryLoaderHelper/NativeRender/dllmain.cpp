@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include <string>
+#include <sstream>
 #include <functional>
 #include <algorithm>
 #include <utility>
@@ -22,11 +23,20 @@
 
 #include "json.h"
 
+// This define exists because UWP
+// Originally, this would load the library with the name as shipped by the .zip file
+#define USE_PLATFORM_WITHOUT_BITS 0
+
+#if USE_PLATFORM_WITHOUT_BITS
+#define DLL_PLATFORM "-Win"
+#else
 #if PLATFORM_64BITS
 #define DLL_PLATFORM "-Win64"
 #else
 #define DLL_PLATFORM "-Win32"
 #endif
+#endif
+
 
 #define DLL_SUFFIX "-Shipping.dll"
 
@@ -270,7 +280,15 @@ static json_value_s* read_config_json_from_dll()
     struct json_value_s* config_json = nullptr;
 
 #if ENABLE_DLL_BASED_EOS_CONFIG
+	log_warn("Trying to load eos config via dll");
     static void *eos_generated_library_handle = load_library_at_path(get_path_relative_to_current_module("EOSGenerated.dll"));
+
+	if (!eos_generated_library_handle)
+	{
+		log_warn("No Generated DLL found (Might not be an error)");
+		return NULL;
+	}
+
     GetConfigAsJSONString = load_function_with_name<GetConfigAsJSONString_t>(eos_generated_library_handle, "GetConfigAsJSONString");
     
     if(GetConfigAsJSONString)
@@ -282,6 +300,10 @@ static json_value_s* read_config_json_from_dll()
             config_json = json_parse(config_as_json_string, config_as_json_string_length);
         }
     }
+	else
+	{
+		log_warn("No function found");
+	}
 #endif
 
     return config_json;
@@ -343,12 +365,24 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
     
     return eos_config;
 }
-
+	
 
 //-------------------------------------------------------------------------
 static std::filesystem::path get_path_for_eos_service_config()
 {
-    return get_path_relative_to_current_module(std::filesystem::path("../..") / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json");
+    //return get_path_relative_to_current_module(std::filesystem::path("../..") / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json");
+	auto twoDirsUp = std::filesystem::path("../..");
+	std::filesystem::path packaged_data_path = get_path_relative_to_current_module(twoDirsUp);
+	std::error_code error_code;
+
+	log_warn("about to look with exists");
+	if (!std::filesystem::exists(packaged_data_path, error_code))
+	{
+		log_warn("Didn't find the path twoDirsUp");
+		packaged_data_path = get_path_relative_to_current_module(std::filesystem::path("./Data/"));
+	}
+	
+	return packaged_data_path / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json";
 }
 
 //-------------------------------------------------------------------------
@@ -357,6 +391,39 @@ json_value_s* read_eos_config_as_json_value_from_file()
     std::filesystem::path path_to_config_json = get_path_for_eos_service_config();
 
     return read_config_json_as_json_from_path(path_to_config_json);
+}
+
+static void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_options)
+{
+    std::stringstream output;
+    output << platform_options.ApiVersion << "\n";
+    output << platform_options.bIsServer << "\n";
+    output << platform_options.Flags << "\n";
+    output << platform_options.CacheDirectory << "\n";
+
+    output << platform_options.EncryptionKey << "\n";
+    if (platform_options.OverrideCountryCode)
+    {
+        output << platform_options.OverrideCountryCode << "\n";
+    }
+
+    if (platform_options.OverrideLocaleCode)
+    {
+        output << platform_options.OverrideLocaleCode << "\n";
+    }
+    output << platform_options.ProductId << "\n";
+    output << platform_options.SandboxId << "\n";
+    output << platform_options.DeploymentId << "\n";
+    output << platform_options.ClientCredentials.ClientId << "\n";
+    output << platform_options.ClientCredentials.ClientSecret << "\n";
+
+    auto *rtc_options = platform_options.RTCOptions;
+    auto *windows_rtc_options = (EOS_Windows_RTCOptions*)rtc_options->PlatformSpecificOptions;
+
+    output << windows_rtc_options->ApiVersion << "\n";
+    output << windows_rtc_options->XAudio29DllPath << "\n";
+
+    log_warn(output.str().c_str());
 }
 
 //-------------------------------------------------------------------------
@@ -397,6 +464,7 @@ void eos_create(EOSConfig& eosConfig)
     platform_options.RTCOptions = &rtc_options;
 #endif
 
+    //EOS_Platform_Options_debug_log(platform_options);
     log_warn("run EOS_Platform_Create");
     eos_platform_handle = EOS_Platform_Create_ptr(&platform_options);
     if (!eos_platform_handle)
@@ -463,6 +531,15 @@ static bool get_overlay_dll_path(fs::path* OutDllPath)
 #endif
 }
 
+//-------------------------------------------------------------------------
+static void FetchEOSFunctionPointers()
+{
+    EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
+    EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
+    log_warn("fetch eos_platform_create");
+    EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
+    EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
+}
 
 //-------------------------------------------------------------------------
 // Called by unity on load. It kicks off the work to load the DLL for Overlay
@@ -539,9 +616,11 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
             EOS_Shutdown_ptr = NULL;
             EOS_Platform_Create_ptr = NULL;
         }
-        else {
+        else
+        {
             log_warn("unable to find EOS_Initialize");
         }
+
     }
     else
     {
@@ -579,6 +658,7 @@ DLL_EXPORT(void) UnloadEOS()
     }
 }
 
+//-------------------------------------------------------------------------
 DLL_EXPORT(void *) EOS_GetPlatformInterface()
 {
     return eos_platform_handle;

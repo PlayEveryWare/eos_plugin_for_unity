@@ -26,7 +26,6 @@ PluginImporter:
         Exclude Win64: 0
         Exclude WindowsStoreApps: 0
         Exclude XboxOne: 1
-        Exclude iOS: 1
   - first:
       Android: Android
     second:
@@ -78,17 +77,8 @@ PluginImporter:
         CPU: X64
         DontProcess: false
         PlaceholderPath: 
-        SDK: UWP
+        SDK: AnySDK
         ScriptingBackend: AnyScriptingBackend
-  - first:
-      iPhone: iOS
-    second:
-      enabled: 0
-      settings:
-        AddToEmbeddedBinaries: false
-        CPU: AnyCPU
-        CompileFlags: 
-        FrameworkDependencies: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

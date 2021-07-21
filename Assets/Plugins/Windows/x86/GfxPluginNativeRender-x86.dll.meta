@@ -6,7 +6,7 @@ PluginImporter:
   iconMap: {}
   executionOrder: {}
   defineConstraints: []
-  isPreloaded: 1
+  isPreloaded: 0
   isOverridable: 0
   isExplicitlyReferenced: 0
   validateReferences: 1
@@ -23,10 +23,8 @@ PluginImporter:
         Exclude PS4: 1
         Exclude Switch: 1
         Exclude Win: 0
-        Exclude Win64: 1
+        Exclude Win64: 0
         Exclude WindowsStoreApps: 0
-        Exclude XboxOne: 1
-        Exclude iOS: 1
   - first:
       Android: Android
     second:
@@ -78,17 +76,8 @@ PluginImporter:
         CPU: X86
         DontProcess: false
         PlaceholderPath: 
-        SDK: UWP
+        SDK: AnySDK
         ScriptingBackend: AnyScriptingBackend
-  - first:
-      iPhone: iOS
-    second:
-      enabled: 0
-      settings:
-        AddToEmbeddedBinaries: false
-        CPU: AnyCPU
-        CompileFlags: 
-        FrameworkDependencies: 
   userData: 
   assetBundleName: 
   assetBundleVariant: 

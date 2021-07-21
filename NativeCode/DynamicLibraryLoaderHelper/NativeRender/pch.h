@@ -17,8 +17,10 @@
 
 #if _WIN64
 #define PLATFORM_64BITS 1
+#define PLATFORM_BITS_DEBUG_STR "64-bits"
 #else
 #define PLATFORM_32BITS 1
+#define PLATFORM_BITS_DEBUG_STR "32-bits"
 #endif
 
 #define STATIC_EXPORT(return_type) extern "C" return_type
