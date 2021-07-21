@@ -34,29 +34,47 @@ public class DLLHandle : SafeHandle
 {
     public override bool IsInvalid => handle == IntPtr.Zero;
 
+    //-------------------------------------------------------------------------
     [Conditional("ENABLE_DLLHANDLE_PRINT")]
     private static void print(string toPrint)
     {
         UnityEngine.Debug.Log(toPrint);
     }
 
+    //-------------------------------------------------------------------------
     private static string GetPackageName()
     {
         return "com.playeveryware.eos";
     }
 
+    //-------------------------------------------------------------------------
     public static string GetPathToPlugins()
     {
+        string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
         string pluginsPath = (Application.dataPath + "\\Plugins\\").Replace('/', '\\');
         string packagedPluginPath = Path.GetFullPath("Packages/" + GetPackageName());
 
         if(Directory.Exists(pluginsPath))
         {
+            print("Using path " + pluginsPath);
             return pluginsPath;
         }
-        return packagedPluginPath;
+        if(Directory.Exists(packagedPluginPath))
+        {
+            print("Using path " + packagedPluginPath);
+            return packagedPluginPath;
+        }
+
+        if (Directory.Exists(uwpPluginsPath))
+        {
+            print("Using path " + uwpPluginsPath);
+            return uwpPluginsPath;
+        }
+
+        return "";
     }
 
+    //-------------------------------------------------------------------------
     public static string GetVersionForLibrary(string libraryName)
     {
         string path = GetPathToPlugins();
@@ -77,6 +95,22 @@ public class DLLHandle : SafeHandle
         return null;
     }
 
+    //-------------------------------------------------------------------------
+#if UNITY_WSA
+    private static DLLHandle LoadDynamicLibraryForUWP(string libraryName)
+    {
+        print("UWP library load");
+        IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(libraryName);
+        if (libraryHandle != IntPtr.Zero)
+        {
+            print("found library");
+            return new DLLHandle(libraryHandle);
+        }
+        return null;
+    }
+#endif
+
+    //-------------------------------------------------------------------------
     public static DLLHandle LoadDynamicLibrary(string libraryName)
     {
         print("Loading Library " + libraryName);
@@ -92,7 +126,7 @@ public class DLLHandle : SafeHandle
         //TODO: probably make this more generic?
         foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(path, libraryName + ext, SearchOption.AllDirectories))
         {
-            IntPtr libraryHandle = SystemDynamicLibrary.LoadLibrary(filesystemEntry);
+            IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(filesystemEntry);
             print("Trying to load with entry " + filesystemEntry);
 
             if (libraryHandle != IntPtr.Zero)
@@ -109,12 +143,14 @@ public class DLLHandle : SafeHandle
         return null;
     }
 
+    //-------------------------------------------------------------------------
     public DLLHandle(IntPtr intPtr, bool value = true) : base(intPtr, true)
     {
         print("Creating a dll handle");
         SetHandle(intPtr);
     }
 
+    //-------------------------------------------------------------------------
     protected override bool ReleaseHandle()
     {
         if(handle == IntPtr.Zero)
@@ -123,30 +159,33 @@ public class DLLHandle : SafeHandle
         }
         bool didUnload = true;
 #if !UNITY_EDITOR
-        didUnload = SystemDynamicLibrary.FreeLibrary(handle);
+        didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
         print("Unloading a Dll with result : " + didUnload);
 #endif
         SetHandle(IntPtr.Zero);
         return didUnload;
     }
 
-
+    //-------------------------------------------------------------------------
     public Delegate LoadFunctionAsDelegate(Type functionType, string functionName)
     {
         return LoadFunctionAsDelegate(handle, functionType, functionName);
     }
 
+    //-------------------------------------------------------------------------
     public System.IntPtr LoadFunctionAsIntPtr(string functionName)
     {
-        IntPtr functionPointer = SystemDynamicLibrary.GetProcAddress(handle, functionName);
+        IntPtr functionPointer = SystemDynamicLibrary.Instance.LoadFunctionWithName(handle, functionName);
         return functionPointer;
     }
 
+    //-------------------------------------------------------------------------
     public void ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(Type clazz, Type delegateType, string functionName)
     {
         ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(handle, clazz, delegateType, functionName);
     }
 
+    //-------------------------------------------------------------------------
     // TODO better name
     private static void ConfigureFromLibraryDelegateFieldOnClassWithFunctionName(IntPtr libraryHandle, Type clazz, Type delegateType, string functionName)
     {
@@ -169,10 +208,10 @@ public class DLLHandle : SafeHandle
             throw new Exception("null function type?");
         }
 
-        IntPtr functionPointer = SystemDynamicLibrary.GetProcAddress(libraryHandle, functionName);
+        IntPtr functionPointer = SystemDynamicLibrary.Instance.LoadFunctionWithName(libraryHandle, functionName);
         if (functionPointer == IntPtr.Zero)
         {
-            throw new System.ComponentModel.Win32Exception();
+            throw new Exception("Function not found: " + functionName);
         }
 
         return Marshal.GetDelegateForFunctionPointer(functionPointer, functionType);

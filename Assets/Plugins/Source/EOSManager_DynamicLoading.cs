@@ -26,9 +26,12 @@
 #define USE_EOS_GFX_PLUGIN_NATIVE_RENDER
 #endif
 
-#if UNITY_64
+//#define USE_WSA_DYNAMIC_LOAD
+
+#if UNITY_64 || UNITY_WSA
 #define PLATFORM_64BITS
-#elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA_10_0)
+// As far as I know, on Windows, if it isn't 64 bit, it's 32 bit
+#elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
 #define PLATFORM_32BITS
 #endif
 
@@ -54,37 +57,69 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         public partial class EOSSingleton
         {
-
             static private PlatformInterface s_eosPlatformInterface;
 
             public const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
 
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
-            public const string GfxPluginNativeRenderPath = 
+//#if UNITY_WSA
+                        //delegate void UnloadEOS_delegate();
+                        //delegate IntPtr EOS_GetPlatformInterface_delegate();
+                        //static UnloadEOS_delegate UnloadEOS;
+                        //static EOS_GetPlatformInterface_delegate EOS_GetPlatformInterface;
+                        public const string GfxPluginNativeRenderPath =
 #if UNITY_STANDALONE_OSX
-                "GfxPluginNativeRender-macOS";
-#elif (UNITY_STANDALONE_WIN || UNITY_WSA_10_0) && PLATFORM_64BITS
-            "GfxPluginNativeRender-x64";
-#elif (UNITY_STANDALONE_WIN || UNITY_WSA_10_0) && PLATFORM_32BITS
-            "GfxPluginNativeRender-x86";
+                            "GfxPluginNativeRender-macOS";
+#elif (UNITY_STANDALONE_WIN || UNITY_WSA) && PLATFORM_64BITS
+                        "GfxPluginNativeRender-x64";
+#elif (UNITY_STANDALONE_WIN) && PLATFORM_32BITS
+                        "GfxPluginNativeRender-x86";
 #else
 #error Unknown platform
-            "GfxPluginNativeRender-unknown";
+                        "GfxPluginNativeRender-unknown";
 #endif
 
-            [DllImport(GfxPluginNativeRenderPath)]
-            static extern void UnloadEOS();
+                        [DllImport(GfxPluginNativeRenderPath)]
+                        static extern void UnloadEOS();
 
-            [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
-            static extern IntPtr EOS_GetPlatformInterface();
+                        [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
+                        static extern IntPtr EOS_GetPlatformInterface();
 #endif
 
             static void NativeCallToUnloadEOS()
             {
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
+                DynamicLoadGFXNativeMethodsForWSA();
                 UnloadEOS();
 #endif
             }
+
+            static private void DynamicLoadGFXNativeMethodsForWSA()
+            {
+#if UNITY_WSA_10_0 && USE_EOS_GFX_PLUGIN_NATIVE_RENDER && USE_WSA_DYNAMIC_LOAD
+                var gfxPluginName = "";
+
+                if (UnityEngine.Application.platform == UnityEngine.RuntimePlatform.WSAPlayerX86)
+                {
+                    gfxPluginName = "GfxPluginNativeRender-x86";
+                }
+                else if (UnityEngine.Application.platform == UnityEngine.RuntimePlatform.WSAPlayerX64)
+                {
+                    gfxPluginName = "GfxPluginNativeRender-x64";
+                }
+
+                var gfxLibraryHandle = LoadDynamicLibrary(gfxPluginName);
+
+                if (gfxLibraryHandle == null)
+                {
+                    throw new Exception("bad lib for gfxplugin name!");
+                }
+
+                UnloadEOS = (UnloadEOS_delegate)gfxLibraryHandle.LoadFunctionAsDelegate(typeof(UnloadEOS_delegate), "UnloadEOS");
+                EOS_GetPlatformInterface = (EOS_GetPlatformInterface_delegate)gfxLibraryHandle.LoadFunctionAsDelegate(typeof(EOS_GetPlatformInterface_delegate), "EOS_GetPlatformInterface");
+#endif
+            }
+
 
             //-------------------------------------------------------------------------
             public PlatformInterface GetEOSPlatformInterface()
@@ -92,6 +127,8 @@ namespace PlayEveryWare.EpicOnlineServices
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
                 if (s_eosPlatformInterface == null)
                 {
+                    //DynamicLoadGFXNativeMethodsForWSA();
+
                     if(EOS_GetPlatformInterface() == IntPtr.Zero)
                     {
                         throw new Exception("NULL EOS Platform returned by native code: issue probably occurred in GFX Plugin!");
@@ -261,6 +298,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Epic.OnlineServices.Bindings.Unhook();
 #endif
 
+#if UNITY_EDITOR
                 IntPtr existingHandle;
                 do
                 {
@@ -272,6 +310,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
 
                 } while (IntPtr.Zero != existingHandle);
+#endif
             }
 
             //-------------------------------------------------------------------------

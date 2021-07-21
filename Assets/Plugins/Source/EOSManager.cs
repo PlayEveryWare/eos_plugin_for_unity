@@ -755,14 +755,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #if EOS_CAN_SHUTDOWN
                 if (!HasShutdown())
                 {
-                    print("Shutting down eos and releasing handles");
-                    GetEOSPlatformInterface().Release();
-                    Epic.OnlineServices.Platform.PlatformInterface.Shutdown();
-                    SetEOSPlatformInterface(null);
-                    UnloadAllLibraries();
+                    OnApplicationShutdown();
                 }
 #endif
-            }
+                }
 
             //-------------------------------------------------------------------------
             public void OnApplicationShutdown()
@@ -770,6 +766,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (!HasShutdown())
                 {
                     print("Shutting down eos and releasing handles");
+                    // Not doing this in the editor, because it doesn't seem to be an issue there
+#if !UNITY_EDITOR
+                    LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Off);
+                    Epic.OnlineServices.Logging.LoggingInterface.SetCallback(null);
+                    System.GC.Collect();
+                    System.GC.WaitForPendingFinalizers();
+#endif
                     GetEOSPlatformInterface().Release();
                     Epic.OnlineServices.Platform.PlatformInterface.Shutdown();
                     SetEOSPlatformInterface(null);

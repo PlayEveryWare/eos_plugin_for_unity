@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c3c2ae85c3b4fb948a12fe64600d7cb4
+guid: 22757186575deff44b8c1b24f323cef4
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -24,8 +24,7 @@ PluginImporter:
         Exclude Switch: 1
         Exclude Win: 0
         Exclude Win64: 1
-        Exclude WindowsStoreApps: 1
-        Exclude XboxOne: 1
+        Exclude WindowsStoreApps: 0
   - first:
       Android: Android
     second:
@@ -42,20 +41,15 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: x86
+        CPU: AnyCPU
         DefaultValueInitialized: true
-        OS: Windows
-  - first:
-      Nintendo Switch: Switch
-    second:
-      enabled: 0
-      settings: {}
+        OS: AnyOS
   - first:
       Standalone: Linux64
     second:
       enabled: 1
       settings:
-        CPU: AnyCPU
+        CPU: x86_64
   - first:
       Standalone: OSXUniversal
     second:
@@ -77,7 +71,7 @@ PluginImporter:
   - first:
       Windows Store Apps: WindowsStoreApps
     second:
-      enabled: 0
+      enabled: 1
       settings:
         CPU: X86
         DontProcess: false
