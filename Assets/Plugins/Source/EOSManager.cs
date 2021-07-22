@@ -266,7 +266,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                 PlatformFlags.None;
 #endif
-                platformOptions.EncryptionKey = configData.encryptionKey; 
+                if (!string.IsNullOrEmpty(configData.encryptionKey))
+                {
+                    platformOptions.EncryptionKey = configData.encryptionKey;
+                }
                 platformOptions.OverrideCountryCode = null;
                 platformOptions.OverrideLocaleCode = null;
                 platformOptions.ProductId = configData.productID;
