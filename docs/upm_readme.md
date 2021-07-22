@@ -30,7 +30,8 @@ Installation of the Epic Game store is required.
     * It's listed under Window -> Package Manager
 4. click the ```+``` button
 5. Select 'Add Package from Git URL'
-6. Paste in ```https://github.com/PlayEveryWare/eos_testbed_release.git```
+6. If the repo being cloned from is public, use a http URL like ```https://github.com/PlayEveryWare/eos_testbed_release.git```
+    otherwise, use a SSH URI like ```'git@github.com:PlayEveryWare/eos_testbed_release.git'```
 
 ## Installing the samples
 To use the samples, install them from the UPM manager. The samples include both usage of the EOS SDK, and convience wrappers to make using the 
@@ -57,4 +58,4 @@ More specific and up-to-date instructions can also be found on Epic's [website](
 
 ----------------------------------------------------------------------------------------
 ## Additional Documentation
-Additional documentation can be found in the Documentation~/ directory.
+Additional documentation can be found in the [Documentation~](Documentation~/) directory.
