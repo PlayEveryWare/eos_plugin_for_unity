@@ -89,17 +89,32 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         static private void ConfigureSystemPlatformCreateOptions(ref WindowsOptions createOptions)
         {
-            string pluginPath = DLLHandle.GetPathToPlugins();
             string pluginPlatfromPathComponent = GetPlatformPathComponent();
 
             if (pluginPlatfromPathComponent.Length > 0)
             {
+                List<string> pluginPaths = DLLHandle.GetPathsToPlugins();
                 var rtcPlatformSpecificOptions = new WindowsRTCOptionsPlatformSpecificOptions();
-                rtcPlatformSpecificOptions.XAudio29DllPath = Path.Combine(pluginPath, pluginPlatfromPathComponent, Xaudio2DllName);
+                foreach (string pluginPath in pluginPaths)
+                {
+                    string path = Path.Combine(pluginPath, "Windows", pluginPlatfromPathComponent, Xaudio2DllName);
+                    if (File.Exists(path))
+                    {
+                        rtcPlatformSpecificOptions.XAudio29DllPath = path;
+                        break;
+                    }
+
+                    path = Path.Combine(pluginPath, pluginPlatfromPathComponent, Xaudio2DllName);
+                    if (File.Exists(path))
+                    {
+                        rtcPlatformSpecificOptions.XAudio29DllPath = path;
+                        break;
+                    }
+
+                }
 
                 var rtcOptions = new WindowsRTCOptions();
                 rtcOptions.PlatformSpecificOptions = rtcPlatformSpecificOptions;
-
                 createOptions.RTCOptions = rtcOptions;
             }
         }
