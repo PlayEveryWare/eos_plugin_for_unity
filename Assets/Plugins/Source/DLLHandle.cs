@@ -48,48 +48,49 @@ public class DLLHandle : SafeHandle
     }
 
     //-------------------------------------------------------------------------
-    public static string GetPathToPlugins()
+    public static List<string> GetPathsToPlugins()
     {
         string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
         string pluginsPath = (Application.dataPath + "\\Plugins\\").Replace('/', '\\');
         string packagedPluginPath = Path.GetFullPath("Packages/" + GetPackageName());
+        var pluginPaths = new List<string>();
 
         if(Directory.Exists(pluginsPath))
         {
-            print("Using path " + pluginsPath);
-            return pluginsPath;
+            pluginPaths.Add(pluginsPath);
         }
         if(Directory.Exists(packagedPluginPath))
         {
-            print("Using path " + packagedPluginPath);
-            return packagedPluginPath;
+            pluginPaths.Add(packagedPluginPath);
         }
 
         if (Directory.Exists(uwpPluginsPath))
         {
-            print("Using path " + uwpPluginsPath);
-            return uwpPluginsPath;
+            pluginPaths.Add(uwpPluginsPath);
         }
 
-        return "";
+        return pluginPaths;
     }
 
     //-------------------------------------------------------------------------
     public static string GetVersionForLibrary(string libraryName)
     {
-        string path = GetPathToPlugins();
+        List<string> pluginPaths = GetPathsToPlugins();
         string ext = ".dll";
-        print("looking in path: " + path);
 
         //TODO: change it to take the platform into consideration
         //TODO: probably make this more generic?
-        foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(path, libraryName + ext, SearchOption.AllDirectories))
+
+        foreach (string pluginPath in pluginPaths)
         {
-            FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
-            print("Found : " + filesystemEntry);
-            if (info != null)
+            foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext, SearchOption.AllDirectories))
             {
-                return string.Format("{0}.{1}.{2}", info.FileMajorPart, info.FileMinorPart, info.FileBuildPart);
+                FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
+                print("Found : " + filesystemEntry);
+                if (info != null)
+                {
+                    return string.Format("{0}.{1}.{2}", info.FileMajorPart, info.FileMinorPart, info.FileBuildPart);
+                }
             }
         }
         return null;
@@ -114,7 +115,7 @@ public class DLLHandle : SafeHandle
     public static DLLHandle LoadDynamicLibrary(string libraryName)
     {
         print("Loading Library " + libraryName);
-        string path = GetPathToPlugins();
+        List<string> pluginPaths = GetPathsToPlugins();
         string ext =
 #if UNITY_ANDROID
             ".so";
@@ -124,19 +125,22 @@ public class DLLHandle : SafeHandle
 
         //TODO: change it to take the platform into consideration
         //TODO: probably make this more generic?
-        foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(path, libraryName + ext, SearchOption.AllDirectories))
+        foreach (string pluginPath in pluginPaths)
         {
-            IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(filesystemEntry);
-            print("Trying to load with entry " + filesystemEntry);
+            foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext, SearchOption.AllDirectories))
+            {
+                IntPtr libraryHandle = SystemDynamicLibrary.Instance.LoadLibraryAtPath(filesystemEntry);
+                print("Trying to load with entry " + filesystemEntry);
 
-            if (libraryHandle != IntPtr.Zero)
-            {
-                print("found library");
-                return new DLLHandle(libraryHandle);
-            }
-            else
-            {
-                throw new System.ComponentModel.Win32Exception();
+                if (libraryHandle != IntPtr.Zero)
+                {
+                    print("found library");
+                    return new DLLHandle(libraryHandle);
+                }
+                else
+                {
+                    throw new System.ComponentModel.Win32Exception();
+                }
             }
         }
         print("Library not found");
