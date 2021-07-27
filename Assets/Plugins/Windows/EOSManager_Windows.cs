@@ -77,6 +77,11 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
+        static private InitializeOptions CreateSystemInitOptions()
+        {
+            return new InitializeOptions();
+        }
+
         //-------------------------------------------------------------------------
         // TODO merge this with the ConfigureSystemPlatformCreateOptions?
         static private WindowsOptions CreateSystemPlatformOption()
