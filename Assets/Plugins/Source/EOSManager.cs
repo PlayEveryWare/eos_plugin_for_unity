@@ -225,19 +225,16 @@ namespace PlayEveryWare.EpicOnlineServices
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
                 print("Loaded config file: " + configDataAsString);
 
-                var initOptions = new Epic.OnlineServices.Platform.InitializeOptions
-                {
-                    ProductName = configData.productName, //"Ryan's Game",
-                    ProductVersion = configData.productVersion, //"1.0",
-                    AllocateMemoryFunction = IntPtr.Zero,
-                    ReallocateMemoryFunction = IntPtr.Zero,
-                    ReleaseMemoryFunction = IntPtr.Zero,
-                    SystemInitializeOptions = IntPtr.Zero,
-                    OverrideThreadAffinity = null
-                };
+                var initOptions = CreateSystemInitOptions();
+
+                initOptions.ProductName = configData.productName;
+                initOptions.ProductVersion = configData.productVersion;
+                initOptions.AllocateMemoryFunction = IntPtr.Zero;
+                initOptions.ReallocateMemoryFunction = IntPtr.Zero;
+                initOptions.ReleaseMemoryFunction = IntPtr.Zero;
+                initOptions.OverrideThreadAffinity = new InitializeThreadAffinity();
 
                 ConfigureSystemInitOptions(ref initOptions);
-
 
                 Epic.OnlineServices.Result initResult = Epic.OnlineServices.Platform.PlatformInterface.Initialize(initOptions);
                 if (initResult != Epic.OnlineServices.Result.Success)
@@ -270,12 +267,14 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     platformOptions.EncryptionKey = configData.encryptionKey;
                 }
+
                 platformOptions.OverrideCountryCode = null;
                 platformOptions.OverrideLocaleCode = null;
                 platformOptions.ProductId = configData.productID;
                 platformOptions.SandboxId = configData.sandboxID;
                 platformOptions.DeploymentId = configData.deploymentID;
                 platformOptions.ClientCredentials = new Epic.OnlineServices.Platform.ClientCredentials();
+
 
                 ConfigureSystemPlatformCreateOptions(ref platformOptions);
 
