@@ -76,8 +76,9 @@ void * platform::DLLH_load_library_at_path(DLLHContext *ctx, const char *library
 
     return (void*)handle;
 }
+
 //-------------------------------------------------------------------------
-bool DLLH_Win32_unload_library_at_path(void *ctx, void *library_handle)
+bool platform::DLLH_unload_library_at_path(void *ctx, void *library_handle)
 {
     HMODULE handle = (HMODULE)library_handle;
     return FreeLibrary(handle);
