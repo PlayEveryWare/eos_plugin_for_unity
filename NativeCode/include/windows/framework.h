@@ -9,3 +9,7 @@
 #pragma pack(pop)
 
 #define STATIC_EXPORT(return_type) extern "C" return_type
+
+#define DLL_EXPORT(return_value) extern "C" __declspec(dllexport) return_value  __stdcall
+
+#define FUN_EXPORT(return_value) DLL_EXPORT(return_value)
