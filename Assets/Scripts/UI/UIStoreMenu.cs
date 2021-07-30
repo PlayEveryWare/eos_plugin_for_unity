@@ -22,8 +22,10 @@
 
 ﻿using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.UI;
@@ -45,6 +47,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Text catalogueItem1;
         public Button checkOutButton1;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         private EOSStoreManager StoreManager;
 
@@ -97,6 +102,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             catalogueItem1.gameObject.SetActive(true);
             checkOutButton1.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

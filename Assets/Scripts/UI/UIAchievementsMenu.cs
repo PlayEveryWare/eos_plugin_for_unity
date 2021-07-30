@@ -23,11 +23,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-using Epic.OnlineServices.Achievements;
 using Epic.OnlineServices;
+using Epic.OnlineServices.Achievements;
 using Epic.OnlineServices.UI;
 using Epic.OnlineServices.Ecom;
 
@@ -46,6 +48,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RawImage achievementUnlockedIcon;
         public RawImage achievementLockedIcon;
 
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
+
         private EOSAchievementManager achievementManager;
 
         public void Start()
@@ -54,9 +59,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementManager = EOSManager.Instance.GetOrCreateManager<EOSAchievementManager>();
         }
 
+        private void Update()
+        {
+            // Controller: Detect if nothing is selected and controller input detected, and set default
+            if (UIFirstSelected.activeSelf == true
+                && EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null
+                && (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
+            {
+                // Controller
+                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+            }
+        }
+
         public void ShowMenu()
         {
             getAchievementsButton.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

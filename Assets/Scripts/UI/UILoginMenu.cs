@@ -32,6 +32,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+
 using System;
 using UnityEngine.SceneManagement;
 
@@ -57,6 +58,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
+        public GameObject UIFindSelectable;
 
         private EventSystem system;
 
@@ -130,6 +135,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     system.SetSelectedGameObject(next.gameObject);
                 }
             }
+
+            // Controller: Detect if nothing is selected and controller input detected, and set default
+
+            bool nothingSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null;
+            bool inactiveButtonSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null && !EventSystem.current.currentSelectedGameObject.activeInHierarchy;
+
+            if ((nothingSelected || inactiveButtonSelected)
+                && (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
+            {
+
+                if(UIFirstSelected.activeSelf == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                }
+                else if(UIFindSelectable.activeSelf == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(UIFindSelectable);
+                }
+
+                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+            }
         }
 
         private Selectable FindTopUISelectable()
@@ -201,6 +227,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ConfigureUIForDevAuthLogin();
                     break;
             }
+
+            // Controller
+            //EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         private void ConfigureUIForLogout()

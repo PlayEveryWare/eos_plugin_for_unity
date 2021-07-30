@@ -20,15 +20,16 @@
 * SOFTWARE.
 */
 
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.P2P;
+
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -50,6 +51,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public InputField ChatMessageInput;
         public Button SendButton;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         // Private
 
@@ -236,6 +240,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
 
             Peer2PeerUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

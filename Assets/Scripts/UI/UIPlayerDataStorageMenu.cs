@@ -25,11 +25,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
-using UnityEngine.UI;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.PlayerDataStorage;
+
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -46,6 +48,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFileNameEntryPrefab;
 
         public InputField FileContentTextBox;
+
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         private string currentSelectedFile = string.Empty;
 
@@ -195,6 +201,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>().OnLoggedIn();
 
             PlayerDataStorageUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

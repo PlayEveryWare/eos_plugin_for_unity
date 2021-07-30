@@ -26,6 +26,7 @@ using System.Text;
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.TitleStorage;
@@ -49,6 +50,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFileNameEntryPrefab;
 
         public Text FileContent;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         private EOSTitleStorageManager TitleStorageManager;
 
@@ -204,6 +208,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>().OnLoggedOut();
 
             TitleStorageUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

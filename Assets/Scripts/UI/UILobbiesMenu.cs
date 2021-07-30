@@ -23,8 +23,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Platform;
@@ -73,6 +75,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteFromVal;
         public Text InviteLevelVal;
         public Toggle InvitePresence;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         // UI Cache
         private int lastMemberCount = 0;
@@ -634,6 +639,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
 
             LobbiesUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()
