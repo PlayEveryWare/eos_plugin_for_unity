@@ -20,18 +20,22 @@
 * SOFTWARE.
 */
 
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 using Epic.OnlineServices;
-using Epic.OnlineServices.UI;
+using Epic.OnlineServices.Friends;
 using Epic.OnlineServices.P2P;
 using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.Friends;
+using Epic.OnlineServices.UI;
+
 using PlayEveryWare.EpicOnlineServices;
-using System;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -44,12 +48,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button FriendsTabButton_Closed;
         private bool collapsed = false;
 
-        public InputField SearchFriendsInput;
+        public ConsoleInputField SearchFriendsInput;
 
         public GameObject FriendsListContentParent;
         public GameObject UIFriendEntryPrefab;
 
         public bool CollapseOnStart = false;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         private EOSFriendsManager FriendsManager;
 
@@ -78,7 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 FriendsTabButton_Closed.gameObject.SetActive(false);
             }
 
-            SearchFriendsInput.onEndEdit.AddListener(SearchFriendsInputEnterPressed);
+            SearchFriendsInput.InputField.onEndEdit.AddListener(SearchFriendsInputEnterPressed);
             isSearching = false;
         }
 
@@ -98,6 +105,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Update()
         {
+            // Controller
+            var gamepad = Gamepad.current;
+            if (gamepad != null && gamepad.rightShoulder.wasPressedThisFrame)
+            {
+                ToggleFriendsTab();
+            }
+
             if (isSearching)
             {
                 if (FriendsManager.GetCachedSearchResults(out Dictionary<EpicAccountId, FriendData> searchResults))
@@ -184,7 +198,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.AddFriend(searchResultEntry);
         }
 
-        public void FriendsTabOnClick()
+        public void ToggleFriendsTab()
         {
             // Toggle Friends List UI
             if (collapsed)
@@ -232,6 +246,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
 
             FriendsUIParent.SetActive(true);
+
+            // Controller
+            if(UIFirstSelected.activeInHierarchy)
+            {
+                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            }
         }
 
         public void HideMenu()

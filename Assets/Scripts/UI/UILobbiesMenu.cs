@@ -23,8 +23,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Platform;
@@ -38,7 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
-        public InputField BucketIdVal;
+        public ConsoleInputField BucketIdVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
         public Dropdown PermissionVal;
@@ -64,15 +66,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UILobbyEntryPrefab;
         public GameObject SearchContentParent;
 
-        public InputField SearchByBucketIdBox;
-        public InputField SearchByLevelBox;
-        public InputField SearchByLobbyIdBox;
+        public ConsoleInputField SearchByBucketIdBox;
+        public ConsoleInputField SearchByLevelBox;
+        public ConsoleInputField SearchByLobbyIdBox;
 
         [Header("Lobbies UI - Invite PopUp")]
         public GameObject UIInvitePanel;
         public Text InviteFromVal;
         public Text InviteLevelVal;
         public Toggle InvitePresence;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         // UI Cache
         private int lastMemberCount = 0;
@@ -98,9 +103,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByBucketIdBox.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
-            SearchByLevelBox.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
-            SearchByLobbyIdBox.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
+            SearchByBucketIdBox.InputField.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
+            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
+            SearchByLobbyIdBox.InputField.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
 
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
@@ -271,7 +276,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Lobby lobbyProperties = new Lobby();
             // Bucket Id
-            lobbyProperties.BucketId = BucketIdVal.text;
+            lobbyProperties.BucketId = BucketIdVal.InputField.text;
 
             // Max Players
             lobbyProperties.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
@@ -319,7 +324,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Bucket Id
-            currentLobby.BucketId = BucketIdVal.text;
+            currentLobby.BucketId = BucketIdVal.InputField.text;
 
             // Max Players
             currentLobby.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
@@ -634,6 +639,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
 
             LobbiesUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()
