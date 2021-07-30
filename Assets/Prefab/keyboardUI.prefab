@@ -1,5 +1,216 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &491995511367691207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3178590346676077010}
+  - component: {fileID: 5552113213319818680}
+  - component: {fileID: 5765440432832871877}
+  - component: {fileID: 5298934267259371456}
+  m_Layer: 5
+  m_Name: Space
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3178590346676077010
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491995511367691207}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7297840151884422180}
+  m_Father: {fileID: 1657716643296024474}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -61.7}
+  m_SizeDelta: {x: 125.03, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5552113213319818680
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491995511367691207}
+  m_CullTransparentMesh: 0
+--- !u!114 &5765440432832871877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491995511367691207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5298934267259371456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 491995511367691207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 5850440578896346653}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 7051596680578524141}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 5765440432832871877}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ' '
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &769737544744453472
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7243281828426706949}
+  - component: {fileID: 4069714538396203237}
+  - component: {fileID: 4098590680318716867}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7243281828426706949
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769737544744453472}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8750543077099772146}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4069714538396203237
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769737544744453472}
+  m_CullTransparentMesh: 0
+--- !u!114 &4098590680318716867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769737544744453472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Space
 --- !u!1 &1418840159461413525
 GameObject:
   m_ObjectHideFlags: 0
@@ -13,7 +224,7 @@ GameObject:
   - component: {fileID: 387986752984732547}
   - component: {fileID: 4835167429148794811}
   m_Layer: 5
-  m_Name: KeyB
+  m_Name: Key!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,11 +301,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643516482972}
+    m_SelectOnDown: {fileID: 5298934267259371456}
+    m_SelectOnLeft: {fileID: 5850440578896346653}
+    m_SelectOnRight: {fileID: 7814340923987192255}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -119,7 +330,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 387986752984732547}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '!'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643065027276
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,11 +512,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643734542562}
+    m_SelectOnLeft: {fileID: 1657716644632768112}
+    m_SelectOnRight: {fileID: 1657716644193871647}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -318,7 +541,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643068816475}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 6
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643073770989
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,11 +644,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643574494629}
+    m_SelectOnDown: {fileID: 1657716645094897226}
+    m_SelectOnLeft: {fileID: 1657716645133301247}
+    m_SelectOnRight: {fileID: 1657716643723290284}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -438,7 +673,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643073770960}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: g
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643078193931
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,11 +776,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716645057919473}
+    m_SelectOnDown: {fileID: 5865808433793170905}
+    m_SelectOnLeft: {fileID: 1657716644407531695}
+    m_SelectOnRight: {fileID: 1657716643224475540}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -558,7 +805,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643078193934}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: z
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643092865355
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,10 +908,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644966187637}
+    m_SelectOnLeft: {fileID: 1657716644783521228}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -678,7 +937,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643092865358}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: p
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643096216533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,10 +1409,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643236161247}
+    m_SelectOnDown: {fileID: 1657716644250349829}
+    m_SelectOnLeft: {fileID: 1657716644395102802}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -1167,7 +1438,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643127168689}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: M
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643134007942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,7 +1543,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716643146794722}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644005604172}
     m_SelectOnLeft: {fileID: 1657716643709768824}
     m_SelectOnRight: {fileID: 1657716644259033503}
   m_Transition: 1
@@ -1287,7 +1570,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643134007945}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: F
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643142371548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,11 +1963,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716645154108598}
+    m_SelectOnLeft: {fileID: 1657716644079047979}
+    m_SelectOnRight: {fileID: 1657716644632768112}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1697,7 +1992,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643170369733}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 4
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643178724972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,9 +2194,10 @@ RectTransform:
   - {fileID: 1657716643308267741}
   - {fileID: 1657716643757520363}
   - {fileID: 1657716645155243598}
-  - {fileID: 1657716643704641870}
-  - {fileID: 1657716644628220987}
-  - {fileID: 1657716644250349828}
+  - {fileID: 1657716643348790658}
+  - {fileID: 1657716645162395797}
+  - {fileID: 1657716643296024474}
+  - {fileID: 1657716643199482200}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1910,12 +2218,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a53906b167699b840ae67da1b427eb2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AlphaKeyboard: {fileID: 1657716643704641869}
   AlphaKeyboard_ToggleA: {fileID: 1657716643348790657}
   AlphaKeyboard_ToggleB: {fileID: 1657716645162395796}
-  NumericKeyboard: {fileID: 1657716644628220986}
+  AK_KeyboardSwitchButton: {fileID: 1657716644224072169}
+  AlphaKeyboard_SelectableOnToggle:
+  - {fileID: 1657716643246714590}
+  - {fileID: 1657716644407531693}
   NumericKeyboard_ToggleA: {fileID: 1657716643296024473}
   NumericKeyboard_ToggleB: {fileID: 1657716643199482199}
+  NK_KeyboardSwitchButton: {fileID: 4058519911180739868}
+  NumericKeyboard_SelectableOnToggle:
+  - {fileID: 1657716643769878632}
+  - {fileID: 1657716644979232633}
   KeyboardInput: {fileID: 1657716643757520364}
   UIFirstSelected: {fileID: 1657716644259033501}
 --- !u!1 &1657716643199482199
@@ -1928,7 +2242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657716643199482200}
   m_Layer: 5
-  m_Name: ToggleB
+  m_Name: NumericKeyboard_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1941,7 +2255,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657716643199482199}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1949,8 +2263,10 @@ RectTransform:
   - {fileID: 1657716643702678837}
   - {fileID: 1657716643497808976}
   - {fileID: 1657716644979232634}
-  m_Father: {fileID: 1657716644628220987}
-  m_RootOrder: 1
+  - {fileID: 4998616305404256283}
+  - {fileID: 8750543077099772146}
+  m_Father: {fileID: 1657716643191239012}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2126,11 +2442,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643284290234}
+    m_SelectOnDown: {fileID: 5865808433793170905}
+    m_SelectOnLeft: {fileID: 1657716643078193933}
+    m_SelectOnRight: {fileID: 1657716644101207919}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2155,7 +2471,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643224475541}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: x
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643226962676
 GameObject:
   m_ObjectHideFlags: 0
@@ -2270,8 +2598,6 @@ RectTransform:
   - {fileID: 1657716644489648590}
   - {fileID: 1657716644346031832}
   - {fileID: 1657716643532741520}
-  - {fileID: 1657716643702787032}
-  - {fileID: 1657716644647884961}
   m_Father: {fileID: 1657716643199482200}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2372,7 +2698,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716644132733934}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643127168688}
     m_SelectOnLeft: {fileID: 1657716643348678760}
     m_SelectOnRight: {fileID: 1657716644173085903}
   m_Transition: 1
@@ -2399,7 +2725,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643236161216}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: K
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643246714590
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,7 +2751,7 @@ GameObject:
   - component: {fileID: 1657716643246714561}
   - component: {fileID: 1657716643246714560}
   m_Layer: 5
-  m_Name: CAPToggle
+  m_Name: AK_A_CAPToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2490,11 +2828,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643458139357}
+    m_SelectOnDown: {fileID: 1657716644224072171}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716645035489614}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2519,7 +2857,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643246714561}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: ToggleKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643266851904
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,11 +2960,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643073770991}
+    m_SelectOnLeft: {fileID: 1657716643574494629}
+    m_SelectOnRight: {fileID: 1657716643564215269}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2639,7 +2989,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643266851907}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: y
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643271663074
 GameObject:
   m_ObjectHideFlags: 0
@@ -2730,11 +3092,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644079047979}
+    m_SelectOnDown: {fileID: 1827138093034808830}
+    m_SelectOnLeft: {fileID: 1657716644689977878}
+    m_SelectOnRight: {fileID: 1657716645154108598}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2759,7 +3121,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643271663077}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ':'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643284290232
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,11 +3224,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643534736862}
+    m_SelectOnDown: {fileID: 1657716643224475540}
+    m_SelectOnLeft: {fileID: 1657716645057919473}
+    m_SelectOnRight: {fileID: 1657716645133301247}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2879,7 +3253,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643284290235}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: d
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643294223616
 GameObject:
   m_ObjectHideFlags: 0
@@ -2916,7 +3302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25, y: 0}
+  m_AnchoredPosition: {x: 61, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716643294223620
@@ -2970,11 +3356,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644489648591}
+    m_SelectOnDown: {fileID: 1657716644610659657}
+    m_SelectOnLeft: {fileID: 1657716643805569399}
+    m_SelectOnRight: {fileID: 1657716643702787033}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -2999,7 +3385,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643294223619}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '>'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643296024473
 GameObject:
   m_ObjectHideFlags: 0
@@ -3010,12 +3408,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1657716643296024474}
   m_Layer: 5
-  m_Name: ToggleA
+  m_Name: NumericKeyboard_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1657716643296024474
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3023,7 +3421,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657716643296024473}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3031,8 +3429,10 @@ RectTransform:
   - {fileID: 1657716644446217523}
   - {fileID: 8315299764001962992}
   - {fileID: 1657716643769878633}
-  m_Father: {fileID: 1657716644628220987}
-  m_RootOrder: 0
+  - {fileID: 1648926857713527556}
+  - {fileID: 3178590346676077010}
+  m_Father: {fileID: 1657716643191239012}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3285,7 +3685,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716645109695814}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644395102802}
     m_SelectOnLeft: {fileID: 1657716644539161617}
     m_SelectOnRight: {fileID: 1657716643236161247}
   m_Transition: 1
@@ -3312,7 +3712,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643348678761}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: J
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643348790657
 GameObject:
   m_ObjectHideFlags: 0
@@ -3323,7 +3735,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657716643348790658}
   m_Layer: 5
-  m_Name: ToggleA
+  m_Name: AlphaKeyboard_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3336,7 +3748,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657716643348790657}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3345,8 +3757,9 @@ RectTransform:
   - {fileID: 1657716644221889069}
   - {fileID: 1657716643246714591}
   - {fileID: 1657716644224072170}
-  m_Father: {fileID: 1657716643704641870}
-  m_RootOrder: 0
+  - {fileID: 1657716644250349828}
+  m_Father: {fileID: 1657716643191239012}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3547,7 +3960,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25, y: 0}
+  m_AnchoredPosition: {x: 10.799999, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716643383520842
@@ -3601,11 +4014,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716645058841294}
+    m_SelectOnLeft: {fileID: 1657716645022927660}
+    m_SelectOnRight: {fileID: 1657716644053454082}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3630,7 +4043,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643383520841}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '}'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643387115823
 GameObject:
   m_ObjectHideFlags: 0
@@ -3800,11 +4225,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644259033503}
+    m_SelectOnDown: {fileID: 1657716644250349829}
+    m_SelectOnLeft: {fileID: 1657716644005604172}
+    m_SelectOnRight: {fileID: 1657716644912933106}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3829,7 +4254,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643398599907}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: V
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643406981616
 GameObject:
   m_ObjectHideFlags: 0
@@ -4080,7 +4517,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716645142790688}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643246714560}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 1657716644811882098}
   m_Transition: 1
@@ -4408,11 +4845,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644193871647}
+    m_SelectOnDown: {fileID: 4835167429148794811}
+    m_SelectOnLeft: {fileID: 1657716643734542562}
+    m_SelectOnRight: {fileID: 1657716644889915599}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -4437,7 +4874,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643516482973}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: $
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643521935365
 GameObject:
   m_ObjectHideFlags: 0
@@ -4451,7 +4900,7 @@ GameObject:
   - component: {fileID: 1657716643521935368}
   - component: {fileID: 1657716643521935367}
   m_Layer: 5
-  m_Name: KeyX
+  m_Name: Key.
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4528,11 +4977,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644659644085}
+    m_SelectOnDown: {fileID: 1720910819433920025}
+    m_SelectOnLeft: {fileID: 1657716644979232635}
+    m_SelectOnRight: {fileID: 1657716644086691333}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -4557,7 +5006,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643521935368}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: .
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643532741551
 GameObject:
   m_ObjectHideFlags: 0
@@ -4594,7 +5055,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 75, y: 0}
+  m_AnchoredPosition: {x: 110.8, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716643532741523
@@ -4648,10 +5109,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644647884962}
+    m_SelectOnLeft: {fileID: 1657716644346031833}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -4677,7 +5138,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643532741522}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '*'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643534736860
 GameObject:
   m_ObjectHideFlags: 0
@@ -4768,11 +5241,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643284290234}
+    m_SelectOnLeft: {fileID: 1657716643969612381}
+    m_SelectOnRight: {fileID: 1657716643987435694}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -4797,7 +5270,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643534736863}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: e
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643547190328
 GameObject:
   m_ObjectHideFlags: 0
@@ -5011,11 +5496,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643723290284}
+    m_SelectOnLeft: {fileID: 1657716643266851906}
+    m_SelectOnRight: {fileID: 1657716643967019707}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -5040,7 +5525,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643564215270}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: u
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643565918480
 GameObject:
   m_ObjectHideFlags: 0
@@ -5368,11 +5865,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643073770991}
+    m_SelectOnLeft: {fileID: 1657716643987435694}
+    m_SelectOnRight: {fileID: 1657716643266851906}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -5397,7 +5894,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643574494630}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: t
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643578412082
 GameObject:
   m_ObjectHideFlags: 0
@@ -6274,6 +6783,8 @@ RectTransform:
   - {fileID: 1657716645058841293}
   - {fileID: 1657716643805569398}
   - {fileID: 1657716643294223617}
+  - {fileID: 1657716643702787032}
+  - {fileID: 1657716644647884961}
   m_Father: {fileID: 1657716643199482200}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6313,12 +6824,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1657716643387115792}
-  m_Father: {fileID: 1657716643234957616}
-  m_RootOrder: 8
+  m_Father: {fileID: 1657716643702678837}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 100, y: 0}
+  m_AnchoredPosition: {x: 86.1, y: -0.2}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716643702787035
@@ -6372,11 +6883,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644346031833}
+    m_SelectOnDown: {fileID: 1657716644610659657}
+    m_SelectOnLeft: {fileID: 1657716643294223618}
+    m_SelectOnRight: {fileID: 1657716644647884962}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -6401,44 +6912,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643702787034}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
---- !u!1 &1657716643704641869
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1657716643704641870}
-  m_Layer: 5
-  m_Name: AlphaKeyboard
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1657716643704641870
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657716643704641869}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1657716643348790658}
-  - {fileID: 1657716645162395797}
-  m_Father: {fileID: 1657716643191239012}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: +
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643709768822
 GameObject:
   m_ObjectHideFlags: 0
@@ -6531,7 +7017,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716644847689674}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643835002828}
     m_SelectOnLeft: {fileID: 1657716644811882098}
     m_SelectOnRight: {fileID: 1657716643134007944}
   m_Transition: 1
@@ -6558,7 +7044,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643709768825}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: D
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643722567703
 GameObject:
   m_ObjectHideFlags: 0
@@ -6649,11 +7147,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644783521228}
+    m_SelectOnDown: {fileID: 1657716644097911015}
+    m_SelectOnLeft: {fileID: 1657716644682085131}
+    m_SelectOnRight: {fileID: 1657716644966187637}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -6678,7 +7176,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643722567706}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: k
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643723290282
 GameObject:
   m_ObjectHideFlags: 0
@@ -6769,11 +7279,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643564215269}
+    m_SelectOnDown: {fileID: 1657716644971717397}
+    m_SelectOnLeft: {fileID: 1657716643073770991}
+    m_SelectOnRight: {fileID: 1657716644682085131}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -6798,7 +7308,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643723290285}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: h
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643725225335
 GameObject:
   m_ObjectHideFlags: 0
@@ -6933,11 +7455,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643068816474}
+    m_SelectOnDown: {fileID: 5850440578896346653}
+    m_SelectOnLeft: {fileID: 1657716644167173671}
+    m_SelectOnRight: {fileID: 1657716643516482972}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -6962,7 +7484,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643734542563}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: )
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643737153150
 GameObject:
   m_ObjectHideFlags: 0
@@ -7377,7 +7911,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 0}
+  m_AnchoredPosition: {x: -64.2, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716643760198789
@@ -7431,11 +7965,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644919114170}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716644488302228}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -7460,7 +7994,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643760198788}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '['
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643769878632
 GameObject:
   m_ObjectHideFlags: 0
@@ -7474,7 +8020,7 @@ GameObject:
   - component: {fileID: 1657716643769878635}
   - component: {fileID: 1657716643769878634}
   m_Layer: 5
-  m_Name: '#+=Toggle'
+  m_Name: NK_A_#+=Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7551,11 +8097,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644138890755}
+    m_SelectOnDown: {fileID: 7051596680578524141}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1827138093034808830}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -7580,7 +8126,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643769878635}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: ToggleKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643805569397
 GameObject:
   m_ObjectHideFlags: 0
@@ -7617,7 +8175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 36, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716643805569401
@@ -7671,11 +8229,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644053454082}
+    m_SelectOnDown: {fileID: 1657716644067950714}
+    m_SelectOnLeft: {fileID: 1657716645058841294}
+    m_SelectOnRight: {fileID: 1657716643294223618}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -7700,7 +8258,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643805569400}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: <
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643806555376
 GameObject:
   m_ObjectHideFlags: 0
@@ -7870,11 +8440,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643709768824}
+    m_SelectOnDown: {fileID: 1657716644250349829}
+    m_SelectOnLeft: {fileID: 1657716645035489614}
+    m_SelectOnRight: {fileID: 1657716644005604172}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -7899,7 +8469,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643835002829}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: X
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643865881242
 GameObject:
   m_ObjectHideFlags: 0
@@ -8475,11 +9057,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644682085131}
+    m_SelectOnLeft: {fileID: 1657716643564215269}
+    m_SelectOnRight: {fileID: 1657716644783521228}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -8504,7 +9086,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643967019708}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: i
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643969612379
 GameObject:
   m_ObjectHideFlags: 0
@@ -8595,11 +9189,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716645057919473}
+    m_SelectOnLeft: {fileID: 1657716644846204243}
+    m_SelectOnRight: {fileID: 1657716643534736862}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -8624,7 +9218,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643969612382}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: w
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716643987435692
 GameObject:
   m_ObjectHideFlags: 0
@@ -8715,11 +9321,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716645133301247}
+    m_SelectOnLeft: {fileID: 1657716643534736862}
+    m_SelectOnRight: {fileID: 1657716643574494629}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -8744,7 +9350,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716643987435695}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: r
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644004135109
 GameObject:
   m_ObjectHideFlags: 0
@@ -8914,11 +9532,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643134007944}
+    m_SelectOnDown: {fileID: 1657716644250349829}
+    m_SelectOnLeft: {fileID: 1657716643835002828}
+    m_SelectOnRight: {fileID: 1657716643398599906}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -8943,7 +9561,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644005604173}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: C
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644046991207
 GameObject:
   m_ObjectHideFlags: 0
@@ -9059,7 +9689,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 35.8, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716644053454084
@@ -9113,11 +9743,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643805569399}
+    m_SelectOnLeft: {fileID: 1657716643383520840}
+    m_SelectOnRight: {fileID: 1657716644489648591}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -9142,7 +9772,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644053454083}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '#'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644062539016
 GameObject:
   m_ObjectHideFlags: 0
@@ -9233,11 +9875,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644708776495}
+    m_SelectOnLeft: {fileID: 1657716644157341691}
+    m_SelectOnRight: {fileID: 1657716644456876263}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -9262,7 +9904,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644062539019}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 9
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644067950712
 GameObject:
   m_ObjectHideFlags: 0
@@ -9276,7 +9930,7 @@ GameObject:
   - component: {fileID: 1657716644067950715}
   - component: {fileID: 1657716644067950714}
   m_Layer: 5
-  m_Name: KeyB
+  m_Name: Key!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9353,11 +10007,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643805569399}
+    m_SelectOnDown: {fileID: 1720910819433920025}
+    m_SelectOnLeft: {fileID: 1657716644630093048}
+    m_SelectOnRight: {fileID: 1657716644610659657}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -9382,7 +10036,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644067950715}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '!'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644069191340
 GameObject:
   m_ObjectHideFlags: 0
@@ -9552,11 +10218,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643271663076}
+    m_SelectOnLeft: {fileID: 1657716644407445356}
+    m_SelectOnRight: {fileID: 1657716643170369732}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -9581,7 +10247,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644079047980}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 3
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644084350733
 GameObject:
   m_ObjectHideFlags: 0
@@ -9674,7 +10352,7 @@ GameObject:
   - component: {fileID: 1657716644086691334}
   - component: {fileID: 1657716644086691333}
   m_Layer: 5
-  m_Name: KeyC
+  m_Name: Key,
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9751,11 +10429,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644299605653}
+    m_SelectOnDown: {fileID: 1720910819433920025}
+    m_SelectOnLeft: {fileID: 1657716643521935367}
+    m_SelectOnRight: {fileID: 1657716644630093048}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -9780,7 +10458,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644086691334}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ','
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644097911013
 GameObject:
   m_ObjectHideFlags: 0
@@ -9871,10 +10561,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644966187637}
+    m_SelectOnDown: {fileID: 5865808433793170905}
+    m_SelectOnLeft: {fileID: 1657716644460400421}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -9900,7 +10590,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644097911016}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: m
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644101207917
 GameObject:
   m_ObjectHideFlags: 0
@@ -9991,11 +10693,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716645133301247}
+    m_SelectOnDown: {fileID: 5865808433793170905}
+    m_SelectOnLeft: {fileID: 1657716643224475540}
+    m_SelectOnRight: {fileID: 1657716645094897226}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10020,7 +10722,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644101207888}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: c
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644132733932
 GameObject:
   m_ObjectHideFlags: 0
@@ -10243,11 +10957,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644388951135}
+    m_SelectOnDown: {fileID: 1657716643769878634}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716644689977878}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10272,7 +10986,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644138890756}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '-'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644146183032
 GameObject:
   m_ObjectHideFlags: 0
@@ -10442,11 +11168,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644889915599}
+    m_SelectOnLeft: {fileID: 1657716644193871647}
+    m_SelectOnRight: {fileID: 1657716644062539018}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10471,7 +11197,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644157341692}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 8
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644167173669
 GameObject:
   m_ObjectHideFlags: 0
@@ -10562,11 +11300,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644632768112}
+    m_SelectOnDown: {fileID: 5850440578896346653}
+    m_SelectOnLeft: {fileID: 1657716645154108598}
+    m_SelectOnRight: {fileID: 1657716643734542562}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -10591,7 +11329,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644167173672}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: (
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644173085901
 GameObject:
   m_ObjectHideFlags: 0
@@ -10684,7 +11434,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716643120792803}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643127168688}
     m_SelectOnLeft: {fileID: 1657716643236161247}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -10711,7 +11461,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644173085872}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: L
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644184445984
 GameObject:
   m_ObjectHideFlags: 0
@@ -11039,11 +11801,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643516482972}
+    m_SelectOnLeft: {fileID: 1657716643068816474}
+    m_SelectOnRight: {fileID: 1657716644157341691}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -11068,7 +11830,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644193871616}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 7
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644197554111
 GameObject:
   m_ObjectHideFlags: 0
@@ -11327,7 +12101,7 @@ GameObject:
   - component: {fileID: 1657716644224072172}
   - component: {fileID: 1657716644224072171}
   m_Layer: 5
-  m_Name: NUM
+  m_Name: AK_A_NUMSwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11404,11 +12178,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643246714560}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716644250349829}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -11433,7 +12207,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644224072172}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: ShowNumericKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644224808339
 GameObject:
   m_ObjectHideFlags: 0
@@ -11623,7 +12409,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1657716644920314544}
-  m_Father: {fileID: 1657716643191239012}
+  m_Father: {fileID: 1657716643348790658}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -11682,10 +12468,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643398599906}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1657716644224072171}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -11711,7 +12497,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644250349830}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ' '
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644250988194
 GameObject:
   m_ObjectHideFlags: 0
@@ -11962,7 +12760,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716644378530556}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643398599906}
     m_SelectOnLeft: {fileID: 1657716643134007944}
     m_SelectOnRight: {fileID: 1657716644539161617}
   m_Transition: 1
@@ -11989,7 +12787,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644259033472}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: G
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644288585685
 GameObject:
   m_ObjectHideFlags: 0
@@ -12105,7 +12915,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 0}
+  m_AnchoredPosition: {x: -13.999999, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716644299605655
@@ -12159,11 +12969,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716645022927660}
+    m_SelectOnDown: {fileID: 1657716644086691333}
+    m_SelectOnLeft: {fileID: 1657716644659644085}
+    m_SelectOnRight: {fileID: 1657716645058841294}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -12188,7 +12998,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644299605654}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '|'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644311806523
 GameObject:
   m_ObjectHideFlags: 0
@@ -12541,7 +13363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 0}
+  m_AnchoredPosition: {x: 85.8, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716644346031835
@@ -12595,11 +13417,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643702787033}
+    m_SelectOnLeft: {fileID: 1657716644489648591}
+    m_SelectOnRight: {fileID: 1657716643532741521}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -12624,7 +13446,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644346031834}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ^
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644378530554
 GameObject:
   m_ObjectHideFlags: 0
@@ -12926,11 +13760,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644138890755}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716644407445356}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -12955,7 +13789,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644388951104}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644395102800
 GameObject:
   m_ObjectHideFlags: 0
@@ -13046,11 +13892,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643348678760}
+    m_SelectOnDown: {fileID: 1657716644250349829}
+    m_SelectOnLeft: {fileID: 1657716644912933106}
+    m_SelectOnRight: {fileID: 1657716643127168688}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -13075,7 +13921,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644395102803}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: N
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644407445354
 GameObject:
   m_ObjectHideFlags: 0
@@ -13166,11 +14024,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644689977878}
+    m_SelectOnLeft: {fileID: 1657716644388951135}
+    m_SelectOnRight: {fileID: 1657716644079047979}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -13195,7 +14053,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644407445357}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 2
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644407531693
 GameObject:
   m_ObjectHideFlags: 0
@@ -13209,7 +14079,7 @@ GameObject:
   - component: {fileID: 1657716644407531664}
   - component: {fileID: 1657716644407531695}
   m_Layer: 5
-  m_Name: CAPToggle
+  m_Name: AK_B_CAPToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13286,11 +14156,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644629049096}
+    m_SelectOnDown: {fileID: 1222854730411202285}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716643078193933}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -13315,7 +14185,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644407531664}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: ToggleKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644417518165
 GameObject:
   m_ObjectHideFlags: 0
@@ -13767,10 +14649,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644772841558}
+    m_SelectOnLeft: {fileID: 1657716644062539018}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -13796,7 +14678,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644456876264}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 0
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644460400419
 GameObject:
   m_ObjectHideFlags: 0
@@ -13887,11 +14781,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644682085131}
+    m_SelectOnDown: {fileID: 5865808433793170905}
+    m_SelectOnLeft: {fileID: 1657716644971717397}
+    m_SelectOnRight: {fileID: 1657716644097911015}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -13916,7 +14810,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644460400422}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: n
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644488302226
 GameObject:
   m_ObjectHideFlags: 0
@@ -13953,7 +14859,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -75, y: 0}
+  m_AnchoredPosition: {x: -39.2, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716644488302230
@@ -14007,11 +14913,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644659644085}
+    m_SelectOnLeft: {fileID: 1657716643760198787}
+    m_SelectOnRight: {fileID: 1657716645022927660}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -14036,7 +14942,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644488302229}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ']'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644489648589
 GameObject:
   m_ObjectHideFlags: 0
@@ -14073,7 +14991,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25, y: 0}
+  m_AnchoredPosition: {x: 60.8, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716644489648561
@@ -14127,11 +15045,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643294223618}
+    m_SelectOnLeft: {fileID: 1657716644053454082}
+    m_SelectOnRight: {fileID: 1657716644346031833}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -14156,7 +15074,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644489648560}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '%'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644497607792
 GameObject:
   m_ObjectHideFlags: 0
@@ -14328,7 +15258,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716645080916932}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644912933106}
     m_SelectOnLeft: {fileID: 1657716644259033503}
     m_SelectOnRight: {fileID: 1657716643348678760}
   m_Transition: 1
@@ -14355,7 +15285,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644539161618}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: H
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644580052256
 GameObject:
   m_ObjectHideFlags: 0
@@ -14580,7 +15522,7 @@ GameObject:
   - component: {fileID: 1657716644610659658}
   - component: {fileID: 1657716644610659657}
   m_Layer: 5
-  m_Name: KeyN
+  m_Name: Key'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14657,10 +15599,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643294223618}
+    m_SelectOnDown: {fileID: 1720910819433920025}
+    m_SelectOnLeft: {fileID: 1657716644067950714}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -14686,7 +15628,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644610659658}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ''''
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644611588833
 GameObject:
   m_ObjectHideFlags: 0
@@ -14887,43 +15841,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -30.2}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1657716644628220986
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1657716644628220987}
-  m_Layer: 5
-  m_Name: NumericKeyboard
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!224 &1657716644628220987
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657716644628220986}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1657716643296024474}
-  - {fileID: 1657716643199482200}
-  m_Father: {fileID: 1657716643191239012}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1657716644629049094
 GameObject:
   m_ObjectHideFlags: 0
@@ -15014,11 +15931,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644846204243}
+    m_SelectOnDown: {fileID: 1657716644407531695}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716645057919473}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -15043,7 +15960,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644629049097}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: a
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644630093046
 GameObject:
   m_ObjectHideFlags: 0
@@ -15057,7 +15986,7 @@ GameObject:
   - component: {fileID: 1657716644630093049}
   - component: {fileID: 1657716644630093048}
   m_Layer: 5
-  m_Name: KeyV
+  m_Name: Key?
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15134,11 +16063,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716645058841294}
+    m_SelectOnDown: {fileID: 1720910819433920025}
+    m_SelectOnLeft: {fileID: 1657716644086691333}
+    m_SelectOnRight: {fileID: 1657716644067950714}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -15163,7 +16092,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644630093049}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '?'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644632768142
 GameObject:
   m_ObjectHideFlags: 0
@@ -15254,11 +16195,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644167173671}
+    m_SelectOnLeft: {fileID: 1657716643170369732}
+    m_SelectOnRight: {fileID: 1657716643068816474}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -15283,7 +16224,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644632768113}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 5
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644647884960
 GameObject:
   m_ObjectHideFlags: 0
@@ -15315,12 +16268,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1657716644600209501}
-  m_Father: {fileID: 1657716643234957616}
-  m_RootOrder: 9
+  m_Father: {fileID: 1657716643702678837}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 125, y: 0}
+  m_AnchoredPosition: {x: 111.1, y: -0.19999886}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716644647884964
@@ -15374,10 +16327,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643532741521}
+    m_SelectOnDown: {fileID: 1657716644610659657}
+    m_SelectOnLeft: {fileID: 1657716643702787033}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -15403,7 +16356,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644647884963}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: =
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644659644083
 GameObject:
   m_ObjectHideFlags: 0
@@ -15440,7 +16405,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -75, y: 0}
+  m_AnchoredPosition: {x: -39, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716644659644087
@@ -15494,11 +16459,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644488302228}
+    m_SelectOnDown: {fileID: 1657716643521935367}
+    m_SelectOnLeft: {fileID: 1657716644919114170}
+    m_SelectOnRight: {fileID: 1657716644299605653}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -15523,7 +16488,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644659644086}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: \
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644674960279
 GameObject:
   m_ObjectHideFlags: 0
@@ -15772,11 +16749,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643967019707}
+    m_SelectOnDown: {fileID: 1657716644460400421}
+    m_SelectOnLeft: {fileID: 1657716643723290284}
+    m_SelectOnRight: {fileID: 1657716643722567705}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -15801,7 +16778,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644682085132}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: j
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644689977876
 GameObject:
   m_ObjectHideFlags: 0
@@ -15892,11 +16881,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644407445356}
+    m_SelectOnDown: {fileID: 1827138093034808830}
+    m_SelectOnLeft: {fileID: 1657716644138890755}
+    m_SelectOnRight: {fileID: 1657716643271663076}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -15921,7 +16910,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644689977879}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: //
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644692218495
 GameObject:
   m_ObjectHideFlags: 0
@@ -16091,11 +17092,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644062539018}
+    m_SelectOnDown: {fileID: 7814340923987192255}
+    m_SelectOnLeft: {fileID: 1657716644889915599}
+    m_SelectOnRight: {fileID: 1657716644772841558}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -16120,7 +17121,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644708776464}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '@'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644710836838
 GameObject:
   m_ObjectHideFlags: 0
@@ -16369,10 +17382,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644456876263}
+    m_SelectOnDown: {fileID: 7814340923987192255}
+    m_SelectOnLeft: {fileID: 1657716644708776495}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -16398,7 +17411,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644772841559}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '"'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644774526154
 GameObject:
   m_ObjectHideFlags: 0
@@ -16568,11 +17593,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716643722567705}
+    m_SelectOnLeft: {fileID: 1657716643967019707}
+    m_SelectOnRight: {fileID: 1657716643092865357}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -16597,7 +17622,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644783521229}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: o
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644811882096
 GameObject:
   m_ObjectHideFlags: 0
@@ -16690,7 +17727,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1657716644580052258}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716645035489614}
     m_SelectOnLeft: {fileID: 1657716643458139357}
     m_SelectOnRight: {fileID: 1657716643709768824}
   m_Transition: 1
@@ -16717,7 +17754,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644811882099}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: S
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644817574301
 GameObject:
   m_ObjectHideFlags: 0
@@ -16966,11 +18015,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644629049096}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716643969612381}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -16995,7 +18044,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644846204244}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: q
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644847689672
 GameObject:
   m_ObjectHideFlags: 0
@@ -17297,11 +18358,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644157341691}
+    m_SelectOnDown: {fileID: 7814340923987192255}
+    m_SelectOnLeft: {fileID: 1657716643516482972}
+    m_SelectOnRight: {fileID: 1657716644708776495}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -17326,7 +18387,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644889915568}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '&'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644897884753
 GameObject:
   m_ObjectHideFlags: 0
@@ -17654,11 +18727,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644539161617}
+    m_SelectOnDown: {fileID: 1657716644250349829}
+    m_SelectOnLeft: {fileID: 1657716643398599906}
+    m_SelectOnRight: {fileID: 1657716644395102802}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -17683,7 +18756,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644912933107}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: B
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644919114168
 GameObject:
   m_ObjectHideFlags: 0
@@ -17720,7 +18805,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100, y: 0}
+  m_AnchoredPosition: {x: -64, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716644919114172
@@ -17774,11 +18859,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643760198787}
+    m_SelectOnDown: {fileID: 1657716643521935367}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716644659644085}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -17803,7 +18888,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644919114171}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: _
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644920314575
 GameObject:
   m_ObjectHideFlags: 0
@@ -17882,7 +18979,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Space (Y)
+  m_Text: Space
 --- !u!1 &1657716644962612294
 GameObject:
   m_ObjectHideFlags: 0
@@ -18052,10 +19149,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643092865357}
+    m_SelectOnDown: {fileID: 1657716644097911015}
+    m_SelectOnLeft: {fileID: 1657716643722567705}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -18081,7 +19178,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644966187638}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: l
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644971217549
 GameObject:
   m_ObjectHideFlags: 0
@@ -18251,11 +19360,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643723290284}
+    m_SelectOnDown: {fileID: 5865808433793170905}
+    m_SelectOnLeft: {fileID: 1657716645094897226}
+    m_SelectOnRight: {fileID: 1657716644460400421}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -18280,7 +19389,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644971717398}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: b
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644979232633
 GameObject:
   m_ObjectHideFlags: 0
@@ -18294,7 +19415,7 @@ GameObject:
   - component: {fileID: 1657716644979232636}
   - component: {fileID: 1657716644979232635}
   m_Layer: 5
-  m_Name: 123Toggle
+  m_Name: NK_B_123Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18371,11 +19492,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644919114170}
+    m_SelectOnDown: {fileID: 6349054477113089522}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 1657716643521935367}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -18400,7 +19521,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716644979232636}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: ToggleKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716644998515269
 GameObject:
   m_ObjectHideFlags: 0
@@ -18674,7 +19807,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 0}
+  m_AnchoredPosition: {x: -14.200001, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716645022927662
@@ -18728,11 +19861,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnDown: {fileID: 1657716644299605653}
+    m_SelectOnLeft: {fileID: 1657716644488302228}
+    m_SelectOnRight: {fileID: 1657716643383520840}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -18757,7 +19890,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716645022927661}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '{'
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716645025867420
 GameObject:
   m_ObjectHideFlags: 0
@@ -19085,11 +20230,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644811882098}
+    m_SelectOnDown: {fileID: 1657716644250349829}
+    m_SelectOnLeft: {fileID: 1657716643246714560}
+    m_SelectOnRight: {fileID: 1657716643835002828}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -19114,7 +20259,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716645035489615}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Z
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716645057920527
 GameObject:
   m_ObjectHideFlags: 0
@@ -19205,11 +20362,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643969612381}
+    m_SelectOnDown: {fileID: 1657716643078193933}
+    m_SelectOnLeft: {fileID: 1657716644629049096}
+    m_SelectOnRight: {fileID: 1657716643284290234}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -19234,7 +20391,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716645057919474}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: s
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716645058841292
 GameObject:
   m_ObjectHideFlags: 0
@@ -19271,7 +20440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25, y: 0}
+  m_AnchoredPosition: {x: 11.000001, y: 0}
   m_SizeDelta: {x: 25, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1657716645058841264
@@ -19325,11 +20494,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643383520840}
+    m_SelectOnDown: {fileID: 1657716644630093048}
+    m_SelectOnLeft: {fileID: 1657716644299605653}
+    m_SelectOnRight: {fileID: 1657716643805569399}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -19354,7 +20523,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716645058841295}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ~
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716645071449371
 GameObject:
   m_ObjectHideFlags: 0
@@ -19735,11 +20916,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643073770991}
+    m_SelectOnDown: {fileID: 5865808433793170905}
+    m_SelectOnLeft: {fileID: 1657716644101207919}
+    m_SelectOnRight: {fileID: 1657716644971717397}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -19764,7 +20945,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716645094897227}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: v
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716645096202582
 GameObject:
   m_ObjectHideFlags: 0
@@ -20382,11 +21575,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643987435694}
+    m_SelectOnDown: {fileID: 1657716644101207919}
+    m_SelectOnLeft: {fileID: 1657716643284290234}
+    m_SelectOnRight: {fileID: 1657716643073770991}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -20411,7 +21604,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716645133301216}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: f
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716645142790718
 GameObject:
   m_ObjectHideFlags: 0
@@ -20634,11 +21839,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643170369732}
+    m_SelectOnDown: {fileID: 4580431982478371855}
+    m_SelectOnLeft: {fileID: 1657716643271663076}
+    m_SelectOnRight: {fileID: 1657716644167173671}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -20663,7 +21868,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716645154108599}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ;
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716645155243597
 GameObject:
   m_ObjectHideFlags: 0
@@ -20783,7 +22000,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1657716645155243568}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyBackspace
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1657716645156916082
 GameObject:
   m_ObjectHideFlags: 0
@@ -20952,7 +22181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1657716645162395797}
   m_Layer: 5
-  m_Name: ToggleB (lower)
+  m_Name: AlphaKeyboard_B (lower)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20965,7 +22194,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657716645162395796}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -20974,8 +22203,9 @@ RectTransform:
   - {fileID: 1657716644626311541}
   - {fileID: 1657716644407531694}
   - {fileID: 991132965393307637}
-  m_Father: {fileID: 1657716643704641870}
-  m_RootOrder: 1
+  - {fileID: 5227014191633586729}
+  m_Father: {fileID: 1657716643191239012}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -21390,7 +22620,7 @@ GameObject:
   - component: {fileID: 3899330331403386459}
   - component: {fileID: 7814340923987192255}
   m_Layer: 5
-  m_Name: KeyN
+  m_Name: Key'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21467,10 +22697,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644889915599}
+    m_SelectOnDown: {fileID: 5298934267259371456}
+    m_SelectOnLeft: {fileID: 4835167429148794811}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -21496,7 +22726,151 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3899330331403386459}
   m_OnClick:
     m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ''''
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &3566114001240882307
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8750543077099772146}
+  - component: {fileID: 3197631331141243819}
+  - component: {fileID: 520716050603041504}
+  - component: {fileID: 1720910819433920025}
+  m_Layer: 5
+  m_Name: Space
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8750543077099772146
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566114001240882307}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7243281828426706949}
+  m_Father: {fileID: 1657716643199482200}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -61.7}
+  m_SizeDelta: {x: 125.03, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3197631331141243819
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566114001240882307}
+  m_CullTransparentMesh: 0
+--- !u!114 &520716050603041504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566114001240882307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
       m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1720910819433920025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3566114001240882307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644630093048}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 6349054477113089522}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 520716050603041504}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ' '
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3625184407953306817
 GameObject:
   m_ObjectHideFlags: 0
@@ -21576,6 +22950,85 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: ','
+--- !u!1 &3838957710414461173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4667707122286980753}
+  - component: {fileID: 3099082836371141998}
+  - component: {fileID: 9214852233098219331}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4667707122286980753
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3838957710414461173}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5227014191633586729}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3099082836371141998
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3838957710414461173}
+  m_CullTransparentMesh: 0
+--- !u!114 &9214852233098219331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3838957710414461173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Space
 --- !u!1 &3866853193112292567
 GameObject:
   m_ObjectHideFlags: 0
@@ -21655,6 +23108,138 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 123
+--- !u!1 &4058519911180739868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1648926857713527556}
+  - component: {fileID: 3527412070156262993}
+  - component: {fileID: 4441315509749998039}
+  - component: {fileID: 7051596680578524141}
+  m_Layer: 5
+  m_Name: NK_A_ALPHASwitch
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1648926857713527556
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4058519911180739868}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3403448957405945674}
+  m_Father: {fileID: 1657716643296024474}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -118.7, y: -61.7}
+  m_SizeDelta: {x: 40, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3527412070156262993
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4058519911180739868}
+  m_CullTransparentMesh: 0
+--- !u!114 &4441315509749998039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4058519911180739868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7051596680578524141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4058519911180739868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643769878634}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 5298934267259371456}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4441315509749998039}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: ShowAlphaKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4400276704134573672
 GameObject:
   m_ObjectHideFlags: 0
@@ -21747,7 +23332,7 @@ GameObject:
   - component: {fileID: 8164567198703327228}
   - component: {fileID: 4580431982478371855}
   m_Layer: 5
-  m_Name: KeyC
+  m_Name: Key,
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21824,11 +23409,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716645154108598}
+    m_SelectOnDown: {fileID: 5298934267259371456}
+    m_SelectOnLeft: {fileID: 1827138093034808830}
+    m_SelectOnRight: {fileID: 5850440578896346653}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -21853,7 +23438,98 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8164567198703327228}
   m_OnClick:
     m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ','
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &5042135471305132110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3403448957405945674}
+  - component: {fileID: 7653737985783048021}
+  - component: {fileID: 7105266707409263098}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3403448957405945674
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042135471305132110}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1648926857713527556}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7653737985783048021
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042135471305132110}
+  m_CullTransparentMesh: 0
+--- !u!114 &7105266707409263098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042135471305132110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
       m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: ABC
 --- !u!1 &5759348541963713020
 GameObject:
   m_ObjectHideFlags: 0
@@ -21946,7 +23622,7 @@ GameObject:
   - component: {fileID: 8105698925743960562}
   - component: {fileID: 5850440578896346653}
   m_Layer: 5
-  m_Name: KeyV
+  m_Name: Key?
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22023,11 +23699,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644167173671}
+    m_SelectOnDown: {fileID: 5298934267259371456}
+    m_SelectOnLeft: {fileID: 4580431982478371855}
+    m_SelectOnRight: {fileID: 4835167429148794811}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -22052,7 +23728,230 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8105698925743960562}
   m_OnClick:
     m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: '?'
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &6438414271753153109
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4998616305404256283}
+  - component: {fileID: 6011130933752131526}
+  - component: {fileID: 6124608139878174811}
+  - component: {fileID: 6349054477113089522}
+  m_Layer: 5
+  m_Name: NK_B_ALPHA
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4998616305404256283
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6438414271753153109}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1095750400866758006}
+  m_Father: {fileID: 1657716643199482200}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -118.7, y: -61.7}
+  m_SizeDelta: {x: 40, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &6011130933752131526
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6438414271753153109}
+  m_CullTransparentMesh: 0
+--- !u!114 &6124608139878174811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6438414271753153109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
       m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6349054477113089522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6438414271753153109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644979232635}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 1720910819433920025}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 6124608139878174811}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: ShowAlphaKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &6657792953633279477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1095750400866758006}
+  - component: {fileID: 7740697868651447694}
+  - component: {fileID: 4472762623820904257}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1095750400866758006
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657792953633279477}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4998616305404256283}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7740697868651447694
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657792953633279477}
+  m_CullTransparentMesh: 0
+--- !u!114 &4472762623820904257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6657792953633279477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: ABC
 --- !u!1 &6783319614371209362
 GameObject:
   m_ObjectHideFlags: 0
@@ -22093,6 +23992,217 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -30.2}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &7087642241277729053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5227014191633586729}
+  - component: {fileID: 2344879979489225623}
+  - component: {fileID: 8277322305594951464}
+  - component: {fileID: 5865808433793170905}
+  m_Layer: 5
+  m_Name: Space
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5227014191633586729
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087642241277729053}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4667707122286980753}
+  m_Father: {fileID: 1657716645162395797}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -61.7}
+  m_SizeDelta: {x: 125.03, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2344879979489225623
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087642241277729053}
+  m_CullTransparentMesh: 0
+--- !u!114 &8277322305594951464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087642241277729053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5865808433793170905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7087642241277729053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716645094897226}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 1222854730411202285}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.56078434, g: 1, b: 0, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 8277322305594951464}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: ' '
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!1 &7479019413200358126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7297840151884422180}
+  - component: {fileID: 7627093769222299440}
+  - component: {fileID: 2565919957439206576}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7297840151884422180
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7479019413200358126}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3178590346676077010}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7627093769222299440
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7479019413200358126}
+  m_CullTransparentMesh: 0
+--- !u!114 &2565919957439206576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7479019413200358126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Space
 --- !u!1 &8532332707106694798
 GameObject:
   m_ObjectHideFlags: 0
@@ -22106,7 +24216,7 @@ GameObject:
   - component: {fileID: 3989931156882714910}
   - component: {fileID: 1222854730411202285}
   m_Layer: 5
-  m_Name: NUM
+  m_Name: AK_B_NUM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22183,11 +24293,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716644407531695}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 5865808433793170905}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -22212,7 +24322,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3989931156882714910}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: ShowNumericKeyboard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9045305837224208849
 GameObject:
   m_ObjectHideFlags: 0
@@ -22305,7 +24427,7 @@ GameObject:
   - component: {fileID: 9076947824911067476}
   - component: {fileID: 1827138093034808830}
   m_Layer: 5
-  m_Name: KeyX
+  m_Name: Key.
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22382,11 +24504,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1657716643271663076}
+    m_SelectOnDown: {fileID: 5298934267259371456}
+    m_SelectOnLeft: {fileID: 1657716643769878634}
+    m_SelectOnRight: {fileID: 1827138093034808830}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -22411,4 +24533,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9076947824911067476}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1657716643191239013}
+        m_TargetAssemblyTypeName: KeyboardUI, Assembly-CSharp
+        m_MethodName: KeyOnClick
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: .
+          m_BoolArgument: 0
+        m_CallState: 2

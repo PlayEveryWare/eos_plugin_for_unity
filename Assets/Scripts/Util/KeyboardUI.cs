@@ -7,13 +7,19 @@ using UnityEngine.UI;
 
 public class KeyboardUI : MonoBehaviour
 {
-    public GameObject AlphaKeyboard;
+    [Header("Alpha Keyboard")]
     public GameObject AlphaKeyboard_ToggleA;
     public GameObject AlphaKeyboard_ToggleB;
+    public GameObject AK_KeyboardSwitchButton;
 
-    public GameObject NumericKeyboard;
+    public GameObject[] AlphaKeyboard_SelectableOnToggle;
+
+    [Header("Numeric Keyboard")]
     public GameObject NumericKeyboard_ToggleA;
     public GameObject NumericKeyboard_ToggleB;
+    public GameObject NK_KeyboardSwitchButton;
+
+    public GameObject[] NumericKeyboard_SelectableOnToggle;
 
     public InputField KeyboardInput;
     private string currentInput = string.Empty;
@@ -23,8 +29,7 @@ public class KeyboardUI : MonoBehaviour
 
     private void Start()
     {
-        // Controller
-        EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+        ShowKeyboard();
     }
 
     public void ShowKeyboard()
@@ -52,19 +57,31 @@ public class KeyboardUI : MonoBehaviour
 
     public void ShowAlphaKeyboard()
     {
-        AlphaKeyboard.SetActive(true);
-        NumericKeyboard.SetActive(false);
+        AlphaKeyboard_ToggleA.SetActive(true);
+        AlphaKeyboard_ToggleB.SetActive(false);
+
+        NumericKeyboard_ToggleA.SetActive(false);
+        NumericKeyboard_ToggleB.SetActive(false);
+
+        // Controller
+        EventSystem.current.SetSelectedGameObject(AK_KeyboardSwitchButton);
     }
 
     public void ShowNumericKeyboard()
     {
-        AlphaKeyboard.SetActive(false);
-        NumericKeyboard.SetActive(true);
+        AlphaKeyboard_ToggleA.SetActive(false);
+        AlphaKeyboard_ToggleB.SetActive(false);
+
+        NumericKeyboard_ToggleA.SetActive(true);
+        NumericKeyboard_ToggleB.SetActive(false);
+
+        // Controller
+        EventSystem.current.SetSelectedGameObject(NK_KeyboardSwitchButton);
     }
 
     public void ToggleKeyboard()
     {
-        if(AlphaKeyboard.activeInHierarchy)
+        if(AlphaKeyboard_ToggleA.activeInHierarchy || AlphaKeyboard_ToggleB.activeInHierarchy)
         {
             if(AlphaKeyboard_ToggleA.activeInHierarchy)
             {
@@ -76,8 +93,17 @@ public class KeyboardUI : MonoBehaviour
                 AlphaKeyboard_ToggleA.SetActive(true);
                 AlphaKeyboard_ToggleB.SetActive(false);
             }
+
+            foreach(GameObject toggleButton in AlphaKeyboard_SelectableOnToggle)
+            {
+                if(toggleButton.activeInHierarchy)
+                {
+                    // Controller
+                    EventSystem.current.SetSelectedGameObject(toggleButton);
+                }
+            }
         }
-        else if (NumericKeyboard.activeInHierarchy)
+        else if (NumericKeyboard_ToggleA.activeInHierarchy || NumericKeyboard_ToggleB.activeInHierarchy)
         {
             if (NumericKeyboard_ToggleA.activeInHierarchy)
             {
@@ -88,6 +114,15 @@ public class KeyboardUI : MonoBehaviour
             {
                 NumericKeyboard_ToggleA.SetActive(true);
                 NumericKeyboard_ToggleB.SetActive(false);
+            }
+
+            foreach (GameObject toggleButton in NumericKeyboard_SelectableOnToggle)
+            {
+                if (toggleButton.activeInHierarchy)
+                {
+                    // Controller
+                    EventSystem.current.SetSelectedGameObject(toggleButton);
+                }
             }
         }
     }
