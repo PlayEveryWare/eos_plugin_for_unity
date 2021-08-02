@@ -32,6 +32,15 @@ public class KeyboardUI : MonoBehaviour
         ShowKeyboard();
     }
 
+    private void Update()
+    {
+        // Controller
+        if (Input.GetButtonDown("B"))
+        {
+            KeyBackspace();
+        }
+    }
+
     public void ShowKeyboard()
     {
         // Controller
