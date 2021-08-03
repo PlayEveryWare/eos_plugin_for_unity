@@ -40,7 +40,8 @@ public class ConsoleInputField : MonoBehaviour
 
     public void OnEndEdit(string value)
     {
-        if (EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null
+        if (EventSystem.current != null && !EventSystem.current.alreadySelecting
+            && EventSystem.current.currentSelectedGameObject != null
             && EventSystem.current.currentSelectedGameObject != InputFieldButton.gameObject)
         {
             // Return focus to button
