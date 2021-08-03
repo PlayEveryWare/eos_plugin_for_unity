@@ -86,6 +86,6 @@ public class ConsoleInputField : MonoBehaviour
         InputField.text = result;
 
         // Return focus to button
-        EventSystem.current.SetSelectedGameObject(InputFieldButton.gameObject);
+        InputField.onEndEdit.Invoke(result);
     }
 }

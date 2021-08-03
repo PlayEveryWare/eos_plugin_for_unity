@@ -92,7 +92,7 @@ public class KeyboardUI : MonoBehaviour
 
         if(gamepad.startButton.wasPressedThisFrame || gamepad.yButton.wasPressedThisFrame)
         {
-            EnterOnClick();
+            KeyboardCompleted();
         }
     }
 
@@ -205,7 +205,7 @@ public class KeyboardUI : MonoBehaviour
         }
     }
 
-    public void EnterOnClick()
+    public void KeyboardCompleted()
     {
         KeyboardPanel.SetActive(false);
         KeyboardCallback?.Invoke(KeyboardInput.text);
