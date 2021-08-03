@@ -24,16 +24,18 @@ using Epic.OnlineServices;
 using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.UI;
 using Epic.OnlineServices.Ecom;
-
 using Epic.OnlineServices.Logging;
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -47,16 +49,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Dropdown loginTypeDropdown;
 
         public Text idText;
-        public InputField idInputField;
+        public ConsoleInputField idInputField;
 
         public Text tokenText;
-        public InputField tokenInputField;
+        public ConsoleInputField tokenInputField;
 
         public Button loginButton;
         public Button logoutButton;
 
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
+        public GameObject UIFindSelectable;
 
         private EventSystem system;
 
@@ -98,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             system = EventSystem.current;
 
-            tokenInputField.onEndEdit.AddListener(EnterPressedToLogin);
+            tokenInputField.InputField.onEndEdit.AddListener(EnterPressedToLogin);
         }
 
         private void EnterPressedToLogin(string arg0)
@@ -108,8 +114,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Update()
         {
+            var keyboard = Keyboard.current;
+
             // Tab between input fields
-            if (Input.GetKeyDown(KeyCode.Tab)
+            if (keyboard != null && keyboard.tabKey.wasPressedThisFrame
                 && system.currentSelectedGameObject != null)
             {
                 Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
@@ -129,6 +137,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     next = FindTopUISelectable();
                     system.SetSelectedGameObject(next.gameObject);
                 }
+            }
+
+            // Controller: Detect if nothing is selected and controller input detected, and set default
+            bool nothingSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null;
+            bool inactiveButtonSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null && !EventSystem.current.currentSelectedGameObject.activeInHierarchy;
+
+            var gamepad = Gamepad.current;
+            if ((nothingSelected || inactiveButtonSelected)
+                && gamepad != null && gamepad.wasUpdatedThisFrame)
+            {
+                if (UIFirstSelected.activeSelf == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                }
+                else if (UIFindSelectable.activeSelf == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(UIFindSelectable);
+                }
+
+                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
         }
 
@@ -201,6 +229,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ConfigureUIForDevAuthLogin();
                     break;
             }
+
+            // Controller
+            //EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         private void ConfigureUIForLogout()
@@ -250,8 +282,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Username and password aren't always the username and password
         public void OnLoginButtonClick()
         {
-            string usernameAsString = idInputField.text.Trim();
-            string passwordAsString = tokenInputField.text.Trim();
+            string usernameAsString = idInputField.InputField.text.Trim();
+            string passwordAsString = tokenInputField.InputField.text.Trim();
 
             if (SelectedLoginTypeRequiresUsername() && usernameAsString.Length <= 0)
             {

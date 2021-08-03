@@ -23,8 +23,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Sessions;
@@ -52,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text CurrentSessionsHeader;
 
         [Header("Sessions/Matchmaking UI - Search")]
-        public InputField SearchByLevelBox;
+        public ConsoleInputField SearchByLevelBox;
 
         private bool ShowSearchResults = false;
 
@@ -60,6 +62,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIInvitePanel;
         public Text InviteFromVal;
         public Toggle InvitePresence;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         public void Awake()
         {
@@ -72,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByLevelBox.onEndEdit.AddListener(SearchByLevelEnterPressed);
+            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelEnterPressed);
         }
 
         private int previousFrameSessionCount = 0;
@@ -394,6 +399,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().OnLoggedIn();
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()
