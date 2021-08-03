@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿#if UNITY_64
+﻿#if UNITY_64 || UNITY_EDITOR_64
 #define PLATFORM_64BITS
 #elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
 #define PLATFORM_32BITS
@@ -68,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         static string GetPlatformPathComponent()
         {
-#if PLATFROM_64BITS
+#if PLATFORM_64BITS
             return "x64";
 #elif PLATFORM_32BITS
             return "x86";
