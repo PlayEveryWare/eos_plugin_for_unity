@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2211920899026651829}
   m_HandleRect: {fileID: 2211920899026651830}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1683,8 +1683,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1520068606371974356}
-        m_TargetAssemblyTypeName: UIFriendsMenu, Assembly-CSharp
-        m_MethodName: FriendsTabOnClick
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UIFriendsMenu,
+          Assembly-CSharp
+        m_MethodName: CollapseFriendsTab
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1816,8 +1817,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1520068606371974356}
-        m_TargetAssemblyTypeName: UIFriendsMenu, Assembly-CSharp
-        m_MethodName: FriendsTabOnClick
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UIFriendsMenu,
+          Assembly-CSharp
+        m_MethodName: ExpandFriendsTab
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
