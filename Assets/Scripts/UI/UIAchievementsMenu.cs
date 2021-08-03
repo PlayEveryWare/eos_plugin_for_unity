@@ -26,12 +26,13 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Achievements;
-using Epic.OnlineServices.UI;
 using Epic.OnlineServices.Ecom;
+using Epic.OnlineServices.UI;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -62,9 +63,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void Update()
         {
             // Controller: Detect if nothing is selected and controller input detected, and set default
+            var gamepad = Gamepad.current;
+
             if (UIFirstSelected.activeSelf == true
                 && EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null
-                && (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
+                && gamepad != null && gamepad.wasUpdatedThisFrame)
             {
                 // Controller
                 EventSystem.current.SetSelectedGameObject(UIFirstSelected);

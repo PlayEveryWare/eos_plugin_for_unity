@@ -42,12 +42,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Player Data Storage UI")]
         public GameObject PlayerDataStorageUIParent;
 
-        public InputField NewFileNameTextBox;
+        public ConsoleInputField NewFileNameTextBox;
 
         public GameObject FilesContentParent;
         public GameObject UIFileNameEntryPrefab;
 
-        public InputField FileContentTextBox;
+        public ConsoleInputField FileContentTextBox;
 
 
         [Header("Controller")]
@@ -59,7 +59,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Start()
         {
-            FileContentTextBox.text = string.Empty;
+            FileContentTextBox.InputField.text = string.Empty;
             PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
         }
 
@@ -87,7 +87,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (fileName.Equals(currentSelectedFile, StringComparison.OrdinalIgnoreCase))
                     {
                         uiEntry.ShowSelectedColor();
-                        FileContentTextBox.text = GetLocalFileData(fileName);
+                        FileContentTextBox.InputField.text = GetLocalFileData(fileName);
                     }
                 }
 
@@ -111,15 +111,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void NewFileButtonOnClick()
         {
-            if (string.IsNullOrEmpty(NewFileNameTextBox.text))
+            if (string.IsNullOrEmpty(NewFileNameTextBox.InputField.text))
             {
                 Debug.LogError("UIPlayerDatatStorageMenu (NewFileButtonOnClick): Invalid File Name!");
                 return;
             }
 
-            PlayerDataStorageManager.AddFile(NewFileNameTextBox.text, string.Empty);
+            PlayerDataStorageManager.AddFile(NewFileNameTextBox.InputField.text, string.Empty);
 
-            NewFileNameTextBox.text = string.Empty;
+            NewFileNameTextBox.InputField.text = string.Empty;
         }
 
         public void SaveButtonOnClick()
@@ -130,7 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            PlayerDataStorageManager.AddFile(currentSelectedFile, FileContentTextBox.text, UpdateUI);
+            PlayerDataStorageManager.AddFile(currentSelectedFile, FileContentTextBox.InputField.text, UpdateUI);
         }
 
         public void DownloadButtonOnClick()
@@ -175,7 +175,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentSelectedFile = fileName;
 
             // Update File content if local cash exists
-            FileContentTextBox.text = GetLocalFileData(fileName);
+            FileContentTextBox.InputField.text = GetLocalFileData(fileName);
 
             updateUI = true;
         }

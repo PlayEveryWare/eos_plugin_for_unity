@@ -40,8 +40,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Title Storage UI")]
         public GameObject TitleStorageUIParent;
 
-        public InputField AddTagTextBox;
-        public InputField FileNameTextBox;
+        public ConsoleInputField AddTagTextBox;
+        public ConsoleInputField FileNameTextBox;
 
         public GameObject TagContentParent;
         public GameObject UITagEntryPrefab;
@@ -71,28 +71,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void AddTagOnClick()
         {
-            if (string.IsNullOrEmpty(AddTagTextBox.text))
+            if (string.IsNullOrEmpty(AddTagTextBox.InputField.text))
             {
                 Debug.LogError("UITitleStorageMenu - Empty tag cannot be added!");
                 return;
             }
 
-            if (CurrentTags.Contains(AddTagTextBox.text))
+            if (CurrentTags.Contains(AddTagTextBox.InputField.text))
             {
-                Debug.LogErrorFormat("UITitleStorageMenu - Tag '{0}' is already in the list.", AddTagTextBox.text);
+                Debug.LogErrorFormat("UITitleStorageMenu - Tag '{0}' is already in the list.", AddTagTextBox.InputField.text);
                 return;
             }
 
-            CurrentTags.Add(AddTagTextBox.text);
+            CurrentTags.Add(AddTagTextBox.InputField.text);
 
             GameObject tagUIObj = Instantiate(UITagEntryPrefab, TagContentParent.transform);
             UITagEntry tagEntry = tagUIObj.GetComponent<UITagEntry>();
             if (tagEntry != null)
             {
-                tagEntry.TagTxt.text = AddTagTextBox.text;
+                tagEntry.TagTxt.text = AddTagTextBox.InputField.text;
             }
 
-            AddTagTextBox.text = string.Empty;
+            AddTagTextBox.InputField.text = string.Empty;
         }
 
         public void ClearTagsOnClick()
@@ -157,19 +157,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void FileNameEntryOnClick(string fileName)
         {
-            FileNameTextBox.text = fileName;
+            FileNameTextBox.InputField.text = fileName;
         }
 
         public void DownloadOnClick()
         {
-            if (string.IsNullOrEmpty(FileNameTextBox.text))
+            if (string.IsNullOrEmpty(FileNameTextBox.InputField.text))
             {
                 Debug.LogError("UITitleStorageMenu - Empty FileName cannot be downloaded!");
                 return;
             }
 
             // Check if it's already been downloaded
-            string cachedData = GetLocalData(FileNameTextBox.text);
+            string cachedData = GetLocalData(FileNameTextBox.InputField.text);
             if (!string.IsNullOrEmpty(cachedData))
             {
                 Debug.Log("UITitleStorageMenu - FileName '{0}' already downloaded. Display content.");
@@ -179,7 +179,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            TitleStorageManager.ReadFile(FileNameTextBox.text, UpdateFileContent);
+            TitleStorageManager.ReadFile(FileNameTextBox.InputField.text, UpdateFileContent);
 
             // TODO: Show progress bar
         }
@@ -192,14 +192,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (TitleStorageManager.GetCachedStorageData().TryGetValue(FileNameTextBox.text, out string fileContent))
+            if (TitleStorageManager.GetCachedStorageData().TryGetValue(FileNameTextBox.InputField.text, out string fileContent))
             {
                 // Update UI
                 FileContent.text = fileContent;
             }
             else
             {
-                Debug.LogErrorFormat("UITitleStorageMenu - '{0}' file content was not found in cached data storage.", FileNameTextBox.text);
+                Debug.LogErrorFormat("UITitleStorageMenu - '{0}' file content was not found in cached data storage.", FileNameTextBox.InputField.text);
             }
         }
 

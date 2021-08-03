@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Text CurrentSelectedLeaderboardTxt;
 
-        public InputField ingestStatValueInput;
+        public ConsoleInputField ingestStatValueInput;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
@@ -203,13 +203,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void IngestStatOnClick()
         {
-            if(string.IsNullOrEmpty(ingestStatValueInput.text))
+            if(string.IsNullOrEmpty(ingestStatValueInput.InputField.text))
             {
                 Debug.LogWarning("UILeaderboardMenu (IngestStatOnClick): Input a value.");
                 return;
             }
 
-            if(!Int32.TryParse(ingestStatValueInput.text, out int amount))
+            if(!Int32.TryParse(ingestStatValueInput.InputField.text, out int amount))
             {
                 Debug.LogWarning("UILeaderboardMenu (IngestStatOnClick): Input is not a valid integer.");
                 return;

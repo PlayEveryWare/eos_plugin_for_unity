@@ -1,12 +1,39 @@
-﻿using System.Collections;
+﻿/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class KeyboardUI : MonoBehaviour
 {
+    public static KeyboardUI instance;
+
+    public GameObject KeyboardPanel;
+
     [Header("Alpha Keyboard")]
     public GameObject AlphaKeyboard_ToggleA;
     public GameObject AlphaKeyboard_ToggleB;
@@ -27,22 +54,59 @@ public class KeyboardUI : MonoBehaviour
     [Header("Controller")]
     public GameObject UIFirstSelected;
 
-    private void Start()
+    // Manager Callbacks
+    private OnKeyboardCompleted KeyboardCallback;
+
+    public delegate void OnKeyboardCompleted(string result);
+
+    private void Awake()
     {
-        ShowKeyboard();
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Update()
     {
-        // Controller
-        if (Input.GetButtonDown("B"))
+
+        var gamepad = Gamepad.current;
+        if(gamepad == null)
+        {
+            return; // No gamepad connected
+        }
+
+        if(gamepad.bButton.wasPressedThisFrame)
         {
             KeyBackspace();
         }
+
+        if(gamepad.leftStickButton.wasPressedThisFrame)
+        {
+            ToggleKeyboard();
+        }
+
+        if(gamepad.startButton.wasPressedThisFrame || gamepad.yButton.wasPressedThisFrame)
+        {
+            EnterOnClick();
+        }
     }
 
-    public void ShowKeyboard()
+    public void ShowKeyboard(string value, OnKeyboardCompleted ShowKeyboardCompleted)
     {
+        // Clear previous state & set passed in value
+        currentInput = value;
+        KeyboardInput.text = currentInput;
+
+        ShowAlphaKeyboard(false);
+
+        KeyboardPanel.SetActive(true);
+        KeyboardCallback = ShowKeyboardCompleted;
+
         // Controller
         EventSystem.current.SetSelectedGameObject(UIFirstSelected);
     }
@@ -55,8 +119,11 @@ public class KeyboardUI : MonoBehaviour
 
     public void KeyBackspace()
     {
-        currentInput = currentInput.Substring(0, currentInput.Length - 1);
-        updateKeyboardInput();
+        if(currentInput.Length > 0)
+        {
+            currentInput = currentInput.Substring(0, currentInput.Length - 1);
+            updateKeyboardInput();
+        }
     }
 
     private void updateKeyboardInput()
@@ -64,7 +131,7 @@ public class KeyboardUI : MonoBehaviour
         KeyboardInput.text = currentInput;
     }
 
-    public void ShowAlphaKeyboard()
+    public void ShowAlphaKeyboard(bool selectSwitchButton = true)
     {
         AlphaKeyboard_ToggleA.SetActive(true);
         AlphaKeyboard_ToggleB.SetActive(false);
@@ -72,8 +139,10 @@ public class KeyboardUI : MonoBehaviour
         NumericKeyboard_ToggleA.SetActive(false);
         NumericKeyboard_ToggleB.SetActive(false);
 
-        // Controller
-        EventSystem.current.SetSelectedGameObject(AK_KeyboardSwitchButton);
+        if(selectSwitchButton)
+        {
+            EventSystem.current.SetSelectedGameObject(AK_KeyboardSwitchButton);
+        }
     }
 
     public void ShowNumericKeyboard()
@@ -134,5 +203,11 @@ public class KeyboardUI : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void EnterOnClick()
+    {
+        KeyboardPanel.SetActive(false);
+        KeyboardCallback?.Invoke(KeyboardInput.text);
     }
 }

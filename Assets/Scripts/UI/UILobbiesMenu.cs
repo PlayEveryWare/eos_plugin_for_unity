@@ -40,7 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
-        public InputField BucketIdVal;
+        public ConsoleInputField BucketIdVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
         public Dropdown PermissionVal;
@@ -66,9 +66,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UILobbyEntryPrefab;
         public GameObject SearchContentParent;
 
-        public InputField SearchByBucketIdBox;
-        public InputField SearchByLevelBox;
-        public InputField SearchByLobbyIdBox;
+        public ConsoleInputField SearchByBucketIdBox;
+        public ConsoleInputField SearchByLevelBox;
+        public ConsoleInputField SearchByLobbyIdBox;
 
         [Header("Lobbies UI - Invite PopUp")]
         public GameObject UIInvitePanel;
@@ -103,9 +103,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByBucketIdBox.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
-            SearchByLevelBox.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
-            SearchByLobbyIdBox.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
+            SearchByBucketIdBox.InputField.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
+            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
+            SearchByLobbyIdBox.InputField.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
 
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
@@ -276,7 +276,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Lobby lobbyProperties = new Lobby();
             // Bucket Id
-            lobbyProperties.BucketId = BucketIdVal.text;
+            lobbyProperties.BucketId = BucketIdVal.InputField.text;
 
             // Max Players
             lobbyProperties.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
@@ -324,7 +324,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Bucket Id
-            currentLobby.BucketId = BucketIdVal.text;
+            currentLobby.BucketId = BucketIdVal.InputField.text;
 
             // Max Players
             currentLobby.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);

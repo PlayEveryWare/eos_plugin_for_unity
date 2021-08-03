@@ -25,14 +25,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 using Epic.OnlineServices;
-using Epic.OnlineServices.UI;
+using Epic.OnlineServices.Friends;
 using Epic.OnlineServices.P2P;
 using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.Friends;
+using Epic.OnlineServices.UI;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -47,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button FriendsTabButton_Closed;
         private bool collapsed = false;
 
-        public InputField SearchFriendsInput;
+        public ConsoleInputField SearchFriendsInput;
 
         public GameObject FriendsListContentParent;
         public GameObject UIFriendEntryPrefab;
@@ -84,7 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 FriendsTabButton_Closed.gameObject.SetActive(false);
             }
 
-            SearchFriendsInput.onEndEdit.AddListener(SearchFriendsInputEnterPressed);
+            SearchFriendsInput.InputField.onEndEdit.AddListener(SearchFriendsInputEnterPressed);
             isSearching = false;
         }
 
@@ -105,7 +106,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void Update()
         {
             // Controller
-            if(Input.GetButtonDown("RB"))
+            var gamepad = Gamepad.current;
+            if (gamepad != null && gamepad.rightShoulder.wasPressedThisFrame)
             {
                 ToggleFriendsTab();
             }

@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject ChatEntriesContentParent;
         public GameObject ChatEntryPrefab;
 
-        public InputField ChatMessageInput;
+        public ConsoleInputField ChatMessageInput;
         public Button SendButton;
 
         [Header("Controller")]
@@ -68,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
 
-            ChatMessageInput.onEndEdit.AddListener(EnterPressedToSend);
+            ChatMessageInput.InputField.onEndEdit.AddListener(EnterPressedToSend);
 
             CloseChatOnClick();
         }
@@ -216,14 +216,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (string.IsNullOrEmpty(ChatMessageInput.text))
+            if (string.IsNullOrEmpty(ChatMessageInput.InputField.text))
             {
                 Debug.LogError("UIPeer2PeerMenu (SendOnClick): Message is empty.");
                 return;
             }
 
-            string message = ChatMessageInput.text;
-            ChatMessageInput.text = string.Empty;
+            string message = ChatMessageInput.InputField.text;
+            ChatMessageInput.InputField.text = string.Empty;
 
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {

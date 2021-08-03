@@ -54,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text CurrentSessionsHeader;
 
         [Header("Sessions/Matchmaking UI - Search")]
-        public InputField SearchByLevelBox;
+        public ConsoleInputField SearchByLevelBox;
 
         private bool ShowSearchResults = false;
 
@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByLevelBox.onEndEdit.AddListener(SearchByLevelEnterPressed);
+            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelEnterPressed);
         }
 
         private int previousFrameSessionCount = 0;
