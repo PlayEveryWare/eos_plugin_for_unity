@@ -113,6 +113,7 @@ EOS_STRUCT(EOS_LobbyDetails_Info, (
 
 EOS_DECLARE_FUNC(void) EOS_LobbyDetails_Info_Release(EOS_LobbyDetails_Info* LobbyDetailsInfo);
 
+/** The most recent version of the EOS_Lobby_LocalRTCOptions structure. */
 #define EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST 1
 
 /**
@@ -135,11 +136,12 @@ EOS_STRUCT(EOS_Lobby_LocalRTCOptions, (
 	 */
 	EOS_Bool bUseManualAudioOutput;
 	/**
-	 * Set to EOS_TRUE to start the outgoing audio stream muted by when first connecting to the RTC room. It must be manually unmuted with a
-	 * call to EOS_RTCAudio_UpdateSending. If manual audio output is enabled, this value is ignored. The default is EOS_FALSE if this struct
-	 * is not specified.
+	 * Set to EOS_TRUE to start the audio input device's stream as muted when first connecting to the RTC room.
+	 *
+	 * It must be manually unmuted with a call to EOS_RTCAudio_UpdateSending. If manual audio output is enabled, this value is ignored.
+	 * The default value is EOS_FALSE if this struct is not specified.
 	 */
-	EOS_Bool bAudioOutputStartsMuted;
+	EOS_Bool bLocalAudioDeviceInputStartsMuted;
 ));
 
 /** The most recent version of the EOS_Lobby_CreateLobby API. */

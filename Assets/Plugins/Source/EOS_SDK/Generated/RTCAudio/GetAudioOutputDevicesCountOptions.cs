@@ -4,7 +4,7 @@
 namespace Epic.OnlineServices.RTCAudio
 {
 	/// <summary>
-	/// Output parameters for the <see cref="RTCAudioInterface.GetAudioOutputDevicesCount" /> function.
+	/// Input parameters for the <see cref="RTCAudioInterface.GetAudioOutputDevicesCount" /> function.
 	/// </summary>
 	public class GetAudioOutputDevicesCountOptions
 	{

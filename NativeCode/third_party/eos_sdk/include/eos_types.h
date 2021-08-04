@@ -68,7 +68,7 @@ EOS_STRUCT(EOS_Platform_Options, (
 	const char* SandboxId;
 	/** Set of service permissions associated with the running application */
 	EOS_Platform_ClientCredentials ClientCredentials;
-	/** Is this running as a server */
+	/** Set this to EOS_FALSE if the application is running as a client with a local user, otherwise set to EOS_TRUE (e.g. for a dedicated game server) */
 	EOS_Bool bIsServer;
 	/** Used by Player Data Storage and Title Storage. Must be null initialized if unused. 256-bit Encryption Key for file encryption in hexadecimal format (64 hex chars)*/
 	const char* EncryptionKey;

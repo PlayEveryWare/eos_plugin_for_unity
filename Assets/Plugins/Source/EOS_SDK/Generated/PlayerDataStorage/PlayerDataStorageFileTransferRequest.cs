@@ -53,7 +53,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			System.IntPtr outStringBufferAddress = System.IntPtr.Zero;
 			int outStringLength = PlayerDataStorageInterface.FilenameMaxLengthBytes;
-			Helper.TryMarshalAllocate(ref outStringBufferAddress, outStringLength, out _);
+			Helper.TryMarshalAllocate(ref outStringBufferAddress, outStringLength);
 
 			var funcResult = Bindings.EOS_PlayerDataStorageFileTransferRequest_GetFilename(InnerHandle, (uint)outStringLength, outStringBufferAddress, ref outStringLength);
 

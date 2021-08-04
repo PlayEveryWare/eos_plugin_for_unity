@@ -746,12 +746,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            /* Verbose Logging: Uncomment to print each time audio is received.
             Debug.LogFormat("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): participant audio updated. LocalUserId={0}, Room={1}, ParticipantUserId={2}, IsTalking={3}, IsAudioDisabled={4}",
                 data.LocalUserId,
                 data.RoomName,
                 data.ParticipantId,
                 data.Speaking,
                 data.AudioStatus != RTCAudioStatus.Enabled);
+            */
 
             // OnRTCRoomParticipantAudioUpdated
 
@@ -840,26 +842,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             createLobbyOptions.AllowInvites = lobbyProperties.AllowInvites;
             createLobbyOptions.BucketId = lobbyProperties.BucketId;
 
-
             // Voice Chat
             if(lobbyProperties.RTCRoomEnabled)
             {
-#if UNITY_EDITOR
-                Debug.LogWarning("Lobbies (Create Lobby): RTCRoom cannot be enabled in-editor.  Only Standalone builds.");
-                createLobbyOptions.EnableRTCRoom = false;
-                createLobbyOptions.LocalRTCOptions = null;
-#else
                 LocalRTCOptions rtcOptions = new LocalRTCOptions()
                 {
                     Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
                     UseManualAudioInput = false,
                     UseManualAudioOutput = false,
-                    AudioOutputStartsMuted = false
+                    LocalAudioDeviceInputStartsMuted = false
                 };
 
                 createLobbyOptions.EnableRTCRoom = true;
                 createLobbyOptions.LocalRTCOptions = rtcOptions;
-#endif
             }
             else
             {

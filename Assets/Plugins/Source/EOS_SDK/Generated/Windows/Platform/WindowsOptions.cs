@@ -29,7 +29,7 @@ namespace Epic.OnlineServices.Platform
 		public ClientCredentials ClientCredentials { get; set; }
 
 		/// <summary>
-		/// Is this running as a server
+		/// Set this to false if the application is running as a client with a local user, otherwise set to true (e.g. for a dedicated game server)
 		/// </summary>
 		public bool IsServer { get; set; }
 

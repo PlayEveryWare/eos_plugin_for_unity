@@ -156,7 +156,7 @@ EOS_STRUCT(EOS_RTCAudio_AudioInputDeviceInfo, (
 #define EOS_RTCAUDIO_GETAUDIOOUTPUTDEVICESCOUNT_API_LATEST 1
 
 /**
- * Output parameters for the EOS_RTCAudio_GetAudioOutputDevicesCount function.
+ * Input parameters for the EOS_RTCAudio_GetAudioOutputDevicesCount function.
  */
 EOS_STRUCT(EOS_RTCAudio_GetAudioOutputDevicesCountOptions, (
 	/** API Version: Set this to EOS_RTCAUDIO_GETAUDIOOUTPUTDEVICESCOUNT_API_LATEST. */
@@ -180,12 +180,12 @@ EOS_STRUCT(EOS_RTCAudio_GetAudioOutputDeviceByIndexOptions, (
 #define EOS_RTCAUDIO_AUDIOOUTPUTDEVICEINFO_API_LATEST 1
 
 /**
- * This struct is used to get information about a specific input device.
+ * This struct is used to get information about a specific output device.
  */
 EOS_STRUCT(EOS_RTCAudio_AudioOutputDeviceInfo, (
 	/** API Version: Set this to EOS_RTCAUDIO_AUDIOOUTPUTDEVICEINFO_API_LATEST. */
 	int32_t ApiVersion;
-	/** True if this is the default audio input device in the system. */
+	/** True if this is the default audio output device in the system. */
 	EOS_Bool bDefaultDevice;
 	/** 
 	 *  The persistent unique id of the device.

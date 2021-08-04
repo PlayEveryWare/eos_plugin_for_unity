@@ -37,7 +37,7 @@ namespace Epic.OnlineServices
 		{
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = 1024;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, outBufferAddress, ref inOutBufferLength);
 

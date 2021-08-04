@@ -556,7 +556,7 @@ namespace Epic.OnlineServices.Sessions
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = InviteidMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Sessions_GetInviteIdByIndex(InnerHandle, optionsAddress, outBufferAddress, ref inOutBufferLength);
 

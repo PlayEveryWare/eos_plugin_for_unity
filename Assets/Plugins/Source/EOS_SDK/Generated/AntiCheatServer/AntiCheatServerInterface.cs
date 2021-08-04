@@ -460,7 +460,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			uint outBufferLengthBytes = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes);
 
 			var funcResult = Bindings.EOS_AntiCheatServer_ProtectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBufferLengthBytes);
 
@@ -669,7 +669,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			uint outBufferLengthBytes = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes);
 
 			var funcResult = Bindings.EOS_AntiCheatServer_UnprotectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBufferLengthBytes);
 

@@ -437,7 +437,7 @@ namespace Epic.OnlineServices.P2P
 
 			System.IntPtr outDataAddress = System.IntPtr.Zero;
 			uint outBytesWritten = MaxPacketSize;
-			Helper.TryMarshalAllocate(ref outDataAddress, outBytesWritten, out _);
+			Helper.TryMarshalAllocate(ref outDataAddress, outBytesWritten);
 
 			var funcResult = Bindings.EOS_P2P_ReceivePacket(InnerHandle, optionsAddress, ref outPeerIdAddress, ref outSocketIdInternal, ref outChannel, outDataAddress, ref outBytesWritten);
 

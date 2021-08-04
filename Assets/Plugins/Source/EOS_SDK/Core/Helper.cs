@@ -667,10 +667,22 @@ namespace Epic.OnlineServices
 		{
 			return TryMarshalAllocate(ref target, (int)size, out allocation);
 		}
-#endregion
+
+		internal static bool TryMarshalAllocate(ref IntPtr target, int size)
+		{
+			Allocation allocation;
+			return TryMarshalAllocate(ref target, size, out allocation);
+		}
+
+		internal static bool TryMarshalAllocate(ref IntPtr target, uint size)
+		{
+			Allocation allocation;
+			return TryMarshalAllocate(ref target, size, out allocation);
+		}
+		#endregion
 
 		// These functions are the front end for disposing of unmanaged memory that this wrapper has allocated.
-#region Marshal Disposers
+		#region Marshal Disposers
 		internal static bool TryMarshalDispose<TDisposable>(ref TDisposable disposable)
 			where TDisposable : IDisposable
 		{

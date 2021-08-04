@@ -4,12 +4,12 @@
 namespace Epic.OnlineServices.RTCAudio
 {
 	/// <summary>
-	/// This struct is used to get information about a specific input device.
+	/// This struct is used to get information about a specific output device.
 	/// </summary>
 	public class AudioOutputDeviceInfo : ISettable
 	{
 		/// <summary>
-		/// True if this is the default audio input device in the system.
+		/// True if this is the default audio output device in the system.
 		/// </summary>
 		public bool DefaultDevice { get; set; }
 

@@ -27,11 +27,12 @@ namespace Epic.OnlineServices.Lobby
 		public bool UseManualAudioOutput { get; set; }
 
 		/// <summary>
-		/// Set to true to start the outgoing audio stream muted by when first connecting to the RTC room. It must be manually unmuted with a
-		/// call to <see cref="RTCAudio.RTCAudioInterface.UpdateSending" />. If manual audio output is enabled, this value is ignored. The default is false if this struct
-		/// is not specified.
+		/// Set to true to start the audio input device's stream as muted when first connecting to the RTC room.
+		/// 
+		/// It must be manually unmuted with a call to <see cref="RTCAudio.RTCAudioInterface.UpdateSending" />. If manual audio output is enabled, this value is ignored.
+		/// The default value is false if this struct is not specified.
 		/// </summary>
-		public bool AudioOutputStartsMuted { get; set; }
+		public bool LocalAudioDeviceInputStartsMuted { get; set; }
 
 		internal void Set(LocalRTCOptionsInternal? other)
 		{
@@ -40,7 +41,7 @@ namespace Epic.OnlineServices.Lobby
 				Flags = other.Value.Flags;
 				UseManualAudioInput = other.Value.UseManualAudioInput;
 				UseManualAudioOutput = other.Value.UseManualAudioOutput;
-				AudioOutputStartsMuted = other.Value.AudioOutputStartsMuted;
+				LocalAudioDeviceInputStartsMuted = other.Value.LocalAudioDeviceInputStartsMuted;
 			}
 		}
 
@@ -57,7 +58,7 @@ namespace Epic.OnlineServices.Lobby
 		private uint m_Flags;
 		private int m_UseManualAudioInput;
 		private int m_UseManualAudioOutput;
-		private int m_AudioOutputStartsMuted;
+		private int m_LocalAudioDeviceInputStartsMuted;
 
 		public uint Flags
 		{
@@ -102,18 +103,18 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public bool AudioOutputStartsMuted
+		public bool LocalAudioDeviceInputStartsMuted
 		{
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_AudioOutputStartsMuted, out value);
+				Helper.TryMarshalGet(m_LocalAudioDeviceInputStartsMuted, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AudioOutputStartsMuted, value);
+				Helper.TryMarshalSet(ref m_LocalAudioDeviceInputStartsMuted, value);
 			}
 		}
 
@@ -125,7 +126,7 @@ namespace Epic.OnlineServices.Lobby
 				Flags = other.Flags;
 				UseManualAudioInput = other.UseManualAudioInput;
 				UseManualAudioOutput = other.UseManualAudioOutput;
-				AudioOutputStartsMuted = other.AudioOutputStartsMuted;
+				LocalAudioDeviceInputStartsMuted = other.LocalAudioDeviceInputStartsMuted;
 			}
 		}
 

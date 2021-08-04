@@ -80,7 +80,7 @@ namespace Epic.OnlineServices
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			uint inOutBufferLength = 1024;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_ByteArray_ToString(byteArrayAddress, length, outBufferAddress, ref inOutBufferLength);
 

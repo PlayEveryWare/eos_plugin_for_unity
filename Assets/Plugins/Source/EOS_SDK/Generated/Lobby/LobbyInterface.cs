@@ -128,6 +128,9 @@ namespace Epic.OnlineServices.Lobby
 		/// </summary>
 		public const int LeavelobbyApiLatest = 1;
 
+		/// <summary>
+		/// The most recent version of the <see cref="LocalRTCOptions" /> structure.
+		/// </summary>
 		public const int LocalrtcoptionsApiLatest = 1;
 
 		/// <summary>
@@ -621,7 +624,7 @@ namespace Epic.OnlineServices.Lobby
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = InviteidMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Lobby_GetInviteIdByIndex(InnerHandle, optionsAddress, outBufferAddress, ref inOutBufferLength);
 
@@ -659,7 +662,7 @@ namespace Epic.OnlineServices.Lobby
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			uint inOutBufferLength = 256;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Lobby_GetRTCRoomName(InnerHandle, optionsAddress, outBufferAddress, ref inOutBufferLength);
 
