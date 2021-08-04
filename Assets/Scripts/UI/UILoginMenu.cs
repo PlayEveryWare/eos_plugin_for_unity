@@ -128,9 +128,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (inputfield != null)
                     {
                         inputfield.OnPointerClick(new PointerEventData(system));
+                        system.SetSelectedGameObject(next.gameObject);
                     }
 
-                    system.SetSelectedGameObject(next.gameObject);
+                    ConsoleInputField consoleInputField = next.GetComponent<ConsoleInputField>();
+                    if(consoleInputField != null)
+                    {
+                        consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
+                        system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
+                    }
                 }
                 else
                 {
