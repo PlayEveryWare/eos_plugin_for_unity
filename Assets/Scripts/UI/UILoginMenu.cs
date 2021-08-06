@@ -91,6 +91,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     loginType = LoginCredentialType.PersistentAuth;
                     ConfigureUIForPersistentLogin();
                     break;
+                case 3:
+                    loginType = LoginCredentialType.ExternalAuth;
+                    ConfigureUIForExternalAuth();
+                    break;
                 default:
                     loginType = LoginCredentialType.Developer;
                     ConfigureUIForDevAuthLogin();
@@ -207,6 +211,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenText.gameObject.SetActive(false);
         }
 
+        //-------------------------------------------------------------------------
+        private void ConfigureUIForExternalAuth()
+        {
+            idInputField.gameObject.SetActive(false);
+            tokenInputField.gameObject.SetActive(false);
+            idText.gameObject.SetActive(false);
+            tokenText.gameObject.SetActive(false);
+        }
+
+
         private void ConfigureUIForLogin()
         {
             if (OnLogout != null)
@@ -313,7 +327,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    print(logMessage.Message);
             //});
 
-            if (loginType == LoginCredentialType.PersistentAuth)
+            if (loginType == LoginCredentialType.ExternalAuth)
+            {
+                Debug.LogError("ExternalAuth is not implemented on this platform");
+            }
+            else if (loginType == LoginCredentialType.PersistentAuth)
             {
                 EOSManager.Instance.StartPersistantLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
                 {
