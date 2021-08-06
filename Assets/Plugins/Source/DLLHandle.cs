@@ -52,7 +52,7 @@ public class DLLHandle : SafeHandle
     {
         string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
         string pluginsPath = (Application.dataPath + "\\Plugins\\").Replace('/', '\\');
-        string packagedPluginPath = Path.GetFullPath("Packages/" + GetPackageName());
+        string packagedPluginPath = Path.GetFullPath(Path.Combine("Packages", GetPackageName(), "Runtime"));
         var pluginPaths = new List<string>();
 
         if(Directory.Exists(pluginsPath))
