@@ -1,0 +1,1918 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  id: EOSLeaderboardManager
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.#ctor
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardDefinitions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardDefinitionsDirty
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardRecords
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardRecordsDirty
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardUserScores
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardUserScoresDirty
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardDefinitions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardRecords
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardUserScores
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.EOS_LEADERBOARDS_TIME_UNDEFINED
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionFromId(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionIds
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions(Dictionary{System.String,Definition}@)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords(List{LeaderboardRecord}@)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores(Dictionary{System.String,List{LeaderboardUserScore}}@)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.IngestStat(System.String,System.Int32)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardsHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedIn
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedOut
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitions(PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitionsCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanks(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanksCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores(List{System.String},List{ProductUserId},PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScoresCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsIngestCallbackFn(IngestStatCompleteCallbackInfo)
+  langs:
+  - csharp
+  - vb
+  name: EOSLeaderboardManager
+  nameWithType: EOSLeaderboardManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  type: Class
+  source:
+    id: EOSLeaderboardManager
+    path: ''
+    startLine: 4289
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass <code>EOSLeaderboardManager</code> is a simplified wrapper for EOS [Leaderboard Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Leaderboards/index.html).\n"
+  example: []
+  syntax:
+    content: 'public class EOSLeaderboardManager : IEOSSubManager'
+    content.vb: >-
+      Public Class EOSLeaderboardManager
+          Implements IEOSSubManager
+  inheritance:
+  - System.Object
+  implements:
+  - PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardsHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardsHandle
+  id: LeaderboardsHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: LeaderboardsHandle
+  nameWithType: EOSLeaderboardManager.LeaderboardsHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardsHandle
+  type: Field
+  source:
+    id: LeaderboardsHandle
+    path: ''
+    startLine: 4291
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: LeaderboardsInterface LeaderboardsHandle
+    return:
+      type: LeaderboardsInterface
+    content.vb: LeaderboardsHandle As LeaderboardsInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsHandle
+  id: StatsHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: StatsHandle
+  nameWithType: EOSLeaderboardManager.StatsHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsHandle
+  type: Field
+  source:
+    id: StatsHandle
+    path: ''
+    startLine: 4292
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: StatsInterface StatsHandle
+    return:
+      type: StatsInterface
+    content.vb: StatsHandle As StatsInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardDefinitions
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardDefinitions
+  id: CachedLeaderboardDefinitions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CachedLeaderboardDefinitions
+  nameWithType: EOSLeaderboardManager.CachedLeaderboardDefinitions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardDefinitions
+  type: Field
+  source:
+    id: CachedLeaderboardDefinitions
+    path: ''
+    startLine: 4294
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<string, Definition> CachedLeaderboardDefinitions
+    return:
+      type: Dictionary{System.String,Definition}
+    content.vb: CachedLeaderboardDefinitions As Dictionary(Of String, Definition)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardDefinitionsDirty
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardDefinitionsDirty
+  id: CachedLeaderboardDefinitionsDirty
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CachedLeaderboardDefinitionsDirty
+  nameWithType: EOSLeaderboardManager.CachedLeaderboardDefinitionsDirty
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardDefinitionsDirty
+  type: Field
+  source:
+    id: CachedLeaderboardDefinitionsDirty
+    path: ''
+    startLine: 4295
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: bool CachedLeaderboardDefinitionsDirty
+    return:
+      type: System.Boolean
+    content.vb: CachedLeaderboardDefinitionsDirty As Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardRecords
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardRecords
+  id: CachedLeaderboardRecords
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CachedLeaderboardRecords
+  nameWithType: EOSLeaderboardManager.CachedLeaderboardRecords
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardRecords
+  type: Field
+  source:
+    id: CachedLeaderboardRecords
+    path: ''
+    startLine: 4297
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: List<LeaderboardRecord> CachedLeaderboardRecords
+    return:
+      type: List{LeaderboardRecord}
+    content.vb: CachedLeaderboardRecords As List(Of LeaderboardRecord)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardRecordsDirty
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardRecordsDirty
+  id: CachedLeaderboardRecordsDirty
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CachedLeaderboardRecordsDirty
+  nameWithType: EOSLeaderboardManager.CachedLeaderboardRecordsDirty
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardRecordsDirty
+  type: Field
+  source:
+    id: CachedLeaderboardRecordsDirty
+    path: ''
+    startLine: 4298
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: bool CachedLeaderboardRecordsDirty
+    return:
+      type: System.Boolean
+    content.vb: CachedLeaderboardRecordsDirty As Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardUserScores
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardUserScores
+  id: CachedLeaderboardUserScores
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CachedLeaderboardUserScores
+  nameWithType: EOSLeaderboardManager.CachedLeaderboardUserScores
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardUserScores
+  type: Field
+  source:
+    id: CachedLeaderboardUserScores
+    path: ''
+    startLine: 4300
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<string, List<LeaderboardUserScore>> CachedLeaderboardUserScores
+    return:
+      type: Dictionary{System.String,List{LeaderboardUserScore}}
+    content.vb: CachedLeaderboardUserScores As Dictionary(Of String, List(Of LeaderboardUserScore))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardUserScoresDirty
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardUserScoresDirty
+  id: CachedLeaderboardUserScoresDirty
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CachedLeaderboardUserScoresDirty
+  nameWithType: EOSLeaderboardManager.CachedLeaderboardUserScoresDirty
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CachedLeaderboardUserScoresDirty
+  type: Field
+  source:
+    id: CachedLeaderboardUserScoresDirty
+    path: ''
+    startLine: 4301
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: bool CachedLeaderboardUserScoresDirty
+    return:
+      type: System.Boolean
+    content.vb: CachedLeaderboardUserScoresDirty As Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.EOS_LEADERBOARDS_TIME_UNDEFINED
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.EOS_LEADERBOARDS_TIME_UNDEFINED
+  id: EOS_LEADERBOARDS_TIME_UNDEFINED
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: EOS_LEADERBOARDS_TIME_UNDEFINED
+  nameWithType: EOSLeaderboardManager.EOS_LEADERBOARDS_TIME_UNDEFINED
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.EOS_LEADERBOARDS_TIME_UNDEFINED
+  type: Field
+  source:
+    id: EOS_LEADERBOARDS_TIME_UNDEFINED
+    path: ''
+    startLine: 4303
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: DateTimeOffset? EOS_LEADERBOARDS_TIME_UNDEFINED
+    return:
+      type: System.Nullable{System.DateTimeOffset}
+    content.vb: EOS_LEADERBOARDS_TIME_UNDEFINED As DateTimeOffset?
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitionsCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitionsCallback
+  id: QueryDefinitionsCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: QueryDefinitionsCallback
+  nameWithType: EOSLeaderboardManager.QueryDefinitionsCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitionsCallback
+  type: Field
+  source:
+    id: QueryDefinitionsCallback
+    path: ''
+    startLine: 4306
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLeaderboardManager.OnLeaderboardCallback QueryDefinitionsCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+    content.vb: QueryDefinitionsCallback As EOSLeaderboardManager.OnLeaderboardCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanksCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanksCallback
+  id: QueryRanksCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: QueryRanksCallback
+  nameWithType: EOSLeaderboardManager.QueryRanksCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanksCallback
+  type: Field
+  source:
+    id: QueryRanksCallback
+    path: ''
+    startLine: 4307
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLeaderboardManager.OnLeaderboardCallback QueryRanksCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+    content.vb: QueryRanksCallback As EOSLeaderboardManager.OnLeaderboardCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScoresCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScoresCallback
+  id: QueryUserScoresCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: QueryUserScoresCallback
+  nameWithType: EOSLeaderboardManager.QueryUserScoresCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScoresCallback
+  type: Field
+  source:
+    id: QueryUserScoresCallback
+    path: ''
+    startLine: 4308
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLeaderboardManager.OnLeaderboardCallback QueryUserScoresCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+    content.vb: QueryUserScoresCallback As EOSLeaderboardManager.OnLeaderboardCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.#ctor
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.#ctor
+  id: '#ctor'
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: EOSLeaderboardManager()
+  nameWithType: EOSLeaderboardManager.EOSLeaderboardManager()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.EOSLeaderboardManager()
+  type: Constructor
+  source:
+    id: .ctor
+    path: ''
+    startLine: 4312
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EOSLeaderboardManager()
+    content.vb: Public Sub New
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedIn
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedIn
+  id: OnLoggedIn
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedIn()
+  nameWithType: EOSLeaderboardManager.OnLoggedIn()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedIn()
+  type: Method
+  source:
+    id: OnLoggedIn
+    path: ''
+    startLine: 4335
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: User Logged In actions
+  example: []
+  syntax:
+    content: public void OnLoggedIn()
+    content.vb: Public Sub OnLoggedIn
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedIn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedOut
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedOut
+  id: OnLoggedOut
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedOut()
+  nameWithType: EOSLeaderboardManager.OnLoggedOut()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedOut()
+  type: Method
+  source:
+    id: OnLoggedOut
+    path: ''
+    startLine: 4344
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: User Logged Out actions
+  example: []
+  syntax:
+    content: public void OnLoggedOut()
+    content.vb: Public Sub OnLoggedOut
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedOut*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions(Dictionary{System.String,Definition}@)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions(Dictionary{System.String,Definition}@)
+  id: GetCachedLeaderboardDefinitions(Dictionary{System.String,Definition}@)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedLeaderboardDefinitions(out Dictionary<String, Definition>)
+  nameWithType: EOSLeaderboardManager.GetCachedLeaderboardDefinitions(out Dictionary<String, Definition>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions(out Dictionary<System.String, Definition>)
+  type: Method
+  source:
+    id: GetCachedLeaderboardDefinitions
+    path: ''
+    startLine: 4359
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Returns cached Leaderboard Dictionary where LeaderboardId is the key and <code>Definition</code> is the value.
+  example: []
+  syntax:
+    content: public bool GetCachedLeaderboardDefinitions(out Dictionary<string, Definition> LeaderboardDefinitions)
+    parameters:
+    - id: LeaderboardDefinitions
+      type: Dictionary{System.String,Definition}
+      description: Out parameter returns Dictionary where LeaderboardId is the key and <code>LeaderboardDefinitions</code> is the value.
+    return:
+      type: System.Boolean
+      description: True if <code>LeaderboardDefinitions</code> has changed since last call.
+    content.vb: Public Function GetCachedLeaderboardDefinitions(ByRef LeaderboardDefinitions As Dictionary(Of String, Definition)) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions*
+  nameWithType.vb: EOSLeaderboardManager.GetCachedLeaderboardDefinitions(ByRef Dictionary(Of String, Definition))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions(ByRef Dictionary(Of System.String, Definition))
+  name.vb: GetCachedLeaderboardDefinitions(ByRef Dictionary(Of String, Definition))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords(List{LeaderboardRecord}@)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords(List{LeaderboardRecord}@)
+  id: GetCachedLeaderboardRecords(List{LeaderboardRecord}@)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedLeaderboardRecords(out List<LeaderboardRecord>)
+  nameWithType: EOSLeaderboardManager.GetCachedLeaderboardRecords(out List<LeaderboardRecord>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords(out List<LeaderboardRecord>)
+  type: Method
+  source:
+    id: GetCachedLeaderboardRecords
+    path: ''
+    startLine: 4373
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Returns cached <code>LeaderboardRecord</code> List.
+  example: []
+  syntax:
+    content: public bool GetCachedLeaderboardRecords(out List<LeaderboardRecord> LeaderboardsRecords)
+    parameters:
+    - id: LeaderboardsRecords
+      type: List{LeaderboardRecord}
+      description: Out parameter returns List of <code>LeaderboardRecord</code>.
+    return:
+      type: System.Boolean
+      description: True if <code>LeaderboardRecords</code> has changed since last call.
+    content.vb: Public Function GetCachedLeaderboardRecords(ByRef LeaderboardsRecords As List(Of LeaderboardRecord)) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords*
+  nameWithType.vb: EOSLeaderboardManager.GetCachedLeaderboardRecords(ByRef List(Of LeaderboardRecord))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords(ByRef List(Of LeaderboardRecord))
+  name.vb: GetCachedLeaderboardRecords(ByRef List(Of LeaderboardRecord))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores(Dictionary{System.String,List{LeaderboardUserScore}}@)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores(Dictionary{System.String,List{LeaderboardUserScore}}@)
+  id: GetCachedLeaderboardUserScores(Dictionary{System.String,List{LeaderboardUserScore}}@)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedLeaderboardUserScores(out Dictionary<String, List<LeaderboardUserScore>>)
+  nameWithType: EOSLeaderboardManager.GetCachedLeaderboardUserScores(out Dictionary<String, List<LeaderboardUserScore>>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores(out Dictionary<System.String, List<LeaderboardUserScore>>)
+  type: Method
+  source:
+    id: GetCachedLeaderboardUserScores
+    path: ''
+    startLine: 4387
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Returns cached <code>LeaderboardUserScore</code> Dictionary where LeaderboardId is the key.
+  example: []
+  syntax:
+    content: public bool GetCachedLeaderboardUserScores(out Dictionary<string, List<LeaderboardUserScore>> LeaderboardUserScores)
+    parameters:
+    - id: LeaderboardUserScores
+      type: Dictionary{System.String,List{LeaderboardUserScore}}
+      description: Out parameter returns Dictionary where LeaderboardId is the key and <code>LeaderboardUserScore</code> is the value.
+    return:
+      type: System.Boolean
+      description: True if <code>LeaderboardUserScores</code> has changed since last call.
+    content.vb: Public Function GetCachedLeaderboardUserScores(ByRef LeaderboardUserScores As Dictionary(Of String, List(Of LeaderboardUserScore))) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores*
+  nameWithType.vb: EOSLeaderboardManager.GetCachedLeaderboardUserScores(ByRef Dictionary(Of String, List(Of LeaderboardUserScore)))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores(ByRef Dictionary(Of System.String, List(Of LeaderboardUserScore)))
+  name.vb: GetCachedLeaderboardUserScores(ByRef Dictionary(Of String, List(Of LeaderboardUserScore)))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitions(PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitions(PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  id: QueryDefinitions(PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: QueryDefinitions(EOSLeaderboardManager.OnLeaderboardCallback)
+  nameWithType: EOSLeaderboardManager.QueryDefinitions(EOSLeaderboardManager.OnLeaderboardCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitions(PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  type: Method
+  source:
+    id: QueryDefinitions
+    path: ''
+    startLine: 4399
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: (async) Initiate query for Leaderboard <code>Definitions</code>.
+  example: []
+  syntax:
+    content: public void QueryDefinitions(EOSLeaderboardManager.OnLeaderboardCallback QueryDefinitionsCompleted)
+    parameters:
+    - id: QueryDefinitionsCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+    content.vb: Public Sub QueryDefinitions(QueryDefinitionsCompleted As EOSLeaderboardManager.OnLeaderboardCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitions*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardDefinitions
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardDefinitions
+  id: CacheLeaderboardDefinitions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CacheLeaderboardDefinitions()
+  nameWithType: EOSLeaderboardManager.CacheLeaderboardDefinitions()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardDefinitions()
+  type: Method
+  source:
+    id: CacheLeaderboardDefinitions
+    path: ''
+    startLine: 4413
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void CacheLeaderboardDefinitions()
+    content.vb: Sub CacheLeaderboardDefinitions
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardDefinitions*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionIds
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionIds
+  id: GetCachedDefinitionIds
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedDefinitionIds()
+  nameWithType: EOSLeaderboardManager.GetCachedDefinitionIds()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionIds()
+  type: Method
+  source:
+    id: GetCachedDefinitionIds
+    path: ''
+    startLine: 4442
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Get list of cached Leaderboard <code>Definitions</code>
+  example: []
+  syntax:
+    content: public List<string> GetCachedDefinitionIds()
+    return:
+      type: List{System.String}
+      description: List(string) cached DefinitionIds
+    content.vb: Public Function GetCachedDefinitionIds As List(Of String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionIds*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionFromId(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionFromId(System.String)
+  id: GetCachedDefinitionFromId(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedDefinitionFromId(String)
+  nameWithType: EOSLeaderboardManager.GetCachedDefinitionFromId(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionFromId(System.String)
+  type: Method
+  source:
+    id: GetCachedDefinitionFromId
+    path: ''
+    startLine: 4453
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Get cached Leaderboard <code>Defintion</code> given a LeaderboardId.
+  example: []
+  syntax:
+    content: public Definition GetCachedDefinitionFromId(string leaderboardId)
+    parameters:
+    - id: leaderboardId
+      type: System.String
+      description: Specified LeaderboardID
+    return:
+      type: Definition
+      description: Leaderboard <code>Defintion</code>
+    content.vb: Public Function GetCachedDefinitionFromId(leaderboardId As String) As Definition
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionFromId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo)
+  id: LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo)
+  nameWithType: EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo)
+  type: Method
+  source:
+    id: LeaderboardDefinitionsReceivedCallbackFn
+    path: ''
+    startLine: 4460
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo data)
+    parameters:
+    - id: data
+      type: OnQueryLeaderboardDefinitionsCompleteCallbackInfo
+    content.vb: Sub LeaderboardDefinitionsReceivedCallbackFn(data As OnQueryLeaderboardDefinitionsCompleteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanks(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanks(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  id: QueryRanks(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: QueryRanks(String, EOSLeaderboardManager.OnLeaderboardCallback)
+  nameWithType: EOSLeaderboardManager.QueryRanks(String, EOSLeaderboardManager.OnLeaderboardCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanks(System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  type: Method
+  source:
+    id: QueryRanks
+    path: ''
+    startLine: 4485
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: (async) Initiate query for Leaderboard <code>Ranks</code> given a Leaderboard ID.
+  example: []
+  syntax:
+    content: public void QueryRanks(string leaderboardId, EOSLeaderboardManager.OnLeaderboardCallback QueryRanksCompleted)
+    parameters:
+    - id: leaderboardId
+      type: System.String
+      description: Leaderboard ID
+    - id: QueryRanksCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+    content.vb: Public Sub QueryRanks(leaderboardId As String, QueryRanksCompleted As EOSLeaderboardManager.OnLeaderboardCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanks*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardRecords
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardRecords
+  id: CacheLeaderboardRecords
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CacheLeaderboardRecords()
+  nameWithType: EOSLeaderboardManager.CacheLeaderboardRecords()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardRecords()
+  type: Method
+  source:
+    id: CacheLeaderboardRecords
+    path: ''
+    startLine: 4498
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void CacheLeaderboardRecords()
+    content.vb: Sub CacheLeaderboardRecords
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardRecords*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo)
+  id: LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo)
+  nameWithType: EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo)
+  type: Method
+  source:
+    id: LeaderboardRanksReceivedCallbackFn
+    path: ''
+    startLine: 4525
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo data)
+    parameters:
+    - id: data
+      type: OnQueryLeaderboardRanksCompleteCallbackInfo
+    content.vb: Sub LeaderboardRanksReceivedCallbackFn(data As OnQueryLeaderboardRanksCompleteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores(List{System.String},List{ProductUserId},PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores(List{System.String},List{ProductUserId},PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  id: QueryUserScores(List{System.String},List{ProductUserId},PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: QueryUserScores(List<String>, List<ProductUserId>, EOSLeaderboardManager.OnLeaderboardCallback)
+  nameWithType: EOSLeaderboardManager.QueryUserScores(List<String>, List<ProductUserId>, EOSLeaderboardManager.OnLeaderboardCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores(List<System.String>, List<ProductUserId>, PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  type: Method
+  source:
+    id: QueryUserScores
+    path: ''
+    startLine: 4551
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: (async) Initiate query for Leaderboard <code>UserScores</code> given a list of LeaderboardIds and list of Users.
+  example: []
+  syntax:
+    content: public void QueryUserScores(List<string> leaderboardIds, List<ProductUserId> userIds, EOSLeaderboardManager.OnLeaderboardCallback QueryUserScoresCompleted)
+    parameters:
+    - id: leaderboardIds
+      type: List{System.String}
+      description: List of LeaderboardIds to query.
+    - id: userIds
+      type: List{ProductUserId}
+      description: List of UserId to query.
+    - id: QueryUserScoresCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+    content.vb: Public Sub QueryUserScores(leaderboardIds As List(Of String), userIds As List(Of ProductUserId), QueryUserScoresCompleted As EOSLeaderboardManager.OnLeaderboardCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores*
+  nameWithType.vb: EOSLeaderboardManager.QueryUserScores(List(Of String), List(Of ProductUserId), EOSLeaderboardManager.OnLeaderboardCallback)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores(List(Of System.String), List(Of ProductUserId), PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback)
+  name.vb: QueryUserScores(List(Of String), List(Of ProductUserId), EOSLeaderboardManager.OnLeaderboardCallback)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardUserScores
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardUserScores
+  id: CacheLeaderboardUserScores
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: CacheLeaderboardUserScores()
+  nameWithType: EOSLeaderboardManager.CacheLeaderboardUserScores()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardUserScores()
+  type: Method
+  source:
+    id: CacheLeaderboardUserScores
+    path: ''
+    startLine: 4594
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void CacheLeaderboardUserScores()
+    content.vb: Sub CacheLeaderboardUserScores
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardUserScores*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId(System.String)
+  id: GetCachedUserScoresFromLeaderboardId(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedUserScoresFromLeaderboardId(String)
+  nameWithType: EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId(System.String)
+  type: Method
+  source:
+    id: GetCachedUserScoresFromLeaderboardId
+    path: ''
+    startLine: 4650
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Get cached Leaderboard <code>UserScores</code> given a LeaderboardId.
+  example: []
+  syntax:
+    content: public List<LeaderboardUserScore> GetCachedUserScoresFromLeaderboardId(string leaderboardId)
+    parameters:
+    - id: leaderboardId
+      type: System.String
+      description: Leaderboard ID
+    return:
+      type: List{LeaderboardUserScore}
+      description: Leaderboard <code>UserScores</code>
+    content.vb: Public Function GetCachedUserScoresFromLeaderboardId(leaderboardId As String) As List(Of LeaderboardUserScore)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo)
+  id: LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo)
+  nameWithType: EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo)
+  type: Method
+  source:
+    id: LeaderboardUserScoresReceivedCallbackFn
+    path: ''
+    startLine: 4657
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo data)
+    parameters:
+    - id: data
+      type: OnQueryLeaderboardUserScoresCompleteCallbackInfo
+    content.vb: Sub LeaderboardUserScoresReceivedCallbackFn(data As OnQueryLeaderboardUserScoresCompleteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.IngestStat(System.String,System.Int32)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.IngestStat(System.String,System.Int32)
+  id: IngestStat(System.String,System.Int32)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: IngestStat(String, Int32)
+  nameWithType: EOSLeaderboardManager.IngestStat(String, Int32)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.IngestStat(System.String, System.Int32)
+  type: Method
+  source:
+    id: IngestStat
+    path: ''
+    startLine: 4683
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Call to ingest the stat values into EOS Stat interface.
+  example: []
+  syntax:
+    content: public void IngestStat(string statName, int amount)
+    parameters:
+    - id: statName
+      type: System.String
+      description: Name of the stat
+    - id: amount
+      type: System.Int32
+      description: The amount to ingest for specified stat
+    content.vb: Public Sub IngestStat(statName As String, amount As Integer)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.IngestStat*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsIngestCallbackFn(IngestStatCompleteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsIngestCallbackFn(IngestStatCompleteCallbackInfo)
+  id: StatsIngestCallbackFn(IngestStatCompleteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+  langs:
+  - csharp
+  - vb
+  name: StatsIngestCallbackFn(IngestStatCompleteCallbackInfo)
+  nameWithType: EOSLeaderboardManager.StatsIngestCallbackFn(IngestStatCompleteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsIngestCallbackFn(IngestStatCompleteCallbackInfo)
+  type: Method
+  source:
+    id: StatsIngestCallbackFn
+    path: ''
+    startLine: 4704
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void StatsIngestCallbackFn(IngestStatCompleteCallbackInfo data)
+    parameters:
+    - id: data
+      type: IngestStatCompleteCallbackInfo
+    content.vb: Sub StatsIngestCallbackFn(data As IngestStatCompleteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsIngestCallbackFn*
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSSubManager
+  nameWithType: IEOSSubManager
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: LeaderboardsInterface
+  commentId: '!:LeaderboardsInterface'
+  isExternal: true
+  name: LeaderboardsInterface
+  nameWithType: LeaderboardsInterface
+  fullName: LeaderboardsInterface
+- uid: StatsInterface
+  commentId: '!:StatsInterface'
+  isExternal: true
+  name: StatsInterface
+  nameWithType: StatsInterface
+  fullName: StatsInterface
+- uid: Dictionary{System.String,Definition}
+  commentId: '!:Dictionary{System.String,Definition}'
+  definition: Dictionary`2
+  name: Dictionary<String, Definition>
+  nameWithType: Dictionary<String, Definition>
+  fullName: Dictionary<System.String, Definition>
+  nameWithType.vb: Dictionary(Of String, Definition)
+  fullName.vb: Dictionary(Of System.String, Definition)
+  name.vb: Dictionary(Of String, Definition)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Definition
+    name: Definition
+    nameWithType: Definition
+    fullName: Definition
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Definition
+    name: Definition
+    nameWithType: Definition
+    fullName: Definition
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary`2
+  isExternal: true
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: List{LeaderboardRecord}
+  commentId: '!:List{LeaderboardRecord}'
+  definition: List`1
+  name: List<LeaderboardRecord>
+  nameWithType: List<LeaderboardRecord>
+  fullName: List<LeaderboardRecord>
+  nameWithType.vb: List(Of LeaderboardRecord)
+  fullName.vb: List(Of LeaderboardRecord)
+  name.vb: List(Of LeaderboardRecord)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: LeaderboardRecord
+    name: LeaderboardRecord
+    nameWithType: LeaderboardRecord
+    fullName: LeaderboardRecord
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: LeaderboardRecord
+    name: LeaderboardRecord
+    nameWithType: LeaderboardRecord
+    fullName: LeaderboardRecord
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List`1
+  isExternal: true
+  name: List<>
+  nameWithType: List<>
+  fullName: List<>
+  nameWithType.vb: List(Of )
+  fullName.vb: List(Of )
+  name.vb: List(Of )
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary{System.String,List{LeaderboardUserScore}}
+  commentId: '!:Dictionary{System.String,List{LeaderboardUserScore}}'
+  definition: Dictionary`2
+  name: Dictionary<String, List<LeaderboardUserScore>>
+  nameWithType: Dictionary<String, List<LeaderboardUserScore>>
+  fullName: Dictionary<System.String, List<LeaderboardUserScore>>
+  nameWithType.vb: Dictionary(Of String, List(Of LeaderboardUserScore))
+  fullName.vb: Dictionary(Of System.String, List(Of LeaderboardUserScore))
+  name.vb: Dictionary(Of String, List(Of LeaderboardUserScore))
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: LeaderboardUserScore
+    name: LeaderboardUserScore
+    nameWithType: LeaderboardUserScore
+    fullName: LeaderboardUserScore
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: LeaderboardUserScore
+    name: LeaderboardUserScore
+    nameWithType: LeaderboardUserScore
+    fullName: LeaderboardUserScore
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable{System.DateTimeOffset}
+  commentId: T:System.Nullable{System.DateTimeOffset}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<DateTimeOffset>
+  nameWithType: Nullable<DateTimeOffset>
+  fullName: System.Nullable<System.DateTimeOffset>
+  nameWithType.vb: Nullable(Of DateTimeOffset)
+  fullName.vb: System.Nullable(Of System.DateTimeOffset)
+  name.vb: Nullable(Of DateTimeOffset)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.DateTimeOffset
+    name: DateTimeOffset
+    nameWithType: DateTimeOffset
+    fullName: System.DateTimeOffset
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.DateTimeOffset
+    name: DateTimeOffset
+    nameWithType: DateTimeOffset
+    fullName: System.DateTimeOffset
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: EOSLeaderboardManager.OnLeaderboardCallback
+  nameWithType: EOSLeaderboardManager.OnLeaderboardCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.#ctor*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.#ctor
+  name: EOSLeaderboardManager
+  nameWithType: EOSLeaderboardManager.EOSLeaderboardManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.EOSLeaderboardManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedIn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedIn
+  name: OnLoggedIn
+  nameWithType: EOSLeaderboardManager.OnLoggedIn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedIn
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedOut*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedOut
+  name: OnLoggedOut
+  nameWithType: EOSLeaderboardManager.OnLoggedOut
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLoggedOut
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions
+  name: GetCachedLeaderboardDefinitions
+  nameWithType: EOSLeaderboardManager.GetCachedLeaderboardDefinitions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardDefinitions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords
+  name: GetCachedLeaderboardRecords
+  nameWithType: EOSLeaderboardManager.GetCachedLeaderboardRecords
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardRecords
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores
+  name: GetCachedLeaderboardUserScores
+  nameWithType: EOSLeaderboardManager.GetCachedLeaderboardUserScores
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedLeaderboardUserScores
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitions
+  name: QueryDefinitions
+  nameWithType: EOSLeaderboardManager.QueryDefinitions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryDefinitions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardDefinitions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardDefinitions
+  name: CacheLeaderboardDefinitions
+  nameWithType: EOSLeaderboardManager.CacheLeaderboardDefinitions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardDefinitions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionIds*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionIds
+  name: GetCachedDefinitionIds
+  nameWithType: EOSLeaderboardManager.GetCachedDefinitionIds
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionIds
+- uid: List{System.String}
+  commentId: '!:List{System.String}'
+  definition: List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionFromId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionFromId
+  name: GetCachedDefinitionFromId
+  nameWithType: EOSLeaderboardManager.GetCachedDefinitionFromId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedDefinitionFromId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Definition
+  commentId: '!:Definition'
+  isExternal: true
+  name: Definition
+  nameWithType: Definition
+  fullName: Definition
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn
+  name: LeaderboardDefinitionsReceivedCallbackFn
+  nameWithType: EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardDefinitionsReceivedCallbackFn
+- uid: OnQueryLeaderboardDefinitionsCompleteCallbackInfo
+  commentId: '!:OnQueryLeaderboardDefinitionsCompleteCallbackInfo'
+  isExternal: true
+  name: OnQueryLeaderboardDefinitionsCompleteCallbackInfo
+  nameWithType: OnQueryLeaderboardDefinitionsCompleteCallbackInfo
+  fullName: OnQueryLeaderboardDefinitionsCompleteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanks*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanks
+  name: QueryRanks
+  nameWithType: EOSLeaderboardManager.QueryRanks
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryRanks
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardRecords*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardRecords
+  name: CacheLeaderboardRecords
+  nameWithType: EOSLeaderboardManager.CacheLeaderboardRecords
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardRecords
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn
+  name: LeaderboardRanksReceivedCallbackFn
+  nameWithType: EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardRanksReceivedCallbackFn
+- uid: OnQueryLeaderboardRanksCompleteCallbackInfo
+  commentId: '!:OnQueryLeaderboardRanksCompleteCallbackInfo'
+  isExternal: true
+  name: OnQueryLeaderboardRanksCompleteCallbackInfo
+  nameWithType: OnQueryLeaderboardRanksCompleteCallbackInfo
+  fullName: OnQueryLeaderboardRanksCompleteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores
+  name: QueryUserScores
+  nameWithType: EOSLeaderboardManager.QueryUserScores
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.QueryUserScores
+- uid: List{ProductUserId}
+  commentId: '!:List{ProductUserId}'
+  definition: List`1
+  name: List<ProductUserId>
+  nameWithType: List<ProductUserId>
+  fullName: List<ProductUserId>
+  nameWithType.vb: List(Of ProductUserId)
+  fullName.vb: List(Of ProductUserId)
+  name.vb: List(Of ProductUserId)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardUserScores*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardUserScores
+  name: CacheLeaderboardUserScores
+  nameWithType: EOSLeaderboardManager.CacheLeaderboardUserScores
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.CacheLeaderboardUserScores
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId
+  name: GetCachedUserScoresFromLeaderboardId
+  nameWithType: EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.GetCachedUserScoresFromLeaderboardId
+- uid: List{LeaderboardUserScore}
+  commentId: '!:List{LeaderboardUserScore}'
+  definition: List`1
+  name: List<LeaderboardUserScore>
+  nameWithType: List<LeaderboardUserScore>
+  fullName: List<LeaderboardUserScore>
+  nameWithType.vb: List(Of LeaderboardUserScore)
+  fullName.vb: List(Of LeaderboardUserScore)
+  name.vb: List(Of LeaderboardUserScore)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: LeaderboardUserScore
+    name: LeaderboardUserScore
+    nameWithType: LeaderboardUserScore
+    fullName: LeaderboardUserScore
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: LeaderboardUserScore
+    name: LeaderboardUserScore
+    nameWithType: LeaderboardUserScore
+    fullName: LeaderboardUserScore
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn
+  name: LeaderboardUserScoresReceivedCallbackFn
+  nameWithType: EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.LeaderboardUserScoresReceivedCallbackFn
+- uid: OnQueryLeaderboardUserScoresCompleteCallbackInfo
+  commentId: '!:OnQueryLeaderboardUserScoresCompleteCallbackInfo'
+  isExternal: true
+  name: OnQueryLeaderboardUserScoresCompleteCallbackInfo
+  nameWithType: OnQueryLeaderboardUserScoresCompleteCallbackInfo
+  fullName: OnQueryLeaderboardUserScoresCompleteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.IngestStat*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.IngestStat
+  name: IngestStat
+  nameWithType: EOSLeaderboardManager.IngestStat
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.IngestStat
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsIngestCallbackFn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsIngestCallbackFn
+  name: StatsIngestCallbackFn
+  nameWithType: EOSLeaderboardManager.StatsIngestCallbackFn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.StatsIngestCallbackFn
+- uid: IngestStatCompleteCallbackInfo
+  commentId: '!:IngestStatCompleteCallbackInfo'
+  isExternal: true
+  name: IngestStatCompleteCallbackInfo
+  nameWithType: IngestStatCompleteCallbackInfo
+  fullName: IngestStatCompleteCallbackInfo

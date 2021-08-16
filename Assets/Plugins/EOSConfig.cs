@@ -25,20 +25,41 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+
+    /// <summary>
+    /// Represents the EOS Configuration used for initializing EOS SDK.
+    /// </summary>
     [Serializable]
     public class EOSConfig
     {
+        /// <value><c>Product Name</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string productName;
+
+        /// <value>Version of Product</value>
         public string productVersion;
 
+        /// <value><c>Product Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string productID;
+
+        /// <value><c>Sandbox Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string sandboxID;
+
+        /// <value><c>Deployment Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string deploymentID;
 
+        /// <value><c>Client Secret</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string clientSecret;
+
+        /// <value><c>Client Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string clientID;
+
+        /// <value><c>Encryption Key</c> used by default to decode files previously encoded and stored in EOS</value>
         public string encryptionKey;
 
+        /// <summary>
+        /// Creates a shallow copy of the current <c>EOSConfig</c>
+        /// </summary>
+        /// <returns>Shallow copy of <c>EOSConfig</c></returns>
         public EOSConfig Clone()
         {
             return (EOSConfig)this.MemberwiseClone();

@@ -1,0 +1,75 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+  id: IEOSOnAuthLogout
+  parent: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout.OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)
+  langs:
+  - csharp
+  - vb
+  name: IEOSOnAuthLogout
+  nameWithType: IEOSOnAuthLogout
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+  type: Interface
+  source:
+    id: IEOSOnAuthLogout
+    path: ''
+    startLine: 1874
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: 'public interface IEOSOnAuthLogout : IEOSSubManager'
+    content.vb: >-
+      Public Interface IEOSOnAuthLogout
+          Inherits IEOSSubManager
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout.OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout.OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)
+  id: OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+  langs:
+  - csharp
+  - vb
+  name: OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)
+  nameWithType: IEOSOnAuthLogout.OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout.OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)
+  type: Method
+  source:
+    id: OnAuthLogout
+    path: ''
+    startLine: 1876
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo)
+    parameters:
+    - id: logoutCallbackInfo
+      type: Epic.OnlineServices.Auth.LogoutCallbackInfo
+    content.vb: Sub OnAuthLogout(logoutCallbackInfo As Epic.OnlineServices.Auth.LogoutCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout.OnAuthLogout*
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout.OnAuthLogout*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout.OnAuthLogout
+  name: OnAuthLogout
+  nameWithType: IEOSOnAuthLogout.OnAuthLogout
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout.OnAuthLogout
+- uid: Epic.OnlineServices.Auth.LogoutCallbackInfo
+  commentId: '!:Epic.OnlineServices.Auth.LogoutCallbackInfo'
+  isExternal: true
+  name: Epic.OnlineServices.Auth.LogoutCallbackInfo
+  nameWithType: Epic.OnlineServices.Auth.LogoutCallbackInfo
+  fullName: Epic.OnlineServices.Auth.LogoutCallbackInfo

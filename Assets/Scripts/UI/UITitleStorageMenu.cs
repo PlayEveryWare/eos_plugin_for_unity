@@ -35,6 +35,10 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Unity UI sample that uses <c>TitleStoragemanager</c> to demo features.  Can be used as a template or starting point for implementing Title Storage features.
+    /// </summary>
+
     public class UITitleStorageMenu : MonoBehaviour
     {
         [Header("Title Storage UI")]

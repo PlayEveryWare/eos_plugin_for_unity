@@ -38,7 +38,10 @@ using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    // Lives on the EOSManager
+    /// <summary>
+    /// Class <c>EOSAchievementManager</c> is a simplified wrapper for EOS [Achievements Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Achievements/index.html).
+    /// </summary>
+
     public class EOSAchievementManager : IEOSSubManager, IEOSOnConnectLogin
     {
         private ConcurrentDictionary<string, byte[]> downloadCache;

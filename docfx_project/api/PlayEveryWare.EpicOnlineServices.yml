@@ -1,0 +1,179 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  id: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.EOSConfig
+  - PlayEveryWare.EpicOnlineServices.EOSManager
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  - PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+  - PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+  - PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLogoutCallback
+  - PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLinkExternalAccountCallback
+  - PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+  - PlayEveryWare.EpicOnlineServices.EOSManager.OnCreateConnectUserCallback
+  - PlayEveryWare.EpicOnlineServices.EOSVersionInformation
+  - PlayEveryWare.EpicOnlineServices.EOSVersionInformation.UPMPackage
+  - PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+  - PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
+  - PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+  - PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  - PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  - PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  - PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+  langs:
+  - csharp
+  - vb
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+  type: Namespace
+  assemblies:
+  - cs.temp.dll
+references:
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSConfig
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSConfig
+  nameWithType: EOSConfig
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager
+  name: EOSManager
+  nameWithType: EOSManager
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.OnAuthLoginCallback
+  nameWithType: EOSManager.OnAuthLoginCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLogoutCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLogoutCallback
+  name: EOSManager.OnAuthLogoutCallback
+  nameWithType: EOSManager.OnAuthLogoutCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLogoutCallback
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.OnConnectLoginCallback
+  nameWithType: EOSManager.OnConnectLoginCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnCreateConnectUserCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.OnCreateConnectUserCallback
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.OnCreateConnectUserCallback
+  nameWithType: EOSManager.OnCreateConnectUserCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnCreateConnectUserCallback
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLinkExternalAccountCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLinkExternalAccountCallback
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.OnConnectLinkExternalAccountCallback
+  nameWithType: EOSManager.OnConnectLinkExternalAccountCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLinkExternalAccountCallback
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.OnAuthLinkExternalAccountCallback
+  nameWithType: EOSManager.OnAuthLinkExternalAccountCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.EOSSingleton
+  nameWithType: EOSManager.EOSSingleton
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.EOSSingleton.EpicLauncherArgs
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+  commentId: T:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+  name: GenericSafeHandle<HandleType>
+  nameWithType: GenericSafeHandle<HandleType>
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>
+  nameWithType.vb: GenericSafeHandle(Of HandleType)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType)
+  name.vb: GenericSafeHandle(Of HandleType)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+    name: GenericSafeHandle
+    nameWithType: GenericSafeHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: HandleType
+    nameWithType: HandleType
+    fullName: HandleType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+    name: GenericSafeHandle
+    nameWithType: GenericSafeHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: HandleType
+    nameWithType: HandleType
+    fullName: HandleType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSOnAuthLogin
+  nameWithType: IEOSOnAuthLogin
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+  name: IEOSOnAuthLogout
+  nameWithType: IEOSOnAuthLogout
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSOnConnectLogin
+  nameWithType: IEOSOnConnectLogin
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+- uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSSubManager
+  nameWithType: IEOSSubManager
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  commentId: T:PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  parent: PlayEveryWare.EpicOnlineServices
+  name: NotifyEventHandle
+  nameWithType: NotifyEventHandle
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+  commentId: T:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+  parent: PlayEveryWare.EpicOnlineServices
+  name: NotifyEventHandle.RemoveDelegate
+  nameWithType: NotifyEventHandle.RemoveDelegate
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+- uid: PlayEveryWare.EpicOnlineServices.EOSVersionInformation
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSVersionInformation
+  name: EOSVersionInformation
+  nameWithType: EOSVersionInformation
+  fullName: PlayEveryWare.EpicOnlineServices.EOSVersionInformation
+- uid: PlayEveryWare.EpicOnlineServices.EOSVersionInformation.UPMPackage
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSVersionInformation.UPMPackage
+  name: EOSVersionInformation.UPMPackage
+  nameWithType: EOSVersionInformation.UPMPackage
+  fullName: PlayEveryWare.EpicOnlineServices.EOSVersionInformation.UPMPackage
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices

@@ -33,23 +33,43 @@ using Epic.OnlineServices.P2P;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
+    /// </summary>
+
     public struct ChatEntry
     {
+        /// <value>True if message was from local user</value>
         public bool isOwnEntry;
+
+        /// <value> Cache for message entry </value>
         public string Message;
     }
+
+    /// <summary>
+    /// Class <c>ChatWithFriendData</c> is used to store cached friend chat data in <c>UIPeer2PeerMenu</c>.
+    /// </summary>
+
     public struct ChatWithFriendData
     {
+        /// <value> Queue of cached <c>ChatEntry</c> objects </value>
         public Queue<ChatEntry> ChatLines;
 
+        /// <value> <c>FriendId</c> of remote friend </value>
         public ProductUserId FriendId;
 
+        /// <summary> Constructor for creating a new local cache of chat entries.</summary>
+        /// <param name="FriendId"><c>ProductUserId</c> of remote friend</param>
         public ChatWithFriendData(ProductUserId FriendId)
         {
             this.FriendId = FriendId;
             ChatLines = new Queue<ChatEntry>();
         }
     }
+
+    /// <summary>
+    /// Class <c>EOSPeer2PeerManager</c> is a simplified wrapper for EOS [P2P Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/P2P/index.html).
+    /// </summary>
 
     public class EOSPeer2PeerManager : IEOSSubManager
     {

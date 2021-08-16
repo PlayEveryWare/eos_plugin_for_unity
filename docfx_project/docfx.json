@@ -19,6 +19,12 @@
           "files": [
               "*.cs"
           ]
+        },
+        {
+          "src": "../Assets/Scripts/",
+          "files": [
+              "*.cs"
+          ]
         }
       ],
       "dest": "api",
@@ -37,8 +43,6 @@
       },
       {
         "files": [
-          "articles/**.md",
-          "articles/**/toc.yml",
           "toc.yml",
           "*.md"
         ]

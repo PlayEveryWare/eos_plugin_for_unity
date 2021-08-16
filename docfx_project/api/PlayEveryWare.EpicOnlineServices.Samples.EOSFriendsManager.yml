@@ -1,0 +1,2193 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  id: EOSFriendsManager
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.#ctor
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInviteCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriend(EpicAccountId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriendCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedFriends
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedFriendsDirty
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedSearchResults
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedSearchResultsDirty
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ClearCachedSearchResults
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ConnectHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.FriendNotifications
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.FriendsHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetAccountMapping(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends(Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}@)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults(Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}@)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetDisplayName(EpicAccountId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnAcceptInviteCompleted(AcceptInviteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedIn
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedOut
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryPresenceCompleted(QueryPresenceCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnRejectInviteCompleted(RejectInviteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnShowFriendsCallback(ShowFriendsCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.PresenceHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.PresenceNotifications
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsCallback(QueryFriendsCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsConnectMappings
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryPresenceInfo(EpicAccountId,EpicAccountId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(EpicAccountId,System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInviteCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInviteCompleted(SendInviteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlay(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlayCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SubscribeToFriendUpdates(EpicAccountId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UnsubscribeFromFriendUpdates(EpicAccountId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UserInfoHandle
+  langs:
+  - csharp
+  - vb
+  name: EOSFriendsManager
+  nameWithType: EOSFriendsManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  type: Class
+  source:
+    id: EOSFriendsManager
+    path: ''
+    startLine: 3437
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass <code>EOSFriendsManager</code> is a simplified wrapper for EOS [FriendsInterface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Friends/index.html).\n"
+  example: []
+  syntax:
+    content: 'public class EOSFriendsManager : IEOSSubManager'
+    content.vb: >-
+      Public Class EOSFriendsManager
+          Implements IEOSSubManager
+  inheritance:
+  - System.Object
+  implements:
+  - PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedFriends
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedFriends
+  id: CachedFriends
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: CachedFriends
+  nameWithType: EOSFriendsManager.CachedFriends
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedFriends
+  type: Field
+  source:
+    id: CachedFriends
+    path: ''
+    startLine: 3439
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<EpicAccountId, FriendData> CachedFriends
+    return:
+      type: Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}
+    content.vb: CachedFriends As Dictionary(Of EpicAccountId, FriendData)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedFriendsDirty
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedFriendsDirty
+  id: CachedFriendsDirty
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: CachedFriendsDirty
+  nameWithType: EOSFriendsManager.CachedFriendsDirty
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedFriendsDirty
+  type: Field
+  source:
+    id: CachedFriendsDirty
+    path: ''
+    startLine: 3440
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: bool CachedFriendsDirty
+    return:
+      type: System.Boolean
+    content.vb: CachedFriendsDirty As Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedSearchResults
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedSearchResults
+  id: CachedSearchResults
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: CachedSearchResults
+  nameWithType: EOSFriendsManager.CachedSearchResults
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedSearchResults
+  type: Field
+  source:
+    id: CachedSearchResults
+    path: ''
+    startLine: 3442
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<EpicAccountId, FriendData> CachedSearchResults
+    return:
+      type: Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}
+    content.vb: CachedSearchResults As Dictionary(Of EpicAccountId, FriendData)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedSearchResultsDirty
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedSearchResultsDirty
+  id: CachedSearchResultsDirty
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: CachedSearchResultsDirty
+  nameWithType: EOSFriendsManager.CachedSearchResultsDirty
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.CachedSearchResultsDirty
+  type: Field
+  source:
+    id: CachedSearchResultsDirty
+    path: ''
+    startLine: 3443
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: bool CachedSearchResultsDirty
+    return:
+      type: System.Boolean
+    content.vb: CachedSearchResultsDirty As Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriendCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriendCallback
+  id: AddFriendCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: AddFriendCallback
+  nameWithType: EOSFriendsManager.AddFriendCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriendCallback
+  type: Field
+  source:
+    id: AddFriendCallback
+    path: ''
+    startLine: 3446
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSFriendsManager.OnFriendsCallback AddFriendCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: AddFriendCallback As EOSFriendsManager.OnFriendsCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendCallback
+  id: QueryFriendCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryFriendCallback
+  nameWithType: EOSFriendsManager.QueryFriendCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendCallback
+  type: Field
+  source:
+    id: QueryFriendCallback
+    path: ''
+    startLine: 3447
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSFriendsManager.OnFriendsCallback QueryFriendCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: QueryFriendCallback As EOSFriendsManager.OnFriendsCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInviteCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInviteCallback
+  id: AcceptInviteCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: AcceptInviteCallback
+  nameWithType: EOSFriendsManager.AcceptInviteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInviteCallback
+  type: Field
+  source:
+    id: AcceptInviteCallback
+    path: ''
+    startLine: 3448
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSFriendsManager.OnFriendsCallback AcceptInviteCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: AcceptInviteCallback As EOSFriendsManager.OnFriendsCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInviteCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInviteCallback
+  id: RejectInviteCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: RejectInviteCallback
+  nameWithType: EOSFriendsManager.RejectInviteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInviteCallback
+  type: Field
+  source:
+    id: RejectInviteCallback
+    path: ''
+    startLine: 3449
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSFriendsManager.OnFriendsCallback RejectInviteCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: RejectInviteCallback As EOSFriendsManager.OnFriendsCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlayCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlayCallback
+  id: ShowFriendsOverlayCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: ShowFriendsOverlayCallback
+  nameWithType: EOSFriendsManager.ShowFriendsOverlayCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlayCallback
+  type: Field
+  source:
+    id: ShowFriendsOverlayCallback
+    path: ''
+    startLine: 3450
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSFriendsManager.OnFriendsCallback ShowFriendsOverlayCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: ShowFriendsOverlayCallback As EOSFriendsManager.OnFriendsCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoCallback
+  id: QueryUserInfoCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryUserInfoCallback
+  nameWithType: EOSFriendsManager.QueryUserInfoCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoCallback
+  type: Field
+  source:
+    id: QueryUserInfoCallback
+    path: ''
+    startLine: 3452
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSFriendsManager.OnFriendsCallback QueryUserInfoCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: QueryUserInfoCallback As EOSFriendsManager.OnFriendsCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.FriendsHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.FriendsHandle
+  id: FriendsHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: FriendsHandle
+  nameWithType: EOSFriendsManager.FriendsHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.FriendsHandle
+  type: Field
+  source:
+    id: FriendsHandle
+    path: ''
+    startLine: 3456
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: FriendsInterface FriendsHandle
+    return:
+      type: FriendsInterface
+    content.vb: FriendsHandle As FriendsInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UserInfoHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UserInfoHandle
+  id: UserInfoHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: UserInfoHandle
+  nameWithType: EOSFriendsManager.UserInfoHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UserInfoHandle
+  type: Field
+  source:
+    id: UserInfoHandle
+    path: ''
+    startLine: 3457
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: UserInfoInterface UserInfoHandle
+    return:
+      type: UserInfoInterface
+    content.vb: UserInfoHandle As UserInfoInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.PresenceHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.PresenceHandle
+  id: PresenceHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: PresenceHandle
+  nameWithType: EOSFriendsManager.PresenceHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.PresenceHandle
+  type: Field
+  source:
+    id: PresenceHandle
+    path: ''
+    startLine: 3458
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: PresenceInterface PresenceHandle
+    return:
+      type: PresenceInterface
+    content.vb: PresenceHandle As PresenceInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ConnectHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ConnectHandle
+  id: ConnectHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: ConnectHandle
+  nameWithType: EOSFriendsManager.ConnectHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ConnectHandle
+  type: Field
+  source:
+    id: ConnectHandle
+    path: ''
+    startLine: 3459
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: ConnectInterface ConnectHandle
+    return:
+      type: ConnectInterface
+    content.vb: ConnectHandle As ConnectInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.FriendNotifications
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.FriendNotifications
+  id: FriendNotifications
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: FriendNotifications
+  nameWithType: EOSFriendsManager.FriendNotifications
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.FriendNotifications
+  type: Field
+  source:
+    id: FriendNotifications
+    path: ''
+    startLine: 3461
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<EpicAccountId, ulong> FriendNotifications
+    return:
+      type: Dictionary{EpicAccountId,System.UInt64}
+    content.vb: FriendNotifications As Dictionary(Of EpicAccountId, ULong)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.PresenceNotifications
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.PresenceNotifications
+  id: PresenceNotifications
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: PresenceNotifications
+  nameWithType: EOSFriendsManager.PresenceNotifications
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.PresenceNotifications
+  type: Field
+  source:
+    id: PresenceNotifications
+    path: ''
+    startLine: 3462
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<EpicAccountId, ulong> PresenceNotifications
+    return:
+      type: Dictionary{EpicAccountId,System.UInt64}
+    content.vb: PresenceNotifications As Dictionary(Of EpicAccountId, ULong)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.#ctor
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.#ctor
+  id: '#ctor'
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: EOSFriendsManager()
+  nameWithType: EOSFriendsManager.EOSFriendsManager()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.EOSFriendsManager()
+  type: Constructor
+  source:
+    id: .ctor
+    path: ''
+    startLine: 3464
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EOSFriendsManager()
+    content.vb: Public Sub New
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends(Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}@)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends(Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}@)
+  id: GetCachedFriends(Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}@)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedFriends(out Dictionary<EpicAccountId, FriendData>)
+  nameWithType: EOSFriendsManager.GetCachedFriends(out Dictionary<EpicAccountId, FriendData>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends(out Dictionary<EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.FriendData>)
+  type: Method
+  source:
+    id: GetCachedFriends
+    path: ''
+    startLine: 3480
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Returns cached Friends list.
+  example: []
+  syntax:
+    content: public bool GetCachedFriends(out Dictionary<EpicAccountId, FriendData> Friends)
+    parameters:
+    - id: Friends
+      type: Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}
+    return:
+      type: System.Boolean
+      description: True if cache has changed since last call.
+    content.vb: Public Function GetCachedFriends(ByRef Friends As Dictionary(Of EpicAccountId, FriendData)) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends*
+  nameWithType.vb: EOSFriendsManager.GetCachedFriends(ByRef Dictionary(Of EpicAccountId, FriendData))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends(ByRef Dictionary(Of EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.FriendData))
+  name.vb: GetCachedFriends(ByRef Dictionary(Of EpicAccountId, FriendData))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetAccountMapping(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetAccountMapping(ProductUserId)
+  id: GetAccountMapping(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: GetAccountMapping(ProductUserId)
+  nameWithType: EOSFriendsManager.GetAccountMapping(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetAccountMapping(ProductUserId)
+  type: Method
+  source:
+    id: GetAccountMapping
+    path: ''
+    startLine: 3491
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EpicAccountId GetAccountMapping(ProductUserId targetUserId)
+    parameters:
+    - id: targetUserId
+      type: ProductUserId
+    return:
+      type: EpicAccountId
+    content.vb: Public Function GetAccountMapping(targetUserId As ProductUserId) As EpicAccountId
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetAccountMapping*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetDisplayName(EpicAccountId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetDisplayName(EpicAccountId)
+  id: GetDisplayName(EpicAccountId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: GetDisplayName(EpicAccountId)
+  nameWithType: EOSFriendsManager.GetDisplayName(EpicAccountId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetDisplayName(EpicAccountId)
+  type: Method
+  source:
+    id: GetDisplayName
+    path: ''
+    startLine: 3504
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public string GetDisplayName(EpicAccountId targetUserId)
+    parameters:
+    - id: targetUserId
+      type: EpicAccountId
+    return:
+      type: System.String
+    content.vb: Public Function GetDisplayName(targetUserId As EpicAccountId) As String
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetDisplayName*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults(Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}@)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults(Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}@)
+  id: GetCachedSearchResults(Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}@)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedSearchResults(out Dictionary<EpicAccountId, FriendData>)
+  nameWithType: EOSFriendsManager.GetCachedSearchResults(out Dictionary<EpicAccountId, FriendData>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults(out Dictionary<EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.FriendData>)
+  type: Method
+  source:
+    id: GetCachedSearchResults
+    path: ''
+    startLine: 3519
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Returns cached Search Results.
+  example: []
+  syntax:
+    content: public bool GetCachedSearchResults(out Dictionary<EpicAccountId, FriendData> SearchResults)
+    parameters:
+    - id: SearchResults
+      type: Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}
+    return:
+      type: System.Boolean
+      description: True if cache has changed since last call.
+    content.vb: Public Function GetCachedSearchResults(ByRef SearchResults As Dictionary(Of EpicAccountId, FriendData)) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults*
+  nameWithType.vb: EOSFriendsManager.GetCachedSearchResults(ByRef Dictionary(Of EpicAccountId, FriendData))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults(ByRef Dictionary(Of EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.FriendData))
+  name.vb: GetCachedSearchResults(ByRef Dictionary(Of EpicAccountId, FriendData))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ClearCachedSearchResults
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ClearCachedSearchResults
+  id: ClearCachedSearchResults
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: ClearCachedSearchResults()
+  nameWithType: EOSFriendsManager.ClearCachedSearchResults()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ClearCachedSearchResults()
+  type: Method
+  source:
+    id: ClearCachedSearchResults
+    path: ''
+    startLine: 3530
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void ClearCachedSearchResults()
+    content.vb: Public Sub ClearCachedSearchResults
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ClearCachedSearchResults*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: SendInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: SendInvite(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.SendInvite(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInvite(EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: SendInvite
+    path: ''
+    startLine: 3536
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: >-
+      [Obsolete("SendInvite is obsolete.  ErrorCode=NotImplemented")]
+
+      public void SendInvite(EpicAccountId friendUserId, EOSFriendsManager.OnFriendsCallback AddFriendCompleted)
+    parameters:
+    - id: friendUserId
+      type: EpicAccountId
+    - id: AddFriendCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: >-
+      <Obsolete("SendInvite is obsolete.  ErrorCode=NotImplemented")>
+
+      Public Sub SendInvite(friendUserId As EpicAccountId, AddFriendCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInvite*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SendInvite is obsolete.  ErrorCode=NotImplemented
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  id: OnSendInviteCompleted(SendInviteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnSendInviteCompleted(SendInviteCallbackInfo)
+  nameWithType: EOSFriendsManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  type: Method
+  source:
+    id: OnSendInviteCompleted
+    path: ''
+    startLine: 3557
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: >-
+      [Obsolete("OnSendInviteCompleted is obsolete.  ErrorCode=NotImplemented")]
+
+      void OnSendInviteCompleted(SendInviteCallbackInfo data)
+    parameters:
+    - id: data
+      type: SendInviteCallbackInfo
+    content.vb: >-
+      <Obsolete("OnSendInviteCompleted is obsolete.  ErrorCode=NotImplemented")>
+
+      Sub OnSendInviteCompleted(data As SendInviteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnSendInviteCompleted*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: OnSendInviteCompleted is obsolete.  ErrorCode=NotImplemented
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: AcceptInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: AcceptInvite(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.AcceptInvite(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInvite(EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: AcceptInvite
+    path: ''
+    startLine: 3578
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void AcceptInvite(EpicAccountId friendUserId, EOSFriendsManager.OnFriendsCallback AcceptInviteCompleted)
+    parameters:
+    - id: friendUserId
+      type: EpicAccountId
+    - id: AcceptInviteCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: Public Sub AcceptInvite(friendUserId As EpicAccountId, AcceptInviteCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnAcceptInviteCompleted(AcceptInviteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnAcceptInviteCompleted(AcceptInviteCallbackInfo)
+  id: OnAcceptInviteCompleted(AcceptInviteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnAcceptInviteCompleted(AcceptInviteCallbackInfo)
+  nameWithType: EOSFriendsManager.OnAcceptInviteCompleted(AcceptInviteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnAcceptInviteCompleted(AcceptInviteCallbackInfo)
+  type: Method
+  source:
+    id: OnAcceptInviteCompleted
+    path: ''
+    startLine: 3598
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnAcceptInviteCompleted(AcceptInviteCallbackInfo data)
+    parameters:
+    - id: data
+      type: AcceptInviteCallbackInfo
+    content.vb: Sub OnAcceptInviteCompleted(data As AcceptInviteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnAcceptInviteCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: RejectInvite(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: RejectInvite(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.RejectInvite(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInvite(EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: RejectInvite
+    path: ''
+    startLine: 3618
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void RejectInvite(EpicAccountId friendUserId, EOSFriendsManager.OnFriendsCallback RejectInviteCompleted)
+    parameters:
+    - id: friendUserId
+      type: EpicAccountId
+    - id: RejectInviteCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: Public Sub RejectInvite(friendUserId As EpicAccountId, RejectInviteCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnRejectInviteCompleted(RejectInviteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnRejectInviteCompleted(RejectInviteCallbackInfo)
+  id: OnRejectInviteCompleted(RejectInviteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnRejectInviteCompleted(RejectInviteCallbackInfo)
+  nameWithType: EOSFriendsManager.OnRejectInviteCompleted(RejectInviteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnRejectInviteCompleted(RejectInviteCallbackInfo)
+  type: Method
+  source:
+    id: OnRejectInviteCompleted
+    path: ''
+    startLine: 3638
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnRejectInviteCompleted(RejectInviteCallbackInfo data)
+    parameters:
+    - id: data
+      type: RejectInviteCallbackInfo
+    content.vb: Sub OnRejectInviteCompleted(data As RejectInviteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnRejectInviteCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: QueryFriends(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryFriends(EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.QueryFriends(EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: QueryFriends
+    path: ''
+    startLine: 3659
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: (async) Query for friends.
+  example: []
+  syntax:
+    content: public void QueryFriends(EOSFriendsManager.OnFriendsCallback QueryFriendsCompleted)
+    parameters:
+    - id: QueryFriendsCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: Public Sub QueryFriends(QueryFriendsCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: QueryFriends(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryFriends(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.QueryFriends(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends(EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: QueryFriends
+    path: ''
+    startLine: 3664
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void QueryFriends(EpicAccountId userId, EOSFriendsManager.OnFriendsCallback QueryFriendsCompleted)
+    parameters:
+    - id: userId
+      type: EpicAccountId
+    - id: QueryFriendsCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: Public Sub QueryFriends(userId As EpicAccountId, QueryFriendsCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsCallback(QueryFriendsCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsCallback(QueryFriendsCallbackInfo)
+  id: QueryFriendsCallback(QueryFriendsCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryFriendsCallback(QueryFriendsCallbackInfo)
+  nameWithType: EOSFriendsManager.QueryFriendsCallback(QueryFriendsCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsCallback(QueryFriendsCallbackInfo)
+  type: Method
+  source:
+    id: QueryFriendsCallback
+    path: ''
+    startLine: 3676
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void QueryFriendsCallback(QueryFriendsCallbackInfo data)
+    parameters:
+    - id: data
+      type: QueryFriendsCallbackInfo
+    content.vb: Sub QueryFriendsCallback(data As QueryFriendsCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryPresenceInfo(EpicAccountId,EpicAccountId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryPresenceInfo(EpicAccountId,EpicAccountId)
+  id: QueryPresenceInfo(EpicAccountId,EpicAccountId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryPresenceInfo(EpicAccountId, EpicAccountId)
+  nameWithType: EOSFriendsManager.QueryPresenceInfo(EpicAccountId, EpicAccountId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryPresenceInfo(EpicAccountId, EpicAccountId)
+  type: Method
+  source:
+    id: QueryPresenceInfo
+    path: ''
+    startLine: 3757
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void QueryPresenceInfo(EpicAccountId localUserId, EpicAccountId targetUserId)
+    parameters:
+    - id: localUserId
+      type: EpicAccountId
+    - id: targetUserId
+      type: EpicAccountId
+    content.vb: Sub QueryPresenceInfo(localUserId As EpicAccountId, targetUserId As EpicAccountId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryPresenceInfo*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryPresenceCompleted(QueryPresenceCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryPresenceCompleted(QueryPresenceCallbackInfo)
+  id: OnQueryPresenceCompleted(QueryPresenceCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnQueryPresenceCompleted(QueryPresenceCallbackInfo)
+  nameWithType: EOSFriendsManager.OnQueryPresenceCompleted(QueryPresenceCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryPresenceCompleted(QueryPresenceCallbackInfo)
+  type: Method
+  source:
+    id: OnQueryPresenceCompleted
+    path: ''
+    startLine: 3768
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnQueryPresenceCompleted(QueryPresenceCallbackInfo data)
+    parameters:
+    - id: data
+      type: QueryPresenceCallbackInfo
+    content.vb: Sub OnQueryPresenceCompleted(data As QueryPresenceCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryPresenceCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsConnectMappings
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsConnectMappings
+  id: QueryFriendsConnectMappings
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryFriendsConnectMappings()
+  nameWithType: EOSFriendsManager.QueryFriendsConnectMappings()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsConnectMappings()
+  type: Method
+  source:
+    id: QueryFriendsConnectMappings
+    path: ''
+    startLine: 3823
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void QueryFriendsConnectMappings()
+    content.vb: Sub QueryFriendsConnectMappings
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsConnectMappings*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo)
+  id: OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo)
+  nameWithType: EOSFriendsManager.OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo)
+  type: Method
+  source:
+    id: OnQueryExternalAccountMappingsCompleted
+    path: ''
+    startLine: 3858
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo data)
+    parameters:
+    - id: data
+      type: QueryExternalAccountMappingsCallbackInfo
+    content.vb: Sub OnQueryExternalAccountMappingsCompleted(data As QueryExternalAccountMappingsCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryExternalAccountMappingsCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: QueryUserInfo(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryUserInfo(String, EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.QueryUserInfo(String, EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: QueryUserInfo
+    path: ''
+    startLine: 3922
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void QueryUserInfo(string displayName, EOSFriendsManager.OnFriendsCallback QueryUserInfoCompleted)
+    parameters:
+    - id: displayName
+      type: System.String
+    - id: QueryUserInfoCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: Public Sub QueryUserInfo(displayName As String, QueryUserInfoCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(EpicAccountId,System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(EpicAccountId,System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: QueryUserInfo(EpicAccountId,System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryUserInfo(EpicAccountId, String, EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.QueryUserInfo(EpicAccountId, String, EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(EpicAccountId, System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: QueryUserInfo
+    path: ''
+    startLine: 3930
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void QueryUserInfo(EpicAccountId localUserId, string displayName, EOSFriendsManager.OnFriendsCallback QueryUserInfoCompleted)
+    parameters:
+    - id: localUserId
+      type: EpicAccountId
+    - id: displayName
+      type: System.String
+    - id: QueryUserInfoCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: Public Sub QueryUserInfo(localUserId As EpicAccountId, displayName As String, QueryUserInfoCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo)
+  id: QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo)
+  nameWithType: EOSFriendsManager.QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo)
+  type: Method
+  source:
+    id: QueryUserInfoByDisplaynameCompleted
+    path: ''
+    startLine: 3941
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo data)
+    parameters:
+    - id: data
+      type: QueryUserInfoByDisplayNameCallbackInfo
+    content.vb: Sub QueryUserInfoByDisplaynameCompleted(data As QueryUserInfoByDisplayNameCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoByDisplaynameCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriend(EpicAccountId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriend(EpicAccountId)
+  id: AddFriend(EpicAccountId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: AddFriend(EpicAccountId)
+  nameWithType: EOSFriendsManager.AddFriend(EpicAccountId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriend(EpicAccountId)
+  type: Method
+  source:
+    id: AddFriend
+    path: ''
+    startLine: 3969
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void AddFriend(EpicAccountId friendUserId)
+    parameters:
+    - id: friendUserId
+      type: EpicAccountId
+    content.vb: Public Sub AddFriend(friendUserId As EpicAccountId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriend*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInviteCompleted(SendInviteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInviteCompleted(SendInviteCallbackInfo)
+  id: SendInviteCompleted(SendInviteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: SendInviteCompleted(SendInviteCallbackInfo)
+  nameWithType: EOSFriendsManager.SendInviteCompleted(SendInviteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInviteCompleted(SendInviteCallbackInfo)
+  type: Method
+  source:
+    id: SendInviteCompleted
+    path: ''
+    startLine: 3986
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void SendInviteCompleted(SendInviteCallbackInfo data)
+    parameters:
+    - id: data
+      type: SendInviteCallbackInfo
+    content.vb: Sub SendInviteCompleted(data As SendInviteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInviteCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: QueryUserInfo(EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: QueryUserInfo(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.QueryUserInfo(EpicAccountId, EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo(EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: QueryUserInfo
+    path: ''
+    startLine: 4007
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void QueryUserInfo(EpicAccountId targetUserId, EOSFriendsManager.OnFriendsCallback QueryUserInfoCompleted)
+    parameters:
+    - id: targetUserId
+      type: EpicAccountId
+    - id: QueryUserInfoCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: Public Sub QueryUserInfo(targetUserId As EpicAccountId, QueryUserInfoCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo)
+  id: OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo)
+  nameWithType: EOSFriendsManager.OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo)
+  type: Method
+  source:
+    id: OnQueryUserInfoCompleted
+    path: ''
+    startLine: 4027
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo data)
+    parameters:
+    - id: data
+      type: QueryUserInfoCallbackInfo
+    content.vb: Sub OnQueryUserInfoCompleted(data As QueryUserInfoCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryUserInfoCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlay(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlay(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  id: ShowFriendsOverlay(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: ShowFriendsOverlay(EOSFriendsManager.OnFriendsCallback)
+  nameWithType: EOSFriendsManager.ShowFriendsOverlay(EOSFriendsManager.OnFriendsCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlay(PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback)
+  type: Method
+  source:
+    id: ShowFriendsOverlay
+    path: ''
+    startLine: 4087
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Display Friends Overlay
+  example: []
+  syntax:
+    content: public void ShowFriendsOverlay(EOSFriendsManager.OnFriendsCallback ShowFriendsOverlayCompleted)
+    parameters:
+    - id: ShowFriendsOverlayCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    content.vb: Public Sub ShowFriendsOverlay(ShowFriendsOverlayCompleted As EOSFriendsManager.OnFriendsCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlay*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnShowFriendsCallback(ShowFriendsCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnShowFriendsCallback(ShowFriendsCallbackInfo)
+  id: OnShowFriendsCallback(ShowFriendsCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnShowFriendsCallback(ShowFriendsCallbackInfo)
+  nameWithType: EOSFriendsManager.OnShowFriendsCallback(ShowFriendsCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnShowFriendsCallback(ShowFriendsCallbackInfo)
+  type: Method
+  source:
+    id: OnShowFriendsCallback
+    path: ''
+    startLine: 4093
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnShowFriendsCallback(ShowFriendsCallbackInfo data)
+    parameters:
+    - id: data
+      type: ShowFriendsCallbackInfo
+    content.vb: Sub OnShowFriendsCallback(data As ShowFriendsCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnShowFriendsCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SubscribeToFriendUpdates(EpicAccountId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SubscribeToFriendUpdates(EpicAccountId)
+  id: SubscribeToFriendUpdates(EpicAccountId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: SubscribeToFriendUpdates(EpicAccountId)
+  nameWithType: EOSFriendsManager.SubscribeToFriendUpdates(EpicAccountId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SubscribeToFriendUpdates(EpicAccountId)
+  type: Method
+  source:
+    id: SubscribeToFriendUpdates
+    path: ''
+    startLine: 4113
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void SubscribeToFriendUpdates(EpicAccountId userId)
+    parameters:
+    - id: userId
+      type: EpicAccountId
+    content.vb: Public Sub SubscribeToFriendUpdates(userId As EpicAccountId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SubscribeToFriendUpdates*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UnsubscribeFromFriendUpdates(EpicAccountId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UnsubscribeFromFriendUpdates(EpicAccountId)
+  id: UnsubscribeFromFriendUpdates(EpicAccountId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: UnsubscribeFromFriendUpdates(EpicAccountId)
+  nameWithType: EOSFriendsManager.UnsubscribeFromFriendUpdates(EpicAccountId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UnsubscribeFromFriendUpdates(EpicAccountId)
+  type: Method
+  source:
+    id: UnsubscribeFromFriendUpdates
+    path: ''
+    startLine: 4148
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void UnsubscribeFromFriendUpdates(EpicAccountId userId)
+    parameters:
+    - id: userId
+      type: EpicAccountId
+    content.vb: Sub UnsubscribeFromFriendUpdates(userId As EpicAccountId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UnsubscribeFromFriendUpdates*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo)
+  id: OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo)
+  nameWithType: EOSFriendsManager.OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo)
+  type: Method
+  source:
+    id: OnFriendsUpdateCallbackHandler
+    path: ''
+    startLine: 4175
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo data)
+    parameters:
+    - id: data
+      type: OnFriendsUpdateInfo
+    content.vb: Sub OnFriendsUpdateCallbackHandler(data As OnFriendsUpdateInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsUpdateCallbackHandler*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo)
+  id: OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo)
+  nameWithType: EOSFriendsManager.OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo)
+  type: Method
+  source:
+    id: OnPresenceChangedCallbackHandler
+    path: ''
+    startLine: 4215
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo data)
+    parameters:
+    - id: data
+      type: PresenceChangedCallbackInfo
+    content.vb: Sub OnPresenceChangedCallbackHandler(data As PresenceChangedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnPresenceChangedCallbackHandler*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedIn
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedIn
+  id: OnLoggedIn
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedIn()
+  nameWithType: EOSFriendsManager.OnLoggedIn()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedIn()
+  type: Method
+  source:
+    id: OnLoggedIn
+    path: ''
+    startLine: 4230
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: User Logged In actions
+  example: []
+  syntax:
+    content: public void OnLoggedIn()
+    content.vb: Public Sub OnLoggedIn
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedIn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedOut
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedOut
+  id: OnLoggedOut
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedOut()
+  nameWithType: EOSFriendsManager.OnLoggedOut()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedOut()
+  type: Method
+  source:
+    id: OnLoggedOut
+    path: ''
+    startLine: 4241
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: User Logged Out actions
+  example: []
+  syntax:
+    content: public void OnLoggedOut()
+    content.vb: Public Sub OnLoggedOut
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedOut*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSSubManager
+  nameWithType: IEOSSubManager
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}
+  commentId: '!:Dictionary{EpicAccountId,PlayEveryWare.EpicOnlineServices.Samples.FriendData}'
+  definition: Dictionary`2
+  name: Dictionary<EpicAccountId, FriendData>
+  nameWithType: Dictionary<EpicAccountId, FriendData>
+  fullName: Dictionary<EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.FriendData>
+  nameWithType.vb: Dictionary(Of EpicAccountId, FriendData)
+  fullName.vb: Dictionary(Of EpicAccountId, PlayEveryWare.EpicOnlineServices.Samples.FriendData)
+  name.vb: Dictionary(Of EpicAccountId, FriendData)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: EpicAccountId
+    name: EpicAccountId
+    nameWithType: EpicAccountId
+    fullName: EpicAccountId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+    name: FriendData
+    nameWithType: FriendData
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: EpicAccountId
+    name: EpicAccountId
+    nameWithType: EpicAccountId
+    fullName: EpicAccountId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+    name: FriendData
+    nameWithType: FriendData
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary`2
+  isExternal: true
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: EOSFriendsManager.OnFriendsCallback
+  nameWithType: EOSFriendsManager.OnFriendsCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+- uid: FriendsInterface
+  commentId: '!:FriendsInterface'
+  isExternal: true
+  name: FriendsInterface
+  nameWithType: FriendsInterface
+  fullName: FriendsInterface
+- uid: UserInfoInterface
+  commentId: '!:UserInfoInterface'
+  isExternal: true
+  name: UserInfoInterface
+  nameWithType: UserInfoInterface
+  fullName: UserInfoInterface
+- uid: PresenceInterface
+  commentId: '!:PresenceInterface'
+  isExternal: true
+  name: PresenceInterface
+  nameWithType: PresenceInterface
+  fullName: PresenceInterface
+- uid: ConnectInterface
+  commentId: '!:ConnectInterface'
+  isExternal: true
+  name: ConnectInterface
+  nameWithType: ConnectInterface
+  fullName: ConnectInterface
+- uid: Dictionary{EpicAccountId,System.UInt64}
+  commentId: '!:Dictionary{EpicAccountId,System.UInt64}'
+  definition: Dictionary`2
+  name: Dictionary<EpicAccountId, UInt64>
+  nameWithType: Dictionary<EpicAccountId, UInt64>
+  fullName: Dictionary<EpicAccountId, System.UInt64>
+  nameWithType.vb: Dictionary(Of EpicAccountId, UInt64)
+  fullName.vb: Dictionary(Of EpicAccountId, System.UInt64)
+  name.vb: Dictionary(Of EpicAccountId, UInt64)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: EpicAccountId
+    name: EpicAccountId
+    nameWithType: EpicAccountId
+    fullName: EpicAccountId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.UInt64
+    name: UInt64
+    nameWithType: UInt64
+    fullName: System.UInt64
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: EpicAccountId
+    name: EpicAccountId
+    nameWithType: EpicAccountId
+    fullName: EpicAccountId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.UInt64
+    name: UInt64
+    nameWithType: UInt64
+    fullName: System.UInt64
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.#ctor*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.#ctor
+  name: EOSFriendsManager
+  nameWithType: EOSFriendsManager.EOSFriendsManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.EOSFriendsManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends
+  name: GetCachedFriends
+  nameWithType: EOSFriendsManager.GetCachedFriends
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedFriends
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetAccountMapping*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetAccountMapping
+  name: GetAccountMapping
+  nameWithType: EOSFriendsManager.GetAccountMapping
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetAccountMapping
+- uid: ProductUserId
+  isExternal: true
+  name: ProductUserId
+  nameWithType: ProductUserId
+  fullName: ProductUserId
+- uid: EpicAccountId
+  isExternal: true
+  name: EpicAccountId
+  nameWithType: EpicAccountId
+  fullName: EpicAccountId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetDisplayName*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetDisplayName
+  name: GetDisplayName
+  nameWithType: EOSFriendsManager.GetDisplayName
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetDisplayName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults
+  name: GetCachedSearchResults
+  nameWithType: EOSFriendsManager.GetCachedSearchResults
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.GetCachedSearchResults
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ClearCachedSearchResults*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ClearCachedSearchResults
+  name: ClearCachedSearchResults
+  nameWithType: EOSFriendsManager.ClearCachedSearchResults
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ClearCachedSearchResults
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInvite
+  name: SendInvite
+  nameWithType: EOSFriendsManager.SendInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnSendInviteCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnSendInviteCompleted
+  name: OnSendInviteCompleted
+  nameWithType: EOSFriendsManager.OnSendInviteCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnSendInviteCompleted
+- uid: SendInviteCallbackInfo
+  isExternal: true
+  name: SendInviteCallbackInfo
+  nameWithType: SendInviteCallbackInfo
+  fullName: SendInviteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInvite
+  name: AcceptInvite
+  nameWithType: EOSFriendsManager.AcceptInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AcceptInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnAcceptInviteCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnAcceptInviteCompleted
+  name: OnAcceptInviteCompleted
+  nameWithType: EOSFriendsManager.OnAcceptInviteCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnAcceptInviteCompleted
+- uid: AcceptInviteCallbackInfo
+  commentId: '!:AcceptInviteCallbackInfo'
+  isExternal: true
+  name: AcceptInviteCallbackInfo
+  nameWithType: AcceptInviteCallbackInfo
+  fullName: AcceptInviteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInvite
+  name: RejectInvite
+  nameWithType: EOSFriendsManager.RejectInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.RejectInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnRejectInviteCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnRejectInviteCompleted
+  name: OnRejectInviteCompleted
+  nameWithType: EOSFriendsManager.OnRejectInviteCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnRejectInviteCompleted
+- uid: RejectInviteCallbackInfo
+  isExternal: true
+  name: RejectInviteCallbackInfo
+  nameWithType: RejectInviteCallbackInfo
+  fullName: RejectInviteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends
+  name: QueryFriends
+  nameWithType: EOSFriendsManager.QueryFriends
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriends
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsCallback
+  name: QueryFriendsCallback
+  nameWithType: EOSFriendsManager.QueryFriendsCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsCallback
+- uid: QueryFriendsCallbackInfo
+  commentId: '!:QueryFriendsCallbackInfo'
+  isExternal: true
+  name: QueryFriendsCallbackInfo
+  nameWithType: QueryFriendsCallbackInfo
+  fullName: QueryFriendsCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryPresenceInfo*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryPresenceInfo
+  name: QueryPresenceInfo
+  nameWithType: EOSFriendsManager.QueryPresenceInfo
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryPresenceInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryPresenceCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryPresenceCompleted
+  name: OnQueryPresenceCompleted
+  nameWithType: EOSFriendsManager.OnQueryPresenceCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryPresenceCompleted
+- uid: QueryPresenceCallbackInfo
+  commentId: '!:QueryPresenceCallbackInfo'
+  isExternal: true
+  name: QueryPresenceCallbackInfo
+  nameWithType: QueryPresenceCallbackInfo
+  fullName: QueryPresenceCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsConnectMappings*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsConnectMappings
+  name: QueryFriendsConnectMappings
+  nameWithType: EOSFriendsManager.QueryFriendsConnectMappings
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryFriendsConnectMappings
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryExternalAccountMappingsCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryExternalAccountMappingsCompleted
+  name: OnQueryExternalAccountMappingsCompleted
+  nameWithType: EOSFriendsManager.OnQueryExternalAccountMappingsCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryExternalAccountMappingsCompleted
+- uid: QueryExternalAccountMappingsCallbackInfo
+  commentId: '!:QueryExternalAccountMappingsCallbackInfo'
+  isExternal: true
+  name: QueryExternalAccountMappingsCallbackInfo
+  nameWithType: QueryExternalAccountMappingsCallbackInfo
+  fullName: QueryExternalAccountMappingsCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo
+  name: QueryUserInfo
+  nameWithType: EOSFriendsManager.QueryUserInfo
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoByDisplaynameCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoByDisplaynameCompleted
+  name: QueryUserInfoByDisplaynameCompleted
+  nameWithType: EOSFriendsManager.QueryUserInfoByDisplaynameCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.QueryUserInfoByDisplaynameCompleted
+- uid: QueryUserInfoByDisplayNameCallbackInfo
+  commentId: '!:QueryUserInfoByDisplayNameCallbackInfo'
+  isExternal: true
+  name: QueryUserInfoByDisplayNameCallbackInfo
+  nameWithType: QueryUserInfoByDisplayNameCallbackInfo
+  fullName: QueryUserInfoByDisplayNameCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriend*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriend
+  name: AddFriend
+  nameWithType: EOSFriendsManager.AddFriend
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.AddFriend
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInviteCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInviteCompleted
+  name: SendInviteCompleted
+  nameWithType: EOSFriendsManager.SendInviteCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SendInviteCompleted
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryUserInfoCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryUserInfoCompleted
+  name: OnQueryUserInfoCompleted
+  nameWithType: EOSFriendsManager.OnQueryUserInfoCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnQueryUserInfoCompleted
+- uid: QueryUserInfoCallbackInfo
+  commentId: '!:QueryUserInfoCallbackInfo'
+  isExternal: true
+  name: QueryUserInfoCallbackInfo
+  nameWithType: QueryUserInfoCallbackInfo
+  fullName: QueryUserInfoCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlay*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlay
+  name: ShowFriendsOverlay
+  nameWithType: EOSFriendsManager.ShowFriendsOverlay
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.ShowFriendsOverlay
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnShowFriendsCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnShowFriendsCallback
+  name: OnShowFriendsCallback
+  nameWithType: EOSFriendsManager.OnShowFriendsCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnShowFriendsCallback
+- uid: ShowFriendsCallbackInfo
+  commentId: '!:ShowFriendsCallbackInfo'
+  isExternal: true
+  name: ShowFriendsCallbackInfo
+  nameWithType: ShowFriendsCallbackInfo
+  fullName: ShowFriendsCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SubscribeToFriendUpdates*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SubscribeToFriendUpdates
+  name: SubscribeToFriendUpdates
+  nameWithType: EOSFriendsManager.SubscribeToFriendUpdates
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.SubscribeToFriendUpdates
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UnsubscribeFromFriendUpdates*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UnsubscribeFromFriendUpdates
+  name: UnsubscribeFromFriendUpdates
+  nameWithType: EOSFriendsManager.UnsubscribeFromFriendUpdates
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.UnsubscribeFromFriendUpdates
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsUpdateCallbackHandler*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsUpdateCallbackHandler
+  name: OnFriendsUpdateCallbackHandler
+  nameWithType: EOSFriendsManager.OnFriendsUpdateCallbackHandler
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsUpdateCallbackHandler
+- uid: OnFriendsUpdateInfo
+  commentId: '!:OnFriendsUpdateInfo'
+  isExternal: true
+  name: OnFriendsUpdateInfo
+  nameWithType: OnFriendsUpdateInfo
+  fullName: OnFriendsUpdateInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnPresenceChangedCallbackHandler*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnPresenceChangedCallbackHandler
+  name: OnPresenceChangedCallbackHandler
+  nameWithType: EOSFriendsManager.OnPresenceChangedCallbackHandler
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnPresenceChangedCallbackHandler
+- uid: PresenceChangedCallbackInfo
+  commentId: '!:PresenceChangedCallbackInfo'
+  isExternal: true
+  name: PresenceChangedCallbackInfo
+  nameWithType: PresenceChangedCallbackInfo
+  fullName: PresenceChangedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedIn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedIn
+  name: OnLoggedIn
+  nameWithType: EOSFriendsManager.OnLoggedIn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedIn
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedOut*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedOut
+  name: OnLoggedOut
+  nameWithType: EOSFriendsManager.OnLoggedOut
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnLoggedOut

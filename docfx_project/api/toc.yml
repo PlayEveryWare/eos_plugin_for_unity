@@ -1,0 +1,104 @@
+### YamlMime:TableOfContent
+- uid: PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  items:
+  - uid: PlayEveryWare.EpicOnlineServices.EOSConfig
+    name: EOSConfig
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager
+    name: EOSManager
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+    name: EOSManager.EOSSingleton
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+    name: EOSManager.EOSSingleton.EpicLauncherArgs
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+    name: EOSManager.OnAuthLinkExternalAccountCallback
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+    name: EOSManager.OnAuthLoginCallback
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLogoutCallback
+    name: EOSManager.OnAuthLogoutCallback
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLinkExternalAccountCallback
+    name: EOSManager.OnConnectLinkExternalAccountCallback
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+    name: EOSManager.OnConnectLoginCallback
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnCreateConnectUserCallback
+    name: EOSManager.OnCreateConnectUserCallback
+  - uid: PlayEveryWare.EpicOnlineServices.EOSVersionInformation
+    name: EOSVersionInformation
+  - uid: PlayEveryWare.EpicOnlineServices.EOSVersionInformation.UPMPackage
+    name: EOSVersionInformation.UPMPackage
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+    name: GenericSafeHandle<HandleType>
+    name.vb: GenericSafeHandle(Of HandleType)
+  - uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
+    name: IEOSOnAuthLogin
+  - uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
+    name: IEOSOnAuthLogout
+  - uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+    name: IEOSOnConnectLogin
+  - uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+    name: IEOSSubManager
+  - uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    name: NotifyEventHandle
+  - uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+    name: NotifyEventHandle.RemoveDelegate
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  items:
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.ChatEntry
+    name: ChatEntry
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData
+    name: ChatWithFriendData
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+    name: EOSAchievementManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
+    name: EOSFriendsManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+    name: EOSFriendsManager.OnFriendsCallback
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
+    name: EOSLeaderboardManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
+    name: EOSLeaderboardManager.OnLeaderboardCallback
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+    name: EOSLobbyManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    name: EOSLobbyManager.OnLobbyCallback
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+    name: EOSLobbyManager.OnLobbySearchCallback
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager
+    name: EOSPeer2PeerManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSPlayerDataStorageManager
+    name: EOSPlayerDataStorageManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+    name: EOSSessionsManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager
+    name: EOSStoreManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+    name: EOSTitleStorageManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback
+    name: EOSTitleStorageManager.OnQueryFileListCallback
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+    name: EOSTitleStorageManager.OnReadFileCallback
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress
+    name: EOSTransferInProgress
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+    name: FriendData
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+    name: Lobby
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+    name: LobbyAttribute
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+    name: LobbyInvite
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyJoinRequest
+    name: LobbyJoinRequest
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyMember
+    name: LobbyMember
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyRTCState
+    name: LobbyRTCState
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo
+    name: PresenceInfo
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Session
+    name: Session
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+    name: SessionAttribute
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
+    name: SessionSearch

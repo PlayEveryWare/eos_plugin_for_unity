@@ -1,0 +1,740 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager
+  id: EOSManager
+  parent: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.EOSManager.Awake
+  - PlayEveryWare.EpicOnlineServices.EOSManager.ConfigFileName
+  - PlayEveryWare.EpicOnlineServices.EOSManager.Instance
+  - PlayEveryWare.EpicOnlineServices.EOSManager.loggedInAccountIDs
+  - PlayEveryWare.EpicOnlineServices.EOSManager.OnApplicationQuit
+  - PlayEveryWare.EpicOnlineServices.EOSManager.s_instance
+  - PlayEveryWare.EpicOnlineServices.EOSManager.s_onAuthLoginCallbacks
+  - PlayEveryWare.EpicOnlineServices.EOSManager.s_onAuthLogoutCallbacks
+  - PlayEveryWare.EpicOnlineServices.EOSManager.s_onConnectLoginCallbacks
+  - PlayEveryWare.EpicOnlineServices.EOSManager.s_subManagers
+  - PlayEveryWare.EpicOnlineServices.EOSManager.Update
+  langs:
+  - csharp
+  - vb
+  name: EOSManager
+  nameWithType: EOSManager
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager
+  type: Class
+  source:
+    id: EOSManager
+    path: ''
+    startLine: 1548
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nOne of the responsibilities of this class is to manage the lifetime of\nthe EOS SDK and to be the interface for getting all the managed EOS interfaces.\nIt also handles loading and unloading EOS on platforms that need that.\n\nSee : https://dev.epicgames.com/docs/services/en-US/CSharp/GettingStarted/index.html\n"
+  example: []
+  syntax:
+    content: 'public class EOSManager : MonoBehaviour, MonoBehaviour'
+    content.vb: >-
+      Public Class EOSManager
+          Inherits MonoBehaviour
+          Implements MonoBehaviour
+  inheritance:
+  - System.Object
+  implements:
+  - MonoBehaviour
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.ConfigFileName
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.ConfigFileName
+  id: ConfigFileName
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: ConfigFileName
+  nameWithType: EOSManager.ConfigFileName
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.ConfigFileName
+  type: Field
+  source:
+    id: ConfigFileName
+    path: ''
+    startLine: 418
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: static string ConfigFileName
+    return:
+      type: System.String
+      description: Hard-coded configuration file name (&quot;EpicOnlineServicesConfig.json&quot;)
+    content.vb: Shared ConfigFileName As String
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.loggedInAccountIDs
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.loggedInAccountIDs
+  id: loggedInAccountIDs
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: loggedInAccountIDs
+  nameWithType: EOSManager.loggedInAccountIDs
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.loggedInAccountIDs
+  type: Field
+  source:
+    id: loggedInAccountIDs
+    path: ''
+    startLine: 421
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: static List<EpicAccountId> loggedInAccountIDs
+    return:
+      type: List{EpicAccountId}
+      description: List of logged in <code>EpicAccountId</code>
+    content.vb: Shared loggedInAccountIDs As List(Of EpicAccountId)
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.s_subManagers
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.s_subManagers
+  id: s_subManagers
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: s_subManagers
+  nameWithType: EOSManager.s_subManagers
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.s_subManagers
+  type: Field
+  source:
+    id: s_subManagers
+    path: ''
+    startLine: 426
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: static Dictionary<Type, IEOSSubManager> s_subManagers
+    return:
+      type: Dictionary{System.Type,PlayEveryWare.EpicOnlineServices.IEOSSubManager}
+      description: Stores instances of feature managers
+    content.vb: Shared s_subManagers As Dictionary(Of Type, IEOSSubManager)
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.s_onConnectLoginCallbacks
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.s_onConnectLoginCallbacks
+  id: s_onConnectLoginCallbacks
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: s_onConnectLoginCallbacks
+  nameWithType: EOSManager.s_onConnectLoginCallbacks
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.s_onConnectLoginCallbacks
+  type: Field
+  source:
+    id: s_onConnectLoginCallbacks
+    path: ''
+    startLine: 429
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: static List<EOSManager.OnConnectLoginCallback> s_onConnectLoginCallbacks
+    return:
+      type: List{PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback}
+      description: List of Login callbacks
+    content.vb: Shared s_onConnectLoginCallbacks As List(Of EOSManager.OnConnectLoginCallback)
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.s_onAuthLoginCallbacks
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.s_onAuthLoginCallbacks
+  id: s_onAuthLoginCallbacks
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: s_onAuthLoginCallbacks
+  nameWithType: EOSManager.s_onAuthLoginCallbacks
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.s_onAuthLoginCallbacks
+  type: Field
+  source:
+    id: s_onAuthLoginCallbacks
+    path: ''
+    startLine: 432
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: static List<EOSManager.OnAuthLoginCallback> s_onAuthLoginCallbacks
+    return:
+      type: List{PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback}
+      description: List of Auth Login callbacks
+    content.vb: Shared s_onAuthLoginCallbacks As List(Of EOSManager.OnAuthLoginCallback)
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.s_onAuthLogoutCallbacks
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.s_onAuthLogoutCallbacks
+  id: s_onAuthLogoutCallbacks
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: s_onAuthLogoutCallbacks
+  nameWithType: EOSManager.s_onAuthLogoutCallbacks
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.s_onAuthLogoutCallbacks
+  type: Field
+  source:
+    id: s_onAuthLogoutCallbacks
+    path: ''
+    startLine: 435
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: static List<OnLogoutCallback> s_onAuthLogoutCallbacks
+    return:
+      type: List{OnLogoutCallback}
+      description: List of Auth Logout callbacks
+    content.vb: Shared s_onAuthLogoutCallbacks As List(Of OnLogoutCallback)
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.s_instance
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.s_instance
+  id: s_instance
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: s_instance
+  nameWithType: EOSManager.s_instance
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.s_instance
+  type: Field
+  source:
+    id: s_instance
+    path: ''
+    startLine: 1130
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: static EOSManager.EOSSingleton s_instance
+    return:
+      type: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+      description: Private static instance of <code>EOSSingleton</code>
+    content.vb: Shared s_instance As EOSManager.EOSSingleton
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.Instance
+  commentId: P:PlayEveryWare.EpicOnlineServices.EOSManager.Instance
+  id: Instance
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: Instance
+  nameWithType: EOSManager.Instance
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.Instance
+  type: Property
+  source:
+    id: Instance
+    path: ''
+    startLine: 1134
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public static EOSManager.EOSSingleton Instance { get; }
+    parameters: []
+    return:
+      type: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+      description: Public static instance of <code>EOSSingleton</code>
+    content.vb: Public Shared ReadOnly Property Instance As EOSManager.EOSSingleton
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.Instance*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.Awake
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.Awake
+  id: Awake
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: Awake()
+  nameWithType: EOSManager.Awake()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.Awake()
+  type: Method
+  source:
+    id: Awake
+    path: ''
+    startLine: 1153
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: >
+    Unity [Awake](https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html) is called when script instance is being loaded.
+
+    <ul><li>Calls <code>Init()</code></li></ul>
+  example: []
+  syntax:
+    content: void Awake()
+    content.vb: Sub Awake
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.Awake*
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.Update
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.Update
+  id: Update
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: Update()
+  nameWithType: EOSManager.Update()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.Update()
+  type: Method
+  source:
+    id: Update
+    path: ''
+    startLine: 1164
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: >
+    Unity [Update](https://docs.unity3d.com/ScriptReference/MonoBehaviour.Update.html) is called every frame if enabled.
+
+    <ul><li>Calls <code>Tick()</code></li></ul>
+  example: []
+  syntax:
+    content: void Update()
+    content.vb: Sub Update
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.Update*
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnApplicationQuit
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.OnApplicationQuit
+  id: OnApplicationQuit
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager
+  langs:
+  - csharp
+  - vb
+  name: OnApplicationQuit()
+  nameWithType: EOSManager.OnApplicationQuit()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnApplicationQuit()
+  type: Method
+  source:
+    id: OnApplicationQuit
+    path: ''
+    startLine: 1175
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: >
+    Unity [OnApplicationQuit](https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationQuit.html) is called before the application quits.
+
+    <ul><li>Calls <code>OnShutdown()</code></li></ul>
+  example: []
+  syntax:
+    content: void OnApplicationQuit()
+    content.vb: Sub OnApplicationQuit
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.OnApplicationQuit*
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: MonoBehaviour
+  commentId: '!:MonoBehaviour'
+  isExternal: true
+  name: MonoBehaviour
+  nameWithType: MonoBehaviour
+  fullName: MonoBehaviour
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: List{EpicAccountId}
+  commentId: '!:List{EpicAccountId}'
+  definition: List`1
+  name: List<EpicAccountId>
+  nameWithType: List<EpicAccountId>
+  fullName: List<EpicAccountId>
+  nameWithType.vb: List(Of EpicAccountId)
+  fullName.vb: List(Of EpicAccountId)
+  name.vb: List(Of EpicAccountId)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: EpicAccountId
+    name: EpicAccountId
+    nameWithType: EpicAccountId
+    fullName: EpicAccountId
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: EpicAccountId
+    name: EpicAccountId
+    nameWithType: EpicAccountId
+    fullName: EpicAccountId
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List`1
+  isExternal: true
+  name: List<>
+  nameWithType: List<>
+  fullName: List<>
+  nameWithType.vb: List(Of )
+  fullName.vb: List(Of )
+  name.vb: List(Of )
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary{System.Type,PlayEveryWare.EpicOnlineServices.IEOSSubManager}
+  commentId: '!:Dictionary{System.Type,PlayEveryWare.EpicOnlineServices.IEOSSubManager}'
+  definition: Dictionary`2
+  name: Dictionary<Type, IEOSSubManager>
+  nameWithType: Dictionary<Type, IEOSSubManager>
+  fullName: Dictionary<System.Type, PlayEveryWare.EpicOnlineServices.IEOSSubManager>
+  nameWithType.vb: Dictionary(Of Type, IEOSSubManager)
+  fullName.vb: Dictionary(Of System.Type, PlayEveryWare.EpicOnlineServices.IEOSSubManager)
+  name.vb: Dictionary(Of Type, IEOSSubManager)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+    name: IEOSSubManager
+    nameWithType: IEOSSubManager
+    fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+    name: IEOSSubManager
+    nameWithType: IEOSSubManager
+    fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary`2
+  isExternal: true
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List{PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback}
+  commentId: '!:List{PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback}'
+  definition: List`1
+  name: List<EOSManager.OnConnectLoginCallback>
+  nameWithType: List<EOSManager.OnConnectLoginCallback>
+  fullName: List<PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback>
+  nameWithType.vb: List(Of EOSManager.OnConnectLoginCallback)
+  fullName.vb: List(Of PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback)
+  name.vb: List(Of EOSManager.OnConnectLoginCallback)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+    name: EOSManager.OnConnectLoginCallback
+    nameWithType: EOSManager.OnConnectLoginCallback
+    fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+    name: EOSManager.OnConnectLoginCallback
+    nameWithType: EOSManager.OnConnectLoginCallback
+    fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List{PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback}
+  commentId: '!:List{PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback}'
+  definition: List`1
+  name: List<EOSManager.OnAuthLoginCallback>
+  nameWithType: List<EOSManager.OnAuthLoginCallback>
+  fullName: List<PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback>
+  nameWithType.vb: List(Of EOSManager.OnAuthLoginCallback)
+  fullName.vb: List(Of PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback)
+  name.vb: List(Of EOSManager.OnAuthLoginCallback)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+    name: EOSManager.OnAuthLoginCallback
+    nameWithType: EOSManager.OnAuthLoginCallback
+    fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+    name: EOSManager.OnAuthLoginCallback
+    nameWithType: EOSManager.OnAuthLoginCallback
+    fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List{OnLogoutCallback}
+  commentId: '!:List{OnLogoutCallback}'
+  definition: List`1
+  name: List<OnLogoutCallback>
+  nameWithType: List<OnLogoutCallback>
+  fullName: List<OnLogoutCallback>
+  nameWithType.vb: List(Of OnLogoutCallback)
+  fullName.vb: List(Of OnLogoutCallback)
+  name.vb: List(Of OnLogoutCallback)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OnLogoutCallback
+    name: OnLogoutCallback
+    nameWithType: OnLogoutCallback
+    fullName: OnLogoutCallback
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OnLogoutCallback
+    name: OnLogoutCallback
+    nameWithType: OnLogoutCallback
+    fullName: OnLogoutCallback
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.EOSSingleton
+  nameWithType: EOSManager.EOSSingleton
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.Instance*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.Instance
+  name: Instance
+  nameWithType: EOSManager.Instance
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.Instance
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.Awake*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.Awake
+  name: Awake
+  nameWithType: EOSManager.Awake
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.Awake
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.Update*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.Update
+  name: Update
+  nameWithType: EOSManager.Update
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.Update
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnApplicationQuit*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.OnApplicationQuit
+  name: OnApplicationQuit
+  nameWithType: EOSManager.OnApplicationQuit
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnApplicationQuit

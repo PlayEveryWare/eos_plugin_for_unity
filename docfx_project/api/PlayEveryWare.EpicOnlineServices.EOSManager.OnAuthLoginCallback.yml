@@ -1,0 +1,44 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+  id: EOSManager.OnAuthLoginCallback
+  parent: PlayEveryWare.EpicOnlineServices
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: EOSManager.OnAuthLoginCallback
+  nameWithType: EOSManager.OnAuthLoginCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
+  type: Delegate
+  source:
+    id: OnAuthLoginCallback
+    path: ''
+    startLine: 410
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public delegate void OnAuthLoginCallback(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
+    parameters:
+    - id: loginCallbackInfo
+      type: Epic.OnlineServices.Auth.LoginCallbackInfo
+    content.vb: Public Delegate Sub OnAuthLoginCallback(loginCallbackInfo As Epic.OnlineServices.Auth.LoginCallbackInfo)
+  modifiers.csharp:
+  - public
+  - delegate
+  modifiers.vb:
+  - Public
+  - Delegate
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: Epic.OnlineServices.Auth.LoginCallbackInfo
+  isExternal: true
+  name: Epic.OnlineServices.Auth.LoginCallbackInfo
+  nameWithType: Epic.OnlineServices.Auth.LoginCallbackInfo
+  fullName: Epic.OnlineServices.Auth.LoginCallbackInfo

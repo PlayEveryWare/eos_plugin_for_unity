@@ -34,6 +34,10 @@ using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class <c>EOSStoreManager</c> is a simplified wrapper for EOS [Ecom Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Ecom/index.html).
+    /// </summary>
+
     public class EOSStoreManager : IEOSSubManager, IEOSOnAuthLogin
     {
         private List<CatalogOffer> CatalogOffers;

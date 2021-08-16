@@ -1,0 +1,707 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  commentId: T:PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  id: NotifyEventHandle
+  parent: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.NotifyEventHandle.#ctor(System.UInt64,PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate)
+  - PlayEveryWare.EpicOnlineServices.NotifyEventHandle.IsValid
+  - PlayEveryWare.EpicOnlineServices.NotifyEventHandle.ReleaseHandle
+  - PlayEveryWare.EpicOnlineServices.NotifyEventHandle.removeDelegate
+  langs:
+  - csharp
+  - vb
+  name: NotifyEventHandle
+  nameWithType: NotifyEventHandle
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  type: Class
+  source:
+    id: NotifyEventHandle
+    path: ''
+    startLine: 1970
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: 'public class NotifyEventHandle : GenericSafeHandle<ulong>, IDisposable'
+    content.vb: >-
+      Public Class NotifyEventHandle
+          Inherits GenericSafeHandle(Of ULong)
+          Implements IDisposable
+  inheritance:
+  - System.Object
+  - PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.handleObject
+  - PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.disposedValue
+  - PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+  - PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.Dispose(System.Boolean)
+  - PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.Dispose
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.removeDelegate
+  commentId: F:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.removeDelegate
+  id: removeDelegate
+  parent: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  langs:
+  - csharp
+  - vb
+  name: removeDelegate
+  nameWithType: NotifyEventHandle.removeDelegate
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.removeDelegate
+  type: Field
+  source:
+    id: removeDelegate
+    path: ''
+    startLine: 1972
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: NotifyEventHandle.RemoveDelegate removeDelegate
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+    content.vb: removeDelegate As NotifyEventHandle.RemoveDelegate
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.#ctor(System.UInt64,PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate)
+  commentId: M:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.#ctor(System.UInt64,PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate)
+  id: '#ctor(System.UInt64,PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate)'
+  parent: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  langs:
+  - csharp
+  - vb
+  name: NotifyEventHandle(UInt64, NotifyEventHandle.RemoveDelegate)
+  nameWithType: NotifyEventHandle.NotifyEventHandle(UInt64, NotifyEventHandle.RemoveDelegate)
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.NotifyEventHandle(System.UInt64, PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate)
+  type: Constructor
+  source:
+    id: .ctor
+    path: ''
+    startLine: 1975
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public NotifyEventHandle(ulong aLong, NotifyEventHandle.RemoveDelegate aRemoveDelegate)
+    parameters:
+    - id: aLong
+      type: System.UInt64
+    - id: aRemoveDelegate
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+    content.vb: Public Sub New(aLong As ULong, aRemoveDelegate As NotifyEventHandle.RemoveDelegate)
+  overload: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.ReleaseHandle
+  commentId: M:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.ReleaseHandle
+  id: ReleaseHandle
+  parent: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  langs:
+  - csharp
+  - vb
+  name: ReleaseHandle()
+  nameWithType: NotifyEventHandle.ReleaseHandle()
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.ReleaseHandle()
+  type: Method
+  source:
+    id: ReleaseHandle
+    path: ''
+    startLine: 1980
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: protected override void ReleaseHandle()
+    content.vb: Protected Overrides Sub ReleaseHandle
+  overridden: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.ReleaseHandle
+  overload: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.ReleaseHandle*
+  modifiers.csharp:
+  - protected
+  - override
+  modifiers.vb:
+  - Protected
+  - Overrides
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.IsValid
+  commentId: M:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.IsValid
+  id: IsValid
+  parent: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  langs:
+  - csharp
+  - vb
+  name: IsValid()
+  nameWithType: NotifyEventHandle.IsValid()
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.IsValid()
+  type: Method
+  source:
+    id: IsValid
+    path: ''
+    startLine: 1990
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public override bool IsValid()
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides Function IsValid As Boolean
+  overridden: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.IsValid
+  overload: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.IsValid*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  commentId: T:PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  parent: PlayEveryWare.EpicOnlineServices
+  definition: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+  name: GenericSafeHandle<UInt64>
+  nameWithType: GenericSafeHandle<UInt64>
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>
+  nameWithType.vb: GenericSafeHandle(Of UInt64)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64)
+  name.vb: GenericSafeHandle(Of UInt64)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+    name: GenericSafeHandle
+    nameWithType: GenericSafeHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.UInt64
+    name: UInt64
+    nameWithType: UInt64
+    fullName: System.UInt64
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+    name: GenericSafeHandle
+    nameWithType: GenericSafeHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.UInt64
+    name: UInt64
+    nameWithType: UInt64
+    fullName: System.UInt64
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.handleObject
+  commentId: F:PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.handleObject
+  parent: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  definition: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.handleObject
+  name: handleObject
+  nameWithType: GenericSafeHandle<UInt64>.handleObject
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.handleObject
+  nameWithType.vb: GenericSafeHandle(Of UInt64).handleObject
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).handleObject
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.disposedValue
+  commentId: F:PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.disposedValue
+  parent: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  definition: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.disposedValue
+  name: disposedValue
+  nameWithType: GenericSafeHandle<UInt64>.disposedValue
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.disposedValue
+  nameWithType.vb: GenericSafeHandle(Of UInt64).disposedValue
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).disposedValue
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+  parent: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  definition: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+  name: CurrentDomain_UnhandledException(Object, UnhandledExceptionEventArgs)
+  nameWithType: GenericSafeHandle<UInt64>.CurrentDomain_UnhandledException(Object, UnhandledExceptionEventArgs)
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.CurrentDomain_UnhandledException(System.Object, System.UnhandledExceptionEventArgs)
+  nameWithType.vb: GenericSafeHandle(Of UInt64).CurrentDomain_UnhandledException(Object, UnhandledExceptionEventArgs)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).CurrentDomain_UnhandledException(System.Object, System.UnhandledExceptionEventArgs)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+    name: CurrentDomain_UnhandledException
+    nameWithType: GenericSafeHandle<UInt64>.CurrentDomain_UnhandledException
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.CurrentDomain_UnhandledException
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.UnhandledExceptionEventArgs
+    name: UnhandledExceptionEventArgs
+    nameWithType: UnhandledExceptionEventArgs
+    fullName: System.UnhandledExceptionEventArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+    name: CurrentDomain_UnhandledException
+    nameWithType: GenericSafeHandle(Of UInt64).CurrentDomain_UnhandledException
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).CurrentDomain_UnhandledException
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.UnhandledExceptionEventArgs
+    name: UnhandledExceptionEventArgs
+    nameWithType: UnhandledExceptionEventArgs
+    fullName: System.UnhandledExceptionEventArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.Dispose(System.Boolean)
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.Dispose(System.Boolean)
+  parent: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  definition: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose(System.Boolean)
+  name: Dispose(Boolean)
+  nameWithType: GenericSafeHandle<UInt64>.Dispose(Boolean)
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.Dispose(System.Boolean)
+  nameWithType.vb: GenericSafeHandle(Of UInt64).Dispose(Boolean)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).Dispose(System.Boolean)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose(System.Boolean)
+    name: Dispose
+    nameWithType: GenericSafeHandle<UInt64>.Dispose
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose(System.Boolean)
+    name: Dispose
+    nameWithType: GenericSafeHandle(Of UInt64).Dispose
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.Dispose
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.Dispose
+  parent: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  definition: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose
+  name: Dispose()
+  nameWithType: GenericSafeHandle<UInt64>.Dispose()
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.Dispose()
+  nameWithType.vb: GenericSafeHandle(Of UInt64).Dispose()
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).Dispose()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose
+    name: Dispose
+    nameWithType: GenericSafeHandle<UInt64>.Dispose
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose
+    name: Dispose
+    nameWithType: GenericSafeHandle(Of UInt64).Dispose
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+  commentId: T:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+  name: GenericSafeHandle<HandleType>
+  nameWithType: GenericSafeHandle<HandleType>
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>
+  nameWithType.vb: GenericSafeHandle(Of HandleType)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType)
+  name.vb: GenericSafeHandle(Of HandleType)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+    name: GenericSafeHandle
+    nameWithType: GenericSafeHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: HandleType
+    nameWithType: HandleType
+    fullName: HandleType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+    name: GenericSafeHandle
+    nameWithType: GenericSafeHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: HandleType
+    nameWithType: HandleType
+    fullName: HandleType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.handleObject
+  commentId: F:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.handleObject
+  name: handleObject
+  nameWithType: GenericSafeHandle<HandleType>.handleObject
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.handleObject
+  nameWithType.vb: GenericSafeHandle(Of HandleType).handleObject
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).handleObject
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.disposedValue
+  commentId: F:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.disposedValue
+  name: disposedValue
+  nameWithType: GenericSafeHandle<HandleType>.disposedValue
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.disposedValue
+  nameWithType.vb: GenericSafeHandle(Of HandleType).disposedValue
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).disposedValue
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+  isExternal: true
+  name: CurrentDomain_UnhandledException(Object, UnhandledExceptionEventArgs)
+  nameWithType: GenericSafeHandle<HandleType>.CurrentDomain_UnhandledException(Object, UnhandledExceptionEventArgs)
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.CurrentDomain_UnhandledException(System.Object, System.UnhandledExceptionEventArgs)
+  nameWithType.vb: GenericSafeHandle(Of HandleType).CurrentDomain_UnhandledException(Object, UnhandledExceptionEventArgs)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).CurrentDomain_UnhandledException(System.Object, System.UnhandledExceptionEventArgs)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+    name: CurrentDomain_UnhandledException
+    nameWithType: GenericSafeHandle<HandleType>.CurrentDomain_UnhandledException
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.CurrentDomain_UnhandledException
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.UnhandledExceptionEventArgs
+    name: UnhandledExceptionEventArgs
+    nameWithType: UnhandledExceptionEventArgs
+    fullName: System.UnhandledExceptionEventArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.CurrentDomain_UnhandledException(System.Object,System.UnhandledExceptionEventArgs)
+    name: CurrentDomain_UnhandledException
+    nameWithType: GenericSafeHandle(Of HandleType).CurrentDomain_UnhandledException
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).CurrentDomain_UnhandledException
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.UnhandledExceptionEventArgs
+    name: UnhandledExceptionEventArgs
+    nameWithType: UnhandledExceptionEventArgs
+    fullName: System.UnhandledExceptionEventArgs
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose(System.Boolean)
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose(System.Boolean)
+  isExternal: true
+  name: Dispose(Boolean)
+  nameWithType: GenericSafeHandle<HandleType>.Dispose(Boolean)
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.Dispose(System.Boolean)
+  nameWithType.vb: GenericSafeHandle(Of HandleType).Dispose(Boolean)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).Dispose(System.Boolean)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose(System.Boolean)
+    name: Dispose
+    nameWithType: GenericSafeHandle<HandleType>.Dispose
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose(System.Boolean)
+    name: Dispose
+    nameWithType: GenericSafeHandle(Of HandleType).Dispose
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose
+  name: Dispose()
+  nameWithType: GenericSafeHandle<HandleType>.Dispose()
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.Dispose()
+  nameWithType.vb: GenericSafeHandle(Of HandleType).Dispose()
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).Dispose()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose
+    name: Dispose
+    nameWithType: GenericSafeHandle<HandleType>.Dispose
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.Dispose
+    name: Dispose
+    nameWithType: GenericSafeHandle(Of HandleType).Dispose
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+  commentId: T:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+  parent: PlayEveryWare.EpicOnlineServices
+  name: NotifyEventHandle.RemoveDelegate
+  nameWithType: NotifyEventHandle.RemoveDelegate
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.#ctor*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.#ctor
+  name: NotifyEventHandle
+  nameWithType: NotifyEventHandle.NotifyEventHandle
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.NotifyEventHandle
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  name: UInt64
+  nameWithType: UInt64
+  fullName: System.UInt64
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.ReleaseHandle
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.ReleaseHandle
+  parent: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  definition: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.ReleaseHandle
+  name: ReleaseHandle()
+  nameWithType: GenericSafeHandle<UInt64>.ReleaseHandle()
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.ReleaseHandle()
+  nameWithType.vb: GenericSafeHandle(Of UInt64).ReleaseHandle()
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).ReleaseHandle()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.ReleaseHandle
+    name: ReleaseHandle
+    nameWithType: GenericSafeHandle<UInt64>.ReleaseHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.ReleaseHandle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.ReleaseHandle
+    name: ReleaseHandle
+    nameWithType: GenericSafeHandle(Of UInt64).ReleaseHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).ReleaseHandle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.ReleaseHandle*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.ReleaseHandle
+  name: ReleaseHandle
+  nameWithType: NotifyEventHandle.ReleaseHandle
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.ReleaseHandle
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.ReleaseHandle
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.ReleaseHandle
+  name: ReleaseHandle()
+  nameWithType: GenericSafeHandle<HandleType>.ReleaseHandle()
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.ReleaseHandle()
+  nameWithType.vb: GenericSafeHandle(Of HandleType).ReleaseHandle()
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).ReleaseHandle()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.ReleaseHandle
+    name: ReleaseHandle
+    nameWithType: GenericSafeHandle<HandleType>.ReleaseHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.ReleaseHandle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.ReleaseHandle
+    name: ReleaseHandle
+    nameWithType: GenericSafeHandle(Of HandleType).ReleaseHandle
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).ReleaseHandle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.IsValid
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}.IsValid
+  parent: PlayEveryWare.EpicOnlineServices.GenericSafeHandle{System.UInt64}
+  definition: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.IsValid
+  name: IsValid()
+  nameWithType: GenericSafeHandle<UInt64>.IsValid()
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.IsValid()
+  nameWithType.vb: GenericSafeHandle(Of UInt64).IsValid()
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).IsValid()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.IsValid
+    name: IsValid
+    nameWithType: GenericSafeHandle<UInt64>.IsValid
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<System.UInt64>.IsValid
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.IsValid
+    name: IsValid
+    nameWithType: GenericSafeHandle(Of UInt64).IsValid
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of System.UInt64).IsValid
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.IsValid*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.IsValid
+  name: IsValid
+  nameWithType: NotifyEventHandle.IsValid
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.IsValid
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.IsValid
+  commentId: M:PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.IsValid
+  name: IsValid()
+  nameWithType: GenericSafeHandle<HandleType>.IsValid()
+  fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.IsValid()
+  nameWithType.vb: GenericSafeHandle(Of HandleType).IsValid()
+  fullName.vb: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).IsValid()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.IsValid
+    name: IsValid
+    nameWithType: GenericSafeHandle<HandleType>.IsValid
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle<HandleType>.IsValid
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1.IsValid
+    name: IsValid
+    nameWithType: GenericSafeHandle(Of HandleType).IsValid
+    fullName: PlayEveryWare.EpicOnlineServices.GenericSafeHandle(Of HandleType).IsValid
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )

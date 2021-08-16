@@ -65,14 +65,12 @@ using System.Diagnostics;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    //-------------------------------------------------------------------------
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of
     /// the EOS SDK and to be the interface for getting all the managed EOS interfaces.
     /// It also handles loading and unloading EOS on platforms that need that.
     /// 
     /// See : https://dev.epicgames.com/docs/services/en-US/CSharp/GettingStarted/index.html
-    /// 
     /// </summary>
     public partial class EOSManager : MonoBehaviour
     {
@@ -83,12 +81,24 @@ namespace PlayEveryWare.EpicOnlineServices
         public delegate void OnConnectLinkExternalAccountCallback(Epic.OnlineServices.Connect.LinkAccountCallbackInfo linkAccountCallbackInfo);
         public delegate void OnAuthLinkExternalAccountCallback(Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo);
 
-        private static string ConfigPath = "EpicOnlineServicesConfig.json";
+        /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
+        private static string ConfigFileName = "EpicOnlineServicesConfig.json";
+
+        /// <value>List of logged in <c>EpicAccountId</c></value>
         private static List<EpicAccountId> loggedInAccountIDs = new List<EpicAccountId>();
-        private static Dictionary<EpicAccountId, ProductUserId> accountIDToProductId = new Dictionary<EpicAccountId, ProductUserId>();
+
+        //private static Dictionary<EpicAccountId, ProductUserId> accountIDToProductId = new Dictionary<EpicAccountId, ProductUserId>();
+
+        /// <value>Stores instances of feature managers</value>
         private static Dictionary<Type, IEOSSubManager> s_subManagers = new Dictionary<Type, IEOSSubManager>();
+
+        /// <value>List of Login callbacks</value>
         private static List<OnConnectLoginCallback> s_onConnectLoginCallbacks = new List<OnConnectLoginCallback>();
+
+        /// <value>List of Auth Login callbacks</value>
         private static List<OnAuthLoginCallback> s_onAuthLoginCallbacks = new List<OnAuthLoginCallback>();
+
+        /// <value>List of Auth Logout callbacks</value>
         private static List<OnLogoutCallback> s_onAuthLogoutCallbacks = new List<OnLogoutCallback>();
 
 
@@ -214,7 +224,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 NativeCallToUnloadEOS();
 
                 //TODO: provide different way to load the config file?
-                string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", ConfigPath);
+                string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", ConfigFileName);
 
                 if (!File.Exists(eosFinalConfigPath))
                 {
@@ -782,8 +792,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
         }
+
+        /// <value>Private static instance of <c>EOSSingleton</c></value>
         static EOSSingleton s_instance;
 
+        /// <value>Public static instance of <c>EOSSingleton</c></value>
         //-------------------------------------------------------------------------
         static public EOSSingleton Instance
         {
@@ -799,20 +812,33 @@ namespace PlayEveryWare.EpicOnlineServices
 
 
         //-------------------------------------------------------------------------
-        // Awake
+        /// <summary>Unity [Awake](https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html) is called when script instance is being loaded.
+        /// <list type="bullet">
+        ///     <item><description>Calls <c>Init()</c></description></item>
+        /// </list>
+        /// </summary>
         void Awake()
         {
             EOSManager.Instance.Init();
         }
 
         //-------------------------------------------------------------------------
-        // Update is called once per frame
+        /// <summary>Unity [Update](https://docs.unity3d.com/ScriptReference/MonoBehaviour.Update.html) is called every frame if enabled.
+        /// <list type="bullet">
+        ///     <item><description>Calls <c>Tick()</c></description></item>
+        /// </list>
+        /// </summary>
         void Update()
         {
             EOSManager.Instance.Tick();
         }
 
         //-------------------------------------------------------------------------
+        /// <summary>Unity [OnApplicationQuit](https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationQuit.html) is called before the application quits.
+        /// <list type="bullet">
+        ///     <item><description>Calls <c>OnShutdown()</c></description></item>
+        /// </list>
+        /// </summary>
         private void OnApplicationQuit()
         {
             EOSManager.Instance.OnShutdown();

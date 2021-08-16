@@ -24,6 +24,10 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class <c>EOSTransferInProgress</c> is used in <c>EOSTitleStorageManager</c> and <c>EOSPlayerDataStorageManager</c> to keep track of downloaded cached file data.
+    /// </summary>
+
     public class EOSTransferInProgress
     {
         public bool Download = true;

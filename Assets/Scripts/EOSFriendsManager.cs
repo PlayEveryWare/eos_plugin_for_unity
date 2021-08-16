@@ -57,7 +57,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public string Platform;
     }
 
-    /// <summary>Class <c>EOSFriendsManager</c> is a simplified wrapper for EOS FriendsInterface.</summary>
+    /// <summary>
+    /// Class <c>EOSFriendsManager</c> is a simplified wrapper for EOS [FriendsInterface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Friends/index.html).
+    /// </summary>
     public class EOSFriendsManager : IEOSSubManager
     {
         private Dictionary<EpicAccountId, FriendData> CachedFriends;

@@ -1,0 +1,574 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  id: EOSManager.EOSSingleton.EpicLauncherArgs
+  parent: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authLogin
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authPassword
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authType
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicApp
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicEnv
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicLocale
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicUserID
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicUsername
+  langs:
+  - csharp
+  - vb
+  name: EOSManager.EOSSingleton.EpicLauncherArgs
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  type: Struct
+  source:
+    id: EpicLauncherArgs
+    path: ''
+    startLine: 678
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public struct EpicLauncherArgs
+    content.vb: Public Structure EpicLauncherArgs
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authLogin
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authLogin
+  id: authLogin
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  langs:
+  - csharp
+  - vb
+  name: authLogin
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs.authLogin
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authLogin
+  type: Field
+  source:
+    id: authLogin
+    path: ''
+    startLine: 680
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string authLogin
+    return:
+      type: System.String
+    content.vb: Public authLogin As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authPassword
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authPassword
+  id: authPassword
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  langs:
+  - csharp
+  - vb
+  name: authPassword
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs.authPassword
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authPassword
+  type: Field
+  source:
+    id: authPassword
+    path: ''
+    startLine: 681
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string authPassword
+    return:
+      type: System.String
+    content.vb: Public authPassword As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authType
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authType
+  id: authType
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  langs:
+  - csharp
+  - vb
+  name: authType
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs.authType
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.authType
+  type: Field
+  source:
+    id: authType
+    path: ''
+    startLine: 682
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string authType
+    return:
+      type: System.String
+    content.vb: Public authType As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicApp
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicApp
+  id: epicApp
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  langs:
+  - csharp
+  - vb
+  name: epicApp
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs.epicApp
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicApp
+  type: Field
+  source:
+    id: epicApp
+    path: ''
+    startLine: 683
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string epicApp
+    return:
+      type: System.String
+    content.vb: Public epicApp As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicEnv
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicEnv
+  id: epicEnv
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  langs:
+  - csharp
+  - vb
+  name: epicEnv
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs.epicEnv
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicEnv
+  type: Field
+  source:
+    id: epicEnv
+    path: ''
+    startLine: 684
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string epicEnv
+    return:
+      type: System.String
+    content.vb: Public epicEnv As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicUsername
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicUsername
+  id: epicUsername
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  langs:
+  - csharp
+  - vb
+  name: epicUsername
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs.epicUsername
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicUsername
+  type: Field
+  source:
+    id: epicUsername
+    path: ''
+    startLine: 685
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string epicUsername
+    return:
+      type: System.String
+    content.vb: Public epicUsername As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicUserID
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicUserID
+  id: epicUserID
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  langs:
+  - csharp
+  - vb
+  name: epicUserID
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs.epicUserID
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicUserID
+  type: Field
+  source:
+    id: epicUserID
+    path: ''
+    startLine: 686
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string epicUserID
+    return:
+      type: System.String
+    content.vb: Public epicUserID As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicLocale
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicLocale
+  id: epicLocale
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  langs:
+  - csharp
+  - vb
+  name: epicLocale
+  nameWithType: EOSManager.EOSSingleton.EpicLauncherArgs.epicLocale
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs.epicLocale
+  type: Field
+  source:
+    id: epicLocale
+    path: ''
+    startLine: 687
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string epicLocale
+    return:
+      type: System.String
+    content.vb: Public epicLocale As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

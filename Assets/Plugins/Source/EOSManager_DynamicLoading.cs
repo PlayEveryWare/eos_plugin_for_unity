@@ -55,6 +55,9 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     public partial class EOSManager
     {
+        /// <summary>
+        /// Singleton design pattern implementation for <c>EOSManager</c>.
+        /// </summary>
         public partial class EOSSingleton
         {
             static private PlatformInterface s_eosPlatformInterface;

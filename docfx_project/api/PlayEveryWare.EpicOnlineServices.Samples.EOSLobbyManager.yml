@@ -1,0 +1,3135 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  id: EOSLobbyManager
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.#ctor
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager._Dirty
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite(System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite(PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite,System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ActiveJoin
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentInvite
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentLobby
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentSearch
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DeclineLobbyInvite
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyLobbyCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.EOS_INVALID_NOTIFICATIONID
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentInvite
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentLobby
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentSearch
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetRTCRoomName
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.Invites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.IsLobbyNotificationValid(PlayEveryWare.EpicOnlineServices.NotifyEventHandle)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby(System.String,LobbyDetails,System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobbyAcceptedNotification
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobbyCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMemberCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobbyCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyCreatedCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyInviteAcceptedNotification
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyInviteNotification
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyMemberStatusNotification
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyMemberUpdateNotification
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyModifyCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbySearchCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyUpdateNotification
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnCreateLobbyCompleted(CreateLobbyCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDeclineInviteCompleted(RejectInviteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyCompleted(JoinLobbyCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickedFromLobby(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickMemberCompleted(KickMemberCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInvite(System.String,ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyJoinFailed(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCompleted(LobbySearchFindCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdated(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedIn
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedOut
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnPromoteMemberCompleted(PromoteMemberCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PopLobbyInvite
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMemberCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute(System.String,System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchResults
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute(PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyInvites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyUpdates
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToRTCEvents
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMuteCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyInvites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyUpdates
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromRTCEvents
+  langs:
+  - csharp
+  - vb
+  name: EOSLobbyManager
+  nameWithType: EOSLobbyManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  type: Class
+  source:
+    id: EOSLobbyManager
+    path: ''
+    startLine: 5088
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass <code>EOSLobbyManager</code> is a simplified wrapper for EOS [Lobby Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Lobby/index.html).\n"
+  example: []
+  syntax:
+    content: 'public class EOSLobbyManager : IEOSSubManager'
+    content.vb: >-
+      Public Class EOSLobbyManager
+          Implements IEOSSubManager
+  inheritance:
+  - System.Object
+  implements:
+  - PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentLobby
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentLobby
+  id: CurrentLobby
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentLobby
+  nameWithType: EOSLobbyManager.CurrentLobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentLobby
+  type: Field
+  source:
+    id: CurrentLobby
+    path: ''
+    startLine: 5090
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Lobby CurrentLobby
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+    content.vb: CurrentLobby As Lobby
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ActiveJoin
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ActiveJoin
+  id: ActiveJoin
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: ActiveJoin
+  nameWithType: EOSLobbyManager.ActiveJoin
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ActiveJoin
+  type: Field
+  source:
+    id: ActiveJoin
+    path: ''
+    startLine: 5091
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: LobbyJoinRequest ActiveJoin
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.LobbyJoinRequest
+    content.vb: ActiveJoin As LobbyJoinRequest
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.Invites
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.Invites
+  id: Invites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: Invites
+  nameWithType: EOSLobbyManager.Invites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.Invites
+  type: Field
+  source:
+    id: Invites
+    path: ''
+    startLine: 5094
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<ProductUserId, LobbyInvite> Invites
+    return:
+      type: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
+    content.vb: Invites As Dictionary(Of ProductUserId, LobbyInvite)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentInvite
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentInvite
+  id: CurrentInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentInvite
+  nameWithType: EOSLobbyManager.CurrentInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentInvite
+  type: Field
+  source:
+    id: CurrentInvite
+    path: ''
+    startLine: 5095
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: LobbyInvite CurrentInvite
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+    content.vb: CurrentInvite As LobbyInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentSearch
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentSearch
+  id: CurrentSearch
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentSearch
+  nameWithType: EOSLobbyManager.CurrentSearch
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentSearch
+  type: Field
+  source:
+    id: CurrentSearch
+    path: ''
+    startLine: 5098
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: LobbySearch CurrentSearch
+    return:
+      type: LobbySearch
+    content.vb: CurrentSearch As LobbySearch
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchResults
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchResults
+  id: SearchResults
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: SearchResults
+  nameWithType: EOSLobbyManager.SearchResults
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchResults
+  type: Field
+  source:
+    id: SearchResults
+    path: ''
+    startLine: 5099
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<Lobby, LobbyDetails> SearchResults
+    return:
+      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
+    content.vb: SearchResults As Dictionary(Of Lobby, LobbyDetails)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyUpdateNotification
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyUpdateNotification
+  id: LobbyUpdateNotification
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LobbyUpdateNotification
+  nameWithType: EOSLobbyManager.LobbyUpdateNotification
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyUpdateNotification
+  type: Field
+  source:
+    id: LobbyUpdateNotification
+    path: ''
+    startLine: 5103
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: NotifyEventHandle LobbyUpdateNotification
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: LobbyUpdateNotification As NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyMemberUpdateNotification
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyMemberUpdateNotification
+  id: LobbyMemberUpdateNotification
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LobbyMemberUpdateNotification
+  nameWithType: EOSLobbyManager.LobbyMemberUpdateNotification
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyMemberUpdateNotification
+  type: Field
+  source:
+    id: LobbyMemberUpdateNotification
+    path: ''
+    startLine: 5104
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: NotifyEventHandle LobbyMemberUpdateNotification
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: LobbyMemberUpdateNotification As NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyMemberStatusNotification
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyMemberStatusNotification
+  id: LobbyMemberStatusNotification
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LobbyMemberStatusNotification
+  nameWithType: EOSLobbyManager.LobbyMemberStatusNotification
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyMemberStatusNotification
+  type: Field
+  source:
+    id: LobbyMemberStatusNotification
+    path: ''
+    startLine: 5105
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: NotifyEventHandle LobbyMemberStatusNotification
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: LobbyMemberStatusNotification As NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyInviteNotification
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyInviteNotification
+  id: LobbyInviteNotification
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LobbyInviteNotification
+  nameWithType: EOSLobbyManager.LobbyInviteNotification
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyInviteNotification
+  type: Field
+  source:
+    id: LobbyInviteNotification
+    path: ''
+    startLine: 5106
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: NotifyEventHandle LobbyInviteNotification
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: LobbyInviteNotification As NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyInviteAcceptedNotification
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyInviteAcceptedNotification
+  id: LobbyInviteAcceptedNotification
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LobbyInviteAcceptedNotification
+  nameWithType: EOSLobbyManager.LobbyInviteAcceptedNotification
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyInviteAcceptedNotification
+  type: Field
+  source:
+    id: LobbyInviteAcceptedNotification
+    path: ''
+    startLine: 5107
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: NotifyEventHandle LobbyInviteAcceptedNotification
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: LobbyInviteAcceptedNotification As NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobbyAcceptedNotification
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobbyAcceptedNotification
+  id: JoinLobbyAcceptedNotification
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: JoinLobbyAcceptedNotification
+  nameWithType: EOSLobbyManager.JoinLobbyAcceptedNotification
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobbyAcceptedNotification
+  type: Field
+  source:
+    id: JoinLobbyAcceptedNotification
+    path: ''
+    startLine: 5108
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: NotifyEventHandle JoinLobbyAcceptedNotification
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: JoinLobbyAcceptedNotification As NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.EOS_INVALID_NOTIFICATIONID
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.EOS_INVALID_NOTIFICATIONID
+  id: EOS_INVALID_NOTIFICATIONID
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: EOS_INVALID_NOTIFICATIONID
+  nameWithType: EOSLobbyManager.EOS_INVALID_NOTIFICATIONID
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.EOS_INVALID_NOTIFICATIONID
+  type: Field
+  source:
+    id: EOS_INVALID_NOTIFICATIONID
+    path: ''
+    startLine: 5111
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const ulong EOS_INVALID_NOTIFICATIONID = 0UL
+    return:
+      type: System.UInt64
+    content.vb: Const EOS_INVALID_NOTIFICATIONID As ULong = 0UL
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager._Dirty
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager._Dirty
+  id: _Dirty
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: _Dirty
+  nameWithType: EOSLobbyManager._Dirty
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager._Dirty
+  type: Field
+  source:
+    id: _Dirty
+    path: ''
+    startLine: 5113
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool _Dirty
+    return:
+      type: System.Boolean
+    content.vb: Public _Dirty As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyCreatedCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyCreatedCallback
+  id: LobbyCreatedCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LobbyCreatedCallback
+  nameWithType: EOSLobbyManager.LobbyCreatedCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyCreatedCallback
+  type: Field
+  source:
+    id: LobbyCreatedCallback
+    path: ''
+    startLine: 5116
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbyCallback LobbyCreatedCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: LobbyCreatedCallback As EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyModifyCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyModifyCallback
+  id: LobbyModifyCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LobbyModifyCallback
+  nameWithType: EOSLobbyManager.LobbyModifyCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyModifyCallback
+  type: Field
+  source:
+    id: LobbyModifyCallback
+    path: ''
+    startLine: 5117
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbyCallback LobbyModifyCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: LobbyModifyCallback As EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobbyCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobbyCallback
+  id: JoinLobbyCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: JoinLobbyCallback
+  nameWithType: EOSLobbyManager.JoinLobbyCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobbyCallback
+  type: Field
+  source:
+    id: JoinLobbyCallback
+    path: ''
+    startLine: 5118
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbyCallback JoinLobbyCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: JoinLobbyCallback As EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobbyCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobbyCallback
+  id: LeaveLobbyCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LeaveLobbyCallback
+  nameWithType: EOSLobbyManager.LeaveLobbyCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobbyCallback
+  type: Field
+  source:
+    id: LeaveLobbyCallback
+    path: ''
+    startLine: 5119
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbyCallback LeaveLobbyCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: LeaveLobbyCallback As EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyLobbyCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyLobbyCallback
+  id: DestroyLobbyCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: DestroyLobbyCallback
+  nameWithType: EOSLobbyManager.DestroyLobbyCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyLobbyCallback
+  type: Field
+  source:
+    id: DestroyLobbyCallback
+    path: ''
+    startLine: 5120
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbyCallback DestroyLobbyCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: DestroyLobbyCallback As EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMuteCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMuteCallback
+  id: ToggleMuteCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: ToggleMuteCallback
+  nameWithType: EOSLobbyManager.ToggleMuteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMuteCallback
+  type: Field
+  source:
+    id: ToggleMuteCallback
+    path: ''
+    startLine: 5121
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbyCallback ToggleMuteCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: ToggleMuteCallback As EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMemberCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMemberCallback
+  id: KickMemberCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: KickMemberCallback
+  nameWithType: EOSLobbyManager.KickMemberCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMemberCallback
+  type: Field
+  source:
+    id: KickMemberCallback
+    path: ''
+    startLine: 5122
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbyCallback KickMemberCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: KickMemberCallback As EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMemberCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMemberCallback
+  id: PromoteMemberCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: PromoteMemberCallback
+  nameWithType: EOSLobbyManager.PromoteMemberCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMemberCallback
+  type: Field
+  source:
+    id: PromoteMemberCallback
+    path: ''
+    startLine: 5123
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbyCallback PromoteMemberCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: PromoteMemberCallback As EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbySearchCallback
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbySearchCallback
+  id: LobbySearchCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LobbySearchCallback
+  nameWithType: EOSLobbyManager.LobbySearchCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbySearchCallback
+  type: Field
+  source:
+    id: LobbySearchCallback
+    path: ''
+    startLine: 5124
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSLobbyManager.OnLobbySearchCallback LobbySearchCallback
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+    content.vb: LobbySearchCallback As EOSLobbyManager.OnLobbySearchCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.#ctor
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.#ctor
+  id: '#ctor'
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: EOSLobbyManager()
+  nameWithType: EOSLobbyManager.EOSLobbyManager()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.EOSLobbyManager()
+  type: Constructor
+  source:
+    id: .ctor
+    path: ''
+    startLine: 5131
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EOSLobbyManager()
+    content.vb: Public Sub New
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentLobby
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentLobby
+  id: GetCurrentLobby
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: GetCurrentLobby()
+  nameWithType: EOSLobbyManager.GetCurrentLobby()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentLobby()
+  type: Method
+  source:
+    id: GetCurrentLobby
+    path: ''
+    startLine: 5152
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Lobby GetCurrentLobby()
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+    content.vb: Public Function GetCurrentLobby As Lobby
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentLobby*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites
+  id: GetInvites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: GetInvites()
+  nameWithType: EOSLobbyManager.GetInvites()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites()
+  type: Method
+  source:
+    id: GetInvites
+    path: ''
+    startLine: 5157
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Dictionary<ProductUserId, LobbyInvite> GetInvites()
+    return:
+      type: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
+    content.vb: Public Function GetInvites As Dictionary(Of ProductUserId, LobbyInvite)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentInvite
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentInvite
+  id: GetCurrentInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: GetCurrentInvite()
+  nameWithType: EOSLobbyManager.GetCurrentInvite()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentInvite()
+  type: Method
+  source:
+    id: GetCurrentInvite
+    path: ''
+    startLine: 5162
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public LobbyInvite GetCurrentInvite()
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+    content.vb: Public Function GetCurrentInvite As LobbyInvite
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentSearch
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentSearch
+  id: GetCurrentSearch
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: GetCurrentSearch()
+  nameWithType: EOSLobbyManager.GetCurrentSearch()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentSearch()
+  type: Method
+  source:
+    id: GetCurrentSearch
+    path: ''
+    startLine: 5167
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public LobbySearch GetCurrentSearch()
+    return:
+      type: LobbySearch
+    content.vb: Public Function GetCurrentSearch As LobbySearch
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentSearch*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults
+  id: GetSearchResults
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: GetSearchResults()
+  nameWithType: EOSLobbyManager.GetSearchResults()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults()
+  type: Method
+  source:
+    id: GetSearchResults
+    path: ''
+    startLine: 5172
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Dictionary<Lobby, LobbyDetails> GetSearchResults()
+    return:
+      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
+    content.vb: Public Function GetSearchResults As Dictionary(Of Lobby, LobbyDetails)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.IsLobbyNotificationValid(PlayEveryWare.EpicOnlineServices.NotifyEventHandle)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.IsLobbyNotificationValid(PlayEveryWare.EpicOnlineServices.NotifyEventHandle)
+  id: IsLobbyNotificationValid(PlayEveryWare.EpicOnlineServices.NotifyEventHandle)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: IsLobbyNotificationValid(NotifyEventHandle)
+  nameWithType: EOSLobbyManager.IsLobbyNotificationValid(NotifyEventHandle)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.IsLobbyNotificationValid(PlayEveryWare.EpicOnlineServices.NotifyEventHandle)
+  type: Method
+  source:
+    id: IsLobbyNotificationValid
+    path: ''
+    startLine: 5177
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: bool IsLobbyNotificationValid(NotifyEventHandle handle)
+    parameters:
+    - id: handle
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    return:
+      type: System.Boolean
+    content.vb: Function IsLobbyNotificationValid(handle As NotifyEventHandle) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.IsLobbyNotificationValid*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyUpdates
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyUpdates
+  id: SubscribeToLobbyUpdates
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: SubscribeToLobbyUpdates()
+  nameWithType: EOSLobbyManager.SubscribeToLobbyUpdates()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyUpdates()
+  type: Method
+  source:
+    id: SubscribeToLobbyUpdates
+    path: ''
+    startLine: 5182
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void SubscribeToLobbyUpdates()
+    content.vb: Sub SubscribeToLobbyUpdates
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyUpdates*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyUpdates
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyUpdates
+  id: UnsubscribeFromLobbyUpdates
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: UnsubscribeFromLobbyUpdates()
+  nameWithType: EOSLobbyManager.UnsubscribeFromLobbyUpdates()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyUpdates()
+  type: Method
+  source:
+    id: UnsubscribeFromLobbyUpdates
+    path: ''
+    startLine: 5210
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void UnsubscribeFromLobbyUpdates()
+    content.vb: Sub UnsubscribeFromLobbyUpdates
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyUpdates*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyInvites
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyInvites
+  id: SubscribeToLobbyInvites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: SubscribeToLobbyInvites()
+  nameWithType: EOSLobbyManager.SubscribeToLobbyInvites()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyInvites()
+  type: Method
+  source:
+    id: SubscribeToLobbyInvites
+    path: ''
+    startLine: 5218
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void SubscribeToLobbyInvites()
+    content.vb: Sub SubscribeToLobbyInvites
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyInvites*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyInvites
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyInvites
+  id: UnsubscribeFromLobbyInvites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: UnsubscribeFromLobbyInvites()
+  nameWithType: EOSLobbyManager.UnsubscribeFromLobbyInvites()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyInvites()
+  type: Method
+  source:
+    id: UnsubscribeFromLobbyInvites
+    path: ''
+    startLine: 5246
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void UnsubscribeFromLobbyInvites()
+    content.vb: Sub UnsubscribeFromLobbyInvites
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyInvites*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetRTCRoomName
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetRTCRoomName
+  id: GetRTCRoomName
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: GetRTCRoomName()
+  nameWithType: EOSLobbyManager.GetRTCRoomName()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetRTCRoomName()
+  type: Method
+  source:
+    id: GetRTCRoomName
+    path: ''
+    startLine: 5253
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: string GetRTCRoomName()
+    return:
+      type: System.String
+    content.vb: Function GetRTCRoomName As String
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetRTCRoomName*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromRTCEvents
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromRTCEvents
+  id: UnsubscribeFromRTCEvents
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: UnsubscribeFromRTCEvents()
+  nameWithType: EOSLobbyManager.UnsubscribeFromRTCEvents()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromRTCEvents()
+  type: Method
+  source:
+    id: UnsubscribeFromRTCEvents
+    path: ''
+    startLine: 5274
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void UnsubscribeFromRTCEvents()
+    content.vb: Sub UnsubscribeFromRTCEvents
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromRTCEvents*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToRTCEvents
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToRTCEvents
+  id: SubscribeToRTCEvents
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: SubscribeToRTCEvents()
+  nameWithType: EOSLobbyManager.SubscribeToRTCEvents()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToRTCEvents()
+  type: Method
+  source:
+    id: SubscribeToRTCEvents
+    path: ''
+    startLine: 5288
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void SubscribeToRTCEvents()
+    content.vb: Sub SubscribeToRTCEvents
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToRTCEvents*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo)
+  id: OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo)
+  type: Method
+  source:
+    id: OnRTCRoomConnectionChangedReceived
+    path: ''
+    startLine: 5373
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo data)
+    parameters:
+    - id: data
+      type: RTCRoomConnectionChangedCallbackInfo
+    content.vb: Sub OnRTCRoomConnectionChangedReceived(data As RTCRoomConnectionChangedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomConnectionChangedReceived*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo)
+  id: OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo)
+  type: Method
+  source:
+    id: OnRTCRoomParticipantStatusChanged
+    path: ''
+    startLine: 5413
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo data)
+    parameters:
+    - id: data
+      type: ParticipantStatusChangedCallbackInfo
+    content.vb: Sub OnRTCRoomParticipantStatusChanged(data As ParticipantStatusChangedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantStatusChanged*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo)
+  id: OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo)
+  type: Method
+  source:
+    id: OnRTCRoomParticipantAudioUpdateRecieved
+    path: ''
+    startLine: 5466
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo data)
+    parameters:
+    - id: data
+      type: ParticipantUpdatedCallbackInfo
+    content.vb: Sub OnRTCRoomParticipantAudioUpdateRecieved(data As ParticipantUpdatedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedIn
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedIn
+  id: OnLoggedIn
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedIn()
+  nameWithType: EOSLobbyManager.OnLoggedIn()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedIn()
+  type: Method
+  source:
+    id: OnLoggedIn
+    path: ''
+    startLine: 5517
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnLoggedIn()
+    content.vb: Public Sub OnLoggedIn
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedIn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedOut
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedOut
+  id: OnLoggedOut
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedOut()
+  nameWithType: EOSLobbyManager.OnLoggedOut()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedOut()
+  type: Method
+  source:
+    id: OnLoggedOut
+    path: ''
+    startLine: 5523
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnLoggedOut()
+    content.vb: Public Sub OnLoggedOut
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedOut*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: CreateLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: CreateLobby(Lobby, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.CreateLobby(Lobby, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: CreateLobby
+    path: ''
+    startLine: 5541
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void CreateLobby(Lobby lobbyProperties, EOSLobbyManager.OnLobbyCallback CreateLobbyCompleted)
+    parameters:
+    - id: lobbyProperties
+      type: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+    - id: CreateLobbyCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub CreateLobby(lobbyProperties As Lobby, CreateLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: ModifyLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: ModifyLobby(Lobby, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.ModifyLobby(Lobby, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby(PlayEveryWare.EpicOnlineServices.Samples.Lobby, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: ModifyLobby
+    path: ''
+    startLine: 5601
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void ModifyLobby(Lobby lobbyUpdates, EOSLobbyManager.OnLobbyCallback ModififyLobbyCompleted)
+    parameters:
+    - id: lobbyUpdates
+      type: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+    - id: ModififyLobbyCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub ModifyLobby(lobbyUpdates As Lobby, ModififyLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: LeaveLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: LeaveLobby(EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.LeaveLobby(EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: LeaveLobby
+    path: ''
+    startLine: 5728
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void LeaveLobby(EOSLobbyManager.OnLobbyCallback LeaveLobbyCompleted)
+    parameters:
+    - id: LeaveLobbyCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub LeaveLobby(LeaveLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite(ProductUserId)
+  id: SendInvite(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: SendInvite(ProductUserId)
+  nameWithType: EOSLobbyManager.SendInvite(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite(ProductUserId)
+  type: Method
+  source:
+    id: SendInvite
+    path: ''
+    startLine: 5750
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void SendInvite(ProductUserId targetUserId)
+    parameters:
+    - id: targetUserId
+      type: ProductUserId
+    content.vb: Public Sub SendInvite(targetUserId As ProductUserId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute(PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute(PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute)
+  id: SetMemberAttribute(PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: SetMemberAttribute(LobbyAttribute)
+  nameWithType: EOSLobbyManager.SetMemberAttribute(LobbyAttribute)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute(PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute)
+  type: Method
+  source:
+    id: SetMemberAttribute
+    path: ''
+    startLine: 5774
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void SetMemberAttribute(LobbyAttribute memberAttribute)
+    parameters:
+    - id: memberAttribute
+      type: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+    content.vb: Public Sub SetMemberAttribute(memberAttribute As LobbyAttribute)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  id: OnSendInviteCompleted(SendInviteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnSendInviteCompleted(SendInviteCallbackInfo)
+  nameWithType: EOSLobbyManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnSendInviteCompleted(SendInviteCallbackInfo)
+  type: Method
+  source:
+    id: OnSendInviteCompleted
+    path: ''
+    startLine: 5826
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnSendInviteCompleted(SendInviteCallbackInfo data)
+    parameters:
+    - id: data
+      type: SendInviteCallbackInfo
+    content.vb: Sub OnSendInviteCompleted(data As SendInviteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnSendInviteCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnCreateLobbyCompleted(CreateLobbyCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnCreateLobbyCompleted(CreateLobbyCallbackInfo)
+  id: OnCreateLobbyCompleted(CreateLobbyCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnCreateLobbyCompleted(CreateLobbyCallbackInfo)
+  nameWithType: EOSLobbyManager.OnCreateLobbyCompleted(CreateLobbyCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnCreateLobbyCompleted(CreateLobbyCallbackInfo)
+  type: Method
+  source:
+    id: OnCreateLobbyCompleted
+    path: ''
+    startLine: 5843
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnCreateLobbyCompleted(CreateLobbyCallbackInfo createLobbyCallbackInfo)
+    parameters:
+    - id: createLobbyCallbackInfo
+      type: CreateLobbyCallbackInfo
+    content.vb: Sub OnCreateLobbyCompleted(createLobbyCallbackInfo As CreateLobbyCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnCreateLobbyCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo)
+  id: OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo)
+  nameWithType: EOSLobbyManager.OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo)
+  type: Method
+  source:
+    id: OnUpdateLobbyCallBack
+    path: ''
+    startLine: 5879
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo data)
+    parameters:
+    - id: data
+      type: UpdateLobbyCallbackInfo
+    content.vb: Sub OnUpdateLobbyCallBack(data As UpdateLobbyCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnUpdateLobbyCallBack*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdated(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdated(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: OnLobbyUpdated(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLobbyUpdated(String, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.OnLobbyUpdated(String, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdated(System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: OnLobbyUpdated
+    path: ''
+    startLine: 5900
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnLobbyUpdated(string lobbyId, EOSLobbyManager.OnLobbyCallback LobbyUpdateCompleted)
+    parameters:
+    - id: lobbyId
+      type: System.String
+    - id: LobbyUpdateCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Sub OnLobbyUpdated(lobbyId As String, LobbyUpdateCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdated*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo)
+  id: OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo)
+  type: Method
+  source:
+    id: OnLobbyUpdateReceived
+    path: ''
+    startLine: 5911
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo data)
+    parameters:
+    - id: data
+      type: LobbyUpdateReceivedCallbackInfo
+    content.vb: Sub OnLobbyUpdateReceived(data As LobbyUpdateReceivedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdateReceived*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: DestroyCurrentLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: DestroyCurrentLobby(EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.DestroyCurrentLobby(EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby(PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: DestroyCurrentLobby
+    path: ''
+    startLine: 5926
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void DestroyCurrentLobby(EOSLobbyManager.OnLobbyCallback DestroyCurrentLobbyCompleted)
+    parameters:
+    - id: DestroyCurrentLobbyCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub DestroyCurrentLobby(DestroyCurrentLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo)
+  id: OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo)
+  nameWithType: EOSLobbyManager.OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo)
+  type: Method
+  source:
+    id: OnDestroyLobbyCompleted
+    path: ''
+    startLine: 5964
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo data)
+    parameters:
+    - id: data
+      type: DestroyLobbyCallbackInfo
+    content.vb: Sub OnDestroyLobbyCompleted(data As DestroyLobbyCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDestroyLobbyCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: ToggleMute(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: ToggleMute(ProductUserId, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.ToggleMute(ProductUserId, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute(ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: ToggleMute
+    path: ''
+    startLine: 5995
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void ToggleMute(ProductUserId targetUserId, EOSLobbyManager.OnLobbyCallback ToggleMuteCompleted)
+    parameters:
+    - id: targetUserId
+      type: ProductUserId
+    - id: ToggleMuteCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub ToggleMute(targetUserId As ProductUserId, ToggleMuteCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo)
+  id: OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo)
+  nameWithType: EOSLobbyManager.OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo)
+  type: Method
+  source:
+    id: OnRTCRoomUpdateSendingCompleted
+    path: ''
+    startLine: 6057
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo data)
+    parameters:
+    - id: data
+      type: UpdateSendingCallbackInfo
+    content.vb: Sub OnRTCRoomUpdateSendingCompleted(data As UpdateSendingCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateSendingCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo)
+  id: OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo)
+  nameWithType: EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo)
+  type: Method
+  source:
+    id: OnRTCRoomUpdateReceivingCompleted
+    path: ''
+    startLine: 6108
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo data)
+    parameters:
+    - id: data
+      type: UpdateReceivingCallbackInfo
+    content.vb: Sub OnRTCRoomUpdateReceivingCompleted(data As UpdateReceivingCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: KickMember(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: KickMember(ProductUserId, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.KickMember(ProductUserId, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember(ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: KickMember
+    path: ''
+    startLine: 6157
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void KickMember(ProductUserId productUserId, EOSLobbyManager.OnLobbyCallback KickMemberCompleted)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    - id: KickMemberCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub KickMember(productUserId As ProductUserId, KickMemberCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickMemberCompleted(KickMemberCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickMemberCompleted(KickMemberCallbackInfo)
+  id: OnKickMemberCompleted(KickMemberCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnKickMemberCompleted(KickMemberCallbackInfo)
+  nameWithType: EOSLobbyManager.OnKickMemberCompleted(KickMemberCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickMemberCompleted(KickMemberCallbackInfo)
+  type: Method
+  source:
+    id: OnKickMemberCompleted
+    path: ''
+    startLine: 6184
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnKickMemberCompleted(KickMemberCallbackInfo data)
+    parameters:
+    - id: data
+      type: KickMemberCallbackInfo
+    content.vb: Sub OnKickMemberCompleted(data As KickMemberCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickMemberCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickedFromLobby(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickedFromLobby(System.String)
+  id: OnKickedFromLobby(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnKickedFromLobby(String)
+  nameWithType: EOSLobbyManager.OnKickedFromLobby(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickedFromLobby(System.String)
+  type: Method
+  source:
+    id: OnKickedFromLobby
+    path: ''
+    startLine: 6204
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnKickedFromLobby(string lobbyId)
+    parameters:
+    - id: lobbyId
+      type: System.String
+    content.vb: Sub OnKickedFromLobby(lobbyId As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickedFromLobby*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: PromoteMember(ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: PromoteMember(ProductUserId, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.PromoteMember(ProductUserId, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember(ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: PromoteMember
+    path: ''
+    startLine: 6214
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void PromoteMember(ProductUserId productUserId, EOSLobbyManager.OnLobbyCallback PromoteMemberCompleted)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    - id: PromoteMemberCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub PromoteMember(productUserId As ProductUserId, PromoteMemberCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnPromoteMemberCompleted(PromoteMemberCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnPromoteMemberCompleted(PromoteMemberCallbackInfo)
+  id: OnPromoteMemberCompleted(PromoteMemberCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnPromoteMemberCompleted(PromoteMemberCallbackInfo)
+  nameWithType: EOSLobbyManager.OnPromoteMemberCompleted(PromoteMemberCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnPromoteMemberCompleted(PromoteMemberCallbackInfo)
+  type: Method
+  source:
+    id: OnPromoteMemberCompleted
+    path: ''
+    startLine: 6241
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnPromoteMemberCompleted(PromoteMemberCallbackInfo data)
+    parameters:
+    - id: data
+      type: PromoteMemberCallbackInfo
+    content.vb: Sub OnPromoteMemberCompleted(data As PromoteMemberCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnPromoteMemberCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo)
+  id: OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo)
+  type: Method
+  source:
+    id: OnMemberStatusReceived
+    path: ''
+    startLine: 6262
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo data)
+    parameters:
+    - id: data
+      type: LobbyMemberStatusReceivedCallbackInfo
+    content.vb: Sub OnMemberStatusReceived(data As LobbyMemberStatusReceivedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberStatusReceived*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo)
+  id: OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo)
+  type: Method
+  source:
+    id: OnMemberUpdateReceived
+    path: ''
+    startLine: 6306
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo data)
+    parameters:
+    - id: data
+      type: LobbyMemberUpdateReceivedCallbackInfo
+    content.vb: Sub OnMemberUpdateReceived(data As LobbyMemberUpdateReceivedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateReceived*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  id: SearchByLobbyId(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: SearchByLobbyId(String, EOSLobbyManager.OnLobbySearchCallback)
+  nameWithType: EOSLobbyManager.SearchByLobbyId(String, EOSLobbyManager.OnLobbySearchCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId(System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  type: Method
+  source:
+    id: SearchByLobbyId
+    path: ''
+    startLine: 6323
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void SearchByLobbyId(string lobbyId, EOSLobbyManager.OnLobbySearchCallback SearchCompleted)
+    parameters:
+    - id: lobbyId
+      type: System.String
+    - id: SearchCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+    content.vb: Public Sub SearchByLobbyId(lobbyId As String, SearchCompleted As EOSLobbyManager.OnLobbySearchCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute(System.String,System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute(System.String,System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  id: SearchByAttribute(System.String,System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: SearchByAttribute(String, String, EOSLobbyManager.OnLobbySearchCallback)
+  nameWithType: EOSLobbyManager.SearchByAttribute(String, String, EOSLobbyManager.OnLobbySearchCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute(System.String, System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback)
+  type: Method
+  source:
+    id: SearchByAttribute
+    path: ''
+    startLine: 6369
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void SearchByAttribute(string attributeKey, string attributeValue, EOSLobbyManager.OnLobbySearchCallback SearchCompleted)
+    parameters:
+    - id: attributeKey
+      type: System.String
+    - id: attributeValue
+      type: System.String
+    - id: SearchCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+    content.vb: Public Sub SearchByAttribute(attributeKey As String, attributeValue As String, SearchCompleted As EOSLobbyManager.OnLobbySearchCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCompleted(LobbySearchFindCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCompleted(LobbySearchFindCallbackInfo)
+  id: OnLobbySearchCompleted(LobbySearchFindCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLobbySearchCompleted(LobbySearchFindCallbackInfo)
+  nameWithType: EOSLobbyManager.OnLobbySearchCompleted(LobbySearchFindCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCompleted(LobbySearchFindCallbackInfo)
+  type: Method
+  source:
+    id: OnLobbySearchCompleted
+    path: ''
+    startLine: 6423
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnLobbySearchCompleted(LobbySearchFindCallbackInfo data)
+    parameters:
+    - id: data
+      type: LobbySearchFindCallbackInfo
+    content.vb: Sub OnLobbySearchCompleted(data As LobbySearchFindCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyJoinFailed(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyJoinFailed(System.String)
+  id: OnLobbyJoinFailed(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLobbyJoinFailed(String)
+  nameWithType: EOSLobbyManager.OnLobbyJoinFailed(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyJoinFailed(System.String)
+  type: Method
+  source:
+    id: OnLobbyJoinFailed
+    path: ''
+    startLine: 6492
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnLobbyJoinFailed(string lobbyId)
+    parameters:
+    - id: lobbyId
+      type: System.String
+    content.vb: Sub OnLobbyJoinFailed(lobbyId As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyJoinFailed*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInvite(System.String,ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInvite(System.String,ProductUserId)
+  id: OnLobbyInvite(System.String,ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLobbyInvite(String, ProductUserId)
+  nameWithType: EOSLobbyManager.OnLobbyInvite(String, ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInvite(System.String, ProductUserId)
+  type: Method
+  source:
+    id: OnLobbyInvite
+    path: ''
+    startLine: 6501
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnLobbyInvite(string inviteId, ProductUserId senderUserId)
+    parameters:
+    - id: inviteId
+      type: System.String
+    - id: senderUserId
+      type: ProductUserId
+    content.vb: Sub OnLobbyInvite(inviteId As String, senderUserId As ProductUserId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInvite*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo)
+  id: OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo)
+  type: Method
+  source:
+    id: OnJoinLobbyAccepted
+    path: ''
+    startLine: 6552
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo data)
+    parameters:
+    - id: data
+      type: JoinLobbyAcceptedCallbackInfo
+    content.vb: Sub OnJoinLobbyAccepted(data As JoinLobbyAcceptedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyAccepted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo)
+  id: OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo)
+  type: Method
+  source:
+    id: OnLobbyInviteReceived
+    path: ''
+    startLine: 6579
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo data)
+    parameters:
+    - id: data
+      type: LobbyInviteReceivedCallbackInfo
+    content.vb: Sub OnLobbyInviteReceived(data As LobbyInviteReceivedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteReceived*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo)
+  id: OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo)
+  nameWithType: EOSLobbyManager.OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo)
+  type: Method
+  source:
+    id: OnLobbyInviteAccepted
+    path: ''
+    startLine: 6608
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo data)
+    parameters:
+    - id: data
+      type: LobbyInviteAcceptedCallbackInfo
+    content.vb: Sub OnLobbyInviteAccepted(data As LobbyInviteAcceptedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteAccepted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PopLobbyInvite
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PopLobbyInvite
+  id: PopLobbyInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: PopLobbyInvite()
+  nameWithType: EOSLobbyManager.PopLobbyInvite()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PopLobbyInvite()
+  type: Method
+  source:
+    id: PopLobbyInvite
+    path: ''
+    startLine: 6643
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void PopLobbyInvite()
+    content.vb: Sub PopLobbyInvite
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PopLobbyInvite*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby(System.String,LobbyDetails,System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby(System.String,LobbyDetails,System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: JoinLobby(System.String,LobbyDetails,System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: JoinLobby(String, LobbyDetails, Boolean, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.JoinLobby(String, LobbyDetails, Boolean, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby(System.String, LobbyDetails, System.Boolean, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: JoinLobby
+    path: ''
+    startLine: 6664
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, EOSLobbyManager.OnLobbyCallback JoinLobbyCompleted)
+    parameters:
+    - id: lobbyId
+      type: System.String
+    - id: lobbyDetails
+      type: LobbyDetails
+    - id: presenceEnabled
+      type: System.Boolean
+    - id: JoinLobbyCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub JoinLobby(lobbyId As String, lobbyDetails As LobbyDetails, presenceEnabled As Boolean, JoinLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyCompleted(JoinLobbyCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyCompleted(JoinLobbyCallbackInfo)
+  id: OnJoinLobbyCompleted(JoinLobbyCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnJoinLobbyCompleted(JoinLobbyCallbackInfo)
+  nameWithType: EOSLobbyManager.OnJoinLobbyCompleted(JoinLobbyCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyCompleted(JoinLobbyCallbackInfo)
+  type: Method
+  source:
+    id: OnJoinLobbyCompleted
+    path: ''
+    startLine: 6707
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnJoinLobbyCompleted(JoinLobbyCallbackInfo data)
+    parameters:
+    - id: data
+      type: JoinLobbyCallbackInfo
+    content.vb: Sub OnJoinLobbyCompleted(data As JoinLobbyCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo)
+  id: OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo)
+  nameWithType: EOSLobbyManager.OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo)
+  type: Method
+  source:
+    id: OnLeaveLobbyCompleted
+    path: ''
+    startLine: 6746
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo data)
+    parameters:
+    - id: data
+      type: LeaveLobbyCallbackInfo
+    content.vb: Sub OnLeaveLobbyCompleted(data As LeaveLobbyCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLeaveLobbyCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DeclineLobbyInvite
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DeclineLobbyInvite
+  id: DeclineLobbyInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: DeclineLobbyInvite()
+  nameWithType: EOSLobbyManager.DeclineLobbyInvite()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DeclineLobbyInvite()
+  type: Method
+  source:
+    id: DeclineLobbyInvite
+    path: ''
+    startLine: 6770
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void DeclineLobbyInvite()
+    content.vb: Public Sub DeclineLobbyInvite
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DeclineLobbyInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDeclineInviteCompleted(RejectInviteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDeclineInviteCompleted(RejectInviteCallbackInfo)
+  id: OnDeclineInviteCompleted(RejectInviteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: OnDeclineInviteCompleted(RejectInviteCallbackInfo)
+  nameWithType: EOSLobbyManager.OnDeclineInviteCompleted(RejectInviteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDeclineInviteCompleted(RejectInviteCallbackInfo)
+  type: Method
+  source:
+    id: OnDeclineInviteCompleted
+    path: ''
+    startLine: 6791
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnDeclineInviteCompleted(RejectInviteCallbackInfo data)
+    parameters:
+    - id: data
+      type: RejectInviteCallbackInfo
+    content.vb: Sub OnDeclineInviteCompleted(data As RejectInviteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDeclineInviteCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite(System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite(System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: AcceptCurrentLobbyInvite(System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: AcceptCurrentLobbyInvite(Boolean, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.AcceptCurrentLobbyInvite(Boolean, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite(System.Boolean, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: AcceptCurrentLobbyInvite
+    path: ''
+    startLine: 6810
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void AcceptCurrentLobbyInvite(bool enablePresence, EOSLobbyManager.OnLobbyCallback AcceptLobbyInviteCompleted)
+    parameters:
+    - id: enablePresence
+      type: System.Boolean
+    - id: AcceptLobbyInviteCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub AcceptCurrentLobbyInvite(enablePresence As Boolean, AcceptLobbyInviteCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite(PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite,System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite(PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite,System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  id: AcceptLobbyInvite(PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite,System.Boolean,PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
+  langs:
+  - csharp
+  - vb
+  name: AcceptLobbyInvite(LobbyInvite, Boolean, EOSLobbyManager.OnLobbyCallback)
+  nameWithType: EOSLobbyManager.AcceptLobbyInvite(LobbyInvite, Boolean, EOSLobbyManager.OnLobbyCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite(PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite, System.Boolean, PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback)
+  type: Method
+  source:
+    id: AcceptLobbyInvite
+    path: ''
+    startLine: 6827
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void AcceptLobbyInvite(LobbyInvite lobbyInvite, bool enablePresence, EOSLobbyManager.OnLobbyCallback AcceptLobbyInviteCompleted)
+    parameters:
+    - id: lobbyInvite
+      type: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+    - id: enablePresence
+      type: System.Boolean
+    - id: AcceptLobbyInviteCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+    content.vb: Public Sub AcceptLobbyInvite(lobbyInvite As LobbyInvite, enablePresence As Boolean, AcceptLobbyInviteCompleted As EOSLobbyManager.OnLobbyCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSSubManager
+  nameWithType: IEOSSubManager
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: Lobby
+  nameWithType: Lobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+- uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyJoinRequest
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.LobbyJoinRequest
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: LobbyJoinRequest
+  nameWithType: LobbyJoinRequest
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyJoinRequest
+- uid: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
+  commentId: '!:Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}'
+  definition: Dictionary`2
+  name: Dictionary<ProductUserId, LobbyInvite>
+  nameWithType: Dictionary<ProductUserId, LobbyInvite>
+  fullName: Dictionary<ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite>
+  nameWithType.vb: Dictionary(Of ProductUserId, LobbyInvite)
+  fullName.vb: Dictionary(Of ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite)
+  name.vb: Dictionary(Of ProductUserId, LobbyInvite)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+    name: LobbyInvite
+    nameWithType: LobbyInvite
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+    name: LobbyInvite
+    nameWithType: LobbyInvite
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary`2
+  isExternal: true
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: LobbyInvite
+  nameWithType: LobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+- uid: LobbySearch
+  isExternal: true
+  name: LobbySearch
+  nameWithType: LobbySearch
+  fullName: LobbySearch
+- uid: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
+  commentId: '!:Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}'
+  definition: Dictionary`2
+  name: Dictionary<Lobby, LobbyDetails>
+  nameWithType: Dictionary<Lobby, LobbyDetails>
+  fullName: Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Lobby, LobbyDetails>
+  nameWithType.vb: Dictionary(Of Lobby, LobbyDetails)
+  fullName.vb: Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Lobby, LobbyDetails)
+  name.vb: Dictionary(Of Lobby, LobbyDetails)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+    name: Lobby
+    nameWithType: Lobby
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: LobbyDetails
+    name: LobbyDetails
+    nameWithType: LobbyDetails
+    fullName: LobbyDetails
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+    name: Lobby
+    nameWithType: Lobby
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: LobbyDetails
+    name: LobbyDetails
+    nameWithType: LobbyDetails
+    fullName: LobbyDetails
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  commentId: T:PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  parent: PlayEveryWare.EpicOnlineServices
+  name: NotifyEventHandle
+  nameWithType: NotifyEventHandle
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  name: UInt64
+  nameWithType: UInt64
+  fullName: System.UInt64
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: EOSLobbyManager.OnLobbyCallback
+  nameWithType: EOSLobbyManager.OnLobbyCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: EOSLobbyManager.OnLobbySearchCallback
+  nameWithType: EOSLobbyManager.OnLobbySearchCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.#ctor*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.#ctor
+  name: EOSLobbyManager
+  nameWithType: EOSLobbyManager.EOSLobbyManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.EOSLobbyManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentLobby*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentLobby
+  name: GetCurrentLobby
+  nameWithType: EOSLobbyManager.GetCurrentLobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentLobby
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites
+  name: GetInvites
+  nameWithType: EOSLobbyManager.GetInvites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentInvite
+  name: GetCurrentInvite
+  nameWithType: EOSLobbyManager.GetCurrentInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentSearch*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentSearch
+  name: GetCurrentSearch
+  nameWithType: EOSLobbyManager.GetCurrentSearch
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetCurrentSearch
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults
+  name: GetSearchResults
+  nameWithType: EOSLobbyManager.GetSearchResults
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.IsLobbyNotificationValid*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.IsLobbyNotificationValid
+  name: IsLobbyNotificationValid
+  nameWithType: EOSLobbyManager.IsLobbyNotificationValid
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.IsLobbyNotificationValid
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyUpdates*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyUpdates
+  name: SubscribeToLobbyUpdates
+  nameWithType: EOSLobbyManager.SubscribeToLobbyUpdates
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyUpdates
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyUpdates*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyUpdates
+  name: UnsubscribeFromLobbyUpdates
+  nameWithType: EOSLobbyManager.UnsubscribeFromLobbyUpdates
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyUpdates
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyInvites*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyInvites
+  name: SubscribeToLobbyInvites
+  nameWithType: EOSLobbyManager.SubscribeToLobbyInvites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToLobbyInvites
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyInvites*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyInvites
+  name: UnsubscribeFromLobbyInvites
+  nameWithType: EOSLobbyManager.UnsubscribeFromLobbyInvites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromLobbyInvites
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetRTCRoomName*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetRTCRoomName
+  name: GetRTCRoomName
+  nameWithType: EOSLobbyManager.GetRTCRoomName
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetRTCRoomName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromRTCEvents*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromRTCEvents
+  name: UnsubscribeFromRTCEvents
+  nameWithType: EOSLobbyManager.UnsubscribeFromRTCEvents
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.UnsubscribeFromRTCEvents
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToRTCEvents*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToRTCEvents
+  name: SubscribeToRTCEvents
+  nameWithType: EOSLobbyManager.SubscribeToRTCEvents
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SubscribeToRTCEvents
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomConnectionChangedReceived*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomConnectionChangedReceived
+  name: OnRTCRoomConnectionChangedReceived
+  nameWithType: EOSLobbyManager.OnRTCRoomConnectionChangedReceived
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomConnectionChangedReceived
+- uid: RTCRoomConnectionChangedCallbackInfo
+  commentId: '!:RTCRoomConnectionChangedCallbackInfo'
+  isExternal: true
+  name: RTCRoomConnectionChangedCallbackInfo
+  nameWithType: RTCRoomConnectionChangedCallbackInfo
+  fullName: RTCRoomConnectionChangedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantStatusChanged*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantStatusChanged
+  name: OnRTCRoomParticipantStatusChanged
+  nameWithType: EOSLobbyManager.OnRTCRoomParticipantStatusChanged
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantStatusChanged
+- uid: ParticipantStatusChangedCallbackInfo
+  commentId: '!:ParticipantStatusChangedCallbackInfo'
+  isExternal: true
+  name: ParticipantStatusChangedCallbackInfo
+  nameWithType: ParticipantStatusChangedCallbackInfo
+  fullName: ParticipantStatusChangedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved
+  name: OnRTCRoomParticipantAudioUpdateRecieved
+  nameWithType: EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomParticipantAudioUpdateRecieved
+- uid: ParticipantUpdatedCallbackInfo
+  commentId: '!:ParticipantUpdatedCallbackInfo'
+  isExternal: true
+  name: ParticipantUpdatedCallbackInfo
+  nameWithType: ParticipantUpdatedCallbackInfo
+  fullName: ParticipantUpdatedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedIn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedIn
+  name: OnLoggedIn
+  nameWithType: EOSLobbyManager.OnLoggedIn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedIn
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedOut*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedOut
+  name: OnLoggedOut
+  nameWithType: EOSLobbyManager.OnLoggedOut
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLoggedOut
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby
+  name: CreateLobby
+  nameWithType: EOSLobbyManager.CreateLobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby
+  name: ModifyLobby
+  nameWithType: EOSLobbyManager.ModifyLobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby
+  name: LeaveLobby
+  nameWithType: EOSLobbyManager.LeaveLobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite
+  name: SendInvite
+  nameWithType: EOSLobbyManager.SendInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite
+- uid: ProductUserId
+  isExternal: true
+  name: ProductUserId
+  nameWithType: ProductUserId
+  fullName: ProductUserId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute
+  name: SetMemberAttribute
+  nameWithType: EOSLobbyManager.SetMemberAttribute
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute
+- uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: LobbyAttribute
+  nameWithType: LobbyAttribute
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnSendInviteCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnSendInviteCompleted
+  name: OnSendInviteCompleted
+  nameWithType: EOSLobbyManager.OnSendInviteCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnSendInviteCompleted
+- uid: SendInviteCallbackInfo
+  isExternal: true
+  name: SendInviteCallbackInfo
+  nameWithType: SendInviteCallbackInfo
+  fullName: SendInviteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnCreateLobbyCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnCreateLobbyCompleted
+  name: OnCreateLobbyCompleted
+  nameWithType: EOSLobbyManager.OnCreateLobbyCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnCreateLobbyCompleted
+- uid: CreateLobbyCallbackInfo
+  commentId: '!:CreateLobbyCallbackInfo'
+  isExternal: true
+  name: CreateLobbyCallbackInfo
+  nameWithType: CreateLobbyCallbackInfo
+  fullName: CreateLobbyCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnUpdateLobbyCallBack*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnUpdateLobbyCallBack
+  name: OnUpdateLobbyCallBack
+  nameWithType: EOSLobbyManager.OnUpdateLobbyCallBack
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnUpdateLobbyCallBack
+- uid: UpdateLobbyCallbackInfo
+  commentId: '!:UpdateLobbyCallbackInfo'
+  isExternal: true
+  name: UpdateLobbyCallbackInfo
+  nameWithType: UpdateLobbyCallbackInfo
+  fullName: UpdateLobbyCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdated*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdated
+  name: OnLobbyUpdated
+  nameWithType: EOSLobbyManager.OnLobbyUpdated
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdated
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdateReceived*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdateReceived
+  name: OnLobbyUpdateReceived
+  nameWithType: EOSLobbyManager.OnLobbyUpdateReceived
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyUpdateReceived
+- uid: LobbyUpdateReceivedCallbackInfo
+  commentId: '!:LobbyUpdateReceivedCallbackInfo'
+  isExternal: true
+  name: LobbyUpdateReceivedCallbackInfo
+  nameWithType: LobbyUpdateReceivedCallbackInfo
+  fullName: LobbyUpdateReceivedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby
+  name: DestroyCurrentLobby
+  nameWithType: EOSLobbyManager.DestroyCurrentLobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDestroyLobbyCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDestroyLobbyCompleted
+  name: OnDestroyLobbyCompleted
+  nameWithType: EOSLobbyManager.OnDestroyLobbyCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDestroyLobbyCompleted
+- uid: DestroyLobbyCallbackInfo
+  commentId: '!:DestroyLobbyCallbackInfo'
+  isExternal: true
+  name: DestroyLobbyCallbackInfo
+  nameWithType: DestroyLobbyCallbackInfo
+  fullName: DestroyLobbyCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute
+  name: ToggleMute
+  nameWithType: EOSLobbyManager.ToggleMute
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateSendingCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateSendingCompleted
+  name: OnRTCRoomUpdateSendingCompleted
+  nameWithType: EOSLobbyManager.OnRTCRoomUpdateSendingCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateSendingCompleted
+- uid: UpdateSendingCallbackInfo
+  commentId: '!:UpdateSendingCallbackInfo'
+  isExternal: true
+  name: UpdateSendingCallbackInfo
+  nameWithType: UpdateSendingCallbackInfo
+  fullName: UpdateSendingCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted
+  name: OnRTCRoomUpdateReceivingCompleted
+  nameWithType: EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnRTCRoomUpdateReceivingCompleted
+- uid: UpdateReceivingCallbackInfo
+  commentId: '!:UpdateReceivingCallbackInfo'
+  isExternal: true
+  name: UpdateReceivingCallbackInfo
+  nameWithType: UpdateReceivingCallbackInfo
+  fullName: UpdateReceivingCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember
+  name: KickMember
+  nameWithType: EOSLobbyManager.KickMember
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickMemberCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickMemberCompleted
+  name: OnKickMemberCompleted
+  nameWithType: EOSLobbyManager.OnKickMemberCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickMemberCompleted
+- uid: KickMemberCallbackInfo
+  commentId: '!:KickMemberCallbackInfo'
+  isExternal: true
+  name: KickMemberCallbackInfo
+  nameWithType: KickMemberCallbackInfo
+  fullName: KickMemberCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickedFromLobby*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickedFromLobby
+  name: OnKickedFromLobby
+  nameWithType: EOSLobbyManager.OnKickedFromLobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnKickedFromLobby
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember
+  name: PromoteMember
+  nameWithType: EOSLobbyManager.PromoteMember
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnPromoteMemberCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnPromoteMemberCompleted
+  name: OnPromoteMemberCompleted
+  nameWithType: EOSLobbyManager.OnPromoteMemberCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnPromoteMemberCompleted
+- uid: PromoteMemberCallbackInfo
+  commentId: '!:PromoteMemberCallbackInfo'
+  isExternal: true
+  name: PromoteMemberCallbackInfo
+  nameWithType: PromoteMemberCallbackInfo
+  fullName: PromoteMemberCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberStatusReceived*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberStatusReceived
+  name: OnMemberStatusReceived
+  nameWithType: EOSLobbyManager.OnMemberStatusReceived
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberStatusReceived
+- uid: LobbyMemberStatusReceivedCallbackInfo
+  commentId: '!:LobbyMemberStatusReceivedCallbackInfo'
+  isExternal: true
+  name: LobbyMemberStatusReceivedCallbackInfo
+  nameWithType: LobbyMemberStatusReceivedCallbackInfo
+  fullName: LobbyMemberStatusReceivedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateReceived*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateReceived
+  name: OnMemberUpdateReceived
+  nameWithType: EOSLobbyManager.OnMemberUpdateReceived
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateReceived
+- uid: LobbyMemberUpdateReceivedCallbackInfo
+  commentId: '!:LobbyMemberUpdateReceivedCallbackInfo'
+  isExternal: true
+  name: LobbyMemberUpdateReceivedCallbackInfo
+  nameWithType: LobbyMemberUpdateReceivedCallbackInfo
+  fullName: LobbyMemberUpdateReceivedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId
+  name: SearchByLobbyId
+  nameWithType: EOSLobbyManager.SearchByLobbyId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute
+  name: SearchByAttribute
+  nameWithType: EOSLobbyManager.SearchByAttribute
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCompleted
+  name: OnLobbySearchCompleted
+  nameWithType: EOSLobbyManager.OnLobbySearchCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCompleted
+- uid: LobbySearchFindCallbackInfo
+  commentId: '!:LobbySearchFindCallbackInfo'
+  isExternal: true
+  name: LobbySearchFindCallbackInfo
+  nameWithType: LobbySearchFindCallbackInfo
+  fullName: LobbySearchFindCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyJoinFailed*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyJoinFailed
+  name: OnLobbyJoinFailed
+  nameWithType: EOSLobbyManager.OnLobbyJoinFailed
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyJoinFailed
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInvite
+  name: OnLobbyInvite
+  nameWithType: EOSLobbyManager.OnLobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyAccepted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyAccepted
+  name: OnJoinLobbyAccepted
+  nameWithType: EOSLobbyManager.OnJoinLobbyAccepted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyAccepted
+- uid: JoinLobbyAcceptedCallbackInfo
+  commentId: '!:JoinLobbyAcceptedCallbackInfo'
+  isExternal: true
+  name: JoinLobbyAcceptedCallbackInfo
+  nameWithType: JoinLobbyAcceptedCallbackInfo
+  fullName: JoinLobbyAcceptedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteReceived*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteReceived
+  name: OnLobbyInviteReceived
+  nameWithType: EOSLobbyManager.OnLobbyInviteReceived
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteReceived
+- uid: LobbyInviteReceivedCallbackInfo
+  commentId: '!:LobbyInviteReceivedCallbackInfo'
+  isExternal: true
+  name: LobbyInviteReceivedCallbackInfo
+  nameWithType: LobbyInviteReceivedCallbackInfo
+  fullName: LobbyInviteReceivedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteAccepted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteAccepted
+  name: OnLobbyInviteAccepted
+  nameWithType: EOSLobbyManager.OnLobbyInviteAccepted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyInviteAccepted
+- uid: LobbyInviteAcceptedCallbackInfo
+  commentId: '!:LobbyInviteAcceptedCallbackInfo'
+  isExternal: true
+  name: LobbyInviteAcceptedCallbackInfo
+  nameWithType: LobbyInviteAcceptedCallbackInfo
+  fullName: LobbyInviteAcceptedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PopLobbyInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PopLobbyInvite
+  name: PopLobbyInvite
+  nameWithType: EOSLobbyManager.PopLobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PopLobbyInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby
+  name: JoinLobby
+  nameWithType: EOSLobbyManager.JoinLobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby
+- uid: LobbyDetails
+  isExternal: true
+  name: LobbyDetails
+  nameWithType: LobbyDetails
+  fullName: LobbyDetails
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyCompleted
+  name: OnJoinLobbyCompleted
+  nameWithType: EOSLobbyManager.OnJoinLobbyCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnJoinLobbyCompleted
+- uid: JoinLobbyCallbackInfo
+  commentId: '!:JoinLobbyCallbackInfo'
+  isExternal: true
+  name: JoinLobbyCallbackInfo
+  nameWithType: JoinLobbyCallbackInfo
+  fullName: JoinLobbyCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLeaveLobbyCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLeaveLobbyCompleted
+  name: OnLeaveLobbyCompleted
+  nameWithType: EOSLobbyManager.OnLeaveLobbyCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLeaveLobbyCompleted
+- uid: LeaveLobbyCallbackInfo
+  commentId: '!:LeaveLobbyCallbackInfo'
+  isExternal: true
+  name: LeaveLobbyCallbackInfo
+  nameWithType: LeaveLobbyCallbackInfo
+  fullName: LeaveLobbyCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DeclineLobbyInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DeclineLobbyInvite
+  name: DeclineLobbyInvite
+  nameWithType: EOSLobbyManager.DeclineLobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DeclineLobbyInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDeclineInviteCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDeclineInviteCompleted
+  name: OnDeclineInviteCompleted
+  nameWithType: EOSLobbyManager.OnDeclineInviteCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnDeclineInviteCompleted
+- uid: RejectInviteCallbackInfo
+  isExternal: true
+  name: RejectInviteCallbackInfo
+  nameWithType: RejectInviteCallbackInfo
+  fullName: RejectInviteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite
+  name: AcceptCurrentLobbyInvite
+  nameWithType: EOSLobbyManager.AcceptCurrentLobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite
+  name: AcceptLobbyInvite
+  nameWithType: EOSLobbyManager.AcceptLobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite

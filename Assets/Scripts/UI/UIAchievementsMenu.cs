@@ -38,6 +38,10 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
+    /// </summary>
+
     public class UIAchievementsMenu : MonoBehaviour
     {
         [Header("Store UI")]

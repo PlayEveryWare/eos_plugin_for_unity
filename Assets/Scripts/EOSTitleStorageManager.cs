@@ -33,7 +33,7 @@ using System.Text;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    /// <summary>Class <c>EOSTitleStorageManager</c> is a simplified wrapper for EOS TitleStorageInterface.</summary>
+    /// <summary>Class <c>EOSTitleStorageManager</c> is a simplified wrapper for EOS [TitleStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html).</summary>
     public class EOSTitleStorageManager : IEOSSubManager
     {
         public const uint MAX_CHUNK_SIZE = 4 * 4 * 4096;
@@ -83,7 +83,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>User Logged Out actions</summary>
         /// <list type="bullet">
-        ///     <item><description>Clear StorageData Cache & Current Transfer</description></item>
+        ///     <item><description>Clear StorageData Cache and Current Transfer</description></item>
         /// </list>
         public void OnLoggedOut()
         {

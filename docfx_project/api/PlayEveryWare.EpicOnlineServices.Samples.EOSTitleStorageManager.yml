@@ -1,0 +1,1519 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  id: EOSTitleStorageManager
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.#ctor
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CancelCurrentTransfer
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ClearCurrentTransfer
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentFileNames
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferName
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferProgress
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.FinishFileDownload(System.String,System.Boolean,Result)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.MAX_CHUNK_SIZE
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileDataReceived(ReadFileDataCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileReceived(ReadFileCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedIn
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedOut
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCompleted(QueryFileListCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList(System.String[],PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFile(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFileCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData(System.String,System.Byte[],System.UInt32)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.StorageData
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.TransfersInProgress
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.UpdateProgress(System.String,System.UInt32)
+  langs:
+  - csharp
+  - vb
+  name: EOSTitleStorageManager
+  nameWithType: EOSTitleStorageManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  type: Class
+  source:
+    id: EOSTitleStorageManager
+    path: ''
+    startLine: 9928
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Class <code>EOSTitleStorageManager</code> is a simplified wrapper for EOS [TitleStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html).
+  example: []
+  syntax:
+    content: 'public class EOSTitleStorageManager : IEOSSubManager'
+    content.vb: >-
+      Public Class EOSTitleStorageManager
+          Implements IEOSSubManager
+  inheritance:
+  - System.Object
+  implements:
+  - PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.MAX_CHUNK_SIZE
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.MAX_CHUNK_SIZE
+  id: MAX_CHUNK_SIZE
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: MAX_CHUNK_SIZE
+  nameWithType: EOSTitleStorageManager.MAX_CHUNK_SIZE
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.MAX_CHUNK_SIZE
+  type: Field
+  source:
+    id: MAX_CHUNK_SIZE
+    path: ''
+    startLine: 9930
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public const uint MAX_CHUNK_SIZE = 65536U
+    return:
+      type: System.UInt32
+    content.vb: Public Const MAX_CHUNK_SIZE As UInteger = 65536UI
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferName
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferName
+  id: CurrentTransferName
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentTransferName
+  nameWithType: EOSTitleStorageManager.CurrentTransferName
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferName
+  type: Field
+  source:
+    id: CurrentTransferName
+    path: ''
+    startLine: 9932
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: string CurrentTransferName
+    return:
+      type: System.String
+    content.vb: CurrentTransferName As String
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferHandle
+  id: CurrentTransferHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentTransferHandle
+  nameWithType: EOSTitleStorageManager.CurrentTransferHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferHandle
+  type: Field
+  source:
+    id: CurrentTransferHandle
+    path: ''
+    startLine: 9933
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: TitleStorageFileTransferRequest CurrentTransferHandle
+    return:
+      type: TitleStorageFileTransferRequest
+    content.vb: CurrentTransferHandle As TitleStorageFileTransferRequest
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferProgress
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferProgress
+  id: CurrentTransferProgress
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentTransferProgress
+  nameWithType: EOSTitleStorageManager.CurrentTransferProgress
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentTransferProgress
+  type: Field
+  source:
+    id: CurrentTransferProgress
+    path: ''
+    startLine: 9934
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: float CurrentTransferProgress
+    return:
+      type: System.Single
+    content.vb: CurrentTransferProgress As Single
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.StorageData
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.StorageData
+  id: StorageData
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: StorageData
+  nameWithType: EOSTitleStorageManager.StorageData
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.StorageData
+  type: Field
+  source:
+    id: StorageData
+    path: ''
+    startLine: 9935
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<string, string> StorageData
+    return:
+      type: Dictionary{System.String,System.String}
+    content.vb: StorageData As Dictionary(Of String, String)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.TransfersInProgress
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.TransfersInProgress
+  id: TransfersInProgress
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: TransfersInProgress
+  nameWithType: EOSTitleStorageManager.TransfersInProgress
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.TransfersInProgress
+  type: Field
+  source:
+    id: TransfersInProgress
+    path: ''
+    startLine: 9936
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<string, EOSTransferInProgress> TransfersInProgress
+    return:
+      type: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}
+    content.vb: TransfersInProgress As Dictionary(Of String, EOSTransferInProgress)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentFileNames
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentFileNames
+  id: CurrentFileNames
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentFileNames
+  nameWithType: EOSTitleStorageManager.CurrentFileNames
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentFileNames
+  type: Field
+  source:
+    id: CurrentFileNames
+    path: ''
+    startLine: 9938
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: List<string> CurrentFileNames
+    return:
+      type: List{System.String}
+    content.vb: CurrentFileNames As List(Of String)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback
+  commentId: P:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback
+  id: QueryListCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: QueryListCallback
+  nameWithType: EOSTitleStorageManager.QueryListCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback
+  type: Property
+  source:
+    id: QueryListCallback
+    path: ''
+    startLine: 9941
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EOSTitleStorageManager.OnQueryFileListCallback QueryListCallback { get; }
+    parameters: []
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback
+    content.vb: Public ReadOnly Property QueryListCallback As EOSTitleStorageManager.OnQueryFileListCallback
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFileCallback
+  commentId: P:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFileCallback
+  id: ReadFileCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: ReadFileCallback
+  nameWithType: EOSTitleStorageManager.ReadFileCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFileCallback
+  type: Property
+  source:
+    id: ReadFileCallback
+    path: ''
+    startLine: 9942
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EOSTitleStorageManager.OnReadFileCallback ReadFileCallback { get; }
+    parameters: []
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+    content.vb: Public ReadOnly Property ReadFileCallback As EOSTitleStorageManager.OnReadFileCallback
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFileCallback*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.#ctor
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.#ctor
+  id: '#ctor'
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: EOSTitleStorageManager()
+  nameWithType: EOSTitleStorageManager.EOSTitleStorageManager()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.EOSTitleStorageManager()
+  type: Constructor
+  source:
+    id: .ctor
+    path: ''
+    startLine: 9947
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EOSTitleStorageManager()
+    content.vb: Public Sub New
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData
+  id: GetCachedStorageData
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedStorageData()
+  nameWithType: EOSTitleStorageManager.GetCachedStorageData()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData()
+  type: Method
+  source:
+    id: GetCachedStorageData
+    path: ''
+    startLine: 9956
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Dictionary<string, string> GetCachedStorageData()
+    return:
+      type: Dictionary{System.String,System.String}
+    content.vb: Public Function GetCachedStorageData As Dictionary(Of String, String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames
+  id: GetCachedCurrentFileNames
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: GetCachedCurrentFileNames()
+  nameWithType: EOSTitleStorageManager.GetCachedCurrentFileNames()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames()
+  type: Method
+  source:
+    id: GetCachedCurrentFileNames
+    path: ''
+    startLine: 9961
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public List<string> GetCachedCurrentFileNames()
+    return:
+      type: List{System.String}
+    content.vb: Public Function GetCachedCurrentFileNames As List(Of String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedIn
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedIn
+  id: OnLoggedIn
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedIn()
+  nameWithType: EOSTitleStorageManager.OnLoggedIn()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedIn()
+  type: Method
+  source:
+    id: OnLoggedIn
+    path: ''
+    startLine: 9970
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: User Logged In actions
+  example: []
+  syntax:
+    content: public void OnLoggedIn()
+    content.vb: Public Sub OnLoggedIn
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedIn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedOut
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedOut
+  id: OnLoggedOut
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedOut()
+  nameWithType: EOSTitleStorageManager.OnLoggedOut()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedOut()
+  type: Method
+  source:
+    id: OnLoggedOut
+    path: ''
+    startLine: 9979
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: User Logged Out actions
+  example: []
+  syntax:
+    content: public void OnLoggedOut()
+    content.vb: Public Sub OnLoggedOut
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedOut*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList(System.String[],PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList(System.String[],PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback)
+  id: QueryFileList(System.String[],PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: QueryFileList(String[], EOSTitleStorageManager.OnQueryFileListCallback)
+  nameWithType: EOSTitleStorageManager.QueryFileList(String[], EOSTitleStorageManager.OnQueryFileListCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList(System.String[], PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback)
+  type: Method
+  source:
+    id: QueryFileList
+    path: ''
+    startLine: 9986
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: (async) Query list of files.
+  example: []
+  syntax:
+    content: public void QueryFileList(string[] tags, EOSTitleStorageManager.OnQueryFileListCallback QueryFileListCompleted)
+    parameters:
+    - id: tags
+      type: System.String[]
+    - id: QueryFileListCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback
+    content.vb: Public Sub QueryFileList(tags As String(), QueryFileListCompleted As EOSTitleStorageManager.OnQueryFileListCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList*
+  nameWithType.vb: EOSTitleStorageManager.QueryFileList(String(), EOSTitleStorageManager.OnQueryFileListCallback)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList(System.String(), PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback)
+  name.vb: QueryFileList(String(), EOSTitleStorageManager.OnQueryFileListCallback)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCompleted(QueryFileListCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCompleted(QueryFileListCallbackInfo)
+  id: OnQueryFileListCompleted(QueryFileListCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: OnQueryFileListCompleted(QueryFileListCallbackInfo)
+  nameWithType: EOSTitleStorageManager.OnQueryFileListCompleted(QueryFileListCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCompleted(QueryFileListCallbackInfo)
+  type: Method
+  source:
+    id: OnQueryFileListCompleted
+    path: ''
+    startLine: 9998
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnQueryFileListCompleted(QueryFileListCallbackInfo data)
+    parameters:
+    - id: data
+      type: QueryFileListCallbackInfo
+    content.vb: Sub OnQueryFileListCompleted(data As QueryFileListCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCompleted*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFile(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFile(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback)
+  id: ReadFile(System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: ReadFile(String, EOSTitleStorageManager.OnReadFileCallback)
+  nameWithType: EOSTitleStorageManager.ReadFile(String, EOSTitleStorageManager.OnReadFileCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFile(System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback)
+  type: Method
+  source:
+    id: ReadFile
+    path: ''
+    startLine: 10040
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void ReadFile(string fileName, EOSTitleStorageManager.OnReadFileCallback ReadFileCompleted)
+    parameters:
+    - id: fileName
+      type: System.String
+    - id: ReadFileCompleted
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+    content.vb: Public Sub ReadFile(fileName As String, ReadFileCompleted As EOSTitleStorageManager.OnReadFileCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFile*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileReceived(ReadFileCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileReceived(ReadFileCallbackInfo)
+  id: OnFileReceived(ReadFileCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: OnFileReceived(ReadFileCallbackInfo)
+  nameWithType: EOSTitleStorageManager.OnFileReceived(ReadFileCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileReceived(ReadFileCallbackInfo)
+  type: Method
+  source:
+    id: OnFileReceived
+    path: ''
+    startLine: 10070
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnFileReceived(ReadFileCallbackInfo data)
+    parameters:
+    - id: data
+      type: ReadFileCallbackInfo
+    content.vb: Sub OnFileReceived(data As ReadFileCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileReceived*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.FinishFileDownload(System.String,System.Boolean,Result)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.FinishFileDownload(System.String,System.Boolean,Result)
+  id: FinishFileDownload(System.String,System.Boolean,Result)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: FinishFileDownload(String, Boolean, Result)
+  nameWithType: EOSTitleStorageManager.FinishFileDownload(String, Boolean, Result)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.FinishFileDownload(System.String, System.Boolean, Result)
+  type: Method
+  source:
+    id: FinishFileDownload
+    path: ''
+    startLine: 10089
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void FinishFileDownload(string fileName, bool success, Result result)
+    parameters:
+    - id: fileName
+      type: System.String
+    - id: success
+      type: System.Boolean
+    - id: result
+      type: Result
+    content.vb: Public Sub FinishFileDownload(fileName As String, success As Boolean, result As Result)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.FinishFileDownload*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CancelCurrentTransfer
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CancelCurrentTransfer
+  id: CancelCurrentTransfer
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: CancelCurrentTransfer()
+  nameWithType: EOSTitleStorageManager.CancelCurrentTransfer()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CancelCurrentTransfer()
+  type: Method
+  source:
+    id: CancelCurrentTransfer
+    path: ''
+    startLine: 10141
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void CancelCurrentTransfer()
+    content.vb: Sub CancelCurrentTransfer
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CancelCurrentTransfer*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ClearCurrentTransfer
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ClearCurrentTransfer
+  id: ClearCurrentTransfer
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: ClearCurrentTransfer()
+  nameWithType: EOSTitleStorageManager.ClearCurrentTransfer()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ClearCurrentTransfer()
+  type: Method
+  source:
+    id: ClearCurrentTransfer
+    path: ''
+    startLine: 10172
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void ClearCurrentTransfer()
+    content.vb: Sub ClearCurrentTransfer
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ClearCurrentTransfer*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo)
+  id: OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo)
+  nameWithType: EOSTitleStorageManager.OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo)
+  type: Method
+  source:
+    id: OnFileTransferProgressUpdated
+    path: ''
+    startLine: 10183
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo data)
+    parameters:
+    - id: data
+      type: FileTransferProgressCallbackInfo
+    content.vb: Sub OnFileTransferProgressUpdated(data As FileTransferProgressCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileTransferProgressUpdated*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.UpdateProgress(System.String,System.UInt32)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.UpdateProgress(System.String,System.UInt32)
+  id: UpdateProgress(System.String,System.UInt32)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: UpdateProgress(String, UInt32)
+  nameWithType: EOSTitleStorageManager.UpdateProgress(String, UInt32)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.UpdateProgress(System.String, System.UInt32)
+  type: Method
+  source:
+    id: UpdateProgress
+    path: ''
+    startLine: 10198
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void UpdateProgress(string filename, uint progress)
+    parameters:
+    - id: filename
+      type: System.String
+    - id: progress
+      type: System.UInt32
+    content.vb: Sub UpdateProgress(filename As String, progress As UInteger)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.UpdateProgress*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileDataReceived(ReadFileDataCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileDataReceived(ReadFileDataCallbackInfo)
+  id: OnFileDataReceived(ReadFileDataCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: OnFileDataReceived(ReadFileDataCallbackInfo)
+  nameWithType: EOSTitleStorageManager.OnFileDataReceived(ReadFileDataCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileDataReceived(ReadFileDataCallbackInfo)
+  type: Method
+  source:
+    id: OnFileDataReceived
+    path: ''
+    startLine: 10206
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: ReadResult OnFileDataReceived(ReadFileDataCallbackInfo data)
+    parameters:
+    - id: data
+      type: ReadFileDataCallbackInfo
+    return:
+      type: ReadResult
+    content.vb: Function OnFileDataReceived(data As ReadFileDataCallbackInfo) As ReadResult
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileDataReceived*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData(System.String,System.Byte[],System.UInt32)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData(System.String,System.Byte[],System.UInt32)
+  id: ReceiveData(System.String,System.Byte[],System.UInt32)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
+  langs:
+  - csharp
+  - vb
+  name: ReceiveData(String, Byte[], UInt32)
+  nameWithType: EOSTitleStorageManager.ReceiveData(String, Byte[], UInt32)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData(System.String, System.Byte[], System.UInt32)
+  type: Method
+  source:
+    id: ReceiveData
+    path: ''
+    startLine: 10216
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: ReadResult ReceiveData(string fileName, byte[] data, uint totalSize)
+    parameters:
+    - id: fileName
+      type: System.String
+    - id: data
+      type: System.Byte[]
+    - id: totalSize
+      type: System.UInt32
+    return:
+      type: ReadResult
+    content.vb: Function ReceiveData(fileName As String, data As Byte(), totalSize As UInteger) As ReadResult
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData*
+  nameWithType.vb: EOSTitleStorageManager.ReceiveData(String, Byte(), UInt32)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData(System.String, System.Byte(), System.UInt32)
+  name.vb: ReceiveData(String, Byte(), UInt32)
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSSubManager
+  nameWithType: IEOSSubManager
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  name: UInt32
+  nameWithType: UInt32
+  fullName: System.UInt32
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: TitleStorageFileTransferRequest
+  commentId: '!:TitleStorageFileTransferRequest'
+  isExternal: true
+  name: TitleStorageFileTransferRequest
+  nameWithType: TitleStorageFileTransferRequest
+  fullName: TitleStorageFileTransferRequest
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: Dictionary{System.String,System.String}
+  commentId: '!:Dictionary{System.String,System.String}'
+  definition: Dictionary`2
+  name: Dictionary<String, String>
+  nameWithType: Dictionary<String, String>
+  fullName: Dictionary<System.String, System.String>
+  nameWithType.vb: Dictionary(Of String, String)
+  fullName.vb: Dictionary(Of System.String, System.String)
+  name.vb: Dictionary(Of String, String)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary`2
+  isExternal: true
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}
+  commentId: '!:Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}'
+  definition: Dictionary`2
+  name: Dictionary<String, EOSTransferInProgress>
+  nameWithType: Dictionary<String, EOSTransferInProgress>
+  fullName: Dictionary<System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress>
+  nameWithType.vb: Dictionary(Of String, EOSTransferInProgress)
+  fullName.vb: Dictionary(Of System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress)
+  name.vb: Dictionary(Of String, EOSTransferInProgress)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress
+    name: EOSTransferInProgress
+    nameWithType: EOSTransferInProgress
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress
+    name: EOSTransferInProgress
+    nameWithType: EOSTransferInProgress
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List{System.String}
+  commentId: '!:List{System.String}'
+  definition: List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List`1
+  isExternal: true
+  name: List<>
+  nameWithType: List<>
+  fullName: List<>
+  nameWithType.vb: List(Of )
+  fullName.vb: List(Of )
+  name.vb: List(Of )
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback
+  name: QueryListCallback
+  nameWithType: EOSTitleStorageManager.QueryListCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: EOSTitleStorageManager.OnQueryFileListCallback
+  nameWithType: EOSTitleStorageManager.OnQueryFileListCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFileCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFileCallback
+  name: ReadFileCallback
+  nameWithType: EOSTitleStorageManager.ReadFileCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFileCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: EOSTitleStorageManager.OnReadFileCallback
+  nameWithType: EOSTitleStorageManager.OnReadFileCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.#ctor*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.#ctor
+  name: EOSTitleStorageManager
+  nameWithType: EOSTitleStorageManager.EOSTitleStorageManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.EOSTitleStorageManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData
+  name: GetCachedStorageData
+  nameWithType: EOSTitleStorageManager.GetCachedStorageData
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames
+  name: GetCachedCurrentFileNames
+  nameWithType: EOSTitleStorageManager.GetCachedCurrentFileNames
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedIn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedIn
+  name: OnLoggedIn
+  nameWithType: EOSTitleStorageManager.OnLoggedIn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedIn
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedOut*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedOut
+  name: OnLoggedOut
+  nameWithType: EOSTitleStorageManager.OnLoggedOut
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnLoggedOut
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList
+  name: QueryFileList
+  nameWithType: EOSTitleStorageManager.QueryFileList
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryFileList
+- uid: System.String[]
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  nameWithType.vb: String()
+  fullName.vb: System.String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCompleted*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCompleted
+  name: OnQueryFileListCompleted
+  nameWithType: EOSTitleStorageManager.OnQueryFileListCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCompleted
+- uid: QueryFileListCallbackInfo
+  isExternal: true
+  name: QueryFileListCallbackInfo
+  nameWithType: QueryFileListCallbackInfo
+  fullName: QueryFileListCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFile*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFile
+  name: ReadFile
+  nameWithType: EOSTitleStorageManager.ReadFile
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReadFile
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileReceived*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileReceived
+  name: OnFileReceived
+  nameWithType: EOSTitleStorageManager.OnFileReceived
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileReceived
+- uid: ReadFileCallbackInfo
+  isExternal: true
+  name: ReadFileCallbackInfo
+  nameWithType: ReadFileCallbackInfo
+  fullName: ReadFileCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.FinishFileDownload*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.FinishFileDownload
+  name: FinishFileDownload
+  nameWithType: EOSTitleStorageManager.FinishFileDownload
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.FinishFileDownload
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: Result
+  isExternal: true
+  name: Result
+  nameWithType: Result
+  fullName: Result
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CancelCurrentTransfer*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CancelCurrentTransfer
+  name: CancelCurrentTransfer
+  nameWithType: EOSTitleStorageManager.CancelCurrentTransfer
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CancelCurrentTransfer
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ClearCurrentTransfer*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ClearCurrentTransfer
+  name: ClearCurrentTransfer
+  nameWithType: EOSTitleStorageManager.ClearCurrentTransfer
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ClearCurrentTransfer
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileTransferProgressUpdated*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileTransferProgressUpdated
+  name: OnFileTransferProgressUpdated
+  nameWithType: EOSTitleStorageManager.OnFileTransferProgressUpdated
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileTransferProgressUpdated
+- uid: FileTransferProgressCallbackInfo
+  isExternal: true
+  name: FileTransferProgressCallbackInfo
+  nameWithType: FileTransferProgressCallbackInfo
+  fullName: FileTransferProgressCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.UpdateProgress*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.UpdateProgress
+  name: UpdateProgress
+  nameWithType: EOSTitleStorageManager.UpdateProgress
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.UpdateProgress
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileDataReceived*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileDataReceived
+  name: OnFileDataReceived
+  nameWithType: EOSTitleStorageManager.OnFileDataReceived
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnFileDataReceived
+- uid: ReadFileDataCallbackInfo
+  isExternal: true
+  name: ReadFileDataCallbackInfo
+  nameWithType: ReadFileDataCallbackInfo
+  fullName: ReadFileDataCallbackInfo
+- uid: ReadResult
+  isExternal: true
+  name: ReadResult
+  nameWithType: ReadResult
+  fullName: ReadResult
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData
+  name: ReceiveData
+  nameWithType: EOSTitleStorageManager.ReceiveData
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.ReceiveData
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()

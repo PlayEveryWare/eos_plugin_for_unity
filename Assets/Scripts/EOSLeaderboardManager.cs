@@ -32,6 +32,9 @@ using Epic.OnlineServices.Stats;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class <c>EOSLeaderboardManager</c> is a simplified wrapper for EOS [Leaderboard Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Leaderboards/index.html).
+    /// </summary>
     public class EOSLeaderboardManager : IEOSSubManager
     {
         private LeaderboardsInterface LeaderboardsHandle;
@@ -99,8 +102,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CachedLeaderboardUserScoresDirty = true;
         }
 
-        /// <summary>Returns cached Leaderboard <c>Definition</c> Dictionary where LeaderboardId is the key.</summary>
-        /// <returns>True if LeaderboardDefinitions has changed since last call.</returns>
+        /// <summary>Returns cached Leaderboard Dictionary where LeaderboardId is the key and <c>Definition</c> is the value.</summary>
+        /// <param name="LeaderboardDefinitions">Out parameter returns Dictionary where LeaderboardId is the key and <c>LeaderboardDefinitions</c> is the value.</param>
+        /// <returns>True if <c>LeaderboardDefinitions</c> has changed since last call.</returns>
         public bool GetCachedLeaderboardDefinitions(out Dictionary<string, Definition> LeaderboardDefinitions)
         {
             LeaderboardDefinitions = CachedLeaderboardDefinitions;
@@ -113,7 +117,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>Returns cached <c>LeaderboardRecord</c> List.</summary>
-        /// <returns>True if LeaderboardRecords has changed since last call.</returns>
+        /// <param name="LeaderboardsRecords">Out parameter returns List of <c>LeaderboardRecord</c>.</param>
+        /// <returns>True if <c>LeaderboardRecords</c> has changed since last call.</returns>
         public bool GetCachedLeaderboardRecords(out List<LeaderboardRecord> LeaderboardsRecords)
         {
             LeaderboardsRecords = CachedLeaderboardRecords;
@@ -126,7 +131,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>Returns cached <c>LeaderboardUserScore</c> Dictionary where LeaderboardId is the key.</summary>
-        /// <returns>True if LeaderboardUserScores has changed since last call.</returns>
+        /// <param name="LeaderboardUserScores">Out parameter returns Dictionary where LeaderboardId is the key and <c>LeaderboardUserScore</c> is the value.</param>
+        /// <returns>True if <c>LeaderboardUserScores</c> has changed since last call.</returns>
         public bool GetCachedLeaderboardUserScores(out Dictionary<string, List<LeaderboardUserScore>> LeaderboardUserScores)
         {
             LeaderboardUserScores = CachedLeaderboardUserScores;
@@ -180,8 +186,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CachedLeaderboardDefinitionsDirty = true;
         }
 
-        /// <summary>Get list of cached Leaderboard <c>Definitions</c>.</summary>
-        /// <returns>List<string> cached DefinitionIds</returns>
+        /// <summary>Get list of cached Leaderboard <c>Definitions</c></summary>
+        /// <returns>List(string) cached DefinitionIds</returns>
         public List<string> GetCachedDefinitionIds()
         {
             string[] keys = new string[CachedLeaderboardDefinitions.Keys.Count];
@@ -191,7 +197,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>Get cached Leaderboard <c>Defintion</c> given a LeaderboardId.</summary>
-        /// <param name"leaderboardId">Leaderboard ID</param>
+        /// <param name="leaderboardId">Specified LeaderboardID</param>
         /// <returns>Leaderboard <c>Defintion</c></returns>
         public Definition GetCachedDefinitionFromId(string leaderboardId)
         {
@@ -224,7 +230,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>(async) Initiate query for Leaderboard <c>Ranks</c> given a Leaderboard ID.</summary>
-        /// <param name"leaderboardId">Leaderboard ID</param>
+        /// <param name="leaderboardId">Leaderboard ID</param>
         public void QueryRanks(string leaderboardId, OnLeaderboardCallback QueryRanksCompleted)
         {
             QueryLeaderboardRanksOptions options = new QueryLeaderboardRanksOptions()
@@ -289,8 +295,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>(async) Initiate query for Leaderboard <c>UserScores</c> given a list of LeaderboardIds and list of Users.</summary>
-        /// <param name"leaderboardIds">List of LeaderboardIds to query.</param>
-        /// <param name"userIds">List of UserId to query.</param>
+        /// <param name="leaderboardIds">List of LeaderboardIds to query.</param>
+        /// <param name="userIds">List of UserId to query.</param>
         public void QueryUserScores(List<string> leaderboardIds, List<ProductUserId> userIds, OnLeaderboardCallback QueryUserScoresCompleted)
         {
             if (leaderboardIds.Count == 0 || userIds.Count == 0)
@@ -388,7 +394,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>Get cached Leaderboard <c>UserScores</c> given a LeaderboardId.</summary>
-        /// <param name"leaderboardId">Leaderboard ID</param>
+        /// <param name="leaderboardId">Leaderboard ID</param>
         /// <returns>Leaderboard <c>UserScores</c></returns>
         public List<LeaderboardUserScore> GetCachedUserScoresFromLeaderboardId(string leaderboardId)
         {
@@ -420,6 +426,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryUserScoresCallback?.Invoke(Result.Success);
         }
 
+        /// <summary>Call to ingest the stat values into EOS Stat interface.</summary>
+        /// <param name="statName">Name of the stat</param>
+        /// <param name="amount">The amount to ingest for specified stat</param>
         public void IngestStat(string statName, int amount)
         {
             IngestData[] stats =

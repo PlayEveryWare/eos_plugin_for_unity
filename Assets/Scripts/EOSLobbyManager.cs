@@ -360,6 +360,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class <c>EOSLobbyManager</c> is a simplified wrapper for EOS [Lobby Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Lobby/index.html).
+    /// </summary>
+
     public class EOSLobbyManager : IEOSSubManager
     {
         private Lobby CurrentLobby;
