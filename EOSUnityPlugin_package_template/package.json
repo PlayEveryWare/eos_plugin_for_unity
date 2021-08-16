@@ -3,8 +3,12 @@
     "version": "0.0.4-preview",
     "displayName": "Epic Online Services Plugin for Unity",
     "description": "Friendly Plugin for Epic Online Services",
+    "documentationUrl": "https://eospluginforunity.playeveryware.com",
+    "dependencies": {
+        "com.unity.inputsystem": "1.0.2"
+    },
     "keywords": [
-        "EOS", "Epic", "Epic Online Service", "Console"
+        "EOS", "Epic", "Epic Online Service"
     ],
     "samples": [
         {
