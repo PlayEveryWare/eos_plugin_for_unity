@@ -59,6 +59,9 @@
 
         {"src":"Assets/Plugins/Source/EOS_SDK.meta", "dest": "Runtime/"},
 
+        {"src":"Assets/Plugins/Source/EOS_SDK/license.txt", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/license.txt.meta", "dest": "Runtime/EOS_SDK/"},
+
         {"src":"Assets/Plugins/Source/EOS_SDK/com.Epic.OnlineServices.asmdef", "dest": "Runtime/EOS_SDK/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/com.Epic.OnlineServices.asmdef.meta", "dest": "Runtime/EOS_SDK/"},
 
