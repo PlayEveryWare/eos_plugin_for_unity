@@ -1,7 +1,9 @@
-# Epic Online Services Plugin for Unity
+# Epic Online Services Plugin for Unity (UPM Package)
 
 ## Overview
 The [eos_plugin_for_unity_upm repository](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm) contains a Unity Package Manager (UPM) plugin for enabling the use of [Epic Online Services (EOS)](https://dev.epicgames.com/docs/services/en-US/Overview/index.html) [C# SDK](https://dev.epicgames.com/docs/services/en-US/CSharp/GettingStarted/index.html) in Unity.
+
+For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) or contributing to this open source project, head over to the [source repository](https://github.com/PlayEveryWare/eos_plugin_for_unity).
 
 Things this plugin provides:
 
@@ -29,7 +31,6 @@ The follow target platforms are supported in Unity for the current release of th
 | WebGL | Not Supported |
 | Universal Windows Platform x86 | Not Supported |
 | Unity Web Player | Not Supported |
-
 
 ## Supported EOS SDK Features
 
@@ -141,9 +142,6 @@ The samples include both usage of the EOS SDK, and convience wrappers to make us
 ## Running the samples
 * Launch Unity project with the samples installed
 
-
-
-
 * In the Unity editor, hit ```Play```
 
 * Login with a selected authentication type
@@ -173,11 +171,11 @@ This is an Open Source project.  If you would like to view and contribute to the
 https://github.com/PlayEveryWare/eos_plugin_for_unity
 
 ---
-# Support
+# Plugin Support
 
 EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com
 
-For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the ```Issues``` tab.
+For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab.
 
 For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/)
 
