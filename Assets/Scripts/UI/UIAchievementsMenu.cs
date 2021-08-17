@@ -1,18 +1,47 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-using Epic.OnlineServices.Achievements;
 using Epic.OnlineServices;
-using Epic.OnlineServices.UI;
+using Epic.OnlineServices.Achievements;
 using Epic.OnlineServices.Ecom;
+using Epic.OnlineServices.UI;
 
 using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
+    /// </summary>
+
     public class UIAchievementsMenu : MonoBehaviour
     {
         [Header("Store UI")]
@@ -24,6 +53,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RawImage achievementUnlockedIcon;
         public RawImage achievementLockedIcon;
 
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
+
         private EOSAchievementManager achievementManager;
 
         public void Start()
@@ -32,9 +64,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementManager = EOSManager.Instance.GetOrCreateManager<EOSAchievementManager>();
         }
 
+        private void Update()
+        {
+            // Controller: Detect if nothing is selected and controller input detected, and set default
+            var gamepad = Gamepad.current;
+
+            if (UIFirstSelected.activeSelf == true
+                && EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null
+                && gamepad != null && gamepad.wasUpdatedThisFrame)
+            {
+                // Controller
+                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+            }
+        }
+
         public void ShowMenu()
         {
             getAchievementsButton.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()
@@ -49,10 +99,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Achievments
         public void OnGetAchievmentsClick()
         {
-            if (achievementManager.GetAchievementDefinitionCount() > 1)
+            uint achievementDefCount = achievementManager.GetAchievementDefinitionCount();
+
+            if (achievementDefCount > 1)
             {
                 scrollRect.gameObject.SetActive(true);
-                scrollRect.content.sizeDelta = new Vector2(0, achievementManager.GetAchievementDefinitionCount() * 30);
+                scrollRect.content.sizeDelta = new Vector2(0, achievementDefCount * 30);
 
                 int i = 0;
                 foreach (var achievementDef in achievementManager.EnumerateCachedAchievementDefinitions())

@@ -1,3 +1,25 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +32,9 @@ using Epic.OnlineServices.UI;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class represents a session search and search results
+    /// </summary>
     public class SessionSearch
     {
         public Epic.OnlineServices.Sessions.SessionSearch SearchHandle;
@@ -66,6 +91,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents a single session attribute
+    /// </summary>
     public class SessionAttribute
     {
         public AttributeType ValueType = AttributeType.String;
@@ -125,6 +153,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents a single session attribute
+    /// </summary>
     public class Session
     {
         public string Name = string.Empty;
@@ -267,6 +298,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class <c>EOSSessionsManager</c> is a simplified wrapper for EOS [Sessions Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Sessions/index.html).
+    /// </summary>
     public class EOSSessionsManager : IEOSSubManager
     {
         private Dictionary<string, Session> CurrentSessions;
@@ -562,7 +596,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Set Bucket Id
             AttributeData attrData = new AttributeData();
             attrData.Key = EOS_SESSIONS_SEARCH_BUCKET_ID;
-            attrData.Value.AsUtf8 = BUCKET_ID;
+            attrData.Value = new AttributeDataValue()
+            {
+                AsUtf8 = BUCKET_ID
+            };
 
             SessionModificationAddAttributeOptions attrOptions = new SessionModificationAddAttributeOptions();
             attrOptions.SessionAttribute = attrData;

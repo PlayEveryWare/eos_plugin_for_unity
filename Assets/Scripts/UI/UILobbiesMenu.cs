@@ -1,8 +1,32 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Platform;
@@ -16,17 +40,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
-        public InputField BucketIdVal;
+        public ConsoleInputField BucketIdVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
         public Dropdown PermissionVal;
         public Toggle AllowInvitesVal;
         public Toggle PresenceEnabledVal;
- 
+        public Toggle RTCVoiceRoomEnabledVal;
+
         // Create/Modify/Leave UI
         public Button CreateLobbyButton;
         public Button LeaveLobbyButton;
         public Button ModifyLobbyButton;
+        public Button AddMemberAttributeButton;
 
         // Current Lobby
         public Text LobbyIdVal;
@@ -40,8 +66,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UILobbyEntryPrefab;
         public GameObject SearchContentParent;
 
-        public InputField SearchByLevelBox;
-        public InputField SearchByLobbyIdBox;
+        public ConsoleInputField SearchByBucketIdBox;
+        public ConsoleInputField SearchByLevelBox;
+        public ConsoleInputField SearchByLobbyIdBox;
 
         [Header("Lobbies UI - Invite PopUp")]
         public GameObject UIInvitePanel;
@@ -49,10 +76,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteLevelVal;
         public Toggle InvitePresence;
 
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
+
         // UI Cache
         private int lastMemberCount = 0;
         private ProductUserId currentLobbyOwnerCache;
         private bool lastCurrentLobbyIsValid = false;
+
+        private List<UIMemberEntry> UIMemberEntries = new List<UIMemberEntry>();
 
         private EOSLobbyManager LobbyManager;
         private EOSFriendsManager FriendsManager;
@@ -67,8 +99,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByLevelBox.onEndEdit.AddListener(SearchByAttributeEnterPressed);
-            SearchByLobbyIdBox.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
+            SearchByBucketIdBox.InputField.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
+            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
+            SearchByLobbyIdBox.InputField.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
 
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
@@ -149,6 +182,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         GameObject.Destroy(child.gameObject);
                     }
 
+                    UIMemberEntries.Clear();
+
                     //members
                     foreach (LobbyMember member in currentLobby.Members)
                     {
@@ -169,12 +204,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             uiEntry.ProductUserId = member.ProductId;
                             //uiEntry.IsOwner = currentLobby.LobbyOwner == member.ProductId;
 
+                            uiEntry.IsTalkingText.text = "---";
+
+                            uiEntry.MuteOnClick = MuteButtonOnClick;
                             uiEntry.KickOnClick = KickButtonOnClick;
                             uiEntry.PromoteOnClick = PromoteButtonOnClick;
 
-                            uiEntry.UpdateUI();
+                            UIMemberEntries.Add(uiEntry);
                         }
                     }
+                }
+
+                foreach(UIMemberEntry uiEntry in UIMemberEntries)
+                {
+                    uiEntry.UpdateUI();
                 }
             }
 
@@ -229,7 +272,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Lobby lobbyProperties = new Lobby();
             // Bucket Id
-            lobbyProperties.BucketId = BucketIdVal.text;
+            lobbyProperties.BucketId = BucketIdVal.InputField.text;
 
             // Max Players
             lobbyProperties.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
@@ -255,10 +298,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Allow Invites
-            lobbyProperties.AllowInvites = AllowInvitesVal.enabled;
+            lobbyProperties.AllowInvites = AllowInvitesVal.isOn;
 
             // Presence Enabled
-            lobbyProperties.PresenceEnabled = PresenceEnabledVal.enabled;
+            lobbyProperties.PresenceEnabled = PresenceEnabledVal.isOn;
+
+            // Voice Chat
+            lobbyProperties.RTCRoomEnabled = RTCVoiceRoomEnabledVal.isOn;
 
             LobbyManager.CreateLobby(lobbyProperties, UIOnLobbyUpdated);
         }
@@ -274,7 +320,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Bucket Id
-            currentLobby.BucketId = BucketIdVal.text;
+            currentLobby.BucketId = BucketIdVal.InputField.text;
 
             // Max Players
             currentLobby.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
@@ -300,10 +346,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Allow Invites
-            currentLobby.AllowInvites = AllowInvitesVal.enabled;
+            currentLobby.AllowInvites = AllowInvitesVal.isOn;
 
             // Presence Enabled (cannot be modified)
-            //currentLobby.PresenceEnabled = PresenceEnabledVal.enabled;
+            //currentLobby.PresenceEnabled = PresenceEnabledVal.isOn;
 
             LobbyManager.ModifyLobby(currentLobby, UIOnLobbyUpdated);
         }
@@ -313,9 +359,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager.LeaveLobby(UIOnLeaveLobby);
         }
 
+        public void AddMemberAttributeOnClick()
+        {
+            LobbyAttribute memberAttribute = new LobbyAttribute()
+            {
+                Key = "MemberAttribute",
+                ValueType = AttributeType.String,
+                Visibility = LobbyAttributeVisibility.Public,
+                AsString = "TestValue"
+            };
+
+            LobbyManager.SetMemberAttribute(memberAttribute);
+        }
+
         public void JoinButtonOnClick(Lobby lobbyRef, LobbyDetails lobbyDetailsRef)
         {
             LobbyManager.JoinLobby(lobbyRef.Id, lobbyDetailsRef, true, UIOnLobbyUpdated);
+        }
+
+        public void MuteButtonOnClick(ProductUserId productUserId)
+        {
+            LobbyManager.ToggleMute(productUserId, null);
         }
 
         public void KickButtonOnClick(ProductUserId productUserId)
@@ -332,7 +396,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             bool invitePresenceToggled = InvitePresence.isOn;
 
-            LobbyManager.AcceptLobbyInvite(invitePresenceToggled, UIOnLobbyUpdated);
+            LobbyManager.AcceptCurrentLobbyInvite(invitePresenceToggled, UIOnLobbyUpdated);
         }
 
         public void DeclineInviteButtonOnClick()
@@ -408,6 +472,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             LeaveLobbyButton.gameObject.SetActive(true);
+            AddMemberAttributeButton.gameObject.SetActive(true);
         }
 
         private void UIOnLeaveLobby(Result result)
@@ -426,6 +491,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CreateLobbyButton.gameObject.SetActive(true);
             ModifyLobbyButton.gameObject.SetActive(false);
             LeaveLobbyButton.gameObject.SetActive(false);
+            AddMemberAttributeButton.gameObject.SetActive(false);
 
             // Destroy current UI member list
             foreach (Transform child in MemberContentParent.transform)
@@ -435,9 +501,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Search UI
-        public void SearchByAttributeEnterPressed(string searchString)
+        public void SearchByLevelAttributeEnterPressed(string searchAttributeValue)
         {
-            LobbyManager.SearchByAttribute(searchString, UIUpateSearchResults);
+            LobbyManager.SearchByAttribute("LEVEL", searchAttributeValue, UIUpateSearchResults);
+        }
+
+        public void SearchByBucketAttributeEnterPressed(string searchAttributeValue)
+        {
+            LobbyManager.SearchByAttribute("bucket", searchAttributeValue, UIUpateSearchResults);
         }
 
         public void SearchByLobbyIdEnterPressed(string searchString)
@@ -564,6 +635,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
 
             LobbiesUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

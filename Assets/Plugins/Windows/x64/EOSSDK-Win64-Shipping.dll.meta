@@ -24,7 +24,7 @@ PluginImporter:
         Exclude Switch: 1
         Exclude Win: 1
         Exclude Win64: 0
-        Exclude WindowsStoreApps: 1
+        Exclude WindowsStoreApps: 0
         Exclude XboxOne: 1
   - first:
       Android: Android
@@ -72,9 +72,9 @@ PluginImporter:
   - first:
       Windows Store Apps: WindowsStoreApps
     second:
-      enabled: 0
+      enabled: 1
       settings:
-        CPU: AnyCPU
+        CPU: X64
         DontProcess: false
         PlaceholderPath: 
         SDK: AnySDK

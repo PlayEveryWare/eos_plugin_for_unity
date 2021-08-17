@@ -1,15 +1,41 @@
-﻿using System.Collections;
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 using Epic.OnlineServices;
-using Epic.OnlineServices.UI;
+using Epic.OnlineServices.Friends;
 using Epic.OnlineServices.P2P;
 using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.Friends;
+using Epic.OnlineServices.UI;
+
 using PlayEveryWare.EpicOnlineServices;
-using System;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -22,12 +48,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button FriendsTabButton_Closed;
         private bool collapsed = false;
 
-        public InputField SearchFriendsInput;
+        public ConsoleInputField SearchFriendsInput;
 
         public GameObject FriendsListContentParent;
         public GameObject UIFriendEntryPrefab;
 
         public bool CollapseOnStart = false;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         private EOSFriendsManager FriendsManager;
 
@@ -56,7 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 FriendsTabButton_Closed.gameObject.SetActive(false);
             }
 
-            SearchFriendsInput.onEndEdit.AddListener(SearchFriendsInputEnterPressed);
+            SearchFriendsInput.InputField.onEndEdit.AddListener(SearchFriendsInputEnterPressed);
             isSearching = false;
         }
 
@@ -76,6 +105,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Update()
         {
+            // Controller
+            var gamepad = Gamepad.current;
+            if (gamepad != null && gamepad.rightShoulder.wasPressedThisFrame)
+            {
+                ToggleFriendsTab();
+            }
+
             if (isSearching)
             {
                 if (FriendsManager.GetCachedSearchResults(out Dictionary<EpicAccountId, FriendData> searchResults))
@@ -162,7 +198,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager.AddFriend(searchResultEntry);
         }
 
-        public void FriendsTabOnClick()
+        public void ToggleFriendsTab()
         {
             // Toggle Friends List UI
             if (collapsed)
@@ -210,6 +246,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().OnLoggedIn();
 
             FriendsUIParent.SetActive(true);
+
+            // Controller
+            if(UIFirstSelected.activeInHierarchy)
+            {
+                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            }
         }
 
         public void HideMenu()

@@ -1,0 +1,640 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSConfig
+  id: EOSConfig
+  parent: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.clientID
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.clientSecret
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.deploymentID
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.encryptionKey
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.productID
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.productName
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.productVersion
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.sandboxID
+  langs:
+  - csharp
+  - vb
+  name: EOSConfig
+  nameWithType: EOSConfig
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig
+  type: Class
+  source:
+    id: EOSConfig
+    path: ''
+    startLine: 31
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nRepresents the EOS Configuration used for initializing EOS SDK.\n"
+  example: []
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class EOSConfig
+    content.vb: >-
+      <Serializable>
+
+      Public Class EOSConfig
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.productName
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.productName
+  id: productName
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: productName
+  nameWithType: EOSConfig.productName
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.productName
+  type: Field
+  source:
+    id: productName
+    path: ''
+    startLine: 35
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string productName
+    return:
+      type: System.String
+      description: <code>Product Name</code> defined in the [Development Portal](https://dev.epicgames.com/portal/)
+    content.vb: Public productName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.productVersion
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.productVersion
+  id: productVersion
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: productVersion
+  nameWithType: EOSConfig.productVersion
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.productVersion
+  type: Field
+  source:
+    id: productVersion
+    path: ''
+    startLine: 38
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string productVersion
+    return:
+      type: System.String
+      description: Version of Product
+    content.vb: Public productVersion As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.productID
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.productID
+  id: productID
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: productID
+  nameWithType: EOSConfig.productID
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.productID
+  type: Field
+  source:
+    id: productID
+    path: ''
+    startLine: 41
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string productID
+    return:
+      type: System.String
+      description: <code>Product Id</code> defined in the [Development Portal](https://dev.epicgames.com/portal/)
+    content.vb: Public productID As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.sandboxID
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.sandboxID
+  id: sandboxID
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: sandboxID
+  nameWithType: EOSConfig.sandboxID
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.sandboxID
+  type: Field
+  source:
+    id: sandboxID
+    path: ''
+    startLine: 44
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string sandboxID
+    return:
+      type: System.String
+      description: <code>Sandbox Id</code> defined in the [Development Portal](https://dev.epicgames.com/portal/)
+    content.vb: Public sandboxID As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.deploymentID
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.deploymentID
+  id: deploymentID
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: deploymentID
+  nameWithType: EOSConfig.deploymentID
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.deploymentID
+  type: Field
+  source:
+    id: deploymentID
+    path: ''
+    startLine: 47
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string deploymentID
+    return:
+      type: System.String
+      description: <code>Deployment Id</code> defined in the [Development Portal](https://dev.epicgames.com/portal/)
+    content.vb: Public deploymentID As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.clientSecret
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.clientSecret
+  id: clientSecret
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: clientSecret
+  nameWithType: EOSConfig.clientSecret
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.clientSecret
+  type: Field
+  source:
+    id: clientSecret
+    path: ''
+    startLine: 50
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string clientSecret
+    return:
+      type: System.String
+      description: <code>Client Secret</code> defined in the [Development Portal](https://dev.epicgames.com/portal/)
+    content.vb: Public clientSecret As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.clientID
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.clientID
+  id: clientID
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: clientID
+  nameWithType: EOSConfig.clientID
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.clientID
+  type: Field
+  source:
+    id: clientID
+    path: ''
+    startLine: 53
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string clientID
+    return:
+      type: System.String
+      description: <code>Client Id</code> defined in the [Development Portal](https://dev.epicgames.com/portal/)
+    content.vb: Public clientID As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.encryptionKey
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.encryptionKey
+  id: encryptionKey
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: encryptionKey
+  nameWithType: EOSConfig.encryptionKey
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.encryptionKey
+  type: Field
+  source:
+    id: encryptionKey
+    path: ''
+    startLine: 56
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string encryptionKey
+    return:
+      type: System.String
+      description: <code>Encryption Key</code> used by default to decode files previously encoded and stored in EOS
+    content.vb: Public encryptionKey As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
+  id: Clone
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: Clone()
+  nameWithType: EOSConfig.Clone()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone()
+  type: Method
+  source:
+    id: Clone
+    path: ''
+    startLine: 62
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nCreates a shallow copy of the current <code>EOSConfig</code>\n"
+  example: []
+  syntax:
+    content: public EOSConfig Clone()
+    return:
+      type: PlayEveryWare.EpicOnlineServices.EOSConfig
+      description: Shallow copy of <code>EOSConfig</code>
+    content.vb: Public Function Clone As EOSConfig
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
+  name: Clone
+  nameWithType: EOSConfig.Clone
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSConfig
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSConfig
+  nameWithType: EOSConfig
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig

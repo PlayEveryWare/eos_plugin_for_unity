@@ -1,3 +1,25 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 //#define ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
 
 using System;
@@ -43,7 +65,7 @@ public class EpicOnlineServicesConfigEditor : EditorWindow
             "#define EOS_SANDBOX_ID \"{2}\"",
             "#define EOS_PRODUCT_ID \"{3}\"",
             "#define EOS_DEPLOYMENT_ID \"{4}\"",
-            "#define EOS_DEPLOYMENT_ID \"{5}\"",
+            "#define EOS_CLIENT_SECRET \"{5}\"",
             "#define EOS_CLIENT_ID \"{6}\""
         }), aEOSConfig.productName,
         aEOSConfig.productVersion,
@@ -71,7 +93,7 @@ extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
               ""productID: ""  EOS_PRODUCT_ID "",""
               ""sandboxID: ""  EOS_SANDBOX_ID "",""
               ""deploymentID: "" EOS_DEPLOYMENT_ID "",""
-              ""clientSecret: ""  EOS_DEPLOYMENT_ID "",""
+              ""clientSecret: ""  EOS_CLIENT_SECRET "",""
               ""clientID: ""  EOS_CLIENT_ID
 
            ""}""

@@ -1,0 +1,3586 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  id: EOSSessionsManager
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.#ctor
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcceptLobbyInvite(System.Boolean)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcknowledgeEventId(Result)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.BUCKET_ID
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CreateSession(PlayEveryWare.EpicOnlineServices.Samples.Session,System.Action)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentInvite
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSearch
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSessions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DeclineLobbyInvite
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroyAllSessions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroySession(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EndSession(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_BUCKET_ID
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GenerateJoinedSessionName(System.Boolean)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentInvite
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSearch
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetSession(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasActiveLocalSessions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasPresenceSession
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.INVALID_NOTIFICATIONID
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Invites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.InviteToSession(System.String,ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.IsPresenceSession(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME_ROTATION
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME_ROTATION_NUM
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinedSessionIndex
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinGameNotificationHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoiningSessionDetails
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionById(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionId
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinSession(SessionDetails,System.Boolean,System.Action)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinUiEvent
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.KnownPresenceSessionId
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.LeaveAllSessions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByEventId(System.UInt64)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByInviteId(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleFromSearch(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.ModifySession(PlayEveryWare.EpicOnlineServices.Samples.Session,System.Action)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnDestroySessionCompleteCallback(DestroySessionCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnEndSessionCompleteCallback(EndSessionCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByEventId(System.UInt64)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByJoinInfo(System.String,System.UInt64)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionFinished
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionListener(JoinSessionCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedIn
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedOut
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnRegisterCompleteCallback(RegisterPlayersCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSearchResultsReceived
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSendInviteCompleteCallback(SendInviteCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionDestroyed(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionUpdateFinished(System.Boolean,System.String,System.String,System.Boolean)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSetPresenceCompleteCallback(SetPresenceCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnShutDown
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnStartSessionCompleteCallBack(StartSessionCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register(System.String,ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteAcceptedNotificationHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteNotificationHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionJoinGameNotificationHandle
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetInviteSession(PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetJoininfo(System.String,System.Boolean)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.StartSession(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.subscribtedToGameInvites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SubscribteToGameInvites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnJoinSession
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnLeaveSession
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionCreated
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionModified
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionSearchCompleted
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnRegister(System.String,ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnsubscribeFromGameInvites
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Update
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.userLoggedIn
+  langs:
+  - csharp
+  - vb
+  name: EOSSessionsManager
+  nameWithType: EOSSessionsManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  type: Class
+  source:
+    id: EOSSessionsManager
+    path: ''
+    startLine: 8338
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass <code>EOSSessionsManager</code> is a simplified wrapper for EOS [Sessions Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Sessions/index.html).\n"
+  example: []
+  syntax:
+    content: 'public class EOSSessionsManager : IEOSSubManager'
+    content.vb: >-
+      Public Class EOSSessionsManager
+          Implements IEOSSubManager
+  inheritance:
+  - System.Object
+  implements:
+  - PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSessions
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSessions
+  id: CurrentSessions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentSessions
+  nameWithType: EOSSessionsManager.CurrentSessions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSessions
+  type: Field
+  source:
+    id: CurrentSessions
+    path: ''
+    startLine: 8340
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<string, Session> CurrentSessions
+    return:
+      type: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
+    content.vb: CurrentSessions As Dictionary(Of String, Session)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSearch
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSearch
+  id: CurrentSearch
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentSearch
+  nameWithType: EOSSessionsManager.CurrentSearch
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSearch
+  type: Field
+  source:
+    id: CurrentSearch
+    path: ''
+    startLine: 8342
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: SessionSearch CurrentSearch
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
+    content.vb: CurrentSearch As SessionSearch
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionId
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionId
+  id: JoinPresenceSessionId
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JoinPresenceSessionId
+  nameWithType: EOSSessionsManager.JoinPresenceSessionId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionId
+  type: Field
+  source:
+    id: JoinPresenceSessionId
+    path: ''
+    startLine: 8343
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: string JoinPresenceSessionId
+    return:
+      type: System.String
+    content.vb: JoinPresenceSessionId As String
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinUiEvent
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinUiEvent
+  id: JoinUiEvent
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JoinUiEvent
+  nameWithType: EOSSessionsManager.JoinUiEvent
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinUiEvent
+  type: Field
+  source:
+    id: JoinUiEvent
+    path: ''
+    startLine: 8344
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: ulong JoinUiEvent
+    return:
+      type: System.UInt64
+    content.vb: JoinUiEvent As ULong
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.KnownPresenceSessionId
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.KnownPresenceSessionId
+  id: KnownPresenceSessionId
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: KnownPresenceSessionId
+  nameWithType: EOSSessionsManager.KnownPresenceSessionId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.KnownPresenceSessionId
+  type: Field
+  source:
+    id: KnownPresenceSessionId
+    path: ''
+    startLine: 8345
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: string KnownPresenceSessionId
+    return:
+      type: System.String
+    content.vb: KnownPresenceSessionId As String
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Invites
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Invites
+  id: Invites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: Invites
+  nameWithType: EOSSessionsManager.Invites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Invites
+  type: Field
+  source:
+    id: Invites
+    path: ''
+    startLine: 8347
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<Session, SessionDetails> Invites
+    return:
+      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+    content.vb: Invites As Dictionary(Of Session, SessionDetails)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentInvite
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentInvite
+  id: CurrentInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: CurrentInvite
+  nameWithType: EOSSessionsManager.CurrentInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentInvite
+  type: Field
+  source:
+    id: CurrentInvite
+    path: ''
+    startLine: 8348
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Session CurrentInvite
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.Session
+    content.vb: CurrentInvite As Session
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoiningSessionDetails
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoiningSessionDetails
+  id: JoiningSessionDetails
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JoiningSessionDetails
+  nameWithType: EOSSessionsManager.JoiningSessionDetails
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoiningSessionDetails
+  type: Field
+  source:
+    id: JoiningSessionDetails
+    path: ''
+    startLine: 8350
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: SessionDetails JoiningSessionDetails
+    return:
+      type: SessionDetails
+    content.vb: JoiningSessionDetails As SessionDetails
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinedSessionIndex
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinedSessionIndex
+  id: JoinedSessionIndex
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JoinedSessionIndex
+  nameWithType: EOSSessionsManager.JoinedSessionIndex
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinedSessionIndex
+  type: Field
+  source:
+    id: JoinedSessionIndex
+    path: ''
+    startLine: 8351
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: ulong JoinedSessionIndex
+    return:
+      type: System.UInt64
+    content.vb: JoinedSessionIndex As ULong
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME
+  id: JOINED_SESSION_NAME
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JOINED_SESSION_NAME
+  nameWithType: EOSSessionsManager.JOINED_SESSION_NAME
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME
+  type: Field
+  source:
+    id: JOINED_SESSION_NAME
+    path: ''
+    startLine: 8353
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const string JOINED_SESSION_NAME = "Session#"
+    return:
+      type: System.String
+    content.vb: Const JOINED_SESSION_NAME As String = "Session#"
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME_ROTATION_NUM
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME_ROTATION_NUM
+  id: JOINED_SESSION_NAME_ROTATION_NUM
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JOINED_SESSION_NAME_ROTATION_NUM
+  nameWithType: EOSSessionsManager.JOINED_SESSION_NAME_ROTATION_NUM
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME_ROTATION_NUM
+  type: Field
+  source:
+    id: JOINED_SESSION_NAME_ROTATION_NUM
+    path: ''
+    startLine: 8354
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const uint JOINED_SESSION_NAME_ROTATION_NUM = 9U
+    return:
+      type: System.UInt32
+    content.vb: Const JOINED_SESSION_NAME_ROTATION_NUM As UInteger = 9UI
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME_ROTATION
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME_ROTATION
+  id: JOINED_SESSION_NAME_ROTATION
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JOINED_SESSION_NAME_ROTATION
+  nameWithType: EOSSessionsManager.JOINED_SESSION_NAME_ROTATION
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JOINED_SESSION_NAME_ROTATION
+  type: Field
+  source:
+    id: JOINED_SESSION_NAME_ROTATION
+    path: ''
+    startLine: 8355
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const int JOINED_SESSION_NAME_ROTATION = 9
+    return:
+      type: System.Int32
+    content.vb: Const JOINED_SESSION_NAME_ROTATION As Integer = 9
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.BUCKET_ID
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.BUCKET_ID
+  id: BUCKET_ID
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: BUCKET_ID
+  nameWithType: EOSSessionsManager.BUCKET_ID
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.BUCKET_ID
+  type: Field
+  source:
+    id: BUCKET_ID
+    path: ''
+    startLine: 8356
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const string BUCKET_ID = "SessionSample:Region"
+    return:
+      type: System.String
+    content.vb: Const BUCKET_ID As String = "SessionSample:Region"
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_BUCKET_ID
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_BUCKET_ID
+  id: EOS_SESSIONS_SEARCH_BUCKET_ID
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: EOS_SESSIONS_SEARCH_BUCKET_ID
+  nameWithType: EOSSessionsManager.EOS_SESSIONS_SEARCH_BUCKET_ID
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_BUCKET_ID
+  type: Field
+  source:
+    id: EOS_SESSIONS_SEARCH_BUCKET_ID
+    path: ''
+    startLine: 8358
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const string EOS_SESSIONS_SEARCH_BUCKET_ID = "bucket"
+    return:
+      type: System.String
+    content.vb: Const EOS_SESSIONS_SEARCH_BUCKET_ID As String = "bucket"
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
+  id: EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
+  nameWithType: EOSSessionsManager.EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
+  type: Field
+  source:
+    id: EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
+    path: ''
+    startLine: 8359
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const string EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY = "emptyonly"
+    return:
+      type: System.String
+    content.vb: Const EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY As String = "emptyonly"
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
+  id: EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
+  nameWithType: EOSSessionsManager.EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
+  type: Field
+  source:
+    id: EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
+    path: ''
+    startLine: 8360
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const string EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY = "nonemptyonly"
+    return:
+      type: System.String
+    content.vb: Const EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY As String = "nonemptyonly"
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
+  id: EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
+  nameWithType: EOSSessionsManager.EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
+  type: Field
+  source:
+    id: EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
+    path: ''
+    startLine: 8361
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: const string EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE = "minslotsavailable"
+    return:
+      type: System.String
+    content.vb: Const EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE As String = "minslotsavailable"
+  modifiers.csharp:
+  - const
+  modifiers.vb:
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionCreated
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionCreated
+  id: UIOnSessionCreated
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: UIOnSessionCreated
+  nameWithType: EOSSessionsManager.UIOnSessionCreated
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionCreated
+  type: Field
+  source:
+    id: UIOnSessionCreated
+    path: ''
+    startLine: 8364
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Queue<Action> UIOnSessionCreated
+    return:
+      type: Queue{System.Action}
+    content.vb: UIOnSessionCreated As Queue(Of Action)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionModified
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionModified
+  id: UIOnSessionModified
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: UIOnSessionModified
+  nameWithType: EOSSessionsManager.UIOnSessionModified
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionModified
+  type: Field
+  source:
+    id: UIOnSessionModified
+    path: ''
+    startLine: 8365
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Queue<Action> UIOnSessionModified
+    return:
+      type: Queue{System.Action}
+    content.vb: UIOnSessionModified As Queue(Of Action)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnJoinSession
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnJoinSession
+  id: UIOnJoinSession
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: UIOnJoinSession
+  nameWithType: EOSSessionsManager.UIOnJoinSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnJoinSession
+  type: Field
+  source:
+    id: UIOnJoinSession
+    path: ''
+    startLine: 8366
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Queue<Action> UIOnJoinSession
+    return:
+      type: Queue{System.Action}
+    content.vb: UIOnJoinSession As Queue(Of Action)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnLeaveSession
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnLeaveSession
+  id: UIOnLeaveSession
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: UIOnLeaveSession
+  nameWithType: EOSSessionsManager.UIOnLeaveSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnLeaveSession
+  type: Field
+  source:
+    id: UIOnLeaveSession
+    path: ''
+    startLine: 8367
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Queue<Action> UIOnLeaveSession
+    return:
+      type: Queue{System.Action}
+    content.vb: UIOnLeaveSession As Queue(Of Action)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionSearchCompleted
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionSearchCompleted
+  id: UIOnSessionSearchCompleted
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: UIOnSessionSearchCompleted
+  nameWithType: EOSSessionsManager.UIOnSessionSearchCompleted
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionSearchCompleted
+  type: Field
+  source:
+    id: UIOnSessionSearchCompleted
+    path: ''
+    startLine: 8368
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Queue<Action> UIOnSessionSearchCompleted
+    return:
+      type: Queue{System.Action}
+    content.vb: UIOnSessionSearchCompleted As Queue(Of Action)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.INVALID_NOTIFICATIONID
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.INVALID_NOTIFICATIONID
+  id: INVALID_NOTIFICATIONID
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: INVALID_NOTIFICATIONID
+  nameWithType: EOSSessionsManager.INVALID_NOTIFICATIONID
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.INVALID_NOTIFICATIONID
+  type: Field
+  source:
+    id: INVALID_NOTIFICATIONID
+    path: ''
+    startLine: 8370
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public const ulong INVALID_NOTIFICATIONID = 0UL
+    return:
+      type: System.UInt64
+    content.vb: Public Const INVALID_NOTIFICATIONID As ULong = 0UL
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteNotificationHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteNotificationHandle
+  id: SessionInviteNotificationHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: SessionInviteNotificationHandle
+  nameWithType: EOSSessionsManager.SessionInviteNotificationHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteNotificationHandle
+  type: Field
+  source:
+    id: SessionInviteNotificationHandle
+    path: ''
+    startLine: 8372
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public ulong SessionInviteNotificationHandle
+    return:
+      type: System.UInt64
+    content.vb: Public SessionInviteNotificationHandle As ULong
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteAcceptedNotificationHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteAcceptedNotificationHandle
+  id: SessionInviteAcceptedNotificationHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: SessionInviteAcceptedNotificationHandle
+  nameWithType: EOSSessionsManager.SessionInviteAcceptedNotificationHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteAcceptedNotificationHandle
+  type: Field
+  source:
+    id: SessionInviteAcceptedNotificationHandle
+    path: ''
+    startLine: 8373
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public ulong SessionInviteAcceptedNotificationHandle
+    return:
+      type: System.UInt64
+    content.vb: Public SessionInviteAcceptedNotificationHandle As ULong
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinGameNotificationHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinGameNotificationHandle
+  id: JoinGameNotificationHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JoinGameNotificationHandle
+  nameWithType: EOSSessionsManager.JoinGameNotificationHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinGameNotificationHandle
+  type: Field
+  source:
+    id: JoinGameNotificationHandle
+    path: ''
+    startLine: 8374
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public ulong JoinGameNotificationHandle
+    return:
+      type: System.UInt64
+    content.vb: Public JoinGameNotificationHandle As ULong
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionJoinGameNotificationHandle
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionJoinGameNotificationHandle
+  id: SessionJoinGameNotificationHandle
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: SessionJoinGameNotificationHandle
+  nameWithType: EOSSessionsManager.SessionJoinGameNotificationHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionJoinGameNotificationHandle
+  type: Field
+  source:
+    id: SessionJoinGameNotificationHandle
+    path: ''
+    startLine: 8375
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public ulong SessionJoinGameNotificationHandle
+    return:
+      type: System.UInt64
+    content.vb: Public SessionJoinGameNotificationHandle As ULong
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.subscribtedToGameInvites
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.subscribtedToGameInvites
+  id: subscribtedToGameInvites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: subscribtedToGameInvites
+  nameWithType: EOSSessionsManager.subscribtedToGameInvites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.subscribtedToGameInvites
+  type: Field
+  source:
+    id: subscribtedToGameInvites
+    path: ''
+    startLine: 8377
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: bool subscribtedToGameInvites
+    return:
+      type: System.Boolean
+    content.vb: subscribtedToGameInvites As Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.userLoggedIn
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.userLoggedIn
+  id: userLoggedIn
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: userLoggedIn
+  nameWithType: EOSSessionsManager.userLoggedIn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.userLoggedIn
+  type: Field
+  source:
+    id: userLoggedIn
+    path: ''
+    startLine: 8378
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: bool userLoggedIn
+    return:
+      type: System.Boolean
+    content.vb: userLoggedIn As Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.#ctor
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.#ctor
+  id: '#ctor'
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: EOSSessionsManager()
+  nameWithType: EOSSessionsManager.EOSSessionsManager()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOSSessionsManager()
+  type: Constructor
+  source:
+    id: .ctor
+    path: ''
+    startLine: 8380
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EOSSessionsManager()
+    content.vb: Public Sub New
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites
+  id: GetInvites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: GetInvites()
+  nameWithType: EOSSessionsManager.GetInvites()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites()
+  type: Method
+  source:
+    id: GetInvites
+    path: ''
+    startLine: 8394
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Dictionary<Session, SessionDetails> GetInvites()
+    return:
+      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+    content.vb: Public Function GetInvites As Dictionary(Of Session, SessionDetails)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentInvite
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentInvite
+  id: GetCurrentInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: GetCurrentInvite()
+  nameWithType: EOSSessionsManager.GetCurrentInvite()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentInvite()
+  type: Method
+  source:
+    id: GetCurrentInvite
+    path: ''
+    startLine: 8399
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Session GetCurrentInvite()
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.Session
+    content.vb: Public Function GetCurrentInvite As Session
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSearch
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSearch
+  id: GetCurrentSearch
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: GetCurrentSearch()
+  nameWithType: EOSSessionsManager.GetCurrentSearch()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSearch()
+  type: Method
+  source:
+    id: GetCurrentSearch
+    path: ''
+    startLine: 8404
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public SessionSearch GetCurrentSearch()
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
+    content.vb: Public Function GetCurrentSearch As SessionSearch
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSearch*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions
+  id: GetCurrentSessions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: GetCurrentSessions()
+  nameWithType: EOSSessionsManager.GetCurrentSessions()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions()
+  type: Method
+  source:
+    id: GetCurrentSessions
+    path: ''
+    startLine: 8409
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Dictionary<string, Session> GetCurrentSessions()
+    return:
+      type: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
+    content.vb: Public Function GetCurrentSessions As Dictionary(Of String, Session)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SubscribteToGameInvites
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SubscribteToGameInvites
+  id: SubscribteToGameInvites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: SubscribteToGameInvites()
+  nameWithType: EOSSessionsManager.SubscribteToGameInvites()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SubscribteToGameInvites()
+  type: Method
+  source:
+    id: SubscribteToGameInvites
+    path: ''
+    startLine: 8414
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void SubscribteToGameInvites()
+    content.vb: Public Sub SubscribteToGameInvites
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SubscribteToGameInvites*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnsubscribeFromGameInvites
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnsubscribeFromGameInvites
+  id: UnsubscribeFromGameInvites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: UnsubscribeFromGameInvites()
+  nameWithType: EOSSessionsManager.UnsubscribeFromGameInvites()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnsubscribeFromGameInvites()
+  type: Method
+  source:
+    id: UnsubscribeFromGameInvites
+    path: ''
+    startLine: 8433
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void UnsubscribeFromGameInvites()
+    content.vb: Public Sub UnsubscribeFromGameInvites
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnsubscribeFromGameInvites*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnShutDown
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnShutDown
+  id: OnShutDown
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnShutDown()
+  nameWithType: EOSSessionsManager.OnShutDown()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnShutDown()
+  type: Method
+  source:
+    id: OnShutDown
+    path: ''
+    startLine: 8471
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnShutDown()
+    content.vb: Sub OnShutDown
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnShutDown*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Update
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Update
+  id: Update
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: Update()
+  nameWithType: EOSSessionsManager.Update()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Update()
+  type: Method
+  source:
+    id: Update
+    path: ''
+    startLine: 8477
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool Update()
+    return:
+      type: System.Boolean
+    content.vb: Public Function Update As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Update*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedIn
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedIn
+  id: OnLoggedIn
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedIn()
+  nameWithType: EOSSessionsManager.OnLoggedIn()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedIn()
+  type: Method
+  source:
+    id: OnLoggedIn
+    path: ''
+    startLine: 8517
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnLoggedIn()
+    content.vb: Public Sub OnLoggedIn
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedIn*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedOut
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedOut
+  id: OnLoggedOut
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnLoggedOut()
+  nameWithType: EOSSessionsManager.OnLoggedOut()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedOut()
+  type: Method
+  source:
+    id: OnLoggedOut
+    path: ''
+    startLine: 8533
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnLoggedOut()
+    content.vb: Public Sub OnLoggedOut
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedOut*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.LeaveAllSessions
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.LeaveAllSessions
+  id: LeaveAllSessions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: LeaveAllSessions()
+  nameWithType: EOSSessionsManager.LeaveAllSessions()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.LeaveAllSessions()
+  type: Method
+  source:
+    id: LeaveAllSessions
+    path: ''
+    startLine: 8555
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void LeaveAllSessions()
+    content.vb: Sub LeaveAllSessions
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.LeaveAllSessions*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CreateSession(PlayEveryWare.EpicOnlineServices.Samples.Session,System.Action)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CreateSession(PlayEveryWare.EpicOnlineServices.Samples.Session,System.Action)
+  id: CreateSession(PlayEveryWare.EpicOnlineServices.Samples.Session,System.Action)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: CreateSession(Session, Action)
+  nameWithType: EOSSessionsManager.CreateSession(Session, Action)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CreateSession(PlayEveryWare.EpicOnlineServices.Samples.Session, System.Action)
+  type: Method
+  source:
+    id: CreateSession
+    path: ''
+    startLine: 8564
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool CreateSession(Session session, Action callback = null)
+    parameters:
+    - id: session
+      type: PlayEveryWare.EpicOnlineServices.Samples.Session
+    - id: callback
+      type: System.Action
+    return:
+      type: System.Boolean
+    content.vb: Public Function CreateSession(session As Session, callback As Action = Nothing) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CreateSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroySession(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroySession(System.String)
+  id: DestroySession(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: DestroySession(String)
+  nameWithType: EOSSessionsManager.DestroySession(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroySession(System.String)
+  type: Method
+  source:
+    id: DestroySession
+    path: ''
+    startLine: 8709
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void DestroySession(string name)
+    parameters:
+    - id: name
+      type: System.String
+    content.vb: Public Sub DestroySession(name As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroySession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroyAllSessions
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroyAllSessions
+  id: DestroyAllSessions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: DestroyAllSessions()
+  nameWithType: EOSSessionsManager.DestroyAllSessions()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroyAllSessions()
+  type: Method
+  source:
+    id: DestroyAllSessions
+    path: ''
+    startLine: 8719
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void DestroyAllSessions()
+    content.vb: Public Sub DestroyAllSessions
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroyAllSessions*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasActiveLocalSessions
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasActiveLocalSessions
+  id: HasActiveLocalSessions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: HasActiveLocalSessions()
+  nameWithType: EOSSessionsManager.HasActiveLocalSessions()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasActiveLocalSessions()
+  type: Method
+  source:
+    id: HasActiveLocalSessions
+    path: ''
+    startLine: 8731
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool HasActiveLocalSessions()
+    return:
+      type: System.Boolean
+    content.vb: Public Function HasActiveLocalSessions As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasActiveLocalSessions*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasPresenceSession
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasPresenceSession
+  id: HasPresenceSession
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: HasPresenceSession()
+  nameWithType: EOSSessionsManager.HasPresenceSession()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasPresenceSession()
+  type: Method
+  source:
+    id: HasPresenceSession
+    path: ''
+    startLine: 8744
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool HasPresenceSession()
+    return:
+      type: System.Boolean
+    content.vb: Public Function HasPresenceSession As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasPresenceSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.IsPresenceSession(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.IsPresenceSession(System.String)
+  id: IsPresenceSession(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: IsPresenceSession(String)
+  nameWithType: EOSSessionsManager.IsPresenceSession(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.IsPresenceSession(System.String)
+  type: Method
+  source:
+    id: IsPresenceSession
+    path: ''
+    startLine: 8787
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool IsPresenceSession(string id)
+    parameters:
+    - id: id
+      type: System.String
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsPresenceSession(id As String) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.IsPresenceSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetSession(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetSession(System.String)
+  id: GetSession(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: GetSession(String)
+  nameWithType: EOSSessionsManager.GetSession(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetSession(System.String)
+  type: Method
+  source:
+    id: GetSession
+    path: ''
+    startLine: 8792
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Session GetSession(string name)
+    parameters:
+    - id: name
+      type: System.String
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.Session
+    content.vb: Public Function GetSession(name As String) As Session
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.StartSession(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.StartSession(System.String)
+  id: StartSession(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: StartSession(String)
+  nameWithType: EOSSessionsManager.StartSession(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.StartSession(System.String)
+  type: Method
+  source:
+    id: StartSession
+    path: ''
+    startLine: 8802
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void StartSession(string name)
+    parameters:
+    - id: name
+      type: System.String
+    content.vb: Public Sub StartSession(name As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.StartSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EndSession(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EndSession(System.String)
+  id: EndSession(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: EndSession(String)
+  nameWithType: EOSSessionsManager.EndSession(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EndSession(System.String)
+  type: Method
+  source:
+    id: EndSession
+    path: ''
+    startLine: 8820
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void EndSession(string name)
+    parameters:
+    - id: name
+      type: System.String
+    content.vb: Public Sub EndSession(name As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EndSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register(System.String,ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register(System.String,ProductUserId)
+  id: Register(System.String,ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: Register(String, ProductUserId)
+  nameWithType: EOSSessionsManager.Register(String, ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register(System.String, ProductUserId)
+  type: Method
+  source:
+    id: Register
+    path: ''
+    startLine: 8835
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void Register(string sessionName, ProductUserId friendId)
+    parameters:
+    - id: sessionName
+      type: System.String
+    - id: friendId
+      type: ProductUserId
+    content.vb: Public Sub Register(sessionName As String, friendId As ProductUserId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnRegister(System.String,ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnRegister(System.String,ProductUserId)
+  id: UnRegister(System.String,ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: UnRegister(String, ProductUserId)
+  nameWithType: EOSSessionsManager.UnRegister(String, ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnRegister(System.String, ProductUserId)
+  type: Method
+  source:
+    id: UnRegister
+    path: ''
+    startLine: 8845
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void UnRegister(string sessionName, ProductUserId friendId)
+    parameters:
+    - id: sessionName
+      type: System.String
+    - id: friendId
+      type: ProductUserId
+    content.vb: Public Sub UnRegister(sessionName As String, friendId As ProductUserId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnRegister*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.InviteToSession(System.String,ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.InviteToSession(System.String,ProductUserId)
+  id: InviteToSession(System.String,ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: InviteToSession(String, ProductUserId)
+  nameWithType: EOSSessionsManager.InviteToSession(String, ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.InviteToSession(System.String, ProductUserId)
+  type: Method
+  source:
+    id: InviteToSession
+    path: ''
+    startLine: 8855
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void InviteToSession(string sessionName, ProductUserId friendId)
+    parameters:
+    - id: sessionName
+      type: System.String
+    - id: friendId
+      type: ProductUserId
+    content.vb: Public Sub InviteToSession(sessionName As String, friendId As ProductUserId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.InviteToSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetInviteSession(PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetInviteSession(PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails)
+  id: SetInviteSession(PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: SetInviteSession(Session, SessionDetails)
+  nameWithType: EOSSessionsManager.SetInviteSession(Session, SessionDetails)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetInviteSession(PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails)
+  type: Method
+  source:
+    id: SetInviteSession
+    path: ''
+    startLine: 8879
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void SetInviteSession(Session session, SessionDetails sessionDetails)
+    parameters:
+    - id: session
+      type: PlayEveryWare.EpicOnlineServices.Samples.Session
+    - id: sessionDetails
+      type: SessionDetails
+    content.vb: Public Sub SetInviteSession(session As Session, sessionDetails As SessionDetails)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetInviteSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
+  id: Search(List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: Search(List<SessionAttribute>)
+  nameWithType: EOSSessionsManager.Search(List<SessionAttribute>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List<PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute>)
+  type: Method
+  source:
+    id: Search
+    path: ''
+    startLine: 8894
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void Search(List<SessionAttribute> attributes)
+    parameters:
+    - id: attributes
+      type: List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}
+    content.vb: Public Sub Search(attributes As List(Of SessionAttribute))
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search*
+  nameWithType.vb: EOSSessionsManager.Search(List(Of SessionAttribute))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List(Of PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute))
+  name.vb: Search(List(Of SessionAttribute))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById(System.String)
+  id: SearchById(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: SearchById(String)
+  nameWithType: EOSSessionsManager.SearchById(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById(System.String)
+  type: Method
+  source:
+    id: SearchById
+    path: ''
+    startLine: 8967
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void SearchById(string sessionId)
+    parameters:
+    - id: sessionId
+      type: System.String
+    content.vb: Public Sub SearchById(sessionId As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByInviteId(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByInviteId(System.String)
+  id: MakeSessionHandleByInviteId(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: MakeSessionHandleByInviteId(String)
+  nameWithType: EOSSessionsManager.MakeSessionHandleByInviteId(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByInviteId(System.String)
+  type: Method
+  source:
+    id: MakeSessionHandleByInviteId
+    path: ''
+    startLine: 9005
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public SessionDetails MakeSessionHandleByInviteId(string inviteId)
+    parameters:
+    - id: inviteId
+      type: System.String
+    return:
+      type: SessionDetails
+    content.vb: Public Function MakeSessionHandleByInviteId(inviteId As String) As SessionDetails
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByInviteId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByEventId(System.UInt64)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByEventId(System.UInt64)
+  id: MakeSessionHandleByEventId(System.UInt64)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: MakeSessionHandleByEventId(UInt64)
+  nameWithType: EOSSessionsManager.MakeSessionHandleByEventId(UInt64)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByEventId(System.UInt64)
+  type: Method
+  source:
+    id: MakeSessionHandleByEventId
+    path: ''
+    startLine: 9021
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public SessionDetails MakeSessionHandleByEventId(ulong uiEventId)
+    parameters:
+    - id: uiEventId
+      type: System.UInt64
+    return:
+      type: SessionDetails
+    content.vb: Public Function MakeSessionHandleByEventId(uiEventId As ULong) As SessionDetails
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByEventId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleFromSearch(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleFromSearch(System.String)
+  id: MakeSessionHandleFromSearch(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: MakeSessionHandleFromSearch(String)
+  nameWithType: EOSSessionsManager.MakeSessionHandleFromSearch(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleFromSearch(System.String)
+  type: Method
+  source:
+    id: MakeSessionHandleFromSearch
+    path: ''
+    startLine: 9036
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public SessionDetails MakeSessionHandleFromSearch(string sessionId)
+    parameters:
+    - id: sessionId
+      type: System.String
+    return:
+      type: SessionDetails
+    content.vb: Public Function MakeSessionHandleFromSearch(sessionId As String) As SessionDetails
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleFromSearch*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinSession(SessionDetails,System.Boolean,System.Action)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinSession(SessionDetails,System.Boolean,System.Action)
+  id: JoinSession(SessionDetails,System.Boolean,System.Action)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JoinSession(SessionDetails, Boolean, Action)
+  nameWithType: EOSSessionsManager.JoinSession(SessionDetails, Boolean, Action)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinSession(SessionDetails, System.Boolean, System.Action)
+  type: Method
+  source:
+    id: JoinSession
+    path: ''
+    startLine: 9042
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action callback = null)
+    parameters:
+    - id: sessionHandle
+      type: SessionDetails
+    - id: presenceSession
+      type: System.Boolean
+    - id: callback
+      type: System.Action
+    content.vb: Public Sub JoinSession(sessionHandle As SessionDetails, presenceSession As Boolean, callback As Action = Nothing)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinSession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.ModifySession(PlayEveryWare.EpicOnlineServices.Samples.Session,System.Action)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.ModifySession(PlayEveryWare.EpicOnlineServices.Samples.Session,System.Action)
+  id: ModifySession(PlayEveryWare.EpicOnlineServices.Samples.Session,System.Action)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: ModifySession(Session, Action)
+  nameWithType: EOSSessionsManager.ModifySession(Session, Action)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.ModifySession(PlayEveryWare.EpicOnlineServices.Samples.Session, System.Action)
+  type: Method
+  source:
+    id: ModifySession
+    path: ''
+    startLine: 9062
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool ModifySession(Session session, Action callback = null)
+    parameters:
+    - id: session
+      type: PlayEveryWare.EpicOnlineServices.Samples.Session
+    - id: callback
+      type: System.Action
+    return:
+      type: System.Boolean
+    content.vb: Public Function ModifySession(session As Session, callback As Action = Nothing) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.ModifySession*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionDestroyed(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionDestroyed(System.String)
+  id: OnSessionDestroyed(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnSessionDestroyed(String)
+  nameWithType: EOSSessionsManager.OnSessionDestroyed(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionDestroyed(System.String)
+  type: Method
+  source:
+    id: OnSessionDestroyed
+    path: ''
+    startLine: 9240
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnSessionDestroyed(string sessionName)
+    parameters:
+    - id: sessionName
+      type: System.String
+    content.vb: Sub OnSessionDestroyed(sessionName As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionDestroyed*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionUpdateFinished(System.Boolean,System.String,System.String,System.Boolean)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionUpdateFinished(System.Boolean,System.String,System.String,System.Boolean)
+  id: OnSessionUpdateFinished(System.Boolean,System.String,System.String,System.Boolean)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnSessionUpdateFinished(Boolean, String, String, Boolean)
+  nameWithType: EOSSessionsManager.OnSessionUpdateFinished(Boolean, String, String, Boolean)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionUpdateFinished(System.Boolean, System.String, System.String, System.Boolean)
+  type: Method
+  source:
+    id: OnSessionUpdateFinished
+    path: ''
+    startLine: 9256
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnSessionUpdateFinished(bool success, string sessionName, string sessionId, bool removeSessionOnFailure = false)
+    parameters:
+    - id: success
+      type: System.Boolean
+    - id: sessionName
+      type: System.String
+    - id: sessionId
+      type: System.String
+    - id: removeSessionOnFailure
+      type: System.Boolean
+    content.vb: Sub OnSessionUpdateFinished(success As Boolean, sessionName As String, sessionId As String, removeSessionOnFailure As Boolean = False)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionUpdateFinished*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSearchResultsReceived
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSearchResultsReceived
+  id: OnSearchResultsReceived
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnSearchResultsReceived()
+  nameWithType: EOSSessionsManager.OnSearchResultsReceived()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSearchResultsReceived()
+  type: Method
+  source:
+    id: OnSearchResultsReceived
+    path: ''
+    startLine: 9282
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnSearchResultsReceived()
+    content.vb: Sub OnSearchResultsReceived
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSearchResultsReceived*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionFinished
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionFinished
+  id: OnJoinSessionFinished
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnJoinSessionFinished()
+  nameWithType: EOSSessionsManager.OnJoinSessionFinished()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionFinished()
+  type: Method
+  source:
+    id: OnJoinSessionFinished
+    path: ''
+    startLine: 9357
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnJoinSessionFinished()
+    content.vb: Sub OnJoinSessionFinished
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionFinished*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetJoininfo(System.String,System.Boolean)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetJoininfo(System.String,System.Boolean)
+  id: SetJoininfo(System.String,System.Boolean)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: SetJoininfo(String, Boolean)
+  nameWithType: EOSSessionsManager.SetJoininfo(String, Boolean)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetJoininfo(System.String, System.Boolean)
+  type: Method
+  source:
+    id: SetJoininfo
+    path: ''
+    startLine: 9405
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void SetJoininfo(string sessionId, bool onLoggingOut = false)
+    parameters:
+    - id: sessionId
+      type: System.String
+    - id: onLoggingOut
+      type: System.Boolean
+    content.vb: Sub SetJoininfo(sessionId As String, onLoggingOut As Boolean = False)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetJoininfo*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByJoinInfo(System.String,System.UInt64)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByJoinInfo(System.String,System.UInt64)
+  id: OnJoinGameAcceptedByJoinInfo(System.String,System.UInt64)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnJoinGameAcceptedByJoinInfo(String, UInt64)
+  nameWithType: EOSSessionsManager.OnJoinGameAcceptedByJoinInfo(String, UInt64)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByJoinInfo(System.String, System.UInt64)
+  type: Method
+  source:
+    id: OnJoinGameAcceptedByJoinInfo
+    path: ''
+    startLine: 9463
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnJoinGameAcceptedByJoinInfo(string joinInfo, ulong uiEventId)
+    parameters:
+    - id: joinInfo
+      type: System.String
+    - id: uiEventId
+      type: System.UInt64
+    content.vb: Sub OnJoinGameAcceptedByJoinInfo(joinInfo As String, uiEventId As ULong)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByJoinInfo*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByEventId(System.UInt64)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByEventId(System.UInt64)
+  id: OnJoinGameAcceptedByEventId(System.UInt64)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnJoinGameAcceptedByEventId(UInt64)
+  nameWithType: EOSSessionsManager.OnJoinGameAcceptedByEventId(UInt64)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByEventId(System.UInt64)
+  type: Method
+  source:
+    id: OnJoinGameAcceptedByEventId
+    path: ''
+    startLine: 9480
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnJoinGameAcceptedByEventId(ulong uiEventId)
+    parameters:
+    - id: uiEventId
+      type: System.UInt64
+    content.vb: Sub OnJoinGameAcceptedByEventId(uiEventId As ULong)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByEventId*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionById(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionById(System.String)
+  id: JoinPresenceSessionById(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: JoinPresenceSessionById(String)
+  nameWithType: EOSSessionsManager.JoinPresenceSessionById(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionById(System.String)
+  type: Method
+  source:
+    id: JoinPresenceSessionById
+    path: ''
+    startLine: 9495
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void JoinPresenceSessionById(string sessionId)
+    parameters:
+    - id: sessionId
+      type: System.String
+    content.vb: Sub JoinPresenceSessionById(sessionId As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionById*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcknowledgeEventId(Result)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcknowledgeEventId(Result)
+  id: AcknowledgeEventId(Result)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: AcknowledgeEventId(Result)
+  nameWithType: EOSSessionsManager.AcknowledgeEventId(Result)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcknowledgeEventId(Result)
+  type: Method
+  source:
+    id: AcknowledgeEventId
+    path: ''
+    startLine: 9502
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void AcknowledgeEventId(Result result)
+    parameters:
+    - id: result
+      type: Result
+    content.vb: Sub AcknowledgeEventId(result As Result)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcknowledgeEventId*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GenerateJoinedSessionName(System.Boolean)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GenerateJoinedSessionName(System.Boolean)
+  id: GenerateJoinedSessionName(System.Boolean)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: GenerateJoinedSessionName(Boolean)
+  nameWithType: EOSSessionsManager.GenerateJoinedSessionName(Boolean)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GenerateJoinedSessionName(System.Boolean)
+  type: Method
+  source:
+    id: GenerateJoinedSessionName
+    path: ''
+    startLine: 9517
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: string GenerateJoinedSessionName(bool noIncrement = false)
+    parameters:
+    - id: noIncrement
+      type: System.Boolean
+    return:
+      type: System.String
+    content.vb: Function GenerateJoinedSessionName(noIncrement As Boolean = False) As String
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GenerateJoinedSessionName*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo)
+  id: OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo)
+  nameWithType: EOSSessionsManager.OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo)
+  type: Method
+  source:
+    id: OnUpdateSessionCompleteCallback
+    path: ''
+    startLine: 9527
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo data)
+    parameters:
+    - id: data
+      type: UpdateSessionCallbackInfo
+    content.vb: Sub OnUpdateSessionCompleteCallback(data As UpdateSessionCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo)
+  id: OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo)
+  nameWithType: EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo)
+  type: Method
+  source:
+    id: OnUpdateSessionCompleteCallback_ForCreate
+    path: ''
+    startLine: 9552
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo data)
+    parameters:
+    - id: data
+      type: UpdateSessionCallbackInfo
+    content.vb: Sub OnUpdateSessionCompleteCallback_ForCreate(data As UpdateSessionCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnStartSessionCompleteCallBack(StartSessionCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnStartSessionCompleteCallBack(StartSessionCallbackInfo)
+  id: OnStartSessionCompleteCallBack(StartSessionCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnStartSessionCompleteCallBack(StartSessionCallbackInfo)
+  nameWithType: EOSSessionsManager.OnStartSessionCompleteCallBack(StartSessionCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnStartSessionCompleteCallBack(StartSessionCallbackInfo)
+  type: Method
+  source:
+    id: OnStartSessionCompleteCallBack
+    path: ''
+    startLine: 9591
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnStartSessionCompleteCallBack(StartSessionCallbackInfo data)
+    parameters:
+    - id: data
+      type: StartSessionCallbackInfo
+    content.vb: Sub OnStartSessionCompleteCallBack(data As StartSessionCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnStartSessionCompleteCallBack*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnEndSessionCompleteCallback(EndSessionCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnEndSessionCompleteCallback(EndSessionCallbackInfo)
+  id: OnEndSessionCompleteCallback(EndSessionCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnEndSessionCompleteCallback(EndSessionCallbackInfo)
+  nameWithType: EOSSessionsManager.OnEndSessionCompleteCallback(EndSessionCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnEndSessionCompleteCallback(EndSessionCallbackInfo)
+  type: Method
+  source:
+    id: OnEndSessionCompleteCallback
+    path: ''
+    startLine: 9618
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnEndSessionCompleteCallback(EndSessionCallbackInfo data)
+    parameters:
+    - id: data
+      type: EndSessionCallbackInfo
+    content.vb: Sub OnEndSessionCompleteCallback(data As EndSessionCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnEndSessionCompleteCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnDestroySessionCompleteCallback(DestroySessionCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnDestroySessionCompleteCallback(DestroySessionCallbackInfo)
+  id: OnDestroySessionCompleteCallback(DestroySessionCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnDestroySessionCompleteCallback(DestroySessionCallbackInfo)
+  nameWithType: EOSSessionsManager.OnDestroySessionCompleteCallback(DestroySessionCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnDestroySessionCompleteCallback(DestroySessionCallbackInfo)
+  type: Method
+  source:
+    id: OnDestroySessionCompleteCallback
+    path: ''
+    startLine: 9639
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnDestroySessionCompleteCallback(DestroySessionCallbackInfo data)
+    parameters:
+    - id: data
+      type: DestroySessionCallbackInfo
+    content.vb: Sub OnDestroySessionCompleteCallback(data As DestroySessionCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnDestroySessionCompleteCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnRegisterCompleteCallback(RegisterPlayersCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnRegisterCompleteCallback(RegisterPlayersCallbackInfo)
+  id: OnRegisterCompleteCallback(RegisterPlayersCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnRegisterCompleteCallback(RegisterPlayersCallbackInfo)
+  nameWithType: EOSSessionsManager.OnRegisterCompleteCallback(RegisterPlayersCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnRegisterCompleteCallback(RegisterPlayersCallbackInfo)
+  type: Method
+  source:
+    id: OnRegisterCompleteCallback
+    path: ''
+    startLine: 9667
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnRegisterCompleteCallback(RegisterPlayersCallbackInfo data)
+    parameters:
+    - id: data
+      type: RegisterPlayersCallbackInfo
+    content.vb: Sub OnRegisterCompleteCallback(data As RegisterPlayersCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnRegisterCompleteCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo)
+  id: OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo)
+  nameWithType: EOSSessionsManager.OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo)
+  type: Method
+  source:
+    id: OnUnregisterCompleteCallback
+    path: ''
+    startLine: 9682
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo data)
+    parameters:
+    - id: data
+      type: UnregisterPlayersCallbackInfo
+    content.vb: Sub OnUnregisterCompleteCallback(data As UnregisterPlayersCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUnregisterCompleteCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo)
+  id: OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo)
+  nameWithType: EOSSessionsManager.OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo)
+  type: Method
+  source:
+    id: OnFindSessionsCompleteCallback
+    path: ''
+    startLine: 9697
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo data)
+    parameters:
+    - id: data
+      type: SessionSearchFindCallbackInfo
+    content.vb: Sub OnFindSessionsCompleteCallback(data As SessionSearchFindCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnFindSessionsCompleteCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSendInviteCompleteCallback(SendInviteCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSendInviteCompleteCallback(SendInviteCallbackInfo)
+  id: OnSendInviteCompleteCallback(SendInviteCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnSendInviteCompleteCallback(SendInviteCallbackInfo)
+  nameWithType: EOSSessionsManager.OnSendInviteCompleteCallback(SendInviteCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSendInviteCompleteCallback(SendInviteCallbackInfo)
+  type: Method
+  source:
+    id: OnSendInviteCompleteCallback
+    path: ''
+    startLine: 9716
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnSendInviteCompleteCallback(SendInviteCallbackInfo data)
+    parameters:
+    - id: data
+      type: SendInviteCallbackInfo
+    content.vb: Sub OnSendInviteCompleteCallback(data As SendInviteCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSendInviteCompleteCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo)
+  id: OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo)
+  nameWithType: EOSSessionsManager.OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo)
+  type: Method
+  source:
+    id: OnSessionInviteReceivedListener
+    path: ''
+    startLine: 9733
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo data)
+    parameters:
+    - id: data
+      type: SessionInviteReceivedCallbackInfo
+    content.vb: Public Sub OnSessionInviteReceivedListener(data As SessionInviteReceivedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteReceivedListener*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite
+  id: PopLobbyInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: PopLobbyInvite()
+  nameWithType: EOSSessionsManager.PopLobbyInvite()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite()
+  type: Method
+  source:
+    id: PopLobbyInvite
+    path: ''
+    startLine: 9765
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void PopLobbyInvite()
+    content.vb: Sub PopLobbyInvite
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo)
+  id: OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo)
+  nameWithType: EOSSessionsManager.OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo)
+  type: Method
+  source:
+    id: OnSessionInviteAcceptedListener
+    path: ''
+    startLine: 9781
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo data)
+    parameters:
+    - id: data
+      type: SessionInviteAcceptedCallbackInfo
+    content.vb: Public Sub OnSessionInviteAcceptedListener(data As SessionInviteAcceptedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteAcceptedListener*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionListener(JoinSessionCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionListener(JoinSessionCallbackInfo)
+  id: OnJoinSessionListener(JoinSessionCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnJoinSessionListener(JoinSessionCallbackInfo)
+  nameWithType: EOSSessionsManager.OnJoinSessionListener(JoinSessionCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionListener(JoinSessionCallbackInfo)
+  type: Method
+  source:
+    id: OnJoinSessionListener
+    path: ''
+    startLine: 9794
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnJoinSessionListener(JoinSessionCallbackInfo data)
+    parameters:
+    - id: data
+      type: JoinSessionCallbackInfo
+    content.vb: Sub OnJoinSessionListener(data As JoinSessionCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionListener*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo)
+  id: OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo)
+  nameWithType: EOSSessionsManager.OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo)
+  type: Method
+  source:
+    id: OnJoinGameAcceptedListener
+    path: ''
+    startLine: 9818
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo data)
+    parameters:
+    - id: data
+      type: JoinGameAcceptedCallbackInfo
+    content.vb: Public Sub OnJoinGameAcceptedListener(data As JoinGameAcceptedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedListener*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo)
+  id: OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo)
+  nameWithType: EOSSessionsManager.OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo)
+  type: Method
+  source:
+    id: OnJoinSessionAcceptedListener
+    path: ''
+    startLine: 9831
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo data)
+    parameters:
+    - id: data
+      type: JoinSessionAcceptedCallbackInfo
+    content.vb: Public Sub OnJoinSessionAcceptedListener(data As JoinSessionAcceptedCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionAcceptedListener*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSetPresenceCompleteCallback(SetPresenceCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSetPresenceCompleteCallback(SetPresenceCallbackInfo)
+  id: OnSetPresenceCompleteCallback(SetPresenceCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: OnSetPresenceCompleteCallback(SetPresenceCallbackInfo)
+  nameWithType: EOSSessionsManager.OnSetPresenceCompleteCallback(SetPresenceCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSetPresenceCompleteCallback(SetPresenceCallbackInfo)
+  type: Method
+  source:
+    id: OnSetPresenceCompleteCallback
+    path: ''
+    startLine: 9844
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void OnSetPresenceCompleteCallback(SetPresenceCallbackInfo data)
+    parameters:
+    - id: data
+      type: SetPresenceCallbackInfo
+    content.vb: Sub OnSetPresenceCompleteCallback(data As SetPresenceCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSetPresenceCompleteCallback*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcceptLobbyInvite(System.Boolean)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcceptLobbyInvite(System.Boolean)
+  id: AcceptLobbyInvite(System.Boolean)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: AcceptLobbyInvite(Boolean)
+  nameWithType: EOSSessionsManager.AcceptLobbyInvite(Boolean)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcceptLobbyInvite(System.Boolean)
+  type: Method
+  source:
+    id: AcceptLobbyInvite
+    path: ''
+    startLine: 9860
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void AcceptLobbyInvite(bool invitePresenceToggled)
+    parameters:
+    - id: invitePresenceToggled
+      type: System.Boolean
+    content.vb: Public Sub AcceptLobbyInvite(invitePresenceToggled As Boolean)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcceptLobbyInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DeclineLobbyInvite
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DeclineLobbyInvite
+  id: DeclineLobbyInvite
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
+  langs:
+  - csharp
+  - vb
+  name: DeclineLobbyInvite()
+  nameWithType: EOSSessionsManager.DeclineLobbyInvite()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DeclineLobbyInvite()
+  type: Method
+  source:
+    id: DeclineLobbyInvite
+    path: ''
+    startLine: 9873
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void DeclineLobbyInvite()
+    content.vb: Public Sub DeclineLobbyInvite
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DeclineLobbyInvite*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSSubManager
+  nameWithType: IEOSSubManager
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
+  commentId: '!:Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}'
+  definition: Dictionary`2
+  name: Dictionary<String, Session>
+  nameWithType: Dictionary<String, Session>
+  fullName: Dictionary<System.String, PlayEveryWare.EpicOnlineServices.Samples.Session>
+  nameWithType.vb: Dictionary(Of String, Session)
+  fullName.vb: Dictionary(Of System.String, PlayEveryWare.EpicOnlineServices.Samples.Session)
+  name.vb: Dictionary(Of String, Session)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Session
+    name: Session
+    nameWithType: Session
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.Session
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Session
+    name: Session
+    nameWithType: Session
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.Session
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary`2
+  isExternal: true
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: SessionSearch
+  nameWithType: SessionSearch
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  name: UInt64
+  nameWithType: UInt64
+  fullName: System.UInt64
+- uid: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+  commentId: '!:Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}'
+  definition: Dictionary`2
+  name: Dictionary<Session, SessionDetails>
+  nameWithType: Dictionary<Session, SessionDetails>
+  fullName: Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails>
+  nameWithType.vb: Dictionary(Of Session, SessionDetails)
+  fullName.vb: Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails)
+  name.vb: Dictionary(Of Session, SessionDetails)
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Session
+    name: Session
+    nameWithType: Session
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.Session
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: SessionDetails
+    name: SessionDetails
+    nameWithType: SessionDetails
+    fullName: SessionDetails
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Session
+    name: Session
+    nameWithType: Session
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.Session
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: SessionDetails
+    name: SessionDetails
+    nameWithType: SessionDetails
+    fullName: SessionDetails
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Session
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.Session
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: Session
+  nameWithType: Session
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Session
+- uid: SessionDetails
+  isExternal: true
+  name: SessionDetails
+  nameWithType: SessionDetails
+  fullName: SessionDetails
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  name: UInt32
+  nameWithType: UInt32
+  fullName: System.UInt32
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: Queue{System.Action}
+  commentId: '!:Queue{System.Action}'
+  definition: Queue`1
+  name: Queue<Action>
+  nameWithType: Queue<Action>
+  fullName: Queue<System.Action>
+  nameWithType.vb: Queue(Of Action)
+  fullName.vb: Queue(Of System.Action)
+  name.vb: Queue(Of Action)
+  spec.csharp:
+  - uid: Queue`1
+    name: Queue
+    nameWithType: Queue
+    fullName: Queue
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Queue`1
+    name: Queue
+    nameWithType: Queue
+    fullName: Queue
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Queue`1
+  isExternal: true
+  name: Queue<>
+  nameWithType: Queue<>
+  fullName: Queue<>
+  nameWithType.vb: Queue(Of )
+  fullName.vb: Queue(Of )
+  name.vb: Queue(Of )
+  spec.csharp:
+  - uid: Queue`1
+    name: Queue
+    nameWithType: Queue
+    fullName: Queue
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Queue`1
+    name: Queue
+    nameWithType: Queue
+    fullName: Queue
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.#ctor*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.#ctor
+  name: EOSSessionsManager
+  nameWithType: EOSSessionsManager.EOSSessionsManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EOSSessionsManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites
+  name: GetInvites
+  nameWithType: EOSSessionsManager.GetInvites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentInvite
+  name: GetCurrentInvite
+  nameWithType: EOSSessionsManager.GetCurrentInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSearch*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSearch
+  name: GetCurrentSearch
+  nameWithType: EOSSessionsManager.GetCurrentSearch
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSearch
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions
+  name: GetCurrentSessions
+  nameWithType: EOSSessionsManager.GetCurrentSessions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SubscribteToGameInvites*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SubscribteToGameInvites
+  name: SubscribteToGameInvites
+  nameWithType: EOSSessionsManager.SubscribteToGameInvites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SubscribteToGameInvites
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnsubscribeFromGameInvites*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnsubscribeFromGameInvites
+  name: UnsubscribeFromGameInvites
+  nameWithType: EOSSessionsManager.UnsubscribeFromGameInvites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnsubscribeFromGameInvites
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnShutDown*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnShutDown
+  name: OnShutDown
+  nameWithType: EOSSessionsManager.OnShutDown
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnShutDown
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Update*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Update
+  name: Update
+  nameWithType: EOSSessionsManager.Update
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Update
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedIn*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedIn
+  name: OnLoggedIn
+  nameWithType: EOSSessionsManager.OnLoggedIn
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedIn
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedOut*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedOut
+  name: OnLoggedOut
+  nameWithType: EOSSessionsManager.OnLoggedOut
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnLoggedOut
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.LeaveAllSessions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.LeaveAllSessions
+  name: LeaveAllSessions
+  nameWithType: EOSSessionsManager.LeaveAllSessions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.LeaveAllSessions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CreateSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CreateSession
+  name: CreateSession
+  nameWithType: EOSSessionsManager.CreateSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CreateSession
+- uid: System.Action
+  commentId: T:System.Action
+  parent: System
+  isExternal: true
+  name: Action
+  nameWithType: Action
+  fullName: System.Action
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroySession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroySession
+  name: DestroySession
+  nameWithType: EOSSessionsManager.DestroySession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroySession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroyAllSessions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroyAllSessions
+  name: DestroyAllSessions
+  nameWithType: EOSSessionsManager.DestroyAllSessions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DestroyAllSessions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasActiveLocalSessions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasActiveLocalSessions
+  name: HasActiveLocalSessions
+  nameWithType: EOSSessionsManager.HasActiveLocalSessions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasActiveLocalSessions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasPresenceSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasPresenceSession
+  name: HasPresenceSession
+  nameWithType: EOSSessionsManager.HasPresenceSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.HasPresenceSession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.IsPresenceSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.IsPresenceSession
+  name: IsPresenceSession
+  nameWithType: EOSSessionsManager.IsPresenceSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.IsPresenceSession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetSession
+  name: GetSession
+  nameWithType: EOSSessionsManager.GetSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetSession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.StartSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.StartSession
+  name: StartSession
+  nameWithType: EOSSessionsManager.StartSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.StartSession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EndSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EndSession
+  name: EndSession
+  nameWithType: EOSSessionsManager.EndSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.EndSession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register
+  name: Register
+  nameWithType: EOSSessionsManager.Register
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register
+- uid: ProductUserId
+  isExternal: true
+  name: ProductUserId
+  nameWithType: ProductUserId
+  fullName: ProductUserId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnRegister*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnRegister
+  name: UnRegister
+  nameWithType: EOSSessionsManager.UnRegister
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UnRegister
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.InviteToSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.InviteToSession
+  name: InviteToSession
+  nameWithType: EOSSessionsManager.InviteToSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.InviteToSession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetInviteSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetInviteSession
+  name: SetInviteSession
+  nameWithType: EOSSessionsManager.SetInviteSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetInviteSession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search
+  name: Search
+  nameWithType: EOSSessionsManager.Search
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search
+- uid: List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}
+  commentId: '!:List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}'
+  definition: List`1
+  name: List<SessionAttribute>
+  nameWithType: List<SessionAttribute>
+  fullName: List<PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute>
+  nameWithType.vb: List(Of SessionAttribute)
+  fullName.vb: List(Of PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute)
+  name.vb: List(Of SessionAttribute)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+    name: SessionAttribute
+    nameWithType: SessionAttribute
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+    name: SessionAttribute
+    nameWithType: SessionAttribute
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List`1
+  isExternal: true
+  name: List<>
+  nameWithType: List<>
+  fullName: List<>
+  nameWithType.vb: List(Of )
+  fullName.vb: List(Of )
+  name.vb: List(Of )
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById
+  name: SearchById
+  nameWithType: EOSSessionsManager.SearchById
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByInviteId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByInviteId
+  name: MakeSessionHandleByInviteId
+  nameWithType: EOSSessionsManager.MakeSessionHandleByInviteId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByInviteId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByEventId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByEventId
+  name: MakeSessionHandleByEventId
+  nameWithType: EOSSessionsManager.MakeSessionHandleByEventId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleByEventId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleFromSearch*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleFromSearch
+  name: MakeSessionHandleFromSearch
+  nameWithType: EOSSessionsManager.MakeSessionHandleFromSearch
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.MakeSessionHandleFromSearch
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinSession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinSession
+  name: JoinSession
+  nameWithType: EOSSessionsManager.JoinSession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinSession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.ModifySession*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.ModifySession
+  name: ModifySession
+  nameWithType: EOSSessionsManager.ModifySession
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.ModifySession
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionDestroyed*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionDestroyed
+  name: OnSessionDestroyed
+  nameWithType: EOSSessionsManager.OnSessionDestroyed
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionDestroyed
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionUpdateFinished*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionUpdateFinished
+  name: OnSessionUpdateFinished
+  nameWithType: EOSSessionsManager.OnSessionUpdateFinished
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionUpdateFinished
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSearchResultsReceived*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSearchResultsReceived
+  name: OnSearchResultsReceived
+  nameWithType: EOSSessionsManager.OnSearchResultsReceived
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSearchResultsReceived
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionFinished*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionFinished
+  name: OnJoinSessionFinished
+  nameWithType: EOSSessionsManager.OnJoinSessionFinished
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionFinished
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetJoininfo*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetJoininfo
+  name: SetJoininfo
+  nameWithType: EOSSessionsManager.SetJoininfo
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SetJoininfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByJoinInfo*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByJoinInfo
+  name: OnJoinGameAcceptedByJoinInfo
+  nameWithType: EOSSessionsManager.OnJoinGameAcceptedByJoinInfo
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByJoinInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByEventId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByEventId
+  name: OnJoinGameAcceptedByEventId
+  nameWithType: EOSSessionsManager.OnJoinGameAcceptedByEventId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedByEventId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionById*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionById
+  name: JoinPresenceSessionById
+  nameWithType: EOSSessionsManager.JoinPresenceSessionById
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.JoinPresenceSessionById
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcknowledgeEventId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcknowledgeEventId
+  name: AcknowledgeEventId
+  nameWithType: EOSSessionsManager.AcknowledgeEventId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcknowledgeEventId
+- uid: Result
+  isExternal: true
+  name: Result
+  nameWithType: Result
+  fullName: Result
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GenerateJoinedSessionName*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GenerateJoinedSessionName
+  name: GenerateJoinedSessionName
+  nameWithType: EOSSessionsManager.GenerateJoinedSessionName
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GenerateJoinedSessionName
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback
+  name: OnUpdateSessionCompleteCallback
+  nameWithType: EOSSessionsManager.OnUpdateSessionCompleteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback
+- uid: UpdateSessionCallbackInfo
+  isExternal: true
+  name: UpdateSessionCallbackInfo
+  nameWithType: UpdateSessionCallbackInfo
+  fullName: UpdateSessionCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate
+  name: OnUpdateSessionCompleteCallback_ForCreate
+  nameWithType: EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnStartSessionCompleteCallBack*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnStartSessionCompleteCallBack
+  name: OnStartSessionCompleteCallBack
+  nameWithType: EOSSessionsManager.OnStartSessionCompleteCallBack
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnStartSessionCompleteCallBack
+- uid: StartSessionCallbackInfo
+  commentId: '!:StartSessionCallbackInfo'
+  isExternal: true
+  name: StartSessionCallbackInfo
+  nameWithType: StartSessionCallbackInfo
+  fullName: StartSessionCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnEndSessionCompleteCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnEndSessionCompleteCallback
+  name: OnEndSessionCompleteCallback
+  nameWithType: EOSSessionsManager.OnEndSessionCompleteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnEndSessionCompleteCallback
+- uid: EndSessionCallbackInfo
+  commentId: '!:EndSessionCallbackInfo'
+  isExternal: true
+  name: EndSessionCallbackInfo
+  nameWithType: EndSessionCallbackInfo
+  fullName: EndSessionCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnDestroySessionCompleteCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnDestroySessionCompleteCallback
+  name: OnDestroySessionCompleteCallback
+  nameWithType: EOSSessionsManager.OnDestroySessionCompleteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnDestroySessionCompleteCallback
+- uid: DestroySessionCallbackInfo
+  commentId: '!:DestroySessionCallbackInfo'
+  isExternal: true
+  name: DestroySessionCallbackInfo
+  nameWithType: DestroySessionCallbackInfo
+  fullName: DestroySessionCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnRegisterCompleteCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnRegisterCompleteCallback
+  name: OnRegisterCompleteCallback
+  nameWithType: EOSSessionsManager.OnRegisterCompleteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnRegisterCompleteCallback
+- uid: RegisterPlayersCallbackInfo
+  commentId: '!:RegisterPlayersCallbackInfo'
+  isExternal: true
+  name: RegisterPlayersCallbackInfo
+  nameWithType: RegisterPlayersCallbackInfo
+  fullName: RegisterPlayersCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUnregisterCompleteCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUnregisterCompleteCallback
+  name: OnUnregisterCompleteCallback
+  nameWithType: EOSSessionsManager.OnUnregisterCompleteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUnregisterCompleteCallback
+- uid: UnregisterPlayersCallbackInfo
+  commentId: '!:UnregisterPlayersCallbackInfo'
+  isExternal: true
+  name: UnregisterPlayersCallbackInfo
+  nameWithType: UnregisterPlayersCallbackInfo
+  fullName: UnregisterPlayersCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnFindSessionsCompleteCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnFindSessionsCompleteCallback
+  name: OnFindSessionsCompleteCallback
+  nameWithType: EOSSessionsManager.OnFindSessionsCompleteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnFindSessionsCompleteCallback
+- uid: SessionSearchFindCallbackInfo
+  commentId: '!:SessionSearchFindCallbackInfo'
+  isExternal: true
+  name: SessionSearchFindCallbackInfo
+  nameWithType: SessionSearchFindCallbackInfo
+  fullName: SessionSearchFindCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSendInviteCompleteCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSendInviteCompleteCallback
+  name: OnSendInviteCompleteCallback
+  nameWithType: EOSSessionsManager.OnSendInviteCompleteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSendInviteCompleteCallback
+- uid: SendInviteCallbackInfo
+  isExternal: true
+  name: SendInviteCallbackInfo
+  nameWithType: SendInviteCallbackInfo
+  fullName: SendInviteCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteReceivedListener*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteReceivedListener
+  name: OnSessionInviteReceivedListener
+  nameWithType: EOSSessionsManager.OnSessionInviteReceivedListener
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteReceivedListener
+- uid: SessionInviteReceivedCallbackInfo
+  commentId: '!:SessionInviteReceivedCallbackInfo'
+  isExternal: true
+  name: SessionInviteReceivedCallbackInfo
+  nameWithType: SessionInviteReceivedCallbackInfo
+  fullName: SessionInviteReceivedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite
+  name: PopLobbyInvite
+  nameWithType: EOSSessionsManager.PopLobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteAcceptedListener*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteAcceptedListener
+  name: OnSessionInviteAcceptedListener
+  nameWithType: EOSSessionsManager.OnSessionInviteAcceptedListener
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSessionInviteAcceptedListener
+- uid: SessionInviteAcceptedCallbackInfo
+  commentId: '!:SessionInviteAcceptedCallbackInfo'
+  isExternal: true
+  name: SessionInviteAcceptedCallbackInfo
+  nameWithType: SessionInviteAcceptedCallbackInfo
+  fullName: SessionInviteAcceptedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionListener*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionListener
+  name: OnJoinSessionListener
+  nameWithType: EOSSessionsManager.OnJoinSessionListener
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionListener
+- uid: JoinSessionCallbackInfo
+  commentId: '!:JoinSessionCallbackInfo'
+  isExternal: true
+  name: JoinSessionCallbackInfo
+  nameWithType: JoinSessionCallbackInfo
+  fullName: JoinSessionCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedListener*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedListener
+  name: OnJoinGameAcceptedListener
+  nameWithType: EOSSessionsManager.OnJoinGameAcceptedListener
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinGameAcceptedListener
+- uid: JoinGameAcceptedCallbackInfo
+  commentId: '!:JoinGameAcceptedCallbackInfo'
+  isExternal: true
+  name: JoinGameAcceptedCallbackInfo
+  nameWithType: JoinGameAcceptedCallbackInfo
+  fullName: JoinGameAcceptedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionAcceptedListener*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionAcceptedListener
+  name: OnJoinSessionAcceptedListener
+  nameWithType: EOSSessionsManager.OnJoinSessionAcceptedListener
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnJoinSessionAcceptedListener
+- uid: JoinSessionAcceptedCallbackInfo
+  commentId: '!:JoinSessionAcceptedCallbackInfo'
+  isExternal: true
+  name: JoinSessionAcceptedCallbackInfo
+  nameWithType: JoinSessionAcceptedCallbackInfo
+  fullName: JoinSessionAcceptedCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSetPresenceCompleteCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSetPresenceCompleteCallback
+  name: OnSetPresenceCompleteCallback
+  nameWithType: EOSSessionsManager.OnSetPresenceCompleteCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnSetPresenceCompleteCallback
+- uid: SetPresenceCallbackInfo
+  commentId: '!:SetPresenceCallbackInfo'
+  isExternal: true
+  name: SetPresenceCallbackInfo
+  nameWithType: SetPresenceCallbackInfo
+  fullName: SetPresenceCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcceptLobbyInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcceptLobbyInvite
+  name: AcceptLobbyInvite
+  nameWithType: EOSSessionsManager.AcceptLobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.AcceptLobbyInvite
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DeclineLobbyInvite*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DeclineLobbyInvite
+  name: DeclineLobbyInvite
+  nameWithType: EOSSessionsManager.DeclineLobbyInvite
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.DeclineLobbyInvite

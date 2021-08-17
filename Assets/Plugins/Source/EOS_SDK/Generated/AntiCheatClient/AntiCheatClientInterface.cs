@@ -295,7 +295,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 			System.IntPtr outMessageAddress = System.IntPtr.Zero;
 			uint OutMessageLength = options.OutMessageLength;
-			Helper.TryMarshalAllocate(ref outMessageAddress, OutMessageLength, out _);
+			Helper.TryMarshalAllocate(ref outMessageAddress, OutMessageLength);
 
 			var funcResult = Bindings.EOS_AntiCheatClient_PollStatus(InnerHandle, optionsAddress, violationType, outMessageAddress);
 
@@ -329,7 +329,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			uint outBufferLengthBytes = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes);
 
 			var funcResult = Bindings.EOS_AntiCheatClient_ProtectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBufferLengthBytes);
 
@@ -480,7 +480,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			uint outBufferLengthBytes = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes);
 
 			var funcResult = Bindings.EOS_AntiCheatClient_UnprotectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBufferLengthBytes);
 

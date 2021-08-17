@@ -1,13 +1,37 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using UnityEngine;
-using UnityEngine.UI;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.PlayerDataStorage;
+
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -18,12 +42,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Player Data Storage UI")]
         public GameObject PlayerDataStorageUIParent;
 
-        public InputField NewFileNameTextBox;
+        public ConsoleInputField NewFileNameTextBox;
 
         public GameObject FilesContentParent;
         public GameObject UIFileNameEntryPrefab;
 
-        public InputField FileContentTextBox;
+        public ConsoleInputField FileContentTextBox;
+
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         private string currentSelectedFile = string.Empty;
 
@@ -31,7 +59,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Start()
         {
-            FileContentTextBox.text = string.Empty;
+            FileContentTextBox.InputField.text = string.Empty;
             PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
         }
 
@@ -59,7 +87,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (fileName.Equals(currentSelectedFile, StringComparison.OrdinalIgnoreCase))
                     {
                         uiEntry.ShowSelectedColor();
-                        FileContentTextBox.text = GetLocalFileData(fileName);
+                        FileContentTextBox.InputField.text = GetLocalFileData(fileName);
                     }
                 }
 
@@ -83,15 +111,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void NewFileButtonOnClick()
         {
-            if (string.IsNullOrEmpty(NewFileNameTextBox.text))
+            if (string.IsNullOrEmpty(NewFileNameTextBox.InputField.text))
             {
                 Debug.LogError("UIPlayerDatatStorageMenu (NewFileButtonOnClick): Invalid File Name!");
                 return;
             }
 
-            PlayerDataStorageManager.AddFile(NewFileNameTextBox.text, string.Empty);
+            PlayerDataStorageManager.AddFile(NewFileNameTextBox.InputField.text, string.Empty);
 
-            NewFileNameTextBox.text = string.Empty;
+            NewFileNameTextBox.InputField.text = string.Empty;
         }
 
         public void SaveButtonOnClick()
@@ -102,7 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            PlayerDataStorageManager.AddFile(currentSelectedFile, FileContentTextBox.text, UpdateUI);
+            PlayerDataStorageManager.AddFile(currentSelectedFile, FileContentTextBox.InputField.text, UpdateUI);
         }
 
         public void DownloadButtonOnClick()
@@ -147,7 +175,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentSelectedFile = fileName;
 
             // Update File content if local cash exists
-            FileContentTextBox.text = GetLocalFileData(fileName);
+            FileContentTextBox.InputField.text = GetLocalFileData(fileName);
 
             updateUI = true;
         }
@@ -173,6 +201,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>().OnLoggedIn();
 
             PlayerDataStorageUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

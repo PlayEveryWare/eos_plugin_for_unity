@@ -1,0 +1,74 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  id: IEOSOnConnectLogin
+  parent: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  langs:
+  - csharp
+  - vb
+  name: IEOSOnConnectLogin
+  nameWithType: IEOSOnConnectLogin
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  type: Interface
+  source:
+    id: IEOSOnConnectLogin
+    path: ''
+    startLine: 1920
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nInterface for classes using <code>OnConnectLogin</code>\n"
+  example: []
+  syntax:
+    content: public interface IEOSOnConnectLogin
+    content.vb: Public Interface IEOSOnConnectLogin
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  id: OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  langs:
+  - csharp
+  - vb
+  name: OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  nameWithType: IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  type: Method
+  source:
+    id: OnConnectLogin
+    path: ''
+    startLine: 1922
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
+    parameters:
+    - id: loginCallbackInfo
+      type: Epic.OnlineServices.Connect.LoginCallbackInfo
+    content.vb: Sub OnConnectLogin(loginCallbackInfo As Epic.OnlineServices.Connect.LoginCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin*
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin
+  name: OnConnectLogin
+  nameWithType: IEOSOnConnectLogin.OnConnectLogin
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin
+- uid: Epic.OnlineServices.Connect.LoginCallbackInfo
+  isExternal: true
+  name: Epic.OnlineServices.Connect.LoginCallbackInfo
+  nameWithType: Epic.OnlineServices.Connect.LoginCallbackInfo
+  fullName: Epic.OnlineServices.Connect.LoginCallbackInfo

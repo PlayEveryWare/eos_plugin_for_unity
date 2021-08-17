@@ -29,7 +29,7 @@ namespace Epic.OnlineServices.Platform
 		public ClientCredentials ClientCredentials { get; set; }
 
 		/// <summary>
-		/// Is this running as a server
+		/// Set this to false if the application is running as a client with a local user, otherwise set to true (e.g. for a dedicated game server)
 		/// </summary>
 		public bool IsServer { get; set; }
 
@@ -71,9 +71,9 @@ namespace Epic.OnlineServices.Platform
 		public uint TickBudgetInMilliseconds { get; set; }
 
 		/// <summary>
-		/// A reserved field that should always be nulled.
+		/// RTC options. Setting to NULL will disable RTC features (e.g. voice)
 		/// </summary>
-		public System.IntPtr Reserved2 { get; set; }
+		public RTCOptions RTCOptions { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -92,7 +92,7 @@ namespace Epic.OnlineServices.Platform
 		private PlatformFlags m_Flags;
 		private System.IntPtr m_CacheDirectory;
 		private uint m_TickBudgetInMilliseconds;
-		private System.IntPtr m_Reserved2;
+		private System.IntPtr m_RTCOptions;
 
 		public System.IntPtr Reserved
 		{
@@ -190,11 +190,11 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public System.IntPtr Reserved2
+		public RTCOptions RTCOptions
 		{
 			set
 			{
-				m_Reserved2 = value;
+				Helper.TryMarshalSet<RTCOptionsInternal, RTCOptions>(ref m_RTCOptions, value);
 			}
 		}
 
@@ -215,7 +215,7 @@ namespace Epic.OnlineServices.Platform
 				Flags = other.Flags;
 				CacheDirectory = other.CacheDirectory;
 				TickBudgetInMilliseconds = other.TickBudgetInMilliseconds;
-				Reserved2 = other.Reserved2;
+				RTCOptions = other.RTCOptions;
 			}
 		}
 
@@ -235,7 +235,7 @@ namespace Epic.OnlineServices.Platform
 			Helper.TryMarshalDispose(ref m_OverrideLocaleCode);
 			Helper.TryMarshalDispose(ref m_DeploymentId);
 			Helper.TryMarshalDispose(ref m_CacheDirectory);
-			Helper.TryMarshalDispose(ref m_Reserved2);
+			Helper.TryMarshalDispose(ref m_RTCOptions);
 		}
 	}
 }

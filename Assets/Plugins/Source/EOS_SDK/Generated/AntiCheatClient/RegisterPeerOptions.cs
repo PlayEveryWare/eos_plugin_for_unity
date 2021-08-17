@@ -21,7 +21,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		public AntiCheatCommon.AntiCheatCommonClientPlatform ClientPlatform { get; set; }
 
 		/// <summary>
-		/// Account identifier for the remote user
+		/// Identifier for the remote user. This is typically a string representation of an
+		/// account ID, but it can be any string which is both unique (two different users will never
+		/// have the same string) and consistent (if the same user connects to this game session
+		/// twice, the same string will be used) in the scope of a single protected game session.
 		/// </summary>
 		public string AccountId { get; set; }
 

@@ -1,0 +1,537 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  id: FriendData
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.FriendData.LocalUserId
+  - PlayEveryWare.EpicOnlineServices.Samples.FriendData.Name
+  - PlayEveryWare.EpicOnlineServices.Samples.FriendData.Presence
+  - PlayEveryWare.EpicOnlineServices.Samples.FriendData.Status
+  - PlayEveryWare.EpicOnlineServices.Samples.FriendData.UserId
+  - PlayEveryWare.EpicOnlineServices.Samples.FriendData.UserProductUserId
+  langs:
+  - csharp
+  - vb
+  name: FriendData
+  nameWithType: FriendData
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  type: Class
+  source:
+    id: FriendData
+    path: ''
+    startLine: 3433
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: Class <code>FriendData</code> stores Friend data.
+  example: []
+  syntax:
+    content: public class FriendData
+    content.vb: Public Class FriendData
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData.LocalUserId
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.FriendData.LocalUserId
+  id: LocalUserId
+  parent: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  langs:
+  - csharp
+  - vb
+  name: LocalUserId
+  nameWithType: FriendData.LocalUserId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData.LocalUserId
+  type: Field
+  source:
+    id: LocalUserId
+    path: ''
+    startLine: 3435
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EpicAccountId LocalUserId
+    return:
+      type: EpicAccountId
+    content.vb: Public LocalUserId As EpicAccountId
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData.UserId
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.FriendData.UserId
+  id: UserId
+  parent: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  langs:
+  - csharp
+  - vb
+  name: UserId
+  nameWithType: FriendData.UserId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData.UserId
+  type: Field
+  source:
+    id: UserId
+    path: ''
+    startLine: 3436
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EpicAccountId UserId
+    return:
+      type: EpicAccountId
+    content.vb: Public UserId As EpicAccountId
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData.UserProductUserId
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.FriendData.UserProductUserId
+  id: UserProductUserId
+  parent: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  langs:
+  - csharp
+  - vb
+  name: UserProductUserId
+  nameWithType: FriendData.UserProductUserId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData.UserProductUserId
+  type: Field
+  source:
+    id: UserProductUserId
+    path: ''
+    startLine: 3437
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public ProductUserId UserProductUserId
+    return:
+      type: ProductUserId
+    content.vb: Public UserProductUserId As ProductUserId
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData.Name
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.FriendData.Name
+  id: Name
+  parent: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: FriendData.Name
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData.Name
+  type: Field
+  source:
+    id: Name
+    path: ''
+    startLine: 3438
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public string Name
+    return:
+      type: System.String
+    content.vb: Public Name As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData.Status
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.FriendData.Status
+  id: Status
+  parent: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  langs:
+  - csharp
+  - vb
+  name: Status
+  nameWithType: FriendData.Status
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData.Status
+  type: Field
+  source:
+    id: Status
+    path: ''
+    startLine: 3439
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public FriendsStatus Status
+    return:
+      type: FriendsStatus
+    content.vb: Public Status As FriendsStatus
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.FriendData.Presence
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.FriendData.Presence
+  id: Presence
+  parent: PlayEveryWare.EpicOnlineServices.Samples.FriendData
+  langs:
+  - csharp
+  - vb
+  name: Presence
+  nameWithType: FriendData.Presence
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.FriendData.Presence
+  type: Field
+  source:
+    id: Presence
+    path: ''
+    startLine: 3440
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public PresenceInfo Presence
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo
+    content.vb: Public Presence As PresenceInfo
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EpicAccountId
+  isExternal: true
+  name: EpicAccountId
+  nameWithType: EpicAccountId
+  fullName: EpicAccountId
+- uid: ProductUserId
+  isExternal: true
+  name: ProductUserId
+  nameWithType: ProductUserId
+  fullName: ProductUserId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: FriendsStatus
+  commentId: '!:FriendsStatus'
+  isExternal: true
+  name: FriendsStatus
+  nameWithType: FriendsStatus
+  fullName: FriendsStatus
+- uid: PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: PresenceInfo
+  nameWithType: PresenceInfo
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo

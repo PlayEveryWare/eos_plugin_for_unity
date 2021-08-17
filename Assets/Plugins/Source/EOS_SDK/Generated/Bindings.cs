@@ -26,1772 +26,1944 @@ namespace Epic.OnlineServices
 		{
 			System.IntPtr functionPointer;
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_AddNotifyAchievementsUnlocked));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_AddNotifyAchievementsUnlocked));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_AddNotifyAchievementsUnlocked");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_AddNotifyAchievementsUnlocked");
 			EOS_Achievements_AddNotifyAchievementsUnlocked = (EOS_Achievements_AddNotifyAchievementsUnlockedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_AddNotifyAchievementsUnlockedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_AddNotifyAchievementsUnlockedV2));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_AddNotifyAchievementsUnlockedV2));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_AddNotifyAchievementsUnlockedV2");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_AddNotifyAchievementsUnlockedV2");
 			EOS_Achievements_AddNotifyAchievementsUnlockedV2 = (EOS_Achievements_AddNotifyAchievementsUnlockedV2Callback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_AddNotifyAchievementsUnlockedV2Callback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_CopyAchievementDefinitionByAchievementId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_CopyAchievementDefinitionByAchievementId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_CopyAchievementDefinitionByAchievementId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_CopyAchievementDefinitionByAchievementId");
 			EOS_Achievements_CopyAchievementDefinitionByAchievementId = (EOS_Achievements_CopyAchievementDefinitionByAchievementIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_CopyAchievementDefinitionByAchievementIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_CopyAchievementDefinitionByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_CopyAchievementDefinitionByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_CopyAchievementDefinitionByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_CopyAchievementDefinitionByIndex");
 			EOS_Achievements_CopyAchievementDefinitionByIndex = (EOS_Achievements_CopyAchievementDefinitionByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_CopyAchievementDefinitionByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId");
 			EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId = (EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_CopyAchievementDefinitionV2ByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_CopyAchievementDefinitionV2ByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_CopyAchievementDefinitionV2ByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_CopyAchievementDefinitionV2ByIndex");
 			EOS_Achievements_CopyAchievementDefinitionV2ByIndex = (EOS_Achievements_CopyAchievementDefinitionV2ByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_CopyAchievementDefinitionV2ByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_CopyPlayerAchievementByAchievementId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_CopyPlayerAchievementByAchievementId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_CopyPlayerAchievementByAchievementId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_CopyPlayerAchievementByAchievementId");
 			EOS_Achievements_CopyPlayerAchievementByAchievementId = (EOS_Achievements_CopyPlayerAchievementByAchievementIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_CopyPlayerAchievementByAchievementIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_CopyPlayerAchievementByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_CopyPlayerAchievementByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_CopyPlayerAchievementByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_CopyPlayerAchievementByIndex");
 			EOS_Achievements_CopyPlayerAchievementByIndex = (EOS_Achievements_CopyPlayerAchievementByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_CopyPlayerAchievementByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_CopyUnlockedAchievementByAchievementId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_CopyUnlockedAchievementByAchievementId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_CopyUnlockedAchievementByAchievementId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_CopyUnlockedAchievementByAchievementId");
 			EOS_Achievements_CopyUnlockedAchievementByAchievementId = (EOS_Achievements_CopyUnlockedAchievementByAchievementIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_CopyUnlockedAchievementByAchievementIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_CopyUnlockedAchievementByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_CopyUnlockedAchievementByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_CopyUnlockedAchievementByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_CopyUnlockedAchievementByIndex");
 			EOS_Achievements_CopyUnlockedAchievementByIndex = (EOS_Achievements_CopyUnlockedAchievementByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_CopyUnlockedAchievementByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_DefinitionV2_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_DefinitionV2_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_DefinitionV2_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_DefinitionV2_Release");
 			EOS_Achievements_DefinitionV2_Release = (EOS_Achievements_DefinitionV2_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_DefinitionV2_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_Definition_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_Definition_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_Definition_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_Definition_Release");
 			EOS_Achievements_Definition_Release = (EOS_Achievements_Definition_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_Definition_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_GetAchievementDefinitionCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_GetAchievementDefinitionCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_GetAchievementDefinitionCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_GetAchievementDefinitionCount");
 			EOS_Achievements_GetAchievementDefinitionCount = (EOS_Achievements_GetAchievementDefinitionCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_GetAchievementDefinitionCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_GetPlayerAchievementCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_GetPlayerAchievementCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_GetPlayerAchievementCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_GetPlayerAchievementCount");
 			EOS_Achievements_GetPlayerAchievementCount = (EOS_Achievements_GetPlayerAchievementCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_GetPlayerAchievementCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_GetUnlockedAchievementCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_GetUnlockedAchievementCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_GetUnlockedAchievementCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_GetUnlockedAchievementCount");
 			EOS_Achievements_GetUnlockedAchievementCount = (EOS_Achievements_GetUnlockedAchievementCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_GetUnlockedAchievementCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_PlayerAchievement_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_PlayerAchievement_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_PlayerAchievement_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_PlayerAchievement_Release");
 			EOS_Achievements_PlayerAchievement_Release = (EOS_Achievements_PlayerAchievement_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_PlayerAchievement_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_QueryDefinitions));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_QueryDefinitions));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_QueryDefinitions");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_QueryDefinitions");
 			EOS_Achievements_QueryDefinitions = (EOS_Achievements_QueryDefinitionsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_QueryDefinitionsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_QueryPlayerAchievements));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_QueryPlayerAchievements));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_QueryPlayerAchievements");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_QueryPlayerAchievements");
 			EOS_Achievements_QueryPlayerAchievements = (EOS_Achievements_QueryPlayerAchievementsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_QueryPlayerAchievementsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_RemoveNotifyAchievementsUnlocked));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_RemoveNotifyAchievementsUnlocked));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_RemoveNotifyAchievementsUnlocked");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_RemoveNotifyAchievementsUnlocked");
 			EOS_Achievements_RemoveNotifyAchievementsUnlocked = (EOS_Achievements_RemoveNotifyAchievementsUnlockedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_RemoveNotifyAchievementsUnlockedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_UnlockAchievements));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_UnlockAchievements));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_UnlockAchievements");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_UnlockAchievements");
 			EOS_Achievements_UnlockAchievements = (EOS_Achievements_UnlockAchievementsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_UnlockAchievementsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Achievements_UnlockedAchievement_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Achievements_UnlockedAchievement_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Achievements_UnlockedAchievement_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Achievements_UnlockedAchievement_Release");
 			EOS_Achievements_UnlockedAchievement_Release = (EOS_Achievements_UnlockedAchievement_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Achievements_UnlockedAchievement_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ActiveSession_CopyInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ActiveSession_CopyInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ActiveSession_CopyInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ActiveSession_CopyInfo");
 			EOS_ActiveSession_CopyInfo = (EOS_ActiveSession_CopyInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ActiveSession_CopyInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ActiveSession_GetRegisteredPlayerByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ActiveSession_GetRegisteredPlayerByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ActiveSession_GetRegisteredPlayerByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ActiveSession_GetRegisteredPlayerByIndex");
 			EOS_ActiveSession_GetRegisteredPlayerByIndex = (EOS_ActiveSession_GetRegisteredPlayerByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ActiveSession_GetRegisteredPlayerByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ActiveSession_GetRegisteredPlayerCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ActiveSession_GetRegisteredPlayerCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ActiveSession_GetRegisteredPlayerCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ActiveSession_GetRegisteredPlayerCount");
 			EOS_ActiveSession_GetRegisteredPlayerCount = (EOS_ActiveSession_GetRegisteredPlayerCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ActiveSession_GetRegisteredPlayerCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ActiveSession_Info_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ActiveSession_Info_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ActiveSession_Info_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ActiveSession_Info_Release");
 			EOS_ActiveSession_Info_Release = (EOS_ActiveSession_Info_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ActiveSession_Info_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ActiveSession_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ActiveSession_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ActiveSession_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ActiveSession_Release");
 			EOS_ActiveSession_Release = (EOS_ActiveSession_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ActiveSession_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_AddExternalIntegrityCatalog));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_AddExternalIntegrityCatalog));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_AddExternalIntegrityCatalog");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_AddExternalIntegrityCatalog");
 			EOS_AntiCheatClient_AddExternalIntegrityCatalog = (EOS_AntiCheatClient_AddExternalIntegrityCatalogCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_AddExternalIntegrityCatalogCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_AddNotifyMessageToPeer));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_AddNotifyMessageToPeer));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_AddNotifyMessageToPeer");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_AddNotifyMessageToPeer");
 			EOS_AntiCheatClient_AddNotifyMessageToPeer = (EOS_AntiCheatClient_AddNotifyMessageToPeerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_AddNotifyMessageToPeerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_AddNotifyMessageToServer));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_AddNotifyMessageToServer));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_AddNotifyMessageToServer");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_AddNotifyMessageToServer");
 			EOS_AntiCheatClient_AddNotifyMessageToServer = (EOS_AntiCheatClient_AddNotifyMessageToServerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_AddNotifyMessageToServerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_AddNotifyPeerActionRequired));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_AddNotifyPeerActionRequired));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_AddNotifyPeerActionRequired");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_AddNotifyPeerActionRequired");
 			EOS_AntiCheatClient_AddNotifyPeerActionRequired = (EOS_AntiCheatClient_AddNotifyPeerActionRequiredCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_AddNotifyPeerActionRequiredCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged");
 			EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged = (EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_BeginSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_BeginSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_BeginSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_BeginSession");
 			EOS_AntiCheatClient_BeginSession = (EOS_AntiCheatClient_BeginSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_BeginSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_EndSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_EndSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_EndSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_EndSession");
 			EOS_AntiCheatClient_EndSession = (EOS_AntiCheatClient_EndSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_EndSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_GetProtectMessageOutputLength));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_GetProtectMessageOutputLength));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_GetProtectMessageOutputLength");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_GetProtectMessageOutputLength");
 			EOS_AntiCheatClient_GetProtectMessageOutputLength = (EOS_AntiCheatClient_GetProtectMessageOutputLengthCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_GetProtectMessageOutputLengthCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_PollStatus));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_PollStatus));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_PollStatus");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_PollStatus");
 			EOS_AntiCheatClient_PollStatus = (EOS_AntiCheatClient_PollStatusCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_PollStatusCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_ProtectMessage));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_ProtectMessage));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_ProtectMessage");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_ProtectMessage");
 			EOS_AntiCheatClient_ProtectMessage = (EOS_AntiCheatClient_ProtectMessageCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_ProtectMessageCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_ReceiveMessageFromPeer));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_ReceiveMessageFromPeer));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_ReceiveMessageFromPeer");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_ReceiveMessageFromPeer");
 			EOS_AntiCheatClient_ReceiveMessageFromPeer = (EOS_AntiCheatClient_ReceiveMessageFromPeerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_ReceiveMessageFromPeerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_ReceiveMessageFromServer));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_ReceiveMessageFromServer));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_ReceiveMessageFromServer");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_ReceiveMessageFromServer");
 			EOS_AntiCheatClient_ReceiveMessageFromServer = (EOS_AntiCheatClient_ReceiveMessageFromServerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_ReceiveMessageFromServerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_RegisterPeer));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_RegisterPeer));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_RegisterPeer");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_RegisterPeer");
 			EOS_AntiCheatClient_RegisterPeer = (EOS_AntiCheatClient_RegisterPeerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RegisterPeerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_RemoveNotifyMessageToPeer));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_RemoveNotifyMessageToPeer));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_RemoveNotifyMessageToPeer");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_RemoveNotifyMessageToPeer");
 			EOS_AntiCheatClient_RemoveNotifyMessageToPeer = (EOS_AntiCheatClient_RemoveNotifyMessageToPeerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RemoveNotifyMessageToPeerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_RemoveNotifyMessageToServer));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_RemoveNotifyMessageToServer));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_RemoveNotifyMessageToServer");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_RemoveNotifyMessageToServer");
 			EOS_AntiCheatClient_RemoveNotifyMessageToServer = (EOS_AntiCheatClient_RemoveNotifyMessageToServerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RemoveNotifyMessageToServerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_RemoveNotifyPeerActionRequired));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_RemoveNotifyPeerActionRequired));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_RemoveNotifyPeerActionRequired");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_RemoveNotifyPeerActionRequired");
 			EOS_AntiCheatClient_RemoveNotifyPeerActionRequired = (EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RemoveNotifyPeerActionRequiredCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged");
 			EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = (EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_UnprotectMessage));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_UnprotectMessage));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_UnprotectMessage");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_UnprotectMessage");
 			EOS_AntiCheatClient_UnprotectMessage = (EOS_AntiCheatClient_UnprotectMessageCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_UnprotectMessageCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatClient_UnregisterPeer));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatClient_UnregisterPeer));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatClient_UnregisterPeer");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatClient_UnregisterPeer");
 			EOS_AntiCheatClient_UnregisterPeer = (EOS_AntiCheatClient_UnregisterPeerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatClient_UnregisterPeerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_AddNotifyClientActionRequired));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_AddNotifyClientActionRequired));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_AddNotifyClientActionRequired");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_AddNotifyClientActionRequired");
 			EOS_AntiCheatServer_AddNotifyClientActionRequired = (EOS_AntiCheatServer_AddNotifyClientActionRequiredCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_AddNotifyClientActionRequiredCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged");
 			EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged = (EOS_AntiCheatServer_AddNotifyClientAuthStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_AddNotifyClientAuthStatusChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_AddNotifyMessageToClient));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_AddNotifyMessageToClient));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_AddNotifyMessageToClient");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_AddNotifyMessageToClient");
 			EOS_AntiCheatServer_AddNotifyMessageToClient = (EOS_AntiCheatServer_AddNotifyMessageToClientCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_AddNotifyMessageToClientCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_BeginSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_BeginSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_BeginSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_BeginSession");
 			EOS_AntiCheatServer_BeginSession = (EOS_AntiCheatServer_BeginSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_BeginSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_EndSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_EndSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_EndSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_EndSession");
 			EOS_AntiCheatServer_EndSession = (EOS_AntiCheatServer_EndSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_EndSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_GetProtectMessageOutputLength));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_GetProtectMessageOutputLength));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_GetProtectMessageOutputLength");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_GetProtectMessageOutputLength");
 			EOS_AntiCheatServer_GetProtectMessageOutputLength = (EOS_AntiCheatServer_GetProtectMessageOutputLengthCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_GetProtectMessageOutputLengthCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogEvent));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogEvent));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogEvent");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogEvent");
 			EOS_AntiCheatServer_LogEvent = (EOS_AntiCheatServer_LogEventCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogEventCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogGameRoundEnd));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogGameRoundEnd));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogGameRoundEnd");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogGameRoundEnd");
 			EOS_AntiCheatServer_LogGameRoundEnd = (EOS_AntiCheatServer_LogGameRoundEndCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogGameRoundEndCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogGameRoundStart));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogGameRoundStart));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogGameRoundStart");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogGameRoundStart");
 			EOS_AntiCheatServer_LogGameRoundStart = (EOS_AntiCheatServer_LogGameRoundStartCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogGameRoundStartCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogPlayerDespawn));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogPlayerDespawn));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogPlayerDespawn");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogPlayerDespawn");
 			EOS_AntiCheatServer_LogPlayerDespawn = (EOS_AntiCheatServer_LogPlayerDespawnCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogPlayerDespawnCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogPlayerRevive));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogPlayerRevive));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogPlayerRevive");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogPlayerRevive");
 			EOS_AntiCheatServer_LogPlayerRevive = (EOS_AntiCheatServer_LogPlayerReviveCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogPlayerReviveCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogPlayerSpawn));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogPlayerSpawn));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogPlayerSpawn");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogPlayerSpawn");
 			EOS_AntiCheatServer_LogPlayerSpawn = (EOS_AntiCheatServer_LogPlayerSpawnCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogPlayerSpawnCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogPlayerTakeDamage));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogPlayerTakeDamage));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogPlayerTakeDamage");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogPlayerTakeDamage");
 			EOS_AntiCheatServer_LogPlayerTakeDamage = (EOS_AntiCheatServer_LogPlayerTakeDamageCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogPlayerTakeDamageCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogPlayerTick));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogPlayerTick));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogPlayerTick");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogPlayerTick");
 			EOS_AntiCheatServer_LogPlayerTick = (EOS_AntiCheatServer_LogPlayerTickCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogPlayerTickCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogPlayerUseAbility));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogPlayerUseAbility));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogPlayerUseAbility");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogPlayerUseAbility");
 			EOS_AntiCheatServer_LogPlayerUseAbility = (EOS_AntiCheatServer_LogPlayerUseAbilityCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogPlayerUseAbilityCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_LogPlayerUseWeapon));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_LogPlayerUseWeapon));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_LogPlayerUseWeapon");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_LogPlayerUseWeapon");
 			EOS_AntiCheatServer_LogPlayerUseWeapon = (EOS_AntiCheatServer_LogPlayerUseWeaponCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_LogPlayerUseWeaponCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_ProtectMessage));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_ProtectMessage));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_ProtectMessage");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_ProtectMessage");
 			EOS_AntiCheatServer_ProtectMessage = (EOS_AntiCheatServer_ProtectMessageCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_ProtectMessageCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_ReceiveMessageFromClient));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_ReceiveMessageFromClient));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_ReceiveMessageFromClient");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_ReceiveMessageFromClient");
 			EOS_AntiCheatServer_ReceiveMessageFromClient = (EOS_AntiCheatServer_ReceiveMessageFromClientCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_ReceiveMessageFromClientCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_RegisterClient));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_RegisterClient));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_RegisterClient");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_RegisterClient");
 			EOS_AntiCheatServer_RegisterClient = (EOS_AntiCheatServer_RegisterClientCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_RegisterClientCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_RegisterEvent));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_RegisterEvent));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_RegisterEvent");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_RegisterEvent");
 			EOS_AntiCheatServer_RegisterEvent = (EOS_AntiCheatServer_RegisterEventCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_RegisterEventCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_RemoveNotifyClientActionRequired));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_RemoveNotifyClientActionRequired));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_RemoveNotifyClientActionRequired");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_RemoveNotifyClientActionRequired");
 			EOS_AntiCheatServer_RemoveNotifyClientActionRequired = (EOS_AntiCheatServer_RemoveNotifyClientActionRequiredCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_RemoveNotifyClientActionRequiredCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged");
 			EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged = (EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_RemoveNotifyMessageToClient));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_RemoveNotifyMessageToClient));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_RemoveNotifyMessageToClient");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_RemoveNotifyMessageToClient");
 			EOS_AntiCheatServer_RemoveNotifyMessageToClient = (EOS_AntiCheatServer_RemoveNotifyMessageToClientCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_RemoveNotifyMessageToClientCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_SetClientDetails));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_SetClientDetails));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_SetClientDetails");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_SetClientDetails");
 			EOS_AntiCheatServer_SetClientDetails = (EOS_AntiCheatServer_SetClientDetailsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_SetClientDetailsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_SetClientNetworkState));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_SetClientNetworkState));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_SetClientNetworkState");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_SetClientNetworkState");
 			EOS_AntiCheatServer_SetClientNetworkState = (EOS_AntiCheatServer_SetClientNetworkStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_SetClientNetworkStateCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_SetGameSessionId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_SetGameSessionId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_SetGameSessionId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_SetGameSessionId");
 			EOS_AntiCheatServer_SetGameSessionId = (EOS_AntiCheatServer_SetGameSessionIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_SetGameSessionIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_UnprotectMessage));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_UnprotectMessage));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_UnprotectMessage");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_UnprotectMessage");
 			EOS_AntiCheatServer_UnprotectMessage = (EOS_AntiCheatServer_UnprotectMessageCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_UnprotectMessageCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_AntiCheatServer_UnregisterClient));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_AntiCheatServer_UnregisterClient));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_AntiCheatServer_UnregisterClient");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_AntiCheatServer_UnregisterClient");
 			EOS_AntiCheatServer_UnregisterClient = (EOS_AntiCheatServer_UnregisterClientCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_AntiCheatServer_UnregisterClientCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_AddNotifyLoginStatusChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_AddNotifyLoginStatusChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_AddNotifyLoginStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_AddNotifyLoginStatusChanged");
 			EOS_Auth_AddNotifyLoginStatusChanged = (EOS_Auth_AddNotifyLoginStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_AddNotifyLoginStatusChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_CopyUserAuthToken));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_CopyUserAuthToken));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_CopyUserAuthToken");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_CopyUserAuthToken");
 			EOS_Auth_CopyUserAuthToken = (EOS_Auth_CopyUserAuthTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_CopyUserAuthTokenCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_DeletePersistentAuth));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_DeletePersistentAuth));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_DeletePersistentAuth");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_DeletePersistentAuth");
 			EOS_Auth_DeletePersistentAuth = (EOS_Auth_DeletePersistentAuthCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_DeletePersistentAuthCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_GetLoggedInAccountByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_GetLoggedInAccountByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_GetLoggedInAccountByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_GetLoggedInAccountByIndex");
 			EOS_Auth_GetLoggedInAccountByIndex = (EOS_Auth_GetLoggedInAccountByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_GetLoggedInAccountByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_GetLoggedInAccountsCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_GetLoggedInAccountsCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_GetLoggedInAccountsCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_GetLoggedInAccountsCount");
 			EOS_Auth_GetLoggedInAccountsCount = (EOS_Auth_GetLoggedInAccountsCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_GetLoggedInAccountsCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_GetLoginStatus));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_GetLoginStatus));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_GetLoginStatus");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_GetLoginStatus");
 			EOS_Auth_GetLoginStatus = (EOS_Auth_GetLoginStatusCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_GetLoginStatusCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_LinkAccount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_LinkAccount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_LinkAccount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_LinkAccount");
 			EOS_Auth_LinkAccount = (EOS_Auth_LinkAccountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_LinkAccountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_Login));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_Login));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_Login");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_Login");
 			EOS_Auth_Login = (EOS_Auth_LoginCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_LoginCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_Logout));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_Logout));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_Logout");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_Logout");
 			EOS_Auth_Logout = (EOS_Auth_LogoutCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_LogoutCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_RemoveNotifyLoginStatusChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_RemoveNotifyLoginStatusChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_RemoveNotifyLoginStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_RemoveNotifyLoginStatusChanged");
 			EOS_Auth_RemoveNotifyLoginStatusChanged = (EOS_Auth_RemoveNotifyLoginStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_RemoveNotifyLoginStatusChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_Token_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_Token_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_Token_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_Token_Release");
 			EOS_Auth_Token_Release = (EOS_Auth_Token_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_Token_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Auth_VerifyUserAuth));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Auth_VerifyUserAuth));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_VerifyUserAuth");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_VerifyUserAuth");
 			EOS_Auth_VerifyUserAuth = (EOS_Auth_VerifyUserAuthCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_VerifyUserAuthCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ByteArray_ToString));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ByteArray_ToString));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ByteArray_ToString");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ByteArray_ToString");
 			EOS_ByteArray_ToString = (EOS_ByteArray_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ByteArray_ToStringCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_AddNotifyAuthExpiration));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_AddNotifyAuthExpiration));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_AddNotifyAuthExpiration");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_AddNotifyAuthExpiration");
 			EOS_Connect_AddNotifyAuthExpiration = (EOS_Connect_AddNotifyAuthExpirationCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_AddNotifyAuthExpirationCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_AddNotifyLoginStatusChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_AddNotifyLoginStatusChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_AddNotifyLoginStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_AddNotifyLoginStatusChanged");
 			EOS_Connect_AddNotifyLoginStatusChanged = (EOS_Connect_AddNotifyLoginStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_AddNotifyLoginStatusChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_CopyProductUserExternalAccountByAccountId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_CopyProductUserExternalAccountByAccountId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_CopyProductUserExternalAccountByAccountId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_CopyProductUserExternalAccountByAccountId");
 			EOS_Connect_CopyProductUserExternalAccountByAccountId = (EOS_Connect_CopyProductUserExternalAccountByAccountIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_CopyProductUserExternalAccountByAccountIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_CopyProductUserExternalAccountByAccountType));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_CopyProductUserExternalAccountByAccountType));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_CopyProductUserExternalAccountByAccountType");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_CopyProductUserExternalAccountByAccountType");
 			EOS_Connect_CopyProductUserExternalAccountByAccountType = (EOS_Connect_CopyProductUserExternalAccountByAccountTypeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_CopyProductUserExternalAccountByAccountTypeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_CopyProductUserExternalAccountByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_CopyProductUserExternalAccountByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_CopyProductUserExternalAccountByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_CopyProductUserExternalAccountByIndex");
 			EOS_Connect_CopyProductUserExternalAccountByIndex = (EOS_Connect_CopyProductUserExternalAccountByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_CopyProductUserExternalAccountByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_CopyProductUserInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_CopyProductUserInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_CopyProductUserInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_CopyProductUserInfo");
 			EOS_Connect_CopyProductUserInfo = (EOS_Connect_CopyProductUserInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_CopyProductUserInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_CreateDeviceId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_CreateDeviceId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_CreateDeviceId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_CreateDeviceId");
 			EOS_Connect_CreateDeviceId = (EOS_Connect_CreateDeviceIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_CreateDeviceIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_CreateUser));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_CreateUser));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_CreateUser");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_CreateUser");
 			EOS_Connect_CreateUser = (EOS_Connect_CreateUserCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_CreateUserCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_DeleteDeviceId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_DeleteDeviceId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_DeleteDeviceId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_DeleteDeviceId");
 			EOS_Connect_DeleteDeviceId = (EOS_Connect_DeleteDeviceIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_DeleteDeviceIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_ExternalAccountInfo_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_ExternalAccountInfo_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_ExternalAccountInfo_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_ExternalAccountInfo_Release");
 			EOS_Connect_ExternalAccountInfo_Release = (EOS_Connect_ExternalAccountInfo_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_ExternalAccountInfo_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_GetExternalAccountMapping));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_GetExternalAccountMapping));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_GetExternalAccountMapping");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_GetExternalAccountMapping");
 			EOS_Connect_GetExternalAccountMapping = (EOS_Connect_GetExternalAccountMappingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_GetExternalAccountMappingCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_GetLoggedInUserByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_GetLoggedInUserByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_GetLoggedInUserByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_GetLoggedInUserByIndex");
 			EOS_Connect_GetLoggedInUserByIndex = (EOS_Connect_GetLoggedInUserByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_GetLoggedInUserByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_GetLoggedInUsersCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_GetLoggedInUsersCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_GetLoggedInUsersCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_GetLoggedInUsersCount");
 			EOS_Connect_GetLoggedInUsersCount = (EOS_Connect_GetLoggedInUsersCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_GetLoggedInUsersCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_GetLoginStatus));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_GetLoginStatus));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_GetLoginStatus");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_GetLoginStatus");
 			EOS_Connect_GetLoginStatus = (EOS_Connect_GetLoginStatusCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_GetLoginStatusCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_GetProductUserExternalAccountCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_GetProductUserExternalAccountCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_GetProductUserExternalAccountCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_GetProductUserExternalAccountCount");
 			EOS_Connect_GetProductUserExternalAccountCount = (EOS_Connect_GetProductUserExternalAccountCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_GetProductUserExternalAccountCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_GetProductUserIdMapping));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_GetProductUserIdMapping));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_GetProductUserIdMapping");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_GetProductUserIdMapping");
 			EOS_Connect_GetProductUserIdMapping = (EOS_Connect_GetProductUserIdMappingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_GetProductUserIdMappingCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_LinkAccount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_LinkAccount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_LinkAccount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_LinkAccount");
 			EOS_Connect_LinkAccount = (EOS_Connect_LinkAccountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_LinkAccountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_Login));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_Login));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_Login");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_Login");
 			EOS_Connect_Login = (EOS_Connect_LoginCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_LoginCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_QueryExternalAccountMappings));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_QueryExternalAccountMappings));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_QueryExternalAccountMappings");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_QueryExternalAccountMappings");
 			EOS_Connect_QueryExternalAccountMappings = (EOS_Connect_QueryExternalAccountMappingsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_QueryExternalAccountMappingsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_QueryProductUserIdMappings));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_QueryProductUserIdMappings));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_QueryProductUserIdMappings");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_QueryProductUserIdMappings");
 			EOS_Connect_QueryProductUserIdMappings = (EOS_Connect_QueryProductUserIdMappingsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_QueryProductUserIdMappingsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_RemoveNotifyAuthExpiration));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_RemoveNotifyAuthExpiration));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_RemoveNotifyAuthExpiration");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_RemoveNotifyAuthExpiration");
 			EOS_Connect_RemoveNotifyAuthExpiration = (EOS_Connect_RemoveNotifyAuthExpirationCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_RemoveNotifyAuthExpirationCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_RemoveNotifyLoginStatusChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_RemoveNotifyLoginStatusChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_RemoveNotifyLoginStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_RemoveNotifyLoginStatusChanged");
 			EOS_Connect_RemoveNotifyLoginStatusChanged = (EOS_Connect_RemoveNotifyLoginStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_RemoveNotifyLoginStatusChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_TransferDeviceIdAccount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_TransferDeviceIdAccount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_TransferDeviceIdAccount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_TransferDeviceIdAccount");
 			EOS_Connect_TransferDeviceIdAccount = (EOS_Connect_TransferDeviceIdAccountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_TransferDeviceIdAccountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Connect_UnlinkAccount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Connect_UnlinkAccount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_UnlinkAccount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_UnlinkAccount");
 			EOS_Connect_UnlinkAccount = (EOS_Connect_UnlinkAccountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_UnlinkAccountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ContinuanceToken_ToString));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ContinuanceToken_ToString));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ContinuanceToken_ToString");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ContinuanceToken_ToString");
 			EOS_ContinuanceToken_ToString = (EOS_ContinuanceToken_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ContinuanceToken_ToStringCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_EResult_IsOperationComplete));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_EResult_IsOperationComplete));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_EResult_IsOperationComplete");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_EResult_IsOperationComplete");
 			EOS_EResult_IsOperationComplete = (EOS_EResult_IsOperationCompleteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_EResult_IsOperationCompleteCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_EResult_ToString));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_EResult_ToString));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_EResult_ToString");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_EResult_ToString");
 			EOS_EResult_ToString = (EOS_EResult_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_EResult_ToStringCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CatalogItem_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CatalogItem_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CatalogItem_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CatalogItem_Release");
 			EOS_Ecom_CatalogItem_Release = (EOS_Ecom_CatalogItem_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CatalogItem_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CatalogOffer_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CatalogOffer_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CatalogOffer_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CatalogOffer_Release");
 			EOS_Ecom_CatalogOffer_Release = (EOS_Ecom_CatalogOffer_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CatalogOffer_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CatalogRelease_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CatalogRelease_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CatalogRelease_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CatalogRelease_Release");
 			EOS_Ecom_CatalogRelease_Release = (EOS_Ecom_CatalogRelease_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CatalogRelease_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_Checkout));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_Checkout));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_Checkout");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_Checkout");
 			EOS_Ecom_Checkout = (EOS_Ecom_CheckoutCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CheckoutCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyEntitlementById));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyEntitlementById));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyEntitlementById");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyEntitlementById");
 			EOS_Ecom_CopyEntitlementById = (EOS_Ecom_CopyEntitlementByIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyEntitlementByIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyEntitlementByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyEntitlementByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyEntitlementByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyEntitlementByIndex");
 			EOS_Ecom_CopyEntitlementByIndex = (EOS_Ecom_CopyEntitlementByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyEntitlementByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyEntitlementByNameAndIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyEntitlementByNameAndIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyEntitlementByNameAndIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyEntitlementByNameAndIndex");
 			EOS_Ecom_CopyEntitlementByNameAndIndex = (EOS_Ecom_CopyEntitlementByNameAndIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyEntitlementByNameAndIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyItemById));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyItemById));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyItemById");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyItemById");
 			EOS_Ecom_CopyItemById = (EOS_Ecom_CopyItemByIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyItemByIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyItemImageInfoByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyItemImageInfoByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyItemImageInfoByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyItemImageInfoByIndex");
 			EOS_Ecom_CopyItemImageInfoByIndex = (EOS_Ecom_CopyItemImageInfoByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyItemImageInfoByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyItemReleaseByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyItemReleaseByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyItemReleaseByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyItemReleaseByIndex");
 			EOS_Ecom_CopyItemReleaseByIndex = (EOS_Ecom_CopyItemReleaseByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyItemReleaseByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyOfferById));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyOfferById));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyOfferById");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyOfferById");
 			EOS_Ecom_CopyOfferById = (EOS_Ecom_CopyOfferByIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyOfferByIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyOfferByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyOfferByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyOfferByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyOfferByIndex");
 			EOS_Ecom_CopyOfferByIndex = (EOS_Ecom_CopyOfferByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyOfferByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyOfferImageInfoByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyOfferImageInfoByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyOfferImageInfoByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyOfferImageInfoByIndex");
 			EOS_Ecom_CopyOfferImageInfoByIndex = (EOS_Ecom_CopyOfferImageInfoByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyOfferImageInfoByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyOfferItemByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyOfferItemByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyOfferItemByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyOfferItemByIndex");
 			EOS_Ecom_CopyOfferItemByIndex = (EOS_Ecom_CopyOfferItemByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyOfferItemByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyTransactionById));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyTransactionById));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyTransactionById");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyTransactionById");
 			EOS_Ecom_CopyTransactionById = (EOS_Ecom_CopyTransactionByIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyTransactionByIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_CopyTransactionByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_CopyTransactionByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_CopyTransactionByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_CopyTransactionByIndex");
 			EOS_Ecom_CopyTransactionByIndex = (EOS_Ecom_CopyTransactionByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyTransactionByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_Entitlement_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_Entitlement_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_Entitlement_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_Entitlement_Release");
 			EOS_Ecom_Entitlement_Release = (EOS_Ecom_Entitlement_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_Entitlement_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_GetEntitlementsByNameCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_GetEntitlementsByNameCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_GetEntitlementsByNameCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_GetEntitlementsByNameCount");
 			EOS_Ecom_GetEntitlementsByNameCount = (EOS_Ecom_GetEntitlementsByNameCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetEntitlementsByNameCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_GetEntitlementsCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_GetEntitlementsCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_GetEntitlementsCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_GetEntitlementsCount");
 			EOS_Ecom_GetEntitlementsCount = (EOS_Ecom_GetEntitlementsCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetEntitlementsCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_GetItemImageInfoCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_GetItemImageInfoCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_GetItemImageInfoCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_GetItemImageInfoCount");
 			EOS_Ecom_GetItemImageInfoCount = (EOS_Ecom_GetItemImageInfoCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetItemImageInfoCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_GetItemReleaseCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_GetItemReleaseCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_GetItemReleaseCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_GetItemReleaseCount");
 			EOS_Ecom_GetItemReleaseCount = (EOS_Ecom_GetItemReleaseCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetItemReleaseCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_GetOfferCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_GetOfferCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_GetOfferCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_GetOfferCount");
 			EOS_Ecom_GetOfferCount = (EOS_Ecom_GetOfferCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetOfferCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_GetOfferImageInfoCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_GetOfferImageInfoCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_GetOfferImageInfoCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_GetOfferImageInfoCount");
 			EOS_Ecom_GetOfferImageInfoCount = (EOS_Ecom_GetOfferImageInfoCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetOfferImageInfoCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_GetOfferItemCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_GetOfferItemCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_GetOfferItemCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_GetOfferItemCount");
 			EOS_Ecom_GetOfferItemCount = (EOS_Ecom_GetOfferItemCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetOfferItemCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_GetTransactionCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_GetTransactionCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_GetTransactionCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_GetTransactionCount");
 			EOS_Ecom_GetTransactionCount = (EOS_Ecom_GetTransactionCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetTransactionCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_KeyImageInfo_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_KeyImageInfo_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_KeyImageInfo_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_KeyImageInfo_Release");
 			EOS_Ecom_KeyImageInfo_Release = (EOS_Ecom_KeyImageInfo_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_KeyImageInfo_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_QueryEntitlements));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_QueryEntitlements));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_QueryEntitlements");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_QueryEntitlements");
 			EOS_Ecom_QueryEntitlements = (EOS_Ecom_QueryEntitlementsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_QueryEntitlementsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_QueryOffers));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_QueryOffers));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_QueryOffers");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_QueryOffers");
 			EOS_Ecom_QueryOffers = (EOS_Ecom_QueryOffersCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_QueryOffersCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_QueryOwnership));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_QueryOwnership));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_QueryOwnership");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_QueryOwnership");
 			EOS_Ecom_QueryOwnership = (EOS_Ecom_QueryOwnershipCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_QueryOwnershipCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_QueryOwnershipToken));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_QueryOwnershipToken));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_QueryOwnershipToken");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_QueryOwnershipToken");
 			EOS_Ecom_QueryOwnershipToken = (EOS_Ecom_QueryOwnershipTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_QueryOwnershipTokenCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_RedeemEntitlements));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_RedeemEntitlements));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_RedeemEntitlements");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_RedeemEntitlements");
 			EOS_Ecom_RedeemEntitlements = (EOS_Ecom_RedeemEntitlementsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_RedeemEntitlementsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_Transaction_CopyEntitlementByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_Transaction_CopyEntitlementByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_Transaction_CopyEntitlementByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_Transaction_CopyEntitlementByIndex");
 			EOS_Ecom_Transaction_CopyEntitlementByIndex = (EOS_Ecom_Transaction_CopyEntitlementByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_Transaction_CopyEntitlementByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_Transaction_GetEntitlementsCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_Transaction_GetEntitlementsCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_Transaction_GetEntitlementsCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_Transaction_GetEntitlementsCount");
 			EOS_Ecom_Transaction_GetEntitlementsCount = (EOS_Ecom_Transaction_GetEntitlementsCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_Transaction_GetEntitlementsCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_Transaction_GetTransactionId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_Transaction_GetTransactionId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_Transaction_GetTransactionId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_Transaction_GetTransactionId");
 			EOS_Ecom_Transaction_GetTransactionId = (EOS_Ecom_Transaction_GetTransactionIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_Transaction_GetTransactionIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Ecom_Transaction_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Ecom_Transaction_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Ecom_Transaction_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Ecom_Transaction_Release");
 			EOS_Ecom_Transaction_Release = (EOS_Ecom_Transaction_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_Transaction_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_EpicAccountId_FromString));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_EpicAccountId_FromString));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_EpicAccountId_FromString");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_EpicAccountId_FromString");
 			EOS_EpicAccountId_FromString = (EOS_EpicAccountId_FromStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_EpicAccountId_FromStringCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_EpicAccountId_IsValid));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_EpicAccountId_IsValid));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_EpicAccountId_IsValid");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_EpicAccountId_IsValid");
 			EOS_EpicAccountId_IsValid = (EOS_EpicAccountId_IsValidCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_EpicAccountId_IsValidCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_EpicAccountId_ToString));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_EpicAccountId_ToString));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_EpicAccountId_ToString");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_EpicAccountId_ToString");
 			EOS_EpicAccountId_ToString = (EOS_EpicAccountId_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_EpicAccountId_ToStringCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_AcceptInvite));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_AcceptInvite));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_AcceptInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_AcceptInvite");
 			EOS_Friends_AcceptInvite = (EOS_Friends_AcceptInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_AcceptInviteCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_AddNotifyFriendsUpdate));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_AddNotifyFriendsUpdate));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_AddNotifyFriendsUpdate");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_AddNotifyFriendsUpdate");
 			EOS_Friends_AddNotifyFriendsUpdate = (EOS_Friends_AddNotifyFriendsUpdateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_AddNotifyFriendsUpdateCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_GetFriendAtIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_GetFriendAtIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_GetFriendAtIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_GetFriendAtIndex");
 			EOS_Friends_GetFriendAtIndex = (EOS_Friends_GetFriendAtIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_GetFriendAtIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_GetFriendsCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_GetFriendsCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_GetFriendsCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_GetFriendsCount");
 			EOS_Friends_GetFriendsCount = (EOS_Friends_GetFriendsCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_GetFriendsCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_GetStatus));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_GetStatus));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_GetStatus");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_GetStatus");
 			EOS_Friends_GetStatus = (EOS_Friends_GetStatusCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_GetStatusCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_QueryFriends));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_QueryFriends));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_QueryFriends");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_QueryFriends");
 			EOS_Friends_QueryFriends = (EOS_Friends_QueryFriendsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_QueryFriendsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_RejectInvite));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_RejectInvite));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_RejectInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_RejectInvite");
 			EOS_Friends_RejectInvite = (EOS_Friends_RejectInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_RejectInviteCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_RemoveNotifyFriendsUpdate));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_RemoveNotifyFriendsUpdate));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_RemoveNotifyFriendsUpdate");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_RemoveNotifyFriendsUpdate");
 			EOS_Friends_RemoveNotifyFriendsUpdate = (EOS_Friends_RemoveNotifyFriendsUpdateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_RemoveNotifyFriendsUpdateCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Friends_SendInvite));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Friends_SendInvite));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Friends_SendInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Friends_SendInvite");
 			EOS_Friends_SendInvite = (EOS_Friends_SendInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_SendInviteCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Initialize));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Initialize));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Initialize");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Initialize");
 			EOS_Initialize = (EOS_InitializeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_InitializeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_AddNotifyPermissionsUpdateReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_AddNotifyPermissionsUpdateReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_AddNotifyPermissionsUpdateReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_AddNotifyPermissionsUpdateReceived");
 			EOS_KWS_AddNotifyPermissionsUpdateReceived = (EOS_KWS_AddNotifyPermissionsUpdateReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_AddNotifyPermissionsUpdateReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_CopyPermissionByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_CopyPermissionByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_CopyPermissionByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_CopyPermissionByIndex");
 			EOS_KWS_CopyPermissionByIndex = (EOS_KWS_CopyPermissionByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_CopyPermissionByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_CreateUser));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_CreateUser));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_CreateUser");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_CreateUser");
 			EOS_KWS_CreateUser = (EOS_KWS_CreateUserCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_CreateUserCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_GetPermissionByKey));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_GetPermissionByKey));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_GetPermissionByKey");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_GetPermissionByKey");
 			EOS_KWS_GetPermissionByKey = (EOS_KWS_GetPermissionByKeyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_GetPermissionByKeyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_GetPermissionsCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_GetPermissionsCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_GetPermissionsCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_GetPermissionsCount");
 			EOS_KWS_GetPermissionsCount = (EOS_KWS_GetPermissionsCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_GetPermissionsCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_PermissionStatus_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_PermissionStatus_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_PermissionStatus_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_PermissionStatus_Release");
 			EOS_KWS_PermissionStatus_Release = (EOS_KWS_PermissionStatus_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_PermissionStatus_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_QueryAgeGate));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_QueryAgeGate));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_QueryAgeGate");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_QueryAgeGate");
 			EOS_KWS_QueryAgeGate = (EOS_KWS_QueryAgeGateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_QueryAgeGateCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_QueryPermissions));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_QueryPermissions));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_QueryPermissions");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_QueryPermissions");
 			EOS_KWS_QueryPermissions = (EOS_KWS_QueryPermissionsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_QueryPermissionsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_RemoveNotifyPermissionsUpdateReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_RemoveNotifyPermissionsUpdateReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_RemoveNotifyPermissionsUpdateReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_RemoveNotifyPermissionsUpdateReceived");
 			EOS_KWS_RemoveNotifyPermissionsUpdateReceived = (EOS_KWS_RemoveNotifyPermissionsUpdateReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_RemoveNotifyPermissionsUpdateReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_RequestPermissions));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_RequestPermissions));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_RequestPermissions");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_RequestPermissions");
 			EOS_KWS_RequestPermissions = (EOS_KWS_RequestPermissionsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_RequestPermissionsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_KWS_UpdateParentEmail));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_KWS_UpdateParentEmail));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_KWS_UpdateParentEmail");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_KWS_UpdateParentEmail");
 			EOS_KWS_UpdateParentEmail = (EOS_KWS_UpdateParentEmailCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_KWS_UpdateParentEmailCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_CopyLeaderboardDefinitionByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_CopyLeaderboardDefinitionByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_CopyLeaderboardDefinitionByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_CopyLeaderboardDefinitionByIndex");
 			EOS_Leaderboards_CopyLeaderboardDefinitionByIndex = (EOS_Leaderboards_CopyLeaderboardDefinitionByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_CopyLeaderboardDefinitionByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId");
 			EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId = (EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_CopyLeaderboardRecordByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_CopyLeaderboardRecordByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_CopyLeaderboardRecordByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_CopyLeaderboardRecordByIndex");
 			EOS_Leaderboards_CopyLeaderboardRecordByIndex = (EOS_Leaderboards_CopyLeaderboardRecordByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_CopyLeaderboardRecordByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_CopyLeaderboardRecordByUserId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_CopyLeaderboardRecordByUserId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_CopyLeaderboardRecordByUserId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_CopyLeaderboardRecordByUserId");
 			EOS_Leaderboards_CopyLeaderboardRecordByUserId = (EOS_Leaderboards_CopyLeaderboardRecordByUserIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_CopyLeaderboardRecordByUserIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_CopyLeaderboardUserScoreByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_CopyLeaderboardUserScoreByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_CopyLeaderboardUserScoreByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_CopyLeaderboardUserScoreByIndex");
 			EOS_Leaderboards_CopyLeaderboardUserScoreByIndex = (EOS_Leaderboards_CopyLeaderboardUserScoreByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_CopyLeaderboardUserScoreByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_CopyLeaderboardUserScoreByUserId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_CopyLeaderboardUserScoreByUserId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_CopyLeaderboardUserScoreByUserId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_CopyLeaderboardUserScoreByUserId");
 			EOS_Leaderboards_CopyLeaderboardUserScoreByUserId = (EOS_Leaderboards_CopyLeaderboardUserScoreByUserIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_CopyLeaderboardUserScoreByUserIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_Definition_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_Definition_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_Definition_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_Definition_Release");
 			EOS_Leaderboards_Definition_Release = (EOS_Leaderboards_Definition_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_Definition_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_GetLeaderboardDefinitionCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_GetLeaderboardDefinitionCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_GetLeaderboardDefinitionCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_GetLeaderboardDefinitionCount");
 			EOS_Leaderboards_GetLeaderboardDefinitionCount = (EOS_Leaderboards_GetLeaderboardDefinitionCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_GetLeaderboardDefinitionCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_GetLeaderboardRecordCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_GetLeaderboardRecordCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_GetLeaderboardRecordCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_GetLeaderboardRecordCount");
 			EOS_Leaderboards_GetLeaderboardRecordCount = (EOS_Leaderboards_GetLeaderboardRecordCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_GetLeaderboardRecordCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_GetLeaderboardUserScoreCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_GetLeaderboardUserScoreCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_GetLeaderboardUserScoreCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_GetLeaderboardUserScoreCount");
 			EOS_Leaderboards_GetLeaderboardUserScoreCount = (EOS_Leaderboards_GetLeaderboardUserScoreCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_GetLeaderboardUserScoreCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_LeaderboardDefinition_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_LeaderboardDefinition_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_LeaderboardDefinition_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_LeaderboardDefinition_Release");
 			EOS_Leaderboards_LeaderboardDefinition_Release = (EOS_Leaderboards_LeaderboardDefinition_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_LeaderboardDefinition_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_LeaderboardRecord_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_LeaderboardRecord_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_LeaderboardRecord_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_LeaderboardRecord_Release");
 			EOS_Leaderboards_LeaderboardRecord_Release = (EOS_Leaderboards_LeaderboardRecord_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_LeaderboardRecord_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_LeaderboardUserScore_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_LeaderboardUserScore_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_LeaderboardUserScore_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_LeaderboardUserScore_Release");
 			EOS_Leaderboards_LeaderboardUserScore_Release = (EOS_Leaderboards_LeaderboardUserScore_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_LeaderboardUserScore_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_QueryLeaderboardDefinitions));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_QueryLeaderboardDefinitions));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_QueryLeaderboardDefinitions");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_QueryLeaderboardDefinitions");
 			EOS_Leaderboards_QueryLeaderboardDefinitions = (EOS_Leaderboards_QueryLeaderboardDefinitionsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_QueryLeaderboardDefinitionsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_QueryLeaderboardRanks));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_QueryLeaderboardRanks));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_QueryLeaderboardRanks");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_QueryLeaderboardRanks");
 			EOS_Leaderboards_QueryLeaderboardRanks = (EOS_Leaderboards_QueryLeaderboardRanksCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_QueryLeaderboardRanksCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Leaderboards_QueryLeaderboardUserScores));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Leaderboards_QueryLeaderboardUserScores));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Leaderboards_QueryLeaderboardUserScores");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Leaderboards_QueryLeaderboardUserScores");
 			EOS_Leaderboards_QueryLeaderboardUserScores = (EOS_Leaderboards_QueryLeaderboardUserScoresCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Leaderboards_QueryLeaderboardUserScoresCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_CopyAttributeByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_CopyAttributeByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_CopyAttributeByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_CopyAttributeByIndex");
 			EOS_LobbyDetails_CopyAttributeByIndex = (EOS_LobbyDetails_CopyAttributeByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_CopyAttributeByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_CopyAttributeByKey));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_CopyAttributeByKey));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_CopyAttributeByKey");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_CopyAttributeByKey");
 			EOS_LobbyDetails_CopyAttributeByKey = (EOS_LobbyDetails_CopyAttributeByKeyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_CopyAttributeByKeyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_CopyInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_CopyInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_CopyInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_CopyInfo");
 			EOS_LobbyDetails_CopyInfo = (EOS_LobbyDetails_CopyInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_CopyInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_CopyMemberAttributeByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_CopyMemberAttributeByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_CopyMemberAttributeByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_CopyMemberAttributeByIndex");
 			EOS_LobbyDetails_CopyMemberAttributeByIndex = (EOS_LobbyDetails_CopyMemberAttributeByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_CopyMemberAttributeByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_CopyMemberAttributeByKey));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_CopyMemberAttributeByKey));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_CopyMemberAttributeByKey");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_CopyMemberAttributeByKey");
 			EOS_LobbyDetails_CopyMemberAttributeByKey = (EOS_LobbyDetails_CopyMemberAttributeByKeyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_CopyMemberAttributeByKeyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_GetAttributeCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_GetAttributeCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_GetAttributeCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_GetAttributeCount");
 			EOS_LobbyDetails_GetAttributeCount = (EOS_LobbyDetails_GetAttributeCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_GetAttributeCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_GetLobbyOwner));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_GetLobbyOwner));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_GetLobbyOwner");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_GetLobbyOwner");
 			EOS_LobbyDetails_GetLobbyOwner = (EOS_LobbyDetails_GetLobbyOwnerCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_GetLobbyOwnerCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_GetMemberAttributeCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_GetMemberAttributeCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_GetMemberAttributeCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_GetMemberAttributeCount");
 			EOS_LobbyDetails_GetMemberAttributeCount = (EOS_LobbyDetails_GetMemberAttributeCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_GetMemberAttributeCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_GetMemberByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_GetMemberByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_GetMemberByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_GetMemberByIndex");
 			EOS_LobbyDetails_GetMemberByIndex = (EOS_LobbyDetails_GetMemberByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_GetMemberByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_GetMemberCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_GetMemberCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_GetMemberCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_GetMemberCount");
 			EOS_LobbyDetails_GetMemberCount = (EOS_LobbyDetails_GetMemberCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_GetMemberCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_Info_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_Info_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_Info_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_Info_Release");
 			EOS_LobbyDetails_Info_Release = (EOS_LobbyDetails_Info_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_Info_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyDetails_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyDetails_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyDetails_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyDetails_Release");
 			EOS_LobbyDetails_Release = (EOS_LobbyDetails_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_AddAttribute));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_AddAttribute));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_AddAttribute");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_AddAttribute");
 			EOS_LobbyModification_AddAttribute = (EOS_LobbyModification_AddAttributeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_AddAttributeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_AddMemberAttribute));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_AddMemberAttribute));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_AddMemberAttribute");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_AddMemberAttribute");
 			EOS_LobbyModification_AddMemberAttribute = (EOS_LobbyModification_AddMemberAttributeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_AddMemberAttributeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_Release");
 			EOS_LobbyModification_Release = (EOS_LobbyModification_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_RemoveAttribute));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_RemoveAttribute));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_RemoveAttribute");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_RemoveAttribute");
 			EOS_LobbyModification_RemoveAttribute = (EOS_LobbyModification_RemoveAttributeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_RemoveAttributeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_RemoveMemberAttribute));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_RemoveMemberAttribute));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_RemoveMemberAttribute");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_RemoveMemberAttribute");
 			EOS_LobbyModification_RemoveMemberAttribute = (EOS_LobbyModification_RemoveMemberAttributeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_RemoveMemberAttributeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_SetBucketId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_SetBucketId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_SetBucketId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_SetBucketId");
 			EOS_LobbyModification_SetBucketId = (EOS_LobbyModification_SetBucketIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_SetBucketIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_SetInvitesAllowed));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_SetInvitesAllowed));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_SetInvitesAllowed");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_SetInvitesAllowed");
 			EOS_LobbyModification_SetInvitesAllowed = (EOS_LobbyModification_SetInvitesAllowedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_SetInvitesAllowedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_SetMaxMembers));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_SetMaxMembers));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_SetMaxMembers");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_SetMaxMembers");
 			EOS_LobbyModification_SetMaxMembers = (EOS_LobbyModification_SetMaxMembersCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_SetMaxMembersCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbyModification_SetPermissionLevel));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbyModification_SetPermissionLevel));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbyModification_SetPermissionLevel");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbyModification_SetPermissionLevel");
 			EOS_LobbyModification_SetPermissionLevel = (EOS_LobbyModification_SetPermissionLevelCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_SetPermissionLevelCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_CopySearchResultByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_CopySearchResultByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_CopySearchResultByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_CopySearchResultByIndex");
 			EOS_LobbySearch_CopySearchResultByIndex = (EOS_LobbySearch_CopySearchResultByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_CopySearchResultByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_Find));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_Find));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_Find");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_Find");
 			EOS_LobbySearch_Find = (EOS_LobbySearch_FindCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_FindCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_GetSearchResultCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_GetSearchResultCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_GetSearchResultCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_GetSearchResultCount");
 			EOS_LobbySearch_GetSearchResultCount = (EOS_LobbySearch_GetSearchResultCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_GetSearchResultCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_Release");
 			EOS_LobbySearch_Release = (EOS_LobbySearch_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_RemoveParameter));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_RemoveParameter));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_RemoveParameter");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_RemoveParameter");
 			EOS_LobbySearch_RemoveParameter = (EOS_LobbySearch_RemoveParameterCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_RemoveParameterCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_SetLobbyId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_SetLobbyId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_SetLobbyId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_SetLobbyId");
 			EOS_LobbySearch_SetLobbyId = (EOS_LobbySearch_SetLobbyIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_SetLobbyIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_SetMaxResults));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_SetMaxResults));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_SetMaxResults");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_SetMaxResults");
 			EOS_LobbySearch_SetMaxResults = (EOS_LobbySearch_SetMaxResultsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_SetMaxResultsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_SetParameter));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_SetParameter));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_SetParameter");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_SetParameter");
 			EOS_LobbySearch_SetParameter = (EOS_LobbySearch_SetParameterCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_SetParameterCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_LobbySearch_SetTargetUserId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_LobbySearch_SetTargetUserId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_LobbySearch_SetTargetUserId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_LobbySearch_SetTargetUserId");
 			EOS_LobbySearch_SetTargetUserId = (EOS_LobbySearch_SetTargetUserIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbySearch_SetTargetUserIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_AddNotifyJoinLobbyAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_AddNotifyJoinLobbyAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_AddNotifyJoinLobbyAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_AddNotifyJoinLobbyAccepted");
 			EOS_Lobby_AddNotifyJoinLobbyAccepted = (EOS_Lobby_AddNotifyJoinLobbyAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyJoinLobbyAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_AddNotifyLobbyInviteAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_AddNotifyLobbyInviteAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_AddNotifyLobbyInviteAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_AddNotifyLobbyInviteAccepted");
 			EOS_Lobby_AddNotifyLobbyInviteAccepted = (EOS_Lobby_AddNotifyLobbyInviteAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyLobbyInviteAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_AddNotifyLobbyInviteReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_AddNotifyLobbyInviteReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_AddNotifyLobbyInviteReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_AddNotifyLobbyInviteReceived");
 			EOS_Lobby_AddNotifyLobbyInviteReceived = (EOS_Lobby_AddNotifyLobbyInviteReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyLobbyInviteReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_AddNotifyLobbyMemberStatusReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_AddNotifyLobbyMemberStatusReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_AddNotifyLobbyMemberStatusReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_AddNotifyLobbyMemberStatusReceived");
 			EOS_Lobby_AddNotifyLobbyMemberStatusReceived = (EOS_Lobby_AddNotifyLobbyMemberStatusReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyLobbyMemberStatusReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_AddNotifyLobbyMemberUpdateReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_AddNotifyLobbyMemberUpdateReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_AddNotifyLobbyMemberUpdateReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_AddNotifyLobbyMemberUpdateReceived");
 			EOS_Lobby_AddNotifyLobbyMemberUpdateReceived = (EOS_Lobby_AddNotifyLobbyMemberUpdateReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyLobbyMemberUpdateReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_AddNotifyLobbyUpdateReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_AddNotifyLobbyUpdateReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_AddNotifyLobbyUpdateReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_AddNotifyLobbyUpdateReceived");
 			EOS_Lobby_AddNotifyLobbyUpdateReceived = (EOS_Lobby_AddNotifyLobbyUpdateReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyLobbyUpdateReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_Attribute_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_Attribute_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_AddNotifyRTCRoomConnectionChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_AddNotifyRTCRoomConnectionChanged");
+			EOS_Lobby_AddNotifyRTCRoomConnectionChanged = (EOS_Lobby_AddNotifyRTCRoomConnectionChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyRTCRoomConnectionChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_Attribute_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_Attribute_Release");
 			EOS_Lobby_Attribute_Release = (EOS_Lobby_Attribute_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_Attribute_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_CopyLobbyDetailsHandle));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_CopyLobbyDetailsHandle));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_CopyLobbyDetailsHandle");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_CopyLobbyDetailsHandle");
 			EOS_Lobby_CopyLobbyDetailsHandle = (EOS_Lobby_CopyLobbyDetailsHandleCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_CopyLobbyDetailsHandleCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_CopyLobbyDetailsHandleByInviteId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_CopyLobbyDetailsHandleByInviteId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_CopyLobbyDetailsHandleByInviteId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_CopyLobbyDetailsHandleByInviteId");
 			EOS_Lobby_CopyLobbyDetailsHandleByInviteId = (EOS_Lobby_CopyLobbyDetailsHandleByInviteIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_CopyLobbyDetailsHandleByInviteIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_CopyLobbyDetailsHandleByUiEventId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_CopyLobbyDetailsHandleByUiEventId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_CopyLobbyDetailsHandleByUiEventId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_CopyLobbyDetailsHandleByUiEventId");
 			EOS_Lobby_CopyLobbyDetailsHandleByUiEventId = (EOS_Lobby_CopyLobbyDetailsHandleByUiEventIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_CopyLobbyDetailsHandleByUiEventIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_CreateLobby));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_CreateLobby));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_CreateLobby");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_CreateLobby");
 			EOS_Lobby_CreateLobby = (EOS_Lobby_CreateLobbyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_CreateLobbyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_CreateLobbySearch));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_CreateLobbySearch));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_CreateLobbySearch");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_CreateLobbySearch");
 			EOS_Lobby_CreateLobbySearch = (EOS_Lobby_CreateLobbySearchCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_CreateLobbySearchCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_DestroyLobby));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_DestroyLobby));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_DestroyLobby");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_DestroyLobby");
 			EOS_Lobby_DestroyLobby = (EOS_Lobby_DestroyLobbyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_DestroyLobbyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_GetInviteCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_GetInviteCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_GetInviteCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_GetInviteCount");
 			EOS_Lobby_GetInviteCount = (EOS_Lobby_GetInviteCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_GetInviteCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_GetInviteIdByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_GetInviteIdByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_GetInviteIdByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_GetInviteIdByIndex");
 			EOS_Lobby_GetInviteIdByIndex = (EOS_Lobby_GetInviteIdByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_GetInviteIdByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_JoinLobby));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_JoinLobby));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_GetRTCRoomName");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_GetRTCRoomName");
+			EOS_Lobby_GetRTCRoomName = (EOS_Lobby_GetRTCRoomNameCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_GetRTCRoomNameCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_IsRTCRoomConnected");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_IsRTCRoomConnected");
+			EOS_Lobby_IsRTCRoomConnected = (EOS_Lobby_IsRTCRoomConnectedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_IsRTCRoomConnectedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_JoinLobby");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_JoinLobby");
 			EOS_Lobby_JoinLobby = (EOS_Lobby_JoinLobbyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_JoinLobbyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_KickMember));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_KickMember));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_KickMember");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_KickMember");
 			EOS_Lobby_KickMember = (EOS_Lobby_KickMemberCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_KickMemberCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_LeaveLobby));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_LeaveLobby));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_LeaveLobby");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_LeaveLobby");
 			EOS_Lobby_LeaveLobby = (EOS_Lobby_LeaveLobbyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_LeaveLobbyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_PromoteMember));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_PromoteMember));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_PromoteMember");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_PromoteMember");
 			EOS_Lobby_PromoteMember = (EOS_Lobby_PromoteMemberCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_PromoteMemberCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_QueryInvites));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_QueryInvites));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_QueryInvites");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_QueryInvites");
 			EOS_Lobby_QueryInvites = (EOS_Lobby_QueryInvitesCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_QueryInvitesCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RejectInvite));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RejectInvite));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_RejectInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_RejectInvite");
 			EOS_Lobby_RejectInvite = (EOS_Lobby_RejectInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RejectInviteCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RemoveNotifyJoinLobbyAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RemoveNotifyJoinLobbyAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_RemoveNotifyJoinLobbyAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_RemoveNotifyJoinLobbyAccepted");
 			EOS_Lobby_RemoveNotifyJoinLobbyAccepted = (EOS_Lobby_RemoveNotifyJoinLobbyAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyJoinLobbyAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RemoveNotifyLobbyInviteAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RemoveNotifyLobbyInviteAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_RemoveNotifyLobbyInviteAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_RemoveNotifyLobbyInviteAccepted");
 			EOS_Lobby_RemoveNotifyLobbyInviteAccepted = (EOS_Lobby_RemoveNotifyLobbyInviteAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyLobbyInviteAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RemoveNotifyLobbyInviteReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RemoveNotifyLobbyInviteReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_RemoveNotifyLobbyInviteReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_RemoveNotifyLobbyInviteReceived");
 			EOS_Lobby_RemoveNotifyLobbyInviteReceived = (EOS_Lobby_RemoveNotifyLobbyInviteReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyLobbyInviteReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived");
 			EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived = (EOS_Lobby_RemoveNotifyLobbyMemberStatusReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyLobbyMemberStatusReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived");
 			EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived = (EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_RemoveNotifyLobbyUpdateReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_RemoveNotifyLobbyUpdateReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_RemoveNotifyLobbyUpdateReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_RemoveNotifyLobbyUpdateReceived");
 			EOS_Lobby_RemoveNotifyLobbyUpdateReceived = (EOS_Lobby_RemoveNotifyLobbyUpdateReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyLobbyUpdateReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_SendInvite));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_SendInvite));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged");
+			EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged = (EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_SendInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_SendInvite");
 			EOS_Lobby_SendInvite = (EOS_Lobby_SendInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_SendInviteCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_UpdateLobby));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_UpdateLobby));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_UpdateLobby");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_UpdateLobby");
 			EOS_Lobby_UpdateLobby = (EOS_Lobby_UpdateLobbyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_UpdateLobbyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Lobby_UpdateLobbyModification));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Lobby_UpdateLobbyModification));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Lobby_UpdateLobbyModification");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Lobby_UpdateLobbyModification");
 			EOS_Lobby_UpdateLobbyModification = (EOS_Lobby_UpdateLobbyModificationCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_UpdateLobbyModificationCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Logging_SetCallback));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Logging_SetCallback));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Logging_SetCallback");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Logging_SetCallback");
 			EOS_Logging_SetCallback = (EOS_Logging_SetCallbackCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Logging_SetCallbackCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Logging_SetLogLevel));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Logging_SetLogLevel));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Logging_SetLogLevel");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Logging_SetLogLevel");
 			EOS_Logging_SetLogLevel = (EOS_Logging_SetLogLevelCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Logging_SetLogLevelCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Metrics_BeginPlayerSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Metrics_BeginPlayerSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Metrics_BeginPlayerSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Metrics_BeginPlayerSession");
 			EOS_Metrics_BeginPlayerSession = (EOS_Metrics_BeginPlayerSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Metrics_BeginPlayerSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Metrics_EndPlayerSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Metrics_EndPlayerSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Metrics_EndPlayerSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Metrics_EndPlayerSession");
 			EOS_Metrics_EndPlayerSession = (EOS_Metrics_EndPlayerSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Metrics_EndPlayerSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Mods_CopyModInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Mods_CopyModInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Mods_CopyModInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Mods_CopyModInfo");
 			EOS_Mods_CopyModInfo = (EOS_Mods_CopyModInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Mods_CopyModInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Mods_EnumerateMods));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Mods_EnumerateMods));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Mods_EnumerateMods");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Mods_EnumerateMods");
 			EOS_Mods_EnumerateMods = (EOS_Mods_EnumerateModsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Mods_EnumerateModsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Mods_InstallMod));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Mods_InstallMod));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Mods_InstallMod");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Mods_InstallMod");
 			EOS_Mods_InstallMod = (EOS_Mods_InstallModCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Mods_InstallModCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Mods_ModInfo_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Mods_ModInfo_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Mods_ModInfo_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Mods_ModInfo_Release");
 			EOS_Mods_ModInfo_Release = (EOS_Mods_ModInfo_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Mods_ModInfo_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Mods_UninstallMod));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Mods_UninstallMod));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Mods_UninstallMod");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Mods_UninstallMod");
 			EOS_Mods_UninstallMod = (EOS_Mods_UninstallModCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Mods_UninstallModCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Mods_UpdateMod));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Mods_UpdateMod));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Mods_UpdateMod");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Mods_UpdateMod");
 			EOS_Mods_UpdateMod = (EOS_Mods_UpdateModCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Mods_UpdateModCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_AcceptConnection));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_AcceptConnection));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_AcceptConnection");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_AcceptConnection");
 			EOS_P2P_AcceptConnection = (EOS_P2P_AcceptConnectionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AcceptConnectionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_AddNotifyIncomingPacketQueueFull));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_AddNotifyIncomingPacketQueueFull));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_AddNotifyIncomingPacketQueueFull");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_AddNotifyIncomingPacketQueueFull");
 			EOS_P2P_AddNotifyIncomingPacketQueueFull = (EOS_P2P_AddNotifyIncomingPacketQueueFullCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyIncomingPacketQueueFullCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_AddNotifyPeerConnectionClosed));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_AddNotifyPeerConnectionClosed));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_AddNotifyPeerConnectionClosed");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_AddNotifyPeerConnectionClosed");
 			EOS_P2P_AddNotifyPeerConnectionClosed = (EOS_P2P_AddNotifyPeerConnectionClosedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyPeerConnectionClosedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_AddNotifyPeerConnectionRequest));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_AddNotifyPeerConnectionRequest));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_AddNotifyPeerConnectionRequest");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_AddNotifyPeerConnectionRequest");
 			EOS_P2P_AddNotifyPeerConnectionRequest = (EOS_P2P_AddNotifyPeerConnectionRequestCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyPeerConnectionRequestCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_CloseConnection));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_CloseConnection));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_CloseConnection");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_CloseConnection");
 			EOS_P2P_CloseConnection = (EOS_P2P_CloseConnectionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_CloseConnectionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_CloseConnections));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_CloseConnections));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_CloseConnections");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_CloseConnections");
 			EOS_P2P_CloseConnections = (EOS_P2P_CloseConnectionsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_CloseConnectionsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_GetNATType));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_GetNATType));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_GetNATType");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_GetNATType");
 			EOS_P2P_GetNATType = (EOS_P2P_GetNATTypeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_GetNATTypeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_GetNextReceivedPacketSize));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_GetNextReceivedPacketSize));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_GetNextReceivedPacketSize");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_GetNextReceivedPacketSize");
 			EOS_P2P_GetNextReceivedPacketSize = (EOS_P2P_GetNextReceivedPacketSizeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_GetNextReceivedPacketSizeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_GetPacketQueueInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_GetPacketQueueInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_GetPacketQueueInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_GetPacketQueueInfo");
 			EOS_P2P_GetPacketQueueInfo = (EOS_P2P_GetPacketQueueInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_GetPacketQueueInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_GetPortRange));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_GetPortRange));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_GetPortRange");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_GetPortRange");
 			EOS_P2P_GetPortRange = (EOS_P2P_GetPortRangeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_GetPortRangeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_GetRelayControl));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_GetRelayControl));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_GetRelayControl");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_GetRelayControl");
 			EOS_P2P_GetRelayControl = (EOS_P2P_GetRelayControlCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_GetRelayControlCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_QueryNATType));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_QueryNATType));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_QueryNATType");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_QueryNATType");
 			EOS_P2P_QueryNATType = (EOS_P2P_QueryNATTypeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_QueryNATTypeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_ReceivePacket));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_ReceivePacket));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_ReceivePacket");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_ReceivePacket");
 			EOS_P2P_ReceivePacket = (EOS_P2P_ReceivePacketCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_ReceivePacketCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_RemoveNotifyIncomingPacketQueueFull));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_RemoveNotifyIncomingPacketQueueFull));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_RemoveNotifyIncomingPacketQueueFull");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_RemoveNotifyIncomingPacketQueueFull");
 			EOS_P2P_RemoveNotifyIncomingPacketQueueFull = (EOS_P2P_RemoveNotifyIncomingPacketQueueFullCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_RemoveNotifyIncomingPacketQueueFullCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_RemoveNotifyPeerConnectionClosed));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_RemoveNotifyPeerConnectionClosed));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_RemoveNotifyPeerConnectionClosed");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_RemoveNotifyPeerConnectionClosed");
 			EOS_P2P_RemoveNotifyPeerConnectionClosed = (EOS_P2P_RemoveNotifyPeerConnectionClosedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_RemoveNotifyPeerConnectionClosedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_RemoveNotifyPeerConnectionRequest));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_RemoveNotifyPeerConnectionRequest));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_RemoveNotifyPeerConnectionRequest");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_RemoveNotifyPeerConnectionRequest");
 			EOS_P2P_RemoveNotifyPeerConnectionRequest = (EOS_P2P_RemoveNotifyPeerConnectionRequestCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_RemoveNotifyPeerConnectionRequestCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_SendPacket));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_SendPacket));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_SendPacket");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_SendPacket");
 			EOS_P2P_SendPacket = (EOS_P2P_SendPacketCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_SendPacketCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_SetPacketQueueSize));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_SetPacketQueueSize));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_SetPacketQueueSize");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_SetPacketQueueSize");
 			EOS_P2P_SetPacketQueueSize = (EOS_P2P_SetPacketQueueSizeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_SetPacketQueueSizeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_SetPortRange));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_SetPortRange));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_SetPortRange");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_SetPortRange");
 			EOS_P2P_SetPortRange = (EOS_P2P_SetPortRangeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_SetPortRangeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_P2P_SetRelayControl));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_P2P_SetRelayControl));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_SetRelayControl");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_SetRelayControl");
 			EOS_P2P_SetRelayControl = (EOS_P2P_SetRelayControlCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_SetRelayControlCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_CheckForLauncherAndRestart));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_CheckForLauncherAndRestart));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_CheckForLauncherAndRestart");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_CheckForLauncherAndRestart");
 			EOS_Platform_CheckForLauncherAndRestart = (EOS_Platform_CheckForLauncherAndRestartCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_CheckForLauncherAndRestartCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_Create));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_Create));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_Create");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_Create");
 			EOS_Platform_Create = (EOS_Platform_CreateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_CreateCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetAchievementsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetAchievementsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetAchievementsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetAchievementsInterface");
 			EOS_Platform_GetAchievementsInterface = (EOS_Platform_GetAchievementsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetAchievementsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetActiveCountryCode));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetActiveCountryCode));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetActiveCountryCode");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetActiveCountryCode");
 			EOS_Platform_GetActiveCountryCode = (EOS_Platform_GetActiveCountryCodeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetActiveCountryCodeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetActiveLocaleCode));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetActiveLocaleCode));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetActiveLocaleCode");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetActiveLocaleCode");
 			EOS_Platform_GetActiveLocaleCode = (EOS_Platform_GetActiveLocaleCodeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetActiveLocaleCodeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetAntiCheatClientInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetAntiCheatClientInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetAntiCheatClientInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetAntiCheatClientInterface");
 			EOS_Platform_GetAntiCheatClientInterface = (EOS_Platform_GetAntiCheatClientInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetAntiCheatClientInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetAntiCheatServerInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetAntiCheatServerInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetAntiCheatServerInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetAntiCheatServerInterface");
 			EOS_Platform_GetAntiCheatServerInterface = (EOS_Platform_GetAntiCheatServerInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetAntiCheatServerInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetAuthInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetAuthInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetAuthInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetAuthInterface");
 			EOS_Platform_GetAuthInterface = (EOS_Platform_GetAuthInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetAuthInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetConnectInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetConnectInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetConnectInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetConnectInterface");
 			EOS_Platform_GetConnectInterface = (EOS_Platform_GetConnectInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetConnectInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetEcomInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetEcomInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetEcomInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetEcomInterface");
 			EOS_Platform_GetEcomInterface = (EOS_Platform_GetEcomInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetEcomInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetFriendsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetFriendsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetFriendsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetFriendsInterface");
 			EOS_Platform_GetFriendsInterface = (EOS_Platform_GetFriendsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetFriendsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetKWSInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetKWSInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetKWSInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetKWSInterface");
 			EOS_Platform_GetKWSInterface = (EOS_Platform_GetKWSInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetKWSInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetLeaderboardsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetLeaderboardsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetLeaderboardsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetLeaderboardsInterface");
 			EOS_Platform_GetLeaderboardsInterface = (EOS_Platform_GetLeaderboardsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetLeaderboardsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetLobbyInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetLobbyInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetLobbyInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetLobbyInterface");
 			EOS_Platform_GetLobbyInterface = (EOS_Platform_GetLobbyInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetLobbyInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetMetricsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetMetricsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetMetricsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetMetricsInterface");
 			EOS_Platform_GetMetricsInterface = (EOS_Platform_GetMetricsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetMetricsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetModsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetModsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetModsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetModsInterface");
 			EOS_Platform_GetModsInterface = (EOS_Platform_GetModsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetModsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetOverrideCountryCode));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetOverrideCountryCode));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetOverrideCountryCode");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetOverrideCountryCode");
 			EOS_Platform_GetOverrideCountryCode = (EOS_Platform_GetOverrideCountryCodeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetOverrideCountryCodeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetOverrideLocaleCode));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetOverrideLocaleCode));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetOverrideLocaleCode");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetOverrideLocaleCode");
 			EOS_Platform_GetOverrideLocaleCode = (EOS_Platform_GetOverrideLocaleCodeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetOverrideLocaleCodeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetP2PInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetP2PInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetP2PInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetP2PInterface");
 			EOS_Platform_GetP2PInterface = (EOS_Platform_GetP2PInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetP2PInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetPlayerDataStorageInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetPlayerDataStorageInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetPlayerDataStorageInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetPlayerDataStorageInterface");
 			EOS_Platform_GetPlayerDataStorageInterface = (EOS_Platform_GetPlayerDataStorageInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetPlayerDataStorageInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetPresenceInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetPresenceInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetPresenceInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetPresenceInterface");
 			EOS_Platform_GetPresenceInterface = (EOS_Platform_GetPresenceInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetPresenceInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetReportsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetReportsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetRTCAdminInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetRTCAdminInterface");
+			EOS_Platform_GetRTCAdminInterface = (EOS_Platform_GetRTCAdminInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetRTCAdminInterfaceCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetRTCInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetRTCInterface");
+			EOS_Platform_GetRTCInterface = (EOS_Platform_GetRTCInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetRTCInterfaceCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetReportsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetReportsInterface");
 			EOS_Platform_GetReportsInterface = (EOS_Platform_GetReportsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetReportsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetSanctionsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetSanctionsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetSanctionsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetSanctionsInterface");
 			EOS_Platform_GetSanctionsInterface = (EOS_Platform_GetSanctionsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetSanctionsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetSessionsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetSessionsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetSessionsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetSessionsInterface");
 			EOS_Platform_GetSessionsInterface = (EOS_Platform_GetSessionsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetSessionsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetStatsInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetStatsInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetStatsInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetStatsInterface");
 			EOS_Platform_GetStatsInterface = (EOS_Platform_GetStatsInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetStatsInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetTitleStorageInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetTitleStorageInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetTitleStorageInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetTitleStorageInterface");
 			EOS_Platform_GetTitleStorageInterface = (EOS_Platform_GetTitleStorageInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetTitleStorageInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetUIInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetUIInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetUIInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetUIInterface");
 			EOS_Platform_GetUIInterface = (EOS_Platform_GetUIInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetUIInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_GetUserInfoInterface));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_GetUserInfoInterface));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetUserInfoInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetUserInfoInterface");
 			EOS_Platform_GetUserInfoInterface = (EOS_Platform_GetUserInfoInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetUserInfoInterfaceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_Release");
 			EOS_Platform_Release = (EOS_Platform_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_SetOverrideCountryCode));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_SetOverrideCountryCode));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_SetOverrideCountryCode");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_SetOverrideCountryCode");
 			EOS_Platform_SetOverrideCountryCode = (EOS_Platform_SetOverrideCountryCodeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_SetOverrideCountryCodeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_SetOverrideLocaleCode));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_SetOverrideLocaleCode));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_SetOverrideLocaleCode");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_SetOverrideLocaleCode");
 			EOS_Platform_SetOverrideLocaleCode = (EOS_Platform_SetOverrideLocaleCodeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_SetOverrideLocaleCodeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Platform_Tick));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Platform_Tick));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_Tick");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_Tick");
 			EOS_Platform_Tick = (EOS_Platform_TickCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_TickCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorageFileTransferRequest_CancelRequest));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorageFileTransferRequest_CancelRequest));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorageFileTransferRequest_CancelRequest");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorageFileTransferRequest_CancelRequest");
 			EOS_PlayerDataStorageFileTransferRequest_CancelRequest = (EOS_PlayerDataStorageFileTransferRequest_CancelRequestCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorageFileTransferRequest_CancelRequestCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState");
 			EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState = (EOS_PlayerDataStorageFileTransferRequest_GetFileRequestStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorageFileTransferRequest_GetFileRequestStateCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorageFileTransferRequest_GetFilename));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorageFileTransferRequest_GetFilename));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorageFileTransferRequest_GetFilename");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorageFileTransferRequest_GetFilename");
 			EOS_PlayerDataStorageFileTransferRequest_GetFilename = (EOS_PlayerDataStorageFileTransferRequest_GetFilenameCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorageFileTransferRequest_GetFilenameCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorageFileTransferRequest_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorageFileTransferRequest_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorageFileTransferRequest_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorageFileTransferRequest_Release");
 			EOS_PlayerDataStorageFileTransferRequest_Release = (EOS_PlayerDataStorageFileTransferRequest_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorageFileTransferRequest_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_CopyFileMetadataAtIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_CopyFileMetadataAtIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_CopyFileMetadataAtIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_CopyFileMetadataAtIndex");
 			EOS_PlayerDataStorage_CopyFileMetadataAtIndex = (EOS_PlayerDataStorage_CopyFileMetadataAtIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_CopyFileMetadataAtIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_CopyFileMetadataByFilename));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_CopyFileMetadataByFilename));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_CopyFileMetadataByFilename");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_CopyFileMetadataByFilename");
 			EOS_PlayerDataStorage_CopyFileMetadataByFilename = (EOS_PlayerDataStorage_CopyFileMetadataByFilenameCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_CopyFileMetadataByFilenameCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_DeleteCache));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_DeleteCache));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_DeleteCache");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_DeleteCache");
 			EOS_PlayerDataStorage_DeleteCache = (EOS_PlayerDataStorage_DeleteCacheCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_DeleteCacheCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_DeleteFile));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_DeleteFile));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_DeleteFile");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_DeleteFile");
 			EOS_PlayerDataStorage_DeleteFile = (EOS_PlayerDataStorage_DeleteFileCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_DeleteFileCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_DuplicateFile));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_DuplicateFile));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_DuplicateFile");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_DuplicateFile");
 			EOS_PlayerDataStorage_DuplicateFile = (EOS_PlayerDataStorage_DuplicateFileCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_DuplicateFileCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_FileMetadata_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_FileMetadata_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_FileMetadata_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_FileMetadata_Release");
 			EOS_PlayerDataStorage_FileMetadata_Release = (EOS_PlayerDataStorage_FileMetadata_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_FileMetadata_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_GetFileMetadataCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_GetFileMetadataCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_GetFileMetadataCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_GetFileMetadataCount");
 			EOS_PlayerDataStorage_GetFileMetadataCount = (EOS_PlayerDataStorage_GetFileMetadataCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_GetFileMetadataCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_QueryFile));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_QueryFile));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_QueryFile");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_QueryFile");
 			EOS_PlayerDataStorage_QueryFile = (EOS_PlayerDataStorage_QueryFileCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_QueryFileCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_QueryFileList));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_QueryFileList));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_QueryFileList");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_QueryFileList");
 			EOS_PlayerDataStorage_QueryFileList = (EOS_PlayerDataStorage_QueryFileListCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_QueryFileListCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_ReadFile));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_ReadFile));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_ReadFile");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_ReadFile");
 			EOS_PlayerDataStorage_ReadFile = (EOS_PlayerDataStorage_ReadFileCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_ReadFileCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PlayerDataStorage_WriteFile));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PlayerDataStorage_WriteFile));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PlayerDataStorage_WriteFile");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PlayerDataStorage_WriteFile");
 			EOS_PlayerDataStorage_WriteFile = (EOS_PlayerDataStorage_WriteFileCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PlayerDataStorage_WriteFileCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PresenceModification_DeleteData));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PresenceModification_DeleteData));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PresenceModification_DeleteData");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PresenceModification_DeleteData");
 			EOS_PresenceModification_DeleteData = (EOS_PresenceModification_DeleteDataCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_DeleteDataCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PresenceModification_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PresenceModification_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PresenceModification_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PresenceModification_Release");
 			EOS_PresenceModification_Release = (EOS_PresenceModification_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PresenceModification_SetData));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PresenceModification_SetData));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PresenceModification_SetData");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PresenceModification_SetData");
 			EOS_PresenceModification_SetData = (EOS_PresenceModification_SetDataCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetDataCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PresenceModification_SetJoinInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PresenceModification_SetJoinInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PresenceModification_SetJoinInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PresenceModification_SetJoinInfo");
 			EOS_PresenceModification_SetJoinInfo = (EOS_PresenceModification_SetJoinInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetJoinInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PresenceModification_SetRawRichText));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PresenceModification_SetRawRichText));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PresenceModification_SetRawRichText");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PresenceModification_SetRawRichText");
 			EOS_PresenceModification_SetRawRichText = (EOS_PresenceModification_SetRawRichTextCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetRawRichTextCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_PresenceModification_SetStatus));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_PresenceModification_SetStatus));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_PresenceModification_SetStatus");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_PresenceModification_SetStatus");
 			EOS_PresenceModification_SetStatus = (EOS_PresenceModification_SetStatusCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_PresenceModification_SetStatusCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_AddNotifyJoinGameAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_AddNotifyJoinGameAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_AddNotifyJoinGameAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_AddNotifyJoinGameAccepted");
 			EOS_Presence_AddNotifyJoinGameAccepted = (EOS_Presence_AddNotifyJoinGameAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_AddNotifyJoinGameAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_AddNotifyOnPresenceChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_AddNotifyOnPresenceChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_AddNotifyOnPresenceChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_AddNotifyOnPresenceChanged");
 			EOS_Presence_AddNotifyOnPresenceChanged = (EOS_Presence_AddNotifyOnPresenceChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_AddNotifyOnPresenceChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_CopyPresence));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_CopyPresence));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_CopyPresence");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_CopyPresence");
 			EOS_Presence_CopyPresence = (EOS_Presence_CopyPresenceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_CopyPresenceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_CreatePresenceModification));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_CreatePresenceModification));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_CreatePresenceModification");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_CreatePresenceModification");
 			EOS_Presence_CreatePresenceModification = (EOS_Presence_CreatePresenceModificationCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_CreatePresenceModificationCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_GetJoinInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_GetJoinInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_GetJoinInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_GetJoinInfo");
 			EOS_Presence_GetJoinInfo = (EOS_Presence_GetJoinInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_GetJoinInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_HasPresence));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_HasPresence));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_HasPresence");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_HasPresence");
 			EOS_Presence_HasPresence = (EOS_Presence_HasPresenceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_HasPresenceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_Info_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_Info_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_Info_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_Info_Release");
 			EOS_Presence_Info_Release = (EOS_Presence_Info_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_Info_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_QueryPresence));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_QueryPresence));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_QueryPresence");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_QueryPresence");
 			EOS_Presence_QueryPresence = (EOS_Presence_QueryPresenceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_QueryPresenceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_RemoveNotifyJoinGameAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_RemoveNotifyJoinGameAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_RemoveNotifyJoinGameAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_RemoveNotifyJoinGameAccepted");
 			EOS_Presence_RemoveNotifyJoinGameAccepted = (EOS_Presence_RemoveNotifyJoinGameAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_RemoveNotifyJoinGameAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_RemoveNotifyOnPresenceChanged));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_RemoveNotifyOnPresenceChanged));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_RemoveNotifyOnPresenceChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_RemoveNotifyOnPresenceChanged");
 			EOS_Presence_RemoveNotifyOnPresenceChanged = (EOS_Presence_RemoveNotifyOnPresenceChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_RemoveNotifyOnPresenceChangedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Presence_SetPresence));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Presence_SetPresence));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Presence_SetPresence");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Presence_SetPresence");
 			EOS_Presence_SetPresence = (EOS_Presence_SetPresenceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Presence_SetPresenceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ProductUserId_FromString));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ProductUserId_FromString));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ProductUserId_FromString");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProductUserId_FromString");
 			EOS_ProductUserId_FromString = (EOS_ProductUserId_FromStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProductUserId_FromStringCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ProductUserId_IsValid));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ProductUserId_IsValid));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ProductUserId_IsValid");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProductUserId_IsValid");
 			EOS_ProductUserId_IsValid = (EOS_ProductUserId_IsValidCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProductUserId_IsValidCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_ProductUserId_ToString));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_ProductUserId_ToString));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ProductUserId_ToString");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProductUserId_ToString");
 			EOS_ProductUserId_ToString = (EOS_ProductUserId_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProductUserId_ToStringCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Reports_SendPlayerBehaviorReport));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Reports_SendPlayerBehaviorReport));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAdmin_CopyUserTokenByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAdmin_CopyUserTokenByIndex");
+			EOS_RTCAdmin_CopyUserTokenByIndex = (EOS_RTCAdmin_CopyUserTokenByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_CopyUserTokenByIndexCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAdmin_CopyUserTokenByUserId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAdmin_CopyUserTokenByUserId");
+			EOS_RTCAdmin_CopyUserTokenByUserId = (EOS_RTCAdmin_CopyUserTokenByUserIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_CopyUserTokenByUserIdCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAdmin_Kick");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAdmin_Kick");
+			EOS_RTCAdmin_Kick = (EOS_RTCAdmin_KickCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_KickCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAdmin_QueryJoinRoomToken");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAdmin_QueryJoinRoomToken");
+			EOS_RTCAdmin_QueryJoinRoomToken = (EOS_RTCAdmin_QueryJoinRoomTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_QueryJoinRoomTokenCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAdmin_SetParticipantHardMute");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAdmin_SetParticipantHardMute");
+			EOS_RTCAdmin_SetParticipantHardMute = (EOS_RTCAdmin_SetParticipantHardMuteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_SetParticipantHardMuteCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAdmin_UserToken_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAdmin_UserToken_Release");
+			EOS_RTCAdmin_UserToken_Release = (EOS_RTCAdmin_UserToken_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_UserToken_ReleaseCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_AddNotifyAudioBeforeRender");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_AddNotifyAudioBeforeRender");
+			EOS_RTCAudio_AddNotifyAudioBeforeRender = (EOS_RTCAudio_AddNotifyAudioBeforeRenderCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioBeforeRenderCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_AddNotifyAudioBeforeSend");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_AddNotifyAudioBeforeSend");
+			EOS_RTCAudio_AddNotifyAudioBeforeSend = (EOS_RTCAudio_AddNotifyAudioBeforeSendCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioBeforeSendCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_AddNotifyAudioDevicesChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_AddNotifyAudioDevicesChanged");
+			EOS_RTCAudio_AddNotifyAudioDevicesChanged = (EOS_RTCAudio_AddNotifyAudioDevicesChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioDevicesChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_AddNotifyAudioInputState");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_AddNotifyAudioInputState");
+			EOS_RTCAudio_AddNotifyAudioInputState = (EOS_RTCAudio_AddNotifyAudioInputStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioInputStateCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_AddNotifyAudioOutputState");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_AddNotifyAudioOutputState");
+			EOS_RTCAudio_AddNotifyAudioOutputState = (EOS_RTCAudio_AddNotifyAudioOutputStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyAudioOutputStateCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_AddNotifyParticipantUpdated");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_AddNotifyParticipantUpdated");
+			EOS_RTCAudio_AddNotifyParticipantUpdated = (EOS_RTCAudio_AddNotifyParticipantUpdatedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyParticipantUpdatedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_GetAudioInputDeviceByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_GetAudioInputDeviceByIndex");
+			EOS_RTCAudio_GetAudioInputDeviceByIndex = (EOS_RTCAudio_GetAudioInputDeviceByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioInputDeviceByIndexCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_GetAudioInputDevicesCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_GetAudioInputDevicesCount");
+			EOS_RTCAudio_GetAudioInputDevicesCount = (EOS_RTCAudio_GetAudioInputDevicesCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioInputDevicesCountCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_GetAudioOutputDeviceByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_GetAudioOutputDeviceByIndex");
+			EOS_RTCAudio_GetAudioOutputDeviceByIndex = (EOS_RTCAudio_GetAudioOutputDeviceByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioOutputDeviceByIndexCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_GetAudioOutputDevicesCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_GetAudioOutputDevicesCount");
+			EOS_RTCAudio_GetAudioOutputDevicesCount = (EOS_RTCAudio_GetAudioOutputDevicesCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioOutputDevicesCountCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_RegisterPlatformAudioUser");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_RegisterPlatformAudioUser");
+			EOS_RTCAudio_RegisterPlatformAudioUser = (EOS_RTCAudio_RegisterPlatformAudioUserCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RegisterPlatformAudioUserCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_RemoveNotifyAudioBeforeRender");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_RemoveNotifyAudioBeforeRender");
+			EOS_RTCAudio_RemoveNotifyAudioBeforeRender = (EOS_RTCAudio_RemoveNotifyAudioBeforeRenderCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioBeforeRenderCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_RemoveNotifyAudioBeforeSend");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_RemoveNotifyAudioBeforeSend");
+			EOS_RTCAudio_RemoveNotifyAudioBeforeSend = (EOS_RTCAudio_RemoveNotifyAudioBeforeSendCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioBeforeSendCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_RemoveNotifyAudioDevicesChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_RemoveNotifyAudioDevicesChanged");
+			EOS_RTCAudio_RemoveNotifyAudioDevicesChanged = (EOS_RTCAudio_RemoveNotifyAudioDevicesChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioDevicesChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_RemoveNotifyAudioInputState");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_RemoveNotifyAudioInputState");
+			EOS_RTCAudio_RemoveNotifyAudioInputState = (EOS_RTCAudio_RemoveNotifyAudioInputStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioInputStateCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_RemoveNotifyAudioOutputState");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_RemoveNotifyAudioOutputState");
+			EOS_RTCAudio_RemoveNotifyAudioOutputState = (EOS_RTCAudio_RemoveNotifyAudioOutputStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyAudioOutputStateCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_RemoveNotifyParticipantUpdated");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_RemoveNotifyParticipantUpdated");
+			EOS_RTCAudio_RemoveNotifyParticipantUpdated = (EOS_RTCAudio_RemoveNotifyParticipantUpdatedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RemoveNotifyParticipantUpdatedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_SendAudio");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_SendAudio");
+			EOS_RTCAudio_SendAudio = (EOS_RTCAudio_SendAudioCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SendAudioCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_SetAudioInputSettings");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_SetAudioInputSettings");
+			EOS_RTCAudio_SetAudioInputSettings = (EOS_RTCAudio_SetAudioInputSettingsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SetAudioInputSettingsCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_SetAudioOutputSettings");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_SetAudioOutputSettings");
+			EOS_RTCAudio_SetAudioOutputSettings = (EOS_RTCAudio_SetAudioOutputSettingsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SetAudioOutputSettingsCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_UnregisterPlatformAudioUser");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_UnregisterPlatformAudioUser");
+			EOS_RTCAudio_UnregisterPlatformAudioUser = (EOS_RTCAudio_UnregisterPlatformAudioUserCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UnregisterPlatformAudioUserCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_UpdateReceiving");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_UpdateReceiving");
+			EOS_RTCAudio_UpdateReceiving = (EOS_RTCAudio_UpdateReceivingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UpdateReceivingCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAudio_UpdateSending");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAudio_UpdateSending");
+			EOS_RTCAudio_UpdateSending = (EOS_RTCAudio_UpdateSendingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UpdateSendingCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_AddNotifyDisconnected");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_AddNotifyDisconnected");
+			EOS_RTC_AddNotifyDisconnected = (EOS_RTC_AddNotifyDisconnectedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyDisconnectedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_AddNotifyParticipantStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_AddNotifyParticipantStatusChanged");
+			EOS_RTC_AddNotifyParticipantStatusChanged = (EOS_RTC_AddNotifyParticipantStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyParticipantStatusChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_BlockParticipant");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_BlockParticipant");
+			EOS_RTC_BlockParticipant = (EOS_RTC_BlockParticipantCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_BlockParticipantCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_GetAudioInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_GetAudioInterface");
+			EOS_RTC_GetAudioInterface = (EOS_RTC_GetAudioInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_GetAudioInterfaceCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_JoinRoom");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_JoinRoom");
+			EOS_RTC_JoinRoom = (EOS_RTC_JoinRoomCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_JoinRoomCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_LeaveRoom");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_LeaveRoom");
+			EOS_RTC_LeaveRoom = (EOS_RTC_LeaveRoomCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_LeaveRoomCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_RemoveNotifyDisconnected");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_RemoveNotifyDisconnected");
+			EOS_RTC_RemoveNotifyDisconnected = (EOS_RTC_RemoveNotifyDisconnectedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyDisconnectedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_RemoveNotifyParticipantStatusChanged");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_RemoveNotifyParticipantStatusChanged");
+			EOS_RTC_RemoveNotifyParticipantStatusChanged = (EOS_RTC_RemoveNotifyParticipantStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyParticipantStatusChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Reports_SendPlayerBehaviorReport");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Reports_SendPlayerBehaviorReport");
 			EOS_Reports_SendPlayerBehaviorReport = (EOS_Reports_SendPlayerBehaviorReportCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Reports_SendPlayerBehaviorReportCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sanctions_CopyPlayerSanctionByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sanctions_CopyPlayerSanctionByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sanctions_CopyPlayerSanctionByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sanctions_CopyPlayerSanctionByIndex");
 			EOS_Sanctions_CopyPlayerSanctionByIndex = (EOS_Sanctions_CopyPlayerSanctionByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sanctions_CopyPlayerSanctionByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sanctions_GetPlayerSanctionCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sanctions_GetPlayerSanctionCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sanctions_GetPlayerSanctionCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sanctions_GetPlayerSanctionCount");
 			EOS_Sanctions_GetPlayerSanctionCount = (EOS_Sanctions_GetPlayerSanctionCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sanctions_GetPlayerSanctionCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sanctions_PlayerSanction_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sanctions_PlayerSanction_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sanctions_PlayerSanction_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sanctions_PlayerSanction_Release");
 			EOS_Sanctions_PlayerSanction_Release = (EOS_Sanctions_PlayerSanction_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sanctions_PlayerSanction_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sanctions_QueryActivePlayerSanctions));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sanctions_QueryActivePlayerSanctions));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sanctions_QueryActivePlayerSanctions");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sanctions_QueryActivePlayerSanctions");
 			EOS_Sanctions_QueryActivePlayerSanctions = (EOS_Sanctions_QueryActivePlayerSanctionsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sanctions_QueryActivePlayerSanctionsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionDetails_Attribute_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionDetails_Attribute_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionDetails_Attribute_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionDetails_Attribute_Release");
 			EOS_SessionDetails_Attribute_Release = (EOS_SessionDetails_Attribute_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionDetails_Attribute_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionDetails_CopyInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionDetails_CopyInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionDetails_CopyInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionDetails_CopyInfo");
 			EOS_SessionDetails_CopyInfo = (EOS_SessionDetails_CopyInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionDetails_CopyInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionDetails_CopySessionAttributeByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionDetails_CopySessionAttributeByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionDetails_CopySessionAttributeByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionDetails_CopySessionAttributeByIndex");
 			EOS_SessionDetails_CopySessionAttributeByIndex = (EOS_SessionDetails_CopySessionAttributeByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionDetails_CopySessionAttributeByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionDetails_CopySessionAttributeByKey));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionDetails_CopySessionAttributeByKey));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionDetails_CopySessionAttributeByKey");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionDetails_CopySessionAttributeByKey");
 			EOS_SessionDetails_CopySessionAttributeByKey = (EOS_SessionDetails_CopySessionAttributeByKeyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionDetails_CopySessionAttributeByKeyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionDetails_GetSessionAttributeCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionDetails_GetSessionAttributeCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionDetails_GetSessionAttributeCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionDetails_GetSessionAttributeCount");
 			EOS_SessionDetails_GetSessionAttributeCount = (EOS_SessionDetails_GetSessionAttributeCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionDetails_GetSessionAttributeCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionDetails_Info_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionDetails_Info_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionDetails_Info_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionDetails_Info_Release");
 			EOS_SessionDetails_Info_Release = (EOS_SessionDetails_Info_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionDetails_Info_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionDetails_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionDetails_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionDetails_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionDetails_Release");
 			EOS_SessionDetails_Release = (EOS_SessionDetails_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionDetails_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_AddAttribute));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_AddAttribute));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_AddAttribute");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_AddAttribute");
 			EOS_SessionModification_AddAttribute = (EOS_SessionModification_AddAttributeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_AddAttributeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_Release");
 			EOS_SessionModification_Release = (EOS_SessionModification_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_RemoveAttribute));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_RemoveAttribute));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_RemoveAttribute");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_RemoveAttribute");
 			EOS_SessionModification_RemoveAttribute = (EOS_SessionModification_RemoveAttributeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_RemoveAttributeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_SetBucketId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_SetBucketId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_SetBucketId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_SetBucketId");
 			EOS_SessionModification_SetBucketId = (EOS_SessionModification_SetBucketIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_SetBucketIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_SetHostAddress));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_SetHostAddress));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_SetHostAddress");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_SetHostAddress");
 			EOS_SessionModification_SetHostAddress = (EOS_SessionModification_SetHostAddressCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_SetHostAddressCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_SetInvitesAllowed));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_SetInvitesAllowed));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_SetInvitesAllowed");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_SetInvitesAllowed");
 			EOS_SessionModification_SetInvitesAllowed = (EOS_SessionModification_SetInvitesAllowedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_SetInvitesAllowedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_SetJoinInProgressAllowed));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_SetJoinInProgressAllowed));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_SetJoinInProgressAllowed");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_SetJoinInProgressAllowed");
 			EOS_SessionModification_SetJoinInProgressAllowed = (EOS_SessionModification_SetJoinInProgressAllowedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_SetJoinInProgressAllowedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_SetMaxPlayers));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_SetMaxPlayers));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_SetMaxPlayers");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_SetMaxPlayers");
 			EOS_SessionModification_SetMaxPlayers = (EOS_SessionModification_SetMaxPlayersCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_SetMaxPlayersCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionModification_SetPermissionLevel));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionModification_SetPermissionLevel));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionModification_SetPermissionLevel");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionModification_SetPermissionLevel");
 			EOS_SessionModification_SetPermissionLevel = (EOS_SessionModification_SetPermissionLevelCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_SetPermissionLevelCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_CopySearchResultByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_CopySearchResultByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_CopySearchResultByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_CopySearchResultByIndex");
 			EOS_SessionSearch_CopySearchResultByIndex = (EOS_SessionSearch_CopySearchResultByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_CopySearchResultByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_Find));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_Find));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_Find");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_Find");
 			EOS_SessionSearch_Find = (EOS_SessionSearch_FindCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_FindCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_GetSearchResultCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_GetSearchResultCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_GetSearchResultCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_GetSearchResultCount");
 			EOS_SessionSearch_GetSearchResultCount = (EOS_SessionSearch_GetSearchResultCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_GetSearchResultCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_Release");
 			EOS_SessionSearch_Release = (EOS_SessionSearch_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_RemoveParameter));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_RemoveParameter));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_RemoveParameter");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_RemoveParameter");
 			EOS_SessionSearch_RemoveParameter = (EOS_SessionSearch_RemoveParameterCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_RemoveParameterCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_SetMaxResults));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_SetMaxResults));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_SetMaxResults");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_SetMaxResults");
 			EOS_SessionSearch_SetMaxResults = (EOS_SessionSearch_SetMaxResultsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_SetMaxResultsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_SetParameter));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_SetParameter));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_SetParameter");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_SetParameter");
 			EOS_SessionSearch_SetParameter = (EOS_SessionSearch_SetParameterCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_SetParameterCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_SetSessionId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_SetSessionId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_SetSessionId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_SetSessionId");
 			EOS_SessionSearch_SetSessionId = (EOS_SessionSearch_SetSessionIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_SetSessionIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_SessionSearch_SetTargetUserId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_SessionSearch_SetTargetUserId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_SessionSearch_SetTargetUserId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_SessionSearch_SetTargetUserId");
 			EOS_SessionSearch_SetTargetUserId = (EOS_SessionSearch_SetTargetUserIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionSearch_SetTargetUserIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_AddNotifyJoinSessionAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_AddNotifyJoinSessionAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_AddNotifyJoinSessionAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_AddNotifyJoinSessionAccepted");
 			EOS_Sessions_AddNotifyJoinSessionAccepted = (EOS_Sessions_AddNotifyJoinSessionAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifyJoinSessionAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_AddNotifySessionInviteAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_AddNotifySessionInviteAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_AddNotifySessionInviteAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_AddNotifySessionInviteAccepted");
 			EOS_Sessions_AddNotifySessionInviteAccepted = (EOS_Sessions_AddNotifySessionInviteAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifySessionInviteAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_AddNotifySessionInviteReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_AddNotifySessionInviteReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_AddNotifySessionInviteReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_AddNotifySessionInviteReceived");
 			EOS_Sessions_AddNotifySessionInviteReceived = (EOS_Sessions_AddNotifySessionInviteReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifySessionInviteReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_CopyActiveSessionHandle));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_CopyActiveSessionHandle));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_CopyActiveSessionHandle");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_CopyActiveSessionHandle");
 			EOS_Sessions_CopyActiveSessionHandle = (EOS_Sessions_CopyActiveSessionHandleCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_CopyActiveSessionHandleCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_CopySessionHandleByInviteId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_CopySessionHandleByInviteId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_CopySessionHandleByInviteId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_CopySessionHandleByInviteId");
 			EOS_Sessions_CopySessionHandleByInviteId = (EOS_Sessions_CopySessionHandleByInviteIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_CopySessionHandleByInviteIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_CopySessionHandleByUiEventId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_CopySessionHandleByUiEventId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_CopySessionHandleByUiEventId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_CopySessionHandleByUiEventId");
 			EOS_Sessions_CopySessionHandleByUiEventId = (EOS_Sessions_CopySessionHandleByUiEventIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_CopySessionHandleByUiEventIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_CopySessionHandleForPresence));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_CopySessionHandleForPresence));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_CopySessionHandleForPresence");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_CopySessionHandleForPresence");
 			EOS_Sessions_CopySessionHandleForPresence = (EOS_Sessions_CopySessionHandleForPresenceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_CopySessionHandleForPresenceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_CreateSessionModification));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_CreateSessionModification));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_CreateSessionModification");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_CreateSessionModification");
 			EOS_Sessions_CreateSessionModification = (EOS_Sessions_CreateSessionModificationCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_CreateSessionModificationCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_CreateSessionSearch));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_CreateSessionSearch));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_CreateSessionSearch");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_CreateSessionSearch");
 			EOS_Sessions_CreateSessionSearch = (EOS_Sessions_CreateSessionSearchCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_CreateSessionSearchCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_DestroySession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_DestroySession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_DestroySession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_DestroySession");
 			EOS_Sessions_DestroySession = (EOS_Sessions_DestroySessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_DestroySessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_DumpSessionState));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_DumpSessionState));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_DumpSessionState");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_DumpSessionState");
 			EOS_Sessions_DumpSessionState = (EOS_Sessions_DumpSessionStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_DumpSessionStateCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_EndSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_EndSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_EndSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_EndSession");
 			EOS_Sessions_EndSession = (EOS_Sessions_EndSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_EndSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_GetInviteCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_GetInviteCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_GetInviteCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_GetInviteCount");
 			EOS_Sessions_GetInviteCount = (EOS_Sessions_GetInviteCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_GetInviteCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_GetInviteIdByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_GetInviteIdByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_GetInviteIdByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_GetInviteIdByIndex");
 			EOS_Sessions_GetInviteIdByIndex = (EOS_Sessions_GetInviteIdByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_GetInviteIdByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_IsUserInSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_IsUserInSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_IsUserInSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_IsUserInSession");
 			EOS_Sessions_IsUserInSession = (EOS_Sessions_IsUserInSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_IsUserInSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_JoinSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_JoinSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_JoinSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_JoinSession");
 			EOS_Sessions_JoinSession = (EOS_Sessions_JoinSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_JoinSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_QueryInvites));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_QueryInvites));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_QueryInvites");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_QueryInvites");
 			EOS_Sessions_QueryInvites = (EOS_Sessions_QueryInvitesCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_QueryInvitesCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_RegisterPlayers));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_RegisterPlayers));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_RegisterPlayers");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_RegisterPlayers");
 			EOS_Sessions_RegisterPlayers = (EOS_Sessions_RegisterPlayersCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RegisterPlayersCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_RejectInvite));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_RejectInvite));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_RejectInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_RejectInvite");
 			EOS_Sessions_RejectInvite = (EOS_Sessions_RejectInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RejectInviteCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_RemoveNotifyJoinSessionAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_RemoveNotifyJoinSessionAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_RemoveNotifyJoinSessionAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_RemoveNotifyJoinSessionAccepted");
 			EOS_Sessions_RemoveNotifyJoinSessionAccepted = (EOS_Sessions_RemoveNotifyJoinSessionAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifyJoinSessionAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_RemoveNotifySessionInviteAccepted));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_RemoveNotifySessionInviteAccepted));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_RemoveNotifySessionInviteAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_RemoveNotifySessionInviteAccepted");
 			EOS_Sessions_RemoveNotifySessionInviteAccepted = (EOS_Sessions_RemoveNotifySessionInviteAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifySessionInviteAcceptedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_RemoveNotifySessionInviteReceived));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_RemoveNotifySessionInviteReceived));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_RemoveNotifySessionInviteReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_RemoveNotifySessionInviteReceived");
 			EOS_Sessions_RemoveNotifySessionInviteReceived = (EOS_Sessions_RemoveNotifySessionInviteReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifySessionInviteReceivedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_SendInvite));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_SendInvite));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_SendInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_SendInvite");
 			EOS_Sessions_SendInvite = (EOS_Sessions_SendInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_SendInviteCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_StartSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_StartSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_StartSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_StartSession");
 			EOS_Sessions_StartSession = (EOS_Sessions_StartSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_StartSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_UnregisterPlayers));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_UnregisterPlayers));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_UnregisterPlayers");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_UnregisterPlayers");
 			EOS_Sessions_UnregisterPlayers = (EOS_Sessions_UnregisterPlayersCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_UnregisterPlayersCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_UpdateSession));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_UpdateSession));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_UpdateSession");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_UpdateSession");
 			EOS_Sessions_UpdateSession = (EOS_Sessions_UpdateSessionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_UpdateSessionCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Sessions_UpdateSessionModification));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Sessions_UpdateSessionModification));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Sessions_UpdateSessionModification");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Sessions_UpdateSessionModification");
 			EOS_Sessions_UpdateSessionModification = (EOS_Sessions_UpdateSessionModificationCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_UpdateSessionModificationCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Shutdown));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Shutdown));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Shutdown");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Shutdown");
 			EOS_Shutdown = (EOS_ShutdownCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ShutdownCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Stats_CopyStatByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Stats_CopyStatByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Stats_CopyStatByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Stats_CopyStatByIndex");
 			EOS_Stats_CopyStatByIndex = (EOS_Stats_CopyStatByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Stats_CopyStatByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Stats_CopyStatByName));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Stats_CopyStatByName));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Stats_CopyStatByName");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Stats_CopyStatByName");
 			EOS_Stats_CopyStatByName = (EOS_Stats_CopyStatByNameCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Stats_CopyStatByNameCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Stats_GetStatsCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Stats_GetStatsCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Stats_GetStatsCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Stats_GetStatsCount");
 			EOS_Stats_GetStatsCount = (EOS_Stats_GetStatsCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Stats_GetStatsCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Stats_IngestStat));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Stats_IngestStat));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Stats_IngestStat");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Stats_IngestStat");
 			EOS_Stats_IngestStat = (EOS_Stats_IngestStatCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Stats_IngestStatCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Stats_QueryStats));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Stats_QueryStats));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Stats_QueryStats");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Stats_QueryStats");
 			EOS_Stats_QueryStats = (EOS_Stats_QueryStatsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Stats_QueryStatsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_Stats_Stat_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_Stats_Stat_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Stats_Stat_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Stats_Stat_Release");
 			EOS_Stats_Stat_Release = (EOS_Stats_Stat_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Stats_Stat_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorageFileTransferRequest_CancelRequest));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorageFileTransferRequest_CancelRequest));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorageFileTransferRequest_CancelRequest");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorageFileTransferRequest_CancelRequest");
 			EOS_TitleStorageFileTransferRequest_CancelRequest = (EOS_TitleStorageFileTransferRequest_CancelRequestCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorageFileTransferRequest_CancelRequestCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorageFileTransferRequest_GetFileRequestState));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorageFileTransferRequest_GetFileRequestState));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorageFileTransferRequest_GetFileRequestState");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorageFileTransferRequest_GetFileRequestState");
 			EOS_TitleStorageFileTransferRequest_GetFileRequestState = (EOS_TitleStorageFileTransferRequest_GetFileRequestStateCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorageFileTransferRequest_GetFileRequestStateCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorageFileTransferRequest_GetFilename));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorageFileTransferRequest_GetFilename));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorageFileTransferRequest_GetFilename");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorageFileTransferRequest_GetFilename");
 			EOS_TitleStorageFileTransferRequest_GetFilename = (EOS_TitleStorageFileTransferRequest_GetFilenameCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorageFileTransferRequest_GetFilenameCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorageFileTransferRequest_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorageFileTransferRequest_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorageFileTransferRequest_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorageFileTransferRequest_Release");
 			EOS_TitleStorageFileTransferRequest_Release = (EOS_TitleStorageFileTransferRequest_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorageFileTransferRequest_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorage_CopyFileMetadataAtIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorage_CopyFileMetadataAtIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorage_CopyFileMetadataAtIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorage_CopyFileMetadataAtIndex");
 			EOS_TitleStorage_CopyFileMetadataAtIndex = (EOS_TitleStorage_CopyFileMetadataAtIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorage_CopyFileMetadataAtIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorage_CopyFileMetadataByFilename));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorage_CopyFileMetadataByFilename));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorage_CopyFileMetadataByFilename");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorage_CopyFileMetadataByFilename");
 			EOS_TitleStorage_CopyFileMetadataByFilename = (EOS_TitleStorage_CopyFileMetadataByFilenameCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorage_CopyFileMetadataByFilenameCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorage_DeleteCache));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorage_DeleteCache));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorage_DeleteCache");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorage_DeleteCache");
 			EOS_TitleStorage_DeleteCache = (EOS_TitleStorage_DeleteCacheCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorage_DeleteCacheCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorage_FileMetadata_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorage_FileMetadata_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorage_FileMetadata_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorage_FileMetadata_Release");
 			EOS_TitleStorage_FileMetadata_Release = (EOS_TitleStorage_FileMetadata_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorage_FileMetadata_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorage_GetFileMetadataCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorage_GetFileMetadataCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorage_GetFileMetadataCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorage_GetFileMetadataCount");
 			EOS_TitleStorage_GetFileMetadataCount = (EOS_TitleStorage_GetFileMetadataCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorage_GetFileMetadataCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorage_QueryFile));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorage_QueryFile));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorage_QueryFile");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorage_QueryFile");
 			EOS_TitleStorage_QueryFile = (EOS_TitleStorage_QueryFileCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorage_QueryFileCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorage_QueryFileList));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorage_QueryFileList));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorage_QueryFileList");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorage_QueryFileList");
 			EOS_TitleStorage_QueryFileList = (EOS_TitleStorage_QueryFileListCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorage_QueryFileListCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_TitleStorage_ReadFile));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_TitleStorage_ReadFile));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_TitleStorage_ReadFile");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_TitleStorage_ReadFile");
 			EOS_TitleStorage_ReadFile = (EOS_TitleStorage_ReadFileCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_TitleStorage_ReadFileCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_AcknowledgeEventId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_AcknowledgeEventId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_AcknowledgeEventId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_AcknowledgeEventId");
 			EOS_UI_AcknowledgeEventId = (EOS_UI_AcknowledgeEventIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_AcknowledgeEventIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_AddNotifyDisplaySettingsUpdated));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_AddNotifyDisplaySettingsUpdated));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_AddNotifyDisplaySettingsUpdated");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_AddNotifyDisplaySettingsUpdated");
 			EOS_UI_AddNotifyDisplaySettingsUpdated = (EOS_UI_AddNotifyDisplaySettingsUpdatedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_AddNotifyDisplaySettingsUpdatedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_GetFriendsVisible));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_GetFriendsVisible));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_GetFriendsVisible");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_GetFriendsVisible");
 			EOS_UI_GetFriendsVisible = (EOS_UI_GetFriendsVisibleCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_GetFriendsVisibleCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_GetNotificationLocationPreference));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_GetNotificationLocationPreference));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_GetNotificationLocationPreference");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_GetNotificationLocationPreference");
 			EOS_UI_GetNotificationLocationPreference = (EOS_UI_GetNotificationLocationPreferenceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_GetNotificationLocationPreferenceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_GetToggleFriendsKey));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_GetToggleFriendsKey));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_GetToggleFriendsKey");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_GetToggleFriendsKey");
 			EOS_UI_GetToggleFriendsKey = (EOS_UI_GetToggleFriendsKeyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_GetToggleFriendsKeyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_HideFriends));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_HideFriends));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_HideFriends");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_HideFriends");
 			EOS_UI_HideFriends = (EOS_UI_HideFriendsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_HideFriendsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_IsValidKeyCombination));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_IsValidKeyCombination));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_IsValidKeyCombination");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_IsValidKeyCombination");
 			EOS_UI_IsValidKeyCombination = (EOS_UI_IsValidKeyCombinationCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_IsValidKeyCombinationCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_RemoveNotifyDisplaySettingsUpdated));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_RemoveNotifyDisplaySettingsUpdated));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_RemoveNotifyDisplaySettingsUpdated");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_RemoveNotifyDisplaySettingsUpdated");
 			EOS_UI_RemoveNotifyDisplaySettingsUpdated = (EOS_UI_RemoveNotifyDisplaySettingsUpdatedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_RemoveNotifyDisplaySettingsUpdatedCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_SetDisplayPreference));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_SetDisplayPreference));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_SetDisplayPreference");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_SetDisplayPreference");
 			EOS_UI_SetDisplayPreference = (EOS_UI_SetDisplayPreferenceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_SetDisplayPreferenceCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_SetToggleFriendsKey));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_SetToggleFriendsKey));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_SetToggleFriendsKey");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_SetToggleFriendsKey");
 			EOS_UI_SetToggleFriendsKey = (EOS_UI_SetToggleFriendsKeyCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_SetToggleFriendsKeyCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UI_ShowFriends));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UI_ShowFriends));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UI_ShowFriends");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UI_ShowFriends");
 			EOS_UI_ShowFriends = (EOS_UI_ShowFriendsCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_ShowFriendsCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_CopyExternalUserInfoByAccountId));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_CopyExternalUserInfoByAccountId));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_CopyExternalUserInfoByAccountId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_CopyExternalUserInfoByAccountId");
 			EOS_UserInfo_CopyExternalUserInfoByAccountId = (EOS_UserInfo_CopyExternalUserInfoByAccountIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_CopyExternalUserInfoByAccountIdCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_CopyExternalUserInfoByAccountType));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_CopyExternalUserInfoByAccountType));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_CopyExternalUserInfoByAccountType");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_CopyExternalUserInfoByAccountType");
 			EOS_UserInfo_CopyExternalUserInfoByAccountType = (EOS_UserInfo_CopyExternalUserInfoByAccountTypeCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_CopyExternalUserInfoByAccountTypeCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_CopyExternalUserInfoByIndex));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_CopyExternalUserInfoByIndex));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_CopyExternalUserInfoByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_CopyExternalUserInfoByIndex");
 			EOS_UserInfo_CopyExternalUserInfoByIndex = (EOS_UserInfo_CopyExternalUserInfoByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_CopyExternalUserInfoByIndexCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_CopyUserInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_CopyUserInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_CopyUserInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_CopyUserInfo");
 			EOS_UserInfo_CopyUserInfo = (EOS_UserInfo_CopyUserInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_CopyUserInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_ExternalUserInfo_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_ExternalUserInfo_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_ExternalUserInfo_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_ExternalUserInfo_Release");
 			EOS_UserInfo_ExternalUserInfo_Release = (EOS_UserInfo_ExternalUserInfo_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_ExternalUserInfo_ReleaseCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_GetExternalUserInfoCount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_GetExternalUserInfoCount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_GetExternalUserInfoCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_GetExternalUserInfoCount");
 			EOS_UserInfo_GetExternalUserInfoCount = (EOS_UserInfo_GetExternalUserInfoCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_GetExternalUserInfoCountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_QueryUserInfo));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_QueryUserInfo));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_QueryUserInfo");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_QueryUserInfo");
 			EOS_UserInfo_QueryUserInfo = (EOS_UserInfo_QueryUserInfoCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_QueryUserInfoCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_QueryUserInfoByDisplayName));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_QueryUserInfoByDisplayName));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_QueryUserInfoByDisplayName");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_QueryUserInfoByDisplayName");
 			EOS_UserInfo_QueryUserInfoByDisplayName = (EOS_UserInfo_QueryUserInfoByDisplayNameCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_QueryUserInfoByDisplayNameCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_QueryUserInfoByExternalAccount));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_QueryUserInfoByExternalAccount));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_QueryUserInfoByExternalAccount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_QueryUserInfoByExternalAccount");
 			EOS_UserInfo_QueryUserInfoByExternalAccount = (EOS_UserInfo_QueryUserInfoByExternalAccountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_QueryUserInfoByExternalAccountCallback));
 
-			functionPointer = getFunctionPointer(libraryHandle, nameof(EOS_UserInfo_Release));
-			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(nameof(EOS_UserInfo_Release));
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_UserInfo_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_UserInfo_Release");
 			EOS_UserInfo_Release = (EOS_UserInfo_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_ReleaseCallback));
 		}
 #endif
@@ -2026,6 +2198,7 @@ namespace Epic.OnlineServices
 			EOS_Lobby_AddNotifyLobbyMemberStatusReceived = null;
 			EOS_Lobby_AddNotifyLobbyMemberUpdateReceived = null;
 			EOS_Lobby_AddNotifyLobbyUpdateReceived = null;
+			EOS_Lobby_AddNotifyRTCRoomConnectionChanged = null;
 			EOS_Lobby_Attribute_Release = null;
 			EOS_Lobby_CopyLobbyDetailsHandle = null;
 			EOS_Lobby_CopyLobbyDetailsHandleByInviteId = null;
@@ -2035,6 +2208,8 @@ namespace Epic.OnlineServices
 			EOS_Lobby_DestroyLobby = null;
 			EOS_Lobby_GetInviteCount = null;
 			EOS_Lobby_GetInviteIdByIndex = null;
+			EOS_Lobby_GetRTCRoomName = null;
+			EOS_Lobby_IsRTCRoomConnected = null;
 			EOS_Lobby_JoinLobby = null;
 			EOS_Lobby_KickMember = null;
 			EOS_Lobby_LeaveLobby = null;
@@ -2047,6 +2222,7 @@ namespace Epic.OnlineServices
 			EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived = null;
 			EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived = null;
 			EOS_Lobby_RemoveNotifyLobbyUpdateReceived = null;
+			EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged = null;
 			EOS_Lobby_SendInvite = null;
 			EOS_Lobby_UpdateLobby = null;
 			EOS_Lobby_UpdateLobbyModification = null;
@@ -2101,6 +2277,8 @@ namespace Epic.OnlineServices
 			EOS_Platform_GetP2PInterface = null;
 			EOS_Platform_GetPlayerDataStorageInterface = null;
 			EOS_Platform_GetPresenceInterface = null;
+			EOS_Platform_GetRTCAdminInterface = null;
+			EOS_Platform_GetRTCInterface = null;
 			EOS_Platform_GetReportsInterface = null;
 			EOS_Platform_GetSanctionsInterface = null;
 			EOS_Platform_GetSessionsInterface = null;
@@ -2147,6 +2325,43 @@ namespace Epic.OnlineServices
 			EOS_ProductUserId_FromString = null;
 			EOS_ProductUserId_IsValid = null;
 			EOS_ProductUserId_ToString = null;
+			EOS_RTCAdmin_CopyUserTokenByIndex = null;
+			EOS_RTCAdmin_CopyUserTokenByUserId = null;
+			EOS_RTCAdmin_Kick = null;
+			EOS_RTCAdmin_QueryJoinRoomToken = null;
+			EOS_RTCAdmin_SetParticipantHardMute = null;
+			EOS_RTCAdmin_UserToken_Release = null;
+			EOS_RTCAudio_AddNotifyAudioBeforeRender = null;
+			EOS_RTCAudio_AddNotifyAudioBeforeSend = null;
+			EOS_RTCAudio_AddNotifyAudioDevicesChanged = null;
+			EOS_RTCAudio_AddNotifyAudioInputState = null;
+			EOS_RTCAudio_AddNotifyAudioOutputState = null;
+			EOS_RTCAudio_AddNotifyParticipantUpdated = null;
+			EOS_RTCAudio_GetAudioInputDeviceByIndex = null;
+			EOS_RTCAudio_GetAudioInputDevicesCount = null;
+			EOS_RTCAudio_GetAudioOutputDeviceByIndex = null;
+			EOS_RTCAudio_GetAudioOutputDevicesCount = null;
+			EOS_RTCAudio_RegisterPlatformAudioUser = null;
+			EOS_RTCAudio_RemoveNotifyAudioBeforeRender = null;
+			EOS_RTCAudio_RemoveNotifyAudioBeforeSend = null;
+			EOS_RTCAudio_RemoveNotifyAudioDevicesChanged = null;
+			EOS_RTCAudio_RemoveNotifyAudioInputState = null;
+			EOS_RTCAudio_RemoveNotifyAudioOutputState = null;
+			EOS_RTCAudio_RemoveNotifyParticipantUpdated = null;
+			EOS_RTCAudio_SendAudio = null;
+			EOS_RTCAudio_SetAudioInputSettings = null;
+			EOS_RTCAudio_SetAudioOutputSettings = null;
+			EOS_RTCAudio_UnregisterPlatformAudioUser = null;
+			EOS_RTCAudio_UpdateReceiving = null;
+			EOS_RTCAudio_UpdateSending = null;
+			EOS_RTC_AddNotifyDisconnected = null;
+			EOS_RTC_AddNotifyParticipantStatusChanged = null;
+			EOS_RTC_BlockParticipant = null;
+			EOS_RTC_GetAudioInterface = null;
+			EOS_RTC_JoinRoom = null;
+			EOS_RTC_LeaveRoom = null;
+			EOS_RTC_RemoveNotifyDisconnected = null;
+			EOS_RTC_RemoveNotifyParticipantStatusChanged = null;
 			EOS_Reports_SendPlayerBehaviorReport = null;
 			EOS_Sanctions_CopyPlayerSanctionByIndex = null;
 			EOS_Sanctions_GetPlayerSanctionCount = null;
@@ -3145,6 +3360,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Lobby_AddNotifyLobbyUpdateReceivedCallback EOS_Lobby_AddNotifyLobbyUpdateReceived;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_Lobby_AddNotifyRTCRoomConnectionChangedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnRTCRoomConnectionChangedCallbackInternal notificationFn);
+		internal static EOS_Lobby_AddNotifyRTCRoomConnectionChangedCallback EOS_Lobby_AddNotifyRTCRoomConnectionChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_Attribute_ReleaseCallback(System.IntPtr lobbyAttribute);
 		internal static EOS_Lobby_Attribute_ReleaseCallback EOS_Lobby_Attribute_Release;
 
@@ -3179,6 +3398,14 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_Lobby_GetInviteIdByIndexCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_Lobby_GetInviteIdByIndexCallback EOS_Lobby_GetInviteIdByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Lobby_GetRTCRoomNameCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint inOutBufferLength);
+		internal static EOS_Lobby_GetRTCRoomNameCallback EOS_Lobby_GetRTCRoomName;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Lobby_IsRTCRoomConnectedCallback(System.IntPtr handle, System.IntPtr options, ref int bOutIsConnected);
+		internal static EOS_Lobby_IsRTCRoomConnectedCallback EOS_Lobby_IsRTCRoomConnected;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_JoinLobbyCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnJoinLobbyCallbackInternal completionDelegate);
@@ -3227,6 +3454,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyUpdateReceivedCallback(System.IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyLobbyUpdateReceivedCallback EOS_Lobby_RemoveNotifyLobbyUpdateReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedCallback(System.IntPtr handle, ulong inId);
+		internal static EOS_Lobby_RemoveNotifyRTCRoomConnectionChangedCallback EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_SendInviteCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnSendInviteCallbackInternal completionDelegate);
@@ -3445,6 +3676,14 @@ namespace Epic.OnlineServices
 		internal static EOS_Platform_GetPresenceInterfaceCallback EOS_Platform_GetPresenceInterface;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Platform_GetRTCAdminInterfaceCallback(System.IntPtr handle);
+		internal static EOS_Platform_GetRTCAdminInterfaceCallback EOS_Platform_GetRTCAdminInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Platform_GetRTCInterfaceCallback(System.IntPtr handle);
+		internal static EOS_Platform_GetRTCInterfaceCallback EOS_Platform_GetRTCInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetReportsInterfaceCallback(System.IntPtr handle);
 		internal static EOS_Platform_GetReportsInterfaceCallback EOS_Platform_GetReportsInterface;
 
@@ -3627,6 +3866,154 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_ProductUserId_ToStringCallback(System.IntPtr accountId, System.IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_ProductUserId_ToStringCallback EOS_ProductUserId_ToString;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAdmin_CopyUserTokenByIndexCallback(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
+		internal static EOS_RTCAdmin_CopyUserTokenByIndexCallback EOS_RTCAdmin_CopyUserTokenByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAdmin_CopyUserTokenByUserIdCallback(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
+		internal static EOS_RTCAdmin_CopyUserTokenByUserIdCallback EOS_RTCAdmin_CopyUserTokenByUserId;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAdmin_KickCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnKickCompleteCallbackInternal completionDelegate);
+		internal static EOS_RTCAdmin_KickCallback EOS_RTCAdmin_Kick;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAdmin_QueryJoinRoomTokenCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnQueryJoinRoomTokenCompleteCallbackInternal completionDelegate);
+		internal static EOS_RTCAdmin_QueryJoinRoomTokenCallback EOS_RTCAdmin_QueryJoinRoomToken;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAdmin_SetParticipantHardMuteCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnSetParticipantHardMuteCompleteCallbackInternal completionDelegate);
+		internal static EOS_RTCAdmin_SetParticipantHardMuteCallback EOS_RTCAdmin_SetParticipantHardMute;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAdmin_UserToken_ReleaseCallback(System.IntPtr userToken);
+		internal static EOS_RTCAdmin_UserToken_ReleaseCallback EOS_RTCAdmin_UserToken_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioBeforeRenderCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioBeforeRenderCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioBeforeRenderCallback EOS_RTCAudio_AddNotifyAudioBeforeRender;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioBeforeSendCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioBeforeSendCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioBeforeSendCallback EOS_RTCAudio_AddNotifyAudioBeforeSend;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioDevicesChangedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioDevicesChangedCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioDevicesChangedCallback EOS_RTCAudio_AddNotifyAudioDevicesChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioInputStateCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioInputStateCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioInputStateCallback EOS_RTCAudio_AddNotifyAudioInputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyAudioOutputStateCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioOutputStateCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyAudioOutputStateCallback EOS_RTCAudio_AddNotifyAudioOutputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCAudio_AddNotifyParticipantUpdatedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnParticipantUpdatedCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_AddNotifyParticipantUpdatedCallback EOS_RTCAudio_AddNotifyParticipantUpdated;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_RTCAudio_GetAudioInputDeviceByIndexCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_GetAudioInputDeviceByIndexCallback EOS_RTCAudio_GetAudioInputDeviceByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_RTCAudio_GetAudioInputDevicesCountCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_GetAudioInputDevicesCountCallback EOS_RTCAudio_GetAudioInputDevicesCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_RTCAudio_GetAudioOutputDeviceByIndexCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_GetAudioOutputDeviceByIndexCallback EOS_RTCAudio_GetAudioOutputDeviceByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_RTCAudio_GetAudioOutputDevicesCountCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_GetAudioOutputDevicesCountCallback EOS_RTCAudio_GetAudioOutputDevicesCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_RegisterPlatformAudioUserCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_RegisterPlatformAudioUserCallback EOS_RTCAudio_RegisterPlatformAudioUser;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioBeforeRenderCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioBeforeRenderCallback EOS_RTCAudio_RemoveNotifyAudioBeforeRender;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioBeforeSendCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioBeforeSendCallback EOS_RTCAudio_RemoveNotifyAudioBeforeSend;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioDevicesChangedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioDevicesChangedCallback EOS_RTCAudio_RemoveNotifyAudioDevicesChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioInputStateCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioInputStateCallback EOS_RTCAudio_RemoveNotifyAudioInputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyAudioOutputStateCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyAudioOutputStateCallback EOS_RTCAudio_RemoveNotifyAudioOutputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RemoveNotifyParticipantUpdatedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCAudio_RemoveNotifyParticipantUpdatedCallback EOS_RTCAudio_RemoveNotifyParticipantUpdated;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_SendAudioCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_SendAudioCallback EOS_RTCAudio_SendAudio;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_SetAudioInputSettingsCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_SetAudioInputSettingsCallback EOS_RTCAudio_SetAudioInputSettings;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_SetAudioOutputSettingsCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_SetAudioOutputSettingsCallback EOS_RTCAudio_SetAudioOutputSettings;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_UnregisterPlatformAudioUserCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTCAudio_UnregisterPlatformAudioUserCallback EOS_RTCAudio_UnregisterPlatformAudioUser;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_UpdateReceivingCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnUpdateReceivingCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_UpdateReceivingCallback EOS_RTCAudio_UpdateReceiving;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_UpdateSendingCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnUpdateSendingCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_UpdateSendingCallback EOS_RTCAudio_UpdateSending;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTC_AddNotifyDisconnectedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnDisconnectedCallbackInternal completionDelegate);
+		internal static EOS_RTC_AddNotifyDisconnectedCallback EOS_RTC_AddNotifyDisconnected;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTC_AddNotifyParticipantStatusChangedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnParticipantStatusChangedCallbackInternal completionDelegate);
+		internal static EOS_RTC_AddNotifyParticipantStatusChangedCallback EOS_RTC_AddNotifyParticipantStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_BlockParticipantCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
+		internal static EOS_RTC_BlockParticipantCallback EOS_RTC_BlockParticipant;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_RTC_GetAudioInterfaceCallback(System.IntPtr handle);
+		internal static EOS_RTC_GetAudioInterfaceCallback EOS_RTC_GetAudioInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_JoinRoomCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnJoinRoomCallbackInternal completionDelegate);
+		internal static EOS_RTC_JoinRoomCallback EOS_RTC_JoinRoom;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_LeaveRoomCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnLeaveRoomCallbackInternal completionDelegate);
+		internal static EOS_RTC_LeaveRoomCallback EOS_RTC_LeaveRoom;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_RemoveNotifyDisconnectedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTC_RemoveNotifyDisconnectedCallback EOS_RTC_RemoveNotifyDisconnected;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_RemoveNotifyParticipantStatusChangedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTC_RemoveNotifyParticipantStatusChangedCallback EOS_RTC_RemoveNotifyParticipantStatusChanged;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Reports_SendPlayerBehaviorReportCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Reports.OnSendPlayerBehaviorReportCompleteCallbackInternal completionDelegate);
@@ -4691,6 +5078,9 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyUpdateReceived(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnLobbyUpdateReceivedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_Lobby_AddNotifyRTCRoomConnectionChanged(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnRTCRoomConnectionChangedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_Attribute_Release(System.IntPtr lobbyAttribute);
 
 		[DllImport(Config.LibraryName)]
@@ -4716,6 +5106,12 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_Lobby_GetInviteIdByIndex(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref int inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Lobby_GetRTCRoomName(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Lobby_IsRTCRoomConnected(System.IntPtr handle, System.IntPtr options, ref int bOutIsConnected);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_JoinLobby(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnJoinLobbyCallbackInternal completionDelegate);
@@ -4752,6 +5148,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyUpdateReceived(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged(System.IntPtr handle, ulong inId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_SendInvite(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Lobby.OnSendInviteCallbackInternal completionDelegate);
@@ -4916,6 +5315,12 @@ namespace Epic.OnlineServices
 		internal static extern System.IntPtr EOS_Platform_GetPresenceInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Platform_GetRTCAdminInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Platform_GetRTCInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetReportsInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
@@ -5052,6 +5457,117 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_ProductUserId_ToString(System.IntPtr accountId, System.IntPtr outBuffer, ref int inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAdmin_CopyUserTokenByIndex(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAdmin_CopyUserTokenByUserId(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAdmin_Kick(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnKickCompleteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAdmin_QueryJoinRoomToken(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnQueryJoinRoomTokenCompleteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAdmin_SetParticipantHardMute(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAdmin.OnSetParticipantHardMuteCompleteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAdmin_UserToken_Release(System.IntPtr userToken);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioBeforeRender(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioBeforeRenderCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioBeforeSend(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioBeforeSendCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioDevicesChanged(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioDevicesChangedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioInputState(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioInputStateCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyAudioOutputState(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnAudioOutputStateCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCAudio_AddNotifyParticipantUpdated(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnParticipantUpdatedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_RTCAudio_GetAudioInputDeviceByIndex(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_RTCAudio_GetAudioInputDevicesCount(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_RTCAudio_GetAudioOutputDeviceByIndex(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_RTCAudio_GetAudioOutputDevicesCount(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_RegisterPlatformAudioUser(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioBeforeRender(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioBeforeSend(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioDevicesChanged(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioInputState(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyAudioOutputState(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RemoveNotifyParticipantUpdated(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_SendAudio(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_SetAudioInputSettings(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_SetAudioOutputSettings(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_UnregisterPlatformAudioUser(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_UpdateReceiving(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnUpdateReceivingCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_UpdateSending(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTCAudio.OnUpdateSendingCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTC_AddNotifyDisconnected(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnDisconnectedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTC_AddNotifyParticipantStatusChanged(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnParticipantStatusChangedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_BlockParticipant(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_RTC_GetAudioInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_JoinRoom(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnJoinRoomCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_LeaveRoom(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, RTC.OnLeaveRoomCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_RemoveNotifyDisconnected(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_RemoveNotifyParticipantStatusChanged(System.IntPtr handle, ulong notificationId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Reports_SendPlayerBehaviorReport(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Reports.OnSendPlayerBehaviorReportCompleteCallbackInternal completionDelegate);

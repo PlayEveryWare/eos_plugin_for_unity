@@ -1,0 +1,44 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+  id: EOSTitleStorageManager.OnReadFileCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: EOSTitleStorageManager.OnReadFileCallback
+  nameWithType: EOSTitleStorageManager.OnReadFileCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback
+  type: Delegate
+  source:
+    id: OnReadFileCallback
+    path: ''
+    startLine: 10091
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public delegate void OnReadFileCallback(Result result);
+    parameters:
+    - id: result
+      type: Result
+    content.vb: Public Delegate Sub OnReadFileCallback(result As Result)
+  modifiers.csharp:
+  - public
+  - delegate
+  modifiers.vb:
+  - Public
+  - Delegate
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: Result
+  isExternal: true
+  name: Result
+  nameWithType: Result
+  fullName: Result

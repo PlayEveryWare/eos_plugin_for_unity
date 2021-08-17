@@ -53,7 +53,7 @@ namespace Epic.OnlineServices.TitleStorage
 		{
 			System.IntPtr outStringBufferAddress = System.IntPtr.Zero;
 			int outStringLength = TitleStorageInterface.FilenameMaxLengthBytes;
-			Helper.TryMarshalAllocate(ref outStringBufferAddress, outStringLength, out _);
+			Helper.TryMarshalAllocate(ref outStringBufferAddress, outStringLength);
 
 			var funcResult = Bindings.EOS_TitleStorageFileTransferRequest_GetFilename(InnerHandle, (uint)outStringLength, outStringBufferAddress, ref outStringLength);
 

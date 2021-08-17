@@ -34,6 +34,11 @@ namespace Epic.OnlineServices.Platform
 		public const int OptionsApiLatest = 11;
 
 		/// <summary>
+		/// The most recent version of the <see cref="RTCOptions" /> API.
+		/// </summary>
+		public const int RtcoptionsApiLatest = 1;
+
+		/// <summary>
 		/// Checks if the app was launched through the Epic Launcher, and relaunches it through the Epic Launcher if it wasn't.
 		/// </summary>
 		/// <returns>
@@ -117,7 +122,7 @@ namespace Epic.OnlineServices.Platform
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = CountrycodeMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Platform_GetActiveCountryCode(InnerHandle, localUserIdInnerHandle, outBufferAddress, ref inOutBufferLength);
 
@@ -155,7 +160,7 @@ namespace Epic.OnlineServices.Platform
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = LocalecodeMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Platform_GetActiveLocaleCode(InnerHandle, localUserIdInnerHandle, outBufferAddress, ref inOutBufferLength);
 
@@ -374,7 +379,7 @@ namespace Epic.OnlineServices.Platform
 		{
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = CountrycodeMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Platform_GetOverrideCountryCode(InnerHandle, outBufferAddress, ref inOutBufferLength);
 
@@ -406,7 +411,7 @@ namespace Epic.OnlineServices.Platform
 		{
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = LocalecodeMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Platform_GetOverrideLocaleCode(InnerHandle, outBufferAddress, ref inOutBufferLength);
 
@@ -463,6 +468,42 @@ namespace Epic.OnlineServices.Platform
 			var funcResult = Bindings.EOS_Platform_GetPresenceInterface(InnerHandle);
 
 			Presence.PresenceInterface funcResultReturn;
+			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
+		/// Get a handle to the RTC Admin interface
+		/// eos_rtc_admin.h
+		/// eos_admin_types.h
+		/// </summary>
+		/// <returns>
+		/// <see cref="RTCAdmin.RTCAdminInterface" /> handle
+		/// </returns>
+		public RTCAdmin.RTCAdminInterface GetRTCAdminInterface()
+		{
+			var funcResult = Bindings.EOS_Platform_GetRTCAdminInterface(InnerHandle);
+
+			RTCAdmin.RTCAdminInterface funcResultReturn;
+			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
+		/// Get a handle to the Real Time Communications Interface (RTC).
+		/// From the RTC interface you can retrieve the handle to the audio interface (RTCAudio), which is a component of RTC.
+		/// <seealso cref="RTC.RTCInterface.GetAudioInterface" />
+		/// eos_rtc.h
+		/// eos_rtc_types.h
+		/// </summary>
+		/// <returns>
+		/// <see cref="RTC.RTCInterface" /> handle
+		/// </returns>
+		public RTC.RTCInterface GetRTCInterface()
+		{
+			var funcResult = Bindings.EOS_Platform_GetRTCInterface(InnerHandle);
+
+			RTC.RTCInterface funcResultReturn;
 			Helper.TryMarshalGet(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}

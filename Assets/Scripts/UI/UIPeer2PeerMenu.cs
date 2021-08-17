@@ -1,12 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.P2P;
+
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -26,8 +49,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject ChatEntriesContentParent;
         public GameObject ChatEntryPrefab;
 
-        public InputField ChatMessageInput;
+        public ConsoleInputField ChatMessageInput;
         public Button SendButton;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         // Private
 
@@ -42,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
 
-            ChatMessageInput.onEndEdit.AddListener(EnterPressedToSend);
+            ChatMessageInput.InputField.onEndEdit.AddListener(EnterPressedToSend);
 
             CloseChatOnClick();
         }
@@ -190,14 +216,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (string.IsNullOrEmpty(ChatMessageInput.text))
+            if (string.IsNullOrEmpty(ChatMessageInput.InputField.text))
             {
                 Debug.LogError("UIPeer2PeerMenu (SendOnClick): Message is empty.");
                 return;
             }
 
-            string message = ChatMessageInput.text;
-            ChatMessageInput.text = string.Empty;
+            string message = ChatMessageInput.InputField.text;
+            ChatMessageInput.InputField.text = string.Empty;
 
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
@@ -214,6 +240,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
 
             Peer2PeerUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

@@ -33,6 +33,13 @@ namespace Epic.OnlineServices.Lobby
 		/// <seealso cref="Sessions.JoinSessionOptions" />
 		/// </summary>
 		public bool PresenceEnabled { get; set; }
+
+		/// <summary>
+		/// (Optional) Set this value to override the default local options for the RTC Room, if it is enabled for this lobby. Set this to NULL if
+		/// your application does not use the Lobby RTC Rooms feature, or if you would like to use the default settings. This option is ignored if
+		/// the specified lobby does not have an RTC Room enabled and will not cause errors.
+		/// </summary>
+		public LocalRTCOptions LocalRTCOptions { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -42,6 +49,7 @@ namespace Epic.OnlineServices.Lobby
 		private System.IntPtr m_LobbyDetailsHandle;
 		private System.IntPtr m_LocalUserId;
 		private int m_PresenceEnabled;
+		private System.IntPtr m_LocalRTCOptions;
 
 		public LobbyDetails LobbyDetailsHandle
 		{
@@ -67,6 +75,14 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		public LocalRTCOptions LocalRTCOptions
+		{
+			set
+			{
+				Helper.TryMarshalSet<LocalRTCOptionsInternal, LocalRTCOptions>(ref m_LocalRTCOptions, value);
+			}
+		}
+
 		public void Set(JoinLobbyOptions other)
 		{
 			if (other != null)
@@ -75,6 +91,7 @@ namespace Epic.OnlineServices.Lobby
 				LobbyDetailsHandle = other.LobbyDetailsHandle;
 				LocalUserId = other.LocalUserId;
 				PresenceEnabled = other.PresenceEnabled;
+				LocalRTCOptions = other.LocalRTCOptions;
 			}
 		}
 
@@ -87,6 +104,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			Helper.TryMarshalDispose(ref m_LobbyDetailsHandle);
 			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.TryMarshalDispose(ref m_LocalRTCOptions);
 		}
 	}
 }

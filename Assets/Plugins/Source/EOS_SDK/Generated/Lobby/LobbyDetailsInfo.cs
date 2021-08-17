@@ -45,6 +45,11 @@ namespace Epic.OnlineServices.Lobby
 		/// </summary>
 		public bool AllowHostMigration { get; set; }
 
+		/// <summary>
+		/// Was a Real-Time Communication (RTC) room enabled at lobby creation?
+		/// </summary>
+		public bool RTCRoomEnabled { get; set; }
+
 		internal void Set(LobbyDetailsInfoInternal? other)
 		{
 			if (other != null)
@@ -57,6 +62,7 @@ namespace Epic.OnlineServices.Lobby
 				AllowInvites = other.Value.AllowInvites;
 				BucketId = other.Value.BucketId;
 				AllowHostMigration = other.Value.AllowHostMigration;
+				RTCRoomEnabled = other.Value.RTCRoomEnabled;
 			}
 		}
 
@@ -78,6 +84,7 @@ namespace Epic.OnlineServices.Lobby
 		private int m_AllowInvites;
 		private System.IntPtr m_BucketId;
 		private int m_AllowHostMigration;
+		private int m_RTCRoomEnabled;
 
 		public string LobbyId
 		{
@@ -193,6 +200,21 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		public bool RTCRoomEnabled
+		{
+			get
+			{
+				bool value;
+				Helper.TryMarshalGet(m_RTCRoomEnabled, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.TryMarshalSet(ref m_RTCRoomEnabled, value);
+			}
+		}
+
 		public void Set(LobbyDetailsInfo other)
 		{
 			if (other != null)
@@ -206,6 +228,7 @@ namespace Epic.OnlineServices.Lobby
 				AllowInvites = other.AllowInvites;
 				BucketId = other.BucketId;
 				AllowHostMigration = other.AllowHostMigration;
+				RTCRoomEnabled = other.RTCRoomEnabled;
 			}
 		}
 

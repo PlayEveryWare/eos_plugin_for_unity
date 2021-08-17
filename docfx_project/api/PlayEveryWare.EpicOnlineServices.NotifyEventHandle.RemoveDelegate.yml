@@ -1,0 +1,52 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+  commentId: T:PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+  id: NotifyEventHandle.RemoveDelegate
+  parent: PlayEveryWare.EpicOnlineServices
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: NotifyEventHandle.RemoveDelegate
+  nameWithType: NotifyEventHandle.RemoveDelegate
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
+  type: Delegate
+  source:
+    id: RemoveDelegate
+    path: ''
+    startLine: 1993
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public delegate void RemoveDelegate(ulong aHandle);
+    parameters:
+    - id: aHandle
+      type: System.UInt64
+    content.vb: Public Delegate Sub RemoveDelegate(aHandle As ULong)
+  modifiers.csharp:
+  - public
+  - delegate
+  modifiers.vb:
+  - Public
+  - Delegate
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  name: UInt64
+  nameWithType: UInt64
+  fullName: System.UInt64
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

@@ -539,7 +539,7 @@ namespace Epic.OnlineServices.Connect
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = ExternalAccountIdMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Connect_GetProductUserIdMapping(InnerHandle, optionsAddress, outBufferAddress, ref inOutBufferLength);
 

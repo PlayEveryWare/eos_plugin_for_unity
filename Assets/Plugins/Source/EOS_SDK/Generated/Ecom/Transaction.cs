@@ -89,7 +89,7 @@ namespace Epic.OnlineServices.Ecom
 		{
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = EcomInterface.TransactionidMaximumLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Ecom_Transaction_GetTransactionId(InnerHandle, outBufferAddress, ref inOutBufferLength);
 

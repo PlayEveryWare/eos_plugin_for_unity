@@ -3,7 +3,7 @@
 
         {"src":"EOSUnityPlugin_package_template/CHANGELOG-prerelease.md", "dest" : "CHANGELOG.md"},
         {"src":"EOSUnityPlugin_package_template/CHANGELOG.md.meta", "dest" : ""},
-        {"src":"EOSUnityPlugin_package_template/LICENSE.md", "dest" : ""},
+        {"src":"license.md", "dest" : "LICENSE.md"},
         {"src":"EOSUnityPlugin_package_template/LICENSE.md.meta", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/package.json", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/package.json.meta", "dest" : ""},
@@ -58,6 +58,9 @@
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK.meta", "dest": "Runtime/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/license.txt", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/license.txt.meta", "dest": "Runtime/EOS_SDK/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/com.Epic.OnlineServices.asmdef", "dest": "Runtime/EOS_SDK/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/com.Epic.OnlineServices.asmdef.meta", "dest": "Runtime/EOS_SDK/"},
@@ -151,6 +154,18 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports/*.cs", "dest": "Runtime/EOS_SDK/Generated/Reports/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Reports/"},
 
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTC.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTC/*.cs", "dest": "Runtime/EOS_SDK/Generated/RTC/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTC/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/RTC/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAdmin.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAdmin/*.cs", "dest": "Runtime/EOS_SDK/Generated/RTCAdmin/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAdmin/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/RTCAdmin/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAudio.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAudio/*.cs", "dest": "Runtime/EOS_SDK/Generated/RTCAudio/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAudio/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/RTCAudio/"},
+
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sanctions.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sanctions/*.cs", "dest": "Runtime/EOS_SDK/Generated/Sanctions/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sanctions/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Sanctions/"},
@@ -175,6 +190,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
 
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
 
         {"src":"EOSUnityPlugin_package_template/.sample.json", "dest" : ""},
         {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/"},
@@ -185,8 +204,8 @@
         {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/UI.meta", "dest": "Samples~/Samples/Scripts/UI.meta"},
-        {"src":"Assets/Scripts/UI/UI*.cs", "dest": "Samples~/Samples/Scripts/UI/"},
-        {"src":"Assets/Scripts/UI/UI*.cs.meta", "dest": "Samples~/Samples/Scripts/UI/"},
+        {"src":"Assets/Scripts/UI/*.cs", "dest": "Samples~/Samples/Scripts/UI/"},
+        {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/Scripts/UI/"},
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
 

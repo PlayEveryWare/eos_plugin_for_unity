@@ -1,0 +1,38 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  id: IEOSSubManager
+  parent: PlayEveryWare.EpicOnlineServices
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: IEOSSubManager
+  nameWithType: IEOSSubManager
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  type: Interface
+  source:
+    id: IEOSSubManager
+    path: ''
+    startLine: 1954
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nInterface for <code>Manager</code> classes.\n"
+  example: []
+  syntax:
+    content: public interface IEOSSubManager
+    content.vb: Public Interface IEOSSubManager
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices

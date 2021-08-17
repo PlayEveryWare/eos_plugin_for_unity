@@ -1,0 +1,1268 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  id: Lobby
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby._BeingCreated
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby._SearchResult
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.AllowInvites
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.Attributes
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.AvailableSlots
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.BucketId
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.Clear
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.Id
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyDetails(LobbyDetails)
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwner
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwnerAccountId
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwnerDisplayName
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyPermissionLevel
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.MaxNumLobbyMembers
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.Members
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.PresenceEnabled
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomConnected
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomConnectionChanged
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomEnabled
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomName
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomParticipantAudioUpdate
+  - PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomParticipantUpdate
+  langs:
+  - csharp
+  - vb
+  name: Lobby
+  nameWithType: Lobby
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  type: Struct
+  source:
+    id: Lobby
+    path: ''
+    startLine: 4777
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass represents all Lobby properties\n"
+  example: []
+  syntax:
+    content: public struct Lobby
+    content.vb: Public Structure Lobby
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - struct
+  modifiers.vb:
+  - Public
+  - Structure
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Id
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.Id
+  id: Id
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: Lobby.Id
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Id
+  type: Field
+  source:
+    id: Id
+    path: ''
+    startLine: 4779
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public string Id
+    return:
+      type: System.String
+    content.vb: Public Id As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwner
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwner
+  id: LobbyOwner
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: LobbyOwner
+  nameWithType: Lobby.LobbyOwner
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwner
+  type: Field
+  source:
+    id: LobbyOwner
+    path: ''
+    startLine: 4780
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public ProductUserId LobbyOwner
+    return:
+      type: ProductUserId
+    content.vb: Public LobbyOwner As ProductUserId
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwnerAccountId
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwnerAccountId
+  id: LobbyOwnerAccountId
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: LobbyOwnerAccountId
+  nameWithType: Lobby.LobbyOwnerAccountId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwnerAccountId
+  type: Field
+  source:
+    id: LobbyOwnerAccountId
+    path: ''
+    startLine: 4781
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EpicAccountId LobbyOwnerAccountId
+    return:
+      type: EpicAccountId
+    content.vb: Public LobbyOwnerAccountId As EpicAccountId
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwnerDisplayName
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwnerDisplayName
+  id: LobbyOwnerDisplayName
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: LobbyOwnerDisplayName
+  nameWithType: Lobby.LobbyOwnerDisplayName
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyOwnerDisplayName
+  type: Field
+  source:
+    id: LobbyOwnerDisplayName
+    path: ''
+    startLine: 4782
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public string LobbyOwnerDisplayName
+    return:
+      type: System.String
+    content.vb: Public LobbyOwnerDisplayName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.BucketId
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.BucketId
+  id: BucketId
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: BucketId
+  nameWithType: Lobby.BucketId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.BucketId
+  type: Field
+  source:
+    id: BucketId
+    path: ''
+    startLine: 4783
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public string BucketId
+    return:
+      type: System.String
+    content.vb: Public BucketId As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.MaxNumLobbyMembers
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.MaxNumLobbyMembers
+  id: MaxNumLobbyMembers
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: MaxNumLobbyMembers
+  nameWithType: Lobby.MaxNumLobbyMembers
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.MaxNumLobbyMembers
+  type: Field
+  source:
+    id: MaxNumLobbyMembers
+    path: ''
+    startLine: 4784
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public uint MaxNumLobbyMembers
+    return:
+      type: System.UInt32
+    content.vb: Public MaxNumLobbyMembers As UInteger
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyPermissionLevel
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyPermissionLevel
+  id: LobbyPermissionLevel
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: LobbyPermissionLevel
+  nameWithType: Lobby.LobbyPermissionLevel
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.LobbyPermissionLevel
+  type: Field
+  source:
+    id: LobbyPermissionLevel
+    path: ''
+    startLine: 4785
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public LobbyPermissionLevel LobbyPermissionLevel
+    return:
+      type: LobbyPermissionLevel
+    content.vb: Public LobbyPermissionLevel As LobbyPermissionLevel
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.AvailableSlots
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.AvailableSlots
+  id: AvailableSlots
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: AvailableSlots
+  nameWithType: Lobby.AvailableSlots
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.AvailableSlots
+  type: Field
+  source:
+    id: AvailableSlots
+    path: ''
+    startLine: 4786
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public uint AvailableSlots
+    return:
+      type: System.UInt32
+    content.vb: Public AvailableSlots As UInteger
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.AllowInvites
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.AllowInvites
+  id: AllowInvites
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: AllowInvites
+  nameWithType: Lobby.AllowInvites
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.AllowInvites
+  type: Field
+  source:
+    id: AllowInvites
+    path: ''
+    startLine: 4787
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool AllowInvites
+    return:
+      type: System.Boolean
+    content.vb: Public AllowInvites As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomName
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomName
+  id: RTCRoomName
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: RTCRoomName
+  nameWithType: Lobby.RTCRoomName
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomName
+  type: Field
+  source:
+    id: RTCRoomName
+    path: ''
+    startLine: 4790
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public string RTCRoomName
+    return:
+      type: System.String
+    content.vb: Public RTCRoomName As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomConnected
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomConnected
+  id: RTCRoomConnected
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: RTCRoomConnected
+  nameWithType: Lobby.RTCRoomConnected
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomConnected
+  type: Field
+  source:
+    id: RTCRoomConnected
+    path: ''
+    startLine: 4792
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool RTCRoomConnected
+    return:
+      type: System.Boolean
+    content.vb: Public RTCRoomConnected As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomConnectionChanged
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomConnectionChanged
+  id: RTCRoomConnectionChanged
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: RTCRoomConnectionChanged
+  nameWithType: Lobby.RTCRoomConnectionChanged
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomConnectionChanged
+  type: Field
+  source:
+    id: RTCRoomConnectionChanged
+    path: ''
+    startLine: 4794
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  example: []
+  syntax:
+    content: public NotifyEventHandle RTCRoomConnectionChanged
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: Public RTCRoomConnectionChanged As NotifyEventHandle
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomParticipantUpdate
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomParticipantUpdate
+  id: RTCRoomParticipantUpdate
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: RTCRoomParticipantUpdate
+  nameWithType: Lobby.RTCRoomParticipantUpdate
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomParticipantUpdate
+  type: Field
+  source:
+    id: RTCRoomParticipantUpdate
+    path: ''
+    startLine: 4796
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  example: []
+  syntax:
+    content: public NotifyEventHandle RTCRoomParticipantUpdate
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: Public RTCRoomParticipantUpdate As NotifyEventHandle
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomParticipantAudioUpdate
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomParticipantAudioUpdate
+  id: RTCRoomParticipantAudioUpdate
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: RTCRoomParticipantAudioUpdate
+  nameWithType: Lobby.RTCRoomParticipantAudioUpdate
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomParticipantAudioUpdate
+  type: Field
+  source:
+    id: RTCRoomParticipantAudioUpdate
+    path: ''
+    startLine: 4798
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  example: []
+  syntax:
+    content: public NotifyEventHandle RTCRoomParticipantAudioUpdate
+    return:
+      type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+    content.vb: Public RTCRoomParticipantAudioUpdate As NotifyEventHandle
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.PresenceEnabled
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.PresenceEnabled
+  id: PresenceEnabled
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: PresenceEnabled
+  nameWithType: Lobby.PresenceEnabled
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.PresenceEnabled
+  type: Field
+  source:
+    id: PresenceEnabled
+    path: ''
+    startLine: 4800
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool PresenceEnabled
+    return:
+      type: System.Boolean
+    content.vb: Public PresenceEnabled As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomEnabled
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomEnabled
+  id: RTCRoomEnabled
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: RTCRoomEnabled
+  nameWithType: Lobby.RTCRoomEnabled
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.RTCRoomEnabled
+  type: Field
+  source:
+    id: RTCRoomEnabled
+    path: ''
+    startLine: 4801
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool RTCRoomEnabled
+    return:
+      type: System.Boolean
+    content.vb: Public RTCRoomEnabled As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Attributes
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.Attributes
+  id: Attributes
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: Attributes
+  nameWithType: Lobby.Attributes
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Attributes
+  type: Field
+  source:
+    id: Attributes
+    path: ''
+    startLine: 4803
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public List<LobbyAttribute> Attributes
+    return:
+      type: List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}
+    content.vb: Public Attributes As List(Of LobbyAttribute)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Members
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.Members
+  id: Members
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: Members
+  nameWithType: Lobby.Members
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Members
+  type: Field
+  source:
+    id: Members
+    path: ''
+    startLine: 4804
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public List<LobbyMember> Members
+    return:
+      type: List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}
+    content.vb: Public Members As List(Of LobbyMember)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby._SearchResult
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby._SearchResult
+  id: _SearchResult
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: _SearchResult
+  nameWithType: Lobby._SearchResult
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby._SearchResult
+  type: Field
+  source:
+    id: _SearchResult
+    path: ''
+    startLine: 4808
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool _SearchResult
+    return:
+      type: System.Boolean
+    content.vb: Public _SearchResult As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby._BeingCreated
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby._BeingCreated
+  id: _BeingCreated
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: _BeingCreated
+  nameWithType: Lobby._BeingCreated
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby._BeingCreated
+  type: Field
+  source:
+    id: _BeingCreated
+    path: ''
+    startLine: 4809
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool _BeingCreated
+    return:
+      type: System.Boolean
+    content.vb: Public _BeingCreated As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid
+  id: IsValid
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: IsValid()
+  nameWithType: Lobby.IsValid()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid()
+  type: Method
+  source:
+    id: IsValid
+    path: ''
+    startLine: 4815
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nChecks if Lobby Id is valid\n"
+  example: []
+  syntax:
+    content: public bool IsValid()
+    return:
+      type: System.Boolean
+      description: True if valid
+    content.vb: Public Function IsValid As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner(ProductUserId)
+  id: IsOwner(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: IsOwner(ProductUserId)
+  nameWithType: Lobby.IsOwner(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner(ProductUserId)
+  type: Method
+  source:
+    id: IsOwner
+    path: ''
+    startLine: 4825
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nChecks if the specified <code>ProductUserId</code> is the current owner\n"
+  example: []
+  syntax:
+    content: public bool IsOwner(ProductUserId userProductId)
+    parameters:
+    - id: userProductId
+      type: ProductUserId
+      description: Specified <code>ProductUserId</code>
+    return:
+      type: System.Boolean
+      description: True if specified user is owner
+    content.vb: Public Function IsOwner(userProductId As ProductUserId) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Clear
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.Lobby.Clear
+  id: Clear
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: Lobby.Clear()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Clear()
+  type: Method
+  source:
+    id: Clear
+    path: ''
+    startLine: 4833
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClears local cache of Lobby Id, owner, attributes and members\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle(System.String)
+  id: InitFromLobbyHandle(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: InitFromLobbyHandle(String)
+  nameWithType: Lobby.InitFromLobbyHandle(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle(System.String)
+  type: Method
+  source:
+    id: InitFromLobbyHandle
+    path: ''
+    startLine: 4845
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nInitializing the given Lobby Id and caches all relevant attributes\n"
+  example: []
+  syntax:
+    content: public void InitFromLobbyHandle(string lobbyId)
+    parameters:
+    - id: lobbyId
+      type: System.String
+      description: Specified Lobby Id
+    content.vb: Public Sub InitFromLobbyHandle(lobbyId As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyDetails(LobbyDetails)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyDetails(LobbyDetails)
+  id: InitFromLobbyDetails(LobbyDetails)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+  langs:
+  - csharp
+  - vb
+  name: InitFromLobbyDetails(LobbyDetails)
+  nameWithType: Lobby.InitFromLobbyDetails(LobbyDetails)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyDetails(LobbyDetails)
+  type: Method
+  source:
+    id: InitFromLobbyDetails
+    path: ''
+    startLine: 4877
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nInitializing the given <code>LobbyDetails</code> handle and caches all relevant attributes\n"
+  example: []
+  syntax:
+    content: public void InitFromLobbyDetails(LobbyDetails outLobbyDetailsHandle)
+    parameters:
+    - id: outLobbyDetailsHandle
+      type: LobbyDetails
+    content.vb: Public Sub InitFromLobbyDetails(outLobbyDetailsHandle As LobbyDetails)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyDetails*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: ProductUserId
+  isExternal: true
+  name: ProductUserId
+  nameWithType: ProductUserId
+  fullName: ProductUserId
+- uid: EpicAccountId
+  isExternal: true
+  name: EpicAccountId
+  nameWithType: EpicAccountId
+  fullName: EpicAccountId
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  name: UInt32
+  nameWithType: UInt32
+  fullName: System.UInt32
+- uid: LobbyPermissionLevel
+  commentId: '!:LobbyPermissionLevel'
+  isExternal: true
+  name: LobbyPermissionLevel
+  nameWithType: LobbyPermissionLevel
+  fullName: LobbyPermissionLevel
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  commentId: T:PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+  parent: PlayEveryWare.EpicOnlineServices
+  name: NotifyEventHandle
+  nameWithType: NotifyEventHandle
+  fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}
+  commentId: '!:List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}'
+  definition: List`1
+  name: List<LobbyAttribute>
+  nameWithType: List<LobbyAttribute>
+  fullName: List<PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute>
+  nameWithType.vb: List(Of LobbyAttribute)
+  fullName.vb: List(Of PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute)
+  name.vb: List(Of LobbyAttribute)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+    name: LobbyAttribute
+    nameWithType: LobbyAttribute
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+    name: LobbyAttribute
+    nameWithType: LobbyAttribute
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List`1
+  isExternal: true
+  name: List<>
+  nameWithType: List<>
+  fullName: List<>
+  nameWithType.vb: List(Of )
+  fullName.vb: List(Of )
+  name.vb: List(Of )
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}
+  commentId: '!:List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}'
+  definition: List`1
+  name: List<LobbyMember>
+  nameWithType: List<LobbyMember>
+  fullName: List<PlayEveryWare.EpicOnlineServices.Samples.LobbyMember>
+  nameWithType.vb: List(Of LobbyMember)
+  fullName.vb: List(Of PlayEveryWare.EpicOnlineServices.Samples.LobbyMember)
+  name.vb: List(Of LobbyMember)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyMember
+    name: LobbyMember
+    nameWithType: LobbyMember
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyMember
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyMember
+    name: LobbyMember
+    nameWithType: LobbyMember
+    fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyMember
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid
+  name: IsValid
+  nameWithType: Lobby.IsValid
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner
+  name: IsOwner
+  nameWithType: Lobby.IsOwner
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Clear*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.Lobby.Clear
+  name: Clear
+  nameWithType: Lobby.Clear
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Clear
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle
+  name: InitFromLobbyHandle
+  nameWithType: Lobby.InitFromLobbyHandle
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyDetails*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyDetails
+  name: InitFromLobbyDetails
+  nameWithType: Lobby.InitFromLobbyDetails
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyDetails
+- uid: LobbyDetails
+  isExternal: true
+  name: LobbyDetails
+  nameWithType: LobbyDetails
+  fullName: LobbyDetails

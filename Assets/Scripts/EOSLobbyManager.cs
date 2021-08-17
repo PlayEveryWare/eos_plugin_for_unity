@@ -1,3 +1,25 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 ﻿using System;
 using System.Collections.Generic;
 
@@ -5,9 +27,14 @@ using UnityEngine;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Lobby;
+using Epic.OnlineServices.RTC;
+using Epic.OnlineServices.RTCAudio;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class represents all Lobby properties
+    /// </summary>
     public class Lobby
     {
         public string Id;
@@ -19,7 +46,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public LobbyPermissionLevel LobbyPermissionLevel = LobbyPermissionLevel.Publicadvertised;
         public uint AvailableSlots = 0;
         public bool AllowInvites = true;
+
+        // Cached copy of the RoomName of the RTC room that our lobby has, if any
+        public string RTCRoomName = string.Empty;
+        // Are we currently connected to an RTC room?
+        public bool RTCRoomConnected = false;
+        /** Notification for RTC connection status changes */
+        public NotifyEventHandle RTCRoomConnectionChanged; // EOS_INVALID_NOTIFICATIONID;
+        /** Notification for RTC room participant updates (new players or players leaving) */
+        public NotifyEventHandle RTCRoomParticipantUpdate; // EOS_INVALID_NOTIFICATIONID;
+        /** Notification for RTC audio updates (talking status or mute changes) */
+        public NotifyEventHandle RTCRoomParticipantAudioUpdate; // EOS_INVALID_NOTIFICATIONID;
+
         public bool PresenceEnabled = false;
+        public bool RTCRoomEnabled = false;
 
         public List<LobbyAttribute> Attributes = new List<LobbyAttribute>();
         public List<LobbyMember> Members = new List<LobbyMember>();
@@ -29,16 +69,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool _SearchResult = false;
         public bool _BeingCreated = false;
 
+        /// <summary>
+        /// Checks if Lobby Id is valid
+        /// </summary>
+        /// <returns>True if valid</returns>
         public bool IsValid()
         {
             return !string.IsNullOrEmpty(Id);
         }
 
+        /// <summary>
+        /// Checks if the specified <c>ProductUserId</c> is the current owner
+        /// </summary>
+        /// <param name="userProductId">Specified <c>ProductUserId</c></param>
+        /// <returns>True if specified user is owner</returns>
         public bool IsOwner(ProductUserId userProductId)
         {
             return userProductId == LobbyOwner;
         }
 
+        /// <summary>
+        /// Clears local cache of Lobby Id, owner, attributes and members
+        /// </summary>
         public void Clear()
         {
             Id = string.Empty;
@@ -47,6 +99,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Members.Clear();
         }
 
+        /// <summary>
+        /// Initializing the given Lobby Id and caches all relevant attributes
+        /// </summary>
+        /// <param name="lobbyId">Specified Lobby Id</param>
         public void InitFromLobbyHandle(string lobbyId)
         {
             if (string.IsNullOrEmpty(lobbyId))
@@ -75,6 +131,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitFromLobbyDetails(outLobbyDetailsHandle);
         }
 
+        /// <summary>
+        /// Initializing the given <c>LobbyDetails</c> handle and caches all relevant attributes
+        /// </summary>
+        /// <param name="lobbyId">Specified <c>LobbyDetails</c> handle</param>
         public void InitFromLobbyDetails(LobbyDetails outLobbyDetailsHandle)
         {
             // get owner
@@ -104,6 +164,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyPermissionLevel = outLobbyDetailsInfo.PermissionLevel;
             AllowInvites = outLobbyDetailsInfo.AllowInvites;
             AvailableSlots = outLobbyDetailsInfo.AvailableSlots;
+            BucketId = outLobbyDetailsInfo.BucketId;
+            RTCRoomEnabled = outLobbyDetailsInfo.RTCRoomEnabled;
 
             // get attributes
             Attributes.Clear();
@@ -122,6 +184,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // get members
+            List<LobbyMember> OldMembers = new List<LobbyMember>(Members);
             Members.Clear();
 
             uint memberCount = outLobbyDetailsHandle.GetMemberCount(new LobbyDetailsGetMemberCountOptions());
@@ -146,16 +209,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     LobbyAttribute newAttribute = new LobbyAttribute();
                     newAttribute.InitFromAttribute(outAttribute);
-                    Members[memberIndex].MemberAttributes[attributeIndex] = newAttribute;
-                    if (newAttribute.Key.Equals("COLOR")) // Additional values
+ 
+                    Members[memberIndex].MemberAttributes.Add(newAttribute.Key, newAttribute);
+                }
+
+                // Copy RTC Status from old members
+                foreach(LobbyMember oldLobbyMember in OldMembers)
+                {
+                    LobbyMember newMember = Members[memberIndex];
+                    if(oldLobbyMember.ProductId != newMember.ProductId)
                     {
-                        Members[memberIndex].ColorValueStr = newAttribute.AsString;
+                        continue;
                     }
+
+                    // Copy RTC status to new object
+                    newMember.RTCState = oldLobbyMember.RTCState;
+                    break;
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Class represents all Lobby Invite properties
+    /// </summary>
     public class LobbyInvite
     {
         public Lobby Lobby = new Lobby();
@@ -181,6 +258,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents all Lobby Attribute properties
+    /// </summary>
     public class LobbyAttribute
     {
         public LobbyAttributeVisibility Visibility = LobbyAttributeVisibility.Public;
@@ -201,7 +281,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AttributeData attrData = new AttributeData();
                 attrData.Key = Key;
                 attrData.Value = new AttributeDataValue();
-                //attrData.Value.ValueType = AttributeType.String; // Read Only
 
                 switch (ValueType)
                 {
@@ -243,6 +322,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void InitFromAttribute(Epic.OnlineServices.Lobby.Attribute attributeParam)
         {
+            Key = attributeParam.Data.Key;
             ValueType = attributeParam.Data.Value.ValueType;
 
             switch (attributeParam.Data.Value.ValueType)
@@ -263,30 +343,49 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents all Lobby Member properties
+    /// </summary>
     public class LobbyMember
     {
         public EpicAccountId AccountId;
         public ProductUserId ProductId;
 
         public string DisplayName;
-        public List<LobbyAttribute> MemberAttributes = new List<LobbyAttribute>();
+        public Dictionary<string, LobbyAttribute> MemberAttributes = new Dictionary<string, LobbyAttribute>();
 
-        // Custom Lobby Property
-        public enum Color
-        {
-            Red = 0,
-            Green,
-            Blue
-        }
-        public Color ColorValue = LobbyMember.Color.Red;
-        public string ColorValueStr = string.Empty;
+        public LobbyRTCState RTCState = new LobbyRTCState();
     }
 
+    /// <summary>
+    /// Class represents RTC State (Voice) of a Lobby
+    /// </summary>
+
+    public class LobbyRTCState
+    {
+        // Is this person currently connected to the RTC room?
+        public bool IsInRTCRoom = false;
+
+        // Is this person currently talking (audible sounds from their audio output)
+        public bool IsTalking = false;
+
+        // We have locally muted this person (others can still hear them)
+        public bool IsLocalMuted = false;
+
+        // Has this person muted their own audio output (nobody can hear them)
+        public bool IsAudioOutputDisabled = false;
+
+        // Are we currently muting this person?
+        public bool MuteActionInProgress = false;
+    }
+
+    /// <summary>
+    /// Class represents a request to Join a lobby
+    /// </summary>
     public class LobbyJoinRequest
     {
         string Id = string.Empty;
         LobbyDetails LobbyInfo = new LobbyDetails();
-        //bool _PresenceEnabled = false;
 
         public bool IsValid()
         {
@@ -297,9 +396,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Id = string.Empty;
             LobbyInfo = new LobbyDetails();
-            //_PresenceEnabled = false;
         }
     }
+
+    /// <summary>
+    /// Class <c>EOSLobbyManager</c> is a simplified wrapper for EOS [Lobby Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Lobby/index.html).
+    /// </summary>
 
     public class EOSLobbyManager : IEOSSubManager
     {
@@ -334,6 +436,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private OnLobbyCallback JoinLobbyCallback;
         private OnLobbyCallback LeaveLobbyCallback;
         private OnLobbyCallback DestroyLobbyCallback;
+        private OnLobbyCallback ToggleMuteCallback;
         private OnLobbyCallback KickMemberCallback;
         private OnLobbyCallback PromoteMemberCallback;
         private OnLobbySearchCallback LobbySearchCallback;
@@ -465,13 +568,285 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             JoinLobbyAcceptedNotification.Dispose();
         }
 
-        // User Events
+        private string GetRTCRoomName()
+        {
+            GetRTCRoomNameOptions options = new GetRTCRoomNameOptions()
+            {
+                LobbyId = CurrentLobby.Id,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().GetRTCRoomName(options, out string roomName);
+
+            if(result != Result.Success)
+            {
+                Debug.LogFormat("Lobbies (GetRTCRoomName): Could not get RTC Room Name. Error Code: {0}", result);
+                return string.Empty;
+            }
+
+            Debug.LogFormat("Lobbies (GetRTCRoomName): Found RTC Room Name for lobby. RooName={0}", roomName);
+
+            return roomName;
+        }
+
+        private void UnsubscribeFromRTCEvents()
+        {
+            if(!CurrentLobby.RTCRoomEnabled)
+            {
+                return;
+            }
+
+            CurrentLobby.RTCRoomParticipantAudioUpdate.Dispose();
+            CurrentLobby.RTCRoomParticipantUpdate.Dispose();
+            CurrentLobby.RTCRoomConnectionChanged.Dispose();
+
+            CurrentLobby.RTCRoomName = string.Empty;
+        }
+
+        private void SubscribeToRTCEvents()
+        {
+            if(!CurrentLobby.RTCRoomEnabled)
+            {
+                Debug.LogWarning("Lobbies (SubscribeToRTCEvents): RTC Room is disabled.");
+                return;
+            }
+
+            CurrentLobby.RTCRoomName = GetRTCRoomName();
+
+            if(string.IsNullOrEmpty(CurrentLobby.RTCRoomName))
+            {
+                Debug.LogError("Lobbies (SubscribeToRTCEvents): Unable to bind to RTC Room Name, failing to bind delegates.");
+                return;
+            }
+
+            LobbyInterface lobbyInterface = EOSManager.Instance.GetEOSLobbyInterface();
+
+            // Register for connection status changes
+            AddNotifyRTCRoomConnectionChangedOptions addNotifyRTCRoomConnectionChangedOptions = new AddNotifyRTCRoomConnectionChangedOptions()
+            {
+                LobbyId = CurrentLobby.Id,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+            CurrentLobby.RTCRoomConnectionChanged = new NotifyEventHandle(lobbyInterface.AddNotifyRTCRoomConnectionChanged(addNotifyRTCRoomConnectionChangedOptions, null, OnRTCRoomConnectionChangedReceived), (ulong handle) =>
+            {
+                EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyRTCRoomConnectionChanged(handle);
+            });
+
+            if(!CurrentLobby.RTCRoomConnectionChanged.IsValid())
+            {
+                Debug.LogError("Lobbies (SubscribeToRTCEvents): Failed to bind to Lobby NotifyRTCRoomConnectionChanged notification.");
+            }
+
+            // Get the current room connection status now that we're listening for changes
+            IsRTCRoomConnectedOptions isRTCRoomConnectedOptions = new IsRTCRoomConnectedOptions()
+            {
+                LobbyId = CurrentLobby.Id,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+
+            Result result = lobbyInterface.IsRTCRoomConnected(isRTCRoomConnectedOptions, out bool isConnected);
+
+            if (result != Result.Success)
+            {
+                Debug.LogFormat("Lobbies (SubscribeToRTCEvents): Failed to get RTC Room connection status:. Error Code: {0}", result);
+            }
+            else
+            {
+                CurrentLobby.RTCRoomConnected = isConnected;
+            }
+
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            // Register for RTC Room participant changes
+            AddNotifyParticipantStatusChangedOptions addNotifyParticipantsStatusChangedOptions = new AddNotifyParticipantStatusChangedOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = CurrentLobby.RTCRoomName
+            };
+
+            CurrentLobby.RTCRoomParticipantUpdate = new NotifyEventHandle(rtcHandle.AddNotifyParticipantStatusChanged(addNotifyParticipantsStatusChangedOptions, null, OnRTCRoomParticipantStatusChanged), (ulong handle) =>
+            {
+                EOSManager.Instance.GetEOSRTCInterface().RemoveNotifyParticipantStatusChanged(handle);
+            });
+
+            if(!CurrentLobby.RTCRoomParticipantUpdate.IsValid())
+            {
+                Debug.LogError("Lobbies (SubscribeToRTCEvents): Failed to bind to RTC AddNotifyParticipantStatusChanged notification.");
+            }
+
+            // Register for talking changes
+            AddNotifyParticipantUpdatedOptions addNotifyParticipantUpdatedOptions = new AddNotifyParticipantUpdatedOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RoomName = CurrentLobby.RTCRoomName
+            };
+
+            CurrentLobby.RTCRoomParticipantAudioUpdate = new NotifyEventHandle(rtcAudioHandle.AddNotifyParticipantUpdated(addNotifyParticipantUpdatedOptions, null, OnRTCRoomParticipantAudioUpdateRecieved), (ulong handle) =>
+            {
+                EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().RemoveNotifyParticipantUpdated(handle);
+            });
+        }
+
+        private void OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomConnectionChangedReceived): RTCRoomConnectionChangedCallbackInfo data is null");
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomConnectionChangedReceived): connection status changed. LobbyId={0}, IsConnected={1}, DisconnectReason={2}", data.LobbyId, data.IsConnected, data.DisconnectReason);
+
+            // OnRTCRoomConnectionChanged
+
+            if(!CurrentLobby.IsValid() || CurrentLobby.Id != data.LobbyId)
+            {
+                return;
+            }
+
+            if(EOSManager.Instance.GetLocalUserId() != data.LocalUserId)
+            {
+                return;
+            }
+
+            CurrentLobby.RTCRoomConnected = data.IsConnected;
+
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                if(lobbyMember.ProductId == EOSManager.Instance.GetProductUserId())
+                {
+                    lobbyMember.RTCState.IsInRTCRoom = data.IsConnected;
+                    if(!data.IsConnected)
+                    {
+                        lobbyMember.RTCState.IsTalking = false;
+                    }
+                    break;
+                }
+            }
+
+            _Dirty = true;
+        }
+
+        private void OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomParticipantStatusChanged): ParticipantStatusChangedCallbackInfo data is null");
+                return;
+            }
+
+            int metadataCount = 0;
+            if (data.ParticipantMetadata != null)
+            {
+                metadataCount = data.ParticipantMetadata.Length;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomParticipantStatusChanged): LocalUserId={0}, Room={1}, ParticipantUserId={2}, ParticipantStatus={3}, MetadataCount={4}",
+                data.LocalUserId, 
+                data.RoomName, 
+                data.ParticipantId, 
+                data.ParticipantStatus == RTCParticipantStatus.Joined ? "Joined" : "Left",
+                metadataCount);
+
+            // Ensure this update is for our room
+            if (string.IsNullOrEmpty(CurrentLobby.RTCRoomName) || CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            //OnRTCRoomParticipantJoined / OnRTCRoomParticipantLeft
+
+            // Find this participant in our list
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                if(lobbyMember.ProductId != data.ParticipantId)
+                {
+                    continue;
+                }
+
+                // Update in-room status
+                if (data.ParticipantStatus == RTCParticipantStatus.Joined)
+                {
+                    lobbyMember.RTCState.IsInRTCRoom = true;
+                }
+                else
+                {
+                    lobbyMember.RTCState.IsInRTCRoom = false;
+                    lobbyMember.RTCState.IsTalking = false;
+                }
+
+                _Dirty = true;
+                break;
+            }
+        }
+
+        private void OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): ParticipantUpdatedCallbackInfo data is null");
+                return;
+            }
+
+            /* Verbose Logging: Uncomment to print each time audio is received.
+            Debug.LogFormat("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): participant audio updated. LocalUserId={0}, Room={1}, ParticipantUserId={2}, IsTalking={3}, IsAudioDisabled={4}",
+                data.LocalUserId,
+                data.RoomName,
+                data.ParticipantId,
+                data.Speaking,
+                data.AudioStatus != RTCAudioStatus.Enabled);
+            */
+
+            // OnRTCRoomParticipantAudioUpdated
+
+            // Ensure this update is for our room
+            if (string.IsNullOrEmpty(CurrentLobby.RTCRoomName) || !CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            // Find this participant in our list
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                if(lobbyMember.ProductId != data.ParticipantId)
+                {
+                    continue;
+                }
+
+                // Update talking status
+                if(lobbyMember.RTCState.IsTalking != data.Speaking)
+                {
+                    lobbyMember.RTCState.IsTalking = data.Speaking;
+                }
+
+                // Only update the audio status for other players (we control their own status)
+                if(lobbyMember.ProductId != EOSManager.Instance.GetProductUserId())
+                {
+                    lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus != RTCAudioStatus.Enabled;
+                }
+
+                _Dirty = true;
+                break;
+            }
+        }
+
+        /// <summary>User Logged In actions</summary>
+        /// <list type="bullet">
+        ///     <item><description>Reset local cache for Invites</description></item>
+        /// </list>
         public void OnLoggedIn()
         {
             _Dirty = true;
             CurrentInvite = null;
         }
 
+        /// <summary>User Logged Out actions</summary>
+        /// <list type="bullet">
+        ///     <item><description>Leaves current lobby</description></item>
+        ///     <item><description>Unsubscribe from Lobby invites and updates</description></item>
+        ///     <item><description>Reset local cache for <c>Lobby</c>, <c>LobbyJoinRequest</c>, Invites, <c>LobbySearch</c> and </description></item>
+        /// </list>
         public void OnLoggedOut()
         {
             LeaveLobby(null);
@@ -488,8 +863,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SearchResults.Clear();
         }
 
-        // Lobby Create/Leave/Modify Events
-
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_CreateLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_CreateLobby/index.html)
+        /// </summary>
+        /// <param name="lobbyProperties"><b>Lobby</b> properties used to create new lobby</param>
+        /// <param name="CreateLobbyCompleted">Callback when create lobby is completed</param>
         public void CreateLobby(Lobby lobbyProperties, OnLobbyCallback CreateLobbyCompleted)
         {
             ProductUserId currentUserProductId = EOSManager.Instance.GetProductUserId();
@@ -519,6 +897,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             createLobbyOptions.AllowInvites = lobbyProperties.AllowInvites;
             createLobbyOptions.BucketId = lobbyProperties.BucketId;
 
+            // Voice Chat
+            if(lobbyProperties.RTCRoomEnabled)
+            {
+                LocalRTCOptions rtcOptions = new LocalRTCOptions()
+                {
+                    Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
+                    UseManualAudioInput = false,
+                    UseManualAudioOutput = false,
+                    LocalAudioDeviceInputStartsMuted = false
+                };
+
+                createLobbyOptions.EnableRTCRoom = true;
+                createLobbyOptions.LocalRTCOptions = rtcOptions;
+            }
+            else
+            {
+                createLobbyOptions.EnableRTCRoom = false;
+                createLobbyOptions.LocalRTCOptions = null;
+            }
+
             // Note: Attributes are handled in ModifyLobby
             LobbyCreatedCallback = CreateLobbyCompleted;
 
@@ -530,6 +928,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentLobby.LobbyOwner = currentUserProductId;
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_UpdateLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_UpdateLobby/index.html)
+        /// </summary>
+        /// <param name="lobbyUpdates"><b>Lobby</b> properties used to update current lobby</param>
+        /// <param name="ModififyLobbyCompleted">Callback when modify lobby is completed</param>
         public void ModifyLobby(Lobby lobbyUpdates, OnLobbyCallback ModififyLobbyCompleted)
         {
             // Validate current lobby
@@ -595,7 +998,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
 
-            // Add Attributes
+            // Add Lobby Attributes
             for (int attributeIndex = 0; attributeIndex < lobbyUpdates.Attributes.Count; attributeIndex++)
             {
                 AttributeData attributeData = lobbyUpdates.Attributes[attributeIndex].AsAttribute;
@@ -657,6 +1060,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetEOSLobbyInterface().UpdateLobby(new UpdateLobbyOptions() { LobbyModificationHandle = outLobbyModificationHandle }, null, OnUpdateLobbyCallBack);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_LeaveLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_LeaveLobby/index.html)
+        /// </summary>
+        /// <param name="LeaveLobbyCompleted">Callback when leave lobby is completed</param>
         public void LeaveLobby(OnLobbyCallback LeaveLobbyCompleted)
         {
             if (CurrentLobby == null || string.IsNullOrEmpty(CurrentLobby.Id) || !EOSManager.Instance.GetProductUserId().IsValid())
@@ -665,6 +1072,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LeaveLobbyCompleted?.Invoke(Result.NotFound);
                 return;
             }
+
+            UnsubscribeFromRTCEvents();
 
             LeaveLobbyOptions options = new LeaveLobbyOptions();
             options.LobbyId = CurrentLobby.Id;
@@ -677,6 +1086,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(options, null, OnLeaveLobbyCompleted);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_SendInvite](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_SendInvite/index.html)
+        /// </summary>
+        /// <param name="targetUserId">Target <c>ProductUserId</c> to send invite</param>
         public void SendInvite(ProductUserId targetUserId)
         {
             if (!targetUserId.IsValid())
@@ -699,6 +1112,62 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             };
 
             EOSManager.Instance.GetEOSLobbyInterface().SendInvite(options, null, OnSendInviteCompleted);
+        }
+
+        /// <summary>
+        /// Wrapper for calling [EOS_LobbyModification_AddMemberAttribute](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbyModification_AddMemberAttribute/index.html)
+        /// </summary>
+        /// <param name="memberAttribute"><c>LobbyAttribute</c> to be added to the current lobby</param>
+        public void SetMemberAttribute(LobbyAttribute memberAttribute)
+        {
+            if(!CurrentLobby.IsValid())
+            {
+                Debug.LogError("Lobbies (SetMemberAttribute): CurrentLobby is not valid.");
+                return;
+            }
+
+            // Modify Lobby
+
+            UpdateLobbyModificationOptions options = new UpdateLobbyModificationOptions()
+            {
+                LobbyId = CurrentLobby.Id,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+            };
+
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().UpdateLobbyModification(options, out LobbyModification lobbyModificationHandle);
+
+            if(result != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (SetMemberAttribute): Could not create lobby modification: Error code: {0}", result);
+                return;
+            }
+
+            // Update member attribute
+
+            AttributeData attributeData = memberAttribute.AsAttribute;
+
+            LobbyModificationAddMemberAttributeOptions attrOptions = new LobbyModificationAddMemberAttributeOptions()
+            {
+                Attribute = attributeData,
+                Visibility = LobbyAttributeVisibility.Public
+            };
+
+            result = lobbyModificationHandle.AddMemberAttribute(attrOptions);
+
+            if(result != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (SetMemberAttribute): Could not add member attribute: Error code: {0}", result);
+                return;
+            }
+
+            // Trigger lobby update
+
+            UpdateLobbyOptions updateOptions = new UpdateLobbyOptions()
+            {
+                LobbyModificationHandle = lobbyModificationHandle
+            };
+
+            EOSManager.Instance.GetEOSLobbyInterface().UpdateLobby(updateOptions, null, OnUpdateLobbyCallBack);
         }
 
         private void OnSendInviteCompleted(SendInviteCallbackInfo data)
@@ -736,12 +1205,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.Log("Lobbies (OnCreateLobbyCompleted): Lobby created.");
 
+                // OnLobbyCreated
                 if (!string.IsNullOrEmpty(createLobbyCallbackInfo.LobbyId) && CurrentLobby._BeingCreated)
                 {
                     CurrentLobby.Id = createLobbyCallbackInfo.LobbyId;
                     ModifyLobby(CurrentLobby, LobbyCreatedCallback);
-                    _Dirty = true;
+
+                    if(CurrentLobby.RTCRoomEnabled)
+                    {
+                        SubscribeToRTCEvents();
+                    }
                 }
+
+                _Dirty = true;
 
                 LobbyCreatedCallback?.Invoke(Result.Success);
             }
@@ -774,7 +1250,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (!string.IsNullOrEmpty(lobbyId) && CurrentLobby.Id == lobbyId)
             {
                 CurrentLobby.InitFromLobbyHandle(lobbyId);
-                //TODO: SetInitialMemberAttribute
 
                 LobbyUpdateCompleted?.Invoke(Result.Success);
             }
@@ -795,6 +1270,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_DestroyLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_DestroyLobby/index.html)
+        /// </summary>
+        /// <param name="DestroyCurrentLobbyCompleted">Callback when destroy lobby is completed</param>
         public void DestroyCurrentLobby(OnLobbyCallback DestroyCurrentLobbyCompleted)
         {
             if (!CurrentLobby.IsValid())
@@ -803,6 +1282,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 DestroyCurrentLobbyCompleted?.Invoke(Result.InvalidState);
                 return;
             }
+
+            UnsubscribeFromRTCEvents();
 
             ProductUserId currentProductUserId = EOSManager.Instance.GetProductUserId();
             if (!currentProductUserId.IsValid())
@@ -862,11 +1343,184 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Member Events
 
+        /// <summary>
+        /// Wrapper for calling [EOS_RTCAudio_UpdateReceiving](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/NoInterface/EOS_RTCAudio_UpdateReceiving/index.html)
+        /// </summary>
+        /// <param name="targetUserId">Target <c>ProductUserId</c> to mute or unmute</param>
+        /// <param name="ToggleMuteCompleted">Callback when toggle mute is completed</param>
+        public void ToggleMute(ProductUserId targetUserId, OnLobbyCallback ToggleMuteCompleted)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find the correct lobby member
+                if(lobbyMember.ProductId != targetUserId)
+                {
+                    continue;
+                }
+
+                // Do not allow multiple local mute toggles at the same time
+                if(lobbyMember.RTCState.MuteActionInProgress)
+                {
+                    Debug.LogWarningFormat("Lobbies (ToggleMute): 'MuteActionInProgress' for productUserId {0}.", targetUserId);
+                    ToggleMuteCompleted?.Invoke(Result.RequestInProgress);
+                    return;
+                }
+
+                // Set mute action as in progress
+                lobbyMember.RTCState.MuteActionInProgress = true;
+
+                // Check if muting ourselves vs other member
+                if(EOSManager.Instance.GetProductUserId() == targetUserId)
+                {
+                    // Toggle our mute status
+                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        AudioStatus = lobbyMember.RTCState.IsAudioOutputDisabled ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                    };
+
+                    Debug.LogFormat("Lobbies (ToggleMute): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+                    ToggleMuteCallback = ToggleMuteCompleted;
+
+                    rtcAudioHandle.UpdateSending(sendOptions, null, OnRTCRoomUpdateSendingCompleted);
+                }
+                else
+                {
+                    // Toggle mute for remote member (this is a local-only action and does not block the other user from receiving your audio stream)
+
+                    UpdateReceivingOptions recevingOptions = new UpdateReceivingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        ParticipantId = targetUserId,
+                        AudioEnabled = lobbyMember.RTCState.IsLocalMuted
+                    };
+
+                    Debug.LogFormat("Lobbies (ToggleMute): {0} remote player {1}", recevingOptions.AudioEnabled ? "Unmuting" : "Muting", targetUserId);
+
+                    ToggleMuteCallback = ToggleMuteCompleted;
+
+                    rtcAudioHandle.UpdateReceiving(recevingOptions, null, OnRTCRoomUpdateReceivingCompleted);
+                }
+            }
+        }
+
+        private void OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomUpdateSendingCompleted): UpdateSendingCallbackInfo data is null");
+                ToggleMuteCallback?.Invoke(Result.InvalidState);
+                return;
+            }
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): error code: {0}", data.ResultCode);
+                ToggleMuteCallback?.Invoke(data.ResultCode);
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Updated sending status successfully. Room={0}, AudioStatus={1}", data.RoomName, data.AudioStatus);
+
+            // Ensure this update is for our room
+            if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName", CurrentLobby.RTCRoomName, data.RoomName);
+                return;
+            }
+
+            // Ensure this update is for us
+            if(EOSManager.Instance.GetProductUserId() != data.LocalUserId)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Incorrect LocalUserId! LocalProductId={0} != data.LocalUserId", EOSManager.Instance.GetProductUserId(), data.LocalUserId);
+                return;
+            }
+
+            // Update our mute status
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find ourselves
+                if(lobbyMember.ProductId != data.LocalUserId)
+                {
+                    continue;
+                }
+
+                lobbyMember.RTCState.IsAudioOutputDisabled = data.AudioStatus == RTCAudioStatus.Disabled;
+                lobbyMember.RTCState.MuteActionInProgress = false;
+
+                Debug.LogFormat("Lobbies (OnRTCRoomUpdateSendingCompleted): Cache updated for '{0}'", lobbyMember.ProductId);
+
+                _Dirty = true;
+                break;
+            }
+        }
+
+        private void OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("Lobbies (OnRTCRoomUpdateReceivingCompleted): UpdateSendingCallbackInfo data is null");
+                ToggleMuteCallback?.Invoke(Result.InvalidState);
+                return;
+            }
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): error code: {0}", data.ResultCode);
+                ToggleMuteCallback?.Invoke(data.ResultCode);
+                return;
+            }
+
+            Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Updated receiving status successfully. LocalUserId={0} Room={1}, IsMuted={2}", data.LocalUserId, data.RoomName, data.AudioEnabled == false);
+
+            // Ensure this update is for our room
+            if (!CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Incorrect Room! CurrentLobby.RTCRoomName={0} != data.RoomName", CurrentLobby.RTCRoomName, data.RoomName);
+                return;
+            }
+
+            // Update should be for remote user
+            if (EOSManager.Instance.GetProductUserId() != data.LocalUserId)
+            {
+                Debug.LogErrorFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Incorrect call for local member.");
+                return;
+            }
+
+            foreach(LobbyMember lobbyMember in CurrentLobby.Members)
+            { 
+                if(lobbyMember.ProductId == data.LocalUserId)
+                {
+                    continue;
+                }
+
+                lobbyMember.RTCState.IsLocalMuted = data.AudioEnabled == false;
+                lobbyMember.RTCState.MuteActionInProgress = false;
+
+                Debug.LogFormat("Lobbies (OnRTCRoomUpdateReceivingCompleted): Cache updated for '{0}'", lobbyMember.ProductId);
+
+                _Dirty = true;
+                break;
+            }
+        }
+
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_KickMember](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_KickMember/index.html)
+        /// </summary>
+        /// <param name="productUserId">Target <c>ProductUserId</c> to kick from current lobby</param>
+        /// <param name="KickMemberCompleted">Callback when kick member is completed</param>
         public void KickMember(ProductUserId productUserId, OnLobbyCallback KickMemberCompleted)
         {
             if (!productUserId.IsValid())
             {
                 Debug.LogError("Lobbies (KickMember): productUserId is invalid!");
+                KickMemberCompleted?.Invoke(Result.InvalidState);
                 return;
             }
 
@@ -874,6 +1528,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (!currentUserId.IsValid())
             {
                 Debug.LogError("Lobbies (KickMember): Current player is invalid!");
+                KickMemberCompleted?.Invoke(Result.InvalidState);
                 return;
             }
 
@@ -917,6 +1572,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_PromoteMember](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_PromoteMember/index.html)
+        /// </summary>
+        /// <param name="productUserId">Target <c>ProductUserId</c> to promote</param>
+        /// <param name="PromoteMemberCompleted">Callback when promote member is completed</param>
         public void PromoteMember(ProductUserId productUserId, OnLobbyCallback PromoteMemberCompleted)
         {
             if (!productUserId.IsValid())
@@ -1026,6 +1687,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Search Events
 
+        /// <summary>
+        /// Wrapper for calling [EOS_LobbySearch_Find](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbySearch_Find/index.html)
+        /// </summary>
+        /// <param name="lobbyId"><c>string</c> of lobbyId to search</param>
+        /// <param name="SearchCompleted">Callback when search is completed</param>
         public void SearchByLobbyId(string lobbyId, OnLobbySearchCallback SearchCompleted)
         {
             Debug.LogFormat("Lobbies (SearchByLobbyId): lobbyId='{0}'", lobbyId);
@@ -1072,11 +1738,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             outLobbySearchHandle.Find(new LobbySearchFindOptions() { LocalUserId = currentProductUserId }, null, OnLobbySearchCompleted);
         }
 
-        public void SearchByAttribute(string searchString, OnLobbySearchCallback SearchCompleted)
+        /// <summary>
+        /// Wrapper for calling [EOS_LobbySearch_Find](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbySearch_Find/index.html)
+        /// </summary>
+        /// <param name="attributeKey"><c>string</c> of attributeKey to search</param>
+        /// <param name="attributeValue"><c>string</c> of attributeValue to search</param>
+        /// <param name="SearchCompleted">Callback when search is completed</param>
+        public void SearchByAttribute(string attributeKey, string attributeValue, OnLobbySearchCallback SearchCompleted)
         {
-            Debug.LogFormat("Lobbies (SearchByAttribute): searchString='{0}'", searchString);
+            Debug.LogFormat("Lobbies (SearchByAttribute): searchString='{0}'", attributeKey);
 
-            if (string.IsNullOrEmpty(searchString))
+            if (string.IsNullOrEmpty(attributeKey))
             {
                 Debug.LogError("Lobbies (SearchByAttribute): searchString is null or empty!");
                 SearchCompleted?.Invoke(Result.InvalidParameters);
@@ -1107,9 +1779,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Turn SearchString into AttributeData
             AttributeData attrData = new AttributeData();
-            attrData.Key = "LEVEL";
+            attrData.Key = attributeKey.Trim();
             attrData.Value = new AttributeDataValue();
-            attrData.Value.AsUtf8 = searchString.Trim();
+            attrData.Value.AsUtf8 = attributeValue.Trim();
             paramOptions.Parameter = attrData;
 
             result = outLobbySearchHandle.SetParameter(paramOptions);
@@ -1195,6 +1867,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchCallback?.Invoke(Result.Success);
         }
 
+        private void OnLobbyJoinFailed(string lobbyId)
+        {
+            _Dirty = true;
+
+            PopLobbyInvite();
+        }
 
         // Invite
 
@@ -1273,6 +1951,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             newLobby.InitFromLobbyDetails(outLobbyDetailsHandle);
 
             JoinLobby(newLobby.Id, outLobbyDetailsHandle, true, null);
+            CurrentInvite = null;
         }
 
         private void OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo data)
@@ -1332,11 +2011,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            // InitFromLobbyDetails
-            if (CurrentLobby != null)
-            {
-                CurrentLobby.InitFromLobbyDetails(outLobbyDetailsHandle);
-            }
+            Lobby lobby = new Lobby();
+            lobby.InitFromLobbyDetails(outLobbyDetailsHandle);
+
+            JoinLobby(lobby.Id, outLobbyDetailsHandle, true, null);
+            CurrentInvite = null;
         }
 
         private void PopLobbyInvite()
@@ -1360,6 +2039,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Join Events
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_JoinLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_JoinLobby/index.html)
+        /// </summary>
+        /// <param name="lobbyId">Target lobbyId of lobby to join</param>
+        /// <param name="lobbyDetails">Reference to <c>LobbyDetails</c> of lobby to join</param>
+        /// <param name="presenceEnabled">Presence Enabled if <c>true</c></param>
+        /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
             if (string.IsNullOrEmpty(lobbyId))
@@ -1414,19 +2100,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogErrorFormat("Lobbies (OnJoinLobbyFinished): error code: {0}", data.ResultCode);
+                Debug.LogErrorFormat("Lobbies (OnJoinLobbyCompleted): error code: {0}", data.ResultCode);
+                OnLobbyJoinFailed(data.LobbyId);
                 JoinLobbyCallback?.Invoke(data.ResultCode);
                 return;
             }
 
             Debug.Log("Lobbies (OnJoinLobbyCompleted): Lobby join finished.");
 
+            // OnLobbyJoined
             if (CurrentLobby.IsValid() && !string.Equals(CurrentLobby.Id, data.LobbyId))
             {
                 LeaveLobby(null);
             }
 
             CurrentLobby.InitFromLobbyHandle(data.LobbyId);
+
+            if(CurrentLobby.RTCRoomEnabled)
+            {
+                SubscribeToRTCEvents();
+            }
+
+            _Dirty = true;
+
+            PopLobbyInvite();
 
             JoinLobbyCallback?.Invoke(Result.Success);
         }
@@ -1455,6 +2152,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_RejectInvite](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_RejectInvite/index.html)
+        /// </summary>
         public void DeclineLobbyInvite()
         {
             if (CurrentInvite != null && CurrentInvite.IsValid())
@@ -1495,16 +2195,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentInvite = null;
         }
 
-        public void AcceptLobbyInvite(bool enablePresence, OnLobbyCallback AcceptLobbyInviteCompleted)
+        /// <summary>
+        /// If there is a current invite, calls <c>JoinLobby</c>
+        /// </summary>
+        /// <param name="enablePresence">Presence Enabled if <c>true</c></param>
+        /// <param name="AcceptLobbyInviteCompleted">Callback when join lobby is completed</param>
+        public void AcceptCurrentLobbyInvite(bool enablePresence, OnLobbyCallback AcceptLobbyInviteCompleted)
         {
             if (CurrentInvite != null && CurrentInvite.IsValid())
             {
-                Debug.Log("Lobbies (AcceptLobbyInvite): Accepted invite, joining lobby.");
+                Debug.Log("Lobbies (AcceptCurrentLobbyInvite): Accepted invite, joining lobby.");
 
                 JoinLobby(CurrentInvite.Lobby.Id, CurrentInvite.LobbyInfo, enablePresence, AcceptLobbyInviteCompleted);
                 CurrentInvite = null;
             }
+            else
+            {
+                Debug.LogError("Lobbies (AcceptCurrentLobbyInvite): Current invite is null or invalid!");
+
+                AcceptLobbyInviteCompleted(Result.InvalidState);
+            }
         }
+
+        /// <summary>
+        /// Calls <c>JoinLobby</c> on specified <c>LobbyInvite</c>
+        /// </summary>
+        /// <param name="lobbyInvite">Specified invite to accept</param>
+        /// <param name="enablePresence">Presence Enabled if <c>true</c></param>
+        /// <param name="AcceptLobbyInviteCompleted">Callback when join lobby is completed</param>
         public void AcceptLobbyInvite(LobbyInvite lobbyInvite, bool enablePresence, OnLobbyCallback AcceptLobbyInviteCompleted)
         {
             if (lobbyInvite != null && lobbyInvite.IsValid())
@@ -1512,6 +2230,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.Log("Lobbies (AcceptLobbyInvite): Accepted invite, joining lobby.");
 
                 JoinLobby(lobbyInvite.Lobby.Id, lobbyInvite.LobbyInfo, enablePresence, AcceptLobbyInviteCompleted);
+            }
+            else
+            {
+                Debug.LogError("Lobbies (AcceptLobbyInvite): lobbyInvite parameter is null or invalid!");
+
+                AcceptLobbyInviteCompleted(Result.InvalidState);
             }
         }
     }

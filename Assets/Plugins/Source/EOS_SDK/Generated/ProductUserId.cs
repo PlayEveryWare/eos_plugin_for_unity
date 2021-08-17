@@ -79,7 +79,7 @@ namespace Epic.OnlineServices
 		{
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = ProductuseridMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_ProductUserId_ToString(InnerHandle, outBufferAddress, ref inOutBufferLength);
 

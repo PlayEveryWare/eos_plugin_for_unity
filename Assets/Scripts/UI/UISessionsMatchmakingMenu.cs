@@ -1,8 +1,32 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Sessions;
@@ -30,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text CurrentSessionsHeader;
 
         [Header("Sessions/Matchmaking UI - Search")]
-        public InputField SearchByLevelBox;
+        public ConsoleInputField SearchByLevelBox;
 
         private bool ShowSearchResults = false;
 
@@ -38,6 +62,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIInvitePanel;
         public Text InviteFromVal;
         public Toggle InvitePresence;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
 
         public void Awake()
         {
@@ -50,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByLevelBox.onEndEdit.AddListener(SearchByLevelEnterPressed);
+            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelEnterPressed);
         }
 
         private int previousFrameSessionCount = 0;
@@ -249,12 +276,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void CreateNewSessionOnClick()
         {
             Session session = new Session();
-            session.AllowJoinInProgress = JoinInProgressVal.enabled;
-            session.PresenceSession = PresenceVal.enabled;
-            session.InvitesAllowed = InvitesAllowedVal.enabled;
+            session.AllowJoinInProgress = JoinInProgressVal.isOn;
+            session.PresenceSession = PresenceVal.isOn;
+            session.InvitesAllowed = InvitesAllowedVal.isOn;
             session.MaxPlayers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
             session.Name = SessionNameVal.text;
-            session.PermissionLevel = PublicVal.enabled ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
+            session.PermissionLevel = PublicVal.isOn ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
 
             SessionAttribute attribute = new SessionAttribute();
             attribute.Key = "Level";
@@ -300,8 +327,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Session session = new Session(); //EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().GetSession(sessionName);
             session.Name = sessionName;
             session.MaxPlayers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
-            session.AllowJoinInProgress = JoinInProgressVal.enabled;
-            session.InvitesAllowed = InvitesAllowedVal.enabled;
+            session.AllowJoinInProgress = JoinInProgressVal.isOn;
+            session.InvitesAllowed = InvitesAllowedVal.isOn;
             session.PermissionLevel = PublicVal.enabled ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
 
             SessionAttribute attr = new SessionAttribute();
@@ -372,6 +399,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().OnLoggedIn();
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         public void HideMenu()

@@ -1,3 +1,25 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,10 +37,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         public Text MemberNameText;
         public Text IsOwnerText;
+        public Text IsTalkingText;
+        public Button MuteButton;
         public Button KickButton;
         public Button Promotebutton;
 
         // Callbacks
+        public Action<ProductUserId> MuteOnClick;
         public Action<ProductUserId> KickOnClick;
         public Action<ProductUserId> PromoteOnClick;
 
@@ -46,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 isMemberEntryOwner = true;
             }
 
-            IsOwnerText.text = isMemberEntryOwner.ToString();
+            //IsOwnerText.text = isMemberEntryOwner.ToString();
 
             if (isPlayerLobbyOwner && !isMemberEntryOwner)
             {
@@ -63,6 +88,52 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 KickButton.gameObject.SetActive(false);
                 Promotebutton.gameObject.SetActive(false);
+            }
+
+            if(lobbyManager.GetCurrentLobby().RTCRoomEnabled)
+            {
+                MuteButton.enabled = true;
+                MuteButton.gameObject.SetActive(true);
+
+                foreach(LobbyMember member in lobbyManager.GetCurrentLobby().Members)
+                {
+                    if(member.ProductId == ProductUserId)
+                    {
+                        // Update Talking state
+                        if (member.RTCState.IsTalking)
+                        {
+                            IsTalkingText.text = "Talking";
+                        }
+                        else if (member.RTCState.IsAudioOutputDisabled || member.RTCState.IsLocalMuted)
+                        {
+                            IsTalkingText.text = "Muted";
+                        }
+                        else
+                        {
+                            IsTalkingText.text = "Silent";
+                        }
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                MuteButton.enabled = false;
+                MuteButton.gameObject.SetActive(false);
+
+                IsTalkingText.text = string.Empty;
+            }
+        }
+
+        public void MemberEntryMuteButtonOnClick()
+        {
+            if (MuteOnClick != null)
+            {
+                MuteOnClick(ProductUserId);
+            }
+            else
+            {
+                Debug.LogError("MemberEntryMuteButtonOnClick: MuteOnClick action is null!");
             }
         }
 

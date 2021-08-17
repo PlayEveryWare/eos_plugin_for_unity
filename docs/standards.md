@@ -44,6 +44,7 @@ upgrade: Upgrade a third-party dependency. These often are a combonation of a ch
 ```
 
 Scopes are somewhat more free form in nature. It is preferred that they are nouns, and required that they are single words.
+If a given commit has multiple scopes it affects, then commas may be used
 
 Examples:
 ```

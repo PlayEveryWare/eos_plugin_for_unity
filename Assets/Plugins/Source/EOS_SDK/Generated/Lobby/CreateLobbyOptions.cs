@@ -53,6 +53,29 @@ namespace Epic.OnlineServices.Lobby
 		/// NOTE: <see cref="LobbyInterface.PromoteMember" /> is still allowed regardless of this setting
 		/// </summary>
 		public bool DisableHostMigration { get; set; }
+
+		/// <summary>
+		/// Creates a real-time communication (RTC) room for all members of this lobby. All members of the lobby will automatically join the RTC
+		/// room when they connect to the lobby and they will automatically leave the RTC room when they leave or are removed from the lobby.
+		/// While the joining and leaving of the RTC room is automatic, applications will still need to use the EOS RTC interfaces to handle all
+		/// other functionality for the room.
+		/// <seealso cref="LobbyInterface.GetRTCRoomName" />
+		/// <seealso cref="LobbyInterface.AddNotifyRTCRoomConnectionChanged" />
+		/// </summary>
+		public bool EnableRTCRoom { get; set; }
+
+		/// <summary>
+		/// (Optional) Allows the local application to set local audio options for the RTC Room if it is enabled. Set this to NULL if the RTC
+		/// RTC room is disabled or you would like to use the defaults.
+		/// </summary>
+		public LocalRTCOptions LocalRTCOptions { get; set; }
+
+		/// <summary>
+		/// (Optional) Set to a globally unique value to override the backend assignment
+		/// If not specified the backend service will assign one to the lobby. Do not mix and match override and non override settings.
+		/// This value can be of size [<see cref="LobbyInterface.MinLobbyidoverrideLength" />, <see cref="LobbyInterface.MaxLobbyidoverrideLength" />]
+		/// </summary>
+		public string LobbyId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -66,6 +89,9 @@ namespace Epic.OnlineServices.Lobby
 		private int m_AllowInvites;
 		private System.IntPtr m_BucketId;
 		private int m_DisableHostMigration;
+		private int m_EnableRTCRoom;
+		private System.IntPtr m_LocalRTCOptions;
+		private System.IntPtr m_LobbyId;
 
 		public ProductUserId LocalUserId
 		{
@@ -123,6 +149,30 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		public bool EnableRTCRoom
+		{
+			set
+			{
+				Helper.TryMarshalSet(ref m_EnableRTCRoom, value);
+			}
+		}
+
+		public LocalRTCOptions LocalRTCOptions
+		{
+			set
+			{
+				Helper.TryMarshalSet<LocalRTCOptionsInternal, LocalRTCOptions>(ref m_LocalRTCOptions, value);
+			}
+		}
+
+		public string LobbyId
+		{
+			set
+			{
+				Helper.TryMarshalSet(ref m_LobbyId, value);
+			}
+		}
+
 		public void Set(CreateLobbyOptions other)
 		{
 			if (other != null)
@@ -135,6 +185,9 @@ namespace Epic.OnlineServices.Lobby
 				AllowInvites = other.AllowInvites;
 				BucketId = other.BucketId;
 				DisableHostMigration = other.DisableHostMigration;
+				EnableRTCRoom = other.EnableRTCRoom;
+				LocalRTCOptions = other.LocalRTCOptions;
+				LobbyId = other.LobbyId;
 			}
 		}
 
@@ -147,6 +200,8 @@ namespace Epic.OnlineServices.Lobby
 		{
 			Helper.TryMarshalDispose(ref m_LocalUserId);
 			Helper.TryMarshalDispose(ref m_BucketId);
+			Helper.TryMarshalDispose(ref m_LocalRTCOptions);
+			Helper.TryMarshalDispose(ref m_LobbyId);
 		}
 	}
 }

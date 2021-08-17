@@ -1,6 +1,26 @@
-﻿#define EOS_VERSION_1_12
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +34,10 @@ using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class <c>EOSStoreManager</c> is a simplified wrapper for EOS [Ecom Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Ecom/index.html).
+    /// </summary>
+
     public class EOSStoreManager : IEOSSubManager, IEOSOnAuthLogin
     {
         private List<CatalogOffer> CatalogOffers;
@@ -51,6 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             var queryOfferOptions = new QueryOffersOptions();
             queryOfferOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
+            queryOfferOptions.OverrideCatalogNamespace = null;
 
             EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().QueryOffers(queryOfferOptions, null, OnQueryOffers);
         }
@@ -121,26 +146,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Wrapper to handle API differences in EOS 1.12 vs 1.11
         public string GetCurrentPriceAsString(CatalogOffer catalogOffer)
         {
-            return string.Format("{0}",
-#if EOS_VERSION_1_12
-                catalogOffer.CurrentPrice64
-#else
-                catalogOffer.CurrentPrice
-#endif
-        );
+            return string.Format("{0}", catalogOffer.CurrentPrice64);
         }
 
         //-------------------------------------------------------------------------
         // Wrapper to handle API differences in EOS 1.12 vs 1.11
         public string GetOriginalPriceAsString(CatalogOffer catalogOffer)
         {
-            return string.Format("{0}",
-#if EOS_VERSION_1_12
-                catalogOffer.OriginalPrice64
-#else
-                catalogOffer.OriginalPrice
-#endif
-        );
+            return string.Format("{0}", catalogOffer.OriginalPrice64);
         }
     }
 }

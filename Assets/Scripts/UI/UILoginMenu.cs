@@ -1,17 +1,41 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 using Epic.OnlineServices;
 using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.UI;
 using Epic.OnlineServices.Ecom;
-
 using Epic.OnlineServices.Logging;
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -25,16 +49,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Dropdown loginTypeDropdown;
 
         public Text idText;
-        public InputField idInputField;
+        public ConsoleInputField idInputField;
 
         public Text tokenText;
-        public InputField tokenInputField;
+        public ConsoleInputField tokenInputField;
 
         public Button loginButton;
         public Button logoutButton;
 
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
+
+        [Header("Controller")]
+        public GameObject UIFirstSelected;
+        public GameObject UIFindSelectable;
 
         private EventSystem system;
 
@@ -63,6 +91,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     loginType = LoginCredentialType.PersistentAuth;
                     ConfigureUIForPersistentLogin();
                     break;
+                case 3:
+                    loginType = LoginCredentialType.ExternalAuth;
+                    ConfigureUIForExternalAuth();
+                    break;
                 default:
                     loginType = LoginCredentialType.Developer;
                     ConfigureUIForDevAuthLogin();
@@ -76,7 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             system = EventSystem.current;
 
-            tokenInputField.onEndEdit.AddListener(EnterPressedToLogin);
+            tokenInputField.InputField.onEndEdit.AddListener(EnterPressedToLogin);
         }
 
         private void EnterPressedToLogin(string arg0)
@@ -86,8 +118,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Update()
         {
+            var keyboard = Keyboard.current;
+
             // Tab between input fields
-            if (Input.GetKeyDown(KeyCode.Tab)
+            if (keyboard != null && keyboard.tabKey.wasPressedThisFrame
                 && system.currentSelectedGameObject != null)
             {
                 Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
@@ -98,15 +132,41 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (inputfield != null)
                     {
                         inputfield.OnPointerClick(new PointerEventData(system));
+                        system.SetSelectedGameObject(next.gameObject);
                     }
 
-                    system.SetSelectedGameObject(next.gameObject);
+                    ConsoleInputField consoleInputField = next.GetComponent<ConsoleInputField>();
+                    if(consoleInputField != null)
+                    {
+                        consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
+                        system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
+                    }
                 }
                 else
                 {
                     next = FindTopUISelectable();
                     system.SetSelectedGameObject(next.gameObject);
                 }
+            }
+
+            // Controller: Detect if nothing is selected and controller input detected, and set default
+            bool nothingSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null;
+            bool inactiveButtonSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null && !EventSystem.current.currentSelectedGameObject.activeInHierarchy;
+
+            var gamepad = Gamepad.current;
+            if ((nothingSelected || inactiveButtonSelected)
+                && gamepad != null && gamepad.wasUpdatedThisFrame)
+            {
+                if (UIFirstSelected.activeSelf == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                }
+                else if (UIFindSelectable.activeSelf == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(UIFindSelectable);
+                }
+
+                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
         }
 
@@ -151,6 +211,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenText.gameObject.SetActive(false);
         }
 
+        //-------------------------------------------------------------------------
+        private void ConfigureUIForExternalAuth()
+        {
+            idInputField.gameObject.SetActive(false);
+            tokenInputField.gameObject.SetActive(false);
+            idText.gameObject.SetActive(false);
+            tokenText.gameObject.SetActive(false);
+        }
+
+
         private void ConfigureUIForLogin()
         {
             if (OnLogout != null)
@@ -179,6 +249,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ConfigureUIForDevAuthLogin();
                     break;
             }
+
+            // Controller
+            //EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         private void ConfigureUIForLogout()
@@ -228,8 +302,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Username and password aren't always the username and password
         public void OnLoginButtonClick()
         {
-            string usernameAsString = idInputField.text.Trim();
-            string passwordAsString = tokenInputField.text.Trim();
+            string usernameAsString = idInputField.InputField.text.Trim();
+            string passwordAsString = tokenInputField.InputField.text.Trim();
 
             if (SelectedLoginTypeRequiresUsername() && usernameAsString.Length <= 0)
             {
@@ -253,7 +327,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    print(logMessage.Message);
             //});
 
-            if (loginType == LoginCredentialType.PersistentAuth)
+            if (loginType == LoginCredentialType.ExternalAuth)
+            {
+                Debug.LogError("ExternalAuth is not implemented on this platform");
+            }
+            else if (loginType == LoginCredentialType.PersistentAuth)
             {
                 EOSManager.Instance.StartPersistantLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
                 {
@@ -280,6 +358,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        //-------------------------------------------------------------------------
+        private void StartConnectLoginWithLoginCallbackInfo(LoginCallbackInfo loginCallbackInfo)
+        {
+            EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
+            {
+                if (connectLoginCallbackInfo.ResultCode == Result.Success)
+                {
+                    print("Connect Login Successful. [" + loginCallbackInfo.ResultCode + "]");
+                    ConfigureUIForLogout();
+                }
+                else if (connectLoginCallbackInfo.ResultCode == Result.InvalidUser)
+                {
+                    // ask user if they want to connect; sample assumes they do
+                    EOSManager.Instance.CreateConnectUserWithContinuanceToken(connectLoginCallbackInfo.ContinuanceToken, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
+                    {
+                        print("Creating new connect user");
+                        EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo retryConnectLoginCallbackInfo) =>
+                        {
+                            if (retryConnectLoginCallbackInfo.ResultCode == Result.Success)
+                            {
+                                ConfigureUIForLogout();
+                            }
+                        });
+                    });
+                }
+            });
+        }
 
         //-------------------------------------------------------------------------
         public void StartLoginWithLoginTypeAndTokenCallback(LoginCallbackInfo loginCallbackInfo)
@@ -288,16 +393,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 // collect MFA
                 // do something to give the MFA to the SDK
-                print("MFA Authentication not supported. [" + loginCallbackInfo.ResultCode + "]");
+                print("MFA Authentication not supported in sample. [" + loginCallbackInfo.ResultCode + "]");
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
             {
-                EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
+                StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+            }
+            else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.InvalidUser)
+            {
+                EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, LinkAccountFlags.NoFlags, (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
-                    print("Login Successful. [" + loginCallbackInfo.ResultCode + "]");
-                    ConfigureUIForLogout();
+                    StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
                 });
             }
+
             else
             {
                 print("Error logging in. [" + loginCallbackInfo.ResultCode + "]");

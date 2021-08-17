@@ -1,3 +1,25 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,23 +33,43 @@ using Epic.OnlineServices.P2P;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Struct <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
+    /// </summary>
+
     public struct ChatEntry
     {
+        /// <value>True if message was from local user</value>
         public bool isOwnEntry;
+
+        /// <value> Cache for message entry </value>
         public string Message;
     }
+
+    /// <summary>
+    /// Struct <c>ChatWithFriendData</c> is used to store cached friend chat data in <c>UIPeer2PeerMenu</c>.
+    /// </summary>
+
     public struct ChatWithFriendData
     {
+        /// <value> Queue of cached <c>ChatEntry</c> objects </value>
         public Queue<ChatEntry> ChatLines;
 
+        /// <value> <c>FriendId</c> of remote friend </value>
         public ProductUserId FriendId;
 
+        /// <summary> Constructor for creating a new local cache of chat entries.</summary>
+        /// <param name="FriendId"><c>ProductUserId</c> of remote friend</param>
         public ChatWithFriendData(ProductUserId FriendId)
         {
             this.FriendId = FriendId;
             ChatLines = new Queue<ChatEntry>();
         }
     }
+
+    /// <summary>
+    /// Class <c>EOSPeer2PeerManager</c> is a simplified wrapper for EOS [P2P Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/P2P/index.html).
+    /// </summary>
 
     public class EOSPeer2PeerManager : IEOSSubManager
     {

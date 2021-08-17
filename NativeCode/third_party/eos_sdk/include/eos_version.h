@@ -1,3 +1,4 @@
+
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
@@ -5,8 +6,8 @@
 // These numbers define the banner SDK version, and are the most significant numbers when ordering two engine versions (that is, a 4.12.* version is always 
 // newer than a 4.11.* version, regardless of the changelist that it was built with)
 #define EOS_MAJOR_VERSION	1
-#define EOS_MINOR_VERSION	12
-#define EOS_PATCH_VERSION	0
+#define EOS_MINOR_VERSION	13
+#define EOS_PATCH_VERSION	1
 
 // Macros for encoding strings
 #define EOS_VERSION_STRINGIFY_2(x) #x

@@ -224,7 +224,7 @@ namespace Epic.OnlineServices.Presence
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = PresenceModification.PresencemodificationJoininfoMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength, out _);
+			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Presence_GetJoinInfo(InnerHandle, optionsAddress, outBufferAddress, ref inOutBufferLength);
 

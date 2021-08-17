@@ -1,0 +1,2587 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  id: EOSAchievementManager
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.#ctor
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.achievementDefinitionCache
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.cacheAchievementDef(DefinitionV2)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAchievementDefById(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllAchievementDefinitions(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllPlayerAchievements(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheStatsForProductUserId(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.downloadCache
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.DownloadIconDataFromURI(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.eosAchievementInterface
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionAtIndex(System.Int32)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionCount
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconBytes(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconTexture(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconBytes(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconTexture(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSAchievementInterface
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSPlatformInterface
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSStatsInterface
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSUserInfoInterface
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes(System.Byte[])
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.NewWeakThis
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnShutdown
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.print(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToPlayerAchievement
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToStatsCache
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.ProductUserIdToString(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToUserInfoData
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryAchievementDefinitions(Epic.OnlineServices.ProductUserId,OnQueryDefinitionsCompleteCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryPlayerAchievements(Epic.OnlineServices.ProductUserId,OnQueryPlayerAchievementsCompleteCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId(ProductUserId,OnQueryStatsCompleteCallback)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation(EpicAccountId,EpicAccountId)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData(System.Object)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String)
+  langs:
+  - csharp
+  - vb
+  name: EOSAchievementManager
+  nameWithType: EOSAchievementManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  type: Class
+  source:
+    id: EOSAchievementManager
+    path: ''
+    startLine: 2923
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass <code>EOSAchievementManager</code> is a simplified wrapper for EOS [Achievements Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Achievements/index.html).\n"
+  example: []
+  syntax:
+    content: 'public class EOSAchievementManager : IEOSSubManager, IEOSOnConnectLogin'
+    content.vb: >-
+      Public Class EOSAchievementManager
+          Implements IEOSSubManager, IEOSOnConnectLogin
+  inheritance:
+  - System.Object
+  implements:
+  - PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  - PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.downloadCache
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.downloadCache
+  id: downloadCache
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: downloadCache
+  nameWithType: EOSAchievementManager.downloadCache
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.downloadCache
+  type: Field
+  source:
+    id: downloadCache
+    path: ''
+    startLine: 2925
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: ConcurrentDictionary<string, byte[]> downloadCache
+    return:
+      type: ConcurrentDictionary{System.String,System.Byte[]}
+    content.vb: downloadCache As ConcurrentDictionary(Of String, Byte())
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.achievementDefinitionCache
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.achievementDefinitionCache
+  id: achievementDefinitionCache
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: achievementDefinitionCache
+  nameWithType: EOSAchievementManager.achievementDefinitionCache
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.achievementDefinitionCache
+  type: Field
+  source:
+    id: achievementDefinitionCache
+    path: ''
+    startLine: 2926
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: List<DefinitionV2> achievementDefinitionCache
+    return:
+      type: List{DefinitionV2}
+    content.vb: achievementDefinitionCache As List(Of DefinitionV2)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToUserInfoData
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToUserInfoData
+  id: productUserIdToUserInfoData
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: productUserIdToUserInfoData
+  nameWithType: EOSAchievementManager.productUserIdToUserInfoData
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToUserInfoData
+  type: Field
+  source:
+    id: productUserIdToUserInfoData
+    path: ''
+    startLine: 2927
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: ConcurrentDictionary<ProductUserId, UserInfoData> productUserIdToUserInfoData
+    return:
+      type: ConcurrentDictionary{ProductUserId,UserInfoData}
+    content.vb: productUserIdToUserInfoData As ConcurrentDictionary(Of ProductUserId, UserInfoData)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToPlayerAchievement
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToPlayerAchievement
+  id: productUserIdToPlayerAchievement
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: productUserIdToPlayerAchievement
+  nameWithType: EOSAchievementManager.productUserIdToPlayerAchievement
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToPlayerAchievement
+  type: Field
+  source:
+    id: productUserIdToPlayerAchievement
+    path: ''
+    startLine: 2928
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> productUserIdToPlayerAchievement
+    return:
+      type: ConcurrentDictionary{ProductUserId,List{PlayerAchievement}}
+    content.vb: productUserIdToPlayerAchievement As ConcurrentDictionary(Of ProductUserId, List(Of PlayerAchievement))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.eosAchievementInterface
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.eosAchievementInterface
+  id: eosAchievementInterface
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: eosAchievementInterface
+  nameWithType: EOSAchievementManager.eosAchievementInterface
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.eosAchievementInterface
+  type: Field
+  source:
+    id: eosAchievementInterface
+    path: ''
+    startLine: 2929
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: AchievementsInterface eosAchievementInterface
+    return:
+      type: AchievementsInterface
+    content.vb: eosAchievementInterface As AchievementsInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToStatsCache
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToStatsCache
+  id: productUserIdToStatsCache
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: productUserIdToStatsCache
+  nameWithType: EOSAchievementManager.productUserIdToStatsCache
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToStatsCache
+  type: Field
+  source:
+    id: productUserIdToStatsCache
+    path: ''
+    startLine: 2931
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Dictionary<ProductUserId, List<Stat>> productUserIdToStatsCache
+    return:
+      type: Dictionary{ProductUserId,List{Stat}}
+    content.vb: productUserIdToStatsCache As Dictionary(Of ProductUserId, List(Of Stat))
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.#ctor
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.#ctor
+  id: '#ctor'
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: EOSAchievementManager()
+  nameWithType: EOSAchievementManager.EOSAchievementManager()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EOSAchievementManager()
+  type: Constructor
+  source:
+    id: .ctor
+    path: ''
+    startLine: 2933
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public EOSAchievementManager()
+    content.vb: Public Sub New
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.print(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.print(System.String)
+  id: print(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: print(String)
+  nameWithType: EOSAchievementManager.print(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.print(System.String)
+  type: Method
+  source:
+    id: print
+    path: ''
+    startLine: 2942
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: static void print(string toPrint)
+    parameters:
+    - id: toPrint
+      type: System.String
+    content.vb: Shared Sub print(toPrint As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.print*
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSPlatformInterface
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSPlatformInterface
+  id: GetEOSPlatformInterface
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetEOSPlatformInterface()
+  nameWithType: EOSAchievementManager.GetEOSPlatformInterface()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSPlatformInterface()
+  type: Method
+  source:
+    id: GetEOSPlatformInterface
+    path: ''
+    startLine: 2949
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: PlatformInterface GetEOSPlatformInterface()
+    return:
+      type: PlatformInterface
+    content.vb: Function GetEOSPlatformInterface As PlatformInterface
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSPlatformInterface*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSStatsInterface
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSStatsInterface
+  id: GetEOSStatsInterface
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetEOSStatsInterface()
+  nameWithType: EOSAchievementManager.GetEOSStatsInterface()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSStatsInterface()
+  type: Method
+  source:
+    id: GetEOSStatsInterface
+    path: ''
+    startLine: 2956
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Epic.OnlineServices.Stats.StatsInterface GetEOSStatsInterface()
+    return:
+      type: Epic.OnlineServices.Stats.StatsInterface
+    content.vb: Function GetEOSStatsInterface As Epic.OnlineServices.Stats.StatsInterface
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSStatsInterface*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.ProductUserIdToString(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.ProductUserIdToString(ProductUserId)
+  id: ProductUserIdToString(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: ProductUserIdToString(ProductUserId)
+  nameWithType: EOSAchievementManager.ProductUserIdToString(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.ProductUserIdToString(ProductUserId)
+  type: Method
+  source:
+    id: ProductUserIdToString
+    path: ''
+    startLine: 2961
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: string ProductUserIdToString(ProductUserId productUserId)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    return:
+      type: System.String
+    content.vb: Function ProductUserIdToString(productUserId As ProductUserId) As String
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.ProductUserIdToString*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.NewWeakThis
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.NewWeakThis
+  id: NewWeakThis
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: NewWeakThis()
+  nameWithType: EOSAchievementManager.NewWeakThis()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.NewWeakThis()
+  type: Method
+  source:
+    id: NewWeakThis
+    path: ''
+    startLine: 2968
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: WeakReference NewWeakThis()
+    return:
+      type: System.WeakReference
+    content.vb: Function NewWeakThis As WeakReference
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.NewWeakThis*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData(System.Object)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData(System.Object)
+  id: StrongThisFromClientData(System.Object)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: StrongThisFromClientData(Object)
+  nameWithType: EOSAchievementManager.StrongThisFromClientData(Object)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData(System.Object)
+  type: Method
+  source:
+    id: StrongThisFromClientData
+    path: ''
+    startLine: 2974
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: EOSAchievementManager StrongThisFromClientData(object data)
+    parameters:
+    - id: data
+      type: System.Object
+    return:
+      type: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+    content.vb: Function StrongThisFromClientData(data As Object) As EOSAchievementManager
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheStatsForProductUserId(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheStatsForProductUserId(ProductUserId)
+  id: CacheStatsForProductUserId(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: CacheStatsForProductUserId(ProductUserId)
+  nameWithType: EOSAchievementManager.CacheStatsForProductUserId(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheStatsForProductUserId(ProductUserId)
+  type: Method
+  source:
+    id: CacheStatsForProductUserId
+    path: ''
+    startLine: 2980
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void CacheStatsForProductUserId(ProductUserId productUserId)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    content.vb: Sub CacheStatsForProductUserId(productUserId As ProductUserId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheStatsForProductUserId*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId(ProductUserId,OnQueryStatsCompleteCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId(ProductUserId,OnQueryStatsCompleteCallback)
+  id: QueryStatsForProductUserId(ProductUserId,OnQueryStatsCompleteCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: QueryStatsForProductUserId(ProductUserId, OnQueryStatsCompleteCallback)
+  nameWithType: EOSAchievementManager.QueryStatsForProductUserId(ProductUserId, OnQueryStatsCompleteCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId(ProductUserId, OnQueryStatsCompleteCallback)
+  type: Method
+  source:
+    id: QueryStatsForProductUserId
+    path: ''
+    startLine: 3017
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void QueryStatsForProductUserId(ProductUserId productUserId, OnQueryStatsCompleteCallback callback)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    - id: callback
+      type: OnQueryStatsCompleteCallback
+    content.vb: Sub QueryStatsForProductUserId(productUserId As ProductUserId, callback As OnQueryStatsCompleteCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSUserInfoInterface
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSUserInfoInterface
+  id: GetEOSUserInfoInterface
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetEOSUserInfoInterface()
+  nameWithType: EOSAchievementManager.GetEOSUserInfoInterface()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSUserInfoInterface()
+  type: Method
+  source:
+    id: GetEOSUserInfoInterface
+    path: ''
+    startLine: 3047
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Epic.OnlineServices.UserInfo.UserInfoInterface GetEOSUserInfoInterface()
+    return:
+      type: Epic.OnlineServices.UserInfo.UserInfoInterface
+    content.vb: Function GetEOSUserInfoInterface As Epic.OnlineServices.UserInfo.UserInfoInterface
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSUserInfoInterface*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  id: OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  nameWithType: EOSAchievementManager.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  type: Method
+  source:
+    id: OnConnectLogin
+    path: ''
+    startLine: 3053
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
+    parameters:
+    - id: loginCallbackInfo
+      type: Epic.OnlineServices.Connect.LoginCallbackInfo
+    content.vb: Public Sub OnConnectLogin(loginCallbackInfo As Epic.OnlineServices.Connect.LoginCallbackInfo)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnConnectLogin*
+  implements:
+  - PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation(EpicAccountId,EpicAccountId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation(EpicAccountId,EpicAccountId)
+  id: QueryUserInformation(EpicAccountId,EpicAccountId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: QueryUserInformation(EpicAccountId, EpicAccountId)
+  nameWithType: EOSAchievementManager.QueryUserInformation(EpicAccountId, EpicAccountId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation(EpicAccountId, EpicAccountId)
+  type: Method
+  source:
+    id: QueryUserInformation
+    path: ''
+    startLine: 3072
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void QueryUserInformation(EpicAccountId localEpicAccountId, EpicAccountId targetEpicAccountId)
+    parameters:
+    - id: localEpicAccountId
+      type: EpicAccountId
+    - id: targetEpicAccountId
+      type: EpicAccountId
+    content.vb: Public Sub QueryUserInformation(localEpicAccountId As EpicAccountId, targetEpicAccountId As EpicAccountId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSAchievementInterface
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSAchievementInterface
+  id: GetEOSAchievementInterface
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetEOSAchievementInterface()
+  nameWithType: EOSAchievementManager.GetEOSAchievementInterface()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSAchievementInterface()
+  type: Method
+  source:
+    id: GetEOSAchievementInterface
+    path: ''
+    startLine: 3094
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: AchievementsInterface GetEOSAchievementInterface()
+    return:
+      type: AchievementsInterface
+    content.vb: Function GetEOSAchievementInterface As AchievementsInterface
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSAchievementInterface*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryAchievementDefinitions(Epic.OnlineServices.ProductUserId,OnQueryDefinitionsCompleteCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryAchievementDefinitions(Epic.OnlineServices.ProductUserId,OnQueryDefinitionsCompleteCallback)
+  id: QueryAchievementDefinitions(Epic.OnlineServices.ProductUserId,OnQueryDefinitionsCompleteCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: QueryAchievementDefinitions(Epic.OnlineServices.ProductUserId, OnQueryDefinitionsCompleteCallback)
+  nameWithType: EOSAchievementManager.QueryAchievementDefinitions(Epic.OnlineServices.ProductUserId, OnQueryDefinitionsCompleteCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryAchievementDefinitions(Epic.OnlineServices.ProductUserId, OnQueryDefinitionsCompleteCallback)
+  type: Method
+  source:
+    id: QueryAchievementDefinitions
+    path: ''
+    startLine: 3105
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void QueryAchievementDefinitions(Epic.OnlineServices.ProductUserId productUserId = null, OnQueryDefinitionsCompleteCallback callback = null)
+    parameters:
+    - id: productUserId
+      type: Epic.OnlineServices.ProductUserId
+    - id: callback
+      type: OnQueryDefinitionsCompleteCallback
+    content.vb: Public Sub QueryAchievementDefinitions(productUserId As Epic.OnlineServices.ProductUserId = Nothing, callback As OnQueryDefinitionsCompleteCallback = Nothing)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryAchievementDefinitions*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId)
+  id: MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId)
+  nameWithType: EOSAchievementManager.MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId)
+  type: Method
+  source:
+    id: MakeQueryPlayerAchievementsOptions
+    path: ''
+    startLine: 3127
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nHelper to wrap up differences between different versions of the EOS SDK\n"
+  example: []
+  syntax:
+    content: QueryPlayerAchievementsOptions MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId productUserId)
+    parameters:
+    - id: productUserId
+      type: Epic.OnlineServices.ProductUserId
+    return:
+      type: QueryPlayerAchievementsOptions
+    content.vb: Function MakeQueryPlayerAchievementsOptions(productUserId As Epic.OnlineServices.ProductUserId) As QueryPlayerAchievementsOptions
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeQueryPlayerAchievementsOptions*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryPlayerAchievements(Epic.OnlineServices.ProductUserId,OnQueryPlayerAchievementsCompleteCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryPlayerAchievements(Epic.OnlineServices.ProductUserId,OnQueryPlayerAchievementsCompleteCallback)
+  id: QueryPlayerAchievements(Epic.OnlineServices.ProductUserId,OnQueryPlayerAchievementsCompleteCallback)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: QueryPlayerAchievements(Epic.OnlineServices.ProductUserId, OnQueryPlayerAchievementsCompleteCallback)
+  nameWithType: EOSAchievementManager.QueryPlayerAchievements(Epic.OnlineServices.ProductUserId, OnQueryPlayerAchievementsCompleteCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryPlayerAchievements(Epic.OnlineServices.ProductUserId, OnQueryPlayerAchievementsCompleteCallback)
+  type: Method
+  source:
+    id: QueryPlayerAchievements
+    path: ''
+    startLine: 3140
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nGet the latest stats and player progress towards unlocking achievements\n"
+  example: []
+  syntax:
+    content: public void QueryPlayerAchievements(Epic.OnlineServices.ProductUserId productUserId, OnQueryPlayerAchievementsCompleteCallback callback)
+    parameters:
+    - id: productUserId
+      type: Epic.OnlineServices.ProductUserId
+      description: ''
+    - id: callback
+      type: OnQueryPlayerAchievementsCompleteCallback
+    content.vb: Public Sub QueryPlayerAchievements(productUserId As Epic.OnlineServices.ProductUserId, callback As OnQueryPlayerAchievementsCompleteCallback)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryPlayerAchievements*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnShutdown
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnShutdown
+  id: OnShutdown
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: OnShutdown()
+  nameWithType: EOSAchievementManager.OnShutdown()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnShutdown()
+  type: Method
+  source:
+    id: OnShutdown
+    path: ''
+    startLine: 3167
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void OnShutdown()
+    content.vb: Public Sub OnShutdown
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnShutdown*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes(System.Byte[])
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes(System.Byte[])
+  id: GetTextureFromBytes(System.Byte[])
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetTextureFromBytes(Byte[])
+  nameWithType: EOSAchievementManager.GetTextureFromBytes(Byte[])
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes(System.Byte[])
+  type: Method
+  source:
+    id: GetTextureFromBytes
+    path: ''
+    startLine: 3172
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: Texture2D GetTextureFromBytes(byte[] achievementIconBytes)
+    parameters:
+    - id: achievementIconBytes
+      type: System.Byte[]
+    return:
+      type: Texture2D
+    content.vb: Function GetTextureFromBytes(achievementIconBytes As Byte()) As Texture2D
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes*
+  nameWithType.vb: EOSAchievementManager.GetTextureFromBytes(Byte())
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes(System.Byte())
+  name.vb: GetTextureFromBytes(Byte())
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconTexture(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconTexture(System.String)
+  id: GetAchievementUnlockedIconTexture(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetAchievementUnlockedIconTexture(String)
+  nameWithType: EOSAchievementManager.GetAchievementUnlockedIconTexture(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconTexture(System.String)
+  type: Method
+  source:
+    id: GetAchievementUnlockedIconTexture
+    path: ''
+    startLine: 3185
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Texture2D GetAchievementUnlockedIconTexture(string achievementId)
+    parameters:
+    - id: achievementId
+      type: System.String
+    return:
+      type: Texture2D
+    content.vb: Public Function GetAchievementUnlockedIconTexture(achievementId As String) As Texture2D
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconTexture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconTexture(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconTexture(System.String)
+  id: GetAchievementLockedIconTexture(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetAchievementLockedIconTexture(String)
+  nameWithType: EOSAchievementManager.GetAchievementLockedIconTexture(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconTexture(System.String)
+  type: Method
+  source:
+    id: GetAchievementLockedIconTexture
+    path: ''
+    startLine: 3191
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public Texture2D GetAchievementLockedIconTexture(string achievementId)
+    parameters:
+    - id: achievementId
+      type: System.String
+    return:
+      type: Texture2D
+    content.vb: Public Function GetAchievementLockedIconTexture(achievementId As String) As Texture2D
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconTexture*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconBytes(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconBytes(System.String)
+  id: GetAchievementUnlockedIconBytes(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetAchievementUnlockedIconBytes(String)
+  nameWithType: EOSAchievementManager.GetAchievementUnlockedIconBytes(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconBytes(System.String)
+  type: Method
+  source:
+    id: GetAchievementUnlockedIconBytes
+    path: ''
+    startLine: 3198
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public byte[] GetAchievementUnlockedIconBytes(string achievementId)
+    parameters:
+    - id: achievementId
+      type: System.String
+    return:
+      type: System.Byte[]
+    content.vb: Public Function GetAchievementUnlockedIconBytes(achievementId As String) As Byte()
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconBytes*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconBytes(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconBytes(System.String)
+  id: GetAchievementLockedIconBytes(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetAchievementLockedIconBytes(String)
+  nameWithType: EOSAchievementManager.GetAchievementLockedIconBytes(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconBytes(System.String)
+  type: Method
+  source:
+    id: GetAchievementLockedIconBytes
+    path: ''
+    startLine: 3216
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public byte[] GetAchievementLockedIconBytes(string achievementId)
+    parameters:
+    - id: achievementId
+      type: System.String
+    return:
+      type: System.Byte[]
+    content.vb: Public Function GetAchievementLockedIconBytes(achievementId As String) As Byte()
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconBytes*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions
+  id: EnumeratorForCachedAchievementDefinitions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: EnumeratorForCachedAchievementDefinitions()
+  nameWithType: EOSAchievementManager.EnumeratorForCachedAchievementDefinitions()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions()
+  type: Method
+  source:
+    id: EnumeratorForCachedAchievementDefinitions
+    path: ''
+    startLine: 3233
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public IEnumerator<DefinitionV2> EnumeratorForCachedAchievementDefinitions()
+    return:
+      type: IEnumerator{DefinitionV2}
+    content.vb: Public Function EnumeratorForCachedAchievementDefinitions As IEnumerator(Of DefinitionV2)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions
+  id: EnumerateCachedAchievementDefinitions
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: EnumerateCachedAchievementDefinitions()
+  nameWithType: EOSAchievementManager.EnumerateCachedAchievementDefinitions()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions()
+  type: Method
+  source:
+    id: EnumerateCachedAchievementDefinitions
+    path: ''
+    startLine: 3241
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public IEnumerable<DefinitionV2> EnumerateCachedAchievementDefinitions()
+    return:
+      type: IEnumerable{DefinitionV2}
+    content.vb: Public Function EnumerateCachedAchievementDefinitions As IEnumerable(Of DefinitionV2)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionAtIndex(System.Int32)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionAtIndex(System.Int32)
+  id: GetAchievementDefinitionAtIndex(System.Int32)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetAchievementDefinitionAtIndex(Int32)
+  nameWithType: EOSAchievementManager.GetAchievementDefinitionAtIndex(Int32)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionAtIndex(System.Int32)
+  type: Method
+  source:
+    id: GetAchievementDefinitionAtIndex
+    path: ''
+    startLine: 3246
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public DefinitionV2 GetAchievementDefinitionAtIndex(int idx)
+    parameters:
+    - id: idx
+      type: System.Int32
+    return:
+      type: DefinitionV2
+    content.vb: Public Function GetAchievementDefinitionAtIndex(idx As Integer) As DefinitionV2
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionAtIndex*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement(ProductUserId)
+  id: EnumeratorForCachedPlayerAchievement(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: EnumeratorForCachedPlayerAchievement(ProductUserId)
+  nameWithType: EOSAchievementManager.EnumeratorForCachedPlayerAchievement(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement(ProductUserId)
+  type: Method
+  source:
+    id: EnumeratorForCachedPlayerAchievement
+    path: ''
+    startLine: 3251
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public IEnumerator<PlayerAchievement> EnumeratorForCachedPlayerAchievement(ProductUserId productUserId)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    return:
+      type: IEnumerator{PlayerAchievement}
+    content.vb: Public Function EnumeratorForCachedPlayerAchievement(productUserId As ProductUserId) As IEnumerator(Of PlayerAchievement)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement(ProductUserId)
+  id: EnumerateCachedPlayerAchievement(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: EnumerateCachedPlayerAchievement(ProductUserId)
+  nameWithType: EOSAchievementManager.EnumerateCachedPlayerAchievement(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement(ProductUserId)
+  type: Method
+  source:
+    id: EnumerateCachedPlayerAchievement
+    path: ''
+    startLine: 3261
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public IEnumerable<PlayerAchievement> EnumerateCachedPlayerAchievement(ProductUserId productUserId)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    return:
+      type: IEnumerable{PlayerAchievement}
+    content.vb: Public Function EnumerateCachedPlayerAchievement(productUserId As ProductUserId) As IEnumerable(Of PlayerAchievement)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionCount
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionCount
+  id: GetAchievementDefinitionCount
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: GetAchievementDefinitionCount()
+  nameWithType: EOSAchievementManager.GetAchievementDefinitionCount()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionCount()
+  type: Method
+  source:
+    id: GetAchievementDefinitionCount
+    path: ''
+    startLine: 3266
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public uint GetAchievementDefinitionCount()
+    return:
+      type: System.UInt32
+    content.vb: Public Function GetAchievementDefinitionCount As UInteger
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionCount*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String)
+  id: UnlockAchievementManually(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: UnlockAchievementManually(String)
+  nameWithType: EOSAchievementManager.UnlockAchievementManually(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String)
+  type: Method
+  source:
+    id: UnlockAchievementManually
+    path: ''
+    startLine: 3280
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public void UnlockAchievementManually(string achievementId)
+    parameters:
+    - id: achievementId
+      type: System.String
+    content.vb: Public Sub UnlockAchievementManually(achievementId As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions(ProductUserId)
+  id: MakeCopyPlayerAchievementByIndexOptions(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: MakeCopyPlayerAchievementByIndexOptions(ProductUserId)
+  nameWithType: EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions(ProductUserId)
+  type: Method
+  source:
+    id: MakeCopyPlayerAchievementByIndexOptions
+    path: ''
+    startLine: 3292
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: CopyPlayerAchievementByIndexOptions MakeCopyPlayerAchievementByIndexOptions(ProductUserId productUserId)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    return:
+      type: CopyPlayerAchievementByIndexOptions
+    content.vb: Function MakeCopyPlayerAchievementByIndexOptions(productUserId As ProductUserId) As CopyPlayerAchievementByIndexOptions
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllPlayerAchievements(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllPlayerAchievements(ProductUserId)
+  id: CacheAllPlayerAchievements(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: CacheAllPlayerAchievements(ProductUserId)
+  nameWithType: EOSAchievementManager.CacheAllPlayerAchievements(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllPlayerAchievements(ProductUserId)
+  type: Method
+  source:
+    id: CacheAllPlayerAchievements
+    path: ''
+    startLine: 3303
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void CacheAllPlayerAchievements(ProductUserId productUserId)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    content.vb: Sub CacheAllPlayerAchievements(productUserId As ProductUserId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllPlayerAchievements*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllAchievementDefinitions(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllAchievementDefinitions(ProductUserId)
+  id: CacheAllAchievementDefinitions(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: CacheAllAchievementDefinitions(ProductUserId)
+  nameWithType: EOSAchievementManager.CacheAllAchievementDefinitions(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllAchievementDefinitions(ProductUserId)
+  type: Method
+  source:
+    id: CacheAllAchievementDefinitions
+    path: ''
+    startLine: 3333
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void CacheAllAchievementDefinitions(ProductUserId productUserId)
+    parameters:
+    - id: productUserId
+      type: ProductUserId
+    content.vb: Sub CacheAllAchievementDefinitions(productUserId As ProductUserId)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllAchievementDefinitions*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAchievementDefById(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAchievementDefById(System.String)
+  id: CacheAchievementDefById(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: CacheAchievementDefById(String)
+  nameWithType: EOSAchievementManager.CacheAchievementDefById(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAchievementDefById(System.String)
+  type: Method
+  source:
+    id: CacheAchievementDefById
+    path: ''
+    startLine: 3352
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void CacheAchievementDefById(string achievementId)
+    parameters:
+    - id: achievementId
+      type: System.String
+    content.vb: Sub CacheAchievementDefById(achievementId As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAchievementDefById*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.cacheAchievementDef(DefinitionV2)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.cacheAchievementDef(DefinitionV2)
+  id: cacheAchievementDef(DefinitionV2)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: cacheAchievementDef(DefinitionV2)
+  nameWithType: EOSAchievementManager.cacheAchievementDef(DefinitionV2)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.cacheAchievementDef(DefinitionV2)
+  type: Method
+  source:
+    id: cacheAchievementDef
+    path: ''
+    startLine: 3365
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: void cacheAchievementDef(DefinitionV2 achievementDef)
+    parameters:
+    - id: achievementDef
+      type: DefinitionV2
+    content.vb: Sub cacheAchievementDef(achievementDef As DefinitionV2)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.cacheAchievementDef*
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.DownloadIconDataFromURI(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.DownloadIconDataFromURI(System.String)
+  id: DownloadIconDataFromURI(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  langs:
+  - csharp
+  - vb
+  name: DownloadIconDataFromURI(String)
+  nameWithType: EOSAchievementManager.DownloadIconDataFromURI(String)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.DownloadIconDataFromURI(System.String)
+  type: Method
+  source:
+    id: DownloadIconDataFromURI
+    path: ''
+    startLine: 3376
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: async void DownloadIconDataFromURI(string uri)
+    parameters:
+    - id: uri
+      type: System.String
+    content.vb: Sub DownloadIconDataFromURI(uri As String)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.DownloadIconDataFromURI*
+  modifiers.csharp:
+  - async
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSSubManager
+  nameWithType: IEOSSubManager
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEOSOnConnectLogin
+  nameWithType: IEOSOnConnectLogin
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: ConcurrentDictionary{System.String,System.Byte[]}
+  commentId: '!:ConcurrentDictionary{System.String,System.Byte[]}'
+  definition: ConcurrentDictionary`2
+  name: ConcurrentDictionary<String, Byte[]>
+  nameWithType: ConcurrentDictionary<String, Byte[]>
+  fullName: ConcurrentDictionary<System.String, System.Byte[]>
+  nameWithType.vb: ConcurrentDictionary(Of String, Byte())
+  fullName.vb: ConcurrentDictionary(Of System.String, System.Byte())
+  name.vb: ConcurrentDictionary(Of String, Byte())
+  spec.csharp:
+  - uid: ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    nameWithType: ConcurrentDictionary
+    fullName: ConcurrentDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    nameWithType: ConcurrentDictionary
+    fullName: ConcurrentDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: ConcurrentDictionary`2
+  isExternal: true
+  name: ConcurrentDictionary<, >
+  nameWithType: ConcurrentDictionary<, >
+  fullName: ConcurrentDictionary<, >
+  nameWithType.vb: ConcurrentDictionary(Of , )
+  fullName.vb: ConcurrentDictionary(Of , )
+  name.vb: ConcurrentDictionary(Of , )
+  spec.csharp:
+  - uid: ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    nameWithType: ConcurrentDictionary
+    fullName: ConcurrentDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    nameWithType: ConcurrentDictionary
+    fullName: ConcurrentDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List{DefinitionV2}
+  commentId: '!:List{DefinitionV2}'
+  definition: List`1
+  name: List<DefinitionV2>
+  nameWithType: List<DefinitionV2>
+  fullName: List<DefinitionV2>
+  nameWithType.vb: List(Of DefinitionV2)
+  fullName.vb: List(Of DefinitionV2)
+  name.vb: List(Of DefinitionV2)
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: DefinitionV2
+    name: DefinitionV2
+    nameWithType: DefinitionV2
+    fullName: DefinitionV2
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: DefinitionV2
+    name: DefinitionV2
+    nameWithType: DefinitionV2
+    fullName: DefinitionV2
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: List`1
+  isExternal: true
+  name: List<>
+  nameWithType: List<>
+  fullName: List<>
+  nameWithType.vb: List(Of )
+  fullName.vb: List(Of )
+  name.vb: List(Of )
+  spec.csharp:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: ConcurrentDictionary{ProductUserId,UserInfoData}
+  commentId: '!:ConcurrentDictionary{ProductUserId,UserInfoData}'
+  definition: ConcurrentDictionary`2
+  name: ConcurrentDictionary<ProductUserId, UserInfoData>
+  nameWithType: ConcurrentDictionary<ProductUserId, UserInfoData>
+  fullName: ConcurrentDictionary<ProductUserId, UserInfoData>
+  nameWithType.vb: ConcurrentDictionary(Of ProductUserId, UserInfoData)
+  fullName.vb: ConcurrentDictionary(Of ProductUserId, UserInfoData)
+  name.vb: ConcurrentDictionary(Of ProductUserId, UserInfoData)
+  spec.csharp:
+  - uid: ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    nameWithType: ConcurrentDictionary
+    fullName: ConcurrentDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UserInfoData
+    name: UserInfoData
+    nameWithType: UserInfoData
+    fullName: UserInfoData
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    nameWithType: ConcurrentDictionary
+    fullName: ConcurrentDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: UserInfoData
+    name: UserInfoData
+    nameWithType: UserInfoData
+    fullName: UserInfoData
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: ConcurrentDictionary{ProductUserId,List{PlayerAchievement}}
+  commentId: '!:ConcurrentDictionary{ProductUserId,List{PlayerAchievement}}'
+  definition: ConcurrentDictionary`2
+  name: ConcurrentDictionary<ProductUserId, List<PlayerAchievement>>
+  nameWithType: ConcurrentDictionary<ProductUserId, List<PlayerAchievement>>
+  fullName: ConcurrentDictionary<ProductUserId, List<PlayerAchievement>>
+  nameWithType.vb: ConcurrentDictionary(Of ProductUserId, List(Of PlayerAchievement))
+  fullName.vb: ConcurrentDictionary(Of ProductUserId, List(Of PlayerAchievement))
+  name.vb: ConcurrentDictionary(Of ProductUserId, List(Of PlayerAchievement))
+  spec.csharp:
+  - uid: ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    nameWithType: ConcurrentDictionary
+    fullName: ConcurrentDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayerAchievement
+    name: PlayerAchievement
+    nameWithType: PlayerAchievement
+    fullName: PlayerAchievement
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    nameWithType: ConcurrentDictionary
+    fullName: ConcurrentDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayerAchievement
+    name: PlayerAchievement
+    nameWithType: PlayerAchievement
+    fullName: PlayerAchievement
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: AchievementsInterface
+  isExternal: true
+  name: AchievementsInterface
+  nameWithType: AchievementsInterface
+  fullName: AchievementsInterface
+- uid: Dictionary{ProductUserId,List{Stat}}
+  commentId: '!:Dictionary{ProductUserId,List{Stat}}'
+  definition: Dictionary`2
+  name: Dictionary<ProductUserId, List<Stat>>
+  nameWithType: Dictionary<ProductUserId, List<Stat>>
+  fullName: Dictionary<ProductUserId, List<Stat>>
+  nameWithType.vb: Dictionary(Of ProductUserId, List(Of Stat))
+  fullName.vb: Dictionary(Of ProductUserId, List(Of Stat))
+  name.vb: Dictionary(Of ProductUserId, List(Of Stat))
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Stat
+    name: Stat
+    nameWithType: Stat
+    fullName: Stat
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: ProductUserId
+    name: ProductUserId
+    nameWithType: ProductUserId
+    fullName: ProductUserId
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: List`1
+    name: List
+    nameWithType: List
+    fullName: List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Stat
+    name: Stat
+    nameWithType: Stat
+    fullName: Stat
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Dictionary`2
+  isExternal: true
+  name: Dictionary<, >
+  nameWithType: Dictionary<, >
+  fullName: Dictionary<, >
+  nameWithType.vb: Dictionary(Of , )
+  fullName.vb: Dictionary(Of , )
+  name.vb: Dictionary(Of , )
+  spec.csharp:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.#ctor*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.#ctor
+  name: EOSAchievementManager
+  nameWithType: EOSAchievementManager.EOSAchievementManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EOSAchievementManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.print*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.print
+  name: print
+  nameWithType: EOSAchievementManager.print
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.print
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSPlatformInterface*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSPlatformInterface
+  name: GetEOSPlatformInterface
+  nameWithType: EOSAchievementManager.GetEOSPlatformInterface
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSPlatformInterface
+- uid: PlatformInterface
+  isExternal: true
+  name: PlatformInterface
+  nameWithType: PlatformInterface
+  fullName: PlatformInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSStatsInterface*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSStatsInterface
+  name: GetEOSStatsInterface
+  nameWithType: EOSAchievementManager.GetEOSStatsInterface
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSStatsInterface
+- uid: Epic.OnlineServices.Stats.StatsInterface
+  isExternal: true
+  name: Epic.OnlineServices.Stats.StatsInterface
+  nameWithType: Epic.OnlineServices.Stats.StatsInterface
+  fullName: Epic.OnlineServices.Stats.StatsInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.ProductUserIdToString*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.ProductUserIdToString
+  name: ProductUserIdToString
+  nameWithType: EOSAchievementManager.ProductUserIdToString
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.ProductUserIdToString
+- uid: ProductUserId
+  isExternal: true
+  name: ProductUserId
+  nameWithType: ProductUserId
+  fullName: ProductUserId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.NewWeakThis*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.NewWeakThis
+  name: NewWeakThis
+  nameWithType: EOSAchievementManager.NewWeakThis
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.NewWeakThis
+- uid: System.WeakReference
+  commentId: T:System.WeakReference
+  parent: System
+  isExternal: true
+  name: WeakReference
+  nameWithType: WeakReference
+  fullName: System.WeakReference
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData
+  name: StrongThisFromClientData
+  nameWithType: EOSAchievementManager.StrongThisFromClientData
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: EOSAchievementManager
+  nameWithType: EOSAchievementManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheStatsForProductUserId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheStatsForProductUserId
+  name: CacheStatsForProductUserId
+  nameWithType: EOSAchievementManager.CacheStatsForProductUserId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheStatsForProductUserId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId
+  name: QueryStatsForProductUserId
+  nameWithType: EOSAchievementManager.QueryStatsForProductUserId
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId
+- uid: OnQueryStatsCompleteCallback
+  commentId: '!:OnQueryStatsCompleteCallback'
+  isExternal: true
+  name: OnQueryStatsCompleteCallback
+  nameWithType: OnQueryStatsCompleteCallback
+  fullName: OnQueryStatsCompleteCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSUserInfoInterface*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSUserInfoInterface
+  name: GetEOSUserInfoInterface
+  nameWithType: EOSAchievementManager.GetEOSUserInfoInterface
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSUserInfoInterface
+- uid: Epic.OnlineServices.UserInfo.UserInfoInterface
+  isExternal: true
+  name: Epic.OnlineServices.UserInfo.UserInfoInterface
+  nameWithType: Epic.OnlineServices.UserInfo.UserInfoInterface
+  fullName: Epic.OnlineServices.UserInfo.UserInfoInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnConnectLogin*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnConnectLogin
+  name: OnConnectLogin
+  nameWithType: EOSAchievementManager.OnConnectLogin
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnConnectLogin
+- uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  commentId: M:PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  parent: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
+  isExternal: true
+  name: OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  nameWithType: IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  fullName: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+    name: OnConnectLogin
+    nameWithType: IEOSOnConnectLogin.OnConnectLogin
+    fullName: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Epic.OnlineServices.Connect.LoginCallbackInfo
+    name: Epic.OnlineServices.Connect.LoginCallbackInfo
+    nameWithType: Epic.OnlineServices.Connect.LoginCallbackInfo
+    fullName: Epic.OnlineServices.Connect.LoginCallbackInfo
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
+    name: OnConnectLogin
+    nameWithType: IEOSOnConnectLogin.OnConnectLogin
+    fullName: PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin.OnConnectLogin
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Epic.OnlineServices.Connect.LoginCallbackInfo
+    name: Epic.OnlineServices.Connect.LoginCallbackInfo
+    nameWithType: Epic.OnlineServices.Connect.LoginCallbackInfo
+    fullName: Epic.OnlineServices.Connect.LoginCallbackInfo
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Epic.OnlineServices.Connect.LoginCallbackInfo
+  isExternal: true
+  name: Epic.OnlineServices.Connect.LoginCallbackInfo
+  nameWithType: Epic.OnlineServices.Connect.LoginCallbackInfo
+  fullName: Epic.OnlineServices.Connect.LoginCallbackInfo
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation
+  name: QueryUserInformation
+  nameWithType: EOSAchievementManager.QueryUserInformation
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation
+- uid: EpicAccountId
+  isExternal: true
+  name: EpicAccountId
+  nameWithType: EpicAccountId
+  fullName: EpicAccountId
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSAchievementInterface*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSAchievementInterface
+  name: GetEOSAchievementInterface
+  nameWithType: EOSAchievementManager.GetEOSAchievementInterface
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetEOSAchievementInterface
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryAchievementDefinitions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryAchievementDefinitions
+  name: QueryAchievementDefinitions
+  nameWithType: EOSAchievementManager.QueryAchievementDefinitions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryAchievementDefinitions
+- uid: Epic.OnlineServices.ProductUserId
+  isExternal: true
+  name: Epic.OnlineServices.ProductUserId
+  nameWithType: Epic.OnlineServices.ProductUserId
+  fullName: Epic.OnlineServices.ProductUserId
+- uid: OnQueryDefinitionsCompleteCallback
+  commentId: '!:OnQueryDefinitionsCompleteCallback'
+  isExternal: true
+  name: OnQueryDefinitionsCompleteCallback
+  nameWithType: OnQueryDefinitionsCompleteCallback
+  fullName: OnQueryDefinitionsCompleteCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeQueryPlayerAchievementsOptions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeQueryPlayerAchievementsOptions
+  name: MakeQueryPlayerAchievementsOptions
+  nameWithType: EOSAchievementManager.MakeQueryPlayerAchievementsOptions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeQueryPlayerAchievementsOptions
+- uid: QueryPlayerAchievementsOptions
+  commentId: '!:QueryPlayerAchievementsOptions'
+  isExternal: true
+  name: QueryPlayerAchievementsOptions
+  nameWithType: QueryPlayerAchievementsOptions
+  fullName: QueryPlayerAchievementsOptions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryPlayerAchievements*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryPlayerAchievements
+  name: QueryPlayerAchievements
+  nameWithType: EOSAchievementManager.QueryPlayerAchievements
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryPlayerAchievements
+- uid: OnQueryPlayerAchievementsCompleteCallback
+  commentId: '!:OnQueryPlayerAchievementsCompleteCallback'
+  isExternal: true
+  name: OnQueryPlayerAchievementsCompleteCallback
+  nameWithType: OnQueryPlayerAchievementsCompleteCallback
+  fullName: OnQueryPlayerAchievementsCompleteCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnShutdown*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnShutdown
+  name: OnShutdown
+  nameWithType: EOSAchievementManager.OnShutdown
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.OnShutdown
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes
+  name: GetTextureFromBytes
+  nameWithType: EOSAchievementManager.GetTextureFromBytes
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetTextureFromBytes
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: Texture2D
+  isExternal: true
+  name: Texture2D
+  nameWithType: Texture2D
+  fullName: Texture2D
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconTexture*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconTexture
+  name: GetAchievementUnlockedIconTexture
+  nameWithType: EOSAchievementManager.GetAchievementUnlockedIconTexture
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconTexture
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconTexture*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconTexture
+  name: GetAchievementLockedIconTexture
+  nameWithType: EOSAchievementManager.GetAchievementLockedIconTexture
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconTexture
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconBytes*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconBytes
+  name: GetAchievementUnlockedIconBytes
+  nameWithType: EOSAchievementManager.GetAchievementUnlockedIconBytes
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementUnlockedIconBytes
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconBytes*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconBytes
+  name: GetAchievementLockedIconBytes
+  nameWithType: EOSAchievementManager.GetAchievementLockedIconBytes
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementLockedIconBytes
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions
+  name: EnumeratorForCachedAchievementDefinitions
+  nameWithType: EOSAchievementManager.EnumeratorForCachedAchievementDefinitions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions
+- uid: IEnumerator{DefinitionV2}
+  commentId: '!:IEnumerator{DefinitionV2}'
+  definition: IEnumerator`1
+  name: IEnumerator<DefinitionV2>
+  nameWithType: IEnumerator<DefinitionV2>
+  fullName: IEnumerator<DefinitionV2>
+  nameWithType.vb: IEnumerator(Of DefinitionV2)
+  fullName.vb: IEnumerator(Of DefinitionV2)
+  name.vb: IEnumerator(Of DefinitionV2)
+  spec.csharp:
+  - uid: IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: DefinitionV2
+    name: DefinitionV2
+    nameWithType: DefinitionV2
+    fullName: DefinitionV2
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: DefinitionV2
+    name: DefinitionV2
+    nameWithType: DefinitionV2
+    fullName: DefinitionV2
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: IEnumerator`1
+  isExternal: true
+  name: IEnumerator<>
+  nameWithType: IEnumerator<>
+  fullName: IEnumerator<>
+  nameWithType.vb: IEnumerator(Of )
+  fullName.vb: IEnumerator(Of )
+  name.vb: IEnumerator(Of )
+  spec.csharp:
+  - uid: IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions
+  name: EnumerateCachedAchievementDefinitions
+  nameWithType: EOSAchievementManager.EnumerateCachedAchievementDefinitions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions
+- uid: IEnumerable{DefinitionV2}
+  commentId: '!:IEnumerable{DefinitionV2}'
+  definition: IEnumerable`1
+  name: IEnumerable<DefinitionV2>
+  nameWithType: IEnumerable<DefinitionV2>
+  fullName: IEnumerable<DefinitionV2>
+  nameWithType.vb: IEnumerable(Of DefinitionV2)
+  fullName.vb: IEnumerable(Of DefinitionV2)
+  name.vb: IEnumerable(Of DefinitionV2)
+  spec.csharp:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: DefinitionV2
+    name: DefinitionV2
+    nameWithType: DefinitionV2
+    fullName: DefinitionV2
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: DefinitionV2
+    name: DefinitionV2
+    nameWithType: DefinitionV2
+    fullName: DefinitionV2
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: IEnumerable`1
+  isExternal: true
+  name: IEnumerable<>
+  nameWithType: IEnumerable<>
+  fullName: IEnumerable<>
+  nameWithType.vb: IEnumerable(Of )
+  fullName.vb: IEnumerable(Of )
+  name.vb: IEnumerable(Of )
+  spec.csharp:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: ''
+    nameWithType: ''
+    fullName: ''
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionAtIndex*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionAtIndex
+  name: GetAchievementDefinitionAtIndex
+  nameWithType: EOSAchievementManager.GetAchievementDefinitionAtIndex
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionAtIndex
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: DefinitionV2
+  isExternal: true
+  name: DefinitionV2
+  nameWithType: DefinitionV2
+  fullName: DefinitionV2
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement
+  name: EnumeratorForCachedPlayerAchievement
+  nameWithType: EOSAchievementManager.EnumeratorForCachedPlayerAchievement
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement
+- uid: IEnumerator{PlayerAchievement}
+  commentId: '!:IEnumerator{PlayerAchievement}'
+  definition: IEnumerator`1
+  name: IEnumerator<PlayerAchievement>
+  nameWithType: IEnumerator<PlayerAchievement>
+  fullName: IEnumerator<PlayerAchievement>
+  nameWithType.vb: IEnumerator(Of PlayerAchievement)
+  fullName.vb: IEnumerator(Of PlayerAchievement)
+  name.vb: IEnumerator(Of PlayerAchievement)
+  spec.csharp:
+  - uid: IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayerAchievement
+    name: PlayerAchievement
+    nameWithType: PlayerAchievement
+    fullName: PlayerAchievement
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayerAchievement
+    name: PlayerAchievement
+    nameWithType: PlayerAchievement
+    fullName: PlayerAchievement
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement
+  name: EnumerateCachedPlayerAchievement
+  nameWithType: EOSAchievementManager.EnumerateCachedPlayerAchievement
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement
+- uid: IEnumerable{PlayerAchievement}
+  commentId: '!:IEnumerable{PlayerAchievement}'
+  definition: IEnumerable`1
+  name: IEnumerable<PlayerAchievement>
+  nameWithType: IEnumerable<PlayerAchievement>
+  fullName: IEnumerable<PlayerAchievement>
+  nameWithType.vb: IEnumerable(Of PlayerAchievement)
+  fullName.vb: IEnumerable(Of PlayerAchievement)
+  name.vb: IEnumerable(Of PlayerAchievement)
+  spec.csharp:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayerAchievement
+    name: PlayerAchievement
+    nameWithType: PlayerAchievement
+    fullName: PlayerAchievement
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayerAchievement
+    name: PlayerAchievement
+    nameWithType: PlayerAchievement
+    fullName: PlayerAchievement
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionCount*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionCount
+  name: GetAchievementDefinitionCount
+  nameWithType: EOSAchievementManager.GetAchievementDefinitionCount
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.GetAchievementDefinitionCount
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  name: UInt32
+  nameWithType: UInt32
+  fullName: System.UInt32
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually
+  name: UnlockAchievementManually
+  nameWithType: EOSAchievementManager.UnlockAchievementManually
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions
+  name: MakeCopyPlayerAchievementByIndexOptions
+  nameWithType: EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions
+- uid: CopyPlayerAchievementByIndexOptions
+  commentId: '!:CopyPlayerAchievementByIndexOptions'
+  isExternal: true
+  name: CopyPlayerAchievementByIndexOptions
+  nameWithType: CopyPlayerAchievementByIndexOptions
+  fullName: CopyPlayerAchievementByIndexOptions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllPlayerAchievements*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllPlayerAchievements
+  name: CacheAllPlayerAchievements
+  nameWithType: EOSAchievementManager.CacheAllPlayerAchievements
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllPlayerAchievements
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllAchievementDefinitions*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllAchievementDefinitions
+  name: CacheAllAchievementDefinitions
+  nameWithType: EOSAchievementManager.CacheAllAchievementDefinitions
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAllAchievementDefinitions
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAchievementDefById*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAchievementDefById
+  name: CacheAchievementDefById
+  nameWithType: EOSAchievementManager.CacheAchievementDefById
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.CacheAchievementDefById
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.cacheAchievementDef*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.cacheAchievementDef
+  name: cacheAchievementDef
+  nameWithType: EOSAchievementManager.cacheAchievementDef
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.cacheAchievementDef
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.DownloadIconDataFromURI*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.DownloadIconDataFromURI
+  name: DownloadIconDataFromURI
+  nameWithType: EOSAchievementManager.DownloadIconDataFromURI
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.DownloadIconDataFromURI

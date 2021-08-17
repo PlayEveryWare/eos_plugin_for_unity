@@ -1,0 +1,45 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+  id: EOSManager.OnAuthLinkExternalAccountCallback
+  parent: PlayEveryWare.EpicOnlineServices
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: EOSManager.OnAuthLinkExternalAccountCallback
+  nameWithType: EOSManager.OnAuthLinkExternalAccountCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+  type: Delegate
+  source:
+    id: OnAuthLinkExternalAccountCallback
+    path: ''
+    startLine: 415
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public delegate void OnAuthLinkExternalAccountCallback(Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo);
+    parameters:
+    - id: linkAccountCallbackInfo
+      type: Epic.OnlineServices.Auth.LinkAccountCallbackInfo
+    content.vb: Public Delegate Sub OnAuthLinkExternalAccountCallback(linkAccountCallbackInfo As Epic.OnlineServices.Auth.LinkAccountCallbackInfo)
+  modifiers.csharp:
+  - public
+  - delegate
+  modifiers.vb:
+  - Public
+  - Delegate
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: Epic.OnlineServices.Auth.LinkAccountCallbackInfo
+  commentId: '!:Epic.OnlineServices.Auth.LinkAccountCallbackInfo'
+  isExternal: true
+  name: Epic.OnlineServices.Auth.LinkAccountCallbackInfo
+  nameWithType: Epic.OnlineServices.Auth.LinkAccountCallbackInfo
+  fullName: Epic.OnlineServices.Auth.LinkAccountCallbackInfo

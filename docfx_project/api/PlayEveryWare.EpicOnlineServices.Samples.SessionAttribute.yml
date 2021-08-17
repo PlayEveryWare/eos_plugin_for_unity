@@ -1,0 +1,856 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  id: SessionAttribute
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  children:
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Advertisement
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsAttribute
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsBool
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsDouble
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsInt64
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsString
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Equals(System.Object)
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.GetHashCode
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Key
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.ValueType
+  langs:
+  - csharp
+  - vb
+  name: SessionAttribute
+  nameWithType: SessionAttribute
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  type: Class
+  source:
+    id: SessionAttribute
+    path: ''
+    startLine: 8131
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass represents a single session attribute\n"
+  example: []
+  syntax:
+    content: public class SessionAttribute
+    content.vb: Public Class SessionAttribute
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.ValueType
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.ValueType
+  id: ValueType
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: ValueType
+  nameWithType: SessionAttribute.ValueType
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.ValueType
+  type: Field
+  source:
+    id: ValueType
+    path: ''
+    startLine: 8133
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public AttributeType ValueType
+    return:
+      type: AttributeType
+    content.vb: Public ValueType As AttributeType
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Key
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Key
+  id: Key
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: Key
+  nameWithType: SessionAttribute.Key
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Key
+  type: Field
+  source:
+    id: Key
+    path: ''
+    startLine: 8134
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public string Key
+    return:
+      type: System.String
+    content.vb: Public Key As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsInt64
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsInt64
+  id: AsInt64
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: AsInt64
+  nameWithType: SessionAttribute.AsInt64
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsInt64
+  type: Field
+  source:
+    id: AsInt64
+    path: ''
+    startLine: 8137
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public long? AsInt64
+    return:
+      type: System.Nullable{System.Int64}
+    content.vb: Public AsInt64 As Long?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsDouble
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsDouble
+  id: AsDouble
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: AsDouble
+  nameWithType: SessionAttribute.AsDouble
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsDouble
+  type: Field
+  source:
+    id: AsDouble
+    path: ''
+    startLine: 8138
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public double? AsDouble
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public AsDouble As Double?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsBool
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsBool
+  id: AsBool
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: AsBool
+  nameWithType: SessionAttribute.AsBool
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsBool
+  type: Field
+  source:
+    id: AsBool
+    path: ''
+    startLine: 8139
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public bool? AsBool
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public AsBool As Boolean?
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsString
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsString
+  id: AsString
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: AsString
+  nameWithType: SessionAttribute.AsString
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsString
+  type: Field
+  source:
+    id: AsString
+    path: ''
+    startLine: 8140
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public string AsString
+    return:
+      type: System.String
+    content.vb: Public AsString As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Advertisement
+  commentId: F:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Advertisement
+  id: Advertisement
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: Advertisement
+  nameWithType: SessionAttribute.Advertisement
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Advertisement
+  type: Field
+  source:
+    id: Advertisement
+    path: ''
+    startLine: 8142
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public SessionAttributeAdvertisementType Advertisement
+    return:
+      type: SessionAttributeAdvertisementType
+    content.vb: Public Advertisement As SessionAttributeAdvertisementType
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsAttribute
+  commentId: P:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsAttribute
+  id: AsAttribute
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: AsAttribute
+  nameWithType: SessionAttribute.AsAttribute
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsAttribute
+  type: Property
+  source:
+    id: AsAttribute
+    path: ''
+    startLine: 8144
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public AttributeData AsAttribute { get; }
+    parameters: []
+    return:
+      type: AttributeData
+    content.vb: Public ReadOnly Property AsAttribute As AttributeData
+  overload: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsAttribute*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Equals(System.Object)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: Equals(Object)
+  nameWithType: SessionAttribute.Equals(Object)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Equals(System.Object)
+  type: Method
+  source:
+    id: Equals
+    path: ''
+    startLine: 8171
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public override bool Equals(object other)
+    parameters:
+    - id: other
+      type: System.Object
+    return:
+      type: System.Boolean
+    content.vb: Public Overrides Function Equals(other As Object) As Boolean
+  overridden: System.Object.Equals(System.Object)
+  overload: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Equals*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.GetHashCode
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.GetHashCode
+  id: GetHashCode
+  parent: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: SessionAttribute.GetHashCode()
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.GetHashCode()
+  type: Method
+  source:
+    id: GetHashCode
+    path: ''
+    startLine: 8184
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices.Samples
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+    content.vb: Public Overrides Function GetHashCode As Integer
+  overridden: System.Object.GetHashCode
+  overload: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.GetHashCode*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: PlayEveryWare.EpicOnlineServices.Samples
+  commentId: N:PlayEveryWare.EpicOnlineServices.Samples
+  name: PlayEveryWare.EpicOnlineServices.Samples
+  nameWithType: PlayEveryWare.EpicOnlineServices.Samples
+  fullName: PlayEveryWare.EpicOnlineServices.Samples
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: AttributeType
+  isExternal: true
+  name: AttributeType
+  nameWithType: AttributeType
+  fullName: AttributeType
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Nullable{System.Int64}
+  commentId: T:System.Nullable{System.Int64}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int64>
+  nameWithType: Nullable<Int64>
+  fullName: System.Nullable<System.Int64>
+  nameWithType.vb: Nullable(Of Int64)
+  fullName.vb: System.Nullable(Of System.Int64)
+  name.vb: Nullable(Of Int64)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int64
+    name: Int64
+    nameWithType: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable{System.Boolean}
+  commentId: T:System.Nullable{System.Boolean}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Boolean>
+  nameWithType: Nullable<Boolean>
+  fullName: System.Nullable<System.Boolean>
+  nameWithType.vb: Nullable(Of Boolean)
+  fullName.vb: System.Nullable(Of System.Boolean)
+  name.vb: Nullable(Of Boolean)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: SessionAttributeAdvertisementType
+  commentId: '!:SessionAttributeAdvertisementType'
+  isExternal: true
+  name: SessionAttributeAdvertisementType
+  nameWithType: SessionAttributeAdvertisementType
+  fullName: SessionAttributeAdvertisementType
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsAttribute*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsAttribute
+  name: AsAttribute
+  nameWithType: SessionAttribute.AsAttribute
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.AsAttribute
+- uid: AttributeData
+  isExternal: true
+  name: AttributeData
+  nameWithType: AttributeData
+  fullName: AttributeData
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Equals*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Equals
+  name: Equals
+  nameWithType: SessionAttribute.Equals
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.Equals
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.GetHashCode*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.GetHashCode
+  name: GetHashCode
+  nameWithType: SessionAttribute.GetHashCode
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

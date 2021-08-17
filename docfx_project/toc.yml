@@ -1,5 +1,12 @@
-- name: Articles
-  href: articles/
+- name: Home
+  href: /
+
 - name: Api Documentation
   href: api/
-  homepage: api/index.md
+  
+- name: UMP Repo
+  href: https://github.com/PlayEveryWare/eos_plugin_for_unity_upm
+
+- name: Source Code Repo
+  href: https://github.com/PlayEveryWare/eos_plugin_for_unity
+ 

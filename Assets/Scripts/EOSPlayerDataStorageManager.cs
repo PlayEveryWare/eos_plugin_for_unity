@@ -1,3 +1,25 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -10,7 +32,7 @@ using Epic.OnlineServices.PlayerDataStorage;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS PlayerDataStorageInterface.</summary>
+    /// <summary>Class <c>EOSPlayerDataStorageManager</c> is a simplified wrapper for EOS [PlayerDataStorage Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html).</summary>
     public class EOSPlayerDataStorageManager : IEOSSubManager
     {
         private const uint MAX_CHUNK_SIZE = 4096;
@@ -29,7 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>Returns cached Storage Data list.</summary>
-        /// <returns>Dictionary<string, string> cached StorageData where FileName is key and FileContent is value.</returns>
+        /// <returns>Dictionary(string, string) cached StorageData where FileName is key and FileContent is value.</returns>
         public Dictionary<string, string> GetCachedStorageData()
         {
             return StorageData;
@@ -53,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>(async) Begin file data download.</summary>
-        /// <param name"fileName">Name of file.</param>
+        /// <param name="fileName">Name of file.</param>
         /// <param name="downloadCompletedCallback">Function called when download is completed.</param>
         public void StartFileDataDownload(string fileName, Action downloadCompletedCallback = null)
         {
@@ -99,7 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>(async) Begin file data upload.</summary>
-        /// <param name"fileName">Name of file.</param>
+        /// <param name="fileName">Name of file.</param>
         /// <returns>True if upload started</returns>
         public bool StartFileDataUpload(string fileName)
         {
@@ -195,9 +217,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>(async) Begin file data upload.</summary>
-        /// <param name"fileName">Name of file.</param>
-        /// <param name"fileContent">File content.</param>
-        /// <param name"fileCreatedCallback">Function called when file creation and upload is completed.</param>
+        /// <param name="fileName">Name of file.</param>
+        /// <param name="fileContent">File content.</param>
+        /// <param name="fileCreatedCallback">Function called when file creation and upload is completed.</param>
         public void AddFile(string fileName, string fileContent, Action fileCreatedCallback = null)
         {
             SetLocalData(fileName, fileContent);
@@ -214,8 +236,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>(async) Begin file data upload.</summary>
-        /// <param name"sourceFileName">Name of source file in EOS backend.</param>
-        /// <param name"destinationFileName">Name of target file to copy to.</param>
+        /// <param name="sourceFileName">Name of source file in EOS backend.</param>
+        /// <param name="destinationFileName">Name of target file to copy to.</param>
         public void CopyFile(string sourceFileName, string destinationFileName)
         {
             ProductUserId localUserId = EOSManager.Instance.GetProductUserId();
@@ -235,7 +257,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>(async) Begin file delete.</summary>
-        /// <param name"fileName">Name of source file to delete.</param>
+        /// <param name="fileName">Name of source file to delete.</param>
         public void DeleteFile(string fileName)
         {
             ProductUserId localUserId = EOSManager.Instance.GetProductUserId();
@@ -256,7 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>Get cached file content for specified file name.</summary>
-        /// <param name"fileName">Name of file.</param>
+        /// <param name="fileName">Name of file.</param>
         /// <returns>File content</returns>
         public string GetCachedFileContent(string fileName)
         {
@@ -502,7 +524,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         /// <summary>User Logged Out actions</summary>
         /// <list type="bullet">
-        ///     <item><description>Clear Cache & Current Transfer</description></item>
+        ///     <item><description>Clear Cache and Current Transfer</description></item>
         /// </list>
         public void OnLoggedOut()
         {
