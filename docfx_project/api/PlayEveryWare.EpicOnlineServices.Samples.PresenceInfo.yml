@@ -19,7 +19,7 @@ items:
   source:
     id: PresenceInfo
     path: ''
-    startLine: 3425
+    startLine: 3444
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -58,7 +58,7 @@ items:
   source:
     id: Status
     path: ''
-    startLine: 3428
+    startLine: 3447
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -85,7 +85,7 @@ items:
   source:
     id: RichText
     path: ''
-    startLine: 3429
+    startLine: 3448
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -112,7 +112,7 @@ items:
   source:
     id: Application
     path: ''
-    startLine: 3430
+    startLine: 3449
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -139,7 +139,7 @@ items:
   source:
     id: Platform
     path: ''
-    startLine: 3431
+    startLine: 3450
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

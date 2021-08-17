@@ -863,7 +863,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <list type="bullet">
         ///     <item><description>NONE</description></item>
         /// </list>
-
         public void OnLoggedOut()
         {
             EpicAccountId localUser = EOSManager.Instance.GetLocalUserId();

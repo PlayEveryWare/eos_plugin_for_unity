@@ -34,7 +34,7 @@ using Epic.OnlineServices.P2P;
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     /// <summary>
-    /// Class <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
+    /// Struct <c>ChatEntry</c> is used to store cached chat data in <c>UIPeer2PeerMenu</c>.
     /// </summary>
 
     public struct ChatEntry
@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     }
 
     /// <summary>
-    /// Class <c>ChatWithFriendData</c> is used to store cached friend chat data in <c>UIPeer2PeerMenu</c>.
+    /// Struct <c>ChatWithFriendData</c> is used to store cached friend chat data in <c>UIPeer2PeerMenu</c>.
     /// </summary>
 
     public struct ChatWithFriendData

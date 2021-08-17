@@ -18,11 +18,11 @@ items:
   source:
     id: ChatWithFriendData
     path: ''
-    startLine: 6896
+    startLine: 7034
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
-  summary: "\nClass <code>ChatWithFriendData</code> is used to store cached friend chat data in <code>UIPeer2PeerMenu</code>.\n"
+  summary: "\nStruct <code>ChatWithFriendData</code> is used to store cached friend chat data in <code>UIPeer2PeerMenu</code>.\n"
   example: []
   syntax:
     content: public struct ChatWithFriendData
@@ -55,7 +55,7 @@ items:
   source:
     id: ChatLines
     path: ''
-    startLine: 6899
+    startLine: 7037
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -84,7 +84,7 @@ items:
   source:
     id: FriendId
     path: ''
-    startLine: 6902
+    startLine: 7040
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -113,7 +113,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 6906
+    startLine: 7044
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

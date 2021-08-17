@@ -95,7 +95,7 @@ items:
   source:
     id: EOSLobbyManager
     path: ''
-    startLine: 5088
+    startLine: 5145
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -138,7 +138,7 @@ items:
   source:
     id: CurrentLobby
     path: ''
-    startLine: 5090
+    startLine: 5147
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -161,7 +161,7 @@ items:
   source:
     id: ActiveJoin
     path: ''
-    startLine: 5091
+    startLine: 5148
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -184,7 +184,7 @@ items:
   source:
     id: Invites
     path: ''
-    startLine: 5094
+    startLine: 5151
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -207,7 +207,7 @@ items:
   source:
     id: CurrentInvite
     path: ''
-    startLine: 5095
+    startLine: 5152
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -230,7 +230,7 @@ items:
   source:
     id: CurrentSearch
     path: ''
-    startLine: 5098
+    startLine: 5155
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -253,7 +253,7 @@ items:
   source:
     id: SearchResults
     path: ''
-    startLine: 5099
+    startLine: 5156
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -276,7 +276,7 @@ items:
   source:
     id: LobbyUpdateNotification
     path: ''
-    startLine: 5103
+    startLine: 5160
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -299,7 +299,7 @@ items:
   source:
     id: LobbyMemberUpdateNotification
     path: ''
-    startLine: 5104
+    startLine: 5161
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -322,7 +322,7 @@ items:
   source:
     id: LobbyMemberStatusNotification
     path: ''
-    startLine: 5105
+    startLine: 5162
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -345,7 +345,7 @@ items:
   source:
     id: LobbyInviteNotification
     path: ''
-    startLine: 5106
+    startLine: 5163
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -368,7 +368,7 @@ items:
   source:
     id: LobbyInviteAcceptedNotification
     path: ''
-    startLine: 5107
+    startLine: 5164
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -391,7 +391,7 @@ items:
   source:
     id: JoinLobbyAcceptedNotification
     path: ''
-    startLine: 5108
+    startLine: 5165
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -414,7 +414,7 @@ items:
   source:
     id: EOS_INVALID_NOTIFICATIONID
     path: ''
-    startLine: 5111
+    startLine: 5168
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -441,7 +441,7 @@ items:
   source:
     id: _Dirty
     path: ''
-    startLine: 5113
+    startLine: 5170
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -468,7 +468,7 @@ items:
   source:
     id: LobbyCreatedCallback
     path: ''
-    startLine: 5116
+    startLine: 5173
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -491,7 +491,7 @@ items:
   source:
     id: LobbyModifyCallback
     path: ''
-    startLine: 5117
+    startLine: 5174
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -514,7 +514,7 @@ items:
   source:
     id: JoinLobbyCallback
     path: ''
-    startLine: 5118
+    startLine: 5175
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -537,7 +537,7 @@ items:
   source:
     id: LeaveLobbyCallback
     path: ''
-    startLine: 5119
+    startLine: 5176
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -560,7 +560,7 @@ items:
   source:
     id: DestroyLobbyCallback
     path: ''
-    startLine: 5120
+    startLine: 5177
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -583,7 +583,7 @@ items:
   source:
     id: ToggleMuteCallback
     path: ''
-    startLine: 5121
+    startLine: 5178
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -606,7 +606,7 @@ items:
   source:
     id: KickMemberCallback
     path: ''
-    startLine: 5122
+    startLine: 5179
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -629,7 +629,7 @@ items:
   source:
     id: PromoteMemberCallback
     path: ''
-    startLine: 5123
+    startLine: 5180
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -652,7 +652,7 @@ items:
   source:
     id: LobbySearchCallback
     path: ''
-    startLine: 5124
+    startLine: 5181
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -675,7 +675,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 5131
+    startLine: 5188
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -701,7 +701,7 @@ items:
   source:
     id: GetCurrentLobby
     path: ''
-    startLine: 5152
+    startLine: 5209
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -729,7 +729,7 @@ items:
   source:
     id: GetInvites
     path: ''
-    startLine: 5157
+    startLine: 5214
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -757,7 +757,7 @@ items:
   source:
     id: GetCurrentInvite
     path: ''
-    startLine: 5162
+    startLine: 5219
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -785,7 +785,7 @@ items:
   source:
     id: GetCurrentSearch
     path: ''
-    startLine: 5167
+    startLine: 5224
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -813,7 +813,7 @@ items:
   source:
     id: GetSearchResults
     path: ''
-    startLine: 5172
+    startLine: 5229
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -841,7 +841,7 @@ items:
   source:
     id: IsLobbyNotificationValid
     path: ''
-    startLine: 5177
+    startLine: 5234
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -868,7 +868,7 @@ items:
   source:
     id: SubscribeToLobbyUpdates
     path: ''
-    startLine: 5182
+    startLine: 5239
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -890,7 +890,7 @@ items:
   source:
     id: UnsubscribeFromLobbyUpdates
     path: ''
-    startLine: 5210
+    startLine: 5267
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -912,7 +912,7 @@ items:
   source:
     id: SubscribeToLobbyInvites
     path: ''
-    startLine: 5218
+    startLine: 5275
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -934,7 +934,7 @@ items:
   source:
     id: UnsubscribeFromLobbyInvites
     path: ''
-    startLine: 5246
+    startLine: 5303
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -956,7 +956,7 @@ items:
   source:
     id: GetRTCRoomName
     path: ''
-    startLine: 5253
+    startLine: 5310
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -980,7 +980,7 @@ items:
   source:
     id: UnsubscribeFromRTCEvents
     path: ''
-    startLine: 5274
+    startLine: 5331
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1002,7 +1002,7 @@ items:
   source:
     id: SubscribeToRTCEvents
     path: ''
-    startLine: 5288
+    startLine: 5345
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1024,7 +1024,7 @@ items:
   source:
     id: OnRTCRoomConnectionChangedReceived
     path: ''
-    startLine: 5373
+    startLine: 5430
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1049,7 +1049,7 @@ items:
   source:
     id: OnRTCRoomParticipantStatusChanged
     path: ''
-    startLine: 5413
+    startLine: 5470
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1074,7 +1074,7 @@ items:
   source:
     id: OnRTCRoomParticipantAudioUpdateRecieved
     path: ''
-    startLine: 5466
+    startLine: 5523
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1099,10 +1099,12 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 5517
+    startLine: 5577
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: User Logged In actions
+  example: []
   syntax:
     content: public void OnLoggedIn()
     content.vb: Public Sub OnLoggedIn
@@ -1125,10 +1127,12 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 5523
+    startLine: 5589
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: User Logged Out actions
+  example: []
   syntax:
     content: public void OnLoggedOut()
     content.vb: Public Sub OnLoggedOut
@@ -1151,17 +1155,21 @@ items:
   source:
     id: CreateLobby
     path: ''
-    startLine: 5541
+    startLine: 5610
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_CreateLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_CreateLobby/index.html)\n"
+  example: []
   syntax:
     content: public void CreateLobby(Lobby lobbyProperties, EOSLobbyManager.OnLobbyCallback CreateLobbyCompleted)
     parameters:
     - id: lobbyProperties
       type: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+      description: <strong>Lobby</strong> properties used to create new lobby
     - id: CreateLobbyCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when create lobby is completed
     content.vb: Public Sub CreateLobby(lobbyProperties As Lobby, CreateLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CreateLobby*
   modifiers.csharp:
@@ -1182,17 +1190,21 @@ items:
   source:
     id: ModifyLobby
     path: ''
-    startLine: 5601
+    startLine: 5675
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_UpdateLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_UpdateLobby/index.html)\n"
+  example: []
   syntax:
     content: public void ModifyLobby(Lobby lobbyUpdates, EOSLobbyManager.OnLobbyCallback ModififyLobbyCompleted)
     parameters:
     - id: lobbyUpdates
       type: PlayEveryWare.EpicOnlineServices.Samples.Lobby
+      description: <strong>Lobby</strong> properties used to update current lobby
     - id: ModififyLobbyCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when modify lobby is completed
     content.vb: Public Sub ModifyLobby(lobbyUpdates As Lobby, ModififyLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ModifyLobby*
   modifiers.csharp:
@@ -1213,15 +1225,18 @@ items:
   source:
     id: LeaveLobby
     path: ''
-    startLine: 5728
+    startLine: 5806
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_LeaveLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_LeaveLobby/index.html)\n"
+  example: []
   syntax:
     content: public void LeaveLobby(EOSLobbyManager.OnLobbyCallback LeaveLobbyCompleted)
     parameters:
     - id: LeaveLobbyCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when leave lobby is completed
     content.vb: Public Sub LeaveLobby(LeaveLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LeaveLobby*
   modifiers.csharp:
@@ -1242,15 +1257,18 @@ items:
   source:
     id: SendInvite
     path: ''
-    startLine: 5750
+    startLine: 5832
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_SendInvite](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_SendInvite/index.html)\n"
+  example: []
   syntax:
     content: public void SendInvite(ProductUserId targetUserId)
     parameters:
     - id: targetUserId
       type: ProductUserId
+      description: Target <code>ProductUserId</code> to send invite
     content.vb: Public Sub SendInvite(targetUserId As ProductUserId)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SendInvite*
   modifiers.csharp:
@@ -1271,15 +1289,18 @@ items:
   source:
     id: SetMemberAttribute
     path: ''
-    startLine: 5774
+    startLine: 5860
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_LobbyModification_AddMemberAttribute](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbyModification_AddMemberAttribute/index.html)\n"
+  example: []
   syntax:
     content: public void SetMemberAttribute(LobbyAttribute memberAttribute)
     parameters:
     - id: memberAttribute
       type: PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute
+      description: <code>LobbyAttribute</code> to be added to the current lobby
     content.vb: Public Sub SetMemberAttribute(memberAttribute As LobbyAttribute)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SetMemberAttribute*
   modifiers.csharp:
@@ -1300,7 +1321,7 @@ items:
   source:
     id: OnSendInviteCompleted
     path: ''
-    startLine: 5826
+    startLine: 5912
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1325,7 +1346,7 @@ items:
   source:
     id: OnCreateLobbyCompleted
     path: ''
-    startLine: 5843
+    startLine: 5929
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1350,7 +1371,7 @@ items:
   source:
     id: OnUpdateLobbyCallBack
     path: ''
-    startLine: 5879
+    startLine: 5965
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1375,7 +1396,7 @@ items:
   source:
     id: OnLobbyUpdated
     path: ''
-    startLine: 5900
+    startLine: 5986
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1402,7 +1423,7 @@ items:
   source:
     id: OnLobbyUpdateReceived
     path: ''
-    startLine: 5911
+    startLine: 5997
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1427,15 +1448,18 @@ items:
   source:
     id: DestroyCurrentLobby
     path: ''
-    startLine: 5926
+    startLine: 6016
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_DestroyLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_DestroyLobby/index.html)\n"
+  example: []
   syntax:
     content: public void DestroyCurrentLobby(EOSLobbyManager.OnLobbyCallback DestroyCurrentLobbyCompleted)
     parameters:
     - id: DestroyCurrentLobbyCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when destroy lobby is completed
     content.vb: Public Sub DestroyCurrentLobby(DestroyCurrentLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.DestroyCurrentLobby*
   modifiers.csharp:
@@ -1456,7 +1480,7 @@ items:
   source:
     id: OnDestroyLobbyCompleted
     path: ''
-    startLine: 5964
+    startLine: 6054
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1481,17 +1505,21 @@ items:
   source:
     id: ToggleMute
     path: ''
-    startLine: 5995
+    startLine: 6090
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_RTCAudio_UpdateReceiving](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/NoInterface/EOS_RTCAudio_UpdateReceiving/index.html)\n"
+  example: []
   syntax:
     content: public void ToggleMute(ProductUserId targetUserId, EOSLobbyManager.OnLobbyCallback ToggleMuteCompleted)
     parameters:
     - id: targetUserId
       type: ProductUserId
+      description: Target <code>ProductUserId</code> to mute or unmute
     - id: ToggleMuteCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when toggle mute is completed
     content.vb: Public Sub ToggleMute(targetUserId As ProductUserId, ToggleMuteCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.ToggleMute*
   modifiers.csharp:
@@ -1512,7 +1540,7 @@ items:
   source:
     id: OnRTCRoomUpdateSendingCompleted
     path: ''
-    startLine: 6057
+    startLine: 6152
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1537,7 +1565,7 @@ items:
   source:
     id: OnRTCRoomUpdateReceivingCompleted
     path: ''
-    startLine: 6108
+    startLine: 6203
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1562,17 +1590,21 @@ items:
   source:
     id: KickMember
     path: ''
-    startLine: 6157
+    startLine: 6257
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_KickMember](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_KickMember/index.html)\n"
+  example: []
   syntax:
     content: public void KickMember(ProductUserId productUserId, EOSLobbyManager.OnLobbyCallback KickMemberCompleted)
     parameters:
     - id: productUserId
       type: ProductUserId
+      description: Target <code>ProductUserId</code> to kick from current lobby
     - id: KickMemberCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when kick member is completed
     content.vb: Public Sub KickMember(productUserId As ProductUserId, KickMemberCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.KickMember*
   modifiers.csharp:
@@ -1593,7 +1625,7 @@ items:
   source:
     id: OnKickMemberCompleted
     path: ''
-    startLine: 6184
+    startLine: 6284
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1618,7 +1650,7 @@ items:
   source:
     id: OnKickedFromLobby
     path: ''
-    startLine: 6204
+    startLine: 6304
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1643,17 +1675,21 @@ items:
   source:
     id: PromoteMember
     path: ''
-    startLine: 6214
+    startLine: 6320
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_PromoteMember](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_PromoteMember/index.html)\n"
+  example: []
   syntax:
     content: public void PromoteMember(ProductUserId productUserId, EOSLobbyManager.OnLobbyCallback PromoteMemberCompleted)
     parameters:
     - id: productUserId
       type: ProductUserId
+      description: Target <code>ProductUserId</code> to promote
     - id: PromoteMemberCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when promote member is completed
     content.vb: Public Sub PromoteMember(productUserId As ProductUserId, PromoteMemberCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.PromoteMember*
   modifiers.csharp:
@@ -1674,7 +1710,7 @@ items:
   source:
     id: OnPromoteMemberCompleted
     path: ''
-    startLine: 6241
+    startLine: 6347
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1699,7 +1735,7 @@ items:
   source:
     id: OnMemberStatusReceived
     path: ''
-    startLine: 6262
+    startLine: 6368
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1724,7 +1760,7 @@ items:
   source:
     id: OnMemberUpdateReceived
     path: ''
-    startLine: 6306
+    startLine: 6412
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1749,17 +1785,21 @@ items:
   source:
     id: SearchByLobbyId
     path: ''
-    startLine: 6323
+    startLine: 6434
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_LobbySearch_Find](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbySearch_Find/index.html)\n"
+  example: []
   syntax:
     content: public void SearchByLobbyId(string lobbyId, EOSLobbyManager.OnLobbySearchCallback SearchCompleted)
     parameters:
     - id: lobbyId
       type: System.String
+      description: <code>string</code> of lobbyId to search
     - id: SearchCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+      description: Callback when search is completed
     content.vb: Public Sub SearchByLobbyId(lobbyId As String, SearchCompleted As EOSLobbyManager.OnLobbySearchCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByLobbyId*
   modifiers.csharp:
@@ -1780,19 +1820,24 @@ items:
   source:
     id: SearchByAttribute
     path: ''
-    startLine: 6369
+    startLine: 6486
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_LobbySearch_Find](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbySearch_Find/index.html)\n"
+  example: []
   syntax:
     content: public void SearchByAttribute(string attributeKey, string attributeValue, EOSLobbyManager.OnLobbySearchCallback SearchCompleted)
     parameters:
     - id: attributeKey
       type: System.String
+      description: <code>string</code> of attributeKey to search
     - id: attributeValue
       type: System.String
+      description: <code>string</code> of attributeValue to search
     - id: SearchCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
+      description: Callback when search is completed
     content.vb: Public Sub SearchByAttribute(attributeKey As String, attributeValue As String, SearchCompleted As EOSLobbyManager.OnLobbySearchCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.SearchByAttribute*
   modifiers.csharp:
@@ -1813,7 +1858,7 @@ items:
   source:
     id: OnLobbySearchCompleted
     path: ''
-    startLine: 6423
+    startLine: 6540
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1838,7 +1883,7 @@ items:
   source:
     id: OnLobbyJoinFailed
     path: ''
-    startLine: 6492
+    startLine: 6609
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1863,7 +1908,7 @@ items:
   source:
     id: OnLobbyInvite
     path: ''
-    startLine: 6501
+    startLine: 6618
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1890,7 +1935,7 @@ items:
   source:
     id: OnJoinLobbyAccepted
     path: ''
-    startLine: 6552
+    startLine: 6669
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1915,7 +1960,7 @@ items:
   source:
     id: OnLobbyInviteReceived
     path: ''
-    startLine: 6579
+    startLine: 6696
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1940,7 +1985,7 @@ items:
   source:
     id: OnLobbyInviteAccepted
     path: ''
-    startLine: 6608
+    startLine: 6725
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1965,7 +2010,7 @@ items:
   source:
     id: PopLobbyInvite
     path: ''
-    startLine: 6643
+    startLine: 6760
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1987,21 +2032,27 @@ items:
   source:
     id: JoinLobby
     path: ''
-    startLine: 6664
+    startLine: 6788
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_JoinLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_JoinLobby/index.html)\n"
+  example: []
   syntax:
     content: public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, EOSLobbyManager.OnLobbyCallback JoinLobbyCompleted)
     parameters:
     - id: lobbyId
       type: System.String
+      description: Target lobbyId of lobby to join
     - id: lobbyDetails
       type: LobbyDetails
+      description: Reference to <code>LobbyDetails</code> of lobby to join
     - id: presenceEnabled
       type: System.Boolean
+      description: Presence Enabled if <code>true</code>
     - id: JoinLobbyCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when join lobby is completed
     content.vb: Public Sub JoinLobby(lobbyId As String, lobbyDetails As LobbyDetails, presenceEnabled As Boolean, JoinLobbyCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.JoinLobby*
   modifiers.csharp:
@@ -2022,7 +2073,7 @@ items:
   source:
     id: OnJoinLobbyCompleted
     path: ''
-    startLine: 6707
+    startLine: 6831
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2047,7 +2098,7 @@ items:
   source:
     id: OnLeaveLobbyCompleted
     path: ''
-    startLine: 6746
+    startLine: 6870
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2072,10 +2123,12 @@ items:
   source:
     id: DeclineLobbyInvite
     path: ''
-    startLine: 6770
+    startLine: 6897
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nWrapper for calling [EOS_Lobby_RejectInvite](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_RejectInvite/index.html)\n"
+  example: []
   syntax:
     content: public void DeclineLobbyInvite()
     content.vb: Public Sub DeclineLobbyInvite
@@ -2098,7 +2151,7 @@ items:
   source:
     id: OnDeclineInviteCompleted
     path: ''
-    startLine: 6791
+    startLine: 6918
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2123,17 +2176,21 @@ items:
   source:
     id: AcceptCurrentLobbyInvite
     path: ''
-    startLine: 6810
+    startLine: 6942
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nIf there is a current invite, calls <code>JoinLobby</code>\n"
+  example: []
   syntax:
     content: public void AcceptCurrentLobbyInvite(bool enablePresence, EOSLobbyManager.OnLobbyCallback AcceptLobbyInviteCompleted)
     parameters:
     - id: enablePresence
       type: System.Boolean
+      description: Presence Enabled if <code>true</code>
     - id: AcceptLobbyInviteCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when join lobby is completed
     content.vb: Public Sub AcceptCurrentLobbyInvite(enablePresence As Boolean, AcceptLobbyInviteCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptCurrentLobbyInvite*
   modifiers.csharp:
@@ -2154,19 +2211,24 @@ items:
   source:
     id: AcceptLobbyInvite
     path: ''
-    startLine: 6827
+    startLine: 6965
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nCalls <code>JoinLobby</code> on specified <code>LobbyInvite</code>\n"
+  example: []
   syntax:
     content: public void AcceptLobbyInvite(LobbyInvite lobbyInvite, bool enablePresence, EOSLobbyManager.OnLobbyCallback AcceptLobbyInviteCompleted)
     parameters:
     - id: lobbyInvite
       type: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
+      description: Specified invite to accept
     - id: enablePresence
       type: System.Boolean
+      description: Presence Enabled if <code>true</code>
     - id: AcceptLobbyInviteCompleted
       type: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback
+      description: Callback when join lobby is completed
     content.vb: Public Sub AcceptLobbyInvite(lobbyInvite As LobbyInvite, enablePresence As Boolean, AcceptLobbyInviteCompleted As EOSLobbyManager.OnLobbyCallback)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.AcceptLobbyInvite*
   modifiers.csharp:

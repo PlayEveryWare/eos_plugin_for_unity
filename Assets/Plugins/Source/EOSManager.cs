@@ -342,6 +342,9 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            /// <summary>
+            /// Struct that holds arguments to be used for <b>Epic Games Launcher</b>
+            /// </summary>
             public struct EpicLauncherArgs
             {
                 public string authLogin;
@@ -354,9 +357,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 public string epicLocale;
             }
 
-            // Provide a way for a user of the EOSManager to get the parameters from
-            // the epic launcher, so they may be used to login.
-            // See https://dev.epicgames.com/docs/services/en-US/Interfaces/Auth/index.html#epicgameslauncher
+            /// <summary>
+            /// Provide a way for a user of the EOSManager to get the parameters from
+            /// the epic launcher, so they may be used to login.
+            /// See https://dev.epicgames.com/docs/services/en-US/Interfaces/Auth/index.html#epicgameslauncher
+            /// </summary>
+            /// <returns><c>EpicLauncherArgs</c> struct</returns>
             public EpicLauncherArgs GetCommandLineArgsFromEpicLauncher()
             {
                 var epicLauncherArgs = new EpicLauncherArgs();

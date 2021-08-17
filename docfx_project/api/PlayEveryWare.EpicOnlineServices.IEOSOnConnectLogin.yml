@@ -16,10 +16,12 @@ items:
   source:
     id: IEOSOnConnectLogin
     path: ''
-    startLine: 1905
+    startLine: 1920
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nInterface for classes using <code>OnConnectLogin</code>\n"
+  example: []
   syntax:
     content: public interface IEOSOnConnectLogin
     content.vb: Public Interface IEOSOnConnectLogin
@@ -43,7 +45,7 @@ items:
   source:
     id: OnConnectLogin
     path: ''
-    startLine: 1907
+    startLine: 1922
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

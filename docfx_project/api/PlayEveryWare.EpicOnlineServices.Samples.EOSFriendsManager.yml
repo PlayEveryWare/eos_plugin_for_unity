@@ -65,7 +65,7 @@ items:
   source:
     id: EOSFriendsManager
     path: ''
-    startLine: 3437
+    startLine: 3456
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -108,7 +108,7 @@ items:
   source:
     id: CachedFriends
     path: ''
-    startLine: 3439
+    startLine: 3458
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -131,7 +131,7 @@ items:
   source:
     id: CachedFriendsDirty
     path: ''
-    startLine: 3440
+    startLine: 3459
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -154,7 +154,7 @@ items:
   source:
     id: CachedSearchResults
     path: ''
-    startLine: 3442
+    startLine: 3461
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -177,7 +177,7 @@ items:
   source:
     id: CachedSearchResultsDirty
     path: ''
-    startLine: 3443
+    startLine: 3462
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -200,7 +200,7 @@ items:
   source:
     id: AddFriendCallback
     path: ''
-    startLine: 3446
+    startLine: 3465
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -223,7 +223,7 @@ items:
   source:
     id: QueryFriendCallback
     path: ''
-    startLine: 3447
+    startLine: 3466
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -246,7 +246,7 @@ items:
   source:
     id: AcceptInviteCallback
     path: ''
-    startLine: 3448
+    startLine: 3467
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -269,7 +269,7 @@ items:
   source:
     id: RejectInviteCallback
     path: ''
-    startLine: 3449
+    startLine: 3468
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -292,7 +292,7 @@ items:
   source:
     id: ShowFriendsOverlayCallback
     path: ''
-    startLine: 3450
+    startLine: 3469
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -315,7 +315,7 @@ items:
   source:
     id: QueryUserInfoCallback
     path: ''
-    startLine: 3452
+    startLine: 3471
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -338,7 +338,7 @@ items:
   source:
     id: FriendsHandle
     path: ''
-    startLine: 3456
+    startLine: 3475
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -361,7 +361,7 @@ items:
   source:
     id: UserInfoHandle
     path: ''
-    startLine: 3457
+    startLine: 3476
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -384,7 +384,7 @@ items:
   source:
     id: PresenceHandle
     path: ''
-    startLine: 3458
+    startLine: 3477
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -407,7 +407,7 @@ items:
   source:
     id: ConnectHandle
     path: ''
-    startLine: 3459
+    startLine: 3478
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -430,7 +430,7 @@ items:
   source:
     id: FriendNotifications
     path: ''
-    startLine: 3461
+    startLine: 3480
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -453,7 +453,7 @@ items:
   source:
     id: PresenceNotifications
     path: ''
-    startLine: 3462
+    startLine: 3481
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -476,7 +476,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 3464
+    startLine: 3483
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -502,7 +502,7 @@ items:
   source:
     id: GetCachedFriends
     path: ''
-    startLine: 3480
+    startLine: 3499
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -539,7 +539,7 @@ items:
   source:
     id: GetAccountMapping
     path: ''
-    startLine: 3491
+    startLine: 3510
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -570,7 +570,7 @@ items:
   source:
     id: GetDisplayName
     path: ''
-    startLine: 3504
+    startLine: 3523
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -601,7 +601,7 @@ items:
   source:
     id: GetCachedSearchResults
     path: ''
-    startLine: 3519
+    startLine: 3538
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -638,7 +638,7 @@ items:
   source:
     id: ClearCachedSearchResults
     path: ''
-    startLine: 3530
+    startLine: 3549
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -664,7 +664,7 @@ items:
   source:
     id: SendInvite
     path: ''
-    startLine: 3536
+    startLine: 3555
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -707,7 +707,7 @@ items:
   source:
     id: OnSendInviteCompleted
     path: ''
-    startLine: 3557
+    startLine: 3576
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -744,7 +744,7 @@ items:
   source:
     id: AcceptInvite
     path: ''
-    startLine: 3578
+    startLine: 3597
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -775,7 +775,7 @@ items:
   source:
     id: OnAcceptInviteCompleted
     path: ''
-    startLine: 3598
+    startLine: 3617
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -800,7 +800,7 @@ items:
   source:
     id: RejectInvite
     path: ''
-    startLine: 3618
+    startLine: 3637
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -831,7 +831,7 @@ items:
   source:
     id: OnRejectInviteCompleted
     path: ''
-    startLine: 3638
+    startLine: 3657
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -856,7 +856,7 @@ items:
   source:
     id: QueryFriends
     path: ''
-    startLine: 3659
+    startLine: 3678
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -887,7 +887,7 @@ items:
   source:
     id: QueryFriends
     path: ''
-    startLine: 3664
+    startLine: 3683
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -918,7 +918,7 @@ items:
   source:
     id: QueryFriendsCallback
     path: ''
-    startLine: 3676
+    startLine: 3695
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -943,7 +943,7 @@ items:
   source:
     id: QueryPresenceInfo
     path: ''
-    startLine: 3757
+    startLine: 3776
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -970,7 +970,7 @@ items:
   source:
     id: OnQueryPresenceCompleted
     path: ''
-    startLine: 3768
+    startLine: 3787
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -995,7 +995,7 @@ items:
   source:
     id: QueryFriendsConnectMappings
     path: ''
-    startLine: 3823
+    startLine: 3842
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1017,7 +1017,7 @@ items:
   source:
     id: OnQueryExternalAccountMappingsCompleted
     path: ''
-    startLine: 3858
+    startLine: 3877
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1042,7 +1042,7 @@ items:
   source:
     id: QueryUserInfo
     path: ''
-    startLine: 3922
+    startLine: 3941
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1073,7 +1073,7 @@ items:
   source:
     id: QueryUserInfo
     path: ''
-    startLine: 3930
+    startLine: 3949
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1106,7 +1106,7 @@ items:
   source:
     id: QueryUserInfoByDisplaynameCompleted
     path: ''
-    startLine: 3941
+    startLine: 3960
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1131,7 +1131,7 @@ items:
   source:
     id: AddFriend
     path: ''
-    startLine: 3969
+    startLine: 3988
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1160,7 +1160,7 @@ items:
   source:
     id: SendInviteCompleted
     path: ''
-    startLine: 3986
+    startLine: 4005
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1185,7 +1185,7 @@ items:
   source:
     id: QueryUserInfo
     path: ''
-    startLine: 4007
+    startLine: 4026
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1216,7 +1216,7 @@ items:
   source:
     id: OnQueryUserInfoCompleted
     path: ''
-    startLine: 4027
+    startLine: 4046
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1241,7 +1241,7 @@ items:
   source:
     id: ShowFriendsOverlay
     path: ''
-    startLine: 4087
+    startLine: 4106
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1272,7 +1272,7 @@ items:
   source:
     id: OnShowFriendsCallback
     path: ''
-    startLine: 4093
+    startLine: 4112
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1297,7 +1297,7 @@ items:
   source:
     id: SubscribeToFriendUpdates
     path: ''
-    startLine: 4113
+    startLine: 4132
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1326,7 +1326,7 @@ items:
   source:
     id: UnsubscribeFromFriendUpdates
     path: ''
-    startLine: 4148
+    startLine: 4167
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1351,7 +1351,7 @@ items:
   source:
     id: OnFriendsUpdateCallbackHandler
     path: ''
-    startLine: 4175
+    startLine: 4194
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1376,7 +1376,7 @@ items:
   source:
     id: OnPresenceChangedCallbackHandler
     path: ''
-    startLine: 4215
+    startLine: 4234
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1401,7 +1401,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 4230
+    startLine: 4249
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1429,7 +1429,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 4241
+    startLine: 4259
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

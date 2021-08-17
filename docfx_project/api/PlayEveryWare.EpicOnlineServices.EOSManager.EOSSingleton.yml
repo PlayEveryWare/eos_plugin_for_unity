@@ -86,7 +86,7 @@ items:
   source:
     id: EOSSingleton
     path: ''
-    startLine: 1550
+    startLine: 1556
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -578,14 +578,17 @@ items:
   source:
     id: GetCommandLineArgsFromEpicLauncher
     path: ''
-    startLine: 693
+    startLine: 699
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nProvide a way for a user of the EOSManager to get the parameters from\nthe epic launcher, so they may be used to login.\nSee https://dev.epicgames.com/docs/services/en-US/Interfaces/Auth/index.html#epicgameslauncher\n"
+  example: []
   syntax:
     content: public EOSManager.EOSSingleton.EpicLauncherArgs GetCommandLineArgsFromEpicLauncher()
     return:
       type: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+      description: <code>EpicLauncherArgs</code> struct
     content.vb: Public Function GetCommandLineArgsFromEpicLauncher As EOSManager.EOSSingleton.EpicLauncherArgs
   overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetCommandLineArgsFromEpicLauncher*
   modifiers.csharp:
@@ -606,7 +609,7 @@ items:
   source:
     id: CreateConnectUserWithContinuanceToken
     path: ''
-    startLine: 745
+    startLine: 751
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -637,7 +640,7 @@ items:
   source:
     id: AuthLinkExternalAccountWithContinuanceToken
     path: ''
-    startLine: 767
+    startLine: 773
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -670,7 +673,7 @@ items:
   source:
     id: ConnectLinkExternalAccountWithContinuanceToken
     path: ''
-    startLine: 799
+    startLine: 805
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -701,7 +704,7 @@ items:
   source:
     id: StartConnectLoginWithEpicAccount
     path: ''
-    startLine: 820
+    startLine: 826
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -736,7 +739,7 @@ items:
   source:
     id: StartConnectLoginWithOptions
     path: ''
-    startLine: 837
+    startLine: 843
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -771,7 +774,7 @@ items:
   source:
     id: StartConnectLoginWithOptions
     path: ''
-    startLine: 864
+    startLine: 870
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -802,7 +805,7 @@ items:
   source:
     id: StartConnectLoginWithDeviceToken
     path: ''
-    startLine: 882
+    startLine: 888
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -833,7 +836,7 @@ items:
   source:
     id: StartPersistantLogin
     path: ''
-    startLine: 899
+    startLine: 905
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -862,7 +865,7 @@ items:
   source:
     id: StartLoginWithLoginTypeAndToken
     path: ''
-    startLine: 938
+    startLine: 944
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -903,7 +906,7 @@ items:
   source:
     id: StartLoginWithLoginTypeAndToken
     path: ''
-    startLine: 944
+    startLine: 950
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -940,7 +943,7 @@ items:
   source:
     id: ConfigureAuthStatusCallback
     path: ''
-    startLine: 952
+    startLine: 958
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -962,7 +965,7 @@ items:
   source:
     id: CallOnAuthLogin
     path: ''
-    startLine: 972
+    startLine: 978
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -987,7 +990,7 @@ items:
   source:
     id: CallOnConnectLogin
     path: ''
-    startLine: 980
+    startLine: 986
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1012,7 +1015,7 @@ items:
   source:
     id: StartLoginWithLoginOptions
     path: ''
-    startLine: 998
+    startLine: 1004
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1046,7 +1049,7 @@ items:
   source:
     id: StartLogout
     path: ''
-    startLine: 1044
+    startLine: 1050
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1081,7 +1084,7 @@ items:
   source:
     id: Tick
     path: ''
-    startLine: 1066
+    startLine: 1072
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1107,7 +1110,7 @@ items:
   source:
     id: OnShutdown
     path: ''
-    startLine: 1075
+    startLine: 1081
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1133,7 +1136,7 @@ items:
   source:
     id: OnApplicationShutdown
     path: ''
-    startLine: 1109
+    startLine: 1115
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1159,7 +1162,7 @@ items:
   source:
     id: s_eosPlatformInterface
     path: ''
-    startLine: 1245
+    startLine: 1251
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1186,7 +1189,7 @@ items:
   source:
     id: EOSBinaryName
     path: ''
-    startLine: 1247
+    startLine: 1253
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1215,7 +1218,7 @@ items:
   source:
     id: GfxPluginNativeRenderPath
     path: ''
-    startLine: 1255
+    startLine: 1261
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1298,7 +1301,7 @@ items:
   source:
     id: NativeCallToUnloadEOS
     path: ''
-    startLine: 1274
+    startLine: 1280
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1324,7 +1327,7 @@ items:
   source:
     id: DynamicLoadGFXNativeMethodsForWSA
     path: ''
-    startLine: 1282
+    startLine: 1288
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1350,7 +1353,7 @@ items:
   source:
     id: GetEOSPlatformInterface
     path: ''
-    startLine: 1310
+    startLine: 1316
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1378,7 +1381,7 @@ items:
   source:
     id: SetEOSPlatformInterface
     path: ''
-    startLine: 1329
+    startLine: 1335
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1403,7 +1406,7 @@ items:
   source:
     id: AddAllAssembliesInCurrentDomain
     path: ''
-    startLine: 1336
+    startLine: 1342
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1435,7 +1438,7 @@ items:
   source:
     id: LoadedDLLs
     path: ''
-    startLine: 1349
+    startLine: 1355
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1462,7 +1465,7 @@ items:
   source:
     id: LoadDynamicLibrary
     path: ''
-    startLine: 1350
+    startLine: 1356
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1495,7 +1498,7 @@ items:
   source:
     id: UnloadAllLibraries
     path: ''
-    startLine: 1368
+    startLine: 1374
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1523,7 +1526,7 @@ items:
   source:
     id: LoadDelegatesWithEOSBindingAPI
     path: ''
-    startLine: 1380
+    startLine: 1386
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1551,7 +1554,7 @@ items:
   source:
     id: LoadDelegatesWithReflection
     path: ''
-    startLine: 1392
+    startLine: 1398
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1579,7 +1582,7 @@ items:
   source:
     id: LoadDelegatesByHand
     path: ''
-    startLine: 1444
+    startLine: 1450
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1605,7 +1608,7 @@ items:
   source:
     id: loadEOSWithReflection
     path: ''
-    startLine: 1472
+    startLine: 1478
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1632,7 +1635,7 @@ items:
   source:
     id: ForceUnloadEOSLibrary
     path: ''
-    startLine: 1480
+    startLine: 1486
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1658,7 +1661,7 @@ items:
   source:
     id: LoadEOSLibraries
     path: ''
-    startLine: 1502
+    startLine: 1508
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1686,7 +1689,7 @@ items:
   source:
     id: GetEOSAuthInterface
     path: ''
-    startLine: 1558
+    startLine: 1564
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1717,7 +1720,7 @@ items:
   source:
     id: GetEOSAchievementInterface
     path: ''
-    startLine: 1568
+    startLine: 1574
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1748,7 +1751,7 @@ items:
   source:
     id: GetEOSConnectInterface
     path: ''
-    startLine: 1578
+    startLine: 1584
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1779,7 +1782,7 @@ items:
   source:
     id: GetEOSEcomInterface
     path: ''
-    startLine: 1588
+    startLine: 1594
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1810,7 +1813,7 @@ items:
   source:
     id: GetEOSFriendsInterface
     path: ''
-    startLine: 1598
+    startLine: 1604
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1841,7 +1844,7 @@ items:
   source:
     id: GetEOSLeaderboardsInterface
     path: ''
-    startLine: 1608
+    startLine: 1614
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1872,7 +1875,7 @@ items:
   source:
     id: GetEOSLobbyInterface
     path: ''
-    startLine: 1618
+    startLine: 1624
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1903,7 +1906,7 @@ items:
   source:
     id: GetEOSMetricsInterface
     path: ''
-    startLine: 1628
+    startLine: 1634
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1934,7 +1937,7 @@ items:
   source:
     id: GetEOSModsInterface
     path: ''
-    startLine: 1638
+    startLine: 1644
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1965,7 +1968,7 @@ items:
   source:
     id: GetEOSP2PInterface
     path: ''
-    startLine: 1648
+    startLine: 1654
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1996,7 +1999,7 @@ items:
   source:
     id: GetPlayerDataStorageInterface
     path: ''
-    startLine: 1658
+    startLine: 1664
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2027,7 +2030,7 @@ items:
   source:
     id: GetEOSPresenceInterface
     path: ''
-    startLine: 1668
+    startLine: 1674
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2058,7 +2061,7 @@ items:
   source:
     id: GetEOSRTCInterface
     path: ''
-    startLine: 1679
+    startLine: 1685
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2089,7 +2092,7 @@ items:
   source:
     id: GetEOSSessionsInterface
     path: ''
-    startLine: 1689
+    startLine: 1695
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2120,7 +2123,7 @@ items:
   source:
     id: GetEOSStatsInterface
     path: ''
-    startLine: 1699
+    startLine: 1705
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2151,7 +2154,7 @@ items:
   source:
     id: GetEOSTitleStorageInterface
     path: ''
-    startLine: 1709
+    startLine: 1715
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2182,7 +2185,7 @@ items:
   source:
     id: GetEOSUIInterface
     path: ''
-    startLine: 1719
+    startLine: 1725
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2213,7 +2216,7 @@ items:
   source:
     id: GetEOSUserInfoInterface
     path: ''
-    startLine: 1729
+    startLine: 1735
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

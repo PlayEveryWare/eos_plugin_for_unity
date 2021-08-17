@@ -19,10 +19,12 @@ items:
   source:
     id: NotifyEventHandle
     path: ''
-    startLine: 1970
+    startLine: 1989
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nHelper class to manage the various handles returned by &quot;AddNotifyOn.*&quot; functions.\nIt should be the case that by using this class, the handle will be properly removed\nwhen the NotifyEventHandle loses reference, including in cases where an unhandled \nexception occurs.\n"
+  example: []
   syntax:
     content: 'public class NotifyEventHandle : GenericSafeHandle<ulong>, IDisposable'
     content.vb: >-
@@ -60,7 +62,7 @@ items:
   source:
     id: removeDelegate
     path: ''
-    startLine: 1972
+    startLine: 1991
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -83,7 +85,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 1975
+    startLine: 1994
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -114,7 +116,7 @@ items:
   source:
     id: ReleaseHandle
     path: ''
-    startLine: 1980
+    startLine: 1999
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -143,7 +145,7 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 1990
+    startLine: 2009
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

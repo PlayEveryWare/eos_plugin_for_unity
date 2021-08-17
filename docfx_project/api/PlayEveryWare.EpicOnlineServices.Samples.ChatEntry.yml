@@ -17,11 +17,11 @@ items:
   source:
     id: ChatEntry
     path: ''
-    startLine: 6883
+    startLine: 7021
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
-  summary: "\nClass <code>ChatEntry</code> is used to store cached chat data in <code>UIPeer2PeerMenu</code>.\n"
+  summary: "\nStruct <code>ChatEntry</code> is used to store cached chat data in <code>UIPeer2PeerMenu</code>.\n"
   example: []
   syntax:
     content: public struct ChatEntry
@@ -54,7 +54,7 @@ items:
   source:
     id: isOwnEntry
     path: ''
-    startLine: 6886
+    startLine: 7024
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -83,7 +83,7 @@ items:
   source:
     id: Message
     path: ''
-    startLine: 6889
+    startLine: 7027
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

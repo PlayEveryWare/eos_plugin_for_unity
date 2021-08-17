@@ -7,10 +7,6 @@ attributeRules:
   type: Type
 
 - include:
-  uidRegex: ^global.*
-  type: Type
-
-- include:
   uidRegex: ^PlayEveryWare\.EpicOnlineServices.*
   type: Namespace
   

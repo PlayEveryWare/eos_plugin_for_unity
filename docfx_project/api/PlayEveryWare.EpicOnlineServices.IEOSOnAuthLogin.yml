@@ -16,10 +16,12 @@ items:
   source:
     id: IEOSOnAuthLogin
     path: ''
-    startLine: 1844
+    startLine: 1853
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nInterface for classes using <code>OnAuthLogin</code>\n"
+  example: []
   syntax:
     content: 'public interface IEOSOnAuthLogin : IEOSSubManager'
     content.vb: >-
@@ -45,7 +47,7 @@ items:
   source:
     id: OnAuthLogin
     path: ''
-    startLine: 1846
+    startLine: 1855
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

@@ -23,10 +23,12 @@ items:
   source:
     id: LobbyInvite
     path: ''
-    startLine: 4931
+    startLine: 4975
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass represents all Lobby Invite properties\n"
+  example: []
   syntax:
     content: public class LobbyInvite
     content.vb: Public Class LobbyInvite
@@ -60,7 +62,7 @@ items:
   source:
     id: Lobby
     path: ''
-    startLine: 4933
+    startLine: 4977
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -87,7 +89,7 @@ items:
   source:
     id: LobbyInfo
     path: ''
-    startLine: 4934
+    startLine: 4978
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -114,7 +116,7 @@ items:
   source:
     id: FriendId
     path: ''
-    startLine: 4935
+    startLine: 4979
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -141,7 +143,7 @@ items:
   source:
     id: FriendEpicId
     path: ''
-    startLine: 4936
+    startLine: 4980
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -168,7 +170,7 @@ items:
   source:
     id: FriendDisplayName
     path: ''
-    startLine: 4937
+    startLine: 4981
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -195,7 +197,7 @@ items:
   source:
     id: InviteId
     path: ''
-    startLine: 4938
+    startLine: 4982
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -222,7 +224,7 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 4940
+    startLine: 4984
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -250,7 +252,7 @@ items:
   source:
     id: Clear
     path: ''
-    startLine: 4945
+    startLine: 4989
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

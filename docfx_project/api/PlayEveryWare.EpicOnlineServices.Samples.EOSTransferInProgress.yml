@@ -20,7 +20,7 @@ items:
   source:
     id: EOSTransferInProgress
     path: ''
-    startLine: 10297
+    startLine: 10443
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -59,7 +59,7 @@ items:
   source:
     id: Download
     path: ''
-    startLine: 10299
+    startLine: 10445
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -86,7 +86,7 @@ items:
   source:
     id: TotalSize
     path: ''
-    startLine: 10300
+    startLine: 10446
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -113,7 +113,7 @@ items:
   source:
     id: CurrentIndex
     path: ''
-    startLine: 10301
+    startLine: 10447
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -140,7 +140,7 @@ items:
   source:
     id: Data
     path: ''
-    startLine: 10302
+    startLine: 10448
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -167,7 +167,7 @@ items:
   source:
     id: Done
     path: ''
-    startLine: 10304
+    startLine: 10450
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

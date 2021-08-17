@@ -20,10 +20,12 @@ items:
   source:
     id: LobbyMember
     path: ''
-    startLine: 5038
+    startLine: 5088
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass represents all Lobby Member properties\n"
+  example: []
   syntax:
     content: public class LobbyMember
     content.vb: Public Class LobbyMember
@@ -57,7 +59,7 @@ items:
   source:
     id: AccountId
     path: ''
-    startLine: 5040
+    startLine: 5090
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -84,7 +86,7 @@ items:
   source:
     id: ProductId
     path: ''
-    startLine: 5041
+    startLine: 5091
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -111,7 +113,7 @@ items:
   source:
     id: DisplayName
     path: ''
-    startLine: 5043
+    startLine: 5093
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -138,7 +140,7 @@ items:
   source:
     id: MemberAttributes
     path: ''
-    startLine: 5044
+    startLine: 5094
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -165,7 +167,7 @@ items:
   source:
     id: RTCState
     path: ''
-    startLine: 5046
+    startLine: 5096
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

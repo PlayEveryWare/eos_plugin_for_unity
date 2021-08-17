@@ -20,10 +20,12 @@ items:
   source:
     id: LobbyRTCState
     path: ''
-    startLine: 5049
+    startLine: 5103
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass represents RTC State (Voice) of a Lobby\n"
+  example: []
   syntax:
     content: public class LobbyRTCState
     content.vb: Public Class LobbyRTCState
@@ -57,7 +59,7 @@ items:
   source:
     id: IsInRTCRoom
     path: ''
-    startLine: 5052
+    startLine: 5106
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -84,7 +86,7 @@ items:
   source:
     id: IsTalking
     path: ''
-    startLine: 5055
+    startLine: 5109
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -111,7 +113,7 @@ items:
   source:
     id: IsLocalMuted
     path: ''
-    startLine: 5058
+    startLine: 5112
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -138,7 +140,7 @@ items:
   source:
     id: IsAudioOutputDisabled
     path: ''
-    startLine: 5061
+    startLine: 5115
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -165,7 +167,7 @@ items:
   source:
     id: MuteActionInProgress
     path: ''
-    startLine: 5064
+    startLine: 5118
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

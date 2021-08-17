@@ -23,10 +23,12 @@ items:
   source:
     id: EpicLauncherArgs
     path: ''
-    startLine: 678
+    startLine: 681
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nStruct that holds arguments to be used for <strong>Epic Games Launcher</strong>\n"
+  example: []
   syntax:
     content: public struct EpicLauncherArgs
     content.vb: Public Structure EpicLauncherArgs
@@ -58,7 +60,7 @@ items:
   source:
     id: authLogin
     path: ''
-    startLine: 680
+    startLine: 683
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -85,7 +87,7 @@ items:
   source:
     id: authPassword
     path: ''
-    startLine: 681
+    startLine: 684
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -112,7 +114,7 @@ items:
   source:
     id: authType
     path: ''
-    startLine: 682
+    startLine: 685
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -139,7 +141,7 @@ items:
   source:
     id: epicApp
     path: ''
-    startLine: 683
+    startLine: 686
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -166,7 +168,7 @@ items:
   source:
     id: epicEnv
     path: ''
-    startLine: 684
+    startLine: 687
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -193,7 +195,7 @@ items:
   source:
     id: epicUsername
     path: ''
-    startLine: 685
+    startLine: 688
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -220,7 +222,7 @@ items:
   source:
     id: epicUserID
     path: ''
-    startLine: 686
+    startLine: 689
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -247,7 +249,7 @@ items:
   source:
     id: epicLocale
     path: ''
-    startLine: 687
+    startLine: 690
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

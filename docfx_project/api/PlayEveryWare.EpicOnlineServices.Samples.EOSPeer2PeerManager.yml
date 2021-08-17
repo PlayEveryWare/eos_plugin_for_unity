@@ -31,7 +31,7 @@ items:
   source:
     id: EOSPeer2PeerManager
     path: ''
-    startLine: 6917
+    startLine: 7055
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -74,7 +74,7 @@ items:
   source:
     id: P2PHandle
     path: ''
-    startLine: 6919
+    startLine: 7057
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -97,7 +97,7 @@ items:
   source:
     id: ConnectionNotificationId
     path: ''
-    startLine: 6921
+    startLine: 7059
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -120,7 +120,7 @@ items:
   source:
     id: ChatDataCache
     path: ''
-    startLine: 6922
+    startLine: 7060
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -143,7 +143,7 @@ items:
   source:
     id: ChatDataCacheDirty
     path: ''
-    startLine: 6923
+    startLine: 7061
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -166,7 +166,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 6925
+    startLine: 7063
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -192,7 +192,7 @@ items:
   source:
     id: GetChatDataCache
     path: ''
-    startLine: 6933
+    startLine: 7071
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -226,7 +226,7 @@ items:
   source:
     id: RefreshNATType
     path: ''
-    startLine: 6939
+    startLine: 7077
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -248,7 +248,7 @@ items:
   source:
     id: GetNATType
     path: ''
-    startLine: 6944
+    startLine: 7082
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -276,7 +276,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 6962
+    startLine: 7100
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -302,7 +302,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 6969
+    startLine: 7107
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -328,7 +328,7 @@ items:
   source:
     id: OnRefreshNATTypeFinished
     path: ''
-    startLine: 6974
+    startLine: 7112
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -353,7 +353,7 @@ items:
   source:
     id: SendMessage
     path: ''
-    startLine: 6991
+    startLine: 7129
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -384,7 +384,7 @@ items:
   source:
     id: HandleReceivedMessages
     path: ''
-    startLine: 7048
+    startLine: 7186
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -412,7 +412,7 @@ items:
   source:
     id: SubscribeToConnectionRequest
     path: ''
-    startLine: 7107
+    startLine: 7245
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -434,7 +434,7 @@ items:
   source:
     id: UnsubscribeFromConnectionRequests
     path: ''
-    startLine: 7130
+    startLine: 7268
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -456,7 +456,7 @@ items:
   source:
     id: OnIncomingConnectionRequest
     path: ''
-    startLine: 7136
+    startLine: 7274
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

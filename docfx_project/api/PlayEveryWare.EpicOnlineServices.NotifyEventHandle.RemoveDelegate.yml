@@ -15,7 +15,7 @@ items:
   source:
     id: RemoveDelegate
     path: ''
-    startLine: 1974
+    startLine: 1993
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

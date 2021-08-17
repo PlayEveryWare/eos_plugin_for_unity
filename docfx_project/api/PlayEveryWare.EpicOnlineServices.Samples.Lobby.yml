@@ -36,33 +36,33 @@ items:
   name: Lobby
   nameWithType: Lobby
   fullName: PlayEveryWare.EpicOnlineServices.Samples.Lobby
-  type: Class
+  type: Struct
   source:
     id: Lobby
     path: ''
-    startLine: 4756
+    startLine: 4777
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass represents all Lobby properties\n"
+  example: []
   syntax:
-    content: public class Lobby
-    content.vb: Public Class Lobby
-  inheritance:
-  - System.Object
+    content: public struct Lobby
+    content.vb: Public Structure Lobby
   inheritedMembers:
-  - System.Object.ToString
-  - System.Object.Equals(System.Object)
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
-  - class
+  - struct
   modifiers.vb:
   - Public
-  - Class
+  - Structure
 - uid: PlayEveryWare.EpicOnlineServices.Samples.Lobby.Id
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.Lobby.Id
   id: Id
@@ -77,7 +77,7 @@ items:
   source:
     id: Id
     path: ''
-    startLine: 4758
+    startLine: 4779
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -104,7 +104,7 @@ items:
   source:
     id: LobbyOwner
     path: ''
-    startLine: 4759
+    startLine: 4780
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -131,7 +131,7 @@ items:
   source:
     id: LobbyOwnerAccountId
     path: ''
-    startLine: 4760
+    startLine: 4781
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -158,7 +158,7 @@ items:
   source:
     id: LobbyOwnerDisplayName
     path: ''
-    startLine: 4761
+    startLine: 4782
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -185,7 +185,7 @@ items:
   source:
     id: BucketId
     path: ''
-    startLine: 4762
+    startLine: 4783
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -212,7 +212,7 @@ items:
   source:
     id: MaxNumLobbyMembers
     path: ''
-    startLine: 4763
+    startLine: 4784
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -239,7 +239,7 @@ items:
   source:
     id: LobbyPermissionLevel
     path: ''
-    startLine: 4764
+    startLine: 4785
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -266,7 +266,7 @@ items:
   source:
     id: AvailableSlots
     path: ''
-    startLine: 4765
+    startLine: 4786
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -293,7 +293,7 @@ items:
   source:
     id: AllowInvites
     path: ''
-    startLine: 4766
+    startLine: 4787
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -320,7 +320,7 @@ items:
   source:
     id: RTCRoomName
     path: ''
-    startLine: 4769
+    startLine: 4790
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -347,7 +347,7 @@ items:
   source:
     id: RTCRoomConnected
     path: ''
-    startLine: 4771
+    startLine: 4792
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -374,7 +374,7 @@ items:
   source:
     id: RTCRoomConnectionChanged
     path: ''
-    startLine: 4773
+    startLine: 4794
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -402,7 +402,7 @@ items:
   source:
     id: RTCRoomParticipantUpdate
     path: ''
-    startLine: 4775
+    startLine: 4796
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -430,7 +430,7 @@ items:
   source:
     id: RTCRoomParticipantAudioUpdate
     path: ''
-    startLine: 4777
+    startLine: 4798
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -458,7 +458,7 @@ items:
   source:
     id: PresenceEnabled
     path: ''
-    startLine: 4779
+    startLine: 4800
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -485,7 +485,7 @@ items:
   source:
     id: RTCRoomEnabled
     path: ''
-    startLine: 4780
+    startLine: 4801
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -512,7 +512,7 @@ items:
   source:
     id: Attributes
     path: ''
-    startLine: 4782
+    startLine: 4803
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -539,7 +539,7 @@ items:
   source:
     id: Members
     path: ''
-    startLine: 4783
+    startLine: 4804
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -566,7 +566,7 @@ items:
   source:
     id: _SearchResult
     path: ''
-    startLine: 4787
+    startLine: 4808
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -593,7 +593,7 @@ items:
   source:
     id: _BeingCreated
     path: ''
-    startLine: 4788
+    startLine: 4809
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -620,14 +620,17 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 4790
+    startLine: 4815
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nChecks if Lobby Id is valid\n"
+  example: []
   syntax:
     content: public bool IsValid()
     return:
       type: System.Boolean
+      description: True if valid
     content.vb: Public Function IsValid As Boolean
   overload: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsValid*
   modifiers.csharp:
@@ -648,17 +651,21 @@ items:
   source:
     id: IsOwner
     path: ''
-    startLine: 4795
+    startLine: 4825
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nChecks if the specified <code>ProductUserId</code> is the current owner\n"
+  example: []
   syntax:
     content: public bool IsOwner(ProductUserId userProductId)
     parameters:
     - id: userProductId
       type: ProductUserId
+      description: Specified <code>ProductUserId</code>
     return:
       type: System.Boolean
+      description: True if specified user is owner
     content.vb: Public Function IsOwner(userProductId As ProductUserId) As Boolean
   overload: PlayEveryWare.EpicOnlineServices.Samples.Lobby.IsOwner*
   modifiers.csharp:
@@ -679,10 +686,12 @@ items:
   source:
     id: Clear
     path: ''
-    startLine: 4800
+    startLine: 4833
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClears local cache of Lobby Id, owner, attributes and members\n"
+  example: []
   syntax:
     content: public void Clear()
     content.vb: Public Sub Clear
@@ -705,15 +714,18 @@ items:
   source:
     id: InitFromLobbyHandle
     path: ''
-    startLine: 4808
+    startLine: 4845
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nInitializing the given Lobby Id and caches all relevant attributes\n"
+  example: []
   syntax:
     content: public void InitFromLobbyHandle(string lobbyId)
     parameters:
     - id: lobbyId
       type: System.String
+      description: Specified Lobby Id
     content.vb: Public Sub InitFromLobbyHandle(lobbyId As String)
   overload: PlayEveryWare.EpicOnlineServices.Samples.Lobby.InitFromLobbyHandle*
   modifiers.csharp:
@@ -734,10 +746,12 @@ items:
   source:
     id: InitFromLobbyDetails
     path: ''
-    startLine: 4836
+    startLine: 4877
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nInitializing the given <code>LobbyDetails</code> handle and caches all relevant attributes\n"
+  example: []
   syntax:
     content: public void InitFromLobbyDetails(LobbyDetails outLobbyDetailsHandle)
     parameters:
@@ -755,56 +769,18 @@ references:
   name: PlayEveryWare.EpicOnlineServices.Samples
   nameWithType: PlayEveryWare.EpicOnlineServices.Samples
   fullName: PlayEveryWare.EpicOnlineServices.Samples
-- uid: System.Object
-  commentId: T:System.Object
-  parent: System
-  isExternal: true
-  name: Object
-  nameWithType: Object
-  fullName: System.Object
-- uid: System.Object.ToString
-  commentId: M:System.Object.ToString
-  parent: System.Object
-  isExternal: true
-  name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
-  spec.csharp:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.Equals(System.Object)
-  commentId: M:System.Object.Equals(System.Object)
-  parent: System.Object
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
   isExternal: true
   name: Equals(Object)
-  nameWithType: Object.Equals(Object)
-  fullName: System.Object.Equals(System.Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
   spec.csharp:
-  - uid: System.Object.Equals(System.Object)
+  - uid: System.ValueType.Equals(System.Object)
     name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
     isExternal: true
   - name: (
     nameWithType: (
@@ -818,10 +794,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: System.Object.Equals(System.Object)
+  - uid: System.ValueType.Equals(System.Object)
     name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
     isExternal: true
   - name: (
     nameWithType: (
@@ -831,6 +807,68 @@ references:
     nameWithType: Object
     fullName: System.Object
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    nameWithType: ValueType.ToString
+    fullName: System.ValueType.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -948,37 +986,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Object.GetType
   commentId: M:System.Object.GetType
   parent: System.Object
@@ -1041,6 +1048,20 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
 - uid: System
   commentId: N:System
   isExternal: true

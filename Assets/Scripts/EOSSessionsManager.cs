@@ -32,6 +32,9 @@ using Epic.OnlineServices.UI;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class represents a session search and search results
+    /// </summary>
     public class SessionSearch
     {
         public Epic.OnlineServices.Sessions.SessionSearch SearchHandle;
@@ -88,6 +91,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents a single session attribute
+    /// </summary>
     public class SessionAttribute
     {
         public AttributeType ValueType = AttributeType.String;
@@ -147,6 +153,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents a single session attribute
+    /// </summary>
     public class Session
     {
         public string Name = string.Empty;
@@ -292,7 +301,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSSessionsManager</c> is a simplified wrapper for EOS [Sessions Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/Sessions/index.html).
     /// </summary>
-
     public class EOSSessionsManager : IEOSSubManager
     {
         private Dictionary<string, Session> CurrentSessions;

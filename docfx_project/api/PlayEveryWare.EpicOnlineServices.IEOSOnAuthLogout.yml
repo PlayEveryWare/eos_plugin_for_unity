@@ -16,10 +16,12 @@ items:
   source:
     id: IEOSOnAuthLogout
     path: ''
-    startLine: 1874
+    startLine: 1886
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nInterface for classes using <code>OnAuthLogout</code>\n"
+  example: []
   syntax:
     content: 'public interface IEOSOnAuthLogout : IEOSSubManager'
     content.vb: >-
@@ -45,7 +47,7 @@ items:
   source:
     id: OnAuthLogout
     path: ''
-    startLine: 1876
+    startLine: 1888
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

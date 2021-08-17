@@ -15,10 +15,12 @@ items:
   source:
     id: IEOSSubManager
     path: ''
-    startLine: 1936
+    startLine: 1954
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nInterface for <code>Manager</code> classes.\n"
+  example: []
   syntax:
     content: public interface IEOSSubManager
     content.vb: Public Interface IEOSSubManager

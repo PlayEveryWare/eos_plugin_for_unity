@@ -28,7 +28,7 @@ items:
   source:
     id: EOSStoreManager
     path: ''
-    startLine: 9773
+    startLine: 9919
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -72,7 +72,7 @@ items:
   source:
     id: CatalogOffers
     path: ''
-    startLine: 9775
+    startLine: 9921
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -95,7 +95,7 @@ items:
   source:
     id: CatalogOffersDirty
     path: ''
-    startLine: 9776
+    startLine: 9922
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -118,7 +118,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 9778
+    startLine: 9924
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -144,7 +144,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 9784
+    startLine: 9930
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -170,7 +170,7 @@ items:
   source:
     id: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin.OnAuthLogin
     path: ''
-    startLine: 9789
+    startLine: 9935
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -195,7 +195,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 9794
+    startLine: 9940
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -221,7 +221,7 @@ items:
   source:
     id: GetCatalogOffers
     path: ''
-    startLine: 9800
+    startLine: 9946
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -255,7 +255,7 @@ items:
   source:
     id: QueryOffers
     path: ''
-    startLine: 9806
+    startLine: 9952
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -281,7 +281,7 @@ items:
   source:
     id: OnQueryOffers
     path: ''
-    startLine: 9815
+    startLine: 9961
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -306,7 +306,7 @@ items:
   source:
     id: CheckOutOverlay
     path: ''
-    startLine: 9860
+    startLine: 10006
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -335,7 +335,7 @@ items:
   source:
     id: OnCheckout
     path: ''
-    startLine: 9872
+    startLine: 10018
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -364,7 +364,7 @@ items:
   source:
     id: GetCurrentPriceAsString
     path: ''
-    startLine: 9879
+    startLine: 10025
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -395,7 +395,7 @@ items:
   source:
     id: GetOriginalPriceAsString
     path: ''
-    startLine: 9886
+    startLine: 10032
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

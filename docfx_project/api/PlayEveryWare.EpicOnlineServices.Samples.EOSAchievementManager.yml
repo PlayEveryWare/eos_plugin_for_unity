@@ -56,7 +56,7 @@ items:
   source:
     id: EOSAchievementManager
     path: ''
-    startLine: 2904
+    startLine: 2923
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -100,7 +100,7 @@ items:
   source:
     id: downloadCache
     path: ''
-    startLine: 2906
+    startLine: 2925
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -123,7 +123,7 @@ items:
   source:
     id: achievementDefinitionCache
     path: ''
-    startLine: 2907
+    startLine: 2926
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -146,7 +146,7 @@ items:
   source:
     id: productUserIdToUserInfoData
     path: ''
-    startLine: 2908
+    startLine: 2927
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -169,7 +169,7 @@ items:
   source:
     id: productUserIdToPlayerAchievement
     path: ''
-    startLine: 2909
+    startLine: 2928
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -192,7 +192,7 @@ items:
   source:
     id: eosAchievementInterface
     path: ''
-    startLine: 2910
+    startLine: 2929
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -215,7 +215,7 @@ items:
   source:
     id: productUserIdToStatsCache
     path: ''
-    startLine: 2912
+    startLine: 2931
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -238,7 +238,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 2914
+    startLine: 2933
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -264,7 +264,7 @@ items:
   source:
     id: print
     path: ''
-    startLine: 2923
+    startLine: 2942
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -293,7 +293,7 @@ items:
   source:
     id: GetEOSPlatformInterface
     path: ''
-    startLine: 2930
+    startLine: 2949
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -317,7 +317,7 @@ items:
   source:
     id: GetEOSStatsInterface
     path: ''
-    startLine: 2937
+    startLine: 2956
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -341,7 +341,7 @@ items:
   source:
     id: ProductUserIdToString
     path: ''
-    startLine: 2942
+    startLine: 2961
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -368,7 +368,7 @@ items:
   source:
     id: NewWeakThis
     path: ''
-    startLine: 2949
+    startLine: 2968
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -392,7 +392,7 @@ items:
   source:
     id: StrongThisFromClientData
     path: ''
-    startLine: 2955
+    startLine: 2974
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -419,7 +419,7 @@ items:
   source:
     id: CacheStatsForProductUserId
     path: ''
-    startLine: 2961
+    startLine: 2980
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -444,7 +444,7 @@ items:
   source:
     id: QueryStatsForProductUserId
     path: ''
-    startLine: 2998
+    startLine: 3017
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -471,7 +471,7 @@ items:
   source:
     id: GetEOSUserInfoInterface
     path: ''
-    startLine: 3028
+    startLine: 3047
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -495,7 +495,7 @@ items:
   source:
     id: OnConnectLogin
     path: ''
-    startLine: 3034
+    startLine: 3053
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -526,7 +526,7 @@ items:
   source:
     id: QueryUserInformation
     path: ''
-    startLine: 3053
+    startLine: 3072
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -557,7 +557,7 @@ items:
   source:
     id: GetEOSAchievementInterface
     path: ''
-    startLine: 3075
+    startLine: 3094
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -581,7 +581,7 @@ items:
   source:
     id: QueryAchievementDefinitions
     path: ''
-    startLine: 3086
+    startLine: 3105
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -612,7 +612,7 @@ items:
   source:
     id: MakeQueryPlayerAchievementsOptions
     path: ''
-    startLine: 3108
+    startLine: 3127
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -641,7 +641,7 @@ items:
   source:
     id: QueryPlayerAchievements
     path: ''
-    startLine: 3121
+    startLine: 3140
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -675,7 +675,7 @@ items:
   source:
     id: OnShutdown
     path: ''
-    startLine: 3148
+    startLine: 3167
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -701,7 +701,7 @@ items:
   source:
     id: GetTextureFromBytes
     path: ''
-    startLine: 3153
+    startLine: 3172
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -731,7 +731,7 @@ items:
   source:
     id: GetAchievementUnlockedIconTexture
     path: ''
-    startLine: 3166
+    startLine: 3185
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -762,7 +762,7 @@ items:
   source:
     id: GetAchievementLockedIconTexture
     path: ''
-    startLine: 3172
+    startLine: 3191
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -793,7 +793,7 @@ items:
   source:
     id: GetAchievementUnlockedIconBytes
     path: ''
-    startLine: 3179
+    startLine: 3198
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -824,7 +824,7 @@ items:
   source:
     id: GetAchievementLockedIconBytes
     path: ''
-    startLine: 3197
+    startLine: 3216
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -855,7 +855,7 @@ items:
   source:
     id: EnumeratorForCachedAchievementDefinitions
     path: ''
-    startLine: 3214
+    startLine: 3233
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -883,7 +883,7 @@ items:
   source:
     id: EnumerateCachedAchievementDefinitions
     path: ''
-    startLine: 3222
+    startLine: 3241
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -911,7 +911,7 @@ items:
   source:
     id: GetAchievementDefinitionAtIndex
     path: ''
-    startLine: 3227
+    startLine: 3246
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -942,7 +942,7 @@ items:
   source:
     id: EnumeratorForCachedPlayerAchievement
     path: ''
-    startLine: 3232
+    startLine: 3251
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -973,7 +973,7 @@ items:
   source:
     id: EnumerateCachedPlayerAchievement
     path: ''
-    startLine: 3242
+    startLine: 3261
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1004,7 +1004,7 @@ items:
   source:
     id: GetAchievementDefinitionCount
     path: ''
-    startLine: 3247
+    startLine: 3266
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1032,7 +1032,7 @@ items:
   source:
     id: UnlockAchievementManually
     path: ''
-    startLine: 3261
+    startLine: 3280
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1061,7 +1061,7 @@ items:
   source:
     id: MakeCopyPlayerAchievementByIndexOptions
     path: ''
-    startLine: 3273
+    startLine: 3292
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1088,7 +1088,7 @@ items:
   source:
     id: CacheAllPlayerAchievements
     path: ''
-    startLine: 3284
+    startLine: 3303
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1113,7 +1113,7 @@ items:
   source:
     id: CacheAllAchievementDefinitions
     path: ''
-    startLine: 3314
+    startLine: 3333
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1138,7 +1138,7 @@ items:
   source:
     id: CacheAchievementDefById
     path: ''
-    startLine: 3333
+    startLine: 3352
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1163,7 +1163,7 @@ items:
   source:
     id: cacheAchievementDef
     path: ''
-    startLine: 3346
+    startLine: 3365
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1188,7 +1188,7 @@ items:
   source:
     id: DownloadIconDataFromURI
     path: ''
-    startLine: 3357
+    startLine: 3376
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

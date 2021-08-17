@@ -35,10 +35,12 @@ items:
   source:
     id: Session
     path: ''
-    startLine: 8046
+    startLine: 8193
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
+  summary: "\nClass represents a single session attribute\n"
+  example: []
   syntax:
     content: public class Session
     content.vb: Public Class Session
@@ -70,7 +72,7 @@ items:
   source:
     id: Name
     path: ''
-    startLine: 8048
+    startLine: 8195
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -97,7 +99,7 @@ items:
   source:
     id: Id
     path: ''
-    startLine: 8049
+    startLine: 8196
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -124,7 +126,7 @@ items:
   source:
     id: BucketId
     path: ''
-    startLine: 8050
+    startLine: 8197
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -151,7 +153,7 @@ items:
   source:
     id: MaxPlayers
     path: ''
-    startLine: 8051
+    startLine: 8198
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -178,7 +180,7 @@ items:
   source:
     id: NumConnections
     path: ''
-    startLine: 8052
+    startLine: 8199
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -205,7 +207,7 @@ items:
   source:
     id: AllowJoinInProgress
     path: ''
-    startLine: 8053
+    startLine: 8200
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -232,7 +234,7 @@ items:
   source:
     id: PresenceSession
     path: ''
-    startLine: 8054
+    startLine: 8201
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -259,7 +261,7 @@ items:
   source:
     id: InvitesAllowed
     path: ''
-    startLine: 8055
+    startLine: 8202
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -286,7 +288,7 @@ items:
   source:
     id: PermissionLevel
     path: ''
-    startLine: 8056
+    startLine: 8203
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -313,7 +315,7 @@ items:
   source:
     id: ActiveSession
     path: ''
-    startLine: 8057
+    startLine: 8204
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -340,7 +342,7 @@ items:
   source:
     id: Attributes
     path: ''
-    startLine: 8059
+    startLine: 8206
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -367,7 +369,7 @@ items:
   source:
     id: SearchResults
     path: ''
-    startLine: 8060
+    startLine: 8207
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -394,7 +396,7 @@ items:
   source:
     id: UpdateInProgress
     path: ''
-    startLine: 8061
+    startLine: 8208
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -421,7 +423,7 @@ items:
   source:
     id: SessionState
     path: ''
-    startLine: 8062
+    startLine: 8209
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -448,7 +450,7 @@ items:
   source:
     id: InitFromInfoOfSessionDetails
     path: ''
-    startLine: 8066
+    startLine: 8213
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -479,7 +481,7 @@ items:
   source:
     id: InitFromSessionInfo
     path: ''
-    startLine: 8083
+    startLine: 8230
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -510,7 +512,7 @@ items:
   source:
     id: InitActiveSession
     path: ''
-    startLine: 8141
+    startLine: 8288
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -536,7 +538,7 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 8161
+    startLine: 8308
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -564,7 +566,7 @@ items:
   source:
     id: Equals
     path: ''
-    startLine: 8166
+    startLine: 8313
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -598,7 +600,7 @@ items:
   source:
     id: GetHashCode
     path: ''
-    startLine: 8182
+    startLine: 8329
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

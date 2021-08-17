@@ -32,7 +32,10 @@ using Epic.OnlineServices.RTCAudio;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class Lobby
+    /// <summary>
+    /// Class represents all Lobby properties
+    /// </summary>
+    public struct Lobby
     {
         public string Id;
         public ProductUserId LobbyOwner = new ProductUserId();
@@ -66,16 +69,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool _SearchResult = false;
         public bool _BeingCreated = false;
 
+        /// <summary>
+        /// Checks if Lobby Id is valid
+        /// </summary>
+        /// <returns>True if valid</returns>
         public bool IsValid()
         {
             return !string.IsNullOrEmpty(Id);
         }
 
+        /// <summary>
+        /// Checks if the specified <c>ProductUserId</c> is the current owner
+        /// </summary>
+        /// <param name="userProductId">Specified <c>ProductUserId</c></param>
+        /// <returns>True if specified user is owner</returns>
         public bool IsOwner(ProductUserId userProductId)
         {
             return userProductId == LobbyOwner;
         }
 
+        /// <summary>
+        /// Clears local cache of Lobby Id, owner, attributes and members
+        /// </summary>
         public void Clear()
         {
             Id = string.Empty;
@@ -84,6 +99,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Members.Clear();
         }
 
+        /// <summary>
+        /// Initializing the given Lobby Id and caches all relevant attributes
+        /// </summary>
+        /// <param name="lobbyId">Specified Lobby Id</param>
         public void InitFromLobbyHandle(string lobbyId)
         {
             if (string.IsNullOrEmpty(lobbyId))
@@ -112,6 +131,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitFromLobbyDetails(outLobbyDetailsHandle);
         }
 
+        /// <summary>
+        /// Initializing the given <c>LobbyDetails</c> handle and caches all relevant attributes
+        /// </summary>
+        /// <param name="lobbyId">Specified <c>LobbyDetails</c> handle</param>
         public void InitFromLobbyDetails(LobbyDetails outLobbyDetailsHandle)
         {
             // get owner
@@ -207,6 +230,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents all Lobby Invite properties
+    /// </summary>
     public class LobbyInvite
     {
         public Lobby Lobby = new Lobby();
@@ -232,6 +258,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents all Lobby Attribute properties
+    /// </summary>
     public class LobbyAttribute
     {
         public LobbyAttributeVisibility Visibility = LobbyAttributeVisibility.Public;
@@ -314,6 +343,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
     }
 
+    /// <summary>
+    /// Class represents all Lobby Member properties
+    /// </summary>
     public class LobbyMember
     {
         public EpicAccountId AccountId;
@@ -324,6 +356,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public LobbyRTCState RTCState = new LobbyRTCState();
     }
+
+    /// <summary>
+    /// Class represents RTC State (Voice) of a Lobby
+    /// </summary>
 
     public class LobbyRTCState
     {
@@ -343,6 +379,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool MuteActionInProgress = false;
     }
 
+    /// <summary>
+    /// Class represents a request to Join a lobby
+    /// </summary>
     public class LobbyJoinRequest
     {
         string Id = string.Empty;
@@ -792,13 +831,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        // User Events
+        /// <summary>User Logged In actions</summary>
+        /// <list type="bullet">
+        ///     <item><description>Reset local cache for Invites</description></item>
+        /// </list>
         public void OnLoggedIn()
         {
             _Dirty = true;
             CurrentInvite = null;
         }
 
+        /// <summary>User Logged Out actions</summary>
+        /// <list type="bullet">
+        ///     <item><description>Leaves current lobby</description></item>
+        ///     <item><description>Unsubscribe from Lobby invites and updates</description></item>
+        ///     <item><description>Reset local cache for <c>Lobby</c>, <c>LobbyJoinRequest</c>, Invites, <c>LobbySearch</c> and </description></item>
+        /// </list>
         public void OnLoggedOut()
         {
             LeaveLobby(null);
@@ -815,8 +863,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SearchResults.Clear();
         }
 
-        // Lobby Create/Leave/Modify Events
-
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_CreateLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_CreateLobby/index.html)
+        /// </summary>
+        /// <param name="lobbyProperties"><b>Lobby</b> properties used to create new lobby</param>
+        /// <param name="CreateLobbyCompleted">Callback when create lobby is completed</param>
         public void CreateLobby(Lobby lobbyProperties, OnLobbyCallback CreateLobbyCompleted)
         {
             ProductUserId currentUserProductId = EOSManager.Instance.GetProductUserId();
@@ -877,6 +928,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentLobby.LobbyOwner = currentUserProductId;
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_UpdateLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_UpdateLobby/index.html)
+        /// </summary>
+        /// <param name="lobbyUpdates"><b>Lobby</b> properties used to update current lobby</param>
+        /// <param name="ModififyLobbyCompleted">Callback when modify lobby is completed</param>
         public void ModifyLobby(Lobby lobbyUpdates, OnLobbyCallback ModififyLobbyCompleted)
         {
             // Validate current lobby
@@ -1004,6 +1060,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetEOSLobbyInterface().UpdateLobby(new UpdateLobbyOptions() { LobbyModificationHandle = outLobbyModificationHandle }, null, OnUpdateLobbyCallBack);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_LeaveLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_LeaveLobby/index.html)
+        /// </summary>
+        /// <param name="LeaveLobbyCompleted">Callback when leave lobby is completed</param>
         public void LeaveLobby(OnLobbyCallback LeaveLobbyCompleted)
         {
             if (CurrentLobby == null || string.IsNullOrEmpty(CurrentLobby.Id) || !EOSManager.Instance.GetProductUserId().IsValid())
@@ -1026,6 +1086,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(options, null, OnLeaveLobbyCompleted);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_SendInvite](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_SendInvite/index.html)
+        /// </summary>
+        /// <param name="targetUserId">Target <c>ProductUserId</c> to send invite</param>
         public void SendInvite(ProductUserId targetUserId)
         {
             if (!targetUserId.IsValid())
@@ -1050,6 +1114,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetEOSLobbyInterface().SendInvite(options, null, OnSendInviteCompleted);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_LobbyModification_AddMemberAttribute](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbyModification_AddMemberAttribute/index.html)
+        /// </summary>
+        /// <param name="memberAttribute"><c>LobbyAttribute</c> to be added to the current lobby</param>
         public void SetMemberAttribute(LobbyAttribute memberAttribute)
         {
             if(!CurrentLobby.IsValid())
@@ -1202,6 +1270,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_DestroyLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_DestroyLobby/index.html)
+        /// </summary>
+        /// <param name="DestroyCurrentLobbyCompleted">Callback when destroy lobby is completed</param>
         public void DestroyCurrentLobby(OnLobbyCallback DestroyCurrentLobbyCompleted)
         {
             if (!CurrentLobby.IsValid())
@@ -1271,6 +1343,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Member Events
 
+        /// <summary>
+        /// Wrapper for calling [EOS_RTCAudio_UpdateReceiving](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/NoInterface/EOS_RTCAudio_UpdateReceiving/index.html)
+        /// </summary>
+        /// <param name="targetUserId">Target <c>ProductUserId</c> to mute or unmute</param>
+        /// <param name="ToggleMuteCompleted">Callback when toggle mute is completed</param>
         public void ToggleMute(ProductUserId targetUserId, OnLobbyCallback ToggleMuteCompleted)
         {
             RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
@@ -1433,6 +1510,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_KickMember](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_KickMember/index.html)
+        /// </summary>
+        /// <param name="productUserId">Target <c>ProductUserId</c> to kick from current lobby</param>
+        /// <param name="KickMemberCompleted">Callback when kick member is completed</param>
         public void KickMember(ProductUserId productUserId, OnLobbyCallback KickMemberCompleted)
         {
             if (!productUserId.IsValid())
@@ -1490,6 +1572,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_PromoteMember](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_PromoteMember/index.html)
+        /// </summary>
+        /// <param name="productUserId">Target <c>ProductUserId</c> to promote</param>
+        /// <param name="PromoteMemberCompleted">Callback when promote member is completed</param>
         public void PromoteMember(ProductUserId productUserId, OnLobbyCallback PromoteMemberCompleted)
         {
             if (!productUserId.IsValid())
@@ -1599,6 +1687,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Search Events
 
+        /// <summary>
+        /// Wrapper for calling [EOS_LobbySearch_Find](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbySearch_Find/index.html)
+        /// </summary>
+        /// <param name="lobbyId"><c>string</c> of lobbyId to search</param>
+        /// <param name="SearchCompleted">Callback when search is completed</param>
         public void SearchByLobbyId(string lobbyId, OnLobbySearchCallback SearchCompleted)
         {
             Debug.LogFormat("Lobbies (SearchByLobbyId): lobbyId='{0}'", lobbyId);
@@ -1645,6 +1738,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             outLobbySearchHandle.Find(new LobbySearchFindOptions() { LocalUserId = currentProductUserId }, null, OnLobbySearchCompleted);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_LobbySearch_Find](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_LobbySearch_Find/index.html)
+        /// </summary>
+        /// <param name="attributeKey"><c>string</c> of attributeKey to search</param>
+        /// <param name="attributeValue"><c>string</c> of attributeValue to search</param>
+        /// <param name="SearchCompleted">Callback when search is completed</param>
         public void SearchByAttribute(string attributeKey, string attributeValue, OnLobbySearchCallback SearchCompleted)
         {
             Debug.LogFormat("Lobbies (SearchByAttribute): searchString='{0}'", attributeKey);
@@ -1940,6 +2039,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Join Events
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_JoinLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_JoinLobby/index.html)
+        /// </summary>
+        /// <param name="lobbyId">Target lobbyId of lobby to join</param>
+        /// <param name="lobbyDetails">Reference to <c>LobbyDetails</c> of lobby to join</param>
+        /// <param name="presenceEnabled">Presence Enabled if <c>true</c></param>
+        /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
             if (string.IsNullOrEmpty(lobbyId))
@@ -2046,6 +2152,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_RejectInvite](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_RejectInvite/index.html)
+        /// </summary>
         public void DeclineLobbyInvite()
         {
             if (CurrentInvite != null && CurrentInvite.IsValid())
@@ -2086,6 +2195,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentInvite = null;
         }
 
+        /// <summary>
+        /// If there is a current invite, calls <c>JoinLobby</c>
+        /// </summary>
+        /// <param name="enablePresence">Presence Enabled if <c>true</c></param>
+        /// <param name="AcceptLobbyInviteCompleted">Callback when join lobby is completed</param>
         public void AcceptCurrentLobbyInvite(bool enablePresence, OnLobbyCallback AcceptLobbyInviteCompleted)
         {
             if (CurrentInvite != null && CurrentInvite.IsValid())
@@ -2103,6 +2217,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Calls <c>JoinLobby</c> on specified <c>LobbyInvite</c>
+        /// </summary>
+        /// <param name="lobbyInvite">Specified invite to accept</param>
+        /// <param name="enablePresence">Presence Enabled if <c>true</c></param>
+        /// <param name="AcceptLobbyInviteCompleted">Callback when join lobby is completed</param>
         public void AcceptLobbyInvite(LobbyInvite lobbyInvite, bool enablePresence, OnLobbyCallback AcceptLobbyInviteCompleted)
         {
             if (lobbyInvite != null && lobbyInvite.IsValid())

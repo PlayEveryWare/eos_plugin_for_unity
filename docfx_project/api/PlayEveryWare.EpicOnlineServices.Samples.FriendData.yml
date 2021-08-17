@@ -21,7 +21,7 @@ items:
   source:
     id: FriendData
     path: ''
-    startLine: 3414
+    startLine: 3433
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -60,7 +60,7 @@ items:
   source:
     id: LocalUserId
     path: ''
-    startLine: 3416
+    startLine: 3435
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -87,7 +87,7 @@ items:
   source:
     id: UserId
     path: ''
-    startLine: 3417
+    startLine: 3436
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -114,7 +114,7 @@ items:
   source:
     id: UserProductUserId
     path: ''
-    startLine: 3418
+    startLine: 3437
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -141,7 +141,7 @@ items:
   source:
     id: Name
     path: ''
-    startLine: 3419
+    startLine: 3438
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -168,7 +168,7 @@ items:
   source:
     id: Status
     path: ''
-    startLine: 3420
+    startLine: 3439
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -195,7 +195,7 @@ items:
   source:
     id: Presence
     path: ''
-    startLine: 3421
+    startLine: 3440
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

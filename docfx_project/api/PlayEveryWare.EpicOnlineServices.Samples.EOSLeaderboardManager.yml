@@ -47,7 +47,7 @@ items:
   source:
     id: EOSLeaderboardManager
     path: ''
-    startLine: 4289
+    startLine: 4307
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -90,7 +90,7 @@ items:
   source:
     id: LeaderboardsHandle
     path: ''
-    startLine: 4291
+    startLine: 4309
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -113,7 +113,7 @@ items:
   source:
     id: StatsHandle
     path: ''
-    startLine: 4292
+    startLine: 4310
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -136,7 +136,7 @@ items:
   source:
     id: CachedLeaderboardDefinitions
     path: ''
-    startLine: 4294
+    startLine: 4312
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -159,7 +159,7 @@ items:
   source:
     id: CachedLeaderboardDefinitionsDirty
     path: ''
-    startLine: 4295
+    startLine: 4313
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -182,7 +182,7 @@ items:
   source:
     id: CachedLeaderboardRecords
     path: ''
-    startLine: 4297
+    startLine: 4315
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -205,7 +205,7 @@ items:
   source:
     id: CachedLeaderboardRecordsDirty
     path: ''
-    startLine: 4298
+    startLine: 4316
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -228,7 +228,7 @@ items:
   source:
     id: CachedLeaderboardUserScores
     path: ''
-    startLine: 4300
+    startLine: 4318
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -251,7 +251,7 @@ items:
   source:
     id: CachedLeaderboardUserScoresDirty
     path: ''
-    startLine: 4301
+    startLine: 4319
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -274,7 +274,7 @@ items:
   source:
     id: EOS_LEADERBOARDS_TIME_UNDEFINED
     path: ''
-    startLine: 4303
+    startLine: 4321
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -297,7 +297,7 @@ items:
   source:
     id: QueryDefinitionsCallback
     path: ''
-    startLine: 4306
+    startLine: 4324
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -320,7 +320,7 @@ items:
   source:
     id: QueryRanksCallback
     path: ''
-    startLine: 4307
+    startLine: 4325
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -343,7 +343,7 @@ items:
   source:
     id: QueryUserScoresCallback
     path: ''
-    startLine: 4308
+    startLine: 4326
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -366,7 +366,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 4312
+    startLine: 4330
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -392,7 +392,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 4335
+    startLine: 4353
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -420,7 +420,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 4344
+    startLine: 4362
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -448,7 +448,7 @@ items:
   source:
     id: GetCachedLeaderboardDefinitions
     path: ''
-    startLine: 4359
+    startLine: 4377
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -486,7 +486,7 @@ items:
   source:
     id: GetCachedLeaderboardRecords
     path: ''
-    startLine: 4373
+    startLine: 4391
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -524,7 +524,7 @@ items:
   source:
     id: GetCachedLeaderboardUserScores
     path: ''
-    startLine: 4387
+    startLine: 4405
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -562,7 +562,7 @@ items:
   source:
     id: QueryDefinitions
     path: ''
-    startLine: 4399
+    startLine: 4417
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -593,7 +593,7 @@ items:
   source:
     id: CacheLeaderboardDefinitions
     path: ''
-    startLine: 4413
+    startLine: 4431
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -615,7 +615,7 @@ items:
   source:
     id: GetCachedDefinitionIds
     path: ''
-    startLine: 4442
+    startLine: 4460
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -646,7 +646,7 @@ items:
   source:
     id: GetCachedDefinitionFromId
     path: ''
-    startLine: 4453
+    startLine: 4471
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -681,7 +681,7 @@ items:
   source:
     id: LeaderboardDefinitionsReceivedCallbackFn
     path: ''
-    startLine: 4460
+    startLine: 4478
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -706,7 +706,7 @@ items:
   source:
     id: QueryRanks
     path: ''
-    startLine: 4485
+    startLine: 4503
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -740,7 +740,7 @@ items:
   source:
     id: CacheLeaderboardRecords
     path: ''
-    startLine: 4498
+    startLine: 4516
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -762,7 +762,7 @@ items:
   source:
     id: LeaderboardRanksReceivedCallbackFn
     path: ''
-    startLine: 4525
+    startLine: 4543
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -787,7 +787,7 @@ items:
   source:
     id: QueryUserScores
     path: ''
-    startLine: 4551
+    startLine: 4569
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -827,7 +827,7 @@ items:
   source:
     id: CacheLeaderboardUserScores
     path: ''
-    startLine: 4594
+    startLine: 4612
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -849,7 +849,7 @@ items:
   source:
     id: GetCachedUserScoresFromLeaderboardId
     path: ''
-    startLine: 4650
+    startLine: 4668
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -884,7 +884,7 @@ items:
   source:
     id: LeaderboardUserScoresReceivedCallbackFn
     path: ''
-    startLine: 4657
+    startLine: 4675
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -909,7 +909,7 @@ items:
   source:
     id: IngestStat
     path: ''
-    startLine: 4683
+    startLine: 4701
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -944,7 +944,7 @@ items:
   source:
     id: StatsIngestCallbackFn
     path: ''
-    startLine: 4704
+    startLine: 4722
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

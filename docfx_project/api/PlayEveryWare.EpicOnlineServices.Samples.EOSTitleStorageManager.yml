@@ -40,7 +40,7 @@ items:
   source:
     id: EOSTitleStorageManager
     path: ''
-    startLine: 9928
+    startLine: 10074
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -83,7 +83,7 @@ items:
   source:
     id: MAX_CHUNK_SIZE
     path: ''
-    startLine: 9930
+    startLine: 10076
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -112,7 +112,7 @@ items:
   source:
     id: CurrentTransferName
     path: ''
-    startLine: 9932
+    startLine: 10078
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -135,7 +135,7 @@ items:
   source:
     id: CurrentTransferHandle
     path: ''
-    startLine: 9933
+    startLine: 10079
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -158,7 +158,7 @@ items:
   source:
     id: CurrentTransferProgress
     path: ''
-    startLine: 9934
+    startLine: 10080
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -181,7 +181,7 @@ items:
   source:
     id: StorageData
     path: ''
-    startLine: 9935
+    startLine: 10081
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -204,7 +204,7 @@ items:
   source:
     id: TransfersInProgress
     path: ''
-    startLine: 9936
+    startLine: 10082
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -227,7 +227,7 @@ items:
   source:
     id: CurrentFileNames
     path: ''
-    startLine: 9938
+    startLine: 10084
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -250,7 +250,7 @@ items:
   source:
     id: QueryListCallback
     path: ''
-    startLine: 9941
+    startLine: 10087
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -281,7 +281,7 @@ items:
   source:
     id: ReadFileCallback
     path: ''
-    startLine: 9942
+    startLine: 10088
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -312,7 +312,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 9947
+    startLine: 10093
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -338,7 +338,7 @@ items:
   source:
     id: GetCachedStorageData
     path: ''
-    startLine: 9956
+    startLine: 10102
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -366,7 +366,7 @@ items:
   source:
     id: GetCachedCurrentFileNames
     path: ''
-    startLine: 9961
+    startLine: 10107
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -394,7 +394,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 9970
+    startLine: 10116
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -422,7 +422,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 9979
+    startLine: 10125
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -450,7 +450,7 @@ items:
   source:
     id: QueryFileList
     path: ''
-    startLine: 9986
+    startLine: 10132
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -486,7 +486,7 @@ items:
   source:
     id: OnQueryFileListCompleted
     path: ''
-    startLine: 9998
+    startLine: 10144
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -511,7 +511,7 @@ items:
   source:
     id: ReadFile
     path: ''
-    startLine: 10040
+    startLine: 10186
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -542,7 +542,7 @@ items:
   source:
     id: OnFileReceived
     path: ''
-    startLine: 10070
+    startLine: 10216
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -567,7 +567,7 @@ items:
   source:
     id: FinishFileDownload
     path: ''
-    startLine: 10089
+    startLine: 10235
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -600,7 +600,7 @@ items:
   source:
     id: CancelCurrentTransfer
     path: ''
-    startLine: 10141
+    startLine: 10287
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -622,7 +622,7 @@ items:
   source:
     id: ClearCurrentTransfer
     path: ''
-    startLine: 10172
+    startLine: 10318
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -644,7 +644,7 @@ items:
   source:
     id: OnFileTransferProgressUpdated
     path: ''
-    startLine: 10183
+    startLine: 10329
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -669,7 +669,7 @@ items:
   source:
     id: UpdateProgress
     path: ''
-    startLine: 10198
+    startLine: 10344
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -696,7 +696,7 @@ items:
   source:
     id: OnFileDataReceived
     path: ''
-    startLine: 10206
+    startLine: 10352
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -723,7 +723,7 @@ items:
   source:
     id: ReceiveData
     path: ''
-    startLine: 10216
+    startLine: 10362
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
