@@ -1,4 +1,4 @@
-# Epic Online Unity Plugin
+# Epic Online Services Plugin for Unity
 
 ----------------------------------------------------------------------------------------
 ## Overview
