@@ -129,7 +129,7 @@ If you would like to see examples of each feature, continue installing samples b
 ---
 # Samples
 
-The included samples show fully functional feature implemenation that will both help with EOS integration as well as validate client to dev portal configuration.  After installing the samples from the UMP package, you will find scenes for each major feature.
+The included samples show fully functional feature implemenation that will both help with EOS integration as well as validate client to dev portal configuration.  After installing the samples from the UPM package, you will find scenes for each major feature.
 
 <img src="docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/>
 <img src="docs/images/sample_screen_titlestorage.gif" alt="Title Storage Screenshot" width="48%"/>
