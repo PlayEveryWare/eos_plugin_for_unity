@@ -1,7 +1,7 @@
 # Epic Online Services Plugin for Unity
 
 ## Overview
-The [eos_testbed_release repository](https://github.com/PlayEveryWare/eos_testbed_release) contains a Unity Package Manager (UPM) plugin for enabling the use of [Epic Online Services (EOS)](https://dev.epicgames.com/docs/services/en-US/Overview/index.html) [C# SDK](https://dev.epicgames.com/docs/services/en-US/CSharp/GettingStarted/index.html) in Unity.
+The [eos_plugin_for_unity_upm repository](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm) contains a Unity Package Manager (UPM) plugin for enabling the use of [Epic Online Services (EOS)](https://dev.epicgames.com/docs/services/en-US/Overview/index.html) [C# SDK](https://dev.epicgames.com/docs/services/en-US/CSharp/GettingStarted/index.html) in Unity.
 
 Things this plugin provides:
 
@@ -165,10 +165,17 @@ The samples include both usage of the EOS SDK, and convience wrappers to make us
 
 More specific and up-to-date instructions can also be found on Epic's [website](https://dev.epicgames.com/docs/services/en-US/DeveloperAuthenticationTool/index.html)
 
+
+---
+# Open Source: Contribute
+
+This is an Open Source project.  If you would like to view and contribute to the development of this plugin, you can enlist in the plugin development repo located at
+https://github.com/PlayEveryWare/eos_plugin_for_unity
+
 ---
 # Support
 
-EOS Plugin for Unity API Documentation can be found at https://playeveryware.github.io/eos_plugin_for_unity/api/PlayEveryWare.EpicOnlineServices.html
+EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com
 
 For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the ```Issues``` tab.
 
