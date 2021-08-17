@@ -22,23 +22,38 @@ Things this project does not *currently* do:
 It didn't used to have this, but now does!  
 * ~~Correctly reload the DLL between launches in editor.~~
 
+## Supported Platforms
+
+The follow target platforms are supported in Unity for the current release of the plugin.
+
+| Unity Target Platform | Current Plugin Release |
+| - | - |
+| Windows Standalone x64 | Supported |
+| Windows Standalone x86 | Supported |
+| Universal Windows Platform x64 | Supported |
+| Android | Future |
+| iOS | Future |
+| Linux | Future |
+| MacOS | Future |
+| Console Platforms | Future |
+| WebGL | Not Supported |
+| Universal Windows Platform x86 | Not Supported |
+| Unity Web Player | Not Supported |
+
 ----------------------------------------------------------------------------------------
 ## Integration Notes
 
 ### Prerequisites
 * Ensure At least Visual Studio 2017 is installed.
 * Ensure At least Unity 2020.1.11f1 is installed
-* Ensure required Platform SDKs are installed (Windows, Linux, macOS, Consoles)
+* Ensure required Platform SDKs are installed (Windows, Linux, macOS)
 
 ### Build steps For Native Libraries
 * Build the visual studio solutions for the native DLLs
     * Build the DynamicLibraryLoaderHelper sln in DynamicLibraryLoaderHelper/ for all platforms
-    * (Currently needed till I clean up and remove this experiment) Build the UnityEditorSharedDictionary sln in UnityEditorSharedDictionary/ for all platforms
-        * Only the NativeSharedDictionary project is needed.  
 
 The result from building those projects will be a bunch of libraries that should be in the correct locations
 for Unity to run.  
-
 
 
 ### Installing it via copy and paste
@@ -58,7 +73,7 @@ It's possible to manually copy all the files under Assets/Plugins/ into a projec
     * It's listed under Window -> Package Manager
 4. click the ```+``` button
 5. Select 'Add Package from Git URL'
-6. Paste in ```https://github.com/PlayEveryWare/eos_testbed_release.git```
+6. Paste in ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm```
 
 ----------------------------------------------------------------------------------------
 ## Running and Configuring the EOS SDK Dev Auth Tool
