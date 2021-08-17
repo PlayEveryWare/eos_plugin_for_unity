@@ -41,12 +41,15 @@
         {"src":"Assets/Plugins/Windows/x64/*.dll.meta", "dest": "Runtime/Windows/x64/"},
         {"src":"Assets/Plugins/Windows/x64/*.lib", "dest": "Runtime/Windows/x64/"},
         {"src":"Assets/Plugins/Windows/x64/*.lib.meta", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/license.txt", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/license.txt.meta", "dest": "Runtime/Windows/x64/"},
 
         {"src":"Assets/Plugins/Windows/x86.meta", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll.meta", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/*.lib", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/*.lib.meta", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/license.txt.meta", "dest": "Runtime/windows/x86/"},
 
         {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
