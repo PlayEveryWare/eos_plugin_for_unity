@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class represents all Lobby properties
     /// </summary>
-    public struct Lobby
+    public class Lobby
     {
         public string Id;
         public ProductUserId LobbyOwner = new ProductUserId();
