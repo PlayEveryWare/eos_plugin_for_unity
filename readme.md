@@ -58,7 +58,7 @@ It's possible to manually copy all the files under Assets/Plugins/ into a projec
     * It's listed under Window -> Package Manager
 4. click the ```+``` button
 5. Select 'Add Package from Git URL'
-6. Paste in ```https://github.com/PlayEveryWare/eos_testbed_release.git```
+6. Paste in ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```
 
 ----------------------------------------------------------------------------------------
 ## Running and Configuring the EOS SDK Dev Auth Tool
