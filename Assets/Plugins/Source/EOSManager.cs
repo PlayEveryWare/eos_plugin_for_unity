@@ -24,7 +24,7 @@
 // According to the Epic documentation, shutting down this will disable a given loaded
 // instance of the SDK from ever initializing again. Which is bad because Unity often (always?) loads a library just once
 // up front for a given DLL.
-#if UNITY_EDITOR_WIN || UNITY_EDITOR_OSX
+#if UNITY_EDITOR_WIN || UNITY_EDITOR_OSX || UNITY_STANDALONE_WIN
 #define EOS_CAN_SHUTDOWN
 #endif
 
@@ -776,7 +776,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     OnApplicationShutdown();
                 }
 #endif
-                }
+            }
 
             //-------------------------------------------------------------------------
             public void OnApplicationShutdown()
@@ -794,7 +794,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     GetEOSPlatformInterface().Release();
                     Epic.OnlineServices.Platform.PlatformInterface.Shutdown();
                     SetEOSPlatformInterface(null);
+#if UNITY_EDITOR
                     UnloadAllLibraries();
+#endif
                 }
             }
         }
