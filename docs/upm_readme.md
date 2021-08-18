@@ -70,7 +70,7 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 4. Click the ```+``` button
 5. Select '```Add Package from Git URL```'
 
-    ![Unity Add Git Package](images/unity_package_git.gif)
+    ![Unity Add Git Package](Documentation~/images/unity_package_git.gif)
 
 6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```
    or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```
@@ -82,7 +82,7 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 2. Click the ```+``` button
 3. Select '```Add package from tarball```'
 
-    ![Unity Add Tarball Package](images/unity_package_tarball.gif)
+    ![Unity Add Tarball Package](Documentation~/images/unity_package_tarball.gif)
 
 4. Go to directory containing the PEW Unity plugin tarball, and select it
 5. Click ```Open```
@@ -102,11 +102,11 @@ To get the EOS working, the plugin needs to know some specific things about your
 1) Open your Unity project with integrated plugin 
 2) In the Unity editor, Open ```Tools -> EpicOnlineServicesConfigEditor```
 
-    ![EOS Config Menu](images/unity_tools_eosconfig.gif)
+    ![EOS Config Menu](Documentation~/images/unity_tools_eosconfig.gif)
 
 3) Configure the EOS plugin
 
-    ![EOS Config UI](images/eosconfig_ui.gif)
+    ![EOS Config UI](Documentation~/images/eosconfig_ui.gif)
 
 4) From the [developer portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the editor tool:
     * ProductName
@@ -127,15 +127,15 @@ If you would like to see examples of each feature, continue installing samples b
 
 The included samples show fully functional feature implemenation that will both help with EOS integration as well as validate client to dev portal configuration.  After installing the samples from the UPM package, you will find scenes for each major feature.
 
-<img src="images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/>
-<img src="images/sample_screen_titlestorage.gif" alt="Title Storage Screenshot" width="48%"/>
+<img src="Documentation~/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/>
+<img src="Documentation~/images/sample_screen_titlestorage.gif" alt="Title Storage Screenshot" width="48%"/>
 
 In addition, the samples include Unity friendly *feature* Managers that can help to quickly integrate new EOS features into your title.  They provide functional usage of the main feature functionality and can be a good base template.
 
 ## Installing the samples
 To use the samples, install them from the UPM manager.
 
-![Unity Install Samples](images/unity_install_samples.gif)
+![Unity Install Samples](Documentation~/images/unity_install_samples.gif)
 
 The samples include both usage of the EOS SDK, and convience wrappers to make using the SDK more ergonomic in the Unity Game Engine. By being samples in the UPM sense, they are placed under Assets which allows modification.
 
@@ -146,7 +146,7 @@ The samples include both usage of the EOS SDK, and convience wrappers to make us
 
 * Login with a selected authentication type
 
-    ![Auth and Friends Screenshot](images/sample_screen_auth_friends.gif)
+    ![Auth and Friends Screenshot](Documentation~/images/sample_screen_auth_friends.gif)
 
 ---
 # Authentication
@@ -155,7 +155,7 @@ The samples include both usage of the EOS SDK, and convience wrappers to make us
 ## Running and Configuring the EOS SDK Dev Auth Tool
 * Launch the [dev auth tool](https://dev.epicgames.com/docs/services/en-US/DeveloperAuthenticationTool/index.html)
 
-    ![Dev Auth Tool](images/dev_auth_tool.gif)
+    ![Dev Auth Tool](Documentation~/images/dev_auth_tool.gif)
 
 * Pick a port to use on the computer. 8888 is a good quick to type number that isn't usually used by a process
 * Log in with one's user credentials that are registered with Epic
