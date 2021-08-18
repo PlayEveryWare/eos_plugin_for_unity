@@ -26,7 +26,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 using Epic.OnlineServices;
@@ -64,6 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementManager = EOSManager.Instance.GetOrCreateManager<EOSAchievementManager>();
         }
 
+#if ENABLE_CONTROLLER
         private void Update()
         {
             // Controller: Detect if nothing is selected and controller input detected, and set default
@@ -78,6 +79,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
         }
+#endif
 
         public void ShowMenu()
         {

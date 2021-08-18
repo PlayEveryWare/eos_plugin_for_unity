@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 using System;
 
 public class ConsoleInputField : MonoBehaviour
@@ -50,6 +50,7 @@ public class ConsoleInputField : MonoBehaviour
     }
     public void InputFieldOnClick()
     {
+#if ENABLE_CONTROLLER
         var gamepad = Gamepad.current;
         if (gamepad != null && gamepad.wasUpdatedThisFrame)
         {
@@ -79,6 +80,7 @@ public class ConsoleInputField : MonoBehaviour
             Debug.Log("KeyboardManager.InputFileOnClick(): Mouse detected.");
             EventSystem.current.SetSelectedGameObject(InputField.gameObject);
         }
+#endif
     }
 
     private void OnKeyboardCompleted(string result)

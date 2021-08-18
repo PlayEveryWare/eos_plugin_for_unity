@@ -26,7 +26,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 using Epic.OnlineServices;
@@ -105,12 +105,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Update()
         {
-            // Controller
+#if ENABLE_CONTROLLER
             var gamepad = Gamepad.current;
             if (gamepad != null && gamepad.rightShoulder.wasPressedThisFrame)
             {
                 ToggleFriendsTab();
             }
+#endif
 
             if (isSearching)
             {

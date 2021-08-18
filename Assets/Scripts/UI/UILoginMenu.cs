@@ -33,7 +33,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -116,6 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnLoginButtonClick();
         }
 
+#if ENABLE_CONTROLLER
         public void Update()
         {
             var keyboard = Keyboard.current;
@@ -169,6 +170,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
         }
+#endif
 
         private Selectable FindTopUISelectable()
         {
