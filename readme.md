@@ -7,7 +7,7 @@ Things this plugin provides:
 
 * Unity GUI for configuring EOS settings and saving to a JSON file
 * Unity editor playback support, handled by reloading EOS SDK
-* Feature specific manager classes for most common use-cases of [EOS interfaces](https://dev.epicgames.com/docs/services/en-US/Interfaces/index.html)
+* Feature specific manager classes for most common use-cases of EOS SDK API
 * Feature specific samples as Unity scenes
 * Targets [EOS SDK 1.13.1](https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.13-june21) *(bundled with plugin)*
 * Targets [Unity 2020.1](https://unity.com/releases/2020-1)
@@ -42,24 +42,25 @@ The EOS SDK is continually releasing new features and functionality.  The follow
 
 | EOS Feature | Included in Sample |
 | - | - |
-| [Achievements](https://dev.epicgames.com/docs/services/en-US/Interfaces/Achievements/index.html) | Achievements Sample |
-| [Authentication](https://dev.epicgames.com/docs/services/en-US/Interfaces/Auth/index.html) | - All Samples - |
-| [Ecommerce](https://dev.epicgames.com/docs/services/en-US/Interfaces/Ecom/index.html) | Store Sample |
-| [Friends](https://dev.epicgames.com/docs/services/en-US/Interfaces/Friends/index.html) | Auth & Friends Sample |
-| [Leaderboards](https://dev.epicgames.com/docs/services/en-US/Interfaces/Leaderboards/index.html) | Leaderboards Sample |
-| [Lobby](https://dev.epicgames.com/docs/services/en-US/Interfaces/Lobby/index.html) | Lobbies Sample |
-| [Lobby with Voice](https://dev.epicgames.com/docs/services/en-US/Interfaces/Voice/index.html#voicewithlobbies) | Lobbies Sample |
-| [NAT P2P](https://dev.epicgames.com/docs/services/en-US/Interfaces/P2P/index.html) | P2P Sample |
-| [Player Data Storage](https://dev.epicgames.com/docs/services/en-US/Interfaces/PlayerDataStorage/index.html) | Player Data Storage Sample |
-| [Presence](https://dev.epicgames.com/docs/services/en-US/Interfaces/Presence/index.html) | Auth & Friends Sample |
-| [Sessions](https://dev.epicgames.com/docs/services/en-US/Interfaces/Sessions/index.html) | Sessions Sample |
-| [Stats](https://dev.epicgames.com/docs/services/en-US/Interfaces/Stats/index.html) | Leaderboards Sample |
-| [Title Storage](https://dev.epicgames.com/docs/services/en-US/Interfaces/TitleStorage/index.html) | Title Storage Sample |
-| [Reports](https://dev.epicgames.com/docs/services/en-US/PlayerModeration/ReportsInterface/index.html) | - No Sample Provided - |
-| [Sanctions](https://dev.epicgames.com/docs/services/en-US/PlayerModeration/SanctionsInterface/index.html) | - No Sample Provided - |
-| [Anti-Cheat](https://dev.epicgames.com/docs/services/en-US/PlayerModeration/AntiCheat/index.html) | Not Supported |
-| [EOS Mod SDK](https://dev.epicgames.com/docs/services/en-US/Interfaces/Mods/index.html) | Not Supported |
-| [Voice Trusted Server](https://dev.epicgames.com/docs/services/en-US/Interfaces/Voice/index.html#voicewithatrustedserverapplication) | Not Supported |
+| [Achievements](https://dev.epicgames.com/docs/services/en-US/GameServices/Achievements/index.html) | Achievements Sample |
+| [Authentication](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/AuthInterface/index.html) | - All Samples - |
+| [Ecommerce](https://dev.epicgames.com/docs/services/en-US/EpicGamesStore/TechFeaturesConfig/Ecom/index.html) | Store Sample |
+| [Friends](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/Friends/index.html) | Auth & Friends Sample |
+| [Leaderboards](https://dev.epicgames.com/docs/services/en-US/GameServices/Leaderboards/index.html) | Leaderboards Sample |
+| [Lobby](https://dev.epicgames.com/docs/services/en-US/GameServices/Lobbies/index.html) | Lobbies Sample |
+| [Lobby with Voice](https://dev.epicgames.com/docs/services/en-US/GameServices/Voice/index.html#voicewithlobbies) | Lobbies Sample |
+| [NAT P2P](https://dev.epicgames.com/docs/services/en-US/GameServices/P2P/index.html) | P2P Sample |
+| [Player Data Storage](https://dev.epicgames.com/docs/services/en-US/GameServices/PlayerDataStorage/index.html) | Player Data Storage Sample |
+| [Presence](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/Presence/index.html) | Auth & Friends Sample |
+| [Sessions](https://dev.epicgames.com/docs/services/en-US/GameServices/Sessions/index.html) | Sessions Sample |
+| [Stats](https://dev.epicgames.com/docs/services/en-US/GameServices/Stats/index.html) | Leaderboards Sample |
+| [Title Storage](https://dev.epicgames.com/docs/services/en-US/GameServices/TitleStorage/index.html) | Title Storage Sample |
+| [Reports](https://dev.epicgames.com/docs/services/en-US/GameServices/ReportsInterface/index.html) | - No Sample Provided - |
+| [Sanctions](https://dev.epicgames.com/docs/services/en-US/GameServices/SanctionsInterface/index.html) | - No Sample Provided - |
+| [Anti-Cheat](https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html) | Not Supported |
+| [EOS Mod SDK](https://dev.epicgames.com/docs/services/en-US/EpicGamesStore/TechFeaturesConfig/Mods/index.html) | Not Supported |
+| [Voice Trusted Server](https://dev.epicgames.com/docs/services/en-US/GameServices/Voice/index.html#voicewithatrustedserverapplication) | Not Supported |
+
 
 ---
 # Integration Notes
@@ -81,6 +82,7 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 
 
 ## Installing from a tarball
+Download the latest release tarball from https://github.com/PlayEveryWare/eos_plugin_for_unity/releases
 1. From the Unity Editor, open the Package Manager
     * It's listed under ```Window -> Package Manager```
 2. Click the ```+``` button
@@ -157,7 +159,7 @@ The samples include both usage of the EOS SDK, and convience wrappers to make us
 
 
 ## Running and Configuring the EOS SDK Dev Auth Tool
-* Launch the [dev auth tool](https://dev.epicgames.com/docs/services/en-US/DeveloperAuthenticationTool/index.html)
+* Launch the [Developer Authentication Tool](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DeveloperAuthenticationTool/index.html)
 
     ![Dev Auth Tool](docs/images/dev_auth_tool.gif)
 
@@ -165,7 +167,7 @@ The samples include both usage of the EOS SDK, and convience wrappers to make us
 * Log in with one's user credentials that are registered with Epic
 * Pick a username. This username will be used in the sample to log in
 
-More specific and up-to-date instructions can also be found on Epic's [website](https://dev.epicgames.com/docs/services/en-US/DeveloperAuthenticationTool/index.html)
+More specific and up-to-date instructions can also be found on Epic's [website](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DeveloperAuthenticationTool/index.html)
 
 
 ---
@@ -177,8 +179,7 @@ For issues related to integration or usage of the Unity plugin, please create a 
 
 For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/)
 
-Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Documentation: Interfaces](https://dev.epicgames.com/docs/services/en-US/Interfaces/index.html).
-
+Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Developer Documentation: Game Services](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
 
 
 ---
