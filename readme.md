@@ -81,6 +81,7 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 
 
 ## Installing from a tarball
+Download the latest release tarball from https://github.com/PlayEveryWare/eos_plugin_for_unity/releases
 1. From the Unity Editor, open the Package Manager
     * It's listed under ```Window -> Package Manager```
 2. Click the ```+``` button
@@ -157,7 +158,7 @@ The samples include both usage of the EOS SDK, and convience wrappers to make us
 
 
 ## Running and Configuring the EOS SDK Dev Auth Tool
-* Launch the [dev auth tool](https://dev.epicgames.com/docs/services/en-US/DeveloperAuthenticationTool/index.html)
+* Launch the [Developer Authentication Tool](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DeveloperAuthenticationTool/index.html)
 
     ![Dev Auth Tool](docs/images/dev_auth_tool.gif)
 
@@ -165,7 +166,7 @@ The samples include both usage of the EOS SDK, and convience wrappers to make us
 * Log in with one's user credentials that are registered with Epic
 * Pick a username. This username will be used in the sample to log in
 
-More specific and up-to-date instructions can also be found on Epic's [website](https://dev.epicgames.com/docs/services/en-US/DeveloperAuthenticationTool/index.html)
+More specific and up-to-date instructions can also be found on Epic's [website](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DeveloperAuthenticationTool/index.html)
 
 
 ---
@@ -177,8 +178,7 @@ For issues related to integration or usage of the Unity plugin, please create a 
 
 For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/)
 
-Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Documentation: Interfaces](https://dev.epicgames.com/docs/services/en-US/Interfaces/index.html).
-
+Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Developer Documentation: Game Services](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
 
 
 ---

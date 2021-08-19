@@ -4,6 +4,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Unreleased
 ### Added
+### Changed
+### Removed
+### Fixed
+
+## [1.0.1] - 2021-08-18
+
+### Fixed
+- make Input Manager (Old) default
+### Changed
+- Updated documentation
+
+## [1.0.0] - 2021-08-16
+### Added
 - add controller support and virtual keyboard (#4)
 - controller support (part 1)
 - add controller supported onscreen keyboard
@@ -15,7 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update to EOS SDK 1.13.1
 - change code to make it easier to have platform specific platform init options
 
-### Removed
 ### Fixed
 - Change DLLHandle to return the correct path when packaged
 - add ConsoleInputField focus support for keyboard tab
@@ -24,5 +36,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - enable mouse on click for friends tab collapse/expand
 
 - call InputField.onEditEnd after virtual keyboard closed
-
-## [1.0.0] - 2021-08-16
