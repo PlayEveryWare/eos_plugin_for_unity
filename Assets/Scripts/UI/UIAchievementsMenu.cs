@@ -132,6 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 definitionsDescription.text = "No Achievements Found";
+                definitionsDescription.gameObject.SetActive(true);
             }
         }
 
