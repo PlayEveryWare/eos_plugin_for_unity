@@ -33,9 +33,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-//using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -67,6 +70,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EventSystem system;
 
         LoginCredentialType loginType = LoginCredentialType.Developer;
+
+        // Retain Id/Token inputs across scenes
+        public static string IdGlobalCache = string.Empty;
+        public static string TokenGlobalCache = string.Empty;
+
+        private void Awake()
+        {
+            idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
+            tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
+        }
+
+        private void CacheIdInputField(string value)
+        {
+            IdGlobalCache = value;
+        }
+
+        private void CacheTokenField(string value)
+        {
+            TokenGlobalCache = value;
+        }
 
         public void OnDemoSceneChange(int value)
         {
@@ -116,7 +139,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnLoginButtonClick();
         }
 
-#if ENABLE_CONTROLLER
+#if ENABLE_INPUT_SYSTEM
         public void Update()
         {
             var keyboard = Keyboard.current;
@@ -170,6 +193,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
         }
+#else
+        public void Update()
+        {
+            // Tab between input fields
+            if (Input.GetKeyDown(KeyCode.Tab)
+                && system.currentSelectedGameObject != null)
+            {
+                Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+
+                InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
+
+                if (next != null)
+                {
+                    InputField inputfield = next.GetComponent<InputField>();
+                    if (inputfield != null)
+                    {
+                        inputfield.OnPointerClick(new PointerEventData(system));
+                    }
+
+                    system.SetSelectedGameObject(next.gameObject);
+                }
+                else
+                {
+                    next = FindTopUISelectable();
+                    system.SetSelectedGameObject(next.gameObject);
+                }
+            }
+        }
 #endif
 
         private Selectable FindTopUISelectable()
@@ -191,6 +242,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void ConfigureUIForDevAuthLogin()
         {
+            if (!string.IsNullOrEmpty(IdGlobalCache))
+            {
+                idInputField.InputField.text = IdGlobalCache;
+            }
+
+            if (!string.IsNullOrEmpty(TokenGlobalCache))
+            {
+                tokenInputField.InputField.text = TokenGlobalCache;
+            }
+
             idInputField.gameObject.SetActive(true);
             tokenInputField.gameObject.SetActive(true);
             idText.gameObject.SetActive(true);

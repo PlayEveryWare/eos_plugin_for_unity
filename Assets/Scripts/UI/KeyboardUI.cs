@@ -26,7 +26,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-//using UnityEngine.InputSystem;
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 public class KeyboardUI : MonoBehaviour
 {
@@ -71,7 +74,7 @@ public class KeyboardUI : MonoBehaviour
         }
     }
 
-#if ENABLE_CONTROLLER
+#if ENABLE_INPUT_SYSTEM
     private void Update()
     {
         var gamepad = Gamepad.current;

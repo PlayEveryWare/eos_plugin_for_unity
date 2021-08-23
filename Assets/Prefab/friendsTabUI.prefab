@@ -298,6 +298,9 @@ MonoBehaviour:
     type: 3}
   CollapseOnStart: 0
   UIFirstSelected: {fileID: 6946016340423810877}
+  ControllerUIObjects:
+  - {fileID: 5806566353073047220}
+  - {fileID: 7759123956960421842}
   EnableP2PChat: 0
   UIPeer2PeerMenu: {fileID: 0}
   EnableLobbyInvites: 0

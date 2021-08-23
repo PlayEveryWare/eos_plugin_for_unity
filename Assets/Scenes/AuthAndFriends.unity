@@ -124,6 +124,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &12530957 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7873440287076113507, guid: 0cee138bae5340949999ffb32f0a1963,
+    type: 3}
+  m_PrefabInstance: {fileID: 4072375487185602426}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &282840810
 GameObject:
   m_ObjectHideFlags: 0
@@ -1059,7 +1071,7 @@ PrefabInstance:
     - target: {fileID: 4072375486890193679, guid: 0cee138bae5340949999ffb32f0a1963,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1074.8918
+      value: 1074.8762
       objectReference: {fileID: 0}
     - target: {fileID: 4072375487012515541, guid: 0cee138bae5340949999ffb32f0a1963,
         type: 3}
@@ -1134,36 +1146,11 @@ PrefabInstance:
       propertyPath: OnLogout.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIFriendsMenu, Assembly-CSharp
       objectReference: {fileID: 0}
-    - target: {fileID: 5557305858590710655, guid: 7a2edc8e1a3301a4a9d9b8773e26eaf5,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5557305859514999554}
-    - target: {fileID: 5557305858590710655, guid: 7a2edc8e1a3301a4a9d9b8773e26eaf5,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnDropdownChange
-      objectReference: {fileID: 0}
     - target: {fileID: 5557305858795951438, guid: 7a2edc8e1a3301a4a9d9b8773e26eaf5,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: m_Navigation.m_SelectOnDown
       value: 
-      objectReference: {fileID: 5557305859514999554}
-    - target: {fileID: 5557305858795951438, guid: 7a2edc8e1a3301a4a9d9b8773e26eaf5,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnLoginButtonClick
-      objectReference: {fileID: 0}
-    - target: {fileID: 5557305859115600833, guid: 7a2edc8e1a3301a4a9d9b8773e26eaf5,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5557305859514999554}
-    - target: {fileID: 5557305859115600833, guid: 7a2edc8e1a3301a4a9d9b8773e26eaf5,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnLogoutButtonClick
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 12530957}
     - target: {fileID: 5557305859342028108, guid: 7a2edc8e1a3301a4a9d9b8773e26eaf5,
         type: 3}
       propertyPath: m_Name
