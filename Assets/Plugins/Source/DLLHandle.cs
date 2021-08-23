@@ -20,8 +20,9 @@
 * SOFTWARE.
 */
 
-﻿//#define ENABLE_DLLHANDLE_PRINT
+//#define ENABLE_DLLHANDLE_PRINT
 
+using PlayEveryWare.EpicOnlineServices;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -68,6 +69,8 @@ public class DLLHandle : SafeHandle
         {
             pluginPaths.Add(uwpPluginsPath);
         }
+
+        EOSManagerPlatformSpecifics.Instance.AddPluginSearchPaths(ref pluginPaths);
 
         return pluginPaths;
     }

@@ -69,10 +69,11 @@ public partial class SystemDynamicLibrary
     private const string DLLHBinaryName =
 #if UNITY_WSA || UNITY_STANDALONE_WIN
         "DynamicLibraryLoaderHelper";
+#elif UNITY_ANDROID
+        "DynamicLibraryLoaderHelper_Android";
 #else
         "__Internal";
 #endif
-
 
     [DllImport(DLLHBinaryName)]
     private static extern IntPtr DLLH_create_context();
