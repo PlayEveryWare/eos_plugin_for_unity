@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿#if UNITY_64 || UNITY_EDITOR_64
+#if UNITY_64 || UNITY_EDITOR_64
 #define PLATFORM_64BITS
 #elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
 #define PLATFORM_32BITS
@@ -40,28 +40,46 @@ using System.Runtime.InteropServices;
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_WSA_10_0
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices 
 {
-    public partial class EOSManager
+    //-------------------------------------------------------------------------
+    public class EOSWindowsOptions : Epic.OnlineServices.Platform.WindowsOptions, IEOSCreateOptions
+    {
+    }
+
+    //-------------------------------------------------------------------------
+    public class EOSWindowsInitializeOptions : Epic.OnlineServices.Platform.InitializeOptions, IEOSInitializeOptions
+    {
+
+    }
+
+    //-------------------------------------------------------------------------
+    public class EOSPlatformSpecificsWindows : IEOSManagerPlatformSpecifics
     {
         static string Xaudio2DllName = "xaudio2_9redist.dll";
 
         //-------------------------------------------------------------------------
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static public void Register()
+        {
+            EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsWindows());
+        }
+
+        //-------------------------------------------------------------------------
         //TODO: Hook up correctly for each platform?
-        static string GetTempDir()
+        public string GetTempDir()
         {
             return Application.temporaryCachePath;
         }
 
-
-        static private Int32 IsReadyForNetworkActivity()
+        //-------------------------------------------------------------------------
+        public System.Int32 IsReadyForNetworkActivity()
         {
             return 1;
         }
 
         //-------------------------------------------------------------------------
-        // Nothing to be done on windows for the moment
-        static private void ConfigureSystemInitOptions(ref InitializeOptions initializeOptions)
+        public void AddPluginSearchPaths(ref List<string> pluginPaths)
         {
         }
 
@@ -77,22 +95,53 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        static private InitializeOptions CreateSystemInitOptions()
+        //-------------------------------------------------------------------------
+        public Epic.OnlineServices.Result InitializePlatformInterface(IEOSInitializeOptions options)
         {
-            return new InitializeOptions();
+            return Epic.OnlineServices.Platform.PlatformInterface.Initialize(options as InitializeOptions);
         }
 
         //-------------------------------------------------------------------------
-        // TODO merge this with the ConfigureSystemPlatformCreateOptions?
-        static private WindowsOptions CreateSystemPlatformOption()
+        public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
         {
-            var createOptions = new WindowsOptions();
+            return Epic.OnlineServices.Platform.PlatformInterface.Create((platformOptions as WindowsOptions));
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// The windows version doesn't have any specific types for init
+        /// </summary>
+        /// <returns></returns>
+        public IEOSInitializeOptions CreateSystemInitOptions()
+        {
+            return new EOSWindowsInitializeOptions();
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Nothing to be done on windows for the moment
+        /// </summary>
+        /// <param name="initializeOptions"></param>
+        /// <param name="configData"></param>
+        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
+        {
+        }
+
+        //-------------------------------------------------------------------------
+        public IEOSCreateOptions CreateSystemPlatformOption()
+        {
+            var createOptions = new EOSWindowsOptions();
 
             return createOptions;
         }
 
         //-------------------------------------------------------------------------
-        static private void ConfigureSystemPlatformCreateOptions(ref WindowsOptions createOptions)
+        /// <summary>
+        /// On Windows, this method handles looking up where the RTC options are.
+        /// This method assumes that the IEOSCreateOptions passed in is the right type.
+        /// </summary>
+        /// <param name="createOptions"></param>
+        public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
         {
             string pluginPlatfromPathComponent = GetPlatformPathComponent();
 
@@ -120,9 +169,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var rtcOptions = new WindowsRTCOptions();
                 rtcOptions.PlatformSpecificOptions = rtcPlatformSpecificOptions;
-                createOptions.RTCOptions = rtcOptions;
+                (createOptions as EOSWindowsOptions).RTCOptions = rtcOptions;
             }
         }
+
     }
 }
 #endif

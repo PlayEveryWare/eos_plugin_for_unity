@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,12 +36,23 @@ using jint = System.Int32;
 using jsize = System.Int32;
 using JavaVM = System.IntPtr;
 
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID //&& !UNITY_EDITOR
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
+    public class EOSAndroidOptions : Epic.OnlineServices.Platform.Options, IEOSCreateOptions
+    {
+    }
+
+    //-------------------------------------------------------------------------
+    public class EOSAndroidInitializeOptions : Epic.OnlineServices.Platform.AndroidInitializeOptions, IEOSInitializeOptions
+    {
+
+    }
+
+    //-------------------------------------------------------------------------
     // Android specific Unity Parts.
-    public partial class EOSManager
+    public class EOSPlatformSpecifcsAndroid : IEOSManagerPlatformSpecifics
     {
         static EOSAndroidInitializeOptions androidInitOptions;
         static IntPtr androidInitializeOptionsAllocH;
@@ -50,13 +61,32 @@ namespace PlayEveryWare.EpicOnlineServices
         private static extern JavaVM UnityHelpers_GetJavaVM();
 
         //-------------------------------------------------------------------------
-        static string GetTempDir()
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        static public void Register()
         {
-            return Application.temporaryCachePath;
+            EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecifcsAndroid());
         }
 
         //-------------------------------------------------------------------------
-        static private void ConfigureAndroidActivity()
+        public string GetTempDir()
+        {
+            return Application.temporaryCachePath;
+        }
+        //-------------------------------------------------------------------------
+        //
+        public Epic.OnlineServices.Result InitializePlatformInterface(IEOSInitializeOptions options)
+        {
+            return Epic.OnlineServices.Platform.PlatformInterface.Initialize(options as InitializeOptions);
+        }
+
+        //-------------------------------------------------------------------------
+        public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
+        {
+            return Epic.OnlineServices.Platform.PlatformInterface.Create((platformOptions as Options));
+        }
+
+        //-------------------------------------------------------------------------
+        private void ConfigureAndroidActivity()
         {
             Debug.Log("EOSAndroid: Getting activity context...");
             AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -81,36 +111,62 @@ namespace PlayEveryWare.EpicOnlineServices
         // This does some work to configure the Android side of things before doing the
         // 'normal' EOS init things.
         // TODO: Configure the internal and external directory
-        static private void ConfigureSystemInitOptions(ref InitializeOptions initializeOptions)
+
+        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
         {
             ConfigureAndroidActivity();
 
+
             // It should be safe to assume there is only one JVM, because
             // android assumes there is only one
-            JavaVM javavm = UnityHelpers_GetJavaVM();
+            // JavaVM javavm = UnityHelpers_GetJavaVM();
 
-            Assert.IsTrue(javavm != IntPtr.Zero, "Fetched JavaVM is Null!");
-            androidInitOptions = new EOSAndroidInitializeOptions
+            // Assert.IsTrue(javavm != IntPtr.Zero, "Fetched JavaVM is Null!");
+            // androidInitOptions = new EOSAndroidInitializeOptions
+            // {
+            //     ApiVersion = 1,
+            //                VM = javavm,
+            //                OptionalInternalDirectory = IntPtr.Zero,
+            //                OptionalExternalDirectory = IntPtr.Zero
+            // };
+
+            // androidInitializeOptionsAllocH = Marshal.AllocHGlobal(Marshal.SizeOf<EOSAndroidInitializeOptions>());
+            // Marshal.StructureToPtr(androidInitOptions, androidInitializeOptionsAllocH, false);
+            //(initializeOptions.SystemInitializeOptions = androidInitializeOptionsAllocH;
+
+            var systemInitializeOptions = new AndroidInitializeOptionsSystemInitializeOptions()
             {
-                ApiVersion = 1,
-                           VM = javavm,
-                           OptionalInternalDirectory = IntPtr.Zero,
-                           OptionalExternalDirectory = IntPtr.Zero
+                OptionalExternalDirectory = null,
+                OptionalInternalDirectory = null
             };
-
-            androidInitializeOptionsAllocH = Marshal.AllocHGlobal(Marshal.SizeOf<EOSAndroidInitializeOptions>());
-            Marshal.StructureToPtr(androidInitOptions, androidInitializeOptionsAllocH, false);
-            initializeOptions.SystemInitializeOptions = androidInitializeOptionsAllocH; 
+            (initializeOptions as EOSAndroidInitializeOptions).SystemInitializeOptions = systemInitializeOptions;
         }
 
         //-------------------------------------------------------------------------
-        static private Options CreateSystemPlatformOption()
+        public IEOSCreateOptions CreateSystemPlatformOption()
         {
-            return new Options();
+            return new EOSAndroidOptions();
+        }
+        public IEOSInitializeOptions CreateSystemInitOptions()
+        {
+            return new EOSAndroidInitializeOptions();
         }
 
         //-------------------------------------------------------------------------
         static private void ConfigureSystemPlatformCreateOptions(ref Options createOptions)
+        {
+        }
+
+        public int IsReadyForNetworkActivity()
+        {
+            return 1;
+        }
+
+        public void AddPluginSearchPaths(ref List<string> pluginPaths)
+        {
+        }
+
+        public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
         {
         }
     }

@@ -159,6 +159,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return null == s_eosPlatformInterface;
             }
 
+            //-------------------------------------------------------------------------
             /// <summary>
             /// 
             /// </summary>
@@ -207,6 +208,58 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            private Epic.OnlineServices.Result InitializePlatformInterface(EOSConfig configData)
+            {
+                IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
+
+                IEOSInitializeOptions initOptions = platformSpecifics.CreateSystemInitOptions();
+                initOptions.ProductName = configData.productName;
+                initOptions.ProductVersion = configData.productVersion;
+                initOptions.AllocateMemoryFunction = IntPtr.Zero;
+                initOptions.ReallocateMemoryFunction = IntPtr.Zero;
+                initOptions.ReleaseMemoryFunction = IntPtr.Zero;
+                initOptions.OverrideThreadAffinity = new InitializeThreadAffinity();
+
+                platformSpecifics.ConfigureSystemInitOptions(ref initOptions, configData);
+
+                return platformSpecifics.InitializePlatformInterface(initOptions);
+            }
+
+            //-------------------------------------------------------------------------
+            private PlatformInterface CreatePlatformInterface(EOSConfig configData)
+            {
+                IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
+
+                var platformOptions = platformSpecifics.CreateSystemPlatformOption();
+                platformOptions.CacheDirectory = GetTempDir();
+                platformOptions.IsServer = false;
+                platformOptions.Flags =
+#if UNITY_EDITOR
+                PlatformFlags.LoadingInEditor;
+#else
+                PlatformFlags.None;
+#endif
+                if (!string.IsNullOrEmpty(configData.encryptionKey))
+                {
+                    platformOptions.EncryptionKey = configData.encryptionKey;
+                }
+
+                platformOptions.OverrideCountryCode = null;
+                platformOptions.OverrideLocaleCode = null;
+                platformOptions.ProductId = configData.productID;
+                platformOptions.SandboxId = configData.sandboxID;
+                platformOptions.DeploymentId = configData.deploymentID;
+                platformOptions.ClientCredentials = new Epic.OnlineServices.Platform.ClientCredentials();
+
+                platformOptions.ClientCredentials.ClientId = configData.clientID;
+                platformOptions.ClientCredentials.ClientSecret = configData.clientSecret;
+
+                platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
+
+                return platformSpecifics.CreatePlatformInterface(platformOptions);
+            }
+
+            //-------------------------------------------------------------------------
             // NOTE: on some platforms the EOS platform is init'd by a native dynamic library. In
             // those cases, this code will early out.
             public void Init()
@@ -235,25 +288,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
                 print("Loaded config file: " + configDataAsString);
 
-                var initOptions = CreateSystemInitOptions();
-
-                initOptions.ProductName = configData.productName;
-                initOptions.ProductVersion = configData.productVersion;
-                initOptions.AllocateMemoryFunction = IntPtr.Zero;
-                initOptions.ReallocateMemoryFunction = IntPtr.Zero;
-                initOptions.ReleaseMemoryFunction = IntPtr.Zero;
-                initOptions.OverrideThreadAffinity = new InitializeThreadAffinity();
-
-                ConfigureSystemInitOptions(ref initOptions);
-
-                Epic.OnlineServices.Result initResult = Epic.OnlineServices.Platform.PlatformInterface.Initialize(initOptions);
+                Epic.OnlineServices.Result initResult = InitializePlatformInterface(configData);
+                
                 if (initResult != Epic.OnlineServices.Result.Success)
                 {
 #if UNITY_EDITOR
                     UnloadAllLibraries();
                     ForceUnloadEOSLibrary();
                     LoadEOSLibraries();
-                    var secondTryResult = Epic.OnlineServices.Platform.PlatformInterface.Initialize(initOptions);
+                    var secondTryResult = InitializePlatformInterface(configData);
                     if (secondTryResult != Result.Success)
 #endif
                     {
@@ -264,34 +307,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
                 Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Verbose);
 
-                var platformOptions = CreateSystemPlatformOption();
-                platformOptions.CacheDirectory = GetTempDir();
-                platformOptions.IsServer = false;
-                platformOptions.Flags =
-#if UNITY_EDITOR
-                PlatformFlags.LoadingInEditor;
-#else
-                PlatformFlags.None;
-#endif
-                if (!string.IsNullOrEmpty(configData.encryptionKey))
-                {
-                    platformOptions.EncryptionKey = configData.encryptionKey;
-                }
 
-                platformOptions.OverrideCountryCode = null;
-                platformOptions.OverrideLocaleCode = null;
-                platformOptions.ProductId = configData.productID;
-                platformOptions.SandboxId = configData.sandboxID;
-                platformOptions.DeploymentId = configData.deploymentID;
-                platformOptions.ClientCredentials = new Epic.OnlineServices.Platform.ClientCredentials();
-
-
-                ConfigureSystemPlatformCreateOptions(ref platformOptions);
-
-                platformOptions.ClientCredentials.ClientId = configData.clientID;
-                platformOptions.ClientCredentials.ClientSecret = configData.clientSecret;
-
-                var eosPlatformInterface = Epic.OnlineServices.Platform.PlatformInterface.Create(platformOptions);
+                var eosPlatformInterface = CreatePlatformInterface(configData);
 
                 if (eosPlatformInterface == null)
                 {
