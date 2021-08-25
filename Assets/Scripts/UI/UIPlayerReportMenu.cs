@@ -21,6 +21,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -35,10 +36,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UIPlayerReportMenu : MonoBehaviour
     {
+        [Header("Reports")]
         public GameObject CrashReportUIParent;
         public Text PlayerName;
         public Dropdown CategoryList;
         public InputField Message;
+
+        [Header("Sanctions")]
+        public GameObject SanctionsListContentParent;
+        public GameObject UISanctionsEntryPrefab;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
@@ -70,6 +76,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerName.text = playerName;
             currentProdcutUserId = userId;
 
+            // Start Search for Sanctions
+            ReportsManager.QueryActivePlayerSanctions(userId, QueryActivePlayerSanctionsCompleted);
+
             // Show PopUp
             CrashReportUIParent.gameObject.SetActive(true);
 
@@ -77,6 +86,55 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if(UIFirstSelected.activeInHierarchy)
             {
                 EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            }
+        }
+
+        public void PlayerSanctionsRefreshOnClick()
+        {
+            // Start Search for Sanctions
+            ReportsManager.QueryActivePlayerSanctions(currentProdcutUserId, QueryActivePlayerSanctionsCompleted);
+        }
+
+        private void QueryActivePlayerSanctionsCompleted(Result result)
+        {
+            if(result != Result.Success)
+            {
+                Debug.LogErrorFormat("UIPlayerReportMenu (QueryActivePlayerSanctionsCompleted): result == {0}", result);
+                return;
+            }
+
+            // Destroy current UI member list
+            foreach (Transform child in SanctionsListContentParent.transform)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+
+            // Update Sanctions List UI
+            if (ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup));
+            {
+                if(!sanctionLookup.ContainsKey(currentProdcutUserId))
+                {
+                    // No Sanctions for current user
+
+                    GameObject sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
+                    UISanctionEntry uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
+
+                    uiEntry.TimePlaced.text = string.Empty;
+                    uiEntry.Action.text = "No Sanctions Found.";
+
+                    return;
+                }
+
+                List<Sanction> sanctionList = sanctionLookup[currentProdcutUserId];
+
+                foreach (Sanction s in sanctionList)
+                {
+                    GameObject sanctionUIObj = Instantiate(UISanctionsEntryPrefab, SanctionsListContentParent.transform);
+                    UISanctionEntry uiEntry = sanctionUIObj.GetComponent<UISanctionEntry>();
+
+                    uiEntry.TimePlaced.text = string.Format("Added on {0: M/d/yyyy HH:mm}", s.TimePlaced);
+                    uiEntry.Action.text = s.Action;
+                }
             }
         }
 
