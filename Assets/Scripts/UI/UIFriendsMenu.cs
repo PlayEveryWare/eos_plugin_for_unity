@@ -76,6 +76,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool EnableLobbyInvites = false;
         public UILobbiesMenu UILobbiesMenu;
 
+        // Player Report
+        [Header("Player Report Options (Optional)")]
+        public bool EnablePlayerReport = false;
+        public UIPlayerReportMenu UIPlayerReportMenu;
+
+
 #if !ENABLE_INPUT_SYSTEM
         private void Awake()
         {
@@ -143,7 +149,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);
                         UIFriendEntry uiEntry = friendUIObj.GetComponent<UIFriendEntry>();
 
-                        uiEntry.SetEpicAccountId(friend.UserId);
+                        uiEntry.SetEpicAccount(friend.UserId, friend.UserProductUserId);
 
                         uiEntry.DisplayName.text = friend.Name;
 
@@ -154,6 +160,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         else
                         {
                             uiEntry.Status.text = friend.Status.ToString();
+                        }
+
+                        // Report offline/online players
+                        if (EnablePlayerReport)
+                        {
+                            uiEntry.ReportOnClick = UIPlayerReportMenu.ReportButtonOnClick;
+                            uiEntry.EnableReportButton();
                         }
 
                         // AddFriends is Deprecated
@@ -178,9 +191,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);
                     UIFriendEntry uiEntry = friendUIObj.GetComponent<UIFriendEntry>();
 
-                    uiEntry.SetEpicAccountId(friend.UserId);
+                    uiEntry.SetEpicAccount(friend.UserId, friend.UserProductUserId);
 
                     uiEntry.DisplayName.text = friend.Name;
+
+                    // Report offline/online players
+                    if (EnablePlayerReport)
+                    {
+                        uiEntry.ReportOnClick = UIPlayerReportMenu.ReportButtonOnClick;
+                        uiEntry.EnableReportButton();
+                    }
 
                     if (friend.Status == FriendsStatus.Friends && friend.Presence != null)
                     {

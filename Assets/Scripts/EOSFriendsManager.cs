@@ -521,7 +521,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         }
                         else
                         {
-                            Debug.LogErrorFormat("Friends (OnQueryExternalAccountMappingsCompleted): ProductUserId for Epic Account Id ({0}) returned null", epidAccountIdString);
+                            Debug.LogWarningFormat("Friends (OnQueryExternalAccountMappingsCompleted): No connected Epic Account associated with EpicAccountId = ({0})", epidAccountIdString);
                         }
                     }
                     else

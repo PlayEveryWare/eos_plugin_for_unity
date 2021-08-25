@@ -3110,7 +3110,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 53.6, y: 253.4}
-  m_SizeDelta: {x: 203.67334, y: 30}
+  m_SizeDelta: {x: 225, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3641408752659711114
 CanvasRenderer:
@@ -3198,7 +3198,7 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: '   [Select Demo Scene]'
+    - m_Text: '       [Select Demo Scene]'
       m_Image: {fileID: 0}
     - m_Text: Achievements
       m_Image: {fileID: 0}
@@ -3211,6 +3211,8 @@ MonoBehaviour:
     - m_Text: Peer 2 Peer
       m_Image: {fileID: 0}
     - m_Text: Player Data Storage
+      m_Image: {fileID: 0}
+    - m_Text: Player Reporting & Sanctions
       m_Image: {fileID: 0}
     - m_Text: Sessions & Matchmaking
       m_Image: {fileID: 0}
@@ -3312,7 +3314,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '   [Select Demo Scene]'
+  m_Text: '       [Select Demo Scene]'
 --- !u!1 &8108243385283813914
 GameObject:
   m_ObjectHideFlags: 0
