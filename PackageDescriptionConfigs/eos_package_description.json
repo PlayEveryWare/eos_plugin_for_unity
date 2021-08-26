@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
 
-        {"src":"EOSUnityPlugin_package_template/CHANGELOG-prerelease.md", "dest" : "CHANGELOG.md"},
+        {"src":"EOSUnityPlugin_package_template/CHANGELOG.md", "dest" : "CHANGELOG.md"},
         {"src":"EOSUnityPlugin_package_template/CHANGELOG.md.meta", "dest" : ""},
         {"src":"license.md", "dest" : "LICENSE.md"},
         {"src":"EOSUnityPlugin_package_template/LICENSE.md.meta", "dest" : ""},
