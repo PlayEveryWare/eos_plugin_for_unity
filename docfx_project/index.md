@@ -20,6 +20,7 @@ The follow target platforms are supported in Unity for the current release of th
 
 | Unity Target Platform | Current Plugin Release |
 | - | - |
+| Unity Editor | Supported (No Social Overlay) |
 | Windows Standalone x64 | Supported |
 | Windows Standalone x86 | Supported |
 | Universal Windows Platform x64 | Supported |
@@ -49,6 +50,7 @@ The EOS SDK is continually releasing new features and functionality.  The follow
 | [Player Data Storage](https://dev.epicgames.com/docs/services/en-US/GameServices/PlayerDataStorage/index.html) | Player Data Storage Sample |
 | [Presence](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/Presence/index.html) | Auth & Friends Sample |
 | [Sessions](https://dev.epicgames.com/docs/services/en-US/GameServices/Sessions/index.html) | Sessions Sample |
+| [Social Overlay](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/SocialOverlayOverview/index.html) | - All Samples - |
 | [Stats](https://dev.epicgames.com/docs/services/en-US/GameServices/Stats/index.html) | Leaderboards Sample |
 | [Title Storage](https://dev.epicgames.com/docs/services/en-US/GameServices/TitleStorage/index.html) | Title Storage Sample |
 | [Reports](https://dev.epicgames.com/docs/services/en-US/GameServices/ReportsInterface/index.html) | - No Sample Provided - |
