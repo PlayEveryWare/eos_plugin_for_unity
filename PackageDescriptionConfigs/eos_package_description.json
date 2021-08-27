@@ -66,8 +66,11 @@
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
 
-        {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/EOSVersionInformation.cs", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/EOSVersionInformation.cs.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/EpicOnlineServicesConfigEditor.cs", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/EpicOnlineServicesConfigEditor.cs.meta", "dest": "Editor/"},
+
 
         {"src":"Assets/Plugins/Source/EOS_SDK.meta", "dest": "Runtime/"},
 
