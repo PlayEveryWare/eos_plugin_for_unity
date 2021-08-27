@@ -214,9 +214,9 @@
         {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/Prefab/"},
         {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/Prefab/"},
 
-        {"src":"EOSUnityPlugin_package_template/Images.meta", "dest": "Samples~/Samples/Images/"},
-        {"src":"Assets/EOS/*.png", "dest": "Samples~/Samples/images/"},
-        {"src":"Assets/EOS/*.png.meta", "dest": "Samples~/Samples/images/"},
+        {"src":"EOSUnityPlugin_package_template/Images.meta", "dest": "Samples~/Samples/Images.meta"},
+        {"src":"Assets/EOS/*.png", "dest": "Samples~/Samples/Images/"},
+        {"src":"Assets/EOS/*.png.meta", "dest": "Samples~/Samples/Images/"},
 
         {"src":"EOSUnityPlugin_package_template/Samples.meta", "dest" : "Samples~/"},
         {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/Scripts/"},
