@@ -9,6 +9,7 @@ Things this plugin provides:
 * Unity editor playback support, handled by reloading EOS SDK
 * Feature specific manager classes for most common use-cases of EOS SDK API
 * Feature specific samples as Unity scenes
+* * Social Overlay support
 * Targets [EOS SDK 1.13.1](https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.13-june21) *(bundled with plugin)*
 * Targets [Unity 2020.1](https://unity.com/releases/2020-1)
 
