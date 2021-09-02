@@ -71,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LocalUserId = localUserId
             };
 
-            EOSManager.Instance.GetEOSPlatformInterface().GetPlayerDataStorageInterface().QueryFileList(options, null, OnFileListRetrieved);
+            EOSManager.Instance.GetPlayerDataStorageInterface().QueryFileList(options, null, OnFileListRetrieved);
         }
 
         /// <summary>(async) Begin file data download.</summary>
@@ -99,7 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 UIOnFileContentUpdated = downloadCompletedCallback;
             }
 
-            PlayerDataStorageFileTransferRequest req = EOSManager.Instance.GetEOSPlatformInterface().GetPlayerDataStorageInterface().ReadFile(options, null, OnFileReceived);
+            PlayerDataStorageFileTransferRequest req = EOSManager.Instance.GetPlayerDataStorageInterface().ReadFile(options, null, OnFileReceived);
             if (req == null)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: can't start file download, bad handle returned for filename '{0}'", fileName);
@@ -146,7 +146,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 FileTransferProgressCallback = OnFileTransferProgressUpdated
             };
 
-            PlayerDataStorageFileTransferRequest req = EOSManager.Instance.GetEOSPlatformInterface().GetPlayerDataStorageInterface().WriteFile(options, null, OnFileSent);
+            PlayerDataStorageFileTransferRequest req = EOSManager.Instance.GetPlayerDataStorageInterface().WriteFile(options, null, OnFileSent);
             if (req == null)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: can't start file download, bad handle returned for filename '{0}'", fileName);
@@ -253,7 +253,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 DestinationFilename = destinationFileName
             };
 
-            EOSManager.Instance.GetEOSPlatformInterface().GetPlayerDataStorageInterface().DuplicateFile(options, null, OnFileCopied);
+            EOSManager.Instance.GetPlayerDataStorageInterface().DuplicateFile(options, null, OnFileCopied);
         }
 
         /// <summary>(async) Begin file delete.</summary>
@@ -274,7 +274,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Filename = fileName
             };
 
-            EOSManager.Instance.GetEOSPlatformInterface().GetPlayerDataStorageInterface().DeleteFile(options, null, OnFileRemoved);
+            EOSManager.Instance.GetPlayerDataStorageInterface().DeleteFile(options, null, OnFileRemoved);
         }
 
         /// <summary>Get cached file content for specified file name.</summary>
@@ -568,7 +568,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             uint fileCount = data.FileCount;
 
-            PlayerDataStorageInterface playerStorageHandle = EOSManager.Instance.GetEOSPlatformInterface().GetPlayerDataStorageInterface();
+            PlayerDataStorageInterface playerStorageHandle = EOSManager.Instance.GetPlayerDataStorageInterface();
             List<string> fileNames = new List<string>();
 
             for (uint fileIndex = 0; fileIndex < data.FileCount; fileIndex++)
