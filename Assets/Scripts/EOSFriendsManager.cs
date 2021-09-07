@@ -127,14 +127,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return new EpicAccountId();
         }
 
-        public string GetDisplayName(EpicAccountId targetUserId)
+        public string GetDisplayName(EpicAccountId targetAccountId)
         {
-            foreach (FriendData friendData in CachedFriends.Values)
+            if(CachedFriends.TryGetValue( targetAccountId, out FriendData friend ))
             {
-                if (targetUserId == friendData.UserProductUserId)
-                {
-                    return friendData.Name;
-                }
+                return friend.Name;
             }
 
             return string.Empty;
