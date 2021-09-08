@@ -3212,7 +3212,7 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Player Data Storage
       m_Image: {fileID: 0}
-    - m_Text: Player Reporting & Sanctions
+    - m_Text: Player Reports & Sanctions
       m_Image: {fileID: 0}
     - m_Text: Sessions & Matchmaking
       m_Image: {fileID: 0}
