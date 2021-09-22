@@ -151,7 +151,9 @@ extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
         string generatedCFile = GenerateEOSGeneratedFile(currentEOSConfig);
 
         File.WriteAllText(GetConfigPath(), configDataAsJSON);
+#if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
         File.WriteAllText(Path.Combine(eosGeneratedCFilePath, "EOSGenerated.c"), generatedCFile);
+#endif
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
