@@ -110,7 +110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Update Sanctions List UI
-            if (ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup));
+            if (ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup))
             {
                 if(!sanctionLookup.ContainsKey(currentProdcutUserId))
                 {

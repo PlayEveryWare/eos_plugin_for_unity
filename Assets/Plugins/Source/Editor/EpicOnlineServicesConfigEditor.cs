@@ -34,7 +34,10 @@ public class EpicOnlineServicesConfigEditor : EditorWindow
     TextAsset configOnDisk;
     EOSConfig configData;
     EOSConfig currentEOSConfig;
+
+#if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
     string eosGeneratedCFilePath = "";
+#endif
 
     [MenuItem("Tools/EpicOnlineServicesConfigEditor")]
     public static void ShowWindow()
