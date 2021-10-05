@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
+//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
 
 using System.Collections;
 using System.Collections.Generic;
@@ -109,6 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             uint statsCountForProductUserId = statInterface.GetStatsCount(countOptions);
 
             List<Stat> collectedStats = new List<Stat>();
+
             var copyStatsByIndexOptions = new CopyStatByIndexOptions
             {
                 TargetUserId = productUserId,
@@ -248,9 +249,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         private QueryPlayerAchievementsOptions MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId productUserId)
         {
+            
             return new QueryPlayerAchievementsOptions
             {
-                TargetUserId = productUserId
+                TargetUserId = productUserId,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
+
             };
         }
 
@@ -417,7 +421,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return new CopyPlayerAchievementByIndexOptions
             {
                 AchievementIndex = 0,
-                TargetUserId = productUserId
+                TargetUserId = productUserId,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
             };
         }
 
