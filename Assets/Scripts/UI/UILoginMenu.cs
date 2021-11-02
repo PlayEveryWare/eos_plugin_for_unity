@@ -68,6 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFindSelectable;
 
         private EventSystem system;
+        private GameObject selectedGameObject;
 
         LoginCredentialType loginType = LoginCredentialType.Developer;
 
@@ -194,8 +195,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 #else
+
         public void Update()
         {
+            // Prevent Deselection
+            if (system.currentSelectedGameObject != null && system.currentSelectedGameObject != selectedGameObject)
+            {
+                selectedGameObject = system.currentSelectedGameObject;
+            }
+            else if (selectedGameObject != null && system.currentSelectedGameObject == null)
+            {
+                system.SetSelectedGameObject(selectedGameObject);
+            }
+
+            // Controller: Detect if nothing is selected and controller input detected, and set default
+            bool nothingSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null;
+            bool inactiveButtonSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null && !EventSystem.current.currentSelectedGameObject.activeInHierarchy;
+
+            if ((nothingSelected || inactiveButtonSelected)
+                && (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f))
+            {
+                if (UIFirstSelected.activeSelf == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                }
+                else if (UIFindSelectable.activeSelf == true)
+                {
+                    EventSystem.current.SetSelectedGameObject(UIFindSelectable);
+                }
+
+                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+            }
+
             // Tab between input fields
             if (Input.GetKeyDown(KeyCode.Tab)
                 && system.currentSelectedGameObject != null)
@@ -242,6 +273,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void ConfigureUIForDevAuthLogin()
         {
+            loginTypeDropdown.value = loginTypeDropdown.options.FindIndex(option => option.text == "Dev Auth");
+
             if (!string.IsNullOrEmpty(IdGlobalCache))
             {
                 idInputField.InputField.text = IdGlobalCache;
@@ -260,6 +293,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void ConfigureUIForAccountPortalLogin()
         {
+            loginTypeDropdown.value = loginTypeDropdown.options.FindIndex(option => option.text == "Account Portal");
+
             idInputField.gameObject.SetActive(false);
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
@@ -268,6 +303,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void ConfigureUIForPersistentLogin()
         {
+            loginTypeDropdown.value = loginTypeDropdown.options.FindIndex(option => option.text == "PersistentAuth");
+
             idInputField.gameObject.SetActive(false);
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
@@ -277,6 +314,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         private void ConfigureUIForExternalAuth()
         {
+            loginTypeDropdown.value = loginTypeDropdown.options.FindIndex(option => option.text == "ExternalAuth");
+
             idInputField.gameObject.SetActive(false);
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
@@ -306,6 +345,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     break;
                 case LoginCredentialType.PersistentAuth:
                     ConfigureUIForPersistentLogin();
+                    break;
+                case LoginCredentialType.ExternalAuth:
+                    ConfigureUIForExternalAuth();
                     break;
                 case LoginCredentialType.Developer:
                 default:
@@ -457,6 +499,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // collect MFA
                 // do something to give the MFA to the SDK
                 print("MFA Authentication not supported in sample. [" + loginCallbackInfo.ResultCode + "]");
+            }
+            else if (loginCallbackInfo.ResultCode == Result.AuthPinGrantCode)
+            {
+                Debug.LogError("------------PIN GRANT------------");
+                Debug.LogError("External account is not connected to an Epic Account. Use link below");
+                Debug.LogError($"URL: {loginCallbackInfo.PinGrantInfo.VerificationURI}");
+                Debug.LogError($"CODE: {loginCallbackInfo.PinGrantInfo.UserCode}");
+                Debug.LogError("---------------------------------");
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
             {

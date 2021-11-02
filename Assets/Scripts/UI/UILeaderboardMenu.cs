@@ -125,7 +125,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void RefreshDefinitionsOnClick()
         {
-            LeaderboardManager.QueryDefinitions(RefreshCachedDefinitions);
+            if(LeaderboardManager != null)
+            {
+                LeaderboardManager.QueryDefinitions(RefreshCachedDefinitions);
+            }
         }
 
         private void RefreshCachedDefinitions(Result result)

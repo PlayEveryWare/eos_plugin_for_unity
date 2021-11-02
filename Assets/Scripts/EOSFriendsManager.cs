@@ -74,6 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private OnFriendsCallback AcceptInviteCallback;
         private OnFriendsCallback RejectInviteCallback;
         private OnFriendsCallback ShowFriendsOverlayCallback;
+        private OnFriendsCallback HideFriendsOverlayCallback;
 
         private OnFriendsCallback QueryUserInfoCallback;
 
@@ -706,7 +707,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
 
-        /// <summary>Display Friends Overlay</summary>
+        /// <summary>Display Social Overlay</summary>
         public void ShowFriendsOverlay(OnFriendsCallback ShowFriendsOverlayCompleted)
         {
             ShowFriendsOverlayCallback = ShowFriendsOverlayCompleted;
@@ -731,6 +732,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Debug.Log("Friends (OnShowFriendsCallback): ShowFriends successful");
             ShowFriendsOverlayCallback?.Invoke(Result.Success);
+        }
+
+        /// <summary>Hides Social Overlay</summary>
+        public void HideFriendsOverlay(OnFriendsCallback HideFriendsOverlayCompleted)
+        {
+            HideFriendsOverlayCallback = HideFriendsOverlayCompleted;
+            EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().HideFriends(new HideFriendsOptions() { LocalUserId = EOSManager.Instance.GetLocalUserId() }, null, OnHideFriendsCallback);
+        }
+
+        private void OnHideFriendsCallback(HideFriendsCallbackInfo data)
+        {
+            if (data == null)
+            {
+                Debug.LogError("Friends (OnHideFriendsCallback): data is null");
+                HideFriendsOverlayCallback?.Invoke(Result.InvalidState);
+                return;
+            }
+
+            if (data.ResultCode != Result.Success)
+            {
+                Debug.LogErrorFormat("Friends (OnHideFriendsCallback): Error calling HideFriends: " + data.ResultCode);
+                HideFriendsOverlayCallback?.Invoke(data.ResultCode);
+                return;
+            }
+
+            Debug.Log("Friends (OnHideFriendsCallback): HideFriends successful");
+            HideFriendsOverlayCallback?.Invoke(Result.Success);
         }
 
         public void SubscribeToFriendUpdates(EpicAccountId userId)

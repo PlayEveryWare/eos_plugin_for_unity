@@ -167,7 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2996915572802775066}
-  - component: {fileID: 7711674113704332565}
+  - component: {fileID: 7391631773081975}
   m_Layer: 5
   m_Name: UILeaderboardEntry
   m_TagString: Untagged
@@ -197,7 +197,7 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: -15.052788}
   m_SizeDelta: {x: 100, y: 30.105576}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7711674113704332565
+--- !u!114 &7391631773081975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

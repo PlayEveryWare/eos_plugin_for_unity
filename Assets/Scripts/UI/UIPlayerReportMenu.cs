@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             currentProdcutUserId = userId;
 
             // Start Search for Sanctions
-            ReportsManager.QueryActivePlayerSanctions(userId, QueryActivePlayerSanctionsCompleted);
+            EOSManager.Instance.GetOrCreateManager<EOSReportsManager>().QueryActivePlayerSanctions(userId, QueryActivePlayerSanctionsCompleted);
 
             // Show PopUp
             CrashReportUIParent.gameObject.SetActive(true);

@@ -148,6 +148,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            if(productUserId == null)
+            {
+                Debug.LogWarning("UIFriendEntry (ReportButtonOnClickHander): productUserId is null (still querying), try again later.");
+                return;
+            }
+
             if (ReportOnClick != null)
             {
                 ReportOnClick(productUserId, DisplayName.text);

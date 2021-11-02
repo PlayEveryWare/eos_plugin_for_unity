@@ -270,6 +270,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void CreateNewLobbyButtonOnClick()
         {
+
+            if (BucketIdVal.InputField.text.Length == 0)
+            {
+                Debug.LogError("Tried to create new lobby but missing BucketId!");
+                return;
+            }
+
             Lobby lobbyProperties = new Lobby();
             // Bucket Id
             lobbyProperties.BucketId = BucketIdVal.InputField.text;
@@ -533,6 +540,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
 
+            bool firstResultSelected = false;
+
             foreach (KeyValuePair<Lobby, LobbyDetails> kvp in LobbyManager.GetSearchResults())
             {
                 if (kvp.Key == null)
@@ -613,6 +622,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     uiEntry.LobbyRef = kvp.Key;
                     uiEntry.LobbyDetailsRef = kvp.Value;
                     uiEntry.JoinButtonOnClick = JoinButtonOnClick;
+
+                    if(!firstResultSelected && EventSystem.current != null)
+                    {
+                        EventSystem.current.SetSelectedGameObject(uiEntry.JoinButton.gameObject);
+                        firstResultSelected = true;
+                    }                    
 
                     // Get Level
                     Result attrResult = kvp.Value.CopyAttributeByKey(new LobbyDetailsCopyAttributeByKeyOptions() { AttrKey = "LEVEL" }, out Epic.OnlineServices.Lobby.Attribute outAttrbite);
