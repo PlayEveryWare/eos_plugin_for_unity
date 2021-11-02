@@ -106,6 +106,11 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public ulong CurrentPrice64 { get; set; }
 
+		/// <summary>
+		/// The decimal point for the provided price. For example, DecimalPoint '2' and CurrentPrice64 '12345' would be '123.45'.
+		/// </summary>
+		public uint DecimalPoint { get; set; }
+
 		internal void Set(CatalogOfferInternal? other)
 		{
 			if (other != null)
@@ -128,6 +133,7 @@ namespace Epic.OnlineServices.Ecom
 				AvailableForPurchase = other.Value.AvailableForPurchase;
 				OriginalPrice64 = other.Value.OriginalPrice64;
 				CurrentPrice64 = other.Value.CurrentPrice64;
+				DecimalPoint = other.Value.DecimalPoint;
 			}
 		}
 
@@ -159,6 +165,7 @@ namespace Epic.OnlineServices.Ecom
 		private int m_AvailableForPurchase;
 		private ulong m_OriginalPrice64;
 		private ulong m_CurrentPrice64;
+		private uint m_DecimalPoint;
 
 		public int ServerIndex
 		{
@@ -410,6 +417,19 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
+		public uint DecimalPoint
+		{
+			get
+			{
+				return m_DecimalPoint;
+			}
+
+			set
+			{
+				m_DecimalPoint = value;
+			}
+		}
+
 		public void Set(CatalogOffer other)
 		{
 			if (other != null)
@@ -433,6 +453,7 @@ namespace Epic.OnlineServices.Ecom
 				AvailableForPurchase = other.AvailableForPurchase;
 				OriginalPrice64 = other.OriginalPrice64;
 				CurrentPrice64 = other.CurrentPrice64;
+				DecimalPoint = other.DecimalPoint;
 			}
 		}
 

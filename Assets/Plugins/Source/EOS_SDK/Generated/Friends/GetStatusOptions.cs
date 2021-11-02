@@ -9,12 +9,12 @@ namespace Epic.OnlineServices.Friends
 	public class GetStatusOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local, logged in user
+		/// The Epic Account ID of the local, logged in user
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose friendship status with the local user is being queried
+		/// The Epic Account ID of the user whose friendship status with the local user is being queried
 		/// </summary>
 		public EpicAccountId TargetUserId { get; set; }
 	}

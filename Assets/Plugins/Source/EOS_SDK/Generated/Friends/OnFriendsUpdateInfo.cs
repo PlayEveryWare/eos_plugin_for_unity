@@ -14,12 +14,12 @@ namespace Epic.OnlineServices.Friends
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user who is receiving the update
+		/// The Epic Account ID of the local user who is receiving the update
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose status is being updated.
+		/// The Epic Account ID of the user whose status is being updated.
 		/// </summary>
 		public EpicAccountId TargetUserId { get; private set; }
 

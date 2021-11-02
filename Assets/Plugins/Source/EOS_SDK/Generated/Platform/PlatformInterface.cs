@@ -473,6 +473,26 @@ namespace Epic.OnlineServices.Platform
 		}
 
 		/// <summary>
+		/// Get the active country code that the SDK will send to services which require it.
+		/// This returns the override value otherwise it will use the country code of the given user.
+		/// This is currently used for determining pricing.
+		/// Get a handle to the ProgressionSnapshot Interface.
+		/// eos_progressionsnapshot.h
+		/// eos_progressionsnapshot_types.h
+		/// </summary>
+		/// <returns>
+		/// <see cref="ProgressionSnapshot.ProgressionSnapshotInterface" /> handle
+		/// </returns>
+		public ProgressionSnapshot.ProgressionSnapshotInterface GetProgressionSnapshotInterface()
+		{
+			var funcResult = Bindings.EOS_Platform_GetProgressionSnapshotInterface(InnerHandle);
+
+			ProgressionSnapshot.ProgressionSnapshotInterface funcResultReturn;
+			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
 		/// Get a handle to the RTC Admin interface
 		/// eos_rtc_admin.h
 		/// eos_admin_types.h

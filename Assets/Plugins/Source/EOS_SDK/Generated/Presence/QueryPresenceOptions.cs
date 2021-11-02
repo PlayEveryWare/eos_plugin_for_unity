@@ -9,12 +9,12 @@ namespace Epic.OnlineServices.Presence
 	public class QueryPresenceOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local, logged-in user making the request
+		/// The Epic Account ID of the local, logged-in user making the request
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose presence data you want to retrieve; this value must be either the user making the request, or a friend of that user
+		/// The Epic Account ID of the user whose presence data you want to retrieve; this value must be either the user making the request, or a friend of that user
 		/// </summary>
 		public EpicAccountId TargetUserId { get; set; }
 	}

@@ -51,7 +51,7 @@ namespace Epic.OnlineServices.Metrics
 		/// Call once when the game client leaves the active game session.
 		/// Each call to BeginPlayerSession must be matched with a corresponding call to EndPlayerSession.
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID of the player whose session to end.</param>
+		/// <param name="options">Structure containing the account id of the player whose session to end.</param>
 		/// <returns>
 		/// Returns <see cref="Result.Success" /> on success, or an error code if the input parameters are invalid or there was no active session for the player.
 		/// </returns>

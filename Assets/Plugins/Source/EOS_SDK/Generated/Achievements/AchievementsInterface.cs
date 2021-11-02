@@ -334,7 +334,7 @@ namespace Epic.OnlineServices.Achievements
 		/// Fetches a player achievement from a given achievement ID.
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID and achievement ID being accessed</param>
+		/// <param name="options">Structure containing the Product User ID and achievement ID being accessed</param>
 		/// <param name="outAchievement">The player achievement data for the given achievement ID, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
@@ -365,7 +365,7 @@ namespace Epic.OnlineServices.Achievements
 		/// Fetches a player achievement from a given index.
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID and index being accessed</param>
+		/// <param name="options">Structure containing the Product User ID and index being accessed</param>
 		/// <param name="outAchievement">The player achievement data for the given index, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
@@ -398,7 +398,7 @@ namespace Epic.OnlineServices.Achievements
 		/// Fetches an unlocked achievement from a given achievement ID.
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID and achievement ID being accessed</param>
+		/// <param name="options">Structure containing the Product User ID and achievement ID being accessed</param>
 		/// <param name="outAchievement">The unlocked achievement data for the given achievement ID, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutAchievement
@@ -430,7 +430,7 @@ namespace Epic.OnlineServices.Achievements
 		/// Fetches an unlocked achievement from a given index.
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID and index being accessed</param>
+		/// <param name="options">Structure containing the Product User ID and index being accessed</param>
 		/// <param name="outAchievement">The unlocked achievement data for the given index, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutAchievement

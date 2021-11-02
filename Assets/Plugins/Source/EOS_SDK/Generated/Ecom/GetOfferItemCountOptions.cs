@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class GetOfferItemCountOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user who made the initial request for the Catalog Offer through <see cref="EcomInterface.QueryOffers" />
+		/// The Epic Account ID of the local user who made the initial request for the Catalog Offer through <see cref="EcomInterface.QueryOffers" />
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

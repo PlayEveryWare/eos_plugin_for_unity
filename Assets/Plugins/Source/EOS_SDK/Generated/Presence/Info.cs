@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Presence
 		public Status Status { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user
+		/// The Epic Account ID of the user
 		/// </summary>
 		public EpicAccountId UserId { get; set; }
 

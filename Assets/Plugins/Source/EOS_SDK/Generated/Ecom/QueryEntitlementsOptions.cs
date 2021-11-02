@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class QueryEntitlementsOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose Entitlements you want to retrieve
+		/// The Epic Account ID of the local user whose Entitlements you want to retrieve
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

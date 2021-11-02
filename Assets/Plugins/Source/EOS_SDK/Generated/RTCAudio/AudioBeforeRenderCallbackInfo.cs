@@ -25,8 +25,6 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// Audio buffer.
-		/// If bUnmixedAudio was set to true when setting the notifications (aka: you get buffers per participant), then you should
-		/// not modify this buffer.
 		/// </summary>
 		public AudioBuffer Buffer { get; private set; }
 

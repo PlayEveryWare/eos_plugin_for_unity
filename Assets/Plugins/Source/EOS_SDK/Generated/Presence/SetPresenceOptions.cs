@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Presence
 	public class SetPresenceOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user's Epic Online Services Account ID
+		/// The Epic Account ID of the local, logged-in user making the request
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

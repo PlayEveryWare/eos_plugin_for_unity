@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Friends
 	public class GetFriendAtIndexOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose friend list is being queried
+		/// The Epic Account ID of the user whose friend list is being queried
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

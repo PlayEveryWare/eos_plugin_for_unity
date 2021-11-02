@@ -26,7 +26,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The most recent version of the <see cref="CatalogOffer" /> struct.
 		/// </summary>
-		public const int CatalogofferApiLatest = 3;
+		public const int CatalogofferApiLatest = 4;
 
 		/// <summary>
 		/// Timestamp value representing an undefined ExpirationTimestamp for <see cref="CatalogOffer" />
@@ -253,7 +253,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <seealso cref="CopyEntitlementByNameAndIndex" />
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID and entitlement ID being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID and entitlement ID being accessed</param>
 		/// <param name="outEntitlement">the entitlement for the given ID, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
@@ -284,7 +284,7 @@ namespace Epic.OnlineServices.Ecom
 		/// Fetches an entitlement from a given index.
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID and index being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID and index being accessed</param>
 		/// <param name="outEntitlement">the entitlement for the given index, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
@@ -317,7 +317,7 @@ namespace Epic.OnlineServices.Ecom
 		/// one less than the result from <see cref="GetEntitlementsByNameCount" />.
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID, entitlement name, and index being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID, entitlement name, and index being accessed</param>
 		/// <param name="outEntitlement">the entitlement for the given name index pair, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutEntitlement
@@ -444,7 +444,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <seealso cref="Release" />
 		/// <seealso cref="GetOfferItemCount" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID and offer ID being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID and offer ID being accessed</param>
 		/// <param name="outOffer">the offer for the given index, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutOffer
@@ -477,7 +477,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <seealso cref="Release" />
 		/// <seealso cref="GetOfferItemCount" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID and index being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID and index being accessed</param>
 		/// <param name="outOffer">the offer for the given index, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutOffer
@@ -542,7 +542,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <seealso cref="GetItemImageInfoCount" />
 		/// <seealso cref="GetItemReleaseCount" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID and index being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID and index being accessed</param>
 		/// <param name="outItem">the item for the given index, if it exists and is valid, use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutItem
@@ -574,7 +574,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <seealso cref="CheckoutCallbackInfo" />
 		/// <seealso cref="Transaction.Release" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID and transaction ID being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID and transaction ID being accessed</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutTransaction
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
@@ -601,7 +601,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <seealso cref="CheckoutCallbackInfo" />
 		/// <seealso cref="Transaction.Release" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID and index being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID and index being accessed</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutTransaction
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
@@ -627,7 +627,7 @@ namespace Epic.OnlineServices.Ecom
 		/// Fetch the number of entitlements with the given Entitlement Name that are cached for a given local user.
 		/// <seealso cref="CopyEntitlementByNameAndIndex" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID and name being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID and name being accessed</param>
 		/// <returns>
 		/// the number of entitlements found.
 		/// </returns>
@@ -647,7 +647,7 @@ namespace Epic.OnlineServices.Ecom
 		/// Fetch the number of entitlements that are cached for a given local user.
 		/// <seealso cref="CopyEntitlementByIndex" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID being accessed</param>
 		/// <returns>
 		/// the number of entitlements found.
 		/// </returns>
@@ -703,7 +703,7 @@ namespace Epic.OnlineServices.Ecom
 		/// Fetch the number of offers that are cached for a given local user.
 		/// <seealso cref="CopyOfferByIndex" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID being accessed</param>
 		/// <returns>
 		/// the number of offers found.
 		/// </returns>

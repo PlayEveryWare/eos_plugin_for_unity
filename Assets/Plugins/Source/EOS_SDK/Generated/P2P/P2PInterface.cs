@@ -29,9 +29,19 @@ namespace Epic.OnlineServices.P2P
 		public const int AddnotifypeerconnectionclosedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyPeerConnectionEstablished" /> API.
+		/// </summary>
+		public const int AddnotifypeerconnectionestablishedApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="AddNotifyPeerConnectionRequest" /> API.
 		/// </summary>
 		public const int AddnotifypeerconnectionrequestApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="ClearPacketQueue" /> API.
+		/// </summary>
+		public const int ClearpacketqueueApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="CloseConnection" /> API.
@@ -175,7 +185,7 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		/// <param name="options">Information about who would like notifications about closed connections, and for which socket</param>
 		/// <param name="clientData">This value is returned to the caller when ConnectionClosedHandler is invoked</param>
-		/// <param name="connectionClosedHandler">The callback to be fired when we an open connection has been closed</param>
+		/// <param name="connectionClosedHandler">The callback to be fired when an open connection has been closed</param>
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
@@ -190,6 +200,34 @@ namespace Epic.OnlineServices.P2P
 			Helper.AddCallback(ref clientDataAddress, clientData, connectionClosedHandler, connectionClosedHandlerInternal);
 
 			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionClosed(InnerHandle, optionsAddress, clientDataAddress, connectionClosedHandlerInternal);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
+
+			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Listen for when a connection is established.
+		/// </summary>
+		/// <param name="options">Information about who would like notifications about established connections, and for which socket</param>
+		/// <param name="clientData">This value is returned to the caller when ConnectionEstablishedHandler is invoked</param>
+		/// <param name="connectionEstablishedHandler">The callback to be fired when a connection has been established</param>
+		/// <returns>
+		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
+		/// </returns>
+		public ulong AddNotifyPeerConnectionEstablished(AddNotifyPeerConnectionEstablishedOptions options, object clientData, OnPeerConnectionEstablishedCallback connectionEstablishedHandler)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<AddNotifyPeerConnectionEstablishedOptionsInternal, AddNotifyPeerConnectionEstablishedOptions>(ref optionsAddress, options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var connectionEstablishedHandlerInternal = new OnPeerConnectionEstablishedCallbackInternal(OnPeerConnectionEstablishedCallbackInternalImplementation);
+			Helper.AddCallback(ref clientDataAddress, clientData, connectionEstablishedHandler, connectionEstablishedHandlerInternal);
+
+			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionEstablished(InnerHandle, optionsAddress, clientDataAddress, connectionEstablishedHandlerInternal);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 
@@ -223,6 +261,28 @@ namespace Epic.OnlineServices.P2P
 			Helper.TryMarshalDispose(ref optionsAddress);
 
 			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Clear queued incoming and outgoing packets.
+		/// </summary>
+		/// <param name="options">Information about which queues should be cleared</param>
+		/// <returns>
+		/// <see cref="Result" />::<see cref="Result.Success" /> - if the input options were valid (even if queues were empty and no packets where cleared)
+		/// <see cref="Result" />::<see cref="Result.IncompatibleVersion" /> - if wrong API version
+		/// <see cref="Result" />::<see cref="Result.InvalidUser" /> - if wrong local and/or remote user
+		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if input was invalid in other way
+		/// </returns>
+		public Result ClearPacketQueue(ClearPacketQueueOptions options)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<ClearPacketQueueOptionsInternal, ClearPacketQueueOptions>(ref optionsAddress, options);
+
+			var funcResult = Bindings.EOS_P2P_ClearPacketQueue(InnerHandle, optionsAddress);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
 
 			return funcResult;
 		}
@@ -476,6 +536,17 @@ namespace Epic.OnlineServices.P2P
 		}
 
 		/// <summary>
+		/// Stop notifications for connections being established on a previously bound handler.
+		/// </summary>
+		/// <param name="notificationId">The previously bound notification ID</param>
+		public void RemoveNotifyPeerConnectionEstablished(ulong notificationId)
+		{
+			Helper.TryRemoveCallbackByNotificationId(notificationId);
+
+			Bindings.EOS_P2P_RemoveNotifyPeerConnectionEstablished(InnerHandle, notificationId);
+		}
+
+		/// <summary>
 		/// Stop listening for connection requests on a previously bound handler.
 		/// </summary>
 		/// <param name="notificationId">The previously bound notification ID</param>
@@ -590,6 +661,17 @@ namespace Epic.OnlineServices.P2P
 			OnIncomingPacketQueueFullCallback callback;
 			OnIncomingPacketQueueFullInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback<OnIncomingPacketQueueFullCallback, OnIncomingPacketQueueFullInfoInternal, OnIncomingPacketQueueFullInfo>(data, out callback, out callbackInfo))
+			{
+				callback(callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnPeerConnectionEstablishedCallbackInternal))]
+		internal static void OnPeerConnectionEstablishedCallbackInternalImplementation(System.IntPtr data)
+		{
+			OnPeerConnectionEstablishedCallback callback;
+			OnPeerConnectionEstablishedInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback<OnPeerConnectionEstablishedCallback, OnPeerConnectionEstablishedInfoInternal, OnPeerConnectionEstablishedInfo>(data, out callback, out callbackInfo))
 			{
 				callback(callbackInfo);
 			}

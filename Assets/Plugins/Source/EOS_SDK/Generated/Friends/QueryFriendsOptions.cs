@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Friends
 	public class QueryFriendsOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local, logged-in user whose friends list you want to retrieve
+		/// The Epic Account ID of the local, logged-in user whose friends list you want to retrieve
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}

@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.UI
 	public class ShowFriendsOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose friend list is being shown.
+		/// The Epic Account ID of the user whose friend list is being shown.
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}

@@ -14,12 +14,12 @@ namespace Epic.OnlineServices.Presence
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user who is being informed for PresenceUserId's presence change
+		/// The Epic Account ID of the local user who is being informed for PresenceUserId's presence change
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user who had their presence changed
+		/// The Epic Account ID of the user who had their presence changed
 		/// </summary>
 		public EpicAccountId PresenceUserId { get; private set; }
 

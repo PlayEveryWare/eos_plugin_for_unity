@@ -19,7 +19,7 @@ namespace Epic.OnlineServices.Auth
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose account has been linked during login
+		/// The Epic Account ID of the local user whose account has been linked during login
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 
@@ -30,6 +30,15 @@ namespace Epic.OnlineServices.Auth
 		/// <see cref="OnLinkAccountCallback" /> will be fired again with ResultCode in <see cref="LinkAccountCallbackInfo" /> set to <see cref="Result.Success" />.
 		/// </summary>
 		public PinGrantInfo PinGrantInfo { get; private set; }
+
+		/// <summary>
+		/// The Epic Account ID that has been previously selected to be used for the current application.
+		/// Applications should use this ID to authenticate with online backend services that store game-scoped data for users.
+		/// 
+		/// Note: This ID may be different from LocalUserId if the user has previously merged Epic accounts into the account
+		/// represented by LocalUserId, and one of the accounts that got merged had game data associated with it for the application.
+		/// </summary>
+		public EpicAccountId SelectedAccountId { get; private set; }
 
 		public Result? GetResultCode()
 		{
@@ -44,6 +53,7 @@ namespace Epic.OnlineServices.Auth
 				ClientData = other.Value.ClientData;
 				LocalUserId = other.Value.LocalUserId;
 				PinGrantInfo = other.Value.PinGrantInfo;
+				SelectedAccountId = other.Value.SelectedAccountId;
 			}
 		}
 
@@ -60,6 +70,7 @@ namespace Epic.OnlineServices.Auth
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
 		private System.IntPtr m_PinGrantInfo;
+		private System.IntPtr m_SelectedAccountId;
 
 		public Result ResultCode
 		{
@@ -103,6 +114,16 @@ namespace Epic.OnlineServices.Auth
 			{
 				PinGrantInfo value;
 				Helper.TryMarshalGet<PinGrantInfoInternal, PinGrantInfo>(m_PinGrantInfo, out value);
+				return value;
+			}
+		}
+
+		public EpicAccountId SelectedAccountId
+		{
+			get
+			{
+				EpicAccountId value;
+				Helper.TryMarshalGet(m_SelectedAccountId, out value);
 				return value;
 			}
 		}

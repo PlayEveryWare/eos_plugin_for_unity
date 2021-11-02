@@ -19,7 +19,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 
 		public const int LogplayerspawnApiLatest = 1;
 
-		public const int LogplayertakedamageApiLatest = 2;
+		public const int LogplayertakedamageApiLatest = 3;
 
 		public const int LogplayertickApiLatest = 2;
 

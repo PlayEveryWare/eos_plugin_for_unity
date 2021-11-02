@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Mods
 	public class CopyModInfoOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user for which mods should be copied
+		/// The Epic Account ID of the user for which mods should be copied
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

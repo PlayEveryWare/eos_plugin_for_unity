@@ -58,7 +58,7 @@ namespace Epic.OnlineServices.Ecom
 		/// Fetch the number of entitlements that are part of this transaction.
 		/// <seealso cref="CopyEntitlementByIndex" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID being accessed</param>
+		/// <param name="options">structure containing the Epic Account ID being accessed</param>
 		/// <returns>
 		/// the number of entitlements found.
 		/// </returns>

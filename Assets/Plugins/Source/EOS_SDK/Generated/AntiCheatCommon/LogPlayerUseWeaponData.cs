@@ -11,12 +11,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public System.IntPtr PlayerHandle { get; set; }
 
 		/// <summary>
-		/// Player's current world position as a 3D vector
+		/// Attack origin world position as a 3D vector
 		/// </summary>
 		public Vec3f PlayerPosition { get; set; }
 
 		/// <summary>
-		/// Player's view rotation as a quaternion
+		/// Attack direction as a quaternion
 		/// </summary>
 		public Quat PlayerViewRotation { get; set; }
 

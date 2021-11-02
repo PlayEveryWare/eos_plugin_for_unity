@@ -19,7 +19,7 @@ namespace Epic.OnlineServices.UI
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose friend list is being shown.
+		/// The Epic Account ID of the user whose friend list is being shown.
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 

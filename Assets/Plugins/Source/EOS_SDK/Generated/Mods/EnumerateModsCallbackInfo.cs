@@ -14,7 +14,7 @@ namespace Epic.OnlineServices.Mods
 		public Result ResultCode { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user for which mod enumeration was requested
+		/// The Epic Account ID of the user for which mod enumeration was requested
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 

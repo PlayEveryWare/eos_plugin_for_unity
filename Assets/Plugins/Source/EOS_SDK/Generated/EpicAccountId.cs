@@ -20,10 +20,10 @@ namespace Epic.OnlineServices
 		public const int EpicaccountidMaxLength = 32;
 
 		/// <summary>
-		/// Retrieve an <see cref="EpicAccountId" /> from a raw string representing an Epic Online Services Account ID. The input string must be null-terminated.
+		/// Retrieve an <see cref="EpicAccountId" /> from a raw string representing an Epic Account ID. The input string must be null-terminated.
 		/// NOTE: There is no validation on the string format, this should only be used with values serialized from legitimate sources such as <see cref="ToString" />
 		/// </summary>
-		/// <param name="accountIdString">The stringified account ID for which to retrieve the Epic Online Services Account ID</param>
+		/// <param name="accountIdString">The stringified account ID for which to retrieve the Epic Account ID</param>
 		/// <returns>
 		/// The <see cref="EpicAccountId" /> that corresponds to the AccountIdString
 		/// </returns>
@@ -42,10 +42,10 @@ namespace Epic.OnlineServices
 		}
 
 		/// <summary>
-		/// Check whether or not the given Epic Online Services Account ID is considered valid
+		/// Check whether or not the given Epic Account ID is considered valid
 		/// NOTE: This will return true for any <see cref="EpicAccountId" /> created with <see cref="FromString" /> as there is no validation
 		/// </summary>
-		/// <param name="accountId">The Epic Online Services Account ID to check for validity</param>
+		/// <param name="accountId">The Epic Account ID to check for validity</param>
 		/// <returns>
 		/// true if the <see cref="EpicAccountId" /> is valid, otherwise false
 		/// </returns>
@@ -59,10 +59,10 @@ namespace Epic.OnlineServices
 		}
 
 		/// <summary>
-		/// Retrieve a null-terminated stringified Epic Online Services Account ID from an <see cref="EpicAccountId" />. This is useful for replication of Epic Online Services Account IDs in multiplayer games.
+		/// Retrieve a null-terminated stringified Epic Account ID from an <see cref="EpicAccountId" />. This is useful for replication of Epic Account IDs in multiplayer games.
 		/// This string will be no larger than <see cref="EpicaccountidMaxLength" /> + 1 and will only contain UTF8-encoded printable characters (excluding the null-terminator).
 		/// </summary>
-		/// <param name="accountId">The Epic Online Services Account ID for which to retrieve the stringified version.</param>
+		/// <param name="accountId">The Epic Account ID for which to retrieve the stringified version.</param>
 		/// <param name="outBuffer">The buffer into which the character data should be written</param>
 		/// <param name="inOutBufferLength">
 		/// The size of the OutBuffer in characters.
@@ -70,11 +70,11 @@ namespace Epic.OnlineServices
 		/// When the function returns, this parameter will be filled with the length of the string copied into OutBuffer including the null termination character.
 		/// </param>
 		/// <returns>
-		/// An <see cref="Result" /> that indicates whether the Epic Online Services Account ID string was copied into the OutBuffer.
+		/// An <see cref="Result" /> that indicates whether the Epic Account ID string was copied into the OutBuffer.
 		/// <see cref="Result.Success" /> - The OutBuffer was filled, and InOutBufferLength contains the number of characters copied into OutBuffer including the null terminator.
 		/// <see cref="Result.InvalidParameters" /> - Either OutBuffer or InOutBufferLength were passed as NULL parameters.
 		/// <see cref="Result.InvalidUser" /> - The AccountId is invalid and cannot be stringified.
-		/// <see cref="Result.LimitExceeded" /> - The OutBuffer is not large enough to receive the Epic Online Services Account ID string. InOutBufferLength contains the required minimum length to perform the operation successfully.
+		/// <see cref="Result.LimitExceeded" /> - The OutBuffer is not large enough to receive the Epic Account ID string. InOutBufferLength contains the required minimum length to perform the operation successfully.
 		/// </returns>
 		public Result ToString(out string outBuffer)
 		{

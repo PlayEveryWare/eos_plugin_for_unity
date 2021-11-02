@@ -24,6 +24,11 @@ namespace Epic.OnlineServices.Connect
 		public const int AddnotifyloginstatuschangedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="CopyIdToken" /> API.
+		/// </summary>
+		public const int CopyidtokenApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="CopyProductUserExternalAccountByAccountId" /> API.
 		/// </summary>
 		public const int CopyproductuserexternalaccountbyaccountidApiLatest = 1;
@@ -99,6 +104,11 @@ namespace Epic.OnlineServices.Connect
 		public const int GetproductuseridmappingApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="IdToken" /> struct.
+		/// </summary>
+		public const int IdtokenApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="LinkAccount" /> API.
 		/// </summary>
 		public const int LinkaccountApiLatest = 1;
@@ -152,6 +162,11 @@ namespace Epic.OnlineServices.Connect
 		/// Max length of a display name, not including the terminating null.
 		/// </summary>
 		public const int UserlogininfoDisplaynameMaxLength = 32;
+
+		/// <summary>
+		/// The most recent version of the <see cref="VerifyIdToken" /> API.
+		/// </summary>
+		public const int VerifyidtokenApiLatest = 1;
 
 		/// <summary>
 		/// Register to receive upcoming authentication expiration notifications.
@@ -210,6 +225,36 @@ namespace Epic.OnlineServices.Connect
 			Helper.TryMarshalDispose(ref optionsAddress);
 
 			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Fetches an ID token for a Product User ID.
+		/// <seealso cref="Release" />
+		/// </summary>
+		/// <param name="options">Structure containing information about the ID token to copy.</param>
+		/// <param name="outIdToken">The ID token for the given user, if it exists and is valid; use <see cref="Release" /> when finished.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the information is available and passed out in OutIdToken.
+		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter.
+		/// <see cref="Result.NotFound" /> if the ID token is not found or expired.
+		/// </returns>
+		public Result CopyIdToken(CopyIdTokenOptions options, out IdToken outIdToken)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<CopyIdTokenOptionsInternal, CopyIdTokenOptions>(ref optionsAddress, options);
+
+			var outIdTokenAddress = System.IntPtr.Zero;
+
+			var funcResult = Bindings.EOS_Connect_CopyIdToken(InnerHandle, optionsAddress, ref outIdTokenAddress);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
+
+			if (Helper.TryMarshalGet<IdTokenInternal, IdToken>(outIdTokenAddress, out outIdToken))
+			{
+				Bindings.EOS_Connect_IdToken_Release(outIdTokenAddress);
+			}
 
 			return funcResult;
 		}
@@ -789,6 +834,28 @@ namespace Epic.OnlineServices.Connect
 			Helper.TryMarshalDispose(ref optionsAddress);
 		}
 
+		/// <summary>
+		/// Verify a given ID token for authenticity and validity.
+		/// @note Can only be called by dedicated servers.
+		/// </summary>
+		/// <param name="options">structure containing information about the ID token to verify.</param>
+		/// <param name="clientData">arbitrary data that is passed back to you in the callback.</param>
+		/// <param name="completionDelegate">a callback that is fired when the operation completes, either successfully or in error.</param>
+		public void VerifyIdToken(VerifyIdTokenOptions options, object clientData, OnVerifyIdTokenCallback completionDelegate)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<VerifyIdTokenOptionsInternal, VerifyIdTokenOptions>(ref optionsAddress, options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnVerifyIdTokenCallbackInternal(OnVerifyIdTokenCallbackInternalImplementation);
+			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_Connect_VerifyIdToken(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
+		}
+
 		[MonoPInvokeCallback(typeof(OnAuthExpirationCallbackInternal))]
 		internal static void OnAuthExpirationCallbackInternalImplementation(System.IntPtr data)
 		{
@@ -905,6 +972,17 @@ namespace Epic.OnlineServices.Connect
 			OnUnlinkAccountCallback callback;
 			UnlinkAccountCallbackInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback<OnUnlinkAccountCallback, UnlinkAccountCallbackInfoInternal, UnlinkAccountCallbackInfo>(data, out callback, out callbackInfo))
+			{
+				callback(callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnVerifyIdTokenCallbackInternal))]
+		internal static void OnVerifyIdTokenCallbackInternalImplementation(System.IntPtr data)
+		{
+			OnVerifyIdTokenCallback callback;
+			VerifyIdTokenCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback<OnVerifyIdTokenCallback, VerifyIdTokenCallbackInfoInternal, VerifyIdTokenCallbackInfo>(data, out callback, out callbackInfo))
 			{
 				callback(callbackInfo);
 			}

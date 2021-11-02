@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Mods
 	public class UninstallModOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user for which the mod should be uninstalled
+		/// The Epic Account ID of the user for which the mod should be uninstalled
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

@@ -19,12 +19,12 @@ namespace Epic.OnlineServices.Presence
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user who made this request
+		/// The Epic Account ID of the local user who made this request
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose presence was potentially queried
+		/// The Epic Account ID of the user whose presence was potentially queried
 		/// </summary>
 		public EpicAccountId TargetUserId { get; private set; }
 

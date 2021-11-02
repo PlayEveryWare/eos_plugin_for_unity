@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class GetOfferImageInfoCountOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose offer image is being accessed.
+		/// The Epic Account ID of the local user whose offer image is being accessed.
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

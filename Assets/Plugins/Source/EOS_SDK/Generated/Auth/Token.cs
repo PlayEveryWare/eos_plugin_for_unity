@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Auth
 		public string ClientId { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID associated with this auth token
+		/// The Epic Account ID associated with this auth token
 		/// </summary>
 		public EpicAccountId AccountId { get; set; }
 

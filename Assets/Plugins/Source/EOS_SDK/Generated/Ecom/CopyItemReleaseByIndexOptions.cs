@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class CopyItemReleaseByIndexOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose item release is being copied
+		/// The Epic Account ID of the local user whose item release is being copied
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Auth
 	public class LogoutOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user who is being logged out
+		/// The Epic Account ID of the local user who is being logged out
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}

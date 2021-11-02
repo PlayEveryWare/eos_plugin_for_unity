@@ -20,7 +20,6 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// Mixed audio or unmixed audio.
-		/// For unmixed audio notifications it is not supported to modify the samples in the callback.
 		/// </summary>
 		public bool UnmixedAudio { get; set; }
 	}

@@ -16,7 +16,7 @@ namespace Epic.OnlineServices
 		/// <summary>
 		/// A character buffer of this size is large enough to fit a successful output of <see cref="ToString" />. This length does not include the null-terminator.
 		/// </summary>
-		public const int ProductuseridMaxLength = 128;
+		public const int ProductuseridMaxLength = 32;
 
 		/// <summary>
 		/// Retrieve an <see cref="ProductUserId" /> from a raw string representing an Epic Online Services Product User ID. The input string must be null-terminated.

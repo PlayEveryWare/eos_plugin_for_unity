@@ -11,7 +11,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public uint EventId { get; set; }
 
 		/// <summary>
-		/// Name of the custom event. Allowed characters are 0-9, A-Z, a-z, '_', '-', '.'
+		/// Name of the custom event. Allowed characters are 0-9, A-Z, a-z, '_', '-'
 		/// </summary>
 		public string EventName { get; set; }
 

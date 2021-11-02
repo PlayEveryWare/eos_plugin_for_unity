@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class RedeemEntitlementsOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user who is redeeming Entitlements
+		/// The Epic Account ID of the user who is redeeming Entitlements
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

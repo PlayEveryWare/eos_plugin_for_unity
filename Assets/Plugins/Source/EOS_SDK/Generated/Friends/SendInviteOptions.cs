@@ -9,12 +9,12 @@ namespace Epic.OnlineServices.Friends
 	public class SendInviteOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local, logged-in user who is sending the friends list invitation
+		/// The Epic Account ID of the local, logged-in user who is sending the friends list invitation
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user who is receiving the friends list invitation
+		/// The Epic Account ID of the user who is receiving the friends list invitation
 		/// </summary>
 		public EpicAccountId TargetUserId { get; set; }
 	}

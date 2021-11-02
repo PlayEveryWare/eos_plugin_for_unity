@@ -18,12 +18,24 @@ namespace Epic.OnlineServices.Sanctions
 		/// </summary>
 		public string Action { get; set; }
 
+		/// <summary>
+		/// The POSIX timestamp when the sanction will expire. If the sanction is permanent, this will be 0.
+		/// </summary>
+		public long TimeExpires { get; set; }
+
+		/// <summary>
+		/// A unique identifier for this specific sanction
+		/// </summary>
+		public string ReferenceId { get; set; }
+
 		internal void Set(PlayerSanctionInternal? other)
 		{
 			if (other != null)
 			{
 				TimePlaced = other.Value.TimePlaced;
 				Action = other.Value.Action;
+				TimeExpires = other.Value.TimeExpires;
+				ReferenceId = other.Value.ReferenceId;
 			}
 		}
 
@@ -39,6 +51,8 @@ namespace Epic.OnlineServices.Sanctions
 		private int m_ApiVersion;
 		private long m_TimePlaced;
 		private System.IntPtr m_Action;
+		private long m_TimeExpires;
+		private System.IntPtr m_ReferenceId;
 
 		public long TimePlaced
 		{
@@ -68,6 +82,34 @@ namespace Epic.OnlineServices.Sanctions
 			}
 		}
 
+		public long TimeExpires
+		{
+			get
+			{
+				return m_TimeExpires;
+			}
+
+			set
+			{
+				m_TimeExpires = value;
+			}
+		}
+
+		public string ReferenceId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_ReferenceId, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.TryMarshalSet(ref m_ReferenceId, value);
+			}
+		}
+
 		public void Set(PlayerSanction other)
 		{
 			if (other != null)
@@ -75,6 +117,8 @@ namespace Epic.OnlineServices.Sanctions
 				m_ApiVersion = SanctionsInterface.PlayersanctionApiLatest;
 				TimePlaced = other.TimePlaced;
 				Action = other.Action;
+				TimeExpires = other.TimeExpires;
+				ReferenceId = other.ReferenceId;
 			}
 		}
 
@@ -86,6 +130,7 @@ namespace Epic.OnlineServices.Sanctions
 		public void Dispose()
 		{
 			Helper.TryMarshalDispose(ref m_Action);
+			Helper.TryMarshalDispose(ref m_ReferenceId);
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class GetEntitlementsCountOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user for which to retrieve the entitlement count
+		/// The Epic Account ID of the local user for which to retrieve the entitlement count
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}

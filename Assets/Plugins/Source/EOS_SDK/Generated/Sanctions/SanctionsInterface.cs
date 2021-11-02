@@ -26,7 +26,7 @@ namespace Epic.OnlineServices.Sanctions
 		/// <summary>
 		/// The most recent version of the <see cref="PlayerSanction" /> struct.
 		/// </summary>
-		public const int PlayersanctionApiLatest = 1;
+		public const int PlayersanctionApiLatest = 2;
 
 		/// <summary>
 		/// The most recent version of the <see cref="QueryActivePlayerSanctions" /> API.

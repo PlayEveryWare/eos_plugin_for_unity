@@ -72,7 +72,7 @@ namespace Epic.OnlineServices.Stats
 		/// Fetches a stat from a given index. Use <see cref="Release" /> when finished with the data.
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID and index being accessed</param>
+		/// <param name="options">Structure containing the Product User ID and index being accessed</param>
 		/// <param name="outStat">The stat data for the given index, if it exists and is valid</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutStat
@@ -102,7 +102,7 @@ namespace Epic.OnlineServices.Stats
 		/// Fetches a stat from cached stats by name. Use <see cref="Release" /> when finished with the data.
 		/// <seealso cref="Release" />
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID and name being accessed</param>
+		/// <param name="options">Structure containing the Product User ID and name being accessed</param>
 		/// <param name="outStat">The stat data for the given name, if it exists and is valid</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutStat

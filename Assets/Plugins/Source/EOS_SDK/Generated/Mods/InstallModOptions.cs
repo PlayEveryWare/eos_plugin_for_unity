@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Mods
 	public class InstallModOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user for which the mod should be installed
+		/// The Epic Account ID of the user for which the mod should be installed
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
