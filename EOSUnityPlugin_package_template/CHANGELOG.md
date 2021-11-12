@@ -8,6 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [1.0.2] - 2021-11-12
+
+### Changed
+- update to EOS SDK 1.14.1
+### Fixed
+- add com.unity.modules.jsonserialize to package dependencies
+- generate C File only when ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE defined
+- (samples) display leaderboard entries in UI
+- (samples) mark achievement description text as visible
+- (samples) fixed EOSFriendsManager.GetDisplayName cached friends
+- (samples) include DisableHostMigration in create lobby options.
+- (samples) add UserId usage to UnlockAchievementsOptions in UnlockAchievementManually
+- (samples) enable correct tabbing and controller/keypad UI navigation
+### Added
+- add short document with tips on how to debug the native dll
+- (samples)add sample for player reporting & sanctions
+
 ## [1.0.1] - 2021-08-18
 
 ### Fixed
