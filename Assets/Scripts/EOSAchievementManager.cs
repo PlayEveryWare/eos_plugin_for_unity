@@ -403,15 +403,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         // TODO: Create a callback version of this method
         // TODO: Create a debug mode to check if the achievement is valid?
-        public void UnlockAchievementManually(string achievementId)
+        public void UnlockAchievementManually(string achievementId, ProductUserId productUserId, OnUnlockAchievementsCompleteCallback completionDelegate = null)
         {
             var eosAchievementInterface = GetEOSAchievementInterface();
             var eosAchievementOption = new UnlockAchievementsOptions
             {
-                AchievementIds = new string[] { achievementId }
+                AchievementIds = new string[] { achievementId },
+                UserId = productUserId
             };
 
-            eosAchievementInterface.UnlockAchievements(eosAchievementOption, null, null);
+            eosAchievementInterface.UnlockAchievements(eosAchievementOption, null, completionDelegate);
         }
 
         //-------------------------------------------------------------------------
