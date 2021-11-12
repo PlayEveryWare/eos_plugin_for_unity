@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.P2P
 	public class OnPeerConnectionEstablishedInfo : ICallbackInfo, ISettable
 	{
 		/// <summary>
-		/// Client-specified data passed into EOS_P2P_AddNotifyPeerConnectionEstablishedInfo
+		/// Client-specified data passed into <see cref="P2PInterface.AddNotifyPeerConnectionEstablished" />
 		/// </summary>
 		public object ClientData { get; private set; }
 

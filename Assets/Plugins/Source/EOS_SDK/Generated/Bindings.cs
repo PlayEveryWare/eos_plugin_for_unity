@@ -510,6 +510,34 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ContinuanceToken_ToString");
 			EOS_ContinuanceToken_ToString = (EOS_ContinuanceToken_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ContinuanceToken_ToStringCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_AddNotifyCustomInviteAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_AddNotifyCustomInviteAccepted");
+			EOS_CustomInvites_AddNotifyCustomInviteAccepted = (EOS_CustomInvites_AddNotifyCustomInviteAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyCustomInviteAcceptedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_AddNotifyCustomInviteReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_AddNotifyCustomInviteReceived");
+			EOS_CustomInvites_AddNotifyCustomInviteReceived = (EOS_CustomInvites_AddNotifyCustomInviteReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyCustomInviteReceivedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_FinalizeInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_FinalizeInvite");
+			EOS_CustomInvites_FinalizeInvite = (EOS_CustomInvites_FinalizeInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_FinalizeInviteCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_RemoveNotifyCustomInviteAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_RemoveNotifyCustomInviteAccepted");
+			EOS_CustomInvites_RemoveNotifyCustomInviteAccepted = (EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_RemoveNotifyCustomInviteReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_RemoveNotifyCustomInviteReceived");
+			EOS_CustomInvites_RemoveNotifyCustomInviteReceived = (EOS_CustomInvites_RemoveNotifyCustomInviteReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyCustomInviteReceivedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_SendCustomInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_SendCustomInvite");
+			EOS_CustomInvites_SendCustomInvite = (EOS_CustomInvites_SendCustomInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_SendCustomInviteCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_SetCustomInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_SetCustomInvite");
+			EOS_CustomInvites_SetCustomInvite = (EOS_CustomInvites_SetCustomInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_SetCustomInviteCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_EResult_IsOperationComplete");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_EResult_IsOperationComplete");
 			EOS_EResult_IsOperationComplete = (EOS_EResult_IsOperationCompleteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_EResult_IsOperationCompleteCallback));
@@ -1241,6 +1269,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetConnectInterface");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetConnectInterface");
 			EOS_Platform_GetConnectInterface = (EOS_Platform_GetConnectInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetConnectInterfaceCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetCustomInvitesInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetCustomInvitesInterface");
+			EOS_Platform_GetCustomInvitesInterface = (EOS_Platform_GetCustomInvitesInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetCustomInvitesInterfaceCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetEcomInterface");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetEcomInterface");
@@ -2179,6 +2211,13 @@ namespace Epic.OnlineServices
 			EOS_Connect_UnlinkAccount = null;
 			EOS_Connect_VerifyIdToken = null;
 			EOS_ContinuanceToken_ToString = null;
+			EOS_CustomInvites_AddNotifyCustomInviteAccepted = null;
+			EOS_CustomInvites_AddNotifyCustomInviteReceived = null;
+			EOS_CustomInvites_FinalizeInvite = null;
+			EOS_CustomInvites_RemoveNotifyCustomInviteAccepted = null;
+			EOS_CustomInvites_RemoveNotifyCustomInviteReceived = null;
+			EOS_CustomInvites_SendCustomInvite = null;
+			EOS_CustomInvites_SetCustomInvite = null;
 			EOS_EResult_IsOperationComplete = null;
 			EOS_EResult_ToString = null;
 			EOS_Ecom_CatalogItem_Release = null;
@@ -2362,6 +2401,7 @@ namespace Epic.OnlineServices
 			EOS_Platform_GetAntiCheatServerInterface = null;
 			EOS_Platform_GetAuthInterface = null;
 			EOS_Platform_GetConnectInterface = null;
+			EOS_Platform_GetCustomInvitesInterface = null;
 			EOS_Platform_GetEcomInterface = null;
 			EOS_Platform_GetFriendsInterface = null;
 			EOS_Platform_GetKWSInterface = null;
@@ -2705,7 +2745,7 @@ namespace Epic.OnlineServices
 		internal static EOS_AntiCheatClient_GetProtectMessageOutputLengthCallback EOS_AntiCheatClient_GetProtectMessageOutputLength;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_AntiCheatClient_PollStatusCallback(System.IntPtr handle, System.IntPtr options, AntiCheatClient.AntiCheatClientViolationType violationType, System.IntPtr outMessage);
+		internal delegate Result EOS_AntiCheatClient_PollStatusCallback(System.IntPtr handle, System.IntPtr options, ref AntiCheatClient.AntiCheatClientViolationType outViolationType, System.IntPtr outMessage);
 		internal static EOS_AntiCheatClient_PollStatusCallback EOS_AntiCheatClient_PollStatus;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
@@ -3051,6 +3091,34 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_ContinuanceToken_ToStringCallback(System.IntPtr continuanceToken, System.IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_ContinuanceToken_ToStringCallback EOS_ContinuanceToken_ToString;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifyCustomInviteAcceptedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnCustomInviteAcceptedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifyCustomInviteAcceptedCallback EOS_CustomInvites_AddNotifyCustomInviteAccepted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifyCustomInviteReceivedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnCustomInviteReceivedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifyCustomInviteReceivedCallback EOS_CustomInvites_AddNotifyCustomInviteReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_CustomInvites_FinalizeInviteCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_CustomInvites_FinalizeInviteCallback EOS_CustomInvites_FinalizeInvite;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedCallback(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedCallback EOS_CustomInvites_RemoveNotifyCustomInviteAccepted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifyCustomInviteReceivedCallback(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifyCustomInviteReceivedCallback EOS_CustomInvites_RemoveNotifyCustomInviteReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_SendCustomInviteCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnSendCustomInviteCallbackInternal completionDelegate);
+		internal static EOS_CustomInvites_SendCustomInviteCallback EOS_CustomInvites_SendCustomInvite;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_CustomInvites_SetCustomInviteCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_CustomInvites_SetCustomInviteCallback EOS_CustomInvites_SetCustomInvite;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate int EOS_EResult_IsOperationCompleteCallback(Result result);
@@ -3783,6 +3851,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetConnectInterfaceCallback(System.IntPtr handle);
 		internal static EOS_Platform_GetConnectInterfaceCallback EOS_Platform_GetConnectInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Platform_GetCustomInvitesInterfaceCallback(System.IntPtr handle);
+		internal static EOS_Platform_GetCustomInvitesInterfaceCallback EOS_Platform_GetCustomInvitesInterface;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetEcomInterfaceCallback(System.IntPtr handle);
@@ -4697,7 +4769,7 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_AntiCheatClient_GetProtectMessageOutputLength(System.IntPtr handle, System.IntPtr options, ref uint outBufferSizeBytes);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_AntiCheatClient_PollStatus(System.IntPtr handle, System.IntPtr options, AntiCheatClient.AntiCheatClientViolationType violationType, System.IntPtr outMessage);
+		internal static extern Result EOS_AntiCheatClient_PollStatus(System.IntPtr handle, System.IntPtr options, ref AntiCheatClient.AntiCheatClientViolationType outViolationType, System.IntPtr outMessage);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_AntiCheatClient_ProtectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
@@ -4956,6 +5028,27 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_ContinuanceToken_ToString(System.IntPtr continuanceToken, System.IntPtr outBuffer, ref int inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteAccepted(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnCustomInviteAcceptedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteReceived(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnCustomInviteReceivedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_CustomInvites_FinalizeInvite(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteAccepted(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteReceived(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_SendCustomInvite(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnSendCustomInviteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_CustomInvites_SetCustomInvite(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern int EOS_EResult_IsOperationComplete(Result result);
@@ -5505,6 +5598,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetConnectInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Platform_GetCustomInvitesInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetEcomInterface(System.IntPtr handle);

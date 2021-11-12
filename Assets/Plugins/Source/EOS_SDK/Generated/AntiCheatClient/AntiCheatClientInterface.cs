@@ -278,26 +278,29 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// check for violations, it only provides information about violations which have
 		/// automatically been discovered by the anti-cheat client. Such a violation may occur
 		/// at any time and afterwards the user will be unable to join any protected multiplayer
-		/// session until after restarting the game.
+		/// session until after restarting the game. Note that this function returns <see cref="Result.NotFound" />
+		/// when everything is normal and there is no violation to display.
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
-		/// <param name="violationType">On success, receives a code describing the violation that occurred.</param>
+		/// <param name="outViolationType">On success, receives a code describing the violation that occurred.</param>
 		/// <param name="outMessage">On success, receives a string describing the violation which should be displayed to the user.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If violation information was returned successfully
 		/// <see cref="Result.LimitExceeded" /> - If OutMessage is too small to receive the message string. Call again with a larger OutMessage.
 		/// <see cref="Result.NotFound" /> - If no violation has occurred since the last call
 		/// </returns>
-		public Result PollStatus(PollStatusOptions options, AntiCheatClientViolationType violationType, out string outMessage)
+		public Result PollStatus(PollStatusOptions options, out AntiCheatClientViolationType outViolationType, out string outMessage)
 		{
 			var optionsAddress = System.IntPtr.Zero;
 			Helper.TryMarshalSet<PollStatusOptionsInternal, PollStatusOptions>(ref optionsAddress, options);
+
+			outViolationType = Helper.GetDefault<AntiCheatClientViolationType>();
 
 			System.IntPtr outMessageAddress = System.IntPtr.Zero;
 			uint OutMessageLength = options.OutMessageLength;
 			Helper.TryMarshalAllocate(ref outMessageAddress, OutMessageLength);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_PollStatus(InnerHandle, optionsAddress, violationType, outMessageAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_PollStatus(InnerHandle, optionsAddress, ref outViolationType, outMessageAddress);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 

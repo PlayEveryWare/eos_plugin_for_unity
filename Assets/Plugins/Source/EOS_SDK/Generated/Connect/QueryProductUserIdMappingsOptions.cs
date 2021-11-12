@@ -9,7 +9,8 @@ namespace Epic.OnlineServices.Connect
 	public class QueryProductUserIdMappingsOptions
 	{
 		/// <summary>
-		/// The Product User ID of the existing, logged-in user who is querying account mappings.
+		/// Game Clients set this field to the Product User ID of the local authenticated user querying account mappings.
+		/// Game Servers set this field to NULL. Usage is allowed given that the configured client policy for server credentials permit it.
 		/// </summary>
 		public ProductUserId LocalUserId { get; set; }
 

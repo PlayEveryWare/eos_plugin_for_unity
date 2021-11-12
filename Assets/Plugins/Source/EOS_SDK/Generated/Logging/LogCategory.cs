@@ -141,6 +141,10 @@ namespace Epic.OnlineServices.Logging
 		/// </summary>
 		ReceiptValidator = 32,
 		/// <summary>
+		/// Logs related to the Custom Invites API
+		/// </summary>
+		CustomInvites = 33,
+		/// <summary>
 		/// Not a real log category. Used by <see cref="LoggingInterface.SetLogLevel" /> to set the log level for all categories at the same time
 		/// </summary>
 		AllCategories = 0x7fffffff

@@ -454,6 +454,13 @@ namespace Epic.OnlineServices.Connect
 		/// 
 		/// The deletion is permanent and it is not possible to recover lost game data and progression
 		/// if the Device ID had not been linked with at least one real external user account.
+		/// 
+		/// On Android and iOS devices, uninstalling the application will automatically delete any local
+		/// Device ID credentials created by the application.
+		/// 
+		/// On Desktop platforms (Linux, macOS, Windows), Device ID credentials are not automatically deleted.
+		/// Applications may re-use existing Device ID credentials for the local OS user when the application is
+		/// re-installed, or call the DeleteDeviceId API on the first run to ensure a fresh start for the user.
 		/// </summary>
 		/// <param name="options">structure containing operation input parameters</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
@@ -641,6 +648,9 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Retrieve the equivalent Product User IDs from a list of external account IDs from supported account providers.
 		/// The values will be cached and retrievable through <see cref="GetExternalAccountMapping" />.
+		/// 
+		/// @note A common use case is to query other users who are connected through the same account system as the local user.
+		/// Queries using external account IDs of another account system may not be available, depending on the account system specifics.
 		/// </summary>
 		/// <param name="options">structure containing a list of external account IDs, in string form, to query for the Product User ID representation.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -662,7 +672,6 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// Retrieve the equivalent external account mappings from a list of Product User IDs.
-		/// This will include data for each external account info found for the linked product IDs.
 		/// 
 		/// The values will be cached and retrievable via <see cref="GetProductUserIdMapping" />, <see cref="CopyProductUserExternalAccountByIndex" />,
 		/// <see cref="CopyProductUserExternalAccountByAccountType" /> or <see cref="CopyProductUserExternalAccountByAccountId" />.

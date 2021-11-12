@@ -19,7 +19,7 @@ namespace Epic.OnlineServices.Connect
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Product User ID of the existing, logged-in user who made the request.
+		/// The local Product User ID that was passed with the input options.
 		/// </summary>
 		public ProductUserId LocalUserId { get; private set; }
 

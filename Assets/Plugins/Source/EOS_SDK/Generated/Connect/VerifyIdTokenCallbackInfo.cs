@@ -18,6 +18,49 @@ namespace Epic.OnlineServices.Connect
 		/// </summary>
 		public object ClientData { get; private set; }
 
+		/// <summary>
+		/// The Product User ID associated with the ID token.
+		/// </summary>
+		public ProductUserId ProductUserId { get; private set; }
+
+		/// <summary>
+		/// Flag set to indicate whether account information is available.
+		/// Applications must always first check this value to be set before attempting
+		/// to read the AccountType, AccountId, Platform and DeviceType fields.
+		/// 
+		/// This flag is always false for users that authenticated using EOS Connect Device ID.
+		/// </summary>
+		public bool IsAccountInfoPresent { get; private set; }
+
+		/// <summary>
+		/// The identity provider that the user authenticated with to EOS Connect.
+		/// 
+		/// If bIsAccountInfoPresent is set, this field describes the external account type.
+		/// </summary>
+		public ExternalAccountType AccountIdType { get; private set; }
+
+		/// <summary>
+		/// The external account ID of the authenticated user.
+		/// 
+		/// This value may be set to an empty string.
+		/// </summary>
+		public string AccountId { get; private set; }
+
+		/// <summary>
+		/// Platform that the user is connected from.
+		/// 
+		/// This value may be set to an empty string.
+		/// </summary>
+		public string Platform { get; private set; }
+
+		/// <summary>
+		/// Identifies the device type that the user is connected from.
+		/// Can be used to securely verify that the user is connected through a real Console device.
+		/// 
+		/// This value may be set to an empty string.
+		/// </summary>
+		public string DeviceType { get; private set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -29,6 +72,12 @@ namespace Epic.OnlineServices.Connect
 			{
 				ResultCode = other.Value.ResultCode;
 				ClientData = other.Value.ClientData;
+				ProductUserId = other.Value.ProductUserId;
+				IsAccountInfoPresent = other.Value.IsAccountInfoPresent;
+				AccountIdType = other.Value.AccountIdType;
+				AccountId = other.Value.AccountId;
+				Platform = other.Value.Platform;
+				DeviceType = other.Value.DeviceType;
 			}
 		}
 
@@ -43,6 +92,12 @@ namespace Epic.OnlineServices.Connect
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
+		private System.IntPtr m_ProductUserId;
+		private int m_IsAccountInfoPresent;
+		private ExternalAccountType m_AccountIdType;
+		private System.IntPtr m_AccountId;
+		private System.IntPtr m_Platform;
+		private System.IntPtr m_DeviceType;
 
 		public Result ResultCode
 		{
@@ -67,6 +122,64 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				return m_ClientData;
+			}
+		}
+
+		public ProductUserId ProductUserId
+		{
+			get
+			{
+				ProductUserId value;
+				Helper.TryMarshalGet(m_ProductUserId, out value);
+				return value;
+			}
+		}
+
+		public bool IsAccountInfoPresent
+		{
+			get
+			{
+				bool value;
+				Helper.TryMarshalGet(m_IsAccountInfoPresent, out value);
+				return value;
+			}
+		}
+
+		public ExternalAccountType AccountIdType
+		{
+			get
+			{
+				return m_AccountIdType;
+			}
+		}
+
+		public string AccountId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_AccountId, out value);
+				return value;
+			}
+		}
+
+		public string Platform
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_Platform, out value);
+				return value;
+			}
+		}
+
+		public string DeviceType
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_DeviceType, out value);
+				return value;
 			}
 		}
 	}

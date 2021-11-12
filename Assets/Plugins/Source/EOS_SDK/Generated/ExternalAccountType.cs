@@ -23,9 +23,6 @@ namespace Epic.OnlineServices
 		Psn = 2,
 		/// <summary>
 		/// External account is associated with Xbox Live
-		/// 
-		/// With EOS Connect API, the associated account type is Partner XUID (PXUID).
-		/// With EOS UserInfo API, the associated account type is Xbox Live ID (XUID).
 		/// </summary>
 		Xbl = 3,
 		/// <summary>
@@ -66,6 +63,10 @@ namespace Epic.OnlineServices
 		/// <summary>
 		/// External account is associated with itch.io
 		/// </summary>
-		Itchio = 12
+		Itchio = 12,
+		/// <summary>
+		/// External account is associated with Amazon
+		/// </summary>
+		Amazon = 13
 	}
 }

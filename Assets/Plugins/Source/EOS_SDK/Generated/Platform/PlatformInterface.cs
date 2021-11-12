@@ -239,6 +239,23 @@ namespace Epic.OnlineServices.Platform
 		}
 
 		/// <summary>
+		/// Get a handle to the Custom Invites Interface.
+		/// eos_custominvites.h
+		/// eos_custominvites_types.h
+		/// </summary>
+		/// <returns>
+		/// <see cref="CustomInvites.CustomInvitesInterface" /> handle
+		/// </returns>
+		public CustomInvites.CustomInvitesInterface GetCustomInvitesInterface()
+		{
+			var funcResult = Bindings.EOS_Platform_GetCustomInvitesInterface(InnerHandle);
+
+			CustomInvites.CustomInvitesInterface funcResultReturn;
+			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
 		/// Get a handle to the Ecom Interface.
 		/// eos_ecom.h
 		/// eos_ecom_types.h

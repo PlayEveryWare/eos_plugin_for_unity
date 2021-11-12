@@ -16,11 +16,14 @@ namespace Epic.OnlineServices
 	public enum ExternalCredentialType : int
 	{
 		/// <summary>
-		/// Epic Games User Token
+		/// Epic Account Services Token
 		/// 
-		/// Acquired using <see cref="Auth.AuthInterface.CopyUserAuthToken" /> that returns <see cref="Auth.Token" />::AccessToken.
+		/// Using ID Token is preferred, retrieved with <see cref="Auth.AuthInterface.CopyIdToken" /> that returns <see cref="Auth.IdToken" />::JsonWebToken.
+		/// Using Auth Token is supported for backwards compatibility, retrieved with <see cref="Auth.AuthInterface.CopyUserAuthToken" /> that returns <see cref="Auth.Token" />::AccessToken.
 		/// 
 		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
+		/// <seealso cref="Auth.AuthInterface.CopyIdToken" />
+		/// <seealso cref="Auth.AuthInterface.CopyUserAuthToken" />
 		/// </summary>
 		Epic = 0,
 		/// <summary>
@@ -169,6 +172,20 @@ namespace Epic.OnlineServices
 		/// 
 		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
 		/// </summary>
-		ItchioKey = 15
+		ItchioKey = 15,
+		/// <summary>
+		/// Epic Games ID Token
+		/// 
+		/// Acquired using <see cref="Auth.AuthInterface.CopyIdToken" /> that returns <see cref="Auth.IdToken" />::JsonWebToken.
+		/// 
+		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
+		/// </summary>
+		EpicIdToken = 16,
+		/// <summary>
+		/// Amazon Access Token
+		/// 
+		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
+		/// </summary>
+		AmazonAccessToken = 17
 	}
 }
