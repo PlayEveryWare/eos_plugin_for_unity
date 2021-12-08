@@ -29,8 +29,8 @@ namespace PlayEveryWare.EpicOnlineServices
     /// <summary>
     /// Represents the EOS Configuration used for initializing EOS SDK.
     /// </summary>
-    [Serializable]
-    public class EOSConfig
+    [CreateAssetMenu(fileName = "EOS Config File", menuName = "Epic Online Services/Create Config File")]
+    public class EOSConfig : ScriptableObject
     {
         /// <value><c>Product Name</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string productName;

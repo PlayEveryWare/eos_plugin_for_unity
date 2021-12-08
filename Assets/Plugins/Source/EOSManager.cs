@@ -63,6 +63,7 @@ using Epic.OnlineServices.Connect;
 using UnityEngine.Assertions;
 using System.Diagnostics;
 
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     /// <summary>
@@ -82,7 +83,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public delegate void OnAuthLinkExternalAccountCallback(Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo);
 
         /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
-        private static string ConfigFileName = "EpicOnlineServicesConfig.json";
+        //private static string ConfigFileName = "EpicOnlineServicesConfig.json";
 
         /// <value>List of logged in <c>EpicAccountId</c></value>
         private static List<EpicAccountId> loggedInAccountIDs = new List<EpicAccountId>();
@@ -100,6 +101,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <value>List of Auth Logout callbacks</value>
         private static List<OnLogoutCallback> s_onAuthLogoutCallbacks = new List<OnLogoutCallback>();
+
+        [SerializeField] EOSConfig configFile;
 
 
         //private static List
@@ -209,7 +212,8 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             // NOTE: on some platforms the EOS platform is init'd by a native dynamic library. In
             // those cases, this code will early out.
-            public void Init()
+
+            public void Init(EOSConfig configData)
             {
                 if (GetEOSPlatformInterface() != null)
                 {
@@ -222,18 +226,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 LoadEOSLibraries();
                 NativeCallToUnloadEOS();
-
-                //TODO: provide different way to load the config file?
-                string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", ConfigFileName);
-
-                if (!File.Exists(eosFinalConfigPath))
-                {
-                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists and is a valid config");
-                }
-
-                var configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
-                var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
-                print("Loaded config file: " + configDataAsString);
+                
+                //Now using Scriptable Object approach for config file : no more shipping file in Streaming Asset Folder, load directly with reference.
+                //Config File now can be created and locate in anywhere in the project, just be sure to plug it in the EOSManager.
 
                 var initOptions = CreateSystemInitOptions();
 
@@ -291,16 +286,59 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.ClientCredentials.ClientId = configData.clientID;
                 platformOptions.ClientCredentials.ClientSecret = configData.clientSecret;
 
+
                 var eosPlatformInterface = Epic.OnlineServices.Platform.PlatformInterface.Create(platformOptions);
 
                 if (eosPlatformInterface == null)
                 {
-                    throw new System.Exception("failed to create an Epic Online Services PlatformInterface");
+                    //throw new System.Exception("failed to create an Epic Online Services PlatformInterface");
+                    print("failed to create an Epic Online Services PlatformInterface, try again with SetupPlatform");
+                    eosPlatformInterface = SetupPlatform(configData);
                 }
 
                 SetEOSPlatformInterface(eosPlatformInterface);
 
                 print("EOS loaded");
+            }
+
+            //Fix for standalone win
+            PlatformInterface SetupPlatform(EOSConfig configData) {
+
+
+#if UNITY_STANDALONE_WIN
+                var winOptions = new WindowsOptions() {
+                    ProductId = configData.productID,
+                    SandboxId = configData.sandboxID,
+                    DeploymentId = configData.deploymentID,
+                    ClientCredentials = new Epic.OnlineServices.Platform.ClientCredentials()
+                    {
+                        ClientId = configData.clientID,
+                        ClientSecret = configData.clientSecret
+                    }
+                };
+                var platformInterface = Epic.OnlineServices.Platform.PlatformInterface.Create(winOptions);
+#else
+                var options = new Epic.OnlineServices.Platform.Options()
+                {
+                    ProductId = configData.productID,
+                    SandboxId = configData.sandboxID,
+                    DeploymentId = configData.deploymentID,
+                    ClientCredentials = new Epic.OnlineServices.Platform.ClientCredentials()
+                    {
+                        ClientId = configData.clientID,
+                        ClientSecret = configData.clientSecret
+                    }
+                };
+
+                var platformInterface = Epic.OnlineServices.Platform.PlatformInterface.Create(options);
+#endif
+
+                if (platformInterface == null)
+                {
+                    throw new System.Exception("Failed to create platform again!");
+                }
+
+                return platformInterface;
             }
 
             //-------------------------------------------------------------------------
@@ -827,7 +865,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void Awake()
         {
-            EOSManager.Instance.Init();
+            if (configFile == null) {
+                print("Config File NULL, create one using Create menu: Epic Online Services/Create Config File");
+            }
+            EOSManager.Instance.Init(configFile);
         }
 
         //-------------------------------------------------------------------------
