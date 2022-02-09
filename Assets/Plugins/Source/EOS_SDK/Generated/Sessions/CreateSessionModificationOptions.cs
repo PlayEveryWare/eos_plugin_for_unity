@@ -49,6 +49,12 @@ namespace Epic.OnlineServices.Sessions
 		/// This value can be of size [<see cref="SessionModification.SessionmodificationMinSessionidoverrideLength" />, <see cref="SessionModification.SessionmodificationMaxSessionidoverrideLength" />]
 		/// </summary>
 		public string SessionId { get; set; }
+
+		/// <summary>
+		/// If true, sanctioned players can neither join nor register with this session and, in the case of join,
+		/// will return <see cref="Result" /> code <see cref="Result.SessionsPlayerSanctioned" />
+		/// </summary>
+		public bool SanctionsEnabled { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -61,6 +67,7 @@ namespace Epic.OnlineServices.Sessions
 		private System.IntPtr m_LocalUserId;
 		private int m_PresenceEnabled;
 		private System.IntPtr m_SessionId;
+		private int m_SanctionsEnabled;
 
 		public string SessionName
 		{
@@ -110,6 +117,14 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
+		public bool SanctionsEnabled
+		{
+			set
+			{
+				Helper.TryMarshalSet(ref m_SanctionsEnabled, value);
+			}
+		}
+
 		public void Set(CreateSessionModificationOptions other)
 		{
 			if (other != null)
@@ -121,6 +136,7 @@ namespace Epic.OnlineServices.Sessions
 				LocalUserId = other.LocalUserId;
 				PresenceEnabled = other.PresenceEnabled;
 				SessionId = other.SessionId;
+				SanctionsEnabled = other.SanctionsEnabled;
 			}
 		}
 

@@ -100,7 +100,7 @@ namespace Epic.OnlineServices.CustomInvites
 			get
 			{
 				ProductUserId[] value;
-				Helper.TryMarshalGet(m_TargetUserIds, out value, m_TargetUserIdsCount);
+				Helper.TryMarshalGetHandle(m_TargetUserIds, out value, m_TargetUserIdsCount);
 				return value;
 			}
 		}

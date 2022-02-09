@@ -165,7 +165,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ReceiveMessageFromServer(EOS_H
  * Mode: EOS_ACCM_ClientServer.
  *
  * @param Options Structure containing input data.
- * @param OutBufferLengthBytes On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
+ * @param OutBufferSizeBytes On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.
  *
  * @return EOS_Success - If the output length was calculated successfully
  *         EOS_InvalidParameters - If input data was invalid

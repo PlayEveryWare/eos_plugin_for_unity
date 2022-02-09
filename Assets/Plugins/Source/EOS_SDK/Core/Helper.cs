@@ -152,6 +152,10 @@ namespace Epic.OnlineServices
 		{
 			return TryMarshalGet(source, out target, arrayLength, !typeof(T).IsValueType);
 		}
+		internal static bool TryMarshalGetHandle<THandle>(IntPtr source, out THandle[] target, uint arrayLength) where THandle: Handle, new()
+		{
+			return TryFetchHandle(source, out target, (int)arrayLength);
+		}
 
 		internal static bool TryMarshalGet<TSource, TTarget>(TSource[] source, out TTarget[] target)
 			where TSource : struct
@@ -1105,6 +1109,59 @@ namespace Epic.OnlineServices
 			target = (T?)Marshal.PtrToStructure(source, typeof(T));
 			return true;
 		}
+
+		private static bool TryFetchHandle<THandle>(IntPtr source, out THandle[] target, int arrayLength) where THandle : Handle, new()
+		{
+			target = null;
+
+			if (source == IntPtr.Zero)
+			{
+				return false;
+			}
+
+			// If this is an allocation containing cached data, we should be able to fetch it from the cache
+			if (s_Allocations.ContainsKey(source))
+			{
+				Allocation allocation = s_Allocations[source];
+				if (allocation.CachedData != null)
+				{
+					if (allocation.CachedData.GetType() == typeof(THandle[]))
+					{
+						var cachedArray = (Array)allocation.CachedData;
+						if (cachedArray.Length == arrayLength)
+						{
+							target = cachedArray as THandle[];
+							return true;
+						}
+						else
+						{
+							throw new CachedArrayAllocationException(source, cachedArray.Length, arrayLength);
+						}
+					}
+					else
+					{
+						throw new CachedTypeAllocationException(source, allocation.CachedData.GetType(), typeof(THandle[]));
+					}
+				}
+			}
+
+			var itemSize = 0;
+			itemSize = Marshal.SizeOf(typeof(IntPtr));
+
+			List<THandle> items = new List<THandle>();
+			for (int itemIndex = 0; itemIndex < arrayLength; ++itemIndex)
+			{
+				IntPtr itemAddress = new IntPtr(source.ToInt64() + itemIndex * itemSize);
+				itemAddress = Marshal.ReadIntPtr(itemAddress);
+				THandle item;
+				TryConvert(itemAddress, out item);
+				items.Add(item);
+			}
+
+			target = items.ToArray();
+			return true;
+		}
+
 
 		private static bool TryFetch<T>(IntPtr source, out T[] target, int arrayLength, bool isElementAllocated)
 		{

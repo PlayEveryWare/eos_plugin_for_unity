@@ -718,6 +718,22 @@ EOS_STRUCT(EOS_Connect_VerifyIdTokenCallbackInfo, (
 	 * This value may be set to an empty string.
 	 */
 	const char* DeviceType;
+	/**
+	 * Client ID of the authorized client.
+	 */
+	const char* ClientId;
+	/**
+	 * Product ID.
+	 */
+	const char* ProductId;
+	/**
+	 * Sandbox ID.
+	 */
+	const char* SandboxId;
+	/**
+	 * Deployment ID.
+	 */
+	const char* DeploymentId;
 ));
 
 /**

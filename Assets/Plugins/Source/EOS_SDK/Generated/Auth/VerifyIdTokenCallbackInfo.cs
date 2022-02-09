@@ -18,6 +18,75 @@ namespace Epic.OnlineServices.Auth
 		/// </summary>
 		public object ClientData { get; private set; }
 
+		/// <summary>
+		/// Epic Account Services Application ID.
+		/// </summary>
+		public string ApplicationId { get; private set; }
+
+		/// <summary>
+		/// Client ID of the authorized client.
+		/// </summary>
+		public string ClientId { get; private set; }
+
+		/// <summary>
+		/// Product ID.
+		/// </summary>
+		public string ProductId { get; private set; }
+
+		/// <summary>
+		/// Sandbox ID.
+		/// </summary>
+		public string SandboxId { get; private set; }
+
+		/// <summary>
+		/// Deployment ID.
+		/// </summary>
+		public string DeploymentId { get; private set; }
+
+		/// <summary>
+		/// Epic Account display name.
+		/// 
+		/// This value may be set to an empty string.
+		/// </summary>
+		public string DisplayName { get; private set; }
+
+		/// <summary>
+		/// Flag set to indicate whether external account information is present.
+		/// Applications must always first check this value to be set before attempting
+		/// to read the ExternalAccountIdType, ExternalAccountId, ExternalAccountDisplayName and Platform fields.
+		/// 
+		/// This flag is set when the user has logged in to their Epic Account using external account credentials, e.g. through local platform authentication.
+		/// </summary>
+		public bool IsExternalAccountInfoPresent { get; private set; }
+
+		/// <summary>
+		/// The identity provider that the user logged in with to their Epic Account.
+		/// 
+		/// If bIsExternalAccountInfoPresent is set, this field describes the external account type.
+		/// </summary>
+		public ExternalAccountType ExternalAccountIdType { get; private set; }
+
+		/// <summary>
+		/// The external account ID of the logged in user.
+		/// 
+		/// This value may be set to an empty string.
+		/// </summary>
+		public string ExternalAccountId { get; private set; }
+
+		/// <summary>
+		/// The external account display name.
+		/// 
+		/// This value may be set to an empty string.
+		/// </summary>
+		public string ExternalAccountDisplayName { get; private set; }
+
+		/// <summary>
+		/// Platform that the user is connected from.
+		/// 
+		/// This value may be set to an empty string.
+		/// </summary>
+		public string Platform { get; private set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -29,6 +98,17 @@ namespace Epic.OnlineServices.Auth
 			{
 				ResultCode = other.Value.ResultCode;
 				ClientData = other.Value.ClientData;
+				ApplicationId = other.Value.ApplicationId;
+				ClientId = other.Value.ClientId;
+				ProductId = other.Value.ProductId;
+				SandboxId = other.Value.SandboxId;
+				DeploymentId = other.Value.DeploymentId;
+				DisplayName = other.Value.DisplayName;
+				IsExternalAccountInfoPresent = other.Value.IsExternalAccountInfoPresent;
+				ExternalAccountIdType = other.Value.ExternalAccountIdType;
+				ExternalAccountId = other.Value.ExternalAccountId;
+				ExternalAccountDisplayName = other.Value.ExternalAccountDisplayName;
+				Platform = other.Value.Platform;
 			}
 		}
 
@@ -43,6 +123,17 @@ namespace Epic.OnlineServices.Auth
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
+		private System.IntPtr m_ApplicationId;
+		private System.IntPtr m_ClientId;
+		private System.IntPtr m_ProductId;
+		private System.IntPtr m_SandboxId;
+		private System.IntPtr m_DeploymentId;
+		private System.IntPtr m_DisplayName;
+		private int m_IsExternalAccountInfoPresent;
+		private ExternalAccountType m_ExternalAccountIdType;
+		private System.IntPtr m_ExternalAccountId;
+		private System.IntPtr m_ExternalAccountDisplayName;
+		private System.IntPtr m_Platform;
 
 		public Result ResultCode
 		{
@@ -67,6 +158,114 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				return m_ClientData;
+			}
+		}
+
+		public string ApplicationId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_ApplicationId, out value);
+				return value;
+			}
+		}
+
+		public string ClientId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_ClientId, out value);
+				return value;
+			}
+		}
+
+		public string ProductId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_ProductId, out value);
+				return value;
+			}
+		}
+
+		public string SandboxId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_SandboxId, out value);
+				return value;
+			}
+		}
+
+		public string DeploymentId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_DeploymentId, out value);
+				return value;
+			}
+		}
+
+		public string DisplayName
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_DisplayName, out value);
+				return value;
+			}
+		}
+
+		public bool IsExternalAccountInfoPresent
+		{
+			get
+			{
+				bool value;
+				Helper.TryMarshalGet(m_IsExternalAccountInfoPresent, out value);
+				return value;
+			}
+		}
+
+		public ExternalAccountType ExternalAccountIdType
+		{
+			get
+			{
+				return m_ExternalAccountIdType;
+			}
+		}
+
+		public string ExternalAccountId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_ExternalAccountId, out value);
+				return value;
+			}
+		}
+
+		public string ExternalAccountDisplayName
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_ExternalAccountDisplayName, out value);
+				return value;
+			}
+		}
+
+		public string Platform
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_Platform, out value);
+				return value;
 			}
 		}
 	}

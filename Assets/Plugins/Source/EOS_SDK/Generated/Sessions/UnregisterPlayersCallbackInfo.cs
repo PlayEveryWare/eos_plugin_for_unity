@@ -15,6 +15,11 @@ namespace Epic.OnlineServices.Sessions
 		/// </summary>
 		public object ClientData { get; private set; }
 
+		/// <summary>
+		/// The players that successfully unregistered
+		/// </summary>
+		public ProductUserId[] UnregisteredPlayers { get; private set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -26,6 +31,7 @@ namespace Epic.OnlineServices.Sessions
 			{
 				ResultCode = other.Value.ResultCode;
 				ClientData = other.Value.ClientData;
+				UnregisteredPlayers = other.Value.UnregisteredPlayers;
 			}
 		}
 
@@ -40,6 +46,8 @@ namespace Epic.OnlineServices.Sessions
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
+		private System.IntPtr m_UnregisteredPlayers;
+		private uint m_UnregisteredPlayersCount;
 
 		public Result ResultCode
 		{
@@ -64,6 +72,16 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				return m_ClientData;
+			}
+		}
+
+		public ProductUserId[] UnregisteredPlayers
+		{
+			get
+			{
+				ProductUserId[] value;
+				Helper.TryMarshalGetHandle(m_UnregisteredPlayers, out value, m_UnregisteredPlayersCount);
+				return value;
 			}
 		}
 	}

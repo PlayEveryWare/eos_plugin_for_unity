@@ -248,7 +248,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Mode: <see cref="AntiCheatClientMode.ClientServer" />.
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
-		/// <param name="outBufferLengthBytes">On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.</param>
+		/// <param name="outBufferSizeBytes">On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the output length was calculated successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid

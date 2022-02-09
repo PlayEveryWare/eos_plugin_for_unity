@@ -462,6 +462,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		SessionsNotAllowed = 5018,
 		/// <summary>
+		/// Session operation not allowed
+		/// </summary>
+		SessionsPlayerSanctioned = 5019,
+		/// <summary>
 		/// Request filename was invalid
 		/// </summary>
 		PlayerDataStorageFilenameInvalid = 6000,

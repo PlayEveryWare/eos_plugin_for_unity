@@ -56,7 +56,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// The most recent version of the <see cref="CreateSessionModification" /> API.
 		/// </summary>
-		public const int CreatesessionmodificationApiLatest = 3;
+		public const int CreatesessionmodificationApiLatest = 4;
 
 		/// <summary>
 		/// The most recent version of the <see cref="CreateSessionSearch" /> API.
@@ -121,7 +121,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// The most recent version of the <see cref="RegisterPlayers" /> API.
 		/// </summary>
-		public const int RegisterplayersApiLatest = 1;
+		public const int RegisterplayersApiLatest = 2;
 
 		/// <summary>
 		/// The most recent version of the <see cref="RejectInvite" /> API.
@@ -171,7 +171,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// The most recent version of the <see cref="UnregisterPlayers" /> API.
 		/// </summary>
-		public const int UnregisterplayersApiLatest = 1;
+		public const int UnregisterplayersApiLatest = 2;
 
 		/// <summary>
 		/// The most recent version of the <see cref="UpdateSession" /> API.

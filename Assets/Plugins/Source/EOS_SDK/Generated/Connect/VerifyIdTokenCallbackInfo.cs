@@ -61,6 +61,26 @@ namespace Epic.OnlineServices.Connect
 		/// </summary>
 		public string DeviceType { get; private set; }
 
+		/// <summary>
+		/// Client ID of the authorized client.
+		/// </summary>
+		public string ClientId { get; private set; }
+
+		/// <summary>
+		/// Product ID.
+		/// </summary>
+		public string ProductId { get; private set; }
+
+		/// <summary>
+		/// Sandbox ID.
+		/// </summary>
+		public string SandboxId { get; private set; }
+
+		/// <summary>
+		/// Deployment ID.
+		/// </summary>
+		public string DeploymentId { get; private set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -78,6 +98,10 @@ namespace Epic.OnlineServices.Connect
 				AccountId = other.Value.AccountId;
 				Platform = other.Value.Platform;
 				DeviceType = other.Value.DeviceType;
+				ClientId = other.Value.ClientId;
+				ProductId = other.Value.ProductId;
+				SandboxId = other.Value.SandboxId;
+				DeploymentId = other.Value.DeploymentId;
 			}
 		}
 
@@ -98,6 +122,10 @@ namespace Epic.OnlineServices.Connect
 		private System.IntPtr m_AccountId;
 		private System.IntPtr m_Platform;
 		private System.IntPtr m_DeviceType;
+		private System.IntPtr m_ClientId;
+		private System.IntPtr m_ProductId;
+		private System.IntPtr m_SandboxId;
+		private System.IntPtr m_DeploymentId;
 
 		public Result ResultCode
 		{
@@ -179,6 +207,46 @@ namespace Epic.OnlineServices.Connect
 			{
 				string value;
 				Helper.TryMarshalGet(m_DeviceType, out value);
+				return value;
+			}
+		}
+
+		public string ClientId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_ClientId, out value);
+				return value;
+			}
+		}
+
+		public string ProductId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_ProductId, out value);
+				return value;
+			}
+		}
+
+		public string SandboxId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_SandboxId, out value);
+				return value;
+			}
+		}
+
+		public string DeploymentId
+		{
+			get
+			{
+				string value;
+				Helper.TryMarshalGet(m_DeploymentId, out value);
 				return value;
 			}
 		}
