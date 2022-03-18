@@ -20,7 +20,9 @@
 * SOFTWARE.
 */
 
-using System.Collections;
+// #define EOS_ANDROID_ENABLED
+
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,27 +38,26 @@ using jint = System.Int32;
 using jsize = System.Int32;
 using JavaVM = System.IntPtr;
 
-#if UNITY_ANDROID //&& !UNITY_EDITOR
+
+
+#if UNITY_ANDROID && !UNITY_EDITOR && EOS_ANDROID_ENABLED
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
     public class EOSAndroidOptions : Epic.OnlineServices.Platform.Options, IEOSCreateOptions
     {
+
     }
 
     //-------------------------------------------------------------------------
     public class EOSAndroidInitializeOptions : Epic.OnlineServices.Platform.AndroidInitializeOptions, IEOSInitializeOptions
     {
-
     }
 
     //-------------------------------------------------------------------------
     // Android specific Unity Parts.
-    public class EOSPlatformSpecifcsAndroid : IEOSManagerPlatformSpecifics
+    public partial class EOSPlatformSpecificsAndroid : IEOSManagerPlatformSpecifics
     {
-        static EOSAndroidInitializeOptions androidInitOptions;
-        static IntPtr androidInitializeOptionsAllocH;
-
         [DllImport("UnityHelpers_Android")]
         private static extern JavaVM UnityHelpers_GetJavaVM();
 
@@ -64,7 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
-            EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecifcsAndroid());
+            EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
         }
 
         //-------------------------------------------------------------------------
@@ -72,21 +73,9 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return Application.temporaryCachePath;
         }
-        //-------------------------------------------------------------------------
-        //
-        public Epic.OnlineServices.Result InitializePlatformInterface(IEOSInitializeOptions options)
-        {
-            return Epic.OnlineServices.Platform.PlatformInterface.Initialize(options as InitializeOptions);
-        }
 
         //-------------------------------------------------------------------------
-        public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
-        {
-            return Epic.OnlineServices.Platform.PlatformInterface.Create((platformOptions as Options));
-        }
-
-        //-------------------------------------------------------------------------
-        private void ConfigureAndroidActivity()
+        static private void ConfigureAndroidActivity()
         {
             Debug.Log("EOSAndroid: Getting activity context...");
             AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -111,35 +100,17 @@ namespace PlayEveryWare.EpicOnlineServices
         // This does some work to configure the Android side of things before doing the
         // 'normal' EOS init things.
         // TODO: Configure the internal and external directory
-
         public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
         {
             ConfigureAndroidActivity();
 
-
             // It should be safe to assume there is only one JVM, because
             // android assumes there is only one
-            // JavaVM javavm = UnityHelpers_GetJavaVM();
+            //  JavaVM javavm = UnityHelpers_GetJavaVM();
 
-            // Assert.IsTrue(javavm != IntPtr.Zero, "Fetched JavaVM is Null!");
-            // androidInitOptions = new EOSAndroidInitializeOptions
-            // {
-            //     ApiVersion = 1,
-            //                VM = javavm,
-            //                OptionalInternalDirectory = IntPtr.Zero,
-            //                OptionalExternalDirectory = IntPtr.Zero
-            // };
+            var androidInitOptionsSystemInitOptions = new AndroidInitializeOptionsSystemInitializeOptions();
 
-            // androidInitializeOptionsAllocH = Marshal.AllocHGlobal(Marshal.SizeOf<EOSAndroidInitializeOptions>());
-            // Marshal.StructureToPtr(androidInitOptions, androidInitializeOptionsAllocH, false);
-            //(initializeOptions.SystemInitializeOptions = androidInitializeOptionsAllocH;
-
-            var systemInitializeOptions = new AndroidInitializeOptionsSystemInitializeOptions()
-            {
-                OptionalExternalDirectory = null,
-                OptionalInternalDirectory = null
-            };
-            (initializeOptions as EOSAndroidInitializeOptions).SystemInitializeOptions = systemInitializeOptions;
+            (initializeOptions as AndroidInitializeOptions).SystemInitializeOptions = androidInitOptionsSystemInitOptions; 
         }
 
         //-------------------------------------------------------------------------
@@ -147,27 +118,52 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return new EOSAndroidOptions();
         }
+
+        //-------------------------------------------------------------------------
+        public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
+        {
+        }
+
+        //-------------------------------------------------------------------------
+        private void InitailizeOverlaySupport()
+        {
+        }
+
+        //-------------------------------------------------------------------------
+        public void AddPluginSearchPaths(ref List<string> pluginPaths)
+        {
+        }
+
+        //-------------------------------------------------------------------------
+        public string GetDynamicLibraryExtension()
+        {
+            return ".so";
+        }
+
         public IEOSInitializeOptions CreateSystemInitOptions()
         {
             return new EOSAndroidInitializeOptions();
         }
 
+
+        public Result InitializePlatformInterface(IEOSInitializeOptions options)
+        {
+            return PlatformInterface.Initialize(options as AndroidInitializeOptions);
+        }
+
+        public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
+        {
+            return PlatformInterface.Create(platformOptions as Options);
+        }
+
+        public void InitializeOverlay(IEOSCoroutineOwner owner)
+        {
+        }
+
         //-------------------------------------------------------------------------
-        static private void ConfigureSystemPlatformCreateOptions(ref Options createOptions)
+        public void RegisterForPlatformNotifications()
         {
-        }
-
-        public int IsReadyForNetworkActivity()
-        {
-            return 1;
-        }
-
-        public void AddPluginSearchPaths(ref List<string> pluginPaths)
-        {
-        }
-
-        public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
-        {
+            
         }
     }
 }

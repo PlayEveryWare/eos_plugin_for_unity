@@ -60,7 +60,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -139,7 +138,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -167,7 +165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5439077736924887059}
-  - component: {fileID: 129744844798697957}
+  - component: {fileID: 4653879617510017290}
   m_Layer: 5
   m_Name: UISanctionEntry
   m_TagString: Untagged
@@ -196,7 +194,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 136.68585, y: 16.234009}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &129744844798697957
+--- !u!114 &4653879617510017290
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,7 +203,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5439077736924887056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d3879aabed03da43a79f3d87a7ac7a2, type: 3}
+  m_Script: {fileID: 11500000, guid: c5cc0a3874025d242b972f9fd39dab43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TimePlaced: {fileID: 5439077736056689294}

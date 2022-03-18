@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -60,7 +60,8 @@ public class ConsoleInputField : MonoBehaviour
         {
             Debug.Log("KeyboardManager.InputFileOnClick(): Gamepad detected.");
 
-            KeyboardUI.instance.ShowKeyboard(InputField.text, OnKeyboardCompleted);
+            //KeyboardUI.instance.ShowKeyboard(InputField.text, OnKeyboardCompleted);
+            EventSystem.current.SetSelectedGameObject(InputField.gameObject);
         }
 
         if(EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null

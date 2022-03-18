@@ -22,7 +22,7 @@
 
 //#define USE_MANUAL_METHOD_LOADING
 
-#if !UNITY_EDITOR && !UNITY_SWITCH && !UNITY_ANDROID && !UNITY_PS4
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
 #define USE_EOS_GFX_PLUGIN_NATIVE_RENDER
 #endif
 
@@ -37,7 +37,6 @@
 
 
 #if UNITY_EDITOR
-// Define this if using the new version of the EOS 1.12
 #define EOS_DYNAMIC_BINDINGS
 #endif
 
@@ -50,6 +49,7 @@ using System;
 
 using Epic.OnlineServices.Platform;
 using Epic.OnlineServices;
+
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -87,6 +87,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
                         [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
                         static extern IntPtr EOS_GetPlatformInterface();
+
+                        delegate void PrintDelegateType(string str);
+                        [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
+                        static extern void global_log_flush_with_function(IntPtr ptr);
 #endif
 
             static void NativeCallToUnloadEOS()
@@ -128,11 +132,17 @@ namespace PlayEveryWare.EpicOnlineServices
             public PlatformInterface GetEOSPlatformInterface()
             {
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
-                if (s_eosPlatformInterface == null)
+                if (s_eosPlatformInterface == null && s_state != EOSState.Shutdown)
                 {
                     //DynamicLoadGFXNativeMethodsForWSA();
 
-                    if(EOS_GetPlatformInterface() == IntPtr.Zero)
+                    // Try to log any messages stored when starting up the Plugin.
+                    IntPtr logErrorFunctionPointer = Marshal.GetFunctionPointerForDelegate(new PrintDelegateType(SimplePrintStringCallback));
+                    SimplePrintStringCallback("Start of Early EOS LOG:");
+                    global_log_flush_with_function(logErrorFunctionPointer);
+                    SimplePrintStringCallback("End of Early EOS LOG");
+
+                    if (EOS_GetPlatformInterface() == IntPtr.Zero)
                     {
                         throw new Exception("NULL EOS Platform returned by native code: issue probably occurred in GFX Plugin!");
                     }
@@ -146,6 +156,10 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             void SetEOSPlatformInterface(PlatformInterface platformInterface)
             {
+                if (platformInterface != null)
+                {
+                    s_state = EOSState.Running;
+                }
                 s_eosPlatformInterface = platformInterface;
             }
 
@@ -290,8 +304,10 @@ namespace PlayEveryWare.EpicOnlineServices
             static bool loadEOSWithReflection
 #if UNITY_EDITOR
                 = true;
+#elif UNITY_SWITCH
+                = true;
 #else
-            = false;
+                = false;
 #endif
             //-------------------------------------------------------------------------
             // At the moment this only works on Windows.
@@ -305,11 +321,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 IntPtr existingHandle;
                 do
                 {
-                    existingHandle = SystemDynamicLibrary.GetModuleHandle(EOSBinaryName);
+                    existingHandle = SystemDynamicLibrary.GetHandleForModule(EOSBinaryName);
                     if (existingHandle != IntPtr.Zero)
                     {
                         GC.WaitForPendingFinalizers();
-                        SystemDynamicLibrary.FreeLibrary(existingHandle);
+                        SystemDynamicLibrary.UnloadLibraryInEditor(existingHandle);
                     }
 
                 } while (IntPtr.Zero != existingHandle);

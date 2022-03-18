@@ -46,7 +46,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public LobbyPermissionLevel LobbyPermissionLevel = LobbyPermissionLevel.Publicadvertised;
         public uint AvailableSlots = 0;
         public bool AllowInvites = true;
-        public bool? DisableHostMigration;
 
         // Cached copy of the RoomName of the RTC room that our lobby has, if any
         public string RTCRoomName = string.Empty;
@@ -897,11 +896,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             createLobbyOptions.PresenceEnabled = lobbyProperties.PresenceEnabled;
             createLobbyOptions.AllowInvites = lobbyProperties.AllowInvites;
             createLobbyOptions.BucketId = lobbyProperties.BucketId;
-
-            if(lobbyProperties.DisableHostMigration != null)
-            {
-                createLobbyOptions.DisableHostMigration = (bool)lobbyProperties.DisableHostMigration;
-            }
 
             // Voice Chat
             if(lobbyProperties.RTCRoomEnabled)

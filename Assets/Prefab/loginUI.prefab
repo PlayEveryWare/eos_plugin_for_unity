@@ -894,7 +894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 6
+    m_Mode: 4
     m_SelectOnUp: {fileID: 4969678778664625924}
     m_SelectOnDown: {fileID: 649806418139123795}
     m_SelectOnLeft: {fileID: 0}
@@ -1245,8 +1245,8 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: -1
     m_SelectOnUp: {fileID: 6047561500282386811}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnDown: {fileID: 5557305859115600833}
+    m_SelectOnLeft: {fileID: 5557305859115600833}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:

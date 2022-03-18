@@ -80,6 +80,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
+#if UNITY_EDITOR
+            loginType = LoginCredentialType.AccountPortal; // Default in editor
+#elif UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH || UNITY_GAMECORE
+            loginType = LoginCredentialType.ExternalAuth; // Default on console
+#endif
         }
 
         private void CacheIdInputField(string value)
@@ -103,10 +108,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             switch (value)
             {
-                case 0:
-                    loginType = LoginCredentialType.Developer;
-                    ConfigureUIForDevAuthLogin();
-                    break;
                 case 1:
                     loginType = LoginCredentialType.AccountPortal;
                     ConfigureUIForAccountPortalLogin();
@@ -119,6 +120,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     loginType = LoginCredentialType.ExternalAuth;
                     ConfigureUIForExternalAuth();
                     break;
+                case 0:
                 default:
                     loginType = LoginCredentialType.Developer;
                     ConfigureUIForDevAuthLogin();
@@ -144,6 +146,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void Update()
         {
             var keyboard = Keyboard.current;
+
+            // Disable game input if Overlay is visible and has exclusive input
+            if (EventSystem.current != null && EventSystem.current.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+            {
+                if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+                {
+                    Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
+                    EventSystem.current.sendNavigationEvents = false;
+                    return;
+                }
+                else
+                {
+                    Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
+                    EventSystem.current.sendNavigationEvents = true;
+                }
+            }
 
             // Tab between input fields
             if (keyboard != null && keyboard.tabKey.wasPressedThisFrame
@@ -289,6 +307,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(true);
             idText.gameObject.SetActive(true);
             tokenText.gameObject.SetActive(true);
+
+            loginTypeDropdown.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = SceneSwitcherDropDown,
+                selectOnDown = idInputField.InputFieldButton
+            };
+            
+            loginButton.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = tokenInputField.InputFieldButton,
+                selectOnDown = logoutButton,
+                selectOnLeft = logoutButton
+            };
         }
 
         private void ConfigureUIForAccountPortalLogin()
@@ -299,6 +332,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+
+            loginTypeDropdown.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = SceneSwitcherDropDown,
+                selectOnDown = loginButton
+            };
+
+            loginButton.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = loginTypeDropdown,
+                selectOnDown = logoutButton,
+                selectOnLeft = logoutButton
+            };
         }
 
         private void ConfigureUIForPersistentLogin()
@@ -309,6 +357,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+
+            loginTypeDropdown.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = SceneSwitcherDropDown,
+                selectOnDown = loginButton
+            };
+
+            loginButton.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = loginTypeDropdown,
+                selectOnDown = logoutButton,
+                selectOnLeft = logoutButton
+            };
         }
 
         //-------------------------------------------------------------------------
@@ -320,6 +383,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+
+            loginTypeDropdown.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = SceneSwitcherDropDown,
+                selectOnDown = loginButton
+            };
+
+            loginButton.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = loginTypeDropdown,
+                selectOnDown = logoutButton,
+                selectOnLeft = logoutButton
+            };
         }
 
 
@@ -502,6 +580,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (loginCallbackInfo.ResultCode == Result.AuthPinGrantCode)
             {
+                ///TODO(mendsley): Handle pin-grant in a more reasonable way
                 Debug.LogError("------------PIN GRANT------------");
                 Debug.LogError("External account is not connected to an Epic Account. Use link below");
                 Debug.LogError($"URL: {loginCallbackInfo.PinGrantInfo.VerificationURI}");
@@ -514,7 +593,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.InvalidUser)
             {
-                EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, LinkAccountFlags.NoFlags, (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
+                print("Trying Auth link with external account: " + loginCallbackInfo.ContinuanceToken);
+                EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, 
+                                                                                LinkAccountFlags.NoFlags,
+                                                                                (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
                     StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
                 });

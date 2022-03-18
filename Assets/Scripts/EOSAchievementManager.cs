@@ -20,11 +20,12 @@
 * SOFTWARE.
 */
 
-//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
+﻿//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Net.Http;
 using System.Collections.Concurrent;
 using Epic.OnlineServices.Achievements;
@@ -109,7 +110,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             uint statsCountForProductUserId = statInterface.GetStatsCount(countOptions);
 
             List<Stat> collectedStats = new List<Stat>();
-
             var copyStatsByIndexOptions = new CopyStatByIndexOptions
             {
                 TargetUserId = productUserId,
@@ -249,12 +249,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// </summary>
         private QueryPlayerAchievementsOptions MakeQueryPlayerAchievementsOptions(Epic.OnlineServices.ProductUserId productUserId)
         {
-            
             return new QueryPlayerAchievementsOptions
             {
                 TargetUserId = productUserId,
                 LocalUserId = EOSManager.Instance.GetProductUserId()
-
             };
         }
 
@@ -492,8 +490,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void cacheAchievementDef(DefinitionV2 achievementDef)
         {
-            achievementDefinitionCache.Add(achievementDef);
 
+            if (achievementDefinitionCache.Find((DefinitionV2 e) => { return e.AchievementId == achievementDef.AchievementId; }) == null)
+            {
+                achievementDefinitionCache.Add(achievementDef);
+            }
             UnityEngine.Debug.LogFormat("Achievements (cacheAchievementDef): Id={0}, LockedDisplayName={1}", achievementDef.AchievementId, achievementDef.LockedDisplayName);
 
             DownloadIconDataFromURI(achievementDef.LockedIconURL);
@@ -508,13 +509,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            var client = new HttpClient();
-            var result = await client.GetAsync(uri);
-
-            if (result.IsSuccessStatusCode)
+            using (DownloadHandlerBuffer downloadHandler = new DownloadHandlerBuffer())
+            using (UnityWebRequest request = UnityWebRequest.Get(uri))
             {
-                var byteResult = await result.Content.ReadAsByteArrayAsync();
-                downloadCache[uri] = byteResult;
+                request.downloadHandler = downloadHandler;
+
+                UnityEngine.Networking.UnityWebRequestAsyncOperation asyncOp = request.SendWebRequest();
+                while (!asyncOp.isDone)
+                {
+                    await System.Threading.Tasks.Task.Yield();
+                }
+
+                if (!request.isNetworkError && !request.isHttpError)
+                {
+                    downloadCache[uri] = downloadHandler.data;
+                }
             }
         }
     }

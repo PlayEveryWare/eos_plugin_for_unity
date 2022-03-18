@@ -60,7 +60,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -139,7 +138,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -167,7 +165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2996915572802775066}
-  - component: {fileID: 7391631773081975}
+  - component: {fileID: 7711674113704332565}
   m_Layer: 5
   m_Name: UILeaderboardEntry
   m_TagString: Untagged
@@ -197,7 +195,7 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: -15.052788}
   m_SizeDelta: {x: 100, y: 30.105576}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7391631773081975
+--- !u!114 &7711674113704332565
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,7 +204,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2996915572802775067}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22a8fc8f8cde43c4ab3e9ec123cf4444, type: 3}
+  m_Script: {fileID: 11500000, guid: d1ba0aacd3cfe544a9811cab49c42362, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   RankTxt: {fileID: 2996915571769943296}
@@ -272,7 +270,6 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
