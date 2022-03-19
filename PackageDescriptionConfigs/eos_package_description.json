@@ -109,6 +109,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
+		
+		{"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ecom.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ecom/*.cs", "dest": "Runtime/EOS_SDK/Generated/Ecom/"},
@@ -157,6 +161,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
+		
+		{"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports/*.cs", "dest": "Runtime/EOS_SDK/Generated/Reports/"},
