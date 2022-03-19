@@ -1,0 +1,648 @@
+### YamlMime:ManagedReference
+items:
+- uid: Playeveryware.Editor.SrcDestPair
+  commentId: T:Playeveryware.Editor.SrcDestPair
+  id: SrcDestPair
+  parent: Playeveryware.Editor
+  children:
+  - Playeveryware.Editor.SrcDestPair.comment
+  - Playeveryware.Editor.SrcDestPair.dest
+  - Playeveryware.Editor.SrcDestPair.dos2unix
+  - Playeveryware.Editor.SrcDestPair.ignore_regex
+  - Playeveryware.Editor.SrcDestPair.IsCommentOnly
+  - Playeveryware.Editor.SrcDestPair.pattern
+  - Playeveryware.Editor.SrcDestPair.recursive
+  - Playeveryware.Editor.SrcDestPair.sha1
+  - Playeveryware.Editor.SrcDestPair.sha1_mismatch_error
+  - Playeveryware.Editor.SrcDestPair.src
+  langs:
+  - csharp
+  - vb
+  name: SrcDestPair
+  nameWithType: SrcDestPair
+  fullName: Playeveryware.Editor.SrcDestPair
+  type: Class
+  source:
+    id: SrcDestPair
+    path: ''
+    startLine: 3839
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: >-
+      [Serializable]
+
+      public class SrcDestPair
+    content.vb: >-
+      <Serializable>
+
+      Public Class SrcDestPair
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  attributes:
+  - type: System.SerializableAttribute
+    ctor: System.SerializableAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Playeveryware.Editor.SrcDestPair.comment
+  commentId: F:Playeveryware.Editor.SrcDestPair.comment
+  id: comment
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: comment
+  nameWithType: SrcDestPair.comment
+  fullName: Playeveryware.Editor.SrcDestPair.comment
+  type: Field
+  source:
+    id: comment
+    path: ''
+    startLine: 3844
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public string comment
+    return:
+      type: System.String
+    content.vb: Public comment As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.recursive
+  commentId: F:Playeveryware.Editor.SrcDestPair.recursive
+  id: recursive
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: recursive
+  nameWithType: SrcDestPair.recursive
+  fullName: Playeveryware.Editor.SrcDestPair.recursive
+  type: Field
+  source:
+    id: recursive
+    path: ''
+    startLine: 3847
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public bool recursive
+    return:
+      type: System.Boolean
+    content.vb: Public recursive As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.src
+  commentId: F:Playeveryware.Editor.SrcDestPair.src
+  id: src
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: src
+  nameWithType: SrcDestPair.src
+  fullName: Playeveryware.Editor.SrcDestPair.src
+  type: Field
+  source:
+    id: src
+    path: ''
+    startLine: 3849
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public string src
+    return:
+      type: System.String
+    content.vb: Public src As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.pattern
+  commentId: F:Playeveryware.Editor.SrcDestPair.pattern
+  id: pattern
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: pattern
+  nameWithType: SrcDestPair.pattern
+  fullName: Playeveryware.Editor.SrcDestPair.pattern
+  type: Field
+  source:
+    id: pattern
+    path: ''
+    startLine: 3853
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public string pattern
+    return:
+      type: System.String
+    content.vb: Public pattern As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.dest
+  commentId: F:Playeveryware.Editor.SrcDestPair.dest
+  id: dest
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: dest
+  nameWithType: SrcDestPair.dest
+  fullName: Playeveryware.Editor.SrcDestPair.dest
+  type: Field
+  source:
+    id: dest
+    path: ''
+    startLine: 3856
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public string dest
+    return:
+      type: System.String
+    content.vb: Public dest As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.sha1
+  commentId: F:Playeveryware.Editor.SrcDestPair.sha1
+  id: sha1
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: sha1
+  nameWithType: SrcDestPair.sha1
+  fullName: Playeveryware.Editor.SrcDestPair.sha1
+  type: Field
+  source:
+    id: sha1
+    path: ''
+    startLine: 3861
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public string sha1
+    return:
+      type: System.String
+    content.vb: Public sha1 As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.sha1_mismatch_error
+  commentId: F:Playeveryware.Editor.SrcDestPair.sha1_mismatch_error
+  id: sha1_mismatch_error
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: sha1_mismatch_error
+  nameWithType: SrcDestPair.sha1_mismatch_error
+  fullName: Playeveryware.Editor.SrcDestPair.sha1_mismatch_error
+  type: Field
+  source:
+    id: sha1_mismatch_error
+    path: ''
+    startLine: 3863
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public string sha1_mismatch_error
+    return:
+      type: System.String
+    content.vb: Public sha1_mismatch_error As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.ignore_regex
+  commentId: F:Playeveryware.Editor.SrcDestPair.ignore_regex
+  id: ignore_regex
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: ignore_regex
+  nameWithType: SrcDestPair.ignore_regex
+  fullName: Playeveryware.Editor.SrcDestPair.ignore_regex
+  type: Field
+  source:
+    id: ignore_regex
+    path: ''
+    startLine: 3867
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public string ignore_regex
+    return:
+      type: System.String
+    content.vb: Public ignore_regex As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.dos2unix
+  commentId: F:Playeveryware.Editor.SrcDestPair.dos2unix
+  id: dos2unix
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: dos2unix
+  nameWithType: SrcDestPair.dos2unix
+  fullName: Playeveryware.Editor.SrcDestPair.dos2unix
+  type: Field
+  source:
+    id: dos2unix
+    path: ''
+    startLine: 3872
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public bool dos2unix
+    return:
+      type: System.Boolean
+    content.vb: Public dos2unix As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.SrcDestPair.IsCommentOnly
+  commentId: M:Playeveryware.Editor.SrcDestPair.IsCommentOnly
+  id: IsCommentOnly
+  parent: Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: IsCommentOnly()
+  nameWithType: SrcDestPair.IsCommentOnly()
+  fullName: Playeveryware.Editor.SrcDestPair.IsCommentOnly()
+  type: Method
+  source:
+    id: IsCommentOnly
+    path: ''
+    startLine: 3874
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public bool IsCommentOnly()
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsCommentOnly As Boolean
+  overload: Playeveryware.Editor.SrcDestPair.IsCommentOnly*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Playeveryware.Editor
+  commentId: N:Playeveryware.Editor
+  name: Playeveryware.Editor
+  nameWithType: Playeveryware.Editor
+  fullName: Playeveryware.Editor
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: Playeveryware.Editor.SrcDestPair.IsCommentOnly*
+  commentId: Overload:Playeveryware.Editor.SrcDestPair.IsCommentOnly
+  name: IsCommentOnly
+  nameWithType: SrcDestPair.IsCommentOnly
+  fullName: Playeveryware.Editor.SrcDestPair.IsCommentOnly

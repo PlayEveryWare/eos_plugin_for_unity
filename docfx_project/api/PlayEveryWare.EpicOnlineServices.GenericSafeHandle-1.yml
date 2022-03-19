@@ -24,7 +24,7 @@ items:
   source:
     id: GenericSafeHandle
     path: ''
-    startLine: 1776
+    startLine: 2174
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -70,7 +70,7 @@ items:
   source:
     id: handleObject
     path: ''
-    startLine: 1778
+    startLine: 2176
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -99,7 +99,7 @@ items:
   source:
     id: disposedValue
     path: ''
-    startLine: 1781
+    startLine: 2179
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -124,7 +124,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 1783
+    startLine: 2181
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -155,7 +155,7 @@ items:
   source:
     id: CurrentDomain_UnhandledException
     path: ''
-    startLine: 1789
+    startLine: 2187
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -184,7 +184,7 @@ items:
   source:
     id: ReleaseHandle
     path: ''
-    startLine: 1794
+    startLine: 2192
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -214,7 +214,7 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 1795
+    startLine: 2193
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -246,7 +246,7 @@ items:
   source:
     id: Dispose
     path: ''
-    startLine: 1797
+    startLine: 2195
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -279,7 +279,7 @@ items:
   source:
     id: Finalize
     path: ''
-    startLine: 1808
+    startLine: 2206
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -307,7 +307,7 @@ items:
   source:
     id: Dispose
     path: ''
-    startLine: 1815
+    startLine: 2213
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

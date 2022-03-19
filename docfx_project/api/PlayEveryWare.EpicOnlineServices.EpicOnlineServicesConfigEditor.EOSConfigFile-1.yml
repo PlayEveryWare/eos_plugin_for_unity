@@ -1,0 +1,573 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  commentId: T:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  id: EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  parent: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.#ctor(System.String)
+  - PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.configDataOnDisk
+  - PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.configFilename
+  - PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.currentEOSConfig
+  - PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.LoadConfigFromDisk
+  - PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.SaveToJSONConfig(System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: EpicOnlineServicesConfigEditor.EOSConfigFile<T>
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>
+  type: Class
+  source:
+    id: EOSConfigFile
+    path: ''
+    startLine: 3004
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: >-
+      public class EOSConfigFile<T>
+          where T : ICloneableGeneric<T>, IEmpty, new()
+    typeParameters:
+    - id: T
+    content.vb: Public Class EOSConfigFile(Of T As {ICloneableGeneric(Of T), IEmpty, New})
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T)
+  name.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T)
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.configFilename
+  commentId: F:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.configFilename
+  id: configFilename
+  parent: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  langs:
+  - csharp
+  - vb
+  name: configFilename
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.configFilename
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.configFilename
+  type: Field
+  source:
+    id: configFilename
+    path: ''
+    startLine: 3006
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public string configFilename
+    return:
+      type: System.String
+    content.vb: Public configFilename As String
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).configFilename
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).configFilename
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.configDataOnDisk
+  commentId: F:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.configDataOnDisk
+  id: configDataOnDisk
+  parent: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  langs:
+  - csharp
+  - vb
+  name: configDataOnDisk
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.configDataOnDisk
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.configDataOnDisk
+  type: Field
+  source:
+    id: configDataOnDisk
+    path: ''
+    startLine: 3007
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public T configDataOnDisk
+    return:
+      type: '{T}'
+    content.vb: Public configDataOnDisk As T
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).configDataOnDisk
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).configDataOnDisk
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.currentEOSConfig
+  commentId: F:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.currentEOSConfig
+  id: currentEOSConfig
+  parent: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  langs:
+  - csharp
+  - vb
+  name: currentEOSConfig
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.currentEOSConfig
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.currentEOSConfig
+  type: Field
+  source:
+    id: currentEOSConfig
+    path: ''
+    startLine: 3008
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public T currentEOSConfig
+    return:
+      type: '{T}'
+    content.vb: Public currentEOSConfig As T
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).currentEOSConfig
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).currentEOSConfig
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.#ctor(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  langs:
+  - csharp
+  - vb
+  name: EOSConfigFile(String)
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.EOSConfigFile(String)
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.EOSConfigFile(System.String)
+  type: Constructor
+  source:
+    id: .ctor
+    path: ''
+    startLine: 3010
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public EOSConfigFile(string aConfigFilename)
+    parameters:
+    - id: aConfigFilename
+      type: System.String
+    content.vb: Public Sub New(aConfigFilename As String)
+  overload: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.#ctor*
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).EOSConfigFile(String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).EOSConfigFile(System.String)
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.LoadConfigFromDisk
+  commentId: M:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.LoadConfigFromDisk
+  id: LoadConfigFromDisk
+  parent: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  langs:
+  - csharp
+  - vb
+  name: LoadConfigFromDisk()
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.LoadConfigFromDisk()
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.LoadConfigFromDisk()
+  type: Method
+  source:
+    id: LoadConfigFromDisk
+    path: ''
+    startLine: 3015
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public void LoadConfigFromDisk()
+    content.vb: Public Sub LoadConfigFromDisk
+  overload: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.LoadConfigFromDisk*
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).LoadConfigFromDisk()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).LoadConfigFromDisk()
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.SaveToJSONConfig(System.Boolean)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.SaveToJSONConfig(System.Boolean)
+  id: SaveToJSONConfig(System.Boolean)
+  parent: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  langs:
+  - csharp
+  - vb
+  name: SaveToJSONConfig(Boolean)
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.SaveToJSONConfig(Boolean)
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.SaveToJSONConfig(System.Boolean)
+  type: Method
+  source:
+    id: SaveToJSONConfig
+    path: ''
+    startLine: 3032
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public void SaveToJSONConfig(bool prettyPrint)
+    parameters:
+    - id: prettyPrint
+      type: System.Boolean
+    content.vb: Public Sub SaveToJSONConfig(prettyPrint As Boolean)
+  overload: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.SaveToJSONConfig*
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).SaveToJSONConfig(Boolean)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).SaveToJSONConfig(System.Boolean)
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.#ctor*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.#ctor
+  name: EOSConfigFile
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.EOSConfigFile
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.EOSConfigFile
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).EOSConfigFile
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).EOSConfigFile
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.LoadConfigFromDisk*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.LoadConfigFromDisk
+  name: LoadConfigFromDisk
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.LoadConfigFromDisk
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.LoadConfigFromDisk
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).LoadConfigFromDisk
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).LoadConfigFromDisk
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.SaveToJSONConfig*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1.SaveToJSONConfig
+  name: SaveToJSONConfig
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>.SaveToJSONConfig
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>.SaveToJSONConfig
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).SaveToJSONConfig
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T).SaveToJSONConfig
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

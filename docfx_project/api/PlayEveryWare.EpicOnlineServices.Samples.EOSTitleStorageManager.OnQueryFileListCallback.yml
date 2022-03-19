@@ -15,7 +15,7 @@ items:
   source:
     id: OnQueryFileListCallback
     path: ''
-    startLine: 10090
+    startLine: 11698
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

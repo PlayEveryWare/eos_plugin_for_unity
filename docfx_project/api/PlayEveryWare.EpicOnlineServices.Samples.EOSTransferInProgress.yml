@@ -20,7 +20,7 @@ items:
   source:
     id: EOSTransferInProgress
     path: ''
-    startLine: 10443
+    startLine: 12051
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -59,7 +59,7 @@ items:
   source:
     id: Download
     path: ''
-    startLine: 10445
+    startLine: 12053
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -86,7 +86,7 @@ items:
   source:
     id: TotalSize
     path: ''
-    startLine: 10446
+    startLine: 12054
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -113,7 +113,7 @@ items:
   source:
     id: CurrentIndex
     path: ''
-    startLine: 10447
+    startLine: 12055
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -140,14 +140,14 @@ items:
   source:
     id: Data
     path: ''
-    startLine: 10448
+    startLine: 12056
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public List<char> Data
     return:
-      type: List{System.Char}
+      type: System.Collections.Generic.List{System.Char}
     content.vb: Public Data As List(Of Char)
   modifiers.csharp:
   - public
@@ -167,7 +167,7 @@ items:
   source:
     id: Done
     path: ''
-    startLine: 10450
+    startLine: 12058
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -493,20 +493,21 @@ references:
   name: UInt32
   nameWithType: UInt32
   fullName: System.UInt32
-- uid: List{System.Char}
-  commentId: '!:List{System.Char}'
-  definition: List`1
+- uid: System.Collections.Generic.List{System.Char}
+  commentId: T:System.Collections.Generic.List{System.Char}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<Char>
   nameWithType: List<Char>
-  fullName: List<System.Char>
+  fullName: System.Collections.Generic.List<System.Char>
   nameWithType.vb: List(Of Char)
-  fullName.vb: List(Of System.Char)
+  fullName.vb: System.Collections.Generic.List(Of System.Char)
   name.vb: List(Of Char)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -520,10 +521,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -536,44 +537,51 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress.Done*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress.Done
   name: Done

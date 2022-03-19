@@ -75,7 +75,7 @@ items:
   - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo)
   - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.PopLobbyInvite
   - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Register(System.String,ProductUserId)
-  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
   - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById(System.String)
   - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteAcceptedNotificationHandle
   - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SessionInviteNotificationHandle
@@ -104,7 +104,7 @@ items:
   source:
     id: EOSSessionsManager
     path: ''
-    startLine: 8338
+    startLine: 9931
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -147,14 +147,14 @@ items:
   source:
     id: CurrentSessions
     path: ''
-    startLine: 8340
+    startLine: 9933
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<string, Session> CurrentSessions
     return:
-      type: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
+      type: System.Collections.Generic.Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
     content.vb: CurrentSessions As Dictionary(Of String, Session)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSearch
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentSearch
@@ -170,7 +170,7 @@ items:
   source:
     id: CurrentSearch
     path: ''
-    startLine: 8342
+    startLine: 9935
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -193,7 +193,7 @@ items:
   source:
     id: JoinPresenceSessionId
     path: ''
-    startLine: 8343
+    startLine: 9936
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -216,7 +216,7 @@ items:
   source:
     id: JoinUiEvent
     path: ''
-    startLine: 8344
+    startLine: 9937
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -239,7 +239,7 @@ items:
   source:
     id: KnownPresenceSessionId
     path: ''
-    startLine: 8345
+    startLine: 9938
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -262,14 +262,14 @@ items:
   source:
     id: Invites
     path: ''
-    startLine: 8347
+    startLine: 9940
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<Session, SessionDetails> Invites
     return:
-      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+      type: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
     content.vb: Invites As Dictionary(Of Session, SessionDetails)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentInvite
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.CurrentInvite
@@ -285,7 +285,7 @@ items:
   source:
     id: CurrentInvite
     path: ''
-    startLine: 8348
+    startLine: 9941
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -308,7 +308,7 @@ items:
   source:
     id: JoiningSessionDetails
     path: ''
-    startLine: 8350
+    startLine: 9943
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -331,7 +331,7 @@ items:
   source:
     id: JoinedSessionIndex
     path: ''
-    startLine: 8351
+    startLine: 9944
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -354,7 +354,7 @@ items:
   source:
     id: JOINED_SESSION_NAME
     path: ''
-    startLine: 8353
+    startLine: 9946
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -381,7 +381,7 @@ items:
   source:
     id: JOINED_SESSION_NAME_ROTATION_NUM
     path: ''
-    startLine: 8354
+    startLine: 9947
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -408,7 +408,7 @@ items:
   source:
     id: JOINED_SESSION_NAME_ROTATION
     path: ''
-    startLine: 8355
+    startLine: 9948
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -435,7 +435,7 @@ items:
   source:
     id: BUCKET_ID
     path: ''
-    startLine: 8356
+    startLine: 9949
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -462,7 +462,7 @@ items:
   source:
     id: EOS_SESSIONS_SEARCH_BUCKET_ID
     path: ''
-    startLine: 8358
+    startLine: 9951
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -489,7 +489,7 @@ items:
   source:
     id: EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY
     path: ''
-    startLine: 8359
+    startLine: 9952
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -516,7 +516,7 @@ items:
   source:
     id: EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY
     path: ''
-    startLine: 8360
+    startLine: 9953
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -543,7 +543,7 @@ items:
   source:
     id: EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE
     path: ''
-    startLine: 8361
+    startLine: 9954
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -570,14 +570,14 @@ items:
   source:
     id: UIOnSessionCreated
     path: ''
-    startLine: 8364
+    startLine: 9957
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Queue<Action> UIOnSessionCreated
     return:
-      type: Queue{System.Action}
+      type: System.Collections.Generic.Queue{System.Action}
     content.vb: UIOnSessionCreated As Queue(Of Action)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionModified
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionModified
@@ -593,14 +593,14 @@ items:
   source:
     id: UIOnSessionModified
     path: ''
-    startLine: 8365
+    startLine: 9958
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Queue<Action> UIOnSessionModified
     return:
-      type: Queue{System.Action}
+      type: System.Collections.Generic.Queue{System.Action}
     content.vb: UIOnSessionModified As Queue(Of Action)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnJoinSession
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnJoinSession
@@ -616,14 +616,14 @@ items:
   source:
     id: UIOnJoinSession
     path: ''
-    startLine: 8366
+    startLine: 9959
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Queue<Action> UIOnJoinSession
     return:
-      type: Queue{System.Action}
+      type: System.Collections.Generic.Queue{System.Action}
     content.vb: UIOnJoinSession As Queue(Of Action)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnLeaveSession
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnLeaveSession
@@ -639,14 +639,14 @@ items:
   source:
     id: UIOnLeaveSession
     path: ''
-    startLine: 8367
+    startLine: 9960
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Queue<Action> UIOnLeaveSession
     return:
-      type: Queue{System.Action}
+      type: System.Collections.Generic.Queue{System.Action}
     content.vb: UIOnLeaveSession As Queue(Of Action)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionSearchCompleted
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.UIOnSessionSearchCompleted
@@ -662,14 +662,14 @@ items:
   source:
     id: UIOnSessionSearchCompleted
     path: ''
-    startLine: 8368
+    startLine: 9961
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Queue<Action> UIOnSessionSearchCompleted
     return:
-      type: Queue{System.Action}
+      type: System.Collections.Generic.Queue{System.Action}
     content.vb: UIOnSessionSearchCompleted As Queue(Of Action)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.INVALID_NOTIFICATIONID
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.INVALID_NOTIFICATIONID
@@ -685,7 +685,7 @@ items:
   source:
     id: INVALID_NOTIFICATIONID
     path: ''
-    startLine: 8370
+    startLine: 9963
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -714,7 +714,7 @@ items:
   source:
     id: SessionInviteNotificationHandle
     path: ''
-    startLine: 8372
+    startLine: 9965
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -741,7 +741,7 @@ items:
   source:
     id: SessionInviteAcceptedNotificationHandle
     path: ''
-    startLine: 8373
+    startLine: 9966
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -768,7 +768,7 @@ items:
   source:
     id: JoinGameNotificationHandle
     path: ''
-    startLine: 8374
+    startLine: 9967
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -795,7 +795,7 @@ items:
   source:
     id: SessionJoinGameNotificationHandle
     path: ''
-    startLine: 8375
+    startLine: 9968
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -822,7 +822,7 @@ items:
   source:
     id: subscribtedToGameInvites
     path: ''
-    startLine: 8377
+    startLine: 9970
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -845,7 +845,7 @@ items:
   source:
     id: userLoggedIn
     path: ''
-    startLine: 8378
+    startLine: 9971
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -868,7 +868,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 8380
+    startLine: 9973
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -894,14 +894,14 @@ items:
   source:
     id: GetInvites
     path: ''
-    startLine: 8394
+    startLine: 9987
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public Dictionary<Session, SessionDetails> GetInvites()
     return:
-      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+      type: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
     content.vb: Public Function GetInvites As Dictionary(Of Session, SessionDetails)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetInvites*
   modifiers.csharp:
@@ -922,7 +922,7 @@ items:
   source:
     id: GetCurrentInvite
     path: ''
-    startLine: 8399
+    startLine: 9992
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -950,7 +950,7 @@ items:
   source:
     id: GetCurrentSearch
     path: ''
-    startLine: 8404
+    startLine: 9997
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -978,14 +978,14 @@ items:
   source:
     id: GetCurrentSessions
     path: ''
-    startLine: 8409
+    startLine: 10002
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public Dictionary<string, Session> GetCurrentSessions()
     return:
-      type: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
+      type: System.Collections.Generic.Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
     content.vb: Public Function GetCurrentSessions As Dictionary(Of String, Session)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.GetCurrentSessions*
   modifiers.csharp:
@@ -1006,7 +1006,7 @@ items:
   source:
     id: SubscribteToGameInvites
     path: ''
-    startLine: 8414
+    startLine: 10007
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1032,7 +1032,7 @@ items:
   source:
     id: UnsubscribeFromGameInvites
     path: ''
-    startLine: 8433
+    startLine: 10026
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1058,7 +1058,7 @@ items:
   source:
     id: OnShutDown
     path: ''
-    startLine: 8471
+    startLine: 10064
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1080,7 +1080,7 @@ items:
   source:
     id: Update
     path: ''
-    startLine: 8477
+    startLine: 10070
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1108,7 +1108,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 8517
+    startLine: 10110
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1134,7 +1134,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 8533
+    startLine: 10126
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1160,7 +1160,7 @@ items:
   source:
     id: LeaveAllSessions
     path: ''
-    startLine: 8555
+    startLine: 10148
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1182,7 +1182,7 @@ items:
   source:
     id: CreateSession
     path: ''
-    startLine: 8564
+    startLine: 10157
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1215,7 +1215,7 @@ items:
   source:
     id: DestroySession
     path: ''
-    startLine: 8709
+    startLine: 10302
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1244,7 +1244,7 @@ items:
   source:
     id: DestroyAllSessions
     path: ''
-    startLine: 8719
+    startLine: 10312
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1270,7 +1270,7 @@ items:
   source:
     id: HasActiveLocalSessions
     path: ''
-    startLine: 8731
+    startLine: 10324
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1298,7 +1298,7 @@ items:
   source:
     id: HasPresenceSession
     path: ''
-    startLine: 8744
+    startLine: 10337
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1326,7 +1326,7 @@ items:
   source:
     id: IsPresenceSession
     path: ''
-    startLine: 8787
+    startLine: 10380
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1357,7 +1357,7 @@ items:
   source:
     id: GetSession
     path: ''
-    startLine: 8792
+    startLine: 10385
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1388,7 +1388,7 @@ items:
   source:
     id: StartSession
     path: ''
-    startLine: 8802
+    startLine: 10395
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1417,7 +1417,7 @@ items:
   source:
     id: EndSession
     path: ''
-    startLine: 8820
+    startLine: 10413
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1446,7 +1446,7 @@ items:
   source:
     id: Register
     path: ''
-    startLine: 8835
+    startLine: 10428
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1477,7 +1477,7 @@ items:
   source:
     id: UnRegister
     path: ''
-    startLine: 8845
+    startLine: 10438
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1508,7 +1508,7 @@ items:
   source:
     id: InviteToSession
     path: ''
-    startLine: 8855
+    startLine: 10448
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1539,7 +1539,7 @@ items:
   source:
     id: SetInviteSession
     path: ''
-    startLine: 8879
+    startLine: 10472
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1556,21 +1556,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
-  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
-  id: Search(List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
+  id: Search(System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute})
   parent: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
   langs:
   - csharp
   - vb
   name: Search(List<SessionAttribute>)
   nameWithType: EOSSessionsManager.Search(List<SessionAttribute>)
-  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List<PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(System.Collections.Generic.List<PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute>)
   type: Method
   source:
     id: Search
     path: ''
-    startLine: 8894
+    startLine: 10487
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1578,7 +1578,7 @@ items:
     content: public void Search(List<SessionAttribute> attributes)
     parameters:
     - id: attributes
-      type: List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}
+      type: System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}
     content.vb: Public Sub Search(attributes As List(Of SessionAttribute))
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search*
   nameWithType.vb: EOSSessionsManager.Search(List(Of SessionAttribute))
@@ -1586,7 +1586,7 @@ items:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(List(Of PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute))
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search(System.Collections.Generic.List(Of PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute))
   name.vb: Search(List(Of SessionAttribute))
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById(System.String)
   commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.SearchById(System.String)
@@ -1602,7 +1602,7 @@ items:
   source:
     id: SearchById
     path: ''
-    startLine: 8967
+    startLine: 10563
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1631,7 +1631,7 @@ items:
   source:
     id: MakeSessionHandleByInviteId
     path: ''
-    startLine: 9005
+    startLine: 10601
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1662,7 +1662,7 @@ items:
   source:
     id: MakeSessionHandleByEventId
     path: ''
-    startLine: 9021
+    startLine: 10617
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1693,7 +1693,7 @@ items:
   source:
     id: MakeSessionHandleFromSearch
     path: ''
-    startLine: 9036
+    startLine: 10632
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1724,7 +1724,7 @@ items:
   source:
     id: JoinSession
     path: ''
-    startLine: 9042
+    startLine: 10638
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1757,7 +1757,7 @@ items:
   source:
     id: ModifySession
     path: ''
-    startLine: 9062
+    startLine: 10658
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1790,7 +1790,7 @@ items:
   source:
     id: OnSessionDestroyed
     path: ''
-    startLine: 9240
+    startLine: 10848
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1815,7 +1815,7 @@ items:
   source:
     id: OnSessionUpdateFinished
     path: ''
-    startLine: 9256
+    startLine: 10864
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1846,7 +1846,7 @@ items:
   source:
     id: OnSearchResultsReceived
     path: ''
-    startLine: 9282
+    startLine: 10890
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1868,7 +1868,7 @@ items:
   source:
     id: OnJoinSessionFinished
     path: ''
-    startLine: 9357
+    startLine: 10965
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1890,7 +1890,7 @@ items:
   source:
     id: SetJoininfo
     path: ''
-    startLine: 9405
+    startLine: 11013
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1917,7 +1917,7 @@ items:
   source:
     id: OnJoinGameAcceptedByJoinInfo
     path: ''
-    startLine: 9463
+    startLine: 11071
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1944,7 +1944,7 @@ items:
   source:
     id: OnJoinGameAcceptedByEventId
     path: ''
-    startLine: 9480
+    startLine: 11088
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1969,7 +1969,7 @@ items:
   source:
     id: JoinPresenceSessionById
     path: ''
-    startLine: 9495
+    startLine: 11103
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1994,7 +1994,7 @@ items:
   source:
     id: AcknowledgeEventId
     path: ''
-    startLine: 9502
+    startLine: 11110
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2019,7 +2019,7 @@ items:
   source:
     id: GenerateJoinedSessionName
     path: ''
-    startLine: 9517
+    startLine: 11125
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2046,7 +2046,7 @@ items:
   source:
     id: OnUpdateSessionCompleteCallback
     path: ''
-    startLine: 9527
+    startLine: 11135
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2071,7 +2071,7 @@ items:
   source:
     id: OnUpdateSessionCompleteCallback_ForCreate
     path: ''
-    startLine: 9552
+    startLine: 11160
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2096,7 +2096,7 @@ items:
   source:
     id: OnStartSessionCompleteCallBack
     path: ''
-    startLine: 9591
+    startLine: 11199
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2121,7 +2121,7 @@ items:
   source:
     id: OnEndSessionCompleteCallback
     path: ''
-    startLine: 9618
+    startLine: 11226
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2146,7 +2146,7 @@ items:
   source:
     id: OnDestroySessionCompleteCallback
     path: ''
-    startLine: 9639
+    startLine: 11247
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2171,7 +2171,7 @@ items:
   source:
     id: OnRegisterCompleteCallback
     path: ''
-    startLine: 9667
+    startLine: 11275
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2196,7 +2196,7 @@ items:
   source:
     id: OnUnregisterCompleteCallback
     path: ''
-    startLine: 9682
+    startLine: 11290
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2221,7 +2221,7 @@ items:
   source:
     id: OnFindSessionsCompleteCallback
     path: ''
-    startLine: 9697
+    startLine: 11305
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2246,7 +2246,7 @@ items:
   source:
     id: OnSendInviteCompleteCallback
     path: ''
-    startLine: 9716
+    startLine: 11324
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2271,7 +2271,7 @@ items:
   source:
     id: OnSessionInviteReceivedListener
     path: ''
-    startLine: 9733
+    startLine: 11341
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2300,7 +2300,7 @@ items:
   source:
     id: PopLobbyInvite
     path: ''
-    startLine: 9765
+    startLine: 11373
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2322,7 +2322,7 @@ items:
   source:
     id: OnSessionInviteAcceptedListener
     path: ''
-    startLine: 9781
+    startLine: 11389
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2351,7 +2351,7 @@ items:
   source:
     id: OnJoinSessionListener
     path: ''
-    startLine: 9794
+    startLine: 11402
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2376,7 +2376,7 @@ items:
   source:
     id: OnJoinGameAcceptedListener
     path: ''
-    startLine: 9818
+    startLine: 11426
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2405,7 +2405,7 @@ items:
   source:
     id: OnJoinSessionAcceptedListener
     path: ''
-    startLine: 9831
+    startLine: 11439
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2434,7 +2434,7 @@ items:
   source:
     id: OnSetPresenceCompleteCallback
     path: ''
-    startLine: 9844
+    startLine: 11452
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2459,7 +2459,7 @@ items:
   source:
     id: AcceptLobbyInvite
     path: ''
-    startLine: 9860
+    startLine: 11468
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2488,7 +2488,7 @@ items:
   source:
     id: DeclineLobbyInvite
     path: ''
-    startLine: 9873
+    startLine: 11481
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2809,20 +2809,21 @@ references:
   name: PlayEveryWare.EpicOnlineServices
   nameWithType: PlayEveryWare.EpicOnlineServices
   fullName: PlayEveryWare.EpicOnlineServices
-- uid: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
-  commentId: '!:Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.Session}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<String, Session>
   nameWithType: Dictionary<String, Session>
-  fullName: Dictionary<System.String, PlayEveryWare.EpicOnlineServices.Samples.Session>
+  fullName: System.Collections.Generic.Dictionary<System.String, PlayEveryWare.EpicOnlineServices.Samples.Session>
   nameWithType.vb: Dictionary(Of String, Session)
-  fullName.vb: Dictionary(Of System.String, PlayEveryWare.EpicOnlineServices.Samples.Session)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, PlayEveryWare.EpicOnlineServices.Samples.Session)
   name.vb: Dictionary(Of String, Session)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -2843,10 +2844,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -2866,56 +2867,63 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
   commentId: T:PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
   parent: PlayEveryWare.EpicOnlineServices.Samples
@@ -2936,20 +2944,21 @@ references:
   name: UInt64
   nameWithType: UInt64
   fullName: System.UInt64
-- uid: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
-  commentId: '!:Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+  commentId: T:System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<Session, SessionDetails>
   nameWithType: Dictionary<Session, SessionDetails>
-  fullName: Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails>
+  fullName: System.Collections.Generic.Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails>
   nameWithType.vb: Dictionary(Of Session, SessionDetails)
-  fullName.vb: Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails)
+  fullName.vb: System.Collections.Generic.Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails)
   name.vb: Dictionary(Of Session, SessionDetails)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -2970,10 +2979,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -3018,20 +3027,21 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
-- uid: Queue{System.Action}
-  commentId: '!:Queue{System.Action}'
-  definition: Queue`1
+- uid: System.Collections.Generic.Queue{System.Action}
+  commentId: T:System.Collections.Generic.Queue{System.Action}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Queue`1
   name: Queue<Action>
   nameWithType: Queue<Action>
-  fullName: Queue<System.Action>
+  fullName: System.Collections.Generic.Queue<System.Action>
   nameWithType.vb: Queue(Of Action)
-  fullName.vb: Queue(Of System.Action)
+  fullName.vb: System.Collections.Generic.Queue(Of System.Action)
   name.vb: Queue(Of Action)
   spec.csharp:
-  - uid: Queue`1
+  - uid: System.Collections.Generic.Queue`1
     name: Queue
     nameWithType: Queue
-    fullName: Queue
+    fullName: System.Collections.Generic.Queue
     isExternal: true
   - name: <
     nameWithType: <
@@ -3045,10 +3055,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Queue`1
+  - uid: System.Collections.Generic.Queue`1
     name: Queue
     nameWithType: Queue
-    fullName: Queue
+    fullName: System.Collections.Generic.Queue
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -3061,41 +3071,42 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Queue`1
+- uid: System.Collections.Generic.Queue`1
+  commentId: T:System.Collections.Generic.Queue`1
   isExternal: true
-  name: Queue<>
-  nameWithType: Queue<>
-  fullName: Queue<>
-  nameWithType.vb: Queue(Of )
-  fullName.vb: Queue(Of )
-  name.vb: Queue(Of )
+  name: Queue<T>
+  nameWithType: Queue<T>
+  fullName: System.Collections.Generic.Queue<T>
+  nameWithType.vb: Queue(Of T)
+  fullName.vb: System.Collections.Generic.Queue(Of T)
+  name.vb: Queue(Of T)
   spec.csharp:
-  - uid: Queue`1
+  - uid: System.Collections.Generic.Queue`1
     name: Queue
     nameWithType: Queue
-    fullName: Queue
+    fullName: System.Collections.Generic.Queue
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Queue`1
+  - uid: System.Collections.Generic.Queue`1
     name: Queue
     nameWithType: Queue
-    fullName: Queue
+    fullName: System.Collections.Generic.Queue
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
@@ -3248,20 +3259,21 @@ references:
   name: Search
   nameWithType: EOSSessionsManager.Search
   fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.Search
-- uid: List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}
-  commentId: '!:List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}'
-  definition: List`1
+- uid: System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}
+  commentId: T:System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<SessionAttribute>
   nameWithType: List<SessionAttribute>
-  fullName: List<PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute>
+  fullName: System.Collections.Generic.List<PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute>
   nameWithType.vb: List(Of SessionAttribute)
-  fullName.vb: List(Of PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute)
+  fullName.vb: System.Collections.Generic.List(Of PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute)
   name.vb: List(Of SessionAttribute)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -3274,10 +3286,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -3289,41 +3301,42 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )

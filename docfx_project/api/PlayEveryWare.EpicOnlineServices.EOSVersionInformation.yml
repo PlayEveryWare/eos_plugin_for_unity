@@ -24,7 +24,7 @@ items:
   source:
     id: EOSVersionInformation
     path: ''
-    startLine: 2264
+    startLine: 2870
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -57,7 +57,7 @@ items:
   source:
     id: eos_library_version
     path: ''
-    startLine: 2266
+    startLine: 2872
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -80,7 +80,7 @@ items:
   source:
     id: eos_plugin_version
     path: ''
-    startLine: 2267
+    startLine: 2873
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -103,7 +103,7 @@ items:
   source:
     id: ShowWindow
     path: ''
-    startLine: 2281
+    startLine: 2887
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -131,7 +131,7 @@ items:
   source:
     id: GetRepositoryRoot
     path: ''
-    startLine: 2287
+    startLine: 2893
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -159,7 +159,7 @@ items:
   source:
     id: GetTemplateDirectory
     path: ''
-    startLine: 2292
+    startLine: 2898
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -187,7 +187,7 @@ items:
   source:
     id: GetPackageName
     path: ''
-    startLine: 2297
+    startLine: 2903
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -215,7 +215,7 @@ items:
   source:
     id: ConfigureEOSPluginVersionFieldFromPath
     path: ''
-    startLine: 2302
+    startLine: 2908
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -240,7 +240,7 @@ items:
   source:
     id: Awake
     path: ''
-    startLine: 2310
+    startLine: 2916
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -266,7 +266,7 @@ items:
   source:
     id: OnGUI
     path: ''
-    startLine: 2330
+    startLine: 2937
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

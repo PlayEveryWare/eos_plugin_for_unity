@@ -16,7 +16,7 @@ items:
   source:
     id: UPMPackage
     path: ''
-    startLine: 2273
+    startLine: 2879
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -63,7 +63,7 @@ items:
   source:
     id: version
     path: ''
-    startLine: 2277
+    startLine: 2883
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

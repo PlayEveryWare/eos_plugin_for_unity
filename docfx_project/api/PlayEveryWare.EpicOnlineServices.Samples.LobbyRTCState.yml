@@ -20,7 +20,7 @@ items:
   source:
     id: LobbyRTCState
     path: ''
-    startLine: 5103
+    startLine: 6485
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -59,7 +59,7 @@ items:
   source:
     id: IsInRTCRoom
     path: ''
-    startLine: 5106
+    startLine: 6488
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -86,7 +86,7 @@ items:
   source:
     id: IsTalking
     path: ''
-    startLine: 5109
+    startLine: 6491
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -113,7 +113,7 @@ items:
   source:
     id: IsLocalMuted
     path: ''
-    startLine: 5112
+    startLine: 6494
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -140,7 +140,7 @@ items:
   source:
     id: IsAudioOutputDisabled
     path: ''
-    startLine: 5115
+    startLine: 6497
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -167,7 +167,7 @@ items:
   source:
     id: MuteActionInProgress
     path: ''
-    startLine: 5118
+    startLine: 6500
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

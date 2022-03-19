@@ -4,10 +4,12 @@ items:
   commentId: N:PlayEveryWare.EpicOnlineServices
   id: PlayEveryWare.EpicOnlineServices
   children:
+  - PlayEveryWare.EpicOnlineServices.EmptyPredicates
   - PlayEveryWare.EpicOnlineServices.EOSConfig
   - PlayEveryWare.EpicOnlineServices.EOSManager
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSState
   - PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
   - PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
   - PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLogoutCallback
@@ -16,11 +18,18 @@ items:
   - PlayEveryWare.EpicOnlineServices.EOSManager.OnCreateConnectUserCallback
   - PlayEveryWare.EpicOnlineServices.EOSVersionInformation
   - PlayEveryWare.EpicOnlineServices.EOSVersionInformation.UPMPackage
+  - PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor
+  - PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
   - PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
+  - PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+  - PlayEveryWare.EpicOnlineServices.IEmpty
   - PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
   - PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
   - PlayEveryWare.EpicOnlineServices.IEOSOnConnectLogin
   - PlayEveryWare.EpicOnlineServices.IEOSSubManager
+  - PlayEveryWare.EpicOnlineServices.InstallEpicOnlineServiceZip
+  - PlayEveryWare.EpicOnlineServices.IPlatformSpecificConfigEditor
+  - PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute
   - PlayEveryWare.EpicOnlineServices.NotifyEventHandle
   - PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
   langs:
@@ -79,6 +88,12 @@ references:
   name: EOSManager.OnAuthLinkExternalAccountCallback
   nameWithType: EOSManager.OnAuthLinkExternalAccountCallback
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSState
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.EOSState
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSManager.EOSState
+  nameWithType: EOSManager.EOSState
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSState
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
   commentId: T:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
   parent: PlayEveryWare.EpicOnlineServices
@@ -127,6 +142,53 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+  commentId: T:PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+  name: ICloneableGeneric<T>
+  nameWithType: ICloneableGeneric<T>
+  fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric<T>
+  nameWithType.vb: ICloneableGeneric(Of T)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.ICloneableGeneric(Of T)
+  name.vb: ICloneableGeneric(Of T)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+    name: ICloneableGeneric
+    nameWithType: ICloneableGeneric
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+    name: ICloneableGeneric
+    nameWithType: ICloneableGeneric
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.IEmpty
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEmpty
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEmpty
+  nameWithType: IEmpty
+  fullName: PlayEveryWare.EpicOnlineServices.IEmpty
+- uid: PlayEveryWare.EpicOnlineServices.EmptyPredicates
+  commentId: T:PlayEveryWare.EpicOnlineServices.EmptyPredicates
+  name: EmptyPredicates
+  nameWithType: EmptyPredicates
+  fullName: PlayEveryWare.EpicOnlineServices.EmptyPredicates
 - uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
   commentId: T:PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
   parent: PlayEveryWare.EpicOnlineServices
@@ -150,6 +212,12 @@ references:
   name: IEOSSubManager
   nameWithType: IEOSSubManager
   fullName: PlayEveryWare.EpicOnlineServices.IEOSSubManager
+- uid: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute
+  commentId: T:PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute
+  parent: PlayEveryWare.EpicOnlineServices
+  name: MonoPInvokeCallbackAttribute
+  nameWithType: MonoPInvokeCallbackAttribute
+  fullName: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute
 - uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
   commentId: T:PlayEveryWare.EpicOnlineServices.NotifyEventHandle
   parent: PlayEveryWare.EpicOnlineServices
@@ -172,6 +240,58 @@ references:
   name: EOSVersionInformation.UPMPackage
   nameWithType: EOSVersionInformation.UPMPackage
   fullName: PlayEveryWare.EpicOnlineServices.EOSVersionInformation.UPMPackage
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor
+  commentId: T:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor
+  name: EpicOnlineServicesConfigEditor
+  nameWithType: EpicOnlineServicesConfigEditor
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor
+- uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  commentId: T:PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+  name: EpicOnlineServicesConfigEditor.EOSConfigFile<T>
+  nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile<T>
+  fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile<T>
+  nameWithType.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile(Of T)
+  name.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+    name: EpicOnlineServicesConfigEditor.EOSConfigFile
+    nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile
+    fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+    name: EpicOnlineServicesConfigEditor.EOSConfigFile
+    nameWithType: EpicOnlineServicesConfigEditor.EOSConfigFile
+    fullName: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.InstallEpicOnlineServiceZip
+  commentId: T:PlayEveryWare.EpicOnlineServices.InstallEpicOnlineServiceZip
+  name: InstallEpicOnlineServiceZip
+  nameWithType: InstallEpicOnlineServiceZip
+  fullName: PlayEveryWare.EpicOnlineServices.InstallEpicOnlineServiceZip
+- uid: PlayEveryWare.EpicOnlineServices.IPlatformSpecificConfigEditor
+  commentId: T:PlayEveryWare.EpicOnlineServices.IPlatformSpecificConfigEditor
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IPlatformSpecificConfigEditor
+  nameWithType: IPlatformSpecificConfigEditor
+  fullName: PlayEveryWare.EpicOnlineServices.IPlatformSpecificConfigEditor
 - uid: PlayEveryWare.EpicOnlineServices
   commentId: N:PlayEveryWare.EpicOnlineServices
   name: PlayEveryWare.EpicOnlineServices

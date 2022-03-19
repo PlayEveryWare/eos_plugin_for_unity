@@ -18,7 +18,7 @@ items:
   source:
     id: ChatWithFriendData
     path: ''
-    startLine: 7034
+    startLine: 8416
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -55,7 +55,7 @@ items:
   source:
     id: ChatLines
     path: ''
-    startLine: 7037
+    startLine: 8419
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -63,7 +63,7 @@ items:
   syntax:
     content: public Queue<ChatEntry> ChatLines
     return:
-      type: Queue{PlayEveryWare.EpicOnlineServices.Samples.ChatEntry}
+      type: System.Collections.Generic.Queue{PlayEveryWare.EpicOnlineServices.Samples.ChatEntry}
       description: 'Queue of cached <code>ChatEntry</code> objects '
     content.vb: Public ChatLines As Queue(Of ChatEntry)
   modifiers.csharp:
@@ -84,7 +84,7 @@ items:
   source:
     id: FriendId
     path: ''
-    startLine: 7040
+    startLine: 8422
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -113,7 +113,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 7044
+    startLine: 8426
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -436,20 +436,21 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Queue{PlayEveryWare.EpicOnlineServices.Samples.ChatEntry}
-  commentId: '!:Queue{PlayEveryWare.EpicOnlineServices.Samples.ChatEntry}'
-  definition: Queue`1
+- uid: System.Collections.Generic.Queue{PlayEveryWare.EpicOnlineServices.Samples.ChatEntry}
+  commentId: T:System.Collections.Generic.Queue{PlayEveryWare.EpicOnlineServices.Samples.ChatEntry}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Queue`1
   name: Queue<ChatEntry>
   nameWithType: Queue<ChatEntry>
-  fullName: Queue<PlayEveryWare.EpicOnlineServices.Samples.ChatEntry>
+  fullName: System.Collections.Generic.Queue<PlayEveryWare.EpicOnlineServices.Samples.ChatEntry>
   nameWithType.vb: Queue(Of ChatEntry)
-  fullName.vb: Queue(Of PlayEveryWare.EpicOnlineServices.Samples.ChatEntry)
+  fullName.vb: System.Collections.Generic.Queue(Of PlayEveryWare.EpicOnlineServices.Samples.ChatEntry)
   name.vb: Queue(Of ChatEntry)
   spec.csharp:
-  - uid: Queue`1
+  - uid: System.Collections.Generic.Queue`1
     name: Queue
     nameWithType: Queue
-    fullName: Queue
+    fullName: System.Collections.Generic.Queue
     isExternal: true
   - name: <
     nameWithType: <
@@ -462,10 +463,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Queue`1
+  - uid: System.Collections.Generic.Queue`1
     name: Queue
     nameWithType: Queue
-    fullName: Queue
+    fullName: System.Collections.Generic.Queue
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -477,44 +478,51 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Queue`1
+- uid: System.Collections.Generic.Queue`1
+  commentId: T:System.Collections.Generic.Queue`1
   isExternal: true
-  name: Queue<>
-  nameWithType: Queue<>
-  fullName: Queue<>
-  nameWithType.vb: Queue(Of )
-  fullName.vb: Queue(Of )
-  name.vb: Queue(Of )
+  name: Queue<T>
+  nameWithType: Queue<T>
+  fullName: System.Collections.Generic.Queue<T>
+  nameWithType.vb: Queue(Of T)
+  fullName.vb: System.Collections.Generic.Queue(Of T)
+  name.vb: Queue(Of T)
   spec.csharp:
-  - uid: Queue`1
+  - uid: System.Collections.Generic.Queue`1
     name: Queue
     nameWithType: Queue
-    fullName: Queue
+    fullName: System.Collections.Generic.Queue
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Queue`1
+  - uid: System.Collections.Generic.Queue`1
     name: Queue
     nameWithType: Queue
-    fullName: Queue
+    fullName: System.Collections.Generic.Queue
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: ProductUserId
   isExternal: true
   name: ProductUserId

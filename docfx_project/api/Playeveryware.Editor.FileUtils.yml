@@ -1,0 +1,790 @@
+### YamlMime:ManagedReference
+items:
+- uid: Playeveryware.Editor.FileUtils
+  commentId: T:Playeveryware.Editor.FileUtils
+  id: FileUtils
+  parent: Playeveryware.Editor
+  children:
+  - Playeveryware.Editor.FileUtils.CopyFilesToDirectory(System.String,System.Collections.Generic.List{Playeveryware.Editor.FileInfoMatchingResult})
+  - Playeveryware.Editor.FileUtils.Dos2UnixLineEndings(System.String)
+  - Playeveryware.Editor.FileUtils.Dos2UnixLineEndings(System.String,System.String)
+  - Playeveryware.Editor.FileUtils.GenerateTemporaryBuildPath
+  - Playeveryware.Editor.FileUtils.GetFileInfoMatchingPackageDescription(System.String,Playeveryware.Editor.PackageDescription)
+  - Playeveryware.Editor.FileUtils.GetFilePathsMatchingPackageDescription(System.String,Playeveryware.Editor.PackageDescription)
+  - Playeveryware.Editor.FileUtils.GetNormalizedCurrentWorkingDirectory
+  - Playeveryware.Editor.FileUtils.GetProjectPath
+  langs:
+  - csharp
+  - vb
+  name: FileUtils
+  nameWithType: FileUtils
+  fullName: Playeveryware.Editor.FileUtils
+  type: Class
+  source:
+    id: FileUtils
+    path: ''
+    startLine: 3387
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public class FileUtils
+    content.vb: Public Class FileUtils
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Playeveryware.Editor.FileUtils.GenerateTemporaryBuildPath
+  commentId: M:Playeveryware.Editor.FileUtils.GenerateTemporaryBuildPath
+  id: GenerateTemporaryBuildPath
+  parent: Playeveryware.Editor.FileUtils
+  langs:
+  - csharp
+  - vb
+  name: GenerateTemporaryBuildPath()
+  nameWithType: FileUtils.GenerateTemporaryBuildPath()
+  fullName: Playeveryware.Editor.FileUtils.GenerateTemporaryBuildPath()
+  type: Method
+  source:
+    id: GenerateTemporaryBuildPath
+    path: ''
+    startLine: 3390
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public static string GenerateTemporaryBuildPath()
+    return:
+      type: System.String
+    content.vb: Public Shared Function GenerateTemporaryBuildPath As String
+  overload: Playeveryware.Editor.FileUtils.GenerateTemporaryBuildPath*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Playeveryware.Editor.FileUtils.Dos2UnixLineEndings(System.String,System.String)
+  commentId: M:Playeveryware.Editor.FileUtils.Dos2UnixLineEndings(System.String,System.String)
+  id: Dos2UnixLineEndings(System.String,System.String)
+  parent: Playeveryware.Editor.FileUtils
+  langs:
+  - csharp
+  - vb
+  name: Dos2UnixLineEndings(String, String)
+  nameWithType: FileUtils.Dos2UnixLineEndings(String, String)
+  fullName: Playeveryware.Editor.FileUtils.Dos2UnixLineEndings(System.String, System.String)
+  type: Method
+  source:
+    id: Dos2UnixLineEndings
+    path: ''
+    startLine: 3396
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public static void Dos2UnixLineEndings(string srcFilename, string destFilename)
+    parameters:
+    - id: srcFilename
+      type: System.String
+    - id: destFilename
+      type: System.String
+    content.vb: Public Shared Sub Dos2UnixLineEndings(srcFilename As String, destFilename As String)
+  overload: Playeveryware.Editor.FileUtils.Dos2UnixLineEndings*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Playeveryware.Editor.FileUtils.Dos2UnixLineEndings(System.String)
+  commentId: M:Playeveryware.Editor.FileUtils.Dos2UnixLineEndings(System.String)
+  id: Dos2UnixLineEndings(System.String)
+  parent: Playeveryware.Editor.FileUtils
+  langs:
+  - csharp
+  - vb
+  name: Dos2UnixLineEndings(String)
+  nameWithType: FileUtils.Dos2UnixLineEndings(String)
+  fullName: Playeveryware.Editor.FileUtils.Dos2UnixLineEndings(System.String)
+  type: Method
+  source:
+    id: Dos2UnixLineEndings
+    path: ''
+    startLine: 3430
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public static void Dos2UnixLineEndings(string filename)
+    parameters:
+    - id: filename
+      type: System.String
+    content.vb: Public Shared Sub Dos2UnixLineEndings(filename As String)
+  overload: Playeveryware.Editor.FileUtils.Dos2UnixLineEndings*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Playeveryware.Editor.FileUtils.GetFilePathsMatchingPackageDescription(System.String,Playeveryware.Editor.PackageDescription)
+  commentId: M:Playeveryware.Editor.FileUtils.GetFilePathsMatchingPackageDescription(System.String,Playeveryware.Editor.PackageDescription)
+  id: GetFilePathsMatchingPackageDescription(System.String,Playeveryware.Editor.PackageDescription)
+  parent: Playeveryware.Editor.FileUtils
+  langs:
+  - csharp
+  - vb
+  name: GetFilePathsMatchingPackageDescription(String, PackageDescription)
+  nameWithType: FileUtils.GetFilePathsMatchingPackageDescription(String, PackageDescription)
+  fullName: Playeveryware.Editor.FileUtils.GetFilePathsMatchingPackageDescription(System.String, Playeveryware.Editor.PackageDescription)
+  type: Method
+  source:
+    id: GetFilePathsMatchingPackageDescription
+    path: ''
+    startLine: 3442
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public static List<string> GetFilePathsMatchingPackageDescription(string root, PackageDescription packageDescription)
+    parameters:
+    - id: root
+      type: System.String
+      description: Where the files start from
+    - id: packageDescription
+      type: Playeveryware.Editor.PackageDescription
+      description: ''
+    return:
+      type: System.Collections.Generic.List{System.String}
+      description: ''
+    content.vb: Public Shared Function GetFilePathsMatchingPackageDescription(root As String, packageDescription As PackageDescription) As List(Of String)
+  overload: Playeveryware.Editor.FileUtils.GetFilePathsMatchingPackageDescription*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Playeveryware.Editor.FileUtils.GetNormalizedCurrentWorkingDirectory
+  commentId: M:Playeveryware.Editor.FileUtils.GetNormalizedCurrentWorkingDirectory
+  id: GetNormalizedCurrentWorkingDirectory
+  parent: Playeveryware.Editor.FileUtils
+  langs:
+  - csharp
+  - vb
+  name: GetNormalizedCurrentWorkingDirectory()
+  nameWithType: FileUtils.GetNormalizedCurrentWorkingDirectory()
+  fullName: Playeveryware.Editor.FileUtils.GetNormalizedCurrentWorkingDirectory()
+  type: Method
+  source:
+    id: GetNormalizedCurrentWorkingDirectory
+    path: ''
+    startLine: 3472
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public static string GetNormalizedCurrentWorkingDirectory()
+    return:
+      type: System.String
+    content.vb: Public Shared Function GetNormalizedCurrentWorkingDirectory As String
+  overload: Playeveryware.Editor.FileUtils.GetNormalizedCurrentWorkingDirectory*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Playeveryware.Editor.FileUtils.GetProjectPath
+  commentId: M:Playeveryware.Editor.FileUtils.GetProjectPath
+  id: GetProjectPath
+  parent: Playeveryware.Editor.FileUtils
+  langs:
+  - csharp
+  - vb
+  name: GetProjectPath()
+  nameWithType: FileUtils.GetProjectPath()
+  fullName: Playeveryware.Editor.FileUtils.GetProjectPath()
+  type: Method
+  source:
+    id: GetProjectPath
+    path: ''
+    startLine: 3479
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public static string GetProjectPath()
+    return:
+      type: System.String
+    content.vb: Public Shared Function GetProjectPath As String
+  overload: Playeveryware.Editor.FileUtils.GetProjectPath*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Playeveryware.Editor.FileUtils.GetFileInfoMatchingPackageDescription(System.String,Playeveryware.Editor.PackageDescription)
+  commentId: M:Playeveryware.Editor.FileUtils.GetFileInfoMatchingPackageDescription(System.String,Playeveryware.Editor.PackageDescription)
+  id: GetFileInfoMatchingPackageDescription(System.String,Playeveryware.Editor.PackageDescription)
+  parent: Playeveryware.Editor.FileUtils
+  langs:
+  - csharp
+  - vb
+  name: GetFileInfoMatchingPackageDescription(String, PackageDescription)
+  nameWithType: FileUtils.GetFileInfoMatchingPackageDescription(String, PackageDescription)
+  fullName: Playeveryware.Editor.FileUtils.GetFileInfoMatchingPackageDescription(System.String, Playeveryware.Editor.PackageDescription)
+  type: Method
+  source:
+    id: GetFileInfoMatchingPackageDescription
+    path: ''
+    startLine: 3487
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
+    parameters:
+    - id: root
+      type: System.String
+    - id: packageDescription
+      type: Playeveryware.Editor.PackageDescription
+    return:
+      type: System.Collections.Generic.List{Playeveryware.Editor.FileInfoMatchingResult}
+    content.vb: Public Shared Function GetFileInfoMatchingPackageDescription(root As String, packageDescription As PackageDescription) As List(Of FileInfoMatchingResult)
+  overload: Playeveryware.Editor.FileUtils.GetFileInfoMatchingPackageDescription*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: Playeveryware.Editor.FileUtils.CopyFilesToDirectory(System.String,System.Collections.Generic.List{Playeveryware.Editor.FileInfoMatchingResult})
+  commentId: M:Playeveryware.Editor.FileUtils.CopyFilesToDirectory(System.String,System.Collections.Generic.List{Playeveryware.Editor.FileInfoMatchingResult})
+  id: CopyFilesToDirectory(System.String,System.Collections.Generic.List{Playeveryware.Editor.FileInfoMatchingResult})
+  parent: Playeveryware.Editor.FileUtils
+  langs:
+  - csharp
+  - vb
+  name: CopyFilesToDirectory(String, List<FileInfoMatchingResult>)
+  nameWithType: FileUtils.CopyFilesToDirectory(String, List<FileInfoMatchingResult>)
+  fullName: Playeveryware.Editor.FileUtils.CopyFilesToDirectory(System.String, System.Collections.Generic.List<Playeveryware.Editor.FileInfoMatchingResult>)
+  type: Method
+  source:
+    id: CopyFilesToDirectory
+    path: ''
+    startLine: 3580
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
+    parameters:
+    - id: packageFolder
+      type: System.String
+    - id: fileInfoForFilesToCompress
+      type: System.Collections.Generic.List{Playeveryware.Editor.FileInfoMatchingResult}
+    content.vb: Public Shared Sub CopyFilesToDirectory(packageFolder As String, fileInfoForFilesToCompress As List(Of FileInfoMatchingResult))
+  overload: Playeveryware.Editor.FileUtils.CopyFilesToDirectory*
+  nameWithType.vb: FileUtils.CopyFilesToDirectory(String, List(Of FileInfoMatchingResult))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: Playeveryware.Editor.FileUtils.CopyFilesToDirectory(System.String, System.Collections.Generic.List(Of Playeveryware.Editor.FileInfoMatchingResult))
+  name.vb: CopyFilesToDirectory(String, List(Of FileInfoMatchingResult))
+references:
+- uid: Playeveryware.Editor
+  commentId: N:Playeveryware.Editor
+  name: Playeveryware.Editor
+  nameWithType: Playeveryware.Editor
+  fullName: Playeveryware.Editor
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Playeveryware.Editor.FileUtils.GenerateTemporaryBuildPath*
+  commentId: Overload:Playeveryware.Editor.FileUtils.GenerateTemporaryBuildPath
+  name: GenerateTemporaryBuildPath
+  nameWithType: FileUtils.GenerateTemporaryBuildPath
+  fullName: Playeveryware.Editor.FileUtils.GenerateTemporaryBuildPath
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: Playeveryware.Editor.FileUtils.Dos2UnixLineEndings*
+  commentId: Overload:Playeveryware.Editor.FileUtils.Dos2UnixLineEndings
+  name: Dos2UnixLineEndings
+  nameWithType: FileUtils.Dos2UnixLineEndings
+  fullName: Playeveryware.Editor.FileUtils.Dos2UnixLineEndings
+- uid: Playeveryware.Editor.FileUtils.GetFilePathsMatchingPackageDescription*
+  commentId: Overload:Playeveryware.Editor.FileUtils.GetFilePathsMatchingPackageDescription
+  name: GetFilePathsMatchingPackageDescription
+  nameWithType: FileUtils.GetFilePathsMatchingPackageDescription
+  fullName: Playeveryware.Editor.FileUtils.GetFilePathsMatchingPackageDescription
+- uid: Playeveryware.Editor.PackageDescription
+  commentId: T:Playeveryware.Editor.PackageDescription
+  parent: Playeveryware.Editor
+  name: PackageDescription
+  nameWithType: PackageDescription
+  fullName: Playeveryware.Editor.PackageDescription
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: Playeveryware.Editor.FileUtils.GetNormalizedCurrentWorkingDirectory*
+  commentId: Overload:Playeveryware.Editor.FileUtils.GetNormalizedCurrentWorkingDirectory
+  name: GetNormalizedCurrentWorkingDirectory
+  nameWithType: FileUtils.GetNormalizedCurrentWorkingDirectory
+  fullName: Playeveryware.Editor.FileUtils.GetNormalizedCurrentWorkingDirectory
+- uid: Playeveryware.Editor.FileUtils.GetProjectPath*
+  commentId: Overload:Playeveryware.Editor.FileUtils.GetProjectPath
+  name: GetProjectPath
+  nameWithType: FileUtils.GetProjectPath
+  fullName: Playeveryware.Editor.FileUtils.GetProjectPath
+- uid: Playeveryware.Editor.FileUtils.GetFileInfoMatchingPackageDescription*
+  commentId: Overload:Playeveryware.Editor.FileUtils.GetFileInfoMatchingPackageDescription
+  name: GetFileInfoMatchingPackageDescription
+  nameWithType: FileUtils.GetFileInfoMatchingPackageDescription
+  fullName: Playeveryware.Editor.FileUtils.GetFileInfoMatchingPackageDescription
+- uid: System.Collections.Generic.List{Playeveryware.Editor.FileInfoMatchingResult}
+  commentId: T:System.Collections.Generic.List{Playeveryware.Editor.FileInfoMatchingResult}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<FileInfoMatchingResult>
+  nameWithType: List<FileInfoMatchingResult>
+  fullName: System.Collections.Generic.List<Playeveryware.Editor.FileInfoMatchingResult>
+  nameWithType.vb: List(Of FileInfoMatchingResult)
+  fullName.vb: System.Collections.Generic.List(Of Playeveryware.Editor.FileInfoMatchingResult)
+  name.vb: List(Of FileInfoMatchingResult)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Playeveryware.Editor.FileInfoMatchingResult
+    name: FileInfoMatchingResult
+    nameWithType: FileInfoMatchingResult
+    fullName: Playeveryware.Editor.FileInfoMatchingResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Playeveryware.Editor.FileInfoMatchingResult
+    name: FileInfoMatchingResult
+    nameWithType: FileInfoMatchingResult
+    fullName: Playeveryware.Editor.FileInfoMatchingResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Playeveryware.Editor.FileUtils.CopyFilesToDirectory*
+  commentId: Overload:Playeveryware.Editor.FileUtils.CopyFilesToDirectory
+  name: CopyFilesToDirectory
+  nameWithType: FileUtils.CopyFilesToDirectory
+  fullName: Playeveryware.Editor.FileUtils.CopyFilesToDirectory

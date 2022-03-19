@@ -1,7 +1,20 @@
 ### YamlMime:TableOfContent
+- uid: Playeveryware.Editor
+  name: Playeveryware.Editor
+  items:
+  - uid: Playeveryware.Editor.FileInfoMatchingResult
+    name: FileInfoMatchingResult
+  - uid: Playeveryware.Editor.FileUtils
+    name: FileUtils
+  - uid: Playeveryware.Editor.PackageDescription
+    name: PackageDescription
+  - uid: Playeveryware.Editor.SrcDestPair
+    name: SrcDestPair
 - uid: PlayEveryWare.EpicOnlineServices
   name: PlayEveryWare.EpicOnlineServices
   items:
+  - uid: PlayEveryWare.EpicOnlineServices.EmptyPredicates
+    name: EmptyPredicates
   - uid: PlayEveryWare.EpicOnlineServices.EOSConfig
     name: EOSConfig
   - uid: PlayEveryWare.EpicOnlineServices.EOSManager
@@ -10,6 +23,8 @@
     name: EOSManager.EOSSingleton
   - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EpicLauncherArgs
     name: EOSManager.EOSSingleton.EpicLauncherArgs
+  - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSState
+    name: EOSManager.EOSState
   - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback
     name: EOSManager.OnAuthLinkExternalAccountCallback
   - uid: PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback
@@ -26,9 +41,19 @@
     name: EOSVersionInformation
   - uid: PlayEveryWare.EpicOnlineServices.EOSVersionInformation.UPMPackage
     name: EOSVersionInformation.UPMPackage
+  - uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor
+    name: EpicOnlineServicesConfigEditor
+  - uid: PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.EOSConfigFile`1
+    name: EpicOnlineServicesConfigEditor.EOSConfigFile<T>
+    name.vb: EpicOnlineServicesConfigEditor.EOSConfigFile(Of T)
   - uid: PlayEveryWare.EpicOnlineServices.GenericSafeHandle`1
     name: GenericSafeHandle<HandleType>
     name.vb: GenericSafeHandle(Of HandleType)
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+    name: ICloneableGeneric<T>
+    name.vb: ICloneableGeneric(Of T)
+  - uid: PlayEveryWare.EpicOnlineServices.IEmpty
+    name: IEmpty
   - uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin
     name: IEOSOnAuthLogin
   - uid: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogout
@@ -37,6 +62,12 @@
     name: IEOSOnConnectLogin
   - uid: PlayEveryWare.EpicOnlineServices.IEOSSubManager
     name: IEOSSubManager
+  - uid: PlayEveryWare.EpicOnlineServices.InstallEpicOnlineServiceZip
+    name: InstallEpicOnlineServiceZip
+  - uid: PlayEveryWare.EpicOnlineServices.IPlatformSpecificConfigEditor
+    name: IPlatformSpecificConfigEditor
+  - uid: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute
+    name: MonoPInvokeCallbackAttribute
   - uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
     name: NotifyEventHandle
   - uid: PlayEveryWare.EpicOnlineServices.NotifyEventHandle.RemoveDelegate
@@ -54,6 +85,8 @@
     name: EOSFriendsManager
   - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
     name: EOSFriendsManager.OnFriendsCallback
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSHostManager
+    name: EOSHostManager
   - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
     name: EOSLeaderboardManager
   - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
@@ -68,6 +101,10 @@
     name: EOSPeer2PeerManager
   - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSPlayerDataStorageManager
     name: EOSPlayerDataStorageManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager
+    name: EOSReportsManager
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.OnSanctionsCallback
+    name: EOSReportsManager.OnSanctionsCallback
   - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
     name: EOSSessionsManager
   - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager
@@ -96,6 +133,8 @@
     name: LobbyRTCState
   - uid: PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo
     name: PresenceInfo
+  - uid: PlayEveryWare.EpicOnlineServices.Samples.Sanction
+    name: Sanction
   - uid: PlayEveryWare.EpicOnlineServices.Samples.Session
     name: Session
   - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute

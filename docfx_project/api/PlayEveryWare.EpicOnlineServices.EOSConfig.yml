@@ -5,15 +5,28 @@ items:
   id: EOSConfig
   parent: PlayEveryWare.EpicOnlineServices
   children:
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.alwaysSendInputToOverlay
   - PlayEveryWare.EpicOnlineServices.EOSConfig.clientID
   - PlayEveryWare.EpicOnlineServices.EOSConfig.clientSecret
   - PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
   - PlayEveryWare.EpicOnlineServices.EOSConfig.deploymentID
   - PlayEveryWare.EpicOnlineServices.EOSConfig.encryptionKey
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast``2(``1)
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.GetInitialButtonDelayForOverlayAsFloat
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.GetRepeatButtonDelayForOverlayAsFloat
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.initialButtonDelayForOverlay
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.IsEmpty
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlags
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags(System.Collections.Generic.List{System.String})
   - PlayEveryWare.EpicOnlineServices.EOSConfig.productID
   - PlayEveryWare.EpicOnlineServices.EOSConfig.productName
   - PlayEveryWare.EpicOnlineServices.EOSConfig.productVersion
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.repeatButtonDelayForOverlay
   - PlayEveryWare.EpicOnlineServices.EOSConfig.sandboxID
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.SetInitialButtonDelayForOverlayFromFloat(System.Single)
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.SetRepeatButtonDelayForOverlayFromFloat(System.Single)
+  - PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny(System.String,System.String[])
   langs:
   - csharp
   - vb
@@ -24,7 +37,7 @@ items:
   source:
     id: EOSConfig
     path: ''
-    startLine: 31
+    startLine: 33
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -34,13 +47,17 @@ items:
     content: >-
       [Serializable]
 
-      public class EOSConfig
+      public class EOSConfig : ICloneableGeneric<EOSConfig>, IEmpty
     content.vb: >-
       <Serializable>
 
       Public Class EOSConfig
+          Implements ICloneableGeneric(Of EOSConfig), IEmpty
   inheritance:
   - System.Object
+  implements:
+  - PlayEveryWare.EpicOnlineServices.ICloneableGeneric{PlayEveryWare.EpicOnlineServices.EOSConfig}
+  - PlayEveryWare.EpicOnlineServices.IEmpty
   inheritedMembers:
   - System.Object.ToString
   - System.Object.Equals(System.Object)
@@ -73,7 +90,7 @@ items:
   source:
     id: productName
     path: ''
-    startLine: 35
+    startLine: 37
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -102,7 +119,7 @@ items:
   source:
     id: productVersion
     path: ''
-    startLine: 38
+    startLine: 40
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -131,7 +148,7 @@ items:
   source:
     id: productID
     path: ''
-    startLine: 41
+    startLine: 43
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -160,7 +177,7 @@ items:
   source:
     id: sandboxID
     path: ''
-    startLine: 44
+    startLine: 46
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -189,7 +206,7 @@ items:
   source:
     id: deploymentID
     path: ''
-    startLine: 47
+    startLine: 49
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -218,7 +235,7 @@ items:
   source:
     id: clientSecret
     path: ''
-    startLine: 50
+    startLine: 52
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -247,7 +264,7 @@ items:
   source:
     id: clientID
     path: ''
-    startLine: 53
+    startLine: 55
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -276,7 +293,7 @@ items:
   source:
     id: encryptionKey
     path: ''
-    startLine: 56
+    startLine: 58
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -291,6 +308,235 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlags
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlags
+  id: platformOptionsFlags
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: platformOptionsFlags
+  nameWithType: EOSConfig.platformOptionsFlags
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlags
+  type: Field
+  source:
+    id: platformOptionsFlags
+    path: ''
+    startLine: 61
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public List<string> platformOptionsFlags
+    return:
+      type: System.Collections.Generic.List{System.String}
+      description: <code>Flags</code> used to initilize the EOS platform.
+    content.vb: Public platformOptionsFlags As List(Of String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.alwaysSendInputToOverlay
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.alwaysSendInputToOverlay
+  id: alwaysSendInputToOverlay
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: alwaysSendInputToOverlay
+  nameWithType: EOSConfig.alwaysSendInputToOverlay
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.alwaysSendInputToOverlay
+  type: Field
+  source:
+    id: alwaysSendInputToOverlay
+    path: ''
+    startLine: 64
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public bool alwaysSendInputToOverlay
+    return:
+      type: System.Boolean
+      description: <code>Always Send Input to Overlay </code>IF true, the plugin will always send input to the overlay, and handle showing the overlay
+    content.vb: Public alwaysSendInputToOverlay As Boolean
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.initialButtonDelayForOverlay
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.initialButtonDelayForOverlay
+  id: initialButtonDelayForOverlay
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: initialButtonDelayForOverlay
+  nameWithType: EOSConfig.initialButtonDelayForOverlay
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.initialButtonDelayForOverlay
+  type: Field
+  source:
+    id: initialButtonDelayForOverlay
+    path: ''
+    startLine: 67
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string initialButtonDelayForOverlay
+    return:
+      type: System.String
+      description: <code>Initial Button Delay</code> Stored as a string so it can be &apos;empty&apos;
+    content.vb: Public initialButtonDelayForOverlay As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.repeatButtonDelayForOverlay
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSConfig.repeatButtonDelayForOverlay
+  id: repeatButtonDelayForOverlay
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: repeatButtonDelayForOverlay
+  nameWithType: EOSConfig.repeatButtonDelayForOverlay
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.repeatButtonDelayForOverlay
+  type: Field
+  source:
+    id: repeatButtonDelayForOverlay
+    path: ''
+    startLine: 69
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  example: []
+  syntax:
+    content: public string repeatButtonDelayForOverlay
+    return:
+      type: System.String
+      description: '<code>Rpeat button delay for overlay</code> Stored as a string so it can be &apos;empty&apos; '
+    content.vb: Public repeatButtonDelayForOverlay As String
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny(System.String,System.String[])
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny(System.String,System.String[])
+  id: StringIsEqualToAny(System.String,System.String[])
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: StringIsEqualToAny(String, String[])
+  nameWithType: EOSConfig.StringIsEqualToAny(String, String[])
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny(System.String, System.String[])
+  type: Method
+  source:
+    id: StringIsEqualToAny
+    path: ''
+    startLine: 74
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public static bool StringIsEqualToAny(string flagAsCString, params string[] parameters)
+    parameters:
+    - id: flagAsCString
+      type: System.String
+    - id: parameters
+      type: System.String[]
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function StringIsEqualToAny(flagAsCString As String, ParamArray parameters As String()) As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny*
+  nameWithType.vb: EOSConfig.StringIsEqualToAny(String, String())
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny(System.String, System.String())
+  name.vb: StringIsEqualToAny(String, String())
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast``2(``1)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast``2(``1)
+  id: EnumCast``2(``1)
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: EnumCast<T, V>(V)
+  nameWithType: EOSConfig.EnumCast<T, V>(V)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast<T, V>(V)
+  type: Method
+  source:
+    id: EnumCast
+    path: ''
+    startLine: 86
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public static T EnumCast<T, V>(V value)
+    parameters:
+    - id: value
+      type: '{V}'
+    typeParameters:
+    - id: T
+    - id: V
+    return:
+      type: '{T}'
+    content.vb: Public Shared Function EnumCast(Of T, V)(value As V) As T
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast*
+  nameWithType.vb: EOSConfig.EnumCast(Of T, V)(V)
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast(Of T, V)(V)
+  name.vb: EnumCast(Of T, V)(V)
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags(System.Collections.Generic.List{System.String})
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags(System.Collections.Generic.List{System.String})
+  id: platformOptionsFlagsAsPlatformFlags(System.Collections.Generic.List{System.String})
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: platformOptionsFlagsAsPlatformFlags(List<String>)
+  nameWithType: EOSConfig.platformOptionsFlagsAsPlatformFlags(List<String>)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags(System.Collections.Generic.List<System.String>)
+  type: Method
+  source:
+    id: platformOptionsFlagsAsPlatformFlags
+    path: ''
+    startLine: 92
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public static PlatformFlags platformOptionsFlagsAsPlatformFlags(List<string> platformOptionsFlags)
+    parameters:
+    - id: platformOptionsFlags
+      type: System.Collections.Generic.List{System.String}
+    return:
+      type: PlatformFlags
+    content.vb: Public Shared Function platformOptionsFlagsAsPlatformFlags(platformOptionsFlags As List(Of String)) As PlatformFlags
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags*
+  nameWithType.vb: EOSConfig.platformOptionsFlagsAsPlatformFlags(List(Of String))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags(System.Collections.Generic.List(Of System.String))
+  name.vb: platformOptionsFlagsAsPlatformFlags(List(Of String))
 - uid: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
   commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
   id: Clone
@@ -305,7 +551,7 @@ items:
   source:
     id: Clone
     path: ''
-    startLine: 62
+    startLine: 140
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -318,6 +564,180 @@ items:
       description: Shallow copy of <code>EOSConfig</code>
     content.vb: Public Function Clone As EOSConfig
   overload: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone*
+  implements:
+  - PlayEveryWare.EpicOnlineServices.ICloneableGeneric{PlayEveryWare.EpicOnlineServices.EOSConfig}.Clone
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.IsEmpty
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.IsEmpty
+  id: IsEmpty
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: IsEmpty()
+  nameWithType: EOSConfig.IsEmpty()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.IsEmpty()
+  type: Method
+  source:
+    id: IsEmpty
+    path: ''
+    startLine: 146
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public bool IsEmpty()
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsEmpty As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.IsEmpty*
+  implements:
+  - PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags
+  id: platformOptionsFlagsAsPlatformFlags
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: platformOptionsFlagsAsPlatformFlags()
+  nameWithType: EOSConfig.platformOptionsFlagsAsPlatformFlags()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags()
+  type: Method
+  source:
+    id: platformOptionsFlagsAsPlatformFlags
+    path: ''
+    startLine: 164
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public PlatformFlags platformOptionsFlagsAsPlatformFlags()
+    return:
+      type: PlatformFlags
+    content.vb: Public Function platformOptionsFlagsAsPlatformFlags As PlatformFlags
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.GetInitialButtonDelayForOverlayAsFloat
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.GetInitialButtonDelayForOverlayAsFloat
+  id: GetInitialButtonDelayForOverlayAsFloat
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: GetInitialButtonDelayForOverlayAsFloat()
+  nameWithType: EOSConfig.GetInitialButtonDelayForOverlayAsFloat()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.GetInitialButtonDelayForOverlayAsFloat()
+  type: Method
+  source:
+    id: GetInitialButtonDelayForOverlayAsFloat
+    path: ''
+    startLine: 170
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public float GetInitialButtonDelayForOverlayAsFloat()
+    return:
+      type: System.Single
+    content.vb: Public Function GetInitialButtonDelayForOverlayAsFloat As Single
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.GetInitialButtonDelayForOverlayAsFloat*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.SetInitialButtonDelayForOverlayFromFloat(System.Single)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.SetInitialButtonDelayForOverlayFromFloat(System.Single)
+  id: SetInitialButtonDelayForOverlayFromFloat(System.Single)
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: SetInitialButtonDelayForOverlayFromFloat(Single)
+  nameWithType: EOSConfig.SetInitialButtonDelayForOverlayFromFloat(Single)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.SetInitialButtonDelayForOverlayFromFloat(System.Single)
+  type: Method
+  source:
+    id: SetInitialButtonDelayForOverlayFromFloat
+    path: ''
+    startLine: 176
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public void SetInitialButtonDelayForOverlayFromFloat(float f)
+    parameters:
+    - id: f
+      type: System.Single
+    content.vb: Public Sub SetInitialButtonDelayForOverlayFromFloat(f As Single)
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.SetInitialButtonDelayForOverlayFromFloat*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.GetRepeatButtonDelayForOverlayAsFloat
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.GetRepeatButtonDelayForOverlayAsFloat
+  id: GetRepeatButtonDelayForOverlayAsFloat
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: GetRepeatButtonDelayForOverlayAsFloat()
+  nameWithType: EOSConfig.GetRepeatButtonDelayForOverlayAsFloat()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.GetRepeatButtonDelayForOverlayAsFloat()
+  type: Method
+  source:
+    id: GetRepeatButtonDelayForOverlayAsFloat
+    path: ''
+    startLine: 182
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public float GetRepeatButtonDelayForOverlayAsFloat()
+    return:
+      type: System.Single
+    content.vb: Public Function GetRepeatButtonDelayForOverlayAsFloat As Single
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.GetRepeatButtonDelayForOverlayAsFloat*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.SetRepeatButtonDelayForOverlayFromFloat(System.Single)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSConfig.SetRepeatButtonDelayForOverlayFromFloat(System.Single)
+  id: SetRepeatButtonDelayForOverlayFromFloat(System.Single)
+  parent: PlayEveryWare.EpicOnlineServices.EOSConfig
+  langs:
+  - csharp
+  - vb
+  name: SetRepeatButtonDelayForOverlayFromFloat(Single)
+  nameWithType: EOSConfig.SetRepeatButtonDelayForOverlayFromFloat(Single)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.SetRepeatButtonDelayForOverlayFromFloat(System.Single)
+  type: Method
+  source:
+    id: SetRepeatButtonDelayForOverlayFromFloat
+    path: ''
+    startLine: 188
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public void SetRepeatButtonDelayForOverlayFromFloat(float f)
+    parameters:
+    - id: f
+      type: System.Single
+    content.vb: Public Sub SetRepeatButtonDelayForOverlayFromFloat(f As Single)
+  overload: PlayEveryWare.EpicOnlineServices.EOSConfig.SetRepeatButtonDelayForOverlayFromFloat*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -335,6 +755,52 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric{PlayEveryWare.EpicOnlineServices.EOSConfig}
+  commentId: T:PlayEveryWare.EpicOnlineServices.ICloneableGeneric{PlayEveryWare.EpicOnlineServices.EOSConfig}
+  parent: PlayEveryWare.EpicOnlineServices
+  definition: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+  name: ICloneableGeneric<EOSConfig>
+  nameWithType: ICloneableGeneric<EOSConfig>
+  fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric<PlayEveryWare.EpicOnlineServices.EOSConfig>
+  nameWithType.vb: ICloneableGeneric(Of EOSConfig)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.ICloneableGeneric(Of PlayEveryWare.EpicOnlineServices.EOSConfig)
+  name.vb: ICloneableGeneric(Of EOSConfig)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+    name: ICloneableGeneric
+    nameWithType: ICloneableGeneric
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: PlayEveryWare.EpicOnlineServices.EOSConfig
+    name: EOSConfig
+    nameWithType: EOSConfig
+    fullName: PlayEveryWare.EpicOnlineServices.EOSConfig
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+    name: ICloneableGeneric
+    nameWithType: ICloneableGeneric
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: PlayEveryWare.EpicOnlineServices.EOSConfig
+    name: EOSConfig
+    nameWithType: EOSConfig
+    fullName: PlayEveryWare.EpicOnlineServices.EOSConfig
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.IEmpty
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEmpty
+  parent: PlayEveryWare.EpicOnlineServices
+  name: IEmpty
+  nameWithType: IEmpty
+  fullName: PlayEveryWare.EpicOnlineServices.IEmpty
 - uid: System.Object.ToString
   commentId: M:System.Object.ToString
   parent: System.Object
@@ -620,6 +1086,42 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+  commentId: T:PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+  name: ICloneableGeneric<T>
+  nameWithType: ICloneableGeneric<T>
+  fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric<T>
+  nameWithType.vb: ICloneableGeneric(Of T)
+  fullName.vb: PlayEveryWare.EpicOnlineServices.ICloneableGeneric(Of T)
+  name.vb: ICloneableGeneric(Of T)
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+    name: ICloneableGeneric
+    nameWithType: ICloneableGeneric
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1
+    name: ICloneableGeneric
+    nameWithType: ICloneableGeneric
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -627,14 +1129,297 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny
+  name: StringIsEqualToAny
+  nameWithType: EOSConfig.StringIsEqualToAny
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.StringIsEqualToAny
+- uid: System.String[]
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  nameWithType.vb: String()
+  fullName.vb: System.String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast
+  name: EnumCast
+  nameWithType: EOSConfig.EnumCast
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.EnumCast
+- uid: '{V}'
+  commentId: '!:V'
+  definition: V
+  name: V
+  nameWithType: V
+  fullName: V
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: V
+  commentId: '!:V'
+  name: V
+  nameWithType: V
+  fullName: V
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags
+  name: platformOptionsFlagsAsPlatformFlags
+  nameWithType: EOSConfig.platformOptionsFlagsAsPlatformFlags
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.platformOptionsFlagsAsPlatformFlags
+- uid: PlatformFlags
+  isExternal: true
+  name: PlatformFlags
+  nameWithType: PlatformFlags
+  fullName: PlatformFlags
 - uid: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
   name: Clone
   nameWithType: EOSConfig.Clone
   fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.Clone
+- uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric{PlayEveryWare.EpicOnlineServices.EOSConfig}.Clone
+  commentId: M:PlayEveryWare.EpicOnlineServices.ICloneableGeneric{PlayEveryWare.EpicOnlineServices.EOSConfig}.Clone
+  parent: PlayEveryWare.EpicOnlineServices.ICloneableGeneric{PlayEveryWare.EpicOnlineServices.EOSConfig}
+  definition: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1.Clone
+  name: Clone()
+  nameWithType: ICloneableGeneric<EOSConfig>.Clone()
+  fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric<PlayEveryWare.EpicOnlineServices.EOSConfig>.Clone()
+  nameWithType.vb: ICloneableGeneric(Of EOSConfig).Clone()
+  fullName.vb: PlayEveryWare.EpicOnlineServices.ICloneableGeneric(Of PlayEveryWare.EpicOnlineServices.EOSConfig).Clone()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1.Clone
+    name: Clone
+    nameWithType: ICloneableGeneric<EOSConfig>.Clone
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric<PlayEveryWare.EpicOnlineServices.EOSConfig>.Clone
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1.Clone
+    name: Clone
+    nameWithType: ICloneableGeneric(Of EOSConfig).Clone
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric(Of PlayEveryWare.EpicOnlineServices.EOSConfig).Clone
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: PlayEveryWare.EpicOnlineServices.EOSConfig
   commentId: T:PlayEveryWare.EpicOnlineServices.EOSConfig
   parent: PlayEveryWare.EpicOnlineServices
   name: EOSConfig
   nameWithType: EOSConfig
   fullName: PlayEveryWare.EpicOnlineServices.EOSConfig
+- uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1.Clone
+  commentId: M:PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1.Clone
+  name: Clone()
+  nameWithType: ICloneableGeneric<T>.Clone()
+  fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric<T>.Clone()
+  nameWithType.vb: ICloneableGeneric(Of T).Clone()
+  fullName.vb: PlayEveryWare.EpicOnlineServices.ICloneableGeneric(Of T).Clone()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1.Clone
+    name: Clone
+    nameWithType: ICloneableGeneric<T>.Clone
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric<T>.Clone
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.ICloneableGeneric`1.Clone
+    name: Clone
+    nameWithType: ICloneableGeneric(Of T).Clone
+    fullName: PlayEveryWare.EpicOnlineServices.ICloneableGeneric(Of T).Clone
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.IsEmpty*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.IsEmpty
+  name: IsEmpty
+  nameWithType: EOSConfig.IsEmpty
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.IsEmpty
+- uid: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  commentId: M:PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  parent: PlayEveryWare.EpicOnlineServices.IEmpty
+  name: IsEmpty()
+  nameWithType: IEmpty.IsEmpty()
+  fullName: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty()
+  spec.csharp:
+  - uid: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+    name: IsEmpty
+    nameWithType: IEmpty.IsEmpty
+    fullName: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+    name: IsEmpty
+    nameWithType: IEmpty.IsEmpty
+    fullName: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.GetInitialButtonDelayForOverlayAsFloat*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.GetInitialButtonDelayForOverlayAsFloat
+  name: GetInitialButtonDelayForOverlayAsFloat
+  nameWithType: EOSConfig.GetInitialButtonDelayForOverlayAsFloat
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.GetInitialButtonDelayForOverlayAsFloat
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.SetInitialButtonDelayForOverlayFromFloat*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.SetInitialButtonDelayForOverlayFromFloat
+  name: SetInitialButtonDelayForOverlayFromFloat
+  nameWithType: EOSConfig.SetInitialButtonDelayForOverlayFromFloat
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.SetInitialButtonDelayForOverlayFromFloat
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.GetRepeatButtonDelayForOverlayAsFloat*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.GetRepeatButtonDelayForOverlayAsFloat
+  name: GetRepeatButtonDelayForOverlayAsFloat
+  nameWithType: EOSConfig.GetRepeatButtonDelayForOverlayAsFloat
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.GetRepeatButtonDelayForOverlayAsFloat
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig.SetRepeatButtonDelayForOverlayFromFloat*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSConfig.SetRepeatButtonDelayForOverlayFromFloat
+  name: SetRepeatButtonDelayForOverlayFromFloat
+  nameWithType: EOSConfig.SetRepeatButtonDelayForOverlayFromFloat
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig.SetRepeatButtonDelayForOverlayFromFloat
