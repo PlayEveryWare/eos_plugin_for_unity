@@ -186,9 +186,9 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Stats/*.cs", "dest": "Runtime/EOS_SDK/Generated/Stats/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Stats/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Stats/"},
 
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Titlestorage.meta", "dest": "Runtime/EOS_SDK/Generated/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Titlestorage/*.cs", "dest": "Runtime/EOS_SDK/Generated/Titlestorage/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Titlestorage/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Titlestorage/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage/*.cs", "dest": "Runtime/EOS_SDK/Generated/TitleStorage/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/TitleStorage/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ui.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ui/*.cs", "dest": "Runtime/EOS_SDK/Generated/Ui/"},
