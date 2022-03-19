@@ -22,6 +22,7 @@
 
 using Epic.OnlineServices.Platform;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
@@ -82,7 +83,10 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             if (s_platformSpecifics != null)
             {
-                throw new Exception("Trying to set the EOSManagerPlatformSpecfifics ");
+                throw new Exception(string.Format("Trying to set the EOSManagerPlatformSpecifics twice: {0} => {1}", 
+                    s_platformSpecifics.GetType().Name,
+                    platformSpecifics == null ? "NULL" : platformSpecifics.GetType().Name
+                ));
             }
             s_platformSpecifics = platformSpecifics;
         }
@@ -98,12 +102,19 @@ namespace PlayEveryWare.EpicOnlineServices
     }
 
     //-------------------------------------------------------------------------
+    public interface IEOSCoroutineOwner
+    {
+        void StartCoroutine(IEnumerator routine);
+    }
+
+    //-------------------------------------------------------------------------
     public interface IEOSManagerPlatformSpecifics
     {
         string GetTempDir();
-        Int32 IsReadyForNetworkActivity();
 
         void AddPluginSearchPaths(ref List<string> pluginPaths);
+
+        string GetDynamicLibraryExtension();
 
         //-------------------------------------------------------------------------
         IEOSInitializeOptions CreateSystemInitOptions();
@@ -115,5 +126,9 @@ namespace PlayEveryWare.EpicOnlineServices
         Epic.OnlineServices.Result InitializePlatformInterface(IEOSInitializeOptions options);
 
         Epic.OnlineServices.Platform.PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions);
+
+        void InitializeOverlay(IEOSCoroutineOwner owner);
+
+        void RegisterForPlatformNotifications();
     }
 }

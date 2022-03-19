@@ -20,18 +20,43 @@
 * SOFTWARE.
 */
 
+#if UNITY_PS5 || UNITY_PS4
+#define ENABLE_GET_ALLOCATOR_FUNCTION
+#endif
+
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System;
+using PlayEveryWare.EpicOnlineServices;
 
 using size_t = System.UIntPtr;
 
 public partial class SystemMemory
 {
-#if !(UNITY_ANDROID || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA_10_0) || UNITY_SWITCH
+#if !(UNITY_ANDROID || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA_10_0) || UNITY_SWITCH || UNITY_GAMECORE
+
     public delegate IntPtr EOS_GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes);
     public delegate IntPtr EOS_GenericAlignRealloc(IntPtr ptr, size_t sizeInBytes, size_t alignmentInBytes);
     public delegate void EOS_GenericFree(IntPtr ptr);
+
+    static private EOS_GenericAlignAlloc GenericAlignAllocDelegate;
+    static private EOS_GenericAlignRealloc GenericAlignReallocDelegate;
+    static private EOS_GenericFree GenericFreeDelegate;
+
+    static public readonly IntPtr GenericAlignAllocFunctionPointer;
+    static public readonly IntPtr GenericAlignReallocFunctionPointer;
+    static public readonly IntPtr GenericFreeFunctionPointer;
+
+    static SystemMemory()
+    {
+        GenericAlignAllocDelegate = new EOS_GenericAlignAlloc(GenericAlignAlloc);
+        GenericAlignReallocDelegate = new EOS_GenericAlignRealloc(GenericAlignRealloc);
+        GenericFreeDelegate = new EOS_GenericFree(GenericFree);
+
+        GenericAlignAllocFunctionPointer = Marshal.GetFunctionPointerForDelegate(GenericAlignAllocDelegate);
+        GenericAlignReallocFunctionPointer = Marshal.GetFunctionPointerForDelegate(GenericAlignReallocDelegate);
+        GenericFreeFunctionPointer = Marshal.GetFunctionPointerForDelegate(GenericFreeDelegate);
+    }
 
     [AOT.MonoPInvokeCallback(typeof(EOS_GenericAlignAlloc))]
     static public IntPtr GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes)
@@ -53,13 +78,38 @@ public partial class SystemMemory
         Mem_generic_free(ptr);
     }
 
-    [DllImport("__Internal")]
+    //-------------------------------------------------------------------------
+    static public void GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free)
+    {
+#if ENABLE_GET_ALLOCATOR_FUNCTION
+        Mem_GetAllocatorFunctions(out alloc, out realloc, out free);
+#else
+        alloc = GenericAlignAllocFunctionPointer;
+        realloc = GenericAlignReallocFunctionPointer;
+        free = GenericFreeFunctionPointer;
+#endif
+    }
+
+    private const string DLLHBinaryName =
+#if UNITY_GAMECORE
+        "DynamicLibraryLoaderHelper";
+#else
+        "__Internal";
+#endif
+
+    [DllImport(DLLHBinaryName)]
     static public extern IntPtr Mem_generic_align_alloc(size_t size_in_bytes, size_t alignment_in_bytes);
 
-    [DllImport("__Internal")]
+    [DllImport(DLLHBinaryName)]
     static public extern IntPtr Mem_generic_align_realloc(IntPtr ptr, size_t size_in_bytes, size_t alignment_in_bytes);
 
-    [DllImport("__Internal")]
+    [DllImport(DLLHBinaryName)]
     static public extern void Mem_generic_free(IntPtr ptr);
+
+#if ENABLE_GET_ALLOCATOR_FUNCTION
+    [DllImport(DLLHBinaryName)]
+    private static extern void Mem_GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free);
+#endif
+
 #endif
 }

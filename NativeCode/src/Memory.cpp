@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Memory.h"
 
-STATIC_EXPORT(void *) Mem_generic_align_alloc(size_t size_in_bytes, size_t alignment_in_bytes)
+FUN_EXPORT(void *) Mem_generic_align_alloc(size_t size_in_bytes, size_t alignment_in_bytes)
 {
     void * to_return = nullptr;
 
@@ -10,7 +10,7 @@ STATIC_EXPORT(void *) Mem_generic_align_alloc(size_t size_in_bytes, size_t align
     return to_return;
 }
 
-STATIC_EXPORT(void *) Mem_generic_align_realloc(void *ptr, size_t size_in_bytes, size_t alignment_in_bytes)
+FUN_EXPORT(void *) Mem_generic_align_realloc(void *ptr, size_t size_in_bytes, size_t alignment_in_bytes)
 {
     void * to_return = nullptr;
 
@@ -19,7 +19,14 @@ STATIC_EXPORT(void *) Mem_generic_align_realloc(void *ptr, size_t size_in_bytes,
     return to_return;
 }
 
-STATIC_EXPORT(void) Mem_generic_free(void *ptr)
+FUN_EXPORT(void) Mem_generic_free(void *ptr)
 {
     platform::free_aligned(ptr);
+}
+
+STATIC_EXPORT(void) Mem_GetAllocatorFunctions(void** alloc, void** realloc, void** free)
+{
+    *alloc = reinterpret_cast<void*>(&Mem_generic_align_alloc);
+    *realloc = reinterpret_cast<void*>(&Mem_generic_align_realloc);
+    *free = reinterpret_cast<void*>(&Mem_generic_free);
 }
