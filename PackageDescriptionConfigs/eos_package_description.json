@@ -220,8 +220,8 @@
         {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/UI.meta", "dest": "Samples~/Samples/Scripts/UI.meta"},
-        {"src":"Assets/Scripts/UI/UI*.cs", "dest": "Samples~/Samples/Scripts/UI/"},
-        {"src":"Assets/Scripts/UI/UI*.cs.meta", "dest": "Samples~/Samples/Scripts/UI/"},
+        {"src":"Assets/Scripts/UI/*.cs", "dest": "Samples~/Samples/Scripts/UI/"},
+        {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/Scripts/UI/"},
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
 
