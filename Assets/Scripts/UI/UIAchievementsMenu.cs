@@ -26,8 +26,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-//using UnityEngine.InputSystem;
 using UnityEngine.UI;
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Achievements;
@@ -64,7 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementManager = EOSManager.Instance.GetOrCreateManager<EOSAchievementManager>();
         }
 
-#if ENABLE_CONTROLLER
+#if ENABLE_INPUT_SYSTEM
         private void Update()
         {
             // Controller: Detect if nothing is selected and controller input detected, and set default
@@ -129,6 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 definitionsDescription.text = "No Achievements Found";
+                definitionsDescription.gameObject.SetActive(true);
             }
         }
 

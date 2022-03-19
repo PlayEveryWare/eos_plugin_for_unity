@@ -48,6 +48,16 @@ namespace Epic.OnlineServices.RTC
 		public const int ParticipantmetadataValueMaxcharcount = 256;
 
 		/// <summary>
+		/// The most recent version of the <see cref="SetRoomSetting" /> API.
+		/// </summary>
+		public const int SetroomsettingApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="SetSetting" /> API.
+		/// </summary>
+		public const int SetsettingApiLatest = 1;
+
+		/// <summary>
 		/// Register to receive notifications when disconnected from the room. If the returned NotificationId is valid, you must call
 		/// <see cref="RemoveNotifyDisconnected" /> when you no longer wish to have your CompletionDelegate called.
 		/// 
@@ -236,6 +246,48 @@ namespace Epic.OnlineServices.RTC
 			Helper.TryRemoveCallbackByNotificationId(notificationId);
 
 			Bindings.EOS_RTC_RemoveNotifyParticipantStatusChanged(InnerHandle, notificationId);
+		}
+
+		/// <summary>
+		/// Use this function to control settings for the specific room.
+		/// 
+		/// The available settings are documented as part of <see cref="SetRoomSettingOptions" />.
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> when the setting is successfully set, <see cref="Result.NotFound" /> when the setting is unknown, <see cref="Result.InvalidParameters" /> when the value is invalid.
+		/// </returns>
+		public Result SetRoomSetting(SetRoomSettingOptions options)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<SetRoomSettingOptionsInternal, SetRoomSettingOptions>(ref optionsAddress, options);
+
+			var funcResult = Bindings.EOS_RTC_SetRoomSetting(InnerHandle, optionsAddress);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Use this function to control settings.
+		/// 
+		/// The available settings are documented as part of <see cref="SetSettingOptions" />.
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> when the setting is successfully set, <see cref="Result.NotFound" /> when the setting is unknown, <see cref="Result.InvalidParameters" /> when the value is invalid.
+		/// </returns>
+		public Result SetSetting(SetSettingOptions options)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<SetSettingOptionsInternal, SetSettingOptions>(ref optionsAddress, options);
+
+			var funcResult = Bindings.EOS_RTC_SetSetting(InnerHandle, optionsAddress);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
+
+			return funcResult;
 		}
 
 		[MonoPInvokeCallback(typeof(OnBlockParticipantCallbackInternal))]

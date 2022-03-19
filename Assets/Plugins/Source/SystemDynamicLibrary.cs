@@ -40,7 +40,7 @@ public partial class SystemDynamicLibrary
     // These are maintained as DllImports instead of using the DLLH in the editor
     // so that the Editor won't hold a lock on the DLL, which can hurt iteration time
     // when testing new things on the DLL.
-#if UNITY_EDITOR_WIN
+#if UNITY_EDITOR_WIN && !EOS_DISABLE
     // In theory, its possible to use **Internal to get the
     // default system libraries.
     private const string Kernel32BinaryName = "kernel32";
@@ -65,10 +65,13 @@ public partial class SystemDynamicLibrary
 
     private static SystemDynamicLibrary s_instance;
 
+#if !EOS_DISABLE
     // "__Internal" is the name used for static linked libraries
     private const string DLLHBinaryName =
-#if UNITY_WSA || UNITY_STANDALONE_WIN
+#if UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_GAMECORE
         "DynamicLibraryLoaderHelper";
+#elif UNITY_ANDROID
+        "DynamicLibraryLoaderHelper_Android";
 #else
         "__Internal";
 #endif
@@ -80,21 +83,23 @@ public partial class SystemDynamicLibrary
     [DllImport(DLLHBinaryName)]
     private static extern void DLLH_destroy_context(IntPtr context);
 
-    [DllImport(DLLHBinaryName, SetLastError = true, CharSet = CharSet.Ansi)]
+    [DllImport(DLLHBinaryName,SetLastError = true, CharSet = CharSet.Ansi)]
     private static extern IntPtr DLLH_load_library_at_path(IntPtr ctx, string library_path);
 
+#if !UNITY_SWITCH && !UNITY_PS4 && !UNITY_PS5
     [DllImport(DLLHBinaryName)]
     private static extern bool DLLH_unload_library_at_path(IntPtr ctx, IntPtr library_handle);
+#endif
 
     [DllImport(DLLHBinaryName, SetLastError = true, CharSet = CharSet.Ansi)]
     private static extern IntPtr DLLH_load_function_with_name(IntPtr ctx, IntPtr library_handle, string function);
-
+#endif
     private IntPtr DLLHContex;
 
     //-------------------------------------------------------------------------
     private SystemDynamicLibrary()
     {
-#if !UNITY_EDITOR
+#if !UNITY_EDITOR && !EOS_DISABLE
         DLLHContex = DLLH_create_context();
 #endif
     }
@@ -113,9 +118,35 @@ public partial class SystemDynamicLibrary
     }
 
     //-------------------------------------------------------------------------
+
+    static public IntPtr GetHandleForModule(string moduleName)
+    {
+#if UNITY_EDITOR_WIN && !EOS_DISABLE
+        return GetModuleHandle(moduleName);
+#else
+        return IntPtr.Zero;
+#endif
+    }
+
+#if UNITY_EDITOR
+    //-------------------------------------------------------------------------
+    static public bool UnloadLibraryInEditor(IntPtr libraryHandle)
+    {
+#if UNITY_EDITOR_WIN && !EOS_DISABLE
+        return FreeLibrary(libraryHandle);
+#else
+        return true;
+    #endif
+    }
+#endif
+
+
+    //-------------------------------------------------------------------------
     public IntPtr LoadLibraryAtPath(string libraryPath)
     {
-#if UNITY_EDITOR_WIN
+#if EOS_DISABLE
+        return IntPtr.Zero;
+#elif UNITY_EDITOR_WIN 
         return LoadLibrary(libraryPath);
 #else
         return DLLH_load_library_at_path(DLLHContex, libraryPath);
@@ -123,14 +154,18 @@ public partial class SystemDynamicLibrary
     }
 
     //-------------------------------------------------------------------------
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_IOS
     public bool UnloadLibrary(IntPtr libraryHandle)
     {
-#if UNITY_EDITOR_WIN
+#if EOS_DISABLE
+        return true;
+#elif UNITY_EDITOR_WIN && !UNITY_ANDROID
         return FreeLibrary(libraryHandle);
 #else
         return DLLH_unload_library_at_path(DLLHContex, libraryHandle);
 #endif
     }
+#endif
 
     //-------------------------------------------------------------------------
     // TODO: evaluate if we can just use DLLH_load_function; it might make it
@@ -138,7 +173,9 @@ public partial class SystemDynamicLibrary
     // on the DLL
     public IntPtr LoadFunctionWithName(IntPtr libraryHandle, string functionName)
     {
-#if UNITY_EDITOR_WIN
+#if EOS_DISABLE
+        return IntPtr.Zero;
+#elif UNITY_EDITOR_WIN
         return GetProcAddress(libraryHandle, functionName);
 #else
         return DLLH_load_function_with_name(DLLHContex, libraryHandle, functionName);

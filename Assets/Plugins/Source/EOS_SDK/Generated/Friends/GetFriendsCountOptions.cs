@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Friends
 	public class GetFriendsCountOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose friends should be counted
+		/// The Epic Account ID of the user whose friends should be counted
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}

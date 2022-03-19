@@ -103,15 +103,15 @@ namespace Epic.OnlineServices.Friends
 		}
 
 		/// <summary>
-		/// Retrieves the Epic Online Services Account ID of an entry from the friends list that has already been retrieved by the <see cref="QueryFriends" /> API.
-		/// The Epic Online Services Account ID returned by this function may belong to an account that has been invited to be a friend or that has invited the local user to be a friend.
-		/// To determine if the Epic Online Services Account ID returned by this function is a friend or a pending friend invitation, use the <see cref="GetStatus" /> function.
+		/// Retrieves the Epic Account ID of an entry from the friends list that has already been retrieved by the <see cref="QueryFriends" /> API.
+		/// The Epic Account ID returned by this function may belong to an account that has been invited to be a friend or that has invited the local user to be a friend.
+		/// To determine if the Epic Account ID returned by this function is a friend or a pending friend invitation, use the <see cref="GetStatus" /> function.
 		/// <seealso cref="GetFriendsCount" />
 		/// <seealso cref="GetStatus" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID of the owner of the friends list and the index into the list</param>
+		/// <param name="options">structure containing the Epic Account ID of the owner of the friends list and the index into the list</param>
 		/// <returns>
-		/// the Epic Online Services Account ID of the friend. Note that if the index provided is out of bounds, the returned Epic Online Services Account ID will be a "null" account ID.
+		/// the Epic Account ID of the friend. Note that if the index provided is out of bounds, the returned Epic Account ID will be a "null" account ID.
 		/// </returns>
 		public EpicAccountId GetFriendAtIndex(GetFriendAtIndexOptions options)
 		{
@@ -131,7 +131,7 @@ namespace Epic.OnlineServices.Friends
 		/// Retrieves the number of friends on the friends list that has already been retrieved by the <see cref="QueryFriends" /> API.
 		/// <seealso cref="GetFriendAtIndex" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID of user who owns the friends list</param>
+		/// <param name="options">structure containing the Epic Account ID of user who owns the friends list</param>
 		/// <returns>
 		/// the number of friends on the list
 		/// </returns>
@@ -151,7 +151,7 @@ namespace Epic.OnlineServices.Friends
 		/// Retrieve the friendship status between the local user and another user.
 		/// <seealso cref="FriendsStatus" />
 		/// </summary>
-		/// <param name="options">structure containing the Epic Online Services Account ID of the friend list to check and the account of the user to test friendship status</param>
+		/// <param name="options">structure containing the Epic Account ID of the friend list to check and the account of the user to test friendship status</param>
 		/// <returns>
 		/// A value indicating whether the two accounts have a friendship, pending invites in either direction, or no relationship
 		/// <see cref="FriendsStatus.Friends" /> is returned for two users that have confirmed friendship

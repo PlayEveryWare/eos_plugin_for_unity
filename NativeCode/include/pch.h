@@ -7,3 +7,10 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+
+
+#if BUILD_DLL
+#define FUN_EXPORT(return_value) DLL_EXPORT(return_value)
+#else
+#define FUN_EXPORT(return_value) STATIC_EXPORT(return_value)
+#endif

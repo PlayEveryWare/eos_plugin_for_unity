@@ -26,7 +26,7 @@ namespace Epic.OnlineServices.Auth
 		public ContinuanceToken ContinuanceToken { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the logged in local user whose Epic Account will be linked with the local Nintendo NSA ID Account. By default set to NULL.
+		/// The Epic Account ID of the logged in local user whose Epic Account will be linked with the local Nintendo NSA ID Account. By default set to NULL.
 		/// 
 		/// This parameter is only used and required to be set when <see cref="LinkAccountFlags" />::<see cref="LinkAccountFlags.NintendoNsaId" /> is specified.
 		/// Otherwise, set to NULL, as the standard account linking and login flow using continuance token will handle logging in the user to their Epic Account.

@@ -20,12 +20,12 @@ namespace Epic.OnlineServices.Presence
 		public string JoinInfo { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user who accepted the invitation
+		/// The Epic Account ID of the user who accepted the invitation
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user who sent the invitation
+		/// The Epic Account ID of the user who sent the invitation
 		/// </summary>
 		public EpicAccountId TargetUserId { get; private set; }
 

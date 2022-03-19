@@ -42,6 +42,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Text CurrentSelectedLeaderboardTxt;
 
+        public GameObject LeaderboardEntriesContentParent;
+        public GameObject UILeaderboardEntryPrefab;
+
         public ConsoleInputField ingestStatValueInput;
 
         [Header("Controller")]
@@ -94,16 +97,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogFormat("Display Leaderboard Records: Count={0}", leaderboardRecords.Count);
 
-                foreach(LeaderboardRecord record in leaderboardRecords)
+                // Destroy current entries
+                foreach (Transform child in LeaderboardEntriesContentParent.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
+
+                foreach (LeaderboardRecord record in leaderboardRecords)
                 {
                     Debug.LogFormat("    Record: UserName={0} ({1}), Rank={2}, Score={3} ", record.UserDisplayName, record.UserId, record.Rank, record.Score);
+
+                    // Display in UI
+
+                    GameObject entryUIObj = Instantiate(UILeaderboardEntryPrefab, LeaderboardEntriesContentParent.transform);
+
+                    UILeaderboardEntry uiEntry = entryUIObj.GetComponent<UILeaderboardEntry>();
+
+                    if(uiEntry != null)
+                    {
+                        uiEntry.RankTxt.text = record.Rank.ToString();
+                        uiEntry.NameTxt.text = record.UserDisplayName;
+                        uiEntry.ScoreTxt.text = record.Score.ToString();
+                    }
                 }
             }
         }
 
         public void RefreshDefinitionsOnClick()
         {
-            LeaderboardManager.QueryDefinitions(RefreshCachedDefinitions);
+            if(LeaderboardManager != null)
+            {
+                LeaderboardManager.QueryDefinitions(RefreshCachedDefinitions);
+            }
         }
 
         private void RefreshCachedDefinitions(Result result)
@@ -150,6 +175,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if(friends.Count == 0)
                 {
                     Debug.LogWarning("UILeaderboardMenu (ShowFriendsOnClick): No friends found.");
+
+
+                    // Destroy current entries
+                    foreach (Transform child in LeaderboardEntriesContentParent.transform)
+                    {
+                        GameObject.Destroy(child.gameObject);
+                    }
                 }
                 else
                 {
@@ -177,6 +209,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 Debug.LogFormat("  Display LeaderboardId entries: Count={0}", leaderboardUserScores.Count);
 
+                // Destroy current entries
+                foreach (Transform child in LeaderboardEntriesContentParent.transform)
+                {
+                    GameObject.Destroy(child.gameObject);
+                }
+
                 foreach (KeyValuePair<string, List<LeaderboardUserScore>> kvp in leaderboardUserScores)
                 {
                     Debug.LogFormat("  Display LeaderboardId={0}, UserScores: Count={1}", kvp.Key, kvp.Value.Count);
@@ -184,6 +222,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     foreach (LeaderboardUserScore userScore in kvp.Value)
                     {
                         Debug.LogFormat("    UserScore: UserId={0}, Score={3}", userScore.UserId, userScore.Score);
+
+                        // Display in UI
+
+                        GameObject entryUIObj = Instantiate(UILeaderboardEntryPrefab, LeaderboardEntriesContentParent.transform);
+
+                        UILeaderboardEntry uiEntry = entryUIObj.GetComponent<UILeaderboardEntry>();
+
+                        if (uiEntry != null)
+                        {
+                            uiEntry.RankTxt.text = "-";
+                            uiEntry.NameTxt.text = userScore.UserId.ToString();
+                            uiEntry.ScoreTxt.text = userScore.Score.ToString();
+                        }
                     }
                 }
             }
@@ -226,7 +277,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ShowMenu()
         {
-            EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
+            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
+            RefreshDefinitionsOnClick();
 
             LeaderboardUIParent.gameObject.SetActive(true);
 

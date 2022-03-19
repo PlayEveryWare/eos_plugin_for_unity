@@ -56,9 +56,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public bool IsCriticalHit { get; set; }
 
 		/// <summary>
-		/// Identifier of the victim bone hit in this damage event
+		/// Deprecated - use DamagePosition instead
 		/// </summary>
-		public uint HitBoneId { get; set; }
+		public uint HitBoneId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// Number of health points that the victim lost due to this damage event
@@ -94,6 +94,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// Time in milliseconds since the PlayerUseWeaponData event occurred if available, otherwise 0
 		/// </summary>
 		public uint TimeSincePlayerUseWeaponMs { get; set; }
+
+		/// <summary>
+		/// World position where damage hit the victim as a 3D vector if available, otherwise NULL
+		/// </summary>
+		public Vec3f DamagePosition { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -109,7 +114,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private int m_IsHitscanAttack;
 		private int m_HasLineOfSight;
 		private int m_IsCriticalHit;
-		private uint m_HitBoneId;
+		private uint m_HitBoneId_DEPRECATED;
 		private float m_DamageTaken;
 		private float m_HealthRemaining;
 		private AntiCheatCommonPlayerTakeDamageSource m_DamageSource;
@@ -117,6 +122,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private AntiCheatCommonPlayerTakeDamageResult m_DamageResult;
 		private System.IntPtr m_PlayerUseWeaponData;
 		private uint m_TimeSincePlayerUseWeaponMs;
+		private System.IntPtr m_DamagePosition;
 
 		public System.IntPtr VictimPlayerHandle
 		{
@@ -190,11 +196,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public uint HitBoneId
+		public uint HitBoneId_DEPRECATED
 		{
 			set
 			{
-				m_HitBoneId = value;
+				m_HitBoneId_DEPRECATED = value;
 			}
 		}
 
@@ -254,6 +260,14 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		public Vec3f DamagePosition
+		{
+			set
+			{
+				Helper.TryMarshalSet<Vec3fInternal, Vec3f>(ref m_DamagePosition, value);
+			}
+		}
+
 		public void Set(LogPlayerTakeDamageOptions other)
 		{
 			if (other != null)
@@ -268,7 +282,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 				IsHitscanAttack = other.IsHitscanAttack;
 				HasLineOfSight = other.HasLineOfSight;
 				IsCriticalHit = other.IsCriticalHit;
-				HitBoneId = other.HitBoneId;
+				HitBoneId_DEPRECATED = other.HitBoneId_DEPRECATED;
 				DamageTaken = other.DamageTaken;
 				HealthRemaining = other.HealthRemaining;
 				DamageSource = other.DamageSource;
@@ -276,6 +290,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 				DamageResult = other.DamageResult;
 				PlayerUseWeaponData = other.PlayerUseWeaponData;
 				TimeSincePlayerUseWeaponMs = other.TimeSincePlayerUseWeaponMs;
+				DamagePosition = other.DamagePosition;
 			}
 		}
 
@@ -293,6 +308,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			Helper.TryMarshalDispose(ref m_AttackerPlayerPosition);
 			Helper.TryMarshalDispose(ref m_AttackerPlayerViewRotation);
 			Helper.TryMarshalDispose(ref m_PlayerUseWeaponData);
+			Helper.TryMarshalDispose(ref m_DamagePosition);
 		}
 	}
 }

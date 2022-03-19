@@ -26,8 +26,11 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.EventSystems;
-//using UnityEngine.InputSystem;
 using UnityEngine.UI;
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Friends;
@@ -57,6 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
+        public GameObject[] ControllerUIObjects;
 
         private EOSFriendsManager FriendsManager;
 
@@ -71,6 +75,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Lobbies Options (Optional)")]
         public bool EnableLobbyInvites = false;
         public UILobbiesMenu UILobbiesMenu;
+
+        // Player Report
+        [Header("Player Report Options (Optional)")]
+        public bool EnablePlayerReport = false;
+        public UIPlayerReportMenu UIPlayerReportMenu;
+
+
+#if !ENABLE_INPUT_SYSTEM
+        private void Awake()
+        {
+            // Ensure Disable Controller UI
+            foreach(GameObject o in ControllerUIObjects)
+            {
+                o.SetActive(false);
+            }
+        }
+#endif
 
         public void Start()
         {
@@ -105,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Update()
         {
-#if ENABLE_CONTROLLER
+#if ENABLE_INPUT_SYSTEM
             var gamepad = Gamepad.current;
             if (gamepad != null && gamepad.rightShoulder.wasPressedThisFrame)
             {
@@ -128,7 +149,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);
                         UIFriendEntry uiEntry = friendUIObj.GetComponent<UIFriendEntry>();
 
-                        uiEntry.SetEpicAccountId(friend.UserId);
+                        uiEntry.SetEpicAccount(friend.UserId, friend.UserProductUserId);
 
                         uiEntry.DisplayName.text = friend.Name;
 
@@ -139,6 +160,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         else
                         {
                             uiEntry.Status.text = friend.Status.ToString();
+                        }
+
+                        // Report offline/online players
+                        if (EnablePlayerReport)
+                        {
+                            uiEntry.ReportOnClick = UIPlayerReportMenu.ReportButtonOnClick;
+                            uiEntry.EnableReportButton();
                         }
 
                         // AddFriends is Deprecated
@@ -163,9 +191,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);
                     UIFriendEntry uiEntry = friendUIObj.GetComponent<UIFriendEntry>();
 
-                    uiEntry.SetEpicAccountId(friend.UserId);
+                    uiEntry.SetEpicAccount(friend.UserId, friend.UserProductUserId);
 
                     uiEntry.DisplayName.text = friend.Name;
+
+                    // Report offline/online players
+                    if (EnablePlayerReport)
+                    {
+                        uiEntry.ReportOnClick = UIPlayerReportMenu.ReportButtonOnClick;
+                        uiEntry.EnableReportButton();
+                    }
 
                     if (friend.Status == FriendsStatus.Friends && friend.Presence != null)
                     {

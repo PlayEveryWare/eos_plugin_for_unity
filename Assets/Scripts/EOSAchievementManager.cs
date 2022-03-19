@@ -25,6 +25,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Net.Http;
 using System.Collections.Concurrent;
 using Epic.OnlineServices.Achievements;
@@ -250,7 +251,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return new QueryPlayerAchievementsOptions
             {
-                TargetUserId = productUserId
+                TargetUserId = productUserId,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
             };
         }
 
@@ -399,15 +401,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         // TODO: Create a callback version of this method
         // TODO: Create a debug mode to check if the achievement is valid?
-        public void UnlockAchievementManually(string achievementId)
+        public void UnlockAchievementManually(string achievementId, ProductUserId productUserId, OnUnlockAchievementsCompleteCallback completionDelegate = null)
         {
             var eosAchievementInterface = GetEOSAchievementInterface();
             var eosAchievementOption = new UnlockAchievementsOptions
             {
-                AchievementIds = new string[] { achievementId }
+                AchievementIds = new string[] { achievementId },
+                UserId = productUserId
             };
 
-            eosAchievementInterface.UnlockAchievements(eosAchievementOption, null, null);
+            eosAchievementInterface.UnlockAchievements(eosAchievementOption, null, completionDelegate);
         }
 
         //-------------------------------------------------------------------------
@@ -417,7 +420,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return new CopyPlayerAchievementByIndexOptions
             {
                 AchievementIndex = 0,
-                TargetUserId = productUserId
+                TargetUserId = productUserId,
+                LocalUserId = EOSManager.Instance.GetProductUserId()
             };
         }
 
@@ -486,8 +490,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void cacheAchievementDef(DefinitionV2 achievementDef)
         {
-            achievementDefinitionCache.Add(achievementDef);
 
+            if (achievementDefinitionCache.Find((DefinitionV2 e) => { return e.AchievementId == achievementDef.AchievementId; }) == null)
+            {
+                achievementDefinitionCache.Add(achievementDef);
+            }
             UnityEngine.Debug.LogFormat("Achievements (cacheAchievementDef): Id={0}, LockedDisplayName={1}", achievementDef.AchievementId, achievementDef.LockedDisplayName);
 
             DownloadIconDataFromURI(achievementDef.LockedIconURL);
@@ -502,13 +509,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            var client = new HttpClient();
-            var result = await client.GetAsync(uri);
-
-            if (result.IsSuccessStatusCode)
+            using (DownloadHandlerBuffer downloadHandler = new DownloadHandlerBuffer())
+            using (UnityWebRequest request = UnityWebRequest.Get(uri))
             {
-                var byteResult = await result.Content.ReadAsByteArrayAsync();
-                downloadCache[uri] = byteResult;
+                request.downloadHandler = downloadHandler;
+
+                UnityEngine.Networking.UnityWebRequestAsyncOperation asyncOp = request.SendWebRequest();
+                while (!asyncOp.isDone)
+                {
+                    await System.Threading.Tasks.Task.Yield();
+                }
+
+                if (!request.isNetworkError && !request.isHttpError)
+                {
+                    downloadCache[uri] = downloadHandler.data;
+                }
             }
         }
     }

@@ -19,7 +19,7 @@ namespace Epic.OnlineServices.Ecom
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose offer was queried; needed for localization of Catalog Item (Item) description text and pricing information
+		/// The Epic Account ID of the local user whose offer was queried; needed for localization of Catalog Item (Item) description text and pricing information
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 

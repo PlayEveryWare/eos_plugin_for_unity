@@ -9,12 +9,12 @@ namespace Epic.OnlineServices.Presence
 	public class HasPresenceOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local, logged-in user making the request
+		/// The Epic Account ID of the local, logged-in user making the request
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose cached presence data you want to locate
+		/// The Epic Account ID of the user whose cached presence data you want to locate
 		/// </summary>
 		public EpicAccountId TargetUserId { get; set; }
 	}

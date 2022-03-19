@@ -33,6 +33,11 @@ namespace Epic.OnlineServices.Sessions
 		/// </summary>
 		public bool InvitesAllowed { get; set; }
 
+		/// <summary>
+		/// Are sanctioned players allowed to join - sanctioned players will be rejected if set to true
+		/// </summary>
+		public bool SanctionsEnabled { get; set; }
+
 		internal void Set(SessionDetailsSettingsInternal? other)
 		{
 			if (other != null)
@@ -42,6 +47,7 @@ namespace Epic.OnlineServices.Sessions
 				AllowJoinInProgress = other.Value.AllowJoinInProgress;
 				PermissionLevel = other.Value.PermissionLevel;
 				InvitesAllowed = other.Value.InvitesAllowed;
+				SanctionsEnabled = other.Value.SanctionsEnabled;
 			}
 		}
 
@@ -60,6 +66,7 @@ namespace Epic.OnlineServices.Sessions
 		private int m_AllowJoinInProgress;
 		private OnlineSessionPermissionLevel m_PermissionLevel;
 		private int m_InvitesAllowed;
+		private int m_SanctionsEnabled;
 
 		public string BucketId
 		{
@@ -132,6 +139,21 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
+		public bool SanctionsEnabled
+		{
+			get
+			{
+				bool value;
+				Helper.TryMarshalGet(m_SanctionsEnabled, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.TryMarshalSet(ref m_SanctionsEnabled, value);
+			}
+		}
+
 		public void Set(SessionDetailsSettings other)
 		{
 			if (other != null)
@@ -142,6 +164,7 @@ namespace Epic.OnlineServices.Sessions
 				AllowJoinInProgress = other.AllowJoinInProgress;
 				PermissionLevel = other.PermissionLevel;
 				InvitesAllowed = other.InvitesAllowed;
+				SanctionsEnabled = other.SanctionsEnabled;
 			}
 		}
 

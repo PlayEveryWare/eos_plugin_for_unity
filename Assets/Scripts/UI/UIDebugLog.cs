@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UIDebugLog : MonoBehaviour
     {
+        public bool DisableOnScreenLog = false;
         public const int MAX_LINES_TO_DISPLAY = 7;
         public Text UIDebugLogText;
         public ScrollRect ScrollRect;
@@ -38,14 +39,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private bool _dirty = false;
         private string logCache = string.Empty;
 
+        private float deltaTime_FPS;
+        public Text FPSValue;
+
         void OnEnable()
         {
-            Application.logMessageReceived += UpdateLogCache;
+            if(!DisableOnScreenLog)
+            {
+                Application.logMessageReceived += UpdateLogCache;
+            }
+            else
+            {
+                UIDebugLogText.text = "<I>OnScreen Logging Disabled</I>";
+            }
         }
 
         void OnDisable()
         {
-            Application.logMessageReceived -= UpdateLogCache;
+            if (!DisableOnScreenLog)
+            {
+                Application.logMessageReceived -= UpdateLogCache;
+            }
+            else
+            {
+                UIDebugLogText.text = string.Empty;
+            }
         }
 
         void UpdateLogCache(string entry, string stackTrace, LogType type)
@@ -97,7 +115,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Update()
         {
-            UIDebugLogText.text = GetLastEntries();
+            if (!DisableOnScreenLog)
+            {
+                UIDebugLogText.text = GetLastEntries();
+            }
+
+            // FPS
+            deltaTime_FPS += (Time.deltaTime - deltaTime_FPS) * 0.1f;
+            float fps = 1.0f / deltaTime_FPS;
+            FPSValue.text = Mathf.Ceil(fps).ToString();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class QueryOwnershipTokenOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose ownership token you want to query
+		/// The Epic Account ID of the local user whose ownership token you want to query
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

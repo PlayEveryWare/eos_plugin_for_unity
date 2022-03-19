@@ -24,6 +24,11 @@ namespace Epic.OnlineServices.Auth
 		public const int AddnotifyloginstatuschangedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="CopyIdToken" /> API.
+		/// </summary>
+		public const int CopyidtokenApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="CopyUserAuthToken" /> API.
 		/// </summary>
 		public const int CopyuserauthtokenApiLatest = 1;
@@ -37,6 +42,11 @@ namespace Epic.OnlineServices.Auth
 		/// The most recent version of the <see cref="DeletePersistentAuth" /> API.
 		/// </summary>
 		public const int DeletepersistentauthApiLatest = 2;
+
+		/// <summary>
+		/// The most recent version of the <see cref="IdToken" /> struct.
+		/// </summary>
+		public const int IdtokenApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="LinkAccount" /> API.
@@ -59,9 +69,19 @@ namespace Epic.OnlineServices.Auth
 		public const int PingrantinfoApiLatest = 2;
 
 		/// <summary>
+		/// The most recent version of the <see cref="QueryIdToken" /> API.
+		/// </summary>
+		public const int QueryidtokenApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="Token" /> struct.
 		/// </summary>
 		public const int TokenApiLatest = 2;
+
+		/// <summary>
+		/// The most recent version of the <see cref="VerifyIdToken" /> API.
+		/// </summary>
+		public const int VerifyidtokenApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="VerifyUserAuth" /> API.
@@ -98,11 +118,51 @@ namespace Epic.OnlineServices.Auth
 		}
 
 		/// <summary>
-		/// Fetches a user auth token for an Epic Online Services Account ID.
+		/// Fetch an ID token for an Epic Account ID.
+		/// 
+		/// ID tokens are used to securely verify user identities with online services.
+		/// The most common use case is using an ID token to authenticate the local user by their selected account ID,
+		/// which is the account ID that should be used to access any game-scoped data for the current application.
+		/// 
+		/// An ID token for the selected account ID of a locally authenticated user will always be readily available.
+		/// To retrieve it for the selected account ID, you can use <see cref="CopyIdToken" /> directly after a successful user login.
+		/// <seealso cref="Release" />
+		/// </summary>
+		/// <param name="options">Structure containing the account ID for which to copy an ID token.</param>
+		/// <param name="outIdToken">An ID token for the given user, if it exists and is valid; use <see cref="Release" /> when finished.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserIdToken
+		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
+		/// <see cref="Result.NotFound" /> if the Id token is not found or expired.
+		/// </returns>
+		public Result CopyIdToken(CopyIdTokenOptions options, out IdToken outIdToken)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<CopyIdTokenOptionsInternal, CopyIdTokenOptions>(ref optionsAddress, options);
+
+			var outIdTokenAddress = System.IntPtr.Zero;
+
+			var funcResult = Bindings.EOS_Auth_CopyIdToken(InnerHandle, optionsAddress, ref outIdTokenAddress);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
+
+			if (Helper.TryMarshalGet<IdTokenInternal, IdToken>(outIdTokenAddress, out outIdToken))
+			{
+				Bindings.EOS_Auth_IdToken_Release(outIdTokenAddress);
+			}
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Fetch a user auth token for an Epic Account ID.
+		/// 
+		/// A user authentication token allows any code with possession (backend/client) to perform certain actions on behalf of the user.
+		/// Because of this, for the purposes of user identity verification, the <see cref="CopyIdToken" /> API should be used instead.
 		/// <seealso cref="Release" />
 		/// </summary>
 		/// <param name="options">Structure containing the api version of CopyUserAuthToken to use</param>
-		/// <param name="localUserId">The Epic Online Services Account ID of the user being queried</param>
+		/// <param name="localUserId">The Epic Account ID of the user being queried</param>
 		/// <param name="outUserAuthToken">The auth token for the given user, if it exists and is valid; use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserAuthToken
@@ -158,11 +218,11 @@ namespace Epic.OnlineServices.Auth
 		}
 
 		/// <summary>
-		/// Fetch an Epic Online Services Account ID that is logged in.
+		/// Fetch an Epic Account ID that is logged in.
 		/// </summary>
-		/// <param name="index">An index into the list of logged in accounts. If the index is out of bounds, the returned Epic Online Services Account ID will be invalid.</param>
+		/// <param name="index">An index into the list of logged in accounts. If the index is out of bounds, the returned Epic Account ID will be invalid.</param>
 		/// <returns>
-		/// The Epic Online Services Account ID associated with the index passed
+		/// The Epic Account ID associated with the index passed
 		/// </returns>
 		public EpicAccountId GetLoggedInAccountByIndex(int index)
 		{
@@ -187,9 +247,9 @@ namespace Epic.OnlineServices.Auth
 		}
 
 		/// <summary>
-		/// Fetches the login status for an Epic Online Services Account ID.
+		/// Fetches the login status for an Epic Account ID.
 		/// </summary>
-		/// <param name="localUserId">The Epic Online Services Account ID of the user being queried</param>
+		/// <param name="localUserId">The Epic Account ID of the user being queried</param>
 		/// <returns>
 		/// The enum value of a user's login status
 		/// </returns>
@@ -199,6 +259,69 @@ namespace Epic.OnlineServices.Auth
 			Helper.TryMarshalSet(ref localUserIdInnerHandle, localUserId);
 
 			var funcResult = Bindings.EOS_Auth_GetLoginStatus(InnerHandle, localUserIdInnerHandle);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Fetch one of the merged account IDs for a given logged in account.
+		/// </summary>
+		/// <param name="localUserId">The account ID of a currently logged in account.</param>
+		/// <param name="index">An index into the list of merged accounts. If the index is out of bounds, the returned Epic Account ID will be invalid.</param>
+		/// <returns>
+		/// The Epic Account ID associated with the index passed.
+		/// </returns>
+		public EpicAccountId GetMergedAccountByIndex(EpicAccountId localUserId, uint index)
+		{
+			var localUserIdInnerHandle = System.IntPtr.Zero;
+			Helper.TryMarshalSet(ref localUserIdInnerHandle, localUserId);
+
+			var funcResult = Bindings.EOS_Auth_GetMergedAccountByIndex(InnerHandle, localUserIdInnerHandle, index);
+
+			EpicAccountId funcResultReturn;
+			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
+		/// Fetch the number of merged accounts for a given logged in account.
+		/// </summary>
+		/// <param name="localUserId">The account ID of a currently logged in account.</param>
+		/// <returns>
+		/// the number of merged accounts for the logged in account.
+		/// </returns>
+		public uint GetMergedAccountsCount(EpicAccountId localUserId)
+		{
+			var localUserIdInnerHandle = System.IntPtr.Zero;
+			Helper.TryMarshalSet(ref localUserIdInnerHandle, localUserId);
+
+			var funcResult = Bindings.EOS_Auth_GetMergedAccountsCount(InnerHandle, localUserIdInnerHandle);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Fetch the selected account ID to the current application for a local authenticated user.
+		/// </summary>
+		/// <param name="localUserId">The account ID of a currently logged in account.</param>
+		/// <param name="outSelectedAccountId">The selected account ID corresponding to the given account ID.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the user is logged in and the information is available.
+		/// <see cref="Result.InvalidParameters" /> if the output parameter is NULL.
+		/// <see cref="Result.InvalidUser" /> if the input account ID is not locally known.
+		/// <see cref="Result.InvalidAuth" /> if the input account ID is not locally logged in.
+		/// <see cref="Result.NotFound" /> otherwise.
+		/// </returns>
+		public Result GetSelectedAccountId(EpicAccountId localUserId, out EpicAccountId outSelectedAccountId)
+		{
+			var localUserIdInnerHandle = System.IntPtr.Zero;
+			Helper.TryMarshalSet(ref localUserIdInnerHandle, localUserId);
+
+			var outSelectedAccountIdAddress = System.IntPtr.Zero;
+
+			var funcResult = Bindings.EOS_Auth_GetSelectedAccountId(InnerHandle, localUserIdInnerHandle, ref outSelectedAccountIdAddress);
+
+			Helper.TryMarshalGet(outSelectedAccountIdAddress, out outSelectedAccountId);
 
 			return funcResult;
 		}
@@ -275,6 +398,31 @@ namespace Epic.OnlineServices.Auth
 		}
 
 		/// <summary>
+		/// Query the backend for an ID token that describes one of the merged account IDs of a local authenticated user.
+		/// 
+		/// The ID token can be used to impersonate a merged account ID when communicating with online services.
+		/// 
+		/// An ID token for the selected account ID of a locally authenticated user will always be readily available and does not need to be queried explicitly.
+		/// </summary>
+		/// <param name="options">Structure containing the merged account ID for which to query an ID token.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="completionDelegate">A callback that is fired when the operation completes, either successfully or in error.</param>
+		public void QueryIdToken(QueryIdTokenOptions options, object clientData, OnQueryIdTokenCallback completionDelegate)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<QueryIdTokenOptionsInternal, QueryIdTokenOptions>(ref optionsAddress, options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnQueryIdTokenCallbackInternal(OnQueryIdTokenCallbackInternalImplementation);
+			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_Auth_QueryIdToken(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
+		}
+
+		/// <summary>
 		/// Unregister from receiving login status updates.
 		/// </summary>
 		/// <param name="inId">handle representing the registered callback</param>
@@ -286,8 +434,31 @@ namespace Epic.OnlineServices.Auth
 		}
 
 		/// <summary>
+		/// Verify a given ID token for authenticity and validity.
+		/// @note Can only be called by dedicated servers.
+		/// </summary>
+		/// <param name="options">Structure containing information about the ID token to verify.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
+		/// <param name="completionDelegate">A callback that is fired when the operation completes, either successfully or in error.</param>
+		public void VerifyIdToken(VerifyIdTokenOptions options, object clientData, OnVerifyIdTokenCallback completionDelegate)
+		{
+			var optionsAddress = System.IntPtr.Zero;
+			Helper.TryMarshalSet<VerifyIdTokenOptionsInternal, VerifyIdTokenOptions>(ref optionsAddress, options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnVerifyIdTokenCallbackInternal(OnVerifyIdTokenCallbackInternalImplementation);
+			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_Auth_VerifyIdToken(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+
+			Helper.TryMarshalDispose(ref optionsAddress);
+		}
+
+		/// <summary>
 		/// Contact the backend service to verify validity of an existing user auth token.
 		/// This function is intended for server-side use only.
+		/// <seealso cref="CopyUserAuthToken" />
 		/// </summary>
 		/// <param name="options">structure containing information about the auth token being verified</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
@@ -357,6 +528,28 @@ namespace Epic.OnlineServices.Auth
 			OnLogoutCallback callback;
 			LogoutCallbackInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback<OnLogoutCallback, LogoutCallbackInfoInternal, LogoutCallbackInfo>(data, out callback, out callbackInfo))
+			{
+				callback(callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnQueryIdTokenCallbackInternal))]
+		internal static void OnQueryIdTokenCallbackInternalImplementation(System.IntPtr data)
+		{
+			OnQueryIdTokenCallback callback;
+			QueryIdTokenCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback<OnQueryIdTokenCallback, QueryIdTokenCallbackInfoInternal, QueryIdTokenCallbackInfo>(data, out callback, out callbackInfo))
+			{
+				callback(callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnVerifyIdTokenCallbackInternal))]
+		internal static void OnVerifyIdTokenCallbackInternalImplementation(System.IntPtr data)
+		{
+			OnVerifyIdTokenCallback callback;
+			VerifyIdTokenCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback<OnVerifyIdTokenCallback, VerifyIdTokenCallbackInfoInternal, VerifyIdTokenCallbackInfo>(data, out callback, out callbackInfo))
 			{
 				callback(callbackInfo);
 			}

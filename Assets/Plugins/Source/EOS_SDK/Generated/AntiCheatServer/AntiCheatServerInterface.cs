@@ -178,19 +178,19 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// This will not change for a given SDK version, and allows one time allocation of reusable buffers.
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
-		/// <param name="outBufferLengthBytes">The length in bytes that is required to call ProtectMessage on the given input size.</param>
+		/// <param name="outBufferLengthBytes">On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the output length was calculated successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
-		public Result GetProtectMessageOutputLength(GetProtectMessageOutputLengthOptions options, out uint outBufferLengthBytes)
+		public Result GetProtectMessageOutputLength(GetProtectMessageOutputLengthOptions options, out uint outBufferSizeBytes)
 		{
 			var optionsAddress = System.IntPtr.Zero;
 			Helper.TryMarshalSet<GetProtectMessageOutputLengthOptionsInternal, GetProtectMessageOutputLengthOptions>(ref optionsAddress, options);
 
-			outBufferLengthBytes = Helper.GetDefault<uint>();
+			outBufferSizeBytes = Helper.GetDefault<uint>();
 
-			var funcResult = Bindings.EOS_AntiCheatServer_GetProtectMessageOutputLength(InnerHandle, optionsAddress, ref outBufferLengthBytes);
+			var funcResult = Bindings.EOS_AntiCheatServer_GetProtectMessageOutputLength(InnerHandle, optionsAddress, ref outBufferSizeBytes);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 
@@ -447,7 +447,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
 		/// <param name="outBuffer">On success, buffer where encrypted message data will be written.</param>
-		/// <param name="outBufferLengthBytes">Number of bytes that were written to OutBuffer.</param>
+		/// <param name="outBytesWritten">On success, the number of bytes that were written to OutBuffer.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the message was protected successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
@@ -459,14 +459,14 @@ namespace Epic.OnlineServices.AntiCheatServer
 			Helper.TryMarshalSet<ProtectMessageOptionsInternal, ProtectMessageOptions>(ref optionsAddress, options);
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
-			uint outBufferLengthBytes = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes);
+			uint outBytesWritten = options.OutBufferSizeBytes;
+			Helper.TryMarshalAllocate(ref outBufferAddress, outBytesWritten);
 
-			var funcResult = Bindings.EOS_AntiCheatServer_ProtectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBufferLengthBytes);
+			var funcResult = Bindings.EOS_AntiCheatServer_ProtectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBytesWritten);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBufferLengthBytes);
+			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBytesWritten);
 			Helper.TryMarshalDispose(ref outBufferAddress);
 
 			return funcResult;
@@ -657,7 +657,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
 		/// <param name="outBuffer">On success, buffer where encrypted message data will be written.</param>
-		/// <param name="outBufferLengthBytes">Number of bytes that were written to OutBuffer.</param>
+		/// <param name="outBytesWritten">On success, the number of bytes that were written to OutBuffer.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the message was unprotected successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
@@ -668,14 +668,14 @@ namespace Epic.OnlineServices.AntiCheatServer
 			Helper.TryMarshalSet<UnprotectMessageOptionsInternal, UnprotectMessageOptions>(ref optionsAddress, options);
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
-			uint outBufferLengthBytes = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes);
+			uint outBytesWritten = options.OutBufferSizeBytes;
+			Helper.TryMarshalAllocate(ref outBufferAddress, outBytesWritten);
 
-			var funcResult = Bindings.EOS_AntiCheatServer_UnprotectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBufferLengthBytes);
+			var funcResult = Bindings.EOS_AntiCheatServer_UnprotectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBytesWritten);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBufferLengthBytes);
+			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBytesWritten);
 			Helper.TryMarshalDispose(ref outBufferAddress);
 
 			return funcResult;

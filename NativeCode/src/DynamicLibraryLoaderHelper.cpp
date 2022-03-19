@@ -4,7 +4,6 @@
 #include "pch.h"
 #include "framework.h"
 #include "DLLHContext.h"
-#include <assert.h>
 
 #if PLATFORM_WINDOWS
 #include "DynamicLibraryLoaderHelper_Win32.h"

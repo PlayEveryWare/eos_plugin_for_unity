@@ -117,16 +117,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 switch (ValueType)
                 {
                     case AttributeType.String:
-                        attrData.Value.AsUtf8 = AsString;
+                        attrData.Value = new AttributeDataValue()
+                        {
+                            AsUtf8 = AsString
+                        };
                         break;
                     case AttributeType.Int64:
-                        attrData.Value.AsInt64 = AsInt64;
+                        attrData.Value = new AttributeDataValue()
+                        {
+                            AsInt64 = AsInt64
+                        };
                         break;
                     case AttributeType.Double:
-                        attrData.Value.AsDouble = AsDouble;
+                        attrData.Value = new AttributeDataValue()
+                        {
+                            AsDouble = AsDouble
+                        };
                         break;
                     case AttributeType.Boolean:
-                        attrData.Value.AsBool = AsBool;
+                        attrData.Value = new AttributeDataValue()
+                        {
+                            AsBool = AsBool
+                        };
                         break;
                 }
 
@@ -878,7 +890,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             AttributeData attrData = new AttributeData();
             attrData.Key = EOS_SESSIONS_SEARCH_BUCKET_ID;
-            attrData.Value.AsUtf8 = BUCKET_ID;
+            attrData.Value = new AttributeDataValue()
+            {
+                AsUtf8 = BUCKET_ID
+            };
 
             SessionSearchSetParameterOptions paramOptions = new SessionSearchSetParameterOptions();
             paramOptions.ComparisonOp = ComparisonOp.Equal;
@@ -1158,16 +1173,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 switch (nextAttribute.ValueType)
                 {
                     case AttributeType.Boolean:
-                        attributeData.Value.AsBool = nextAttribute.AsBool;
+                        attributeData.Value = new AttributeDataValue()
+                        {
+                            AsBool = nextAttribute.AsBool
+                        };
                         break;
                     case AttributeType.Double:
-                        attributeData.Value.AsDouble = nextAttribute.AsDouble;
+                        attributeData.Value = new AttributeDataValue()
+                        {
+                            AsDouble = nextAttribute.AsDouble
+                        };
                         break;
                     case AttributeType.Int64:
-                        attributeData.Value.AsInt64 = nextAttribute.AsInt64;
+                        attributeData.Value = new AttributeDataValue()
+                        {
+                            AsInt64 = nextAttribute.AsInt64
+                        };
                         break;
                     case AttributeType.String:
-                        attributeData.Value.AsUtf8 = nextAttribute.AsString;
+                        attributeData.Value = new AttributeDataValue()
+                        {
+                            AsUtf8 = nextAttribute.AsString
+                        };
                         break;
                 }
 

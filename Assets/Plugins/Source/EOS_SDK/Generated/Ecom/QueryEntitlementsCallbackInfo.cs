@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Ecom
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose entitlement was queried
+		/// The Epic Account ID of the local user whose entitlement was queried
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 

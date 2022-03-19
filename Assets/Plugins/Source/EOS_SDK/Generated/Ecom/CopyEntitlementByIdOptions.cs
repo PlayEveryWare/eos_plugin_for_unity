@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class CopyEntitlementByIdOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose entitlement is being copied
+		/// The Epic Account ID of the local user whose entitlement is being copied
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

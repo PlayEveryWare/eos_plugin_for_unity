@@ -80,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public void Awake()
         {
-            eos_library_version = DLLHandle.GetVersionForLibrary("EOSSDK-Win64-Shipping");
+            eos_library_version = DLLHandle.GetProductVersionForLibrary("EOSSDK-Win64-Shipping");
             string templateDirectory = GetTemplateDirectory();
             string packagedPluginPath = Path.GetFullPath("Packages/" + GetPackageName());
 
@@ -95,6 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 var pathToJSONPackage = Path.Combine(packagedPluginPath, "package.json");
                 ConfigureEOSPluginVersionFieldFromPath(pathToJSONPackage);
             }
+
         }
 
         //-------------------------------------------------------------------------

@@ -322,6 +322,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_AddNotifyLoginStatusChanged");
 			EOS_Auth_AddNotifyLoginStatusChanged = (EOS_Auth_AddNotifyLoginStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_AddNotifyLoginStatusChangedCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_CopyIdToken");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_CopyIdToken");
+			EOS_Auth_CopyIdToken = (EOS_Auth_CopyIdTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_CopyIdTokenCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_CopyUserAuthToken");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_CopyUserAuthToken");
 			EOS_Auth_CopyUserAuthToken = (EOS_Auth_CopyUserAuthTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_CopyUserAuthTokenCallback));
@@ -342,6 +346,22 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_GetLoginStatus");
 			EOS_Auth_GetLoginStatus = (EOS_Auth_GetLoginStatusCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_GetLoginStatusCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_GetMergedAccountByIndex");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_GetMergedAccountByIndex");
+			EOS_Auth_GetMergedAccountByIndex = (EOS_Auth_GetMergedAccountByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_GetMergedAccountByIndexCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_GetMergedAccountsCount");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_GetMergedAccountsCount");
+			EOS_Auth_GetMergedAccountsCount = (EOS_Auth_GetMergedAccountsCountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_GetMergedAccountsCountCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_GetSelectedAccountId");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_GetSelectedAccountId");
+			EOS_Auth_GetSelectedAccountId = (EOS_Auth_GetSelectedAccountIdCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_GetSelectedAccountIdCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_IdToken_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_IdToken_Release");
+			EOS_Auth_IdToken_Release = (EOS_Auth_IdToken_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_IdToken_ReleaseCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_LinkAccount");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_LinkAccount");
 			EOS_Auth_LinkAccount = (EOS_Auth_LinkAccountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_LinkAccountCallback));
@@ -354,6 +374,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_Logout");
 			EOS_Auth_Logout = (EOS_Auth_LogoutCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_LogoutCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_QueryIdToken");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_QueryIdToken");
+			EOS_Auth_QueryIdToken = (EOS_Auth_QueryIdTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_QueryIdTokenCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_RemoveNotifyLoginStatusChanged");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_RemoveNotifyLoginStatusChanged");
 			EOS_Auth_RemoveNotifyLoginStatusChanged = (EOS_Auth_RemoveNotifyLoginStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_RemoveNotifyLoginStatusChangedCallback));
@@ -361,6 +385,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_Token_Release");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_Token_Release");
 			EOS_Auth_Token_Release = (EOS_Auth_Token_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_Token_ReleaseCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_VerifyIdToken");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_VerifyIdToken");
+			EOS_Auth_VerifyIdToken = (EOS_Auth_VerifyIdTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Auth_VerifyIdTokenCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Auth_VerifyUserAuth");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Auth_VerifyUserAuth");
@@ -377,6 +405,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_AddNotifyLoginStatusChanged");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_AddNotifyLoginStatusChanged");
 			EOS_Connect_AddNotifyLoginStatusChanged = (EOS_Connect_AddNotifyLoginStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_AddNotifyLoginStatusChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_CopyIdToken");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_CopyIdToken");
+			EOS_Connect_CopyIdToken = (EOS_Connect_CopyIdTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_CopyIdTokenCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_CopyProductUserExternalAccountByAccountId");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_CopyProductUserExternalAccountByAccountId");
@@ -434,6 +466,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_GetProductUserIdMapping");
 			EOS_Connect_GetProductUserIdMapping = (EOS_Connect_GetProductUserIdMappingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_GetProductUserIdMappingCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_IdToken_Release");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_IdToken_Release");
+			EOS_Connect_IdToken_Release = (EOS_Connect_IdToken_ReleaseCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_IdToken_ReleaseCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_LinkAccount");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_LinkAccount");
 			EOS_Connect_LinkAccount = (EOS_Connect_LinkAccountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_LinkAccountCallback));
@@ -466,9 +502,41 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_UnlinkAccount");
 			EOS_Connect_UnlinkAccount = (EOS_Connect_UnlinkAccountCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_UnlinkAccountCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Connect_VerifyIdToken");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Connect_VerifyIdToken");
+			EOS_Connect_VerifyIdToken = (EOS_Connect_VerifyIdTokenCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_VerifyIdTokenCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_ContinuanceToken_ToString");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ContinuanceToken_ToString");
 			EOS_ContinuanceToken_ToString = (EOS_ContinuanceToken_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ContinuanceToken_ToStringCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_AddNotifyCustomInviteAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_AddNotifyCustomInviteAccepted");
+			EOS_CustomInvites_AddNotifyCustomInviteAccepted = (EOS_CustomInvites_AddNotifyCustomInviteAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyCustomInviteAcceptedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_AddNotifyCustomInviteReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_AddNotifyCustomInviteReceived");
+			EOS_CustomInvites_AddNotifyCustomInviteReceived = (EOS_CustomInvites_AddNotifyCustomInviteReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyCustomInviteReceivedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_FinalizeInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_FinalizeInvite");
+			EOS_CustomInvites_FinalizeInvite = (EOS_CustomInvites_FinalizeInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_FinalizeInviteCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_RemoveNotifyCustomInviteAccepted");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_RemoveNotifyCustomInviteAccepted");
+			EOS_CustomInvites_RemoveNotifyCustomInviteAccepted = (EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_RemoveNotifyCustomInviteReceived");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_RemoveNotifyCustomInviteReceived");
+			EOS_CustomInvites_RemoveNotifyCustomInviteReceived = (EOS_CustomInvites_RemoveNotifyCustomInviteReceivedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyCustomInviteReceivedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_SendCustomInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_SendCustomInvite");
+			EOS_CustomInvites_SendCustomInvite = (EOS_CustomInvites_SendCustomInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_SendCustomInviteCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_CustomInvites_SetCustomInvite");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_CustomInvites_SetCustomInvite");
+			EOS_CustomInvites_SetCustomInvite = (EOS_CustomInvites_SetCustomInviteCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_SetCustomInviteCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_EResult_IsOperationComplete");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_EResult_IsOperationComplete");
@@ -1086,9 +1154,17 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_AddNotifyPeerConnectionClosed");
 			EOS_P2P_AddNotifyPeerConnectionClosed = (EOS_P2P_AddNotifyPeerConnectionClosedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyPeerConnectionClosedCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_AddNotifyPeerConnectionEstablished");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_AddNotifyPeerConnectionEstablished");
+			EOS_P2P_AddNotifyPeerConnectionEstablished = (EOS_P2P_AddNotifyPeerConnectionEstablishedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyPeerConnectionEstablishedCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_AddNotifyPeerConnectionRequest");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_AddNotifyPeerConnectionRequest");
 			EOS_P2P_AddNotifyPeerConnectionRequest = (EOS_P2P_AddNotifyPeerConnectionRequestCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyPeerConnectionRequestCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_ClearPacketQueue");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_ClearPacketQueue");
+			EOS_P2P_ClearPacketQueue = (EOS_P2P_ClearPacketQueueCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_ClearPacketQueueCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_CloseConnection");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_CloseConnection");
@@ -1133,6 +1209,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_RemoveNotifyPeerConnectionClosed");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_RemoveNotifyPeerConnectionClosed");
 			EOS_P2P_RemoveNotifyPeerConnectionClosed = (EOS_P2P_RemoveNotifyPeerConnectionClosedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_RemoveNotifyPeerConnectionClosedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_RemoveNotifyPeerConnectionEstablished");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_RemoveNotifyPeerConnectionEstablished");
+			EOS_P2P_RemoveNotifyPeerConnectionEstablished = (EOS_P2P_RemoveNotifyPeerConnectionEstablishedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_RemoveNotifyPeerConnectionEstablishedCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_P2P_RemoveNotifyPeerConnectionRequest");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_P2P_RemoveNotifyPeerConnectionRequest");
@@ -1190,6 +1270,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetConnectInterface");
 			EOS_Platform_GetConnectInterface = (EOS_Platform_GetConnectInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetConnectInterfaceCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetCustomInvitesInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetCustomInvitesInterface");
+			EOS_Platform_GetCustomInvitesInterface = (EOS_Platform_GetCustomInvitesInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetCustomInvitesInterfaceCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetEcomInterface");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetEcomInterface");
 			EOS_Platform_GetEcomInterface = (EOS_Platform_GetEcomInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetEcomInterfaceCallback));
@@ -1237,6 +1321,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetPresenceInterface");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetPresenceInterface");
 			EOS_Platform_GetPresenceInterface = (EOS_Platform_GetPresenceInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetPresenceInterfaceCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetProgressionSnapshotInterface");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetProgressionSnapshotInterface");
+			EOS_Platform_GetProgressionSnapshotInterface = (EOS_Platform_GetProgressionSnapshotInterfaceCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetProgressionSnapshotInterfaceCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Platform_GetRTCAdminInterface");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Platform_GetRTCAdminInterface");
@@ -1430,6 +1518,26 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProductUserId_ToString");
 			EOS_ProductUserId_ToString = (EOS_ProductUserId_ToStringCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProductUserId_ToStringCallback));
 
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ProgressionSnapshot_AddProgression");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProgressionSnapshot_AddProgression");
+			EOS_ProgressionSnapshot_AddProgression = (EOS_ProgressionSnapshot_AddProgressionCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProgressionSnapshot_AddProgressionCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ProgressionSnapshot_BeginSnapshot");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProgressionSnapshot_BeginSnapshot");
+			EOS_ProgressionSnapshot_BeginSnapshot = (EOS_ProgressionSnapshot_BeginSnapshotCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProgressionSnapshot_BeginSnapshotCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ProgressionSnapshot_DeleteSnapshot");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProgressionSnapshot_DeleteSnapshot");
+			EOS_ProgressionSnapshot_DeleteSnapshot = (EOS_ProgressionSnapshot_DeleteSnapshotCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProgressionSnapshot_DeleteSnapshotCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ProgressionSnapshot_EndSnapshot");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProgressionSnapshot_EndSnapshot");
+			EOS_ProgressionSnapshot_EndSnapshot = (EOS_ProgressionSnapshot_EndSnapshotCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProgressionSnapshot_EndSnapshotCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_ProgressionSnapshot_SubmitSnapshot");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_ProgressionSnapshot_SubmitSnapshot");
+			EOS_ProgressionSnapshot_SubmitSnapshot = (EOS_ProgressionSnapshot_SubmitSnapshotCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ProgressionSnapshot_SubmitSnapshotCallback));
+
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTCAdmin_CopyUserTokenByIndex");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTCAdmin_CopyUserTokenByIndex");
 			EOS_RTCAdmin_CopyUserTokenByIndex = (EOS_RTCAdmin_CopyUserTokenByIndexCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAdmin_CopyUserTokenByIndexCallback));
@@ -1577,6 +1685,14 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_RemoveNotifyParticipantStatusChanged");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_RemoveNotifyParticipantStatusChanged");
 			EOS_RTC_RemoveNotifyParticipantStatusChanged = (EOS_RTC_RemoveNotifyParticipantStatusChangedCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyParticipantStatusChangedCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_SetRoomSetting");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_SetRoomSetting");
+			EOS_RTC_SetRoomSetting = (EOS_RTC_SetRoomSettingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_SetRoomSettingCallback));
+
+			functionPointer = getFunctionPointer(libraryHandle, "EOS_RTC_SetSetting");
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_RTC_SetSetting");
+			EOS_RTC_SetSetting = (EOS_RTC_SetSettingCallback)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_SetSettingCallback));
 
 			functionPointer = getFunctionPointer(libraryHandle, "EOS_Reports_SendPlayerBehaviorReport");
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException("EOS_Reports_SendPlayerBehaviorReport");
@@ -2048,20 +2164,28 @@ namespace Epic.OnlineServices
 			EOS_AntiCheatServer_UnprotectMessage = null;
 			EOS_AntiCheatServer_UnregisterClient = null;
 			EOS_Auth_AddNotifyLoginStatusChanged = null;
+			EOS_Auth_CopyIdToken = null;
 			EOS_Auth_CopyUserAuthToken = null;
 			EOS_Auth_DeletePersistentAuth = null;
 			EOS_Auth_GetLoggedInAccountByIndex = null;
 			EOS_Auth_GetLoggedInAccountsCount = null;
 			EOS_Auth_GetLoginStatus = null;
+			EOS_Auth_GetMergedAccountByIndex = null;
+			EOS_Auth_GetMergedAccountsCount = null;
+			EOS_Auth_GetSelectedAccountId = null;
+			EOS_Auth_IdToken_Release = null;
 			EOS_Auth_LinkAccount = null;
 			EOS_Auth_Login = null;
 			EOS_Auth_Logout = null;
+			EOS_Auth_QueryIdToken = null;
 			EOS_Auth_RemoveNotifyLoginStatusChanged = null;
 			EOS_Auth_Token_Release = null;
+			EOS_Auth_VerifyIdToken = null;
 			EOS_Auth_VerifyUserAuth = null;
 			EOS_ByteArray_ToString = null;
 			EOS_Connect_AddNotifyAuthExpiration = null;
 			EOS_Connect_AddNotifyLoginStatusChanged = null;
+			EOS_Connect_CopyIdToken = null;
 			EOS_Connect_CopyProductUserExternalAccountByAccountId = null;
 			EOS_Connect_CopyProductUserExternalAccountByAccountType = null;
 			EOS_Connect_CopyProductUserExternalAccountByIndex = null;
@@ -2076,6 +2200,7 @@ namespace Epic.OnlineServices
 			EOS_Connect_GetLoginStatus = null;
 			EOS_Connect_GetProductUserExternalAccountCount = null;
 			EOS_Connect_GetProductUserIdMapping = null;
+			EOS_Connect_IdToken_Release = null;
 			EOS_Connect_LinkAccount = null;
 			EOS_Connect_Login = null;
 			EOS_Connect_QueryExternalAccountMappings = null;
@@ -2084,7 +2209,15 @@ namespace Epic.OnlineServices
 			EOS_Connect_RemoveNotifyLoginStatusChanged = null;
 			EOS_Connect_TransferDeviceIdAccount = null;
 			EOS_Connect_UnlinkAccount = null;
+			EOS_Connect_VerifyIdToken = null;
 			EOS_ContinuanceToken_ToString = null;
+			EOS_CustomInvites_AddNotifyCustomInviteAccepted = null;
+			EOS_CustomInvites_AddNotifyCustomInviteReceived = null;
+			EOS_CustomInvites_FinalizeInvite = null;
+			EOS_CustomInvites_RemoveNotifyCustomInviteAccepted = null;
+			EOS_CustomInvites_RemoveNotifyCustomInviteReceived = null;
+			EOS_CustomInvites_SendCustomInvite = null;
+			EOS_CustomInvites_SetCustomInvite = null;
 			EOS_EResult_IsOperationComplete = null;
 			EOS_EResult_ToString = null;
 			EOS_Ecom_CatalogItem_Release = null;
@@ -2239,7 +2372,9 @@ namespace Epic.OnlineServices
 			EOS_P2P_AcceptConnection = null;
 			EOS_P2P_AddNotifyIncomingPacketQueueFull = null;
 			EOS_P2P_AddNotifyPeerConnectionClosed = null;
+			EOS_P2P_AddNotifyPeerConnectionEstablished = null;
 			EOS_P2P_AddNotifyPeerConnectionRequest = null;
+			EOS_P2P_ClearPacketQueue = null;
 			EOS_P2P_CloseConnection = null;
 			EOS_P2P_CloseConnections = null;
 			EOS_P2P_GetNATType = null;
@@ -2251,6 +2386,7 @@ namespace Epic.OnlineServices
 			EOS_P2P_ReceivePacket = null;
 			EOS_P2P_RemoveNotifyIncomingPacketQueueFull = null;
 			EOS_P2P_RemoveNotifyPeerConnectionClosed = null;
+			EOS_P2P_RemoveNotifyPeerConnectionEstablished = null;
 			EOS_P2P_RemoveNotifyPeerConnectionRequest = null;
 			EOS_P2P_SendPacket = null;
 			EOS_P2P_SetPacketQueueSize = null;
@@ -2265,6 +2401,7 @@ namespace Epic.OnlineServices
 			EOS_Platform_GetAntiCheatServerInterface = null;
 			EOS_Platform_GetAuthInterface = null;
 			EOS_Platform_GetConnectInterface = null;
+			EOS_Platform_GetCustomInvitesInterface = null;
 			EOS_Platform_GetEcomInterface = null;
 			EOS_Platform_GetFriendsInterface = null;
 			EOS_Platform_GetKWSInterface = null;
@@ -2277,6 +2414,7 @@ namespace Epic.OnlineServices
 			EOS_Platform_GetP2PInterface = null;
 			EOS_Platform_GetPlayerDataStorageInterface = null;
 			EOS_Platform_GetPresenceInterface = null;
+			EOS_Platform_GetProgressionSnapshotInterface = null;
 			EOS_Platform_GetRTCAdminInterface = null;
 			EOS_Platform_GetRTCInterface = null;
 			EOS_Platform_GetReportsInterface = null;
@@ -2325,6 +2463,11 @@ namespace Epic.OnlineServices
 			EOS_ProductUserId_FromString = null;
 			EOS_ProductUserId_IsValid = null;
 			EOS_ProductUserId_ToString = null;
+			EOS_ProgressionSnapshot_AddProgression = null;
+			EOS_ProgressionSnapshot_BeginSnapshot = null;
+			EOS_ProgressionSnapshot_DeleteSnapshot = null;
+			EOS_ProgressionSnapshot_EndSnapshot = null;
+			EOS_ProgressionSnapshot_SubmitSnapshot = null;
 			EOS_RTCAdmin_CopyUserTokenByIndex = null;
 			EOS_RTCAdmin_CopyUserTokenByUserId = null;
 			EOS_RTCAdmin_Kick = null;
@@ -2362,6 +2505,8 @@ namespace Epic.OnlineServices
 			EOS_RTC_LeaveRoom = null;
 			EOS_RTC_RemoveNotifyDisconnected = null;
 			EOS_RTC_RemoveNotifyParticipantStatusChanged = null;
+			EOS_RTC_SetRoomSetting = null;
+			EOS_RTC_SetSetting = null;
 			EOS_Reports_SendPlayerBehaviorReport = null;
 			EOS_Sanctions_CopyPlayerSanctionByIndex = null;
 			EOS_Sanctions_GetPlayerSanctionCount = null;
@@ -2596,15 +2741,15 @@ namespace Epic.OnlineServices
 		internal static EOS_AntiCheatClient_EndSessionCallback EOS_AntiCheatClient_EndSession;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_AntiCheatClient_GetProtectMessageOutputLengthCallback(System.IntPtr handle, System.IntPtr options, ref uint outBufferLengthBytes);
+		internal delegate Result EOS_AntiCheatClient_GetProtectMessageOutputLengthCallback(System.IntPtr handle, System.IntPtr options, ref uint outBufferSizeBytes);
 		internal static EOS_AntiCheatClient_GetProtectMessageOutputLengthCallback EOS_AntiCheatClient_GetProtectMessageOutputLength;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_AntiCheatClient_PollStatusCallback(System.IntPtr handle, System.IntPtr options, AntiCheatClient.AntiCheatClientViolationType violationType, System.IntPtr outMessage);
+		internal delegate Result EOS_AntiCheatClient_PollStatusCallback(System.IntPtr handle, System.IntPtr options, ref AntiCheatClient.AntiCheatClientViolationType outViolationType, System.IntPtr outMessage);
 		internal static EOS_AntiCheatClient_PollStatusCallback EOS_AntiCheatClient_PollStatus;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_AntiCheatClient_ProtectMessageCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBufferLengthBytes);
+		internal delegate Result EOS_AntiCheatClient_ProtectMessageCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
 		internal static EOS_AntiCheatClient_ProtectMessageCallback EOS_AntiCheatClient_ProtectMessage;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
@@ -2636,7 +2781,7 @@ namespace Epic.OnlineServices
 		internal static EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChangedCallback EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_AntiCheatClient_UnprotectMessageCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBufferLengthBytes);
+		internal delegate Result EOS_AntiCheatClient_UnprotectMessageCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
 		internal static EOS_AntiCheatClient_UnprotectMessageCallback EOS_AntiCheatClient_UnprotectMessage;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
@@ -2664,7 +2809,7 @@ namespace Epic.OnlineServices
 		internal static EOS_AntiCheatServer_EndSessionCallback EOS_AntiCheatServer_EndSession;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_AntiCheatServer_GetProtectMessageOutputLengthCallback(System.IntPtr handle, System.IntPtr options, ref uint outBufferLengthBytes);
+		internal delegate Result EOS_AntiCheatServer_GetProtectMessageOutputLengthCallback(System.IntPtr handle, System.IntPtr options, ref uint outBufferSizeBytes);
 		internal static EOS_AntiCheatServer_GetProtectMessageOutputLengthCallback EOS_AntiCheatServer_GetProtectMessageOutputLength;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
@@ -2708,7 +2853,7 @@ namespace Epic.OnlineServices
 		internal static EOS_AntiCheatServer_LogPlayerUseWeaponCallback EOS_AntiCheatServer_LogPlayerUseWeapon;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_AntiCheatServer_ProtectMessageCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBufferLengthBytes);
+		internal delegate Result EOS_AntiCheatServer_ProtectMessageCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
 		internal static EOS_AntiCheatServer_ProtectMessageCallback EOS_AntiCheatServer_ProtectMessage;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
@@ -2748,7 +2893,7 @@ namespace Epic.OnlineServices
 		internal static EOS_AntiCheatServer_SetGameSessionIdCallback EOS_AntiCheatServer_SetGameSessionId;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_AntiCheatServer_UnprotectMessageCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBufferLengthBytes);
+		internal delegate Result EOS_AntiCheatServer_UnprotectMessageCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
 		internal static EOS_AntiCheatServer_UnprotectMessageCallback EOS_AntiCheatServer_UnprotectMessage;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
@@ -2758,6 +2903,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_Auth_AddNotifyLoginStatusChangedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnLoginStatusChangedCallbackInternal notification);
 		internal static EOS_Auth_AddNotifyLoginStatusChangedCallback EOS_Auth_AddNotifyLoginStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Auth_CopyIdTokenCallback(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outIdToken);
+		internal static EOS_Auth_CopyIdTokenCallback EOS_Auth_CopyIdToken;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_Auth_CopyUserAuthTokenCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr localUserId, ref System.IntPtr outUserAuthToken);
@@ -2780,6 +2929,22 @@ namespace Epic.OnlineServices
 		internal static EOS_Auth_GetLoginStatusCallback EOS_Auth_GetLoginStatus;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Auth_GetMergedAccountByIndexCallback(System.IntPtr handle, System.IntPtr localUserId, uint index);
+		internal static EOS_Auth_GetMergedAccountByIndexCallback EOS_Auth_GetMergedAccountByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_Auth_GetMergedAccountsCountCallback(System.IntPtr handle, System.IntPtr localUserId);
+		internal static EOS_Auth_GetMergedAccountsCountCallback EOS_Auth_GetMergedAccountsCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Auth_GetSelectedAccountIdCallback(System.IntPtr handle, System.IntPtr localUserId, ref System.IntPtr outSelectedAccountId);
+		internal static EOS_Auth_GetSelectedAccountIdCallback EOS_Auth_GetSelectedAccountId;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Auth_IdToken_ReleaseCallback(System.IntPtr idToken);
+		internal static EOS_Auth_IdToken_ReleaseCallback EOS_Auth_IdToken_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Auth_LinkAccountCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnLinkAccountCallbackInternal completionDelegate);
 		internal static EOS_Auth_LinkAccountCallback EOS_Auth_LinkAccount;
 
@@ -2792,12 +2957,20 @@ namespace Epic.OnlineServices
 		internal static EOS_Auth_LogoutCallback EOS_Auth_Logout;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Auth_QueryIdTokenCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnQueryIdTokenCallbackInternal completionDelegate);
+		internal static EOS_Auth_QueryIdTokenCallback EOS_Auth_QueryIdToken;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Auth_RemoveNotifyLoginStatusChangedCallback(System.IntPtr handle, ulong inId);
 		internal static EOS_Auth_RemoveNotifyLoginStatusChangedCallback EOS_Auth_RemoveNotifyLoginStatusChanged;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Auth_Token_ReleaseCallback(System.IntPtr authToken);
 		internal static EOS_Auth_Token_ReleaseCallback EOS_Auth_Token_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Auth_VerifyIdTokenCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnVerifyIdTokenCallbackInternal completionDelegate);
+		internal static EOS_Auth_VerifyIdTokenCallback EOS_Auth_VerifyIdToken;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Auth_VerifyUserAuthCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnVerifyUserAuthCallbackInternal completionDelegate);
@@ -2814,6 +2987,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_Connect_AddNotifyLoginStatusChangedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Connect.OnLoginStatusChangedCallbackInternal notification);
 		internal static EOS_Connect_AddNotifyLoginStatusChangedCallback EOS_Connect_AddNotifyLoginStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Connect_CopyIdTokenCallback(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outIdToken);
+		internal static EOS_Connect_CopyIdTokenCallback EOS_Connect_CopyIdToken;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_Connect_CopyProductUserExternalAccountByAccountIdCallback(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outExternalAccountInfo);
@@ -2872,6 +3049,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Connect_GetProductUserIdMappingCallback EOS_Connect_GetProductUserIdMapping;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Connect_IdToken_ReleaseCallback(System.IntPtr idToken);
+		internal static EOS_Connect_IdToken_ReleaseCallback EOS_Connect_IdToken_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Connect_LinkAccountCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Connect.OnLinkAccountCallbackInternal completionDelegate);
 		internal static EOS_Connect_LinkAccountCallback EOS_Connect_LinkAccount;
 
@@ -2904,8 +3085,40 @@ namespace Epic.OnlineServices
 		internal static EOS_Connect_UnlinkAccountCallback EOS_Connect_UnlinkAccount;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Connect_VerifyIdTokenCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Connect.OnVerifyIdTokenCallbackInternal completionDelegate);
+		internal static EOS_Connect_VerifyIdTokenCallback EOS_Connect_VerifyIdToken;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_ContinuanceToken_ToStringCallback(System.IntPtr continuanceToken, System.IntPtr outBuffer, ref int inOutBufferLength);
 		internal static EOS_ContinuanceToken_ToStringCallback EOS_ContinuanceToken_ToString;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifyCustomInviteAcceptedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnCustomInviteAcceptedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifyCustomInviteAcceptedCallback EOS_CustomInvites_AddNotifyCustomInviteAccepted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifyCustomInviteReceivedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnCustomInviteReceivedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifyCustomInviteReceivedCallback EOS_CustomInvites_AddNotifyCustomInviteReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_CustomInvites_FinalizeInviteCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_CustomInvites_FinalizeInviteCallback EOS_CustomInvites_FinalizeInvite;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedCallback(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedCallback EOS_CustomInvites_RemoveNotifyCustomInviteAccepted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifyCustomInviteReceivedCallback(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifyCustomInviteReceivedCallback EOS_CustomInvites_RemoveNotifyCustomInviteReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_SendCustomInviteCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnSendCustomInviteCallbackInternal completionDelegate);
+		internal static EOS_CustomInvites_SendCustomInviteCallback EOS_CustomInvites_SendCustomInvite;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_CustomInvites_SetCustomInviteCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_CustomInvites_SetCustomInviteCallback EOS_CustomInvites_SetCustomInvite;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate int EOS_EResult_IsOperationCompleteCallback(Result result);
@@ -3524,8 +3737,16 @@ namespace Epic.OnlineServices
 		internal static EOS_P2P_AddNotifyPeerConnectionClosedCallback EOS_P2P_AddNotifyPeerConnectionClosed;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_P2P_AddNotifyPeerConnectionEstablishedCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, P2P.OnPeerConnectionEstablishedCallbackInternal connectionEstablishedHandler);
+		internal static EOS_P2P_AddNotifyPeerConnectionEstablishedCallback EOS_P2P_AddNotifyPeerConnectionEstablished;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_P2P_AddNotifyPeerConnectionRequestCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, P2P.OnIncomingConnectionRequestCallbackInternal connectionRequestHandler);
 		internal static EOS_P2P_AddNotifyPeerConnectionRequestCallback EOS_P2P_AddNotifyPeerConnectionRequest;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_P2P_ClearPacketQueueCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_P2P_ClearPacketQueueCallback EOS_P2P_ClearPacketQueue;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_P2P_CloseConnectionCallback(System.IntPtr handle, System.IntPtr options);
@@ -3570,6 +3791,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionClosedCallback(System.IntPtr handle, ulong notificationId);
 		internal static EOS_P2P_RemoveNotifyPeerConnectionClosedCallback EOS_P2P_RemoveNotifyPeerConnectionClosed;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionEstablishedCallback(System.IntPtr handle, ulong notificationId);
+		internal static EOS_P2P_RemoveNotifyPeerConnectionEstablishedCallback EOS_P2P_RemoveNotifyPeerConnectionEstablished;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionRequestCallback(System.IntPtr handle, ulong notificationId);
@@ -3628,6 +3853,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Platform_GetConnectInterfaceCallback EOS_Platform_GetConnectInterface;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Platform_GetCustomInvitesInterfaceCallback(System.IntPtr handle);
+		internal static EOS_Platform_GetCustomInvitesInterfaceCallback EOS_Platform_GetCustomInvitesInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetEcomInterfaceCallback(System.IntPtr handle);
 		internal static EOS_Platform_GetEcomInterfaceCallback EOS_Platform_GetEcomInterface;
 
@@ -3674,6 +3903,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetPresenceInterfaceCallback(System.IntPtr handle);
 		internal static EOS_Platform_GetPresenceInterfaceCallback EOS_Platform_GetPresenceInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Platform_GetProgressionSnapshotInterfaceCallback(System.IntPtr handle);
+		internal static EOS_Platform_GetProgressionSnapshotInterfaceCallback EOS_Platform_GetProgressionSnapshotInterface;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetRTCAdminInterfaceCallback(System.IntPtr handle);
@@ -3868,6 +4101,26 @@ namespace Epic.OnlineServices
 		internal static EOS_ProductUserId_ToStringCallback EOS_ProductUserId_ToString;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_ProgressionSnapshot_AddProgressionCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_ProgressionSnapshot_AddProgressionCallback EOS_ProgressionSnapshot_AddProgression;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_ProgressionSnapshot_BeginSnapshotCallback(System.IntPtr handle, System.IntPtr options, ref uint outSnapshotId);
+		internal static EOS_ProgressionSnapshot_BeginSnapshotCallback EOS_ProgressionSnapshot_BeginSnapshot;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_ProgressionSnapshot_DeleteSnapshotCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, ProgressionSnapshot.OnDeleteSnapshotCallbackInternal completionDelegate);
+		internal static EOS_ProgressionSnapshot_DeleteSnapshotCallback EOS_ProgressionSnapshot_DeleteSnapshot;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_ProgressionSnapshot_EndSnapshotCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_ProgressionSnapshot_EndSnapshotCallback EOS_ProgressionSnapshot_EndSnapshot;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_ProgressionSnapshot_SubmitSnapshotCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, ProgressionSnapshot.OnSubmitSnapshotCallbackInternal completionDelegate);
+		internal static EOS_ProgressionSnapshot_SubmitSnapshotCallback EOS_ProgressionSnapshot_SubmitSnapshot;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_RTCAdmin_CopyUserTokenByIndexCallback(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
 		internal static EOS_RTCAdmin_CopyUserTokenByIndexCallback EOS_RTCAdmin_CopyUserTokenByIndex;
 
@@ -4014,6 +4267,14 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_RTC_RemoveNotifyParticipantStatusChangedCallback(System.IntPtr handle, ulong notificationId);
 		internal static EOS_RTC_RemoveNotifyParticipantStatusChangedCallback EOS_RTC_RemoveNotifyParticipantStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTC_SetRoomSettingCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTC_SetRoomSettingCallback EOS_RTC_SetRoomSetting;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTC_SetSettingCallback(System.IntPtr handle, System.IntPtr options);
+		internal static EOS_RTC_SetSettingCallback EOS_RTC_SetSetting;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Reports_SendPlayerBehaviorReportCallback(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Reports.OnSendPlayerBehaviorReportCompleteCallbackInternal completionDelegate);
@@ -4505,13 +4766,13 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_AntiCheatClient_EndSession(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_AntiCheatClient_GetProtectMessageOutputLength(System.IntPtr handle, System.IntPtr options, ref uint outBufferLengthBytes);
+		internal static extern Result EOS_AntiCheatClient_GetProtectMessageOutputLength(System.IntPtr handle, System.IntPtr options, ref uint outBufferSizeBytes);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_AntiCheatClient_PollStatus(System.IntPtr handle, System.IntPtr options, AntiCheatClient.AntiCheatClientViolationType violationType, System.IntPtr outMessage);
+		internal static extern Result EOS_AntiCheatClient_PollStatus(System.IntPtr handle, System.IntPtr options, ref AntiCheatClient.AntiCheatClientViolationType outViolationType, System.IntPtr outMessage);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_AntiCheatClient_ProtectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBufferLengthBytes);
+		internal static extern Result EOS_AntiCheatClient_ProtectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_AntiCheatClient_ReceiveMessageFromPeer(System.IntPtr handle, System.IntPtr options);
@@ -4535,7 +4796,7 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged(System.IntPtr handle, ulong notificationId);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_AntiCheatClient_UnprotectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBufferLengthBytes);
+		internal static extern Result EOS_AntiCheatClient_UnprotectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_AntiCheatClient_UnregisterPeer(System.IntPtr handle, System.IntPtr options);
@@ -4556,7 +4817,7 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_AntiCheatServer_EndSession(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_AntiCheatServer_GetProtectMessageOutputLength(System.IntPtr handle, System.IntPtr options, ref uint outBufferLengthBytes);
+		internal static extern Result EOS_AntiCheatServer_GetProtectMessageOutputLength(System.IntPtr handle, System.IntPtr options, ref uint outBufferSizeBytes);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_AntiCheatServer_LogEvent(System.IntPtr handle, System.IntPtr options);
@@ -4589,7 +4850,7 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_AntiCheatServer_LogPlayerUseWeapon(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_AntiCheatServer_ProtectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBufferLengthBytes);
+		internal static extern Result EOS_AntiCheatServer_ProtectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_AntiCheatServer_ReceiveMessageFromClient(System.IntPtr handle, System.IntPtr options);
@@ -4619,13 +4880,16 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_AntiCheatServer_SetGameSessionId(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_AntiCheatServer_UnprotectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBufferLengthBytes);
+		internal static extern Result EOS_AntiCheatServer_UnprotectMessage(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref uint outBytesWritten);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_AntiCheatServer_UnregisterClient(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_Auth_AddNotifyLoginStatusChanged(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnLoginStatusChangedCallbackInternal notification);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Auth_CopyIdToken(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outIdToken);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_Auth_CopyUserAuthToken(System.IntPtr handle, System.IntPtr options, System.IntPtr localUserId, ref System.IntPtr outUserAuthToken);
@@ -4643,6 +4907,18 @@ namespace Epic.OnlineServices
 		internal static extern LoginStatus EOS_Auth_GetLoginStatus(System.IntPtr handle, System.IntPtr localUserId);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Auth_GetMergedAccountByIndex(System.IntPtr handle, System.IntPtr localUserId, uint index);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_Auth_GetMergedAccountsCount(System.IntPtr handle, System.IntPtr localUserId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Auth_GetSelectedAccountId(System.IntPtr handle, System.IntPtr localUserId, ref System.IntPtr outSelectedAccountId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Auth_IdToken_Release(System.IntPtr idToken);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Auth_LinkAccount(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnLinkAccountCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
@@ -4652,10 +4928,16 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Auth_Logout(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnLogoutCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Auth_QueryIdToken(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnQueryIdTokenCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Auth_RemoveNotifyLoginStatusChanged(System.IntPtr handle, ulong inId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Auth_Token_Release(System.IntPtr authToken);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Auth_VerifyIdToken(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnVerifyIdTokenCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Auth_VerifyUserAuth(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Auth.OnVerifyUserAuthCallbackInternal completionDelegate);
@@ -4668,6 +4950,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_Connect_AddNotifyLoginStatusChanged(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Connect.OnLoginStatusChangedCallbackInternal notification);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Connect_CopyIdToken(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outIdToken);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_Connect_CopyProductUserExternalAccountByAccountId(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outExternalAccountInfo);
@@ -4712,6 +4997,9 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_Connect_GetProductUserIdMapping(System.IntPtr handle, System.IntPtr options, System.IntPtr outBuffer, ref int inOutBufferLength);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Connect_IdToken_Release(System.IntPtr idToken);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Connect_LinkAccount(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Connect.OnLinkAccountCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
@@ -4736,7 +5024,31 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Connect_UnlinkAccount(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Connect.OnUnlinkAccountCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Connect_VerifyIdToken(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Connect.OnVerifyIdTokenCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_ContinuanceToken_ToString(System.IntPtr continuanceToken, System.IntPtr outBuffer, ref int inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteAccepted(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnCustomInviteAcceptedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteReceived(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnCustomInviteReceivedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_CustomInvites_FinalizeInvite(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteAccepted(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteReceived(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_SendCustomInvite(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, CustomInvites.OnSendCustomInviteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_CustomInvites_SetCustomInvite(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern int EOS_EResult_IsOperationComplete(Result result);
@@ -5201,7 +5513,13 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionClosed(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, P2P.OnRemoteConnectionClosedCallbackInternal connectionClosedHandler);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionEstablished(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, P2P.OnPeerConnectionEstablishedCallbackInternal connectionEstablishedHandler);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionRequest(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, P2P.OnIncomingConnectionRequestCallbackInternal connectionRequestHandler);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_P2P_ClearPacketQueue(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_P2P_CloseConnection(System.IntPtr handle, System.IntPtr options);
@@ -5235,6 +5553,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionClosed(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionEstablished(System.IntPtr handle, ulong notificationId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionRequest(System.IntPtr handle, ulong notificationId);
@@ -5279,6 +5600,9 @@ namespace Epic.OnlineServices
 		internal static extern System.IntPtr EOS_Platform_GetConnectInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Platform_GetCustomInvitesInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetEcomInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
@@ -5313,6 +5637,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetPresenceInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Platform_GetProgressionSnapshotInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetRTCAdminInterface(System.IntPtr handle);
@@ -5459,6 +5786,21 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_ProductUserId_ToString(System.IntPtr accountId, System.IntPtr outBuffer, ref int inOutBufferLength);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_ProgressionSnapshot_AddProgression(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_ProgressionSnapshot_BeginSnapshot(System.IntPtr handle, System.IntPtr options, ref uint outSnapshotId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_ProgressionSnapshot_DeleteSnapshot(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, ProgressionSnapshot.OnDeleteSnapshotCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_ProgressionSnapshot_EndSnapshot(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_ProgressionSnapshot_SubmitSnapshot(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, ProgressionSnapshot.OnSubmitSnapshotCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_RTCAdmin_CopyUserTokenByIndex(System.IntPtr handle, System.IntPtr options, ref System.IntPtr outUserToken);
 
 		[DllImport(Config.LibraryName)]
@@ -5568,6 +5910,12 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_RTC_RemoveNotifyParticipantStatusChanged(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTC_SetRoomSetting(System.IntPtr handle, System.IntPtr options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTC_SetSetting(System.IntPtr handle, System.IntPtr options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Reports_SendPlayerBehaviorReport(System.IntPtr handle, System.IntPtr options, System.IntPtr clientData, Reports.OnSendPlayerBehaviorReportCompleteCallbackInternal completionDelegate);

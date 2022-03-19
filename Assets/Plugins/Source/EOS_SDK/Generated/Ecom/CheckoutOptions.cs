@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class CheckoutOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user who is making the purchase
+		/// The Epic Account ID of the local user who is making the purchase
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

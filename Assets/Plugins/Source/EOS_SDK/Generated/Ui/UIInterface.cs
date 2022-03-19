@@ -127,7 +127,7 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// Gets the friends overlay visibility.
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID of the friends Social Overlay owner.</param>
+		/// <param name="options">Structure containing the Epic Account ID of the friends Social Overlay owner.</param>
 		/// <returns>
 		/// true If the overlay is visible.
 		/// </returns>
@@ -182,7 +182,7 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// Hides the active Social Overlay.
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID of the browser to close.</param>
+		/// <param name="options">Structure containing the Epic Account ID of the browser to close.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">A callback that is fired when the request to hide the friends list has been processed, or on an error.</param>
 		/// <returns>
@@ -286,7 +286,7 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// Opens the Social Overlay with a request to show the friends list.
 		/// </summary>
-		/// <param name="options">Structure containing the Epic Online Services Account ID of the friends list to show.</param>
+		/// <param name="options">Structure containing the Epic Account ID of the friends list to show.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">A callback that is fired when the request to show the friends list has been sent to the Social Overlay, or on an error.</param>
 		/// <returns>

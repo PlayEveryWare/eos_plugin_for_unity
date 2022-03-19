@@ -35,7 +35,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// used in OnPeerActionRequiredCallback to quickly signal to the user
 		/// that they will not be able to join online play.
 		/// </summary>
-		public const int PeerSelf = (-1);
+		public System.IntPtr PeerSelf = (System.IntPtr)(-1);
 
 		public const int PollstatusApiLatest = 1;
 
@@ -248,20 +248,20 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Mode: <see cref="AntiCheatClientMode.ClientServer" />.
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
-		/// <param name="outBufferLengthBytes">The length in bytes that is required to call ProtectMessage on the given input size.</param>
+		/// <param name="outBufferSizeBytes">On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the output length was calculated successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result GetProtectMessageOutputLength(GetProtectMessageOutputLengthOptions options, out uint outBufferLengthBytes)
+		public Result GetProtectMessageOutputLength(GetProtectMessageOutputLengthOptions options, out uint outBufferSizeBytes)
 		{
 			var optionsAddress = System.IntPtr.Zero;
 			Helper.TryMarshalSet<GetProtectMessageOutputLengthOptionsInternal, GetProtectMessageOutputLengthOptions>(ref optionsAddress, options);
 
-			outBufferLengthBytes = Helper.GetDefault<uint>();
+			outBufferSizeBytes = Helper.GetDefault<uint>();
 
-			var funcResult = Bindings.EOS_AntiCheatClient_GetProtectMessageOutputLength(InnerHandle, optionsAddress, ref outBufferLengthBytes);
+			var funcResult = Bindings.EOS_AntiCheatClient_GetProtectMessageOutputLength(InnerHandle, optionsAddress, ref outBufferSizeBytes);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 
@@ -278,26 +278,29 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// check for violations, it only provides information about violations which have
 		/// automatically been discovered by the anti-cheat client. Such a violation may occur
 		/// at any time and afterwards the user will be unable to join any protected multiplayer
-		/// session until after restarting the game.
+		/// session until after restarting the game. Note that this function returns <see cref="Result.NotFound" />
+		/// when everything is normal and there is no violation to display.
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
-		/// <param name="violationType">On success, receives a code describing the violation that occurred.</param>
+		/// <param name="outViolationType">On success, receives a code describing the violation that occurred.</param>
 		/// <param name="outMessage">On success, receives a string describing the violation which should be displayed to the user.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If violation information was returned successfully
 		/// <see cref="Result.LimitExceeded" /> - If OutMessage is too small to receive the message string. Call again with a larger OutMessage.
 		/// <see cref="Result.NotFound" /> - If no violation has occurred since the last call
 		/// </returns>
-		public Result PollStatus(PollStatusOptions options, AntiCheatClientViolationType violationType, out string outMessage)
+		public Result PollStatus(PollStatusOptions options, out AntiCheatClientViolationType outViolationType, out string outMessage)
 		{
 			var optionsAddress = System.IntPtr.Zero;
 			Helper.TryMarshalSet<PollStatusOptionsInternal, PollStatusOptions>(ref optionsAddress, options);
+
+			outViolationType = Helper.GetDefault<AntiCheatClientViolationType>();
 
 			System.IntPtr outMessageAddress = System.IntPtr.Zero;
 			uint OutMessageLength = options.OutMessageLength;
 			Helper.TryMarshalAllocate(ref outMessageAddress, OutMessageLength);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_PollStatus(InnerHandle, optionsAddress, violationType, outMessageAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_PollStatus(InnerHandle, optionsAddress, ref outViolationType, outMessageAddress);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 
@@ -316,7 +319,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
 		/// <param name="outBuffer">On success, buffer where encrypted message data will be written.</param>
-		/// <param name="outBufferLengthBytes">Number of bytes that were written to OutBuffer.</param>
+		/// <param name="outBytesWritten">On success, the number of bytes that were written to OutBuffer.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the message was protected successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
@@ -328,14 +331,14 @@ namespace Epic.OnlineServices.AntiCheatClient
 			Helper.TryMarshalSet<ProtectMessageOptionsInternal, ProtectMessageOptions>(ref optionsAddress, options);
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
-			uint outBufferLengthBytes = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes);
+			uint outBytesWritten = options.OutBufferSizeBytes;
+			Helper.TryMarshalAllocate(ref outBufferAddress, outBytesWritten);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_ProtectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBufferLengthBytes);
+			var funcResult = Bindings.EOS_AntiCheatClient_ProtectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBytesWritten);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBufferLengthBytes);
+			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBytesWritten);
 			Helper.TryMarshalDispose(ref outBufferAddress);
 
 			return funcResult;
@@ -467,7 +470,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
 		/// <param name="outBuffer">On success, buffer where encrypted message data will be written.</param>
-		/// <param name="outBufferLengthBytes">Number of bytes that were written to OutBuffer.</param>
+		/// <param name="outBytesWritten">On success, the number of bytes that were written to OutBuffer.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the message was unprotected successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
@@ -479,14 +482,14 @@ namespace Epic.OnlineServices.AntiCheatClient
 			Helper.TryMarshalSet<UnprotectMessageOptionsInternal, UnprotectMessageOptions>(ref optionsAddress, options);
 
 			System.IntPtr outBufferAddress = System.IntPtr.Zero;
-			uint outBufferLengthBytes = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBufferLengthBytes);
+			uint outBytesWritten = options.OutBufferSizeBytes;
+			Helper.TryMarshalAllocate(ref outBufferAddress, outBytesWritten);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_UnprotectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBufferLengthBytes);
+			var funcResult = Bindings.EOS_AntiCheatClient_UnprotectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBytesWritten);
 
 			Helper.TryMarshalDispose(ref optionsAddress);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBufferLengthBytes);
+			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBytesWritten);
 			Helper.TryMarshalDispose(ref outBufferAddress);
 
 			return funcResult;

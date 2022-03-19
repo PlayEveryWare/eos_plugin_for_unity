@@ -26,7 +26,7 @@ namespace Epic.OnlineServices.Metrics
 		}
 
 		/// <summary>
-		/// An Epic Online Services Account ID. Set this field when AccountIdType is set to <see cref="MetricsAccountIdType.Epic" />.
+		/// An Epic Account ID. Set this field when AccountIdType is set to <see cref="MetricsAccountIdType.Epic" />.
 		/// </summary>
 		public EpicAccountId Epic
 		{

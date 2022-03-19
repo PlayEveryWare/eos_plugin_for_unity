@@ -30,6 +30,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
+using PlayEveryWare.EpicOnlineServices;
+
 public class DLLHandle : SafeHandle
 {
     public override bool IsInvalid => handle == IntPtr.Zero;
@@ -51,22 +53,37 @@ public class DLLHandle : SafeHandle
     public static List<string> GetPathsToPlugins()
     {
         string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
-        string pluginsPath = (Application.dataPath + "\\Plugins\\").Replace('/', '\\');
+        string pluginsPath = Path.Combine(Application.dataPath, "Plugins");
         string packagedPluginPath = Path.GetFullPath(Path.Combine("Packages", GetPackageName(), "Runtime"));
         var pluginPaths = new List<string>();
 
-        if(Directory.Exists(pluginsPath))
+        pluginPaths.Add(pluginsPath);
+        pluginPaths.Add(packagedPluginPath);
+
+#if UNITY_WSA
+        pluginPaths.Add(uwpPluginsPath);
+#endif
+        if (EOSManagerPlatformSpecifics.Instance != null)
         {
-            pluginPaths.Add(pluginsPath);
-        }
-        if(Directory.Exists(packagedPluginPath))
-        {
-            pluginPaths.Add(packagedPluginPath);
+            EOSManagerPlatformSpecifics.Instance.AddPluginSearchPaths(ref pluginPaths);
         }
 
-        if (Directory.Exists(uwpPluginsPath))
+        for (int i = pluginPaths.Count - 1; i >= 0; --i)
         {
-            pluginPaths.Add(uwpPluginsPath);
+            string value = pluginPaths[i];
+            print("print " + value);
+        }
+
+        // Do a validation check after giving the 
+        // EOSManagerPlatformSpecific a change to modify the list
+        for (int i = pluginPaths.Count -1; i >= 0; --i)
+        {
+            string value = pluginPaths[i];
+            print("Evaluating " + value);
+            if (!Directory.Exists(value))
+            {
+                pluginPaths.RemoveAt(i);
+            }
         }
 
         return pluginPaths;
@@ -97,6 +114,46 @@ public class DLLHandle : SafeHandle
     }
 
     //-------------------------------------------------------------------------
+    public static string GetProductVersionForLibrary(string libraryName)
+    {
+        List<string> pluginPaths = GetPathsToPlugins();
+        string ext = ".dll";
+
+        //TODO: change it to take the platform into consideration
+        //TODO: probably make this more generic?
+
+        foreach (string pluginPath in pluginPaths)
+        {
+            foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext, SearchOption.AllDirectories))
+            {
+                FileVersionInfo info = FileVersionInfo.GetVersionInfo(filesystemEntry);
+                print("Found : " + filesystemEntry);
+                if (info != null)
+                {
+                    return string.Format(info.ProductVersion);
+                }
+            }
+        }
+        return null;
+    }
+
+    //-------------------------------------------------------------------------
+    public static string GetPathForLibrary(string libraryName)
+    {
+        List<string> pluginPaths = GetPathsToPlugins();
+        string ext = ".dll";
+
+        foreach (string pluginPath in pluginPaths)
+        {
+            foreach (var filesystemEntry in Directory.EnumerateFileSystemEntries(pluginPath, libraryName + ext, SearchOption.AllDirectories))
+            {
+                return filesystemEntry;
+            }
+        }
+        return null;
+    }
+
+    //-------------------------------------------------------------------------
 #if UNITY_WSA
     private static DLLHandle LoadDynamicLibraryForUWP(string libraryName)
     {
@@ -116,12 +173,7 @@ public class DLLHandle : SafeHandle
     {
         print("Loading Library " + libraryName);
         List<string> pluginPaths = GetPathsToPlugins();
-        string ext =
-#if UNITY_ANDROID
-            ".so";
-#else
-            ".dll";
-#endif
+        string ext = EOSManagerPlatformSpecifics.Instance != null ? EOSManagerPlatformSpecifics.Instance.GetDynamicLibraryExtension() : ".dll";
 
         //TODO: change it to take the platform into consideration
         //TODO: probably make this more generic?

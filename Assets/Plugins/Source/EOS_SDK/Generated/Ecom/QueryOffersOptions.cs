@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class QueryOffersOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose offer to query
+		/// The Epic Account ID of the local user whose offer to query
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

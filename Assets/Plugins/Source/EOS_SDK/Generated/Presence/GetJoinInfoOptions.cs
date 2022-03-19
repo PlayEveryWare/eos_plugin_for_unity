@@ -9,12 +9,12 @@ namespace Epic.OnlineServices.Presence
 	public class GetJoinInfoOptions
 	{
 		/// <summary>
-		/// The local user's Epic Online Services Account ID
+		/// The local user's Epic Account ID
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID to query for join info; this value must either be a logged-in local user, or a friend of that user
+		/// The Epic Account ID to query for join info; this value must either be a logged-in local user, or a friend of that user
 		/// </summary>
 		public EpicAccountId TargetUserId { get; set; }
 	}

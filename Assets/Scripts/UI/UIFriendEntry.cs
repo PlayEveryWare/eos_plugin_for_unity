@@ -37,25 +37,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button InviteButton;
         public Button AddButton;
         public Button ChatButton;
+        public Button ReportButton;
 
         private EpicAccountId accountId;
+        private ProductUserId productUserId;
 
         // Callbacks
         public Action<EpicAccountId> AddFriendOnClick;
         public Action<EpicAccountId> InviteFriendsOnClick;
         public Action<EpicAccountId> ChatOnClick;
+        public Action<ProductUserId, String> ReportOnClick;
 
         private void Awake()
         {
             InviteButton.gameObject.SetActive(false);
             AddButton.gameObject.SetActive(false);
             ChatButton.gameObject.SetActive(false);
+            ReportButton.gameObject.SetActive(false);
             accountId = null;
+            productUserId = null;
         }
 
-        public void SetEpicAccountId(EpicAccountId accountId)
+        public void SetEpicAccount(EpicAccountId accountId, ProductUserId productUserId)
         {
             this.accountId = accountId;
+            this.productUserId = productUserId;
         }
 
         public void EnableInviteButton(bool enable = true)
@@ -72,6 +78,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void EnableChatButton(bool enable = true)
         {
             ChatButton.gameObject.SetActive(enable);
+        }
+
+        public void EnableReportButton(bool enable = true)
+        {
+            ReportButton.gameObject.SetActive(enable);
         }
 
         public void AddFriendOnClickHandler()
@@ -110,6 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+
         public void ChatButtonOnClickHandler()
         {
             if (accountId == null)
@@ -125,6 +137,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 Debug.LogError("UIFriendEntry (ChatButtonOnClickHandler): ChatOnClick is not defined!");
+            }
+        }
+
+        public void ReportButtonOnClickHander()
+        {
+            if (accountId == null)
+            {
+                Debug.LogError("UIFriendEntry (ReportButtonOnClickHander): accountId is not set!");
+                return;
+            }
+
+            if(productUserId == null)
+            {
+                Debug.LogWarning("UIFriendEntry (ReportButtonOnClickHander): productUserId is null (still querying), try again later.");
+                return;
+            }
+
+            if (ReportOnClick != null)
+            {
+                ReportOnClick(productUserId, DisplayName.text);
+            }
+            else
+            {
+                Debug.LogError("UIFriendEntry (ReportButtonOnClickHander): ReportOnClick is not defined!");
             }
         }
     }

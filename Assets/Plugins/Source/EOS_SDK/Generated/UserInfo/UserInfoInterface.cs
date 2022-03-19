@@ -159,7 +159,7 @@ namespace Epic.OnlineServices.UserInfo
 		}
 
 		/// <summary>
-		/// <see cref="CopyUserInfo" /> is used to immediately retrieve a copy of user information based on an Epic Online Services Account ID, cached by a previous call to <see cref="QueryUserInfo" />.
+		/// <see cref="CopyUserInfo" /> is used to immediately retrieve a copy of user information based on an Epic Account ID, cached by a previous call to <see cref="QueryUserInfo" />.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutUserInfo, must be passed to <see cref="Release" /> to release the memory associated with it.
 		/// <seealso cref="UserInfoData" />
 		/// <seealso cref="CopyUserInfoOptions" />

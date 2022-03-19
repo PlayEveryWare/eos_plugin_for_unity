@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class QueryOwnershipOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose ownership to query
+		/// The Epic Account ID of the local user whose ownership to query
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

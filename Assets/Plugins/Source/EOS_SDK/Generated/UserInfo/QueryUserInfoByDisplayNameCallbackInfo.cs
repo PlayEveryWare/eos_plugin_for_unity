@@ -19,12 +19,12 @@ namespace Epic.OnlineServices.UserInfo
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local player requesting the information
+		/// The Epic Account ID of the local player requesting the information
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the player whose information is being retrieved
+		/// The Epic Account ID of the player whose information is being retrieved
 		/// </summary>
 		public EpicAccountId TargetUserId { get; private set; }
 

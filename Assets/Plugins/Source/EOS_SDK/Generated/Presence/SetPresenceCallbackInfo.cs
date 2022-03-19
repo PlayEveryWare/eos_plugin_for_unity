@@ -19,7 +19,7 @@ namespace Epic.OnlineServices.Presence
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user that had their presence set
+		/// The Epic Account ID of the local user that had their presence set
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 

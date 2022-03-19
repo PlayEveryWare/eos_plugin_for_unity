@@ -2,6 +2,9 @@
 // This file does some *magick* to load the EOS Overlay DLL.
 // This is apparently needed so that the Overlay can render properly
 #include "pch.h"
+
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -12,6 +15,7 @@
 #include <algorithm>
 #include <utility>
 #include <filesystem>
+#include <optional>
 
 
 //#include "eos_minimum_includes.h"
@@ -20,6 +24,7 @@
 #include "Windows/eos_Windows.h"
 #endif
 #include "eos_sdk.h"
+#include "eos_logging.h"
 
 #include "json.h"
 
@@ -37,6 +42,11 @@
 #endif
 #endif
 
+#if PLATFORM_64BITS
+#define STEAM_DLL_NAME "steam_api64.dll"
+#else
+#define STEAM_DLL_NAME "steam_api.dll"
+#endif
 
 #define DLL_SUFFIX "-Shipping.dll"
 
@@ -45,6 +55,11 @@
 #define OVERLAY_DLL_NAME "EOSOVH" DLL_PLATFORM DLL_SUFFIX
 #define SDK_DLL_NAME "EOSSDK" DLL_PLATFORM DLL_SUFFIX
 #define XAUDIO2_DLL_NAME "xaudio2_9redist.dll"
+
+#define EOS_SERVICE_CONFIG_FILENAME "EpicOnlineServicesConfig.json"
+#define EOS_STEAM_CONFIG_FILENAME "eos_steam_config.json"
+
+#define RESTRICT __restrict
 
 #define DLL_EXPORT(return_value) extern "C" __declspec(dllexport) return_value  __stdcall
 
@@ -62,16 +77,21 @@ typedef EOS_EResult(EOS_CALL* EOS_Initialize_t)(const EOS_InitializeOptions* Opt
 typedef EOS_EResult(EOS_CALL* EOS_Shutdown_t)();
 typedef EOS_HPlatform(EOS_CALL* EOS_Platform_Create_t)(const EOS_Platform_Options* Options);
 typedef void (EOS_CALL* EOS_Platform_Release_t)(EOS_HPlatform Handle);
+typedef EOS_EResult (EOS_CALL *EOS_Logging_SetLogLevel_t)(EOS_ELogCategory LogCategory, EOS_ELogLevel LogLevel);
+typedef EOS_EResult (EOS_CALL *EOS_Logging_SetCallback_t)(EOS_LogMessageFunc Callback);
 
 static EOS_Initialize_t EOS_Initialize_ptr;
 static EOS_Shutdown_t EOS_Shutdown_ptr;
 static EOS_Platform_Create_t EOS_Platform_Create_ptr;
 static EOS_Platform_Release_t EOS_Platform_Release_ptr;
+static EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
+static EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
 
 static void *s_eos_sdk_overlay_lib_handle;
 static void *s_eos_sdk_lib_handle;
 static EOS_HPlatform eos_platform_handle;
 static GetConfigAsJSONString_t GetConfigAsJSONString;
+
 
 struct EOSConfig
 {
@@ -88,6 +108,30 @@ struct EOSConfig
 
     std::string overrideCountryCode;
     std::string overrideLocaleCode;
+
+    uint64_t flags;
+};
+
+struct EOSSteamConfig
+{
+    std::optional<std::string> OverrideLibraryPath;
+
+    EOSSteamConfig()
+    {
+    }
+
+    bool isManagedByApplication()
+    {
+        // AC/NOTE: Assumes the application is responsible for managing the Steam dll.
+        return true;
+    }
+
+    bool isManagedBySDK()
+    {
+        // AC/NOTE: Assumes the application is responsible for managing the Steam dll.
+        return false;
+    }
+
 };
 
 extern "C"
@@ -98,6 +142,84 @@ extern "C"
     void __declspec(dllexport) __stdcall UnloadEOS();
 }
 
+//-------------------------------------------------------------------------
+size_t utf8_str_bytes_required_for_wide_str(const wchar_t* wide_str, int wide_str_len = -1)
+{
+    int bytes_required = WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, NULL, 0, NULL, NULL);
+
+    if (bytes_required < 0)
+    {
+        return 0;
+    }
+
+    return bytes_required;
+}
+
+//-------------------------------------------------------------------------
+// wide_str must be null terminated if wide_str_len is passed
+static bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_str_len, const wchar_t* RESTRICT wide_str, int wide_str_len = -1)
+{
+    if (utf8_str_len > INT_MAX)
+    {
+        return false;
+    }
+
+    WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, utf8_str, utf8_str_len, NULL, NULL);
+
+    return true;
+}
+
+//-------------------------------------------------------------------------
+static char* create_utf8_str_from_wide_str(const wchar_t *wide_str)
+{
+    const int wide_str_len = wcslen(wide_str) + 1;
+    int bytes_required = utf8_str_bytes_required_for_wide_str(wide_str, wide_str_len);
+    char *to_return = (char*)malloc(bytes_required);
+
+    if (!copy_to_utf8_str_from_wide_str(to_return, bytes_required, wide_str, wide_str_len))
+    {
+        free(to_return);
+        to_return = NULL;
+    }
+
+    return to_return;
+}
+
+//-------------------------------------------------------------------------
+static wchar_t* create_wide_str_from_utf8_str(const char* utf8_str)
+{
+    int chars_required = MultiByteToWideChar(CP_UTF8, 0, utf8_str, -1, NULL, 0);
+    wchar_t *to_return = (wchar_t*)malloc(chars_required * sizeof(wchar_t));
+    int utf8_str_len = strlen(utf8_str);
+
+    MultiByteToWideChar(CP_UTF8, 0, utf8_str, utf8_str_len, to_return, chars_required);
+
+    return to_return;
+}
+
+//-------------------------------------------------------------------------
+// Using the std::wstring_convert method for this currently. It might be the
+// case that in the future this method won't work. If that happens,
+// one could convert this function to use the create_utf8_str_from_wide_str
+// function to emulate it. Doing this might come with a cost, as data will
+// need to be copied multiple times.
+static std::string to_utf8_str(const std::wstring& wide_str)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+    std::string utf8_str = converter.to_bytes(wide_str);
+
+    return utf8_str;
+
+}
+
+//-------------------------------------------------------------------------
+// Using fs::path:string().c_str() seems to cause an issue when paths have
+// kanji in them. Using this function and then std::string:c_str() works around that
+// issue
+static std::string to_utf8_str(const fs::path& path)
+{
+    return to_utf8_str(path.native());
+}
 
 static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else)
 {
@@ -109,6 +231,37 @@ static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* c
 }
 
 //-------------------------------------------------------------------------
+static const char* eos_loglevel_to_print_str(EOS_ELogLevel level)
+{
+    switch (level)
+    {
+    case EOS_ELogLevel::EOS_LOG_Off:
+        return "Off";
+        break;
+    case EOS_ELogLevel::EOS_LOG_Fatal:
+        return "Fatal";
+        break;
+    case EOS_ELogLevel::EOS_LOG_Error:
+        return "Error";
+        break;
+    case EOS_ELogLevel::EOS_LOG_Warning:
+        return "Warning";
+        break;
+    case EOS_ELogLevel::EOS_LOG_Info:
+        return "Info";
+        break;
+    case EOS_ELogLevel::EOS_LOG_Verbose:
+        return "Verbose";
+        break;
+    case EOS_ELogLevel::EOS_LOG_VeryVerbose:
+        return "VeryVerbose";
+        break;
+    default:
+        return nullptr;
+    }
+}
+
+//-------------------------------------------------------------------------
 static void show_log_as_dialog(const char* log_string)
 {
 #if PLATFORM_WINDOWS
@@ -117,14 +270,134 @@ static void show_log_as_dialog(const char* log_string)
 }
 
 //-------------------------------------------------------------------------
+static FILE* log_file_s = nullptr;
+static std::vector<std::string> buffered_output;
+void global_log_close()
+{
+    if (log_file_s)
+    {
+        fclose(log_file_s);
+        log_file_s = nullptr;
+        buffered_output.clear();
+    }
+}
+
+//-------------------------------------------------------------------------
+void global_vlogf(const char* format, va_list arg_list)
+{
+    if (log_file_s != NULL)
+    {
+        vfprintf(log_file_s, format, arg_list);
+        fprintf(log_file_s, "\n");
+        fflush(log_file_s);
+    }
+    else
+    {
+        va_list arg_list_copy;
+        va_copy(arg_list_copy, arg_list);
+        int printed_length = vprintf(format, arg_list) + 1;
+        std::string buffer;
+        buffer.resize(printed_length);
+        vsprintf_s(buffer.data(), printed_length, format, arg_list_copy);
+        buffered_output.push_back(std::move(buffer));
+        va_end(arg_list_copy);
+
+    }
+}
+
+//-------------------------------------------------------------------------
+void global_logf(const char* format, ...)
+{
+    va_list arg_list;
+    va_start(arg_list, format);
+    global_vlogf(format, arg_list);
+    va_end(arg_list);
+}
+
+//-------------------------------------------------------------------------
+void global_log_open(const char* filename)
+{
+    if (log_file_s != nullptr)
+    {
+        fclose(log_file_s);
+        log_file_s = nullptr;
+    }
+    fopen_s(&log_file_s, filename, "w");
+
+    if (buffered_output.size() > 0)
+    {
+        for (const std::string& str : buffered_output)
+        {
+            global_logf(str.c_str());
+        }
+        buffered_output.clear();
+    }
+}
+
+typedef void (*log_flush_function_t)(const char* str);
+DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_function)
+{
+    if (buffered_output.size() > 0)
+    {
+        for (const std::string& str : buffered_output)
+        {
+            log_flush_function(str.c_str());
+        }
+        buffered_output.clear();
+    }
+}
+
+//-------------------------------------------------------------------------
+void log_base(const char* header, const char* format_str, va_list arg_list)
+{
+    std::string string_to_log("NativePlugin (");
+    string_to_log += header;
+    string_to_log += "): ";
+    string_to_log += format_str;
+    global_vlogf(string_to_log.c_str(), arg_list);
+}
+
+//-------------------------------------------------------------------------
 // TODO: If possible, hook this up into a proper logging channel.s
-void log_warn(const char* log_string)
+void log_warn(const char* log_string, ...)
 {
 #if SHOW_DIALOG_BOX_ON_WARN
     show_log_as_dialog(log_string);
 #endif
+    va_list arg_list;
+    va_start(arg_list, log_string);
+    log_base("WARNING", log_string, arg_list);
+    va_end(arg_list);
+}
 
-    printf("WARNING: %s\n", log_string);
+//-------------------------------------------------------------------------
+void log_inform(const char* log_string, ...)
+{
+    va_list arg_list;
+    va_start(arg_list, log_string);
+    log_base("INFORM", log_string, arg_list);
+    va_end(arg_list);
+}
+
+//-------------------------------------------------------------------------
+void log_error(const char* log_string, ...)
+{
+    va_list arg_list;
+    va_start(arg_list, log_string);
+    log_base("ERROR", log_string, arg_list);
+    va_end(arg_list);
+}
+
+//-------------------------------------------------------------------------
+EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message)
+{
+    global_logf("%s (%s): %s", message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
+}
+
+//-------------------------------------------------------------------------
+static const char* null_if_empty(const std::string& str)
+{
+    return str.empty() ? nullptr : str.c_str();
 }
 
 //-------------------------------------------------------------------------
@@ -183,7 +456,7 @@ static void* load_library_at_path(const std::filesystem::path& library_path)
     void* to_return = nullptr;
 
 #if PLATFORM_WINDOWS
-    log_warn(("Loading path at " + library_path.string()).c_str());
+    log_inform(("Loading path at " + to_utf8_str(library_path)).c_str());
     HMODULE handle = LoadLibrary(library_path.c_str());
     to_return = (void*)handle;
 #endif
@@ -229,33 +502,46 @@ void eos_init(const EOSConfig& eos_config)
     SDKOptions.SystemInitializeOptions = nullptr;
     SDKOptions.OverrideThreadAffinity = nullptr;
 
-    log_warn("call EOS_Initialize");
+    log_inform("call EOS_Initialize");
     EOS_EResult InitResult = EOS_Initialize_ptr(&SDKOptions);
     if (InitResult != EOS_EResult::EOS_Success)
     {
-        log_warn("Unable to do eos init");
+        log_error("Unable to do eos init");
+    }
+    if (EOS_Logging_SetLogLevel_ptr != nullptr)
+    {
+        EOS_Logging_SetLogLevel_ptr(EOS_ELogCategory::EOS_LC_ALL_CATEGORIES, EOS_ELogLevel::EOS_LOG_VeryVerbose);
+    }
+
+    if (EOS_Logging_SetCallback_ptr != nullptr)
+    {
+        EOS_Logging_SetCallback_ptr(&eos_log_callback);
     }
 }
 
 //-------------------------------------------------------------------------
 static char* GetCacheDirectory()
 {
-    static char* lpTempPathBuffer = NULL;
+    static char* s_tempPathBuffer = NULL;
 
-    if (lpTempPathBuffer == NULL)
+    if (s_tempPathBuffer == NULL)
     {
-        char tmp_buffer = 0;
-        DWORD buffer_size = GetTempPathA(1, &tmp_buffer) + 1;
-        lpTempPathBuffer = (char*)malloc(buffer_size);
-        GetTempPathA(buffer_size, lpTempPathBuffer);
+        WCHAR tmp_buffer = 0;
+        DWORD buffer_size = GetTempPathW(1, &tmp_buffer) + 1;
+        WCHAR* lpTempPathBuffer = (TCHAR*)malloc(buffer_size * sizeof(TCHAR));
+        GetTempPathW(buffer_size, lpTempPathBuffer);
+
+        s_tempPathBuffer = create_utf8_str_from_wide_str(lpTempPathBuffer);
+        free(lpTempPathBuffer);
     }
-    return lpTempPathBuffer;
+
+    return s_tempPathBuffer;
 }
 
 //-------------------------------------------------------------------------
 static json_value_s* read_config_json_as_json_from_path(std::filesystem::path path_to_config_json)
 {
-    log_warn(("json path" + path_to_config_json.string() ).c_str());
+    log_inform(("json path" + to_utf8_str(path_to_config_json)).c_str());
     uintmax_t config_file_size = std::filesystem::file_size(path_to_config_json);
     if (config_file_size > SIZE_MAX)
     {
@@ -280,7 +566,7 @@ static json_value_s* read_config_json_from_dll()
     struct json_value_s* config_json = nullptr;
 
 #if ENABLE_DLL_BASED_EOS_CONFIG
-	log_warn("Trying to load eos config via dll");
+	log_inform("Trying to load eos config via dll");
     static void *eos_generated_library_handle = load_library_at_path(get_path_relative_to_current_module("EOSGenerated.dll"));
 
 	if (!eos_generated_library_handle)
@@ -359,40 +645,164 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
         {
             eos_config.overrideLocaleCode = json_value_as_string(iter->value)->string;
         }
+        else if (!strcmp("platformOptionsFlags", iter->name->string))
+        {
+            uint64_t collected_flags = 0;
+            json_array_s* flags = json_value_as_array(iter->value);
+            for (auto e = flags->start; e != nullptr; e = e->next)
+            {
+                const char* flag_as_cstr = json_value_as_string(e->value)->string;
+
+                if (!strcmp("EOS_PF_LOADING_IN_EDITOR", flag_as_cstr) || !strcmp("LoadingInEditor", flag_as_cstr))
+                {
+                    collected_flags |= EOS_PF_LOADING_IN_EDITOR;
+                }
+
+                if (!strcmp("EOS_PF_DISABLE_OVERLAY", flag_as_cstr) || !strcmp("DisableOverlay", flag_as_cstr))
+                {
+                    collected_flags |= EOS_PF_DISABLE_OVERLAY;
+                }
+
+                if (!strcmp("EOS_PF_DISABLE_SOCIAL_OVERLAY", flag_as_cstr) || !strcmp("DisableSocialOverlay", flag_as_cstr))
+                {
+                    collected_flags |= EOS_PF_DISABLE_SOCIAL_OVERLAY;
+                }
+
+                if (!strcmp("EOS_PF_RESERVED1", flag_as_cstr) || !strcmp("Reserved1", flag_as_cstr))
+                {
+                    collected_flags |= EOS_PF_RESERVED1;
+                }
+
+                if (!strcmp("EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9", flag_as_cstr) || !strcmp("WindowsEnableOverlayD3D9", flag_as_cstr))
+                {
+                    collected_flags |= EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9;
+                }
+
+                if (!strcmp("EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10", flag_as_cstr) || !strcmp("WindowsEnableOverlayD3D10", flag_as_cstr))
+                {
+                    collected_flags |= EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10;
+                }
+
+                if (!strcmp("EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL", flag_as_cstr) || !strcmp("WindowsEnableOverlayOpengl", flag_as_cstr))
+                {
+                    collected_flags |= EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL;
+                }
+            }
+
+            eos_config.flags = collected_flags;
+        }
 
         iter = iter->next;
     }
     
     return eos_config;
 }
-	
 
 //-------------------------------------------------------------------------
-static std::filesystem::path get_path_for_eos_service_config()
+static bool str_is_equal_to_any(const char* str, ...)
+{
+    bool to_return = false;
+    va_list arg_list;
+    va_start(arg_list, str);
+
+    const char *value = va_arg(arg_list, const char*);
+
+    while (value != NULL)
+    {
+        if (!strcmp(str, value))
+        {
+            to_return = true;
+            break;
+        }
+        value = va_arg(arg_list, const char*);
+    }
+
+    va_end(arg_list);
+
+    return to_return;
+}
+
+//-------------------------------------------------------------------------
+static bool str_is_equal_to_none(const char* str, ...)
+{
+    bool to_return = false;
+    va_list arg_list;
+    va_start(arg_list, str);
+
+    const char *value = va_arg(arg_list, const char*);
+
+    while (value != NULL)
+    {
+        if (strcmp(str, value))
+        {
+            to_return = true;
+            break;
+        }
+        value = va_arg(arg_list, const char*);
+    }
+
+    va_end(arg_list);
+
+    return to_return;
+}
+
+//-------------------------------------------------------------------------
+static EOSSteamConfig eos_steam_config_from_json_value(json_value_s *config_json)
+{
+    struct json_object_s* config_json_object = json_value_as_object(config_json);
+    struct json_object_element_s* iter = config_json_object->start;
+    EOSSteamConfig eos_config;
+
+    while (iter != nullptr)
+    {
+        if (!strcmp("flags", iter->name->string))
+        {
+        }
+        else if (!strcmp("overrideLibraryPath", iter->name->string))
+        {
+            const char *override_library_path = json_value_as_string(iter->value)->string;
+
+            if (strcmp("NULL", override_library_path)
+                && strcmp("null", override_library_path)
+                )
+            {
+                eos_config.OverrideLibraryPath = override_library_path;
+            }
+
+        }
+        iter = iter->next;
+    }
+
+    return eos_config;
+}
+
+//-------------------------------------------------------------------------
+static std::filesystem::path get_path_for_eos_service_config(std::string config_filename)
 {
     //return get_path_relative_to_current_module(std::filesystem::path("../..") / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json");
 	auto twoDirsUp = std::filesystem::path("../..");
 	std::filesystem::path packaged_data_path = get_path_relative_to_current_module(twoDirsUp);
 	std::error_code error_code;
 
-	log_warn("about to look with exists");
+	log_inform("about to look with exists");
 	if (!std::filesystem::exists(packaged_data_path, error_code))
 	{
 		log_warn("Didn't find the path twoDirsUp");
 		packaged_data_path = get_path_relative_to_current_module(std::filesystem::path("./Data/"));
 	}
 	
-	return packaged_data_path / "StreamingAssets" / "EOS" / "EpicOnlineServicesConfig.json";
+	return packaged_data_path / "StreamingAssets" / "EOS" / config_filename;
 }
 
 //-------------------------------------------------------------------------
-json_value_s* read_eos_config_as_json_value_from_file()
+json_value_s* read_eos_config_as_json_value_from_file(std::string config_filename)
 {
-    std::filesystem::path path_to_config_json = get_path_for_eos_service_config();
+    std::filesystem::path path_to_config_json = get_path_for_eos_service_config(config_filename);
 
     return read_config_json_as_json_from_path(path_to_config_json);
 }
 
+//-------------------------------------------------------------------------
 static void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_options)
 {
     std::stringstream output;
@@ -423,7 +833,56 @@ static void EOS_Platform_Options_debug_log(const EOS_Platform_Options& platform_
     output << windows_rtc_options->ApiVersion << "\n";
     output << windows_rtc_options->XAudio29DllPath << "\n";
 
-    log_warn(output.str().c_str());
+    log_inform(output.str().c_str());
+}
+
+//-------------------------------------------------------------------------
+static std::string basename(const std::string& path)
+{
+    std::string filename;
+    filename.resize(path.length() + 1);
+    _splitpath_s(path.c_str(), NULL, 0, NULL, 0, filename.data(), filename.size(), NULL, 0);
+
+    return filename;
+}
+
+//-------------------------------------------------------------------------
+static void eos_call_steam_init(const std::filesystem::path& steam_dll_path)
+{
+    std::string steam_dll_path_as_string = steam_dll_path.string();
+    eos_call_steam_init(steam_dll_path_as_string);
+}
+
+//-------------------------------------------------------------------------
+// This function assumes that if the caller has already loaded the steam DLL,
+// that SteamAPI_Init doesn't need to be called
+static void eos_call_steam_init(const std::string& steam_dll_path)
+{
+    auto steam_dll_path_string = basename(steam_dll_path);
+    HANDLE steam_dll_handle = GetModuleHandleA(steam_dll_path_string.c_str());
+
+    // Check the default name for the steam_api.dll
+    if (!steam_dll_handle)
+    {
+        steam_dll_handle = GetModuleHandleA("steam_api.dll");
+    }
+
+    // in the case that it's not loaded, try to load it from the user provided path
+    if (!steam_dll_handle)
+    {
+        steam_dll_handle = load_library_at_path(steam_dll_path);
+    }
+
+    if (steam_dll_handle != nullptr)
+    {
+        typedef bool(__cdecl* SteamAPI_Init_t)();
+        SteamAPI_Init_t SteamAPI_Init = load_function_with_name<SteamAPI_Init_t>(steam_dll_handle, "SteamAPI_Init");
+
+        if (SteamAPI_Init())
+        {
+            log_inform("Called SteamAPI_Init with success!");
+        }
+    }
 }
 
 //-------------------------------------------------------------------------
@@ -432,7 +891,7 @@ void eos_create(EOSConfig& eosConfig)
     EOS_Platform_Options platform_options = {0};
     platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
     platform_options.bIsServer = EOS_FALSE;
-    platform_options.Flags = 0;
+    platform_options.Flags = eosConfig.flags;
     platform_options.CacheDirectory = GetCacheDirectory();
 
     platform_options.EncryptionKey = eosConfig.encryptionKey.length() > 0 ? eosConfig.encryptionKey.c_str() : nullptr;
@@ -443,14 +902,13 @@ void eos_create(EOSConfig& eosConfig)
     platform_options.DeploymentId = eosConfig.deploymentID.c_str();
     platform_options.ClientCredentials.ClientId = eosConfig.clientID.c_str();
     platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
-
     EOS_Platform_RTCOptions rtc_options = { 0 };
 
     rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
 #if PLATFORM_WINDOWS
-    log_warn("setting up rtc");
+    log_inform("setting up rtc");
     fs::path xaudio2_dll_path = get_path_relative_to_current_module(XAUDIO2_DLL_NAME);
-    std::string xaudio2_dll_path_as_string = xaudio2_dll_path.string();
+    std::string xaudio2_dll_path_as_string = to_utf8_str(xaudio2_dll_path);
     EOS_Windows_RTCOptions windows_rtc_options = { 0 };
     windows_rtc_options.ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST;
     windows_rtc_options.XAudio29DllPath = xaudio2_dll_path_as_string.c_str();
@@ -464,12 +922,64 @@ void eos_create(EOSConfig& eosConfig)
     platform_options.RTCOptions = &rtc_options;
 #endif
 
+#if PLATFORM_WINDOWS
+    auto path_to_steam_config_json = get_path_for_eos_service_config(EOS_STEAM_CONFIG_FILENAME);
+
+    // Defined here so that the override path lives long enough to be referenced by the create option
+    EOSSteamConfig eos_steam_config;
+
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+
+    if (std::filesystem::exists(path_to_steam_config_json))
+    {
+        json_value_s* eos_steam_config_as_json = nullptr;
+        eos_steam_config_as_json = read_config_json_as_json_from_path(path_to_steam_config_json);
+        eos_steam_config = eos_steam_config_from_json_value(eos_steam_config_as_json);
+        free(eos_steam_config_as_json);
+
+        if (eos_steam_config.OverrideLibraryPath.has_value())
+        {
+            if (!std::filesystem::exists(eos_steam_config.OverrideLibraryPath.value()))
+            {
+                auto override_lib_path_as_str = basename(eos_steam_config.OverrideLibraryPath.value());
+                auto found_steam_path = get_path_relative_to_current_module(override_lib_path_as_str);
+
+                // Fall back and use the steam dll name based on the
+                // type of binary the GfxPluginNativeRender
+                if (!std::filesystem::exists(found_steam_path) || eos_steam_config.OverrideLibraryPath.value().empty())
+                {
+                    found_steam_path = get_path_relative_to_current_module(STEAM_DLL_NAME);
+                }
+
+                if (std::filesystem::exists(found_steam_path))
+                {
+                    eos_steam_config.OverrideLibraryPath = converter.to_bytes(found_steam_path.wstring());
+                }
+            }
+        }
+        else
+        {
+            auto found_steam_path = get_path_relative_to_current_module(STEAM_DLL_NAME);
+            if (std::filesystem::exists(found_steam_path))
+            {
+                eos_steam_config.OverrideLibraryPath = converter.to_bytes(found_steam_path.wstring());
+            }
+        }
+
+        if (eos_steam_config.isManagedByApplication())
+        {
+            eos_call_steam_init(eos_steam_config.OverrideLibraryPath.value());
+            eos_steam_config.OverrideLibraryPath.reset();
+        }
+    }
+#endif
+
     //EOS_Platform_Options_debug_log(platform_options);
-    log_warn("run EOS_Platform_Create");
+    log_inform("run EOS_Platform_Create");
     eos_platform_handle = EOS_Platform_Create_ptr(&platform_options);
     if (!eos_platform_handle)
     {
-        log_warn("failed to create the platform");
+        log_error("failed to create the platform");
     }
 }
 
@@ -526,7 +1036,7 @@ static bool get_overlay_dll_path(fs::path* OutDllPath)
     *OutDllPath = fs::path(OverlayDllDirectory) / OVERLAY_DLL_NAME;
     return fs::exists(*OutDllPath) && fs::is_regular_file(*OutDllPath);
 #else
-    log_warn("Trying to get a DLL path on a platform without DLL paths searching");
+    log_inform("Trying to get a DLL path on a platform without DLL paths searching");
     return false;
 #endif
 }
@@ -536,9 +1046,10 @@ static void FetchEOSFunctionPointers()
 {
     EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
     EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
-    log_warn("fetch eos_platform_create");
     EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
     EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
+    EOS_Logging_SetLogLevel_ptr = load_function_with_name<EOS_Logging_SetLogLevel_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Logging_SetLogLevel@8", "EOS_Logging_SetLogLevel"));
+    EOS_Logging_SetCallback_ptr = load_function_with_name<EOS_Logging_SetCallback_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("EOS_Logging_SetCallback@4", "EOS_Logging_SetCallback"));
 }
 
 //-------------------------------------------------------------------------
@@ -548,12 +1059,39 @@ static void FetchEOSFunctionPointers()
 #endif
 DLL_EXPORT(void) UnityPluginLoad(void*)
 {
-    fs::path DllPath;
-    log_warn("On UnityPluginLoad");
-    if (!get_overlay_dll_path(&DllPath))
+#if _DEBUG
+    show_log_as_dialog("You may attach a debugger to the DLL");
+#endif
+
+    auto path_to_config_json = get_path_for_eos_service_config(EOS_SERVICE_CONFIG_FILENAME);
+    json_value_s* eos_config_as_json = nullptr;
+
+    eos_config_as_json = read_config_json_from_dll();
+
+    if (!eos_config_as_json && std::filesystem::exists(path_to_config_json))
     {
-        show_log_as_dialog("Missing Overlay DLL!\n Overlay functionality will not work!");
+        eos_config_as_json = read_config_json_as_json_from_path(path_to_config_json);
     }
+
+    if (!eos_config_as_json)
+    {
+        log_warn("Failed to load a valid json config for EOS");
+        return;
+    }
+
+    EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
+    free(eos_config_as_json);
+
+#if _DEBUG
+    global_log_open("gfx_log.txt");
+#endif
+
+    fs::path DllPath;
+    log_inform("On UnityPluginLoad");
+    //if (!get_overlay_dll_path(&DllPath))
+    //{
+    //    show_log_as_dialog("Missing Overlay DLL!\n Overlay functionality will not work!");
+    //}
 
     s_eos_sdk_lib_handle = load_library_at_path(get_path_relative_to_current_module(SDK_DLL_NAME));
 
@@ -570,33 +1108,11 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
     if (s_eos_sdk_lib_handle)
     {
-        EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
-        EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
-        log_warn("fetch eos_platform_create");
-        EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
-        EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
+        FetchEOSFunctionPointers();
+
         if (EOS_Initialize_ptr)
         {
-            log_warn("start eos init");
-
-            auto path_to_config_json = get_path_for_eos_service_config();
-            json_value_s* eos_config_as_json = nullptr;
-
-            eos_config_as_json = read_config_json_from_dll();
-
-            if(!eos_config_as_json && std::filesystem::exists(path_to_config_json))
-            {
-                eos_config_as_json = read_config_json_as_json_from_path(path_to_config_json);
-            }
-
-            if (!eos_config_as_json)
-            {
-                log_warn("Failed to load a valid json config for EOS");
-                return;
-            }
-
-            EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
-            free(eos_config_as_json);
+            log_inform("start eos init");
 
             eos_init(eos_config);
 
@@ -641,6 +1157,8 @@ DLL_EXPORT(void) UnityPluginUnload()
     }
     unload_library(s_eos_sdk_overlay_lib_handle);
     s_eos_sdk_overlay_lib_handle = nullptr;
+
+    global_log_close();
 }
 
 //-------------------------------------------------------------------------
@@ -648,12 +1166,12 @@ DLL_EXPORT(void) UnloadEOS()
 {
     if (EOS_Shutdown_ptr)
     {
-        log_warn("EOS shutdown");
+        log_inform("EOS shutdown");
         EOS_Shutdown_ptr();
     }
     if (s_eos_sdk_lib_handle)
     {
-        log_warn("Unload eos sdk handle");
+        log_inform("Unload eos sdk handle");
         unload_library(s_eos_sdk_lib_handle);
     }
 }

@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.UserInfo
 	public class QueryUserInfoByDisplayNameOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local player requesting the information
+		/// The Epic Account ID of the local player requesting the information
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

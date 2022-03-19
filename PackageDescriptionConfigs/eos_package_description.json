@@ -1,27 +1,22 @@
 {
     "source_to_dest": [
-
-        {"src":"EOSUnityPlugin_package_template/CHANGELOG-prerelease.md", "dest" : "CHANGELOG.md"},
+        {"src":"EOSUnityPlugin_package_template/CHANGELOG.md", "dest" : "CHANGELOG.md"},
         {"src":"EOSUnityPlugin_package_template/CHANGELOG.md.meta", "dest" : ""},
         {"src":"license.md", "dest" : "LICENSE.md"},
         {"src":"EOSUnityPlugin_package_template/LICENSE.md.meta", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/package.json", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/package.json.meta", "dest" : ""},
 
-
         {"src":"docs/upm_readme.md", "dest" : "README.md"},
-
         {"src":"EOSUnityPlugin_package_template/README.md.meta", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/Editor.meta", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/Runtime.meta", "dest" : ""},
 
-
+        {"src":"docs/android/*.md", "dest" : "Documentation~/android/"},
         {"src":"docs/class_description.md", "dest" : "Documentation~/"},
         {"src":"docs/standards.md", "dest" : "Documentation~/"},
         {"src":"docs/configuring_the_eos_plugin.md", "dest" : "Documentation~/"},
         {"src":"docs/custom_eos_config_location.md", "dest" : "Documentation~/"},
-
-        {"src":"docs/images/*", "dest" : "Documentation~/images/"},
 
         {"src":"Assets/Plugins/com.playeveryware.eos.asmdef", "dest": "Runtime/"},
         {"src":"Assets/Plugins/com.playeveryware.eos.asmdef.meta", "dest": "Runtime/"},
@@ -49,13 +44,12 @@
         {"src":"Assets/Plugins/Windows/x64/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Windows/x64/"},
         {"src":"Assets/Plugins/Windows/x64/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Windows/x64/"},
 
-
-
         {"src":"Assets/Plugins/Windows/x86.meta", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll.meta", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/*.lib", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/*.lib.meta", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/license.txt", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/license.txt.meta", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/windows/x86/"},
@@ -115,6 +109,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
+		
+		{"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ecom.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ecom/*.cs", "dest": "Runtime/EOS_SDK/Generated/Ecom/"},
@@ -163,6 +161,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
+		
+		{"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports/*.cs", "dest": "Runtime/EOS_SDK/Generated/Reports/"},
@@ -223,12 +225,9 @@
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
 
-
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},
         {"src":"Assets/Scenes/*.unity.meta", "dest": "Samples~/Samples/Scenes/"}
-
-
     ],
     "blacklist": [
         "*.png"

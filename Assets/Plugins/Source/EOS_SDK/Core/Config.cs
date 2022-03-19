@@ -8,7 +8,7 @@
 	#define EOS_EDITOR
 #endif
 
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_PS4 || UNITY_XBOXONE || UNITY_SWITCH || UNITY_IOS || UNITY_ANDROID || UNITY_WSA
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_PS4 || UNITY_PS5 || UNITY_XBOXONE || UNITY_SWITCH || UNITY_IOS || UNITY_ANDROID || UNITY_WSA
 	#define EOS_UNITY
 #endif
 
@@ -28,8 +28,17 @@
 #elif UNITY_PS4
 	#define EOS_PLATFORM_PS4
 
+#elif UNITY_PS5
+	#define EOS_PLATFORM_PS5
+
 #elif UNITY_XBOXONE
 	#define EOS_PLATFORM_XBOXONE
+
+#elif UNITY_GAMECORE_XBOXONE
+	#define EOS_PLATFORM_XBOXONE_GDK
+
+#elif UNITY_GAMECORE_SCARLETT
+	#define EOS_PLATFORM_XSX
 
 #elif UNITY_SWITCH
 	#define EOS_PLATFORM_SWITCH
@@ -69,15 +78,16 @@ namespace Epic.OnlineServices
 		#elif EOS_PLATFORM_LINUX
 			"EOSSDK-Linux-Shipping.so"
 
-		#elif EOS_PLATFORM_IOS && EOS_UNITY && !EOS_EDITOR
-			"__Internal"
-		#elif EOS_PLATFORM_IOS && EOS_UNITY
+		#elif EOS_PLATFORM_IOS && EOS_UNITY && EOS_EDITOR
 			"EOSSDK"
 		#elif EOS_PLATFORM_IOS
 			"EOSSDK.framework/EOSSDK"
 
 		#elif EOS_PLATFORM_ANDROID
 			"EOSSDK"
+
+		#elif EOS_DISABLE
+			#warning Disabling EOS
 
 		#else
 			#error Unable to determine the name of the EOSSDK library. Ensure you have set the correct EOS compilation symbol for the current platform, such as EOS_PLATFORM_WINDOWS_32 or EOS_PLATFORM_WINDOWS_64, so that the correct EOSSDK library can be targeted.

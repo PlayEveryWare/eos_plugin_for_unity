@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Mods
 	public class EnumerateModsOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user for which the mod should be enumerated
+		/// The Epic Account ID of the user for which the mod should be enumerated
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 

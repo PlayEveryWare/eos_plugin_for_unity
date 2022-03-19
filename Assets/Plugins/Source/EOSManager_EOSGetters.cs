@@ -136,7 +136,13 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.PlayerDataStorage.PlayerDataStorageInterface GetPlayerDataStorageInterface()
             {
-                return GetEOSPlatformInterface().GetPlayerDataStorageInterface();
+                var playerDataStorageInterface = GetEOSPlatformInterface().GetPlayerDataStorageInterface();
+
+                if (playerDataStorageInterface == null)
+                {
+                    throw new System.Exception("Could not get PlayerDataStorage interface, EncryptionKey maybe empty or null");
+                }
+                return playerDataStorageInterface;
             }
 
             //-------------------------------------------------------------------------
@@ -147,7 +153,6 @@ namespace PlayEveryWare.EpicOnlineServices
             public Epic.OnlineServices.Presence.PresenceInterface GetEOSPresenceInterface()
             {
                 return GetEOSPlatformInterface().GetPresenceInterface();
-
             }
 
             //-------------------------------------------------------------------------

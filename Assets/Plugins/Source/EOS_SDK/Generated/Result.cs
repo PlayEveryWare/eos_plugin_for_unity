@@ -462,6 +462,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		SessionsNotAllowed = 5018,
 		/// <summary>
+		/// Session operation not allowed
+		/// </summary>
+		SessionsPlayerSanctioned = 5019,
+		/// <summary>
 		/// Request filename was invalid
 		/// </summary>
 		PlayerDataStorageFilenameInvalid = 6000,
@@ -722,7 +726,7 @@ namespace Epic.OnlineServices
 		/// </summary>
 		ModsUnsupportedOS = 11016,
 		/// <summary>
-		/// The anti-cheat client protection is not available. Check that the game was started using the correct launcher.
+		/// The anti-cheat client protection is not available. Check that the game was started using the anti-cheat bootstrapper.
 		/// </summary>
 		AntiCheatClientProtectionNotAvailable = 12000,
 		/// <summary>
@@ -761,6 +765,14 @@ namespace Epic.OnlineServices
 		/// (ReceiveMessageFromPeer) Invalid call: Peer is not protected
 		/// </summary>
 		AntiCheatPeerNotProtected = 12009,
+		/// <summary>
+		/// The DeploymentId provided to the anti-cheat client helper executable does not match what was used to initialize the EOS SDK
+		/// </summary>
+		AntiCheatClientDeploymentIdMismatch = 12010,
+		/// <summary>
+		/// EOS Connect DeviceID auth method is not supported for anti-cheat
+		/// </summary>
+		AntiCheatDeviceIdAuthIsNotSupported = 12011,
 		/// <summary>
 		/// EOS RTC room cannot accept more participants
 		/// </summary>

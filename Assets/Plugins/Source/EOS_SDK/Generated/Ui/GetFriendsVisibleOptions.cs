@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.UI
 	public class GetFriendsVisibleOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the user whose overlay is being updated.
+		/// The Epic Account ID of the user whose overlay is being updated.
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}

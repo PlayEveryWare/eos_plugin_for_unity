@@ -9,12 +9,12 @@ namespace Epic.OnlineServices.Friends
 	public class RejectInviteOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local, logged-in user who is rejecting a friends list invitation
+		/// The Epic Account ID of the local, logged-in user who is rejecting a friends list invitation
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user who sent the friends list invitation
+		/// The Epic Account ID of the user who sent the friends list invitation
 		/// </summary>
 		public EpicAccountId TargetUserId { get; set; }
 	}

@@ -239,6 +239,23 @@ namespace Epic.OnlineServices.Platform
 		}
 
 		/// <summary>
+		/// Get a handle to the Custom Invites Interface.
+		/// eos_custominvites.h
+		/// eos_custominvites_types.h
+		/// </summary>
+		/// <returns>
+		/// <see cref="CustomInvites.CustomInvitesInterface" /> handle
+		/// </returns>
+		public CustomInvites.CustomInvitesInterface GetCustomInvitesInterface()
+		{
+			var funcResult = Bindings.EOS_Platform_GetCustomInvitesInterface(InnerHandle);
+
+			CustomInvites.CustomInvitesInterface funcResultReturn;
+			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
 		/// Get a handle to the Ecom Interface.
 		/// eos_ecom.h
 		/// eos_ecom_types.h
@@ -468,6 +485,26 @@ namespace Epic.OnlineServices.Platform
 			var funcResult = Bindings.EOS_Platform_GetPresenceInterface(InnerHandle);
 
 			Presence.PresenceInterface funcResultReturn;
+			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
+		/// Get the active country code that the SDK will send to services which require it.
+		/// This returns the override value otherwise it will use the country code of the given user.
+		/// This is currently used for determining pricing.
+		/// Get a handle to the ProgressionSnapshot Interface.
+		/// eos_progressionsnapshot.h
+		/// eos_progressionsnapshot_types.h
+		/// </summary>
+		/// <returns>
+		/// <see cref="ProgressionSnapshot.ProgressionSnapshotInterface" /> handle
+		/// </returns>
+		public ProgressionSnapshot.ProgressionSnapshotInterface GetProgressionSnapshotInterface()
+		{
+			var funcResult = Bindings.EOS_Platform_GetProgressionSnapshotInterface(InnerHandle);
+
+			ProgressionSnapshot.ProgressionSnapshotInterface funcResultReturn;
 			Helper.TryMarshalGet(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}

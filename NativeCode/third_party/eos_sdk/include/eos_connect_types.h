@@ -68,7 +68,7 @@ EOS_STRUCT(EOS_Connect_LoginOptions, (
 	/**
 	 * Additional non-authoritative information about the local user.
 	 *
-	 * This field is required to be set and only used when authenticating the user using Apple, Google, Nintendo Account, Nintendo Service Account, Oculus or the Device ID feature login.
+	 * This field is required to be set and only used when authenticating the user using Amazon, Apple, Google, Nintendo Account, Nintendo Service Account, Oculus or the Device ID feature login.
 	 * When using other identity providers, set to NULL.
 	 */
 	const EOS_Connect_UserLoginInfo* UserLoginInfo;
@@ -391,7 +391,10 @@ EOS_STRUCT(EOS_Connect_GetExternalAccountMappingsOptions, (
 EOS_STRUCT(EOS_Connect_QueryProductUserIdMappingsOptions, (
 	/** API Version: Set this to EOS_CONNECT_QUERYPRODUCTUSERIDMAPPINGS_API_LATEST. */
 	int32_t ApiVersion;
-	/** The Product User ID of the existing, logged-in user who is querying account mappings. */
+	/**
+	 * Game Clients set this field to the Product User ID of the local authenticated user querying account mappings.
+	 * Game Servers set this field to NULL. Usage is allowed given that the configured client policy for server credentials permit it.
+	 */
 	EOS_ProductUserId LocalUserId;
 	/** Deprecated - all external mappings are included in this call, it is no longer necessary to specify this value. */
 	EOS_EExternalAccountType AccountIdType_DEPRECATED;
@@ -409,7 +412,7 @@ EOS_STRUCT(EOS_Connect_QueryProductUserIdMappingsCallbackInfo, (
 	EOS_EResult ResultCode;
 	/** Context that was passed into EOS_Connect_QueryProductUserIdMappings. */
 	void* ClientData;
-	/** The Product User ID of the existing, logged-in user who made the request. */
+	/** The local Product User ID that was passed with the input options. */
 	EOS_ProductUserId LocalUserId;
 ));
 
@@ -515,7 +518,7 @@ EOS_STRUCT(EOS_Connect_CopyProductUserInfoOptions, (
 #define EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST 1
 
 /**
- * Contains information about an external account info
+ * Contains information about an external account linked with a Product User ID.
  */
 EOS_STRUCT(EOS_Connect_ExternalAccountInfo, (
 	/** API Version: Set this to EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST. */
@@ -524,7 +527,13 @@ EOS_STRUCT(EOS_Connect_ExternalAccountInfo, (
 	EOS_ProductUserId ProductUserId;
 	/** Display name, can be null if not set. */
 	const char* DisplayName;
-	/** External account ID. */
+	/**
+	 * External account ID.
+	 *
+	 * May be set to an empty string if the AccountIdType of another user belongs
+	 * to different account system than the local user's authenticated account.
+	 * The availability of this field is dependent on account system specifics.
+	 */
 	const char* AccountId;
 	/** The identity provider that owns the external account. */
 	EOS_EExternalAccountType AccountIdType;
@@ -607,5 +616,131 @@ EOS_STRUCT(EOS_Connect_LoginStatusChangedCallbackInfo, (
  * @param Data A EOS_Connect_LoginStatusChangedCallbackInfo containing the output information and result.
  */
 EOS_DECLARE_CALLBACK(EOS_Connect_OnLoginStatusChangedCallback, const EOS_Connect_LoginStatusChangedCallbackInfo* Data);
+
+/** The most recent version of the EOS_Connect_IdToken struct. */
+#define EOS_CONNECT_IDTOKEN_API_LATEST 1
+
+/**
+ * A structure that contains an ID token.
+ * These structures are created by EOS_Connect_CopyIdToken and must be passed to EOS_Connect_IdToken_Release.
+ */
+EOS_STRUCT(EOS_Connect_IdToken, (
+	/** API Version: Set this to EOS_CONNECT_IDTOKEN_API_LATEST. */
+	int32_t ApiVersion;
+	/**
+	 * The Product User ID described by the ID token.
+	 * Use EOS_ProductUserId_FromString to populate this field when validating a received ID token.
+	 */
+	EOS_ProductUserId ProductUserId;
+	/** The ID token as a Json Web Token (JWT) string. */
+	const char* JsonWebToken;
+));
+
+/**
+ * Release the memory associated with an EOS_Connect_IdToken structure. This must be called on data retrieved from EOS_Connect_CopyIdToken.
+ *
+ * @param IdToken The ID token structure to be released.
+ *
+ * @see EOS_Connect_IdToken
+ * @see EOS_Connect_CopyIdToken
+ */
+EOS_DECLARE_FUNC(void) EOS_Connect_IdToken_Release(EOS_Connect_IdToken* IdToken);
+
+/** The most recent version of the EOS_Connect_CopyIdToken API. */
+#define EOS_CONNECT_COPYIDTOKEN_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Connect_CopyIdToken function.
+ */
+EOS_STRUCT(EOS_Connect_CopyIdTokenOptions, (
+	/** API Version: Set this to EOS_CONNECT_COPYIDTOKEN_API_LATEST. */
+	int32_t ApiVersion;
+	/** The local Product User ID whose ID token should be copied. */
+	EOS_ProductUserId LocalUserId;
+));
+
+/** The most recent version of the EOS_Connect_VerifyIdToken API. */
+#define EOS_CONNECT_VERIFYIDTOKEN_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Connect_VerifyIdToken function.
+ */
+EOS_STRUCT(EOS_Connect_VerifyIdTokenOptions, (
+	/** API Version: Set this to EOS_CONNECT_VERIFYIDTOKEN_API_LATEST. */
+	int32_t ApiVersion;
+	/**
+	 * The ID token to verify.
+	 * Use EOS_ProductUserId_FromString to populate the ProductUserId field of this struct.
+	 */
+	const EOS_Connect_IdToken* IdToken;
+));
+
+/**
+ * Output parameters for the EOS_Connect_VerifyIdToken Function.
+ */
+EOS_STRUCT(EOS_Connect_VerifyIdTokenCallbackInfo, (
+	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	EOS_EResult ResultCode;
+	/** Context that was passed into EOS_Connect_VerifyIdToken */
+	void* ClientData;
+	/** The Product User ID associated with the ID token. */
+	EOS_ProductUserId ProductUserId;
+	/**
+	 * Flag set to indicate whether account information is available.
+	 * Applications must always first check this value to be set before attempting
+	 * to read the AccountType, AccountId, Platform and DeviceType fields.
+	 *
+	 * This flag is always false for users that authenticated using EOS Connect Device ID.
+	 */
+	EOS_Bool bIsAccountInfoPresent;
+	/**
+	 * The identity provider that the user authenticated with to EOS Connect.
+	 *
+	 * If bIsAccountInfoPresent is set, this field describes the external account type.
+	 */
+	EOS_EExternalAccountType AccountIdType;
+	/**
+	 * The external account ID of the authenticated user.
+	 *
+	 * This value may be set to an empty string.
+	 */
+	const char* AccountId;
+	/**
+	 * Platform that the user is connected from.
+	 *
+	 * This value may be set to an empty string.
+	 */
+	const char* Platform;
+	/**
+	 * Identifies the device type that the user is connected from.
+	 * Can be used to securely verify that the user is connected through a real Console device.
+	 *
+	 * This value may be set to an empty string.
+	 */
+	const char* DeviceType;
+	/**
+	 * Client ID of the authorized client.
+	 */
+	const char* ClientId;
+	/**
+	 * Product ID.
+	 */
+	const char* ProductId;
+	/**
+	 * Sandbox ID.
+	 */
+	const char* SandboxId;
+	/**
+	 * Deployment ID.
+	 */
+	const char* DeploymentId;
+));
+
+/**
+ * Function prototype definition for callbacks passed into EOS_Connect_VerifyIdToken.
+ *
+ * @param Data A EOS_Connect_VerifyIdTokenCallbackInfo containing the output information and result.
+ */
+EOS_DECLARE_CALLBACK(EOS_Connect_OnVerifyIdTokenCallback, const EOS_Connect_VerifyIdTokenCallbackInfo* Data);
 
 #pragma pack(pop)

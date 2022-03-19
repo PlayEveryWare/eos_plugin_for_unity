@@ -24,12 +24,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public AntiCheatCommonClientAction ClientAction { get; private set; }
 
 		/// <summary>
-		/// Code indicating the reason for the action
+		/// Code indicating the reason for the action. This can be displayed to the affected player.
 		/// </summary>
 		public AntiCheatCommonClientActionReason ActionReasonCode { get; private set; }
 
 		/// <summary>
-		/// String containing details about the action reason
+		/// String containing details about the action reason. This can be displayed to the affected player.
 		/// </summary>
 		public string ActionReasonDetailsString { get; private set; }
 

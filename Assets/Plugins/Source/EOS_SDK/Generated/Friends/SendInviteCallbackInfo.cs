@@ -19,12 +19,12 @@ namespace Epic.OnlineServices.Friends
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user who sent the friends list invitation
+		/// The Epic Account ID of the user who sent the friends list invitation
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the user to whom the friends list invitation was sent
+		/// The Epic Account ID of the user to whom the friends list invitation was sent
 		/// </summary>
 		public EpicAccountId TargetUserId { get; private set; }
 

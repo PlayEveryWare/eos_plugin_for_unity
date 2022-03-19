@@ -4,7 +4,7 @@
 namespace Epic.OnlineServices.Connect
 {
 	/// <summary>
-	/// Contains information about an external account info
+	/// Contains information about an external account linked with a Product User ID.
 	/// </summary>
 	public class ExternalAccountInfo : ISettable
 	{
@@ -20,6 +20,10 @@ namespace Epic.OnlineServices.Connect
 
 		/// <summary>
 		/// External account ID.
+		/// 
+		/// May be set to an empty string if the AccountIdType of another user belongs
+		/// to different account system than the local user's authenticated account.
+		/// The availability of this field is dependent on account system specifics.
 		/// </summary>
 		public string AccountId { get; set; }
 

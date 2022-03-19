@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	public class RegisterEventParamDef : ISettable
 	{
 		/// <summary>
-		/// Parameter name. Allowed characters are 0-9, A-Z, a-z, '_', '-', '.'
+		/// Parameter name. Allowed characters are 0-9, A-Z, a-z, '_', '-'
 		/// </summary>
 		public string ParamName { get; set; }
 

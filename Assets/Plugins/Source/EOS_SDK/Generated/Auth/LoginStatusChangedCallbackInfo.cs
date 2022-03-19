@@ -14,7 +14,7 @@ namespace Epic.OnlineServices.Auth
 		public object ClientData { get; private set; }
 
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose status has changed
+		/// The Epic Account ID of the local user whose status has changed
 		/// </summary>
 		public EpicAccountId LocalUserId { get; private set; }
 

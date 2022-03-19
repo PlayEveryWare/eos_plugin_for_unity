@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/PlayerDataStorage.unity
     guid: cee2d33d119393e438845c3059a76a86
   - enabled: 1
+    path: Assets/Scenes/PlayerReportsAndSanctions.unity
+    guid: 753308608969ec24bbea73658cb58a25
+  - enabled: 1
     path: Assets/Scenes/SessionMatchmaking.unity
     guid: 83091cd7b6082234dafba0b04421625b
   - enabled: 1

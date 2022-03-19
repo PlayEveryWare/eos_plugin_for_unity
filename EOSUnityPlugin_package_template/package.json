@@ -1,16 +1,21 @@
 {
     "name": "com.playeveryware.eos",
-    "version": "1.0.1",
+    "version": "1.0.4",
+    "unity": "2020.1",
+    "unityRelease": "11f1",
     "displayName": "Epic Online Services Plugin for Unity",
-    "description": "Friendly Plugin for Epic Online Services",
+    "description": "Friendly Plugin for Epic Online Services\n Unity 2020.1.11f1\n EOS SDK 1.14.2-hf-1\n",
     "documentationUrl": "https://eospluginforunity.playeveryware.com",
+    "dependencies": {
+        "com.unity.modules.jsonserialize": "1.0.0"
+    },
     "keywords": [
-        "EOS", "Epic", "Epic Online Service"
+        "EOS", "Epic", "Epic Online Service", "Windows"
     ],
     "samples": [
         {
             "displayName": "EOS Plugin for Unity Samples",
-            "description": "Samples to get started with the PlayEveryWare Unity Plugin For EOS",
+            "description": "Samples to get started with the PlayEveryWare Unity Plugin For EOS.",
             "path": "Samples~/Samples/"
         }
     ],

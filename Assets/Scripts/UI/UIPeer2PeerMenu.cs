@@ -147,6 +147,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (friend.UserProductUserId == null || !friend.UserProductUserId.IsValid())
                 {
                     Debug.LogError("UIPeer2PeerMenu (ChatButtonOnClick): UserProductUserId is not valid!");
+                    return;
                 }
 
                 currentChatDisplayName = friend.Name;

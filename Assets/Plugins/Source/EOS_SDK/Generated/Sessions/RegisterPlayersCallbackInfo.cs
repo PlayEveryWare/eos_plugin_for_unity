@@ -15,6 +15,16 @@ namespace Epic.OnlineServices.Sessions
 		/// </summary>
 		public object ClientData { get; private set; }
 
+		/// <summary>
+		/// The players that were successfully registered
+		/// </summary>
+		public ProductUserId[] RegisteredPlayers { get; private set; }
+
+		/// <summary>
+		/// The players that failed to register because they are sanctioned
+		/// </summary>
+		public ProductUserId[] SanctionedPlayers { get; private set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -26,6 +36,8 @@ namespace Epic.OnlineServices.Sessions
 			{
 				ResultCode = other.Value.ResultCode;
 				ClientData = other.Value.ClientData;
+				RegisteredPlayers = other.Value.RegisteredPlayers;
+				SanctionedPlayers = other.Value.SanctionedPlayers;
 			}
 		}
 
@@ -40,6 +52,10 @@ namespace Epic.OnlineServices.Sessions
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
+		private System.IntPtr m_RegisteredPlayers;
+		private uint m_RegisteredPlayersCount;
+		private System.IntPtr m_SanctionedPlayers;
+		private uint m_SanctionedPlayersCount;
 
 		public Result ResultCode
 		{
@@ -64,6 +80,26 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				return m_ClientData;
+			}
+		}
+
+		public ProductUserId[] RegisteredPlayers
+		{
+			get
+			{
+				ProductUserId[] value;
+				Helper.TryMarshalGetHandle(m_RegisteredPlayers, out value, m_RegisteredPlayersCount);
+				return value;
+			}
+		}
+
+		public ProductUserId[] SanctionedPlayers
+		{
+			get
+			{
+				ProductUserId[] value;
+				Helper.TryMarshalGetHandle(m_SanctionedPlayers, out value, m_SanctionedPlayersCount);
+				return value;
 			}
 		}
 	}

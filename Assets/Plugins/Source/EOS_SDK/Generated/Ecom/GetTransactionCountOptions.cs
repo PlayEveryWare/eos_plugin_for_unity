@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Ecom
 	public class GetTransactionCountOptions
 	{
 		/// <summary>
-		/// The Epic Online Services Account ID of the local user whose transaction count to get
+		/// The Epic Account ID of the local user whose transaction count to get
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}

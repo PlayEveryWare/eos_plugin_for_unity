@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Metrics
 	public enum MetricsAccountIdType : int
 	{
 		/// <summary>
-		/// An Epic Online Services Account ID.
+		/// An Epic Account ID.
 		/// </summary>
 		Epic = 0,
 		/// <summary>
