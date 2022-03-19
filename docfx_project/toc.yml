@@ -1,13 +1,13 @@
 - name: Home
   href: /
 
-- name: Api Documentation
+- name: API Documentation
   href: api/
 
-- name: Source Code Repo
+- name: Source Repository
   href: https://github.com/PlayEveryWare/eos_plugin_for_unity
   
-- name: UMP Repo
+- name: UPM Packages
   href: https://github.com/PlayEveryWare/eos_plugin_for_unity_upm
 
 - name: Support Issues

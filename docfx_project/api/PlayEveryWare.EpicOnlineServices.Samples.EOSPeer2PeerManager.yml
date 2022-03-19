@@ -9,7 +9,7 @@ items:
   - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.ChatDataCache
   - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.ChatDataCacheDirty
   - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.ConnectionNotificationId
-  - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}@)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}@)
   - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetNATType
   - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.HandleReceivedMessages
   - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.OnIncomingConnectionRequest(OnIncomingConnectionRequestInfo)
@@ -31,7 +31,7 @@ items:
   source:
     id: EOSPeer2PeerManager
     path: ''
-    startLine: 7055
+    startLine: 8437
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -74,7 +74,7 @@ items:
   source:
     id: P2PHandle
     path: ''
-    startLine: 7057
+    startLine: 8439
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -97,7 +97,7 @@ items:
   source:
     id: ConnectionNotificationId
     path: ''
-    startLine: 7059
+    startLine: 8441
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -120,14 +120,14 @@ items:
   source:
     id: ChatDataCache
     path: ''
-    startLine: 7060
+    startLine: 8442
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<ProductUserId, ChatWithFriendData> ChatDataCache
     return:
-      type: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}
+      type: System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}
     content.vb: ChatDataCache As Dictionary(Of ProductUserId, ChatWithFriendData)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.ChatDataCacheDirty
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.ChatDataCacheDirty
@@ -143,7 +143,7 @@ items:
   source:
     id: ChatDataCacheDirty
     path: ''
-    startLine: 7061
+    startLine: 8443
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -166,7 +166,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 7063
+    startLine: 8445
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -178,21 +178,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}@)
-  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}@)
-  id: GetChatDataCache(Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}@)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}@)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}@)
+  id: GetChatDataCache(System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}@)
   parent: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager
   langs:
   - csharp
   - vb
   name: GetChatDataCache(out Dictionary<ProductUserId, ChatWithFriendData>)
   nameWithType: EOSPeer2PeerManager.GetChatDataCache(out Dictionary<ProductUserId, ChatWithFriendData>)
-  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(out Dictionary<ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(out System.Collections.Generic.Dictionary<ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData>)
   type: Method
   source:
     id: GetChatDataCache
     path: ''
-    startLine: 7071
+    startLine: 8453
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -200,7 +200,7 @@ items:
     content: public bool GetChatDataCache(out Dictionary<ProductUserId, ChatWithFriendData> ChatDataCache)
     parameters:
     - id: ChatDataCache
-      type: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}
+      type: System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}
     return:
       type: System.Boolean
     content.vb: Public Function GetChatDataCache(ByRef ChatDataCache As Dictionary(Of ProductUserId, ChatWithFriendData)) As Boolean
@@ -210,7 +210,7 @@ items:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(ByRef Dictionary(Of ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData))
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.GetChatDataCache(ByRef System.Collections.Generic.Dictionary(Of ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData))
   name.vb: GetChatDataCache(ByRef Dictionary(Of ProductUserId, ChatWithFriendData))
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.RefreshNATType
   commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.RefreshNATType
@@ -226,7 +226,7 @@ items:
   source:
     id: RefreshNATType
     path: ''
-    startLine: 7077
+    startLine: 8459
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -248,7 +248,7 @@ items:
   source:
     id: GetNATType
     path: ''
-    startLine: 7082
+    startLine: 8464
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -276,7 +276,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 7100
+    startLine: 8482
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -302,7 +302,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 7107
+    startLine: 8489
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -328,7 +328,7 @@ items:
   source:
     id: OnRefreshNATTypeFinished
     path: ''
-    startLine: 7112
+    startLine: 8494
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -353,7 +353,7 @@ items:
   source:
     id: SendMessage
     path: ''
-    startLine: 7129
+    startLine: 8511
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -384,7 +384,7 @@ items:
   source:
     id: HandleReceivedMessages
     path: ''
-    startLine: 7186
+    startLine: 8568
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -412,7 +412,7 @@ items:
   source:
     id: SubscribeToConnectionRequest
     path: ''
-    startLine: 7245
+    startLine: 8627
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -434,7 +434,7 @@ items:
   source:
     id: UnsubscribeFromConnectionRequests
     path: ''
-    startLine: 7268
+    startLine: 8650
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -456,7 +456,7 @@ items:
   source:
     id: OnIncomingConnectionRequest
     path: ''
-    startLine: 7274
+    startLine: 8656
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -789,20 +789,21 @@ references:
   name: UInt64
   nameWithType: UInt64
   fullName: System.UInt64
-- uid: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}
-  commentId: '!:Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}
+  commentId: T:System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<ProductUserId, ChatWithFriendData>
   nameWithType: Dictionary<ProductUserId, ChatWithFriendData>
-  fullName: Dictionary<ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData>
+  fullName: System.Collections.Generic.Dictionary<ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData>
   nameWithType.vb: Dictionary(Of ProductUserId, ChatWithFriendData)
-  fullName.vb: Dictionary(Of ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData)
+  fullName.vb: System.Collections.Generic.Dictionary(Of ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData)
   name.vb: Dictionary(Of ProductUserId, ChatWithFriendData)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -823,10 +824,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -846,56 +847,63 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System

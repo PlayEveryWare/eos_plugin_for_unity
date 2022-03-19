@@ -5,18 +5,20 @@ items:
   id: EOSManager.EOSSingleton
   parent: PlayEveryWare.EpicOnlineServices
   children:
-  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(List{Assembly})
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(System.Collections.Generic.List{Assembly})
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AuthLinkExternalAccountWithContinuanceToken(Epic.OnlineServices.ContinuanceToken,Epic.OnlineServices.Auth.LinkAccountFlags,PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLinkExternalAccountCallback)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CallOnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CallOnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConfigureAuthStatusCallback
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectLinkExternalAccountWithContinuanceToken(Epic.OnlineServices.ContinuanceToken,PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLinkExternalAccountCallback)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions,System.Object,OnTransferDeviceIdAccountCallback)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreateConnectUserWithContinuanceToken(Epic.OnlineServices.ContinuanceToken,PlayEveryWare.EpicOnlineServices.EOSManager.OnCreateConnectUserCallback)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreatePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.DynamicLoadGFXNativeMethodsForWSA
-  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOS_GetPlatformInterface
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOSBinaryName
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ForceUnloadEOSLibrary
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetCommandLineArgsFromEpicLauncher
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetDeploymentID
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetEOSAchievementInterface
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetEOSAuthInterface
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetEOSConnectInterface
@@ -35,20 +37,26 @@ items:
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetEOSTitleStorageInterface
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetEOSUIInterface
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetEOSUserInfoInterface
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLoadedEOSConfig
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLocalUserId
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetOrCreateManager``1
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetPlayerDataStorageInterface
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductId
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductUserId
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetSandboxId
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetUserAuthTokenForAccountId(EpicAccountId)
-  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GfxPluginNativeRenderPath
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.HasLoggedInWithConnect
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.HasShutdown
-  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init(IEOSCoroutineOwner)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializeOverlay(IEOSCoroutineOwner)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.LoadDelegatesByHand
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.LoadDelegatesWithEOSBindingAPI
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.LoadDelegatesWithReflection
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.LoadDynamicLibrary(System.String)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.LoadedDLLs
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.loadedEOSConfig
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.LoadEOSLibraries
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.loadEOSWithReflection
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.MakeLoginOptions(LoginCredentialType,ExternalCredentialType,System.String,System.String)
@@ -56,6 +64,8 @@ items:
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.OnApplicationShutdown
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.OnShutdown
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.print(System.String)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.PUIDToString(ProductUserId)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.RegisterForPlatformNotifications
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.s_eosPlatformInterface
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.s_localProductUserId
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.s_localUserId
@@ -63,7 +73,10 @@ items:
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetEOSPlatformInterface(PlatformInterface)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetLocalProductUserId(ProductUserId)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetLocalUserId(EpicAccountId)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ShouldOverlayReceiveInput
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallback(LogMessage)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack(LogMessage)
+  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintStringCallback(System.String)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.StartConnectLoginWithDeviceToken(System.String,PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.StartConnectLoginWithEpicAccount(Epic.OnlineServices.EpicAccountId,PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.StartConnectLoginWithOptions(Epic.OnlineServices.Connect.LoginOptions,PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback)
@@ -75,7 +88,6 @@ items:
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.StartPersistantLogin(PlayEveryWare.EpicOnlineServices.EOSManager.OnAuthLoginCallback)
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Tick
   - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadAllLibraries
-  - PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadEOS
   langs:
   - csharp
   - vb
@@ -86,7 +98,7 @@ items:
   source:
     id: EOSSingleton
     path: ''
-    startLine: 1556
+    startLine: 1949
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -125,7 +137,7 @@ items:
   source:
     id: s_localUserId
     path: ''
-    startLine: 443
+    startLine: 640
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -152,7 +164,7 @@ items:
   source:
     id: s_localProductUserId
     path: ''
-    startLine: 444
+    startLine: 641
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -179,7 +191,7 @@ items:
   source:
     id: s_notifyLoginStatusChangedCallbackHandle
     path: ''
-    startLine: 446
+    startLine: 643
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -188,6 +200,33 @@ items:
     return:
       type: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
     content.vb: Shared s_notifyLoginStatusChangedCallbackHandle As NotifyEventHandle
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.loadedEOSConfig
+  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.loadedEOSConfig
+  id: loadedEOSConfig
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: loadedEOSConfig
+  nameWithType: EOSManager.EOSSingleton.loadedEOSConfig
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.loadedEOSConfig
+  type: Field
+  source:
+    id: loadedEOSConfig
+    path: ''
+    startLine: 644
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: static EOSConfig loadedEOSConfig
+    return:
+      type: PlayEveryWare.EpicOnlineServices.EOSConfig
+    content.vb: Shared loadedEOSConfig As EOSConfig
   modifiers.csharp:
   - static
   modifiers.vb:
@@ -206,7 +245,7 @@ items:
   source:
     id: SetLocalUserId
     path: ''
-    startLine: 453
+    startLine: 651
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -238,7 +277,7 @@ items:
   source:
     id: GetLocalUserId
     path: ''
-    startLine: 463
+    startLine: 661
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -255,6 +294,33 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.PUIDToString(ProductUserId)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.PUIDToString(ProductUserId)
+  id: PUIDToString(ProductUserId)
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: PUIDToString(ProductUserId)
+  nameWithType: EOSManager.EOSSingleton.PUIDToString(ProductUserId)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.PUIDToString(ProductUserId)
+  type: Method
+  source:
+    id: PUIDToString
+    path: ''
+    startLine: 668
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: string PUIDToString(ProductUserId puid)
+    parameters:
+    - id: puid
+      type: ProductUserId
+    return:
+      type: System.String
+    content.vb: Function PUIDToString(puid As ProductUserId) As String
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.PUIDToString*
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetLocalProductUserId(ProductUserId)
   commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetLocalProductUserId(ProductUserId)
   id: SetLocalProductUserId(ProductUserId)
@@ -269,7 +335,7 @@ items:
   source:
     id: SetLocalProductUserId
     path: ''
-    startLine: 473
+    startLine: 688
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -301,7 +367,7 @@ items:
   source:
     id: GetProductUserId
     path: ''
-    startLine: 484
+    startLine: 699
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -314,6 +380,123 @@ items:
       description: ''
     content.vb: Public Function GetProductUserId As ProductUserId
   overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductUserId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLoadedEOSConfig
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLoadedEOSConfig
+  id: GetLoadedEOSConfig
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: GetLoadedEOSConfig()
+  nameWithType: EOSManager.EOSSingleton.GetLoadedEOSConfig()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLoadedEOSConfig()
+  type: Method
+  source:
+    id: GetLoadedEOSConfig
+    path: ''
+    startLine: 704
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: EOSConfig GetLoadedEOSConfig()
+    return:
+      type: PlayEveryWare.EpicOnlineServices.EOSConfig
+    content.vb: Function GetLoadedEOSConfig As EOSConfig
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLoadedEOSConfig*
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductId
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductId
+  id: GetProductId
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: GetProductId()
+  nameWithType: EOSManager.EOSSingleton.GetProductId()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductId()
+  type: Method
+  source:
+    id: GetProductId
+    path: ''
+    startLine: 714
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nGet the ProductID configured from Unity Editor that was used during startup of the EOS SDK.\n"
+  example: []
+  syntax:
+    content: public string GetProductId()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function GetProductId As String
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetSandboxId
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetSandboxId
+  id: GetSandboxId
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: GetSandboxId()
+  nameWithType: EOSManager.EOSSingleton.GetSandboxId()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetSandboxId()
+  type: Method
+  source:
+    id: GetSandboxId
+    path: ''
+    startLine: 724
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nGet the SandboxID configured from Unity Editor that was used during startup of the EOS SDK.\n"
+  example: []
+  syntax:
+    content: public string GetSandboxId()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function GetSandboxId As String
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetSandboxId*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetDeploymentID
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetDeploymentID
+  id: GetDeploymentID
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: GetDeploymentID()
+  nameWithType: EOSManager.EOSSingleton.GetDeploymentID()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetDeploymentID()
+  type: Method
+  source:
+    id: GetDeploymentID
+    path: ''
+    startLine: 734
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nGet the DeploymentID configured from Unity Editor that was used during startup of the EOS SDK.\n"
+  example: []
+  syntax:
+    content: public string GetDeploymentID()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function GetDeploymentID As String
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetDeploymentID*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -332,7 +515,7 @@ items:
   source:
     id: HasShutdown
     path: ''
-    startLine: 490
+    startLine: 740
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -356,7 +539,7 @@ items:
   source:
     id: HasLoggedInWithConnect
     path: ''
-    startLine: 499
+    startLine: 750
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -369,6 +552,62 @@ items:
       description: ''
     content.vb: Public Function HasLoggedInWithConnect As Boolean
   overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.HasLoggedInWithConnect*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ShouldOverlayReceiveInput
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ShouldOverlayReceiveInput
+  id: ShouldOverlayReceiveInput
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: ShouldOverlayReceiveInput()
+  nameWithType: EOSManager.EOSSingleton.ShouldOverlayReceiveInput()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ShouldOverlayReceiveInput()
+  type: Method
+  source:
+    id: ShouldOverlayReceiveInput
+    path: ''
+    startLine: 756
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public bool ShouldOverlayReceiveInput()
+    return:
+      type: System.Boolean
+    content.vb: Public Function ShouldOverlayReceiveInput As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ShouldOverlayReceiveInput*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput
+  id: IsOverlayOpenWithExclusiveInput
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: IsOverlayOpenWithExclusiveInput()
+  nameWithType: EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput()
+  type: Method
+  source:
+    id: IsOverlayOpenWithExclusiveInput
+    path: ''
+    startLine: 764
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public bool IsOverlayOpenWithExclusiveInput()
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsOverlayOpenWithExclusiveInput As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -387,7 +626,7 @@ items:
   source:
     id: print
     path: ''
-    startLine: 505
+    startLine: 770
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -416,7 +655,7 @@ items:
   source:
     id: GetOrCreateManager
     path: ''
-    startLine: 513
+    startLine: 778
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -437,32 +676,183 @@ items:
   - Public
   fullName.vb: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetOrCreateManager(Of T)()
   name.vb: GetOrCreateManager(Of T)()
-- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init
-  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init
-  id: Init
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
+  id: InitializePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
   parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
   langs:
   - csharp
   - vb
-  name: Init()
-  nameWithType: EOSManager.EOSSingleton.Init()
-  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init()
+  name: InitializePlatformInterface(EOSConfig)
+  nameWithType: EOSManager.EOSSingleton.InitializePlatformInterface(EOSConfig)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
   type: Method
   source:
-    id: Init
+    id: InitializePlatformInterface
     path: ''
-    startLine: 545
+    startLine: 808
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
   syntax:
-    content: public void Init()
-    content.vb: Public Sub Init
+    content: Epic.OnlineServices.Result InitializePlatformInterface(EOSConfig configData)
+    parameters:
+    - id: configData
+      type: PlayEveryWare.EpicOnlineServices.EOSConfig
+    return:
+      type: Epic.OnlineServices.Result
+    content.vb: Function InitializePlatformInterface(configData As EOSConfig) As Epic.OnlineServices.Result
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializePlatformInterface*
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreatePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreatePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
+  id: CreatePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: CreatePlatformInterface(EOSConfig)
+  nameWithType: EOSManager.EOSSingleton.CreatePlatformInterface(EOSConfig)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreatePlatformInterface(PlayEveryWare.EpicOnlineServices.EOSConfig)
+  type: Method
+  source:
+    id: CreatePlatformInterface
+    path: ''
+    startLine: 831
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: PlatformInterface CreatePlatformInterface(EOSConfig configData)
+    parameters:
+    - id: configData
+      type: PlayEveryWare.EpicOnlineServices.EOSConfig
+    return:
+      type: PlatformInterface
+    content.vb: Function CreatePlatformInterface(configData As EOSConfig) As PlatformInterface
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreatePlatformInterface*
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializeOverlay(IEOSCoroutineOwner)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializeOverlay(IEOSCoroutineOwner)
+  id: InitializeOverlay(IEOSCoroutineOwner)
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: InitializeOverlay(IEOSCoroutineOwner)
+  nameWithType: EOSManager.EOSSingleton.InitializeOverlay(IEOSCoroutineOwner)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializeOverlay(IEOSCoroutineOwner)
+  type: Method
+  source:
+    id: InitializeOverlay
+    path: ''
+    startLine: 864
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: void InitializeOverlay(IEOSCoroutineOwner coroutineOwner)
+    parameters:
+    - id: coroutineOwner
+      type: IEOSCoroutineOwner
+    content.vb: Sub InitializeOverlay(coroutineOwner As IEOSCoroutineOwner)
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializeOverlay*
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init(IEOSCoroutineOwner)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init(IEOSCoroutineOwner)
+  id: Init(IEOSCoroutineOwner)
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: Init(IEOSCoroutineOwner)
+  nameWithType: EOSManager.EOSSingleton.Init(IEOSCoroutineOwner)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init(IEOSCoroutineOwner)
+  type: Method
+  source:
+    id: Init
+    path: ''
+    startLine: 881
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public void Init(IEOSCoroutineOwner coroutineOwner)
+    parameters:
+    - id: coroutineOwner
+      type: IEOSCoroutineOwner
+    content.vb: Public Sub Init(coroutineOwner As IEOSCoroutineOwner)
   overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.RegisterForPlatformNotifications
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.RegisterForPlatformNotifications
+  id: RegisterForPlatformNotifications
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: RegisterForPlatformNotifications()
+  nameWithType: EOSManager.EOSSingleton.RegisterForPlatformNotifications()
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.RegisterForPlatformNotifications()
+  type: Method
+  source:
+    id: RegisterForPlatformNotifications
+    path: ''
+    startLine: 957
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  summary: "\nDoes what is needed to configure the the EOS SDK to register for platform notifications.\nSome platforms might require this to be called after a platform and title specific SDK call.\n"
+  example: []
+  syntax:
+    content: public void RegisterForPlatformNotifications()
+    content.vb: Public Sub RegisterForPlatformNotifications
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.RegisterForPlatformNotifications*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintStringCallback(System.String)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintStringCallback(System.String)
+  id: SimplePrintStringCallback(System.String)
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: SimplePrintStringCallback(String)
+  nameWithType: EOSManager.EOSSingleton.SimplePrintStringCallback(String)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintStringCallback(System.String)
+  type: Method
+  source:
+    id: SimplePrintStringCallback
+    path: ''
+    startLine: 967
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: >-
+      [MonoPInvokeCallback(typeof(string))]
+
+      static void SimplePrintStringCallback(string str)
+    parameters:
+    - id: str
+      type: System.String
+    content.vb: >-
+      <MonoPInvokeCallback(GetType(String))>
+
+      Shared Sub SimplePrintStringCallback(str As String)
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintStringCallback*
+  attributes:
+  - type: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute
+    ctor: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute.#ctor(System.Type)
+    arguments:
+    - type: System.Type
+      value: System.String
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallback(LogMessage)
   commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallback(LogMessage)
   id: SimplePrintCallback(LogMessage)
@@ -477,17 +867,70 @@ items:
   source:
     id: SimplePrintCallback
     path: ''
-    startLine: 640
+    startLine: 974
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
   syntax:
-    content: static void SimplePrintCallback(LogMessage message)
+    content: >-
+      [MonoPInvokeCallback(typeof(LogMessageFunc))]
+
+      static void SimplePrintCallback(LogMessage message)
     parameters:
     - id: message
       type: LogMessage
-    content.vb: Shared Sub SimplePrintCallback(message As LogMessage)
+    content.vb: >-
+      <MonoPInvokeCallback(GetType(LogMessageFunc))>
+
+      Shared Sub SimplePrintCallback(message As LogMessage)
   overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallback*
+  attributes:
+  - type: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute
+    ctor: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute.#ctor(System.Type)
+    arguments:
+    - type: System.Type
+      value: LogMessageFunc
+  modifiers.csharp:
+  - static
+  modifiers.vb:
+  - Shared
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack(LogMessage)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack(LogMessage)
+  id: SimplePrintCallbackWithCallstack(LogMessage)
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: SimplePrintCallbackWithCallstack(LogMessage)
+  nameWithType: EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack(LogMessage)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack(LogMessage)
+  type: Method
+  source:
+    id: SimplePrintCallbackWithCallstack
+    path: ''
+    startLine: 984
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: >-
+      [MonoPInvokeCallback(typeof(LogMessageFunc))]
+
+      static void SimplePrintCallbackWithCallstack(LogMessage message)
+    parameters:
+    - id: message
+      type: LogMessage
+    content.vb: >-
+      <MonoPInvokeCallback(GetType(LogMessageFunc))>
+
+      Shared Sub SimplePrintCallbackWithCallstack(message As LogMessage)
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack*
+  attributes:
+  - type: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute
+    ctor: PlayEveryWare.EpicOnlineServices.MonoPInvokeCallbackAttribute.#ctor(System.Type)
+    arguments:
+    - type: System.Type
+      value: LogMessageFunc
   modifiers.csharp:
   - static
   modifiers.vb:
@@ -506,7 +949,7 @@ items:
   source:
     id: MakeLoginOptions
     path: ''
-    startLine: 646
+    startLine: 994
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -543,7 +986,7 @@ items:
   source:
     id: GetUserAuthTokenForAccountId
     path: ''
-    startLine: 667
+    startLine: 1015
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -578,7 +1021,7 @@ items:
   source:
     id: GetCommandLineArgsFromEpicLauncher
     path: ''
-    startLine: 699
+    startLine: 1047
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -609,7 +1052,7 @@ items:
   source:
     id: CreateConnectUserWithContinuanceToken
     path: ''
-    startLine: 751
+    startLine: 1099
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -640,7 +1083,7 @@ items:
   source:
     id: AuthLinkExternalAccountWithContinuanceToken
     path: ''
-    startLine: 773
+    startLine: 1121
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -673,7 +1116,7 @@ items:
   source:
     id: ConnectLinkExternalAccountWithContinuanceToken
     path: ''
-    startLine: 805
+    startLine: 1153
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -704,7 +1147,7 @@ items:
   source:
     id: StartConnectLoginWithEpicAccount
     path: ''
-    startLine: 826
+    startLine: 1174
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -739,7 +1182,7 @@ items:
   source:
     id: StartConnectLoginWithOptions
     path: ''
-    startLine: 843
+    startLine: 1192
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -774,7 +1217,7 @@ items:
   source:
     id: StartConnectLoginWithOptions
     path: ''
-    startLine: 870
+    startLine: 1219
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -805,7 +1248,7 @@ items:
   source:
     id: StartConnectLoginWithDeviceToken
     path: ''
-    startLine: 888
+    startLine: 1237
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -818,6 +1261,39 @@ items:
       type: PlayEveryWare.EpicOnlineServices.EOSManager.OnConnectLoginCallback
     content.vb: Public Sub StartConnectLoginWithDeviceToken(displayName As String, onLoginCallback As EOSManager.OnConnectLoginCallback)
   overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.StartConnectLoginWithDeviceToken*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions,System.Object,OnTransferDeviceIdAccountCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions,System.Object,OnTransferDeviceIdAccountCallback)
+  id: ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions,System.Object,OnTransferDeviceIdAccountCallback)
+  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
+  langs:
+  - csharp
+  - vb
+  name: ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions, Object, OnTransferDeviceIdAccountCallback)
+  nameWithType: EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions, Object, OnTransferDeviceIdAccountCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions, System.Object, OnTransferDeviceIdAccountCallback)
+  type: Method
+  source:
+    id: ConnectTransferDeviceIDAccount
+    path: ''
+    startLine: 1254
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public void ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions options, object clientData, OnTransferDeviceIdAccountCallback completionDelegate = null)
+    parameters:
+    - id: options
+      type: TransferDeviceIdAccountOptions
+    - id: clientData
+      type: System.Object
+    - id: completionDelegate
+      type: OnTransferDeviceIdAccountCallback
+    content.vb: Public Sub ConnectTransferDeviceIDAccount(options As TransferDeviceIdAccountOptions, clientData As Object, completionDelegate As OnTransferDeviceIdAccountCallback = Nothing)
+  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -836,7 +1312,7 @@ items:
   source:
     id: StartPersistantLogin
     path: ''
-    startLine: 905
+    startLine: 1270
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -865,7 +1341,7 @@ items:
   source:
     id: StartLoginWithLoginTypeAndToken
     path: ''
-    startLine: 944
+    startLine: 1309
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -906,7 +1382,7 @@ items:
   source:
     id: StartLoginWithLoginTypeAndToken
     path: ''
-    startLine: 950
+    startLine: 1315
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -943,7 +1419,7 @@ items:
   source:
     id: ConfigureAuthStatusCallback
     path: ''
-    startLine: 958
+    startLine: 1323
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -965,7 +1441,7 @@ items:
   source:
     id: CallOnAuthLogin
     path: ''
-    startLine: 978
+    startLine: 1343
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -990,7 +1466,7 @@ items:
   source:
     id: CallOnConnectLogin
     path: ''
-    startLine: 986
+    startLine: 1351
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1015,7 +1491,7 @@ items:
   source:
     id: StartLoginWithLoginOptions
     path: ''
-    startLine: 1004
+    startLine: 1369
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1049,7 +1525,7 @@ items:
   source:
     id: StartLogout
     path: ''
-    startLine: 1050
+    startLine: 1415
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1084,7 +1560,7 @@ items:
   source:
     id: Tick
     path: ''
-    startLine: 1072
+    startLine: 1437
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1110,7 +1586,7 @@ items:
   source:
     id: OnShutdown
     path: ''
-    startLine: 1081
+    startLine: 1446
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1136,7 +1612,7 @@ items:
   source:
     id: OnApplicationShutdown
     path: ''
-    startLine: 1115
+    startLine: 1480
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1162,7 +1638,7 @@ items:
   source:
     id: s_eosPlatformInterface
     path: ''
-    startLine: 1251
+    startLine: 1628
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1189,7 +1665,7 @@ items:
   source:
     id: EOSBinaryName
     path: ''
-    startLine: 1253
+    startLine: 1630
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1204,89 +1680,6 @@ items:
   modifiers.vb:
   - Public
   - Const
-- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GfxPluginNativeRenderPath
-  commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GfxPluginNativeRenderPath
-  id: GfxPluginNativeRenderPath
-  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
-  langs:
-  - csharp
-  - vb
-  name: GfxPluginNativeRenderPath
-  nameWithType: EOSManager.EOSSingleton.GfxPluginNativeRenderPath
-  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GfxPluginNativeRenderPath
-  type: Field
-  source:
-    id: GfxPluginNativeRenderPath
-    path: ''
-    startLine: 1261
-  assemblies:
-  - cs.temp.dll
-  namespace: PlayEveryWare.EpicOnlineServices
-  syntax:
-    content: public const string GfxPluginNativeRenderPath = null
-    return:
-      type: System.String
-    content.vb: Public Const GfxPluginNativeRenderPath As String = Nothing
-  modifiers.csharp:
-  - public
-  - const
-  modifiers.vb:
-  - Public
-  - Const
-- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadEOS
-  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadEOS
-  id: UnloadEOS
-  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
-  langs:
-  - csharp
-  - vb
-  name: UnloadEOS()
-  nameWithType: EOSManager.EOSSingleton.UnloadEOS()
-  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadEOS()
-  type: Method
-  source:
-    path: cs.temp.dll
-    isExternal: true
-  assemblies:
-  - cs.temp.dll
-  namespace: PlayEveryWare.EpicOnlineServices
-  syntax:
-    content: static extern void UnloadEOS()
-    content.vb: Shared Sub UnloadEOS
-  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadEOS*
-  modifiers.csharp:
-  - static
-  - extern
-  modifiers.vb:
-  - Shared
-- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOS_GetPlatformInterface
-  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOS_GetPlatformInterface
-  id: EOS_GetPlatformInterface
-  parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
-  langs:
-  - csharp
-  - vb
-  name: EOS_GetPlatformInterface()
-  nameWithType: EOSManager.EOSSingleton.EOS_GetPlatformInterface()
-  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOS_GetPlatformInterface()
-  type: Method
-  source:
-    path: cs.temp.dll
-    isExternal: true
-  assemblies:
-  - cs.temp.dll
-  namespace: PlayEveryWare.EpicOnlineServices
-  syntax:
-    content: static extern IntPtr EOS_GetPlatformInterface()
-    return:
-      type: System.IntPtr
-    content.vb: Shared Function EOS_GetPlatformInterface As IntPtr
-  overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOS_GetPlatformInterface*
-  modifiers.csharp:
-  - static
-  - extern
-  modifiers.vb:
-  - Shared
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.NativeCallToUnloadEOS
   commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.NativeCallToUnloadEOS
   id: NativeCallToUnloadEOS
@@ -1301,7 +1694,7 @@ items:
   source:
     id: NativeCallToUnloadEOS
     path: ''
-    startLine: 1280
+    startLine: 1661
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1327,7 +1720,7 @@ items:
   source:
     id: DynamicLoadGFXNativeMethodsForWSA
     path: ''
-    startLine: 1288
+    startLine: 1669
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1353,7 +1746,7 @@ items:
   source:
     id: GetEOSPlatformInterface
     path: ''
-    startLine: 1316
+    startLine: 1697
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1381,7 +1774,7 @@ items:
   source:
     id: SetEOSPlatformInterface
     path: ''
-    startLine: 1335
+    startLine: 1722
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1392,21 +1785,21 @@ items:
       type: PlatformInterface
     content.vb: Sub SetEOSPlatformInterface(platformInterface As PlatformInterface)
   overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetEOSPlatformInterface*
-- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(List{Assembly})
-  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(List{Assembly})
-  id: AddAllAssembliesInCurrentDomain(List{Assembly})
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(System.Collections.Generic.List{Assembly})
+  commentId: M:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(System.Collections.Generic.List{Assembly})
+  id: AddAllAssembliesInCurrentDomain(System.Collections.Generic.List{Assembly})
   parent: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton
   langs:
   - csharp
   - vb
   name: AddAllAssembliesInCurrentDomain(List<Assembly>)
   nameWithType: EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(List<Assembly>)
-  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(List<Assembly>)
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(System.Collections.Generic.List<Assembly>)
   type: Method
   source:
     id: AddAllAssembliesInCurrentDomain
     path: ''
-    startLine: 1342
+    startLine: 1733
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1414,7 +1807,7 @@ items:
     content: static void AddAllAssembliesInCurrentDomain(List<Assembly> list)
     parameters:
     - id: list
-      type: List{Assembly}
+      type: System.Collections.Generic.List{Assembly}
     content.vb: Shared Sub AddAllAssembliesInCurrentDomain(list As List(Of Assembly))
   overload: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain*
   nameWithType.vb: EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(List(Of Assembly))
@@ -1422,7 +1815,7 @@ items:
   - static
   modifiers.vb:
   - Shared
-  fullName.vb: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(List(Of Assembly))
+  fullName.vb: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain(System.Collections.Generic.List(Of Assembly))
   name.vb: AddAllAssembliesInCurrentDomain(List(Of Assembly))
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.LoadedDLLs
   commentId: F:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.LoadedDLLs
@@ -1438,14 +1831,14 @@ items:
   source:
     id: LoadedDLLs
     path: ''
-    startLine: 1355
+    startLine: 1746
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
   syntax:
     content: static Dictionary<string, DLLHandle> LoadedDLLs
     return:
-      type: Dictionary{System.String,DLLHandle}
+      type: System.Collections.Generic.Dictionary{System.String,DLLHandle}
     content.vb: Shared LoadedDLLs As Dictionary(Of String, DLLHandle)
   modifiers.csharp:
   - static
@@ -1465,7 +1858,7 @@ items:
   source:
     id: LoadDynamicLibrary
     path: ''
-    startLine: 1356
+    startLine: 1747
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1498,7 +1891,7 @@ items:
   source:
     id: UnloadAllLibraries
     path: ''
-    startLine: 1374
+    startLine: 1765
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1526,7 +1919,7 @@ items:
   source:
     id: LoadDelegatesWithEOSBindingAPI
     path: ''
-    startLine: 1386
+    startLine: 1777
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1554,7 +1947,7 @@ items:
   source:
     id: LoadDelegatesWithReflection
     path: ''
-    startLine: 1398
+    startLine: 1789
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1582,7 +1975,7 @@ items:
   source:
     id: LoadDelegatesByHand
     path: ''
-    startLine: 1450
+    startLine: 1841
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1608,7 +2001,7 @@ items:
   source:
     id: loadEOSWithReflection
     path: ''
-    startLine: 1478
+    startLine: 1869
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1635,7 +2028,7 @@ items:
   source:
     id: ForceUnloadEOSLibrary
     path: ''
-    startLine: 1486
+    startLine: 1879
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1661,7 +2054,7 @@ items:
   source:
     id: LoadEOSLibraries
     path: ''
-    startLine: 1508
+    startLine: 1901
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1689,7 +2082,7 @@ items:
   source:
     id: GetEOSAuthInterface
     path: ''
-    startLine: 1564
+    startLine: 1957
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1720,7 +2113,7 @@ items:
   source:
     id: GetEOSAchievementInterface
     path: ''
-    startLine: 1574
+    startLine: 1967
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1751,7 +2144,7 @@ items:
   source:
     id: GetEOSConnectInterface
     path: ''
-    startLine: 1584
+    startLine: 1977
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1782,7 +2175,7 @@ items:
   source:
     id: GetEOSEcomInterface
     path: ''
-    startLine: 1594
+    startLine: 1987
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1813,7 +2206,7 @@ items:
   source:
     id: GetEOSFriendsInterface
     path: ''
-    startLine: 1604
+    startLine: 1997
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1844,7 +2237,7 @@ items:
   source:
     id: GetEOSLeaderboardsInterface
     path: ''
-    startLine: 1614
+    startLine: 2007
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1875,7 +2268,7 @@ items:
   source:
     id: GetEOSLobbyInterface
     path: ''
-    startLine: 1624
+    startLine: 2017
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1906,7 +2299,7 @@ items:
   source:
     id: GetEOSMetricsInterface
     path: ''
-    startLine: 1634
+    startLine: 2027
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1937,7 +2330,7 @@ items:
   source:
     id: GetEOSModsInterface
     path: ''
-    startLine: 1644
+    startLine: 2037
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1968,7 +2361,7 @@ items:
   source:
     id: GetEOSP2PInterface
     path: ''
-    startLine: 1654
+    startLine: 2047
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -1999,7 +2392,7 @@ items:
   source:
     id: GetPlayerDataStorageInterface
     path: ''
-    startLine: 1664
+    startLine: 2057
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2030,7 +2423,7 @@ items:
   source:
     id: GetEOSPresenceInterface
     path: ''
-    startLine: 1674
+    startLine: 2073
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2061,7 +2454,7 @@ items:
   source:
     id: GetEOSRTCInterface
     path: ''
-    startLine: 1685
+    startLine: 2083
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2092,7 +2485,7 @@ items:
   source:
     id: GetEOSSessionsInterface
     path: ''
-    startLine: 1695
+    startLine: 2093
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2123,7 +2516,7 @@ items:
   source:
     id: GetEOSStatsInterface
     path: ''
-    startLine: 1705
+    startLine: 2103
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2154,7 +2547,7 @@ items:
   source:
     id: GetEOSTitleStorageInterface
     path: ''
-    startLine: 1715
+    startLine: 2113
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2185,7 +2578,7 @@ items:
   source:
     id: GetEOSUIInterface
     path: ''
-    startLine: 1725
+    startLine: 2123
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2216,7 +2609,7 @@ items:
   source:
     id: GetEOSUserInfoInterface
     path: ''
-    startLine: 1735
+    startLine: 2133
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -2547,6 +2940,12 @@ references:
   name: NotifyEventHandle
   nameWithType: NotifyEventHandle
   fullName: PlayEveryWare.EpicOnlineServices.NotifyEventHandle
+- uid: PlayEveryWare.EpicOnlineServices.EOSConfig
+  commentId: T:PlayEveryWare.EpicOnlineServices.EOSConfig
+  parent: PlayEveryWare.EpicOnlineServices
+  name: EOSConfig
+  nameWithType: EOSConfig
+  fullName: PlayEveryWare.EpicOnlineServices.EOSConfig
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetLocalUserId*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetLocalUserId
   name: SetLocalUserId
@@ -2557,6 +2956,18 @@ references:
   name: GetLocalUserId
   nameWithType: EOSManager.EOSSingleton.GetLocalUserId
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLocalUserId
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.PUIDToString*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.PUIDToString
+  name: PUIDToString
+  nameWithType: EOSManager.EOSSingleton.PUIDToString
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.PUIDToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetLocalProductUserId*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SetLocalProductUserId
   name: SetLocalProductUserId
@@ -2567,6 +2978,26 @@ references:
   name: GetProductUserId
   nameWithType: EOSManager.EOSSingleton.GetProductUserId
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductUserId
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLoadedEOSConfig*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLoadedEOSConfig
+  name: GetLoadedEOSConfig
+  nameWithType: EOSManager.EOSSingleton.GetLoadedEOSConfig
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetLoadedEOSConfig
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductId
+  name: GetProductId
+  nameWithType: EOSManager.EOSSingleton.GetProductId
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetProductId
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetSandboxId*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetSandboxId
+  name: GetSandboxId
+  nameWithType: EOSManager.EOSSingleton.GetSandboxId
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetSandboxId
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetDeploymentID*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetDeploymentID
+  name: GetDeploymentID
+  nameWithType: EOSManager.EOSSingleton.GetDeploymentID
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetDeploymentID
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.HasShutdown*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.HasShutdown
   name: HasShutdown
@@ -2584,18 +3015,21 @@ references:
   name: HasLoggedInWithConnect
   nameWithType: EOSManager.EOSSingleton.HasLoggedInWithConnect
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.HasLoggedInWithConnect
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ShouldOverlayReceiveInput*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ShouldOverlayReceiveInput
+  name: ShouldOverlayReceiveInput
+  nameWithType: EOSManager.EOSSingleton.ShouldOverlayReceiveInput
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ShouldOverlayReceiveInput
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput
+  name: IsOverlayOpenWithExclusiveInput
+  nameWithType: EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.IsOverlayOpenWithExclusiveInput
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.print*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.print
   name: print
   nameWithType: EOSManager.EOSSingleton.print
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.print
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetOrCreateManager*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.GetOrCreateManager
   name: GetOrCreateManager
@@ -2608,26 +3042,70 @@ references:
   nameWithType: T
   fullName: T
 - uid: T
-  commentId: '!:T'
   name: T
   nameWithType: T
   fullName: T
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializePlatformInterface*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializePlatformInterface
+  name: InitializePlatformInterface
+  nameWithType: EOSManager.EOSSingleton.InitializePlatformInterface
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializePlatformInterface
+- uid: Epic.OnlineServices.Result
+  commentId: '!:Epic.OnlineServices.Result'
+  isExternal: true
+  name: Epic.OnlineServices.Result
+  nameWithType: Epic.OnlineServices.Result
+  fullName: Epic.OnlineServices.Result
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreatePlatformInterface*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreatePlatformInterface
+  name: CreatePlatformInterface
+  nameWithType: EOSManager.EOSSingleton.CreatePlatformInterface
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.CreatePlatformInterface
+- uid: PlatformInterface
+  isExternal: true
+  name: PlatformInterface
+  nameWithType: PlatformInterface
+  fullName: PlatformInterface
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializeOverlay*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializeOverlay
+  name: InitializeOverlay
+  nameWithType: EOSManager.EOSSingleton.InitializeOverlay
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.InitializeOverlay
+- uid: IEOSCoroutineOwner
+  isExternal: true
+  name: IEOSCoroutineOwner
+  nameWithType: IEOSCoroutineOwner
+  fullName: IEOSCoroutineOwner
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init
   name: Init
   nameWithType: EOSManager.EOSSingleton.Init
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.Init
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.RegisterForPlatformNotifications*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.RegisterForPlatformNotifications
+  name: RegisterForPlatformNotifications
+  nameWithType: EOSManager.EOSSingleton.RegisterForPlatformNotifications
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.RegisterForPlatformNotifications
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintStringCallback*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintStringCallback
+  name: SimplePrintStringCallback
+  nameWithType: EOSManager.EOSSingleton.SimplePrintStringCallback
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintStringCallback
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallback*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallback
   name: SimplePrintCallback
   nameWithType: EOSManager.EOSSingleton.SimplePrintCallback
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallback
 - uid: LogMessage
-  commentId: '!:LogMessage'
   isExternal: true
   name: LogMessage
   nameWithType: LogMessage
   fullName: LogMessage
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack
+  name: SimplePrintCallbackWithCallstack
+  nameWithType: EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.SimplePrintCallbackWithCallstack
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.MakeLoginOptions*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.MakeLoginOptions
   name: MakeLoginOptions
@@ -2753,6 +3231,23 @@ references:
   name: StartConnectLoginWithDeviceToken
   nameWithType: EOSManager.EOSSingleton.StartConnectLoginWithDeviceToken
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.StartConnectLoginWithDeviceToken
+- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount
+  name: ConnectTransferDeviceIDAccount
+  nameWithType: EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount
+  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.ConnectTransferDeviceIDAccount
+- uid: TransferDeviceIdAccountOptions
+  commentId: '!:TransferDeviceIdAccountOptions'
+  isExternal: true
+  name: TransferDeviceIdAccountOptions
+  nameWithType: TransferDeviceIdAccountOptions
+  fullName: TransferDeviceIdAccountOptions
+- uid: OnTransferDeviceIdAccountCallback
+  commentId: '!:OnTransferDeviceIdAccountCallback'
+  isExternal: true
+  name: OnTransferDeviceIdAccountCallback
+  nameWithType: OnTransferDeviceIdAccountCallback
+  fullName: OnTransferDeviceIdAccountCallback
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.StartPersistantLogin*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.StartPersistantLogin
   name: StartPersistantLogin
@@ -2825,30 +3320,6 @@ references:
   name: OnApplicationShutdown
   nameWithType: EOSManager.EOSSingleton.OnApplicationShutdown
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.OnApplicationShutdown
-- uid: PlatformInterface
-  isExternal: true
-  name: PlatformInterface
-  nameWithType: PlatformInterface
-  fullName: PlatformInterface
-- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadEOS*
-  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadEOS
-  isExternal: true
-  name: UnloadEOS
-  nameWithType: EOSManager.EOSSingleton.UnloadEOS
-  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.UnloadEOS
-- uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOS_GetPlatformInterface*
-  commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOS_GetPlatformInterface
-  isExternal: true
-  name: EOS_GetPlatformInterface
-  nameWithType: EOSManager.EOSSingleton.EOS_GetPlatformInterface
-  fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.EOS_GetPlatformInterface
-- uid: System.IntPtr
-  commentId: T:System.IntPtr
-  parent: System
-  isExternal: true
-  name: IntPtr
-  nameWithType: IntPtr
-  fullName: System.IntPtr
 - uid: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.NativeCallToUnloadEOS*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.NativeCallToUnloadEOS
   name: NativeCallToUnloadEOS
@@ -2874,20 +3345,21 @@ references:
   name: AddAllAssembliesInCurrentDomain
   nameWithType: EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain
   fullName: PlayEveryWare.EpicOnlineServices.EOSManager.EOSSingleton.AddAllAssembliesInCurrentDomain
-- uid: List{Assembly}
-  commentId: '!:List{Assembly}'
-  definition: List`1
+- uid: System.Collections.Generic.List{Assembly}
+  commentId: T:System.Collections.Generic.List{Assembly}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<Assembly>
   nameWithType: List<Assembly>
-  fullName: List<Assembly>
+  fullName: System.Collections.Generic.List<Assembly>
   nameWithType.vb: List(Of Assembly)
-  fullName.vb: List(Of Assembly)
+  fullName.vb: System.Collections.Generic.List(Of Assembly)
   name.vb: List(Of Assembly)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -2901,10 +3373,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -2917,58 +3389,66 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary{System.String,DLLHandle}
-  commentId: '!:Dictionary{System.String,DLLHandle}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections.Generic.Dictionary{System.String,DLLHandle}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,DLLHandle}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<String, DLLHandle>
   nameWithType: Dictionary<String, DLLHandle>
-  fullName: Dictionary<System.String, DLLHandle>
+  fullName: System.Collections.Generic.Dictionary<System.String, DLLHandle>
   nameWithType.vb: Dictionary(Of String, DLLHandle)
-  fullName.vb: Dictionary(Of System.String, DLLHandle)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, DLLHandle)
   name.vb: Dictionary(Of String, DLLHandle)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -2989,10 +3469,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -3012,53 +3492,54 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )

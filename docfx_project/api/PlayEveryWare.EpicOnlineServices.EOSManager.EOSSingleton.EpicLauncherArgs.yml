@@ -23,7 +23,7 @@ items:
   source:
     id: EpicLauncherArgs
     path: ''
-    startLine: 681
+    startLine: 1029
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -60,7 +60,7 @@ items:
   source:
     id: authLogin
     path: ''
-    startLine: 683
+    startLine: 1031
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -87,7 +87,7 @@ items:
   source:
     id: authPassword
     path: ''
-    startLine: 684
+    startLine: 1032
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -114,7 +114,7 @@ items:
   source:
     id: authType
     path: ''
-    startLine: 685
+    startLine: 1033
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -141,7 +141,7 @@ items:
   source:
     id: epicApp
     path: ''
-    startLine: 686
+    startLine: 1034
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -168,7 +168,7 @@ items:
   source:
     id: epicEnv
     path: ''
-    startLine: 687
+    startLine: 1035
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -195,7 +195,7 @@ items:
   source:
     id: epicUsername
     path: ''
-    startLine: 688
+    startLine: 1036
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -222,7 +222,7 @@ items:
   source:
     id: epicUserID
     path: ''
-    startLine: 689
+    startLine: 1037
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -249,7 +249,7 @@ items:
   source:
     id: epicLocale
     path: ''
-    startLine: 690
+    startLine: 1038
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

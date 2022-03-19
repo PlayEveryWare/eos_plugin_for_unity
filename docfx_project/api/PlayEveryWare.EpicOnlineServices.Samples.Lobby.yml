@@ -40,7 +40,7 @@ items:
   source:
     id: Lobby
     path: ''
-    startLine: 4777
+    startLine: 6159
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -79,7 +79,7 @@ items:
   source:
     id: Id
     path: ''
-    startLine: 4779
+    startLine: 6161
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -106,7 +106,7 @@ items:
   source:
     id: LobbyOwner
     path: ''
-    startLine: 4780
+    startLine: 6162
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -133,7 +133,7 @@ items:
   source:
     id: LobbyOwnerAccountId
     path: ''
-    startLine: 4781
+    startLine: 6163
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -160,7 +160,7 @@ items:
   source:
     id: LobbyOwnerDisplayName
     path: ''
-    startLine: 4782
+    startLine: 6164
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -187,7 +187,7 @@ items:
   source:
     id: BucketId
     path: ''
-    startLine: 4783
+    startLine: 6165
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -214,7 +214,7 @@ items:
   source:
     id: MaxNumLobbyMembers
     path: ''
-    startLine: 4784
+    startLine: 6166
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -241,7 +241,7 @@ items:
   source:
     id: LobbyPermissionLevel
     path: ''
-    startLine: 4785
+    startLine: 6167
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -268,7 +268,7 @@ items:
   source:
     id: AvailableSlots
     path: ''
-    startLine: 4786
+    startLine: 6168
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -295,7 +295,7 @@ items:
   source:
     id: AllowInvites
     path: ''
-    startLine: 4787
+    startLine: 6169
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -322,7 +322,7 @@ items:
   source:
     id: RTCRoomName
     path: ''
-    startLine: 4790
+    startLine: 6172
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -349,7 +349,7 @@ items:
   source:
     id: RTCRoomConnected
     path: ''
-    startLine: 4792
+    startLine: 6174
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -376,7 +376,7 @@ items:
   source:
     id: RTCRoomConnectionChanged
     path: ''
-    startLine: 4794
+    startLine: 6176
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -404,7 +404,7 @@ items:
   source:
     id: RTCRoomParticipantUpdate
     path: ''
-    startLine: 4796
+    startLine: 6178
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -432,7 +432,7 @@ items:
   source:
     id: RTCRoomParticipantAudioUpdate
     path: ''
-    startLine: 4798
+    startLine: 6180
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -460,7 +460,7 @@ items:
   source:
     id: PresenceEnabled
     path: ''
-    startLine: 4800
+    startLine: 6182
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -487,7 +487,7 @@ items:
   source:
     id: RTCRoomEnabled
     path: ''
-    startLine: 4801
+    startLine: 6183
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -514,14 +514,14 @@ items:
   source:
     id: Attributes
     path: ''
-    startLine: 4803
+    startLine: 6185
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public List<LobbyAttribute> Attributes
     return:
-      type: List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}
+      type: System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}
     content.vb: Public Attributes As List(Of LobbyAttribute)
   modifiers.csharp:
   - public
@@ -541,14 +541,14 @@ items:
   source:
     id: Members
     path: ''
-    startLine: 4804
+    startLine: 6186
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public List<LobbyMember> Members
     return:
-      type: List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}
+      type: System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}
     content.vb: Public Members As List(Of LobbyMember)
   modifiers.csharp:
   - public
@@ -568,7 +568,7 @@ items:
   source:
     id: _SearchResult
     path: ''
-    startLine: 4808
+    startLine: 6190
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -595,7 +595,7 @@ items:
   source:
     id: _BeingCreated
     path: ''
-    startLine: 4809
+    startLine: 6191
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -622,7 +622,7 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 4815
+    startLine: 6197
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -653,7 +653,7 @@ items:
   source:
     id: IsOwner
     path: ''
-    startLine: 4825
+    startLine: 6207
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -688,7 +688,7 @@ items:
   source:
     id: Clear
     path: ''
-    startLine: 4833
+    startLine: 6215
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -716,7 +716,7 @@ items:
   source:
     id: InitFromLobbyHandle
     path: ''
-    startLine: 4845
+    startLine: 6227
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -748,7 +748,7 @@ items:
   source:
     id: InitFromLobbyDetails
     path: ''
-    startLine: 4877
+    startLine: 6259
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1111,20 +1111,21 @@ references:
   name: PlayEveryWare.EpicOnlineServices
   nameWithType: PlayEveryWare.EpicOnlineServices
   fullName: PlayEveryWare.EpicOnlineServices
-- uid: List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}
-  commentId: '!:List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}'
-  definition: List`1
+- uid: System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}
+  commentId: T:System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<LobbyAttribute>
   nameWithType: List<LobbyAttribute>
-  fullName: List<PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute>
+  fullName: System.Collections.Generic.List<PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute>
   nameWithType.vb: List(Of LobbyAttribute)
-  fullName.vb: List(Of PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute)
+  fullName.vb: System.Collections.Generic.List(Of PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute)
   name.vb: List(Of LobbyAttribute)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1137,10 +1138,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1152,58 +1153,66 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
-- uid: List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}
-  commentId: '!:List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}'
-  definition: List`1
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}
+  commentId: T:System.Collections.Generic.List{PlayEveryWare.EpicOnlineServices.Samples.LobbyMember}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<LobbyMember>
   nameWithType: List<LobbyMember>
-  fullName: List<PlayEveryWare.EpicOnlineServices.Samples.LobbyMember>
+  fullName: System.Collections.Generic.List<PlayEveryWare.EpicOnlineServices.Samples.LobbyMember>
   nameWithType.vb: List(Of LobbyMember)
-  fullName.vb: List(Of PlayEveryWare.EpicOnlineServices.Samples.LobbyMember)
+  fullName.vb: System.Collections.Generic.List(Of PlayEveryWare.EpicOnlineServices.Samples.LobbyMember)
   name.vb: List(Of LobbyMember)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1216,10 +1225,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '

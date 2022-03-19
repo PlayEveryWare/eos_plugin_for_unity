@@ -19,7 +19,7 @@ items:
   source:
     id: NotifyEventHandle
     path: ''
-    startLine: 1989
+    startLine: 2508
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -62,7 +62,7 @@ items:
   source:
     id: removeDelegate
     path: ''
-    startLine: 1991
+    startLine: 2510
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -85,7 +85,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 1994
+    startLine: 2513
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -116,7 +116,7 @@ items:
   source:
     id: ReleaseHandle
     path: ''
-    startLine: 1999
+    startLine: 2518
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -145,7 +145,7 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 2009
+    startLine: 2528
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

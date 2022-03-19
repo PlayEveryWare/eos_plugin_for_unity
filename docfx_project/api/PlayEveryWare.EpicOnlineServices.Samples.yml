@@ -9,6 +9,7 @@ items:
   - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
   - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager
   - PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSHostManager
   - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
   - PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback
   - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager
@@ -16,6 +17,8 @@ items:
   - PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback
   - PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager
   - PlayEveryWare.EpicOnlineServices.Samples.EOSPlayerDataStorageManager
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.OnSanctionsCallback
   - PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager
   - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager
   - PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager
@@ -30,6 +33,7 @@ items:
   - PlayEveryWare.EpicOnlineServices.Samples.LobbyMember
   - PlayEveryWare.EpicOnlineServices.Samples.LobbyRTCState
   - PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo
+  - PlayEveryWare.EpicOnlineServices.Samples.Sanction
   - PlayEveryWare.EpicOnlineServices.Samples.Session
   - PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute
   - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
@@ -71,6 +75,11 @@ references:
   name: EOSFriendsManager.OnFriendsCallback
   nameWithType: EOSFriendsManager.OnFriendsCallback
   fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSHostManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSHostManager
+  name: EOSHostManager
+  nameWithType: EOSHostManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSHostManager
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
   commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager
   name: EOSLeaderboardManager
@@ -154,6 +163,22 @@ references:
   name: EOSPlayerDataStorageManager
   nameWithType: EOSPlayerDataStorageManager
   fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSPlayerDataStorageManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.Sanction
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.Sanction
+  name: Sanction
+  nameWithType: Sanction
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.Sanction
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager
+  name: EOSReportsManager
+  nameWithType: EOSReportsManager
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.OnSanctionsCallback
+  commentId: T:PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.OnSanctionsCallback
+  parent: PlayEveryWare.EpicOnlineServices.Samples
+  name: EOSReportsManager.OnSanctionsCallback
+  nameWithType: EOSReportsManager.OnSanctionsCallback
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.OnSanctionsCallback
 - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
   commentId: T:PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
   parent: PlayEveryWare.EpicOnlineServices.Samples

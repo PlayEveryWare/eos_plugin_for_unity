@@ -15,7 +15,7 @@ items:
   source:
     id: OnAuthLinkExternalAccountCallback
     path: ''
-    startLine: 415
+    startLine: 598
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

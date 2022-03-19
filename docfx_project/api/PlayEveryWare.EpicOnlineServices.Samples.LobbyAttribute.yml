@@ -26,7 +26,7 @@ items:
   source:
     id: LobbyAttribute
     path: ''
-    startLine: 5003
+    startLine: 6385
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -63,7 +63,7 @@ items:
   source:
     id: Visibility
     path: ''
-    startLine: 5005
+    startLine: 6387
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -90,7 +90,7 @@ items:
   source:
     id: ValueType
     path: ''
-    startLine: 5007
+    startLine: 6389
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -117,7 +117,7 @@ items:
   source:
     id: Key
     path: ''
-    startLine: 5008
+    startLine: 6390
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -144,7 +144,7 @@ items:
   source:
     id: AsInt64
     path: ''
-    startLine: 5011
+    startLine: 6393
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -171,7 +171,7 @@ items:
   source:
     id: AsDouble
     path: ''
-    startLine: 5012
+    startLine: 6394
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -198,7 +198,7 @@ items:
   source:
     id: AsBool
     path: ''
-    startLine: 5013
+    startLine: 6395
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -225,7 +225,7 @@ items:
   source:
     id: AsString
     path: ''
-    startLine: 5014
+    startLine: 6396
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -252,7 +252,7 @@ items:
   source:
     id: AsAttribute
     path: ''
-    startLine: 5016
+    startLine: 6398
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -283,7 +283,7 @@ items:
   source:
     id: Equals
     path: ''
-    startLine: 5044
+    startLine: 6426
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -317,7 +317,7 @@ items:
   source:
     id: GetHashCode
     path: ''
-    startLine: 5057
+    startLine: 6439
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -348,7 +348,7 @@ items:
   source:
     id: InitFromAttribute
     path: ''
-    startLine: 5062
+    startLine: 6444
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

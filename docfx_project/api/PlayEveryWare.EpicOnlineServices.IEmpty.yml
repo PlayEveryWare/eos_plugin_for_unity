@@ -1,0 +1,79 @@
+### YamlMime:ManagedReference
+items:
+- uid: PlayEveryWare.EpicOnlineServices.IEmpty
+  commentId: T:PlayEveryWare.EpicOnlineServices.IEmpty
+  id: IEmpty
+  parent: PlayEveryWare.EpicOnlineServices
+  children:
+  - PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  langs:
+  - csharp
+  - vb
+  name: IEmpty
+  nameWithType: IEmpty
+  fullName: PlayEveryWare.EpicOnlineServices.IEmpty
+  type: Interface
+  source:
+    id: IEmpty
+    path: ''
+    startLine: 2279
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: public interface IEmpty
+    content.vb: Public Interface IEmpty
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  commentId: M:PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  id: IsEmpty
+  parent: PlayEveryWare.EpicOnlineServices.IEmpty
+  langs:
+  - csharp
+  - vb
+  name: IsEmpty()
+  nameWithType: IEmpty.IsEmpty()
+  fullName: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty()
+  type: Method
+  source:
+    id: IsEmpty
+    path: ''
+    startLine: 2281
+  assemblies:
+  - cs.temp.dll
+  namespace: PlayEveryWare.EpicOnlineServices
+  syntax:
+    content: bool IsEmpty()
+    return:
+      type: System.Boolean
+    content.vb: Function IsEmpty As Boolean
+  overload: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty*
+references:
+- uid: PlayEveryWare.EpicOnlineServices
+  commentId: N:PlayEveryWare.EpicOnlineServices
+  name: PlayEveryWare.EpicOnlineServices
+  nameWithType: PlayEveryWare.EpicOnlineServices
+  fullName: PlayEveryWare.EpicOnlineServices
+- uid: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty*
+  commentId: Overload:PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+  name: IsEmpty
+  nameWithType: IEmpty.IsEmpty
+  fullName: PlayEveryWare.EpicOnlineServices.IEmpty.IsEmpty
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

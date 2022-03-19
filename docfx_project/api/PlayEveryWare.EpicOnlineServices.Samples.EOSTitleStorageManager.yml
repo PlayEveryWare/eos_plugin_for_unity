@@ -40,7 +40,7 @@ items:
   source:
     id: EOSTitleStorageManager
     path: ''
-    startLine: 10074
+    startLine: 11682
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -83,7 +83,7 @@ items:
   source:
     id: MAX_CHUNK_SIZE
     path: ''
-    startLine: 10076
+    startLine: 11684
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -112,7 +112,7 @@ items:
   source:
     id: CurrentTransferName
     path: ''
-    startLine: 10078
+    startLine: 11686
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -135,7 +135,7 @@ items:
   source:
     id: CurrentTransferHandle
     path: ''
-    startLine: 10079
+    startLine: 11687
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -158,7 +158,7 @@ items:
   source:
     id: CurrentTransferProgress
     path: ''
-    startLine: 10080
+    startLine: 11688
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -181,14 +181,14 @@ items:
   source:
     id: StorageData
     path: ''
-    startLine: 10081
+    startLine: 11689
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<string, string> StorageData
     return:
-      type: Dictionary{System.String,System.String}
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
     content.vb: StorageData As Dictionary(Of String, String)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.TransfersInProgress
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.TransfersInProgress
@@ -204,14 +204,14 @@ items:
   source:
     id: TransfersInProgress
     path: ''
-    startLine: 10082
+    startLine: 11690
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<string, EOSTransferInProgress> TransfersInProgress
     return:
-      type: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}
+      type: System.Collections.Generic.Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}
     content.vb: TransfersInProgress As Dictionary(Of String, EOSTransferInProgress)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentFileNames
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.CurrentFileNames
@@ -227,14 +227,14 @@ items:
   source:
     id: CurrentFileNames
     path: ''
-    startLine: 10084
+    startLine: 11692
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: List<string> CurrentFileNames
     return:
-      type: List{System.String}
+      type: System.Collections.Generic.List{System.String}
     content.vb: CurrentFileNames As List(Of String)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback
   commentId: P:PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.QueryListCallback
@@ -250,7 +250,7 @@ items:
   source:
     id: QueryListCallback
     path: ''
-    startLine: 10087
+    startLine: 11695
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -281,7 +281,7 @@ items:
   source:
     id: ReadFileCallback
     path: ''
-    startLine: 10088
+    startLine: 11696
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -312,7 +312,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 10093
+    startLine: 11701
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -338,14 +338,14 @@ items:
   source:
     id: GetCachedStorageData
     path: ''
-    startLine: 10102
+    startLine: 11710
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public Dictionary<string, string> GetCachedStorageData()
     return:
-      type: Dictionary{System.String,System.String}
+      type: System.Collections.Generic.Dictionary{System.String,System.String}
     content.vb: Public Function GetCachedStorageData As Dictionary(Of String, String)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedStorageData*
   modifiers.csharp:
@@ -366,14 +366,14 @@ items:
   source:
     id: GetCachedCurrentFileNames
     path: ''
-    startLine: 10107
+    startLine: 11715
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public List<string> GetCachedCurrentFileNames()
     return:
-      type: List{System.String}
+      type: System.Collections.Generic.List{System.String}
     content.vb: Public Function GetCachedCurrentFileNames As List(Of String)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.GetCachedCurrentFileNames*
   modifiers.csharp:
@@ -394,7 +394,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 10116
+    startLine: 11724
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -422,7 +422,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 10125
+    startLine: 11733
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -450,7 +450,7 @@ items:
   source:
     id: QueryFileList
     path: ''
-    startLine: 10132
+    startLine: 11740
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -486,7 +486,7 @@ items:
   source:
     id: OnQueryFileListCompleted
     path: ''
-    startLine: 10144
+    startLine: 11752
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -511,7 +511,7 @@ items:
   source:
     id: ReadFile
     path: ''
-    startLine: 10186
+    startLine: 11794
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -542,7 +542,7 @@ items:
   source:
     id: OnFileReceived
     path: ''
-    startLine: 10216
+    startLine: 11824
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -567,7 +567,7 @@ items:
   source:
     id: FinishFileDownload
     path: ''
-    startLine: 10235
+    startLine: 11843
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -600,7 +600,7 @@ items:
   source:
     id: CancelCurrentTransfer
     path: ''
-    startLine: 10287
+    startLine: 11895
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -622,7 +622,7 @@ items:
   source:
     id: ClearCurrentTransfer
     path: ''
-    startLine: 10318
+    startLine: 11926
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -644,7 +644,7 @@ items:
   source:
     id: OnFileTransferProgressUpdated
     path: ''
-    startLine: 10329
+    startLine: 11937
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -669,7 +669,7 @@ items:
   source:
     id: UpdateProgress
     path: ''
-    startLine: 10344
+    startLine: 11952
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -696,7 +696,7 @@ items:
   source:
     id: OnFileDataReceived
     path: ''
-    startLine: 10352
+    startLine: 11960
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -723,7 +723,7 @@ items:
   source:
     id: ReceiveData
     path: ''
-    startLine: 10362
+    startLine: 11970
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1079,20 +1079,21 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
-- uid: Dictionary{System.String,System.String}
-  commentId: '!:Dictionary{System.String,System.String}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{System.String,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<String, String>
   nameWithType: Dictionary<String, String>
-  fullName: Dictionary<System.String, System.String>
+  fullName: System.Collections.Generic.Dictionary<System.String, System.String>
   nameWithType.vb: Dictionary(Of String, String)
-  fullName.vb: Dictionary(Of System.String, System.String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.String)
   name.vb: Dictionary(Of String, String)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -1114,10 +1115,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1138,70 +1139,78 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}
-  commentId: '!:Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections.Generic.Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<String, EOSTransferInProgress>
   nameWithType: Dictionary<String, EOSTransferInProgress>
-  fullName: Dictionary<System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress>
+  fullName: System.Collections.Generic.Dictionary<System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress>
   nameWithType.vb: Dictionary(Of String, EOSTransferInProgress)
-  fullName.vb: Dictionary(Of System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress)
   name.vb: Dictionary(Of String, EOSTransferInProgress)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -1222,10 +1231,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1245,20 +1254,21 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List{System.String}
-  commentId: '!:List{System.String}'
-  definition: List`1
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<String>
   nameWithType: List<String>
-  fullName: List<System.String>
+  fullName: System.Collections.Generic.List<System.String>
   nameWithType.vb: List(Of String)
-  fullName.vb: List(Of System.String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
   name.vb: List(Of String)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1272,10 +1282,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1288,41 +1298,42 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )

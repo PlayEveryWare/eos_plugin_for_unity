@@ -15,7 +15,7 @@ items:
   source:
     id: OnLobbySearchCallback
     path: ''
-    startLine: 5184
+    startLine: 6566
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

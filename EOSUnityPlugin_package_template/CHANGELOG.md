@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
-## [1.0.4] - 2022-03-15
+## [1.0.4] - 2022-03-18
 
 ### Added
 - More debug logging around when the PUID changes.
@@ -35,7 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for debug builds of DynamicLibraryLoaderHelper.
 
 ### Changed
-- Update to EOS SDK 1.14.2-hf-1
+- Update to EOS SDK 1.14.2-hf-1.
 - Replaced HttpClient with UnityWebRequest.
 - Changed DynamicLibraryLoaderHelper to a static library and add EOSOverlayRenderSupport project as a dynamic library. Moved graphics code to EOSOverlayRenderSupport.
 - Changed to a format string in SimplePrintCallback, add null check for category.

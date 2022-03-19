@@ -9,7 +9,7 @@ items:
   - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.CatalogOffers
   - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.CatalogOffersDirty
   - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.CheckOutOverlay(System.Int32)
-  - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(List{CatalogOffer}@)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(System.Collections.Generic.List{CatalogOffer}@)
   - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCurrentPriceAsString(CatalogOffer)
   - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetOriginalPriceAsString(CatalogOffer)
   - PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.OnCheckout(CheckoutCallbackInfo)
@@ -28,7 +28,7 @@ items:
   source:
     id: EOSStoreManager
     path: ''
-    startLine: 9919
+    startLine: 11527
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -72,14 +72,14 @@ items:
   source:
     id: CatalogOffers
     path: ''
-    startLine: 9921
+    startLine: 11529
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: List<CatalogOffer> CatalogOffers
     return:
-      type: List{CatalogOffer}
+      type: System.Collections.Generic.List{CatalogOffer}
     content.vb: CatalogOffers As List(Of CatalogOffer)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.CatalogOffersDirty
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.CatalogOffersDirty
@@ -95,7 +95,7 @@ items:
   source:
     id: CatalogOffersDirty
     path: ''
-    startLine: 9922
+    startLine: 11530
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -118,7 +118,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 9924
+    startLine: 11532
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -144,7 +144,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 9930
+    startLine: 11538
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -170,7 +170,7 @@ items:
   source:
     id: PlayEveryWare.EpicOnlineServices.IEOSOnAuthLogin.OnAuthLogin
     path: ''
-    startLine: 9935
+    startLine: 11543
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -195,7 +195,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 9940
+    startLine: 11548
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -207,21 +207,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(List{CatalogOffer}@)
-  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(List{CatalogOffer}@)
-  id: GetCatalogOffers(List{CatalogOffer}@)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(System.Collections.Generic.List{CatalogOffer}@)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(System.Collections.Generic.List{CatalogOffer}@)
+  id: GetCatalogOffers(System.Collections.Generic.List{CatalogOffer}@)
   parent: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager
   langs:
   - csharp
   - vb
   name: GetCatalogOffers(out List<CatalogOffer>)
   nameWithType: EOSStoreManager.GetCatalogOffers(out List<CatalogOffer>)
-  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(out List<CatalogOffer>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(out System.Collections.Generic.List<CatalogOffer>)
   type: Method
   source:
     id: GetCatalogOffers
     path: ''
-    startLine: 9946
+    startLine: 11554
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -229,7 +229,7 @@ items:
     content: public bool GetCatalogOffers(out List<CatalogOffer> CatalogOffers)
     parameters:
     - id: CatalogOffers
-      type: List{CatalogOffer}
+      type: System.Collections.Generic.List{CatalogOffer}
     return:
       type: System.Boolean
     content.vb: Public Function GetCatalogOffers(ByRef CatalogOffers As List(Of CatalogOffer)) As Boolean
@@ -239,7 +239,7 @@ items:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(ByRef List(Of CatalogOffer))
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.GetCatalogOffers(ByRef System.Collections.Generic.List(Of CatalogOffer))
   name.vb: GetCatalogOffers(ByRef List(Of CatalogOffer))
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.QueryOffers
   commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.QueryOffers
@@ -255,7 +255,7 @@ items:
   source:
     id: QueryOffers
     path: ''
-    startLine: 9952
+    startLine: 11560
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -281,7 +281,7 @@ items:
   source:
     id: OnQueryOffers
     path: ''
-    startLine: 9961
+    startLine: 11569
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -306,7 +306,7 @@ items:
   source:
     id: CheckOutOverlay
     path: ''
-    startLine: 10006
+    startLine: 11614
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -335,7 +335,7 @@ items:
   source:
     id: OnCheckout
     path: ''
-    startLine: 10018
+    startLine: 11626
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -364,7 +364,7 @@ items:
   source:
     id: GetCurrentPriceAsString
     path: ''
-    startLine: 10025
+    startLine: 11633
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -395,7 +395,7 @@ items:
   source:
     id: GetOriginalPriceAsString
     path: ''
-    startLine: 10032
+    startLine: 11640
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -727,20 +727,21 @@ references:
   name: PlayEveryWare.EpicOnlineServices
   nameWithType: PlayEveryWare.EpicOnlineServices
   fullName: PlayEveryWare.EpicOnlineServices
-- uid: List{CatalogOffer}
-  commentId: '!:List{CatalogOffer}'
-  definition: List`1
+- uid: System.Collections.Generic.List{CatalogOffer}
+  commentId: T:System.Collections.Generic.List{CatalogOffer}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<CatalogOffer>
   nameWithType: List<CatalogOffer>
-  fullName: List<CatalogOffer>
+  fullName: System.Collections.Generic.List<CatalogOffer>
   nameWithType.vb: List(Of CatalogOffer)
-  fullName.vb: List(Of CatalogOffer)
+  fullName.vb: System.Collections.Generic.List(Of CatalogOffer)
   name.vb: List(Of CatalogOffer)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -754,10 +755,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -770,44 +771,51 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System

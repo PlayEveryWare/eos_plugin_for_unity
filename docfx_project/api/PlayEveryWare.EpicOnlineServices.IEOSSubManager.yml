@@ -15,7 +15,7 @@ items:
   source:
     id: IEOSSubManager
     path: ''
-    startLine: 1954
+    startLine: 2460
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

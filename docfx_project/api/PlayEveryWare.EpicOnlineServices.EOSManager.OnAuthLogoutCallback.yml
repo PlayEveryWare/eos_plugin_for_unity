@@ -15,7 +15,7 @@ items:
   source:
     id: OnAuthLogoutCallback
     path: ''
-    startLine: 411
+    startLine: 594
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

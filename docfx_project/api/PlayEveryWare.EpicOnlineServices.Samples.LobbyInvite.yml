@@ -23,7 +23,7 @@ items:
   source:
     id: LobbyInvite
     path: ''
-    startLine: 4975
+    startLine: 6357
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -62,7 +62,7 @@ items:
   source:
     id: Lobby
     path: ''
-    startLine: 4977
+    startLine: 6359
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -89,7 +89,7 @@ items:
   source:
     id: LobbyInfo
     path: ''
-    startLine: 4978
+    startLine: 6360
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -116,7 +116,7 @@ items:
   source:
     id: FriendId
     path: ''
-    startLine: 4979
+    startLine: 6361
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -143,7 +143,7 @@ items:
   source:
     id: FriendEpicId
     path: ''
-    startLine: 4980
+    startLine: 6362
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -170,7 +170,7 @@ items:
   source:
     id: FriendDisplayName
     path: ''
-    startLine: 4981
+    startLine: 6363
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -197,7 +197,7 @@ items:
   source:
     id: InviteId
     path: ''
-    startLine: 4982
+    startLine: 6364
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -224,7 +224,7 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 4984
+    startLine: 6366
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -252,7 +252,7 @@ items:
   source:
     id: Clear
     path: ''
-    startLine: 4989
+    startLine: 6371
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

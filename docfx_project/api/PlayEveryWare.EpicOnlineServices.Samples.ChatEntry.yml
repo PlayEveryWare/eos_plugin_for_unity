@@ -17,7 +17,7 @@ items:
   source:
     id: ChatEntry
     path: ''
-    startLine: 7021
+    startLine: 8403
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -54,7 +54,7 @@ items:
   source:
     id: isOwnEntry
     path: ''
-    startLine: 7024
+    startLine: 8406
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -83,7 +83,7 @@ items:
   source:
     id: Message
     path: ''
-    startLine: 7027
+    startLine: 8409
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

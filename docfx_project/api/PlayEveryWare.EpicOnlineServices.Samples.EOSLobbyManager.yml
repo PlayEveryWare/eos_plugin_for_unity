@@ -95,7 +95,7 @@ items:
   source:
     id: EOSLobbyManager
     path: ''
-    startLine: 5145
+    startLine: 6527
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -138,7 +138,7 @@ items:
   source:
     id: CurrentLobby
     path: ''
-    startLine: 5147
+    startLine: 6529
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -161,7 +161,7 @@ items:
   source:
     id: ActiveJoin
     path: ''
-    startLine: 5148
+    startLine: 6530
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -184,14 +184,14 @@ items:
   source:
     id: Invites
     path: ''
-    startLine: 5151
+    startLine: 6533
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<ProductUserId, LobbyInvite> Invites
     return:
-      type: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
+      type: System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
     content.vb: Invites As Dictionary(Of ProductUserId, LobbyInvite)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentInvite
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.CurrentInvite
@@ -207,7 +207,7 @@ items:
   source:
     id: CurrentInvite
     path: ''
-    startLine: 5152
+    startLine: 6534
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -230,7 +230,7 @@ items:
   source:
     id: CurrentSearch
     path: ''
-    startLine: 5155
+    startLine: 6537
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -253,14 +253,14 @@ items:
   source:
     id: SearchResults
     path: ''
-    startLine: 5156
+    startLine: 6538
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<Lobby, LobbyDetails> SearchResults
     return:
-      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
+      type: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
     content.vb: SearchResults As Dictionary(Of Lobby, LobbyDetails)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyUpdateNotification
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.LobbyUpdateNotification
@@ -276,7 +276,7 @@ items:
   source:
     id: LobbyUpdateNotification
     path: ''
-    startLine: 5160
+    startLine: 6542
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -299,7 +299,7 @@ items:
   source:
     id: LobbyMemberUpdateNotification
     path: ''
-    startLine: 5161
+    startLine: 6543
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -322,7 +322,7 @@ items:
   source:
     id: LobbyMemberStatusNotification
     path: ''
-    startLine: 5162
+    startLine: 6544
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -345,7 +345,7 @@ items:
   source:
     id: LobbyInviteNotification
     path: ''
-    startLine: 5163
+    startLine: 6545
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -368,7 +368,7 @@ items:
   source:
     id: LobbyInviteAcceptedNotification
     path: ''
-    startLine: 5164
+    startLine: 6546
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -391,7 +391,7 @@ items:
   source:
     id: JoinLobbyAcceptedNotification
     path: ''
-    startLine: 5165
+    startLine: 6547
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -414,7 +414,7 @@ items:
   source:
     id: EOS_INVALID_NOTIFICATIONID
     path: ''
-    startLine: 5168
+    startLine: 6550
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -441,7 +441,7 @@ items:
   source:
     id: _Dirty
     path: ''
-    startLine: 5170
+    startLine: 6552
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -468,7 +468,7 @@ items:
   source:
     id: LobbyCreatedCallback
     path: ''
-    startLine: 5173
+    startLine: 6555
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -491,7 +491,7 @@ items:
   source:
     id: LobbyModifyCallback
     path: ''
-    startLine: 5174
+    startLine: 6556
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -514,7 +514,7 @@ items:
   source:
     id: JoinLobbyCallback
     path: ''
-    startLine: 5175
+    startLine: 6557
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -537,7 +537,7 @@ items:
   source:
     id: LeaveLobbyCallback
     path: ''
-    startLine: 5176
+    startLine: 6558
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -560,7 +560,7 @@ items:
   source:
     id: DestroyLobbyCallback
     path: ''
-    startLine: 5177
+    startLine: 6559
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -583,7 +583,7 @@ items:
   source:
     id: ToggleMuteCallback
     path: ''
-    startLine: 5178
+    startLine: 6560
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -606,7 +606,7 @@ items:
   source:
     id: KickMemberCallback
     path: ''
-    startLine: 5179
+    startLine: 6561
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -629,7 +629,7 @@ items:
   source:
     id: PromoteMemberCallback
     path: ''
-    startLine: 5180
+    startLine: 6562
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -652,7 +652,7 @@ items:
   source:
     id: LobbySearchCallback
     path: ''
-    startLine: 5181
+    startLine: 6563
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -675,7 +675,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 5188
+    startLine: 6570
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -701,7 +701,7 @@ items:
   source:
     id: GetCurrentLobby
     path: ''
-    startLine: 5209
+    startLine: 6591
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -729,14 +729,14 @@ items:
   source:
     id: GetInvites
     path: ''
-    startLine: 5214
+    startLine: 6596
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public Dictionary<ProductUserId, LobbyInvite> GetInvites()
     return:
-      type: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
+      type: System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
     content.vb: Public Function GetInvites As Dictionary(Of ProductUserId, LobbyInvite)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetInvites*
   modifiers.csharp:
@@ -757,7 +757,7 @@ items:
   source:
     id: GetCurrentInvite
     path: ''
-    startLine: 5219
+    startLine: 6601
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -785,7 +785,7 @@ items:
   source:
     id: GetCurrentSearch
     path: ''
-    startLine: 5224
+    startLine: 6606
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -813,14 +813,14 @@ items:
   source:
     id: GetSearchResults
     path: ''
-    startLine: 5229
+    startLine: 6611
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public Dictionary<Lobby, LobbyDetails> GetSearchResults()
     return:
-      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
+      type: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
     content.vb: Public Function GetSearchResults As Dictionary(Of Lobby, LobbyDetails)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.GetSearchResults*
   modifiers.csharp:
@@ -841,7 +841,7 @@ items:
   source:
     id: IsLobbyNotificationValid
     path: ''
-    startLine: 5234
+    startLine: 6616
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -868,7 +868,7 @@ items:
   source:
     id: SubscribeToLobbyUpdates
     path: ''
-    startLine: 5239
+    startLine: 6621
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -890,7 +890,7 @@ items:
   source:
     id: UnsubscribeFromLobbyUpdates
     path: ''
-    startLine: 5267
+    startLine: 6649
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -912,7 +912,7 @@ items:
   source:
     id: SubscribeToLobbyInvites
     path: ''
-    startLine: 5275
+    startLine: 6657
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -934,7 +934,7 @@ items:
   source:
     id: UnsubscribeFromLobbyInvites
     path: ''
-    startLine: 5303
+    startLine: 6685
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -956,7 +956,7 @@ items:
   source:
     id: GetRTCRoomName
     path: ''
-    startLine: 5310
+    startLine: 6692
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -980,7 +980,7 @@ items:
   source:
     id: UnsubscribeFromRTCEvents
     path: ''
-    startLine: 5331
+    startLine: 6713
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1002,7 +1002,7 @@ items:
   source:
     id: SubscribeToRTCEvents
     path: ''
-    startLine: 5345
+    startLine: 6727
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1024,7 +1024,7 @@ items:
   source:
     id: OnRTCRoomConnectionChangedReceived
     path: ''
-    startLine: 5430
+    startLine: 6812
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1049,7 +1049,7 @@ items:
   source:
     id: OnRTCRoomParticipantStatusChanged
     path: ''
-    startLine: 5470
+    startLine: 6852
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1074,7 +1074,7 @@ items:
   source:
     id: OnRTCRoomParticipantAudioUpdateRecieved
     path: ''
-    startLine: 5523
+    startLine: 6905
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1099,7 +1099,7 @@ items:
   source:
     id: OnLoggedIn
     path: ''
-    startLine: 5577
+    startLine: 6959
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1127,7 +1127,7 @@ items:
   source:
     id: OnLoggedOut
     path: ''
-    startLine: 5589
+    startLine: 6971
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1155,7 +1155,7 @@ items:
   source:
     id: CreateLobby
     path: ''
-    startLine: 5610
+    startLine: 6992
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1190,7 +1190,7 @@ items:
   source:
     id: ModifyLobby
     path: ''
-    startLine: 5675
+    startLine: 7057
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1225,7 +1225,7 @@ items:
   source:
     id: LeaveLobby
     path: ''
-    startLine: 5806
+    startLine: 7188
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1257,7 +1257,7 @@ items:
   source:
     id: SendInvite
     path: ''
-    startLine: 5832
+    startLine: 7214
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1289,7 +1289,7 @@ items:
   source:
     id: SetMemberAttribute
     path: ''
-    startLine: 5860
+    startLine: 7242
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1321,7 +1321,7 @@ items:
   source:
     id: OnSendInviteCompleted
     path: ''
-    startLine: 5912
+    startLine: 7294
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1346,7 +1346,7 @@ items:
   source:
     id: OnCreateLobbyCompleted
     path: ''
-    startLine: 5929
+    startLine: 7311
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1371,7 +1371,7 @@ items:
   source:
     id: OnUpdateLobbyCallBack
     path: ''
-    startLine: 5965
+    startLine: 7347
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1396,7 +1396,7 @@ items:
   source:
     id: OnLobbyUpdated
     path: ''
-    startLine: 5986
+    startLine: 7368
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1423,7 +1423,7 @@ items:
   source:
     id: OnLobbyUpdateReceived
     path: ''
-    startLine: 5997
+    startLine: 7379
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1448,7 +1448,7 @@ items:
   source:
     id: DestroyCurrentLobby
     path: ''
-    startLine: 6016
+    startLine: 7398
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1480,7 +1480,7 @@ items:
   source:
     id: OnDestroyLobbyCompleted
     path: ''
-    startLine: 6054
+    startLine: 7436
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1505,7 +1505,7 @@ items:
   source:
     id: ToggleMute
     path: ''
-    startLine: 6090
+    startLine: 7472
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1540,7 +1540,7 @@ items:
   source:
     id: OnRTCRoomUpdateSendingCompleted
     path: ''
-    startLine: 6152
+    startLine: 7534
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1565,7 +1565,7 @@ items:
   source:
     id: OnRTCRoomUpdateReceivingCompleted
     path: ''
-    startLine: 6203
+    startLine: 7585
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1590,7 +1590,7 @@ items:
   source:
     id: KickMember
     path: ''
-    startLine: 6257
+    startLine: 7639
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1625,7 +1625,7 @@ items:
   source:
     id: OnKickMemberCompleted
     path: ''
-    startLine: 6284
+    startLine: 7666
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1650,7 +1650,7 @@ items:
   source:
     id: OnKickedFromLobby
     path: ''
-    startLine: 6304
+    startLine: 7686
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1675,7 +1675,7 @@ items:
   source:
     id: PromoteMember
     path: ''
-    startLine: 6320
+    startLine: 7702
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1710,7 +1710,7 @@ items:
   source:
     id: OnPromoteMemberCompleted
     path: ''
-    startLine: 6347
+    startLine: 7729
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1735,7 +1735,7 @@ items:
   source:
     id: OnMemberStatusReceived
     path: ''
-    startLine: 6368
+    startLine: 7750
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1760,7 +1760,7 @@ items:
   source:
     id: OnMemberUpdateReceived
     path: ''
-    startLine: 6412
+    startLine: 7794
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1785,7 +1785,7 @@ items:
   source:
     id: SearchByLobbyId
     path: ''
-    startLine: 6434
+    startLine: 7816
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1820,7 +1820,7 @@ items:
   source:
     id: SearchByAttribute
     path: ''
-    startLine: 6486
+    startLine: 7868
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1858,7 +1858,7 @@ items:
   source:
     id: OnLobbySearchCompleted
     path: ''
-    startLine: 6540
+    startLine: 7922
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1883,7 +1883,7 @@ items:
   source:
     id: OnLobbyJoinFailed
     path: ''
-    startLine: 6609
+    startLine: 7991
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1908,7 +1908,7 @@ items:
   source:
     id: OnLobbyInvite
     path: ''
-    startLine: 6618
+    startLine: 8000
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1935,7 +1935,7 @@ items:
   source:
     id: OnJoinLobbyAccepted
     path: ''
-    startLine: 6669
+    startLine: 8051
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1960,7 +1960,7 @@ items:
   source:
     id: OnLobbyInviteReceived
     path: ''
-    startLine: 6696
+    startLine: 8078
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1985,7 +1985,7 @@ items:
   source:
     id: OnLobbyInviteAccepted
     path: ''
-    startLine: 6725
+    startLine: 8107
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2010,7 +2010,7 @@ items:
   source:
     id: PopLobbyInvite
     path: ''
-    startLine: 6760
+    startLine: 8142
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2032,7 +2032,7 @@ items:
   source:
     id: JoinLobby
     path: ''
-    startLine: 6788
+    startLine: 8170
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2073,7 +2073,7 @@ items:
   source:
     id: OnJoinLobbyCompleted
     path: ''
-    startLine: 6831
+    startLine: 8213
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2098,7 +2098,7 @@ items:
   source:
     id: OnLeaveLobbyCompleted
     path: ''
-    startLine: 6870
+    startLine: 8252
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2123,7 +2123,7 @@ items:
   source:
     id: DeclineLobbyInvite
     path: ''
-    startLine: 6897
+    startLine: 8279
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2151,7 +2151,7 @@ items:
   source:
     id: OnDeclineInviteCompleted
     path: ''
-    startLine: 6918
+    startLine: 8300
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2176,7 +2176,7 @@ items:
   source:
     id: AcceptCurrentLobbyInvite
     path: ''
-    startLine: 6942
+    startLine: 8324
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2211,7 +2211,7 @@ items:
   source:
     id: AcceptLobbyInvite
     path: ''
-    startLine: 6965
+    startLine: 8347
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -2556,20 +2556,21 @@ references:
   name: LobbyJoinRequest
   nameWithType: LobbyJoinRequest
   fullName: PlayEveryWare.EpicOnlineServices.Samples.LobbyJoinRequest
-- uid: Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
-  commentId: '!:Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
+  commentId: T:System.Collections.Generic.Dictionary{ProductUserId,PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<ProductUserId, LobbyInvite>
   nameWithType: Dictionary<ProductUserId, LobbyInvite>
-  fullName: Dictionary<ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite>
+  fullName: System.Collections.Generic.Dictionary<ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite>
   nameWithType.vb: Dictionary(Of ProductUserId, LobbyInvite)
-  fullName.vb: Dictionary(Of ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite)
+  fullName.vb: System.Collections.Generic.Dictionary(Of ProductUserId, PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite)
   name.vb: Dictionary(Of ProductUserId, LobbyInvite)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -2590,10 +2591,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -2613,56 +2614,63 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
   commentId: T:PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite
   parent: PlayEveryWare.EpicOnlineServices.Samples
@@ -2674,20 +2682,21 @@ references:
   name: LobbySearch
   nameWithType: LobbySearch
   fullName: LobbySearch
-- uid: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
-  commentId: '!:Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
+  commentId: T:System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Lobby,LobbyDetails}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<Lobby, LobbyDetails>
   nameWithType: Dictionary<Lobby, LobbyDetails>
-  fullName: Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Lobby, LobbyDetails>
+  fullName: System.Collections.Generic.Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Lobby, LobbyDetails>
   nameWithType.vb: Dictionary(Of Lobby, LobbyDetails)
-  fullName.vb: Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Lobby, LobbyDetails)
+  fullName.vb: System.Collections.Generic.Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Lobby, LobbyDetails)
   name.vb: Dictionary(Of Lobby, LobbyDetails)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -2708,10 +2717,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '

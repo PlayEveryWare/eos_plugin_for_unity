@@ -45,7 +45,7 @@ items:
   - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryStatsForProductUserId(ProductUserId,OnQueryStatsCompleteCallback)
   - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.QueryUserInformation(EpicAccountId,EpicAccountId)
   - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.StrongThisFromClientData(System.Object)
-  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String)
+  - PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String,ProductUserId,OnUnlockAchievementsCompleteCallback)
   langs:
   - csharp
   - vb
@@ -56,7 +56,7 @@ items:
   source:
     id: EOSAchievementManager
     path: ''
-    startLine: 2923
+    startLine: 4210
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -100,7 +100,7 @@ items:
   source:
     id: downloadCache
     path: ''
-    startLine: 2925
+    startLine: 4212
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -123,14 +123,14 @@ items:
   source:
     id: achievementDefinitionCache
     path: ''
-    startLine: 2926
+    startLine: 4213
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: List<DefinitionV2> achievementDefinitionCache
     return:
-      type: List{DefinitionV2}
+      type: System.Collections.Generic.List{DefinitionV2}
     content.vb: achievementDefinitionCache As List(Of DefinitionV2)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToUserInfoData
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.productUserIdToUserInfoData
@@ -146,7 +146,7 @@ items:
   source:
     id: productUserIdToUserInfoData
     path: ''
-    startLine: 2927
+    startLine: 4214
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -169,14 +169,14 @@ items:
   source:
     id: productUserIdToPlayerAchievement
     path: ''
-    startLine: 2928
+    startLine: 4215
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: ConcurrentDictionary<ProductUserId, List<PlayerAchievement>> productUserIdToPlayerAchievement
     return:
-      type: ConcurrentDictionary{ProductUserId,List{PlayerAchievement}}
+      type: ConcurrentDictionary{ProductUserId,System.Collections.Generic.List{PlayerAchievement}}
     content.vb: productUserIdToPlayerAchievement As ConcurrentDictionary(Of ProductUserId, List(Of PlayerAchievement))
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.eosAchievementInterface
   commentId: F:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.eosAchievementInterface
@@ -192,7 +192,7 @@ items:
   source:
     id: eosAchievementInterface
     path: ''
-    startLine: 2929
+    startLine: 4216
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -215,14 +215,14 @@ items:
   source:
     id: productUserIdToStatsCache
     path: ''
-    startLine: 2931
+    startLine: 4218
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<ProductUserId, List<Stat>> productUserIdToStatsCache
     return:
-      type: Dictionary{ProductUserId,List{Stat}}
+      type: System.Collections.Generic.Dictionary{ProductUserId,System.Collections.Generic.List{Stat}}
     content.vb: productUserIdToStatsCache As Dictionary(Of ProductUserId, List(Of Stat))
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.#ctor
   commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.#ctor
@@ -238,7 +238,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 2933
+    startLine: 4220
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -264,7 +264,7 @@ items:
   source:
     id: print
     path: ''
-    startLine: 2942
+    startLine: 4229
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -293,7 +293,7 @@ items:
   source:
     id: GetEOSPlatformInterface
     path: ''
-    startLine: 2949
+    startLine: 4236
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -317,7 +317,7 @@ items:
   source:
     id: GetEOSStatsInterface
     path: ''
-    startLine: 2956
+    startLine: 4243
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -341,7 +341,7 @@ items:
   source:
     id: ProductUserIdToString
     path: ''
-    startLine: 2961
+    startLine: 4248
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -368,7 +368,7 @@ items:
   source:
     id: NewWeakThis
     path: ''
-    startLine: 2968
+    startLine: 4255
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -392,7 +392,7 @@ items:
   source:
     id: StrongThisFromClientData
     path: ''
-    startLine: 2974
+    startLine: 4261
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -419,7 +419,7 @@ items:
   source:
     id: CacheStatsForProductUserId
     path: ''
-    startLine: 2980
+    startLine: 4267
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -444,7 +444,7 @@ items:
   source:
     id: QueryStatsForProductUserId
     path: ''
-    startLine: 3017
+    startLine: 4304
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -471,7 +471,7 @@ items:
   source:
     id: GetEOSUserInfoInterface
     path: ''
-    startLine: 3047
+    startLine: 4334
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -495,7 +495,7 @@ items:
   source:
     id: OnConnectLogin
     path: ''
-    startLine: 3053
+    startLine: 4340
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -526,7 +526,7 @@ items:
   source:
     id: QueryUserInformation
     path: ''
-    startLine: 3072
+    startLine: 4359
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -557,7 +557,7 @@ items:
   source:
     id: GetEOSAchievementInterface
     path: ''
-    startLine: 3094
+    startLine: 4381
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -581,7 +581,7 @@ items:
   source:
     id: QueryAchievementDefinitions
     path: ''
-    startLine: 3105
+    startLine: 4392
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -612,7 +612,7 @@ items:
   source:
     id: MakeQueryPlayerAchievementsOptions
     path: ''
-    startLine: 3127
+    startLine: 4414
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -641,7 +641,7 @@ items:
   source:
     id: QueryPlayerAchievements
     path: ''
-    startLine: 3140
+    startLine: 4428
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -675,7 +675,7 @@ items:
   source:
     id: OnShutdown
     path: ''
-    startLine: 3167
+    startLine: 4455
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -701,7 +701,7 @@ items:
   source:
     id: GetTextureFromBytes
     path: ''
-    startLine: 3172
+    startLine: 4460
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -731,7 +731,7 @@ items:
   source:
     id: GetAchievementUnlockedIconTexture
     path: ''
-    startLine: 3185
+    startLine: 4473
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -762,7 +762,7 @@ items:
   source:
     id: GetAchievementLockedIconTexture
     path: ''
-    startLine: 3191
+    startLine: 4479
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -793,7 +793,7 @@ items:
   source:
     id: GetAchievementUnlockedIconBytes
     path: ''
-    startLine: 3198
+    startLine: 4486
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -824,7 +824,7 @@ items:
   source:
     id: GetAchievementLockedIconBytes
     path: ''
-    startLine: 3216
+    startLine: 4504
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -855,14 +855,14 @@ items:
   source:
     id: EnumeratorForCachedAchievementDefinitions
     path: ''
-    startLine: 3233
+    startLine: 4521
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public IEnumerator<DefinitionV2> EnumeratorForCachedAchievementDefinitions()
     return:
-      type: IEnumerator{DefinitionV2}
+      type: System.Collections.Generic.IEnumerator{DefinitionV2}
     content.vb: Public Function EnumeratorForCachedAchievementDefinitions As IEnumerator(Of DefinitionV2)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions*
   modifiers.csharp:
@@ -883,14 +883,14 @@ items:
   source:
     id: EnumerateCachedAchievementDefinitions
     path: ''
-    startLine: 3241
+    startLine: 4529
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public IEnumerable<DefinitionV2> EnumerateCachedAchievementDefinitions()
     return:
-      type: IEnumerable{DefinitionV2}
+      type: System.Collections.Generic.IEnumerable{DefinitionV2}
     content.vb: Public Function EnumerateCachedAchievementDefinitions As IEnumerable(Of DefinitionV2)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions*
   modifiers.csharp:
@@ -911,7 +911,7 @@ items:
   source:
     id: GetAchievementDefinitionAtIndex
     path: ''
-    startLine: 3246
+    startLine: 4534
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -942,7 +942,7 @@ items:
   source:
     id: EnumeratorForCachedPlayerAchievement
     path: ''
-    startLine: 3251
+    startLine: 4539
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -952,7 +952,7 @@ items:
     - id: productUserId
       type: ProductUserId
     return:
-      type: IEnumerator{PlayerAchievement}
+      type: System.Collections.Generic.IEnumerator{PlayerAchievement}
     content.vb: Public Function EnumeratorForCachedPlayerAchievement(productUserId As ProductUserId) As IEnumerator(Of PlayerAchievement)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement*
   modifiers.csharp:
@@ -973,7 +973,7 @@ items:
   source:
     id: EnumerateCachedPlayerAchievement
     path: ''
-    startLine: 3261
+    startLine: 4549
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -983,7 +983,7 @@ items:
     - id: productUserId
       type: ProductUserId
     return:
-      type: IEnumerable{PlayerAchievement}
+      type: System.Collections.Generic.IEnumerable{PlayerAchievement}
     content.vb: Public Function EnumerateCachedPlayerAchievement(productUserId As ProductUserId) As IEnumerable(Of PlayerAchievement)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement*
   modifiers.csharp:
@@ -1004,7 +1004,7 @@ items:
   source:
     id: GetAchievementDefinitionCount
     path: ''
-    startLine: 3266
+    startLine: 4554
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1018,30 +1018,34 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String)
-  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String)
-  id: UnlockAchievementManually(System.String)
+- uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String,ProductUserId,OnUnlockAchievementsCompleteCallback)
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String,ProductUserId,OnUnlockAchievementsCompleteCallback)
+  id: UnlockAchievementManually(System.String,ProductUserId,OnUnlockAchievementsCompleteCallback)
   parent: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager
   langs:
   - csharp
   - vb
-  name: UnlockAchievementManually(String)
-  nameWithType: EOSAchievementManager.UnlockAchievementManually(String)
-  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String)
+  name: UnlockAchievementManually(String, ProductUserId, OnUnlockAchievementsCompleteCallback)
+  nameWithType: EOSAchievementManager.UnlockAchievementManually(String, ProductUserId, OnUnlockAchievementsCompleteCallback)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually(System.String, ProductUserId, OnUnlockAchievementsCompleteCallback)
   type: Method
   source:
     id: UnlockAchievementManually
     path: ''
-    startLine: 3280
+    startLine: 4568
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
-    content: public void UnlockAchievementManually(string achievementId)
+    content: public void UnlockAchievementManually(string achievementId, ProductUserId productUserId, OnUnlockAchievementsCompleteCallback completionDelegate = null)
     parameters:
     - id: achievementId
       type: System.String
-    content.vb: Public Sub UnlockAchievementManually(achievementId As String)
+    - id: productUserId
+      type: ProductUserId
+    - id: completionDelegate
+      type: OnUnlockAchievementsCompleteCallback
+    content.vb: Public Sub UnlockAchievementManually(achievementId As String, productUserId As ProductUserId, completionDelegate As OnUnlockAchievementsCompleteCallback = Nothing)
   overload: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually*
   modifiers.csharp:
   - public
@@ -1061,7 +1065,7 @@ items:
   source:
     id: MakeCopyPlayerAchievementByIndexOptions
     path: ''
-    startLine: 3292
+    startLine: 4581
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1088,7 +1092,7 @@ items:
   source:
     id: CacheAllPlayerAchievements
     path: ''
-    startLine: 3303
+    startLine: 4593
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1113,7 +1117,7 @@ items:
   source:
     id: CacheAllAchievementDefinitions
     path: ''
-    startLine: 3333
+    startLine: 4623
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1138,7 +1142,7 @@ items:
   source:
     id: CacheAchievementDefById
     path: ''
-    startLine: 3352
+    startLine: 4642
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1163,7 +1167,7 @@ items:
   source:
     id: cacheAchievementDef
     path: ''
-    startLine: 3365
+    startLine: 4655
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1188,7 +1192,7 @@ items:
   source:
     id: DownloadIconDataFromURI
     path: ''
-    startLine: 3376
+    startLine: 4669
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -1631,20 +1635,21 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List{DefinitionV2}
-  commentId: '!:List{DefinitionV2}'
-  definition: List`1
+- uid: System.Collections.Generic.List{DefinitionV2}
+  commentId: T:System.Collections.Generic.List{DefinitionV2}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
   name: List<DefinitionV2>
   nameWithType: List<DefinitionV2>
-  fullName: List<DefinitionV2>
+  fullName: System.Collections.Generic.List<DefinitionV2>
   nameWithType.vb: List(Of DefinitionV2)
-  fullName.vb: List(Of DefinitionV2)
+  fullName.vb: System.Collections.Generic.List(Of DefinitionV2)
   name.vb: List(Of DefinitionV2)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1658,10 +1663,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1674,44 +1679,51 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: List`1
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  name: List<>
-  nameWithType: List<>
-  fullName: List<>
-  nameWithType.vb: List(Of )
-  fullName.vb: List(Of )
-  name.vb: List(Of )
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: ConcurrentDictionary{ProductUserId,UserInfoData}
   commentId: '!:ConcurrentDictionary{ProductUserId,UserInfoData}'
   definition: ConcurrentDictionary`2
@@ -1771,14 +1783,14 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: ConcurrentDictionary{ProductUserId,List{PlayerAchievement}}
-  commentId: '!:ConcurrentDictionary{ProductUserId,List{PlayerAchievement}}'
+- uid: ConcurrentDictionary{ProductUserId,System.Collections.Generic.List{PlayerAchievement}}
+  commentId: '!:ConcurrentDictionary{ProductUserId,System.Collections.Generic.List{PlayerAchievement}}'
   definition: ConcurrentDictionary`2
   name: ConcurrentDictionary<ProductUserId, List<PlayerAchievement>>
   nameWithType: ConcurrentDictionary<ProductUserId, List<PlayerAchievement>>
-  fullName: ConcurrentDictionary<ProductUserId, List<PlayerAchievement>>
+  fullName: ConcurrentDictionary<ProductUserId, System.Collections.Generic.List<PlayerAchievement>>
   nameWithType.vb: ConcurrentDictionary(Of ProductUserId, List(Of PlayerAchievement))
-  fullName.vb: ConcurrentDictionary(Of ProductUserId, List(Of PlayerAchievement))
+  fullName.vb: ConcurrentDictionary(Of ProductUserId, System.Collections.Generic.List(Of PlayerAchievement))
   name.vb: ConcurrentDictionary(Of ProductUserId, List(Of PlayerAchievement))
   spec.csharp:
   - uid: ConcurrentDictionary`2
@@ -1797,10 +1809,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1833,10 +1845,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1857,20 +1869,21 @@ references:
   name: AchievementsInterface
   nameWithType: AchievementsInterface
   fullName: AchievementsInterface
-- uid: Dictionary{ProductUserId,List{Stat}}
-  commentId: '!:Dictionary{ProductUserId,List{Stat}}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{ProductUserId,System.Collections.Generic.List{Stat}}
+  commentId: T:System.Collections.Generic.Dictionary{ProductUserId,System.Collections.Generic.List{Stat}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<ProductUserId, List<Stat>>
   nameWithType: Dictionary<ProductUserId, List<Stat>>
-  fullName: Dictionary<ProductUserId, List<Stat>>
+  fullName: System.Collections.Generic.Dictionary<ProductUserId, System.Collections.Generic.List<Stat>>
   nameWithType.vb: Dictionary(Of ProductUserId, List(Of Stat))
-  fullName.vb: Dictionary(Of ProductUserId, List(Of Stat))
+  fullName.vb: System.Collections.Generic.Dictionary(Of ProductUserId, System.Collections.Generic.List(Of Stat))
   name.vb: Dictionary(Of ProductUserId, List(Of Stat))
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -1883,10 +1896,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: <
     nameWithType: <
@@ -1903,10 +1916,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1919,10 +1932,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: List`1
+  - uid: System.Collections.Generic.List`1
     name: List
     nameWithType: List
-    fullName: List
+    fullName: System.Collections.Generic.List
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1938,53 +1951,54 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )
@@ -2252,20 +2266,21 @@ references:
   name: EnumeratorForCachedAchievementDefinitions
   nameWithType: EOSAchievementManager.EnumeratorForCachedAchievementDefinitions
   fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedAchievementDefinitions
-- uid: IEnumerator{DefinitionV2}
-  commentId: '!:IEnumerator{DefinitionV2}'
-  definition: IEnumerator`1
+- uid: System.Collections.Generic.IEnumerator{DefinitionV2}
+  commentId: T:System.Collections.Generic.IEnumerator{DefinitionV2}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
   name: IEnumerator<DefinitionV2>
   nameWithType: IEnumerator<DefinitionV2>
-  fullName: IEnumerator<DefinitionV2>
+  fullName: System.Collections.Generic.IEnumerator<DefinitionV2>
   nameWithType.vb: IEnumerator(Of DefinitionV2)
-  fullName.vb: IEnumerator(Of DefinitionV2)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of DefinitionV2)
   name.vb: IEnumerator(Of DefinitionV2)
   spec.csharp:
-  - uid: IEnumerator`1
+  - uid: System.Collections.Generic.IEnumerator`1
     name: IEnumerator
     nameWithType: IEnumerator
-    fullName: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
     isExternal: true
   - name: <
     nameWithType: <
@@ -2279,10 +2294,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: IEnumerator`1
+  - uid: System.Collections.Generic.IEnumerator`1
     name: IEnumerator
     nameWithType: IEnumerator
-    fullName: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -2295,41 +2310,42 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: IEnumerator`1
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
   isExternal: true
-  name: IEnumerator<>
-  nameWithType: IEnumerator<>
-  fullName: IEnumerator<>
-  nameWithType.vb: IEnumerator(Of )
-  fullName.vb: IEnumerator(Of )
-  name.vb: IEnumerator(Of )
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
   spec.csharp:
-  - uid: IEnumerator`1
+  - uid: System.Collections.Generic.IEnumerator`1
     name: IEnumerator
     nameWithType: IEnumerator
-    fullName: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: IEnumerator`1
+  - uid: System.Collections.Generic.IEnumerator`1
     name: IEnumerator
     nameWithType: IEnumerator
-    fullName: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
@@ -2338,20 +2354,21 @@ references:
   name: EnumerateCachedAchievementDefinitions
   nameWithType: EOSAchievementManager.EnumerateCachedAchievementDefinitions
   fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedAchievementDefinitions
-- uid: IEnumerable{DefinitionV2}
-  commentId: '!:IEnumerable{DefinitionV2}'
-  definition: IEnumerable`1
+- uid: System.Collections.Generic.IEnumerable{DefinitionV2}
+  commentId: T:System.Collections.Generic.IEnumerable{DefinitionV2}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
   name: IEnumerable<DefinitionV2>
   nameWithType: IEnumerable<DefinitionV2>
-  fullName: IEnumerable<DefinitionV2>
+  fullName: System.Collections.Generic.IEnumerable<DefinitionV2>
   nameWithType.vb: IEnumerable(Of DefinitionV2)
-  fullName.vb: IEnumerable(Of DefinitionV2)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of DefinitionV2)
   name.vb: IEnumerable(Of DefinitionV2)
   spec.csharp:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
     nameWithType: <
@@ -2365,10 +2382,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -2381,41 +2398,42 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: IEnumerable`1
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
   isExternal: true
-  name: IEnumerable<>
-  nameWithType: IEnumerable<>
-  fullName: IEnumerable<>
-  nameWithType.vb: IEnumerable(Of )
-  fullName.vb: IEnumerable(Of )
-  name.vb: IEnumerable(Of )
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
   spec.csharp:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
@@ -2441,20 +2459,21 @@ references:
   name: EnumeratorForCachedPlayerAchievement
   nameWithType: EOSAchievementManager.EnumeratorForCachedPlayerAchievement
   fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumeratorForCachedPlayerAchievement
-- uid: IEnumerator{PlayerAchievement}
-  commentId: '!:IEnumerator{PlayerAchievement}'
-  definition: IEnumerator`1
+- uid: System.Collections.Generic.IEnumerator{PlayerAchievement}
+  commentId: T:System.Collections.Generic.IEnumerator{PlayerAchievement}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
   name: IEnumerator<PlayerAchievement>
   nameWithType: IEnumerator<PlayerAchievement>
-  fullName: IEnumerator<PlayerAchievement>
+  fullName: System.Collections.Generic.IEnumerator<PlayerAchievement>
   nameWithType.vb: IEnumerator(Of PlayerAchievement)
-  fullName.vb: IEnumerator(Of PlayerAchievement)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of PlayerAchievement)
   name.vb: IEnumerator(Of PlayerAchievement)
   spec.csharp:
-  - uid: IEnumerator`1
+  - uid: System.Collections.Generic.IEnumerator`1
     name: IEnumerator
     nameWithType: IEnumerator
-    fullName: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
     isExternal: true
   - name: <
     nameWithType: <
@@ -2468,10 +2487,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: IEnumerator`1
+  - uid: System.Collections.Generic.IEnumerator`1
     name: IEnumerator
     nameWithType: IEnumerator
-    fullName: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -2489,20 +2508,21 @@ references:
   name: EnumerateCachedPlayerAchievement
   nameWithType: EOSAchievementManager.EnumerateCachedPlayerAchievement
   fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.EnumerateCachedPlayerAchievement
-- uid: IEnumerable{PlayerAchievement}
-  commentId: '!:IEnumerable{PlayerAchievement}'
-  definition: IEnumerable`1
+- uid: System.Collections.Generic.IEnumerable{PlayerAchievement}
+  commentId: T:System.Collections.Generic.IEnumerable{PlayerAchievement}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
   name: IEnumerable<PlayerAchievement>
   nameWithType: IEnumerable<PlayerAchievement>
-  fullName: IEnumerable<PlayerAchievement>
+  fullName: System.Collections.Generic.IEnumerable<PlayerAchievement>
   nameWithType.vb: IEnumerable(Of PlayerAchievement)
-  fullName.vb: IEnumerable(Of PlayerAchievement)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of PlayerAchievement)
   name.vb: IEnumerable(Of PlayerAchievement)
   spec.csharp:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
     nameWithType: <
@@ -2516,10 +2536,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: IEnumerable`1
+  - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     nameWithType: IEnumerable
-    fullName: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -2549,6 +2569,12 @@ references:
   name: UnlockAchievementManually
   nameWithType: EOSAchievementManager.UnlockAchievementManually
   fullName: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.UnlockAchievementManually
+- uid: OnUnlockAchievementsCompleteCallback
+  commentId: '!:OnUnlockAchievementsCompleteCallback'
+  isExternal: true
+  name: OnUnlockAchievementsCompleteCallback
+  nameWithType: OnUnlockAchievementsCompleteCallback
+  fullName: OnUnlockAchievementsCompleteCallback
 - uid: PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.MakeCopyPlayerAchievementByIndexOptions
   name: MakeCopyPlayerAchievementByIndexOptions

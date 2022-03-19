@@ -1,0 +1,47 @@
+### YamlMime:ManagedReference
+items:
+- uid: Playeveryware.Editor
+  commentId: N:Playeveryware.Editor
+  id: Playeveryware.Editor
+  children:
+  - Playeveryware.Editor.FileInfoMatchingResult
+  - Playeveryware.Editor.FileUtils
+  - Playeveryware.Editor.PackageDescription
+  - Playeveryware.Editor.SrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: Playeveryware.Editor
+  nameWithType: Playeveryware.Editor
+  fullName: Playeveryware.Editor
+  type: Namespace
+  assemblies:
+  - cs.temp.dll
+references:
+- uid: Playeveryware.Editor.FileUtils
+  commentId: T:Playeveryware.Editor.FileUtils
+  name: FileUtils
+  nameWithType: FileUtils
+  fullName: Playeveryware.Editor.FileUtils
+- uid: Playeveryware.Editor.SrcDestPair
+  commentId: T:Playeveryware.Editor.SrcDestPair
+  parent: Playeveryware.Editor
+  name: SrcDestPair
+  nameWithType: SrcDestPair
+  fullName: Playeveryware.Editor.SrcDestPair
+- uid: Playeveryware.Editor.FileInfoMatchingResult
+  commentId: T:Playeveryware.Editor.FileInfoMatchingResult
+  name: FileInfoMatchingResult
+  nameWithType: FileInfoMatchingResult
+  fullName: Playeveryware.Editor.FileInfoMatchingResult
+- uid: Playeveryware.Editor.PackageDescription
+  commentId: T:Playeveryware.Editor.PackageDescription
+  parent: Playeveryware.Editor
+  name: PackageDescription
+  nameWithType: PackageDescription
+  fullName: Playeveryware.Editor.PackageDescription
+- uid: Playeveryware.Editor
+  commentId: N:Playeveryware.Editor
+  name: Playeveryware.Editor
+  nameWithType: Playeveryware.Editor
+  fullName: Playeveryware.Editor

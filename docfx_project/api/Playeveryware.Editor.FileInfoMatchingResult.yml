@@ -1,0 +1,447 @@
+### YamlMime:ManagedReference
+items:
+- uid: Playeveryware.Editor.FileInfoMatchingResult
+  commentId: T:Playeveryware.Editor.FileInfoMatchingResult
+  id: FileInfoMatchingResult
+  parent: Playeveryware.Editor
+  children:
+  - Playeveryware.Editor.FileInfoMatchingResult.fileInfo
+  - Playeveryware.Editor.FileInfoMatchingResult.GetDestination
+  - Playeveryware.Editor.FileInfoMatchingResult.originalSrcDestPair
+  langs:
+  - csharp
+  - vb
+  name: FileInfoMatchingResult
+  nameWithType: FileInfoMatchingResult
+  fullName: Playeveryware.Editor.FileInfoMatchingResult
+  type: Class
+  source:
+    id: FileInfoMatchingResult
+    path: ''
+    startLine: 3880
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public class FileInfoMatchingResult
+    content.vb: Public Class FileInfoMatchingResult
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: Playeveryware.Editor.FileInfoMatchingResult.originalSrcDestPair
+  commentId: F:Playeveryware.Editor.FileInfoMatchingResult.originalSrcDestPair
+  id: originalSrcDestPair
+  parent: Playeveryware.Editor.FileInfoMatchingResult
+  langs:
+  - csharp
+  - vb
+  name: originalSrcDestPair
+  nameWithType: FileInfoMatchingResult.originalSrcDestPair
+  fullName: Playeveryware.Editor.FileInfoMatchingResult.originalSrcDestPair
+  type: Field
+  source:
+    id: originalSrcDestPair
+    path: ''
+    startLine: 3882
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public SrcDestPair originalSrcDestPair
+    return:
+      type: Playeveryware.Editor.SrcDestPair
+    content.vb: Public originalSrcDestPair As SrcDestPair
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.FileInfoMatchingResult.fileInfo
+  commentId: F:Playeveryware.Editor.FileInfoMatchingResult.fileInfo
+  id: fileInfo
+  parent: Playeveryware.Editor.FileInfoMatchingResult
+  langs:
+  - csharp
+  - vb
+  name: fileInfo
+  nameWithType: FileInfoMatchingResult.fileInfo
+  fullName: Playeveryware.Editor.FileInfoMatchingResult.fileInfo
+  type: Field
+  source:
+    id: fileInfo
+    path: ''
+    startLine: 3883
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public FileInfo fileInfo
+    return:
+      type: FileInfo
+    content.vb: Public fileInfo As FileInfo
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: Playeveryware.Editor.FileInfoMatchingResult.GetDestination
+  commentId: M:Playeveryware.Editor.FileInfoMatchingResult.GetDestination
+  id: GetDestination
+  parent: Playeveryware.Editor.FileInfoMatchingResult
+  langs:
+  - csharp
+  - vb
+  name: GetDestination()
+  nameWithType: FileInfoMatchingResult.GetDestination()
+  fullName: Playeveryware.Editor.FileInfoMatchingResult.GetDestination()
+  type: Method
+  source:
+    id: GetDestination
+    path: ''
+    startLine: 3884
+  assemblies:
+  - cs.temp.dll
+  namespace: Playeveryware.Editor
+  syntax:
+    content: public string GetDestination()
+    return:
+      type: System.String
+    content.vb: Public Function GetDestination As String
+  overload: Playeveryware.Editor.FileInfoMatchingResult.GetDestination*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: Playeveryware.Editor
+  commentId: N:Playeveryware.Editor
+  name: Playeveryware.Editor
+  nameWithType: Playeveryware.Editor
+  fullName: Playeveryware.Editor
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Playeveryware.Editor.SrcDestPair
+  commentId: T:Playeveryware.Editor.SrcDestPair
+  parent: Playeveryware.Editor
+  name: SrcDestPair
+  nameWithType: SrcDestPair
+  fullName: Playeveryware.Editor.SrcDestPair
+- uid: FileInfo
+  commentId: '!:FileInfo'
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: FileInfo
+- uid: Playeveryware.Editor.FileInfoMatchingResult.GetDestination*
+  commentId: Overload:Playeveryware.Editor.FileInfoMatchingResult.GetDestination
+  name: GetDestination
+  nameWithType: FileInfoMatchingResult.GetDestination
+  fullName: Playeveryware.Editor.FileInfoMatchingResult.GetDestination
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

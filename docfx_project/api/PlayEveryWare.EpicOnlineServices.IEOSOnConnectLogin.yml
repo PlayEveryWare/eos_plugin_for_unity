@@ -16,7 +16,7 @@ items:
   source:
     id: IEOSOnConnectLogin
     path: ''
-    startLine: 1920
+    startLine: 2426
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices
@@ -45,7 +45,7 @@ items:
   source:
     id: OnConnectLogin
     path: ''
-    startLine: 1922
+    startLine: 2428
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices

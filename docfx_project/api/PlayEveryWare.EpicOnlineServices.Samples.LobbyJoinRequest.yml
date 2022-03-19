@@ -19,7 +19,7 @@ items:
   source:
     id: LobbyJoinRequest
     path: ''
-    startLine: 5124
+    startLine: 6506
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -58,7 +58,7 @@ items:
   source:
     id: Id
     path: ''
-    startLine: 5126
+    startLine: 6508
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -81,7 +81,7 @@ items:
   source:
     id: LobbyInfo
     path: ''
-    startLine: 5127
+    startLine: 6509
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -104,7 +104,7 @@ items:
   source:
     id: IsValid
     path: ''
-    startLine: 5129
+    startLine: 6511
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -132,7 +132,7 @@ items:
   source:
     id: Clear
     path: ''
-    startLine: 5134
+    startLine: 6516
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples

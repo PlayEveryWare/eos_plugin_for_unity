@@ -9,7 +9,7 @@ items:
   - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.GetResults
   - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.GetSearchHandle
   - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.GetSessionHandleById(System.String)
-  - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails})
+  - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails})
   - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.Release
   - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.SearchHandle
   - PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.SearchResults
@@ -24,7 +24,7 @@ items:
   source:
     id: SessionSearch
     path: ''
-    startLine: 8072
+    startLine: 9653
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -63,7 +63,7 @@ items:
   source:
     id: SearchHandle
     path: ''
-    startLine: 8074
+    startLine: 9655
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -90,14 +90,14 @@ items:
   source:
     id: SearchResults
     path: ''
-    startLine: 8075
+    startLine: 9656
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: Dictionary<Session, SessionDetails> SearchResults
     return:
-      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+      type: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
     content.vb: SearchResults As Dictionary(Of Session, SessionDetails)
 - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.#ctor
   commentId: M:PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.#ctor
@@ -113,7 +113,7 @@ items:
   source:
     id: .ctor
     path: ''
-    startLine: 8077
+    startLine: 9658
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -139,7 +139,7 @@ items:
   source:
     id: Release
     path: ''
-    startLine: 8082
+    startLine: 9663
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -165,7 +165,7 @@ items:
   source:
     id: SetNewSearch
     path: ''
-    startLine: 8093
+    startLine: 9674
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -194,7 +194,7 @@ items:
   source:
     id: GetSearchHandle
     path: ''
-    startLine: 8099
+    startLine: 9680
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -222,14 +222,14 @@ items:
   source:
     id: GetResults
     path: ''
-    startLine: 8104
+    startLine: 9685
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
   syntax:
     content: public Dictionary<Session, SessionDetails> GetResults()
     return:
-      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+      type: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
     content.vb: Public Function GetResults As Dictionary(Of Session, SessionDetails)
   overload: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.GetResults*
   modifiers.csharp:
@@ -250,7 +250,7 @@ items:
   source:
     id: GetSessionHandleById
     path: ''
-    startLine: 8109
+    startLine: 9690
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -267,21 +267,21 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails})
-  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails})
-  id: OnSearchResultReceived(Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails})
+- uid: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails})
+  commentId: M:PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails})
+  id: OnSearchResultReceived(System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails})
   parent: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch
   langs:
   - csharp
   - vb
   name: OnSearchResultReceived(Dictionary<Session, SessionDetails>)
   nameWithType: SessionSearch.OnSearchResultReceived(Dictionary<Session, SessionDetails>)
-  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails>)
+  fullName: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(System.Collections.Generic.Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails>)
   type: Method
   source:
     id: OnSearchResultReceived
     path: ''
-    startLine: 8122
+    startLine: 9703
   assemblies:
   - cs.temp.dll
   namespace: PlayEveryWare.EpicOnlineServices.Samples
@@ -289,7 +289,7 @@ items:
     content: public void OnSearchResultReceived(Dictionary<Session, SessionDetails> results)
     parameters:
     - id: results
-      type: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+      type: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
     content.vb: Public Sub OnSearchResultReceived(results As Dictionary(Of Session, SessionDetails))
   overload: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived*
   nameWithType.vb: SessionSearch.OnSearchResultReceived(Dictionary(Of Session, SessionDetails))
@@ -297,7 +297,7 @@ items:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails))
+  fullName.vb: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.OnSearchResultReceived(System.Collections.Generic.Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails))
   name.vb: OnSearchResultReceived(Dictionary(Of Session, SessionDetails))
 references:
 - uid: PlayEveryWare.EpicOnlineServices.Samples
@@ -602,20 +602,21 @@ references:
   name: Epic.OnlineServices.Sessions.SessionSearch
   nameWithType: Epic.OnlineServices.Sessions.SessionSearch
   fullName: Epic.OnlineServices.Sessions.SessionSearch
-- uid: Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
-  commentId: '!:Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}'
-  definition: Dictionary`2
+- uid: System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+  commentId: T:System.Collections.Generic.Dictionary{PlayEveryWare.EpicOnlineServices.Samples.Session,SessionDetails}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
   name: Dictionary<Session, SessionDetails>
   nameWithType: Dictionary<Session, SessionDetails>
-  fullName: Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails>
+  fullName: System.Collections.Generic.Dictionary<PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails>
   nameWithType.vb: Dictionary(Of Session, SessionDetails)
-  fullName.vb: Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails)
+  fullName.vb: System.Collections.Generic.Dictionary(Of PlayEveryWare.EpicOnlineServices.Samples.Session, SessionDetails)
   name.vb: Dictionary(Of Session, SessionDetails)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -636,10 +637,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -659,56 +660,63 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Dictionary`2
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  name: Dictionary<, >
-  nameWithType: Dictionary<, >
-  fullName: Dictionary<, >
-  nameWithType.vb: Dictionary(Of , )
-  fullName.vb: Dictionary(Of , )
-  name.vb: Dictionary(Of , )
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: <
     nameWithType: <
     fullName: <
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: Dictionary`2
+  - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     nameWithType: Dictionary
-    fullName: Dictionary
+    fullName: System.Collections.Generic.Dictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - name: ''
-    nameWithType: ''
-    fullName: ''
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.#ctor*
   commentId: Overload:PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.#ctor
   name: SessionSearch
