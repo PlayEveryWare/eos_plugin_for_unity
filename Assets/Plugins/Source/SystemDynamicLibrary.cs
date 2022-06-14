@@ -164,7 +164,7 @@ public partial class SystemDynamicLibrary
     }
 
     //-------------------------------------------------------------------------
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_STANDALONE_OSX
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
     public bool UnloadLibrary(IntPtr libraryHandle)
     {
 #if EOS_DISABLE
