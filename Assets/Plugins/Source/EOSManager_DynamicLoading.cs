@@ -22,7 +22,8 @@
 
 //#define USE_MANUAL_METHOD_LOADING
 
-#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+// TODO: confirm that the overlay doesn't work on macOS
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR && !UNITY_IOS && !UNITY_STANDALONE_OSX
 #define USE_EOS_GFX_PLUGIN_NATIVE_RENDER
 #endif
 
