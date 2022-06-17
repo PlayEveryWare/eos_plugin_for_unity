@@ -31,9 +31,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class EOSTransferInProgress
     {
         public bool Download = true;
-        public uint TotalSize = 0;
+        private uint transferSize = 0;
         public uint CurrentIndex = 0;
         public List<char> Data = new List<char>();
+
+        public uint TotalSize
+        {
+            get
+            {
+                return transferSize;
+            }
+            set
+            {
+                //reserve list size to avoid reallocation during download
+                transferSize = value;
+                if (transferSize > Data.Count)
+                {
+                    Data.Capacity = (int)transferSize;
+                }
+            }
+        }
 
         public bool Done()
         {
