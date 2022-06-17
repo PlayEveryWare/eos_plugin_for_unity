@@ -351,20 +351,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
 
-                if (isLastChunk)//transfer.TotalSize - transfer.CurrentIndex >= numBytes)
+                if (transfer.Data.Count + data.Length <= transfer.TotalSize)
                 {
                     //byte[] byteArray = ObjectToByteArray(data);
                     char[] charArray = System.Text.Encoding.UTF8.GetChars(data); //transfer.Data.ToArray();
 
                     transfer.Data.AddRange(charArray);
 
-                    transfer.CurrentIndex = transfer.TotalSize; // Done
+                    transfer.CurrentIndex += (uint)(data.Length);
 
                     return ReadResult.ContinueReading;
                 }
                 else
                 {
-                    Debug.LogError("[EOS SDK] Player data storage: could not receive data: too much of it.");
+                    Debug.LogError("[EOS SDK] Player data storage: could not receive data: more than expected.");
                     return ReadResult.FailRequest;
                 }
             }
@@ -393,7 +393,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (bytesToWrite > 0)
                 {
-                    char[] charArray = transfer.Data.ToArray();
+                    char[] charArray = transfer.Data.GetRange((int)(transfer.CurrentIndex), (int)bytesToWrite).ToArray();
                     data = System.Text.Encoding.UTF8.GetBytes(charArray);
                 }
 
