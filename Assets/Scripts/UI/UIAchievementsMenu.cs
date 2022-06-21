@@ -51,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Store UI")]
         public Button getAchievementsButton;
         public Toggle showDefinitionToggle;
+        public Button unlockAchievementButton;
         public Text definitionsDescription;
         public ScrollRect scrollRect;
         public Transform spawnPoint;
@@ -102,6 +103,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             getAchievementsButton.gameObject.SetActive(false);
             showDefinitionToggle.gameObject.SetActive(false);
+            unlockAchievementButton.gameObject.SetActive(false);
             definitionsDescription.gameObject.SetActive(false);
             scrollRect.gameObject.SetActive(false);
             achievementUnlockedIcon.gameObject.SetActive(false);
@@ -119,12 +121,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Stats = new IngestData[] { new IngestData() { StatName = "login_count", IngestAmount = 1 } }
             };
 
-            statsInterface.IngestStat(ingestOptions, null, OnIngestStatCompleteCallback);
+            statsInterface.IngestStat(ingestOptions, null, (IngestStatCompleteCallbackInfo info) =>
+            {
+                Debug.LogFormat("Stat ingest result: {0}", info.ResultCode.ToString());
+            });
         }
 
-        void OnIngestStatCompleteCallback(IngestStatCompleteCallbackInfo data)
+        //manually unlock achievement being displayed
+        //TODO: refresh achievement data without having to log out
+        public void UnlockAchievement()
         {
-            Debug.LogFormat("Stat ingest result: {0}", data.ResultCode.ToString());
+            if (displayIndex < 0 || displayIndex > achievementManager.GetAchievementDefinitionCount())
+            {
+                return;
+            }
+
+            var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
+
+            achievementManager.UnlockAchievementManually(definition.AchievementId, EOSManager.Instance.GetProductUserId(), (OnUnlockAchievementsCompleteCallbackInfo info) =>
+            {
+                Debug.LogFormat("Achivement unlock result: {0}", info.ResultCode.ToString());
+            });
         }
 
         // Achievements
@@ -184,6 +201,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var definition = achievementManager.GetAchievementDefinitionAtIndex(i);
             achievementUnlockedIcon.texture = achievementManager.GetAchievementUnlockedIconTexture(definition.AchievementId);
             achievementLockedIcon.texture = achievementManager.GetAchievementLockedIconTexture(definition.AchievementId);
+
+            unlockAchievementButton.gameObject.SetActive(true);
 
             if (displayDefinition)
             {
