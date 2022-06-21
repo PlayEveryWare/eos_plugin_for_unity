@@ -44,7 +44,7 @@ public class DLLHandle : SafeHandle
     }
 
     //-------------------------------------------------------------------------
-    private static string GetPackageName()
+    public static string GetPackageName()
     {
         return "com.playeveryware.eos";
     }

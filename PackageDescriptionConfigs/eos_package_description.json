@@ -11,8 +11,6 @@
         {"src":"EOSUnityPlugin_package_template/README.md.meta", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/Editor.meta", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/Runtime.meta", "dest" : ""},
-
-        {"src":"docs/android/*.md", "dest" : "Documentation~/android/"},
         {"src":"docs/class_description.md", "dest" : "Documentation~/"},
         {"src":"docs/standards.md", "dest" : "Documentation~/"},
         {"src":"docs/configuring_the_eos_plugin.md", "dest" : "Documentation~/"},
@@ -62,6 +60,9 @@
 
         {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
+
+        {"src":"Assets/link.xml", "dest": "Editor/"},
+        {"src":"Assets/link.xml.meta", "dest": "Editor/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK.meta", "dest": "Runtime/"},
 
