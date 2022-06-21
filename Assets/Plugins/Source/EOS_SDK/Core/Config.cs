@@ -88,6 +88,7 @@ namespace Epic.OnlineServices
 
 		#elif EOS_DISABLE
 			#warning Disabling EOS
+            "EOSSDK-Disabled"
 
 		#else
 			#error Unable to determine the name of the EOSSDK library. Ensure you have set the correct EOS compilation symbol for the current platform, such as EOS_PLATFORM_WINDOWS_32 or EOS_PLATFORM_WINDOWS_64, so that the correct EOSSDK library can be targeted.
