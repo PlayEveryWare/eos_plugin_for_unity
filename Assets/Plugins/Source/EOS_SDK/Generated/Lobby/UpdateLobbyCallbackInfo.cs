@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Output parameters for the <see cref="LobbyInterface.UpdateLobby" /> function.
 	/// </summary>
-	public class UpdateLobbyCallbackInfo : ICallbackInfo, ISettable
+	public struct UpdateLobbyCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="LobbyInterface.UpdateLobby" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The ID of the lobby
 		/// </summary>
-		public string LobbyId { get; private set; }
+		public Utf8String LobbyId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(UpdateLobbyCallbackInfoInternal? other)
+		internal void Set(ref UpdateLobbyCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LobbyId = other.Value.LobbyId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UpdateLobbyCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LobbyId = other.LobbyId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UpdateLobbyCallbackInfoInternal : ICallbackInfoInternal
+	internal struct UpdateLobbyCallbackInfoInternal : ICallbackInfoInternal, IGettable<UpdateLobbyCallbackInfo>, ISettable<UpdateLobbyCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -57,6 +49,11 @@ namespace Epic.OnlineServices.Lobby
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -64,8 +61,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -77,14 +79,48 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LobbyId, out value);
+				Utf8String value;
+				Helper.Get(m_LobbyId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_LobbyId);
+			}
+		}
+
+		public void Set(ref UpdateLobbyCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LobbyId = other.LobbyId;
+		}
+
+		public void Set(ref UpdateLobbyCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LobbyId = other.Value.LobbyId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LobbyId);
+		}
+
+		public void Get(out UpdateLobbyCallbackInfo output)
+		{
+			output = new UpdateLobbyCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

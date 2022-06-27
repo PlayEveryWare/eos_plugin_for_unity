@@ -8,8 +8,8 @@ namespace Epic.OnlineServices.Stats
 	/// <seealso cref="StatsInterface.Release" />
 	/// </summary>
 	/// <param name="data">A <see cref="OnQueryStatsCompleteCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnQueryStatsCompleteCallback(OnQueryStatsCompleteCallbackInfo data);
+	public delegate void OnQueryStatsCompleteCallback(ref OnQueryStatsCompleteCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryStatsCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryStatsCompleteCallbackInternal(ref OnQueryStatsCompleteCallbackInfoInternal data);
 }

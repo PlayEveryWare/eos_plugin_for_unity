@@ -1,1 +1,17 @@
-{"productName":"EOS SDK Unity Plugin","productVersion":"0.1","productID":"f7102b835ed14b5fb6b3a05d87b3d101","sandboxID":"ab139ee5b644412781cf99f48b993b45","deploymentID":"c529498f660a4a3d8a123fd04552cb47","clientSecret":"aXPlP1xDH0PXnp5U+i+M5pYHhaE1a8viV0l1GO422ms","clientID":"xyza7891wPzGRvRf4SkjlIF8YuqlRLbQ","encryptionKey":"1111111111111111111111111111111111111111111111111111111111111111"}
+{
+    "productName": "EOS Plugin for Unity: FG",
+    "productVersion": "1.0",
+    "productID": "f7102b835ed14b5fb6b3a05d87b3d101",
+    "sandboxID": "ab139ee5b644412781cf99f48b993b45",
+    "deploymentID": "c529498f660a4a3d8a123fd04552cb47",
+    "clientSecret": "aXPlP1xDH0PXnp5U+i+M5pYHhaE1a8viV0l1GO422ms",
+    "clientID": "xyza7891wPzGRvRf4SkjlIF8YuqlRLbQ",
+    "encryptionKey": "1111111111111111111111111111111111111111111111111111111111111111",
+    "platformOptionsFlags": [
+        ""
+    ],
+    "alwaysSendInputToOverlay": true,
+    "initialButtonDelayForOverlay": "",
+    "repeatButtonDelayForOverlay": "",
+    "hackForceSendInputDirectlyToSDK": false
+}

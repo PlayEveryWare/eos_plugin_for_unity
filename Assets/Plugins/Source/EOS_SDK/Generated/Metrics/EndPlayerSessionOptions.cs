@@ -6,13 +6,13 @@ namespace Epic.OnlineServices.Metrics
 	/// <summary>
 	/// EndPlayerSession.
 	/// </summary>
-	public class EndPlayerSessionOptions
+	public struct EndPlayerSessionOptions
 	{
 		public EndPlayerSessionOptionsAccountId AccountId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct EndPlayerSessionOptionsInternal : ISettable, System.IDisposable
+	internal struct EndPlayerSessionOptionsInternal : ISettable<EndPlayerSessionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private EndPlayerSessionOptionsAccountIdInternal m_AccountId;
@@ -21,27 +21,28 @@ namespace Epic.OnlineServices.Metrics
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AccountId, value);
+				Helper.Set(ref value, ref m_AccountId);
 			}
 		}
 
-		public void Set(EndPlayerSessionOptions other)
+		public void Set(ref EndPlayerSessionOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = MetricsInterface.EndplayersessionApiLatest;
+			AccountId = other.AccountId;
+		}
+
+		public void Set(ref EndPlayerSessionOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = MetricsInterface.EndplayersessionApiLatest;
-				AccountId = other.AccountId;
+				AccountId = other.Value.AccountId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as EndPlayerSessionOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AccountId);
+			Helper.Dispose(ref m_AccountId);
 		}
 	}
 }

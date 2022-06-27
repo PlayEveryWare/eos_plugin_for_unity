@@ -57,20 +57,21 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="copyFileMetadataOptions">Object containing properties related to which user is requesting metadata, and at what index</param>
 		/// <param name="outMetadata">A copy of the FileMetadata structure will be set if successful. This data must be released by calling <see cref="Release" />.</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> if the requested metadata is currently cached, otherwise an error result explaining what went wrong
+		/// <see cref="Result.Success" /> if the requested metadata is currently cached, otherwise an error result explaining what went wrong
 		/// </returns>
-		public Result CopyFileMetadataAtIndex(CopyFileMetadataAtIndexOptions copyFileMetadataOptions, out FileMetadata outMetadata)
+		public Result CopyFileMetadataAtIndex(ref CopyFileMetadataAtIndexOptions copyFileMetadataOptions, out FileMetadata? outMetadata)
 		{
-			var copyFileMetadataOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyFileMetadataAtIndexOptionsInternal, CopyFileMetadataAtIndexOptions>(ref copyFileMetadataOptionsAddress, copyFileMetadataOptions);
+			CopyFileMetadataAtIndexOptionsInternal copyFileMetadataOptionsInternal = new CopyFileMetadataAtIndexOptionsInternal();
+			copyFileMetadataOptionsInternal.Set(ref copyFileMetadataOptions);
 
 			var outMetadataAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_PlayerDataStorage_CopyFileMetadataAtIndex(InnerHandle, copyFileMetadataOptionsAddress, ref outMetadataAddress);
+			var funcResult = Bindings.EOS_PlayerDataStorage_CopyFileMetadataAtIndex(InnerHandle, ref copyFileMetadataOptionsInternal, ref outMetadataAddress);
 
-			Helper.TryMarshalDispose(ref copyFileMetadataOptionsAddress);
+			Helper.Dispose(ref copyFileMetadataOptionsInternal);
 
-			if (Helper.TryMarshalGet<FileMetadataInternal, FileMetadata>(outMetadataAddress, out outMetadata))
+			Helper.Get<FileMetadataInternal, FileMetadata>(outMetadataAddress, out outMetadata);
+			if (outMetadata != null)
 			{
 				Bindings.EOS_PlayerDataStorage_FileMetadata_Release(outMetadataAddress);
 			}
@@ -85,20 +86,21 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="copyFileMetadataOptions">Object containing properties related to which user is requesting metadata, and for which filename</param>
 		/// <param name="outMetadata">A copy of the FileMetadata structure will be set if successful. This data must be released by calling <see cref="Release" />.</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> if the metadata is currently cached, otherwise an error result explaining what went wrong
+		/// <see cref="Result.Success" /> if the metadata is currently cached, otherwise an error result explaining what went wrong
 		/// </returns>
-		public Result CopyFileMetadataByFilename(CopyFileMetadataByFilenameOptions copyFileMetadataOptions, out FileMetadata outMetadata)
+		public Result CopyFileMetadataByFilename(ref CopyFileMetadataByFilenameOptions copyFileMetadataOptions, out FileMetadata? outMetadata)
 		{
-			var copyFileMetadataOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyFileMetadataByFilenameOptionsInternal, CopyFileMetadataByFilenameOptions>(ref copyFileMetadataOptionsAddress, copyFileMetadataOptions);
+			CopyFileMetadataByFilenameOptionsInternal copyFileMetadataOptionsInternal = new CopyFileMetadataByFilenameOptionsInternal();
+			copyFileMetadataOptionsInternal.Set(ref copyFileMetadataOptions);
 
 			var outMetadataAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_PlayerDataStorage_CopyFileMetadataByFilename(InnerHandle, copyFileMetadataOptionsAddress, ref outMetadataAddress);
+			var funcResult = Bindings.EOS_PlayerDataStorage_CopyFileMetadataByFilename(InnerHandle, ref copyFileMetadataOptionsInternal, ref outMetadataAddress);
 
-			Helper.TryMarshalDispose(ref copyFileMetadataOptionsAddress);
+			Helper.Dispose(ref copyFileMetadataOptionsInternal);
 
-			if (Helper.TryMarshalGet<FileMetadataInternal, FileMetadata>(outMetadataAddress, out outMetadata))
+			Helper.Get<FileMetadataInternal, FileMetadata>(outMetadataAddress, out outMetadata);
+			if (outMetadata != null)
 			{
 				Bindings.EOS_PlayerDataStorage_FileMetadata_Release(outMetadataAddress);
 			}
@@ -116,19 +118,19 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <returns>
 		/// <see cref="Result.Success" /> if the operation was started correctly, otherwise an error result explaining what went wrong
 		/// </returns>
-		public Result DeleteCache(DeleteCacheOptions options, object clientData, OnDeleteCacheCompleteCallback completionCallback)
+		public Result DeleteCache(ref DeleteCacheOptions options, object clientData, OnDeleteCacheCompleteCallback completionCallback)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<DeleteCacheOptionsInternal, DeleteCacheOptions>(ref optionsAddress, options);
+			DeleteCacheOptionsInternal optionsInternal = new DeleteCacheOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionCallbackInternal = new OnDeleteCacheCompleteCallbackInternal(OnDeleteCacheCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionCallback, completionCallbackInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionCallback, completionCallbackInternal);
 
-			var funcResult = Bindings.EOS_PlayerDataStorage_DeleteCache(InnerHandle, optionsAddress, clientDataAddress, completionCallbackInternal);
+			var funcResult = Bindings.EOS_PlayerDataStorage_DeleteCache(InnerHandle, ref optionsInternal, clientDataAddress, completionCallbackInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -139,19 +141,19 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="deleteOptions">Object containing properties related to which user is deleting the file, and what file name is</param>
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in the completion callback</param>
 		/// <param name="completionCallback">This function is called when the delete operation completes</param>
-		public void DeleteFile(DeleteFileOptions deleteOptions, object clientData, OnDeleteFileCompleteCallback completionCallback)
+		public void DeleteFile(ref DeleteFileOptions deleteOptions, object clientData, OnDeleteFileCompleteCallback completionCallback)
 		{
-			var deleteOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<DeleteFileOptionsInternal, DeleteFileOptions>(ref deleteOptionsAddress, deleteOptions);
+			DeleteFileOptionsInternal deleteOptionsInternal = new DeleteFileOptionsInternal();
+			deleteOptionsInternal.Set(ref deleteOptions);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionCallbackInternal = new OnDeleteFileCompleteCallbackInternal(OnDeleteFileCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionCallback, completionCallbackInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionCallback, completionCallbackInternal);
 
-			Bindings.EOS_PlayerDataStorage_DeleteFile(InnerHandle, deleteOptionsAddress, clientDataAddress, completionCallbackInternal);
+			Bindings.EOS_PlayerDataStorage_DeleteFile(InnerHandle, ref deleteOptionsInternal, clientDataAddress, completionCallbackInternal);
 
-			Helper.TryMarshalDispose(ref deleteOptionsAddress);
+			Helper.Dispose(ref deleteOptionsInternal);
 		}
 
 		/// <summary>
@@ -161,19 +163,19 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="duplicateOptions">Object containing properties related to which user is duplicating the file, and what the source and destination file names are</param>
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in the completion callback</param>
 		/// <param name="completionCallback">This function is called when the duplicate operation completes</param>
-		public void DuplicateFile(DuplicateFileOptions duplicateOptions, object clientData, OnDuplicateFileCompleteCallback completionCallback)
+		public void DuplicateFile(ref DuplicateFileOptions duplicateOptions, object clientData, OnDuplicateFileCompleteCallback completionCallback)
 		{
-			var duplicateOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<DuplicateFileOptionsInternal, DuplicateFileOptions>(ref duplicateOptionsAddress, duplicateOptions);
+			DuplicateFileOptionsInternal duplicateOptionsInternal = new DuplicateFileOptionsInternal();
+			duplicateOptionsInternal.Set(ref duplicateOptions);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionCallbackInternal = new OnDuplicateFileCompleteCallbackInternal(OnDuplicateFileCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionCallback, completionCallbackInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionCallback, completionCallbackInternal);
 
-			Bindings.EOS_PlayerDataStorage_DuplicateFile(InnerHandle, duplicateOptionsAddress, clientDataAddress, completionCallbackInternal);
+			Bindings.EOS_PlayerDataStorage_DuplicateFile(InnerHandle, ref duplicateOptionsInternal, clientDataAddress, completionCallbackInternal);
 
-			Helper.TryMarshalDispose(ref duplicateOptionsAddress);
+			Helper.Dispose(ref duplicateOptionsInternal);
 		}
 
 		/// <summary>
@@ -183,18 +185,18 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="getFileMetadataCountOptions">Object containing properties related to which user is requesting the metadata count</param>
 		/// <param name="outFileMetadataCount">If successful, the count of metadata currently cached</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> if the input was valid, otherwise an error result explaining what went wrong
+		/// <see cref="Result.Success" /> if the input was valid, otherwise an error result explaining what went wrong
 		/// </returns>
-		public Result GetFileMetadataCount(GetFileMetadataCountOptions getFileMetadataCountOptions, out int outFileMetadataCount)
+		public Result GetFileMetadataCount(ref GetFileMetadataCountOptions getFileMetadataCountOptions, out int outFileMetadataCount)
 		{
-			var getFileMetadataCountOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetFileMetadataCountOptionsInternal, GetFileMetadataCountOptions>(ref getFileMetadataCountOptionsAddress, getFileMetadataCountOptions);
+			GetFileMetadataCountOptionsInternal getFileMetadataCountOptionsInternal = new GetFileMetadataCountOptionsInternal();
+			getFileMetadataCountOptionsInternal.Set(ref getFileMetadataCountOptions);
 
 			outFileMetadataCount = Helper.GetDefault<int>();
 
-			var funcResult = Bindings.EOS_PlayerDataStorage_GetFileMetadataCount(InnerHandle, getFileMetadataCountOptionsAddress, ref outFileMetadataCount);
+			var funcResult = Bindings.EOS_PlayerDataStorage_GetFileMetadataCount(InnerHandle, ref getFileMetadataCountOptionsInternal, ref outFileMetadataCount);
 
-			Helper.TryMarshalDispose(ref getFileMetadataCountOptionsAddress);
+			Helper.Dispose(ref getFileMetadataCountOptionsInternal);
 
 			return funcResult;
 		}
@@ -209,19 +211,19 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="queryFileOptions">Object containing properties related to which user is querying files, and what file is being queried</param>
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in the completion callback</param>
 		/// <param name="completionCallback">This function is called when the query operation completes</param>
-		public void QueryFile(QueryFileOptions queryFileOptions, object clientData, OnQueryFileCompleteCallback completionCallback)
+		public void QueryFile(ref QueryFileOptions queryFileOptions, object clientData, OnQueryFileCompleteCallback completionCallback)
 		{
-			var queryFileOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryFileOptionsInternal, QueryFileOptions>(ref queryFileOptionsAddress, queryFileOptions);
+			QueryFileOptionsInternal queryFileOptionsInternal = new QueryFileOptionsInternal();
+			queryFileOptionsInternal.Set(ref queryFileOptions);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionCallbackInternal = new OnQueryFileCompleteCallbackInternal(OnQueryFileCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionCallback, completionCallbackInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionCallback, completionCallbackInternal);
 
-			Bindings.EOS_PlayerDataStorage_QueryFile(InnerHandle, queryFileOptionsAddress, clientDataAddress, completionCallbackInternal);
+			Bindings.EOS_PlayerDataStorage_QueryFile(InnerHandle, ref queryFileOptionsInternal, clientDataAddress, completionCallbackInternal);
 
-			Helper.TryMarshalDispose(ref queryFileOptionsAddress);
+			Helper.Dispose(ref queryFileOptionsInternal);
 		}
 
 		/// <summary>
@@ -234,19 +236,19 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="queryFileListOptions">Object containing properties related to which user is querying files</param>
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in the completion callback</param>
 		/// <param name="completionCallback">This function is called when the query operation completes</param>
-		public void QueryFileList(QueryFileListOptions queryFileListOptions, object clientData, OnQueryFileListCompleteCallback completionCallback)
+		public void QueryFileList(ref QueryFileListOptions queryFileListOptions, object clientData, OnQueryFileListCompleteCallback completionCallback)
 		{
-			var queryFileListOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryFileListOptionsInternal, QueryFileListOptions>(ref queryFileListOptionsAddress, queryFileListOptions);
+			QueryFileListOptionsInternal queryFileListOptionsInternal = new QueryFileListOptionsInternal();
+			queryFileListOptionsInternal.Set(ref queryFileListOptions);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionCallbackInternal = new OnQueryFileListCompleteCallbackInternal(OnQueryFileListCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionCallback, completionCallbackInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionCallback, completionCallbackInternal);
 
-			Bindings.EOS_PlayerDataStorage_QueryFileList(InnerHandle, queryFileListOptionsAddress, clientDataAddress, completionCallbackInternal);
+			Bindings.EOS_PlayerDataStorage_QueryFileList(InnerHandle, ref queryFileListOptionsInternal, clientDataAddress, completionCallbackInternal);
 
-			Helper.TryMarshalDispose(ref queryFileListOptionsAddress);
+			Helper.Dispose(ref queryFileListOptionsInternal);
 		}
 
 		/// <summary>
@@ -259,24 +261,24 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in associated callbacks</param>
 		/// <param name="completionCallback">This function is called when the read operation completes</param>
 		/// <returns>
-		/// A valid Player Data Storage File Request handle if successful, or NULL otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
+		/// A valid Player Data Storage File Request handle if successful, or <see langword="null" /> otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
 		/// </returns>
-		public PlayerDataStorageFileTransferRequest ReadFile(ReadFileOptions readOptions, object clientData, OnReadFileCompleteCallback completionCallback)
+		public PlayerDataStorageFileTransferRequest ReadFile(ref ReadFileOptions readOptions, object clientData, OnReadFileCompleteCallback completionCallback)
 		{
-			var readOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ReadFileOptionsInternal, ReadFileOptions>(ref readOptionsAddress, readOptions);
+			ReadFileOptionsInternal readOptionsInternal = new ReadFileOptionsInternal();
+			readOptionsInternal.Set(ref readOptions);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionCallbackInternal = new OnReadFileCompleteCallbackInternal(OnReadFileCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionCallback, completionCallbackInternal, readOptions.ReadFileDataCallback, ReadFileOptionsInternal.ReadFileDataCallback, readOptions.FileTransferProgressCallback, ReadFileOptionsInternal.FileTransferProgressCallback);
+			Helper.AddCallback(out clientDataAddress, clientData, completionCallback, completionCallbackInternal, readOptions.ReadFileDataCallback, ReadFileOptionsInternal.ReadFileDataCallback, readOptions.FileTransferProgressCallback, ReadFileOptionsInternal.FileTransferProgressCallback);
 
-			var funcResult = Bindings.EOS_PlayerDataStorage_ReadFile(InnerHandle, readOptionsAddress, clientDataAddress, completionCallbackInternal);
+			var funcResult = Bindings.EOS_PlayerDataStorage_ReadFile(InnerHandle, ref readOptionsInternal, clientDataAddress, completionCallbackInternal);
 
-			Helper.TryMarshalDispose(ref readOptionsAddress);
+			Helper.Dispose(ref readOptionsInternal);
 
 			PlayerDataStorageFileTransferRequest funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -290,118 +292,118 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in associated callbacks</param>
 		/// <param name="completionCallback">This function is called when the write operation completes</param>
 		/// <returns>
-		/// A valid Player Data Storage File Request handle if successful, or NULL otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
+		/// A valid Player Data Storage File Request handle if successful, or <see langword="null" /> otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
 		/// </returns>
-		public PlayerDataStorageFileTransferRequest WriteFile(WriteFileOptions writeOptions, object clientData, OnWriteFileCompleteCallback completionCallback)
+		public PlayerDataStorageFileTransferRequest WriteFile(ref WriteFileOptions writeOptions, object clientData, OnWriteFileCompleteCallback completionCallback)
 		{
-			var writeOptionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<WriteFileOptionsInternal, WriteFileOptions>(ref writeOptionsAddress, writeOptions);
+			WriteFileOptionsInternal writeOptionsInternal = new WriteFileOptionsInternal();
+			writeOptionsInternal.Set(ref writeOptions);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionCallbackInternal = new OnWriteFileCompleteCallbackInternal(OnWriteFileCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionCallback, completionCallbackInternal, writeOptions.WriteFileDataCallback, WriteFileOptionsInternal.WriteFileDataCallback, writeOptions.FileTransferProgressCallback, WriteFileOptionsInternal.FileTransferProgressCallback);
+			Helper.AddCallback(out clientDataAddress, clientData, completionCallback, completionCallbackInternal, writeOptions.WriteFileDataCallback, WriteFileOptionsInternal.WriteFileDataCallback, writeOptions.FileTransferProgressCallback, WriteFileOptionsInternal.FileTransferProgressCallback);
 
-			var funcResult = Bindings.EOS_PlayerDataStorage_WriteFile(InnerHandle, writeOptionsAddress, clientDataAddress, completionCallbackInternal);
+			var funcResult = Bindings.EOS_PlayerDataStorage_WriteFile(InnerHandle, ref writeOptionsInternal, clientDataAddress, completionCallbackInternal);
 
-			Helper.TryMarshalDispose(ref writeOptionsAddress);
+			Helper.Dispose(ref writeOptionsInternal);
 
 			PlayerDataStorageFileTransferRequest funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
 		[MonoPInvokeCallback(typeof(OnDeleteCacheCompleteCallbackInternal))]
-		internal static void OnDeleteCacheCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnDeleteCacheCompleteCallbackInternalImplementation(ref DeleteCacheCallbackInfoInternal data)
 		{
 			OnDeleteCacheCompleteCallback callback;
 			DeleteCacheCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnDeleteCacheCompleteCallback, DeleteCacheCallbackInfoInternal, DeleteCacheCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnDeleteFileCompleteCallbackInternal))]
-		internal static void OnDeleteFileCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnDeleteFileCompleteCallbackInternalImplementation(ref DeleteFileCallbackInfoInternal data)
 		{
 			OnDeleteFileCompleteCallback callback;
 			DeleteFileCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnDeleteFileCompleteCallback, DeleteFileCallbackInfoInternal, DeleteFileCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnDuplicateFileCompleteCallbackInternal))]
-		internal static void OnDuplicateFileCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnDuplicateFileCompleteCallbackInternalImplementation(ref DuplicateFileCallbackInfoInternal data)
 		{
 			OnDuplicateFileCompleteCallback callback;
 			DuplicateFileCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnDuplicateFileCompleteCallback, DuplicateFileCallbackInfoInternal, DuplicateFileCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnFileTransferProgressCallbackInternal))]
-		internal static void OnFileTransferProgressCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnFileTransferProgressCallbackInternalImplementation(ref FileTransferProgressCallbackInfoInternal data)
 		{
 			OnFileTransferProgressCallback callback;
 			FileTransferProgressCallbackInfo callbackInfo;
-			if (Helper.TryGetStructCallback<OnFileTransferProgressCallback, FileTransferProgressCallbackInfoInternal, FileTransferProgressCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetStructCallback(ref data, out callback, out callbackInfo))
 			{
 				FileTransferProgressCallbackInfo dataObj;
-				Helper.TryMarshalGet<FileTransferProgressCallbackInfoInternal, FileTransferProgressCallbackInfo>(data, out dataObj);
+				Helper.Get(ref data, out dataObj);
 
-				callback(dataObj);
+				callback(ref dataObj);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryFileCompleteCallbackInternal))]
-		internal static void OnQueryFileCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryFileCompleteCallbackInternalImplementation(ref QueryFileCallbackInfoInternal data)
 		{
 			OnQueryFileCompleteCallback callback;
 			QueryFileCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryFileCompleteCallback, QueryFileCallbackInfoInternal, QueryFileCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryFileListCompleteCallbackInternal))]
-		internal static void OnQueryFileListCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryFileListCompleteCallbackInternalImplementation(ref QueryFileListCallbackInfoInternal data)
 		{
 			OnQueryFileListCompleteCallback callback;
 			QueryFileListCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryFileListCompleteCallback, QueryFileListCallbackInfoInternal, QueryFileListCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnReadFileCompleteCallbackInternal))]
-		internal static void OnReadFileCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnReadFileCompleteCallbackInternalImplementation(ref ReadFileCallbackInfoInternal data)
 		{
 			OnReadFileCompleteCallback callback;
 			ReadFileCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnReadFileCompleteCallback, ReadFileCallbackInfoInternal, ReadFileCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnReadFileDataCallbackInternal))]
-		internal static ReadResult OnReadFileDataCallbackInternalImplementation(System.IntPtr data)
+		internal static ReadResult OnReadFileDataCallbackInternalImplementation(ref ReadFileDataCallbackInfoInternal data)
 		{
 			OnReadFileDataCallback callback;
 			ReadFileDataCallbackInfo callbackInfo;
-			if (Helper.TryGetStructCallback<OnReadFileDataCallback, ReadFileDataCallbackInfoInternal, ReadFileDataCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetStructCallback(ref data, out callback, out callbackInfo))
 			{
 				ReadFileDataCallbackInfo dataObj;
-				Helper.TryMarshalGet<ReadFileDataCallbackInfoInternal, ReadFileDataCallbackInfo>(data, out dataObj);
+				Helper.Get(ref data, out dataObj);
 
-				var funcResult = callback(dataObj);
+				var funcResult = callback(ref dataObj);
 
 				return funcResult;
 			}
@@ -410,32 +412,32 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		}
 
 		[MonoPInvokeCallback(typeof(OnWriteFileCompleteCallbackInternal))]
-		internal static void OnWriteFileCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnWriteFileCompleteCallbackInternalImplementation(ref WriteFileCallbackInfoInternal data)
 		{
 			OnWriteFileCompleteCallback callback;
 			WriteFileCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnWriteFileCompleteCallback, WriteFileCallbackInfoInternal, WriteFileCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnWriteFileDataCallbackInternal))]
-		internal static WriteResult OnWriteFileDataCallbackInternalImplementation(System.IntPtr data, System.IntPtr outDataBuffer, ref uint outDataWritten)
+		internal static WriteResult OnWriteFileDataCallbackInternalImplementation(ref WriteFileDataCallbackInfoInternal data, System.IntPtr outDataBuffer, ref uint outDataWritten)
 		{
 			OnWriteFileDataCallback callback;
 			WriteFileDataCallbackInfo callbackInfo;
-			if (Helper.TryGetStructCallback<OnWriteFileDataCallback, WriteFileDataCallbackInfoInternal, WriteFileDataCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetStructCallback(ref data, out callback, out callbackInfo))
 			{
 				WriteFileDataCallbackInfo dataObj;
-				Helper.TryMarshalGet<WriteFileDataCallbackInfoInternal, WriteFileDataCallbackInfo>(data, out dataObj);
+				Helper.Get(ref data, out dataObj);
 
-				byte[] outDataBufferArray;
+				System.ArraySegment<byte> outDataBufferArray;
 
-				var funcResult = callback(dataObj, out outDataBufferArray);
+				var funcResult = callback(ref dataObj, out outDataBufferArray);
 
-				Helper.TryMarshalGet(outDataBufferArray, out outDataWritten);
-				Helper.TryMarshalCopy(outDataBuffer, outDataBufferArray);
+				Helper.Get(outDataBufferArray, out outDataWritten);
+				Helper.Copy(outDataBufferArray, outDataBuffer);
 
 				return funcResult;
 			}

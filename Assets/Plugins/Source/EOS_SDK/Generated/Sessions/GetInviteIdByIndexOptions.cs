@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.GetInviteIdByIndex" /> function.
 	/// </summary>
-	public class GetInviteIdByIndexOptions
+	public struct GetInviteIdByIndexOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who has an invitation in the cache
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetInviteIdByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct GetInviteIdByIndexOptionsInternal : ISettable<GetInviteIdByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(GetInviteIdByIndexOptions other)
+		public void Set(ref GetInviteIdByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionsInterface.GetinviteidbyindexApiLatest;
-				LocalUserId = other.LocalUserId;
-				Index = other.Index;
-			}
+			m_ApiVersion = SessionsInterface.GetinviteidbyindexApiLatest;
+			LocalUserId = other.LocalUserId;
+			Index = other.Index;
 		}
 
-		public void Set(object other)
+		public void Set(ref GetInviteIdByIndexOptions? other)
 		{
-			Set(other as GetInviteIdByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionsInterface.GetinviteidbyindexApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Index = other.Value.Index;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

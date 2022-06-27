@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.GetExternalAccountMapping" /> function.
 	/// </summary>
-	public class GetExternalAccountMappingsOptions
+	public struct GetExternalAccountMappingsOptions
 	{
 		/// <summary>
 		/// The Product User ID of the existing, logged-in user who is querying account mappings.
@@ -21,11 +21,11 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// Target user to retrieve the mapping for, as an external account ID.
 		/// </summary>
-		public string TargetExternalUserId { get; set; }
+		public Utf8String TargetExternalUserId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetExternalAccountMappingsOptionsInternal : ISettable, System.IDisposable
+	internal struct GetExternalAccountMappingsOptionsInternal : ISettable<GetExternalAccountMappingsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -48,34 +48,37 @@ namespace Epic.OnlineServices.Connect
 			}
 		}
 
-		public string TargetExternalUserId
+		public Utf8String TargetExternalUserId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetExternalUserId, value);
+				Helper.Set(value, ref m_TargetExternalUserId);
 			}
 		}
 
-		public void Set(GetExternalAccountMappingsOptions other)
+		public void Set(ref GetExternalAccountMappingsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.GetexternalaccountmappingApiLatest;
+			LocalUserId = other.LocalUserId;
+			AccountIdType = other.AccountIdType;
+			TargetExternalUserId = other.TargetExternalUserId;
+		}
+
+		public void Set(ref GetExternalAccountMappingsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.GetexternalaccountmappingApiLatest;
-				LocalUserId = other.LocalUserId;
-				AccountIdType = other.AccountIdType;
-				TargetExternalUserId = other.TargetExternalUserId;
+				LocalUserId = other.Value.LocalUserId;
+				AccountIdType = other.Value.AccountIdType;
+				TargetExternalUserId = other.Value.TargetExternalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetExternalAccountMappingsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetExternalUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetExternalUserId);
 		}
 	}
 }

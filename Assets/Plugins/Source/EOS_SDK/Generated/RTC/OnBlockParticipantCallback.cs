@@ -6,8 +6,8 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// Callback for completion of block participants request.
 	/// </summary>
-	public delegate void OnBlockParticipantCallback(BlockParticipantCallbackInfo data);
+	public delegate void OnBlockParticipantCallback(ref BlockParticipantCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnBlockParticipantCallbackInternal(System.IntPtr data);
+	internal delegate void OnBlockParticipantCallbackInternal(ref BlockParticipantCallbackInfoInternal data);
 }

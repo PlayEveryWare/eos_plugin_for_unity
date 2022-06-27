@@ -22,9 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    /// <summary>
-    /// Interface for classes using <c>OnAuthLogin</c>
-    /// </summary>
     public interface IEOSOnAuthLogin : IEOSSubManager
     {
         void OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);

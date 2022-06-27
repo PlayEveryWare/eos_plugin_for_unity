@@ -17,23 +17,23 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// </summary>
 		ClientHandle = 1,
 		/// <summary>
-		/// const char*
+		/// <see cref="string" />
 		/// </summary>
 		String = 2,
 		/// <summary>
-		/// uint32_t
+		/// <see cref="uint" />
 		/// </summary>
 		UInt32 = 3,
 		/// <summary>
-		/// int32_t
+		/// <see cref="int" />
 		/// </summary>
 		Int32 = 4,
 		/// <summary>
-		/// uint64_t
+		/// <see cref="ulong" />
 		/// </summary>
 		UInt64 = 5,
 		/// <summary>
-		/// int64_t
+		/// <see cref="long" />
 		/// </summary>
 		Int64 = 6,
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// </summary>
 		Vector3f = 7,
 		/// <summary>
-		/// <see cref="Quat" />
+		/// <see cref="AntiCheatCommon.Quat" />
 		/// </summary>
 		Quat = 8
 	}

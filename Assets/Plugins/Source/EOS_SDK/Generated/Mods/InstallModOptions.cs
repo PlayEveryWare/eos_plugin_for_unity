@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Mods
 	/// <summary>
 	/// Input parameters for the <see cref="ModsInterface.InstallMod" /> Function.
 	/// </summary>
-	public class InstallModOptions
+	public struct InstallModOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user for which the mod should be installed
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Mods
 		/// <summary>
 		/// The mod to install
 		/// </summary>
-		public ModIdentifier Mod { get; set; }
+		public ModIdentifier? Mod { get; set; }
 
 		/// <summary>
 		/// Indicates whether the mod should be uninstalled after exiting the game or not.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Mods
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct InstallModOptionsInternal : ISettable, System.IDisposable
+	internal struct InstallModOptionsInternal : ISettable<InstallModOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,15 +36,15 @@ namespace Epic.OnlineServices.Mods
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public ModIdentifier Mod
+		public ModIdentifier? Mod
 		{
 			set
 			{
-				Helper.TryMarshalSet<ModIdentifierInternal, ModIdentifier>(ref m_Mod, value);
+				Helper.Set<ModIdentifier, ModIdentifierInternal>(ref value, ref m_Mod);
 			}
 		}
 
@@ -52,30 +52,33 @@ namespace Epic.OnlineServices.Mods
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RemoveAfterExit, value);
+				Helper.Set(value, ref m_RemoveAfterExit);
 			}
 		}
 
-		public void Set(InstallModOptions other)
+		public void Set(ref InstallModOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ModsInterface.InstallmodApiLatest;
+			LocalUserId = other.LocalUserId;
+			Mod = other.Mod;
+			RemoveAfterExit = other.RemoveAfterExit;
+		}
+
+		public void Set(ref InstallModOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ModsInterface.InstallmodApiLatest;
-				LocalUserId = other.LocalUserId;
-				Mod = other.Mod;
-				RemoveAfterExit = other.RemoveAfterExit;
+				LocalUserId = other.Value.LocalUserId;
+				Mod = other.Value.Mod;
+				RemoveAfterExit = other.Value.RemoveAfterExit;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as InstallModOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Mod);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Mod);
 		}
 	}
 }

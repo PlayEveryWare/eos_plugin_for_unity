@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.CopyIdToken" /> function.
 	/// </summary>
-	public class CopyIdTokenOptions
+	public struct CopyIdTokenOptions
 	{
 		/// <summary>
 		/// The local Product User ID whose ID token should be copied.
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyIdTokenOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyIdTokenOptionsInternal : ISettable<CopyIdTokenOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(CopyIdTokenOptions other)
+		public void Set(ref CopyIdTokenOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.CopyidtokenApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref CopyIdTokenOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.CopyidtokenApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyIdTokenOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

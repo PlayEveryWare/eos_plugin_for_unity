@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// <summary>
 	/// Input parameters for the <see cref="RTCAdminInterface.CopyUserTokenByIndex" /> function.
 	/// </summary>
-	public class CopyUserTokenByIndexOptions
+	public struct CopyUserTokenByIndexOptions
 	{
 		/// <summary>
 		/// Index of the user token to retrieve from the cache.
@@ -21,7 +21,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyUserTokenByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyUserTokenByIndexOptionsInternal : ISettable<CopyUserTokenByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_UserTokenIndex;
@@ -43,19 +43,21 @@ namespace Epic.OnlineServices.RTCAdmin
 			}
 		}
 
-		public void Set(CopyUserTokenByIndexOptions other)
+		public void Set(ref CopyUserTokenByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = RTCAdminInterface.CopyusertokenbyindexApiLatest;
-				UserTokenIndex = other.UserTokenIndex;
-				QueryId = other.QueryId;
-			}
+			m_ApiVersion = RTCAdminInterface.CopyusertokenbyindexApiLatest;
+			UserTokenIndex = other.UserTokenIndex;
+			QueryId = other.QueryId;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyUserTokenByIndexOptions? other)
 		{
-			Set(other as CopyUserTokenByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = RTCAdminInterface.CopyusertokenbyindexApiLatest;
+				UserTokenIndex = other.Value.UserTokenIndex;
+				QueryId = other.Value.QueryId;
+			}
 		}
 
 		public void Dispose()

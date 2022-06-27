@@ -6,65 +6,67 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="RTCInterface.AddNotifyParticipantStatusChanged" /> registered event.
 	/// </summary>
-	public class ParticipantStatusChangedCallbackInfo : ICallbackInfo, ISettable
+	public struct ParticipantStatusChangedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into <see cref="RTCInterface.AddNotifyParticipantStatusChanged" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who initiated this request.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The room associated with this event.
 		/// </summary>
-		public string RoomName { get; private set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// The participant whose status changed.
 		/// </summary>
-		public ProductUserId ParticipantId { get; private set; }
+		public ProductUserId ParticipantId { get; set; }
 
 		/// <summary>
 		/// What status change occurred
 		/// </summary>
-		public RTCParticipantStatus ParticipantStatus { get; private set; }
+		public RTCParticipantStatus ParticipantStatus { get; set; }
 
 		/// <summary>
 		/// The participant metadata items.
-		/// This is only set if ParticipantStatus is <see cref="RTCParticipantStatus.Joined" />
+		/// This is only set for the first notification where ParticipantStatus is <see cref="RTCParticipantStatus.Joined" />. Subsequent notifications
+		/// such as when bParticipantInBlocklist changes will not contain any metadata.
 		/// </summary>
-		public ParticipantMetadata[] ParticipantMetadata { get; private set; }
+		public ParticipantMetadata[] ParticipantMetadata { get; set; }
+
+		/// <summary>
+		/// The participant's block list status, if ParticipantStatus is <see cref="RTCParticipantStatus.Joined" />.
+		/// This is set to true if the participant is in any of the local user's applicable block lists,
+		/// such Epic block list or any of the current platform's block lists.
+		/// It can be used to detect when an internal automatic RTC block is applied because of trust and safety restrictions.
+		/// </summary>
+		public bool ParticipantInBlocklist { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(ParticipantStatusChangedCallbackInfoInternal? other)
+		internal void Set(ref ParticipantStatusChangedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				RoomName = other.Value.RoomName;
-				ParticipantId = other.Value.ParticipantId;
-				ParticipantStatus = other.Value.ParticipantStatus;
-				ParticipantMetadata = other.Value.ParticipantMetadata;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ParticipantStatusChangedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ParticipantId = other.ParticipantId;
+			ParticipantStatus = other.ParticipantStatus;
+			ParticipantMetadata = other.ParticipantMetadata;
+			ParticipantInBlocklist = other.ParticipantInBlocklist;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ParticipantStatusChangedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct ParticipantStatusChangedCallbackInfoInternal : ICallbackInfoInternal, IGettable<ParticipantStatusChangedCallbackInfo>, ISettable<ParticipantStatusChangedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -73,14 +75,20 @@ namespace Epic.OnlineServices.RTC
 		private RTCParticipantStatus m_ParticipantStatus;
 		private uint m_ParticipantMetadataCount;
 		private System.IntPtr m_ParticipantMetadata;
+		private int m_ParticipantInBlocklist;
 
 		public object ClientData
 		{
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -97,18 +105,28 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RoomName, out value);
+				Utf8String value;
+				Helper.Get(m_RoomName, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -117,8 +135,13 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_ParticipantId, out value);
+				Helper.Get(m_ParticipantId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ParticipantId);
 			}
 		}
 
@@ -128,6 +151,11 @@ namespace Epic.OnlineServices.RTC
 			{
 				return m_ParticipantStatus;
 			}
+
+			set
+			{
+				m_ParticipantStatus = value;
+			}
 		}
 
 		public ParticipantMetadata[] ParticipantMetadata
@@ -135,9 +163,69 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				ParticipantMetadata[] value;
-				Helper.TryMarshalGet<ParticipantMetadataInternal, ParticipantMetadata>(m_ParticipantMetadata, out value, m_ParticipantMetadataCount);
+				Helper.Get<ParticipantMetadataInternal, ParticipantMetadata>(m_ParticipantMetadata, out value, m_ParticipantMetadataCount);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set<ParticipantMetadata, ParticipantMetadataInternal>(ref value, ref m_ParticipantMetadata, out m_ParticipantMetadataCount);
+			}
+		}
+
+		public bool ParticipantInBlocklist
+		{
+			get
+			{
+				bool value;
+				Helper.Get(m_ParticipantInBlocklist, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ParticipantInBlocklist);
+			}
+		}
+
+		public void Set(ref ParticipantStatusChangedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ParticipantId = other.ParticipantId;
+			ParticipantStatus = other.ParticipantStatus;
+			ParticipantMetadata = other.ParticipantMetadata;
+			ParticipantInBlocklist = other.ParticipantInBlocklist;
+		}
+
+		public void Set(ref ParticipantStatusChangedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				ParticipantId = other.Value.ParticipantId;
+				ParticipantStatus = other.Value.ParticipantStatus;
+				ParticipantMetadata = other.Value.ParticipantMetadata;
+				ParticipantInBlocklist = other.Value.ParticipantInBlocklist;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_ParticipantId);
+			Helper.Dispose(ref m_ParticipantMetadata);
+		}
+
+		public void Get(out ParticipantStatusChangedCallbackInfo output)
+		{
+			output = new ParticipantStatusChangedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

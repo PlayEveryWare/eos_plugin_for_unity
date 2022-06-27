@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Mods
 	/// Function prototype definition for callbacks passed to <see cref="ModsInterface.UpdateMod" />
 	/// </summary>
 	/// <param name="data">A <see cref="UpdateModCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnUpdateModCallback(UpdateModCallbackInfo data);
+	public delegate void OnUpdateModCallback(ref UpdateModCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnUpdateModCallbackInternal(System.IntPtr data);
+	internal delegate void OnUpdateModCallbackInternal(ref UpdateModCallbackInfoInternal data);
 }

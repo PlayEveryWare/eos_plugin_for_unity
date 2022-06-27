@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyModification.SetPermissionLevel" /> function.
 	/// </summary>
-	public class LobbyModificationSetPermissionLevelOptions
+	public struct LobbyModificationSetPermissionLevelOptions
 	{
 		/// <summary>
 		/// Permission level of the lobby
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyModificationSetPermissionLevelOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyModificationSetPermissionLevelOptionsInternal : ISettable<LobbyModificationSetPermissionLevelOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private LobbyPermissionLevel m_PermissionLevel;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbyModificationSetPermissionLevelOptions other)
+		public void Set(ref LobbyModificationSetPermissionLevelOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyModification.LobbymodificationSetpermissionlevelApiLatest;
-				PermissionLevel = other.PermissionLevel;
-			}
+			m_ApiVersion = LobbyModification.LobbymodificationSetpermissionlevelApiLatest;
+			PermissionLevel = other.PermissionLevel;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbyModificationSetPermissionLevelOptions? other)
 		{
-			Set(other as LobbyModificationSetPermissionLevelOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyModification.LobbymodificationSetpermissionlevelApiLatest;
+				PermissionLevel = other.Value.PermissionLevel;
+			}
 		}
 
 		public void Dispose()

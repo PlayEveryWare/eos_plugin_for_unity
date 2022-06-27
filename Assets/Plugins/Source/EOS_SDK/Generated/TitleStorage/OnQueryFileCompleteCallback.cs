@@ -6,8 +6,8 @@ namespace Epic.OnlineServices.TitleStorage
 	/// <summary>
 	/// Callback for when <see cref="TitleStorageInterface.QueryFile" /> completes
 	/// </summary>
-	public delegate void OnQueryFileCompleteCallback(QueryFileCallbackInfo data);
+	public delegate void OnQueryFileCompleteCallback(ref QueryFileCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryFileCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryFileCompleteCallbackInternal(ref QueryFileCallbackInfoInternal data);
 }

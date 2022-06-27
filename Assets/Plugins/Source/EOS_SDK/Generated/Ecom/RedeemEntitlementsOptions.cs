@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.RedeemEntitlements" /> function.
 	/// </summary>
-	public class RedeemEntitlementsOptions
+	public struct RedeemEntitlementsOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user who is redeeming Entitlements
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The array of Entitlements to redeem
 		/// </summary>
-		public string[] EntitlementIds { get; set; }
+		public Utf8String[] EntitlementIds { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RedeemEntitlementsOptionsInternal : ISettable, System.IDisposable
+	internal struct RedeemEntitlementsOptionsInternal : ISettable<RedeemEntitlementsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -31,37 +31,39 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string[] EntitlementIds
+		public Utf8String[] EntitlementIds
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EntitlementIds, value, out m_EntitlementIdCount);
+				Helper.Set(value, ref m_EntitlementIds, out m_EntitlementIdCount);
 			}
 		}
 
-		public void Set(RedeemEntitlementsOptions other)
+		public void Set(ref RedeemEntitlementsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.RedeementitlementsApiLatest;
+			LocalUserId = other.LocalUserId;
+			EntitlementIds = other.EntitlementIds;
+		}
+
+		public void Set(ref RedeemEntitlementsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.RedeementitlementsApiLatest;
-				LocalUserId = other.LocalUserId;
-				EntitlementIds = other.EntitlementIds;
+				LocalUserId = other.Value.LocalUserId;
+				EntitlementIds = other.Value.EntitlementIds;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RedeemEntitlementsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_EntitlementIds);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_EntitlementIds);
 		}
 	}
 }

@@ -5,15 +5,13 @@ namespace Epic.OnlineServices.Sessions
 {
 	/// <summary>
 	/// Function prototype definition for notifications that come from <see cref="SessionsInterface.AddNotifyJoinSessionAccepted" />
+	/// The session for the join game must be joined.
 	/// <seealso cref="SessionsInterface.CopySessionHandleByUiEventId" />
 	/// <seealso cref="SessionsInterface.JoinSession" />
 	/// </summary>
-	/// <param name="data">
-	/// A <see cref="JoinSessionAcceptedCallbackInfo" /> containing the output information and result
-	/// @note The session for the join game must be joined.
-	/// </param>
-	public delegate void OnJoinSessionAcceptedCallback(JoinSessionAcceptedCallbackInfo data);
+	/// <param name="data">A <see cref="JoinSessionAcceptedCallbackInfo" /> containing the output information and result</param>
+	public delegate void OnJoinSessionAcceptedCallback(ref JoinSessionAcceptedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnJoinSessionAcceptedCallbackInternal(System.IntPtr data);
+	internal delegate void OnJoinSessionAcceptedCallbackInternal(ref JoinSessionAcceptedCallbackInfoInternal data);
 }

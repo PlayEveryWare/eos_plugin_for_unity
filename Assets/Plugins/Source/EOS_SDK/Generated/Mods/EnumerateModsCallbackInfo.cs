@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Mods
 	/// <summary>
 	/// Output parameters for the <see cref="ModsInterface.EnumerateMods" /> Function. These parameters are received through the callback provided to <see cref="ModsInterface.EnumerateMods" />
 	/// </summary>
-	public class EnumerateModsCallbackInfo : ICallbackInfo, ISettable
+	public struct EnumerateModsCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Result code for the operation. <see cref="Result.Success" /> is returned if the enumeration was successfull, otherwise one of the error codes is returned.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user for which mod enumeration was requested
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// Context that is passed into <see cref="ModsInterface.EnumerateMods" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// Type of the enumerated mods
 		/// </summary>
-		public ModEnumerationType Type { get; private set; }
+		public ModEnumerationType Type { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(EnumerateModsCallbackInfoInternal? other)
+		internal void Set(ref EnumerateModsCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				LocalUserId = other.Value.LocalUserId;
-				ClientData = other.Value.ClientData;
-				Type = other.Value.Type;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as EnumerateModsCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			LocalUserId = other.LocalUserId;
+			ClientData = other.ClientData;
+			Type = other.Type;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct EnumerateModsCallbackInfoInternal : ICallbackInfoInternal
+	internal struct EnumerateModsCallbackInfoInternal : ICallbackInfoInternal, IGettable<EnumerateModsCallbackInfo>, ISettable<EnumerateModsCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_LocalUserId;
@@ -64,6 +56,11 @@ namespace Epic.OnlineServices.Mods
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public EpicAccountId LocalUserId
@@ -71,8 +68,13 @@ namespace Epic.OnlineServices.Mods
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -81,8 +83,13 @@ namespace Epic.OnlineServices.Mods
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -100,6 +107,42 @@ namespace Epic.OnlineServices.Mods
 			{
 				return m_Type;
 			}
+
+			set
+			{
+				m_Type = value;
+			}
+		}
+
+		public void Set(ref EnumerateModsCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			LocalUserId = other.LocalUserId;
+			ClientData = other.ClientData;
+			Type = other.Type;
+		}
+
+		public void Set(ref EnumerateModsCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				LocalUserId = other.Value.LocalUserId;
+				ClientData = other.Value.ClientData;
+				Type = other.Value.Type;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ClientData);
+		}
+
+		public void Get(out EnumerateModsCallbackInfo output)
+		{
+			output = new EnumerateModsCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

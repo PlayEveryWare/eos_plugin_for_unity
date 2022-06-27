@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.CopyInfo" /> function.
 	/// </summary>
-	public class LobbyDetailsCopyInfoOptions
+	public struct LobbyDetailsCopyInfoOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsCopyInfoOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsCopyInfoOptionsInternal : ISettable<LobbyDetailsCopyInfoOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(LobbyDetailsCopyInfoOptions other)
+		public void Set(ref LobbyDetailsCopyInfoOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyDetails.LobbydetailsCopyinfoApiLatest;
+		}
+
+		public void Set(ref LobbyDetailsCopyInfoOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyDetails.LobbydetailsCopyinfoApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyDetailsCopyInfoOptions);
 		}
 
 		public void Dispose()

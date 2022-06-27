@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -156,12 +156,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             QueryDefinitionsCallback = QueryDefinitionsCompleted;
 
-            LeaderboardsHandle.QueryLeaderboardDefinitions(options, null, LeaderboardDefinitionsReceivedCallbackFn); //OnQueryLeaderboardDefinitionsComplete
+            LeaderboardsHandle.QueryLeaderboardDefinitions(ref options, null, LeaderboardDefinitionsReceivedCallbackFn); //OnQueryLeaderboardDefinitionsComplete
         }
 
         private void CacheLeaderboardDefinitions()
         {
-            uint leaderboardDefinitionsCount = LeaderboardsHandle.GetLeaderboardDefinitionCount(new GetLeaderboardDefinitionCountOptions());
+            var getLeaderboardDefinitionCountOptions = new GetLeaderboardDefinitionCountOptions();
+            uint leaderboardDefinitionsCount = LeaderboardsHandle.GetLeaderboardDefinitionCount(ref getLeaderboardDefinitionCountOptions);
 
             CachedLeaderboardDefinitions.Clear();
 
@@ -172,7 +173,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     LeaderboardIndex = definitionIndex
                 };
 
-                Result result = LeaderboardsHandle.CopyLeaderboardDefinitionByIndex(options, out Definition leaderboardDefinition);
+                Result result = LeaderboardsHandle.CopyLeaderboardDefinitionByIndex(ref options, out Definition? leaderboardDefinition);
 
                 if (result != Result.Success)
                 {
@@ -180,7 +181,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     break;
                 }
 
-                CachedLeaderboardDefinitions.Add(leaderboardDefinition.LeaderboardId, leaderboardDefinition);
+                CachedLeaderboardDefinitions.Add(leaderboardDefinition?.LeaderboardId, leaderboardDefinition.Value);
             }
 
             CachedLeaderboardDefinitionsDirty = true;
@@ -199,21 +200,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>Get cached Leaderboard <c>Defintion</c> given a LeaderboardId.</summary>
         /// <param name="leaderboardId">Specified LeaderboardID</param>
         /// <returns>Leaderboard <c>Defintion</c></returns>
-        public Definition GetCachedDefinitionFromId(string leaderboardId)
+        public Definition? GetCachedDefinitionFromId(string leaderboardId)
         {
-            CachedLeaderboardDefinitions.TryGetValue(leaderboardId, out Definition defintion);
 
-            return defintion;
+            if(CachedLeaderboardDefinitions.TryGetValue(leaderboardId, out Definition defintion))
+            {
+                return defintion;
+            }
+
+            return null;
         }
 
-        private void LeaderboardDefinitionsReceivedCallbackFn(OnQueryLeaderboardDefinitionsCompleteCallbackInfo data) // OnQueryLeaderboardDefinitionsComplete
+        private void LeaderboardDefinitionsReceivedCallbackFn(ref OnQueryLeaderboardDefinitionsCompleteCallbackInfo data) // OnQueryLeaderboardDefinitionsComplete
         {
-            if (data == null)
-            {
-                Debug.LogError("Leaderboard (LeaderboardDefinitionsReceivedCallbackFn): data is null");
-                QueryDefinitionsCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Leaderboard (LeaderboardDefinitionsReceivedCallbackFn): data is null");
+            //    QueryDefinitionsCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -241,12 +246,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             QueryRanksCallback = QueryRanksCompleted;
 
-            LeaderboardsHandle.QueryLeaderboardRanks(options, null, LeaderboardRanksReceivedCallbackFn);
+            LeaderboardsHandle.QueryLeaderboardRanks(ref options, null, LeaderboardRanksReceivedCallbackFn);
         }
 
         private void CacheLeaderboardRecords()
         {
-            uint leaderboardRecordsCount = LeaderboardsHandle.GetLeaderboardRecordCount(new GetLeaderboardRecordCountOptions());
+            var GetLeaderboardRecordCountOptions = new GetLeaderboardRecordCountOptions();
+            uint leaderboardRecordsCount = LeaderboardsHandle.GetLeaderboardRecordCount(ref GetLeaderboardRecordCountOptions);
 
             CachedLeaderboardRecords.Clear();
 
@@ -257,7 +263,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     LeaderboardRecordIndex = recordIndex
                 };
 
-                Result result = LeaderboardsHandle.CopyLeaderboardRecordByIndex(options, out LeaderboardRecord leaderboardRecord);
+                Result result = LeaderboardsHandle.CopyLeaderboardRecordByIndex(ref options, out LeaderboardRecord? leaderboardRecord);
 
                 if (result != Result.Success)
                 {
@@ -265,20 +271,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     break;
                 }
 
-                CachedLeaderboardRecords.Add(leaderboardRecord);
+                CachedLeaderboardRecords.Add(leaderboardRecord.Value);
             }
 
             CachedLeaderboardRecordsDirty = true;
         }
 
-        private void LeaderboardRanksReceivedCallbackFn(OnQueryLeaderboardRanksCompleteCallbackInfo data)
+        private void LeaderboardRanksReceivedCallbackFn(ref OnQueryLeaderboardRanksCompleteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Leaderboard (LeaderboardRanksReceivedCallbackFn): data is null");
-                QueryRanksCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Leaderboard (LeaderboardRanksReceivedCallbackFn): data is null");
+            //    QueryRanksCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -310,16 +316,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             foreach (string leaderboardId in leaderboardIds)
             {
-                Definition definition = GetCachedDefinitionFromId(leaderboardId);
+                Definition? definition = GetCachedDefinitionFromId(leaderboardId);
 
                 if (definition != null)
                 {
                     UserScoresQueryStatInfo statInfo = new UserScoresQueryStatInfo()
                     {
-                        StatName = definition.StatName,
-                        Aggregation = definition.Aggregation
+                        StatName = definition?.StatName,
+                        Aggregation = (LeaderboardAggregation)(definition?.Aggregation)
                     };
-
                     statsInfoList.Add(statInfo);
                 }
             }
@@ -337,7 +342,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             QueryUserScoresCallback = QueryUserScoresCompleted;
 
-            LeaderboardsHandle.QueryLeaderboardUserScores(options, null, LeaderboardUserScoresReceivedCallbackFn);
+            LeaderboardsHandle.QueryLeaderboardUserScores(ref options, null, LeaderboardUserScoresReceivedCallbackFn);
         }
 
         private void CacheLeaderboardUserScores()
@@ -362,7 +367,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         StatName = leaderboardDefinition.StatName
                     };
 
-                    uint userScoresCount = LeaderboardsHandle.GetLeaderboardUserScoreCount(options);
+                    uint userScoresCount = LeaderboardsHandle.GetLeaderboardUserScoreCount(ref options);
 
                     CopyLeaderboardUserScoreByIndexOptions userScoreOptions = new CopyLeaderboardUserScoreByIndexOptions()
                     {
@@ -375,7 +380,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                         userScoreOptions.LeaderboardUserScoreIndex = userScoreIndex;
 
-                        Result result = LeaderboardsHandle.CopyLeaderboardUserScoreByIndex(userScoreOptions, out LeaderboardUserScore leaderboardUserScore);
+                        Result result = LeaderboardsHandle.CopyLeaderboardUserScoreByIndex(ref userScoreOptions, out LeaderboardUserScore? leaderboardUserScore);
 
                         if (result != Result.Success)
                         {
@@ -383,7 +388,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             break;
                         }
 
-                        currentLeaderboardScores.Add(leaderboardUserScore);
+                        currentLeaderboardScores.Add(leaderboardUserScore.Value);
                     }
                 }
 
@@ -403,14 +408,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return userScores;
         }
 
-        private void LeaderboardUserScoresReceivedCallbackFn(OnQueryLeaderboardUserScoresCompleteCallbackInfo data)
+        private void LeaderboardUserScoresReceivedCallbackFn(ref OnQueryLeaderboardUserScoresCompleteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Leaderboard (LeaderboardUserScoresReceivedCallbackFn): data is null");
-                QueryUserScoresCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Leaderboard (LeaderboardUserScoresReceivedCallbackFn): data is null");
+            //    QueryUserScoresCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -447,16 +452,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Stats = stats
             };
 
-            StatsHandle.IngestStat(options, null, StatsIngestCallbackFn);
+            StatsHandle.IngestStat(ref options, null, StatsIngestCallbackFn);
         }
 
-        private void StatsIngestCallbackFn(IngestStatCompleteCallbackInfo data)
+        private void StatsIngestCallbackFn(ref IngestStatCompleteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Leaderboard (StatsIngestCallbackFn): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Leaderboard (StatsIngestCallbackFn): data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {

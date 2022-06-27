@@ -3,8 +3,8 @@
 
 namespace Epic.OnlineServices.Connect
 {
-	public delegate void OnCreateUserCallback(CreateUserCallbackInfo data);
+	public delegate void OnCreateUserCallback(ref CreateUserCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnCreateUserCallbackInternal(System.IntPtr data);
+	internal delegate void OnCreateUserCallbackInternal(ref CreateUserCallbackInfoInternal data);
 }

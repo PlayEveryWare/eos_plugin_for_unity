@@ -3,46 +3,38 @@
 
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
-	public class SubmitSnapshotCallbackInfo : ICallbackInfo, ISettable
+	public struct SubmitSnapshotCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// The Snapshot Id used in the Submit function.
 		/// </summary>
-		public uint SnapshotId { get; private set; }
+		public uint SnapshotId { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="ProgressionSnapshotInterface.SubmitSnapshot" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(SubmitSnapshotCallbackInfoInternal? other)
+		internal void Set(ref SubmitSnapshotCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				SnapshotId = other.Value.SnapshotId;
-				ClientData = other.Value.ClientData;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SubmitSnapshotCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			SnapshotId = other.SnapshotId;
+			ClientData = other.ClientData;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SubmitSnapshotCallbackInfoInternal : ICallbackInfoInternal
+	internal struct SubmitSnapshotCallbackInfoInternal : ICallbackInfoInternal, IGettable<SubmitSnapshotCallbackInfo>, ISettable<SubmitSnapshotCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private uint m_SnapshotId;
@@ -54,6 +46,11 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public uint SnapshotId
@@ -62,6 +59,11 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 			{
 				return m_SnapshotId;
 			}
+
+			set
+			{
+				m_SnapshotId = value;
+			}
 		}
 
 		public object ClientData
@@ -69,8 +71,13 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -80,6 +87,34 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 			{
 				return m_ClientData;
 			}
+		}
+
+		public void Set(ref SubmitSnapshotCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			SnapshotId = other.SnapshotId;
+			ClientData = other.ClientData;
+		}
+
+		public void Set(ref SubmitSnapshotCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				SnapshotId = other.Value.SnapshotId;
+				ClientData = other.Value.ClientData;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+		}
+
+		public void Get(out SubmitSnapshotCallbackInfo output)
+		{
+			output = new SubmitSnapshotCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for the <see cref="PresenceInterface.AddNotifyOnPresenceChanged" /> function.
 	/// </summary>
-	public class AddNotifyOnPresenceChangedOptions
+	public struct AddNotifyOnPresenceChangedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyOnPresenceChangedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyOnPresenceChangedOptionsInternal : ISettable<AddNotifyOnPresenceChangedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyOnPresenceChangedOptions other)
+		public void Set(ref AddNotifyOnPresenceChangedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceInterface.AddnotifyonpresencechangedApiLatest;
+		}
+
+		public void Set(ref AddNotifyOnPresenceChangedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceInterface.AddnotifyonpresencechangedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyOnPresenceChangedOptions);
 		}
 
 		public void Dispose()

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Platform
 	/// <summary>
 	/// Options for initializing the Epic Online Services SDK.
 	/// </summary>
-	public class AndroidInitializeOptions
+	public struct AndroidInitializeOptions
 	{
 		/// <summary>
 		/// A custom memory allocator, if desired.
@@ -30,14 +30,14 @@ namespace Epic.OnlineServices.Platform
 		/// The string buffer can consist of the following characters:
 		/// A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, and sign, hyphen, parenthesis, plus, minus, colon.
 		/// </summary>
-		public string ProductName { get; set; }
+		public Utf8String ProductName { get; set; }
 
 		/// <summary>
 		/// Product version of the running application.
 		/// 
 		/// The name string has same requirements as the ProductName string.
 		/// </summary>
-		public string ProductVersion { get; set; }
+		public Utf8String ProductVersion { get; set; }
 
 		/// <summary>
 		/// A reserved field that should always be nulled.
@@ -50,16 +50,16 @@ namespace Epic.OnlineServices.Platform
 		/// If provided then the structure will be located in <System>/eos_<system>.h.
 		/// The structure will be named EOS_<System>_InitializeOptions.
 		/// </summary>
-		public AndroidInitializeOptionsSystemInitializeOptions SystemInitializeOptions { get; set; }
+		public AndroidInitializeOptionsSystemInitializeOptions? SystemInitializeOptions { get; set; }
 
 		/// <summary>
 		/// The thread affinity override values for each category of thread.
 		/// </summary>
-		public InitializeThreadAffinity OverrideThreadAffinity { get; set; }
+		public InitializeThreadAffinity? OverrideThreadAffinity { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AndroidInitializeOptionsInternal : ISettable, System.IDisposable
+	internal struct AndroidInitializeOptionsInternal : ISettable<AndroidInitializeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AllocateMemoryFunction;
@@ -95,19 +95,19 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public string ProductName
+		public Utf8String ProductName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductName, value);
+				Helper.Set(value, ref m_ProductName);
 			}
 		}
 
-		public string ProductVersion
+		public Utf8String ProductVersion
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductVersion, value);
+				Helper.Set(value, ref m_ProductVersion);
 			}
 		}
 
@@ -119,53 +119,61 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public AndroidInitializeOptionsSystemInitializeOptions SystemInitializeOptions
+		public AndroidInitializeOptionsSystemInitializeOptions? SystemInitializeOptions
 		{
 			set
 			{
-				Helper.TryMarshalSet<AndroidInitializeOptionsSystemInitializeOptionsInternal, AndroidInitializeOptionsSystemInitializeOptions>(ref m_SystemInitializeOptions, value);
+				Helper.Set<AndroidInitializeOptionsSystemInitializeOptions, AndroidInitializeOptionsSystemInitializeOptionsInternal>(ref value, ref m_SystemInitializeOptions);
 			}
 		}
 
-		public InitializeThreadAffinity OverrideThreadAffinity
+		public InitializeThreadAffinity? OverrideThreadAffinity
 		{
 			set
 			{
-				Helper.TryMarshalSet<InitializeThreadAffinityInternal, InitializeThreadAffinity>(ref m_OverrideThreadAffinity, value);
+				Helper.Set<InitializeThreadAffinity, InitializeThreadAffinityInternal>(ref value, ref m_OverrideThreadAffinity);
 			}
 		}
 
-		public void Set(AndroidInitializeOptions other)
+		public void Set(ref AndroidInitializeOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PlatformInterface.InitializeApiLatest;
+			AllocateMemoryFunction = other.AllocateMemoryFunction;
+			ReallocateMemoryFunction = other.ReallocateMemoryFunction;
+			ReleaseMemoryFunction = other.ReleaseMemoryFunction;
+			ProductName = other.ProductName;
+			ProductVersion = other.ProductVersion;
+			Reserved = other.Reserved;
+			SystemInitializeOptions = other.SystemInitializeOptions;
+			OverrideThreadAffinity = other.OverrideThreadAffinity;
+		}
+
+		public void Set(ref AndroidInitializeOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PlatformInterface.InitializeApiLatest;
-				AllocateMemoryFunction = other.AllocateMemoryFunction;
-				ReallocateMemoryFunction = other.ReallocateMemoryFunction;
-				ReleaseMemoryFunction = other.ReleaseMemoryFunction;
-				ProductName = other.ProductName;
-				ProductVersion = other.ProductVersion;
-				Reserved = other.Reserved;
-				SystemInitializeOptions = other.SystemInitializeOptions;
-				OverrideThreadAffinity = other.OverrideThreadAffinity;
+				AllocateMemoryFunction = other.Value.AllocateMemoryFunction;
+				ReallocateMemoryFunction = other.Value.ReallocateMemoryFunction;
+				ReleaseMemoryFunction = other.Value.ReleaseMemoryFunction;
+				ProductName = other.Value.ProductName;
+				ProductVersion = other.Value.ProductVersion;
+				Reserved = other.Value.Reserved;
+				SystemInitializeOptions = other.Value.SystemInitializeOptions;
+				OverrideThreadAffinity = other.Value.OverrideThreadAffinity;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AndroidInitializeOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AllocateMemoryFunction);
-			Helper.TryMarshalDispose(ref m_ReallocateMemoryFunction);
-			Helper.TryMarshalDispose(ref m_ReleaseMemoryFunction);
-			Helper.TryMarshalDispose(ref m_ProductName);
-			Helper.TryMarshalDispose(ref m_ProductVersion);
-			Helper.TryMarshalDispose(ref m_Reserved);
-			Helper.TryMarshalDispose(ref m_SystemInitializeOptions);
-			Helper.TryMarshalDispose(ref m_OverrideThreadAffinity);
+			Helper.Dispose(ref m_AllocateMemoryFunction);
+			Helper.Dispose(ref m_ReallocateMemoryFunction);
+			Helper.Dispose(ref m_ReleaseMemoryFunction);
+			Helper.Dispose(ref m_ProductName);
+			Helper.Dispose(ref m_ProductVersion);
+			Helper.Dispose(ref m_Reserved);
+			Helper.Dispose(ref m_SystemInitializeOptions);
+			Helper.Dispose(ref m_OverrideThreadAffinity);
 		}
 	}
 }

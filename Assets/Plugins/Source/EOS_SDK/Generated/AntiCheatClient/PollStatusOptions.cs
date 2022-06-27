@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class PollStatusOptions
+	public struct PollStatusOptions
 	{
 		/// <summary>
 		/// The size of OutMessage in bytes. Recommended size is 256 bytes.
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PollStatusOptionsInternal : ISettable, System.IDisposable
+	internal struct PollStatusOptionsInternal : ISettable<PollStatusOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_OutMessageLength;
@@ -25,18 +25,19 @@ namespace Epic.OnlineServices.AntiCheatClient
 			}
 		}
 
-		public void Set(PollStatusOptions other)
+		public void Set(ref PollStatusOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatClientInterface.PollstatusApiLatest;
-				OutMessageLength = other.OutMessageLength;
-			}
+			m_ApiVersion = AntiCheatClientInterface.PollstatusApiLatest;
+			OutMessageLength = other.OutMessageLength;
 		}
 
-		public void Set(object other)
+		public void Set(ref PollStatusOptions? other)
 		{
-			Set(other as PollStatusOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatClientInterface.PollstatusApiLatest;
+				OutMessageLength = other.Value.OutMessageLength;
+			}
 		}
 
 		public void Dispose()

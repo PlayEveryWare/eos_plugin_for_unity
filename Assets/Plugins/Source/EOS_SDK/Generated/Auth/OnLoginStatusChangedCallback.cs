@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Auth
 	/// Function prototype definition for notifications that come from <see cref="AuthInterface.AddNotifyLoginStatusChanged" />
 	/// </summary>
 	/// <param name="data">A <see cref="LoginStatusChangedCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnLoginStatusChangedCallback(LoginStatusChangedCallbackInfo data);
+	public delegate void OnLoginStatusChangedCallback(ref LoginStatusChangedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnLoginStatusChangedCallbackInternal(System.IntPtr data);
+	internal delegate void OnLoginStatusChangedCallbackInternal(ref LoginStatusChangedCallbackInfoInternal data);
 }

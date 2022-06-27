@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.KWS
 	/// <summary>
 	/// Input parameters for the <see cref="KWSInterface.UpdateParentEmail" /> function.
 	/// </summary>
-	public class UpdateParentEmailOptions
+	public struct UpdateParentEmailOptions
 	{
 		/// <summary>
 		/// Local user updating parental information
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.KWS
 		/// <summary>
 		/// New parent email
 		/// </summary>
-		public string ParentEmail { get; set; }
+		public Utf8String ParentEmail { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UpdateParentEmailOptionsInternal : ISettable, System.IDisposable
+	internal struct UpdateParentEmailOptionsInternal : ISettable<UpdateParentEmailOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.KWS
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string ParentEmail
+		public Utf8String ParentEmail
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ParentEmail, value);
+				Helper.Set(value, ref m_ParentEmail);
 			}
 		}
 
-		public void Set(UpdateParentEmailOptions other)
+		public void Set(ref UpdateParentEmailOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = KWSInterface.UpdateparentemailApiLatest;
+			LocalUserId = other.LocalUserId;
+			ParentEmail = other.ParentEmail;
+		}
+
+		public void Set(ref UpdateParentEmailOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = KWSInterface.UpdateparentemailApiLatest;
-				LocalUserId = other.LocalUserId;
-				ParentEmail = other.ParentEmail;
+				LocalUserId = other.Value.LocalUserId;
+				ParentEmail = other.Value.ParentEmail;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UpdateParentEmailOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_ParentEmail);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ParentEmail);
 		}
 	}
 }

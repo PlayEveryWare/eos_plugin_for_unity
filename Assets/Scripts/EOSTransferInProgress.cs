@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool Download = true;
         private uint transferSize = 0;
         public uint CurrentIndex = 0;
-        public List<char> Data = new List<char>();
+        public byte[] Data;
 
         public uint TotalSize
         {

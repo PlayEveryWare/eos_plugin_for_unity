@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.CopyMemberAttributeByIndex" /> function.
 	/// </summary>
-	public class LobbyDetailsCopyMemberAttributeByIndexOptions
+	public struct LobbyDetailsCopyMemberAttributeByIndexOptions
 	{
 		/// <summary>
 		/// The Product User ID of the lobby member
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsCopyMemberAttributeByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsCopyMemberAttributeByIndexOptionsInternal : ISettable<LobbyDetailsCopyMemberAttributeByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbyDetailsCopyMemberAttributeByIndexOptions other)
+		public void Set(ref LobbyDetailsCopyMemberAttributeByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyDetails.LobbydetailsCopymemberattributebyindexApiLatest;
-				TargetUserId = other.TargetUserId;
-				AttrIndex = other.AttrIndex;
-			}
+			m_ApiVersion = LobbyDetails.LobbydetailsCopymemberattributebyindexApiLatest;
+			TargetUserId = other.TargetUserId;
+			AttrIndex = other.AttrIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbyDetailsCopyMemberAttributeByIndexOptions? other)
 		{
-			Set(other as LobbyDetailsCopyMemberAttributeByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyDetails.LobbydetailsCopymemberattributebyindexApiLatest;
+				TargetUserId = other.Value.TargetUserId;
+				AttrIndex = other.Value.AttrIndex;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

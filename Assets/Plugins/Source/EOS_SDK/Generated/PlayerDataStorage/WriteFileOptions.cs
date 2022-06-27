@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Input data for the <see cref="PlayerDataStorageInterface.WriteFile" /> function
 	/// </summary>
-	public class WriteFileOptions
+	public struct WriteFileOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who is writing the requested file to the cloud
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// The name of the file to write; if this file already exists, the contents will be replaced if the write request completes successfully
 		/// </summary>
-		public string Filename { get; set; }
+		public Utf8String Filename { get; set; }
 
 		/// <summary>
 		/// Requested maximum amount of data (in bytes) that can be written to the file per tick
@@ -35,7 +35,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct WriteFileOptionsInternal : ISettable, System.IDisposable
+	internal struct WriteFileOptionsInternal : ISettable<WriteFileOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -48,15 +48,15 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string Filename
+		public Utf8String Filename
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Filename, value);
+				Helper.Set(value, ref m_Filename);
 			}
 		}
 
@@ -96,30 +96,35 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			}
 		}
 
-		public void Set(WriteFileOptions other)
+		public void Set(ref WriteFileOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = PlayerDataStorageInterface.WritefileoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
-				Filename = other.Filename;
-				ChunkLengthBytes = other.ChunkLengthBytes;
-				m_WriteFileDataCallback = other.WriteFileDataCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(WriteFileDataCallback) : System.IntPtr.Zero;
-				m_FileTransferProgressCallback = other.FileTransferProgressCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(FileTransferProgressCallback) : System.IntPtr.Zero;
-			}
+			m_ApiVersion = PlayerDataStorageInterface.WritefileoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+			Filename = other.Filename;
+			ChunkLengthBytes = other.ChunkLengthBytes;
+			m_WriteFileDataCallback = other.WriteFileDataCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(WriteFileDataCallback) : System.IntPtr.Zero;
+			m_FileTransferProgressCallback = other.FileTransferProgressCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(FileTransferProgressCallback) : System.IntPtr.Zero;
 		}
 
-		public void Set(object other)
+		public void Set(ref WriteFileOptions? other)
 		{
-			Set(other as WriteFileOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = PlayerDataStorageInterface.WritefileoptionsApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Filename = other.Value.Filename;
+				ChunkLengthBytes = other.Value.ChunkLengthBytes;
+				m_WriteFileDataCallback = other.Value.WriteFileDataCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(WriteFileDataCallback) : System.IntPtr.Zero;
+				m_FileTransferProgressCallback = other.Value.FileTransferProgressCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(FileTransferProgressCallback) : System.IntPtr.Zero;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Filename);
-			Helper.TryMarshalDispose(ref m_WriteFileDataCallback);
-			Helper.TryMarshalDispose(ref m_FileTransferProgressCallback);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Filename);
+			Helper.Dispose(ref m_WriteFileDataCallback);
+			Helper.Dispose(ref m_FileTransferProgressCallback);
 		}
 	}
 }

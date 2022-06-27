@@ -6,8 +6,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Callback for when <see cref="PlayerDataStorageInterface.DeleteFile" /> completes
 	/// </summary>
-	public delegate void OnDeleteFileCompleteCallback(DeleteFileCallbackInfo data);
+	public delegate void OnDeleteFileCompleteCallback(ref DeleteFileCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnDeleteFileCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnDeleteFileCompleteCallbackInternal(ref DeleteFileCallbackInfoInternal data);
 }

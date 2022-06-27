@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class ProtectMessageOptions
+	public struct ProtectMessageOptions
 	{
 		/// <summary>
 		/// Locally unique value describing the remote user to whom the message will be sent
@@ -13,7 +13,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <summary>
 		/// The data to encrypt
 		/// </summary>
-		public byte[] Data { get; set; }
+		public System.ArraySegment<byte> Data { get; set; }
 
 		/// <summary>
 		/// The size in bytes of OutBuffer
@@ -22,7 +22,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ProtectMessageOptionsInternal : ISettable, System.IDisposable
+	internal struct ProtectMessageOptionsInternal : ISettable<ProtectMessageOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ClientHandle;
@@ -38,11 +38,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
-		public byte[] Data
+		public System.ArraySegment<byte> Data
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Data, value, out m_DataLengthBytes);
+				Helper.Set(value, ref m_Data, out m_DataLengthBytes);
 			}
 		}
 
@@ -54,26 +54,29 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
-		public void Set(ProtectMessageOptions other)
+		public void Set(ref ProtectMessageOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatServerInterface.ProtectmessageApiLatest;
-				ClientHandle = other.ClientHandle;
-				Data = other.Data;
-				OutBufferSizeBytes = other.OutBufferSizeBytes;
-			}
+			m_ApiVersion = AntiCheatServerInterface.ProtectmessageApiLatest;
+			ClientHandle = other.ClientHandle;
+			Data = other.Data;
+			OutBufferSizeBytes = other.OutBufferSizeBytes;
 		}
 
-		public void Set(object other)
+		public void Set(ref ProtectMessageOptions? other)
 		{
-			Set(other as ProtectMessageOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatServerInterface.ProtectmessageApiLatest;
+				ClientHandle = other.Value.ClientHandle;
+				Data = other.Value.Data;
+				OutBufferSizeBytes = other.Value.OutBufferSizeBytes;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientHandle);
-			Helper.TryMarshalDispose(ref m_Data);
+			Helper.Dispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_Data);
 		}
 	}
 }

@@ -6,58 +6,50 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Data containing the information about a file transfer in progress (or one that has completed)
 	/// </summary>
-	public class FileTransferProgressCallbackInfo : ICallbackInfo, ISettable
+	public struct FileTransferProgressCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into the file request
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who initiated this request
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The file name of the file being transferred
 		/// </summary>
-		public string Filename { get; private set; }
+		public Utf8String Filename { get; set; }
 
 		/// <summary>
 		/// Amount of bytes transferred so far in this request, out of TotalFileSizeBytes
 		/// </summary>
-		public uint BytesTransferred { get; private set; }
+		public uint BytesTransferred { get; set; }
 
 		/// <summary>
 		/// The total size of the file being transferred (Includes file header in addition to file contents, can be slightly more than expected)
 		/// </summary>
-		public uint TotalFileSizeBytes { get; private set; }
+		public uint TotalFileSizeBytes { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(FileTransferProgressCallbackInfoInternal? other)
+		internal void Set(ref FileTransferProgressCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				Filename = other.Value.Filename;
-				BytesTransferred = other.Value.BytesTransferred;
-				TotalFileSizeBytes = other.Value.TotalFileSizeBytes;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as FileTransferProgressCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			Filename = other.Filename;
+			BytesTransferred = other.BytesTransferred;
+			TotalFileSizeBytes = other.TotalFileSizeBytes;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct FileTransferProgressCallbackInfoInternal : ICallbackInfoInternal
+	internal struct FileTransferProgressCallbackInfoInternal : ICallbackInfoInternal, IGettable<FileTransferProgressCallbackInfo>, ISettable<FileTransferProgressCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -70,8 +62,13 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -88,18 +85,28 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string Filename
+		public Utf8String Filename
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Filename, out value);
+				Utf8String value;
+				Helper.Get(m_Filename, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_Filename);
 			}
 		}
 
@@ -109,6 +116,11 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			{
 				return m_BytesTransferred;
 			}
+
+			set
+			{
+				m_BytesTransferred = value;
+			}
 		}
 
 		public uint TotalFileSizeBytes
@@ -117,6 +129,45 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			{
 				return m_TotalFileSizeBytes;
 			}
+
+			set
+			{
+				m_TotalFileSizeBytes = value;
+			}
+		}
+
+		public void Set(ref FileTransferProgressCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			Filename = other.Filename;
+			BytesTransferred = other.BytesTransferred;
+			TotalFileSizeBytes = other.TotalFileSizeBytes;
+		}
+
+		public void Set(ref FileTransferProgressCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				Filename = other.Value.Filename;
+				BytesTransferred = other.Value.BytesTransferred;
+				TotalFileSizeBytes = other.Value.TotalFileSizeBytes;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Filename);
+		}
+
+		public void Get(out FileTransferProgressCallbackInfo output)
+		{
+			output = new FileTransferProgressCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

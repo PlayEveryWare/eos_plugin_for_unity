@@ -10,12 +10,12 @@ namespace Epic.OnlineServices.Sessions
 	/// The two comparisons are AND'd together
 	/// (ie, Key GREATER_THAN 5, Key NOT_EQUALS 10)
 	/// </summary>
-	public class SessionSearchSetParameterOptions
+	public struct SessionSearchSetParameterOptions
 	{
 		/// <summary>
 		/// Search parameter describing a key and a value to compare
 		/// </summary>
-		public AttributeData Parameter { get; set; }
+		public AttributeData? Parameter { get; set; }
 
 		/// <summary>
 		/// The type of comparison to make against the search parameter
@@ -24,17 +24,17 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionSearchSetParameterOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionSearchSetParameterOptionsInternal : ISettable<SessionSearchSetParameterOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Parameter;
 		private ComparisonOp m_ComparisonOp;
 
-		public AttributeData Parameter
+		public AttributeData? Parameter
 		{
 			set
 			{
-				Helper.TryMarshalSet<AttributeDataInternal, AttributeData>(ref m_Parameter, value);
+				Helper.Set<AttributeData, AttributeDataInternal>(ref value, ref m_Parameter);
 			}
 		}
 
@@ -46,24 +46,26 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(SessionSearchSetParameterOptions other)
+		public void Set(ref SessionSearchSetParameterOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionSearch.SessionsearchSetparameterApiLatest;
-				Parameter = other.Parameter;
-				ComparisonOp = other.ComparisonOp;
-			}
+			m_ApiVersion = SessionSearch.SessionsearchSetparameterApiLatest;
+			Parameter = other.Parameter;
+			ComparisonOp = other.ComparisonOp;
 		}
 
-		public void Set(object other)
+		public void Set(ref SessionSearchSetParameterOptions? other)
 		{
-			Set(other as SessionSearchSetParameterOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionSearch.SessionsearchSetparameterApiLatest;
+				Parameter = other.Value.Parameter;
+				ComparisonOp = other.Value.ComparisonOp;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Parameter);
+			Helper.Dispose(ref m_Parameter);
 		}
 	}
 }

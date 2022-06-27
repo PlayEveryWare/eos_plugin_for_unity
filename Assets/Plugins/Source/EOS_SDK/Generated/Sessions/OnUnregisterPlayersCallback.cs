@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Sessions
 	/// Function prototype definition for callbacks passed to <see cref="SessionsInterface.UnregisterPlayers" />
 	/// </summary>
 	/// <param name="data">A <see cref="UnregisterPlayersCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnUnregisterPlayersCallback(UnregisterPlayersCallbackInfo data);
+	public delegate void OnUnregisterPlayersCallback(ref UnregisterPlayersCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnUnregisterPlayersCallbackInternal(System.IntPtr data);
+	internal delegate void OnUnregisterPlayersCallbackInternal(ref UnregisterPlayersCallbackInfoInternal data);
 }

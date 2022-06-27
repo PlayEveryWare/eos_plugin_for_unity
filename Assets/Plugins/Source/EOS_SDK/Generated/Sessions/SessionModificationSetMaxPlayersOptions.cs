@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionModification.SetMaxPlayers" /> function.
 	/// </summary>
-	public class SessionModificationSetMaxPlayersOptions
+	public struct SessionModificationSetMaxPlayersOptions
 	{
 		/// <summary>
 		/// Max number of players to allow in the session
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionModificationSetMaxPlayersOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionModificationSetMaxPlayersOptionsInternal : ISettable<SessionModificationSetMaxPlayersOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_MaxPlayers;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(SessionModificationSetMaxPlayersOptions other)
+		public void Set(ref SessionModificationSetMaxPlayersOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionModification.SessionmodificationSetmaxplayersApiLatest;
-				MaxPlayers = other.MaxPlayers;
-			}
+			m_ApiVersion = SessionModification.SessionmodificationSetmaxplayersApiLatest;
+			MaxPlayers = other.MaxPlayers;
 		}
 
-		public void Set(object other)
+		public void Set(ref SessionModificationSetMaxPlayersOptions? other)
 		{
-			Set(other as SessionModificationSetMaxPlayersOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionModification.SessionmodificationSetmaxplayersApiLatest;
+				MaxPlayers = other.Value.MaxPlayers;
+			}
 		}
 
 		public void Dispose()

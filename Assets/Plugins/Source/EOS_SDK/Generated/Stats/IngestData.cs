@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Stats
 	/// <summary>
 	/// Contains information about a single stat to ingest.
 	/// </summary>
-	public class IngestData : ISettable
+	public struct IngestData
 	{
 		/// <summary>
 		/// The name of the stat to ingest.
 		/// </summary>
-		public string StatName { get; set; }
+		public Utf8String StatName { get; set; }
 
 		/// <summary>
 		/// The amount to ingest the stat.
 		/// </summary>
 		public int IngestAmount { get; set; }
 
-		internal void Set(IngestDataInternal? other)
+		internal void Set(ref IngestDataInternal other)
 		{
-			if (other != null)
-			{
-				StatName = other.Value.StatName;
-				IngestAmount = other.Value.IngestAmount;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as IngestDataInternal?);
+			StatName = other.StatName;
+			IngestAmount = other.IngestAmount;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct IngestDataInternal : ISettable, System.IDisposable
+	internal struct IngestDataInternal : IGettable<IngestData>, ISettable<IngestData>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_StatName;
 		private int m_IngestAmount;
 
-		public string StatName
+		public Utf8String StatName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_StatName, out value);
+				Utf8String value;
+				Helper.Get(m_StatName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_StatName, value);
+				Helper.Set(value, ref m_StatName);
 			}
 		}
 
@@ -68,24 +60,32 @@ namespace Epic.OnlineServices.Stats
 			}
 		}
 
-		public void Set(IngestData other)
+		public void Set(ref IngestData other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = StatsInterface.IngestdataApiLatest;
-				StatName = other.StatName;
-				IngestAmount = other.IngestAmount;
-			}
+			m_ApiVersion = StatsInterface.IngestdataApiLatest;
+			StatName = other.StatName;
+			IngestAmount = other.IngestAmount;
 		}
 
-		public void Set(object other)
+		public void Set(ref IngestData? other)
 		{
-			Set(other as IngestData);
+			if (other.HasValue)
+			{
+				m_ApiVersion = StatsInterface.IngestdataApiLatest;
+				StatName = other.Value.StatName;
+				IngestAmount = other.Value.IngestAmount;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_StatName);
+			Helper.Dispose(ref m_StatName);
+		}
+
+		public void Get(out IngestData output)
+		{
+			output = new IngestData();
+			output.Set(ref this);
 		}
 	}
 }

@@ -36,14 +36,14 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// <returns>
 		/// <see cref="Result.Success" /> when successful; otherwise, <see cref="Result.NotFound" />
 		/// </returns>
-		public Result AddProgression(AddProgressionOptions options)
+		public Result AddProgression(ref AddProgressionOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddProgressionOptionsInternal, AddProgressionOptions>(ref optionsAddress, options);
+			AddProgressionOptionsInternal optionsInternal = new AddProgressionOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_ProgressionSnapshot_AddProgression(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_ProgressionSnapshot_AddProgression(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -57,16 +57,16 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// <see cref="Result.Success" /> when successful.
 		/// <see cref="Result.ProgressionSnapshotSnapshotIdUnavailable" /> when no IDs are available. This is irrecoverable state.
 		/// </returns>
-		public Result BeginSnapshot(BeginSnapshotOptions options, out uint outSnapshotId)
+		public Result BeginSnapshot(ref BeginSnapshotOptions options, out uint outSnapshotId)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<BeginSnapshotOptionsInternal, BeginSnapshotOptions>(ref optionsAddress, options);
+			BeginSnapshotOptionsInternal optionsInternal = new BeginSnapshotOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			outSnapshotId = Helper.GetDefault<uint>();
 
-			var funcResult = Bindings.EOS_ProgressionSnapshot_BeginSnapshot(InnerHandle, optionsAddress, ref outSnapshotId);
+			var funcResult = Bindings.EOS_ProgressionSnapshot_BeginSnapshot(InnerHandle, ref optionsInternal, ref outSnapshotId);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -75,19 +75,19 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// Wipes out all progression data for the given user from the service. However, any previous progression data that haven't
 		/// been submitted yet are retained.
 		/// </summary>
-		public void DeleteSnapshot(DeleteSnapshotOptions options, object clientData, OnDeleteSnapshotCallback completionDelegate)
+		public void DeleteSnapshot(ref DeleteSnapshotOptions options, object clientData, OnDeleteSnapshotCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<DeleteSnapshotOptionsInternal, DeleteSnapshotOptions>(ref optionsAddress, options);
+			DeleteSnapshotOptionsInternal optionsInternal = new DeleteSnapshotOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnDeleteSnapshotCallbackInternal(OnDeleteSnapshotCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_ProgressionSnapshot_DeleteSnapshot(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_ProgressionSnapshot_DeleteSnapshot(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -96,14 +96,14 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// <returns>
 		/// <see cref="Result.Success" /> when successful; otherwise, <see cref="Result.NotFound" />
 		/// </returns>
-		public Result EndSnapshot(EndSnapshotOptions options)
+		public Result EndSnapshot(ref EndSnapshotOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<EndSnapshotOptionsInternal, EndSnapshotOptions>(ref optionsAddress, options);
+			EndSnapshotOptionsInternal optionsInternal = new EndSnapshotOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_ProgressionSnapshot_EndSnapshot(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_ProgressionSnapshot_EndSnapshot(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -113,40 +113,40 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// 
 		/// Note: This will overwrite any prior progression data stored with the service that's associated with the user.
 		/// </summary>
-		public void SubmitSnapshot(SubmitSnapshotOptions options, object clientData, OnSubmitSnapshotCallback completionDelegate)
+		public void SubmitSnapshot(ref SubmitSnapshotOptions options, object clientData, OnSubmitSnapshotCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SubmitSnapshotOptionsInternal, SubmitSnapshotOptions>(ref optionsAddress, options);
+			SubmitSnapshotOptionsInternal optionsInternal = new SubmitSnapshotOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnSubmitSnapshotCallbackInternal(OnSubmitSnapshotCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_ProgressionSnapshot_SubmitSnapshot(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_ProgressionSnapshot_SubmitSnapshot(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnDeleteSnapshotCallbackInternal))]
-		internal static void OnDeleteSnapshotCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnDeleteSnapshotCallbackInternalImplementation(ref DeleteSnapshotCallbackInfoInternal data)
 		{
 			OnDeleteSnapshotCallback callback;
 			DeleteSnapshotCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnDeleteSnapshotCallback, DeleteSnapshotCallbackInfoInternal, DeleteSnapshotCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnSubmitSnapshotCallbackInternal))]
-		internal static void OnSubmitSnapshotCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnSubmitSnapshotCallbackInternalImplementation(ref SubmitSnapshotCallbackInfoInternal data)
 		{
 			OnSubmitSnapshotCallback callback;
 			SubmitSnapshotCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnSubmitSnapshotCallback, SubmitSnapshotCallbackInfoInternal, SubmitSnapshotCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

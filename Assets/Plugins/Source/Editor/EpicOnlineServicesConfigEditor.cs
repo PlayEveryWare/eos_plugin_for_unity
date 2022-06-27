@@ -34,6 +34,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class EpicOnlineServicesConfigEditor : EditorWindow
     {
+        static EpicOnlineServicesConfigEditor()
+        {
+        }
+
         public static void AddPlatformSpecificConfigEditor(IPlatformSpecificConfigEditor platformSpecificConfigEditor)
         {
             if (platformSpecificConfigEditors == null)
@@ -46,54 +50,11 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string ConfigFilename = "EpicOnlineServicesConfig.json";
         private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
-        int toolbarInt = 0;
-        string[] toolbarTitleStrings;
         static List<IPlatformSpecificConfigEditor> platformSpecificConfigEditors;
 
-        public class EOSConfigFile<T> where T : ICloneableGeneric<T>, IEmpty, new()
-        {
-            public string configFilename;
-            public T configDataOnDisk;
-            public T currentEOSConfig;
 
-            public EOSConfigFile(string aConfigFilename)
-            {
-                configFilename = aConfigFilename;
-            }
-
-            public void LoadConfigFromDisk()
-            {
-                string eosFinalConfigPath = GetConfigPath(configFilename);
-                bool jsonConfigExists = File.Exists(eosFinalConfigPath);
-
-                if (jsonConfigExists)
-                {
-                    var configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
-                    configDataOnDisk = JsonUtility.FromJson<T>(configDataAsString);
-                }
-                else
-                {
-                    configDataOnDisk = new T();
-                }
-                currentEOSConfig = configDataOnDisk.Clone();
-            }
-
-            public void SaveToJSONConfig(bool prettyPrint)
-            {
-                if (currentEOSConfig.IsEmpty())
-                {
-                    AssetDatabase.DeleteAsset(GetConfigPath(configFilename));
-                }
-                else
-                {
-                    var configDataAsJSON = JsonUtility.ToJson(currentEOSConfig, prettyPrint);
-
-                    File.WriteAllText(GetConfigPath(configFilename), configDataAsJSON);
-                }
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            }
-        }
+        int toolbarInt = 0;
+        string[] toolbarTitleStrings;
 
         EOSConfigFile<EOSConfig> mainEOSConfigFile;
 
@@ -107,7 +68,32 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EpicOnlineServicesConfigEditor")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(EpicOnlineServicesConfigEditor));
+            GetWindow(typeof(EpicOnlineServicesConfigEditor), false, "EOS Config Editor", true);
+        }
+
+
+        [SettingsProvider]
+        public static SettingsProvider CreateProjectSettingsProvider()
+        {
+            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EpicOnlineServicesConfigEditor>();
+            var keywords = new List<string>();
+
+            foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
+            {
+                keywords.Add(platformSpecificConfigEditor.GetNameForMenu());
+            }
+
+            var provider = new SettingsProvider("Project/EOS Plugin", SettingsScope.Project)
+            {
+                label = "EOS Plugin",
+                keywords = keywords,
+                guiHandler = (searchContext) =>
+                {
+                    eosPluginEditorConfigEditor.OnGUI();
+                }
+            };
+
+            return provider;
         }
 
         private static string GetConfigDirectory()
@@ -115,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS");
         }
 
-        private static string GetConfigPath(string configFilename)
+        public static string GetConfigPath(string configFilename)
         {
             return System.IO.Path.Combine(GetConfigDirectory(), configFilename);
         }
@@ -191,8 +177,8 @@ _WIN32 || _WIN64
 
         private void Awake()
         {
-            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(ConfigFilename);
-            steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(IntegratedPlatformConfigFilenameForSteam);
+            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename));
+            steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
 
             if (platformSpecificConfigEditors == null)
             {
@@ -275,6 +261,59 @@ _WIN32 || _WIN64
             }
         }
 
+        public static void AssigningULongField(string label, ref ulong value)
+        {
+            ulong newValue = value;
+            var newValueAsString = EditorGUILayout.TextField(label, value.ToString(), GUILayout.ExpandWidth(true));
+
+            try
+            {
+                newValue = ulong.Parse(newValueAsString);
+            }
+            catch (FormatException)
+            {
+            }
+            catch (OverflowException)
+            {
+            }
+        }
+
+        public static void AssigningULongToStringField(string label, ref string value)
+        {
+            try
+            {
+                EditorGUILayout.BeginHorizontal();
+                var newValueAsString = EditorGUILayout.TextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
+
+                if (GUILayout.Button("clear"))
+                {
+                    value = null;
+                }
+                else
+                {
+                    if (newValueAsString.Length == 0)
+                    {
+                        value = null;
+                        return;
+                    }
+
+                    var valueAsLong = ulong.Parse(newValueAsString);
+                    value = valueAsLong.ToString();
+                }
+            }
+            catch (FormatException)
+            {
+            }
+            catch (OverflowException)
+            {
+            }
+            finally
+            {
+                EditorGUILayout.EndHorizontal();
+            }
+
+        }
+
         public static void AssigningBoolField(string label, float labelWidth, ref bool value)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
@@ -311,6 +350,25 @@ _WIN32 || _WIN64
             EditorGUILayout.EndHorizontal();
         }
 
+
+        public static void HorizontalLine(Color color)
+        {
+
+            var defaultHorizontalLineStyle = new GUIStyle();
+            defaultHorizontalLineStyle.normal.background = EditorGUIUtility.whiteTexture;
+            defaultHorizontalLineStyle.margin = new RectOffset(0, 0, 4, 4);
+            defaultHorizontalLineStyle.fixedHeight = 1;
+            HorizontalLine(color, defaultHorizontalLineStyle);
+        }
+
+        public static void HorizontalLine(Color color, GUIStyle guiStyle)
+        {
+            var currentColor = GUI.color;
+            GUI.color = color;
+            GUILayout.Box(GUIContent.none, guiStyle);
+            GUI.color = currentColor;
+        }
+
         private void OnDefaultGUI()
         {
             GUILayout.Label("Epic Online Services", EditorStyles.boldLabel);
@@ -324,11 +382,53 @@ _WIN32 || _WIN64
             AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxID);
             AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.deploymentID);
 
-            // This will be used on Windows via the nativeredner code, unless otherwise specified
-            GUILayout.Label("Default Client Credentials");
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+
+            EditorGUIUtility.labelWidth = 200;
+            AssigningULongToStringField("Thread Affinity: networkWork", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_networkWork);
+            AssigningULongToStringField("Thread Affinity: storageIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_storageIO);
+            AssigningULongToStringField("Thread Affinity: webSocketIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_webSocketIO);
+            AssigningULongToStringField("Thread Affinity: P2PIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_P2PIO);
+            AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_HTTPRequestIO);
+            AssigningULongToStringField("Thread Affinity: RTCIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_RTCIO);
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+
+            string timeBudgetAsSting = "";
+
+            if (mainEOSConfigFile.currentEOSConfig.tickBudgetInMilliseconds != 0)
+            {
+                timeBudgetAsSting = mainEOSConfigFile.currentEOSConfig.tickBudgetInMilliseconds.ToString();
+            }
+            AssigningTextField("Time Budget in milliseconds", ref timeBudgetAsSting);
+
+            if (timeBudgetAsSting.Length != 0)
+            {
+                try
+                {
+                   mainEOSConfigFile.currentEOSConfig.tickBudgetInMilliseconds = Convert.ToUInt32(timeBudgetAsSting, 10);
+                }
+                catch
+                {
+
+                }
+            }
+            else
+            {
+                mainEOSConfigFile.currentEOSConfig.tickBudgetInMilliseconds = 0;
+            }
+
+            // This will be used on Windows via the nativerender code, unless otherwise specified
+            EditorGUILayout.Separator();
+            GUILayout.Label("Default Client Credentials", EditorStyles.boldLabel);
             AssigningTextField("Client ID", ref mainEOSConfigFile.currentEOSConfig.clientID);
             AssigningTextField("Client Secret", ref mainEOSConfigFile.currentEOSConfig.clientSecret);
             AssigningTextField("Encryption Key", ref mainEOSConfigFile.currentEOSConfig.encryptionKey);
+
+            if (mainEOSConfigFile.currentEOSConfig.encryptionKey.Length != 64)
+            {
+                EditorGUILayout.HelpBox("Encryption key needs to be 64 characters in length.", MessageType.Error);
+            }
 
             AssigningFlagTextField("Platform Flags (Seperated by '|')", 190, ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags);
 
@@ -337,7 +437,7 @@ _WIN32 || _WIN64
 
         private void OnSteamGUI()
         {
-            GUILayout.Label("Steam Configuration Values");
+            GUILayout.Label("Steam Configuration Values", EditorStyles.boldLabel);
             AssigningFlagTextField("Steam Flags (Seperated by '|')", 190, ref steamEOSConfigFile.currentEOSConfig.flags);
             AssigningTextField("Override Library path", ref steamEOSConfigFile.currentEOSConfig.overrideLibraryPath);
         }
@@ -376,6 +476,7 @@ _WIN32 || _WIN64
             eosGeneratedCFilePath = EditorUtility.OpenFolderPanel("Pick Path For Generated C File", "", "");
         }
 #endif
+            EditorGUILayout.Separator();
             GUILayout.Label("Config Format Options", EditorStyles.boldLabel);
             AssigningBoolField("Save JSON in 'Pretty' Format", 190, ref prettyPrint);
             if (GUILayout.Button("Save All Changes"))

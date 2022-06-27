@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 	/// Optional callback issued when a connected peer's authentication status has changed.
 	/// This callback is always issued from within <see cref="Platform.PlatformInterface.Tick" /> on its calling thread.
 	/// </summary>
-	public delegate void OnPeerAuthStatusChangedCallback(AntiCheatCommon.OnClientAuthStatusChangedCallbackInfo data);
+	public delegate void OnPeerAuthStatusChangedCallback(ref AntiCheatCommon.OnClientAuthStatusChangedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnPeerAuthStatusChangedCallbackInternal(System.IntPtr data);
+	internal delegate void OnPeerAuthStatusChangedCallbackInternal(ref AntiCheatCommon.OnClientAuthStatusChangedCallbackInfoInternal data);
 }

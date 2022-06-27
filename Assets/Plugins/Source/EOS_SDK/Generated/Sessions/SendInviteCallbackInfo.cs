@@ -6,40 +6,32 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Output parameters for the <see cref="SessionsInterface.SendInvite" /> function.
 	/// </summary>
-	public class SendInviteCallbackInfo : ICallbackInfo, ISettable
+	public struct SendInviteCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="SessionsInterface.SendInvite" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(SendInviteCallbackInfoInternal? other)
+		internal void Set(ref SendInviteCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SendInviteCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SendInviteCallbackInfoInternal : ICallbackInfoInternal
+	internal struct SendInviteCallbackInfoInternal : ICallbackInfoInternal, IGettable<SendInviteCallbackInfo>, ISettable<SendInviteCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -50,6 +42,11 @@ namespace Epic.OnlineServices.Sessions
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -57,8 +54,13 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -68,6 +70,32 @@ namespace Epic.OnlineServices.Sessions
 			{
 				return m_ClientData;
 			}
+		}
+
+		public void Set(ref SendInviteCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+		}
+
+		public void Set(ref SendInviteCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+		}
+
+		public void Get(out SendInviteCallbackInfo output)
+		{
+			output = new SendInviteCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Sessions
 	/// Function prototype definition for notifications that come from <see cref="SessionsInterface.AddNotifySessionInviteReceived" />
 	/// </summary>
 	/// <param name="data">A <see cref="SessionInviteReceivedCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnSessionInviteReceivedCallback(SessionInviteReceivedCallbackInfo data);
+	public delegate void OnSessionInviteReceivedCallback(ref SessionInviteReceivedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnSessionInviteReceivedCallbackInternal(System.IntPtr data);
+	internal delegate void OnSessionInviteReceivedCallbackInternal(ref SessionInviteReceivedCallbackInfoInternal data);
 }

@@ -3,12 +3,12 @@
 
 namespace Epic.OnlineServices.Lobby
 {
-	public class AttributeDataValue : ISettable
+	public struct AttributeDataValue
 	{
 		private long? m_AsInt64;
 		private double? m_AsDouble;
 		private bool? m_AsBool;
-		private string m_AsUtf8;
+		private Utf8String m_AsUtf8;
 		private AttributeType m_ValueType;
 
 		/// <summary>
@@ -19,31 +19,31 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				long? value;
-				Helper.TryMarshalGet(m_AsInt64, out value, m_ValueType, AttributeType.Int64);
+				Helper.Get(m_AsInt64, out value, m_ValueType, AttributeType.Int64);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AsInt64, value, ref m_ValueType, AttributeType.Int64);
+				Helper.Set<long?, AttributeType>(value, ref m_AsInt64, AttributeType.Int64, ref m_ValueType);
 			}
 		}
 
 		/// <summary>
-		/// Stored as a double precision floating point
+		/// Stored as a <see cref="double" /> precision floating point
 		/// </summary>
 		public double? AsDouble
 		{
 			get
 			{
 				double? value;
-				Helper.TryMarshalGet(m_AsDouble, out value, m_ValueType, AttributeType.Double);
+				Helper.Get(m_AsDouble, out value, m_ValueType, AttributeType.Double);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AsDouble, value, ref m_ValueType, AttributeType.Double);
+				Helper.Set<double?, AttributeType>(value, ref m_AsDouble, AttributeType.Double, ref m_ValueType);
 			}
 		}
 
@@ -55,31 +55,31 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				bool? value;
-				Helper.TryMarshalGet(m_AsBool, out value, m_ValueType, AttributeType.Boolean);
+				Helper.Get(m_AsBool, out value, m_ValueType, AttributeType.Boolean);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AsBool, value, ref m_ValueType, AttributeType.Boolean);
+				Helper.Set<bool?, AttributeType>(value, ref m_AsBool, AttributeType.Boolean, ref m_ValueType);
 			}
 		}
 
 		/// <summary>
 		/// Stored as a null terminated UTF8 string
 		/// </summary>
-		public string AsUtf8
+		public Utf8String AsUtf8
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AsUtf8, out value, m_ValueType, AttributeType.String);
+				Utf8String value;
+				Helper.Get(m_AsUtf8, out value, m_ValueType, AttributeType.String);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AsUtf8, value, ref m_ValueType, AttributeType.String);
+				Helper.Set<Utf8String, AttributeType>(value, ref m_AsUtf8, AttributeType.String, ref m_ValueType);
 			}
 		}
 
@@ -114,30 +114,27 @@ namespace Epic.OnlineServices.Lobby
 			return new AttributeDataValue() { AsBool = value };
 		}
 
+		public static implicit operator AttributeDataValue(Utf8String value)
+		{
+			return new AttributeDataValue() { AsUtf8 = value };
+		}
+
 		public static implicit operator AttributeDataValue(string value)
 		{
 			return new AttributeDataValue() { AsUtf8 = value };
 		}
 
-		internal void Set(AttributeDataValueInternal? other)
+		internal void Set(ref AttributeDataValueInternal other)
 		{
-			if (other != null)
-			{
-				AsInt64 = other.Value.AsInt64;
-				AsDouble = other.Value.AsDouble;
-				AsBool = other.Value.AsBool;
-				AsUtf8 = other.Value.AsUtf8;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AttributeDataValueInternal?);
+			AsInt64 = other.AsInt64;
+			AsDouble = other.AsDouble;
+			AsBool = other.AsBool;
+			AsUtf8 = other.AsUtf8;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Pack = 8)]
-	internal struct AttributeDataValueInternal : ISettable, System.IDisposable
+	internal struct AttributeDataValueInternal : IGettable<AttributeDataValue>, ISettable<AttributeDataValue>, System.IDisposable
 	{
 		[System.Runtime.InteropServices.FieldOffset(0)]
 		private long m_AsInt64;
@@ -155,13 +152,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				long? value;
-				Helper.TryMarshalGet(m_AsInt64, out value, m_ValueType, AttributeType.Int64);
+				Helper.Get(m_AsInt64, out value, m_ValueType, AttributeType.Int64);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AsInt64, value, ref m_ValueType, AttributeType.Int64, this);
+				Helper.Set<long, AttributeType>(value, ref m_AsInt64, AttributeType.Int64, ref m_ValueType, this);
 			}
 		}
 
@@ -170,13 +167,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				double? value;
-				Helper.TryMarshalGet(m_AsDouble, out value, m_ValueType, AttributeType.Double);
+				Helper.Get(m_AsDouble, out value, m_ValueType, AttributeType.Double);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AsDouble, value, ref m_ValueType, AttributeType.Double, this);
+				Helper.Set<double, AttributeType>(value, ref m_AsDouble, AttributeType.Double, ref m_ValueType, this);
 			}
 		}
 
@@ -185,50 +182,59 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				bool? value;
-				Helper.TryMarshalGet(m_AsBool, out value, m_ValueType, AttributeType.Boolean);
+				Helper.Get(m_AsBool, out value, m_ValueType, AttributeType.Boolean);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AsBool, value, ref m_ValueType, AttributeType.Boolean, this);
+				Helper.Set(value, ref m_AsBool, AttributeType.Boolean, ref m_ValueType, this);
 			}
 		}
 
-		public string AsUtf8
+		public Utf8String AsUtf8
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AsUtf8, out value, m_ValueType, AttributeType.String);
+				Utf8String value;
+				Helper.Get(m_AsUtf8, out value, m_ValueType, AttributeType.String);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AsUtf8, value, ref m_ValueType, AttributeType.String, this);
+				Helper.Set<AttributeType>(value, ref m_AsUtf8, AttributeType.String, ref m_ValueType, this);
 			}
 		}
 
-		public void Set(AttributeDataValue other)
+		public void Set(ref AttributeDataValue other)
 		{
-			if (other != null)
+			AsInt64 = other.AsInt64;
+			AsDouble = other.AsDouble;
+			AsBool = other.AsBool;
+			AsUtf8 = other.AsUtf8;
+		}
+
+		public void Set(ref AttributeDataValue? other)
+		{
+			if (other.HasValue)
 			{
-				AsInt64 = other.AsInt64;
-				AsDouble = other.AsDouble;
-				AsBool = other.AsBool;
-				AsUtf8 = other.AsUtf8;
+				AsInt64 = other.Value.AsInt64;
+				AsDouble = other.Value.AsDouble;
+				AsBool = other.Value.AsBool;
+				AsUtf8 = other.Value.AsUtf8;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AttributeDataValue);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AsUtf8, m_ValueType, AttributeType.String);
+			Helper.Dispose(ref m_AsUtf8, m_ValueType, AttributeType.String);
+		}
+
+		public void Get(out AttributeDataValue output)
+		{
+			output = new AttributeDataValue();
+			output.Set(ref this);
 		}
 	}
 }

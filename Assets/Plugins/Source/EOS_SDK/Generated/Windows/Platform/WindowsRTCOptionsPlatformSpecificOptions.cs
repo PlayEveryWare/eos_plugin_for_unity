@@ -6,65 +6,64 @@ namespace Epic.OnlineServices.Platform
 	/// <summary>
 	/// Options for initializing rtc functionality required for some platforms.
 	/// </summary>
-	public class WindowsRTCOptionsPlatformSpecificOptions : ISettable
+	public struct WindowsRTCOptionsPlatformSpecificOptions
 	{
 		/// <summary>
-		/// The absolute path to a `xaudio2_9redist.dll` dependency, including the file name
+		/// The absolute path to a `xaudio2_9redist.dll` dependency, including the file name.
 		/// </summary>
-		public string XAudio29DllPath { get; set; }
+		public Utf8String XAudio29DllPath { get; set; }
 
-		internal void Set(WindowsRTCOptionsPlatformSpecificOptionsInternal? other)
+		internal void Set(ref WindowsRTCOptionsPlatformSpecificOptionsInternal other)
 		{
-			if (other != null)
-			{
-				XAudio29DllPath = other.Value.XAudio29DllPath;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as WindowsRTCOptionsPlatformSpecificOptionsInternal?);
+			XAudio29DllPath = other.XAudio29DllPath;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct WindowsRTCOptionsPlatformSpecificOptionsInternal : ISettable, System.IDisposable
+	internal struct WindowsRTCOptionsPlatformSpecificOptionsInternal : IGettable<WindowsRTCOptionsPlatformSpecificOptions>, ISettable<WindowsRTCOptionsPlatformSpecificOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_XAudio29DllPath;
 
-		public string XAudio29DllPath
+		public Utf8String XAudio29DllPath
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_XAudio29DllPath, out value);
+				Utf8String value;
+				Helper.Get(m_XAudio29DllPath, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_XAudio29DllPath, value);
+				Helper.Set(value, ref m_XAudio29DllPath);
 			}
 		}
 
-		public void Set(WindowsRTCOptionsPlatformSpecificOptions other)
+		public void Set(ref WindowsRTCOptionsPlatformSpecificOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PlatformInterface.WindowsRtcoptionsplatformspecificoptionsApiLatest;
+			XAudio29DllPath = other.XAudio29DllPath;
+		}
+
+		public void Set(ref WindowsRTCOptionsPlatformSpecificOptions? other)
+		{
+			if (other.HasValue)
 			{
-				m_ApiVersion = PlatformInterface.PlatformWindowsrtcoptionsplatformspecificoptionsApiLatest;
-				XAudio29DllPath = other.XAudio29DllPath;
+				m_ApiVersion = PlatformInterface.WindowsRtcoptionsplatformspecificoptionsApiLatest;
+				XAudio29DllPath = other.Value.XAudio29DllPath;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as WindowsRTCOptionsPlatformSpecificOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_XAudio29DllPath);
+			Helper.Dispose(ref m_XAudio29DllPath);
+		}
+
+		public void Get(out WindowsRTCOptionsPlatformSpecificOptions output)
+		{
+			output = new WindowsRTCOptionsPlatformSpecificOptions();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,16 +6,16 @@ namespace Epic.OnlineServices.KWS
 	/// <summary>
 	/// Input parameters for the <see cref="KWSInterface.QueryPermissions" /> function.
 	/// </summary>
-	public class QueryPermissionsOptions
+	public struct QueryPermissionsOptions
 	{
 		/// <summary>
-		/// Local user querying their permisssions
+		/// Local user querying their permissions
 		/// </summary>
 		public ProductUserId LocalUserId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryPermissionsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryPermissionsOptionsInternal : ISettable<QueryPermissionsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.KWS
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(QueryPermissionsOptions other)
+		public void Set(ref QueryPermissionsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = KWSInterface.QuerypermissionsApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryPermissionsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = KWSInterface.QuerypermissionsApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryPermissionsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

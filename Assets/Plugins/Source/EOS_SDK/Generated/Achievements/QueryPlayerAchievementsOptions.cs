@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.QueryPlayerAchievements" /> function.
 	/// </summary>
-	public class QueryPlayerAchievementsOptions
+	public struct QueryPlayerAchievementsOptions
 	{
 		/// <summary>
 		/// The Product User ID for the user whose achievements are to be retrieved.
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Achievements
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryPlayerAchievementsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryPlayerAchievementsOptionsInternal : ISettable<QueryPlayerAchievementsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -38,29 +38,31 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(QueryPlayerAchievementsOptions other)
+		public void Set(ref QueryPlayerAchievementsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.QueryplayerachievementsApiLatest;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryPlayerAchievementsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.QueryplayerachievementsApiLatest;
-				TargetUserId = other.TargetUserId;
-				LocalUserId = other.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryPlayerAchievementsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

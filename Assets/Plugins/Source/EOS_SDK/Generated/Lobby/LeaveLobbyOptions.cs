@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.LeaveLobby" /> function.
 	/// </summary>
-	public class LeaveLobbyOptions
+	public struct LeaveLobbyOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user leaving the lobby
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// The ID of the lobby
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LeaveLobbyOptionsInternal : ISettable, System.IDisposable
+	internal struct LeaveLobbyOptionsInternal : ISettable<LeaveLobbyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
-		public void Set(LeaveLobbyOptions other)
+		public void Set(ref LeaveLobbyOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.LeavelobbyApiLatest;
+			LocalUserId = other.LocalUserId;
+			LobbyId = other.LobbyId;
+		}
+
+		public void Set(ref LeaveLobbyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.LeavelobbyApiLatest;
-				LocalUserId = other.LocalUserId;
-				LobbyId = other.LobbyId;
+				LocalUserId = other.Value.LocalUserId;
+				LobbyId = other.Value.LobbyId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LeaveLobbyOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LobbyId);
 		}
 	}
 }

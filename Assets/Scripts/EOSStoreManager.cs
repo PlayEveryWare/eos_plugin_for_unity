@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -77,10 +77,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             queryOfferOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
             queryOfferOptions.OverrideCatalogNamespace = null;
 
-            EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().QueryOffers(queryOfferOptions, null, OnQueryOffers);
+            EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().QueryOffers(ref queryOfferOptions, null, OnQueryOffers);
         }
 
-        private void OnQueryOffers(QueryOffersCallbackInfo queryOffersCallbackInfo)
+        private void OnQueryOffers(ref QueryOffersCallbackInfo queryOffersCallbackInfo)
         {
             CatalogOffers.Clear();
 
@@ -91,7 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 var getOfferCountOptions = new GetOfferCountOptions();
                 getOfferCountOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
 
-                var offerCount = EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().GetOfferCount(getOfferCountOptions);
+                var offerCount = EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().GetOfferCount(ref getOfferCountOptions);
 
                 Debug.Log(string.Format("QueryOffers found {0} offers.", offerCount));
 
@@ -101,14 +101,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     copyOfferByIndexOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
                     copyOfferByIndexOptions.OfferIndex = (uint)offerIndex;
 
-                    var copyOfferByIndexResult = EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().CopyOfferByIndex(copyOfferByIndexOptions, out var catalogOffer);
+                    var copyOfferByIndexResult = EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().CopyOfferByIndex(ref copyOfferByIndexOptions, out var catalogOffer);
                     switch (copyOfferByIndexResult)
                     {
                         case Result.Success:
                         case Result.EcomCatalogOfferPriceInvalid:
                         case Result.EcomCatalogOfferStale:
-                            Debug.Log($"Offer {offerIndex}: {copyOfferByIndexResult}, {catalogOffer.Id} {catalogOffer.TitleText} {catalogOffer.PriceResult} {GetCurrentPriceAsString(catalogOffer)} {GetOriginalPriceAsString(catalogOffer)}");
-                            CatalogOffers.Add(catalogOffer);
+                            Debug.Log($"Offer {offerIndex}: {copyOfferByIndexResult}, {catalogOffer?.Id} {catalogOffer?.TitleText} {catalogOffer?.PriceResult} {GetCurrentPriceAsString(catalogOffer)} {GetOriginalPriceAsString(catalogOffer)}");
+                            CatalogOffers.Add(catalogOffer.Value);
                             break;
 
                         default:
@@ -134,10 +134,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             checkoutOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
             checkoutOptions.Entries = new CheckoutEntry[] { checkoutEntry };
 
-            EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().Checkout(checkoutOptions, null, OnCheckout);
+            EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().Checkout(ref checkoutOptions, null, OnCheckout);
         }
 
-        public void OnCheckout(CheckoutCallbackInfo checkoutCallbackInfo)
+        public void OnCheckout(ref CheckoutCallbackInfo checkoutCallbackInfo)
         {
             Debug.Log($"Checkout {checkoutCallbackInfo.ResultCode}");
         }
@@ -151,9 +151,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         //-------------------------------------------------------------------------
         // Wrapper to handle API differences in EOS 1.12 vs 1.11
+        public string GetCurrentPriceAsString(CatalogOffer? catalogOffer)
+        {
+            return string.Format("{0}", catalogOffer?.CurrentPrice64);
+        }
+
+        //-------------------------------------------------------------------------
+        // Wrapper to handle API differences in EOS 1.12 vs 1.11
         public string GetOriginalPriceAsString(CatalogOffer catalogOffer)
         {
             return string.Format("{0}", catalogOffer.OriginalPrice64);
+        }
+
+        //-------------------------------------------------------------------------
+        // Wrapper to handle API differences in EOS 1.12 vs 1.11
+        public string GetOriginalPriceAsString(CatalogOffer? catalogOffer)
+        {
+            return string.Format("{0}", catalogOffer?.OriginalPrice64);
         }
     }
 }

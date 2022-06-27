@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	/// <summary>
 	/// Vector using left-handed coordinate system (as in Unreal Engine)
 	/// </summary>
-	public class Vec3f : ISettable
+	public struct Vec3f
 	{
 		/// <summary>
 		/// X axis coordinate - forward direction
@@ -23,24 +23,16 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// </summary>
 		public float z { get; set; }
 
-		internal void Set(Vec3fInternal? other)
+		internal void Set(ref Vec3fInternal other)
 		{
-			if (other != null)
-			{
-				x = other.Value.x;
-				y = other.Value.y;
-				z = other.Value.z;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as Vec3fInternal?);
+			x = other.x;
+			y = other.y;
+			z = other.z;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct Vec3fInternal : ISettable, System.IDisposable
+	internal struct Vec3fInternal : IGettable<Vec3f>, ISettable<Vec3f>, System.IDisposable
 	{
 		private float m_x;
 		private float m_y;
@@ -85,23 +77,31 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(Vec3f other)
+		public void Set(ref Vec3f other)
 		{
-			if (other != null)
-			{
-				x = other.x;
-				y = other.y;
-				z = other.z;
-			}
+			x = other.x;
+			y = other.y;
+			z = other.z;
 		}
 
-		public void Set(object other)
+		public void Set(ref Vec3f? other)
 		{
-			Set(other as Vec3f);
+			if (other.HasValue)
+			{
+				x = other.Value.x;
+				y = other.Value.y;
+				z = other.Value.z;
+			}
 		}
 
 		public void Dispose()
 		{
+		}
+
+		public void Get(out Vec3f output)
+		{
+			output = new Vec3f();
+			output.Set(ref this);
 		}
 	}
 }

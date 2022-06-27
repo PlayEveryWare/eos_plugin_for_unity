@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Sanctions
 	/// <summary>
 	/// Output parameters for the <see cref="SanctionsInterface.QueryActivePlayerSanctions" /> function.
 	/// </summary>
-	public class QueryActivePlayerSanctionsCallbackInfo : ICallbackInfo, ISettable
+	public struct QueryActivePlayerSanctionsCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="SanctionsInterface.QueryActivePlayerSanctions" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// Target Product User ID that was passed to <see cref="SanctionsInterface.QueryActivePlayerSanctions" />.
 		/// </summary>
-		public ProductUserId TargetUserId { get; private set; }
+		public ProductUserId TargetUserId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who initiated this request, if applicable.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(QueryActivePlayerSanctionsCallbackInfoInternal? other)
+		internal void Set(ref QueryActivePlayerSanctionsCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				TargetUserId = other.Value.TargetUserId;
-				LocalUserId = other.Value.LocalUserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryActivePlayerSanctionsCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryActivePlayerSanctionsCallbackInfoInternal : ICallbackInfoInternal
+	internal struct QueryActivePlayerSanctionsCallbackInfoInternal : ICallbackInfoInternal, IGettable<QueryActivePlayerSanctionsCallbackInfo>, ISettable<QueryActivePlayerSanctionsCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -64,6 +56,11 @@ namespace Epic.OnlineServices.Sanctions
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -71,8 +68,13 @@ namespace Epic.OnlineServices.Sanctions
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -89,8 +91,13 @@ namespace Epic.OnlineServices.Sanctions
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -99,9 +106,46 @@ namespace Epic.OnlineServices.Sanctions
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
+			}
+		}
+
+		public void Set(ref QueryActivePlayerSanctionsCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryActivePlayerSanctionsCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				TargetUserId = other.Value.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+		}
+
+		public void Get(out QueryActivePlayerSanctionsCallbackInfo output)
+		{
+			output = new QueryActivePlayerSanctionsCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

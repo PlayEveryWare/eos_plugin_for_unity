@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Output parameters for the <see cref="EcomInterface.RedeemEntitlements" /> Function.
 	/// </summary>
-	public class RedeemEntitlementsCallbackInfo : ICallbackInfo, ISettable
+	public struct RedeemEntitlementsCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Result code for the operation. <see cref="Result.Success" /> is returned for a successful request, otherwise one of the error codes is returned. See eos_common.h
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="EcomInterface.RedeemEntitlements" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user who has redeemed entitlements
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(RedeemEntitlementsCallbackInfoInternal? other)
+		internal void Set(ref RedeemEntitlementsCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RedeemEntitlementsCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RedeemEntitlementsCallbackInfoInternal : ICallbackInfoInternal
+	internal struct RedeemEntitlementsCallbackInfoInternal : ICallbackInfoInternal, IGettable<RedeemEntitlementsCallbackInfo>, ISettable<RedeemEntitlementsCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -57,6 +49,11 @@ namespace Epic.OnlineServices.Ecom
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -64,8 +61,13 @@ namespace Epic.OnlineServices.Ecom
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -82,9 +84,43 @@ namespace Epic.OnlineServices.Ecom
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
+			}
+		}
+
+		public void Set(ref RedeemEntitlementsCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref RedeemEntitlementsCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+		}
+
+		public void Get(out RedeemEntitlementsCallbackInfo output)
+		{
+			output = new RedeemEntitlementsCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

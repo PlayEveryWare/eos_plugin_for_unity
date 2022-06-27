@@ -23,9 +23,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    /// <summary>
-    /// Interface for classes using <c>OnConnectLogin</c>
-    /// </summary>
     public interface IEOSOnConnectLogin
     {
         void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);

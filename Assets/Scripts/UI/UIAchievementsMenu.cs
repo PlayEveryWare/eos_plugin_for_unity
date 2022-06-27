@@ -170,7 +170,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     });
                     i += 1;
                 }
-
             }
             else
             {

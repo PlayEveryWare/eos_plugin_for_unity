@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Output parameters for the <see cref="OnAchievementsUnlockedCallbackV2" /> Function.
 	/// </summary>
-	public class OnAchievementsUnlockedCallbackV2Info : ICallbackInfo, ISettable
+	public struct OnAchievementsUnlockedCallbackV2Info : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="AchievementsInterface.AddNotifyAchievementsUnlocked" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID for the user who received the unlocked achievements notification
 		/// </summary>
-		public ProductUserId UserId { get; private set; }
+		public ProductUserId UserId { get; set; }
 
 		/// <summary>
 		/// The Achievement ID for the achievement that was unlocked. Pass this to <see cref="AchievementsInterface.CopyPlayerAchievementByAchievementId" /> to get the full achievement information.
 		/// </summary>
-		public string AchievementId { get; private set; }
+		public Utf8String AchievementId { get; set; }
 
 		/// <summary>
 		/// POSIX timestamp when the achievement was unlocked.
 		/// </summary>
-		public System.DateTimeOffset? UnlockTime { get; private set; }
+		public System.DateTimeOffset? UnlockTime { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnAchievementsUnlockedCallbackV2InfoInternal? other)
+		internal void Set(ref OnAchievementsUnlockedCallbackV2InfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				UserId = other.Value.UserId;
-				AchievementId = other.Value.AchievementId;
-				UnlockTime = other.Value.UnlockTime;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnAchievementsUnlockedCallbackV2InfoInternal?);
+			ClientData = other.ClientData;
+			UserId = other.UserId;
+			AchievementId = other.AchievementId;
+			UnlockTime = other.UnlockTime;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnAchievementsUnlockedCallbackV2InfoInternal : ICallbackInfoInternal
+	internal struct OnAchievementsUnlockedCallbackV2InfoInternal : ICallbackInfoInternal, IGettable<OnAchievementsUnlockedCallbackV2Info>, ISettable<OnAchievementsUnlockedCallbackV2Info>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_UserId;
@@ -63,8 +55,13 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -81,18 +78,28 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_UserId, out value);
+				Helper.Get(m_UserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public string AchievementId
+		public Utf8String AchievementId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AchievementId, out value);
+				Utf8String value;
+				Helper.Get(m_AchievementId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_AchievementId);
 			}
 		}
 
@@ -101,9 +108,46 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				System.DateTimeOffset? value;
-				Helper.TryMarshalGet(m_UnlockTime, out value);
+				Helper.Get(m_UnlockTime, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_UnlockTime);
+			}
+		}
+
+		public void Set(ref OnAchievementsUnlockedCallbackV2Info other)
+		{
+			ClientData = other.ClientData;
+			UserId = other.UserId;
+			AchievementId = other.AchievementId;
+			UnlockTime = other.UnlockTime;
+		}
+
+		public void Set(ref OnAchievementsUnlockedCallbackV2Info? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				UserId = other.Value.UserId;
+				AchievementId = other.Value.AchievementId;
+				UnlockTime = other.Value.UnlockTime;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_UserId);
+			Helper.Dispose(ref m_AchievementId);
+		}
+
+		public void Get(out OnAchievementsUnlockedCallbackV2Info output)
+		{
+			output = new OnAchievementsUnlockedCallbackV2Info();
+			output.Set(ref this);
 		}
 	}
 }

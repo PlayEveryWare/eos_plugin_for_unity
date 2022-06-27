@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogGameRoundEndOptions
+	public struct LogGameRoundEndOptions
 	{
 		/// <summary>
 		/// Optional identifier for the winning team
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogGameRoundEndOptionsInternal : ISettable, System.IDisposable
+	internal struct LogGameRoundEndOptionsInternal : ISettable<LogGameRoundEndOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_WinningTeamId;
@@ -25,18 +25,19 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(LogGameRoundEndOptions other)
+		public void Set(ref LogGameRoundEndOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatCommonInterface.LoggameroundendApiLatest;
-				WinningTeamId = other.WinningTeamId;
-			}
+			m_ApiVersion = AntiCheatCommonInterface.LoggameroundendApiLatest;
+			WinningTeamId = other.WinningTeamId;
 		}
 
-		public void Set(object other)
+		public void Set(ref LogGameRoundEndOptions? other)
 		{
-			Set(other as LogGameRoundEndOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatCommonInterface.LoggameroundendApiLatest;
+				WinningTeamId = other.Value.WinningTeamId;
+			}
 		}
 
 		public void Dispose()

@@ -6,34 +6,26 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="RTCAudioInterface.AddNotifyAudioDevicesChanged" /> registered event.
 	/// </summary>
-	public class AudioDevicesChangedCallbackInfo : ICallbackInfo, ISettable
+	public struct AudioDevicesChangedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into <see cref="RTCAudioInterface.AddNotifyAudioDevicesChanged" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(AudioDevicesChangedCallbackInfoInternal? other)
+		internal void Set(ref AudioDevicesChangedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AudioDevicesChangedCallbackInfoInternal?);
+			ClientData = other.ClientData;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AudioDevicesChangedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct AudioDevicesChangedCallbackInfoInternal : ICallbackInfoInternal, IGettable<AudioDevicesChangedCallbackInfo>, ISettable<AudioDevicesChangedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 
@@ -42,8 +34,13 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -53,6 +50,30 @@ namespace Epic.OnlineServices.RTCAudio
 			{
 				return m_ClientData;
 			}
+		}
+
+		public void Set(ref AudioDevicesChangedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+		}
+
+		public void Set(ref AudioDevicesChangedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+		}
+
+		public void Get(out AudioDevicesChangedCallbackInfo output)
+		{
+			output = new AudioDevicesChangedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

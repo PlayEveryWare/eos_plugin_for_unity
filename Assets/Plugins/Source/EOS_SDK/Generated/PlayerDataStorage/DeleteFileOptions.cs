@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Input data for the <see cref="PlayerDataStorageInterface.DeleteFile" /> function
 	/// </summary>
-	public class DeleteFileOptions
+	public struct DeleteFileOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who authorizes deletion of the file; must be the file's owner
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// The name of the file to delete
 		/// </summary>
-		public string Filename { get; set; }
+		public Utf8String Filename { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DeleteFileOptionsInternal : ISettable, System.IDisposable
+	internal struct DeleteFileOptionsInternal : ISettable<DeleteFileOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string Filename
+		public Utf8String Filename
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Filename, value);
+				Helper.Set(value, ref m_Filename);
 			}
 		}
 
-		public void Set(DeleteFileOptions other)
+		public void Set(ref DeleteFileOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PlayerDataStorageInterface.DeletefileoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+			Filename = other.Filename;
+		}
+
+		public void Set(ref DeleteFileOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PlayerDataStorageInterface.DeletefileoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
-				Filename = other.Filename;
+				LocalUserId = other.Value.LocalUserId;
+				Filename = other.Value.Filename;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DeleteFileOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Filename);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Filename);
 		}
 	}
 }

@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about the local network NAT type
 	/// </summary>
-	public class OnQueryNATTypeCompleteInfo : ICallbackInfo, ISettable
+	public struct OnQueryNATTypeCompleteInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Result code for the operation. <see cref="Result.Success" /> is returned for a successful query, other codes indicate an error
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Client-specified data passed into <see cref="P2PInterface.QueryNATType" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The queried NAT type
 		/// </summary>
-		public NATType NATType { get; private set; }
+		public NATType NATType { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(OnQueryNATTypeCompleteInfoInternal? other)
+		internal void Set(ref OnQueryNATTypeCompleteInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				NATType = other.Value.NATType;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnQueryNATTypeCompleteInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			NATType = other.NATType;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnQueryNATTypeCompleteInfoInternal : ICallbackInfoInternal
+	internal struct OnQueryNATTypeCompleteInfoInternal : ICallbackInfoInternal, IGettable<OnQueryNATTypeCompleteInfo>, ISettable<OnQueryNATTypeCompleteInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -57,6 +49,11 @@ namespace Epic.OnlineServices.P2P
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -64,8 +61,13 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -83,6 +85,39 @@ namespace Epic.OnlineServices.P2P
 			{
 				return m_NATType;
 			}
+
+			set
+			{
+				m_NATType = value;
+			}
+		}
+
+		public void Set(ref OnQueryNATTypeCompleteInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			NATType = other.NATType;
+		}
+
+		public void Set(ref OnQueryNATTypeCompleteInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				NATType = other.Value.NATType;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+		}
+
+		public void Get(out OnQueryNATTypeCompleteInfo output)
+		{
+			output = new OnQueryNATTypeCompleteInfo();
+			output.Set(ref this);
 		}
 	}
 }

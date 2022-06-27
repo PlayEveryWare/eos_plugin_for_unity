@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionSearch.Find" /> function.
 	/// </summary>
-	public class SessionSearchFindOptions
+	public struct SessionSearchFindOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who is searching
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionSearchFindOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionSearchFindOptionsInternal : ISettable<SessionSearchFindOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(SessionSearchFindOptions other)
+		public void Set(ref SessionSearchFindOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionSearch.SessionsearchFindApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref SessionSearchFindOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionSearch.SessionsearchFindApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionSearchFindOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

@@ -6,64 +6,56 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about the packet queue's state and the incoming packet that would overflow the queue
 	/// </summary>
-	public class OnIncomingPacketQueueFullInfo : ICallbackInfo, ISettable
+	public struct OnIncomingPacketQueueFullInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into AddNotifyIncomingPacketQueueFull
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The maximum size in bytes the incoming packet queue is allowed to use
 		/// </summary>
-		public ulong PacketQueueMaxSizeBytes { get; private set; }
+		public ulong PacketQueueMaxSizeBytes { get; set; }
 
 		/// <summary>
 		/// The current size in bytes the incoming packet queue is currently using
 		/// </summary>
-		public ulong PacketQueueCurrentSizeBytes { get; private set; }
+		public ulong PacketQueueCurrentSizeBytes { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who is receiving the packet that would overflow the queue
 		/// </summary>
-		public ProductUserId OverflowPacketLocalUserId { get; private set; }
+		public ProductUserId OverflowPacketLocalUserId { get; set; }
 
 		/// <summary>
 		/// The channel the incoming packet is for
 		/// </summary>
-		public byte OverflowPacketChannel { get; private set; }
+		public byte OverflowPacketChannel { get; set; }
 
 		/// <summary>
 		/// The size in bytes of the incoming packet (and related metadata) that would overflow the queue
 		/// </summary>
-		public uint OverflowPacketSizeBytes { get; private set; }
+		public uint OverflowPacketSizeBytes { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnIncomingPacketQueueFullInfoInternal? other)
+		internal void Set(ref OnIncomingPacketQueueFullInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				PacketQueueMaxSizeBytes = other.Value.PacketQueueMaxSizeBytes;
-				PacketQueueCurrentSizeBytes = other.Value.PacketQueueCurrentSizeBytes;
-				OverflowPacketLocalUserId = other.Value.OverflowPacketLocalUserId;
-				OverflowPacketChannel = other.Value.OverflowPacketChannel;
-				OverflowPacketSizeBytes = other.Value.OverflowPacketSizeBytes;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnIncomingPacketQueueFullInfoInternal?);
+			ClientData = other.ClientData;
+			PacketQueueMaxSizeBytes = other.PacketQueueMaxSizeBytes;
+			PacketQueueCurrentSizeBytes = other.PacketQueueCurrentSizeBytes;
+			OverflowPacketLocalUserId = other.OverflowPacketLocalUserId;
+			OverflowPacketChannel = other.OverflowPacketChannel;
+			OverflowPacketSizeBytes = other.OverflowPacketSizeBytes;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnIncomingPacketQueueFullInfoInternal : ICallbackInfoInternal
+	internal struct OnIncomingPacketQueueFullInfoInternal : ICallbackInfoInternal, IGettable<OnIncomingPacketQueueFullInfo>, ISettable<OnIncomingPacketQueueFullInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private ulong m_PacketQueueMaxSizeBytes;
@@ -77,8 +69,13 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -96,6 +93,11 @@ namespace Epic.OnlineServices.P2P
 			{
 				return m_PacketQueueMaxSizeBytes;
 			}
+
+			set
+			{
+				m_PacketQueueMaxSizeBytes = value;
+			}
 		}
 
 		public ulong PacketQueueCurrentSizeBytes
@@ -104,6 +106,11 @@ namespace Epic.OnlineServices.P2P
 			{
 				return m_PacketQueueCurrentSizeBytes;
 			}
+
+			set
+			{
+				m_PacketQueueCurrentSizeBytes = value;
+			}
 		}
 
 		public ProductUserId OverflowPacketLocalUserId
@@ -111,8 +118,13 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_OverflowPacketLocalUserId, out value);
+				Helper.Get(m_OverflowPacketLocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_OverflowPacketLocalUserId);
 			}
 		}
 
@@ -122,6 +134,11 @@ namespace Epic.OnlineServices.P2P
 			{
 				return m_OverflowPacketChannel;
 			}
+
+			set
+			{
+				m_OverflowPacketChannel = value;
+			}
 		}
 
 		public uint OverflowPacketSizeBytes
@@ -130,6 +147,46 @@ namespace Epic.OnlineServices.P2P
 			{
 				return m_OverflowPacketSizeBytes;
 			}
+
+			set
+			{
+				m_OverflowPacketSizeBytes = value;
+			}
+		}
+
+		public void Set(ref OnIncomingPacketQueueFullInfo other)
+		{
+			ClientData = other.ClientData;
+			PacketQueueMaxSizeBytes = other.PacketQueueMaxSizeBytes;
+			PacketQueueCurrentSizeBytes = other.PacketQueueCurrentSizeBytes;
+			OverflowPacketLocalUserId = other.OverflowPacketLocalUserId;
+			OverflowPacketChannel = other.OverflowPacketChannel;
+			OverflowPacketSizeBytes = other.OverflowPacketSizeBytes;
+		}
+
+		public void Set(ref OnIncomingPacketQueueFullInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				PacketQueueMaxSizeBytes = other.Value.PacketQueueMaxSizeBytes;
+				PacketQueueCurrentSizeBytes = other.Value.PacketQueueCurrentSizeBytes;
+				OverflowPacketLocalUserId = other.Value.OverflowPacketLocalUserId;
+				OverflowPacketChannel = other.Value.OverflowPacketChannel;
+				OverflowPacketSizeBytes = other.Value.OverflowPacketSizeBytes;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_OverflowPacketLocalUserId);
+		}
+
+		public void Get(out OnIncomingPacketQueueFullInfo output)
+		{
+			output = new OnIncomingPacketQueueFullInfo();
+			output.Set(ref this);
 		}
 	}
 }

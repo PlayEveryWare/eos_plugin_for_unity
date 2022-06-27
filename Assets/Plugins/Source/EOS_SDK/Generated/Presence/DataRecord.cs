@@ -7,89 +7,89 @@ namespace Epic.OnlineServices.Presence
 	/// An individual presence data record that belongs to a <see cref="Info" /> object. This object is released when its parent <see cref="Info" /> object is released.
 	/// <seealso cref="Info" />
 	/// </summary>
-	public class DataRecord : ISettable
+	public struct DataRecord
 	{
 		/// <summary>
 		/// The name of this data
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 
 		/// <summary>
 		/// The value of this data
 		/// </summary>
-		public string Value { get; set; }
+		public Utf8String Value { get; set; }
 
-		internal void Set(DataRecordInternal? other)
+		internal void Set(ref DataRecordInternal other)
 		{
-			if (other != null)
-			{
-				Key = other.Value.Key;
-				Value = other.Value.Value;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DataRecordInternal?);
+			Key = other.Key;
+			Value = other.Value;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DataRecordInternal : ISettable, System.IDisposable
+	internal struct DataRecordInternal : IGettable<DataRecord>, ISettable<DataRecord>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Key;
 		private System.IntPtr m_Value;
 
-		public string Key
+		public Utf8String Key
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Key, out value);
+				Utf8String value;
+				Helper.Get(m_Key, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
-		public string Value
+		public Utf8String Value
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Value, out value);
+				Utf8String value;
+				Helper.Get(m_Value, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Value, value);
+				Helper.Set(value, ref m_Value);
 			}
 		}
 
-		public void Set(DataRecord other)
+		public void Set(ref DataRecord other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceInterface.DatarecordApiLatest;
+			Key = other.Key;
+			Value = other.Value;
+		}
+
+		public void Set(ref DataRecord? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceInterface.DatarecordApiLatest;
-				Key = other.Key;
-				Value = other.Value;
+				Key = other.Value.Key;
+				Value = other.Value.Value;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DataRecord);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Key);
-			Helper.TryMarshalDispose(ref m_Value);
+			Helper.Dispose(ref m_Key);
+			Helper.Dispose(ref m_Value);
+		}
+
+		public void Get(out DataRecord output)
+		{
+			output = new DataRecord();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Output parameters for the <see cref="OnAchievementsUnlockedCallback" /> Function.
 	/// </summary>
-	public class OnAchievementsUnlockedCallbackInfo : ICallbackInfo, ISettable
+	public struct OnAchievementsUnlockedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="AchievementsInterface.AddNotifyAchievementsUnlocked" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID for the user who received the unlocked achievements notification
 		/// </summary>
-		public ProductUserId UserId { get; private set; }
+		public ProductUserId UserId { get; set; }
 
 		/// <summary>
-		/// This member is not used and will always be set to NULL.
+		/// This member is not used and will always be set to <see langword="null" />.
 		/// </summary>
-		public string[] AchievementIds { get; private set; }
+		public Utf8String[] AchievementIds { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnAchievementsUnlockedCallbackInfoInternal? other)
+		internal void Set(ref OnAchievementsUnlockedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				UserId = other.Value.UserId;
-				AchievementIds = other.Value.AchievementIds;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnAchievementsUnlockedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			UserId = other.UserId;
+			AchievementIds = other.AchievementIds;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnAchievementsUnlockedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnAchievementsUnlockedCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnAchievementsUnlockedCallbackInfo>, ISettable<OnAchievementsUnlockedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_UserId;
@@ -57,8 +49,13 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -75,19 +72,59 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_UserId, out value);
+				Helper.Get(m_UserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public string[] AchievementIds
+		public Utf8String[] AchievementIds
 		{
 			get
 			{
-				string[] value;
-				Helper.TryMarshalGet(m_AchievementIds, out value, m_AchievementsCount, true);
+				Utf8String[] value;
+				Helper.Get(m_AchievementIds, out value, m_AchievementsCount, true);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_AchievementIds, true, out m_AchievementsCount);
+			}
+		}
+
+		public void Set(ref OnAchievementsUnlockedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			UserId = other.UserId;
+			AchievementIds = other.AchievementIds;
+		}
+
+		public void Set(ref OnAchievementsUnlockedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				UserId = other.Value.UserId;
+				AchievementIds = other.Value.AchievementIds;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_UserId);
+			Helper.Dispose(ref m_AchievementIds);
+		}
+
+		public void Get(out OnAchievementsUnlockedCallbackInfo output)
+		{
+			output = new OnAchievementsUnlockedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

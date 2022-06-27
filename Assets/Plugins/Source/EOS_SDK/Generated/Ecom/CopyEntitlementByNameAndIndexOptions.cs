@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.CopyEntitlementByNameAndIndex" /> function.
 	/// </summary>
-	public class CopyEntitlementByNameAndIndexOptions
+	public struct CopyEntitlementByNameAndIndexOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose entitlement is being copied
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Name of the entitlement to retrieve from the cache
 		/// </summary>
-		public string EntitlementName { get; set; }
+		public Utf8String EntitlementName { get; set; }
 
 		/// <summary>
 		/// Index of the entitlement within the named set to retrieve from the cache.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyEntitlementByNameAndIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyEntitlementByNameAndIndexOptionsInternal : ISettable<CopyEntitlementByNameAndIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,15 +36,15 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string EntitlementName
+		public Utf8String EntitlementName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EntitlementName, value);
+				Helper.Set(value, ref m_EntitlementName);
 			}
 		}
 
@@ -56,26 +56,29 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(CopyEntitlementByNameAndIndexOptions other)
+		public void Set(ref CopyEntitlementByNameAndIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = EcomInterface.CopyentitlementbynameandindexApiLatest;
-				LocalUserId = other.LocalUserId;
-				EntitlementName = other.EntitlementName;
-				Index = other.Index;
-			}
+			m_ApiVersion = EcomInterface.CopyentitlementbynameandindexApiLatest;
+			LocalUserId = other.LocalUserId;
+			EntitlementName = other.EntitlementName;
+			Index = other.Index;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyEntitlementByNameAndIndexOptions? other)
 		{
-			Set(other as CopyEntitlementByNameAndIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = EcomInterface.CopyentitlementbynameandindexApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				EntitlementName = other.Value.EntitlementName;
+				Index = other.Value.Index;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_EntitlementName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_EntitlementName);
 		}
 	}
 }

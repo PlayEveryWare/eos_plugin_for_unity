@@ -21,14 +21,13 @@
 */
 
 
+//-------------------------------------------------------------------------
+/// Helper class to manage the various handles returned by "AddNotifyOn.*" functions.
+/// It should be the case that by using this class, the handle will be properly removed
+/// when the NotifyEventHandle loses reference, including in cases where an unhandled 
+/// exception occurs.
 namespace PlayEveryWare.EpicOnlineServices
 {
-    /// <summary>
-    /// Helper class to manage the various handles returned by "AddNotifyOn.*" functions.
-    /// It should be the case that by using this class, the handle will be properly removed
-    /// when the NotifyEventHandle loses reference, including in cases where an unhandled 
-    /// exception occurs.
-    /// </summary>
     public class NotifyEventHandle : GenericSafeHandle<ulong>
     {
         private RemoveDelegate removeDelegate;

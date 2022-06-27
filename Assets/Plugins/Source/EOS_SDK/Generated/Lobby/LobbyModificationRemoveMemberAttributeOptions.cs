@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyModification.RemoveMemberAttribute" /> function.
 	/// </summary>
-	public class LobbyModificationRemoveMemberAttributeOptions
+	public struct LobbyModificationRemoveMemberAttributeOptions
 	{
 		/// <summary>
 		/// Name of the key
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyModificationRemoveMemberAttributeOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyModificationRemoveMemberAttributeOptionsInternal : ISettable<LobbyModificationRemoveMemberAttributeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Key;
 
-		public string Key
+		public Utf8String Key
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
-		public void Set(LobbyModificationRemoveMemberAttributeOptions other)
+		public void Set(ref LobbyModificationRemoveMemberAttributeOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyModification.LobbymodificationRemovememberattributeApiLatest;
+			Key = other.Key;
+		}
+
+		public void Set(ref LobbyModificationRemoveMemberAttributeOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyModification.LobbymodificationRemovememberattributeApiLatest;
-				Key = other.Key;
+				Key = other.Value.Key;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyModificationRemoveMemberAttributeOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Key);
+			Helper.Dispose(ref m_Key);
 		}
 	}
 }

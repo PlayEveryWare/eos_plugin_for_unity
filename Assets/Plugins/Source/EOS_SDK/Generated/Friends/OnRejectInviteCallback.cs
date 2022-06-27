@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Friends
 	/// Function prototype definition for callbacks passed to <see cref="FriendsInterface.RejectInvite" />
 	/// </summary>
 	/// <param name="data">A <see cref="RejectInviteCallbackInfo" /> containing output information and the result.</param>
-	public delegate void OnRejectInviteCallback(RejectInviteCallbackInfo data);
+	public delegate void OnRejectInviteCallback(ref RejectInviteCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnRejectInviteCallbackInternal(System.IntPtr data);
+	internal delegate void OnRejectInviteCallbackInternal(ref RejectInviteCallbackInfoInternal data);
 }

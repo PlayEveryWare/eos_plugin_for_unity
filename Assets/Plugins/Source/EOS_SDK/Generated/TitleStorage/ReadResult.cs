@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.TitleStorage
 		/// </summary>
 		RrFailrequest = 2,
 		/// <summary>
-		/// Signifies the request should be cancelled, but not due to an error
+		/// Signifies the request should be canceled, but not due to an error
 		/// </summary>
 		RrCancelrequest = 3
 	}

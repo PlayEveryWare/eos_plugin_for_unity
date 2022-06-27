@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// <summary>
 	/// Contains information about a collection of user tokens for joining a room.
 	/// </summary>
-	public class UserToken : ISettable
+	public struct UserToken
 	{
 		/// <summary>
 		/// The Product User ID for the user who owns this user token.
@@ -16,25 +16,17 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <summary>
 		/// Access token to enable a user to join a room
 		/// </summary>
-		public string Token { get; set; }
+		public Utf8String Token { get; set; }
 
-		internal void Set(UserTokenInternal? other)
+		internal void Set(ref UserTokenInternal other)
 		{
-			if (other != null)
-			{
-				ProductUserId = other.Value.ProductUserId;
-				Token = other.Value.Token;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UserTokenInternal?);
+			ProductUserId = other.ProductUserId;
+			Token = other.Token;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UserTokenInternal : ISettable, System.IDisposable
+	internal struct UserTokenInternal : IGettable<UserToken>, ISettable<UserToken>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ProductUserId;
@@ -45,50 +37,58 @@ namespace Epic.OnlineServices.RTCAdmin
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_ProductUserId, out value);
+				Helper.Get(m_ProductUserId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductUserId, value);
+				Helper.Set(value, ref m_ProductUserId);
 			}
 		}
 
-		public string Token
+		public Utf8String Token
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Token, out value);
+				Utf8String value;
+				Helper.Get(m_Token, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Token, value);
+				Helper.Set(value, ref m_Token);
 			}
 		}
 
-		public void Set(UserToken other)
+		public void Set(ref UserToken other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAdminInterface.UsertokenApiLatest;
+			ProductUserId = other.ProductUserId;
+			Token = other.Token;
+		}
+
+		public void Set(ref UserToken? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAdminInterface.UsertokenApiLatest;
-				ProductUserId = other.ProductUserId;
-				Token = other.Token;
+				ProductUserId = other.Value.ProductUserId;
+				Token = other.Value.Token;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UserToken);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ProductUserId);
-			Helper.TryMarshalDispose(ref m_Token);
+			Helper.Dispose(ref m_ProductUserId);
+			Helper.Dispose(ref m_Token);
+		}
+
+		public void Get(out UserToken output)
+		{
+			output = new UserToken();
+			output.Set(ref this);
 		}
 	}
 }

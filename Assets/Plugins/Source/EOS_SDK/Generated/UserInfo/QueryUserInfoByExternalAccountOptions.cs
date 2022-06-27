@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UserInfo
 	/// <summary>
 	/// Input parameters for the <see cref="UserInfoInterface.QueryUserInfoByExternalAccount" /> function.
 	/// </summary>
-	public class QueryUserInfoByExternalAccountOptions
+	public struct QueryUserInfoByExternalAccountOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local player requesting the information
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.UserInfo
 		/// <summary>
 		/// External account ID of the user whose information is being retrieved
 		/// </summary>
-		public string ExternalAccountId { get; set; }
+		public Utf8String ExternalAccountId { get; set; }
 
 		/// <summary>
 		/// Account type of the external user info to query
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.UserInfo
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryUserInfoByExternalAccountOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryUserInfoByExternalAccountOptionsInternal : ISettable<QueryUserInfoByExternalAccountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,15 +36,15 @@ namespace Epic.OnlineServices.UserInfo
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string ExternalAccountId
+		public Utf8String ExternalAccountId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ExternalAccountId, value);
+				Helper.Set(value, ref m_ExternalAccountId);
 			}
 		}
 
@@ -56,26 +56,29 @@ namespace Epic.OnlineServices.UserInfo
 			}
 		}
 
-		public void Set(QueryUserInfoByExternalAccountOptions other)
+		public void Set(ref QueryUserInfoByExternalAccountOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = UserInfoInterface.QueryuserinfobyexternalaccountApiLatest;
-				LocalUserId = other.LocalUserId;
-				ExternalAccountId = other.ExternalAccountId;
-				AccountType = other.AccountType;
-			}
+			m_ApiVersion = UserInfoInterface.QueryuserinfobyexternalaccountApiLatest;
+			LocalUserId = other.LocalUserId;
+			ExternalAccountId = other.ExternalAccountId;
+			AccountType = other.AccountType;
 		}
 
-		public void Set(object other)
+		public void Set(ref QueryUserInfoByExternalAccountOptions? other)
 		{
-			Set(other as QueryUserInfoByExternalAccountOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = UserInfoInterface.QueryuserinfobyexternalaccountApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				ExternalAccountId = other.Value.ExternalAccountId;
+				AccountType = other.Value.AccountType;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_ExternalAccountId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ExternalAccountId);
 		}
 	}
 }

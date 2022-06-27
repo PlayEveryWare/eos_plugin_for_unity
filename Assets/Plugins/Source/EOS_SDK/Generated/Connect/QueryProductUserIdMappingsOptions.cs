@@ -6,11 +6,11 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.QueryProductUserIdMappings" /> function.
 	/// </summary>
-	public class QueryProductUserIdMappingsOptions
+	public struct QueryProductUserIdMappingsOptions
 	{
 		/// <summary>
 		/// Game Clients set this field to the Product User ID of the local authenticated user querying account mappings.
-		/// Game Servers set this field to NULL. Usage is allowed given that the configured client policy for server credentials permit it.
+		/// Game Servers set this field to <see langword="null" />. Usage is allowed given that the configured client policy for server credentials permit it.
 		/// </summary>
 		public ProductUserId LocalUserId { get; set; }
 
@@ -26,7 +26,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryProductUserIdMappingsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryProductUserIdMappingsOptionsInternal : ISettable<QueryProductUserIdMappingsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -38,7 +38,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -54,30 +54,33 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductUserIds, value, out m_ProductUserIdCount);
+				Helper.Set(value, ref m_ProductUserIds, out m_ProductUserIdCount);
 			}
 		}
 
-		public void Set(QueryProductUserIdMappingsOptions other)
+		public void Set(ref QueryProductUserIdMappingsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.QueryproductuseridmappingsApiLatest;
+			LocalUserId = other.LocalUserId;
+			AccountIdType_DEPRECATED = other.AccountIdType_DEPRECATED;
+			ProductUserIds = other.ProductUserIds;
+		}
+
+		public void Set(ref QueryProductUserIdMappingsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.QueryproductuseridmappingsApiLatest;
-				LocalUserId = other.LocalUserId;
-				AccountIdType_DEPRECATED = other.AccountIdType_DEPRECATED;
-				ProductUserIds = other.ProductUserIds;
+				LocalUserId = other.Value.LocalUserId;
+				AccountIdType_DEPRECATED = other.Value.AccountIdType_DEPRECATED;
+				ProductUserIds = other.Value.ProductUserIds;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryProductUserIdMappingsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_ProductUserIds);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ProductUserIds);
 		}
 	}
 }

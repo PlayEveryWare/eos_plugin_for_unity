@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Stats
 	/// <summary>
 	/// Input parameters for the <see cref="StatsInterface.IngestStat" /> function.
 	/// </summary>
-	public class IngestStatOptions
+	public struct IngestStatOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user requesting the ingest. Set to null for dedicated server.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Stats
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct IngestStatOptionsInternal : ISettable, System.IDisposable
+	internal struct IngestStatOptionsInternal : ISettable<IngestStatOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -37,7 +37,7 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet<IngestDataInternal, IngestData>(ref m_Stats, value, out m_StatsCount);
+				Helper.Set<IngestData, IngestDataInternal>(ref value, ref m_Stats, out m_StatsCount);
 			}
 		}
 
@@ -53,31 +53,34 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(IngestStatOptions other)
+		public void Set(ref IngestStatOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = StatsInterface.IngeststatApiLatest;
+			LocalUserId = other.LocalUserId;
+			Stats = other.Stats;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref IngestStatOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = StatsInterface.IngeststatApiLatest;
-				LocalUserId = other.LocalUserId;
-				Stats = other.Stats;
-				TargetUserId = other.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
+				Stats = other.Value.Stats;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as IngestStatOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Stats);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Stats);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

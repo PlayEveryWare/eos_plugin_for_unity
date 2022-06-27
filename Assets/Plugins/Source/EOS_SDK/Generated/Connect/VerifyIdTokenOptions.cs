@@ -6,46 +6,47 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.VerifyIdToken" /> function.
 	/// </summary>
-	public class VerifyIdTokenOptions
+	public struct VerifyIdTokenOptions
 	{
 		/// <summary>
 		/// The ID token to verify.
 		/// Use <see cref="ProductUserId.FromString" /> to populate the ProductUserId field of this struct.
 		/// </summary>
-		public IdToken IdToken { get; set; }
+		public IdToken? IdToken { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct VerifyIdTokenOptionsInternal : ISettable, System.IDisposable
+	internal struct VerifyIdTokenOptionsInternal : ISettable<VerifyIdTokenOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_IdToken;
 
-		public IdToken IdToken
+		public IdToken? IdToken
 		{
 			set
 			{
-				Helper.TryMarshalSet<IdTokenInternal, IdToken>(ref m_IdToken, value);
+				Helper.Set<IdToken, IdTokenInternal>(ref value, ref m_IdToken);
 			}
 		}
 
-		public void Set(VerifyIdTokenOptions other)
+		public void Set(ref VerifyIdTokenOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.VerifyidtokenApiLatest;
+			IdToken = other.IdToken;
+		}
+
+		public void Set(ref VerifyIdTokenOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.VerifyidtokenApiLatest;
-				IdToken = other.IdToken;
+				IdToken = other.Value.IdToken;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as VerifyIdTokenOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_IdToken);
+			Helper.Dispose(ref m_IdToken);
 		}
 	}
 }

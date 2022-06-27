@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.KWS
 	/// Function prototype definition for callbacks passed to <see cref="KWSInterface.QueryAgeGate" />
 	/// </summary>
 	/// <param name="data">A <see cref="QueryAgeGateCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnQueryAgeGateCallback(QueryAgeGateCallbackInfo data);
+	public delegate void OnQueryAgeGateCallback(ref QueryAgeGateCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryAgeGateCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryAgeGateCallbackInternal(ref QueryAgeGateCallbackInfoInternal data);
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// Input parameters for the <see cref="RTCAudioInterface.GetAudioOutputDeviceByIndex" /> function.
 	/// </summary>
-	public class GetAudioOutputDeviceByIndexOptions
+	public struct GetAudioOutputDeviceByIndexOptions
 	{
 		/// <summary>
 		/// Index of the device info to retrieve.
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.RTCAudio
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetAudioOutputDeviceByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct GetAudioOutputDeviceByIndexOptionsInternal : ISettable<GetAudioOutputDeviceByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_DeviceInfoIndex;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.RTCAudio
 			}
 		}
 
-		public void Set(GetAudioOutputDeviceByIndexOptions other)
+		public void Set(ref GetAudioOutputDeviceByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = RTCAudioInterface.GetaudiooutputdevicebyindexApiLatest;
-				DeviceInfoIndex = other.DeviceInfoIndex;
-			}
+			m_ApiVersion = RTCAudioInterface.GetaudiooutputdevicebyindexApiLatest;
+			DeviceInfoIndex = other.DeviceInfoIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref GetAudioOutputDeviceByIndexOptions? other)
 		{
-			Set(other as GetAudioOutputDeviceByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = RTCAudioInterface.GetaudiooutputdevicebyindexApiLatest;
+				DeviceInfoIndex = other.Value.DeviceInfoIndex;
+			}
 		}
 
 		public void Dispose()

@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// <summary>
 	/// Input parameters for the <see cref="RTCAdminInterface.SetParticipantHardMute" /> function.
 	/// </summary>
-	public class SetParticipantHardMuteOptions
+	public struct SetParticipantHardMuteOptions
 	{
 		/// <summary>
 		/// Room to kick the participant from
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// Product User ID of the participant to hard mute for every participant in the room.
@@ -25,18 +25,18 @@ namespace Epic.OnlineServices.RTCAdmin
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetParticipantHardMuteOptionsInternal : ISettable, System.IDisposable
+	internal struct SetParticipantHardMuteOptionsInternal : ISettable<SetParticipantHardMuteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_RoomName;
 		private System.IntPtr m_TargetUserId;
 		private int m_Mute;
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.RTCAdmin
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -52,30 +52,33 @@ namespace Epic.OnlineServices.RTCAdmin
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Mute, value);
+				Helper.Set(value, ref m_Mute);
 			}
 		}
 
-		public void Set(SetParticipantHardMuteOptions other)
+		public void Set(ref SetParticipantHardMuteOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAdminInterface.SetparticipanthardmuteApiLatest;
+			RoomName = other.RoomName;
+			TargetUserId = other.TargetUserId;
+			Mute = other.Mute;
+		}
+
+		public void Set(ref SetParticipantHardMuteOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAdminInterface.SetparticipanthardmuteApiLatest;
-				RoomName = other.RoomName;
-				TargetUserId = other.TargetUserId;
-				Mute = other.Mute;
+				RoomName = other.Value.RoomName;
+				TargetUserId = other.Value.TargetUserId;
+				Mute = other.Value.Mute;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SetParticipantHardMuteOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_RoomName);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

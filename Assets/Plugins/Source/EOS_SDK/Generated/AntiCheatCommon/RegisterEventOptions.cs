@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class RegisterEventOptions
+	public struct RegisterEventOptions
 	{
 		/// <summary>
 		/// Unique event identifier. Must be >= <see cref="AntiCheatCommonInterface.RegistereventCustomeventbase" />.
@@ -13,7 +13,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// <summary>
 		/// Name of the custom event. Allowed characters are 0-9, A-Z, a-z, '_', '-'
 		/// </summary>
-		public string EventName { get; set; }
+		public Utf8String EventName { get; set; }
 
 		/// <summary>
 		/// Type of the custom event
@@ -27,7 +27,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RegisterEventOptionsInternal : ISettable, System.IDisposable
+	internal struct RegisterEventOptionsInternal : ISettable<RegisterEventOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_EventId;
@@ -44,11 +44,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public string EventName
+		public Utf8String EventName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EventName, value);
+				Helper.Set(value, ref m_EventName);
 			}
 		}
 
@@ -64,31 +64,35 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		{
 			set
 			{
-				Helper.TryMarshalSet<RegisterEventParamDefInternal, RegisterEventParamDef>(ref m_ParamDefs, value, out m_ParamDefsCount);
+				Helper.Set<RegisterEventParamDef, RegisterEventParamDefInternal>(ref value, ref m_ParamDefs, out m_ParamDefsCount);
 			}
 		}
 
-		public void Set(RegisterEventOptions other)
+		public void Set(ref RegisterEventOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatCommonInterface.RegistereventApiLatest;
+			EventId = other.EventId;
+			EventName = other.EventName;
+			EventType = other.EventType;
+			ParamDefs = other.ParamDefs;
+		}
+
+		public void Set(ref RegisterEventOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatCommonInterface.RegistereventApiLatest;
-				EventId = other.EventId;
-				EventName = other.EventName;
-				EventType = other.EventType;
-				ParamDefs = other.ParamDefs;
+				EventId = other.Value.EventId;
+				EventName = other.Value.EventName;
+				EventType = other.Value.EventType;
+				ParamDefs = other.Value.ParamDefs;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RegisterEventOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_EventName);
-			Helper.TryMarshalDispose(ref m_ParamDefs);
+			Helper.Dispose(ref m_EventName);
+			Helper.Dispose(ref m_ParamDefs);
 		}
 	}
 }

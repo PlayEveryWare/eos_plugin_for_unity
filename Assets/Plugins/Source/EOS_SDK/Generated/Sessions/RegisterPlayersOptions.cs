@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.RegisterPlayers" /> function.
 	/// </summary>
-	public class RegisterPlayersOptions
+	public struct RegisterPlayersOptions
 	{
 		/// <summary>
 		/// Name of the session for which to register players
 		/// </summary>
-		public string SessionName { get; set; }
+		public Utf8String SessionName { get; set; }
 
 		/// <summary>
 		/// Array of players to register with the session
@@ -20,18 +20,18 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RegisterPlayersOptionsInternal : ISettable, System.IDisposable
+	internal struct RegisterPlayersOptionsInternal : ISettable<RegisterPlayersOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionName;
 		private System.IntPtr m_PlayersToRegister;
 		private uint m_PlayersToRegisterCount;
 
-		public string SessionName
+		public Utf8String SessionName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionName, value);
+				Helper.Set(value, ref m_SessionName);
 			}
 		}
 
@@ -39,29 +39,31 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PlayersToRegister, value, out m_PlayersToRegisterCount);
+				Helper.Set(value, ref m_PlayersToRegister, out m_PlayersToRegisterCount);
 			}
 		}
 
-		public void Set(RegisterPlayersOptions other)
+		public void Set(ref RegisterPlayersOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.RegisterplayersApiLatest;
+			SessionName = other.SessionName;
+			PlayersToRegister = other.PlayersToRegister;
+		}
+
+		public void Set(ref RegisterPlayersOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.RegisterplayersApiLatest;
-				SessionName = other.SessionName;
-				PlayersToRegister = other.PlayersToRegister;
+				SessionName = other.Value.SessionName;
+				PlayersToRegister = other.Value.PlayersToRegister;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RegisterPlayersOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionName);
-			Helper.TryMarshalDispose(ref m_PlayersToRegister);
+			Helper.Dispose(ref m_SessionName);
+			Helper.Dispose(ref m_PlayersToRegister);
 		}
 	}
 }

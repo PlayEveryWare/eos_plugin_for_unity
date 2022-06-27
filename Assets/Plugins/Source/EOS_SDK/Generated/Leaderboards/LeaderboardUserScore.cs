@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Contains information about a single leaderboard user score
 	/// </summary>
-	public class LeaderboardUserScore : ISettable
+	public struct LeaderboardUserScore
 	{
 		/// <summary>
 		/// The Product User ID of the user who got this score
@@ -18,23 +18,15 @@ namespace Epic.OnlineServices.Leaderboards
 		/// </summary>
 		public int Score { get; set; }
 
-		internal void Set(LeaderboardUserScoreInternal? other)
+		internal void Set(ref LeaderboardUserScoreInternal other)
 		{
-			if (other != null)
-			{
-				UserId = other.Value.UserId;
-				Score = other.Value.Score;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LeaderboardUserScoreInternal?);
+			UserId = other.UserId;
+			Score = other.Score;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LeaderboardUserScoreInternal : ISettable, System.IDisposable
+	internal struct LeaderboardUserScoreInternal : IGettable<LeaderboardUserScore>, ISettable<LeaderboardUserScore>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
@@ -45,13 +37,13 @@ namespace Epic.OnlineServices.Leaderboards
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_UserId, out value);
+				Helper.Get(m_UserId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
@@ -68,24 +60,32 @@ namespace Epic.OnlineServices.Leaderboards
 			}
 		}
 
-		public void Set(LeaderboardUserScore other)
+		public void Set(ref LeaderboardUserScore other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LeaderboardsInterface.LeaderboarduserscoreApiLatest;
-				UserId = other.UserId;
-				Score = other.Score;
-			}
+			m_ApiVersion = LeaderboardsInterface.LeaderboarduserscoreApiLatest;
+			UserId = other.UserId;
+			Score = other.Score;
 		}
 
-		public void Set(object other)
+		public void Set(ref LeaderboardUserScore? other)
 		{
-			Set(other as LeaderboardUserScore);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LeaderboardsInterface.LeaderboarduserscoreApiLatest;
+				UserId = other.Value.UserId;
+				Score = other.Value.Score;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
+			Helper.Dispose(ref m_UserId);
+		}
+
+		public void Get(out LeaderboardUserScore output)
+		{
+			output = new LeaderboardUserScore();
+			output.Set(ref this);
 		}
 	}
 }

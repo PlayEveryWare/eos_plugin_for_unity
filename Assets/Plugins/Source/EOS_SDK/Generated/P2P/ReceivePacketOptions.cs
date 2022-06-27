@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about who would like to receive a packet, and how much data can be stored safely.
 	/// </summary>
-	public class ReceivePacketOptions
+	public struct ReceivePacketOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user who is receiving the packet
@@ -19,13 +19,13 @@ namespace Epic.OnlineServices.P2P
 		public uint MaxDataSizeBytes { get; set; }
 
 		/// <summary>
-		/// An optional channel to request the data for. If NULL, we're retrieving the next packet on any channel
+		/// An optional channel to request the data for. If <see langword="null" />, we're retrieving the next packet on any channel
 		/// </summary>
 		public byte? RequestedChannel { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ReceivePacketOptionsInternal : ISettable, System.IDisposable
+	internal struct ReceivePacketOptionsInternal : ISettable<ReceivePacketOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -52,30 +52,33 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RequestedChannel, value);
+				Helper.Set(value, ref m_RequestedChannel);
 			}
 		}
 
-		public void Set(ReceivePacketOptions other)
+		public void Set(ref ReceivePacketOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = P2PInterface.ReceivepacketApiLatest;
+			LocalUserId = other.LocalUserId;
+			MaxDataSizeBytes = other.MaxDataSizeBytes;
+			RequestedChannel = other.RequestedChannel;
+		}
+
+		public void Set(ref ReceivePacketOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = P2PInterface.ReceivepacketApiLatest;
-				LocalUserId = other.LocalUserId;
-				MaxDataSizeBytes = other.MaxDataSizeBytes;
-				RequestedChannel = other.RequestedChannel;
+				LocalUserId = other.Value.LocalUserId;
+				MaxDataSizeBytes = other.Value.MaxDataSizeBytes;
+				RequestedChannel = other.Value.RequestedChannel;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ReceivePacketOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RequestedChannel);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RequestedChannel);
 		}
 	}
 }

@@ -3,26 +3,18 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogEventParamPair : ISettable
+	public struct LogEventParamPair
 	{
 		public LogEventParamPairParamValue ParamValue { get; set; }
 
-		internal void Set(LogEventParamPairInternal? other)
+		internal void Set(ref LogEventParamPairInternal other)
 		{
-			if (other != null)
-			{
-				ParamValue = other.Value.ParamValue;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogEventParamPairInternal?);
+			ParamValue = other.ParamValue;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogEventParamPairInternal : ISettable, System.IDisposable
+	internal struct LogEventParamPairInternal : IGettable<LogEventParamPair>, ISettable<LogEventParamPair>, System.IDisposable
 	{
 		private LogEventParamPairParamValueInternal m_ParamValue;
 
@@ -31,32 +23,38 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				LogEventParamPairParamValue value;
-				Helper.TryMarshalGet(m_ParamValue, out value);
+				Helper.Get(ref m_ParamValue, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ParamValue, value);
+				Helper.Set(ref value, ref m_ParamValue);
 			}
 		}
 
-		public void Set(LogEventParamPair other)
+		public void Set(ref LogEventParamPair other)
 		{
-			if (other != null)
+			ParamValue = other.ParamValue;
+		}
+
+		public void Set(ref LogEventParamPair? other)
+		{
+			if (other.HasValue)
 			{
-				ParamValue = other.ParamValue;
+				ParamValue = other.Value.ParamValue;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogEventParamPair);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ParamValue);
+			Helper.Dispose(ref m_ParamValue);
+		}
+
+		public void Get(out LogEventParamPair output)
+		{
+			output = new LogEventParamPair();
+			output.Set(ref this);
 		}
 	}
 }

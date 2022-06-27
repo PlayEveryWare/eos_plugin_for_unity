@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Input parameters for the <see cref="AuthInterface.Login" /> function.
 	/// </summary>
-	public class LoginOptions
+	public struct LoginOptions
 	{
 		/// <summary>
 		/// Credentials specified for a given login method
 		/// </summary>
-		public Credentials Credentials { get; set; }
+		public Credentials? Credentials { get; set; }
 
 		/// <summary>
 		/// Auth scope flags are permissions to request from the user while they are logging in. This is a bitwise-or union of <see cref="AuthScopeFlags" /> flags defined above
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.Auth
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LoginOptionsInternal : ISettable, System.IDisposable
+	internal struct LoginOptionsInternal : ISettable<LoginOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Credentials;
 		private AuthScopeFlags m_ScopeFlags;
 
-		public Credentials Credentials
+		public Credentials? Credentials
 		{
 			set
 			{
-				Helper.TryMarshalSet<CredentialsInternal, Credentials>(ref m_Credentials, value);
+				Helper.Set<Credentials, CredentialsInternal>(ref value, ref m_Credentials);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public void Set(LoginOptions other)
+		public void Set(ref LoginOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AuthInterface.LoginApiLatest;
-				Credentials = other.Credentials;
-				ScopeFlags = other.ScopeFlags;
-			}
+			m_ApiVersion = AuthInterface.LoginApiLatest;
+			Credentials = other.Credentials;
+			ScopeFlags = other.ScopeFlags;
 		}
 
-		public void Set(object other)
+		public void Set(ref LoginOptions? other)
 		{
-			Set(other as LoginOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AuthInterface.LoginApiLatest;
+				Credentials = other.Value.Credentials;
+				ScopeFlags = other.Value.ScopeFlags;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Credentials);
+			Helper.Dispose(ref m_Credentials);
 		}
 	}
 }

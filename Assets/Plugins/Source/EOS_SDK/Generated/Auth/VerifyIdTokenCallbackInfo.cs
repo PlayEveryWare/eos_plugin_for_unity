@@ -6,49 +6,49 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Output parameters for the <see cref="AuthInterface.VerifyIdToken" /> Function.
 	/// </summary>
-	public class VerifyIdTokenCallbackInfo : ICallbackInfo, ISettable
+	public struct VerifyIdTokenCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="AuthInterface.VerifyIdToken" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// Epic Account Services Application ID.
 		/// </summary>
-		public string ApplicationId { get; private set; }
+		public Utf8String ApplicationId { get; set; }
 
 		/// <summary>
 		/// Client ID of the authorized client.
 		/// </summary>
-		public string ClientId { get; private set; }
+		public Utf8String ClientId { get; set; }
 
 		/// <summary>
 		/// Product ID.
 		/// </summary>
-		public string ProductId { get; private set; }
+		public Utf8String ProductId { get; set; }
 
 		/// <summary>
 		/// Sandbox ID.
 		/// </summary>
-		public string SandboxId { get; private set; }
+		public Utf8String SandboxId { get; set; }
 
 		/// <summary>
 		/// Deployment ID.
 		/// </summary>
-		public string DeploymentId { get; private set; }
+		public Utf8String DeploymentId { get; set; }
 
 		/// <summary>
 		/// Epic Account display name.
 		/// 
 		/// This value may be set to an empty string.
 		/// </summary>
-		public string DisplayName { get; private set; }
+		public Utf8String DisplayName { get; set; }
 
 		/// <summary>
 		/// Flag set to indicate whether external account information is present.
@@ -57,69 +57,61 @@ namespace Epic.OnlineServices.Auth
 		/// 
 		/// This flag is set when the user has logged in to their Epic Account using external account credentials, e.g. through local platform authentication.
 		/// </summary>
-		public bool IsExternalAccountInfoPresent { get; private set; }
+		public bool IsExternalAccountInfoPresent { get; set; }
 
 		/// <summary>
 		/// The identity provider that the user logged in with to their Epic Account.
 		/// 
 		/// If bIsExternalAccountInfoPresent is set, this field describes the external account type.
 		/// </summary>
-		public ExternalAccountType ExternalAccountIdType { get; private set; }
+		public ExternalAccountType ExternalAccountIdType { get; set; }
 
 		/// <summary>
 		/// The external account ID of the logged in user.
 		/// 
 		/// This value may be set to an empty string.
 		/// </summary>
-		public string ExternalAccountId { get; private set; }
+		public Utf8String ExternalAccountId { get; set; }
 
 		/// <summary>
 		/// The external account display name.
 		/// 
 		/// This value may be set to an empty string.
 		/// </summary>
-		public string ExternalAccountDisplayName { get; private set; }
+		public Utf8String ExternalAccountDisplayName { get; set; }
 
 		/// <summary>
 		/// Platform that the user is connected from.
 		/// 
 		/// This value may be set to an empty string.
 		/// </summary>
-		public string Platform { get; private set; }
+		public Utf8String Platform { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(VerifyIdTokenCallbackInfoInternal? other)
+		internal void Set(ref VerifyIdTokenCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				ApplicationId = other.Value.ApplicationId;
-				ClientId = other.Value.ClientId;
-				ProductId = other.Value.ProductId;
-				SandboxId = other.Value.SandboxId;
-				DeploymentId = other.Value.DeploymentId;
-				DisplayName = other.Value.DisplayName;
-				IsExternalAccountInfoPresent = other.Value.IsExternalAccountInfoPresent;
-				ExternalAccountIdType = other.Value.ExternalAccountIdType;
-				ExternalAccountId = other.Value.ExternalAccountId;
-				ExternalAccountDisplayName = other.Value.ExternalAccountDisplayName;
-				Platform = other.Value.Platform;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as VerifyIdTokenCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			ApplicationId = other.ApplicationId;
+			ClientId = other.ClientId;
+			ProductId = other.ProductId;
+			SandboxId = other.SandboxId;
+			DeploymentId = other.DeploymentId;
+			DisplayName = other.DisplayName;
+			IsExternalAccountInfoPresent = other.IsExternalAccountInfoPresent;
+			ExternalAccountIdType = other.ExternalAccountIdType;
+			ExternalAccountId = other.ExternalAccountId;
+			ExternalAccountDisplayName = other.ExternalAccountDisplayName;
+			Platform = other.Platform;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct VerifyIdTokenCallbackInfoInternal : ICallbackInfoInternal
+	internal struct VerifyIdTokenCallbackInfoInternal : ICallbackInfoInternal, IGettable<VerifyIdTokenCallbackInfo>, ISettable<VerifyIdTokenCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -141,6 +133,11 @@ namespace Epic.OnlineServices.Auth
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -148,8 +145,13 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -161,63 +163,93 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public string ApplicationId
+		public Utf8String ApplicationId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ApplicationId, out value);
+				Utf8String value;
+				Helper.Get(m_ApplicationId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ApplicationId);
 			}
 		}
 
-		public string ClientId
+		public Utf8String ClientId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ClientId, out value);
+				Utf8String value;
+				Helper.Get(m_ClientId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientId);
 			}
 		}
 
-		public string ProductId
+		public Utf8String ProductId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ProductId, out value);
+				Utf8String value;
+				Helper.Get(m_ProductId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ProductId);
 			}
 		}
 
-		public string SandboxId
+		public Utf8String SandboxId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_SandboxId, out value);
+				Utf8String value;
+				Helper.Get(m_SandboxId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_SandboxId);
 			}
 		}
 
-		public string DeploymentId
+		public Utf8String DeploymentId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DeploymentId, out value);
+				Utf8String value;
+				Helper.Get(m_DeploymentId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_DeploymentId);
 			}
 		}
 
-		public string DisplayName
+		public Utf8String DisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_DisplayName, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_DisplayName);
 			}
 		}
 
@@ -226,8 +258,13 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsExternalAccountInfoPresent, out value);
+				Helper.Get(m_IsExternalAccountInfoPresent, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_IsExternalAccountInfoPresent);
 			}
 		}
 
@@ -237,36 +274,113 @@ namespace Epic.OnlineServices.Auth
 			{
 				return m_ExternalAccountIdType;
 			}
-		}
 
-		public string ExternalAccountId
-		{
-			get
+			set
 			{
-				string value;
-				Helper.TryMarshalGet(m_ExternalAccountId, out value);
-				return value;
+				m_ExternalAccountIdType = value;
 			}
 		}
 
-		public string ExternalAccountDisplayName
+		public Utf8String ExternalAccountId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ExternalAccountDisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_ExternalAccountId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ExternalAccountId);
 			}
 		}
 
-		public string Platform
+		public Utf8String ExternalAccountDisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Platform, out value);
+				Utf8String value;
+				Helper.Get(m_ExternalAccountDisplayName, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_ExternalAccountDisplayName);
+			}
+		}
+
+		public Utf8String Platform
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_Platform, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_Platform);
+			}
+		}
+
+		public void Set(ref VerifyIdTokenCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			ApplicationId = other.ApplicationId;
+			ClientId = other.ClientId;
+			ProductId = other.ProductId;
+			SandboxId = other.SandboxId;
+			DeploymentId = other.DeploymentId;
+			DisplayName = other.DisplayName;
+			IsExternalAccountInfoPresent = other.IsExternalAccountInfoPresent;
+			ExternalAccountIdType = other.ExternalAccountIdType;
+			ExternalAccountId = other.ExternalAccountId;
+			ExternalAccountDisplayName = other.ExternalAccountDisplayName;
+			Platform = other.Platform;
+		}
+
+		public void Set(ref VerifyIdTokenCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				ApplicationId = other.Value.ApplicationId;
+				ClientId = other.Value.ClientId;
+				ProductId = other.Value.ProductId;
+				SandboxId = other.Value.SandboxId;
+				DeploymentId = other.Value.DeploymentId;
+				DisplayName = other.Value.DisplayName;
+				IsExternalAccountInfoPresent = other.Value.IsExternalAccountInfoPresent;
+				ExternalAccountIdType = other.Value.ExternalAccountIdType;
+				ExternalAccountId = other.Value.ExternalAccountId;
+				ExternalAccountDisplayName = other.Value.ExternalAccountDisplayName;
+				Platform = other.Value.Platform;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_ApplicationId);
+			Helper.Dispose(ref m_ClientId);
+			Helper.Dispose(ref m_ProductId);
+			Helper.Dispose(ref m_SandboxId);
+			Helper.Dispose(ref m_DeploymentId);
+			Helper.Dispose(ref m_DisplayName);
+			Helper.Dispose(ref m_ExternalAccountId);
+			Helper.Dispose(ref m_ExternalAccountDisplayName);
+			Helper.Dispose(ref m_Platform);
+		}
+
+		public void Get(out VerifyIdTokenCallbackInfo output)
+		{
+			output = new VerifyIdTokenCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

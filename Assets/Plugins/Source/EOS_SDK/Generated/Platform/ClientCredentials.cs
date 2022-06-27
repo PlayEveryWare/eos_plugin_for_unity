@@ -6,87 +6,86 @@ namespace Epic.OnlineServices.Platform
 	/// <summary>
 	/// Client credentials.
 	/// </summary>
-	public class ClientCredentials : ISettable
+	public struct ClientCredentials
 	{
 		/// <summary>
-		/// Client ID of the service permissions entry. Set to NULL if no service permissions are used.
+		/// Client ID of the service permissions entry. Set to <see langword="null" /> if no service permissions are used.
 		/// </summary>
-		public string ClientId { get; set; }
+		public Utf8String ClientId { get; set; }
 
 		/// <summary>
-		/// Client secret for accessing the set of permissions. Set to NULL if no service permissions are used.
+		/// Client secret for accessing the set of permissions. Set to <see langword="null" /> if no service permissions are used.
 		/// </summary>
-		public string ClientSecret { get; set; }
+		public Utf8String ClientSecret { get; set; }
 
-		internal void Set(ClientCredentialsInternal? other)
+		internal void Set(ref ClientCredentialsInternal other)
 		{
-			if (other != null)
+			ClientId = other.ClientId;
+			ClientSecret = other.ClientSecret;
+		}
+	}
+
+	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
+	internal struct ClientCredentialsInternal : IGettable<ClientCredentials>, ISettable<ClientCredentials>, System.IDisposable
+	{
+		private System.IntPtr m_ClientId;
+		private System.IntPtr m_ClientSecret;
+
+		public Utf8String ClientId
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_ClientId, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientId);
+			}
+		}
+
+		public Utf8String ClientSecret
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_ClientSecret, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientSecret);
+			}
+		}
+
+		public void Set(ref ClientCredentials other)
+		{
+			ClientId = other.ClientId;
+			ClientSecret = other.ClientSecret;
+		}
+
+		public void Set(ref ClientCredentials? other)
+		{
+			if (other.HasValue)
 			{
 				ClientId = other.Value.ClientId;
 				ClientSecret = other.Value.ClientSecret;
 			}
 		}
 
-		public void Set(object other)
-		{
-			Set(other as ClientCredentialsInternal?);
-		}
-	}
-
-	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ClientCredentialsInternal : ISettable, System.IDisposable
-	{
-		private System.IntPtr m_ClientId;
-		private System.IntPtr m_ClientSecret;
-
-		public string ClientId
-		{
-			get
-			{
-				string value;
-				Helper.TryMarshalGet(m_ClientId, out value);
-				return value;
-			}
-
-			set
-			{
-				Helper.TryMarshalSet(ref m_ClientId, value);
-			}
-		}
-
-		public string ClientSecret
-		{
-			get
-			{
-				string value;
-				Helper.TryMarshalGet(m_ClientSecret, out value);
-				return value;
-			}
-
-			set
-			{
-				Helper.TryMarshalSet(ref m_ClientSecret, value);
-			}
-		}
-
-		public void Set(ClientCredentials other)
-		{
-			if (other != null)
-			{
-				ClientId = other.ClientId;
-				ClientSecret = other.ClientSecret;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ClientCredentials);
-		}
-
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientId);
-			Helper.TryMarshalDispose(ref m_ClientSecret);
+			Helper.Dispose(ref m_ClientId);
+			Helper.Dispose(ref m_ClientSecret);
+		}
+
+		public void Get(out ClientCredentials output)
+		{
+			output = new ClientCredentials();
+			output.Set(ref this);
 		}
 	}
 }

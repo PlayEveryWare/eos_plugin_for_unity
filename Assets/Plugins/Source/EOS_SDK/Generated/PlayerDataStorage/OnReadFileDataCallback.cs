@@ -10,8 +10,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <returns>
 	/// The result of the read operation. If this value is not <see cref="ReadResult.ContinueReading" />, this callback will not be called again for the same request
 	/// </returns>
-	public delegate ReadResult OnReadFileDataCallback(ReadFileDataCallbackInfo data);
+	public delegate ReadResult OnReadFileDataCallback(ref ReadFileDataCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate ReadResult OnReadFileDataCallbackInternal(System.IntPtr data);
+	internal delegate ReadResult OnReadFileDataCallbackInternal(ref ReadFileDataCallbackInfoInternal data);
 }

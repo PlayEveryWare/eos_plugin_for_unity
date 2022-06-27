@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.KWS
 	/// Function prototype definition for callbacks passed to <see cref="KWSInterface.RequestPermissions" />
 	/// </summary>
 	/// <param name="data">A <see cref="RequestPermissionsCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnRequestPermissionsCallback(RequestPermissionsCallbackInfo data);
+	public delegate void OnRequestPermissionsCallback(ref RequestPermissionsCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnRequestPermissionsCallbackInternal(System.IntPtr data);
+	internal delegate void OnRequestPermissionsCallbackInternal(ref RequestPermissionsCallbackInfoInternal data);
 }

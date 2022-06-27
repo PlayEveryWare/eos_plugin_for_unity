@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.CopyUnlockedAchievementByIndex" /> function.
 	/// </summary>
-	public class CopyUnlockedAchievementByIndexOptions
+	public struct CopyUnlockedAchievementByIndexOptions
 	{
 		/// <summary>
 		/// The Product User ID for the user who is copying the unlocked achievement
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Achievements
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyUnlockedAchievementByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyUnlockedAchievementByIndexOptionsInternal : ISettable<CopyUnlockedAchievementByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Achievements
 			}
 		}
 
-		public void Set(CopyUnlockedAchievementByIndexOptions other)
+		public void Set(ref CopyUnlockedAchievementByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AchievementsInterface.CopyunlockedachievementbyindexApiLatest;
-				UserId = other.UserId;
-				AchievementIndex = other.AchievementIndex;
-			}
+			m_ApiVersion = AchievementsInterface.CopyunlockedachievementbyindexApiLatest;
+			UserId = other.UserId;
+			AchievementIndex = other.AchievementIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyUnlockedAchievementByIndexOptions? other)
 		{
-			Set(other as CopyUnlockedAchievementByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AchievementsInterface.CopyunlockedachievementbyindexApiLatest;
+				UserId = other.Value.UserId;
+				AchievementIndex = other.Value.AchievementIndex;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
+			Helper.Dispose(ref m_UserId);
 		}
 	}
 }

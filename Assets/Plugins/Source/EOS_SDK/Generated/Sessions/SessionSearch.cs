@@ -66,18 +66,18 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if you pass an invalid index or a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopySearchResultByIndex(SessionSearchCopySearchResultByIndexOptions options, out SessionDetails outSessionHandle)
+		public Result CopySearchResultByIndex(ref SessionSearchCopySearchResultByIndexOptions options, out SessionDetails outSessionHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionSearchCopySearchResultByIndexOptionsInternal, SessionSearchCopySearchResultByIndexOptions>(ref optionsAddress, options);
+			SessionSearchCopySearchResultByIndexOptionsInternal optionsInternal = new SessionSearchCopySearchResultByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_SessionSearch_CopySearchResultByIndex(InnerHandle, optionsAddress, ref outSessionHandleAddress);
+			var funcResult = Bindings.EOS_SessionSearch_CopySearchResultByIndex(InnerHandle, ref optionsInternal, ref outSessionHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outSessionHandleAddress, out outSessionHandle);
+			Helper.Get(outSessionHandleAddress, out outSessionHandle);
 
 			return funcResult;
 		}
@@ -94,19 +94,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.NotFound" /> if searching for an individual session by sessionid or targetuserid returns no results
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public void Find(SessionSearchFindOptions options, object clientData, SessionSearchOnFindCallback completionDelegate)
+		public void Find(ref SessionSearchFindOptions options, object clientData, SessionSearchOnFindCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionSearchFindOptionsInternal, SessionSearchFindOptions>(ref optionsAddress, options);
+			SessionSearchFindOptionsInternal optionsInternal = new SessionSearchFindOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new SessionSearchOnFindCallbackInternal(OnFindCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_SessionSearch_Find(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_SessionSearch_Find(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -116,14 +116,14 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// return the number of search results found by the query or 0 if search is not complete
 		/// </returns>
-		public uint GetSearchResultCount(SessionSearchGetSearchResultCountOptions options)
+		public uint GetSearchResultCount(ref SessionSearchGetSearchResultCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionSearchGetSearchResultCountOptionsInternal, SessionSearchGetSearchResultCountOptions>(ref optionsAddress, options);
+			SessionSearchGetSearchResultCountOptionsInternal optionsInternal = new SessionSearchGetSearchResultCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_SessionSearch_GetSearchResultCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_SessionSearch_GetSearchResultCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -140,23 +140,22 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Remove a parameter from the array of search criteria.
-		/// 
-		/// @params Options a search parameter key name to remove
 		/// </summary>
+		/// <param name="options">a search parameter key name to remove</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if removing this search parameter was successful
 		/// <see cref="Result.InvalidParameters" /> if the search key is invalid or null
 		/// <see cref="Result.NotFound" /> if the parameter was not a part of the search criteria
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result RemoveParameter(SessionSearchRemoveParameterOptions options)
+		public Result RemoveParameter(ref SessionSearchRemoveParameterOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionSearchRemoveParameterOptionsInternal, SessionSearchRemoveParameterOptions>(ref optionsAddress, options);
+			SessionSearchRemoveParameterOptionsInternal optionsInternal = new SessionSearchRemoveParameterOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_SessionSearch_RemoveParameter(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_SessionSearch_RemoveParameter(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -170,14 +169,14 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if the number of results requested is invalid
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result SetMaxResults(SessionSearchSetMaxResultsOptions options)
+		public Result SetMaxResults(ref SessionSearchSetMaxResultsOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionSearchSetMaxResultsOptionsInternal, SessionSearchSetMaxResultsOptions>(ref optionsAddress, options);
+			SessionSearchSetMaxResultsOptionsInternal optionsInternal = new SessionSearchSetMaxResultsOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_SessionSearch_SetMaxResults(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_SessionSearch_SetMaxResults(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -193,14 +192,14 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if the search criteria is invalid or null
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result SetParameter(SessionSearchSetParameterOptions options)
+		public Result SetParameter(ref SessionSearchSetParameterOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionSearchSetParameterOptionsInternal, SessionSearchSetParameterOptions>(ref optionsAddress, options);
+			SessionSearchSetParameterOptionsInternal optionsInternal = new SessionSearchSetParameterOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_SessionSearch_SetParameter(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_SessionSearch_SetParameter(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -214,21 +213,21 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if the session ID is invalid or null
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result SetSessionId(SessionSearchSetSessionIdOptions options)
+		public Result SetSessionId(ref SessionSearchSetSessionIdOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionSearchSetSessionIdOptionsInternal, SessionSearchSetSessionIdOptions>(ref optionsAddress, options);
+			SessionSearchSetSessionIdOptionsInternal optionsInternal = new SessionSearchSetSessionIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_SessionSearch_SetSessionId(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_SessionSearch_SetSessionId(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		/// <summary>
 		/// Set a target user ID to find and will return at most one search result. Setting SessionId or SearchParameters will result in <see cref="Find" /> failing
-		/// @note a search result will only be found if this user is in a public session
+		/// a search result will only be found if this user is in a public session
 		/// </summary>
 		/// <param name="options">a specific target user ID to find</param>
 		/// <returns>
@@ -236,26 +235,26 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if the target user ID is invalid or null
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result SetTargetUserId(SessionSearchSetTargetUserIdOptions options)
+		public Result SetTargetUserId(ref SessionSearchSetTargetUserIdOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionSearchSetTargetUserIdOptionsInternal, SessionSearchSetTargetUserIdOptions>(ref optionsAddress, options);
+			SessionSearchSetTargetUserIdOptionsInternal optionsInternal = new SessionSearchSetTargetUserIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_SessionSearch_SetTargetUserId(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_SessionSearch_SetTargetUserId(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		[MonoPInvokeCallback(typeof(SessionSearchOnFindCallbackInternal))]
-		internal static void OnFindCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnFindCallbackInternalImplementation(ref SessionSearchFindCallbackInfoInternal data)
 		{
 			SessionSearchOnFindCallback callback;
 			SessionSearchFindCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<SessionSearchOnFindCallback, SessionSearchFindCallbackInfoInternal, SessionSearchFindCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

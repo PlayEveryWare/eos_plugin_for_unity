@@ -6,8 +6,8 @@ namespace Epic.OnlineServices.TitleStorage
 	/// <summary>
 	/// Callback for when <see cref="TitleStorageInterface.DeleteCache" /> completes
 	/// </summary>
-	public delegate void OnDeleteCacheCompleteCallback(DeleteCacheCallbackInfo data);
+	public delegate void OnDeleteCacheCompleteCallback(ref DeleteCacheCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnDeleteCacheCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnDeleteCacheCompleteCallbackInternal(ref DeleteCacheCallbackInfoInternal data);
 }

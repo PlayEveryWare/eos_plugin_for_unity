@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.CopyActiveSessionHandle" /> function.
 	/// </summary>
-	public class CopyActiveSessionHandleOptions
+	public struct CopyActiveSessionHandleOptions
 	{
 		/// <summary>
 		/// Name of the session for which to retrieve a session handle
 		/// </summary>
-		public string SessionName { get; set; }
+		public Utf8String SessionName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyActiveSessionHandleOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyActiveSessionHandleOptionsInternal : ISettable<CopyActiveSessionHandleOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionName;
 
-		public string SessionName
+		public Utf8String SessionName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionName, value);
+				Helper.Set(value, ref m_SessionName);
 			}
 		}
 
-		public void Set(CopyActiveSessionHandleOptions other)
+		public void Set(ref CopyActiveSessionHandleOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.CopyactivesessionhandleApiLatest;
+			SessionName = other.SessionName;
+		}
+
+		public void Set(ref CopyActiveSessionHandleOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.CopyactivesessionhandleApiLatest;
-				SessionName = other.SessionName;
+				SessionName = other.Value.SessionName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyActiveSessionHandleOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionName);
+			Helper.Dispose(ref m_SessionName);
 		}
 	}
 }

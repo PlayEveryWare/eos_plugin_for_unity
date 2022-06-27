@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.GetEntitlementsByNameCount" /> function.
 	/// </summary>
-	public class GetEntitlementsByNameCountOptions
+	public struct GetEntitlementsByNameCountOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user for which to retrieve the entitlement count
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Name of the entitlement to count in the cache
 		/// </summary>
-		public string EntitlementName { get; set; }
+		public Utf8String EntitlementName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetEntitlementsByNameCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetEntitlementsByNameCountOptionsInternal : ISettable<GetEntitlementsByNameCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string EntitlementName
+		public Utf8String EntitlementName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EntitlementName, value);
+				Helper.Set(value, ref m_EntitlementName);
 			}
 		}
 
-		public void Set(GetEntitlementsByNameCountOptions other)
+		public void Set(ref GetEntitlementsByNameCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.GetentitlementsbynamecountApiLatest;
+			LocalUserId = other.LocalUserId;
+			EntitlementName = other.EntitlementName;
+		}
+
+		public void Set(ref GetEntitlementsByNameCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.GetentitlementsbynamecountApiLatest;
-				LocalUserId = other.LocalUserId;
-				EntitlementName = other.EntitlementName;
+				LocalUserId = other.Value.LocalUserId;
+				EntitlementName = other.Value.EntitlementName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetEntitlementsByNameCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_EntitlementName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_EntitlementName);
 		}
 	}
 }

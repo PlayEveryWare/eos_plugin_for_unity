@@ -6,16 +6,16 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionModification.SetPermissionLevel" /> function.
 	/// </summary>
-	public class SessionModificationSetPermissionLevelOptions
+	public struct SessionModificationSetPermissionLevelOptions
 	{
 		/// <summary>
-		/// Permission level to set on the sesion
+		/// Permission level to set on the session
 		/// </summary>
 		public OnlineSessionPermissionLevel PermissionLevel { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionModificationSetPermissionLevelOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionModificationSetPermissionLevelOptionsInternal : ISettable<SessionModificationSetPermissionLevelOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private OnlineSessionPermissionLevel m_PermissionLevel;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(SessionModificationSetPermissionLevelOptions other)
+		public void Set(ref SessionModificationSetPermissionLevelOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionModification.SessionmodificationSetpermissionlevelApiLatest;
-				PermissionLevel = other.PermissionLevel;
-			}
+			m_ApiVersion = SessionModification.SessionmodificationSetpermissionlevelApiLatest;
+			PermissionLevel = other.PermissionLevel;
 		}
 
-		public void Set(object other)
+		public void Set(ref SessionModificationSetPermissionLevelOptions? other)
 		{
-			Set(other as SessionModificationSetPermissionLevelOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionModification.SessionmodificationSetpermissionlevelApiLatest;
+				PermissionLevel = other.Value.PermissionLevel;
+			}
 		}
 
 		public void Dispose()

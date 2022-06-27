@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogPlayerDespawnOptions
+	public struct LogPlayerDespawnOptions
 	{
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogPlayerDespawnOptionsInternal : ISettable, System.IDisposable
+	internal struct LogPlayerDespawnOptionsInternal : ISettable<LogPlayerDespawnOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_DespawnedPlayerHandle;
@@ -25,23 +25,24 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(LogPlayerDespawnOptions other)
+		public void Set(ref LogPlayerDespawnOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatCommonInterface.LogplayerdespawnApiLatest;
-				DespawnedPlayerHandle = other.DespawnedPlayerHandle;
-			}
+			m_ApiVersion = AntiCheatCommonInterface.LogplayerdespawnApiLatest;
+			DespawnedPlayerHandle = other.DespawnedPlayerHandle;
 		}
 
-		public void Set(object other)
+		public void Set(ref LogPlayerDespawnOptions? other)
 		{
-			Set(other as LogPlayerDespawnOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatCommonInterface.LogplayerdespawnApiLatest;
+				DespawnedPlayerHandle = other.Value.DespawnedPlayerHandle;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_DespawnedPlayerHandle);
+			Helper.Dispose(ref m_DespawnedPlayerHandle);
 		}
 	}
 }

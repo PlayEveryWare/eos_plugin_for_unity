@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.KWS
 	/// Function prototype definition for notifications that comes from <see cref="KWSInterface.AddNotifyPermissionsUpdateReceived" />
 	/// </summary>
 	/// <param name="data">A <see cref="PermissionsUpdateReceivedCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnPermissionsUpdateReceivedCallback(PermissionsUpdateReceivedCallbackInfo data);
+	public delegate void OnPermissionsUpdateReceivedCallback(ref PermissionsUpdateReceivedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnPermissionsUpdateReceivedCallbackInternal(System.IntPtr data);
+	internal delegate void OnPermissionsUpdateReceivedCallbackInternal(ref PermissionsUpdateReceivedCallbackInfoInternal data);
 }

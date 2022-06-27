@@ -3,12 +3,17 @@
 
 namespace Epic.OnlineServices
 {
-	public static class Common
+	public sealed partial class Common
 	{
 		/// <summary>
 		/// An invalid notification ID
 		/// </summary>
 		public const ulong InvalidNotificationid = ((ulong)0);
+
+		/// <summary>
+		/// A macro to identify an unknown integrated platform.
+		/// </summary>
+		public static readonly Utf8String IptUnknown = (string)null;
 
 		/// <summary>
 		/// The most recent version of the <see cref="PageQuery" /> structs.
@@ -43,7 +48,7 @@ namespace Epic.OnlineServices
 			var funcResult = Bindings.EOS_EResult_IsOperationComplete(result);
 
 			bool funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -52,14 +57,14 @@ namespace Epic.OnlineServices
 		/// The return value is never null.
 		/// The return value must not be freed.
 		/// 
-		/// Example: <see cref="ToString" />(<see cref="Result.Success" />) returns "<see cref="Result.Success" />"
+		/// Example: <see cref="ToString" />(<see cref="Result.Success" />) returns "EOS_Success"
 		/// </summary>
-		public static string ToString(Result result)
+		public static Utf8String ToString(Result result)
 		{
 			var funcResult = Bindings.EOS_EResult_ToString(result);
 
-			string funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Utf8String funcResultReturn;
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -72,29 +77,28 @@ namespace Epic.OnlineServices
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer on invalid length for any of the parameters
 		/// <see cref="Result.LimitExceeded" /> - The OutBuffer is not large enough to receive the encoding. InOutBufferLength contains the required minimum length to perform the operation successfully.
 		/// </returns>
-		public static Result ToString(byte[] byteArray, out string outBuffer)
+		public static Result ToString(System.ArraySegment<byte> byteArray, out Utf8String outBuffer)
 		{
 			var byteArrayAddress = System.IntPtr.Zero;
 			uint length;
-			Helper.TryMarshalSet(ref byteArrayAddress, byteArray, out length);
+			Helper.Set(byteArray, ref byteArrayAddress, out length);
 
-			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			uint inOutBufferLength = 1024;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
 
 			var funcResult = Bindings.EOS_ByteArray_ToString(byteArrayAddress, length, outBufferAddress, ref inOutBufferLength);
 
-			Helper.TryMarshalDispose(ref byteArrayAddress);
+			Helper.Dispose(ref byteArrayAddress);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer);
-			Helper.TryMarshalDispose(ref outBufferAddress);
+			Helper.Get(outBufferAddress, out outBuffer);
+			Helper.Dispose(ref outBufferAddress);
 
 			return funcResult;
 		}
 
-		public static string ToString(byte[] byteArray)
+		public static Utf8String ToString(System.ArraySegment<byte> byteArray)
 		{
-			string funcResult;
+			Utf8String funcResult;
 			ToString(byteArray, out funcResult);
 			return funcResult;
 		}

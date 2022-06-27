@@ -6,58 +6,50 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Output parameters for the <see cref="OnLobbyInviteAcceptedCallback" /> Function.
 	/// </summary>
-	public class LobbyInviteAcceptedCallbackInfo : ICallbackInfo, ISettable
+	public struct LobbyInviteAcceptedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="LobbyInterface.AddNotifyLobbyInviteAccepted" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The invite ID
 		/// </summary>
-		public string InviteId { get; private set; }
+		public Utf8String InviteId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who received the invitation
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who sent the invitation
 		/// </summary>
-		public ProductUserId TargetUserId { get; private set; }
+		public ProductUserId TargetUserId { get; set; }
 
 		/// <summary>
 		/// Lobby ID that the user has been invited to
 		/// </summary>
-		public string LobbyId { get; private set; }
+		public Utf8String LobbyId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(LobbyInviteAcceptedCallbackInfoInternal? other)
+		internal void Set(ref LobbyInviteAcceptedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				InviteId = other.Value.InviteId;
-				LocalUserId = other.Value.LocalUserId;
-				TargetUserId = other.Value.TargetUserId;
-				LobbyId = other.Value.LobbyId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyInviteAcceptedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			InviteId = other.InviteId;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			LobbyId = other.LobbyId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyInviteAcceptedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct LobbyInviteAcceptedCallbackInfoInternal : ICallbackInfoInternal, IGettable<LobbyInviteAcceptedCallbackInfo>, ISettable<LobbyInviteAcceptedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_InviteId;
@@ -70,8 +62,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -83,13 +80,18 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public string InviteId
+		public Utf8String InviteId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_InviteId, out value);
+				Utf8String value;
+				Helper.Get(m_InviteId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_InviteId);
 			}
 		}
 
@@ -98,8 +100,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -108,19 +115,65 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LobbyId, out value);
+				Utf8String value;
+				Helper.Get(m_LobbyId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_LobbyId);
+			}
+		}
+
+		public void Set(ref LobbyInviteAcceptedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			InviteId = other.InviteId;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			LobbyId = other.LobbyId;
+		}
+
+		public void Set(ref LobbyInviteAcceptedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				InviteId = other.Value.InviteId;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				LobbyId = other.Value.LobbyId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_InviteId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LobbyId);
+		}
+
+		public void Get(out LobbyInviteAcceptedCallbackInfo output)
+		{
+			output = new LobbyInviteAcceptedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.QueryOwnershipToken" /> function.
 	/// </summary>
-	public class QueryOwnershipTokenOptions
+	public struct QueryOwnershipTokenOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose ownership token you want to query
@@ -16,16 +16,16 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The array of Catalog Item IDs to check for ownership, matching in number to the CatalogItemIdCount
 		/// </summary>
-		public string[] CatalogItemIds { get; set; }
+		public Utf8String[] CatalogItemIds { get; set; }
 
 		/// <summary>
 		/// Optional product namespace, if not the one specified during initialization
 		/// </summary>
-		public string CatalogNamespace { get; set; }
+		public Utf8String CatalogNamespace { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryOwnershipTokenOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryOwnershipTokenOptionsInternal : ISettable<QueryOwnershipTokenOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -37,47 +37,50 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string[] CatalogItemIds
+		public Utf8String[] CatalogItemIds
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_CatalogItemIds, value, out m_CatalogItemIdCount);
+				Helper.Set(value, ref m_CatalogItemIds, out m_CatalogItemIdCount);
 			}
 		}
 
-		public string CatalogNamespace
+		public Utf8String CatalogNamespace
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_CatalogNamespace, value);
+				Helper.Set(value, ref m_CatalogNamespace);
 			}
 		}
 
-		public void Set(QueryOwnershipTokenOptions other)
+		public void Set(ref QueryOwnershipTokenOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.QueryownershiptokenApiLatest;
+			LocalUserId = other.LocalUserId;
+			CatalogItemIds = other.CatalogItemIds;
+			CatalogNamespace = other.CatalogNamespace;
+		}
+
+		public void Set(ref QueryOwnershipTokenOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.QueryownershiptokenApiLatest;
-				LocalUserId = other.LocalUserId;
-				CatalogItemIds = other.CatalogItemIds;
-				CatalogNamespace = other.CatalogNamespace;
+				LocalUserId = other.Value.LocalUserId;
+				CatalogItemIds = other.Value.CatalogItemIds;
+				CatalogNamespace = other.Value.CatalogNamespace;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryOwnershipTokenOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_CatalogItemIds);
-			Helper.TryMarshalDispose(ref m_CatalogNamespace);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_CatalogItemIds);
+			Helper.Dispose(ref m_CatalogNamespace);
 		}
 	}
 }

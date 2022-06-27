@@ -47,18 +47,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopyInfo(ActiveSessionCopyInfoOptions options, out ActiveSessionInfo outActiveSessionInfo)
+		public Result CopyInfo(ref ActiveSessionCopyInfoOptions options, out ActiveSessionInfo? outActiveSessionInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ActiveSessionCopyInfoOptionsInternal, ActiveSessionCopyInfoOptions>(ref optionsAddress, options);
+			ActiveSessionCopyInfoOptionsInternal optionsInternal = new ActiveSessionCopyInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outActiveSessionInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_ActiveSession_CopyInfo(InnerHandle, optionsAddress, ref outActiveSessionInfoAddress);
+			var funcResult = Bindings.EOS_ActiveSession_CopyInfo(InnerHandle, ref optionsInternal, ref outActiveSessionInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ActiveSessionInfoInternal, ActiveSessionInfo>(outActiveSessionInfoAddress, out outActiveSessionInfo))
+			Helper.Get<ActiveSessionInfoInternal, ActiveSessionInfo>(outActiveSessionInfoAddress, out outActiveSessionInfo);
+			if (outActiveSessionInfo != null)
 			{
 				Bindings.EOS_ActiveSession_Info_Release(outActiveSessionInfoAddress);
 			}
@@ -75,17 +76,17 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// the product user ID for the registered player at a given index or null if that index is invalid
 		/// </returns>
-		public ProductUserId GetRegisteredPlayerByIndex(ActiveSessionGetRegisteredPlayerByIndexOptions options)
+		public ProductUserId GetRegisteredPlayerByIndex(ref ActiveSessionGetRegisteredPlayerByIndexOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ActiveSessionGetRegisteredPlayerByIndexOptionsInternal, ActiveSessionGetRegisteredPlayerByIndexOptions>(ref optionsAddress, options);
+			ActiveSessionGetRegisteredPlayerByIndexOptionsInternal optionsInternal = new ActiveSessionGetRegisteredPlayerByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_ActiveSession_GetRegisteredPlayerByIndex(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_ActiveSession_GetRegisteredPlayerByIndex(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			ProductUserId funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -96,14 +97,14 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// number of registered players in the active session or 0 if there is an error
 		/// </returns>
-		public uint GetRegisteredPlayerCount(ActiveSessionGetRegisteredPlayerCountOptions options)
+		public uint GetRegisteredPlayerCount(ref ActiveSessionGetRegisteredPlayerCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ActiveSessionGetRegisteredPlayerCountOptionsInternal, ActiveSessionGetRegisteredPlayerCountOptions>(ref optionsAddress, options);
+			ActiveSessionGetRegisteredPlayerCountOptionsInternal optionsInternal = new ActiveSessionGetRegisteredPlayerCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_ActiveSession_GetRegisteredPlayerCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_ActiveSession_GetRegisteredPlayerCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}

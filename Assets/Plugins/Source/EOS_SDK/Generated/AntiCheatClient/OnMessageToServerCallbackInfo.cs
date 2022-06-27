@@ -6,40 +6,32 @@ namespace Epic.OnlineServices.AntiCheatClient
 	/// <summary>
 	/// Structure containing details about a new message that must be dispatched to the game server.
 	/// </summary>
-	public class OnMessageToServerCallbackInfo : ICallbackInfo, ISettable
+	public struct OnMessageToServerCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Caller-specified context data
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The message data that must be sent to the server
 		/// </summary>
-		public byte[] MessageData { get; private set; }
+		public System.ArraySegment<byte> MessageData { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnMessageToServerCallbackInfoInternal? other)
+		internal void Set(ref OnMessageToServerCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				MessageData = other.Value.MessageData;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnMessageToServerCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			MessageData = other.MessageData;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnMessageToServerCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnMessageToServerCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnMessageToServerCallbackInfo>, ISettable<OnMessageToServerCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_MessageData;
@@ -50,8 +42,13 @@ namespace Epic.OnlineServices.AntiCheatClient
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -63,14 +60,46 @@ namespace Epic.OnlineServices.AntiCheatClient
 			}
 		}
 
-		public byte[] MessageData
+		public System.ArraySegment<byte> MessageData
 		{
 			get
 			{
-				byte[] value;
-				Helper.TryMarshalGet(m_MessageData, out value, m_MessageDataSizeBytes);
+				System.ArraySegment<byte> value;
+				Helper.Get(m_MessageData, out value, m_MessageDataSizeBytes);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_MessageData, out m_MessageDataSizeBytes);
+			}
+		}
+
+		public void Set(ref OnMessageToServerCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			MessageData = other.MessageData;
+		}
+
+		public void Set(ref OnMessageToServerCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				MessageData = other.Value.MessageData;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_MessageData);
+		}
+
+		public void Get(out OnMessageToServerCallbackInfo output)
+		{
+			output = new OnMessageToServerCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.CopyPlayerAchievementByAchievementId" /> function.
 	/// </summary>
-	public class CopyPlayerAchievementByAchievementIdOptions
+	public struct CopyPlayerAchievementByAchievementIdOptions
 	{
 		/// <summary>
 		/// The Product User ID for the user whose achievement is to be retrieved.
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Achievements
 		/// <summary>
 		/// Achievement ID to search for when retrieving player achievement data from the cache.
 		/// </summary>
-		public string AchievementId { get; set; }
+		public Utf8String AchievementId { get; set; }
 
 		/// <summary>
 		/// The Product User ID for the user who is querying for a player achievement. For a Dedicated Server this should be null.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Achievements
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyPlayerAchievementByAchievementIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyPlayerAchievementByAchievementIdOptionsInternal : ISettable<CopyPlayerAchievementByAchievementIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -36,15 +36,15 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public string AchievementId
+		public Utf8String AchievementId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AchievementId, value);
+				Helper.Set(value, ref m_AchievementId);
 			}
 		}
 
@@ -52,31 +52,34 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(CopyPlayerAchievementByAchievementIdOptions other)
+		public void Set(ref CopyPlayerAchievementByAchievementIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.CopyplayerachievementbyachievementidApiLatest;
+			TargetUserId = other.TargetUserId;
+			AchievementId = other.AchievementId;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref CopyPlayerAchievementByAchievementIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.CopyplayerachievementbyachievementidApiLatest;
-				TargetUserId = other.TargetUserId;
-				AchievementId = other.AchievementId;
-				LocalUserId = other.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				AchievementId = other.Value.AchievementId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyPlayerAchievementByAchievementIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
-			Helper.TryMarshalDispose(ref m_AchievementId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_AchievementId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

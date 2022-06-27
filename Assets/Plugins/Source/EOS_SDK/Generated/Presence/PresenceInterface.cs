@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Presence
 
 		public const int AddnotifyonpresencechangedApiLatest = 1;
 
-		public const int CopypresenceApiLatest = 2;
+		public const int CopypresenceApiLatest = 3;
 
 		public const int CreatepresencemodificationApiLatest = 1;
 
@@ -51,7 +51,15 @@ namespace Epic.OnlineServices.Presence
 
 		public const int HaspresenceApiLatest = 1;
 
-		public const int InfoApiLatest = 2;
+		public const int InfoApiLatest = 3;
+
+		/// <summary>
+		/// The presence key used to specify the local platform's presence string on platforms that use tokenized presence.
+		/// For use with <see cref="PresenceModification.SetData" />.
+		/// <seealso cref="PresenceModification.SetData" />
+		/// <seealso cref="DataRecord" />
+		/// </summary>
+		public static readonly Utf8String KeyPlatformPresence = "EOS_PlatformPresence";
 
 		public const int QuerypresenceApiLatest = 1;
 
@@ -80,7 +88,7 @@ namespace Epic.OnlineServices.Presence
 
 		/// <summary>
 		/// Register to receive notifications when a user accepts a join game option via the social overlay.
-		/// @note must call RemoveNotifyJoinGameAccepted to remove the notification
+		/// must call RemoveNotifyJoinGameAccepted to remove the notification
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -88,21 +96,21 @@ namespace Epic.OnlineServices.Presence
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifyJoinGameAccepted(AddNotifyJoinGameAcceptedOptions options, object clientData, OnJoinGameAcceptedCallback notificationFn)
+		public ulong AddNotifyJoinGameAccepted(ref AddNotifyJoinGameAcceptedOptions options, object clientData, OnJoinGameAcceptedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyJoinGameAcceptedOptionsInternal, AddNotifyJoinGameAcceptedOptions>(ref optionsAddress, options);
+			AddNotifyJoinGameAcceptedOptionsInternal optionsInternal = new AddNotifyJoinGameAcceptedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnJoinGameAcceptedCallbackInternal(OnJoinGameAcceptedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_Presence_AddNotifyJoinGameAccepted(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_Presence_AddNotifyJoinGameAccepted(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -118,21 +126,21 @@ namespace Epic.OnlineServices.Presence
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
 		/// </returns>
-		public ulong AddNotifyOnPresenceChanged(AddNotifyOnPresenceChangedOptions options, object clientData, OnPresenceChangedCallback notificationHandler)
+		public ulong AddNotifyOnPresenceChanged(ref AddNotifyOnPresenceChangedOptions options, object clientData, OnPresenceChangedCallback notificationHandler)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyOnPresenceChangedOptionsInternal, AddNotifyOnPresenceChangedOptions>(ref optionsAddress, options);
+			AddNotifyOnPresenceChangedOptionsInternal optionsInternal = new AddNotifyOnPresenceChangedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationHandlerInternal = new OnPresenceChangedCallbackInternal(OnPresenceChangedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationHandler, notificationHandlerInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationHandler, notificationHandlerInternal);
 
-			var funcResult = Bindings.EOS_Presence_AddNotifyOnPresenceChanged(InnerHandle, optionsAddress, clientDataAddress, notificationHandlerInternal);
+			var funcResult = Bindings.EOS_Presence_AddNotifyOnPresenceChanged(InnerHandle, ref optionsInternal, clientDataAddress, notificationHandlerInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -142,22 +150,23 @@ namespace Epic.OnlineServices.Presence
 		/// <seealso cref="Release" />
 		/// </summary>
 		/// <param name="options">Object containing properties related to who is requesting presence and for what user</param>
-		/// <param name="outPresence">A pointer to a pointer of Presence Info. If the returned result is success, this will be set to data that must be later released, otherwise this will be set to NULL</param>
+		/// <param name="outPresence">A pointer to a pointer of Presence Info. If the returned result is success, this will be set to data that must be later released, otherwise this will be set to <see langword="null" /></param>
 		/// <returns>
 		/// Success if we have cached data, or an error result if the request was invalid or we do not have cached data.
 		/// </returns>
-		public Result CopyPresence(CopyPresenceOptions options, out Info outPresence)
+		public Result CopyPresence(ref CopyPresenceOptions options, out Info? outPresence)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyPresenceOptionsInternal, CopyPresenceOptions>(ref optionsAddress, options);
+			CopyPresenceOptionsInternal optionsInternal = new CopyPresenceOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outPresenceAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Presence_CopyPresence(InnerHandle, optionsAddress, ref outPresenceAddress);
+			var funcResult = Bindings.EOS_Presence_CopyPresence(InnerHandle, ref optionsInternal, ref outPresenceAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<InfoInternal, Info>(outPresenceAddress, out outPresence))
+			Helper.Get<InfoInternal, Info>(outPresenceAddress, out outPresence);
+			if (outPresence != null)
 			{
 				Bindings.EOS_Presence_Info_Release(outPresenceAddress);
 			}
@@ -180,18 +189,18 @@ namespace Epic.OnlineServices.Presence
 		/// <returns>
 		/// Success if we successfully created the Presence Modification Handle pointed at in OutPresenceModificationHandle, or an error result if the input data was invalid
 		/// </returns>
-		public Result CreatePresenceModification(CreatePresenceModificationOptions options, out PresenceModification outPresenceModificationHandle)
+		public Result CreatePresenceModification(ref CreatePresenceModificationOptions options, out PresenceModification outPresenceModificationHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CreatePresenceModificationOptionsInternal, CreatePresenceModificationOptions>(ref optionsAddress, options);
+			CreatePresenceModificationOptionsInternal optionsInternal = new CreatePresenceModificationOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outPresenceModificationHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Presence_CreatePresenceModification(InnerHandle, optionsAddress, ref outPresenceModificationHandleAddress);
+			var funcResult = Bindings.EOS_Presence_CreatePresenceModification(InnerHandle, ref optionsInternal, ref outPresenceModificationHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outPresenceModificationHandleAddress, out outPresenceModificationHandle);
+			Helper.Get(outPresenceModificationHandleAddress, out outPresenceModificationHandle);
 
 			return funcResult;
 		}
@@ -217,21 +226,20 @@ namespace Epic.OnlineServices.Presence
 		/// <see cref="Result.NotFound" /> if there is user or the location string was not found.
 		/// <see cref="Result.LimitExceeded" /> - The OutBuffer is not large enough to receive the location string. InOutBufferLength contains the required minimum length to perform the operation successfully.
 		/// </returns>
-		public Result GetJoinInfo(GetJoinInfoOptions options, out string outBuffer)
+		public Result GetJoinInfo(ref GetJoinInfoOptions options, out Utf8String outBuffer)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetJoinInfoOptionsInternal, GetJoinInfoOptions>(ref optionsAddress, options);
+			GetJoinInfoOptionsInternal optionsInternal = new GetJoinInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = PresenceModification.PresencemodificationJoininfoMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
 
-			var funcResult = Bindings.EOS_Presence_GetJoinInfo(InnerHandle, optionsAddress, outBufferAddress, ref inOutBufferLength);
+			var funcResult = Bindings.EOS_Presence_GetJoinInfo(InnerHandle, ref optionsInternal, outBufferAddress, ref inOutBufferLength);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer);
-			Helper.TryMarshalDispose(ref outBufferAddress);
+			Helper.Get(outBufferAddress, out outBuffer);
+			Helper.Dispose(ref outBufferAddress);
 
 			return funcResult;
 		}
@@ -241,19 +249,19 @@ namespace Epic.OnlineServices.Presence
 		/// </summary>
 		/// <param name="options">Object containing properties related to who is requesting presence and for what user</param>
 		/// <returns>
-		/// true if we have presence for the requested user, or false if the request was invalid or we do not have cached data
+		/// <see langword="true" /> if we have presence for the requested user, or <see langword="false" /> if the request was invalid or we do not have cached data
 		/// </returns>
-		public bool HasPresence(HasPresenceOptions options)
+		public bool HasPresence(ref HasPresenceOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<HasPresenceOptionsInternal, HasPresenceOptions>(ref optionsAddress, options);
+			HasPresenceOptionsInternal optionsInternal = new HasPresenceOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Presence_HasPresence(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Presence_HasPresence(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			bool funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -264,19 +272,19 @@ namespace Epic.OnlineServices.Presence
 		/// <param name="options">Object containing properties related to who is querying presence and for what user</param>
 		/// <param name="clientData">Optional pointer to help track this request, that is returned in the completion callback</param>
 		/// <param name="completionDelegate">Pointer to a function that handles receiving the completion information</param>
-		public void QueryPresence(QueryPresenceOptions options, object clientData, OnQueryPresenceCompleteCallback completionDelegate)
+		public void QueryPresence(ref QueryPresenceOptions options, object clientData, OnQueryPresenceCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryPresenceOptionsInternal, QueryPresenceOptions>(ref optionsAddress, options);
+			QueryPresenceOptionsInternal optionsInternal = new QueryPresenceOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryPresenceCompleteCallbackInternal(OnQueryPresenceCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Presence_QueryPresence(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Presence_QueryPresence(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -285,9 +293,9 @@ namespace Epic.OnlineServices.Presence
 		/// <param name="inId">Handle representing the registered callback</param>
 		public void RemoveNotifyJoinGameAccepted(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_Presence_RemoveNotifyJoinGameAccepted(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -296,9 +304,9 @@ namespace Epic.OnlineServices.Presence
 		/// <param name="notificationId">The Notification ID representing the registered callback</param>
 		public void RemoveNotifyOnPresenceChanged(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_Presence_RemoveNotifyOnPresenceChanged(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -309,62 +317,62 @@ namespace Epic.OnlineServices.Presence
 		/// <param name="options">Object containing a PresenceModificationHandle and associated user data</param>
 		/// <param name="clientData">Optional pointer to help track this request, that is returned in the completion callback</param>
 		/// <param name="completionDelegate">Pointer to a function that handles receiving the completion information</param>
-		public void SetPresence(SetPresenceOptions options, object clientData, SetPresenceCompleteCallback completionDelegate)
+		public void SetPresence(ref SetPresenceOptions options, object clientData, SetPresenceCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SetPresenceOptionsInternal, SetPresenceOptions>(ref optionsAddress, options);
+			SetPresenceOptionsInternal optionsInternal = new SetPresenceOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new SetPresenceCompleteCallbackInternal(SetPresenceCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Presence_SetPresence(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Presence_SetPresence(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnJoinGameAcceptedCallbackInternal))]
-		internal static void OnJoinGameAcceptedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnJoinGameAcceptedCallbackInternalImplementation(ref JoinGameAcceptedCallbackInfoInternal data)
 		{
 			OnJoinGameAcceptedCallback callback;
 			JoinGameAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnJoinGameAcceptedCallback, JoinGameAcceptedCallbackInfoInternal, JoinGameAcceptedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnPresenceChangedCallbackInternal))]
-		internal static void OnPresenceChangedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnPresenceChangedCallbackInternalImplementation(ref PresenceChangedCallbackInfoInternal data)
 		{
 			OnPresenceChangedCallback callback;
 			PresenceChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnPresenceChangedCallback, PresenceChangedCallbackInfoInternal, PresenceChangedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryPresenceCompleteCallbackInternal))]
-		internal static void OnQueryPresenceCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryPresenceCompleteCallbackInternalImplementation(ref QueryPresenceCallbackInfoInternal data)
 		{
 			OnQueryPresenceCompleteCallback callback;
 			QueryPresenceCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryPresenceCompleteCallback, QueryPresenceCallbackInfoInternal, QueryPresenceCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(SetPresenceCompleteCallbackInternal))]
-		internal static void SetPresenceCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void SetPresenceCompleteCallbackInternalImplementation(ref SetPresenceCallbackInfoInternal data)
 		{
 			SetPresenceCompleteCallback callback;
 			SetPresenceCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<SetPresenceCompleteCallback, SetPresenceCallbackInfoInternal, SetPresenceCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

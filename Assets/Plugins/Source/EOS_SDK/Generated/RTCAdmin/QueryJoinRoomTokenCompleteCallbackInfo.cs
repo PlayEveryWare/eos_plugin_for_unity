@@ -6,27 +6,27 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// <summary>
 	/// Data containing the result information for a query join room token request.
 	/// </summary>
-	public class QueryJoinRoomTokenCompleteCallbackInfo : ICallbackInfo, ISettable
+	public struct QueryJoinRoomTokenCompleteCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="RTCAdminInterface.QueryJoinRoomToken" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// Room the request was made for.
 		/// </summary>
-		public string RoomName { get; private set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// URL passed to backend to join room.
 		/// </summary>
-		public string ClientBaseUrl { get; private set; }
+		public Utf8String ClientBaseUrl { get; set; }
 
 		/// <summary>
 		/// If the query completed successfully, this contains an identifier that should be used to retrieve the tokens.
@@ -34,39 +34,31 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <seealso cref="RTCAdminInterface.CopyUserTokenByIndex" />
 		/// <seealso cref="RTCAdminInterface.CopyUserTokenByUserId" />
 		/// </summary>
-		public uint QueryId { get; private set; }
+		public uint QueryId { get; set; }
 
 		/// <summary>
 		/// How many token received as result of the query
 		/// </summary>
-		public uint TokenCount { get; private set; }
+		public uint TokenCount { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(QueryJoinRoomTokenCompleteCallbackInfoInternal? other)
+		internal void Set(ref QueryJoinRoomTokenCompleteCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				RoomName = other.Value.RoomName;
-				ClientBaseUrl = other.Value.ClientBaseUrl;
-				QueryId = other.Value.QueryId;
-				TokenCount = other.Value.TokenCount;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryJoinRoomTokenCompleteCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			RoomName = other.RoomName;
+			ClientBaseUrl = other.ClientBaseUrl;
+			QueryId = other.QueryId;
+			TokenCount = other.TokenCount;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryJoinRoomTokenCompleteCallbackInfoInternal : ICallbackInfoInternal
+	internal struct QueryJoinRoomTokenCompleteCallbackInfoInternal : ICallbackInfoInternal, IGettable<QueryJoinRoomTokenCompleteCallbackInfo>, ISettable<QueryJoinRoomTokenCompleteCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -81,6 +73,11 @@ namespace Epic.OnlineServices.RTCAdmin
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -88,8 +85,13 @@ namespace Epic.OnlineServices.RTCAdmin
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -101,23 +103,33 @@ namespace Epic.OnlineServices.RTCAdmin
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RoomName, out value);
+				Utf8String value;
+				Helper.Get(m_RoomName, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
-		public string ClientBaseUrl
+		public Utf8String ClientBaseUrl
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ClientBaseUrl, out value);
+				Utf8String value;
+				Helper.Get(m_ClientBaseUrl, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientBaseUrl);
 			}
 		}
 
@@ -127,6 +139,11 @@ namespace Epic.OnlineServices.RTCAdmin
 			{
 				return m_QueryId;
 			}
+
+			set
+			{
+				m_QueryId = value;
+			}
 		}
 
 		public uint TokenCount
@@ -135,6 +152,47 @@ namespace Epic.OnlineServices.RTCAdmin
 			{
 				return m_TokenCount;
 			}
+
+			set
+			{
+				m_TokenCount = value;
+			}
+		}
+
+		public void Set(ref QueryJoinRoomTokenCompleteCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			RoomName = other.RoomName;
+			ClientBaseUrl = other.ClientBaseUrl;
+			QueryId = other.QueryId;
+			TokenCount = other.TokenCount;
+		}
+
+		public void Set(ref QueryJoinRoomTokenCompleteCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				RoomName = other.Value.RoomName;
+				ClientBaseUrl = other.Value.ClientBaseUrl;
+				QueryId = other.Value.QueryId;
+				TokenCount = other.Value.TokenCount;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_ClientBaseUrl);
+		}
+
+		public void Get(out QueryJoinRoomTokenCompleteCallbackInfo output)
+		{
+			output = new QueryJoinRoomTokenCompleteCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

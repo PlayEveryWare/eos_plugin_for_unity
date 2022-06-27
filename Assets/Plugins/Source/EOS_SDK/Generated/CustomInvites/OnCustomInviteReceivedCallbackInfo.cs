@@ -6,58 +6,50 @@ namespace Epic.OnlineServices.CustomInvites
 	/// <summary>
 	/// Output parameters for the <see cref="OnCustomInviteReceivedCallback" /> Function.
 	/// </summary>
-	public class OnCustomInviteReceivedCallbackInfo : ICallbackInfo, ISettable
+	public struct OnCustomInviteReceivedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="CustomInvitesInterface.AddNotifyCustomInviteReceived" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// User that sent this custom invite
 		/// </summary>
-		public ProductUserId TargetUserId { get; private set; }
+		public ProductUserId TargetUserId { get; set; }
 
 		/// <summary>
 		/// Recipient Local user id
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// Id of the received Custom Invite
 		/// </summary>
-		public string CustomInviteId { get; private set; }
+		public Utf8String CustomInviteId { get; set; }
 
 		/// <summary>
 		/// Payload of the received Custom Invite
 		/// </summary>
-		public string Payload { get; private set; }
+		public Utf8String Payload { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnCustomInviteReceivedCallbackInfoInternal? other)
+		internal void Set(ref OnCustomInviteReceivedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				TargetUserId = other.Value.TargetUserId;
-				LocalUserId = other.Value.LocalUserId;
-				CustomInviteId = other.Value.CustomInviteId;
-				Payload = other.Value.Payload;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnCustomInviteReceivedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
+			CustomInviteId = other.CustomInviteId;
+			Payload = other.Payload;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnCustomInviteReceivedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnCustomInviteReceivedCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnCustomInviteReceivedCallbackInfo>, ISettable<OnCustomInviteReceivedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_TargetUserId;
@@ -70,8 +62,13 @@ namespace Epic.OnlineServices.CustomInvites
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -88,8 +85,13 @@ namespace Epic.OnlineServices.CustomInvites
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -98,29 +100,80 @@ namespace Epic.OnlineServices.CustomInvites
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string CustomInviteId
+		public Utf8String CustomInviteId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_CustomInviteId, out value);
+				Utf8String value;
+				Helper.Get(m_CustomInviteId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_CustomInviteId);
 			}
 		}
 
-		public string Payload
+		public Utf8String Payload
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Payload, out value);
+				Utf8String value;
+				Helper.Get(m_Payload, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_Payload);
+			}
+		}
+
+		public void Set(ref OnCustomInviteReceivedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
+			CustomInviteId = other.CustomInviteId;
+			Payload = other.Payload;
+		}
+
+		public void Set(ref OnCustomInviteReceivedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				TargetUserId = other.Value.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
+				CustomInviteId = other.Value.CustomInviteId;
+				Payload = other.Value.Payload;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_CustomInviteId);
+			Helper.Dispose(ref m_Payload);
+		}
+
+		public void Get(out OnCustomInviteReceivedCallbackInfo output)
+		{
+			output = new OnCustomInviteReceivedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -66,18 +66,18 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if you pass an invalid index or a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopySearchResultByIndex(LobbySearchCopySearchResultByIndexOptions options, out LobbyDetails outLobbyDetailsHandle)
+		public Result CopySearchResultByIndex(ref LobbySearchCopySearchResultByIndexOptions options, out LobbyDetails outLobbyDetailsHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbySearchCopySearchResultByIndexOptionsInternal, LobbySearchCopySearchResultByIndexOptions>(ref optionsAddress, options);
+			LobbySearchCopySearchResultByIndexOptionsInternal optionsInternal = new LobbySearchCopySearchResultByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outLobbyDetailsHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_LobbySearch_CopySearchResultByIndex(InnerHandle, optionsAddress, ref outLobbyDetailsHandleAddress);
+			var funcResult = Bindings.EOS_LobbySearch_CopySearchResultByIndex(InnerHandle, ref optionsInternal, ref outLobbyDetailsHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outLobbyDetailsHandleAddress, out outLobbyDetailsHandle);
+			Helper.Get(outLobbyDetailsHandleAddress, out outLobbyDetailsHandle);
 
 			return funcResult;
 		}
@@ -94,19 +94,19 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.NotFound" /> if searching for an individual lobby by lobby ID or target user ID returns no results
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public void Find(LobbySearchFindOptions options, object clientData, LobbySearchOnFindCallback completionDelegate)
+		public void Find(ref LobbySearchFindOptions options, object clientData, LobbySearchOnFindCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbySearchFindOptionsInternal, LobbySearchFindOptions>(ref optionsAddress, options);
+			LobbySearchFindOptionsInternal optionsInternal = new LobbySearchFindOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new LobbySearchOnFindCallbackInternal(OnFindCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_LobbySearch_Find(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_LobbySearch_Find(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -116,14 +116,14 @@ namespace Epic.OnlineServices.Lobby
 		/// <returns>
 		/// return the number of search results found by the query or 0 if search is not complete
 		/// </returns>
-		public uint GetSearchResultCount(LobbySearchGetSearchResultCountOptions options)
+		public uint GetSearchResultCount(ref LobbySearchGetSearchResultCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbySearchGetSearchResultCountOptionsInternal, LobbySearchGetSearchResultCountOptions>(ref optionsAddress, options);
+			LobbySearchGetSearchResultCountOptionsInternal optionsInternal = new LobbySearchGetSearchResultCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbySearch_GetSearchResultCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbySearch_GetSearchResultCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -140,23 +140,22 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Remove a parameter from the array of search criteria.
-		/// 
-		/// @params Options a search parameter key name to remove
 		/// </summary>
+		/// <param name="options">a search parameter key name to remove</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if removing this search parameter was successful
 		/// <see cref="Result.InvalidParameters" /> if the search key is invalid or null
 		/// <see cref="Result.NotFound" /> if the parameter was not a part of the search criteria
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result RemoveParameter(LobbySearchRemoveParameterOptions options)
+		public Result RemoveParameter(ref LobbySearchRemoveParameterOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbySearchRemoveParameterOptionsInternal, LobbySearchRemoveParameterOptions>(ref optionsAddress, options);
+			LobbySearchRemoveParameterOptionsInternal optionsInternal = new LobbySearchRemoveParameterOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbySearch_RemoveParameter(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbySearch_RemoveParameter(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -170,14 +169,14 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if the lobby ID is invalid or null
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result SetLobbyId(LobbySearchSetLobbyIdOptions options)
+		public Result SetLobbyId(ref LobbySearchSetLobbyIdOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbySearchSetLobbyIdOptionsInternal, LobbySearchSetLobbyIdOptions>(ref optionsAddress, options);
+			LobbySearchSetLobbyIdOptionsInternal optionsInternal = new LobbySearchSetLobbyIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbySearch_SetLobbyId(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbySearch_SetLobbyId(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -191,14 +190,14 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if the number of results requested is invalid
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result SetMaxResults(LobbySearchSetMaxResultsOptions options)
+		public Result SetMaxResults(ref LobbySearchSetMaxResultsOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbySearchSetMaxResultsOptionsInternal, LobbySearchSetMaxResultsOptions>(ref optionsAddress, options);
+			LobbySearchSetMaxResultsOptionsInternal optionsInternal = new LobbySearchSetMaxResultsOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbySearch_SetMaxResults(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbySearch_SetMaxResults(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -214,21 +213,21 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if the search criteria is invalid or null
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result SetParameter(LobbySearchSetParameterOptions options)
+		public Result SetParameter(ref LobbySearchSetParameterOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbySearchSetParameterOptionsInternal, LobbySearchSetParameterOptions>(ref optionsAddress, options);
+			LobbySearchSetParameterOptionsInternal optionsInternal = new LobbySearchSetParameterOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbySearch_SetParameter(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbySearch_SetParameter(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		/// <summary>
 		/// Set a target user ID to find. Setting LobbyId or SearchParameters will result in <see cref="Find" /> failing
-		/// @note a search result will only be found if this user is in a public lobby
+		/// a search result will only be found if this user is in a public lobby
 		/// </summary>
 		/// <param name="options">a specific target user ID to find</param>
 		/// <returns>
@@ -236,26 +235,26 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if the target user ID is invalid or null
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result SetTargetUserId(LobbySearchSetTargetUserIdOptions options)
+		public Result SetTargetUserId(ref LobbySearchSetTargetUserIdOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbySearchSetTargetUserIdOptionsInternal, LobbySearchSetTargetUserIdOptions>(ref optionsAddress, options);
+			LobbySearchSetTargetUserIdOptionsInternal optionsInternal = new LobbySearchSetTargetUserIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbySearch_SetTargetUserId(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbySearch_SetTargetUserId(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		[MonoPInvokeCallback(typeof(LobbySearchOnFindCallbackInternal))]
-		internal static void OnFindCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnFindCallbackInternalImplementation(ref LobbySearchFindCallbackInfoInternal data)
 		{
 			LobbySearchOnFindCallback callback;
 			LobbySearchFindCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<LobbySearchOnFindCallback, LobbySearchFindCallbackInfoInternal, LobbySearchFindCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

@@ -6,52 +6,52 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Contains information about a single achievement definition with localized text.
 	/// </summary>
-	public class Definition : ISettable
+	public struct Definition
 	{
 		/// <summary>
 		/// Achievement ID that can be used to uniquely identify the achievement.
 		/// </summary>
-		public string AchievementId { get; set; }
+		public Utf8String AchievementId { get; set; }
 
 		/// <summary>
 		/// Text representing the Name to display in-game when achievement has been unlocked.
 		/// </summary>
-		public string DisplayName { get; set; }
+		public Utf8String DisplayName { get; set; }
 
 		/// <summary>
 		/// Text representing the description to display in-game when achievement has been unlocked.
 		/// </summary>
-		public string Description { get; set; }
+		public Utf8String Description { get; set; }
 
 		/// <summary>
 		/// Text representing the name to display in-game when achievement is locked.
 		/// </summary>
-		public string LockedDisplayName { get; set; }
+		public Utf8String LockedDisplayName { get; set; }
 
 		/// <summary>
 		/// Text representing the description of what needs to be done to trigger the unlock of this achievement.
 		/// </summary>
-		public string LockedDescription { get; set; }
+		public Utf8String LockedDescription { get; set; }
 
 		/// <summary>
 		/// Text representing the description to display in-game when achievement is hidden.
 		/// </summary>
-		public string HiddenDescription { get; set; }
+		public Utf8String HiddenDescription { get; set; }
 
 		/// <summary>
 		/// Text representing the description of what happens when the achievement is unlocked.
 		/// </summary>
-		public string CompletionDescription { get; set; }
+		public Utf8String CompletionDescription { get; set; }
 
 		/// <summary>
 		/// Text representing the icon to display in-game when achievement is unlocked.
 		/// </summary>
-		public string UnlockedIconId { get; set; }
+		public Utf8String UnlockedIconId { get; set; }
 
 		/// <summary>
 		/// Text representing the icon to display in-game when achievement is locked.
 		/// </summary>
-		public string LockedIconId { get; set; }
+		public Utf8String LockedIconId { get; set; }
 
 		/// <summary>
 		/// True if achievement is hidden, false otherwise.
@@ -63,32 +63,24 @@ namespace Epic.OnlineServices.Achievements
 		/// </summary>
 		public StatThresholds[] StatThresholds { get; set; }
 
-		internal void Set(DefinitionInternal? other)
+		internal void Set(ref DefinitionInternal other)
 		{
-			if (other != null)
-			{
-				AchievementId = other.Value.AchievementId;
-				DisplayName = other.Value.DisplayName;
-				Description = other.Value.Description;
-				LockedDisplayName = other.Value.LockedDisplayName;
-				LockedDescription = other.Value.LockedDescription;
-				HiddenDescription = other.Value.HiddenDescription;
-				CompletionDescription = other.Value.CompletionDescription;
-				UnlockedIconId = other.Value.UnlockedIconId;
-				LockedIconId = other.Value.LockedIconId;
-				IsHidden = other.Value.IsHidden;
-				StatThresholds = other.Value.StatThresholds;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DefinitionInternal?);
+			AchievementId = other.AchievementId;
+			DisplayName = other.DisplayName;
+			Description = other.Description;
+			LockedDisplayName = other.LockedDisplayName;
+			LockedDescription = other.LockedDescription;
+			HiddenDescription = other.HiddenDescription;
+			CompletionDescription = other.CompletionDescription;
+			UnlockedIconId = other.UnlockedIconId;
+			LockedIconId = other.LockedIconId;
+			IsHidden = other.IsHidden;
+			StatThresholds = other.StatThresholds;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DefinitionInternal : ISettable, System.IDisposable
+	internal struct DefinitionInternal : IGettable<Definition>, ISettable<Definition>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AchievementId;
@@ -104,138 +96,138 @@ namespace Epic.OnlineServices.Achievements
 		private int m_StatThresholdsCount;
 		private System.IntPtr m_StatThresholds;
 
-		public string AchievementId
+		public Utf8String AchievementId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AchievementId, out value);
+				Utf8String value;
+				Helper.Get(m_AchievementId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AchievementId, value);
+				Helper.Set(value, ref m_AchievementId);
 			}
 		}
 
-		public string DisplayName
+		public Utf8String DisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_DisplayName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DisplayName, value);
+				Helper.Set(value, ref m_DisplayName);
 			}
 		}
 
-		public string Description
+		public Utf8String Description
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Description, out value);
+				Utf8String value;
+				Helper.Get(m_Description, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Description, value);
+				Helper.Set(value, ref m_Description);
 			}
 		}
 
-		public string LockedDisplayName
+		public Utf8String LockedDisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LockedDisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_LockedDisplayName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LockedDisplayName, value);
+				Helper.Set(value, ref m_LockedDisplayName);
 			}
 		}
 
-		public string LockedDescription
+		public Utf8String LockedDescription
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LockedDescription, out value);
+				Utf8String value;
+				Helper.Get(m_LockedDescription, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LockedDescription, value);
+				Helper.Set(value, ref m_LockedDescription);
 			}
 		}
 
-		public string HiddenDescription
+		public Utf8String HiddenDescription
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_HiddenDescription, out value);
+				Utf8String value;
+				Helper.Get(m_HiddenDescription, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_HiddenDescription, value);
+				Helper.Set(value, ref m_HiddenDescription);
 			}
 		}
 
-		public string CompletionDescription
+		public Utf8String CompletionDescription
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_CompletionDescription, out value);
+				Utf8String value;
+				Helper.Get(m_CompletionDescription, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_CompletionDescription, value);
+				Helper.Set(value, ref m_CompletionDescription);
 			}
 		}
 
-		public string UnlockedIconId
+		public Utf8String UnlockedIconId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_UnlockedIconId, out value);
+				Utf8String value;
+				Helper.Get(m_UnlockedIconId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UnlockedIconId, value);
+				Helper.Set(value, ref m_UnlockedIconId);
 			}
 		}
 
-		public string LockedIconId
+		public Utf8String LockedIconId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LockedIconId, out value);
+				Utf8String value;
+				Helper.Get(m_LockedIconId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LockedIconId, value);
+				Helper.Set(value, ref m_LockedIconId);
 			}
 		}
 
@@ -244,13 +236,13 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsHidden, out value);
+				Helper.Get(m_IsHidden, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsHidden, value);
+				Helper.Set(value, ref m_IsHidden);
 			}
 		}
 
@@ -259,52 +251,69 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				StatThresholds[] value;
-				Helper.TryMarshalGet<StatThresholdsInternal, StatThresholds>(m_StatThresholds, out value, m_StatThresholdsCount);
+				Helper.Get<StatThresholdsInternal, StatThresholds>(m_StatThresholds, out value, m_StatThresholdsCount);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<StatThresholdsInternal, StatThresholds>(ref m_StatThresholds, value, out m_StatThresholdsCount);
+				Helper.Set<StatThresholds, StatThresholdsInternal>(ref value, ref m_StatThresholds, out m_StatThresholdsCount);
 			}
 		}
 
-		public void Set(Definition other)
+		public void Set(ref Definition other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.DefinitionApiLatest;
+			AchievementId = other.AchievementId;
+			DisplayName = other.DisplayName;
+			Description = other.Description;
+			LockedDisplayName = other.LockedDisplayName;
+			LockedDescription = other.LockedDescription;
+			HiddenDescription = other.HiddenDescription;
+			CompletionDescription = other.CompletionDescription;
+			UnlockedIconId = other.UnlockedIconId;
+			LockedIconId = other.LockedIconId;
+			IsHidden = other.IsHidden;
+			StatThresholds = other.StatThresholds;
+		}
+
+		public void Set(ref Definition? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.DefinitionApiLatest;
-				AchievementId = other.AchievementId;
-				DisplayName = other.DisplayName;
-				Description = other.Description;
-				LockedDisplayName = other.LockedDisplayName;
-				LockedDescription = other.LockedDescription;
-				HiddenDescription = other.HiddenDescription;
-				CompletionDescription = other.CompletionDescription;
-				UnlockedIconId = other.UnlockedIconId;
-				LockedIconId = other.LockedIconId;
-				IsHidden = other.IsHidden;
-				StatThresholds = other.StatThresholds;
+				AchievementId = other.Value.AchievementId;
+				DisplayName = other.Value.DisplayName;
+				Description = other.Value.Description;
+				LockedDisplayName = other.Value.LockedDisplayName;
+				LockedDescription = other.Value.LockedDescription;
+				HiddenDescription = other.Value.HiddenDescription;
+				CompletionDescription = other.Value.CompletionDescription;
+				UnlockedIconId = other.Value.UnlockedIconId;
+				LockedIconId = other.Value.LockedIconId;
+				IsHidden = other.Value.IsHidden;
+				StatThresholds = other.Value.StatThresholds;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as Definition);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AchievementId);
-			Helper.TryMarshalDispose(ref m_DisplayName);
-			Helper.TryMarshalDispose(ref m_Description);
-			Helper.TryMarshalDispose(ref m_LockedDisplayName);
-			Helper.TryMarshalDispose(ref m_LockedDescription);
-			Helper.TryMarshalDispose(ref m_HiddenDescription);
-			Helper.TryMarshalDispose(ref m_CompletionDescription);
-			Helper.TryMarshalDispose(ref m_UnlockedIconId);
-			Helper.TryMarshalDispose(ref m_LockedIconId);
-			Helper.TryMarshalDispose(ref m_StatThresholds);
+			Helper.Dispose(ref m_AchievementId);
+			Helper.Dispose(ref m_DisplayName);
+			Helper.Dispose(ref m_Description);
+			Helper.Dispose(ref m_LockedDisplayName);
+			Helper.Dispose(ref m_LockedDescription);
+			Helper.Dispose(ref m_HiddenDescription);
+			Helper.Dispose(ref m_CompletionDescription);
+			Helper.Dispose(ref m_UnlockedIconId);
+			Helper.Dispose(ref m_LockedIconId);
+			Helper.Dispose(ref m_StatThresholds);
+		}
+
+		public void Get(out Definition output)
+		{
+			output = new Definition();
+			output.Set(ref this);
 		}
 	}
 }

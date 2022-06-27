@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbySearch.SetParameter" /> function.
 	/// </summary>
-	public class LobbySearchSetParameterOptions
+	public struct LobbySearchSetParameterOptions
 	{
 		/// <summary>
 		/// Search parameter describing a key and a value to compare
 		/// </summary>
-		public AttributeData Parameter { get; set; }
+		public AttributeData? Parameter { get; set; }
 
 		/// <summary>
 		/// The type of comparison to make against the search parameter
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbySearchSetParameterOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbySearchSetParameterOptionsInternal : ISettable<LobbySearchSetParameterOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Parameter;
 		private ComparisonOp m_ComparisonOp;
 
-		public AttributeData Parameter
+		public AttributeData? Parameter
 		{
 			set
 			{
-				Helper.TryMarshalSet<AttributeDataInternal, AttributeData>(ref m_Parameter, value);
+				Helper.Set<AttributeData, AttributeDataInternal>(ref value, ref m_Parameter);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbySearchSetParameterOptions other)
+		public void Set(ref LobbySearchSetParameterOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbySearch.LobbysearchSetparameterApiLatest;
-				Parameter = other.Parameter;
-				ComparisonOp = other.ComparisonOp;
-			}
+			m_ApiVersion = LobbySearch.LobbysearchSetparameterApiLatest;
+			Parameter = other.Parameter;
+			ComparisonOp = other.ComparisonOp;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbySearchSetParameterOptions? other)
 		{
-			Set(other as LobbySearchSetParameterOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbySearch.LobbysearchSetparameterApiLatest;
+				Parameter = other.Value.Parameter;
+				ComparisonOp = other.Value.ComparisonOp;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Parameter);
+			Helper.Dispose(ref m_Parameter);
 		}
 	}
 }

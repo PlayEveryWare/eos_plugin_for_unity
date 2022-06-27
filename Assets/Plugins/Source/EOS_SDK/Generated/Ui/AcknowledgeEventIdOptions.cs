@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UI
 	/// <summary>
 	/// Input parameters for the <see cref="UIInterface.AcknowledgeEventId" />.
 	/// </summary>
-	public class AcknowledgeEventIdOptions
+	public struct AcknowledgeEventIdOptions
 	{
 		/// <summary>
 		/// The ID being acknowledged.
@@ -22,7 +22,7 @@ namespace Epic.OnlineServices.UI
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AcknowledgeEventIdOptionsInternal : ISettable, System.IDisposable
+	internal struct AcknowledgeEventIdOptionsInternal : ISettable<AcknowledgeEventIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private ulong m_UiEventId;
@@ -44,19 +44,21 @@ namespace Epic.OnlineServices.UI
 			}
 		}
 
-		public void Set(AcknowledgeEventIdOptions other)
+		public void Set(ref AcknowledgeEventIdOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = UIInterface.AcknowledgeeventidApiLatest;
-				UiEventId = other.UiEventId;
-				Result = other.Result;
-			}
+			m_ApiVersion = UIInterface.AcknowledgeeventidApiLatest;
+			UiEventId = other.UiEventId;
+			Result = other.Result;
 		}
 
-		public void Set(object other)
+		public void Set(ref AcknowledgeEventIdOptions? other)
 		{
-			Set(other as AcknowledgeEventIdOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = UIInterface.AcknowledgeeventidApiLatest;
+				UiEventId = other.Value.UiEventId;
+				Result = other.Value.Result;
+			}
 		}
 
 		public void Dispose()

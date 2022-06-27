@@ -6,17 +6,17 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Contains information about a single leaderboard definition
 	/// </summary>
-	public class Definition : ISettable
+	public struct Definition
 	{
 		/// <summary>
 		/// Unique ID to identify leaderboard.
 		/// </summary>
-		public string LeaderboardId { get; set; }
+		public Utf8String LeaderboardId { get; set; }
 
 		/// <summary>
 		/// Name of stat used to rank leaderboard.
 		/// </summary>
-		public string StatName { get; set; }
+		public Utf8String StatName { get; set; }
 
 		/// <summary>
 		/// Aggregation used to sort leaderboard.
@@ -33,26 +33,18 @@ namespace Epic.OnlineServices.Leaderboards
 		/// </summary>
 		public System.DateTimeOffset? EndTime { get; set; }
 
-		internal void Set(DefinitionInternal? other)
+		internal void Set(ref DefinitionInternal other)
 		{
-			if (other != null)
-			{
-				LeaderboardId = other.Value.LeaderboardId;
-				StatName = other.Value.StatName;
-				Aggregation = other.Value.Aggregation;
-				StartTime = other.Value.StartTime;
-				EndTime = other.Value.EndTime;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DefinitionInternal?);
+			LeaderboardId = other.LeaderboardId;
+			StatName = other.StatName;
+			Aggregation = other.Aggregation;
+			StartTime = other.StartTime;
+			EndTime = other.EndTime;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DefinitionInternal : ISettable, System.IDisposable
+	internal struct DefinitionInternal : IGettable<Definition>, ISettable<Definition>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LeaderboardId;
@@ -61,33 +53,33 @@ namespace Epic.OnlineServices.Leaderboards
 		private long m_StartTime;
 		private long m_EndTime;
 
-		public string LeaderboardId
+		public Utf8String LeaderboardId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LeaderboardId, out value);
+				Utf8String value;
+				Helper.Get(m_LeaderboardId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LeaderboardId, value);
+				Helper.Set(value, ref m_LeaderboardId);
 			}
 		}
 
-		public string StatName
+		public Utf8String StatName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_StatName, out value);
+				Utf8String value;
+				Helper.Get(m_StatName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_StatName, value);
+				Helper.Set(value, ref m_StatName);
 			}
 		}
 
@@ -109,13 +101,13 @@ namespace Epic.OnlineServices.Leaderboards
 			get
 			{
 				System.DateTimeOffset? value;
-				Helper.TryMarshalGet(m_StartTime, out value);
+				Helper.Get(m_StartTime, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_StartTime, value);
+				Helper.Set(value, ref m_StartTime);
 			}
 		}
 
@@ -124,38 +116,49 @@ namespace Epic.OnlineServices.Leaderboards
 			get
 			{
 				System.DateTimeOffset? value;
-				Helper.TryMarshalGet(m_EndTime, out value);
+				Helper.Get(m_EndTime, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_EndTime, value);
+				Helper.Set(value, ref m_EndTime);
 			}
 		}
 
-		public void Set(Definition other)
+		public void Set(ref Definition other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.DefinitionApiLatest;
+			LeaderboardId = other.LeaderboardId;
+			StatName = other.StatName;
+			Aggregation = other.Aggregation;
+			StartTime = other.StartTime;
+			EndTime = other.EndTime;
+		}
+
+		public void Set(ref Definition? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.DefinitionApiLatest;
-				LeaderboardId = other.LeaderboardId;
-				StatName = other.StatName;
-				Aggregation = other.Aggregation;
-				StartTime = other.StartTime;
-				EndTime = other.EndTime;
+				LeaderboardId = other.Value.LeaderboardId;
+				StatName = other.Value.StatName;
+				Aggregation = other.Value.Aggregation;
+				StartTime = other.Value.StartTime;
+				EndTime = other.Value.EndTime;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as Definition);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LeaderboardId);
-			Helper.TryMarshalDispose(ref m_StatName);
+			Helper.Dispose(ref m_LeaderboardId);
+			Helper.Dispose(ref m_StatName);
+		}
+
+		public void Get(out Definition output)
+		{
+			output = new Definition();
+			output.Set(ref this);
 		}
 	}
 }

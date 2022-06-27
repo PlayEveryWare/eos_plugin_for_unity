@@ -95,12 +95,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void RefreshNATType()
         {
-            P2PHandle.QueryNATType(new QueryNATTypeOptions(), null, OnRefreshNATTypeFinished);
+            var options = new QueryNATTypeOptions();
+            P2PHandle.QueryNATType(ref options, null, OnRefreshNATTypeFinished);
         }
 
         public NATType GetNATType()
         {
-            Result result = P2PHandle.GetNATType(new GetNATTypeOptions(), out NATType natType);
+            var options = new GetNATTypeOptions();
+            Result result = P2PHandle.GetNATType(ref options, out NATType natType);
 
             if (result == Result.NotFound)
             {
@@ -128,13 +130,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UnsubscribeFromConnectionRequests();
         }
 
-        private void OnRefreshNATTypeFinished(OnQueryNATTypeCompleteInfo data)
+        private void OnRefreshNATTypeFinished(ref OnQueryNATTypeCompleteInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("P2P (OnRefreshNATTypeFinished): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("P2P (OnRefreshNATTypeFinished): data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -188,10 +190,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AllowDelayedDelivery = true,
                 Channel = 0,
                 Reliability = PacketReliability.ReliableOrdered,
-                Data = Encoding.UTF8.GetBytes(message)
+                Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes(message))
             };
 
-            Result result = P2PHandle.SendPacket(options);
+            Result result = P2PHandle.SendPacket(ref options);
 
             if (result != Result.Success)
             {
@@ -211,7 +213,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RequestedChannel = null
             };
 
-            Result result = P2PHandle.ReceivePacket(options, out ProductUserId peerId, out SocketId socketId, out byte outChannel, out byte[] data);
+            var getNextReceivedPacketSizeOptions = new GetNextReceivedPacketSizeOptions 
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RequestedChannel = null
+            };
+            P2PHandle.GetNextReceivedPacketSize(ref getNextReceivedPacketSizeOptions, out uint nextPacketSizeBytes);
+
+            byte[] data = new byte[nextPacketSizeBytes];
+            var dataSegment = new ArraySegment<byte>(data);
+            Result result = P2PHandle.ReceivePacket(ref options, out ProductUserId peerId, out SocketId socketId, out byte outChannel, dataSegment, out uint bytesWritten);
 
             if (result == Result.NotFound)
             {
@@ -276,7 +287,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     SocketId = socketId
                 };
 
-                ConnectionNotificationId = P2PHandle.AddNotifyPeerConnectionRequest(options, null, OnIncomingConnectionRequest);
+                ConnectionNotificationId = P2PHandle.AddNotifyPeerConnectionRequest(ref options, null, OnIncomingConnectionRequest);
                 if (ConnectionNotificationId == 0)
                 {
                     Debug.Log("EOS P2PNAT SubscribeToConnectionRequests: could not subscribe, bad notification id returned.");
@@ -290,15 +301,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ConnectionNotificationId = 0;
         }
 
-        private void OnIncomingConnectionRequest(OnIncomingConnectionRequestInfo data)
+        private void OnIncomingConnectionRequest(ref OnIncomingConnectionRequestInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("P2P (OnIncomingConnectionRequest): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("P2P (OnIncomingConnectionRequest): data is null");
+            //    return;
+            //}
 
-            if (!data.SocketId.SocketName.Equals("CHAT"))
+            if (!(bool)data.SocketId?.SocketName.Equals("CHAT"))
             {
                 Debug.LogError("P2p (OnIncomingConnectionRequest): bad socket id");
                 return;
@@ -316,7 +327,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SocketId = socketId
             };
 
-            Result result = P2PHandle.AcceptConnection(options);
+            Result result = P2PHandle.AcceptConnection(ref options);
 
             if (result != Result.Success)
             {

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sanctions
 	/// <summary>
 	/// Input parameters for the <see cref="SanctionsInterface.CopyPlayerSanctionByIndex" /> function
 	/// </summary>
-	public class CopyPlayerSanctionByIndexOptions
+	public struct CopyPlayerSanctionByIndexOptions
 	{
 		/// <summary>
 		/// Product User ID of the user whose active sanctions are to be copied
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Sanctions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyPlayerSanctionByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyPlayerSanctionByIndexOptionsInternal : ISettable<CopyPlayerSanctionByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Sanctions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Sanctions
 			}
 		}
 
-		public void Set(CopyPlayerSanctionByIndexOptions other)
+		public void Set(ref CopyPlayerSanctionByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SanctionsInterface.CopyplayersanctionbyindexApiLatest;
-				TargetUserId = other.TargetUserId;
-				SanctionIndex = other.SanctionIndex;
-			}
+			m_ApiVersion = SanctionsInterface.CopyplayersanctionbyindexApiLatest;
+			TargetUserId = other.TargetUserId;
+			SanctionIndex = other.SanctionIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyPlayerSanctionByIndexOptions? other)
 		{
-			Set(other as CopyPlayerSanctionByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SanctionsInterface.CopyplayersanctionbyindexApiLatest;
+				TargetUserId = other.Value.TargetUserId;
+				SanctionIndex = other.Value.SanctionIndex;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogPlayerSpawnOptions
+	public struct LogPlayerSpawnOptions
 	{
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -22,7 +22,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogPlayerSpawnOptionsInternal : ISettable, System.IDisposable
+	internal struct LogPlayerSpawnOptionsInternal : ISettable<LogPlayerSpawnOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SpawnedPlayerHandle;
@@ -53,25 +53,28 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(LogPlayerSpawnOptions other)
+		public void Set(ref LogPlayerSpawnOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatCommonInterface.LogplayerspawnApiLatest;
-				SpawnedPlayerHandle = other.SpawnedPlayerHandle;
-				TeamId = other.TeamId;
-				CharacterId = other.CharacterId;
-			}
+			m_ApiVersion = AntiCheatCommonInterface.LogplayerspawnApiLatest;
+			SpawnedPlayerHandle = other.SpawnedPlayerHandle;
+			TeamId = other.TeamId;
+			CharacterId = other.CharacterId;
 		}
 
-		public void Set(object other)
+		public void Set(ref LogPlayerSpawnOptions? other)
 		{
-			Set(other as LogPlayerSpawnOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatCommonInterface.LogplayerspawnApiLatest;
+				SpawnedPlayerHandle = other.Value.SpawnedPlayerHandle;
+				TeamId = other.Value.TeamId;
+				CharacterId = other.Value.CharacterId;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SpawnedPlayerHandle);
+			Helper.Dispose(ref m_SpawnedPlayerHandle);
 		}
 	}
 }

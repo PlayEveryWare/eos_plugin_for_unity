@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sanctions
 	/// <summary>
 	/// Input parameters for the <see cref="SanctionsInterface.QueryActivePlayerSanctions" /> API.
 	/// </summary>
-	public class QueryActivePlayerSanctionsOptions
+	public struct QueryActivePlayerSanctionsOptions
 	{
 		/// <summary>
 		/// Product User ID of the user whose active sanctions are to be retrieved.
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Sanctions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryActivePlayerSanctionsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryActivePlayerSanctionsOptionsInternal : ISettable<QueryActivePlayerSanctionsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Sanctions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -38,29 +38,31 @@ namespace Epic.OnlineServices.Sanctions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(QueryActivePlayerSanctionsOptions other)
+		public void Set(ref QueryActivePlayerSanctionsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SanctionsInterface.QueryactiveplayersanctionsApiLatest;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryActivePlayerSanctionsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SanctionsInterface.QueryactiveplayersanctionsApiLatest;
-				TargetUserId = other.TargetUserId;
-				LocalUserId = other.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryActivePlayerSanctionsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

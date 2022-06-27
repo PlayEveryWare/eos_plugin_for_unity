@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="RTCAudioInterface.UpdateSending" />
 	/// </summary>
-	public class UpdateSendingOptions
+	public struct UpdateSendingOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user trying to request this operation.
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// The room this settings should be applied on.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// Muted or unmuted audio track status
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.RTCAudio
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UpdateSendingOptionsInternal : ISettable, System.IDisposable
+	internal struct UpdateSendingOptionsInternal : ISettable<UpdateSendingOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,15 +36,15 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -56,26 +56,29 @@ namespace Epic.OnlineServices.RTCAudio
 			}
 		}
 
-		public void Set(UpdateSendingOptions other)
+		public void Set(ref UpdateSendingOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = RTCAudioInterface.UpdatesendingApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
-				AudioStatus = other.AudioStatus;
-			}
+			m_ApiVersion = RTCAudioInterface.UpdatesendingApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			AudioStatus = other.AudioStatus;
 		}
 
-		public void Set(object other)
+		public void Set(ref UpdateSendingOptions? other)
 		{
-			Set(other as UpdateSendingOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = RTCAudioInterface.UpdatesendingApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				AudioStatus = other.Value.AudioStatus;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
 		}
 	}
 }

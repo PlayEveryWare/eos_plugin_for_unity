@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyModification.AddAttribute" /> function.
 	/// </summary>
-	public class LobbyModificationAddAttributeOptions
+	public struct LobbyModificationAddAttributeOptions
 	{
 		/// <summary>
 		/// Key/Value pair describing the attribute to add to the lobby
 		/// </summary>
-		public AttributeData Attribute { get; set; }
+		public AttributeData? Attribute { get; set; }
 
 		/// <summary>
 		/// Is this attribute public or private to the lobby and its members
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyModificationAddAttributeOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyModificationAddAttributeOptionsInternal : ISettable<LobbyModificationAddAttributeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Attribute;
 		private LobbyAttributeVisibility m_Visibility;
 
-		public AttributeData Attribute
+		public AttributeData? Attribute
 		{
 			set
 			{
-				Helper.TryMarshalSet<AttributeDataInternal, AttributeData>(ref m_Attribute, value);
+				Helper.Set<AttributeData, AttributeDataInternal>(ref value, ref m_Attribute);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbyModificationAddAttributeOptions other)
+		public void Set(ref LobbyModificationAddAttributeOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyModification.LobbymodificationAddattributeApiLatest;
-				Attribute = other.Attribute;
-				Visibility = other.Visibility;
-			}
+			m_ApiVersion = LobbyModification.LobbymodificationAddattributeApiLatest;
+			Attribute = other.Attribute;
+			Visibility = other.Visibility;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbyModificationAddAttributeOptions? other)
 		{
-			Set(other as LobbyModificationAddAttributeOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyModification.LobbymodificationAddattributeApiLatest;
+				Attribute = other.Value.Attribute;
+				Visibility = other.Value.Visibility;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Attribute);
+			Helper.Dispose(ref m_Attribute);
 		}
 	}
 }

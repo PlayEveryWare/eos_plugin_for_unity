@@ -13,52 +13,44 @@ namespace Epic.OnlineServices.Achievements
 	/// SUM (Generates a rolling sum of the value)
 	/// <seealso cref="Definition" />
 	/// </summary>
-	public class StatThresholds : ISettable
+	public struct StatThresholds
 	{
 		/// <summary>
 		/// The name of the stat.
 		/// </summary>
-		public string Name { get; set; }
+		public Utf8String Name { get; set; }
 
 		/// <summary>
 		/// The value that the stat must surpass to satisfy the requirement for unlocking an achievement.
 		/// </summary>
 		public int Threshold { get; set; }
 
-		internal void Set(StatThresholdsInternal? other)
+		internal void Set(ref StatThresholdsInternal other)
 		{
-			if (other != null)
-			{
-				Name = other.Value.Name;
-				Threshold = other.Value.Threshold;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as StatThresholdsInternal?);
+			Name = other.Name;
+			Threshold = other.Threshold;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct StatThresholdsInternal : ISettable, System.IDisposable
+	internal struct StatThresholdsInternal : IGettable<StatThresholds>, ISettable<StatThresholds>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Name;
 		private int m_Threshold;
 
-		public string Name
+		public Utf8String Name
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Name, out value);
+				Utf8String value;
+				Helper.Get(m_Name, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Name, value);
+				Helper.Set(value, ref m_Name);
 			}
 		}
 
@@ -75,24 +67,32 @@ namespace Epic.OnlineServices.Achievements
 			}
 		}
 
-		public void Set(StatThresholds other)
+		public void Set(ref StatThresholds other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AchievementsInterface.StatthresholdsApiLatest;
-				Name = other.Name;
-				Threshold = other.Threshold;
-			}
+			m_ApiVersion = AchievementsInterface.StatthresholdsApiLatest;
+			Name = other.Name;
+			Threshold = other.Threshold;
 		}
 
-		public void Set(object other)
+		public void Set(ref StatThresholds? other)
 		{
-			Set(other as StatThresholds);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AchievementsInterface.StatthresholdsApiLatest;
+				Name = other.Value.Name;
+				Threshold = other.Value.Threshold;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Name);
+			Helper.Dispose(ref m_Name);
+		}
+
+		public void Get(out StatThresholds output)
+		{
+			output = new StatThresholds();
+			output.Set(ref this);
 		}
 	}
 }

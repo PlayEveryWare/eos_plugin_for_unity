@@ -5,13 +5,11 @@ namespace Epic.OnlineServices.Presence
 {
 	/// <summary>
 	/// Function prototype definition for notifications that come from <see cref="PresenceInterface.AddNotifyJoinGameAccepted" />
+	/// EOS_UI_AcknowledgeEventId must be called with any valid UiEventId passed via the data.
 	/// </summary>
-	/// <param name="data">
-	/// A <see cref="JoinGameAcceptedCallbackInfo" /> containing the output information and result
-	/// @note <see cref="UI.UIInterface.AcknowledgeEventId" /> must be called with any valid UiEventId passed via the data.
-	/// </param>
-	public delegate void OnJoinGameAcceptedCallback(JoinGameAcceptedCallbackInfo data);
+	/// <param name="data">A <see cref="JoinGameAcceptedCallbackInfo" /> containing the output information and result</param>
+	public delegate void OnJoinGameAcceptedCallback(ref JoinGameAcceptedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnJoinGameAcceptedCallbackInternal(System.IntPtr data);
+	internal delegate void OnJoinGameAcceptedCallbackInternal(ref JoinGameAcceptedCallbackInfoInternal data);
 }

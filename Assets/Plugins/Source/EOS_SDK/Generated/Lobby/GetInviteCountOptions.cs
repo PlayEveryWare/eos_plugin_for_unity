@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.GetInviteCount" /> function.
 	/// </summary>
-	public class GetInviteCountOptions
+	public struct GetInviteCountOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user whose cached lobby invitations you want to count
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetInviteCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetInviteCountOptionsInternal : ISettable<GetInviteCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(GetInviteCountOptions other)
+		public void Set(ref GetInviteCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.GetinvitecountApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref GetInviteCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.GetinvitecountApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetInviteCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

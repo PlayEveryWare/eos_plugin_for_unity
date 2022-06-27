@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.CopyItemById" /> function.
 	/// </summary>
-	public class CopyItemByIdOptions
+	public struct CopyItemByIdOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose item is being copied
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The ID of the item to get.
 		/// </summary>
-		public string ItemId { get; set; }
+		public Utf8String ItemId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyItemByIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyItemByIdOptionsInternal : ISettable<CopyItemByIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string ItemId
+		public Utf8String ItemId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ItemId, value);
+				Helper.Set(value, ref m_ItemId);
 			}
 		}
 
-		public void Set(CopyItemByIdOptions other)
+		public void Set(ref CopyItemByIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.CopyitembyidApiLatest;
+			LocalUserId = other.LocalUserId;
+			ItemId = other.ItemId;
+		}
+
+		public void Set(ref CopyItemByIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.CopyitembyidApiLatest;
-				LocalUserId = other.LocalUserId;
-				ItemId = other.ItemId;
+				LocalUserId = other.Value.LocalUserId;
+				ItemId = other.Value.ItemId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyItemByIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_ItemId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ItemId);
 		}
 	}
 }

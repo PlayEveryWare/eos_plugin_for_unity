@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.CopyItemImageInfoByIndex" /> function.
 	/// </summary>
-	public class CopyItemImageInfoByIndexOptions
+	public struct CopyItemImageInfoByIndexOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose item image is being copied
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The ID of the item to get the images for.
 		/// </summary>
-		public string ItemId { get; set; }
+		public Utf8String ItemId { get; set; }
 
 		/// <summary>
 		/// The index of the image to get.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyItemImageInfoByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyItemImageInfoByIndexOptionsInternal : ISettable<CopyItemImageInfoByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,15 +36,15 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string ItemId
+		public Utf8String ItemId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ItemId, value);
+				Helper.Set(value, ref m_ItemId);
 			}
 		}
 
@@ -56,26 +56,29 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(CopyItemImageInfoByIndexOptions other)
+		public void Set(ref CopyItemImageInfoByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = EcomInterface.CopyitemimageinfobyindexApiLatest;
-				LocalUserId = other.LocalUserId;
-				ItemId = other.ItemId;
-				ImageInfoIndex = other.ImageInfoIndex;
-			}
+			m_ApiVersion = EcomInterface.CopyitemimageinfobyindexApiLatest;
+			LocalUserId = other.LocalUserId;
+			ItemId = other.ItemId;
+			ImageInfoIndex = other.ImageInfoIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyItemImageInfoByIndexOptions? other)
 		{
-			Set(other as CopyItemImageInfoByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = EcomInterface.CopyitemimageinfobyindexApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				ItemId = other.Value.ItemId;
+				ImageInfoIndex = other.Value.ImageInfoIndex;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_ItemId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ItemId);
 		}
 	}
 }

@@ -26,6 +26,10 @@
 #define PLATFORM_32BITS
 #endif
 
+#if UNITY_EDITOR
+#define EOS_DYNAMIC_BINDINGS
+#endif
+
 //#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
 using System.Collections;
@@ -45,14 +49,35 @@ using System.Text;
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
-    public class EOSWindowsOptions : Epic.OnlineServices.Platform.WindowsOptions, IEOSCreateOptions
+    public class EOSWindowsOptions : IEOSCreateOptions
     {
+        public Epic.OnlineServices.Platform.WindowsOptions options;
+
+        IntPtr IEOSCreateOptions.Reserved { get => options.Reserved; set => options.Reserved = value; }
+        Utf8String IEOSCreateOptions.ProductId { get => options.ProductId; set => options.ProductId = value; }
+        Utf8String IEOSCreateOptions.SandboxId { get => options.SandboxId; set => options.SandboxId = value; }
+        ClientCredentials IEOSCreateOptions.ClientCredentials { get => options.ClientCredentials; set => options.ClientCredentials = value; }
+        bool IEOSCreateOptions.IsServer { get => options.IsServer; set => options.IsServer = value; }
+        Utf8String IEOSCreateOptions.EncryptionKey { get => options.EncryptionKey; set => options.EncryptionKey = value; }
+        Utf8String IEOSCreateOptions.OverrideCountryCode { get => options.OverrideCountryCode; set => options.OverrideCountryCode = value; }
+        Utf8String IEOSCreateOptions.OverrideLocaleCode { get => options.OverrideLocaleCode; set => options.OverrideLocaleCode = value; }
+        Utf8String IEOSCreateOptions.DeploymentId { get => options.DeploymentId; set => options.DeploymentId = value; }
+        PlatformFlags IEOSCreateOptions.Flags { get => options.Flags; set => options.Flags = value; }
+        Utf8String IEOSCreateOptions.CacheDirectory { get => options.CacheDirectory; set => options.CacheDirectory = value; }
+        uint IEOSCreateOptions.TickBudgetInMilliseconds { get => options.TickBudgetInMilliseconds; set => options.TickBudgetInMilliseconds = value; }
     }
 
     //-------------------------------------------------------------------------
-    public class EOSWindowsInitializeOptions : Epic.OnlineServices.Platform.InitializeOptions, IEOSInitializeOptions
+    public class EOSWindowsInitializeOptions : IEOSInitializeOptions
     {
+        public Epic.OnlineServices.Platform.InitializeOptions options;
 
+        public IntPtr AllocateMemoryFunction { get => options.AllocateMemoryFunction; set => options.AllocateMemoryFunction = value; }
+        public IntPtr ReallocateMemoryFunction { get => options.ReallocateMemoryFunction; set => options.ReallocateMemoryFunction = value; }
+        public IntPtr ReleaseMemoryFunction { get => options.ReleaseMemoryFunction; set => options.ReleaseMemoryFunction = value; }
+        public Utf8String ProductName { get => options.ProductName; set => options.ProductName = value; }
+        public Utf8String ProductVersion { get => options.ProductVersion; set => options.ProductVersion = value; }
+        public InitializeThreadAffinity? OverrideThreadAffinity { get => options.OverrideThreadAffinity; set => options.OverrideThreadAffinity = value; }
     }
 
     //-------------------------------------------------------------------------
@@ -138,6 +163,18 @@ static string SteamDllName = "steam_api.dll";
         }
 
         //-------------------------------------------------------------------------
+        public void LoadDelegatesWithEOSBindingAPI()
+        {
+#if EOS_DYNAMIC_BINDINGS
+            const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
+            var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
+            Epic.OnlineServices.WindowsBindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
+                return handle.LoadFunctionAsIntPtr(functionName);
+            });
+#endif
+        }
+
+        //-------------------------------------------------------------------------
         static string GetPlatformPathComponent()
         {
 #if PLATFORM_64BITS
@@ -152,13 +189,13 @@ static string SteamDllName = "steam_api.dll";
         //-------------------------------------------------------------------------
         public Epic.OnlineServices.Result InitializePlatformInterface(IEOSInitializeOptions options)
         {
-            return Epic.OnlineServices.Platform.PlatformInterface.Initialize(options as InitializeOptions);
+            return Epic.OnlineServices.Platform.PlatformInterface.Initialize(ref (options as EOSWindowsInitializeOptions).options);
         }
 
         //-------------------------------------------------------------------------
         public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
         {
-            return Epic.OnlineServices.Platform.PlatformInterface.Create((platformOptions as WindowsOptions));
+            return Epic.OnlineServices.Platform.PlatformInterface.Create(ref (platformOptions as EOSWindowsOptions).options);
         }
 
         //-------------------------------------------------------------------------
@@ -223,7 +260,7 @@ static string SteamDllName = "steam_api.dll";
 
                 var rtcOptions = new WindowsRTCOptions();
                 rtcOptions.PlatformSpecificOptions = rtcPlatformSpecificOptions;
-                (createOptions as EOSWindowsOptions).RTCOptions = rtcOptions;
+                (createOptions as EOSWindowsOptions).options.RTCOptions = rtcOptions;
 
                 // This code seems to commonly cause hangs in the editor, so until those can be resolved this code is being 
                 // disabled in the editor
@@ -260,7 +297,13 @@ static string SteamDllName = "steam_api.dll";
                     {
                         SteamOptionsGCHandle = GCHandle.Alloc(steamIntegratedPlatform, GCHandleType.Pinned);
                         integratedPlatforms[0].InitOptions = SteamOptionsGCHandle.AddrOfPinnedObject();
-                        (createOptions as EOSWindowsOptions).IntegratedPlatforms = integratedPlatforms;
+
+                        /*
+                         * TODO: Change this when the generated code updates so we can support the steam options in editor.
+                        var integratedPlatformOptionsContainerAddOption = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainerAddOptions();
+                        integratedPlatformOptionsContainerAddOption.Options = (createOptions as EOSWindowsOptions);
+                        (createOptions as EOSWindowsOptions).IntegratedPlatformOptionsContainerHandle.Add(integratedPlatformOptionsContainerAddOption);
+                        */
                     }
                 }
 #endif
@@ -274,6 +317,11 @@ static string SteamDllName = "steam_api.dll";
 
         public void RegisterForPlatformNotifications()
         {
+        }
+
+        public bool IsApplicationConstrainedWhenOutOfFocus()
+        {
+            return false;
         }
     }
 }

@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Top level details about an active session
 	/// </summary>
-	public class ActiveSessionInfo : ISettable
+	public struct ActiveSessionInfo
 	{
 		/// <summary>
 		/// Name of the session
 		/// </summary>
-		public string SessionName { get; set; }
+		public Utf8String SessionName { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who created or joined the session
@@ -26,27 +26,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Session details
 		/// </summary>
-		public SessionDetailsInfo SessionDetails { get; set; }
+		public SessionDetailsInfo? SessionDetails { get; set; }
 
-		internal void Set(ActiveSessionInfoInternal? other)
+		internal void Set(ref ActiveSessionInfoInternal other)
 		{
-			if (other != null)
-			{
-				SessionName = other.Value.SessionName;
-				LocalUserId = other.Value.LocalUserId;
-				State = other.Value.State;
-				SessionDetails = other.Value.SessionDetails;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ActiveSessionInfoInternal?);
+			SessionName = other.SessionName;
+			LocalUserId = other.LocalUserId;
+			State = other.State;
+			SessionDetails = other.SessionDetails;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ActiveSessionInfoInternal : ISettable, System.IDisposable
+	internal struct ActiveSessionInfoInternal : IGettable<ActiveSessionInfo>, ISettable<ActiveSessionInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionName;
@@ -54,18 +46,18 @@ namespace Epic.OnlineServices.Sessions
 		private OnlineSessionState m_State;
 		private System.IntPtr m_SessionDetails;
 
-		public string SessionName
+		public Utf8String SessionName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_SessionName, out value);
+				Utf8String value;
+				Helper.Get(m_SessionName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionName, value);
+				Helper.Set(value, ref m_SessionName);
 			}
 		}
 
@@ -74,13 +66,13 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -97,43 +89,53 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public SessionDetailsInfo SessionDetails
+		public SessionDetailsInfo? SessionDetails
 		{
 			get
 			{
-				SessionDetailsInfo value;
-				Helper.TryMarshalGet<SessionDetailsInfoInternal, SessionDetailsInfo>(m_SessionDetails, out value);
+				SessionDetailsInfo? value;
+				Helper.Get<SessionDetailsInfoInternal, SessionDetailsInfo>(m_SessionDetails, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<SessionDetailsInfoInternal, SessionDetailsInfo>(ref m_SessionDetails, value);
+				Helper.Set<SessionDetailsInfo, SessionDetailsInfoInternal>(ref value, ref m_SessionDetails);
 			}
 		}
 
-		public void Set(ActiveSessionInfo other)
+		public void Set(ref ActiveSessionInfo other)
 		{
-			if (other != null)
+			m_ApiVersion = ActiveSession.ActivesessionCopyinfoApiLatest;
+			SessionName = other.SessionName;
+			LocalUserId = other.LocalUserId;
+			State = other.State;
+			SessionDetails = other.SessionDetails;
+		}
+
+		public void Set(ref ActiveSessionInfo? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ActiveSession.ActivesessionCopyinfoApiLatest;
-				SessionName = other.SessionName;
-				LocalUserId = other.LocalUserId;
-				State = other.State;
-				SessionDetails = other.SessionDetails;
+				SessionName = other.Value.SessionName;
+				LocalUserId = other.Value.LocalUserId;
+				State = other.Value.State;
+				SessionDetails = other.Value.SessionDetails;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ActiveSessionInfo);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionName);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_SessionDetails);
+			Helper.Dispose(ref m_SessionName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_SessionDetails);
+		}
+
+		public void Get(out ActiveSessionInfo output)
+		{
+			output = new ActiveSessionInfo();
+			output.Set(ref this);
 		}
 	}
 }

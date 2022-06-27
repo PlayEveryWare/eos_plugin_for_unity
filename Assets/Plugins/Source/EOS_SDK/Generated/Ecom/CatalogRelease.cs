@@ -7,41 +7,33 @@ namespace Epic.OnlineServices.Ecom
 	/// Contains information about a single release within the catalog. Instances of this structure are
 	/// created by <see cref="EcomInterface.CopyItemReleaseByIndex" />. They must be passed to <see cref="EcomInterface.Release" />.
 	/// </summary>
-	public class CatalogRelease : ISettable
+	public struct CatalogRelease
 	{
 		/// <summary>
 		/// A list of compatible APP IDs
 		/// </summary>
-		public string[] CompatibleAppIds { get; set; }
+		public Utf8String[] CompatibleAppIds { get; set; }
 
 		/// <summary>
 		/// A list of compatible Platforms
 		/// </summary>
-		public string[] CompatiblePlatforms { get; set; }
+		public Utf8String[] CompatiblePlatforms { get; set; }
 
 		/// <summary>
 		/// Release note for compatible versions
 		/// </summary>
-		public string ReleaseNote { get; set; }
+		public Utf8String ReleaseNote { get; set; }
 
-		internal void Set(CatalogReleaseInternal? other)
+		internal void Set(ref CatalogReleaseInternal other)
 		{
-			if (other != null)
-			{
-				CompatibleAppIds = other.Value.CompatibleAppIds;
-				CompatiblePlatforms = other.Value.CompatiblePlatforms;
-				ReleaseNote = other.Value.ReleaseNote;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CatalogReleaseInternal?);
+			CompatibleAppIds = other.CompatibleAppIds;
+			CompatiblePlatforms = other.CompatiblePlatforms;
+			ReleaseNote = other.ReleaseNote;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CatalogReleaseInternal : ISettable, System.IDisposable
+	internal struct CatalogReleaseInternal : IGettable<CatalogRelease>, ISettable<CatalogRelease>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_CompatibleAppIdCount;
@@ -50,72 +42,81 @@ namespace Epic.OnlineServices.Ecom
 		private System.IntPtr m_CompatiblePlatforms;
 		private System.IntPtr m_ReleaseNote;
 
-		public string[] CompatibleAppIds
+		public Utf8String[] CompatibleAppIds
 		{
 			get
 			{
-				string[] value;
-				Helper.TryMarshalGet(m_CompatibleAppIds, out value, m_CompatibleAppIdCount, true);
+				Utf8String[] value;
+				Helper.Get(m_CompatibleAppIds, out value, m_CompatibleAppIdCount, true);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_CompatibleAppIds, value, out m_CompatibleAppIdCount, true);
+				Helper.Set(value, ref m_CompatibleAppIds, true, out m_CompatibleAppIdCount);
 			}
 		}
 
-		public string[] CompatiblePlatforms
+		public Utf8String[] CompatiblePlatforms
 		{
 			get
 			{
-				string[] value;
-				Helper.TryMarshalGet(m_CompatiblePlatforms, out value, m_CompatiblePlatformCount, true);
+				Utf8String[] value;
+				Helper.Get(m_CompatiblePlatforms, out value, m_CompatiblePlatformCount, true);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_CompatiblePlatforms, value, out m_CompatiblePlatformCount, true);
+				Helper.Set(value, ref m_CompatiblePlatforms, true, out m_CompatiblePlatformCount);
 			}
 		}
 
-		public string ReleaseNote
+		public Utf8String ReleaseNote
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ReleaseNote, out value);
+				Utf8String value;
+				Helper.Get(m_ReleaseNote, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ReleaseNote, value);
+				Helper.Set(value, ref m_ReleaseNote);
 			}
 		}
 
-		public void Set(CatalogRelease other)
+		public void Set(ref CatalogRelease other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.CatalogreleaseApiLatest;
+			CompatibleAppIds = other.CompatibleAppIds;
+			CompatiblePlatforms = other.CompatiblePlatforms;
+			ReleaseNote = other.ReleaseNote;
+		}
+
+		public void Set(ref CatalogRelease? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.CatalogreleaseApiLatest;
-				CompatibleAppIds = other.CompatibleAppIds;
-				CompatiblePlatforms = other.CompatiblePlatforms;
-				ReleaseNote = other.ReleaseNote;
+				CompatibleAppIds = other.Value.CompatibleAppIds;
+				CompatiblePlatforms = other.Value.CompatiblePlatforms;
+				ReleaseNote = other.Value.ReleaseNote;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CatalogRelease);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_CompatibleAppIds);
-			Helper.TryMarshalDispose(ref m_CompatiblePlatforms);
-			Helper.TryMarshalDispose(ref m_ReleaseNote);
+			Helper.Dispose(ref m_CompatibleAppIds);
+			Helper.Dispose(ref m_CompatiblePlatforms);
+			Helper.Dispose(ref m_ReleaseNote);
+		}
+
+		public void Get(out CatalogRelease output)
+		{
+			output = new CatalogRelease();
+			output.Set(ref this);
 		}
 	}
 }

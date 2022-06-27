@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Leaderboards
 	/// Function prototype definition for callbacks passed to <see cref="LeaderboardsInterface.QueryLeaderboardRanks" />
 	/// </summary>
 	/// <param name="data">A <see cref="OnQueryLeaderboardRanksCompleteCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnQueryLeaderboardRanksCompleteCallback(OnQueryLeaderboardRanksCompleteCallbackInfo data);
+	public delegate void OnQueryLeaderboardRanksCompleteCallback(ref OnQueryLeaderboardRanksCompleteCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryLeaderboardRanksCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryLeaderboardRanksCompleteCallbackInternal(ref OnQueryLeaderboardRanksCompleteCallbackInfoInternal data);
 }

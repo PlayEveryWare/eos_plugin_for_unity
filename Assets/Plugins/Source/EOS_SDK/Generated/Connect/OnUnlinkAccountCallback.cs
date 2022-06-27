@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Connect
 	/// Function prototype definition for callbacks passed to <see cref="ConnectInterface.UnlinkAccount" />.
 	/// </summary>
 	/// <param name="data">A <see cref="UnlinkAccountCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnUnlinkAccountCallback(UnlinkAccountCallbackInfo data);
+	public delegate void OnUnlinkAccountCallback(ref UnlinkAccountCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnUnlinkAccountCallbackInternal(System.IntPtr data);
+	internal delegate void OnUnlinkAccountCallbackInternal(ref UnlinkAccountCallbackInfoInternal data);
 }

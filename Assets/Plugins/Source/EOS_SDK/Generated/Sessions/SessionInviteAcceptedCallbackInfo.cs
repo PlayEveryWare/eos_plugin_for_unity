@@ -6,58 +6,50 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Output parameters for the <see cref="OnSessionInviteAcceptedCallback" /> function.
 	/// </summary>
-	public class SessionInviteAcceptedCallbackInfo : ICallbackInfo, ISettable
+	public struct SessionInviteAcceptedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="SessionsInterface.AddNotifySessionInviteAccepted" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// Session ID that should be used for joining
 		/// </summary>
-		public string SessionId { get; private set; }
+		public Utf8String SessionId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who accepted the invitation
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who sent the invitation
 		/// </summary>
-		public ProductUserId TargetUserId { get; private set; }
+		public ProductUserId TargetUserId { get; set; }
 
 		/// <summary>
 		/// Invite ID that was accepted
 		/// </summary>
-		public string InviteId { get; private set; }
+		public Utf8String InviteId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(SessionInviteAcceptedCallbackInfoInternal? other)
+		internal void Set(ref SessionInviteAcceptedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				SessionId = other.Value.SessionId;
-				LocalUserId = other.Value.LocalUserId;
-				TargetUserId = other.Value.TargetUserId;
-				InviteId = other.Value.InviteId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionInviteAcceptedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			SessionId = other.SessionId;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			InviteId = other.InviteId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionInviteAcceptedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct SessionInviteAcceptedCallbackInfoInternal : ICallbackInfoInternal, IGettable<SessionInviteAcceptedCallbackInfo>, ISettable<SessionInviteAcceptedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_SessionId;
@@ -70,8 +62,13 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -83,13 +80,18 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public string SessionId
+		public Utf8String SessionId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_SessionId, out value);
+				Utf8String value;
+				Helper.Get(m_SessionId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_SessionId);
 			}
 		}
 
@@ -98,8 +100,13 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -108,19 +115,65 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public string InviteId
+		public Utf8String InviteId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_InviteId, out value);
+				Utf8String value;
+				Helper.Get(m_InviteId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_InviteId);
+			}
+		}
+
+		public void Set(ref SessionInviteAcceptedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			SessionId = other.SessionId;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			InviteId = other.InviteId;
+		}
+
+		public void Set(ref SessionInviteAcceptedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				SessionId = other.Value.SessionId;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				InviteId = other.Value.InviteId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_SessionId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_InviteId);
+		}
+
+		public void Get(out SessionInviteAcceptedCallbackInfo output)
+		{
+			output = new SessionInviteAcceptedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

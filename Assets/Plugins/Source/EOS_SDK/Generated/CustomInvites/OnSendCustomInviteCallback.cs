@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.CustomInvites
 	/// Function prototype definition for callbacks passed to <see cref="CustomInvitesInterface.SendCustomInvite" />
 	/// </summary>
 	/// <param name="data">A <see cref="SendCustomInviteCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnSendCustomInviteCallback(SendCustomInviteCallbackInfo data);
+	public delegate void OnSendCustomInviteCallback(ref SendCustomInviteCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnSendCustomInviteCallbackInternal(System.IntPtr data);
+	internal delegate void OnSendCustomInviteCallbackInternal(ref SendCustomInviteCallbackInfoInternal data);
 }

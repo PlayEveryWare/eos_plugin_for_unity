@@ -6,22 +6,22 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Output parameters for the <see cref="ConnectInterface.VerifyIdToken" /> Function.
 	/// </summary>
-	public class VerifyIdTokenCallbackInfo : ICallbackInfo, ISettable
+	public struct VerifyIdTokenCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="ConnectInterface.VerifyIdToken" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID associated with the ID token.
 		/// </summary>
-		public ProductUserId ProductUserId { get; private set; }
+		public ProductUserId ProductUserId { get; set; }
 
 		/// <summary>
 		/// Flag set to indicate whether account information is available.
@@ -30,28 +30,28 @@ namespace Epic.OnlineServices.Connect
 		/// 
 		/// This flag is always false for users that authenticated using EOS Connect Device ID.
 		/// </summary>
-		public bool IsAccountInfoPresent { get; private set; }
+		public bool IsAccountInfoPresent { get; set; }
 
 		/// <summary>
 		/// The identity provider that the user authenticated with to EOS Connect.
 		/// 
 		/// If bIsAccountInfoPresent is set, this field describes the external account type.
 		/// </summary>
-		public ExternalAccountType AccountIdType { get; private set; }
+		public ExternalAccountType AccountIdType { get; set; }
 
 		/// <summary>
 		/// The external account ID of the authenticated user.
 		/// 
 		/// This value may be set to an empty string.
 		/// </summary>
-		public string AccountId { get; private set; }
+		public Utf8String AccountId { get; set; }
 
 		/// <summary>
 		/// Platform that the user is connected from.
 		/// 
 		/// This value may be set to an empty string.
 		/// </summary>
-		public string Platform { get; private set; }
+		public Utf8String Platform { get; set; }
 
 		/// <summary>
 		/// Identifies the device type that the user is connected from.
@@ -59,60 +59,52 @@ namespace Epic.OnlineServices.Connect
 		/// 
 		/// This value may be set to an empty string.
 		/// </summary>
-		public string DeviceType { get; private set; }
+		public Utf8String DeviceType { get; set; }
 
 		/// <summary>
 		/// Client ID of the authorized client.
 		/// </summary>
-		public string ClientId { get; private set; }
+		public Utf8String ClientId { get; set; }
 
 		/// <summary>
 		/// Product ID.
 		/// </summary>
-		public string ProductId { get; private set; }
+		public Utf8String ProductId { get; set; }
 
 		/// <summary>
 		/// Sandbox ID.
 		/// </summary>
-		public string SandboxId { get; private set; }
+		public Utf8String SandboxId { get; set; }
 
 		/// <summary>
 		/// Deployment ID.
 		/// </summary>
-		public string DeploymentId { get; private set; }
+		public Utf8String DeploymentId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(VerifyIdTokenCallbackInfoInternal? other)
+		internal void Set(ref VerifyIdTokenCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				ProductUserId = other.Value.ProductUserId;
-				IsAccountInfoPresent = other.Value.IsAccountInfoPresent;
-				AccountIdType = other.Value.AccountIdType;
-				AccountId = other.Value.AccountId;
-				Platform = other.Value.Platform;
-				DeviceType = other.Value.DeviceType;
-				ClientId = other.Value.ClientId;
-				ProductId = other.Value.ProductId;
-				SandboxId = other.Value.SandboxId;
-				DeploymentId = other.Value.DeploymentId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as VerifyIdTokenCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			ProductUserId = other.ProductUserId;
+			IsAccountInfoPresent = other.IsAccountInfoPresent;
+			AccountIdType = other.AccountIdType;
+			AccountId = other.AccountId;
+			Platform = other.Platform;
+			DeviceType = other.DeviceType;
+			ClientId = other.ClientId;
+			ProductId = other.ProductId;
+			SandboxId = other.SandboxId;
+			DeploymentId = other.DeploymentId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct VerifyIdTokenCallbackInfoInternal : ICallbackInfoInternal
+	internal struct VerifyIdTokenCallbackInfoInternal : ICallbackInfoInternal, IGettable<VerifyIdTokenCallbackInfo>, ISettable<VerifyIdTokenCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -133,6 +125,11 @@ namespace Epic.OnlineServices.Connect
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -140,8 +137,13 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -158,8 +160,13 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_ProductUserId, out value);
+				Helper.Get(m_ProductUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ProductUserId);
 			}
 		}
 
@@ -168,8 +175,13 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsAccountInfoPresent, out value);
+				Helper.Get(m_IsAccountInfoPresent, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_IsAccountInfoPresent);
 			}
 		}
 
@@ -179,76 +191,170 @@ namespace Epic.OnlineServices.Connect
 			{
 				return m_AccountIdType;
 			}
-		}
 
-		public string AccountId
-		{
-			get
+			set
 			{
-				string value;
-				Helper.TryMarshalGet(m_AccountId, out value);
-				return value;
+				m_AccountIdType = value;
 			}
 		}
 
-		public string Platform
+		public Utf8String AccountId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Platform, out value);
+				Utf8String value;
+				Helper.Get(m_AccountId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_AccountId);
 			}
 		}
 
-		public string DeviceType
+		public Utf8String Platform
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DeviceType, out value);
+				Utf8String value;
+				Helper.Get(m_Platform, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_Platform);
 			}
 		}
 
-		public string ClientId
+		public Utf8String DeviceType
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ClientId, out value);
+				Utf8String value;
+				Helper.Get(m_DeviceType, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_DeviceType);
 			}
 		}
 
-		public string ProductId
+		public Utf8String ClientId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ProductId, out value);
+				Utf8String value;
+				Helper.Get(m_ClientId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientId);
 			}
 		}
 
-		public string SandboxId
+		public Utf8String ProductId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_SandboxId, out value);
+				Utf8String value;
+				Helper.Get(m_ProductId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ProductId);
 			}
 		}
 
-		public string DeploymentId
+		public Utf8String SandboxId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DeploymentId, out value);
+				Utf8String value;
+				Helper.Get(m_SandboxId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_SandboxId);
+			}
+		}
+
+		public Utf8String DeploymentId
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_DeploymentId, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_DeploymentId);
+			}
+		}
+
+		public void Set(ref VerifyIdTokenCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			ProductUserId = other.ProductUserId;
+			IsAccountInfoPresent = other.IsAccountInfoPresent;
+			AccountIdType = other.AccountIdType;
+			AccountId = other.AccountId;
+			Platform = other.Platform;
+			DeviceType = other.DeviceType;
+			ClientId = other.ClientId;
+			ProductId = other.ProductId;
+			SandboxId = other.SandboxId;
+			DeploymentId = other.DeploymentId;
+		}
+
+		public void Set(ref VerifyIdTokenCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				ProductUserId = other.Value.ProductUserId;
+				IsAccountInfoPresent = other.Value.IsAccountInfoPresent;
+				AccountIdType = other.Value.AccountIdType;
+				AccountId = other.Value.AccountId;
+				Platform = other.Value.Platform;
+				DeviceType = other.Value.DeviceType;
+				ClientId = other.Value.ClientId;
+				ProductId = other.Value.ProductId;
+				SandboxId = other.Value.SandboxId;
+				DeploymentId = other.Value.DeploymentId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_ProductUserId);
+			Helper.Dispose(ref m_AccountId);
+			Helper.Dispose(ref m_Platform);
+			Helper.Dispose(ref m_DeviceType);
+			Helper.Dispose(ref m_ClientId);
+			Helper.Dispose(ref m_ProductId);
+			Helper.Dispose(ref m_SandboxId);
+			Helper.Dispose(ref m_DeploymentId);
+		}
+
+		public void Get(out VerifyIdTokenCallbackInfo output)
+		{
+			output = new VerifyIdTokenCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

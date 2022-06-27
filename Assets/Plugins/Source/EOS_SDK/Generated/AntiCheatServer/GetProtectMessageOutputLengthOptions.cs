@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class GetProtectMessageOutputLengthOptions
+	public struct GetProtectMessageOutputLengthOptions
 	{
 		/// <summary>
 		/// Length in bytes of input
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetProtectMessageOutputLengthOptionsInternal : ISettable, System.IDisposable
+	internal struct GetProtectMessageOutputLengthOptionsInternal : ISettable<GetProtectMessageOutputLengthOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_DataLengthBytes;
@@ -25,18 +25,19 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
-		public void Set(GetProtectMessageOutputLengthOptions other)
+		public void Set(ref GetProtectMessageOutputLengthOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatServerInterface.GetprotectmessageoutputlengthApiLatest;
-				DataLengthBytes = other.DataLengthBytes;
-			}
+			m_ApiVersion = AntiCheatServerInterface.GetprotectmessageoutputlengthApiLatest;
+			DataLengthBytes = other.DataLengthBytes;
 		}
 
-		public void Set(object other)
+		public void Set(ref GetProtectMessageOutputLengthOptions? other)
 		{
-			Set(other as GetProtectMessageOutputLengthOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatServerInterface.GetprotectmessageoutputlengthApiLatest;
+				DataLengthBytes = other.Value.DataLengthBytes;
+			}
 		}
 
 		public void Dispose()

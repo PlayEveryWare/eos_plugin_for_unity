@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information needed to query NAT-types
 	/// </summary>
-	public class QueryNATTypeOptions
+	public struct QueryNATTypeOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryNATTypeOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryNATTypeOptionsInternal : ISettable<QueryNATTypeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(QueryNATTypeOptions other)
+		public void Set(ref QueryNATTypeOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = P2PInterface.QuerynattypeApiLatest;
+		}
+
+		public void Set(ref QueryNATTypeOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = P2PInterface.QuerynattypeApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryNATTypeOptions);
 		}
 
 		public void Dispose()

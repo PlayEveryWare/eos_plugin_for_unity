@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about new packet queue size settings.
 	/// </summary>
-	public class SetPacketQueueSizeOptions
+	public struct SetPacketQueueSizeOptions
 	{
 		/// <summary>
 		/// The ideal maximum amount of bytes the Incoming packet queue can consume
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.P2P
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetPacketQueueSizeOptionsInternal : ISettable, System.IDisposable
+	internal struct SetPacketQueueSizeOptionsInternal : ISettable<SetPacketQueueSizeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private ulong m_IncomingPacketQueueMaxSizeBytes;
@@ -42,19 +42,21 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		public void Set(SetPacketQueueSizeOptions other)
+		public void Set(ref SetPacketQueueSizeOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = P2PInterface.SetpacketqueuesizeApiLatest;
-				IncomingPacketQueueMaxSizeBytes = other.IncomingPacketQueueMaxSizeBytes;
-				OutgoingPacketQueueMaxSizeBytes = other.OutgoingPacketQueueMaxSizeBytes;
-			}
+			m_ApiVersion = P2PInterface.SetpacketqueuesizeApiLatest;
+			IncomingPacketQueueMaxSizeBytes = other.IncomingPacketQueueMaxSizeBytes;
+			OutgoingPacketQueueMaxSizeBytes = other.OutgoingPacketQueueMaxSizeBytes;
 		}
 
-		public void Set(object other)
+		public void Set(ref SetPacketQueueSizeOptions? other)
 		{
-			Set(other as SetPacketQueueSizeOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = P2PInterface.SetpacketqueuesizeApiLatest;
+				IncomingPacketQueueMaxSizeBytes = other.Value.IncomingPacketQueueMaxSizeBytes;
+				OutgoingPacketQueueMaxSizeBytes = other.Value.OutgoingPacketQueueMaxSizeBytes;
+			}
 		}
 
 		public void Dispose()

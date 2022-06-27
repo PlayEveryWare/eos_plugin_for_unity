@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Input data for the <see cref="PlayerDataStorageInterface.GetFileMetadataCount" /> function
 	/// </summary>
-	public class GetFileMetadataCountOptions
+	public struct GetFileMetadataCountOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who is requesting file metadata
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetFileMetadataCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetFileMetadataCountOptionsInternal : ISettable<GetFileMetadataCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(GetFileMetadataCountOptions other)
+		public void Set(ref GetFileMetadataCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PlayerDataStorageInterface.GetfilemetadatacountoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref GetFileMetadataCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PlayerDataStorageInterface.GetfilemetadatacountoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetFileMetadataCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

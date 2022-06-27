@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Friends
 	/// <summary>
 	/// Input parameters for the <see cref="FriendsInterface.QueryFriends" /> function.
 	/// </summary>
-	public class QueryFriendsOptions
+	public struct QueryFriendsOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local, logged-in user whose friends list you want to retrieve
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Friends
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryFriendsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryFriendsOptionsInternal : ISettable<QueryFriendsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Friends
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(QueryFriendsOptions other)
+		public void Set(ref QueryFriendsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = FriendsInterface.QueryfriendsApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryFriendsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = FriendsInterface.QueryfriendsApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryFriendsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

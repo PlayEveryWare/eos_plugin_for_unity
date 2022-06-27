@@ -251,7 +251,7 @@ EOS_ENUM(EOS_PlayerDataStorage_EReadResult,
 	EOS_RR_ContinueReading = 1,
 	/** Signifies there was a failure reading the data, and the request should end */
 	EOS_RR_FailRequest = 2,
-	/** Signifies the request should be cancelled, but not due to an error */
+	/** Signifies the request should be canceled, but not due to an error */
 	EOS_RR_CancelRequest = 3
 );
 
@@ -308,7 +308,19 @@ EOS_STRUCT(EOS_PlayerDataStorage_ReadFileOptions, (
  * Data containing the result of a read file request
  */
 EOS_STRUCT(EOS_PlayerDataStorage_ReadFileCallbackInfo, (
-	/** Result code for the operation. EOS_Success is returned for a successful request, other codes indicate an error */
+	/** The result code for the operation.
+	 * EOS_Success: The request was successful.
+	 * EOS_Canceled: The request was canceled.
+	 * EOS_TooManyRequests: There are too many requests in progress for the local user at this time.
+	 * EOS_AlreadyPending: There is another requests in progress for the specified file by this user.
+	 * EOS_CacheDirectoryMissing: The cache directory was not set when calling EOS_Platform_Create.
+	 * EOS_CacheDirectoryInvalid: The cache directory provided when calling EOS_Platform_Create was invalid.
+	 * EOS_PlayerDataStorage_UserThrottled: There were too many requests to the Data Storage service recently by the local user. The application must wait some time before trying again.
+	 * EOS_PlayerDataStorage_EncryptionKeyNotSet: The encryption key value was not set when calling EOS_Platform_Create.
+	 * EOS_PlayerDataStorage_FileCorrupted: The downloaded or cached file was corrupted or invalid in some way. What exactly is wrong with the file is returned in the logs (potentially retryable).
+	 * EOS_InvalidState: The read operation is not allowed (e.g. when application is suspended).
+	 * EOS_UnexpectedError: An unexpected error occurred either downloading, or reading the downloaded file. This most commonly means there were file IO issues such as: permission issues, disk is full, etc. (potentially retryable)
+	 */
 	EOS_EResult ResultCode;
 	/** Client-specified data passed into the file read request */
 	void* ClientData;
@@ -334,7 +346,7 @@ EOS_ENUM(EOS_PlayerDataStorage_EWriteResult,
 	EOS_WR_CompleteRequest = 2,
 	/** Signifies there was a failure writing the data, and the request should end */
 	EOS_WR_FailRequest = 3,
-	/** Signifies the request should be cancelled, but not due to an error */
+	/** Signifies the request should be canceled, but not due to an error */
 	EOS_WR_CancelRequest = 4
 );
 
@@ -386,7 +398,18 @@ EOS_STRUCT(EOS_PlayerDataStorage_WriteFileOptions, (
  * The result information for a request to write data to a file
  */
 EOS_STRUCT(EOS_PlayerDataStorage_WriteFileCallbackInfo, (
-	/** Result code for the operation. EOS_Success is returned for a successful request, other codes indicate an error */
+	/** The result code for the operation.
+	 * EOS_Success: The request was successful.
+	 * EOS_Canceled: The request was canceled.
+	 * EOS_TooManyRequests: There are too many requests in progress for the local user at this time.
+	 * EOS_AlreadyPending: There is another requests in progress for the specified file by this user.
+	 * EOS_CacheDirectoryMissing: The cache directory was not set when calling EOS_Platform_Create.
+	 * EOS_CacheDirectoryInvalid: The cache directory provided when calling EOS_Platform_Create was invalid.
+	 * EOS_PlayerDataStorage_UserThrottled: There were too many requests to the Data Storage service recently by the local user. The application must wait some time before trying again.
+	 * EOS_PlayerDataStorage_EncryptionKeyNotSet: The encryption key value was not set when calling EOS_Platform_Create.
+	 * EOS_InvalidState: The read operation is not allowed (e.g. when application is suspended).
+	 * EOS_UnexpectedError: An unexpected error occurred either downloading, or reading the downloaded file. This most commonly means there were file IO issues such as: permission issues, disk is full, etc. (potentially retryable)
+	*/
 	EOS_EResult ResultCode;
 	/** Client-specified data passed into the file write request */
 	void* ClientData;
@@ -403,6 +426,7 @@ EOS_DECLARE_CALLBACK(EOS_PlayerDataStorage_OnWriteFileCompleteCallback, const EO
 
 /** The most recent version of the EOS_PlayerDataStorage_DeleteCacheOptions API. */
 #define EOS_PLAYERDATASTORAGE_DELETECACHEOPTIONS_API_LATEST 1
+
 /**
  * Input data for the EOS_TitleStorage_DeleteCache function
  */
@@ -412,6 +436,7 @@ EOS_STRUCT(EOS_PlayerDataStorage_DeleteCacheOptions, (
 	/** Product User ID of the local user who is deleting his cache */
 	EOS_ProductUserId LocalUserId;
 ));
+
 /**
  * Structure containing the result of a delete cache operation
  */
@@ -423,6 +448,7 @@ EOS_STRUCT(EOS_PlayerDataStorage_DeleteCacheCallbackInfo, (
 	/** Product User ID of the local user who initiated this request */
 	EOS_ProductUserId LocalUserId;
 ));
+
 /**
  * Callback for when EOS_PlayerDataStorage_DeleteCache completes
  */

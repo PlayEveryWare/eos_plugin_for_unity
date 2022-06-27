@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbySearch.CopySearchResultByIndex" /> function.
 	/// </summary>
-	public class LobbySearchCopySearchResultByIndexOptions
+	public struct LobbySearchCopySearchResultByIndexOptions
 	{
 		/// <summary>
 		/// The index of the lobby to retrieve within the completed search query
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbySearchCopySearchResultByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbySearchCopySearchResultByIndexOptionsInternal : ISettable<LobbySearchCopySearchResultByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_LobbyIndex;
@@ -29,18 +29,19 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbySearchCopySearchResultByIndexOptions other)
+		public void Set(ref LobbySearchCopySearchResultByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbySearch.LobbysearchCopysearchresultbyindexApiLatest;
-				LobbyIndex = other.LobbyIndex;
-			}
+			m_ApiVersion = LobbySearch.LobbysearchCopysearchresultbyindexApiLatest;
+			LobbyIndex = other.LobbyIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbySearchCopySearchResultByIndexOptions? other)
 		{
-			Set(other as LobbySearchCopySearchResultByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbySearch.LobbysearchCopysearchresultbyindexApiLatest;
+				LobbyIndex = other.Value.LobbyIndex;
+			}
 		}
 
 		public void Dispose()

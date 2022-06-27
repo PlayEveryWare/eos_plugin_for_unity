@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionSearch.CopySearchResultByIndex" /> function.
 	/// </summary>
-	public class SessionSearchCopySearchResultByIndexOptions
+	public struct SessionSearchCopySearchResultByIndexOptions
 	{
 		/// <summary>
 		/// The index of the session to retrieve within the completed search query
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionSearchCopySearchResultByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionSearchCopySearchResultByIndexOptionsInternal : ISettable<SessionSearchCopySearchResultByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_SessionIndex;
@@ -29,18 +29,19 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(SessionSearchCopySearchResultByIndexOptions other)
+		public void Set(ref SessionSearchCopySearchResultByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionSearch.SessionsearchCopysearchresultbyindexApiLatest;
-				SessionIndex = other.SessionIndex;
-			}
+			m_ApiVersion = SessionSearch.SessionsearchCopysearchresultbyindexApiLatest;
+			SessionIndex = other.SessionIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref SessionSearchCopySearchResultByIndexOptions? other)
 		{
-			Set(other as SessionSearchCopySearchResultByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionSearch.SessionsearchCopysearchresultbyindexApiLatest;
+				SessionIndex = other.Value.SessionIndex;
+			}
 		}
 
 		public void Dispose()

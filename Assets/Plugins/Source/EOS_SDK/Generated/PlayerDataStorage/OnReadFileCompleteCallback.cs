@@ -6,8 +6,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Callback for when <see cref="PlayerDataStorageInterface.ReadFile" /> completes
 	/// </summary>
-	public delegate void OnReadFileCompleteCallback(ReadFileCallbackInfo data);
+	public delegate void OnReadFileCompleteCallback(ref ReadFileCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnReadFileCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnReadFileCompleteCallbackInternal(ref ReadFileCallbackInfoInternal data);
 }

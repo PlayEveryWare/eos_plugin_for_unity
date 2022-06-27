@@ -8,21 +8,21 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// The most recent version of the <see cref="IOSCredentialsSystemAuthCredentialsOptions" /> structure.
 		/// </summary>
-		public const int AuthIoscredentialssystemauthcredentialsoptionsApiLatest = 1;
+		public const int IosCredentialssystemauthcredentialsoptionsApiLatest = 1;
 
-		public void Login(IOSLoginOptions options, object clientData, OnLoginCallback completionDelegate)
+		public void Login(ref IOSLoginOptions options, object clientData, OnLoginCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<IOSLoginOptionsInternal, IOSLoginOptions>(ref optionsAddress, options);
+			IOSLoginOptionsInternal optionsInternal = new IOSLoginOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnLoginCallbackInternal(OnLoginCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Auth_Login(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			IOSBindings.EOS_Auth_Login(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 	}
 }

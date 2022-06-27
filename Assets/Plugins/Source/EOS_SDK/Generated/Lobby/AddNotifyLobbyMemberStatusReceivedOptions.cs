@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.AddNotifyLobbyMemberStatusReceived" /> function.
 	/// </summary>
-	public class AddNotifyLobbyMemberStatusReceivedOptions
+	public struct AddNotifyLobbyMemberStatusReceivedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyLobbyMemberStatusReceivedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyLobbyMemberStatusReceivedOptionsInternal : ISettable<AddNotifyLobbyMemberStatusReceivedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyLobbyMemberStatusReceivedOptions other)
+		public void Set(ref AddNotifyLobbyMemberStatusReceivedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.AddnotifylobbymemberstatusreceivedApiLatest;
+		}
+
+		public void Set(ref AddNotifyLobbyMemberStatusReceivedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.AddnotifylobbymemberstatusreceivedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyLobbyMemberStatusReceivedOptions);
 		}
 
 		public void Dispose()

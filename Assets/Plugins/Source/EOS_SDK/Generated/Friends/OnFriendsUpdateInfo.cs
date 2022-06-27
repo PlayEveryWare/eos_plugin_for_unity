@@ -6,58 +6,50 @@ namespace Epic.OnlineServices.Friends
 	/// <summary>
 	/// Structure containing information about a friend status update.
 	/// </summary>
-	public class OnFriendsUpdateInfo : ICallbackInfo, ISettable
+	public struct OnFriendsUpdateInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into <see cref="FriendsInterface.AddNotifyFriendsUpdate" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the local user who is receiving the update
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user whose status is being updated.
 		/// </summary>
-		public EpicAccountId TargetUserId { get; private set; }
+		public EpicAccountId TargetUserId { get; set; }
 
 		/// <summary>
 		/// The previous status of the user.
 		/// </summary>
-		public FriendsStatus PreviousStatus { get; private set; }
+		public FriendsStatus PreviousStatus { get; set; }
 
 		/// <summary>
 		/// The current status of the user.
 		/// </summary>
-		public FriendsStatus CurrentStatus { get; private set; }
+		public FriendsStatus CurrentStatus { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnFriendsUpdateInfoInternal? other)
+		internal void Set(ref OnFriendsUpdateInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				TargetUserId = other.Value.TargetUserId;
-				PreviousStatus = other.Value.PreviousStatus;
-				CurrentStatus = other.Value.CurrentStatus;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnFriendsUpdateInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			PreviousStatus = other.PreviousStatus;
+			CurrentStatus = other.CurrentStatus;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnFriendsUpdateInfoInternal : ICallbackInfoInternal
+	internal struct OnFriendsUpdateInfoInternal : ICallbackInfoInternal, IGettable<OnFriendsUpdateInfo>, ISettable<OnFriendsUpdateInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -70,8 +62,13 @@ namespace Epic.OnlineServices.Friends
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -88,8 +85,13 @@ namespace Epic.OnlineServices.Friends
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -98,8 +100,13 @@ namespace Epic.OnlineServices.Friends
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -109,6 +116,11 @@ namespace Epic.OnlineServices.Friends
 			{
 				return m_PreviousStatus;
 			}
+
+			set
+			{
+				m_PreviousStatus = value;
+			}
 		}
 
 		public FriendsStatus CurrentStatus
@@ -117,6 +129,45 @@ namespace Epic.OnlineServices.Friends
 			{
 				return m_CurrentStatus;
 			}
+
+			set
+			{
+				m_CurrentStatus = value;
+			}
+		}
+
+		public void Set(ref OnFriendsUpdateInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			PreviousStatus = other.PreviousStatus;
+			CurrentStatus = other.CurrentStatus;
+		}
+
+		public void Set(ref OnFriendsUpdateInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				PreviousStatus = other.Value.PreviousStatus;
+				CurrentStatus = other.Value.CurrentStatus;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+		}
+
+		public void Get(out OnFriendsUpdateInfo output)
+		{
+			output = new OnFriendsUpdateInfo();
+			output.Set(ref this);
 		}
 	}
 }

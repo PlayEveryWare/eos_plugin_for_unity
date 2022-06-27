@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Sessions
 	/// Function prototype definition for callbacks passed to <see cref="SessionSearch.Find" />
 	/// </summary>
 	/// <param name="data">A <see cref="SessionSearchFindCallbackInfo" /> containing the output information and result</param>
-	public delegate void SessionSearchOnFindCallback(SessionSearchFindCallbackInfo data);
+	public delegate void SessionSearchOnFindCallback(ref SessionSearchFindCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void SessionSearchOnFindCallbackInternal(System.IntPtr data);
+	internal delegate void SessionSearchOnFindCallbackInternal(ref SessionSearchFindCallbackInfoInternal data);
 }

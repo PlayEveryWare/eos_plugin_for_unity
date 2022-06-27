@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.CopyProductUserExternalAccountByAccountId" /> function.
 	/// </summary>
-	public class CopyProductUserExternalAccountByAccountIdOptions
+	public struct CopyProductUserExternalAccountByAccountIdOptions
 	{
 		/// <summary>
 		/// The Product User ID to look for when copying external account info from the cache.
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// External auth service account ID to look for when copying external account info from the cache.
 		/// </summary>
-		public string AccountId { get; set; }
+		public Utf8String AccountId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyProductUserExternalAccountByAccountIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyProductUserExternalAccountByAccountIdOptionsInternal : ISettable<CopyProductUserExternalAccountByAccountIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public string AccountId
+		public Utf8String AccountId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AccountId, value);
+				Helper.Set(value, ref m_AccountId);
 			}
 		}
 
-		public void Set(CopyProductUserExternalAccountByAccountIdOptions other)
+		public void Set(ref CopyProductUserExternalAccountByAccountIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.CopyproductuserexternalaccountbyaccountidApiLatest;
+			TargetUserId = other.TargetUserId;
+			AccountId = other.AccountId;
+		}
+
+		public void Set(ref CopyProductUserExternalAccountByAccountIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.CopyproductuserexternalaccountbyaccountidApiLatest;
-				TargetUserId = other.TargetUserId;
-				AccountId = other.AccountId;
+				TargetUserId = other.Value.TargetUserId;
+				AccountId = other.Value.AccountId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyProductUserExternalAccountByAccountIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
-			Helper.TryMarshalDispose(ref m_AccountId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_AccountId);
 		}
 	}
 }

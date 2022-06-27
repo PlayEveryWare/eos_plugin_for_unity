@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Contains information about a single player achievement.
 	/// </summary>
-	public class PlayerAchievement : ISettable
+	public struct PlayerAchievement
 	{
 		/// <summary>
 		/// This achievement's unique identifier.
 		/// </summary>
-		public string AchievementId { get; set; }
+		public Utf8String AchievementId { get; set; }
 
 		/// <summary>
 		/// Progress towards completing this achievement (as a percentage).
@@ -30,50 +30,42 @@ namespace Epic.OnlineServices.Achievements
 
 		/// <summary>
 		/// Localized display name for the achievement based on this specific player's current progress on the achievement.
-		/// @note The current progress is updated when <see cref="AchievementsInterface.QueryPlayerAchievements" /> succeeds and when an achievement is unlocked.
+		/// The current progress is updated when EOS_Achievements_QueryPlayerAchievements succeeds and when an achievement is unlocked.
 		/// </summary>
-		public string DisplayName { get; set; }
+		public Utf8String DisplayName { get; set; }
 
 		/// <summary>
 		/// Localized description for the achievement based on this specific player's current progress on the achievement.
-		/// @note The current progress is updated when <see cref="AchievementsInterface.QueryPlayerAchievements" /> succeeds and when an achievement is unlocked.
+		/// The current progress is updated when EOS_Achievements_QueryPlayerAchievements succeeds and when an achievement is unlocked.
 		/// </summary>
-		public string Description { get; set; }
+		public Utf8String Description { get; set; }
 
 		/// <summary>
 		/// URL of an icon to display for the achievement based on this specific player's current progress on the achievement. This may be null if there is no data configured in the dev portal.
-		/// @note The current progress is updated when <see cref="AchievementsInterface.QueryPlayerAchievements" /> succeeds and when an achievement is unlocked.
+		/// The current progress is updated when EOS_Achievements_QueryPlayerAchievements succeeds and when an achievement is unlocked.
 		/// </summary>
-		public string IconURL { get; set; }
+		public Utf8String IconURL { get; set; }
 
 		/// <summary>
 		/// Localized flavor text that can be used by the game in an arbitrary manner. This may be null if there is no data configured in the dev portal.
 		/// </summary>
-		public string FlavorText { get; set; }
+		public Utf8String FlavorText { get; set; }
 
-		internal void Set(PlayerAchievementInternal? other)
+		internal void Set(ref PlayerAchievementInternal other)
 		{
-			if (other != null)
-			{
-				AchievementId = other.Value.AchievementId;
-				Progress = other.Value.Progress;
-				UnlockTime = other.Value.UnlockTime;
-				StatInfo = other.Value.StatInfo;
-				DisplayName = other.Value.DisplayName;
-				Description = other.Value.Description;
-				IconURL = other.Value.IconURL;
-				FlavorText = other.Value.FlavorText;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PlayerAchievementInternal?);
+			AchievementId = other.AchievementId;
+			Progress = other.Progress;
+			UnlockTime = other.UnlockTime;
+			StatInfo = other.StatInfo;
+			DisplayName = other.DisplayName;
+			Description = other.Description;
+			IconURL = other.IconURL;
+			FlavorText = other.FlavorText;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PlayerAchievementInternal : ISettable, System.IDisposable
+	internal struct PlayerAchievementInternal : IGettable<PlayerAchievement>, ISettable<PlayerAchievement>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AchievementId;
@@ -86,18 +78,18 @@ namespace Epic.OnlineServices.Achievements
 		private System.IntPtr m_IconURL;
 		private System.IntPtr m_FlavorText;
 
-		public string AchievementId
+		public Utf8String AchievementId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AchievementId, out value);
+				Utf8String value;
+				Helper.Get(m_AchievementId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AchievementId, value);
+				Helper.Set(value, ref m_AchievementId);
 			}
 		}
 
@@ -119,13 +111,13 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				System.DateTimeOffset? value;
-				Helper.TryMarshalGet(m_UnlockTime, out value);
+				Helper.Get(m_UnlockTime, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UnlockTime, value);
+				Helper.Set(value, ref m_UnlockTime);
 			}
 		}
 
@@ -134,105 +126,119 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				PlayerStatInfo[] value;
-				Helper.TryMarshalGet<PlayerStatInfoInternal, PlayerStatInfo>(m_StatInfo, out value, m_StatInfoCount);
+				Helper.Get<PlayerStatInfoInternal, PlayerStatInfo>(m_StatInfo, out value, m_StatInfoCount);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<PlayerStatInfoInternal, PlayerStatInfo>(ref m_StatInfo, value, out m_StatInfoCount);
+				Helper.Set<PlayerStatInfo, PlayerStatInfoInternal>(ref value, ref m_StatInfo, out m_StatInfoCount);
 			}
 		}
 
-		public string DisplayName
+		public Utf8String DisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_DisplayName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DisplayName, value);
+				Helper.Set(value, ref m_DisplayName);
 			}
 		}
 
-		public string Description
+		public Utf8String Description
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Description, out value);
+				Utf8String value;
+				Helper.Get(m_Description, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Description, value);
+				Helper.Set(value, ref m_Description);
 			}
 		}
 
-		public string IconURL
+		public Utf8String IconURL
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_IconURL, out value);
+				Utf8String value;
+				Helper.Get(m_IconURL, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_IconURL, value);
+				Helper.Set(value, ref m_IconURL);
 			}
 		}
 
-		public string FlavorText
+		public Utf8String FlavorText
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_FlavorText, out value);
+				Utf8String value;
+				Helper.Get(m_FlavorText, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_FlavorText, value);
+				Helper.Set(value, ref m_FlavorText);
 			}
 		}
 
-		public void Set(PlayerAchievement other)
+		public void Set(ref PlayerAchievement other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.PlayerachievementApiLatest;
+			AchievementId = other.AchievementId;
+			Progress = other.Progress;
+			UnlockTime = other.UnlockTime;
+			StatInfo = other.StatInfo;
+			DisplayName = other.DisplayName;
+			Description = other.Description;
+			IconURL = other.IconURL;
+			FlavorText = other.FlavorText;
+		}
+
+		public void Set(ref PlayerAchievement? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.PlayerachievementApiLatest;
-				AchievementId = other.AchievementId;
-				Progress = other.Progress;
-				UnlockTime = other.UnlockTime;
-				StatInfo = other.StatInfo;
-				DisplayName = other.DisplayName;
-				Description = other.Description;
-				IconURL = other.IconURL;
-				FlavorText = other.FlavorText;
+				AchievementId = other.Value.AchievementId;
+				Progress = other.Value.Progress;
+				UnlockTime = other.Value.UnlockTime;
+				StatInfo = other.Value.StatInfo;
+				DisplayName = other.Value.DisplayName;
+				Description = other.Value.Description;
+				IconURL = other.Value.IconURL;
+				FlavorText = other.Value.FlavorText;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PlayerAchievement);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AchievementId);
-			Helper.TryMarshalDispose(ref m_StatInfo);
-			Helper.TryMarshalDispose(ref m_DisplayName);
-			Helper.TryMarshalDispose(ref m_Description);
-			Helper.TryMarshalDispose(ref m_IconURL);
-			Helper.TryMarshalDispose(ref m_FlavorText);
+			Helper.Dispose(ref m_AchievementId);
+			Helper.Dispose(ref m_StatInfo);
+			Helper.Dispose(ref m_DisplayName);
+			Helper.Dispose(ref m_Description);
+			Helper.Dispose(ref m_IconURL);
+			Helper.Dispose(ref m_FlavorText);
+		}
+
+		public void Get(out PlayerAchievement output)
+		{
+			output = new PlayerAchievement();
+			output.Set(ref this);
 		}
 	}
 }

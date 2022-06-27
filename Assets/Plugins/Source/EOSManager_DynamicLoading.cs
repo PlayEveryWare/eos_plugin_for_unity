@@ -216,7 +216,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
                         return handle.LoadFunctionAsIntPtr(functionName);
-                        });
+                 });
+
+//#if !UNITY_EDITOR
+                EOSManagerPlatformSpecifics.Instance?.LoadDelegatesWithEOSBindingAPI();
+//#endif
 #endif
             }
             //-------------------------------------------------------------------------

@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information needed to get the current packet queue information.
 	/// </summary>
-	public class GetPacketQueueInfoOptions
+	public struct GetPacketQueueInfoOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetPacketQueueInfoOptionsInternal : ISettable, System.IDisposable
+	internal struct GetPacketQueueInfoOptionsInternal : ISettable<GetPacketQueueInfoOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(GetPacketQueueInfoOptions other)
+		public void Set(ref GetPacketQueueInfoOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = P2PInterface.GetpacketqueueinfoApiLatest;
+		}
+
+		public void Set(ref GetPacketQueueInfoOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = P2PInterface.GetpacketqueueinfoApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetPacketQueueInfoOptions);
 		}
 
 		public void Dispose()

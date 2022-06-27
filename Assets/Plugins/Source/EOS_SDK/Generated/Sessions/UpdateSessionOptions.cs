@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.Sessions
 {
-	public class UpdateSessionOptions
+	public struct UpdateSessionOptions
 	{
 		/// <summary>
 		/// Builder handle
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UpdateSessionOptionsInternal : ISettable, System.IDisposable
+	internal struct UpdateSessionOptionsInternal : ISettable<UpdateSessionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionModificationHandle;
@@ -21,27 +21,28 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionModificationHandle, value);
+				Helper.Set(value, ref m_SessionModificationHandle);
 			}
 		}
 
-		public void Set(UpdateSessionOptions other)
+		public void Set(ref UpdateSessionOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.UpdatesessionApiLatest;
+			SessionModificationHandle = other.SessionModificationHandle;
+		}
+
+		public void Set(ref UpdateSessionOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.UpdatesessionApiLatest;
-				SessionModificationHandle = other.SessionModificationHandle;
+				SessionModificationHandle = other.Value.SessionModificationHandle;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UpdateSessionOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionModificationHandle);
+			Helper.Dispose(ref m_SessionModificationHandle);
 		}
 	}
 }

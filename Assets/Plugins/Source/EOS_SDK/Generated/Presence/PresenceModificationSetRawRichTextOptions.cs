@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for the <see cref="PresenceModification.SetRawRichText" /> API.
 	/// </summary>
-	public class PresenceModificationSetRawRichTextOptions
+	public struct PresenceModificationSetRawRichTextOptions
 	{
 		/// <summary>
 		/// The status of the user
 		/// </summary>
-		public string RichText { get; set; }
+		public Utf8String RichText { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PresenceModificationSetRawRichTextOptionsInternal : ISettable, System.IDisposable
+	internal struct PresenceModificationSetRawRichTextOptionsInternal : ISettable<PresenceModificationSetRawRichTextOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_RichText;
 
-		public string RichText
+		public Utf8String RichText
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RichText, value);
+				Helper.Set(value, ref m_RichText);
 			}
 		}
 
-		public void Set(PresenceModificationSetRawRichTextOptions other)
+		public void Set(ref PresenceModificationSetRawRichTextOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceModification.PresencemodificationSetrawrichtextApiLatest;
+			RichText = other.RichText;
+		}
+
+		public void Set(ref PresenceModificationSetRawRichTextOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceModification.PresencemodificationSetrawrichtextApiLatest;
-				RichText = other.RichText;
+				RichText = other.Value.RichText;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PresenceModificationSetRawRichTextOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_RichText);
+			Helper.Dispose(ref m_RichText);
 		}
 	}
 }

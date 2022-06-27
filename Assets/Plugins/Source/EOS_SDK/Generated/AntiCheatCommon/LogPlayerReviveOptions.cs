@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogPlayerReviveOptions
+	public struct LogPlayerReviveOptions
 	{
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogPlayerReviveOptionsInternal : ISettable, System.IDisposable
+	internal struct LogPlayerReviveOptionsInternal : ISettable<LogPlayerReviveOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_RevivedPlayerHandle;
@@ -39,25 +39,27 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(LogPlayerReviveOptions other)
+		public void Set(ref LogPlayerReviveOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatCommonInterface.LogplayerreviveApiLatest;
-				RevivedPlayerHandle = other.RevivedPlayerHandle;
-				ReviverPlayerHandle = other.ReviverPlayerHandle;
-			}
+			m_ApiVersion = AntiCheatCommonInterface.LogplayerreviveApiLatest;
+			RevivedPlayerHandle = other.RevivedPlayerHandle;
+			ReviverPlayerHandle = other.ReviverPlayerHandle;
 		}
 
-		public void Set(object other)
+		public void Set(ref LogPlayerReviveOptions? other)
 		{
-			Set(other as LogPlayerReviveOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatCommonInterface.LogplayerreviveApiLatest;
+				RevivedPlayerHandle = other.Value.RevivedPlayerHandle;
+				ReviverPlayerHandle = other.Value.ReviverPlayerHandle;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_RevivedPlayerHandle);
-			Helper.TryMarshalDispose(ref m_ReviverPlayerHandle);
+			Helper.Dispose(ref m_RevivedPlayerHandle);
+			Helper.Dispose(ref m_ReviverPlayerHandle);
 		}
 	}
 }

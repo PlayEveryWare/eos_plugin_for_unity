@@ -3,11 +3,11 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogEventParamPairParamValue : ISettable
+	public struct LogEventParamPairParamValue
 	{
 		private AntiCheatCommonEventParamType m_ParamValueType;
 		private System.IntPtr? m_ClientHandle;
-		private string m_String;
+		private Utf8String m_String;
 		private uint? m_UInt32;
 		private int? m_Int32;
 		private ulong? m_UInt64;
@@ -39,28 +39,28 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				System.IntPtr? value;
-				Helper.TryMarshalGet(m_ClientHandle, out value, m_ParamValueType, AntiCheatCommonEventParamType.ClientHandle);
+				Helper.Get(m_ClientHandle, out value, m_ParamValueType, AntiCheatCommonEventParamType.ClientHandle);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ClientHandle, value, ref m_ParamValueType, AntiCheatCommonEventParamType.ClientHandle);
+				Helper.Set<System.IntPtr?, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_ClientHandle, AntiCheatCommonEventParamType.ClientHandle, ref m_ParamValueType);
 			}
 		}
 
-		public string String
+		public Utf8String String
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_String, out value, m_ParamValueType, AntiCheatCommonEventParamType.String);
+				Utf8String value;
+				Helper.Get(m_String, out value, m_ParamValueType, AntiCheatCommonEventParamType.String);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_String, value, ref m_ParamValueType, AntiCheatCommonEventParamType.String);
+				Helper.Set<Utf8String, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_String, AntiCheatCommonEventParamType.String, ref m_ParamValueType);
 			}
 		}
 
@@ -69,13 +69,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				uint? value;
-				Helper.TryMarshalGet(m_UInt32, out value, m_ParamValueType, AntiCheatCommonEventParamType.UInt32);
+				Helper.Get(m_UInt32, out value, m_ParamValueType, AntiCheatCommonEventParamType.UInt32);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UInt32, value, ref m_ParamValueType, AntiCheatCommonEventParamType.UInt32);
+				Helper.Set<uint?, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_UInt32, AntiCheatCommonEventParamType.UInt32, ref m_ParamValueType);
 			}
 		}
 
@@ -84,13 +84,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				int? value;
-				Helper.TryMarshalGet(m_Int32, out value, m_ParamValueType, AntiCheatCommonEventParamType.Int32);
+				Helper.Get(m_Int32, out value, m_ParamValueType, AntiCheatCommonEventParamType.Int32);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Int32, value, ref m_ParamValueType, AntiCheatCommonEventParamType.Int32);
+				Helper.Set<int?, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_Int32, AntiCheatCommonEventParamType.Int32, ref m_ParamValueType);
 			}
 		}
 
@@ -99,13 +99,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				ulong? value;
-				Helper.TryMarshalGet(m_UInt64, out value, m_ParamValueType, AntiCheatCommonEventParamType.UInt64);
+				Helper.Get(m_UInt64, out value, m_ParamValueType, AntiCheatCommonEventParamType.UInt64);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UInt64, value, ref m_ParamValueType, AntiCheatCommonEventParamType.UInt64);
+				Helper.Set<ulong?, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_UInt64, AntiCheatCommonEventParamType.UInt64, ref m_ParamValueType);
 			}
 		}
 
@@ -114,13 +114,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				long? value;
-				Helper.TryMarshalGet(m_Int64, out value, m_ParamValueType, AntiCheatCommonEventParamType.Int64);
+				Helper.Get(m_Int64, out value, m_ParamValueType, AntiCheatCommonEventParamType.Int64);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Int64, value, ref m_ParamValueType, AntiCheatCommonEventParamType.Int64);
+				Helper.Set<long?, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_Int64, AntiCheatCommonEventParamType.Int64, ref m_ParamValueType);
 			}
 		}
 
@@ -129,13 +129,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				Vec3f value;
-				Helper.TryMarshalGet(m_Vec3f, out value, m_ParamValueType, AntiCheatCommonEventParamType.Vector3f);
+				Helper.Get(m_Vec3f, out value, m_ParamValueType, AntiCheatCommonEventParamType.Vector3f);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Vec3f, value, ref m_ParamValueType, AntiCheatCommonEventParamType.Vector3f);
+				Helper.Set<Vec3f, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_Vec3f, AntiCheatCommonEventParamType.Vector3f, ref m_ParamValueType);
 			}
 		}
 
@@ -144,19 +144,24 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				Quat value;
-				Helper.TryMarshalGet(m_Quat, out value, m_ParamValueType, AntiCheatCommonEventParamType.Quat);
+				Helper.Get(m_Quat, out value, m_ParamValueType, AntiCheatCommonEventParamType.Quat);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Quat, value, ref m_ParamValueType, AntiCheatCommonEventParamType.Quat);
+				Helper.Set<Quat, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_Quat, AntiCheatCommonEventParamType.Quat, ref m_ParamValueType);
 			}
 		}
 
 		public static implicit operator LogEventParamPairParamValue(System.IntPtr value)
 		{
 			return new LogEventParamPairParamValue() { ClientHandle = value };
+		}
+
+		public static implicit operator LogEventParamPairParamValue(Utf8String value)
+		{
+			return new LogEventParamPairParamValue() { String = value };
 		}
 
 		public static implicit operator LogEventParamPairParamValue(string value)
@@ -194,29 +199,21 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			return new LogEventParamPairParamValue() { Quat = value };
 		}
 
-		internal void Set(LogEventParamPairParamValueInternal? other)
+		internal void Set(ref LogEventParamPairParamValueInternal other)
 		{
-			if (other != null)
-			{
-				ClientHandle = other.Value.ClientHandle;
-				String = other.Value.String;
-				UInt32 = other.Value.UInt32;
-				Int32 = other.Value.Int32;
-				UInt64 = other.Value.UInt64;
-				Int64 = other.Value.Int64;
-				Vec3f = other.Value.Vec3f;
-				Quat = other.Value.Quat;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogEventParamPairParamValueInternal?);
+			ClientHandle = other.ClientHandle;
+			String = other.String;
+			UInt32 = other.UInt32;
+			Int32 = other.Int32;
+			UInt64 = other.UInt64;
+			Int64 = other.Int64;
+			Vec3f = other.Vec3f;
+			Quat = other.Quat;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Pack = 8)]
-	internal struct LogEventParamPairParamValueInternal : ISettable, System.IDisposable
+	internal struct LogEventParamPairParamValueInternal : IGettable<LogEventParamPairParamValue>, ISettable<LogEventParamPairParamValue>, System.IDisposable
 	{
 		[System.Runtime.InteropServices.FieldOffset(0)]
 		private AntiCheatCommonEventParamType m_ParamValueType;
@@ -242,28 +239,28 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				System.IntPtr? value;
-				Helper.TryMarshalGet(m_ClientHandle, out value, m_ParamValueType, AntiCheatCommonEventParamType.ClientHandle);
+				Helper.Get(m_ClientHandle, out value, m_ParamValueType, AntiCheatCommonEventParamType.ClientHandle);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ClientHandle, value, ref m_ParamValueType, AntiCheatCommonEventParamType.ClientHandle, this);
+				Helper.Set<System.IntPtr, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_ClientHandle, AntiCheatCommonEventParamType.ClientHandle, ref m_ParamValueType, this);
 			}
 		}
 
-		public string String
+		public Utf8String String
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_String, out value, m_ParamValueType, AntiCheatCommonEventParamType.String);
+				Utf8String value;
+				Helper.Get(m_String, out value, m_ParamValueType, AntiCheatCommonEventParamType.String);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_String, value, ref m_ParamValueType, AntiCheatCommonEventParamType.String, this);
+				Helper.Set<AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_String, AntiCheatCommonEventParamType.String, ref m_ParamValueType, this);
 			}
 		}
 
@@ -272,13 +269,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				uint? value;
-				Helper.TryMarshalGet(m_UInt32, out value, m_ParamValueType, AntiCheatCommonEventParamType.UInt32);
+				Helper.Get(m_UInt32, out value, m_ParamValueType, AntiCheatCommonEventParamType.UInt32);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UInt32, value, ref m_ParamValueType, AntiCheatCommonEventParamType.UInt32, this);
+				Helper.Set<uint, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_UInt32, AntiCheatCommonEventParamType.UInt32, ref m_ParamValueType, this);
 			}
 		}
 
@@ -287,13 +284,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				int? value;
-				Helper.TryMarshalGet(m_Int32, out value, m_ParamValueType, AntiCheatCommonEventParamType.Int32);
+				Helper.Get(m_Int32, out value, m_ParamValueType, AntiCheatCommonEventParamType.Int32);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Int32, value, ref m_ParamValueType, AntiCheatCommonEventParamType.Int32, this);
+				Helper.Set<int, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_Int32, AntiCheatCommonEventParamType.Int32, ref m_ParamValueType, this);
 			}
 		}
 
@@ -302,13 +299,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				ulong? value;
-				Helper.TryMarshalGet(m_UInt64, out value, m_ParamValueType, AntiCheatCommonEventParamType.UInt64);
+				Helper.Get(m_UInt64, out value, m_ParamValueType, AntiCheatCommonEventParamType.UInt64);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UInt64, value, ref m_ParamValueType, AntiCheatCommonEventParamType.UInt64, this);
+				Helper.Set<ulong, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_UInt64, AntiCheatCommonEventParamType.UInt64, ref m_ParamValueType, this);
 			}
 		}
 
@@ -317,13 +314,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				long? value;
-				Helper.TryMarshalGet(m_Int64, out value, m_ParamValueType, AntiCheatCommonEventParamType.Int64);
+				Helper.Get(m_Int64, out value, m_ParamValueType, AntiCheatCommonEventParamType.Int64);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Int64, value, ref m_ParamValueType, AntiCheatCommonEventParamType.Int64, this);
+				Helper.Set<long, AntiCheatCommon.AntiCheatCommonEventParamType>(value, ref m_Int64, AntiCheatCommonEventParamType.Int64, ref m_ParamValueType, this);
 			}
 		}
 
@@ -332,13 +329,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				Vec3f value;
-				Helper.TryMarshalGet(m_Vec3f, out value, m_ParamValueType, AntiCheatCommonEventParamType.Vector3f);
+				Helper.Get(ref m_Vec3f, out value, m_ParamValueType, AntiCheatCommonEventParamType.Vector3f);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Vec3f, value, ref m_ParamValueType, AntiCheatCommonEventParamType.Vector3f, this);
+				Helper.Set(ref value, ref m_Vec3f, AntiCheatCommonEventParamType.Vector3f, ref m_ParamValueType, this);
 			}
 		}
 
@@ -347,42 +344,55 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				Quat value;
-				Helper.TryMarshalGet(m_Quat, out value, m_ParamValueType, AntiCheatCommonEventParamType.Quat);
+				Helper.Get(ref m_Quat, out value, m_ParamValueType, AntiCheatCommonEventParamType.Quat);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Quat, value, ref m_ParamValueType, AntiCheatCommonEventParamType.Quat, this);
+				Helper.Set(ref value, ref m_Quat, AntiCheatCommonEventParamType.Quat, ref m_ParamValueType, this);
 			}
 		}
 
-		public void Set(LogEventParamPairParamValue other)
+		public void Set(ref LogEventParamPairParamValue other)
 		{
-			if (other != null)
+			ClientHandle = other.ClientHandle;
+			String = other.String;
+			UInt32 = other.UInt32;
+			Int32 = other.Int32;
+			UInt64 = other.UInt64;
+			Int64 = other.Int64;
+			Vec3f = other.Vec3f;
+			Quat = other.Quat;
+		}
+
+		public void Set(ref LogEventParamPairParamValue? other)
+		{
+			if (other.HasValue)
 			{
-				ClientHandle = other.ClientHandle;
-				String = other.String;
-				UInt32 = other.UInt32;
-				Int32 = other.Int32;
-				UInt64 = other.UInt64;
-				Int64 = other.Int64;
-				Vec3f = other.Vec3f;
-				Quat = other.Quat;
+				ClientHandle = other.Value.ClientHandle;
+				String = other.Value.String;
+				UInt32 = other.Value.UInt32;
+				Int32 = other.Value.Int32;
+				UInt64 = other.Value.UInt64;
+				Int64 = other.Value.Int64;
+				Vec3f = other.Value.Vec3f;
+				Quat = other.Value.Quat;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogEventParamPairParamValue);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientHandle, m_ParamValueType, AntiCheatCommonEventParamType.ClientHandle);
-			Helper.TryMarshalDispose(ref m_String, m_ParamValueType, AntiCheatCommonEventParamType.String);
-			Helper.TryMarshalDispose(ref m_Vec3f);
-			Helper.TryMarshalDispose(ref m_Quat);
+			Helper.Dispose(ref m_ClientHandle, m_ParamValueType, AntiCheatCommonEventParamType.ClientHandle);
+			Helper.Dispose(ref m_String, m_ParamValueType, AntiCheatCommonEventParamType.String);
+			Helper.Dispose(ref m_Vec3f);
+			Helper.Dispose(ref m_Quat);
+		}
+
+		public void Get(out LogEventParamPairParamValue output)
+		{
+			output = new LogEventParamPairParamValue();
+			output.Set(ref this);
 		}
 	}
 }

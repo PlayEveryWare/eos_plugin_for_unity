@@ -24,6 +24,11 @@ namespace Epic.OnlineServices.CustomInvites
 		public const int AddnotifycustominvitereceivedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyCustomInviteRejected" /> API.
+		/// </summary>
+		public const int AddnotifycustominviterejectedApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="FinalizeInvite" /> API.
 		/// </summary>
 		public const int FinalizeinviteApiLatest = 1;
@@ -44,8 +49,9 @@ namespace Epic.OnlineServices.CustomInvites
 		public const int SetcustominviteApiLatest = 1;
 
 		/// <summary>
-		/// Register to receive notifications when a Custom Invite for any logged in local users is accepted via the Social Overlay
-		/// @note must call <see cref="RemoveNotifyCustomInviteAccepted" /> to remove the notification
+		/// Register to receive notifications when a Custom Invite for any logged in local user is accepted via the Social Overlay
+		/// Invites accepted in this way still need to have FinalizeInvite called on them after you have finished processing the invite accept (e.g. after joining the game)
+		/// must call EOS_CustomInvites_RemoveNotifyCustomInviteAccepted to remove the notification
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -53,28 +59,28 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifyCustomInviteAccepted(AddNotifyCustomInviteAcceptedOptions options, object clientData, OnCustomInviteAcceptedCallback notificationFn)
+		public ulong AddNotifyCustomInviteAccepted(ref AddNotifyCustomInviteAcceptedOptions options, object clientData, OnCustomInviteAcceptedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyCustomInviteAcceptedOptionsInternal, AddNotifyCustomInviteAcceptedOptions>(ref optionsAddress, options);
+			AddNotifyCustomInviteAcceptedOptionsInternal optionsInternal = new AddNotifyCustomInviteAcceptedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnCustomInviteAcceptedCallbackInternal(OnCustomInviteAcceptedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_CustomInvites_AddNotifyCustomInviteAccepted(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_CustomInvites_AddNotifyCustomInviteAccepted(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
 
 		/// <summary>
-		/// Register to receive notifications when a Custom Invite for any logged in local users is received
-		/// @note must call <see cref="RemoveNotifyCustomInviteReceived" /> to remove the notification
+		/// Register to receive notifications when a Custom Invite for any logged in local user is received
+		/// must call EOS_CustomInvites_RemoveNotifyCustomInviteReceived to remove the notification
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -82,21 +88,51 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifyCustomInviteReceived(AddNotifyCustomInviteReceivedOptions options, object clientData, OnCustomInviteReceivedCallback notificationFn)
+		public ulong AddNotifyCustomInviteReceived(ref AddNotifyCustomInviteReceivedOptions options, object clientData, OnCustomInviteReceivedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyCustomInviteReceivedOptionsInternal, AddNotifyCustomInviteReceivedOptions>(ref optionsAddress, options);
+			AddNotifyCustomInviteReceivedOptionsInternal optionsInternal = new AddNotifyCustomInviteReceivedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnCustomInviteReceivedCallbackInternal(OnCustomInviteReceivedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_CustomInvites_AddNotifyCustomInviteReceived(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_CustomInvites_AddNotifyCustomInviteReceived(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications when a Custom Invite for any logged in local user is rejected via the Social Overlay
+		/// Invites rejected in this way do not need to have FinalizeInvite called on them, it is called automatically internally by the SDK.
+		/// must call EOS_CustomInvites_RemoveNotifyCustomInviteRejected to remove the notification
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a Custom Invite is rejected via the Social Overlay.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifyCustomInviteRejected(ref AddNotifyCustomInviteRejectedOptions options, object clientData, OnCustomInviteRejectedCallback notificationFn)
+		{
+			AddNotifyCustomInviteRejectedOptionsInternal optionsInternal = new AddNotifyCustomInviteRejectedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnCustomInviteRejectedCallbackInternal(OnCustomInviteRejectedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_CustomInvites_AddNotifyCustomInviteRejected(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -109,38 +145,49 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the option values are incorrect
 		/// </returns>
-		public Result FinalizeInvite(FinalizeInviteOptions options)
+		public Result FinalizeInvite(ref FinalizeInviteOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<FinalizeInviteOptionsInternal, FinalizeInviteOptions>(ref optionsAddress, options);
+			FinalizeInviteOptionsInternal optionsInternal = new FinalizeInviteOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_CustomInvites_FinalizeInvite(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_CustomInvites_FinalizeInvite(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		/// <summary>
-		/// Unregister from receiving notifications when a Custom Invite for any logged in local users is accepted via the Social Overlay
+		/// Unregister from receiving notifications when a Custom Invite for any logged in local user is accepted via the Social Overlay
 		/// </summary>
 		/// <param name="inId">Handle representing the registered callback</param>
 		public void RemoveNotifyCustomInviteAccepted(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_CustomInvites_RemoveNotifyCustomInviteAccepted(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
-		/// Unregister from receiving notifications when a Custom Invite for any logged in local users is received
+		/// Unregister from receiving notifications when a Custom Invite for any logged in local user is received
 		/// </summary>
 		/// <param name="inId">Handle representing the registered callback</param>
 		public void RemoveNotifyCustomInviteReceived(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_CustomInvites_RemoveNotifyCustomInviteReceived(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when a Custom Invite for any logged in local user is rejected via the Social Overlay
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifyCustomInviteRejected(ulong inId)
+		{
+			Bindings.EOS_CustomInvites_RemoveNotifyCustomInviteRejected(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -155,71 +202,84 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <see cref="Result.TooManyRequests" /> if the number of allowed queries is exceeded
 		/// <see cref="Result.NotFound" /> if SetCustomInvite has not been previously successfully called for this user
 		/// </returns>
-		public void SendCustomInvite(SendCustomInviteOptions options, object clientData, OnSendCustomInviteCallback completionDelegate)
+		public void SendCustomInvite(ref SendCustomInviteOptions options, object clientData, OnSendCustomInviteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SendCustomInviteOptionsInternal, SendCustomInviteOptions>(ref optionsAddress, options);
+			SendCustomInviteOptionsInternal optionsInternal = new SendCustomInviteOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnSendCustomInviteCallbackInternal(OnSendCustomInviteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_CustomInvites_SendCustomInvite(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_CustomInvites_SendCustomInvite(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
 		/// Initializes a Custom Invite with a specified payload in preparation for it to be sent to another user or users.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
+		/// <param name="completionDelegate">A callback that is fired when the operation completes, either successfully or in error</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
 		/// </returns>
-		public Result SetCustomInvite(SetCustomInviteOptions options)
+		public Result SetCustomInvite(ref SetCustomInviteOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SetCustomInviteOptionsInternal, SetCustomInviteOptions>(ref optionsAddress, options);
+			SetCustomInviteOptionsInternal optionsInternal = new SetCustomInviteOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_CustomInvites_SetCustomInvite(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_CustomInvites_SetCustomInvite(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		[MonoPInvokeCallback(typeof(OnCustomInviteAcceptedCallbackInternal))]
-		internal static void OnCustomInviteAcceptedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnCustomInviteAcceptedCallbackInternalImplementation(ref OnCustomInviteAcceptedCallbackInfoInternal data)
 		{
 			OnCustomInviteAcceptedCallback callback;
 			OnCustomInviteAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnCustomInviteAcceptedCallback, OnCustomInviteAcceptedCallbackInfoInternal, OnCustomInviteAcceptedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnCustomInviteReceivedCallbackInternal))]
-		internal static void OnCustomInviteReceivedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnCustomInviteReceivedCallbackInternalImplementation(ref OnCustomInviteReceivedCallbackInfoInternal data)
 		{
 			OnCustomInviteReceivedCallback callback;
 			OnCustomInviteReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnCustomInviteReceivedCallback, OnCustomInviteReceivedCallbackInfoInternal, OnCustomInviteReceivedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnCustomInviteRejectedCallbackInternal))]
+		internal static void OnCustomInviteRejectedCallbackInternalImplementation(ref CustomInviteRejectedCallbackInfoInternal data)
+		{
+			OnCustomInviteRejectedCallback callback;
+			CustomInviteRejectedCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnSendCustomInviteCallbackInternal))]
-		internal static void OnSendCustomInviteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnSendCustomInviteCallbackInternalImplementation(ref SendCustomInviteCallbackInfoInternal data)
 		{
 			OnSendCustomInviteCallback callback;
 			SendCustomInviteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnSendCustomInviteCallback, SendCustomInviteCallbackInfoInternal, SendCustomInviteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

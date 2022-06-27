@@ -40,25 +40,24 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		}
 
 		/// <summary>
-		/// Get the file name of the file this request is for. OutStringLength will always be set to the string length of the file name if it is not NULL.
+		/// Get the file name of the file this request is for. OutStringLength will always be set to the string length of the file name if it is not <see langword="null" />.
 		/// <seealso cref="PlayerDataStorageInterface.FilenameMaxLengthBytes" />
 		/// </summary>
 		/// <param name="filenameStringBufferSizeBytes">The maximum number of bytes that can be written to OutStringBuffer</param>
-		/// <param name="outStringBuffer">The buffer to write the NULL-terminated utf8 file name into, if successful</param>
+		/// <param name="outStringBuffer">The buffer to write the <see langword="null" />-terminated utf8 file name into, if successful</param>
 		/// <param name="outStringLength">How long the file name is (not including null terminator)</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the file name was successfully written to OutFilenameBuffer, a failure result otherwise
 		/// </returns>
-		public Result GetFilename(out string outStringBuffer)
+		public Result GetFilename(out Utf8String outStringBuffer)
 		{
-			System.IntPtr outStringBufferAddress = System.IntPtr.Zero;
 			int outStringLength = PlayerDataStorageInterface.FilenameMaxLengthBytes;
-			Helper.TryMarshalAllocate(ref outStringBufferAddress, outStringLength);
+			System.IntPtr outStringBufferAddress = Helper.AddAllocation(outStringLength);
 
 			var funcResult = Bindings.EOS_PlayerDataStorageFileTransferRequest_GetFilename(InnerHandle, (uint)outStringLength, outStringBufferAddress, ref outStringLength);
 
-			Helper.TryMarshalGet(outStringBufferAddress, out outStringBuffer);
-			Helper.TryMarshalDispose(ref outStringBufferAddress);
+			Helper.Get(outStringBufferAddress, out outStringBuffer);
+			Helper.Dispose(ref outStringBufferAddress);
 
 			return funcResult;
 		}

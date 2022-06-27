@@ -7,52 +7,44 @@ namespace Epic.OnlineServices.Lobby
 	/// An attribute and its visibility setting stored with a lobby.
 	/// Used to store both lobby and lobby member data
 	/// </summary>
-	public class Attribute : ISettable
+	public struct Attribute
 	{
 		/// <summary>
 		/// Key/Value pair describing the attribute
 		/// </summary>
-		public AttributeData Data { get; set; }
+		public AttributeData? Data { get; set; }
 
 		/// <summary>
 		/// Is this attribute public or private to the lobby and its members
 		/// </summary>
 		public LobbyAttributeVisibility Visibility { get; set; }
 
-		internal void Set(AttributeInternal? other)
+		internal void Set(ref AttributeInternal other)
 		{
-			if (other != null)
-			{
-				Data = other.Value.Data;
-				Visibility = other.Value.Visibility;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AttributeInternal?);
+			Data = other.Data;
+			Visibility = other.Visibility;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AttributeInternal : ISettable, System.IDisposable
+	internal struct AttributeInternal : IGettable<Attribute>, ISettable<Attribute>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Data;
 		private LobbyAttributeVisibility m_Visibility;
 
-		public AttributeData Data
+		public AttributeData? Data
 		{
 			get
 			{
-				AttributeData value;
-				Helper.TryMarshalGet<AttributeDataInternal, AttributeData>(m_Data, out value);
+				AttributeData? value;
+				Helper.Get<AttributeDataInternal, AttributeData>(m_Data, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<AttributeDataInternal, AttributeData>(ref m_Data, value);
+				Helper.Set<AttributeData, AttributeDataInternal>(ref value, ref m_Data);
 			}
 		}
 
@@ -69,24 +61,32 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(Attribute other)
+		public void Set(ref Attribute other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyInterface.AttributeApiLatest;
-				Data = other.Data;
-				Visibility = other.Visibility;
-			}
+			m_ApiVersion = LobbyInterface.AttributeApiLatest;
+			Data = other.Data;
+			Visibility = other.Visibility;
 		}
 
-		public void Set(object other)
+		public void Set(ref Attribute? other)
 		{
-			Set(other as Attribute);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyInterface.AttributeApiLatest;
+				Data = other.Value.Data;
+				Visibility = other.Value.Visibility;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Data);
+			Helper.Dispose(ref m_Data);
+		}
+
+		public void Get(out Attribute output)
+		{
+			output = new Attribute();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Stats
 	/// <summary>
 	/// Contains information about a single player stat.
 	/// </summary>
-	public class Stat : ISettable
+	public struct Stat
 	{
 		/// <summary>
 		/// Name of the stat.
 		/// </summary>
-		public string Name { get; set; }
+		public Utf8String Name { get; set; }
 
 		/// <summary>
 		/// If not <see cref="StatsInterface.TimeUndefined" /> then this is the POSIX timestamp for start time.
@@ -28,25 +28,17 @@ namespace Epic.OnlineServices.Stats
 		/// </summary>
 		public int Value { get; set; }
 
-		internal void Set(StatInternal? other)
+		internal void Set(ref StatInternal other)
 		{
-			if (other != null)
-			{
-				Name = other.Value.Name;
-				StartTime = other.Value.StartTime;
-				EndTime = other.Value.EndTime;
-				Value = other.Value.Value;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as StatInternal?);
+			Name = other.Name;
+			StartTime = other.StartTime;
+			EndTime = other.EndTime;
+			Value = other.Value;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct StatInternal : ISettable, System.IDisposable
+	internal struct StatInternal : IGettable<Stat>, ISettable<Stat>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Name;
@@ -54,18 +46,18 @@ namespace Epic.OnlineServices.Stats
 		private long m_EndTime;
 		private int m_Value;
 
-		public string Name
+		public Utf8String Name
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Name, out value);
+				Utf8String value;
+				Helper.Get(m_Name, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Name, value);
+				Helper.Set(value, ref m_Name);
 			}
 		}
 
@@ -74,13 +66,13 @@ namespace Epic.OnlineServices.Stats
 			get
 			{
 				System.DateTimeOffset? value;
-				Helper.TryMarshalGet(m_StartTime, out value);
+				Helper.Get(m_StartTime, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_StartTime, value);
+				Helper.Set(value, ref m_StartTime);
 			}
 		}
 
@@ -89,13 +81,13 @@ namespace Epic.OnlineServices.Stats
 			get
 			{
 				System.DateTimeOffset? value;
-				Helper.TryMarshalGet(m_EndTime, out value);
+				Helper.Get(m_EndTime, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_EndTime, value);
+				Helper.Set(value, ref m_EndTime);
 			}
 		}
 
@@ -112,26 +104,36 @@ namespace Epic.OnlineServices.Stats
 			}
 		}
 
-		public void Set(Stat other)
+		public void Set(ref Stat other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = StatsInterface.StatApiLatest;
-				Name = other.Name;
-				StartTime = other.StartTime;
-				EndTime = other.EndTime;
-				Value = other.Value;
-			}
+			m_ApiVersion = StatsInterface.StatApiLatest;
+			Name = other.Name;
+			StartTime = other.StartTime;
+			EndTime = other.EndTime;
+			Value = other.Value;
 		}
 
-		public void Set(object other)
+		public void Set(ref Stat? other)
 		{
-			Set(other as Stat);
+			if (other.HasValue)
+			{
+				m_ApiVersion = StatsInterface.StatApiLatest;
+				Name = other.Value.Name;
+				StartTime = other.Value.StartTime;
+				EndTime = other.Value.EndTime;
+				Value = other.Value.Value;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Name);
+			Helper.Dispose(ref m_Name);
+		}
+
+		public void Get(out Stat output)
+		{
+			output = new Stat();
+			output.Set(ref this);
 		}
 	}
 }
