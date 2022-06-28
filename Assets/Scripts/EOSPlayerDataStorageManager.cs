@@ -379,11 +379,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
 
-                if (transfer.Data.Count + data.Length <= transfer.TotalSize)
+                if (isLastChunk)//transfer.TotalSize - transfer.CurrentIndex >= numBytes)
                 {
                     data.Array.CopyTo(transfer.Data, transfer.CurrentIndex);
 
-                    transfer.CurrentIndex += (uint)(data.Length);
+                    transfer.CurrentIndex = transfer.TotalSize; // Done
 
                     return ReadResult.ContinueReading;
                 }
@@ -418,12 +418,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (bytesToWrite > 0)
                 {
-<<<<<<< HEAD
-                    char[] charArray = transfer.Data.GetRange((int)(transfer.CurrentIndex), (int)bytesToWrite).ToArray();
-                    data = System.Text.Encoding.UTF8.GetBytes(charArray);
-=======
                     data = new ArraySegment<byte>(transfer.Data, (int)transfer.CurrentIndex, (int)bytesToWrite);
->>>>>>> 4dcedfd (Merge pull request #2 from PlayEveryWare/development-1.0.5)
                 }
 
                 transfer.CurrentIndex += bytesToWrite;

@@ -20,7 +20,6 @@
 * SOFTWARE.
 */
 
-using System.Collections.Generic;
 using Epic.OnlineServices.PlayerDataStorage;
 using UnityEngine;
 
@@ -33,9 +32,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class EOSTransferInProgress
     {
         public bool Download = true;
-        private uint transferSize = 0;
         public uint CurrentIndex = 0;
         public byte[] Data;
+        private uint transferSize = 0;
 
         public uint TotalSize
         {
@@ -45,18 +44,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             set
             {
-                //reserve list size to avoid reallocation during download
                 transferSize = value;
 
                 if (transferSize > PlayerDataStorageInterface.FileMaxSizeBytes)
                 {
                     Debug.LogError("[EOS SDK] Player data storage: data transfer size exceeds max file size.");
                     transferSize = PlayerDataStorageInterface.FileMaxSizeBytes;
-                }
-
-                if (transferSize > Data.Count)
-                {
-                    Data.Capacity = (int)transferSize;
                 }
             }
         }

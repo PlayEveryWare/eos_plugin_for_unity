@@ -121,7 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Stats = new IngestData[] { new IngestData() { StatName = "login_count", IngestAmount = 1 } }
             };
 
-            statsInterface.IngestStat(ingestOptions, null, (IngestStatCompleteCallbackInfo info) =>
+            statsInterface.IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo info) =>
             {
                 Debug.LogFormat("Stat ingest result: {0}", info.ResultCode.ToString());
             });
@@ -138,10 +138,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
 
-            achievementManager.UnlockAchievementManually(definition.AchievementId, EOSManager.Instance.GetProductUserId(), (OnUnlockAchievementsCompleteCallbackInfo info) =>
-            {
-                Debug.LogFormat("Achivement unlock result: {0}", info.ResultCode.ToString());
-            });
+            achievementManager.UnlockAchievementManually(definition.AchievementId);
         }
 
         // Achievements
@@ -216,17 +213,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //Show player-specific achievement data
         void DisplayPlayerAchievement(DefinitionV2 definition)
         {
-            PlayerAchievement achievement = null;
+            PlayerAchievement? achievementNullable = null;
             foreach (var ach in achievementManager.EnumerateCachedPlayerAchievement(EOSManager.Instance.GetProductUserId()))
             {
                 if (ach.AchievementId == definition.AchievementId)
                 {
-                    achievement = ach;
+                    achievementNullable = ach;
                     break;
                 }
             }
 
-            if (achievement == null)
+            if (achievementNullable == null)
             {
                 definitionsDescription.text = "Player achievement info not found.";
                 definitionsDescription.gameObject.SetActive(true);
@@ -235,6 +232,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            PlayerAchievement achievement = achievementNullable.Value;
             string selectedDescription = string.Format(
                 "Id: {0}\nDisplay Name: {1}\nDescription: {2}\nProgress: {3}\nUnlock Time: {4}\n",
                 achievement.AchievementId, achievement.DisplayName, achievement.Description, achievement.Progress, achievement.UnlockTime);
