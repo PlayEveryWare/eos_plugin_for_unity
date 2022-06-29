@@ -191,14 +191,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         UIMemberEntry uiEntry = memberUIObj.GetComponent<UIMemberEntry>();
                         if (uiEntry != null)
                         {
-                            Result result = member.ProductId.ToString(out Utf8String outBuff);
-                            if (result == Result.Success)
+                            string displayName = member.DisplayName;
+                            if (!string.IsNullOrEmpty(displayName))
                             {
-                                uiEntry.MemberName = outBuff;
+                                uiEntry.MemberName = displayName;
                             }
                             else
                             {
-                                uiEntry.MemberName = "Error: " + result;
+                                Result result = member.ProductId.ToString(out Utf8String outBuff);
+                                if (result == Result.Success)
+                                {
+                                    uiEntry.MemberName = outBuff;
+                                }
+                                else
+                                {
+                                    uiEntry.MemberName = "Error: " + result;
+                                }
                             }
 
                             uiEntry.ProductUserId = member.ProductId;

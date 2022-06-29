@@ -358,10 +358,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// </summary>
     public class LobbyMember
     {
-        public EpicAccountId AccountId;
+        //public EpicAccountId AccountId;
         public ProductUserId ProductId;
 
-        public string DisplayName;
+        public string DisplayName
+        {
+            get
+            {
+                MemberAttributes.TryGetValue(DisplayNameKey, out LobbyAttribute nameAttrib);
+                return nameAttrib?.AsString ?? string.Empty;
+            }
+        }
+
+        public const string DisplayNameKey = "DisplayName";
+
         public Dictionary<string, LobbyAttribute> MemberAttributes = new Dictionary<string, LobbyAttribute>();
 
         public LobbyRTCState RTCState = new LobbyRTCState();
@@ -454,10 +464,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public delegate void OnLobbyCallback(Result result);
         public delegate void OnLobbySearchCallback(Result result);
 
+        private EOSUserInfoManager UserInfoManager;
+
         // Init
 
         public EOSLobbyManager()
         {
+            UserInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
+
             CurrentLobby = new Lobby();
             ActiveJoin = new LobbyJoinRequest();
 
@@ -1251,6 +1265,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 _Dirty = true;
+
+                AddLocalUserAttributes();
 
                 LobbyCreatedCallback?.Invoke(Result.Success);
             }
@@ -2084,6 +2100,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().GetAudioOutputDevicesCount(ref audioOutputOptions);
         }
 
+        private void AddLocalUserAttributes()
+        {
+            string localUserDisplayName = UserInfoManager.GetLocalUserInfo().DisplayName;
+
+            if (!string.IsNullOrEmpty(localUserDisplayName))
+            {
+                LobbyAttribute nameAttrib = new LobbyAttribute() { Key = LobbyMember.DisplayNameKey, AsString = localUserDisplayName };
+                SetMemberAttribute(nameAttrib);
+            }
+        }
+
         // Join Events
 
         //-------------------------------------------------------------------------
@@ -2175,6 +2202,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             _Dirty = true;
 
             PopLobbyInvite();
+
+            AddLocalUserAttributes();
 
             JoinLobbyCallback?.Invoke(Result.Success);
         }
