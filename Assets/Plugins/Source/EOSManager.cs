@@ -435,7 +435,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR
                     Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
 #else
-                    Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Verbose);
+                    Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 #endif
 
                     InitializeOverlay(coroutineOwner);
@@ -482,7 +482,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_hasInitializedPlatform = true;
 
                 Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
-                Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Verbose);
+                Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 
 
                 var eosPlatformInterface = CreatePlatformInterface(configData);
