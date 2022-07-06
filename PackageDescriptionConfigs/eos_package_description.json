@@ -123,6 +123,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Friends/*.cs", "dest": "Runtime/EOS_SDK/Generated/Friends/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Friends/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Friends/"},
 
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform/*.cs", "dest": "Runtime/EOS_SDK/Generated/IntegratedPlatform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IntegratedPlatform/"},
+        
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS/*.cs", "dest": "Runtime/EOS_SDK/Generated/KWS/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/KWS/"},
@@ -208,6 +212,8 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
