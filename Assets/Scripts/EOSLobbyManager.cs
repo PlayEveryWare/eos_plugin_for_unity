@@ -274,6 +274,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public LobbyAttributeVisibility Visibility = LobbyAttributeVisibility.Public;
 
         public AttributeType ValueType = AttributeType.String;
+
+        //Key is uppercased when transmitted, so this should be uppercase
         public string Key;
 
         //Only one of the following properties will have valid data (depending on 'ValueType')
@@ -370,7 +372,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public const string DisplayNameKey = "DisplayName";
+        public const string DisplayNameKey = "DISPLAYNAME";
 
         public Dictionary<string, LobbyAttribute> MemberAttributes = new Dictionary<string, LobbyAttribute>();
 
@@ -464,6 +466,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public delegate void OnLobbyCallback(Result result);
         public delegate void OnLobbySearchCallback(Result result);
 
+        public delegate void OnMemberUpdateCallback(string LobbyId, ProductUserId MemberId);
+
+        private List<OnMemberUpdateCallback> MemberUpdateCallbacks;
+
         private EOSUserInfoManager UserInfoManager;
 
         // Init
@@ -489,6 +495,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             JoinLobbyCallback = null;
             LeaveLobbyCallback = null;
             LobbySearchCallback = null;
+
+            MemberUpdateCallbacks = new List<OnMemberUpdateCallback>();
         }
 
         public Lobby GetCurrentLobby()
@@ -1731,8 +1739,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Debug.Log("Lobbies (OnMemberUpdateReceived): Member update received.");
             OnLobbyUpdated(data.LobbyId, null);
+
+            foreach (var callback in MemberUpdateCallbacks)
+            {
+                callback?.Invoke(data.LobbyId, data.TargetUserId);
+            }
         }
 
+        public void SubscribeToMemberUpdates(OnMemberUpdateCallback Callback)
+        {
+            MemberUpdateCallbacks.Add(Callback);
+        }
+
+        public void UnsubscribeFromMemberUpdates(OnMemberUpdateCallback Callback)
+        {
+            MemberUpdateCallbacks.Remove(Callback);
+        }
 
         // Search Events
 
