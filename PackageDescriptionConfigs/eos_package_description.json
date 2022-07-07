@@ -16,6 +16,8 @@
         {"src":"docs/configuring_the_eos_plugin.md", "dest" : "Documentation~/"},
         {"src":"docs/custom_eos_config_location.md", "dest" : "Documentation~/"},
 
+        {"src":"docs/images/*", "dest" : "Documentation~/images/"},
+
         {"src":"Assets/Plugins/com.playeveryware.eos.asmdef", "dest": "Runtime/"},
         {"src":"Assets/Plugins/com.playeveryware.eos.asmdef.meta", "dest": "Runtime/"},
 
@@ -45,8 +47,8 @@
         {"src":"Assets/Plugins/Windows/x86.meta", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll.meta", "dest": "Runtime/Windows/x86/"},
-        {"src":"Assets/Plugins/Windows/x86/*.lib", "dest": "Runtime/windows/x86/"},
-        {"src":"Assets/Plugins/Windows/x86/*.lib.meta", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.lib", "dest": "Runtime/Windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.lib.meta", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/license.txt", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/license.txt.meta", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt", "dest": "Runtime/windows/x86/"},
