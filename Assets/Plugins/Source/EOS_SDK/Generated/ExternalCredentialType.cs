@@ -32,10 +32,10 @@ namespace Epic.OnlineServices
 		/// Generated using the ISteamUser::RequestEncryptedAppTicket API of Steamworks SDK.
 		/// For ticket generation parameters, use pDataToInclude(NULL) and cbDataToInclude(0).
 		/// 
-		/// The retrieved App Ticket byte buffer needs to be converted into a hex-encoded UTF-8 string (e.g. "FA87097A..") before passing it to the <see cref="Auth.AuthInterface.Login" /> or <see cref="Connect.ConnectInterface.Login" /> APIs.
+		/// The retrieved App Ticket byte buffer needs to be converted into a hex-encoded UTF-8 string (e.g. "FA87097A..") before passing it to the <see cref="Connect.ConnectInterface.Login" /> API.
 		/// <see cref="Common.ToString" /> can be used for this conversion.
 		/// 
-		/// Supported with <see cref="Auth.AuthInterface.Login" />, <see cref="Connect.ConnectInterface.Login" />.
+		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
 		/// </summary>
 		SteamAppTicket = 1,
 		/// <summary>
@@ -186,6 +186,17 @@ namespace Epic.OnlineServices
 		/// 
 		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
 		/// </summary>
-		AmazonAccessToken = 17
+		AmazonAccessToken = 17,
+		/// <summary>
+		/// Steam Auth Session Ticket
+		/// 
+		/// Generated using the ISteamUser::GetAuthSessionTicket API of Steamworks SDK.
+		/// 
+		/// The retrieved Auth Session Ticket byte buffer needs to be converted into a hex-encoded UTF-8 string (e.g. "FA87097A..") before passing it to the <see cref="Auth.AuthInterface.Login" /> or <see cref="Connect.ConnectInterface.Login" /> APIs.
+		/// <see cref="Common.ToString" /> can be used for this conversion.
+		/// 
+		/// Supported with <see cref="Auth.AuthInterface.Login" />, <see cref="Connect.ConnectInterface.Login" />.
+		/// </summary>
+		SteamSessionTicket = 18
 	}
 }
