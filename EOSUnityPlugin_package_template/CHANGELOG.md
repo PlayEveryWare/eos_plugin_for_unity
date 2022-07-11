@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [1.0.5] - 2002-07-11
+
+### Changed
+- Update to EOS SDK with Steam hotfix
+
 ## [1.0.4] - 2022-03-15
 
 ### Added
