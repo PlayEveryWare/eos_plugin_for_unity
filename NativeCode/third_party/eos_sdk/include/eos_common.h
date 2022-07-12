@@ -354,10 +354,10 @@ EOS_ENUM(EOS_EExternalCredentialType,
 	 * Generated using the ISteamUser::RequestEncryptedAppTicket API of Steamworks SDK.
 	 * For ticket generation parameters, use pDataToInclude(NULL) and cbDataToInclude(0).
 	 *
-	 * The retrieved App Ticket byte buffer needs to be converted into a hex-encoded UTF-8 string (e.g. "FA87097A..") before passing it to the EOS_Auth_Login or EOS_Connect_Login APIs.
+	 * The retrieved App Ticket byte buffer needs to be converted into a hex-encoded UTF-8 string (e.g. "FA87097A..") before passing it to the EOS_Connect_Login API.
 	 * EOS_ByteArray_ToString can be used for this conversion.
 	 *
-	 * Supported with EOS_Auth_Login, EOS_Connect_Login.
+	 * Supported with EOS_Connect_Login.
 	 */
 	EOS_ECT_STEAM_APP_TICKET = 1,
 	/**
@@ -509,7 +509,18 @@ EOS_ENUM(EOS_EExternalCredentialType,
 	 *
 	 * Supported with EOS_Connect_Login.
 	 */
-	EOS_ECT_AMAZON_ACCESS_TOKEN = 17
+	EOS_ECT_AMAZON_ACCESS_TOKEN = 17,
+	/**
+	 * Steam Auth Session Ticket
+	 *
+	 * Generated using the ISteamUser::GetAuthSessionTicket API of Steamworks SDK.
+	 *
+	 * The retrieved Auth Session Ticket byte buffer needs to be converted into a hex-encoded UTF-8 string (e.g. "FA87097A..") before passing it to the EOS_Auth_Login or EOS_Connect_Login APIs.
+	 * EOS_ByteArray_ToString can be used for this conversion.
+	 *
+	 * Supported with EOS_Auth_Login, EOS_Connect_Login.
+	 */
+	EOS_ECT_STEAM_SESSION_TICKET = 18
 );
 
 #pragma pack(pop)
