@@ -55,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented file transfer of files that don't fit within one chunk.
 - Text box for file storage demo is now multiline.
 - Set LibraryName when using EOS_DISABLE directive.
+- Changed sample scenes to use old input system.
 
 ## [1.0.4] - 2022-03-18
 
