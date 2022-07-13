@@ -33,6 +33,9 @@ using Epic.OnlineServices.AntiCheatCommon;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class <c>EOSEACLobbyTestManager</c> manages testing functionality for the <c>EOSAntiCheatClientManager</c> using <c>EOSLobbyManager</c> to manage peer communication.
+    /// </summary>
     public class EOSEACLobbyTestManager : IEOSSubManager
     {
         private EOSLobbyManager LobbyManager;

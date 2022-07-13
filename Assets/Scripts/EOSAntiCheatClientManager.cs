@@ -46,6 +46,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private bool SessionActive = false;
 
+        //peer handles represent the index into this list
+        //in a real use case handles would ideally represent a pointer to player data or object
         List<ProductUserId> RegisteredPeerList;
         Dictionary<ProductUserId, int> RegisteredPeerMapping;
 
@@ -129,6 +131,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Use to access functionality of [EOS_AntiCheatClient_AddNotifyClientIntegrityViolated](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyClientIntegrityViolated/index.html)
+        /// </summary>
+        /// <param name="Callback">Callback to receive notification of client integriy violation (modification of program memory or protected files, etc.</param>
+        public void SubscribeToClientIntegrityViolated(OnClientIntegrityViolatedCallback Callback)
+        {
+            ClientIntegrityViolatedCallbacks.Add(Callback);
+        }
+
+        public void UnsubscribeFromClientIntegrityViolated(OnClientIntegrityViolatedCallback Callback)
+        {
+            ClientIntegrityViolatedCallbacks.Remove(Callback);
+        }
+
         private void OnMessageToPeer(ref OnMessageToClientCallbackInfo data)
         {
             Debug.Log("AntiCheatClient (OnMessageToPeer)");
@@ -138,6 +154,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Use to access functionality of [EOS_AntiCheatClient_AddNotifyMessageToPeer](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyMessageToPeer/index.html)
+        /// </summary>
+        /// <param name="Callback">Callback to receive message data to send to peer</param>
         public void SubscribeToMessageToPeer(OnMessageToPeerCallback Callback)
         {
             MessageToPeerCallbacks.Add(Callback);
@@ -148,6 +168,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             MessageToPeerCallbacks.Remove(Callback);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_AntiCheatClient_ReceiveMessageFromPeer]https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_ReceiveMessageFromPeer/index.html)
+        /// </summary>
+        /// <param name="PeerHandle"><c>IntPtr</c> referencing another player</param>
+        /// <param name="Data"><c>ArraySegment of bytes</c> previously received from SubscribeToMessageToPeer callback</param>
         public void ReceiveMessageFromPeer(IntPtr PeerHandle, ArraySegment<byte> Data)
         {
             var options = new ReceiveMessageFromPeerOptions()
@@ -172,6 +197,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Use to access functionality of [EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged/index.html)
+        /// </summary>
+        /// <param name="Callback">Callback to receive notification when peer auth is complete</param>
+        public void SubscribeToPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback Callback)
+        {
+            PeerAuthStatusChangedCallbacks.Add(Callback);
+        }
+
+        public void UnsubscribeFromPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback Callback)
+        {
+            PeerAuthStatusChangedCallbacks.Remove(Callback);
+        }
+
         private void OnPeerActionRequired(ref OnClientActionRequiredCallbackInfo data)
         {
             Debug.Log("AntiCheatClient (OnPeerActionRequired)");
@@ -181,6 +220,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Use to access functionality of [EOS_AntiCheatClient_AddNotifyPeerActionRequired](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyPeerActionRequired/index.html)
+        /// </summary>
+        /// <param name="Callback">Callback to receive notification about action required for a peer (usually removal from the session)</param>
         public void SubscribeToPeerActionRequired(OnPeerActionRequiredCallback Callback)
         {
             PeerActionRequiredCallbacks.Add(Callback);
@@ -210,15 +253,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return new IntPtr(handle);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_AntiCheatClient_RegisterPeer](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_RegisterPeer/index.html)
+        /// TODO: Use ID tokens to verify player platform to determine whether their client must be protected or not (console players would use UnprotectedClient)
+        /// </summary>
+        /// <param name="UserId"><c>ProductUserId</c> of peer to register</param>
+        /// /// <returns>True if peer was successfully registered, or was already registered</returns>
         public bool RegisterPeer(ProductUserId UserId)
         {
-            int peerIndex = RegisteredPeerList.Count;
-            bool newPeer = true;
-            if (RegisteredPeerMapping.ContainsKey(UserId))
+            if (IsRegisteredPeer(UserId))
             {
-                peerIndex = RegisteredPeerMapping[UserId];
-                newPeer = false;
+                Debug.LogWarning("AntiCheatClient (RegisterPeer): peer already registered");
+                return true;
             }
+
+            int peerIndex = RegisteredPeerList.Count;
             var options = new RegisterPeerOptions()
             {
                 PeerHandle = new IntPtr(peerIndex),
@@ -232,10 +281,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result == Result.Success)
             {
                 RegisteredPeerMapping[UserId] = peerIndex;
-                if (newPeer)
-                {
-                    RegisteredPeerList.Add(UserId);
-                }
 
                 Debug.Log("AntiCheatClient (RegisterPeer): successfully registered peer");
                 return true;
@@ -252,12 +297,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return RegisteredPeerMapping.ContainsKey(UserId);
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_AntiCheatClient_UnregisterPeer](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_UnregisterPeer/index.html)
+        /// </summary>
+        /// <param name="UserId"><c>ProductUserId</c> of peer to unregister</param>
+        /// <returns>True if peer was successfully unregistered, or was already not registered</returns>
         public bool UnregisterPeer(ProductUserId UserId)
         {
             int peerIndex;
             if (!RegisteredPeerMapping.TryGetValue(UserId, out peerIndex))
             {
                 Debug.LogWarning("AntiCheatClient (UnregisterPeer): peer not registered");
+                return true;
             }
 
             var options = new UnregisterPeerOptions()
@@ -280,6 +331,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_AntiCheatClient_BeginSession](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_BeginSession/index.html)
+        /// TODO: Add support for client-server mode
+        /// </summary>
         public void BeginSession()
         {
             if (SessionActive)
@@ -300,6 +355,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Wrapper for calling [EOS_AntiCheatClient_EndSession](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_EndSession/index.html)
+        /// </summary>
         public void EndSession()
         {
             if (!SessionActive)
@@ -335,7 +393,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("AntiCheatClient (GetLocalIdToken): failed to copy local user id token");
             }
         }
-
+    
+        //used to verify an ID token
+        //currently does not successfully get platform or device type information
         private void VerifyIdToken(IdToken? Token)
         {
             if(Token == null)
