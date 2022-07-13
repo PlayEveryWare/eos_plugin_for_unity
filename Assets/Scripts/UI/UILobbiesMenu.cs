@@ -47,6 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Toggle AllowInvitesVal;
         public Toggle PresenceEnabledVal;
         public Toggle RTCVoiceRoomEnabledVal;
+        public Toggle AntiCheatEnabledVal;
 
         // Create/Modify/Leave UI
         public Button CreateLobbyButton;
@@ -88,6 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSLobbyManager LobbyManager;
         private EOSFriendsManager FriendsManager;
+        private EOSEACLobbyManager AntiCheatLobbyManager;
 
         public void Awake()
         {
@@ -105,13 +107,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
+            AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
 
             LobbyManager.SubscribeToMemberUpdates(OnMemberUpdate);
         }
 
         private void OnDestroy()
         {
-            LobbyManager.UnsubscribeFromMemberUpdates(OnMemberUpdate);
+            LobbyManager?.UnsubscribeFromMemberUpdates(OnMemberUpdate);
         }
 
         private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)
@@ -303,12 +306,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             lobbyProperties.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
 
             // Level Attributes
-            LobbyAttribute attribute = new LobbyAttribute();
-            attribute.Key = "LEVEL";
-            attribute.AsString = LevelVal.options[LevelVal.value].text;
-            attribute.ValueType = AttributeType.String;
-            attribute.Visibility = LobbyAttributeVisibility.Public;  // Needs to be public for Search
-            lobbyProperties.Attributes.Add(attribute);
+            LobbyAttribute levelAttribute = new LobbyAttribute();
+            levelAttribute.Key = "LEVEL";
+            levelAttribute.AsString = LevelVal.options[LevelVal.value].text;
+            levelAttribute.ValueType = AttributeType.String;
+            levelAttribute.Visibility = LobbyAttributeVisibility.Public;  // Needs to be public for Search
+            lobbyProperties.Attributes.Add(levelAttribute);
+
+            // Anti-Cheat Attributes
+            LobbyAttribute antiCheatAttribute = new LobbyAttribute();
+            antiCheatAttribute.Key = "ANTICHEAT";
+            antiCheatAttribute.AsBool = AntiCheatEnabledVal.isOn;
+            antiCheatAttribute.ValueType = AttributeType.Boolean;
+            antiCheatAttribute.Visibility = LobbyAttributeVisibility.Public;
+            lobbyProperties.Attributes.Add(antiCheatAttribute);
 
             // Permission
             string permissionStr = PermissionVal.options[PermissionVal.value].text;

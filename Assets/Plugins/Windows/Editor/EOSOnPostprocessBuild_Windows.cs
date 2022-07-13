@@ -121,6 +121,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
 
     }
 
+    //use anticheat_integritytool to hash protected files and generate certificate for EAC
     private static void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID, string keyFileName, string certFileName)
     {
         string installPathForExe = report.summary.outputPath;
