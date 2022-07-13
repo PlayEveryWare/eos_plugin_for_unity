@@ -34,9 +34,9 @@ using Epic.OnlineServices.AntiCheatCommon;
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     /// <summary>
-    /// Class <c>EOSEACLobbyTestManager</c> manages testing functionality for the <c>EOSAntiCheatClientManager</c> using <c>EOSLobbyManager</c> to manage peer communication.
+    /// Class <c>EOSEACLobbyManager</c> manages testing functionality for the <c>EOSAntiCheatClientManager</c> using <c>EOSLobbyManager</c> to manage peer communication.
     /// </summary>
-    public class EOSEACLobbyTestManager : IEOSSubManager
+    public class EOSEACLobbyManager : IEOSSubManager
     {
         private EOSLobbyManager LobbyManager;
         private EOSAntiCheatClientManager AntiCheatManager;
@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<ProductUserId, int> IncomingMessageCounters;
 
 
-        public EOSEACLobbyTestManager()
+        public EOSEACLobbyManager()
         {
             Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AntiCheat, LogLevel.Verbose);
 

@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSLobbyManager LobbyManager;
         private EOSFriendsManager FriendsManager;
-        private EOSEACLobbyTestManager AntiCheatLobbyManager;
+        private EOSEACLobbyManager AntiCheatLobbyManager;
 
         public void Awake()
         {
@@ -107,7 +107,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
-            AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyTestManager>();
+            AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
 
             LobbyManager.SubscribeToMemberUpdates(OnMemberUpdate);
         }
