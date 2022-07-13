@@ -110,8 +110,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyTestManager>();
 
             LobbyManager.SubscribeToMemberUpdates(OnMemberUpdate);
-
-            EOSManager.Instance.GetOrCreateManager<EOSAntiCheatClientManager>();
         }
 
         private void OnDestroy()

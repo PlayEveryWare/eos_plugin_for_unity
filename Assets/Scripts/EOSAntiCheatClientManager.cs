@@ -32,6 +32,9 @@ using Epic.OnlineServices.AntiCheatClient;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    /// <summary>
+    /// Class <c>EOSAntiCheatClientManager</c> is a simplified wrapper for EOS [AntiCheat Client Interface](https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html).
+    /// </summary>
     public class EOSAntiCheatClientManager : IEOSSubManager, IEOSOnConnectLogin, IEOSOnAuthLogin, IEOSOnAuthLogout
     {
         private AntiCheatClientInterface AntiCheatHandle;
@@ -172,7 +175,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Wrapper for calling [EOS_AntiCheatClient_ReceiveMessageFromPeer]https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_ReceiveMessageFromPeer/index.html)
         /// </summary>
         /// <param name="PeerHandle"><c>IntPtr</c> referencing another player</param>
-        /// <param name="Data"><c>ArraySegment of bytes</c> previously received from SubscribeToMessageToPeer callback</param>
+        /// <param name="Data"><c>ArraySegment&lt;byte&gt;</c> previously received from <c>SubscribeToMessageToPeer</c> callback</param>
         public void ReceiveMessageFromPeer(IntPtr PeerHandle, ArraySegment<byte> Data)
         {
             var options = new ReceiveMessageFromPeerOptions()
@@ -234,6 +237,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PeerActionRequiredCallbacks.Remove(Callback);
         }
 
+        /// <summary>
+        /// Get <c>ProductUserId</c> of registered peer by index
+        /// </summary>
+        /// <returns><c>ProductUserId</c> of peer, or null if not registered</returns>
         public ProductUserId GetPeerId(IntPtr PeerHandle)
         {
             int peerIndex = PeerHandle.ToInt32();
@@ -247,6 +254,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Get index of registered peer by <c>ProductUserId</c> as <c>IntPtr</c>
+        /// </summary>
+        /// <returns><c>IntPtr</c>representation of peer index for use with <c>GetPeerId</c> or <c>ReceiveMessageFromPeer</c></returns>
         public IntPtr GetPeerHandle(ProductUserId UserId)
         {
             RegisteredPeerMapping.TryGetValue(UserId, out int handle);
@@ -258,7 +269,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// TODO: Use ID tokens to verify player platform to determine whether their client must be protected or not (console players would use UnprotectedClient)
         /// </summary>
         /// <param name="UserId"><c>ProductUserId</c> of peer to register</param>
-        /// /// <returns>True if peer was successfully registered, or was already registered</returns>
+        /// <returns>True if peer was successfully registered, or was already registered</returns>
         public bool RegisterPeer(ProductUserId UserId)
         {
             if (IsRegisteredPeer(UserId))
@@ -292,6 +303,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Checks if a user with a given <c>ProductUserId</c> is registered as a peer
+        /// </summary>
+        /// <param name="UserId"><c>ProductUserId</c> of peer</param>
+        /// <returns>True if peer is registered</returns>
         public bool IsRegisteredPeer(ProductUserId UserId)
         {
             return RegisteredPeerMapping.ContainsKey(UserId);
@@ -375,6 +391,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Checks if a protected EAC sessionis active
+        /// </summary>
+        /// <returns>True if session is active</returns>
         public bool IsSessionActive()
         {
             return SessionActive;

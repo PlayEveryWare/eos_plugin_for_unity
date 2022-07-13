@@ -74,6 +74,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (targetUserId == null || !targetUserId.IsValid())
             {
                 Debug.LogError("EACLobbyTest (OnMessageToPeer): invalid target user id");
+                return;
             }
 
             string userIdKey = targetUserId.ToString().ToUpper();
@@ -216,7 +217,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var currentLobby = LobbyManager.GetCurrentLobby();
             if (currentLobby.IsValid())
             {
-                CurrentLobbyId = LobbyManager.GetCurrentLobby().Id;
+                CurrentLobbyId = currentLobby.Id;
             }
             else
             {
