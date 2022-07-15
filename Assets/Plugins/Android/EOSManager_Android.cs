@@ -22,7 +22,7 @@
 
 // #define EOS_ANDROID_ENABLED
 
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -140,6 +140,11 @@ namespace PlayEveryWare.EpicOnlineServices
             return ".so";
         }
 
+        //-------------------------------------------------------------------------
+        public void LoadDelegatesWithEOSBindingAPI()
+        {
+        }
+
         public IEOSInitializeOptions CreateSystemInitOptions()
         {
             return new EOSAndroidInitializeOptions();
@@ -164,6 +169,12 @@ namespace PlayEveryWare.EpicOnlineServices
         public void RegisterForPlatformNotifications()
         {
             
+        }
+
+        public bool IsApplicationConstrainedWhenOutOfFocus()
+        {
+            // TODO: Need to implement this for Android
+            return false;
         }
     }
 }

@@ -4,47 +4,64 @@
 namespace Epic.OnlineServices.UI
 {
 	/// <summary>
-	/// Input parameters for the <see cref="UIInterface.ReportKeyEvent" /> function.
+	/// Input parameters for the EOS_UI_ReportKeyEvent function.
 	/// </summary>
-	public class ReportKeyEventOptions
+	public struct ReportKeyEventOptions
 	{
 		/// <summary>
 		/// The input data pushed to the SDK.
 		/// </summary>
 		public System.IntPtr PlatformSpecificInputData { get; set; }
+
+		internal void Set(ref ReportKeyEventOptionsInternal other)
+		{
+			PlatformSpecificInputData = other.PlatformSpecificInputData;
+		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ReportKeyEventOptionsInternal : ISettable, System.IDisposable
+	internal struct ReportKeyEventOptionsInternal : IGettable<ReportKeyEventOptions>, ISettable<ReportKeyEventOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PlatformSpecificInputData;
 
 		public System.IntPtr PlatformSpecificInputData
 		{
+			get
+			{
+				return m_PlatformSpecificInputData;
+			}
+
 			set
 			{
 				m_PlatformSpecificInputData = value;
 			}
 		}
 
-		public void Set(ReportKeyEventOptions other)
+		public void Set(ref ReportKeyEventOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = UIInterface.ReportkeyeventApiLatest;
-				PlatformSpecificInputData = other.PlatformSpecificInputData;
-			}
+			m_ApiVersion = UIInterface.ReportkeyeventApiLatest;
+			PlatformSpecificInputData = other.PlatformSpecificInputData;
 		}
 
-		public void Set(object other)
+		public void Set(ref ReportKeyEventOptions? other)
 		{
-			Set(other as ReportKeyEventOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = UIInterface.ReportkeyeventApiLatest;
+				PlatformSpecificInputData = other.Value.PlatformSpecificInputData;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PlatformSpecificInputData);
+			Helper.Dispose(ref m_PlatformSpecificInputData);
+		}
+
+		public void Get(out ReportKeyEventOptions output)
+		{
+			output = new ReportKeyEventOptions();
+			output.Set(ref this);
 		}
 	}
 }

@@ -7,45 +7,46 @@ namespace Epic.OnlineServices.Auth
 	/// Input parameters for the <see cref="AuthInterface.VerifyUserAuth" /> function.
 	/// This operation is destructive, the pointer will remain the same but the data pointers inside will update
 	/// </summary>
-	public class VerifyUserAuthOptions
+	public struct VerifyUserAuthOptions
 	{
 		/// <summary>
 		/// Auth token to verify against the backend service
 		/// </summary>
-		public Token AuthToken { get; set; }
+		public Token? AuthToken { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct VerifyUserAuthOptionsInternal : ISettable, System.IDisposable
+	internal struct VerifyUserAuthOptionsInternal : ISettable<VerifyUserAuthOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AuthToken;
 
-		public Token AuthToken
+		public Token? AuthToken
 		{
 			set
 			{
-				Helper.TryMarshalSet<TokenInternal, Token>(ref m_AuthToken, value);
+				Helper.Set<Token, TokenInternal>(ref value, ref m_AuthToken);
 			}
 		}
 
-		public void Set(VerifyUserAuthOptions other)
+		public void Set(ref VerifyUserAuthOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.VerifyuserauthApiLatest;
+			AuthToken = other.AuthToken;
+		}
+
+		public void Set(ref VerifyUserAuthOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.VerifyuserauthApiLatest;
-				AuthToken = other.AuthToken;
+				AuthToken = other.Value.AuthToken;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as VerifyUserAuthOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AuthToken);
+			Helper.Dispose(ref m_AuthToken);
 		}
 	}
 }

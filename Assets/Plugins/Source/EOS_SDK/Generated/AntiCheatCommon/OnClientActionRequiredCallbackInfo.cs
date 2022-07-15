@@ -6,58 +6,50 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	/// <summary>
 	/// Structure containing details about a required client/peer action
 	/// </summary>
-	public class OnClientActionRequiredCallbackInfo : ICallbackInfo, ISettable
+	public struct OnClientActionRequiredCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Caller-specified context data
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The identifier of the client/peer that this action applies to. See the RegisterClient and RegisterPeer functions.
 		/// </summary>
-		public System.IntPtr ClientHandle { get; private set; }
+		public System.IntPtr ClientHandle { get; set; }
 
 		/// <summary>
 		/// The action that must be applied to the specified client/peer
 		/// </summary>
-		public AntiCheatCommonClientAction ClientAction { get; private set; }
+		public AntiCheatCommonClientAction ClientAction { get; set; }
 
 		/// <summary>
 		/// Code indicating the reason for the action. This can be displayed to the affected player.
 		/// </summary>
-		public AntiCheatCommonClientActionReason ActionReasonCode { get; private set; }
+		public AntiCheatCommonClientActionReason ActionReasonCode { get; set; }
 
 		/// <summary>
 		/// String containing details about the action reason. This can be displayed to the affected player.
 		/// </summary>
-		public string ActionReasonDetailsString { get; private set; }
+		public Utf8String ActionReasonDetailsString { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnClientActionRequiredCallbackInfoInternal? other)
+		internal void Set(ref OnClientActionRequiredCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				ClientHandle = other.Value.ClientHandle;
-				ClientAction = other.Value.ClientAction;
-				ActionReasonCode = other.Value.ActionReasonCode;
-				ActionReasonDetailsString = other.Value.ActionReasonDetailsString;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnClientActionRequiredCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			ClientHandle = other.ClientHandle;
+			ClientAction = other.ClientAction;
+			ActionReasonCode = other.ActionReasonCode;
+			ActionReasonDetailsString = other.ActionReasonDetailsString;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnClientActionRequiredCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnClientActionRequiredCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnClientActionRequiredCallbackInfo>, ISettable<OnClientActionRequiredCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_ClientHandle;
@@ -70,8 +62,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -89,6 +86,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			{
 				return m_ClientHandle;
 			}
+
+			set
+			{
+				m_ClientHandle = value;
+			}
 		}
 
 		public AntiCheatCommonClientAction ClientAction
@@ -96,6 +98,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				return m_ClientAction;
+			}
+
+			set
+			{
+				m_ClientAction = value;
 			}
 		}
 
@@ -105,16 +112,60 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			{
 				return m_ActionReasonCode;
 			}
+
+			set
+			{
+				m_ActionReasonCode = value;
+			}
 		}
 
-		public string ActionReasonDetailsString
+		public Utf8String ActionReasonDetailsString
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ActionReasonDetailsString, out value);
+				Utf8String value;
+				Helper.Get(m_ActionReasonDetailsString, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_ActionReasonDetailsString);
+			}
+		}
+
+		public void Set(ref OnClientActionRequiredCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			ClientHandle = other.ClientHandle;
+			ClientAction = other.ClientAction;
+			ActionReasonCode = other.ActionReasonCode;
+			ActionReasonDetailsString = other.ActionReasonDetailsString;
+		}
+
+		public void Set(ref OnClientActionRequiredCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				ClientHandle = other.Value.ClientHandle;
+				ClientAction = other.Value.ClientAction;
+				ActionReasonCode = other.Value.ActionReasonCode;
+				ActionReasonDetailsString = other.Value.ActionReasonDetailsString;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_ActionReasonDetailsString);
+		}
+
+		public void Get(out OnClientActionRequiredCallbackInfo output)
+		{
+			output = new OnClientActionRequiredCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

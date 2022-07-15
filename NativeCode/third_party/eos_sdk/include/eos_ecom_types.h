@@ -78,7 +78,7 @@ EOS_ENUM(EOS_EEcomItemType,
 	 * @see EOS_Ecom_RedeemEntitlements
 	 */
 	EOS_EIT_Consumable = 1,
-	/** This entitlement has a type that is not currently intneded for an in-game store. */
+	/** This entitlement has a type that is not currently intended for an in-game store. */
 	EOS_EIT_Other = 2
 );
 
@@ -219,7 +219,6 @@ EOS_STRUCT(EOS_Ecom_CatalogOffer, (
 	const char* LongDescriptionText;
 	/**
 	 * Deprecated.
-	 * EOS_Ecom_CatalogOffer::TechnicalDetailsText has been deprecated.
 	 * EOS_Ecom_CatalogItem::TechnicalDetailsText is still valid.
 	 */
 	const char* TechnicalDetailsText_DEPRECATED;
@@ -355,7 +354,7 @@ EOS_STRUCT(EOS_Ecom_CheckoutEntry, (
 /**
  * The maximum number of catalog items that may be queried in a single pass
  */
-#define EOS_ECOM_QUERYOWNERSHIP_MAX_CATALOG_IDS 32
+#define EOS_ECOM_QUERYOWNERSHIP_MAX_CATALOG_IDS 50
 
 /**
  * Input parameters for the EOS_Ecom_QueryOwnership function.

@@ -6,57 +6,57 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for the <see cref="PresenceModification.SetJoinInfo" /> function.
 	/// </summary>
-	public class PresenceModificationSetJoinInfoOptions
+	public struct PresenceModificationSetJoinInfoOptions
 	{
 		/// <summary>
 		/// The string which will be advertised as this player's join info.
 		/// An application is expected to freely define the meaning of this string to use for connecting to an active game session.
 		/// The string should not exceed <see cref="PresenceModification.PresencemodificationJoininfoMaxLength" /> in length.
 		/// This affects the ability of the Social Overlay to show game related actions to take in the player's social graph.
-		/// 
-		/// @note The Social Overlay can handle only one of the following three options at a time:
+		/// The Social Overlay can handle only one of the following three options at a time:
 		/// using the bPresenceEnabled flags within the Sessions interface
 		/// using the bPresenceEnabled flags within the Lobby interface
-		/// using <see cref="PresenceModification.SetJoinInfo" />
+		/// using EOS_PresenceModification_SetJoinInfo
 		/// <seealso cref="Lobby.CreateLobbyOptions" />
 		/// <seealso cref="Lobby.JoinLobbyOptions" />
 		/// <seealso cref="Sessions.CreateSessionModificationOptions" />
 		/// <seealso cref="Sessions.JoinSessionOptions" />
 		/// </summary>
-		public string JoinInfo { get; set; }
+		public Utf8String JoinInfo { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PresenceModificationSetJoinInfoOptionsInternal : ISettable, System.IDisposable
+	internal struct PresenceModificationSetJoinInfoOptionsInternal : ISettable<PresenceModificationSetJoinInfoOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_JoinInfo;
 
-		public string JoinInfo
+		public Utf8String JoinInfo
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_JoinInfo, value);
+				Helper.Set(value, ref m_JoinInfo);
 			}
 		}
 
-		public void Set(PresenceModificationSetJoinInfoOptions other)
+		public void Set(ref PresenceModificationSetJoinInfoOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceModification.PresencemodificationSetjoininfoApiLatest;
+			JoinInfo = other.JoinInfo;
+		}
+
+		public void Set(ref PresenceModificationSetJoinInfoOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceModification.PresencemodificationSetjoininfoApiLatest;
-				JoinInfo = other.JoinInfo;
+				JoinInfo = other.Value.JoinInfo;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PresenceModificationSetJoinInfoOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_JoinInfo);
+			Helper.Dispose(ref m_JoinInfo);
 		}
 	}
 }

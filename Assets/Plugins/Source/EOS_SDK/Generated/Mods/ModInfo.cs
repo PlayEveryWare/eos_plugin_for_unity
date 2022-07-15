@@ -8,10 +8,10 @@ namespace Epic.OnlineServices.Mods
 	/// <seealso cref="ModsInterface.CopyModInfo" />
 	/// <seealso cref="ModsInterface.Release" />
 	/// </summary>
-	public class ModInfo : ISettable
+	public struct ModInfo
 	{
 		/// <summary>
-		/// The array of enumerated mods or NULL if no such type of mods were enumerated
+		/// The array of enumerated mods or <see langword="null" /> if no such type of mods were enumerated
 		/// </summary>
 		public ModIdentifier[] Mods { get; set; }
 
@@ -20,23 +20,15 @@ namespace Epic.OnlineServices.Mods
 		/// </summary>
 		public ModEnumerationType Type { get; set; }
 
-		internal void Set(ModInfoInternal? other)
+		internal void Set(ref ModInfoInternal other)
 		{
-			if (other != null)
-			{
-				Mods = other.Value.Mods;
-				Type = other.Value.Type;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ModInfoInternal?);
+			Mods = other.Mods;
+			Type = other.Type;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ModInfoInternal : ISettable, System.IDisposable
+	internal struct ModInfoInternal : IGettable<ModInfo>, ISettable<ModInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private int m_ModsCount;
@@ -48,13 +40,13 @@ namespace Epic.OnlineServices.Mods
 			get
 			{
 				ModIdentifier[] value;
-				Helper.TryMarshalGet<ModIdentifierInternal, ModIdentifier>(m_Mods, out value, m_ModsCount);
+				Helper.Get<ModIdentifierInternal, ModIdentifier>(m_Mods, out value, m_ModsCount);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<ModIdentifierInternal, ModIdentifier>(ref m_Mods, value, out m_ModsCount);
+				Helper.Set<ModIdentifier, ModIdentifierInternal>(ref value, ref m_Mods, out m_ModsCount);
 			}
 		}
 
@@ -71,24 +63,32 @@ namespace Epic.OnlineServices.Mods
 			}
 		}
 
-		public void Set(ModInfo other)
+		public void Set(ref ModInfo other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = ModsInterface.CopymodinfoApiLatest;
-				Mods = other.Mods;
-				Type = other.Type;
-			}
+			m_ApiVersion = ModsInterface.CopymodinfoApiLatest;
+			Mods = other.Mods;
+			Type = other.Type;
 		}
 
-		public void Set(object other)
+		public void Set(ref ModInfo? other)
 		{
-			Set(other as ModInfo);
+			if (other.HasValue)
+			{
+				m_ApiVersion = ModsInterface.CopymodinfoApiLatest;
+				Mods = other.Value.Mods;
+				Type = other.Value.Type;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Mods);
+			Helper.Dispose(ref m_Mods);
+		}
+
+		public void Get(out ModInfo output)
+		{
+			output = new ModInfo();
+			output.Set(ref this);
 		}
 	}
 }

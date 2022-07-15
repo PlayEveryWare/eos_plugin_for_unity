@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.GetMemberByIndex" /> function.
 	/// </summary>
-	public class LobbyDetailsGetMemberByIndexOptions
+	public struct LobbyDetailsGetMemberByIndexOptions
 	{
 		/// <summary>
 		/// Index of the member to retrieve
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsGetMemberByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsGetMemberByIndexOptionsInternal : ISettable<LobbyDetailsGetMemberByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_MemberIndex;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbyDetailsGetMemberByIndexOptions other)
+		public void Set(ref LobbyDetailsGetMemberByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyDetails.LobbydetailsGetmemberbyindexApiLatest;
-				MemberIndex = other.MemberIndex;
-			}
+			m_ApiVersion = LobbyDetails.LobbydetailsGetmemberbyindexApiLatest;
+			MemberIndex = other.MemberIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbyDetailsGetMemberByIndexOptions? other)
 		{
-			Set(other as LobbyDetailsGetMemberByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyDetails.LobbydetailsGetmemberbyindexApiLatest;
+				MemberIndex = other.Value.MemberIndex;
+			}
 		}
 
 		public void Dispose()

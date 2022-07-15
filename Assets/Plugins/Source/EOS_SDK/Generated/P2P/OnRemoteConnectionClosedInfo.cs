@@ -6,58 +6,50 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about an connection request that is being closed.
 	/// </summary>
-	public class OnRemoteConnectionClosedInfo : ICallbackInfo, ISettable
+	public struct OnRemoteConnectionClosedInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into <see cref="Presence.PresenceInterface.AddNotifyOnPresenceChanged" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The local user who is being notified of a connection being closed
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the remote user who this connection was with
 		/// </summary>
-		public ProductUserId RemoteUserId { get; private set; }
+		public ProductUserId RemoteUserId { get; set; }
 
 		/// <summary>
 		/// The socket ID of the connection being closed
 		/// </summary>
-		public SocketId SocketId { get; private set; }
+		public SocketId? SocketId { get; set; }
 
 		/// <summary>
 		/// The reason the connection was closed (if known)
 		/// </summary>
-		public ConnectionClosedReason Reason { get; private set; }
+		public ConnectionClosedReason Reason { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnRemoteConnectionClosedInfoInternal? other)
+		internal void Set(ref OnRemoteConnectionClosedInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				RemoteUserId = other.Value.RemoteUserId;
-				SocketId = other.Value.SocketId;
-				Reason = other.Value.Reason;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnRemoteConnectionClosedInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RemoteUserId = other.RemoteUserId;
+			SocketId = other.SocketId;
+			Reason = other.Reason;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnRemoteConnectionClosedInfoInternal : ICallbackInfoInternal
+	internal struct OnRemoteConnectionClosedInfoInternal : ICallbackInfoInternal, IGettable<OnRemoteConnectionClosedInfo>, ISettable<OnRemoteConnectionClosedInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -70,8 +62,13 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -88,8 +85,13 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -98,18 +100,28 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_RemoteUserId, out value);
+				Helper.Get(m_RemoteUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_RemoteUserId);
 			}
 		}
 
-		public SocketId SocketId
+		public SocketId? SocketId
 		{
 			get
 			{
-				SocketId value;
-				Helper.TryMarshalGet<SocketIdInternal, SocketId>(m_SocketId, out value);
+				SocketId? value;
+				Helper.Get<SocketIdInternal, SocketId>(m_SocketId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set<SocketId, SocketIdInternal>(ref value, ref m_SocketId);
 			}
 		}
 
@@ -119,6 +131,46 @@ namespace Epic.OnlineServices.P2P
 			{
 				return m_Reason;
 			}
+
+			set
+			{
+				m_Reason = value;
+			}
+		}
+
+		public void Set(ref OnRemoteConnectionClosedInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RemoteUserId = other.RemoteUserId;
+			SocketId = other.SocketId;
+			Reason = other.Reason;
+		}
+
+		public void Set(ref OnRemoteConnectionClosedInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				RemoteUserId = other.Value.RemoteUserId;
+				SocketId = other.Value.SocketId;
+				Reason = other.Value.Reason;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RemoteUserId);
+			Helper.Dispose(ref m_SocketId);
+		}
+
+		public void Get(out OnRemoteConnectionClosedInfo output)
+		{
+			output = new OnRemoteConnectionClosedInfo();
+			output.Set(ref this);
 		}
 	}
 }

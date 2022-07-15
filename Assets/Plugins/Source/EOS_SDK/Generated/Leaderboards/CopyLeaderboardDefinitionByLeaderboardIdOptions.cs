@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Input parameters for the <see cref="LeaderboardsInterface.CopyLeaderboardDefinitionByLeaderboardId" /> function.
 	/// </summary>
-	public class CopyLeaderboardDefinitionByLeaderboardIdOptions
+	public struct CopyLeaderboardDefinitionByLeaderboardIdOptions
 	{
 		/// <summary>
 		/// The ID of the leaderboard whose definition you want to copy from the cache
 		/// </summary>
-		public string LeaderboardId { get; set; }
+		public Utf8String LeaderboardId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyLeaderboardDefinitionByLeaderboardIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyLeaderboardDefinitionByLeaderboardIdOptionsInternal : ISettable<CopyLeaderboardDefinitionByLeaderboardIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LeaderboardId;
 
-		public string LeaderboardId
+		public Utf8String LeaderboardId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LeaderboardId, value);
+				Helper.Set(value, ref m_LeaderboardId);
 			}
 		}
 
-		public void Set(CopyLeaderboardDefinitionByLeaderboardIdOptions other)
+		public void Set(ref CopyLeaderboardDefinitionByLeaderboardIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.CopyleaderboarddefinitionbyleaderboardidApiLatest;
+			LeaderboardId = other.LeaderboardId;
+		}
+
+		public void Set(ref CopyLeaderboardDefinitionByLeaderboardIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.CopyleaderboarddefinitionbyleaderboardidApiLatest;
-				LeaderboardId = other.LeaderboardId;
+				LeaderboardId = other.Value.LeaderboardId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyLeaderboardDefinitionByLeaderboardIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LeaderboardId);
+			Helper.Dispose(ref m_LeaderboardId);
 		}
 	}
 }

@@ -121,6 +121,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static private EOSState s_state = EOSState.NotStarted;
 
+        // Application is paused? (ie. suspended)
+        static private bool s_isPaused = false;
+        static public bool ApplicationIsPaused { get => s_isPaused; }
+
+        // Application is in focus? (ie. is the foreground application)
+        static private bool s_hasFocus = true;
+        static public bool ApplicationHasFocus { get => s_hasFocus; }
+
+        // When not in focus, is the application running in a constrained capacity? (ie. reduced CPU/GPU resources)
+        static private bool s_isConstrained = true;
+        static public bool ApplicationIsConstrained { get => s_isConstrained; }
+
         //private static List
 
         //-------------------------------------------------------------------------
@@ -130,7 +142,14 @@ namespace PlayEveryWare.EpicOnlineServices
             static private ProductUserId s_localProductUserId = null;
 
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
+            static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
             static private EOSConfig loadedEOSConfig;
+
+            // Setting it twice will cause an exception
+            static bool hasSetLoggingCallback = false;
+
+            // Need to keep track for shutting down EOS after a successful platform initialization
+            static private bool s_hasInitializedPlatform = false;
 
             //-------------------------------------------------------------------------
             /// <summary>
@@ -311,7 +330,24 @@ namespace PlayEveryWare.EpicOnlineServices
                 initOptions.ReallocateMemoryFunction = IntPtr.Zero;
                 initOptions.ReleaseMemoryFunction = IntPtr.Zero;
 
+                var overrideThreadAffinity = new InitializeThreadAffinity();
+
+                overrideThreadAffinity.NetworkWork = configData.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
+                overrideThreadAffinity.StorageIo = configData.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
+                overrideThreadAffinity.WebSocketIo = configData.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
+                overrideThreadAffinity.P2PIo = configData.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
+                overrideThreadAffinity.HttpRequestIo = configData.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
+                overrideThreadAffinity.RTCIo = configData.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+
+                initOptions.OverrideThreadAffinity = overrideThreadAffinity;
+
                 platformSpecifics.ConfigureSystemInitOptions(ref initOptions, configData);
+
+#if UNITY_PS4 && !UNITY_EDITOR
+                // On PS4, RegisterForPlatformNotifications is called at a later time by EOSPSNManager
+#else
+                RegisterForPlatformNotifications();
+#endif
 
                 return platformSpecifics.InitializePlatformInterface(initOptions);
             }
@@ -340,11 +376,24 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.ProductId = configData.productID;
                 platformOptions.SandboxId = configData.sandboxID;
                 platformOptions.DeploymentId = configData.deploymentID;
-                platformOptions.ClientCredentials = new Epic.OnlineServices.Platform.ClientCredentials();
 
-                platformOptions.ClientCredentials.ClientId = configData.clientID;
-                platformOptions.ClientCredentials.ClientSecret = configData.clientSecret;
+                platformOptions.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
 
+                var clientCredentials = new Epic.OnlineServices.Platform.ClientCredentials
+                {
+                    ClientId = configData.clientID,
+                    ClientSecret = configData.clientSecret
+                };
+                platformOptions.ClientCredentials = clientCredentials;
+
+
+#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+                var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
+                //TODO: handle errors
+                var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
+                Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformInterface.CreateIntegratedPlatformOptionsContainer(ref createIntegratedPlatformOptionsContainerOptions, out integratedPlatformOptionsContainer);
+                platformOptions.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
+#endif
                 platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
 
                 return platformSpecifics.CreatePlatformInterface(platformOptions);
@@ -358,7 +407,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                 };
 
-               GetEOSUIInterface().AddNotifyDisplaySettingsUpdated(addNotificationData, null, (OnDisplaySettingsUpdatedCallbackInfo data) => {
+               GetEOSUIInterface().AddNotifyDisplaySettingsUpdated(ref addNotificationData, null, (ref OnDisplaySettingsUpdatedCallbackInfo data) => {
                    EOSManager.s_isOverlayVisible = data.IsVisible;
                    EOSManager.s_DoesOverlayHaveExcusiveInput = data.IsExclusiveInput;
                 });
@@ -369,14 +418,24 @@ namespace PlayEveryWare.EpicOnlineServices
             // those cases, this code will early out.
             public void Init(IEOSCoroutineOwner coroutineOwner)
             {
+                Init(coroutineOwner, ConfigFileName);
+            }
+
+            public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
+            {
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
-                    Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
+
+                    if (!hasSetLoggingCallback)
+                    {
+                        Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
+                        hasSetLoggingCallback = true;
+                    }
 #if UNITY_EDITOR
                     Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
 #else
-                    Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Verbose);
+                    Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 #endif
 
                     InitializeOverlay(coroutineOwner);
@@ -389,7 +448,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 NativeCallToUnloadEOS();
 
                 //TODO: provide different way to load the config file?
-                string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", ConfigFileName);
+                string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
 
                 if (!File.Exists(eosFinalConfigPath))
                 {
@@ -407,10 +466,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (initResult != Epic.OnlineServices.Result.Success)
                 {
 #if UNITY_EDITOR
+                    ShutdownPlatformInterface();
                     UnloadAllLibraries();
                     ForceUnloadEOSLibrary();
                     LoadEOSLibraries();
                     var secondTryResult = InitializePlatformInterface(configData);
+                    UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
 #endif
                     {
@@ -418,8 +479,10 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 
+                s_hasInitializedPlatform = true;
+
                 Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
-                Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Verbose);
+                Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 
 
                 var eosPlatformInterface = CreatePlatformInterface(configData);
@@ -430,6 +493,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
 
                 SetEOSPlatformInterface(eosPlatformInterface);
+                UpdateEOSApplicationStatus();
 
                 loadedEOSConfig = configData;
 
@@ -448,6 +512,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
                 if (platformSpecifics != null)
                 {
+                    UnityEngine.Debug.Log("EOSManager: Registering for platform-specific notifications");
                     platformSpecifics.RegisterForPlatformNotifications();
                 }
             }
@@ -461,10 +526,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             [MonoPInvokeCallback(typeof(LogMessageFunc))]
-            private static void SimplePrintCallback(LogMessage message)
+            private static void SimplePrintCallback(ref LogMessage message)
             {
                 var dateTime = DateTime.Now;
-                var messageCategory = message.Category == null ? "" : message.Category;
+                var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
                 UnityEngine.Debug.LogFormat(LogType.Log, LogOption.NoStacktrace, null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
             }
@@ -474,7 +539,7 @@ namespace PlayEveryWare.EpicOnlineServices
             private static void SimplePrintCallbackWithCallstack(LogMessage message)
             {
                 var dateTime = DateTime.Now;
-                var messageCategory = message.Category == null ? "" : message.Category;
+                var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
                 UnityEngine.Debug.LogFormat(null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
             }
@@ -501,13 +566,12 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             /// <param name="accountId"></param>
             /// <returns></returns>
-            public Token GetUserAuthTokenForAccountId(EpicAccountId accountId)
+            public Token? GetUserAuthTokenForAccountId(EpicAccountId accountId)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                var userAuthToken = new Token();
                 var copyUserTokenOptions = new Epic.OnlineServices.Auth.CopyUserAuthTokenOptions();
 
-                EOSAuthInterface.CopyUserAuthToken(copyUserTokenOptions, accountId, out userAuthToken);
+                EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, accountId, out Token? userAuthToken);
                 return userAuthToken;
             }
 
@@ -591,7 +655,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 var options = new Epic.OnlineServices.Connect.CreateUserOptions();
 
                 options.ContinuanceToken = token;
-                connectInterface.CreateUser(options, null, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
+                connectInterface.CreateUser(ref options, null, (ref Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
                 {
                     if (createUserCallbackInfo.ResultCode == Result.Success)
                     {
@@ -622,12 +686,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     linkOptions.LocalUserId = Instance.GetLocalUserId();
                 }
 
-                authInterface.LinkAccount(linkOptions, null, (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
+                authInterface.LinkAccount(ref linkOptions, null, (ref Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
-                    if (Instance.GetLocalUserId() == null)
-                    {
-                        Instance.SetLocalUserId(linkAccountCallbackInfo.LocalUserId);
-                    }
+                    Instance.SetLocalUserId(linkAccountCallbackInfo.LocalUserId);
 
                     if (callback != null)
                     {
@@ -646,7 +707,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 linkAccountOptions.ContinuanceToken = token;
                 linkAccountOptions.LocalUserId = Instance.GetProductUserId();
 
-                connectInterface.LinkAccount(linkAccountOptions, null, (Epic.OnlineServices.Connect.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
+                connectInterface.LinkAccount(ref linkAccountOptions, null, (ref Epic.OnlineServices.Connect.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
                     if (callback != null)
                     {
@@ -662,11 +723,11 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="onConnectLoginCallback"></param>
             public void StartConnectLoginWithEpicAccount(Epic.OnlineServices.EpicAccountId epicAccountId, OnConnectLoginCallback onConnectLoginCallback)
             { 
-                Token authToken = EOSManager.Instance.GetUserAuthTokenForAccountId(epicAccountId);
+                Token? authToken = EOSManager.Instance.GetUserAuthTokenForAccountId(epicAccountId);
                 var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions();
                 connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
-                    Token = authToken.AccessToken,
+                    Token = authToken.Value.AccessToken,
                     Type = ExternalCredentialType.Epic
                 };
 
@@ -695,8 +756,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     case ExternalCredentialType.NintendoIdToken:
                     case ExternalCredentialType.NintendoNsaIdToken:
                     case ExternalCredentialType.AppleIdToken:
-                        loginOptions.UserLoginInfo = new UserLoginInfo();
-                        loginOptions.UserLoginInfo.DisplayName = displayname;
+                        loginOptions.UserLoginInfo = new UserLoginInfo { DisplayName = displayname };
                         break;
                 }
 
@@ -708,11 +768,12 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartConnectLoginWithOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions, OnConnectLoginCallback onloginCallback)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
-                connectInterface.Login(connectLoginOptions, (object)null, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
+                connectInterface.Login(ref connectLoginOptions, (object)null, (ref Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
                 {
                     if(connectLoginData.LocalUserId != null)
                     {
                         SetLocalProductUserId(connectLoginData.LocalUserId);
+                        ConfigureConnectStatusCallback();
                         CallOnConnectLogin(connectLoginData);
                     }
                     if (onloginCallback != null)
@@ -727,8 +788,8 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions();
-                connectLoginOptions.UserLoginInfo = new Epic.OnlineServices.Connect.UserLoginInfo();
-                connectLoginOptions.UserLoginInfo.DisplayName = displayName;
+                connectLoginOptions.UserLoginInfo = new Epic.OnlineServices.Connect.UserLoginInfo { DisplayName = displayName };
+
                 connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
                     Token = null,
@@ -744,19 +805,19 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
 
-                connectInterface.TransferDeviceIdAccount(options, clientData, (TransferDeviceIdAccountCallbackInfo data) =>
+                connectInterface.TransferDeviceIdAccount(ref options, clientData, (ref TransferDeviceIdAccountCallbackInfo data) =>
                 {
                     SetLocalProductUserId(data.LocalUserId);
                     if (completionDelegate != null)
                     {
-                        completionDelegate(data);
+                        completionDelegate(ref data);
                     }
                 });
             }
 
             //-------------------------------------------------------------------------
             // Helper method
-            public void StartPersistantLogin(OnAuthLoginCallback onLoginCallback)
+            public void StartPersistentLogin(OnAuthLoginCallback onLoginCallback)
             {
                 StartLoginWithLoginTypeAndToken(LoginCredentialType.PersistentAuth, null, null, (callbackInfo) =>
                 {
@@ -768,7 +829,7 @@ namespace PlayEveryWare.EpicOnlineServices
                                 var authInterface = EOSManager.Instance.GetEOSPlatformInterface().GetAuthInterface();
                                 var options = new Epic.OnlineServices.Auth.DeletePersistentAuthOptions();
 
-                                authInterface.DeletePersistentAuth(options, null, (DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
+                                authInterface.DeletePersistentAuth(ref options, null, (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
                                 {
                                     if (onLoginCallback != null)
                                     {
@@ -808,27 +869,58 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
 
+            //-------------------------------------------------------------------------
             // Make sure that the EOSManager knows about when someone logs in our logs out
             private void ConfigureAuthStatusCallback()
             {
                 if (s_notifyLoginStatusChangedCallbackHandle == null)
                 {
                     var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                    ulong callbackHandle = EOSAuthInterface.AddNotifyLoginStatusChanged(new Epic.OnlineServices.Auth.AddNotifyLoginStatusChangedOptions(), null, (Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo callbackInfo) =>
+                    var addNotifyLoginStatusChangedOptions = new Epic.OnlineServices.Auth.AddNotifyLoginStatusChangedOptions();
+
+                    ulong callbackHandle = EOSAuthInterface.AddNotifyLoginStatusChanged(ref addNotifyLoginStatusChangedOptions, null, (ref Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo callbackInfo) =>
                     {
                         // if the user logged off
                         if (callbackInfo.CurrentStatus == LoginStatus.NotLoggedIn && callbackInfo.PrevStatus == LoginStatus.LoggedIn)
                         {
                             loggedInAccountIDs.Remove(callbackInfo.LocalUserId);
+                            SetLocalUserId(null);
                         }
                     });
                     s_notifyLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
                     {
-                        GetEOSAuthInterface().RemoveNotifyLoginStatusChanged(handle);
+                        GetEOSAuthInterface()?.RemoveNotifyLoginStatusChanged(handle);
                     });
                 }
             }
 
+            //-------------------------------------------------------------------------
+            private void ConfigureConnectStatusCallback()
+            {
+                if (s_notifyConnectLoginStatusChangedCallbackHandle == null)
+                {
+                    var EOSConnectInterface = GetEOSConnectInterface();
+                    var addNotifyLoginStatusChangedOptions = new Epic.OnlineServices.Connect.AddNotifyLoginStatusChangedOptions();
+                    ulong callbackHandle = EOSConnectInterface.AddNotifyLoginStatusChanged(ref addNotifyLoginStatusChangedOptions, null, (ref Epic.OnlineServices.Connect.LoginStatusChangedCallbackInfo callbackInfo) =>
+                    {
+                        if (callbackInfo.CurrentStatus == LoginStatus.NotLoggedIn && callbackInfo.PreviousStatus == LoginStatus.LoggedIn)
+                        {
+                            SetLocalProductUserId(null);
+                        }
+                        else if (callbackInfo.CurrentStatus == LoginStatus.LoggedIn && callbackInfo.PreviousStatus == LoginStatus.NotLoggedIn)
+                        {
+                            SetLocalProductUserId(callbackInfo.LocalUserId);
+                        }
+                    });
+
+                    s_notifyConnectLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
+                    {
+                        GetEOSConnectInterface()?.RemoveNotifyLoginStatusChanged(handle);
+                    });
+                }
+            }
+
+            //-------------------------------------------------------------------------
             private void CallOnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)
             {
                 foreach(var callback in s_onAuthLoginCallbacks)
@@ -861,26 +953,22 @@ namespace PlayEveryWare.EpicOnlineServices
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
 
                 Assert.IsNotNull(EOSAuthInterface, "EOSAuthInterface was null!");
-                Assert.IsNotNull(loginOptions, "Error creating login options");
 
                 // TODO: put this in a config file?
                 var displayOptions = new Epic.OnlineServices.UI.SetDisplayPreferenceOptions
                 {
                     NotificationLocation = Epic.OnlineServices.UI.NotificationLocation.TopRight
                 };
-                EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().SetDisplayPreference(displayOptions);
+                EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().SetDisplayPreference(ref displayOptions);
 
                 print("StartLoginWithLoginTypeAndToken");
 
-                EOSAuthInterface.Login(loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
+                EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
                     if(data.ResultCode == Result.Success)
                     {
                         loggedInAccountIDs.Add(data.LocalUserId);
 
-                        if (GetLocalUserId() == null)
-                        {
-                            SetLocalUserId(data.LocalUserId);
-                        }
+                        SetLocalUserId(data.LocalUserId);
 
                         ConfigureAuthStatusCallback();
 
@@ -897,11 +985,56 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             /// <summary>
-            /// Starts a logout for Auth
+            /// Helper method to set presence
             /// </summary>
             /// <param name="accountId"></param>
-            /// <param name="onLogoutCallback"></param>
-            public void StartLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
+            /// <param name="richText"></param>
+            public void SetPresenceRichTextForUser(EpicAccountId accountId, string richText /*, string platformText */)
+            {
+                var presenceInterface = GetEOSPresenceInterface();
+                var presenceHandle = new Epic.OnlineServices.Presence.PresenceModification();
+                var presenceModificationOption = new Epic.OnlineServices.Presence.CreatePresenceModificationOptions();
+                presenceModificationOption.LocalUserId = accountId;
+
+                var createPresenceModificationResult = presenceInterface.CreatePresenceModification(ref presenceModificationOption, out presenceHandle);
+
+                if (createPresenceModificationResult != Result.Success)
+                {
+                    UnityEngine.Debug.LogError("Unable to create presence modfication handle");
+                }
+
+                var presenceModificationSetStatUsOptions = new Epic.OnlineServices.Presence.PresenceModificationSetStatusOptions();
+                presenceModificationSetStatUsOptions.Status = Epic.OnlineServices.Presence.Status.Online;
+                var setStatusResult = presenceHandle.SetStatus(ref presenceModificationSetStatUsOptions);
+
+                if (setStatusResult != Result.Success)
+                {
+                    UnityEngine.Debug.LogError("unable to set status");
+                }
+
+                var richTextOptions = new Epic.OnlineServices.Presence.PresenceModificationSetRawRichTextOptions();
+                richTextOptions.RichText = richText;
+                presenceHandle.SetRawRichText(ref richTextOptions);
+
+                var options = new Epic.OnlineServices.Presence.SetPresenceOptions();
+                options.LocalUserId = accountId;
+                options.PresenceModificationHandle = presenceHandle;
+                presenceInterface.SetPresence(ref options, null, (ref Epic.OnlineServices.Presence.SetPresenceCallbackInfo callbackInfo) =>
+                {
+                    if (callbackInfo.ResultCode != Result.Success)
+                    {
+                        UnityEngine.Debug.LogError("Unable to set presence: " + callbackInfo.ResultCode.ToString());
+                    }
+                });
+            }
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Starts a logout for Auth
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="onLogoutCallback"></param>
+        public void StartLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
                 LogoutOptions options = new LogoutOptions
@@ -909,14 +1042,14 @@ namespace PlayEveryWare.EpicOnlineServices
                     LocalUserId = accountId
                 };
 
-                EOSAuthInterface.Logout(options, null, (LogoutCallbackInfo data) => {
+                EOSAuthInterface.Logout(ref options, null, (ref LogoutCallbackInfo data) => {
                     if (onLogoutCallback != null)
                     {
-                        onLogoutCallback(data);
+                        onLogoutCallback(ref data);
 
                         foreach(var callback in s_onAuthLogoutCallbacks)
                         {
-                            callback(data);
+                            callback(ref data);
                         }
                     }
                 });
@@ -927,6 +1060,11 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 if (GetEOSPlatformInterface() != null)
                 {
+                    // Poll for any application constrained state change that didn't
+                    // already coincide with a prior application focus or pause event
+                    UpdateApplicationConstrainedState(true);
+                    UpdateNetworkStatus();
+
                     GetEOSPlatformInterface().Tick();
                 }
             }
@@ -936,25 +1074,23 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 print("Shutting down");
                 var PlatformInterface = GetEOSPlatformInterface();
-                if(PlatformInterface == null)
+                if(PlatformInterface != null)
                 {
-                    return;
-                }
+                    var EOSAuthInterface = PlatformInterface.GetAuthInterface();
+                    // I don't need to create a new LogoutOption every time because the EOS wrapper API 
+                    // makes a copy each time LogOut is called.
+                    var logoutOptions = new LogoutOptions();
 
-                var EOSAuthInterface = PlatformInterface.GetAuthInterface();
-                // I don't need to create a new LogoutOption every time because the EOS wrapper API 
-                // makes a copy each time LogOut is called.
-                var logoutOptions = new LogoutOptions();
-
-                foreach(var epicUserID in loggedInAccountIDs)
-                {
-                    logoutOptions.LocalUserId = epicUserID;
-                    EOSAuthInterface.Logout(logoutOptions, null, (LogoutCallbackInfo data) => {
-                        if (data.ResultCode != Result.Success)
-                        {
-                            print("failed to logout ");
-                        }
-                    });
+                    foreach (var epicUserID in loggedInAccountIDs)
+                    {
+                        logoutOptions.LocalUserId = epicUserID;
+                        EOSAuthInterface.Logout(ref logoutOptions, null, (ref LogoutCallbackInfo data) => {
+                            if (data.ResultCode != Result.Success)
+                            {
+                                print("failed to logout ");
+                            }
+                        });
+                    }
                 }
 
 #if EOS_CAN_SHUTDOWN
@@ -979,13 +1115,143 @@ namespace PlayEveryWare.EpicOnlineServices
                     System.GC.Collect();
                     System.GC.WaitForPendingFinalizers();
 #endif
-                    GetEOSPlatformInterface().Release();
-                    Epic.OnlineServices.Platform.PlatformInterface.Shutdown();
+                    GetEOSPlatformInterface()?.Release();
+                    ShutdownPlatformInterface();
                     SetEOSPlatformInterface(null);
 #if UNITY_EDITOR
                     UnloadAllLibraries();
 #endif
                     s_state = EOSState.Shutdown;
+                }
+            }
+
+            //-------------------------------------------------------------------------
+            /// <summary>
+            /// Shuts down the <see cref="PlatformInterface"/> if it was initialized.
+            /// </summary>
+            private void ShutdownPlatformInterface()
+            {
+                if (s_hasInitializedPlatform)
+                {
+                    Epic.OnlineServices.Platform.PlatformInterface.Shutdown();
+                }
+                s_hasInitializedPlatform = false;
+            }
+            
+            public ApplicationStatus GetEOSApplicationStatus()
+            {
+                ApplicationStatus applicationStatus = GetEOSPlatformInterface().GetApplicationStatus();
+                return applicationStatus;
+            }
+
+            private void SetEOSApplicationStatus(ApplicationStatus newStatus)
+            {
+                ApplicationStatus currentStatus = GetEOSApplicationStatus();
+                if(currentStatus != newStatus)
+                {
+                    print($"EOSSingleton.SetEOSApplicationStatus: {currentStatus} -> {newStatus}");
+
+                    Result result = GetEOSPlatformInterface().SetApplicationStatus(newStatus);
+                    if (result != Result.Success)
+                    {
+                        UnityEngine.Debug.LogError($"EOSSingleton.SetEOSApplicationStatus: Error setting EOS application status (Result = {result})");
+                    }
+                }
+            }
+
+            private void UpdateEOSApplicationStatus()
+            {
+                if (GetEOSPlatformInterface() == null)
+                {
+                    // EOS platform interface doesn't exist yet, nothing to update
+                    return;
+                }
+
+                if (s_isPaused)
+                {
+                    // Application is in the background and not running (it's suspended)
+                    SetEOSApplicationStatus(ApplicationStatus.BackgroundSuspended);
+                }
+                else // NOT Paused
+                {
+                    if (s_hasFocus)
+                    {
+                        // Application is in the foreground and running normally
+                        SetEOSApplicationStatus(ApplicationStatus.Foreground);
+                    }
+                    else // NOT Focused
+                    {
+                        if (s_isConstrained)
+                        {
+                            // Application is in the background but running with reduced CPU/GPU resouces (it's constrained)
+                            SetEOSApplicationStatus(ApplicationStatus.BackgroundConstrained);
+                        }
+                        else // NOT Constrained
+                        {
+                            // Application is in the background but running normally (should be non-interactable since it's in the background)
+                            SetEOSApplicationStatus(ApplicationStatus.BackgroundUnconstrained);
+                        }
+                    }
+                }
+            }
+
+            public void OnApplicationPause(bool isPaused)
+            {
+                bool wasPaused = s_isPaused;
+                s_isPaused = isPaused;
+                print($"EOSSingleton.OnApplicationPause: IsPaused {wasPaused} -> {s_isPaused}");
+
+                // Poll for the latest application constrained state as we're about
+                // to need it to determine the appropriate EOS application status
+                UpdateApplicationConstrainedState(false);
+            }
+
+            public void OnApplicationFocus(bool hasFocus)
+            {
+                bool hadFocus = s_hasFocus;
+                s_hasFocus = hasFocus;
+                print($"EOSSingleton.OnApplicationFocus: HasFocus {hadFocus} -> {s_hasFocus}");
+
+                // Poll for the latest application constrained state as we're about
+                // to need it to determine the appropriate EOS application status
+                UpdateApplicationConstrainedState(false);
+            }
+
+            public void OnApplicationConstrained(bool isConstrained, bool shouldUpdateEOSAppStatus)
+            {
+                bool wasConstrained = s_isConstrained;
+                s_isConstrained = isConstrained;
+                print($"EOSSingleton.OnApplicationConstrained: IsConstrained {wasConstrained} -> {s_isConstrained}");
+
+                if (shouldUpdateEOSAppStatus)
+                {
+                    UpdateEOSApplicationStatus();
+                }
+            }
+
+            // Call at least once per Update to poll whether or not the application has become constrained since
+            // the last call (ie. is the application is now running in the background with reduced CPU/GPU resources?)
+            // We must poll this because not all platforms generate a Unity event for constrained state changes
+            // (if they even support constraining applications at all).
+            private void UpdateApplicationConstrainedState(bool shouldUpdateEOSAppStatus)
+            {
+                bool wasConstrained = s_isConstrained;
+                bool isConstrained = EOSManagerPlatformSpecifics.Instance.IsApplicationConstrainedWhenOutOfFocus();
+
+                // Constrained state changed?
+                if (wasConstrained != isConstrained)
+                {
+                    OnApplicationConstrained(isConstrained, shouldUpdateEOSAppStatus);
+                }
+            }
+
+            private void UpdateNetworkStatus()
+            {
+                var platformSpecifics = EOSManagerPlatformSpecifics.Instance;
+
+                if (platformSpecifics != null && platformSpecifics is IEOSNetworkStatusUpdater)
+                {
+                    (platformSpecifics as IEOSNetworkStatusUpdater).UpdateNetworkStatus();
                 }
             }
         }
@@ -1042,6 +1308,28 @@ namespace PlayEveryWare.EpicOnlineServices
         private void OnApplicationQuit()
         {
             EOSManager.Instance.OnShutdown();
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>Unity [OnApplicationFocus](https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationFocus.html) is called when the application loses or gains focus.
+        /// <list type="bullet">
+        ///     <item><description>Calls <c>OnApplicationFocus()</c></description></item>
+        /// </list>
+        /// </summary>
+        void OnApplicationFocus(bool hasFocus)
+        {
+            EOSManager.Instance.OnApplicationFocus(hasFocus);
+        }
+
+        //-------------------------------------------------------------------------
+        /// <summary>If the game is hidden (fully or partly) by another application then Unity [OnApplicationPause](https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationPause.html) will return true. When the game is changed back to current it will no longer be paused and OnApplicationPause will return to false.
+        /// <list type="bullet">
+        ///     <item><description>Calls <c>OnApplicationPause()</c></description></item>
+        /// </list>
+        /// </summary>
+        void OnApplicationPause(bool pauseStatus)
+        {
+            EOSManager.Instance.OnApplicationPause(pauseStatus);
         }
 
         //-------------------------------------------------------------------------

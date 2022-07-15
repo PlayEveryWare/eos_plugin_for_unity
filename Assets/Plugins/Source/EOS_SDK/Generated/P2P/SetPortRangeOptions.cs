@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about new port range settings.
 	/// </summary>
-	public class SetPortRangeOptions
+	public struct SetPortRangeOptions
 	{
 		/// <summary>
 		/// The ideal port to use for P2P traffic. The default value is 7777. If set to 0, the OS will choose a port. If set to 0, MaxAdditionalPortsToTry must be set to 0.
@@ -21,7 +21,7 @@ namespace Epic.OnlineServices.P2P
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetPortRangeOptionsInternal : ISettable, System.IDisposable
+	internal struct SetPortRangeOptionsInternal : ISettable<SetPortRangeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private ushort m_Port;
@@ -43,19 +43,21 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		public void Set(SetPortRangeOptions other)
+		public void Set(ref SetPortRangeOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = P2PInterface.SetportrangeApiLatest;
-				Port = other.Port;
-				MaxAdditionalPortsToTry = other.MaxAdditionalPortsToTry;
-			}
+			m_ApiVersion = P2PInterface.SetportrangeApiLatest;
+			Port = other.Port;
+			MaxAdditionalPortsToTry = other.MaxAdditionalPortsToTry;
 		}
 
-		public void Set(object other)
+		public void Set(ref SetPortRangeOptions? other)
 		{
-			Set(other as SetPortRangeOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = P2PInterface.SetportrangeApiLatest;
+				Port = other.Value.Port;
+				MaxAdditionalPortsToTry = other.Value.MaxAdditionalPortsToTry;
+			}
 		}
 
 		public void Dispose()

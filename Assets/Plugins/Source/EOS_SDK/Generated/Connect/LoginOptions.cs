@@ -6,64 +6,66 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.Login" /> function.
 	/// </summary>
-	public class LoginOptions
+	public struct LoginOptions
 	{
 		/// <summary>
 		/// Credentials specified for a given login method
 		/// </summary>
-		public Credentials Credentials { get; set; }
+		public Credentials? Credentials { get; set; }
 
 		/// <summary>
 		/// Additional non-authoritative information about the local user.
 		/// 
 		/// This field is required to be set and only used when authenticating the user using Amazon, Apple, Google, Nintendo Account, Nintendo Service Account, Oculus or the Device ID feature login.
-		/// When using other identity providers, set to NULL.
+		/// When using other identity providers, set to <see langword="null" />.
 		/// </summary>
-		public UserLoginInfo UserLoginInfo { get; set; }
+		public UserLoginInfo? UserLoginInfo { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LoginOptionsInternal : ISettable, System.IDisposable
+	internal struct LoginOptionsInternal : ISettable<LoginOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Credentials;
 		private System.IntPtr m_UserLoginInfo;
 
-		public Credentials Credentials
+		public Credentials? Credentials
 		{
 			set
 			{
-				Helper.TryMarshalSet<CredentialsInternal, Credentials>(ref m_Credentials, value);
+				Helper.Set<Credentials, CredentialsInternal>(ref value, ref m_Credentials);
 			}
 		}
 
-		public UserLoginInfo UserLoginInfo
+		public UserLoginInfo? UserLoginInfo
 		{
 			set
 			{
-				Helper.TryMarshalSet<UserLoginInfoInternal, UserLoginInfo>(ref m_UserLoginInfo, value);
+				Helper.Set<UserLoginInfo, UserLoginInfoInternal>(ref value, ref m_UserLoginInfo);
 			}
 		}
 
-		public void Set(LoginOptions other)
+		public void Set(ref LoginOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.LoginApiLatest;
+			Credentials = other.Credentials;
+			UserLoginInfo = other.UserLoginInfo;
+		}
+
+		public void Set(ref LoginOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.LoginApiLatest;
-				Credentials = other.Credentials;
-				UserLoginInfo = other.UserLoginInfo;
+				Credentials = other.Value.Credentials;
+				UserLoginInfo = other.Value.UserLoginInfo;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LoginOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Credentials);
-			Helper.TryMarshalDispose(ref m_UserLoginInfo);
+			Helper.Dispose(ref m_Credentials);
+			Helper.Dispose(ref m_UserLoginInfo);
 		}
 	}
 }

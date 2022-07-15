@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogPlayerUseAbilityOptions
+	public struct LogPlayerUseAbilityOptions
 	{
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -27,7 +27,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogPlayerUseAbilityOptionsInternal : ISettable, System.IDisposable
+	internal struct LogPlayerUseAbilityOptionsInternal : ISettable<LogPlayerUseAbilityOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PlayerHandle;
@@ -67,26 +67,30 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(LogPlayerUseAbilityOptions other)
+		public void Set(ref LogPlayerUseAbilityOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatCommonInterface.LogplayeruseabilityApiLatest;
-				PlayerHandle = other.PlayerHandle;
-				AbilityId = other.AbilityId;
-				AbilityDurationMs = other.AbilityDurationMs;
-				AbilityCooldownMs = other.AbilityCooldownMs;
-			}
+			m_ApiVersion = AntiCheatCommonInterface.LogplayeruseabilityApiLatest;
+			PlayerHandle = other.PlayerHandle;
+			AbilityId = other.AbilityId;
+			AbilityDurationMs = other.AbilityDurationMs;
+			AbilityCooldownMs = other.AbilityCooldownMs;
 		}
 
-		public void Set(object other)
+		public void Set(ref LogPlayerUseAbilityOptions? other)
 		{
-			Set(other as LogPlayerUseAbilityOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatCommonInterface.LogplayeruseabilityApiLatest;
+				PlayerHandle = other.Value.PlayerHandle;
+				AbilityId = other.Value.AbilityId;
+				AbilityDurationMs = other.Value.AbilityDurationMs;
+				AbilityCooldownMs = other.Value.AbilityCooldownMs;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PlayerHandle);
+			Helper.Dispose(ref m_PlayerHandle);
 		}
 	}
 }

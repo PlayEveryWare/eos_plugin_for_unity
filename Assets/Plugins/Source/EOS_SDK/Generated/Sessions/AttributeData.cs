@@ -6,49 +6,41 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Contains information about both session and search parameter attribution
 	/// </summary>
-	public class AttributeData : ISettable
+	public struct AttributeData
 	{
 		/// <summary>
 		/// Name of the session attribute
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 
 		public AttributeDataValue Value { get; set; }
 
-		internal void Set(AttributeDataInternal? other)
+		internal void Set(ref AttributeDataInternal other)
 		{
-			if (other != null)
-			{
-				Key = other.Value.Key;
-				Value = other.Value.Value;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AttributeDataInternal?);
+			Key = other.Key;
+			Value = other.Value;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AttributeDataInternal : ISettable, System.IDisposable
+	internal struct AttributeDataInternal : IGettable<AttributeData>, ISettable<AttributeData>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Key;
 		private AttributeDataValueInternal m_Value;
 
-		public string Key
+		public Utf8String Key
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Key, out value);
+				Utf8String value;
+				Helper.Get(m_Key, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
@@ -57,35 +49,43 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				AttributeDataValue value;
-				Helper.TryMarshalGet(m_Value, out value);
+				Helper.Get(ref m_Value, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Value, value);
+				Helper.Set(ref value, ref m_Value);
 			}
 		}
 
-		public void Set(AttributeData other)
+		public void Set(ref AttributeData other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.AttributedataApiLatest;
+			Key = other.Key;
+			Value = other.Value;
+		}
+
+		public void Set(ref AttributeData? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.AttributedataApiLatest;
-				Key = other.Key;
-				Value = other.Value;
+				Key = other.Value.Key;
+				Value = other.Value.Value;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AttributeData);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Key);
-			Helper.TryMarshalDispose(ref m_Value);
+			Helper.Dispose(ref m_Key);
+			Helper.Dispose(ref m_Value);
+		}
+
+		public void Get(out AttributeData output)
+		{
+			output = new AttributeData();
+			output.Set(ref this);
 		}
 	}
 }

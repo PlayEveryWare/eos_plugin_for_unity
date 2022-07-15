@@ -3,8 +3,8 @@
 
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
-	public delegate void OnSubmitSnapshotCallback(SubmitSnapshotCallbackInfo data);
+	public delegate void OnSubmitSnapshotCallback(ref SubmitSnapshotCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnSubmitSnapshotCallbackInternal(System.IntPtr data);
+	internal delegate void OnSubmitSnapshotCallbackInternal(ref SubmitSnapshotCallbackInfoInternal data);
 }

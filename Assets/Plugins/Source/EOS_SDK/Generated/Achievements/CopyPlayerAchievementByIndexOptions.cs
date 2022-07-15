@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.CopyPlayerAchievementByIndex" /> function.
 	/// </summary>
-	public class CopyPlayerAchievementByIndexOptions
+	public struct CopyPlayerAchievementByIndexOptions
 	{
 		/// <summary>
 		/// The Product User ID for the user whose achievement is to be retrieved.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Achievements
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyPlayerAchievementByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyPlayerAchievementByIndexOptionsInternal : ISettable<CopyPlayerAchievementByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -52,30 +52,33 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(CopyPlayerAchievementByIndexOptions other)
+		public void Set(ref CopyPlayerAchievementByIndexOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.CopyplayerachievementbyindexApiLatest;
+			TargetUserId = other.TargetUserId;
+			AchievementIndex = other.AchievementIndex;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref CopyPlayerAchievementByIndexOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.CopyplayerachievementbyindexApiLatest;
-				TargetUserId = other.TargetUserId;
-				AchievementIndex = other.AchievementIndex;
-				LocalUserId = other.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				AchievementIndex = other.Value.AchievementIndex;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyPlayerAchievementByIndexOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

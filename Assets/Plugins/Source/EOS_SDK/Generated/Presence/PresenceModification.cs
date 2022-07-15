@@ -50,21 +50,21 @@ namespace Epic.OnlineServices.Presence
 		/// <returns>
 		/// Success if modification was added successfully, otherwise an error code related to the problem
 		/// </returns>
-		public Result DeleteData(PresenceModificationDeleteDataOptions options)
+		public Result DeleteData(ref PresenceModificationDeleteDataOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<PresenceModificationDeleteDataOptionsInternal, PresenceModificationDeleteDataOptions>(ref optionsAddress, options);
+			PresenceModificationDeleteDataOptionsInternal optionsInternal = new PresenceModificationDeleteDataOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_PresenceModification_DeleteData(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_PresenceModification_DeleteData(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		/// <summary>
 		/// Release the memory associated with an <see cref="PresenceModification" /> handle. This must be called on Handles retrieved from <see cref="PresenceInterface.CreatePresenceModification" />.
-		/// This can be safely called on a NULL presence modification handle. This also may be safely called while a call to SetPresence is still pending.
+		/// This can be safely called on a <see langword="null" /> presence modification handle. This also may be safely called while a call to SetPresence is still pending.
 		/// <seealso cref="PresenceInterface.CreatePresenceModification" />
 		/// </summary>
 		/// <param name="presenceModificationHandle">The presence modification handle to release</param>
@@ -84,14 +84,14 @@ namespace Epic.OnlineServices.Presence
 		/// <returns>
 		/// Success if modification was added successfully, otherwise an error code related to the problem
 		/// </returns>
-		public Result SetData(PresenceModificationSetDataOptions options)
+		public Result SetData(ref PresenceModificationSetDataOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<PresenceModificationSetDataOptionsInternal, PresenceModificationSetDataOptions>(ref optionsAddress, options);
+			PresenceModificationSetDataOptionsInternal optionsInternal = new PresenceModificationSetDataOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_PresenceModification_SetData(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_PresenceModification_SetData(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -105,14 +105,14 @@ namespace Epic.OnlineServices.Presence
 		/// <returns>
 		/// Success if modification was added successfully, otherwise an error code related to the problem
 		/// </returns>
-		public Result SetJoinInfo(PresenceModificationSetJoinInfoOptions options)
+		public Result SetJoinInfo(ref PresenceModificationSetJoinInfoOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<PresenceModificationSetJoinInfoOptionsInternal, PresenceModificationSetJoinInfoOptions>(ref optionsAddress, options);
+			PresenceModificationSetJoinInfoOptionsInternal optionsInternal = new PresenceModificationSetJoinInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_PresenceModification_SetJoinInfo(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_PresenceModification_SetJoinInfo(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -126,14 +126,14 @@ namespace Epic.OnlineServices.Presence
 		/// <returns>
 		/// Success if modification was added successfully, otherwise an error code related to the problem
 		/// </returns>
-		public Result SetRawRichText(PresenceModificationSetRawRichTextOptions options)
+		public Result SetRawRichText(ref PresenceModificationSetRawRichTextOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<PresenceModificationSetRawRichTextOptionsInternal, PresenceModificationSetRawRichTextOptions>(ref optionsAddress, options);
+			PresenceModificationSetRawRichTextOptionsInternal optionsInternal = new PresenceModificationSetRawRichTextOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_PresenceModification_SetRawRichText(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_PresenceModification_SetRawRichText(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -145,14 +145,14 @@ namespace Epic.OnlineServices.Presence
 		/// <returns>
 		/// Success if modification was added successfully, otherwise an error code related to the problem
 		/// </returns>
-		public Result SetStatus(PresenceModificationSetStatusOptions options)
+		public Result SetStatus(ref PresenceModificationSetStatusOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<PresenceModificationSetStatusOptionsInternal, PresenceModificationSetStatusOptions>(ref optionsAddress, options);
+			PresenceModificationSetStatusOptionsInternal optionsInternal = new PresenceModificationSetStatusOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_PresenceModification_SetStatus(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_PresenceModification_SetStatus(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}

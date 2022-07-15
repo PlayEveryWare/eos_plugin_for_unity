@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.CopyLobbyDetailsHandleByInviteId" /> function.
 	/// </summary>
-	public class CopyLobbyDetailsHandleByInviteIdOptions
+	public struct CopyLobbyDetailsHandleByInviteIdOptions
 	{
 		/// <summary>
 		/// The ID of an invitation to join the lobby
 		/// </summary>
-		public string InviteId { get; set; }
+		public Utf8String InviteId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyLobbyDetailsHandleByInviteIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyLobbyDetailsHandleByInviteIdOptionsInternal : ISettable<CopyLobbyDetailsHandleByInviteIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_InviteId;
 
-		public string InviteId
+		public Utf8String InviteId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_InviteId, value);
+				Helper.Set(value, ref m_InviteId);
 			}
 		}
 
-		public void Set(CopyLobbyDetailsHandleByInviteIdOptions other)
+		public void Set(ref CopyLobbyDetailsHandleByInviteIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.CopylobbydetailshandlebyinviteidApiLatest;
+			InviteId = other.InviteId;
+		}
+
+		public void Set(ref CopyLobbyDetailsHandleByInviteIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.CopylobbydetailshandlebyinviteidApiLatest;
-				InviteId = other.InviteId;
+				InviteId = other.Value.InviteId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyLobbyDetailsHandleByInviteIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_InviteId);
+			Helper.Dispose(ref m_InviteId);
 		}
 	}
 }

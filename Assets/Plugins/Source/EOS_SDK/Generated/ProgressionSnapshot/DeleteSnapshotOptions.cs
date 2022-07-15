@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
-	public class DeleteSnapshotOptions
+	public struct DeleteSnapshotOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user to whom the key/value pair belong
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DeleteSnapshotOptionsInternal : ISettable, System.IDisposable
+	internal struct DeleteSnapshotOptionsInternal : ISettable<DeleteSnapshotOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -21,27 +21,28 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(DeleteSnapshotOptions other)
+		public void Set(ref DeleteSnapshotOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ProgressionSnapshotInterface.DeletesnapshotApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref DeleteSnapshotOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ProgressionSnapshotInterface.DeletesnapshotApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DeleteSnapshotOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

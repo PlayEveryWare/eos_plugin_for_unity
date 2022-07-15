@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="RTCInterface.BlockParticipant" />.
 	/// </summary>
-	public class BlockParticipantOptions
+	public struct BlockParticipantOptions
 	{
 		/// <summary>
 		/// Product User ID of the user trying to request this operation.
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.RTC
 		/// <summary>
 		/// The room the users should be blocked on.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// Product User ID of the participant to block
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.RTC
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct BlockParticipantOptionsInternal : ISettable, System.IDisposable
+	internal struct BlockParticipantOptionsInternal : ISettable<BlockParticipantOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -42,15 +42,15 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ParticipantId, value);
+				Helper.Set(value, ref m_ParticipantId);
 			}
 		}
 
@@ -66,32 +66,36 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Blocked, value);
+				Helper.Set(value, ref m_Blocked);
 			}
 		}
 
-		public void Set(BlockParticipantOptions other)
+		public void Set(ref BlockParticipantOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCInterface.BlockparticipantApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ParticipantId = other.ParticipantId;
+			Blocked = other.Blocked;
+		}
+
+		public void Set(ref BlockParticipantOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCInterface.BlockparticipantApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
-				ParticipantId = other.ParticipantId;
-				Blocked = other.Blocked;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				ParticipantId = other.Value.ParticipantId;
+				Blocked = other.Value.Blocked;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as BlockParticipantOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
-			Helper.TryMarshalDispose(ref m_ParticipantId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_ParticipantId);
 		}
 	}
 }

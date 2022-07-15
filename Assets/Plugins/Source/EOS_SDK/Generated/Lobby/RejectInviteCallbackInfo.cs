@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Output parameters for the <see cref="LobbyInterface.RejectInvite" /> function.
 	/// </summary>
-	public class RejectInviteCallbackInfo : ICallbackInfo, ISettable
+	public struct RejectInviteCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="LobbyInterface.RejectInvite" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The ID of the invitation being rejected
 		/// </summary>
-		public string InviteId { get; private set; }
+		public Utf8String InviteId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(RejectInviteCallbackInfoInternal? other)
+		internal void Set(ref RejectInviteCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				InviteId = other.Value.InviteId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RejectInviteCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			InviteId = other.InviteId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RejectInviteCallbackInfoInternal : ICallbackInfoInternal
+	internal struct RejectInviteCallbackInfoInternal : ICallbackInfoInternal, IGettable<RejectInviteCallbackInfo>, ISettable<RejectInviteCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -57,6 +49,11 @@ namespace Epic.OnlineServices.Lobby
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -64,8 +61,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -77,14 +79,48 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public string InviteId
+		public Utf8String InviteId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_InviteId, out value);
+				Utf8String value;
+				Helper.Get(m_InviteId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_InviteId);
+			}
+		}
+
+		public void Set(ref RejectInviteCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			InviteId = other.InviteId;
+		}
+
+		public void Set(ref RejectInviteCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				InviteId = other.Value.InviteId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_InviteId);
+		}
+
+		public void Get(out RejectInviteCallbackInfo output)
+		{
+			output = new RejectInviteCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

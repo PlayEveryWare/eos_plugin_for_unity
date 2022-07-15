@@ -68,12 +68,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             currentSelectedDefinitionLeaderboardId = leaderboardId;
 
-            Definition leaderboard = LeaderboardManager.GetCachedDefinitionFromId(leaderboardId);
+            Definition? leaderboard = LeaderboardManager.GetCachedDefinitionFromId(leaderboardId);
 
             if(leaderboard != null)
             {
-                CurrentSelectedLeaderboardTxt.text = leaderboard.StatName;
-                currentSelectedDefinitionStatName = leaderboard.StatName;
+                CurrentSelectedLeaderboardTxt.text = leaderboard?.StatName;
+                currentSelectedDefinitionStatName = leaderboard?.StatName;
             }
             else
             {

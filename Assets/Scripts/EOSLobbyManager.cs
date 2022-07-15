@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -116,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             options.LobbyId = Id;
             options.LocalUserId = EOSManager.Instance.GetProductUserId();
 
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandle(options, out LobbyDetails outLobbyDetailsHandle);
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandle(ref options, out LobbyDetails outLobbyDetailsHandle);
             if (result != Result.Success)
             {
                 Debug.LogErrorFormat("Lobbies (InitFromLobbyHandle): can't get lobby info handle. Error code: {0}", result);
@@ -131,6 +131,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitFromLobbyDetails(outLobbyDetailsHandle);
         }
 
+        //-------------------------------------------------------------------------
         /// <summary>
         /// Initializing the given <c>LobbyDetails</c> handle and caches all relevant attributes
         /// </summary>
@@ -138,7 +139,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void InitFromLobbyDetails(LobbyDetails outLobbyDetailsHandle)
         {
             // get owner
-            ProductUserId newLobbyOwner = outLobbyDetailsHandle.GetLobbyOwner(new LobbyDetailsGetLobbyOwnerOptions());
+            var lobbyDetailsGetLobbyOwnerOptions = new LobbyDetailsGetLobbyOwnerOptions();
+            ProductUserId newLobbyOwner = outLobbyDetailsHandle.GetLobbyOwner(ref lobbyDetailsGetLobbyOwnerOptions);
             if (newLobbyOwner != LobbyOwner)
             {
                 LobbyOwner = newLobbyOwner;
@@ -147,7 +149,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // copy lobby info
-            Result infoResult = outLobbyDetailsHandle.CopyInfo(new LobbyDetailsCopyInfoOptions(), out LobbyDetailsInfo outLobbyDetailsInfo);
+            var lobbyDetailsCopyInfoOptions = new LobbyDetailsCopyInfoOptions();
+            Result infoResult = outLobbyDetailsHandle.CopyInfo(ref lobbyDetailsCopyInfoOptions, out LobbyDetailsInfo? outLobbyDetailsInfo);
             if (infoResult != Result.Success)
             {
                 Debug.LogErrorFormat("Lobbies (InitFromLobbyDetails): can't copy lobby info. Error code: {0}", infoResult);
@@ -159,23 +162,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Id = outLobbyDetailsInfo.LobbyId;
-            MaxNumLobbyMembers = outLobbyDetailsInfo.MaxMembers;
-            LobbyPermissionLevel = outLobbyDetailsInfo.PermissionLevel;
-            AllowInvites = outLobbyDetailsInfo.AllowInvites;
-            AvailableSlots = outLobbyDetailsInfo.AvailableSlots;
-            BucketId = outLobbyDetailsInfo.BucketId;
-            RTCRoomEnabled = outLobbyDetailsInfo.RTCRoomEnabled;
+            Id = outLobbyDetailsInfo?.LobbyId;
+            MaxNumLobbyMembers = (uint)(outLobbyDetailsInfo?.MaxMembers);
+            LobbyPermissionLevel = (LobbyPermissionLevel)(outLobbyDetailsInfo?.PermissionLevel);
+            AllowInvites = (bool)(outLobbyDetailsInfo?.AllowInvites);
+            AvailableSlots = (uint)(outLobbyDetailsInfo?.AvailableSlots);
+            BucketId = outLobbyDetailsInfo?.BucketId;
+            RTCRoomEnabled = (bool)(outLobbyDetailsInfo?.RTCRoomEnabled);
 
             // get attributes
             Attributes.Clear();
-            uint attrCount = outLobbyDetailsHandle.GetAttributeCount(new LobbyDetailsGetAttributeCountOptions());
+            var lobbyDetailsGetAttributeCountOptions = new LobbyDetailsGetAttributeCountOptions();
+            uint attrCount = outLobbyDetailsHandle.GetAttributeCount(ref lobbyDetailsGetAttributeCountOptions);
             for (uint i = 0; i < attrCount; i++)
             {
                 LobbyDetailsCopyAttributeByIndexOptions attrOptions = new LobbyDetailsCopyAttributeByIndexOptions();
                 attrOptions.AttrIndex = i;
-                Result copyAttrResult = outLobbyDetailsHandle.CopyAttributeByIndex(attrOptions, out Epic.OnlineServices.Lobby.Attribute outAttribute);
-                if (copyAttrResult == Result.Success && outAttribute != null && outAttribute.Data != null)
+                Result copyAttrResult = outLobbyDetailsHandle.CopyAttributeByIndex(ref attrOptions, out Epic.OnlineServices.Lobby.Attribute? outAttribute);
+                if (copyAttrResult == Result.Success && outAttribute != null && outAttribute?.Data != null)
                 {
                     LobbyAttribute attr = new LobbyAttribute();
                     attr.InitFromAttribute(outAttribute);
@@ -187,19 +191,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             List<LobbyMember> OldMembers = new List<LobbyMember>(Members);
             Members.Clear();
 
-            uint memberCount = outLobbyDetailsHandle.GetMemberCount(new LobbyDetailsGetMemberCountOptions());
+            var lobbyDetailsGetMemberCountOptions = new LobbyDetailsGetMemberCountOptions();
+            uint memberCount = outLobbyDetailsHandle.GetMemberCount(ref lobbyDetailsGetMemberCountOptions);
 
             for (int memberIndex = 0; memberIndex < memberCount; memberIndex++)
             {
-                ProductUserId memberId = outLobbyDetailsHandle.GetMemberByIndex(new LobbyDetailsGetMemberByIndexOptions() { MemberIndex = (uint)memberIndex });
+                var lobbyDetailsGetMemberByIndexOptions = new LobbyDetailsGetMemberByIndexOptions() { MemberIndex = (uint)memberIndex };
+                ProductUserId memberId = outLobbyDetailsHandle.GetMemberByIndex(ref lobbyDetailsGetMemberByIndexOptions);
                 Members.Insert((int)memberIndex, new LobbyMember() { ProductId = memberId });
 
                 // member attributes
-                int memberAttributeCount = (int)outLobbyDetailsHandle.GetMemberAttributeCount(new LobbyDetailsGetMemberAttributeCountOptions() { TargetUserId = memberId });
+                var lobbyDetailsGetMemberAttributeCountOptions = new LobbyDetailsGetMemberAttributeCountOptions() { TargetUserId = memberId };
+                int memberAttributeCount = (int)outLobbyDetailsHandle.GetMemberAttributeCount(ref lobbyDetailsGetMemberAttributeCountOptions);
 
                 for (int attributeIndex = 0; attributeIndex < memberAttributeCount; attributeIndex++)
                 {
-                    Result memberAttributeResult = outLobbyDetailsHandle.CopyMemberAttributeByIndex(new LobbyDetailsCopyMemberAttributeByIndexOptions() { AttrIndex = (uint)attributeIndex, TargetUserId = memberId }, out Epic.OnlineServices.Lobby.Attribute outAttribute);
+                    var lobbyDetailsCopyMemberAttributeByIndexOptions = new LobbyDetailsCopyMemberAttributeByIndexOptions() { AttrIndex = (uint)attributeIndex, TargetUserId = memberId };
+                    Result memberAttributeResult = outLobbyDetailsHandle.CopyMemberAttributeByIndex(ref lobbyDetailsCopyMemberAttributeByIndexOptions, out Epic.OnlineServices.Lobby.Attribute? outAttribute);
 
                     if (memberAttributeResult != Result.Success)
                     {
@@ -285,16 +293,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 switch (ValueType)
                 {
                     case AttributeType.String:
-                        attrData.Value.AsUtf8 = AsString;
+                        attrData.Value = AsString;
                         break;
                     case AttributeType.Int64:
-                        attrData.Value.AsInt64 = AsInt64;
+                        attrData.Value = (AttributeDataValue)AsInt64;
                         break;
                     case AttributeType.Double:
-                        attrData.Value.AsDouble = AsDouble;
+                        attrData.Value = (AttributeDataValue)AsDouble;
                         break;
                     case AttributeType.Boolean:
-                        attrData.Value.AsBool = AsBool;
+                        attrData.Value = (AttributeDataValue)AsBool;
                         break;
                 }
 
@@ -320,24 +328,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return base.GetHashCode();
         }
 
-        public void InitFromAttribute(Epic.OnlineServices.Lobby.Attribute attributeParam)
+        public void InitFromAttribute(Epic.OnlineServices.Lobby.Attribute? attributeParam)
         {
-            Key = attributeParam.Data.Key;
-            ValueType = attributeParam.Data.Value.ValueType;
+            AttributeData attributeData = (AttributeData)(attributeParam?.Data);
 
-            switch (attributeParam.Data.Value.ValueType)
+            Key = attributeData.Key;
+            ValueType = attributeData.Value.ValueType;
+
+            switch (attributeData.Value.ValueType)
             {
                 case AttributeType.Boolean:
-                    AsBool = attributeParam.Data.Value.AsBool;
+                    AsBool = attributeData.Value.AsBool;
                     break;
                 case AttributeType.Int64:
-                    AsInt64 = attributeParam.Data.Value.AsInt64;
+                    AsInt64 = attributeData.Value.AsInt64;
                     break;
                 case AttributeType.Double:
-                    AsDouble = attributeParam.Data.Value.AsDouble;
+                    AsDouble = attributeData.Value.AsDouble;
                     break;
                 case AttributeType.String:
-                    AsString = attributeParam.Data.Value.AsUtf8;
+                    AsString = attributeData.Value.AsUtf8;
                     break;
             }
         }
@@ -348,10 +358,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// </summary>
     public class LobbyMember
     {
-        public EpicAccountId AccountId;
+        //public EpicAccountId AccountId;
         public ProductUserId ProductId;
 
-        public string DisplayName;
+        public string DisplayName
+        {
+            get
+            {
+                MemberAttributes.TryGetValue(DisplayNameKey, out LobbyAttribute nameAttrib);
+                return nameAttrib?.AsString ?? string.Empty;
+            }
+        }
+
+        public const string DisplayNameKey = "DisplayName";
+
         public Dictionary<string, LobbyAttribute> MemberAttributes = new Dictionary<string, LobbyAttribute>();
 
         public LobbyRTCState RTCState = new LobbyRTCState();
@@ -444,10 +464,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public delegate void OnLobbyCallback(Result result);
         public delegate void OnLobbySearchCallback(Result result);
 
+        private EOSUserInfoManager UserInfoManager;
+
         // Init
 
         public EOSLobbyManager()
         {
+            UserInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
+
             CurrentLobby = new Lobby();
             ActiveJoin = new LobbyJoinRequest();
 
@@ -497,6 +521,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return handle != null && handle.IsValid();
         }
 
+        // Helper method to keep the code cleaner
+        private ulong AddNotifyLobbyUpdateReceived(LobbyInterface lobbyInterface, OnLobbyUpdateReceivedCallback notificationFn)
+        {
+            var options = new AddNotifyLobbyUpdateReceivedOptions();
+            return lobbyInterface.AddNotifyLobbyUpdateReceived(ref options, null, notificationFn);
+        }
+
+        private ulong AddNotifyLobbyMemberUpdateReceived(LobbyInterface lobbyInterface, OnLobbyMemberUpdateReceivedCallback notificationFn)
+        {
+            var options = new AddNotifyLobbyMemberUpdateReceivedOptions();
+            return lobbyInterface.AddNotifyLobbyMemberUpdateReceived(ref options, null, notificationFn);
+        }
+
+        private ulong AddNotifyLobbyMemberStatusReceived(LobbyInterface lobbyInterface, OnLobbyMemberStatusReceivedCallback notificationFn)
+        {
+            var options = new AddNotifyLobbyMemberStatusReceivedOptions();
+            return lobbyInterface.AddNotifyLobbyMemberStatusReceived(ref options, null, notificationFn);
+        }
+
         private void SubscribeToLobbyUpdates()
         {
             if(IsLobbyNotificationValid(LobbyUpdateNotification) ||
@@ -509,17 +552,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             
 
             var lobbyInterface = EOSManager.Instance.GetEOSLobbyInterface();
-            LobbyUpdateNotification = new NotifyEventHandle(lobbyInterface.AddNotifyLobbyUpdateReceived(new AddNotifyLobbyUpdateReceivedOptions(), null, OnLobbyUpdateReceived), (ulong handle) =>
+            LobbyUpdateNotification = new NotifyEventHandle(AddNotifyLobbyUpdateReceived(lobbyInterface, OnLobbyUpdateReceived), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLobbyUpdateReceived(handle);
             });
 
-            LobbyMemberUpdateNotification = new NotifyEventHandle(lobbyInterface.AddNotifyLobbyMemberUpdateReceived(new AddNotifyLobbyMemberUpdateReceivedOptions(), null, OnMemberUpdateReceived), (ulong handle) => 
+            LobbyMemberUpdateNotification = new NotifyEventHandle(AddNotifyLobbyMemberUpdateReceived(lobbyInterface, OnMemberUpdateReceived), (ulong handle) => 
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLobbyMemberUpdateReceived(handle);
             });
 
-            LobbyMemberStatusNotification = new NotifyEventHandle(lobbyInterface.AddNotifyLobbyMemberStatusReceived(new AddNotifyLobbyMemberStatusReceivedOptions(), null, OnMemberStatusReceived), (ulong handle) =>
+            LobbyMemberStatusNotification = new NotifyEventHandle(AddNotifyLobbyMemberStatusReceived(lobbyInterface, OnMemberStatusReceived), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLobbyMemberStatusReceived(handle);
             });
@@ -544,17 +587,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             var lobbyInterface = EOSManager.Instance.GetEOSLobbyInterface();
-            LobbyInviteNotification = new NotifyEventHandle(lobbyInterface.AddNotifyLobbyInviteReceived(new AddNotifyLobbyInviteReceivedOptions(), null, OnLobbyInviteReceived), (ulong handle) =>
+            var addNotifyLobbyInviteReceivedOptions = new AddNotifyLobbyInviteReceivedOptions();
+            LobbyInviteNotification = new NotifyEventHandle(lobbyInterface.AddNotifyLobbyInviteReceived(ref addNotifyLobbyInviteReceivedOptions, null, OnLobbyInviteReceived), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLobbyInviteReceived(handle);
             });
 
-            LobbyInviteAcceptedNotification = new NotifyEventHandle(lobbyInterface.AddNotifyLobbyInviteAccepted(new AddNotifyLobbyInviteAcceptedOptions(), null, OnLobbyInviteAccepted), (ulong handle) =>
+            var addNotifyLobbyInviteAcceptedOptions = new AddNotifyLobbyInviteAcceptedOptions();
+            LobbyInviteAcceptedNotification = new NotifyEventHandle(lobbyInterface.AddNotifyLobbyInviteAccepted(ref addNotifyLobbyInviteAcceptedOptions, null, OnLobbyInviteAccepted), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLobbyInviteAccepted(handle);
             });
 
-            JoinLobbyAcceptedNotification = new NotifyEventHandle(lobbyInterface.AddNotifyJoinLobbyAccepted(new AddNotifyJoinLobbyAcceptedOptions(), null, OnJoinLobbyAccepted), (ulong handle) =>
+            var addNotifyJoinLobbyAcceptedOptions = new AddNotifyJoinLobbyAcceptedOptions();
+            JoinLobbyAcceptedNotification = new NotifyEventHandle(lobbyInterface.AddNotifyJoinLobbyAccepted(ref addNotifyJoinLobbyAcceptedOptions, null, OnJoinLobbyAccepted), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyJoinLobbyAccepted(handle);
             });
@@ -576,7 +622,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LocalUserId = EOSManager.Instance.GetProductUserId()
             };
 
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().GetRTCRoomName(options, out string roomName);
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().GetRTCRoomName(ref options, out Utf8String roomName);
 
             if(result != Result.Success)
             {
@@ -622,12 +668,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyInterface lobbyInterface = EOSManager.Instance.GetEOSLobbyInterface();
 
             // Register for connection status changes
-            AddNotifyRTCRoomConnectionChangedOptions addNotifyRTCRoomConnectionChangedOptions = new AddNotifyRTCRoomConnectionChangedOptions()
-            {
-                LobbyId = CurrentLobby.Id,
-                LocalUserId = EOSManager.Instance.GetProductUserId()
-            };
-            CurrentLobby.RTCRoomConnectionChanged = new NotifyEventHandle(lobbyInterface.AddNotifyRTCRoomConnectionChanged(addNotifyRTCRoomConnectionChangedOptions, null, OnRTCRoomConnectionChangedReceived), (ulong handle) =>
+            AddNotifyRTCRoomConnectionChangedOptions addNotifyRTCRoomConnectionChangedOptions = new AddNotifyRTCRoomConnectionChangedOptions();
+            CurrentLobby.RTCRoomConnectionChanged = new NotifyEventHandle(lobbyInterface.AddNotifyRTCRoomConnectionChanged(ref addNotifyRTCRoomConnectionChangedOptions, null, OnRTCRoomConnectionChangedReceived), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyRTCRoomConnectionChanged(handle);
             });
@@ -644,7 +686,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LocalUserId = EOSManager.Instance.GetProductUserId()
             };
 
-            Result result = lobbyInterface.IsRTCRoomConnected(isRTCRoomConnectedOptions, out bool isConnected);
+            Result result = lobbyInterface.IsRTCRoomConnected(ref isRTCRoomConnectedOptions, out bool isConnected);
 
             if (result != Result.Success)
             {
@@ -665,7 +707,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RoomName = CurrentLobby.RTCRoomName
             };
 
-            CurrentLobby.RTCRoomParticipantUpdate = new NotifyEventHandle(rtcHandle.AddNotifyParticipantStatusChanged(addNotifyParticipantsStatusChangedOptions, null, OnRTCRoomParticipantStatusChanged), (ulong handle) =>
+            CurrentLobby.RTCRoomParticipantUpdate = new NotifyEventHandle(rtcHandle.AddNotifyParticipantStatusChanged(ref addNotifyParticipantsStatusChangedOptions, null, OnRTCRoomParticipantStatusChanged), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSRTCInterface().RemoveNotifyParticipantStatusChanged(handle);
             });
@@ -682,19 +724,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RoomName = CurrentLobby.RTCRoomName
             };
 
-            CurrentLobby.RTCRoomParticipantAudioUpdate = new NotifyEventHandle(rtcAudioHandle.AddNotifyParticipantUpdated(addNotifyParticipantUpdatedOptions, null, OnRTCRoomParticipantAudioUpdateRecieved), (ulong handle) =>
+            CurrentLobby.RTCRoomParticipantAudioUpdate = new NotifyEventHandle(rtcAudioHandle.AddNotifyParticipantUpdated(ref addNotifyParticipantUpdatedOptions, null, OnRTCRoomParticipantAudioUpdateRecieved), (ulong handle) =>
             {
                 EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().RemoveNotifyParticipantUpdated(handle);
             });
         }
 
-        private void OnRTCRoomConnectionChangedReceived(RTCRoomConnectionChangedCallbackInfo data)
+        private void OnRTCRoomConnectionChangedReceived(ref RTCRoomConnectionChangedCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnRTCRoomConnectionChangedReceived): RTCRoomConnectionChangedCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnRTCRoomConnectionChangedReceived): RTCRoomConnectionChangedCallbackInfo data is null");
+            //    return;
+            //}
 
             Debug.LogFormat("Lobbies (OnRTCRoomConnectionChangedReceived): connection status changed. LobbyId={0}, IsConnected={1}, DisconnectReason={2}", data.LobbyId, data.IsConnected, data.DisconnectReason);
 
@@ -728,13 +770,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             _Dirty = true;
         }
 
-        private void OnRTCRoomParticipantStatusChanged(ParticipantStatusChangedCallbackInfo data)
+        private void OnRTCRoomParticipantStatusChanged(ref ParticipantStatusChangedCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnRTCRoomParticipantStatusChanged): ParticipantStatusChangedCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnRTCRoomParticipantStatusChanged): ParticipantStatusChangedCallbackInfo data is null");
+            //    return;
+            //}
 
             int metadataCount = 0;
             if (data.ParticipantMetadata != null)
@@ -781,13 +823,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnRTCRoomParticipantAudioUpdateRecieved(ParticipantUpdatedCallbackInfo data)
+        private void OnRTCRoomParticipantAudioUpdateRecieved(ref ParticipantUpdatedCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): ParticipantUpdatedCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): ParticipantUpdatedCallbackInfo data is null");
+            //    return;
+            //}
 
             /* Verbose Logging: Uncomment to print each time audio is received.
             Debug.LogFormat("Lobbies (OnRTCRoomParticipantAudioUpdateRecieved): participant audio updated. LocalUserId={0}, Room={1}, ParticipantUserId={2}, IsTalking={3}, IsAudioDisabled={4}",
@@ -920,7 +962,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Note: Attributes are handled in ModifyLobby
             LobbyCreatedCallback = CreateLobbyCompleted;
 
-            EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(createLobbyOptions, null, OnCreateLobbyCompleted);
+            EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, null, OnCreateLobbyCompleted);
 
             // Save lobby data for modification
             CurrentLobby = lobbyProperties;
@@ -963,7 +1005,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             options.LocalUserId = currentProductUserId;
 
             // Get LobbyModification object handle
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().UpdateLobbyModification(options, out LobbyModification outLobbyModificationHandle);
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().UpdateLobbyModification(ref options, out LobbyModification outLobbyModificationHandle);
 
             if (result != Result.Success)
             {
@@ -975,7 +1017,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Bucket Id
             if(!string.Equals(lobbyUpdates.BucketId, CurrentLobby.BucketId))
             {
-                outLobbyModificationHandle.SetBucketId(new LobbyModificationSetBucketIdOptions() { BucketId = lobbyUpdates.BucketId });
+                var lobbyModificationSetBucketIdOptions = new LobbyModificationSetBucketIdOptions() { BucketId = lobbyUpdates.BucketId };
+                result = outLobbyModificationHandle.SetBucketId(ref lobbyModificationSetBucketIdOptions);
 
                 if (result != Result.Success)
                 {
@@ -988,7 +1031,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Max Players
             if (lobbyUpdates.MaxNumLobbyMembers > 0)
             {
-                result = outLobbyModificationHandle.SetMaxMembers(new LobbyModificationSetMaxMembersOptions() { MaxMembers = lobbyUpdates.MaxNumLobbyMembers });
+                var lobbyModificationSetMaxMembersOptions = new LobbyModificationSetMaxMembersOptions() { MaxMembers = lobbyUpdates.MaxNumLobbyMembers };
+                result = outLobbyModificationHandle.SetMaxMembers(ref lobbyModificationSetMaxMembersOptions);
 
                 if (result != Result.Success)
                 {
@@ -1007,19 +1051,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 addAttributeOptions.Attribute = attributeData;
                 addAttributeOptions.Visibility = lobbyUpdates.Attributes[attributeIndex].Visibility;
 
-                if (attributeData.Key == null)
-                {
-                    Debug.LogWarning("Lobbies (ModifyLobby): Attributes with null key! Do not add!");
-                    continue;
-                }
+                //if (attributeData.Key == null)
+                //{
+                //    Debug.LogWarning("Lobbies (ModifyLobby): Attributes with null key! Do not add!");
+                //    continue;
+                //}
 
-                if (attributeData.Value == null)
-                {
-                    Debug.LogWarningFormat("Lobbies (ModifyLobby): Attributes with key '{0}' has null value! Do not add!", attributeData.Key);
-                    continue;
-                }
+                //if (attributeData.Value == null)
+                //{
+                //    Debug.LogWarningFormat("Lobbies (ModifyLobby): Attributes with key '{0}' has null value! Do not add!", attributeData.Key);
+                //    continue;
+                //}
 
-                result = outLobbyModificationHandle.AddAttribute(addAttributeOptions);
+                result = outLobbyModificationHandle.AddAttribute(ref addAttributeOptions);
                 if (result != Result.Success)
                 {
                     Debug.LogErrorFormat("Lobbies (ModifyLobby): Could not add attribute. Error code: {0}", result);
@@ -1031,7 +1075,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Permission
             if (lobbyUpdates.LobbyPermissionLevel != CurrentLobby.LobbyPermissionLevel)
             {
-                result = outLobbyModificationHandle.SetPermissionLevel(new LobbyModificationSetPermissionLevelOptions() { PermissionLevel = lobbyUpdates.LobbyPermissionLevel });
+                var lobbyModificationSetPermissionLevelOptions = new LobbyModificationSetPermissionLevelOptions() { PermissionLevel = lobbyUpdates.LobbyPermissionLevel };
+                result = outLobbyModificationHandle.SetPermissionLevel(ref lobbyModificationSetPermissionLevelOptions);
 
                 if (result != Result.Success)
                 {
@@ -1044,7 +1089,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Allow Invites
             if (lobbyUpdates.AllowInvites != CurrentLobby.AllowInvites)
             {
-                outLobbyModificationHandle.SetInvitesAllowed(new LobbyModificationSetInvitesAllowedOptions() { InvitesAllowed = lobbyUpdates.AllowInvites });
+                var lobbyModificationSetInvitesAllowedOptions = new LobbyModificationSetInvitesAllowedOptions() { InvitesAllowed = lobbyUpdates.AllowInvites };
+                result = outLobbyModificationHandle.SetInvitesAllowed(ref lobbyModificationSetInvitesAllowedOptions);
 
                 if (result != Result.Success)
                 {
@@ -1057,7 +1103,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyModifyCallback = ModififyLobbyCompleted;
 
             //Trigger lobby update
-            EOSManager.Instance.GetEOSLobbyInterface().UpdateLobby(new UpdateLobbyOptions() { LobbyModificationHandle = outLobbyModificationHandle }, null, OnUpdateLobbyCallBack);
+            var updateLobbyOptions = new UpdateLobbyOptions() { LobbyModificationHandle = outLobbyModificationHandle };
+            EOSManager.Instance.GetEOSLobbyInterface().UpdateLobby(ref updateLobbyOptions, null, OnUpdateLobbyCallBack);
         }
 
         /// <summary>
@@ -1083,7 +1130,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LeaveLobbyCallback = LeaveLobbyCompleted;
 
-            EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(options, null, OnLeaveLobbyCompleted);
+            EOSManager.Instance.GetEOSLobbyInterface().LeaveLobby(ref options, null, OnLeaveLobbyCompleted);
         }
 
         /// <summary>
@@ -1111,7 +1158,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = targetUserId
             };
 
-            EOSManager.Instance.GetEOSLobbyInterface().SendInvite(options, null, OnSendInviteCompleted);
+            EOSManager.Instance.GetEOSLobbyInterface().SendInvite(ref options, null, OnSendInviteCompleted);
         }
 
         /// <summary>
@@ -1134,7 +1181,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LocalUserId = EOSManager.Instance.GetProductUserId()
             };
 
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().UpdateLobbyModification(options, out LobbyModification lobbyModificationHandle);
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().UpdateLobbyModification(ref options, out LobbyModification lobbyModificationHandle);
 
             if(result != Result.Success)
             {
@@ -1152,7 +1199,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Visibility = LobbyAttributeVisibility.Public
             };
 
-            result = lobbyModificationHandle.AddMemberAttribute(attrOptions);
+            result = lobbyModificationHandle.AddMemberAttribute(ref attrOptions);
 
             if(result != Result.Success)
             {
@@ -1167,16 +1214,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LobbyModificationHandle = lobbyModificationHandle
             };
 
-            EOSManager.Instance.GetEOSLobbyInterface().UpdateLobby(updateOptions, null, OnUpdateLobbyCallBack);
+            EOSManager.Instance.GetEOSLobbyInterface().UpdateLobby(ref updateOptions, null, OnUpdateLobbyCallBack);
         }
 
-        private void OnSendInviteCompleted(SendInviteCallbackInfo data)
+        private void OnSendInviteCompleted(ref SendInviteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnSendInviteCompleted): SendInviteCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnSendInviteCompleted): SendInviteCallbackInfo data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1187,14 +1234,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log("Lobbies (OnSendInviteCompleted): invite sent.");
         }
 
-        private void OnCreateLobbyCompleted(CreateLobbyCallbackInfo createLobbyCallbackInfo)
+        private void OnCreateLobbyCompleted(ref CreateLobbyCallbackInfo createLobbyCallbackInfo)
         {
-            if (createLobbyCallbackInfo == null)
-            {
-                Debug.Log("Lobbies (OnCreateLobbyCompleted): createLobbyCallbackInfo is null");
-                LobbyCreatedCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (createLobbyCallbackInfo == null)
+            //{
+            //    Debug.Log("Lobbies (OnCreateLobbyCompleted): createLobbyCallbackInfo is null");
+            //    LobbyCreatedCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (createLobbyCallbackInfo.ResultCode != Result.Success)
             {
@@ -1219,18 +1266,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 _Dirty = true;
 
+                AddLocalUserAttributes();
+
                 LobbyCreatedCallback?.Invoke(Result.Success);
             }
         }
 
-        private void OnUpdateLobbyCallBack(UpdateLobbyCallbackInfo data)
+        private void OnUpdateLobbyCallBack(ref UpdateLobbyCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnUpdateLobbyCallBack): UpdateLobbyCallbackInfo data is null");
-                LobbyModifyCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnUpdateLobbyCallBack): UpdateLobbyCallbackInfo data is null");
+            //    LobbyModifyCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1255,26 +1304,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnLobbyUpdateReceived(LobbyUpdateReceivedCallbackInfo data)
+        private void OnLobbyUpdateReceived(ref LobbyUpdateReceivedCallbackInfo data)
         {
             // Callback for LobbyUpdateNotification
 
-            if (data != null)
-            {
+            //if (data != null)
+            //{
                 Debug.Log("Lobbies (OnLobbyUpdateReceived): lobby update received.");
                 OnLobbyUpdated(data.LobbyId, null);
-            }
-            else
-            {
-                Debug.LogError("Lobbies (OnLobbyUpdateReceived): EOS_Lobby_LobbyUpdateReceivedCallbackInfo is null");
-            }
+            //}
+            //else
+            //{
+            //    Debug.LogError("Lobbies (OnLobbyUpdateReceived): EOS_Lobby_LobbyUpdateReceivedCallbackInfo is null");
+            //}
         }
 
         /// <summary>
         /// Wrapper for calling [EOS_Lobby_DestroyLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_DestroyLobby/index.html)
         /// </summary>
         /// <param name="DestroyCurrentLobbyCompleted">Callback when destroy lobby is completed</param>
-        public void DestroyCurrentLobby(OnLobbyCallback DestroyCurrentLobbyCompleted)
+        public void DestroyCurrentLobby(ref OnLobbyCallback DestroyCurrentLobbyCompleted)
         {
             if (!CurrentLobby.IsValid())
             {
@@ -1306,20 +1355,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             DestroyLobbyCallback = DestroyCurrentLobbyCompleted;
 
-            EOSManager.Instance.GetEOSLobbyInterface().DestroyLobby(options, null, OnDestroyLobbyCompleted);
+            EOSManager.Instance.GetEOSLobbyInterface().DestroyLobby(ref options, null, OnDestroyLobbyCompleted);
 
             // Clear current lobby
             CurrentLobby.Clear();
         }
 
-        private void OnDestroyLobbyCompleted(DestroyLobbyCallbackInfo data)
+        private void OnDestroyLobbyCompleted(ref DestroyLobbyCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnDestroyLobbyCompleted): DestroyLobbyCallbackInfo data is null");
-                DestroyLobbyCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnDestroyLobbyCompleted): DestroyLobbyCallbackInfo data is null");
+            //    DestroyLobbyCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1387,7 +1436,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     ToggleMuteCallback = ToggleMuteCompleted;
 
-                    rtcAudioHandle.UpdateSending(sendOptions, null, OnRTCRoomUpdateSendingCompleted);
+                    rtcAudioHandle.UpdateSending(ref sendOptions, null, OnRTCRoomUpdateSendingCompleted);
                 }
                 else
                 {
@@ -1405,19 +1454,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     ToggleMuteCallback = ToggleMuteCompleted;
 
-                    rtcAudioHandle.UpdateReceiving(recevingOptions, null, OnRTCRoomUpdateReceivingCompleted);
+                    rtcAudioHandle.UpdateReceiving(ref recevingOptions, null, OnRTCRoomUpdateReceivingCompleted);
                 }
             }
         }
 
-        private void OnRTCRoomUpdateSendingCompleted(UpdateSendingCallbackInfo data)
+        private void OnRTCRoomUpdateSendingCompleted(ref UpdateSendingCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnRTCRoomUpdateSendingCompleted): UpdateSendingCallbackInfo data is null");
-                ToggleMuteCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnRTCRoomUpdateSendingCompleted): UpdateSendingCallbackInfo data is null");
+            //    ToggleMuteCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1461,14 +1510,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnRTCRoomUpdateReceivingCompleted(UpdateReceivingCallbackInfo data)
+        private void OnRTCRoomUpdateReceivingCompleted(ref UpdateReceivingCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnRTCRoomUpdateReceivingCompleted): UpdateSendingCallbackInfo data is null");
-                ToggleMuteCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnRTCRoomUpdateReceivingCompleted): UpdateSendingCallbackInfo data is null");
+            //    ToggleMuteCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1539,17 +1588,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             KickMemberCallback = KickMemberCompleted;
 
-            EOSManager.Instance.GetEOSLobbyInterface().KickMember(kickOptions, null, OnKickMemberCompleted);
+            EOSManager.Instance.GetEOSLobbyInterface().KickMember(ref kickOptions, null, OnKickMemberCompleted);
         }
 
-        private void OnKickMemberCompleted(KickMemberCallbackInfo data)
+        private void OnKickMemberCompleted(ref KickMemberCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnKickMemberCompleted): KickMemberCallbackInfo data is null");
-                KickMemberCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnKickMemberCompleted): KickMemberCallbackInfo data is null");
+            //    KickMemberCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1602,17 +1651,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             PromoteMemberCallback = PromoteMemberCompleted;
 
-            EOSManager.Instance.GetEOSLobbyInterface().PromoteMember(promoteOptions, null, OnPromoteMemberCompleted);
+            EOSManager.Instance.GetEOSLobbyInterface().PromoteMember(ref promoteOptions, null, OnPromoteMemberCompleted);
         }
 
-        private void OnPromoteMemberCompleted(PromoteMemberCallbackInfo data)
+        private void OnPromoteMemberCompleted(ref PromoteMemberCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnPromoteMemberCompleted): PromoteMemberCallbackInfo data is null");
-                PromoteMemberCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnPromoteMemberCompleted): PromoteMemberCallbackInfo data is null");
+            //    PromoteMemberCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1626,15 +1675,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PromoteMemberCallback?.Invoke(Result.Success);
         }
 
-        private void OnMemberStatusReceived(LobbyMemberStatusReceivedCallbackInfo data)
+        private void OnMemberStatusReceived(ref LobbyMemberStatusReceivedCallbackInfo data)
         {
             // Callback for LobbyMemberStatusNotification
 
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnMemberStatusReceived): LobbyMemberStatusReceivedCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnMemberStatusReceived): LobbyMemberStatusReceivedCallbackInfo data is null");
+            //    return;
+            //}
 
             Debug.Log("Lobbies (OnMemberStatusReceived): Member status update received.");
 
@@ -1670,15 +1719,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnMemberUpdateReceived(LobbyMemberUpdateReceivedCallbackInfo data)
+        private void OnMemberUpdateReceived(ref LobbyMemberUpdateReceivedCallbackInfo data)
         {
             // Callback for LobbyMemberUpdateNotification
 
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnMemberUpdateReceived): LobbyMemberUpdateReceivedCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnMemberUpdateReceived): LobbyMemberUpdateReceivedCallbackInfo data is null");
+            //    return;
+            //}
 
             Debug.Log("Lobbies (OnMemberUpdateReceived): Member update received.");
             OnLobbyUpdated(data.LobbyId, null);
@@ -1711,7 +1760,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().CreateLobbySearch(new CreateLobbySearchOptions() { MaxResults = 10 }, out LobbySearch outLobbySearchHandle);
+            var createLobbySearchOptions = new CreateLobbySearchOptions() { MaxResults = 10 };
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().CreateLobbySearch(ref createLobbySearchOptions, out LobbySearch outLobbySearchHandle);
 
             if (result != Result.Success)
             {
@@ -1725,7 +1775,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchSetLobbyIdOptions setLobbyOptions = new LobbySearchSetLobbyIdOptions();
             setLobbyOptions.LobbyId = lobbyId;
 
-            result = outLobbySearchHandle.SetLobbyId(setLobbyOptions);
+            result = outLobbySearchHandle.SetLobbyId(ref setLobbyOptions);
             if (result != Result.Success)
             {
                 Debug.LogErrorFormat("Lobbies (SearchByLobbyId): failed to update SearchByLobbyId with lobby id. Error code: {0}", result);
@@ -1734,8 +1784,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             LobbySearchCallback = SearchCompleted;
-
-            outLobbySearchHandle.Find(new LobbySearchFindOptions() { LocalUserId = currentProductUserId }, null, OnLobbySearchCompleted);
+            var lobbySearchFindOptions = new LobbySearchFindOptions() { LocalUserId = currentProductUserId };
+            outLobbySearchHandle.Find(ref lobbySearchFindOptions, null, OnLobbySearchCompleted);
         }
 
         /// <summary>
@@ -1762,8 +1812,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SearchCompleted?.Invoke(Result.InvalidProductUserID);
                 return;
             }
-
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().CreateLobbySearch(new CreateLobbySearchOptions() { MaxResults = 10 }, out LobbySearch outLobbySearchHandle);
+            var createLobbySearchOptions = new CreateLobbySearchOptions() { MaxResults = 10}; 
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().CreateLobbySearch(ref createLobbySearchOptions, out LobbySearch outLobbySearchHandle);
 
             if (result != Result.Success)
             {
@@ -1781,10 +1831,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             AttributeData attrData = new AttributeData();
             attrData.Key = attributeKey.Trim();
             attrData.Value = new AttributeDataValue();
-            attrData.Value.AsUtf8 = attributeValue.Trim();
+            attrData.Value = attributeValue.Trim();
             paramOptions.Parameter = attrData;
 
-            result = outLobbySearchHandle.SetParameter(paramOptions);
+            result = outLobbySearchHandle.SetParameter(ref paramOptions);
 
             if (result != Result.Success)
             {
@@ -1794,18 +1844,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             LobbySearchCallback = SearchCompleted;
-
-            outLobbySearchHandle.Find(new LobbySearchFindOptions() { LocalUserId = currentProductUserId }, null, OnLobbySearchCompleted);
+            var lobbySearchFindOptions = new LobbySearchFindOptions() { LocalUserId = currentProductUserId };
+            outLobbySearchHandle.Find(ref lobbySearchFindOptions, null, OnLobbySearchCompleted);
         }
 
-        private void OnLobbySearchCompleted(LobbySearchFindCallbackInfo data)
+        private void OnLobbySearchCompleted(ref LobbySearchFindCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnLobbySearchCompleted): LobbySearchFindCallbackInfo data is null");
-                LobbySearchCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnLobbySearchCompleted): LobbySearchFindCallbackInfo data is null");
+            //    LobbySearchCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1817,8 +1867,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log("Lobbies (OnLobbySearchCompleted): Search finished.");
 
             // Process Search Results
-
-            uint searchResultCount = CurrentSearch.GetSearchResultCount(new LobbySearchGetSearchResultCountOptions());
+            var lobbySearchGetSearchResultCountOptions = new LobbySearchGetSearchResultCountOptions(); 
+            uint searchResultCount = CurrentSearch.GetSearchResultCount(ref lobbySearchGetSearchResultCountOptions);
 
             Debug.LogFormat("Lobbies (OnLobbySearchCompleted): searchResultCount = {0}", searchResultCount);
 
@@ -1832,7 +1882,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 indexOptions.LobbyIndex = i;
 
-                Result result = CurrentSearch.CopySearchResultByIndex(indexOptions, out LobbyDetails outLobbyDetailsHandle);
+                Result result = CurrentSearch.CopySearchResultByIndex(ref indexOptions, out LobbyDetails outLobbyDetailsHandle);
 
                 if (result == Result.Success && outLobbyDetailsHandle != null)
                 {
@@ -1883,7 +1933,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CopyLobbyDetailsHandleByInviteIdOptions options = new CopyLobbyDetailsHandleByInviteIdOptions();
             options.InviteId = inviteId;
 
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandleByInviteId(options, out LobbyDetails outLobbyDetailsHandle);
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandleByInviteId(ref options, out LobbyDetails outLobbyDetailsHandle);
 
             if (result != Result.Success)
             {
@@ -1927,14 +1977,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             _Dirty = true;
         }
 
-        private void OnJoinLobbyAccepted(JoinLobbyAcceptedCallbackInfo data)
+        private void OnJoinLobbyAccepted(ref JoinLobbyAcceptedCallbackInfo data)
         {
             // Callback for JoinLobbyAcceptedNotification
 
             CopyLobbyDetailsHandleByUiEventIdOptions options = new CopyLobbyDetailsHandleByUiEventIdOptions();
             options.UiEventId = data.UiEventId;
 
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandleByUiEventId(options, out LobbyDetails outLobbyDetailsHandle);
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandleByUiEventId(ref options, out LobbyDetails outLobbyDetailsHandle);
 
             if (result != Result.Success)
             {
@@ -1954,20 +2004,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentInvite = null;
         }
 
-        private void OnLobbyInviteReceived(LobbyInviteReceivedCallbackInfo data)
+        private void OnLobbyInviteReceived(ref LobbyInviteReceivedCallbackInfo data)
         {
             // Callback for LobbyInviteNotification
 
-            if (data == null)
-            {
-                Debug.LogFormat("Lobbies (OnLobbyInviteReceived): LobbyInviteReceivedCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogFormat("Lobbies (OnLobbyInviteReceived): LobbyInviteReceivedCallbackInfo data is null");
+            //    return;
+            //}
 
             CopyLobbyDetailsHandleByInviteIdOptions options = new CopyLobbyDetailsHandleByInviteIdOptions();
             options.InviteId = data.InviteId;
 
-            Result result = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandleByInviteId(options, out LobbyDetails outLobbyDetailsHandle);
+            Result result = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandleByInviteId(ref options, out LobbyDetails outLobbyDetailsHandle);
 
             if (result != Result.Success)
             {
@@ -1983,22 +2033,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnLobbyInvite(data.InviteId, data.TargetUserId);
         }
 
-        private void OnLobbyInviteAccepted(LobbyInviteAcceptedCallbackInfo data)
+        private void OnLobbyInviteAccepted(ref LobbyInviteAcceptedCallbackInfo data)
         {
             // Callback for LobbyInviteAcceptedNotification
 
-            if (data == null)
-            {
-                Debug.LogError("Lobbies  (OnLobbyInviteAccepted): LobbyInviteAcceptedCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies  (OnLobbyInviteAccepted): LobbyInviteAcceptedCallbackInfo data is null");
+            //    return;
+            //}
 
             CopyLobbyDetailsHandleByInviteIdOptions options = new CopyLobbyDetailsHandleByInviteIdOptions()
             {
                 InviteId = data.InviteId
             };
 
-            Result lobbyDetailsResult = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandleByInviteId(options, out LobbyDetails outLobbyDetailsHandle);
+            Result lobbyDetailsResult = EOSManager.Instance.GetEOSLobbyInterface().CopyLobbyDetailsHandleByInviteId(ref options, out LobbyDetails outLobbyDetailsHandle);
 
             if (lobbyDetailsResult != Result.Success)
             {
@@ -2036,9 +2086,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // CanInviteToCurrentLobby()
 
+        //-------------------------------------------------------------------------
+        // It appears that to get RTC to work on some platforms, the RTC API needs to be
+        // 'kicked' to enumerate the input and output devices.
+        //
+        private void HackWorkaroundRTCInitIssues()
+        {
+            // Hack to get RTC working
+            var audioOptions = new Epic.OnlineServices.RTCAudio.GetAudioInputDevicesCountOptions();
+            EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().GetAudioInputDevicesCount(ref audioOptions);
+
+            var audioOutputOptions = new Epic.OnlineServices.RTCAudio.GetAudioOutputDevicesCountOptions();
+            EOSManager.Instance.GetEOSRTCInterface().GetAudioInterface().GetAudioOutputDevicesCount(ref audioOutputOptions);
+        }
+
+        private void AddLocalUserAttributes()
+        {
+            string localUserDisplayName = UserInfoManager.GetLocalUserInfo().DisplayName;
+
+            if (!string.IsNullOrEmpty(localUserDisplayName))
+            {
+                LobbyAttribute nameAttrib = new LobbyAttribute() { Key = LobbyMember.DisplayNameKey, AsString = localUserDisplayName };
+                SetMemberAttribute(nameAttrib);
+            }
+        }
 
         // Join Events
 
+        //-------------------------------------------------------------------------
         /// <summary>
         /// Wrapper for calling [EOS_Lobby_JoinLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_JoinLobby/index.html)
         /// </summary>
@@ -2048,6 +2123,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
+
+            HackWorkaroundRTCInitIssues();
+
             if (string.IsNullOrEmpty(lobbyId))
             {
                 Debug.LogError("Lobbies (JoinButtonOnClick): lobbyId is null or empty!");
@@ -2086,17 +2164,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             JoinLobbyCallback = JoinLobbyCompleted;
 
-            EOSManager.Instance.GetEOSLobbyInterface().JoinLobby(joinOptions, null, OnJoinLobbyCompleted);
+            EOSManager.Instance.GetEOSLobbyInterface().JoinLobby(ref joinOptions, null, OnJoinLobbyCompleted);
         }
 
-        private void OnJoinLobbyCompleted(JoinLobbyCallbackInfo data)
+        private void OnJoinLobbyCompleted(ref JoinLobbyCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnJoinLobbyCompleted): JoinLobbyCallbackInfo data is null");
-                JoinLobbyCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnJoinLobbyCompleted): JoinLobbyCallbackInfo data is null");
+            //    JoinLobbyCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -2125,17 +2203,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             PopLobbyInvite();
 
+            AddLocalUserAttributes();
+
             JoinLobbyCallback?.Invoke(Result.Success);
         }
 
-        private void OnLeaveLobbyCompleted(LeaveLobbyCallbackInfo data)
+        private void OnLeaveLobbyCompleted(ref LeaveLobbyCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogFormat("Lobbies (OnLeaveLobbyCompleted): LobbyInviteReceivedCallbackInfo data is null");
-                LeaveLobbyCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogFormat("Lobbies (OnLeaveLobbyCompleted): LobbyInviteReceivedCallbackInfo data is null");
+            //    LeaveLobbyCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -2152,6 +2232,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        //-------------------------------------------------------------------------
         /// <summary>
         /// Wrapper for calling [EOS_Lobby_RejectInvite](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_RejectInvite/index.html)
         /// </summary>
@@ -2170,19 +2251,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 rejectOptions.InviteId = CurrentInvite.InviteId;
                 rejectOptions.LocalUserId = currentUserProductId;
 
-                EOSManager.Instance.GetEOSLobbyInterface().RejectInvite(rejectOptions, null, OnDeclineInviteCompleted);
+                EOSManager.Instance.GetEOSLobbyInterface().RejectInvite(ref rejectOptions, null, OnDeclineInviteCompleted);
             }
 
             // LobbyId does not match current invite, reject can be ignored
         }
 
-        private void OnDeclineInviteCompleted(RejectInviteCallbackInfo data)
+        private void OnDeclineInviteCompleted(ref RejectInviteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Lobbies (OnDeclineInviteCompleted): RejectInviteCallbackInfo data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Lobbies (OnDeclineInviteCompleted): RejectInviteCallbackInfo data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {

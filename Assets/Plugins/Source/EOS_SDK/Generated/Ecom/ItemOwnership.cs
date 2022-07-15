@@ -7,52 +7,44 @@ namespace Epic.OnlineServices.Ecom
 	/// Contains information about a single item ownership associated with an account. This structure is
 	/// returned as part of the <see cref="QueryOwnershipCallbackInfo" /> structure.
 	/// </summary>
-	public class ItemOwnership : ISettable
+	public struct ItemOwnership
 	{
 		/// <summary>
 		/// ID of the catalog item
 		/// </summary>
-		public string Id { get; set; }
+		public Utf8String Id { get; set; }
 
 		/// <summary>
 		/// Is this catalog item owned by the local user
 		/// </summary>
 		public OwnershipStatus OwnershipStatus { get; set; }
 
-		internal void Set(ItemOwnershipInternal? other)
+		internal void Set(ref ItemOwnershipInternal other)
 		{
-			if (other != null)
-			{
-				Id = other.Value.Id;
-				OwnershipStatus = other.Value.OwnershipStatus;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ItemOwnershipInternal?);
+			Id = other.Id;
+			OwnershipStatus = other.OwnershipStatus;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ItemOwnershipInternal : ISettable, System.IDisposable
+	internal struct ItemOwnershipInternal : IGettable<ItemOwnership>, ISettable<ItemOwnership>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Id;
 		private OwnershipStatus m_OwnershipStatus;
 
-		public string Id
+		public Utf8String Id
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Id, out value);
+				Utf8String value;
+				Helper.Get(m_Id, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Id, value);
+				Helper.Set(value, ref m_Id);
 			}
 		}
 
@@ -69,24 +61,32 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(ItemOwnership other)
+		public void Set(ref ItemOwnership other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = EcomInterface.ItemownershipApiLatest;
-				Id = other.Id;
-				OwnershipStatus = other.OwnershipStatus;
-			}
+			m_ApiVersion = EcomInterface.ItemownershipApiLatest;
+			Id = other.Id;
+			OwnershipStatus = other.OwnershipStatus;
 		}
 
-		public void Set(object other)
+		public void Set(ref ItemOwnership? other)
 		{
-			Set(other as ItemOwnership);
+			if (other.HasValue)
+			{
+				m_ApiVersion = EcomInterface.ItemownershipApiLatest;
+				Id = other.Value.Id;
+				OwnershipStatus = other.Value.OwnershipStatus;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Id);
+			Helper.Dispose(ref m_Id);
+		}
+
+		public void Get(out ItemOwnership output)
+		{
+			output = new ItemOwnership();
+			output.Set(ref this);
 		}
 	}
 }

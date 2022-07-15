@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.QueryEntitlements" /> function.
 	/// </summary>
-	public class QueryEntitlementsOptions
+	public struct QueryEntitlementsOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose Entitlements you want to retrieve
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// An array of Entitlement Names that you want to check
 		/// </summary>
-		public string[] EntitlementNames { get; set; }
+		public Utf8String[] EntitlementNames { get; set; }
 
 		/// <summary>
 		/// If true, Entitlements that have been redeemed will be included in the results.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryEntitlementsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryEntitlementsOptionsInternal : ISettable<QueryEntitlementsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -37,15 +37,15 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string[] EntitlementNames
+		public Utf8String[] EntitlementNames
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EntitlementNames, value, out m_EntitlementNameCount);
+				Helper.Set(value, ref m_EntitlementNames, out m_EntitlementNameCount);
 			}
 		}
 
@@ -53,30 +53,33 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_IncludeRedeemed, value);
+				Helper.Set(value, ref m_IncludeRedeemed);
 			}
 		}
 
-		public void Set(QueryEntitlementsOptions other)
+		public void Set(ref QueryEntitlementsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.QueryentitlementsApiLatest;
+			LocalUserId = other.LocalUserId;
+			EntitlementNames = other.EntitlementNames;
+			IncludeRedeemed = other.IncludeRedeemed;
+		}
+
+		public void Set(ref QueryEntitlementsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.QueryentitlementsApiLatest;
-				LocalUserId = other.LocalUserId;
-				EntitlementNames = other.EntitlementNames;
-				IncludeRedeemed = other.IncludeRedeemed;
+				LocalUserId = other.Value.LocalUserId;
+				EntitlementNames = other.Value.EntitlementNames;
+				IncludeRedeemed = other.Value.IncludeRedeemed;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryEntitlementsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_EntitlementNames);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_EntitlementNames);
 		}
 	}
 }

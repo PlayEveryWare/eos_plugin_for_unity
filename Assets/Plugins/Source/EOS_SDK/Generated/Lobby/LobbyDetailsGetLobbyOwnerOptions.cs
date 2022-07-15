@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.GetLobbyOwner" /> function.
 	/// </summary>
-	public class LobbyDetailsGetLobbyOwnerOptions
+	public struct LobbyDetailsGetLobbyOwnerOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsGetLobbyOwnerOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsGetLobbyOwnerOptionsInternal : ISettable<LobbyDetailsGetLobbyOwnerOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(LobbyDetailsGetLobbyOwnerOptions other)
+		public void Set(ref LobbyDetailsGetLobbyOwnerOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyDetails.LobbydetailsGetlobbyownerApiLatest;
+		}
+
+		public void Set(ref LobbyDetailsGetLobbyOwnerOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyDetails.LobbydetailsGetlobbyownerApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyDetailsGetLobbyOwnerOptions);
 		}
 
 		public void Dispose()

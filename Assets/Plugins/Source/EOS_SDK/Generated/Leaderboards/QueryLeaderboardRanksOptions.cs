@@ -7,12 +7,12 @@ namespace Epic.OnlineServices.Leaderboards
 	/// Input parameters for the <see cref="LeaderboardsInterface.QueryLeaderboardRanks" /> function.
 	/// <seealso cref="Definition" />
 	/// </summary>
-	public class QueryLeaderboardRanksOptions
+	public struct QueryLeaderboardRanksOptions
 	{
 		/// <summary>
 		/// The ID of the leaderboard whose information you want to retrieve.
 		/// </summary>
-		public string LeaderboardId { get; set; }
+		public Utf8String LeaderboardId { get; set; }
 
 		/// <summary>
 		/// Product User ID for user who is querying ranks.
@@ -23,17 +23,17 @@ namespace Epic.OnlineServices.Leaderboards
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryLeaderboardRanksOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryLeaderboardRanksOptionsInternal : ISettable<QueryLeaderboardRanksOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LeaderboardId;
 		private System.IntPtr m_LocalUserId;
 
-		public string LeaderboardId
+		public Utf8String LeaderboardId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LeaderboardId, value);
+				Helper.Set(value, ref m_LeaderboardId);
 			}
 		}
 
@@ -41,29 +41,31 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(QueryLeaderboardRanksOptions other)
+		public void Set(ref QueryLeaderboardRanksOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.QueryleaderboardranksApiLatest;
+			LeaderboardId = other.LeaderboardId;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryLeaderboardRanksOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.QueryleaderboardranksApiLatest;
-				LeaderboardId = other.LeaderboardId;
-				LocalUserId = other.LocalUserId;
+				LeaderboardId = other.Value.LeaderboardId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryLeaderboardRanksOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LeaderboardId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LeaderboardId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

@@ -3,21 +3,21 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class ReceiveMessageFromClientOptions
+	public struct ReceiveMessageFromClientOptions
 	{
 		/// <summary>
-		/// Optional value, if non-null then only messages addressed to this specific client will be returned
+		/// Locally unique value describing the corresponding remote user, as previously passed to RegisterClient
 		/// </summary>
 		public System.IntPtr ClientHandle { get; set; }
 
 		/// <summary>
 		/// The data received
 		/// </summary>
-		public byte[] Data { get; set; }
+		public System.ArraySegment<byte> Data { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ReceiveMessageFromClientOptionsInternal : ISettable, System.IDisposable
+	internal struct ReceiveMessageFromClientOptionsInternal : ISettable<ReceiveMessageFromClientOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ClientHandle;
@@ -32,33 +32,35 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
-		public byte[] Data
+		public System.ArraySegment<byte> Data
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Data, value, out m_DataLengthBytes);
+				Helper.Set(value, ref m_Data, out m_DataLengthBytes);
 			}
 		}
 
-		public void Set(ReceiveMessageFromClientOptions other)
+		public void Set(ref ReceiveMessageFromClientOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatServerInterface.ReceivemessagefromclientApiLatest;
+			ClientHandle = other.ClientHandle;
+			Data = other.Data;
+		}
+
+		public void Set(ref ReceiveMessageFromClientOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatServerInterface.ReceivemessagefromclientApiLatest;
-				ClientHandle = other.ClientHandle;
-				Data = other.Data;
+				ClientHandle = other.Value.ClientHandle;
+				Data = other.Value.Data;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ReceiveMessageFromClientOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientHandle);
-			Helper.TryMarshalDispose(ref m_Data);
+			Helper.Dispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_Data);
 		}
 	}
 }

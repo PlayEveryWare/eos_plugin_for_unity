@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogPlayerTickOptions
+	public struct LogPlayerTickOptions
 	{
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -13,12 +13,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// <summary>
 		/// Player's current world position as a 3D vector
 		/// </summary>
-		public Vec3f PlayerPosition { get; set; }
+		public Vec3f? PlayerPosition { get; set; }
 
 		/// <summary>
 		/// Player's view rotation as a quaternion
 		/// </summary>
-		public Quat PlayerViewRotation { get; set; }
+		public Quat? PlayerViewRotation { get; set; }
 
 		/// <summary>
 		/// True if the player's view is zoomed (e.g. using a sniper rifle), otherwise false
@@ -37,7 +37,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogPlayerTickOptionsInternal : ISettable, System.IDisposable
+	internal struct LogPlayerTickOptionsInternal : ISettable<LogPlayerTickOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PlayerHandle;
@@ -55,19 +55,19 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public Vec3f PlayerPosition
+		public Vec3f? PlayerPosition
 		{
 			set
 			{
-				Helper.TryMarshalSet<Vec3fInternal, Vec3f>(ref m_PlayerPosition, value);
+				Helper.Set<Vec3f, Vec3fInternal>(ref value, ref m_PlayerPosition);
 			}
 		}
 
-		public Quat PlayerViewRotation
+		public Quat? PlayerViewRotation
 		{
 			set
 			{
-				Helper.TryMarshalSet<QuatInternal, Quat>(ref m_PlayerViewRotation, value);
+				Helper.Set<Quat, QuatInternal>(ref value, ref m_PlayerViewRotation);
 			}
 		}
 
@@ -75,7 +75,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsPlayerViewZoomed, value);
+				Helper.Set(value, ref m_IsPlayerViewZoomed);
 			}
 		}
 
@@ -95,30 +95,36 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(LogPlayerTickOptions other)
+		public void Set(ref LogPlayerTickOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatCommonInterface.LogplayertickApiLatest;
-				PlayerHandle = other.PlayerHandle;
-				PlayerPosition = other.PlayerPosition;
-				PlayerViewRotation = other.PlayerViewRotation;
-				IsPlayerViewZoomed = other.IsPlayerViewZoomed;
-				PlayerHealth = other.PlayerHealth;
-				PlayerMovementState = other.PlayerMovementState;
-			}
+			m_ApiVersion = AntiCheatCommonInterface.LogplayertickApiLatest;
+			PlayerHandle = other.PlayerHandle;
+			PlayerPosition = other.PlayerPosition;
+			PlayerViewRotation = other.PlayerViewRotation;
+			IsPlayerViewZoomed = other.IsPlayerViewZoomed;
+			PlayerHealth = other.PlayerHealth;
+			PlayerMovementState = other.PlayerMovementState;
 		}
 
-		public void Set(object other)
+		public void Set(ref LogPlayerTickOptions? other)
 		{
-			Set(other as LogPlayerTickOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatCommonInterface.LogplayertickApiLatest;
+				PlayerHandle = other.Value.PlayerHandle;
+				PlayerPosition = other.Value.PlayerPosition;
+				PlayerViewRotation = other.Value.PlayerViewRotation;
+				IsPlayerViewZoomed = other.Value.IsPlayerViewZoomed;
+				PlayerHealth = other.Value.PlayerHealth;
+				PlayerMovementState = other.Value.PlayerMovementState;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PlayerHandle);
-			Helper.TryMarshalDispose(ref m_PlayerPosition);
-			Helper.TryMarshalDispose(ref m_PlayerViewRotation);
+			Helper.Dispose(ref m_PlayerHandle);
+			Helper.Dispose(ref m_PlayerPosition);
+			Helper.Dispose(ref m_PlayerViewRotation);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.CreateUser" /> function.
 	/// </summary>
-	public class CreateUserOptions
+	public struct CreateUserOptions
 	{
 		/// <summary>
 		/// Continuance token from previous call to <see cref="ConnectInterface.Login" />
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CreateUserOptionsInternal : ISettable, System.IDisposable
+	internal struct CreateUserOptionsInternal : ISettable<CreateUserOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ContinuanceToken;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ContinuanceToken, value);
+				Helper.Set(value, ref m_ContinuanceToken);
 			}
 		}
 
-		public void Set(CreateUserOptions other)
+		public void Set(ref CreateUserOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.CreateuserApiLatest;
+			ContinuanceToken = other.ContinuanceToken;
+		}
+
+		public void Set(ref CreateUserOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.CreateuserApiLatest;
-				ContinuanceToken = other.ContinuanceToken;
+				ContinuanceToken = other.Value.ContinuanceToken;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CreateUserOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ContinuanceToken);
+			Helper.Dispose(ref m_ContinuanceToken);
 		}
 	}
 }

@@ -3,26 +3,26 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class EndSessionOptions
+	public struct EndSessionOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct EndSessionOptionsInternal : ISettable, System.IDisposable
+	internal struct EndSessionOptionsInternal : ISettable<EndSessionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(EndSessionOptions other)
+		public void Set(ref EndSessionOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatServerInterface.EndsessionApiLatest;
+		}
+
+		public void Set(ref EndSessionOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatServerInterface.EndsessionApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as EndSessionOptions);
 		}
 
 		public void Dispose()

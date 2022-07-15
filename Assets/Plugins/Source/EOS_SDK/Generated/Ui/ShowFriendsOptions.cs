@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UI
 	/// <summary>
 	/// Input parameters for the <see cref="UIInterface.ShowFriends" /> function.
 	/// </summary>
-	public class ShowFriendsOptions
+	public struct ShowFriendsOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user whose friend list is being shown.
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ShowFriendsOptionsInternal : ISettable, System.IDisposable
+	internal struct ShowFriendsOptionsInternal : ISettable<ShowFriendsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.UI
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(ShowFriendsOptions other)
+		public void Set(ref ShowFriendsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = UIInterface.ShowfriendsApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref ShowFriendsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = UIInterface.ShowfriendsApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ShowFriendsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

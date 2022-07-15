@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UserInfo
 	/// <summary>
 	/// A structure that contains the user information. These structures are created by <see cref="UserInfoInterface.CopyUserInfo" /> and must be passed to <see cref="UserInfoInterface.Release" />.
 	/// </summary>
-	public class UserInfoData : ISettable
+	public struct UserInfoData
 	{
 		/// <summary>
 		/// The Epic Account ID of the user
@@ -16,43 +16,41 @@ namespace Epic.OnlineServices.UserInfo
 		/// <summary>
 		/// The name of the owner's country. This may be null
 		/// </summary>
-		public string Country { get; set; }
+		public Utf8String Country { get; set; }
 
 		/// <summary>
-		/// The display name. This may be null
+		/// The display name (un-sanitized). This may be null
 		/// </summary>
-		public string DisplayName { get; set; }
+		public Utf8String DisplayName { get; set; }
 
 		/// <summary>
 		/// The ISO 639 language code for the user's preferred language. This may be null
 		/// </summary>
-		public string PreferredLanguage { get; set; }
+		public Utf8String PreferredLanguage { get; set; }
 
 		/// <summary>
 		/// A nickname/alias for the target user assigned by the local user. This may be null
 		/// </summary>
-		public string Nickname { get; set; }
+		public Utf8String Nickname { get; set; }
 
-		internal void Set(UserInfoDataInternal? other)
-		{
-			if (other != null)
-			{
-				UserId = other.Value.UserId;
-				Country = other.Value.Country;
-				DisplayName = other.Value.DisplayName;
-				PreferredLanguage = other.Value.PreferredLanguage;
-				Nickname = other.Value.Nickname;
-			}
-		}
+		/// <summary>
+		/// The raw display name (sanitized). This may be null
+		/// </summary>
+		public Utf8String DisplayNameSanitized { get; set; }
 
-		public void Set(object other)
+		internal void Set(ref UserInfoDataInternal other)
 		{
-			Set(other as UserInfoDataInternal?);
+			UserId = other.UserId;
+			Country = other.Country;
+			DisplayName = other.DisplayName;
+			PreferredLanguage = other.PreferredLanguage;
+			Nickname = other.Nickname;
+			DisplayNameSanitized = other.DisplayNameSanitized;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UserInfoDataInternal : ISettable, System.IDisposable
+	internal struct UserInfoDataInternal : IGettable<UserInfoData>, ISettable<UserInfoData>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
@@ -60,107 +58,137 @@ namespace Epic.OnlineServices.UserInfo
 		private System.IntPtr m_DisplayName;
 		private System.IntPtr m_PreferredLanguage;
 		private System.IntPtr m_Nickname;
+		private System.IntPtr m_DisplayNameSanitized;
 
 		public EpicAccountId UserId
 		{
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_UserId, out value);
+				Helper.Get(m_UserId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public string Country
+		public Utf8String Country
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Country, out value);
+				Utf8String value;
+				Helper.Get(m_Country, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Country, value);
+				Helper.Set(value, ref m_Country);
 			}
 		}
 
-		public string DisplayName
+		public Utf8String DisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_DisplayName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DisplayName, value);
+				Helper.Set(value, ref m_DisplayName);
 			}
 		}
 
-		public string PreferredLanguage
+		public Utf8String PreferredLanguage
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_PreferredLanguage, out value);
+				Utf8String value;
+				Helper.Get(m_PreferredLanguage, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_PreferredLanguage, value);
+				Helper.Set(value, ref m_PreferredLanguage);
 			}
 		}
 
-		public string Nickname
+		public Utf8String Nickname
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Nickname, out value);
+				Utf8String value;
+				Helper.Get(m_Nickname, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Nickname, value);
+				Helper.Set(value, ref m_Nickname);
 			}
 		}
 
-		public void Set(UserInfoData other)
+		public Utf8String DisplayNameSanitized
 		{
-			if (other != null)
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_DisplayNameSanitized, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_DisplayNameSanitized);
+			}
+		}
+
+		public void Set(ref UserInfoData other)
+		{
+			m_ApiVersion = UserInfoInterface.CopyuserinfoApiLatest;
+			UserId = other.UserId;
+			Country = other.Country;
+			DisplayName = other.DisplayName;
+			PreferredLanguage = other.PreferredLanguage;
+			Nickname = other.Nickname;
+			DisplayNameSanitized = other.DisplayNameSanitized;
+		}
+
+		public void Set(ref UserInfoData? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = UserInfoInterface.CopyuserinfoApiLatest;
-				UserId = other.UserId;
-				Country = other.Country;
-				DisplayName = other.DisplayName;
-				PreferredLanguage = other.PreferredLanguage;
-				Nickname = other.Nickname;
+				UserId = other.Value.UserId;
+				Country = other.Value.Country;
+				DisplayName = other.Value.DisplayName;
+				PreferredLanguage = other.Value.PreferredLanguage;
+				Nickname = other.Value.Nickname;
+				DisplayNameSanitized = other.Value.DisplayNameSanitized;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UserInfoData);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
-			Helper.TryMarshalDispose(ref m_Country);
-			Helper.TryMarshalDispose(ref m_DisplayName);
-			Helper.TryMarshalDispose(ref m_PreferredLanguage);
-			Helper.TryMarshalDispose(ref m_Nickname);
+			Helper.Dispose(ref m_UserId);
+			Helper.Dispose(ref m_Country);
+			Helper.Dispose(ref m_DisplayName);
+			Helper.Dispose(ref m_PreferredLanguage);
+			Helper.Dispose(ref m_Nickname);
+			Helper.Dispose(ref m_DisplayNameSanitized);
+		}
+
+		public void Get(out UserInfoData output)
+		{
+			output = new UserInfoData();
+			output.Set(ref this);
 		}
 	}
 }

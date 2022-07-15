@@ -1,4 +1,4 @@
-*.cs diff=csharp text
+*.cs diff=csharp text eol=lf
 *.cginc text
 *.shader text
 

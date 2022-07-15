@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Stats
 	/// <summary>
 	/// Input parameters for the <see cref="StatsInterface.CopyStatByName" /> function.
 	/// </summary>
-	public class CopyStatByNameOptions
+	public struct CopyStatByNameOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user who owns the stat
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Stats
 		/// <summary>
 		/// Name of the stat to retrieve from the cache
 		/// </summary>
-		public string Name { get; set; }
+		public Utf8String Name { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyStatByNameOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyStatByNameOptionsInternal : ISettable<CopyStatByNameOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public string Name
+		public Utf8String Name
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Name, value);
+				Helper.Set(value, ref m_Name);
 			}
 		}
 
-		public void Set(CopyStatByNameOptions other)
+		public void Set(ref CopyStatByNameOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = StatsInterface.CopystatbynameApiLatest;
+			TargetUserId = other.TargetUserId;
+			Name = other.Name;
+		}
+
+		public void Set(ref CopyStatByNameOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = StatsInterface.CopystatbynameApiLatest;
-				TargetUserId = other.TargetUserId;
-				Name = other.Name;
+				TargetUserId = other.Value.TargetUserId;
+				Name = other.Value.Name;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyStatByNameOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
-			Helper.TryMarshalDispose(ref m_Name);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_Name);
 		}
 	}
 }

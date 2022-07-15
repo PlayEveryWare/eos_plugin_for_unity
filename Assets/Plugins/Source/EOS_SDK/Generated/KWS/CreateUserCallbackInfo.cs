@@ -6,58 +6,50 @@ namespace Epic.OnlineServices.KWS
 	/// <summary>
 	/// Output parameters for the <see cref="CreateUserOptions" /> Function. These parameters are received through the callback provided to <see cref="KWSInterface.CreateUser" />
 	/// </summary>
-	public class CreateUserCallbackInfo : ICallbackInfo, ISettable
+	public struct CreateUserCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="KWSInterface.CreateUser" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// Local user that created a KWS entry
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// KWS UserId created
 		/// </summary>
-		public string KWSUserId { get; private set; }
+		public Utf8String KWSUserId { get; set; }
 
 		/// <summary>
 		/// Is this user a minor
 		/// </summary>
-		public bool IsMinor { get; private set; }
+		public bool IsMinor { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(CreateUserCallbackInfoInternal? other)
+		internal void Set(ref CreateUserCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				KWSUserId = other.Value.KWSUserId;
-				IsMinor = other.Value.IsMinor;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CreateUserCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			KWSUserId = other.KWSUserId;
+			IsMinor = other.IsMinor;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CreateUserCallbackInfoInternal : ICallbackInfoInternal
+	internal struct CreateUserCallbackInfoInternal : ICallbackInfoInternal, IGettable<CreateUserCallbackInfo>, ISettable<CreateUserCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -71,6 +63,11 @@ namespace Epic.OnlineServices.KWS
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -78,8 +75,13 @@ namespace Epic.OnlineServices.KWS
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -96,18 +98,28 @@ namespace Epic.OnlineServices.KWS
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string KWSUserId
+		public Utf8String KWSUserId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_KWSUserId, out value);
+				Utf8String value;
+				Helper.Get(m_KWSUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_KWSUserId);
 			}
 		}
 
@@ -116,9 +128,48 @@ namespace Epic.OnlineServices.KWS
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsMinor, out value);
+				Helper.Get(m_IsMinor, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_IsMinor);
+			}
+		}
+
+		public void Set(ref CreateUserCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			KWSUserId = other.KWSUserId;
+			IsMinor = other.IsMinor;
+		}
+
+		public void Set(ref CreateUserCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				KWSUserId = other.Value.KWSUserId;
+				IsMinor = other.Value.IsMinor;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_KWSUserId);
+		}
+
+		public void Get(out CreateUserCallbackInfo output)
+		{
+			output = new CreateUserCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

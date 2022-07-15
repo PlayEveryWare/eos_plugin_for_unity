@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Input data for the <see cref="PlayerDataStorageInterface.ReadFile" /> function
 	/// </summary>
-	public class ReadFileOptions
+	public struct ReadFileOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who is reading the requested file
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// The file name to read; this file must already exist
 		/// </summary>
-		public string Filename { get; set; }
+		public Utf8String Filename { get; set; }
 
 		/// <summary>
 		/// The maximum amount of data in bytes should be available to read in a single <see cref="OnReadFileDataCallback" /> call
@@ -35,7 +35,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ReadFileOptionsInternal : ISettable, System.IDisposable
+	internal struct ReadFileOptionsInternal : ISettable<ReadFileOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -48,15 +48,15 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string Filename
+		public Utf8String Filename
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Filename, value);
+				Helper.Set(value, ref m_Filename);
 			}
 		}
 
@@ -96,30 +96,35 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			}
 		}
 
-		public void Set(ReadFileOptions other)
+		public void Set(ref ReadFileOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = PlayerDataStorageInterface.ReadfileoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
-				Filename = other.Filename;
-				ReadChunkLengthBytes = other.ReadChunkLengthBytes;
-				m_ReadFileDataCallback = other.ReadFileDataCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(ReadFileDataCallback) : System.IntPtr.Zero;
-				m_FileTransferProgressCallback = other.FileTransferProgressCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(FileTransferProgressCallback) : System.IntPtr.Zero;
-			}
+			m_ApiVersion = PlayerDataStorageInterface.ReadfileoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+			Filename = other.Filename;
+			ReadChunkLengthBytes = other.ReadChunkLengthBytes;
+			m_ReadFileDataCallback = other.ReadFileDataCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(ReadFileDataCallback) : System.IntPtr.Zero;
+			m_FileTransferProgressCallback = other.FileTransferProgressCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(FileTransferProgressCallback) : System.IntPtr.Zero;
 		}
 
-		public void Set(object other)
+		public void Set(ref ReadFileOptions? other)
 		{
-			Set(other as ReadFileOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = PlayerDataStorageInterface.ReadfileoptionsApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Filename = other.Value.Filename;
+				ReadChunkLengthBytes = other.Value.ReadChunkLengthBytes;
+				m_ReadFileDataCallback = other.Value.ReadFileDataCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(ReadFileDataCallback) : System.IntPtr.Zero;
+				m_FileTransferProgressCallback = other.Value.FileTransferProgressCallback != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(FileTransferProgressCallback) : System.IntPtr.Zero;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Filename);
-			Helper.TryMarshalDispose(ref m_ReadFileDataCallback);
-			Helper.TryMarshalDispose(ref m_FileTransferProgressCallback);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Filename);
+			Helper.Dispose(ref m_ReadFileDataCallback);
+			Helper.Dispose(ref m_FileTransferProgressCallback);
 		}
 	}
 }

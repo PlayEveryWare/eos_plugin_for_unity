@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.QueryExternalAccountMappings" /> function.
 	/// </summary>
-	public class QueryExternalAccountMappingsOptions
+	public struct QueryExternalAccountMappingsOptions
 	{
 		/// <summary>
 		/// The Product User ID of the existing, logged-in user who is querying account mappings.
@@ -21,11 +21,11 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// An array of external account IDs to map to the product user ID representation.
 		/// </summary>
-		public string[] ExternalAccountIds { get; set; }
+		public Utf8String[] ExternalAccountIds { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryExternalAccountMappingsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryExternalAccountMappingsOptionsInternal : ISettable<QueryExternalAccountMappingsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -37,7 +37,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -49,34 +49,37 @@ namespace Epic.OnlineServices.Connect
 			}
 		}
 
-		public string[] ExternalAccountIds
+		public Utf8String[] ExternalAccountIds
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ExternalAccountIds, value, out m_ExternalAccountIdCount, true);
+				Helper.Set(value, ref m_ExternalAccountIds, true, out m_ExternalAccountIdCount);
 			}
 		}
 
-		public void Set(QueryExternalAccountMappingsOptions other)
+		public void Set(ref QueryExternalAccountMappingsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.QueryexternalaccountmappingsApiLatest;
+			LocalUserId = other.LocalUserId;
+			AccountIdType = other.AccountIdType;
+			ExternalAccountIds = other.ExternalAccountIds;
+		}
+
+		public void Set(ref QueryExternalAccountMappingsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.QueryexternalaccountmappingsApiLatest;
-				LocalUserId = other.LocalUserId;
-				AccountIdType = other.AccountIdType;
-				ExternalAccountIds = other.ExternalAccountIds;
+				LocalUserId = other.Value.LocalUserId;
+				AccountIdType = other.Value.AccountIdType;
+				ExternalAccountIds = other.Value.ExternalAccountIds;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryExternalAccountMappingsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_ExternalAccountIds);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ExternalAccountIds);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class SetClientNetworkStateOptions
+	public struct SetClientNetworkStateOptions
 	{
 		/// <summary>
 		/// Locally unique value describing the remote user (e.g. a player object pointer)
@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetClientNetworkStateOptionsInternal : ISettable, System.IDisposable
+	internal struct SetClientNetworkStateOptionsInternal : ISettable<SetClientNetworkStateOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ClientHandle;
@@ -35,28 +35,30 @@ namespace Epic.OnlineServices.AntiCheatServer
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsNetworkActive, value);
+				Helper.Set(value, ref m_IsNetworkActive);
 			}
 		}
 
-		public void Set(SetClientNetworkStateOptions other)
+		public void Set(ref SetClientNetworkStateOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatServerInterface.SetclientnetworkstateApiLatest;
+			ClientHandle = other.ClientHandle;
+			IsNetworkActive = other.IsNetworkActive;
+		}
+
+		public void Set(ref SetClientNetworkStateOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatServerInterface.SetclientnetworkstateApiLatest;
-				ClientHandle = other.ClientHandle;
-				IsNetworkActive = other.IsNetworkActive;
+				ClientHandle = other.Value.ClientHandle;
+				IsNetworkActive = other.Value.IsNetworkActive;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SetClientNetworkStateOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_ClientHandle);
 		}
 	}
 }

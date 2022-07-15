@@ -35,18 +35,19 @@ namespace Epic.OnlineServices.Ecom
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the entitlement is not found
 		/// </returns>
-		public Result CopyEntitlementByIndex(TransactionCopyEntitlementByIndexOptions options, out Entitlement outEntitlement)
+		public Result CopyEntitlementByIndex(ref TransactionCopyEntitlementByIndexOptions options, out Entitlement? outEntitlement)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<TransactionCopyEntitlementByIndexOptionsInternal, TransactionCopyEntitlementByIndexOptions>(ref optionsAddress, options);
+			TransactionCopyEntitlementByIndexOptionsInternal optionsInternal = new TransactionCopyEntitlementByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outEntitlementAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Ecom_Transaction_CopyEntitlementByIndex(InnerHandle, optionsAddress, ref outEntitlementAddress);
+			var funcResult = Bindings.EOS_Ecom_Transaction_CopyEntitlementByIndex(InnerHandle, ref optionsInternal, ref outEntitlementAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<EntitlementInternal, Entitlement>(outEntitlementAddress, out outEntitlement))
+			Helper.Get<EntitlementInternal, Entitlement>(outEntitlementAddress, out outEntitlement);
+			if (outEntitlement != null)
 			{
 				Bindings.EOS_Ecom_Entitlement_Release(outEntitlementAddress);
 			}
@@ -62,14 +63,14 @@ namespace Epic.OnlineServices.Ecom
 		/// <returns>
 		/// the number of entitlements found.
 		/// </returns>
-		public uint GetEntitlementsCount(TransactionGetEntitlementsCountOptions options)
+		public uint GetEntitlementsCount(ref TransactionGetEntitlementsCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<TransactionGetEntitlementsCountOptionsInternal, TransactionGetEntitlementsCountOptions>(ref optionsAddress, options);
+			TransactionGetEntitlementsCountOptionsInternal optionsInternal = new TransactionGetEntitlementsCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Ecom_Transaction_GetEntitlementsCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Ecom_Transaction_GetEntitlementsCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -85,16 +86,15 @@ namespace Epic.OnlineServices.Ecom
 		/// <seealso cref="EcomInterface.GetTransactionCount" />
 		/// <seealso cref="EcomInterface.CopyTransactionByIndex" />
 		/// </summary>
-		public Result GetTransactionId(out string outBuffer)
+		public Result GetTransactionId(out Utf8String outBuffer)
 		{
-			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = EcomInterface.TransactionidMaximumLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
 
 			var funcResult = Bindings.EOS_Ecom_Transaction_GetTransactionId(InnerHandle, outBufferAddress, ref inOutBufferLength);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer);
-			Helper.TryMarshalDispose(ref outBufferAddress);
+			Helper.Get(outBufferAddress, out outBuffer);
+			Helper.Dispose(ref outBufferAddress);
 
 			return funcResult;
 		}

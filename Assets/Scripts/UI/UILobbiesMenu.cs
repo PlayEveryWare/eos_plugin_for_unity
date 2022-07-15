@@ -156,7 +156,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (currentLobbyOwnerCache != currentLobby.LobbyOwner)
                 {
                     ownerChanged = true;
-                    Result resultLobbyOwner = currentLobby.LobbyOwner.ToString(out string outBuffer);
+                    Result resultLobbyOwner = currentLobby.LobbyOwner.ToString(out Utf8String outBuffer);
                     if (resultLobbyOwner == Result.Success)
                     {
                         // Update owner
@@ -191,14 +191,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         UIMemberEntry uiEntry = memberUIObj.GetComponent<UIMemberEntry>();
                         if (uiEntry != null)
                         {
-                            Result result = member.ProductId.ToString(out string outBuff);
-                            if (result == Result.Success)
+                            string displayName = member.DisplayName;
+                            if (!string.IsNullOrEmpty(displayName))
                             {
-                                uiEntry.MemberName = outBuff;
+                                uiEntry.MemberName = displayName;
                             }
                             else
                             {
-                                uiEntry.MemberName = "Error: " + result;
+                                Result result = member.ProductId.ToString(out Utf8String outBuff);
+                                if (result == Result.Success)
+                                {
+                                    uiEntry.MemberName = outBuff;
+                                }
+                                else
+                                {
+                                    uiEntry.MemberName = "Error: " + result;
+                                }
                             }
 
                             uiEntry.ProductUserId = member.ProductId;
@@ -226,7 +234,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 UIInvitePanel.SetActive(true);
 
-                Result resultInviteFrom = LobbyManager.GetCurrentInvite().FriendId.ToString(out string outBuffer);
+                Result resultInviteFrom = LobbyManager.GetCurrentInvite().FriendId.ToString(out Utf8String outBuffer);
                 if (resultInviteFrom == Result.Success)
                 {
                     // Update invite from
@@ -606,7 +614,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     // If DisplayName not found, display ProductUserId
                     if (string.IsNullOrEmpty(uiEntry.OwnerName))
                     {
-                        Result resultLobbyOwner = kvp.Key.LobbyOwner.ToString(out string outBuff);
+                        Result resultLobbyOwner = kvp.Key.LobbyOwner.ToString(out Utf8String outBuff);
                         if (resultLobbyOwner == Result.Success)
                         {
                             uiEntry.OwnerName = outBuff;
@@ -627,13 +635,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         EventSystem.current.SetSelectedGameObject(uiEntry.JoinButton.gameObject);
                         firstResultSelected = true;
-                    }                    
+                    }
 
                     // Get Level
-                    Result attrResult = kvp.Value.CopyAttributeByKey(new LobbyDetailsCopyAttributeByKeyOptions() { AttrKey = "LEVEL" }, out Epic.OnlineServices.Lobby.Attribute outAttrbite);
+                    var lobbyDetailsCopyAttributeByKeyOptions = new LobbyDetailsCopyAttributeByKeyOptions() { AttrKey = "LEVEL" };
+                    Result attrResult = kvp.Value.CopyAttributeByKey(ref lobbyDetailsCopyAttributeByKeyOptions, out Epic.OnlineServices.Lobby.Attribute? outAttrbite);
                     if (attrResult == Result.Success)
                     {
-                        uiEntry.Level = outAttrbite.Data.Value.AsUtf8;
+                        uiEntry.Level = outAttrbite?.Data?.Value.AsUtf8;
                     }
                     else
                     {

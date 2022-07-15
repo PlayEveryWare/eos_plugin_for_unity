@@ -353,7 +353,7 @@ EOS_DECLARE_CALLBACK(EOS_P2P_OnQueryNATTypeCompleteCallback, const EOS_P2P_OnQue
 #define EOS_P2P_GETNATTYPE_API_LATEST 1
 
 /**
- * Structure containing information needed to get perviously queried NAT-types
+ * Structure containing information needed to get previously queried NAT-types
  */
 EOS_STRUCT(EOS_P2P_GetNATTypeOptions, (
 	/** API Version: Set this to EOS_P2P_GETNATTYPE_API_LATEST. */
@@ -361,7 +361,18 @@ EOS_STRUCT(EOS_P2P_GetNATTypeOptions, (
 ));
 
 /**
- * Setting for controlling whether relay servers are used
+ * Setting for controlling whether relay servers are used.
+ *
+ * Please see the following EOS_ERelayControl value compatibility-chart to better understand how changing this value
+ * can affect compatibility between clients with different settings.
+ *
+ * +------------------------------+---------------------+-------------------------------+---------------------+
+ * |                              |   EOS_RC_NoRelays   |  EOS_RC_AllowRelays (Default) |  EOS_RC_ForceRelays |
+ * +------------------------------+---------------------+-------------------------------+---------------------+
+ * | EOS_RC_NoRelays              |  Compatible         |  Compatible                   |  Connection Failure |
+ * | EOS_RC_AllowRelays (Default) |  Compatible         |  Compatible                   |  Compatible         |
+ * | EOS_RC_ForceRelays           |  Connection Failure |  Compatible                   |  Compatible         |
+ * +------------------------------+---------------------+-------------------------------+---------------------+
  */
 EOS_ENUM(EOS_ERelayControl,
 	/** Peer connections will never attempt to use relay servers. Clients with restrictive NATs may not be able to connect to peers. */
@@ -383,7 +394,7 @@ EOS_STRUCT(EOS_P2P_SetRelayControlOptions, (
 	int32_t ApiVersion;
 	/**
 	 * The requested level of relay servers for P2P connections. This setting is only applied to new P2P connections, or when existing P2P connections
-	 * reconnect during a temporary connectivity outage. Peers with an incompatible setting to the local setting will not be able to connnect.
+	 * reconnect during a temporary connectivity outage. Peers with an incompatible setting to the local setting will not be able to connect.
 	 */
 	EOS_ERelayControl RelayControl;
 ));

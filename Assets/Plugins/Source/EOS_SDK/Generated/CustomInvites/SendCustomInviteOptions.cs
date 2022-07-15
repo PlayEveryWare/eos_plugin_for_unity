@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.CustomInvites
 	/// <summary>
 	/// Input parameters for the <see cref="CustomInvitesInterface.SendCustomInvite" /> function.
 	/// </summary>
-	public class SendCustomInviteOptions
+	public struct SendCustomInviteOptions
 	{
 		/// <summary>
 		/// Local user sending a CustomInvite
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.CustomInvites
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SendCustomInviteOptionsInternal : ISettable, System.IDisposable
+	internal struct SendCustomInviteOptionsInternal : ISettable<SendCustomInviteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -31,7 +31,7 @@ namespace Epic.OnlineServices.CustomInvites
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -39,29 +39,31 @@ namespace Epic.OnlineServices.CustomInvites
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserIds, value, out m_TargetUserIdsCount);
+				Helper.Set(value, ref m_TargetUserIds, out m_TargetUserIdsCount);
 			}
 		}
 
-		public void Set(SendCustomInviteOptions other)
+		public void Set(ref SendCustomInviteOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = CustomInvitesInterface.SendcustominviteApiLatest;
+			LocalUserId = other.LocalUserId;
+			TargetUserIds = other.TargetUserIds;
+		}
+
+		public void Set(ref SendCustomInviteOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = CustomInvitesInterface.SendcustominviteApiLatest;
-				LocalUserId = other.LocalUserId;
-				TargetUserIds = other.TargetUserIds;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserIds = other.Value.TargetUserIds;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SendCustomInviteOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserIds);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserIds);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Platform
 	/// <summary>
 	/// Platform options for <see cref="PlatformInterface.Create" />.
 	/// </summary>
-	public class WindowsOptions
+	public struct WindowsOptions
 	{
 		/// <summary>
 		/// A reserved field that should always be nulled.
@@ -16,12 +16,12 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The product ID for the running application, found on the dev portal
 		/// </summary>
-		public string ProductId { get; set; }
+		public Utf8String ProductId { get; set; }
 
 		/// <summary>
 		/// The sandbox ID for the running application, found on the dev portal
 		/// </summary>
-		public string SandboxId { get; set; }
+		public Utf8String SandboxId { get; set; }
 
 		/// <summary>
 		/// Set of service permissions associated with the running application
@@ -29,29 +29,29 @@ namespace Epic.OnlineServices.Platform
 		public ClientCredentials ClientCredentials { get; set; }
 
 		/// <summary>
-		/// Set this to false if the application is running as a client with a local user, otherwise set to true (e.g. for a dedicated game server)
+		/// Set this to <see langword="false" /> if the application is running as a client with a local user, otherwise set to <see langword="true" /> (e.g. for a dedicated game server)
 		/// </summary>
 		public bool IsServer { get; set; }
 
 		/// <summary>
 		/// Used by Player Data Storage and Title Storage. Must be null initialized if unused. 256-bit Encryption Key for file encryption in hexadecimal format (64 hex chars)
 		/// </summary>
-		public string EncryptionKey { get; set; }
+		public Utf8String EncryptionKey { get; set; }
 
 		/// <summary>
 		/// The override country code to use for the logged in user. (<see cref="PlatformInterface.CountrycodeMaxLength" />)
 		/// </summary>
-		public string OverrideCountryCode { get; set; }
+		public Utf8String OverrideCountryCode { get; set; }
 
 		/// <summary>
 		/// The override locale code to use for the logged in user. This follows ISO 639. (<see cref="PlatformInterface.LocalecodeMaxLength" />)
 		/// </summary>
-		public string OverrideLocaleCode { get; set; }
+		public Utf8String OverrideLocaleCode { get; set; }
 
 		/// <summary>
 		/// The deployment ID for the running application, found on the dev portal
 		/// </summary>
-		public string DeploymentId { get; set; }
+		public Utf8String DeploymentId { get; set; }
 
 		/// <summary>
 		/// Platform creation flags, e.g. <see cref="PlatformFlags.LoadingInEditor" />. This is a bitwise-or union of the defined flags.
@@ -61,7 +61,7 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// Used by Player Data Storage and Title Storage. Must be null initialized if unused. Cache directory path. Absolute path to the folder that is going to be used for caching temporary data. The path is created if it's missing.
 		/// </summary>
-		public string CacheDirectory { get; set; }
+		public Utf8String CacheDirectory { get; set; }
 
 		/// <summary>
 		/// A budget, measured in milliseconds, for <see cref="PlatformInterface.Tick" /> to do its work. When the budget is met or exceeded (or if no work is available), <see cref="PlatformInterface.Tick" /> will return.
@@ -71,13 +71,19 @@ namespace Epic.OnlineServices.Platform
 		public uint TickBudgetInMilliseconds { get; set; }
 
 		/// <summary>
-		/// RTC options. Setting to NULL will disable RTC features (e.g. voice)
+		/// RTC options. Setting to <see langword="null" /> will disable RTC features (e.g. voice)
 		/// </summary>
-		public WindowsRTCOptions RTCOptions { get; set; }
+		public WindowsRTCOptions? RTCOptions { get; set; }
+
+		/// <summary>
+		/// A handle that contains all the options for setting up integrated platforms.
+		/// When set to <see langword="null" />, the default integrated platform behavior for the host platform will be used.
+		/// </summary>
+		public IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct WindowsOptionsInternal : ISettable, System.IDisposable
+	internal struct WindowsOptionsInternal : ISettable<WindowsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Reserved;
@@ -93,6 +99,7 @@ namespace Epic.OnlineServices.Platform
 		private System.IntPtr m_CacheDirectory;
 		private uint m_TickBudgetInMilliseconds;
 		private System.IntPtr m_RTCOptions;
+		private System.IntPtr m_IntegratedPlatformOptionsContainerHandle;
 
 		public System.IntPtr Reserved
 		{
@@ -102,19 +109,19 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public string ProductId
+		public Utf8String ProductId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductId, value);
+				Helper.Set(value, ref m_ProductId);
 			}
 		}
 
-		public string SandboxId
+		public Utf8String SandboxId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SandboxId, value);
+				Helper.Set(value, ref m_SandboxId);
 			}
 		}
 
@@ -122,7 +129,7 @@ namespace Epic.OnlineServices.Platform
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ClientCredentials, value);
+				Helper.Set(ref value, ref m_ClientCredentials);
 			}
 		}
 
@@ -130,39 +137,39 @@ namespace Epic.OnlineServices.Platform
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsServer, value);
+				Helper.Set(value, ref m_IsServer);
 			}
 		}
 
-		public string EncryptionKey
+		public Utf8String EncryptionKey
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EncryptionKey, value);
+				Helper.Set(value, ref m_EncryptionKey);
 			}
 		}
 
-		public string OverrideCountryCode
+		public Utf8String OverrideCountryCode
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_OverrideCountryCode, value);
+				Helper.Set(value, ref m_OverrideCountryCode);
 			}
 		}
 
-		public string OverrideLocaleCode
+		public Utf8String OverrideLocaleCode
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_OverrideLocaleCode, value);
+				Helper.Set(value, ref m_OverrideLocaleCode);
 			}
 		}
 
-		public string DeploymentId
+		public Utf8String DeploymentId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_DeploymentId, value);
+				Helper.Set(value, ref m_DeploymentId);
 			}
 		}
 
@@ -174,11 +181,11 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public string CacheDirectory
+		public Utf8String CacheDirectory
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_CacheDirectory, value);
+				Helper.Set(value, ref m_CacheDirectory);
 			}
 		}
 
@@ -190,52 +197,76 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public WindowsRTCOptions RTCOptions
+		public WindowsRTCOptions? RTCOptions
 		{
 			set
 			{
-				Helper.TryMarshalSet<WindowsRTCOptionsInternal, WindowsRTCOptions>(ref m_RTCOptions, value);
+				Helper.Set<WindowsRTCOptions, WindowsRTCOptionsInternal>(ref value, ref m_RTCOptions);
 			}
 		}
 
-		public void Set(WindowsOptions other)
+		public IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle
 		{
-			if (other != null)
+			set
+			{
+				Helper.Set(value, ref m_IntegratedPlatformOptionsContainerHandle);
+			}
+		}
+
+		public void Set(ref WindowsOptions other)
+		{
+			m_ApiVersion = PlatformInterface.OptionsApiLatest;
+			Reserved = other.Reserved;
+			ProductId = other.ProductId;
+			SandboxId = other.SandboxId;
+			ClientCredentials = other.ClientCredentials;
+			IsServer = other.IsServer;
+			EncryptionKey = other.EncryptionKey;
+			OverrideCountryCode = other.OverrideCountryCode;
+			OverrideLocaleCode = other.OverrideLocaleCode;
+			DeploymentId = other.DeploymentId;
+			Flags = other.Flags;
+			CacheDirectory = other.CacheDirectory;
+			TickBudgetInMilliseconds = other.TickBudgetInMilliseconds;
+			RTCOptions = other.RTCOptions;
+			IntegratedPlatformOptionsContainerHandle = other.IntegratedPlatformOptionsContainerHandle;
+		}
+
+		public void Set(ref WindowsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PlatformInterface.OptionsApiLatest;
-				Reserved = other.Reserved;
-				ProductId = other.ProductId;
-				SandboxId = other.SandboxId;
-				ClientCredentials = other.ClientCredentials;
-				IsServer = other.IsServer;
-				EncryptionKey = other.EncryptionKey;
-				OverrideCountryCode = other.OverrideCountryCode;
-				OverrideLocaleCode = other.OverrideLocaleCode;
-				DeploymentId = other.DeploymentId;
-				Flags = other.Flags;
-				CacheDirectory = other.CacheDirectory;
-				TickBudgetInMilliseconds = other.TickBudgetInMilliseconds;
-				RTCOptions = other.RTCOptions;
+				Reserved = other.Value.Reserved;
+				ProductId = other.Value.ProductId;
+				SandboxId = other.Value.SandboxId;
+				ClientCredentials = other.Value.ClientCredentials;
+				IsServer = other.Value.IsServer;
+				EncryptionKey = other.Value.EncryptionKey;
+				OverrideCountryCode = other.Value.OverrideCountryCode;
+				OverrideLocaleCode = other.Value.OverrideLocaleCode;
+				DeploymentId = other.Value.DeploymentId;
+				Flags = other.Value.Flags;
+				CacheDirectory = other.Value.CacheDirectory;
+				TickBudgetInMilliseconds = other.Value.TickBudgetInMilliseconds;
+				RTCOptions = other.Value.RTCOptions;
+				IntegratedPlatformOptionsContainerHandle = other.Value.IntegratedPlatformOptionsContainerHandle;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as WindowsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Reserved);
-			Helper.TryMarshalDispose(ref m_ProductId);
-			Helper.TryMarshalDispose(ref m_SandboxId);
-			Helper.TryMarshalDispose(ref m_ClientCredentials);
-			Helper.TryMarshalDispose(ref m_EncryptionKey);
-			Helper.TryMarshalDispose(ref m_OverrideCountryCode);
-			Helper.TryMarshalDispose(ref m_OverrideLocaleCode);
-			Helper.TryMarshalDispose(ref m_DeploymentId);
-			Helper.TryMarshalDispose(ref m_CacheDirectory);
-			Helper.TryMarshalDispose(ref m_RTCOptions);
+			Helper.Dispose(ref m_Reserved);
+			Helper.Dispose(ref m_ProductId);
+			Helper.Dispose(ref m_SandboxId);
+			Helper.Dispose(ref m_ClientCredentials);
+			Helper.Dispose(ref m_EncryptionKey);
+			Helper.Dispose(ref m_OverrideCountryCode);
+			Helper.Dispose(ref m_OverrideLocaleCode);
+			Helper.Dispose(ref m_DeploymentId);
+			Helper.Dispose(ref m_CacheDirectory);
+			Helper.Dispose(ref m_RTCOptions);
+			Helper.Dispose(ref m_IntegratedPlatformOptionsContainerHandle);
 		}
 	}
 }

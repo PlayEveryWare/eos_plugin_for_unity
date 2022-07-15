@@ -7,12 +7,12 @@ namespace Epic.OnlineServices.Achievements
 	/// Contains information about a collection of stat info data.
 	/// <seealso cref="PlayerAchievement" />
 	/// </summary>
-	public class PlayerStatInfo : ISettable
+	public struct PlayerStatInfo
 	{
 		/// <summary>
 		/// The name of the stat.
 		/// </summary>
-		public string Name { get; set; }
+		public Utf8String Name { get; set; }
 
 		/// <summary>
 		/// The current value of the stat.
@@ -24,42 +24,34 @@ namespace Epic.OnlineServices.Achievements
 		/// </summary>
 		public int ThresholdValue { get; set; }
 
-		internal void Set(PlayerStatInfoInternal? other)
+		internal void Set(ref PlayerStatInfoInternal other)
 		{
-			if (other != null)
-			{
-				Name = other.Value.Name;
-				CurrentValue = other.Value.CurrentValue;
-				ThresholdValue = other.Value.ThresholdValue;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PlayerStatInfoInternal?);
+			Name = other.Name;
+			CurrentValue = other.CurrentValue;
+			ThresholdValue = other.ThresholdValue;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PlayerStatInfoInternal : ISettable, System.IDisposable
+	internal struct PlayerStatInfoInternal : IGettable<PlayerStatInfo>, ISettable<PlayerStatInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Name;
 		private int m_CurrentValue;
 		private int m_ThresholdValue;
 
-		public string Name
+		public Utf8String Name
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Name, out value);
+				Utf8String value;
+				Helper.Get(m_Name, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Name, value);
+				Helper.Set(value, ref m_Name);
 			}
 		}
 
@@ -89,25 +81,34 @@ namespace Epic.OnlineServices.Achievements
 			}
 		}
 
-		public void Set(PlayerStatInfo other)
+		public void Set(ref PlayerStatInfo other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AchievementsInterface.PlayerstatinfoApiLatest;
-				Name = other.Name;
-				CurrentValue = other.CurrentValue;
-				ThresholdValue = other.ThresholdValue;
-			}
+			m_ApiVersion = AchievementsInterface.PlayerstatinfoApiLatest;
+			Name = other.Name;
+			CurrentValue = other.CurrentValue;
+			ThresholdValue = other.ThresholdValue;
 		}
 
-		public void Set(object other)
+		public void Set(ref PlayerStatInfo? other)
 		{
-			Set(other as PlayerStatInfo);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AchievementsInterface.PlayerstatinfoApiLatest;
+				Name = other.Value.Name;
+				CurrentValue = other.Value.CurrentValue;
+				ThresholdValue = other.Value.ThresholdValue;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Name);
+			Helper.Dispose(ref m_Name);
+		}
+
+		public void Get(out PlayerStatInfo output)
+		{
+			output = new PlayerStatInfo();
+			output.Set(ref this);
 		}
 	}
 }

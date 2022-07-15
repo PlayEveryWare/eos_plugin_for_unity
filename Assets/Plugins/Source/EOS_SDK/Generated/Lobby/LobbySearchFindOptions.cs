@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbySearch.Find" /> function.
 	/// </summary>
-	public class LobbySearchFindOptions
+	public struct LobbySearchFindOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user making the search request
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbySearchFindOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbySearchFindOptionsInternal : ISettable<LobbySearchFindOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(LobbySearchFindOptions other)
+		public void Set(ref LobbySearchFindOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbySearch.LobbysearchFindApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref LobbySearchFindOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbySearch.LobbysearchFindApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbySearchFindOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

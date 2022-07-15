@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="OnLeaveRoomCallback" />.
 	/// </summary>
-	public class LeaveRoomCallbackInfo : ICallbackInfo, ISettable
+	public struct LeaveRoomCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// This returns:
@@ -14,47 +14,39 @@ namespace Epic.OnlineServices.RTC
 		/// <see cref="Result.AccessDenied" /> if the room name belongs to the Lobby voice system.
 		/// <see cref="Result.UnexpectedError" /> otherwise.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Client-specified data passed into <see cref="LeaveRoomOptions" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who initiated this request.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The room the user was trying to leave.
 		/// </summary>
-		public string RoomName { get; private set; }
+		public Utf8String RoomName { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(LeaveRoomCallbackInfoInternal? other)
+		internal void Set(ref LeaveRoomCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				RoomName = other.Value.RoomName;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LeaveRoomCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LeaveRoomCallbackInfoInternal : ICallbackInfoInternal
+	internal struct LeaveRoomCallbackInfoInternal : ICallbackInfoInternal, IGettable<LeaveRoomCallbackInfo>, ISettable<LeaveRoomCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -67,6 +59,11 @@ namespace Epic.OnlineServices.RTC
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -74,8 +71,13 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -92,19 +94,61 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RoomName, out value);
+				Utf8String value;
+				Helper.Get(m_RoomName, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_RoomName);
+			}
+		}
+
+		public void Set(ref LeaveRoomCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+		}
+
+		public void Set(ref LeaveRoomCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+		}
+
+		public void Get(out LeaveRoomCallbackInfo output)
+		{
+			output = new LeaveRoomCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

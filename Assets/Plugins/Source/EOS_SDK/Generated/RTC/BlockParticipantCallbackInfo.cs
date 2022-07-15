@@ -6,66 +6,58 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="OnBlockParticipantCallback" />.
 	/// </summary>
-	public class BlockParticipantCallbackInfo : ICallbackInfo, ISettable
+	public struct BlockParticipantCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// This returns:
 		/// <see cref="Result.Success" /> if the channel was successfully blocked.
 		/// <see cref="Result.UnexpectedError" /> otherwise.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Client-specified data passed into <see cref="RTCInterface.BlockParticipant" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who initiated this request.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The room the users should be blocked on.
 		/// </summary>
-		public string RoomName { get; private set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the participant being blocked
 		/// </summary>
-		public ProductUserId ParticipantId { get; private set; }
+		public ProductUserId ParticipantId { get; set; }
 
 		/// <summary>
 		/// The block state that should have been set
 		/// </summary>
-		public bool Blocked { get; private set; }
+		public bool Blocked { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(BlockParticipantCallbackInfoInternal? other)
+		internal void Set(ref BlockParticipantCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				RoomName = other.Value.RoomName;
-				ParticipantId = other.Value.ParticipantId;
-				Blocked = other.Value.Blocked;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as BlockParticipantCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ParticipantId = other.ParticipantId;
+			Blocked = other.Blocked;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct BlockParticipantCallbackInfoInternal : ICallbackInfoInternal
+	internal struct BlockParticipantCallbackInfoInternal : ICallbackInfoInternal, IGettable<BlockParticipantCallbackInfo>, ISettable<BlockParticipantCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -80,6 +72,11 @@ namespace Epic.OnlineServices.RTC
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -87,8 +84,13 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -105,18 +107,28 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RoomName, out value);
+				Utf8String value;
+				Helper.Get(m_RoomName, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -125,8 +137,13 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_ParticipantId, out value);
+				Helper.Get(m_ParticipantId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ParticipantId);
 			}
 		}
 
@@ -135,9 +152,51 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_Blocked, out value);
+				Helper.Get(m_Blocked, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_Blocked);
+			}
+		}
+
+		public void Set(ref BlockParticipantCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ParticipantId = other.ParticipantId;
+			Blocked = other.Blocked;
+		}
+
+		public void Set(ref BlockParticipantCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				ParticipantId = other.Value.ParticipantId;
+				Blocked = other.Value.Blocked;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_ParticipantId);
+		}
+
+		public void Get(out BlockParticipantCallbackInfo output)
+		{
+			output = new BlockParticipantCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

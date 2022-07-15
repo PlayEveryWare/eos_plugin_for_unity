@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.CopySessionHandleByInviteId" /> function.
 	/// </summary>
-	public class CopySessionHandleByInviteIdOptions
+	public struct CopySessionHandleByInviteIdOptions
 	{
 		/// <summary>
 		/// Invite ID for which to retrieve a session handle
 		/// </summary>
-		public string InviteId { get; set; }
+		public Utf8String InviteId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopySessionHandleByInviteIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopySessionHandleByInviteIdOptionsInternal : ISettable<CopySessionHandleByInviteIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_InviteId;
 
-		public string InviteId
+		public Utf8String InviteId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_InviteId, value);
+				Helper.Set(value, ref m_InviteId);
 			}
 		}
 
-		public void Set(CopySessionHandleByInviteIdOptions other)
+		public void Set(ref CopySessionHandleByInviteIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.CopysessionhandlebyinviteidApiLatest;
+			InviteId = other.InviteId;
+		}
+
+		public void Set(ref CopySessionHandleByInviteIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.CopysessionhandlebyinviteidApiLatest;
-				InviteId = other.InviteId;
+				InviteId = other.Value.InviteId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopySessionHandleByInviteIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_InviteId);
+			Helper.Dispose(ref m_InviteId);
 		}
 	}
 }

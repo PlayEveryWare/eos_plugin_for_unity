@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Auth
 	/// Function prototype definition for callbacks passed to <see cref="AuthInterface.DeletePersistentAuth" />
 	/// </summary>
 	/// <param name="data">A <see cref="DeletePersistentAuthCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnDeletePersistentAuthCallback(DeletePersistentAuthCallbackInfo data);
+	public delegate void OnDeletePersistentAuthCallback(ref DeletePersistentAuthCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnDeletePersistentAuthCallbackInternal(System.IntPtr data);
+	internal delegate void OnDeletePersistentAuthCallbackInternal(ref DeletePersistentAuthCallbackInfoInternal data);
 }

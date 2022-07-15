@@ -36,6 +36,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+#if UNITY_PS5
+using Unity.PSN.PS5.Auth;
+#endif
+
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -76,14 +80,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
 
+#if UNITY_PS4
+        //private bool socialOverlayActivated = false;
+#endif
+
         private void Awake()
         {
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
 #if UNITY_EDITOR
             loginType = LoginCredentialType.AccountPortal; // Default in editor
-#elif UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH || UNITY_GAMECORE
-            loginType = LoginCredentialType.ExternalAuth; // Default on console
+#elif UNITY_SWITCH
+            loginType = LoginCredentialType.PersistentAuth; // Default on switch
+#elif UNITY_PS4 || UNITY_PS5 || UNITY_GAMECORE
+            loginType = LoginCredentialType.ExternalAuth; // Default on other consoles
+#else
+            loginType = LoginCredentialType.AccountPortal; // Default on other platforms
 #endif
         }
 
@@ -133,13 +145,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ConfigureUIForLogin();
 
             system = EventSystem.current;
-
-            tokenInputField.InputField.onEndEdit.AddListener(EnterPressedToLogin);
         }
 
-        private void EnterPressedToLogin(string arg0)
+        private void EnterPressedToLogin()
         {
-            OnLoginButtonClick();
+            if (loginButton.IsActive())
+            {
+                OnLoginButtonClick();
+            }
         }
 
 #if ENABLE_INPUT_SYSTEM
@@ -154,41 +167,69 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
                     EventSystem.current.sendNavigationEvents = false;
+                    EventSystem.current.currentInputModule.enabled = false;
                     return;
                 }
                 else
                 {
                     Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
                     EventSystem.current.sendNavigationEvents = true;
+                    EventSystem.current.currentInputModule.enabled = true;
                 }
             }
 
-            // Tab between input fields
-            if (keyboard != null && keyboard.tabKey.wasPressedThisFrame
+            if (keyboard != null
                 && system.currentSelectedGameObject != null)
             {
-                Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
-
-                if (next != null)
+                // Tab between input fields
+                if (keyboard.tabKey.wasPressedThisFrame)
                 {
-                    InputField inputfield = next.GetComponent<InputField>();
-                    if (inputfield != null)
+                    Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+                    if (keyboard.shiftKey.isPressed)
                     {
-                        inputfield.OnPointerClick(new PointerEventData(system));
+                        next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
+                    }
+
+                    // Make sure the object is active or exit out if no more objects are found
+                    while (next != null && !next.gameObject.activeSelf)
+                    {
+                        next = next.FindSelectableOnDown();
+                    }
+
+                    if (next != null)
+                    {
+                        InputField inputField = next.GetComponent<InputField>();
+                        ConsoleInputField consoleInputField = next.GetComponent<ConsoleInputField>();
+                        if (inputField != null)
+                        {
+                            inputField.OnPointerClick(new PointerEventData(system));
+                            system.SetSelectedGameObject(next.gameObject);
+                        }
+                        else if (consoleInputField != null)
+                        {
+                            consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
+                            system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
+                        }
+                        else
+                        {
+                            system.SetSelectedGameObject(next.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        next = FindTopUISelectable();
                         system.SetSelectedGameObject(next.gameObject);
                     }
-
-                    ConsoleInputField consoleInputField = next.GetComponent<ConsoleInputField>();
-                    if(consoleInputField != null)
-                    {
-                        consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
-                        system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
-                    }
                 }
-                else
+                else if (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame)
                 {
-                    next = FindTopUISelectable();
-                    system.SetSelectedGameObject(next.gameObject);
+                    // Enter pressed in an input field
+                    InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
+                    ConsoleInputField consoleInputField = system.currentSelectedGameObject.GetComponent<ConsoleInputField>();
+                    if (inputField != null || consoleInputField != null)
+                    {
+                        EnterPressedToLogin();
+                    }
                 }
             }
 
@@ -225,6 +266,42 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 system.SetSelectedGameObject(selectedGameObject);
             }
+
+#if UNITY_PS4 || UNITY_PS5
+            /* // Overlay handles 'R3', input is always sent
+            if (Input.GetButtonDown("R3"))
+            {
+                Debug.Log("UILoginMenu (Update): R3 pressed, socialOverlayActivated=" + socialOverlayActivated);
+                if(socialOverlayActivated)
+                {
+                    // Show overlay
+                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().ShowFriendsOverlay(null);
+                }
+                else
+                {
+                    // Hide Overlay
+                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().HideFriendsOverlay(null);
+                }
+                socialOverlayActivated = !socialOverlayActivated;
+            }
+            */
+
+            // Disable game input if Overlay is visible and has exclusive input
+            if (EventSystem.current != null && EventSystem.current.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+            {
+                if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+                {
+                    Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
+                    EventSystem.current.sendNavigationEvents = false;
+                    return;
+                }
+                else
+                {
+                    Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
+                    EventSystem.current.sendNavigationEvents = true;
+                }
+            }
+#endif
 
             // Controller: Detect if nothing is selected and controller input detected, and set default
             bool nothingSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null;
@@ -275,14 +352,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Selectable FindTopUISelectable()
         {
             Selectable currentTop = Selectable.allSelectablesArray[0];
-            double currentTopXaxis = currentTop.transform.position.x;
+            double currentTopYaxis = currentTop.transform.position.y;
 
             foreach (Selectable s in Selectable.allSelectablesArray)
             {
-                if (s.transform.position.x > currentTopXaxis)
+                if (s.transform.position.y > currentTopYaxis &&
+                    s.navigation.mode != Navigation.Mode.None)
                 {
                     currentTop = s;
-                    currentTopXaxis = s.transform.position.x;
+                    currentTopYaxis = s.transform.position.y;
                 }
             }
 
@@ -347,6 +425,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 selectOnDown = logoutButton,
                 selectOnLeft = logoutButton
             };
+
+            // AC/TODO: Reduce duplicated UI code for the different login types
+            SceneSwitcherDropDown.gameObject.SetActive(true);
+            DemoTitle.gameObject.SetActive(true);
+            loginTypeDropdown.gameObject.SetActive(true);
+
+            loginButton.enabled = true;
+            loginButton.gameObject.SetActive(true);
+            logoutButton.gameObject.SetActive(false);
+
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         private void ConfigureUIForPersistentLogin()
@@ -460,7 +549,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnLogoutButtonClick()
         {
-            EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (LogoutCallbackInfo data) => {
+            EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
                 if (data.ResultCode == Result.Success)
                 {
                     print("Logout Successful. [" + data.ResultCode + "]");
@@ -512,18 +601,50 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (loginType == LoginCredentialType.ExternalAuth)
             {
+#if (UNITY_PS4 || UNITY_PS5)// && !UNITY_EDITOR
+                EOSPSNManager psnManager = EOSManager.Instance.GetOrCreateManager<EOSPSNManager>();
+
+                ///TOO(mendsley): Use activating controller index here
+                psnManager.StartLoginWithPSN(0, StartLoginWithLoginTypeAndTokenCallback);
+#elif UNITY_SWITCH
+                EOSNintendoManager nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
+
+                ///TODO(mendsley): Use activating controller's user here
+                nn.account.UserHandle userHandle = new nn.account.UserHandle();
+
+                if (nintendoManager.GetPreselectedUser(ref userHandle))
+                {
+                    nintendoManager.StartLoginWithNSA(userHandle, StartLoginWithLoginTypeAndTokenCallback);
+                }
+                else
+                {
+                    Debug.LogError("Failed to get a Preselected User");
+                }
+#elif UNITY_GAMECORE
+                EOSXBLManager xblManager = EOSManager.Instance.GetOrCreateManager<EOSXBLManager>();
+                xblManager.StartLoginWithXbl(StartLoginWithLoginTypeAndTokenCallback);
+#else
                 Debug.LogError("ExternalAuth is not implemented on this platform");
+#endif
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
-                EOSManager.Instance.StartPersistantLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
+                EOSManager.Instance.StartPersistentLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
                 {
                     // In this state, it means one needs to login in again with the previous login type, or a new one, as the
                     // tokens are invalid
                     if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
                     {
                         print("Failed to login with Persistent token [" + callbackInfo.ResultCode + "]");
+#if UNITY_SWITCH
+                        // On switch: Fallback to AccountPortal login flow
+                        loginType = LoginCredentialType.AccountPortal;
+                        ConfigureUIForAccountPortalLogin();
+#else
+                        // Other platforms: Fallback to DevAuth login flow
+                        loginType = LoginCredentialType.Developer;
                         ConfigureUIForDevAuthLogin();
+#endif
                     }
                     else
                     {
@@ -583,8 +704,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 ///TODO(mendsley): Handle pin-grant in a more reasonable way
                 Debug.LogError("------------PIN GRANT------------");
                 Debug.LogError("External account is not connected to an Epic Account. Use link below");
-                Debug.LogError($"URL: {loginCallbackInfo.PinGrantInfo.VerificationURI}");
-                Debug.LogError($"CODE: {loginCallbackInfo.PinGrantInfo.UserCode}");
+                Debug.LogError($"URL: {loginCallbackInfo.PinGrantInfo?.VerificationURI}");
+                Debug.LogError($"CODE: {loginCallbackInfo.PinGrantInfo?.UserCode}");
                 Debug.LogError("---------------------------------");
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
@@ -595,7 +716,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 print("Trying Auth link with external account: " + loginCallbackInfo.ContinuanceToken);
                 EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, 
+#if UNITY_SWITCH
+                                                                                LinkAccountFlags.NintendoNsaId,
+#else
                                                                                 LinkAccountFlags.NoFlags,
+#endif
                                                                                 (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
                     StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
@@ -605,6 +730,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 print("Error logging in. [" + loginCallbackInfo.ResultCode + "]");
+            }
+
+            // Re-enable the login button and associated UI on any error
+            if (loginCallbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
+            {
                 ConfigureUIForLogin();
             }
         }

@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class BeginSessionOptions
+	public struct BeginSessionOptions
 	{
 		/// <summary>
 		/// Time in seconds to allow newly registered clients to complete anti-cheat authentication.
@@ -14,7 +14,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <summary>
 		/// Optional name of this game server
 		/// </summary>
-		public string ServerName { get; set; }
+		public Utf8String ServerName { get; set; }
 
 		/// <summary>
 		/// Gameplay data collection APIs such as LogPlayerTick will be enabled if set to true.
@@ -29,7 +29,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct BeginSessionOptionsInternal : ISettable, System.IDisposable
+	internal struct BeginSessionOptionsInternal : ISettable<BeginSessionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_RegisterTimeoutSeconds;
@@ -45,11 +45,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
-		public string ServerName
+		public Utf8String ServerName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ServerName, value);
+				Helper.Set(value, ref m_ServerName);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EnableGameplayData, value);
+				Helper.Set(value, ref m_EnableGameplayData);
 			}
 		}
 
@@ -65,31 +65,35 @@ namespace Epic.OnlineServices.AntiCheatServer
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(BeginSessionOptions other)
+		public void Set(ref BeginSessionOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatServerInterface.BeginsessionApiLatest;
+			RegisterTimeoutSeconds = other.RegisterTimeoutSeconds;
+			ServerName = other.ServerName;
+			EnableGameplayData = other.EnableGameplayData;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref BeginSessionOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatServerInterface.BeginsessionApiLatest;
-				RegisterTimeoutSeconds = other.RegisterTimeoutSeconds;
-				ServerName = other.ServerName;
-				EnableGameplayData = other.EnableGameplayData;
-				LocalUserId = other.LocalUserId;
+				RegisterTimeoutSeconds = other.Value.RegisterTimeoutSeconds;
+				ServerName = other.Value.ServerName;
+				EnableGameplayData = other.Value.EnableGameplayData;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as BeginSessionOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ServerName);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ServerName);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

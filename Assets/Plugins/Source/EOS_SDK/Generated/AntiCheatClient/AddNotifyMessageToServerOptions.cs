@@ -3,26 +3,26 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class AddNotifyMessageToServerOptions
+	public struct AddNotifyMessageToServerOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyMessageToServerOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyMessageToServerOptionsInternal : ISettable<AddNotifyMessageToServerOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyMessageToServerOptions other)
+		public void Set(ref AddNotifyMessageToServerOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatClientInterface.AddnotifymessagetoserverApiLatest;
+		}
+
+		public void Set(ref AddNotifyMessageToServerOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatClientInterface.AddnotifymessagetoserverApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyMessageToServerOptions);
 		}
 
 		public void Dispose()

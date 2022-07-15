@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.CopyAttributeByIndex" /> function.
 	/// </summary>
-	public class LobbyDetailsCopyAttributeByIndexOptions
+	public struct LobbyDetailsCopyAttributeByIndexOptions
 	{
 		/// <summary>
 		/// The index of the attribute to retrieve
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsCopyAttributeByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsCopyAttributeByIndexOptionsInternal : ISettable<LobbyDetailsCopyAttributeByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_AttrIndex;
@@ -29,18 +29,19 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbyDetailsCopyAttributeByIndexOptions other)
+		public void Set(ref LobbyDetailsCopyAttributeByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyDetails.LobbydetailsCopyattributebyindexApiLatest;
-				AttrIndex = other.AttrIndex;
-			}
+			m_ApiVersion = LobbyDetails.LobbydetailsCopyattributebyindexApiLatest;
+			AttrIndex = other.AttrIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbyDetailsCopyAttributeByIndexOptions? other)
 		{
-			Set(other as LobbyDetailsCopyAttributeByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyDetails.LobbydetailsCopyattributebyindexApiLatest;
+				AttrIndex = other.Value.AttrIndex;
+			}
 		}
 
 		public void Dispose()

@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.UnregisterPlayers" /> function.
 	/// </summary>
-	public class UnregisterPlayersOptions
+	public struct UnregisterPlayersOptions
 	{
 		/// <summary>
 		/// Name of the session for which to unregister players
 		/// </summary>
-		public string SessionName { get; set; }
+		public Utf8String SessionName { get; set; }
 
 		/// <summary>
 		/// Array of players to unregister from the session
@@ -20,18 +20,18 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UnregisterPlayersOptionsInternal : ISettable, System.IDisposable
+	internal struct UnregisterPlayersOptionsInternal : ISettable<UnregisterPlayersOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionName;
 		private System.IntPtr m_PlayersToUnregister;
 		private uint m_PlayersToUnregisterCount;
 
-		public string SessionName
+		public Utf8String SessionName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionName, value);
+				Helper.Set(value, ref m_SessionName);
 			}
 		}
 
@@ -39,29 +39,31 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PlayersToUnregister, value, out m_PlayersToUnregisterCount);
+				Helper.Set(value, ref m_PlayersToUnregister, out m_PlayersToUnregisterCount);
 			}
 		}
 
-		public void Set(UnregisterPlayersOptions other)
+		public void Set(ref UnregisterPlayersOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.UnregisterplayersApiLatest;
+			SessionName = other.SessionName;
+			PlayersToUnregister = other.PlayersToUnregister;
+		}
+
+		public void Set(ref UnregisterPlayersOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.UnregisterplayersApiLatest;
-				SessionName = other.SessionName;
-				PlayersToUnregister = other.PlayersToUnregister;
+				SessionName = other.Value.SessionName;
+				PlayersToUnregister = other.Value.PlayersToUnregister;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UnregisterPlayersOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionName);
-			Helper.TryMarshalDispose(ref m_PlayersToUnregister);
+			Helper.Dispose(ref m_SessionName);
+			Helper.Dispose(ref m_PlayersToUnregister);
 		}
 	}
 }

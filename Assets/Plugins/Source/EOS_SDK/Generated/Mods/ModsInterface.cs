@@ -55,22 +55,23 @@ namespace Epic.OnlineServices.Mods
 		/// This request may fail with an <seealso cref="Result.NotFound" /> code if an enumeration of a certain type was not performed before this call.
 		/// </summary>
 		/// <param name="options">structure containing the game identifier for which requesting enumerated mods</param>
-		/// <param name="outEnumeratedMods">Enumerated mods Info. If the returned result is success, this will be set to data that must be later released, otherwise this will be set to NULL</param>
+		/// <param name="outEnumeratedMods">Enumerated mods Info. If the returned result is success, this will be set to data that must be later released, otherwise this will be set to <see langword="null" /></param>
 		/// <returns>
 		/// Success if we have cached data, or an error result if the request was invalid or we do not have cached data.
 		/// </returns>
-		public Result CopyModInfo(CopyModInfoOptions options, out ModInfo outEnumeratedMods)
+		public Result CopyModInfo(ref CopyModInfoOptions options, out ModInfo? outEnumeratedMods)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyModInfoOptionsInternal, CopyModInfoOptions>(ref optionsAddress, options);
+			CopyModInfoOptionsInternal optionsInternal = new CopyModInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outEnumeratedModsAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Mods_CopyModInfo(InnerHandle, optionsAddress, ref outEnumeratedModsAddress);
+			var funcResult = Bindings.EOS_Mods_CopyModInfo(InnerHandle, ref optionsInternal, ref outEnumeratedModsAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ModInfoInternal, ModInfo>(outEnumeratedModsAddress, out outEnumeratedMods))
+			Helper.Get<ModInfoInternal, ModInfo>(outEnumeratedModsAddress, out outEnumeratedMods);
+			if (outEnumeratedMods != null)
 			{
 				Bindings.EOS_Mods_ModInfo_Release(outEnumeratedModsAddress);
 			}
@@ -86,19 +87,19 @@ namespace Epic.OnlineServices.Mods
 		/// <param name="options">structure containing the game identifiers</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void EnumerateMods(EnumerateModsOptions options, object clientData, OnEnumerateModsCallback completionDelegate)
+		public void EnumerateMods(ref EnumerateModsOptions options, object clientData, OnEnumerateModsCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<EnumerateModsOptionsInternal, EnumerateModsOptions>(ref optionsAddress, options);
+			EnumerateModsOptionsInternal optionsInternal = new EnumerateModsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnEnumerateModsCallbackInternal(OnEnumerateModsCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Mods_EnumerateMods(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Mods_EnumerateMods(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -108,19 +109,19 @@ namespace Epic.OnlineServices.Mods
 		/// <param name="options">structure containing the game and mod identifiers</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void InstallMod(InstallModOptions options, object clientData, OnInstallModCallback completionDelegate)
+		public void InstallMod(ref InstallModOptions options, object clientData, OnInstallModCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<InstallModOptionsInternal, InstallModOptions>(ref optionsAddress, options);
+			InstallModOptionsInternal optionsInternal = new InstallModOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnInstallModCallbackInternal(OnInstallModCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Mods_InstallMod(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Mods_InstallMod(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -130,19 +131,19 @@ namespace Epic.OnlineServices.Mods
 		/// <param name="options">structure containing the game and mod identifiers</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void UninstallMod(UninstallModOptions options, object clientData, OnUninstallModCallback completionDelegate)
+		public void UninstallMod(ref UninstallModOptions options, object clientData, OnUninstallModCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UninstallModOptionsInternal, UninstallModOptions>(ref optionsAddress, options);
+			UninstallModOptionsInternal optionsInternal = new UninstallModOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnUninstallModCallbackInternal(OnUninstallModCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Mods_UninstallMod(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Mods_UninstallMod(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -152,62 +153,62 @@ namespace Epic.OnlineServices.Mods
 		/// <param name="options">structure containing the game and mod identifiers</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error. If the mod is up to date then the operation will complete with success.</param>
-		public void UpdateMod(UpdateModOptions options, object clientData, OnUpdateModCallback completionDelegate)
+		public void UpdateMod(ref UpdateModOptions options, object clientData, OnUpdateModCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UpdateModOptionsInternal, UpdateModOptions>(ref optionsAddress, options);
+			UpdateModOptionsInternal optionsInternal = new UpdateModOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnUpdateModCallbackInternal(OnUpdateModCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Mods_UpdateMod(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Mods_UpdateMod(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnEnumerateModsCallbackInternal))]
-		internal static void OnEnumerateModsCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnEnumerateModsCallbackInternalImplementation(ref EnumerateModsCallbackInfoInternal data)
 		{
 			OnEnumerateModsCallback callback;
 			EnumerateModsCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnEnumerateModsCallback, EnumerateModsCallbackInfoInternal, EnumerateModsCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnInstallModCallbackInternal))]
-		internal static void OnInstallModCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnInstallModCallbackInternalImplementation(ref InstallModCallbackInfoInternal data)
 		{
 			OnInstallModCallback callback;
 			InstallModCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnInstallModCallback, InstallModCallbackInfoInternal, InstallModCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnUninstallModCallbackInternal))]
-		internal static void OnUninstallModCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnUninstallModCallbackInternalImplementation(ref UninstallModCallbackInfoInternal data)
 		{
 			OnUninstallModCallback callback;
 			UninstallModCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnUninstallModCallback, UninstallModCallbackInfoInternal, UninstallModCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnUpdateModCallbackInternal))]
-		internal static void OnUpdateModCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnUpdateModCallbackInternalImplementation(ref UpdateModCallbackInfoInternal data)
 		{
 			OnUpdateModCallback callback;
 			UpdateModCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnUpdateModCallback, UpdateModCallbackInfoInternal, UpdateModCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionModification.AddAttribute" /> function.
 	/// </summary>
-	public class SessionModificationAddAttributeOptions
+	public struct SessionModificationAddAttributeOptions
 	{
 		/// <summary>
 		/// Key/Value pair describing the attribute to add to the session
 		/// </summary>
-		public AttributeData SessionAttribute { get; set; }
+		public AttributeData? SessionAttribute { get; set; }
 
 		/// <summary>
 		/// Is this attribution advertised with the backend or simply stored locally
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionModificationAddAttributeOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionModificationAddAttributeOptionsInternal : ISettable<SessionModificationAddAttributeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionAttribute;
 		private SessionAttributeAdvertisementType m_AdvertisementType;
 
-		public AttributeData SessionAttribute
+		public AttributeData? SessionAttribute
 		{
 			set
 			{
-				Helper.TryMarshalSet<AttributeDataInternal, AttributeData>(ref m_SessionAttribute, value);
+				Helper.Set<AttributeData, AttributeDataInternal>(ref value, ref m_SessionAttribute);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(SessionModificationAddAttributeOptions other)
+		public void Set(ref SessionModificationAddAttributeOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionModification.SessionmodificationAddattributeApiLatest;
-				SessionAttribute = other.SessionAttribute;
-				AdvertisementType = other.AdvertisementType;
-			}
+			m_ApiVersion = SessionModification.SessionmodificationAddattributeApiLatest;
+			SessionAttribute = other.SessionAttribute;
+			AdvertisementType = other.AdvertisementType;
 		}
 
-		public void Set(object other)
+		public void Set(ref SessionModificationAddAttributeOptions? other)
 		{
-			Set(other as SessionModificationAddAttributeOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionModification.SessionmodificationAddattributeApiLatest;
+				SessionAttribute = other.Value.SessionAttribute;
+				AdvertisementType = other.Value.AdvertisementType;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionAttribute);
+			Helper.Dispose(ref m_SessionAttribute);
 		}
 	}
 }

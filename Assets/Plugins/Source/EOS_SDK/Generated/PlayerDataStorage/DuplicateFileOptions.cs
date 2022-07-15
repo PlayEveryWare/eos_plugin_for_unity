@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Input data for the <see cref="PlayerDataStorageInterface.DuplicateFile" /> function
 	/// </summary>
-	public class DuplicateFileOptions
+	public struct DuplicateFileOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who authorized the duplication of the requested file; must be the original file's owner
@@ -16,16 +16,16 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// The name of the existing file to duplicate
 		/// </summary>
-		public string SourceFilename { get; set; }
+		public Utf8String SourceFilename { get; set; }
 
 		/// <summary>
 		/// The name of the new file
 		/// </summary>
-		public string DestinationFilename { get; set; }
+		public Utf8String DestinationFilename { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DuplicateFileOptionsInternal : ISettable, System.IDisposable
+	internal struct DuplicateFileOptionsInternal : ISettable<DuplicateFileOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,47 +36,50 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string SourceFilename
+		public Utf8String SourceFilename
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SourceFilename, value);
+				Helper.Set(value, ref m_SourceFilename);
 			}
 		}
 
-		public string DestinationFilename
+		public Utf8String DestinationFilename
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_DestinationFilename, value);
+				Helper.Set(value, ref m_DestinationFilename);
 			}
 		}
 
-		public void Set(DuplicateFileOptions other)
+		public void Set(ref DuplicateFileOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PlayerDataStorageInterface.DuplicatefileoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+			SourceFilename = other.SourceFilename;
+			DestinationFilename = other.DestinationFilename;
+		}
+
+		public void Set(ref DuplicateFileOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PlayerDataStorageInterface.DuplicatefileoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
-				SourceFilename = other.SourceFilename;
-				DestinationFilename = other.DestinationFilename;
+				LocalUserId = other.Value.LocalUserId;
+				SourceFilename = other.Value.SourceFilename;
+				DestinationFilename = other.Value.DestinationFilename;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DuplicateFileOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_SourceFilename);
-			Helper.TryMarshalDispose(ref m_DestinationFilename);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_SourceFilename);
+			Helper.Dispose(ref m_DestinationFilename);
 		}
 	}
 }

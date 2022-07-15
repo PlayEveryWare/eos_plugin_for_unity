@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Mods
 	/// <summary>
 	/// Data for the <see cref="ModsInterface.CopyModInfo" /> function.
 	/// </summary>
-	public class CopyModInfoOptions
+	public struct CopyModInfoOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user for which mods should be copied
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Mods
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyModInfoOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyModInfoOptionsInternal : ISettable<CopyModInfoOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Mods
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Mods
 			}
 		}
 
-		public void Set(CopyModInfoOptions other)
+		public void Set(ref CopyModInfoOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = ModsInterface.CopymodinfoApiLatest;
-				LocalUserId = other.LocalUserId;
-				Type = other.Type;
-			}
+			m_ApiVersion = ModsInterface.CopymodinfoApiLatest;
+			LocalUserId = other.LocalUserId;
+			Type = other.Type;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyModInfoOptions? other)
 		{
-			Set(other as CopyModInfoOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = ModsInterface.CopymodinfoApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Type = other.Value.Type;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

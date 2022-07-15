@@ -20,6 +20,7 @@
 * SOFTWARE.
 */
 
+using Epic.OnlineServices;
 using Epic.OnlineServices.Platform;
 using System;
 using System.Collections;
@@ -42,11 +43,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         System.IntPtr ReleaseMemoryFunction { get; set; }
 
-        string ProductName { get; set; }
+        Utf8String ProductName { get; set; }
 
-        string ProductVersion { get; set; }
+        Utf8String ProductVersion { get; set; }
 
-        InitializeThreadAffinity OverrideThreadAffinity { get; set; }
+        InitializeThreadAffinity? OverrideThreadAffinity { get; set; }
     }
 
     //-------------------------------------------------------------------------
@@ -59,17 +60,21 @@ namespace PlayEveryWare.EpicOnlineServices
     public interface IEOSCreateOptions
     {
         System.IntPtr Reserved { get; set; }
-        string ProductId { get; set; }
-        string SandboxId { get; set; }
+        Utf8String ProductId { get; set; }
+        Utf8String SandboxId { get; set; }
         ClientCredentials ClientCredentials { get; set; }
         bool IsServer { get; set; }
-        string EncryptionKey { get; set; }
-        string OverrideCountryCode { get; set; }
-        string OverrideLocaleCode { get; set; }
-        string DeploymentId { get; set; }
+        Utf8String EncryptionKey { get; set; }
+        Utf8String OverrideCountryCode { get; set; }
+        Utf8String OverrideLocaleCode { get; set; }
+        Utf8String DeploymentId { get; set; }
         PlatformFlags Flags { get; set; }
-        string CacheDirectory { get; set; }
+        Utf8String CacheDirectory { get; set; }
         uint TickBudgetInMilliseconds { get; set; }
+
+#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+        Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get; set; }
+#endif
     }
 
     //-------------------------------------------------------------------------
@@ -102,6 +107,12 @@ namespace PlayEveryWare.EpicOnlineServices
     }
 
     //-------------------------------------------------------------------------
+    public interface IEOSNetworkStatusUpdater
+    {
+        void UpdateNetworkStatus();
+    }
+
+    //-------------------------------------------------------------------------
     public interface IEOSCoroutineOwner
     {
         void StartCoroutine(IEnumerator routine);
@@ -115,6 +126,11 @@ namespace PlayEveryWare.EpicOnlineServices
         void AddPluginSearchPaths(ref List<string> pluginPaths);
 
         string GetDynamicLibraryExtension();
+
+//#if EOS_DYNAMIC_BINDINGS
+        // Only called if EOS_DYNAMIC_BINDINGS is defined
+        void LoadDelegatesWithEOSBindingAPI();
+//#endif
 
         //-------------------------------------------------------------------------
         IEOSInitializeOptions CreateSystemInitOptions();
@@ -130,5 +146,7 @@ namespace PlayEveryWare.EpicOnlineServices
         void InitializeOverlay(IEOSCoroutineOwner owner);
 
         void RegisterForPlatformNotifications();
+
+        bool IsApplicationConstrainedWhenOutOfFocus();
     }
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionSearch.SetTargetUserId" /> function.
 	/// </summary>
-	public class SessionSearchSetTargetUserIdOptions
+	public struct SessionSearchSetTargetUserIdOptions
 	{
 		/// <summary>
 		/// The Product User ID to find; return any sessions where the user matching this ID is currently registered
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionSearchSetTargetUserIdOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionSearchSetTargetUserIdOptionsInternal : ISettable<SessionSearchSetTargetUserIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(SessionSearchSetTargetUserIdOptions other)
+		public void Set(ref SessionSearchSetTargetUserIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionSearch.SessionsearchSettargetuseridApiLatest;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref SessionSearchSetTargetUserIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionSearch.SessionsearchSettargetuseridApiLatest;
-				TargetUserId = other.TargetUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionSearchSetTargetUserIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

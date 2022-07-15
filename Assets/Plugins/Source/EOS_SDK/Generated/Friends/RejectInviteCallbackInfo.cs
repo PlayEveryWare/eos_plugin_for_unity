@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Friends
 	/// <summary>
 	/// Output parameters for the <see cref="FriendsInterface.RejectInvite" /> Function.
 	/// </summary>
-	public class RejectInviteCallbackInfo : ICallbackInfo, ISettable
+	public struct RejectInviteCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Result code for the operation. <see cref="Result.Success" /> is returned if an invite was accepted, otherwise one of the error codes is returned. See eos_common.h
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that is passed into <see cref="FriendsInterface.RejectInvite" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user who is rejecting the friends list invitation
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user who sent the friends list invitation
 		/// </summary>
-		public EpicAccountId TargetUserId { get; private set; }
+		public EpicAccountId TargetUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(RejectInviteCallbackInfoInternal? other)
+		internal void Set(ref RejectInviteCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				TargetUserId = other.Value.TargetUserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RejectInviteCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RejectInviteCallbackInfoInternal : ICallbackInfoInternal
+	internal struct RejectInviteCallbackInfoInternal : ICallbackInfoInternal, IGettable<RejectInviteCallbackInfo>, ISettable<RejectInviteCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -64,6 +56,11 @@ namespace Epic.OnlineServices.Friends
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -71,8 +68,13 @@ namespace Epic.OnlineServices.Friends
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -89,8 +91,13 @@ namespace Epic.OnlineServices.Friends
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -99,9 +106,46 @@ namespace Epic.OnlineServices.Friends
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
+			}
+		}
+
+		public void Set(ref RejectInviteCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref RejectInviteCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+		}
+
+		public void Get(out RejectInviteCallbackInfo output)
+		{
+			output = new RejectInviteCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,83 +6,75 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Contains information about a single achievement definition with localized text.
 	/// </summary>
-	public class DefinitionV2 : ISettable
+	public struct DefinitionV2
 	{
 		/// <summary>
 		/// Achievement ID that can be used to uniquely identify the achievement.
 		/// </summary>
-		public string AchievementId { get; set; }
+		public Utf8String AchievementId { get; set; }
 
 		/// <summary>
 		/// Localized display name for the achievement when it has been unlocked.
 		/// </summary>
-		public string UnlockedDisplayName { get; set; }
+		public Utf8String UnlockedDisplayName { get; set; }
 
 		/// <summary>
 		/// Localized description for the achievement when it has been unlocked.
 		/// </summary>
-		public string UnlockedDescription { get; set; }
+		public Utf8String UnlockedDescription { get; set; }
 
 		/// <summary>
 		/// Localized display name for the achievement when it is locked or hidden.
 		/// </summary>
-		public string LockedDisplayName { get; set; }
+		public Utf8String LockedDisplayName { get; set; }
 
 		/// <summary>
 		/// Localized description for the achievement when it is locked or hidden.
 		/// </summary>
-		public string LockedDescription { get; set; }
+		public Utf8String LockedDescription { get; set; }
 
 		/// <summary>
 		/// Localized flavor text that can be used by the game in an arbitrary manner. This may be null if there is no data configured in the dev portal.
 		/// </summary>
-		public string FlavorText { get; set; }
+		public Utf8String FlavorText { get; set; }
 
 		/// <summary>
 		/// URL of an icon to display for the achievement when it is unlocked. This may be null if there is no data configured in the dev portal.
 		/// </summary>
-		public string UnlockedIconURL { get; set; }
+		public Utf8String UnlockedIconURL { get; set; }
 
 		/// <summary>
 		/// URL of an icon to display for the achievement when it is locked or hidden. This may be null if there is no data configured in the dev portal.
 		/// </summary>
-		public string LockedIconURL { get; set; }
+		public Utf8String LockedIconURL { get; set; }
 
 		/// <summary>
-		/// true if the achievement is hidden; false otherwise.
+		/// <see langword="true" /> if the achievement is hidden; <see langword="false" /> otherwise.
 		/// </summary>
 		public bool IsHidden { get; set; }
 
 		/// <summary>
-		/// Array of `<see cref="StatThresholds" />` that need to be satisfied to unlock this achievement. Consists of Name and Threshold Value.
+		/// Array of `<see cref="Achievements.StatThresholds" />` that need to be satisfied to unlock this achievement. Consists of Name and Threshold Value.
 		/// </summary>
 		public StatThresholds[] StatThresholds { get; set; }
 
-		internal void Set(DefinitionV2Internal? other)
+		internal void Set(ref DefinitionV2Internal other)
 		{
-			if (other != null)
-			{
-				AchievementId = other.Value.AchievementId;
-				UnlockedDisplayName = other.Value.UnlockedDisplayName;
-				UnlockedDescription = other.Value.UnlockedDescription;
-				LockedDisplayName = other.Value.LockedDisplayName;
-				LockedDescription = other.Value.LockedDescription;
-				FlavorText = other.Value.FlavorText;
-				UnlockedIconURL = other.Value.UnlockedIconURL;
-				LockedIconURL = other.Value.LockedIconURL;
-				IsHidden = other.Value.IsHidden;
-				StatThresholds = other.Value.StatThresholds;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DefinitionV2Internal?);
+			AchievementId = other.AchievementId;
+			UnlockedDisplayName = other.UnlockedDisplayName;
+			UnlockedDescription = other.UnlockedDescription;
+			LockedDisplayName = other.LockedDisplayName;
+			LockedDescription = other.LockedDescription;
+			FlavorText = other.FlavorText;
+			UnlockedIconURL = other.UnlockedIconURL;
+			LockedIconURL = other.LockedIconURL;
+			IsHidden = other.IsHidden;
+			StatThresholds = other.StatThresholds;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DefinitionV2Internal : ISettable, System.IDisposable
+	internal struct DefinitionV2Internal : IGettable<DefinitionV2>, ISettable<DefinitionV2>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AchievementId;
@@ -97,123 +89,123 @@ namespace Epic.OnlineServices.Achievements
 		private uint m_StatThresholdsCount;
 		private System.IntPtr m_StatThresholds;
 
-		public string AchievementId
+		public Utf8String AchievementId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AchievementId, out value);
+				Utf8String value;
+				Helper.Get(m_AchievementId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AchievementId, value);
+				Helper.Set(value, ref m_AchievementId);
 			}
 		}
 
-		public string UnlockedDisplayName
+		public Utf8String UnlockedDisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_UnlockedDisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_UnlockedDisplayName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UnlockedDisplayName, value);
+				Helper.Set(value, ref m_UnlockedDisplayName);
 			}
 		}
 
-		public string UnlockedDescription
+		public Utf8String UnlockedDescription
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_UnlockedDescription, out value);
+				Utf8String value;
+				Helper.Get(m_UnlockedDescription, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UnlockedDescription, value);
+				Helper.Set(value, ref m_UnlockedDescription);
 			}
 		}
 
-		public string LockedDisplayName
+		public Utf8String LockedDisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LockedDisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_LockedDisplayName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LockedDisplayName, value);
+				Helper.Set(value, ref m_LockedDisplayName);
 			}
 		}
 
-		public string LockedDescription
+		public Utf8String LockedDescription
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LockedDescription, out value);
+				Utf8String value;
+				Helper.Get(m_LockedDescription, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LockedDescription, value);
+				Helper.Set(value, ref m_LockedDescription);
 			}
 		}
 
-		public string FlavorText
+		public Utf8String FlavorText
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_FlavorText, out value);
+				Utf8String value;
+				Helper.Get(m_FlavorText, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_FlavorText, value);
+				Helper.Set(value, ref m_FlavorText);
 			}
 		}
 
-		public string UnlockedIconURL
+		public Utf8String UnlockedIconURL
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_UnlockedIconURL, out value);
+				Utf8String value;
+				Helper.Get(m_UnlockedIconURL, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UnlockedIconURL, value);
+				Helper.Set(value, ref m_UnlockedIconURL);
 			}
 		}
 
-		public string LockedIconURL
+		public Utf8String LockedIconURL
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LockedIconURL, out value);
+				Utf8String value;
+				Helper.Get(m_LockedIconURL, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LockedIconURL, value);
+				Helper.Set(value, ref m_LockedIconURL);
 			}
 		}
 
@@ -222,13 +214,13 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsHidden, out value);
+				Helper.Get(m_IsHidden, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsHidden, value);
+				Helper.Set(value, ref m_IsHidden);
 			}
 		}
 
@@ -237,50 +229,66 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				StatThresholds[] value;
-				Helper.TryMarshalGet<StatThresholdsInternal, StatThresholds>(m_StatThresholds, out value, m_StatThresholdsCount);
+				Helper.Get<StatThresholdsInternal, StatThresholds>(m_StatThresholds, out value, m_StatThresholdsCount);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<StatThresholdsInternal, StatThresholds>(ref m_StatThresholds, value, out m_StatThresholdsCount);
+				Helper.Set<StatThresholds, StatThresholdsInternal>(ref value, ref m_StatThresholds, out m_StatThresholdsCount);
 			}
 		}
 
-		public void Set(DefinitionV2 other)
+		public void Set(ref DefinitionV2 other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.Definitionv2ApiLatest;
+			AchievementId = other.AchievementId;
+			UnlockedDisplayName = other.UnlockedDisplayName;
+			UnlockedDescription = other.UnlockedDescription;
+			LockedDisplayName = other.LockedDisplayName;
+			LockedDescription = other.LockedDescription;
+			FlavorText = other.FlavorText;
+			UnlockedIconURL = other.UnlockedIconURL;
+			LockedIconURL = other.LockedIconURL;
+			IsHidden = other.IsHidden;
+			StatThresholds = other.StatThresholds;
+		}
+
+		public void Set(ref DefinitionV2? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.Definitionv2ApiLatest;
-				AchievementId = other.AchievementId;
-				UnlockedDisplayName = other.UnlockedDisplayName;
-				UnlockedDescription = other.UnlockedDescription;
-				LockedDisplayName = other.LockedDisplayName;
-				LockedDescription = other.LockedDescription;
-				FlavorText = other.FlavorText;
-				UnlockedIconURL = other.UnlockedIconURL;
-				LockedIconURL = other.LockedIconURL;
-				IsHidden = other.IsHidden;
-				StatThresholds = other.StatThresholds;
+				AchievementId = other.Value.AchievementId;
+				UnlockedDisplayName = other.Value.UnlockedDisplayName;
+				UnlockedDescription = other.Value.UnlockedDescription;
+				LockedDisplayName = other.Value.LockedDisplayName;
+				LockedDescription = other.Value.LockedDescription;
+				FlavorText = other.Value.FlavorText;
+				UnlockedIconURL = other.Value.UnlockedIconURL;
+				LockedIconURL = other.Value.LockedIconURL;
+				IsHidden = other.Value.IsHidden;
+				StatThresholds = other.Value.StatThresholds;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DefinitionV2);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AchievementId);
-			Helper.TryMarshalDispose(ref m_UnlockedDisplayName);
-			Helper.TryMarshalDispose(ref m_UnlockedDescription);
-			Helper.TryMarshalDispose(ref m_LockedDisplayName);
-			Helper.TryMarshalDispose(ref m_LockedDescription);
-			Helper.TryMarshalDispose(ref m_FlavorText);
-			Helper.TryMarshalDispose(ref m_UnlockedIconURL);
-			Helper.TryMarshalDispose(ref m_LockedIconURL);
-			Helper.TryMarshalDispose(ref m_StatThresholds);
+			Helper.Dispose(ref m_AchievementId);
+			Helper.Dispose(ref m_UnlockedDisplayName);
+			Helper.Dispose(ref m_UnlockedDescription);
+			Helper.Dispose(ref m_LockedDisplayName);
+			Helper.Dispose(ref m_LockedDescription);
+			Helper.Dispose(ref m_FlavorText);
+			Helper.Dispose(ref m_UnlockedIconURL);
+			Helper.Dispose(ref m_LockedIconURL);
+			Helper.Dispose(ref m_StatThresholds);
+		}
+
+		public void Get(out DefinitionV2 output)
+		{
+			output = new DefinitionV2();
+			output.Set(ref this);
 		}
 	}
 }

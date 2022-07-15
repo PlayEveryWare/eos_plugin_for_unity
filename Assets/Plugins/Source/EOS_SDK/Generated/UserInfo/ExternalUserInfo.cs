@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UserInfo
 	/// <summary>
 	/// Contains information about a single external user info.
 	/// </summary>
-	public class ExternalUserInfo : ISettable
+	public struct ExternalUserInfo
 	{
 		/// <summary>
 		/// The type of the external account
@@ -16,36 +16,35 @@ namespace Epic.OnlineServices.UserInfo
 		/// <summary>
 		/// The ID of the external account. Can be null
 		/// </summary>
-		public string AccountId { get; set; }
+		public Utf8String AccountId { get; set; }
 
 		/// <summary>
-		/// The display name of the external account. Can be null
+		/// The display name of the external account (un-sanitized). Can be null
 		/// </summary>
-		public string DisplayName { get; set; }
+		public Utf8String DisplayName { get; set; }
 
-		internal void Set(ExternalUserInfoInternal? other)
-		{
-			if (other != null)
-			{
-				AccountType = other.Value.AccountType;
-				AccountId = other.Value.AccountId;
-				DisplayName = other.Value.DisplayName;
-			}
-		}
+		/// <summary>
+		/// The display name of the external account (sanitized). Can be null
+		/// </summary>
+		public Utf8String DisplayNameSanitized { get; set; }
 
-		public void Set(object other)
+		internal void Set(ref ExternalUserInfoInternal other)
 		{
-			Set(other as ExternalUserInfoInternal?);
+			AccountType = other.AccountType;
+			AccountId = other.AccountId;
+			DisplayName = other.DisplayName;
+			DisplayNameSanitized = other.DisplayNameSanitized;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ExternalUserInfoInternal : ISettable, System.IDisposable
+	internal struct ExternalUserInfoInternal : IGettable<ExternalUserInfo>, ISettable<ExternalUserInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private ExternalAccountType m_AccountType;
 		private System.IntPtr m_AccountId;
 		private System.IntPtr m_DisplayName;
+		private System.IntPtr m_DisplayNameSanitized;
 
 		public ExternalAccountType AccountType
 		{
@@ -60,56 +59,83 @@ namespace Epic.OnlineServices.UserInfo
 			}
 		}
 
-		public string AccountId
+		public Utf8String AccountId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AccountId, out value);
+				Utf8String value;
+				Helper.Get(m_AccountId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AccountId, value);
+				Helper.Set(value, ref m_AccountId);
 			}
 		}
 
-		public string DisplayName
+		public Utf8String DisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_DisplayName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DisplayName, value);
+				Helper.Set(value, ref m_DisplayName);
 			}
 		}
 
-		public void Set(ExternalUserInfo other)
+		public Utf8String DisplayNameSanitized
 		{
-			if (other != null)
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_DisplayNameSanitized, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_DisplayNameSanitized);
+			}
+		}
+
+		public void Set(ref ExternalUserInfo other)
+		{
+			m_ApiVersion = UserInfoInterface.ExternaluserinfoApiLatest;
+			AccountType = other.AccountType;
+			AccountId = other.AccountId;
+			DisplayName = other.DisplayName;
+			DisplayNameSanitized = other.DisplayNameSanitized;
+		}
+
+		public void Set(ref ExternalUserInfo? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = UserInfoInterface.ExternaluserinfoApiLatest;
-				AccountType = other.AccountType;
-				AccountId = other.AccountId;
-				DisplayName = other.DisplayName;
+				AccountType = other.Value.AccountType;
+				AccountId = other.Value.AccountId;
+				DisplayName = other.Value.DisplayName;
+				DisplayNameSanitized = other.Value.DisplayNameSanitized;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ExternalUserInfo);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AccountId);
-			Helper.TryMarshalDispose(ref m_DisplayName);
+			Helper.Dispose(ref m_AccountId);
+			Helper.Dispose(ref m_DisplayName);
+			Helper.Dispose(ref m_DisplayNameSanitized);
+		}
+
+		public void Get(out ExternalUserInfo output)
+		{
+			output = new ExternalUserInfo();
+			output.Set(ref this);
 		}
 	}
 }

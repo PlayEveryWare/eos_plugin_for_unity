@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class BeginSessionOptions
+	public struct BeginSessionOptions
 	{
 		/// <summary>
 		/// Logged in user identifier from earlier call to <see cref="Connect.ConnectInterface.Login" /> family of functions
@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct BeginSessionOptionsInternal : ISettable, System.IDisposable
+	internal struct BeginSessionOptionsInternal : ISettable<BeginSessionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -27,7 +27,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -39,24 +39,26 @@ namespace Epic.OnlineServices.AntiCheatClient
 			}
 		}
 
-		public void Set(BeginSessionOptions other)
+		public void Set(ref BeginSessionOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatClientInterface.BeginsessionApiLatest;
-				LocalUserId = other.LocalUserId;
-				Mode = other.Mode;
-			}
+			m_ApiVersion = AntiCheatClientInterface.BeginsessionApiLatest;
+			LocalUserId = other.LocalUserId;
+			Mode = other.Mode;
 		}
 
-		public void Set(object other)
+		public void Set(ref BeginSessionOptions? other)
 		{
-			Set(other as BeginSessionOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatClientInterface.BeginsessionApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Mode = other.Value.Mode;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

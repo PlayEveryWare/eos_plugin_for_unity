@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.GetInviteCount" /> function.
 	/// </summary>
-	public class GetInviteCountOptions
+	public struct GetInviteCountOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who has one or more invitations in the cache
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetInviteCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetInviteCountOptionsInternal : ISettable<GetInviteCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(GetInviteCountOptions other)
+		public void Set(ref GetInviteCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.GetinvitecountApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref GetInviteCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.GetinvitecountApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetInviteCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

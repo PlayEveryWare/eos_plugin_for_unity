@@ -185,7 +185,7 @@ EOS_ENUM(EOS_TitleStorage_EReadResult,
 	EOS_TS_RR_ContinueReading = 1,
 	/** Signifies there was a failure reading the data, and the request should end */
 	EOS_TS_RR_FailRequest = 2,
-	/** Signifies the request should be cancelled, but not due to an error */
+	/** Signifies the request should be canceled, but not due to an error */
 	EOS_TS_RR_CancelRequest = 3
 );
 
@@ -282,7 +282,7 @@ EOS_STRUCT(EOS_TitleStorage_DeleteCacheCallbackInfo, (
 	EOS_ProductUserId LocalUserId;
 ));
 
-/** 
+/**
  * Callback for when EOS_TitleStorage_DeleteCache completes
  */
 EOS_DECLARE_CALLBACK(EOS_TitleStorage_OnDeleteCacheCompleteCallback, const EOS_TitleStorage_DeleteCacheCallbackInfo* Data);

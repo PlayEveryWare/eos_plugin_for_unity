@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.UpdateLobby" /> function.
 	/// </summary>
-	public class UpdateLobbyOptions
+	public struct UpdateLobbyOptions
 	{
 		/// <summary>
 		/// Builder handle
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UpdateLobbyOptionsInternal : ISettable, System.IDisposable
+	internal struct UpdateLobbyOptionsInternal : ISettable<UpdateLobbyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LobbyModificationHandle;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyModificationHandle, value);
+				Helper.Set(value, ref m_LobbyModificationHandle);
 			}
 		}
 
-		public void Set(UpdateLobbyOptions other)
+		public void Set(ref UpdateLobbyOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.UpdatelobbyApiLatest;
+			LobbyModificationHandle = other.LobbyModificationHandle;
+		}
+
+		public void Set(ref UpdateLobbyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.UpdatelobbyApiLatest;
-				LobbyModificationHandle = other.LobbyModificationHandle;
+				LobbyModificationHandle = other.Value.LobbyModificationHandle;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UpdateLobbyOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LobbyModificationHandle);
+			Helper.Dispose(ref m_LobbyModificationHandle);
 		}
 	}
 }

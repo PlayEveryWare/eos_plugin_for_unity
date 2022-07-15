@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.TransferDeviceIdAccount" /> Function.
 	/// </summary>
-	public class TransferDeviceIdAccountOptions
+	public struct TransferDeviceIdAccountOptions
 	{
 		/// <summary>
 		/// The primary product user id, currently logged in, that is already associated with a real external user account (such as Epic Games, PlayStation(TM)Network, Xbox Live and other).
@@ -34,7 +34,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct TransferDeviceIdAccountOptionsInternal : ISettable, System.IDisposable
+	internal struct TransferDeviceIdAccountOptionsInternal : ISettable<TransferDeviceIdAccountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PrimaryLocalUserId;
@@ -45,7 +45,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PrimaryLocalUserId, value);
+				Helper.Set(value, ref m_PrimaryLocalUserId);
 			}
 		}
 
@@ -53,7 +53,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalDeviceUserId, value);
+				Helper.Set(value, ref m_LocalDeviceUserId);
 			}
 		}
 
@@ -61,31 +61,34 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductUserIdToPreserve, value);
+				Helper.Set(value, ref m_ProductUserIdToPreserve);
 			}
 		}
 
-		public void Set(TransferDeviceIdAccountOptions other)
+		public void Set(ref TransferDeviceIdAccountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.TransferdeviceidaccountApiLatest;
+			PrimaryLocalUserId = other.PrimaryLocalUserId;
+			LocalDeviceUserId = other.LocalDeviceUserId;
+			ProductUserIdToPreserve = other.ProductUserIdToPreserve;
+		}
+
+		public void Set(ref TransferDeviceIdAccountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.TransferdeviceidaccountApiLatest;
-				PrimaryLocalUserId = other.PrimaryLocalUserId;
-				LocalDeviceUserId = other.LocalDeviceUserId;
-				ProductUserIdToPreserve = other.ProductUserIdToPreserve;
+				PrimaryLocalUserId = other.Value.PrimaryLocalUserId;
+				LocalDeviceUserId = other.Value.LocalDeviceUserId;
+				ProductUserIdToPreserve = other.Value.ProductUserIdToPreserve;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as TransferDeviceIdAccountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PrimaryLocalUserId);
-			Helper.TryMarshalDispose(ref m_LocalDeviceUserId);
-			Helper.TryMarshalDispose(ref m_ProductUserIdToPreserve);
+			Helper.Dispose(ref m_PrimaryLocalUserId);
+			Helper.Dispose(ref m_LocalDeviceUserId);
+			Helper.Dispose(ref m_ProductUserIdToPreserve);
 		}
 	}
 }

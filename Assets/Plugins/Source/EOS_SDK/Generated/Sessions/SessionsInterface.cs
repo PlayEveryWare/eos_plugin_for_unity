@@ -131,22 +131,22 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// Search for a matching bucket ID (value is string)
 		/// </summary>
-		public const string SearchBucketId = "bucket";
+		public static readonly Utf8String SearchBucketId = "bucket";
 
 		/// <summary>
 		/// Search for empty servers only (value is true/false)
 		/// </summary>
-		public const string SearchEmptyServersOnly = "emptyonly";
+		public static readonly Utf8String SearchEmptyServersOnly = "emptyonly";
 
 		/// <summary>
 		/// Search for a match with min free space (value is int)
 		/// </summary>
-		public const string SearchMinslotsavailable = "minslotsavailable";
+		public static readonly Utf8String SearchMinslotsavailable = "minslotsavailable";
 
 		/// <summary>
 		/// Search for non empty servers only (value is true/false)
 		/// </summary>
-		public const string SearchNonemptyServersOnly = "nonemptyonly";
+		public static readonly Utf8String SearchNonemptyServersOnly = "nonemptyonly";
 
 		/// <summary>
 		/// The most recent version of the <see cref="SendInvite" /> API.
@@ -185,7 +185,7 @@ namespace Epic.OnlineServices.Sessions
 
 		/// <summary>
 		/// Register to receive notifications when a user accepts a session join game via the social overlay.
-		/// @note must call RemoveNotifyJoinSessionAccepted to remove the notification
+		/// must call RemoveNotifyJoinSessionAccepted to remove the notification
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -193,28 +193,28 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifyJoinSessionAccepted(AddNotifyJoinSessionAcceptedOptions options, object clientData, OnJoinSessionAcceptedCallback notificationFn)
+		public ulong AddNotifyJoinSessionAccepted(ref AddNotifyJoinSessionAcceptedOptions options, object clientData, OnJoinSessionAcceptedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyJoinSessionAcceptedOptionsInternal, AddNotifyJoinSessionAcceptedOptions>(ref optionsAddress, options);
+			AddNotifyJoinSessionAcceptedOptionsInternal optionsInternal = new AddNotifyJoinSessionAcceptedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnJoinSessionAcceptedCallbackInternal(OnJoinSessionAcceptedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_Sessions_AddNotifyJoinSessionAccepted(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_Sessions_AddNotifyJoinSessionAccepted(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
 
 		/// <summary>
 		/// Register to receive notifications when a user accepts a session invite via the social overlay.
-		/// @note must call RemoveNotifySessionInviteAccepted to remove the notification
+		/// must call RemoveNotifySessionInviteAccepted to remove the notification
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -222,28 +222,28 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifySessionInviteAccepted(AddNotifySessionInviteAcceptedOptions options, object clientData, OnSessionInviteAcceptedCallback notificationFn)
+		public ulong AddNotifySessionInviteAccepted(ref AddNotifySessionInviteAcceptedOptions options, object clientData, OnSessionInviteAcceptedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifySessionInviteAcceptedOptionsInternal, AddNotifySessionInviteAcceptedOptions>(ref optionsAddress, options);
+			AddNotifySessionInviteAcceptedOptionsInternal optionsInternal = new AddNotifySessionInviteAcceptedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnSessionInviteAcceptedCallbackInternal(OnSessionInviteAcceptedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_Sessions_AddNotifySessionInviteAccepted(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_Sessions_AddNotifySessionInviteAccepted(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
 
 		/// <summary>
 		/// Register to receive session invites.
-		/// @note must call RemoveNotifySessionInviteReceived to remove the notification
+		/// must call RemoveNotifySessionInviteReceived to remove the notification
 		/// </summary>
 		/// <param name="options">Structure containing information about the session invite notification</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
@@ -251,21 +251,21 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifySessionInviteReceived(AddNotifySessionInviteReceivedOptions options, object clientData, OnSessionInviteReceivedCallback notificationFn)
+		public ulong AddNotifySessionInviteReceived(ref AddNotifySessionInviteReceivedOptions options, object clientData, OnSessionInviteReceivedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifySessionInviteReceivedOptionsInternal, AddNotifySessionInviteReceivedOptions>(ref optionsAddress, options);
+			AddNotifySessionInviteReceivedOptionsInternal optionsInternal = new AddNotifySessionInviteReceivedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnSessionInviteReceivedCallbackInternal(OnSessionInviteReceivedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_Sessions_AddNotifySessionInviteReceived(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_Sessions_AddNotifySessionInviteReceived(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -281,18 +281,18 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// <see cref="Result.NotFound" /> if the active session doesn't exist
 		/// </returns>
-		public Result CopyActiveSessionHandle(CopyActiveSessionHandleOptions options, out ActiveSession outSessionHandle)
+		public Result CopyActiveSessionHandle(ref CopyActiveSessionHandleOptions options, out ActiveSession outSessionHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyActiveSessionHandleOptionsInternal, CopyActiveSessionHandleOptions>(ref optionsAddress, options);
+			CopyActiveSessionHandleOptionsInternal optionsInternal = new CopyActiveSessionHandleOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Sessions_CopyActiveSessionHandle(InnerHandle, optionsAddress, ref outSessionHandleAddress);
+			var funcResult = Bindings.EOS_Sessions_CopyActiveSessionHandle(InnerHandle, ref optionsInternal, ref outSessionHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outSessionHandleAddress, out outSessionHandle);
+			Helper.Get(outSessionHandleAddress, out outSessionHandle);
 
 			return funcResult;
 		}
@@ -311,18 +311,18 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// <see cref="Result.NotFound" /> if the invite ID cannot be found
 		/// </returns>
-		public Result CopySessionHandleByInviteId(CopySessionHandleByInviteIdOptions options, out SessionDetails outSessionHandle)
+		public Result CopySessionHandleByInviteId(ref CopySessionHandleByInviteIdOptions options, out SessionDetails outSessionHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopySessionHandleByInviteIdOptionsInternal, CopySessionHandleByInviteIdOptions>(ref optionsAddress, options);
+			CopySessionHandleByInviteIdOptionsInternal optionsInternal = new CopySessionHandleByInviteIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Sessions_CopySessionHandleByInviteId(InnerHandle, optionsAddress, ref outSessionHandleAddress);
+			var funcResult = Bindings.EOS_Sessions_CopySessionHandleByInviteId(InnerHandle, ref optionsInternal, ref outSessionHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outSessionHandleAddress, out outSessionHandle);
+			Helper.Get(outSessionHandleAddress, out outSessionHandle);
 
 			return funcResult;
 		}
@@ -341,18 +341,18 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// <see cref="Result.NotFound" /> if the invite ID cannot be found
 		/// </returns>
-		public Result CopySessionHandleByUiEventId(CopySessionHandleByUiEventIdOptions options, out SessionDetails outSessionHandle)
+		public Result CopySessionHandleByUiEventId(ref CopySessionHandleByUiEventIdOptions options, out SessionDetails outSessionHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopySessionHandleByUiEventIdOptionsInternal, CopySessionHandleByUiEventIdOptions>(ref optionsAddress, options);
+			CopySessionHandleByUiEventIdOptionsInternal optionsInternal = new CopySessionHandleByUiEventIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Sessions_CopySessionHandleByUiEventId(InnerHandle, optionsAddress, ref outSessionHandleAddress);
+			var funcResult = Bindings.EOS_Sessions_CopySessionHandleByUiEventId(InnerHandle, ref optionsInternal, ref outSessionHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outSessionHandleAddress, out outSessionHandle);
+			Helper.Get(outSessionHandleAddress, out outSessionHandle);
 
 			return funcResult;
 		}
@@ -371,18 +371,18 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// <see cref="Result.NotFound" /> if there is no session with bPresenceEnabled
 		/// </returns>
-		public Result CopySessionHandleForPresence(CopySessionHandleForPresenceOptions options, out SessionDetails outSessionHandle)
+		public Result CopySessionHandleForPresence(ref CopySessionHandleForPresenceOptions options, out SessionDetails outSessionHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopySessionHandleForPresenceOptionsInternal, CopySessionHandleForPresenceOptions>(ref optionsAddress, options);
+			CopySessionHandleForPresenceOptionsInternal optionsInternal = new CopySessionHandleForPresenceOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Sessions_CopySessionHandleForPresence(InnerHandle, optionsAddress, ref outSessionHandleAddress);
+			var funcResult = Bindings.EOS_Sessions_CopySessionHandleForPresence(InnerHandle, ref optionsInternal, ref outSessionHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outSessionHandleAddress, out outSessionHandle);
+			Helper.Get(outSessionHandleAddress, out outSessionHandle);
 
 			return funcResult;
 		}
@@ -399,18 +399,18 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// <see cref="Result.Success" /> if we successfully created the Session Modification Handle pointed at in OutSessionModificationHandle, or an error result if the input data was invalid
 		/// </returns>
-		public Result CreateSessionModification(CreateSessionModificationOptions options, out SessionModification outSessionModificationHandle)
+		public Result CreateSessionModification(ref CreateSessionModificationOptions options, out SessionModification outSessionModificationHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CreateSessionModificationOptionsInternal, CreateSessionModificationOptions>(ref optionsAddress, options);
+			CreateSessionModificationOptionsInternal optionsInternal = new CreateSessionModificationOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionModificationHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Sessions_CreateSessionModification(InnerHandle, optionsAddress, ref outSessionModificationHandleAddress);
+			var funcResult = Bindings.EOS_Sessions_CreateSessionModification(InnerHandle, ref optionsInternal, ref outSessionModificationHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outSessionModificationHandleAddress, out outSessionModificationHandle);
+			Helper.Get(outSessionModificationHandleAddress, out outSessionModificationHandle);
 
 			return funcResult;
 		}
@@ -428,18 +428,18 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.Success" /> if the search creation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public Result CreateSessionSearch(CreateSessionSearchOptions options, out SessionSearch outSessionSearchHandle)
+		public Result CreateSessionSearch(ref CreateSessionSearchOptions options, out SessionSearch outSessionSearchHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CreateSessionSearchOptionsInternal, CreateSessionSearchOptions>(ref optionsAddress, options);
+			CreateSessionSearchOptionsInternal optionsInternal = new CreateSessionSearchOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionSearchHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Sessions_CreateSessionSearch(InnerHandle, optionsAddress, ref outSessionSearchHandleAddress);
+			var funcResult = Bindings.EOS_Sessions_CreateSessionSearch(InnerHandle, ref optionsInternal, ref outSessionSearchHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outSessionSearchHandleAddress, out outSessionSearchHandle);
+			Helper.Get(outSessionSearchHandleAddress, out outSessionSearchHandle);
 
 			return funcResult;
 		}
@@ -456,19 +456,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.AlreadyPending" /> if the session is already marked for destroy
 		/// <see cref="Result.NotFound" /> if a session to be destroyed does not exist
 		/// </returns>
-		public void DestroySession(DestroySessionOptions options, object clientData, OnDestroySessionCallback completionDelegate)
+		public void DestroySession(ref DestroySessionOptions options, object clientData, OnDestroySessionCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<DestroySessionOptionsInternal, DestroySessionOptions>(ref optionsAddress, options);
+			DestroySessionOptionsInternal optionsInternal = new DestroySessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnDestroySessionCallbackInternal(OnDestroySessionCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_DestroySession(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_DestroySession(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -480,14 +480,14 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.NotFound" /> if the session specified does not exist
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public Result DumpSessionState(DumpSessionStateOptions options)
+		public Result DumpSessionState(ref DumpSessionStateOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<DumpSessionStateOptionsInternal, DumpSessionStateOptions>(ref optionsAddress, options);
+			DumpSessionStateOptionsInternal optionsInternal = new DumpSessionStateOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Sessions_DumpSessionState(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Sessions_DumpSessionState(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -504,19 +504,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
 		/// <see cref="Result.NotFound" /> if a session to be ended does not exist
 		/// </returns>
-		public void EndSession(EndSessionOptions options, object clientData, OnEndSessionCallback completionDelegate)
+		public void EndSession(ref EndSessionOptions options, object clientData, OnEndSessionCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<EndSessionOptionsInternal, EndSessionOptions>(ref optionsAddress, options);
+			EndSessionOptionsInternal optionsInternal = new EndSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnEndSessionCallbackInternal(OnEndSessionCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_EndSession(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_EndSession(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -526,14 +526,14 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// number of known invites for a given user or 0 if there is an error
 		/// </returns>
-		public uint GetInviteCount(GetInviteCountOptions options)
+		public uint GetInviteCount(ref GetInviteCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetInviteCountOptionsInternal, GetInviteCountOptions>(ref optionsAddress, options);
+			GetInviteCountOptionsInternal optionsInternal = new GetInviteCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Sessions_GetInviteCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Sessions_GetInviteCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -549,21 +549,20 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.NotFound" /> if the invite doesn't exist
 		/// </returns>
-		public Result GetInviteIdByIndex(GetInviteIdByIndexOptions options, out string outBuffer)
+		public Result GetInviteIdByIndex(ref GetInviteIdByIndexOptions options, out Utf8String outBuffer)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetInviteIdByIndexOptionsInternal, GetInviteIdByIndexOptions>(ref optionsAddress, options);
+			GetInviteIdByIndexOptionsInternal optionsInternal = new GetInviteIdByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = InviteidMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
 
-			var funcResult = Bindings.EOS_Sessions_GetInviteIdByIndex(InnerHandle, optionsAddress, outBufferAddress, ref inOutBufferLength);
+			var funcResult = Bindings.EOS_Sessions_GetInviteIdByIndex(InnerHandle, ref optionsInternal, outBufferAddress, ref inOutBufferLength);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer);
-			Helper.TryMarshalDispose(ref outBufferAddress);
+			Helper.Get(outBufferAddress, out outBuffer);
+			Helper.Dispose(ref outBufferAddress);
 
 			return funcResult;
 		}
@@ -580,14 +579,14 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidProductUserID" /> if an invalid target user is specified
 		/// <see cref="Result.SessionsInvalidSession" /> if the session specified is invalid
 		/// </returns>
-		public Result IsUserInSession(IsUserInSessionOptions options)
+		public Result IsUserInSession(ref IsUserInSessionOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<IsUserInSessionOptionsInternal, IsUserInSessionOptions>(ref optionsAddress, options);
+			IsUserInSessionOptionsInternal optionsInternal = new IsUserInSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Sessions_IsUserInSession(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Sessions_IsUserInSession(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -603,19 +602,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.SessionsSessionAlreadyExists" /> if the session is already exists or is in the process of being joined
 		/// </returns>
-		public void JoinSession(JoinSessionOptions options, object clientData, OnJoinSessionCallback completionDelegate)
+		public void JoinSession(ref JoinSessionOptions options, object clientData, OnJoinSessionCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<JoinSessionOptionsInternal, JoinSessionOptions>(ref optionsAddress, options);
+			JoinSessionOptionsInternal optionsInternal = new JoinSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnJoinSessionCallbackInternal(OnJoinSessionCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_JoinSession(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_JoinSession(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -624,19 +623,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="options">Structure containing information about the invites to query</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">A callback that is fired when the query invites operation completes, either successfully or in error</param>
-		public void QueryInvites(QueryInvitesOptions options, object clientData, OnQueryInvitesCallback completionDelegate)
+		public void QueryInvites(ref QueryInvitesOptions options, object clientData, OnQueryInvitesCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryInvitesOptionsInternal, QueryInvitesOptions>(ref optionsAddress, options);
+			QueryInvitesOptionsInternal optionsInternal = new QueryInvitesOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryInvitesCallbackInternal(OnQueryInvitesCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_QueryInvites(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_QueryInvites(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -652,19 +651,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
 		/// <see cref="Result.NotFound" /> if a session to register players does not exist
 		/// </returns>
-		public void RegisterPlayers(RegisterPlayersOptions options, object clientData, OnRegisterPlayersCallback completionDelegate)
+		public void RegisterPlayers(ref RegisterPlayersOptions options, object clientData, OnRegisterPlayersCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<RegisterPlayersOptionsInternal, RegisterPlayersOptions>(ref optionsAddress, options);
+			RegisterPlayersOptionsInternal optionsInternal = new RegisterPlayersOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnRegisterPlayersCallbackInternal(OnRegisterPlayersCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_RegisterPlayers(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_RegisterPlayers(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -678,19 +677,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.NotFound" /> if the invite does not exist
 		/// </returns>
-		public void RejectInvite(RejectInviteOptions options, object clientData, OnRejectInviteCallback completionDelegate)
+		public void RejectInvite(ref RejectInviteOptions options, object clientData, OnRejectInviteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<RejectInviteOptionsInternal, RejectInviteOptions>(ref optionsAddress, options);
+			RejectInviteOptionsInternal optionsInternal = new RejectInviteOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnRejectInviteCallbackInternal(OnRejectInviteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_RejectInvite(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_RejectInvite(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -699,9 +698,9 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="inId">Handle representing the registered callback</param>
 		public void RemoveNotifyJoinSessionAccepted(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_Sessions_RemoveNotifyJoinSessionAccepted(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -710,9 +709,9 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="inId">Handle representing the registered callback</param>
 		public void RemoveNotifySessionInviteAccepted(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_Sessions_RemoveNotifySessionInviteAccepted(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -721,9 +720,9 @@ namespace Epic.OnlineServices.Sessions
 		/// <param name="inId">Handle representing the registered callback</param>
 		public void RemoveNotifySessionInviteReceived(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_Sessions_RemoveNotifySessionInviteReceived(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -737,19 +736,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.NotFound" /> if the session to send the invite from does not exist
 		/// </returns>
-		public void SendInvite(SendInviteOptions options, object clientData, OnSendInviteCallback completionDelegate)
+		public void SendInvite(ref SendInviteOptions options, object clientData, OnSendInviteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SendInviteOptionsInternal, SendInviteOptions>(ref optionsAddress, options);
+			SendInviteOptionsInternal optionsInternal = new SendInviteOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnSendInviteCallbackInternal(OnSendInviteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_SendInvite(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_SendInvite(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -764,19 +763,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
 		/// <see cref="Result.NotFound" /> if a session to be started does not exist
 		/// </returns>
-		public void StartSession(StartSessionOptions options, object clientData, OnStartSessionCallback completionDelegate)
+		public void StartSession(ref StartSessionOptions options, object clientData, OnStartSessionCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<StartSessionOptionsInternal, StartSessionOptions>(ref optionsAddress, options);
+			StartSessionOptionsInternal optionsInternal = new StartSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnStartSessionCallbackInternal(OnStartSessionCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_StartSession(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_StartSession(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -792,19 +791,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
 		/// <see cref="Result.NotFound" /> if a session to be unregister players does not exist
 		/// </returns>
-		public void UnregisterPlayers(UnregisterPlayersOptions options, object clientData, OnUnregisterPlayersCallback completionDelegate)
+		public void UnregisterPlayers(ref UnregisterPlayersOptions options, object clientData, OnUnregisterPlayersCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UnregisterPlayersOptionsInternal, UnregisterPlayersOptions>(ref optionsAddress, options);
+			UnregisterPlayersOptionsInternal optionsInternal = new UnregisterPlayersOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnUnregisterPlayersCallbackInternal(OnUnregisterPlayersCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_UnregisterPlayers(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_UnregisterPlayers(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -819,19 +818,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
 		/// <see cref="Result.NotFound" /> if a session to be updated does not exist
 		/// </returns>
-		public void UpdateSession(UpdateSessionOptions options, object clientData, OnUpdateSessionCallback completionDelegate)
+		public void UpdateSession(ref UpdateSessionOptions options, object clientData, OnUpdateSessionCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UpdateSessionOptionsInternal, UpdateSessionOptions>(ref optionsAddress, options);
+			UpdateSessionOptionsInternal optionsInternal = new UpdateSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnUpdateSessionCallbackInternal(OnUpdateSessionCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sessions_UpdateSession(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sessions_UpdateSession(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -846,162 +845,162 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// <see cref="Result.Success" /> if we successfully created the Session Modification Handle pointed at in OutSessionModificationHandle, or an error result if the input data was invalid
 		/// </returns>
-		public Result UpdateSessionModification(UpdateSessionModificationOptions options, out SessionModification outSessionModificationHandle)
+		public Result UpdateSessionModification(ref UpdateSessionModificationOptions options, out SessionModification outSessionModificationHandle)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UpdateSessionModificationOptionsInternal, UpdateSessionModificationOptions>(ref optionsAddress, options);
+			UpdateSessionModificationOptionsInternal optionsInternal = new UpdateSessionModificationOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionModificationHandleAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Sessions_UpdateSessionModification(InnerHandle, optionsAddress, ref outSessionModificationHandleAddress);
+			var funcResult = Bindings.EOS_Sessions_UpdateSessionModification(InnerHandle, ref optionsInternal, ref outSessionModificationHandleAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outSessionModificationHandleAddress, out outSessionModificationHandle);
+			Helper.Get(outSessionModificationHandleAddress, out outSessionModificationHandle);
 
 			return funcResult;
 		}
 
 		[MonoPInvokeCallback(typeof(OnDestroySessionCallbackInternal))]
-		internal static void OnDestroySessionCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnDestroySessionCallbackInternalImplementation(ref DestroySessionCallbackInfoInternal data)
 		{
 			OnDestroySessionCallback callback;
 			DestroySessionCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnDestroySessionCallback, DestroySessionCallbackInfoInternal, DestroySessionCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnEndSessionCallbackInternal))]
-		internal static void OnEndSessionCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnEndSessionCallbackInternalImplementation(ref EndSessionCallbackInfoInternal data)
 		{
 			OnEndSessionCallback callback;
 			EndSessionCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnEndSessionCallback, EndSessionCallbackInfoInternal, EndSessionCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnJoinSessionAcceptedCallbackInternal))]
-		internal static void OnJoinSessionAcceptedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnJoinSessionAcceptedCallbackInternalImplementation(ref JoinSessionAcceptedCallbackInfoInternal data)
 		{
 			OnJoinSessionAcceptedCallback callback;
 			JoinSessionAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnJoinSessionAcceptedCallback, JoinSessionAcceptedCallbackInfoInternal, JoinSessionAcceptedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnJoinSessionCallbackInternal))]
-		internal static void OnJoinSessionCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnJoinSessionCallbackInternalImplementation(ref JoinSessionCallbackInfoInternal data)
 		{
 			OnJoinSessionCallback callback;
 			JoinSessionCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnJoinSessionCallback, JoinSessionCallbackInfoInternal, JoinSessionCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryInvitesCallbackInternal))]
-		internal static void OnQueryInvitesCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryInvitesCallbackInternalImplementation(ref QueryInvitesCallbackInfoInternal data)
 		{
 			OnQueryInvitesCallback callback;
 			QueryInvitesCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryInvitesCallback, QueryInvitesCallbackInfoInternal, QueryInvitesCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnRegisterPlayersCallbackInternal))]
-		internal static void OnRegisterPlayersCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnRegisterPlayersCallbackInternalImplementation(ref RegisterPlayersCallbackInfoInternal data)
 		{
 			OnRegisterPlayersCallback callback;
 			RegisterPlayersCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnRegisterPlayersCallback, RegisterPlayersCallbackInfoInternal, RegisterPlayersCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnRejectInviteCallbackInternal))]
-		internal static void OnRejectInviteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnRejectInviteCallbackInternalImplementation(ref RejectInviteCallbackInfoInternal data)
 		{
 			OnRejectInviteCallback callback;
 			RejectInviteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnRejectInviteCallback, RejectInviteCallbackInfoInternal, RejectInviteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnSendInviteCallbackInternal))]
-		internal static void OnSendInviteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnSendInviteCallbackInternalImplementation(ref SendInviteCallbackInfoInternal data)
 		{
 			OnSendInviteCallback callback;
 			SendInviteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnSendInviteCallback, SendInviteCallbackInfoInternal, SendInviteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnSessionInviteAcceptedCallbackInternal))]
-		internal static void OnSessionInviteAcceptedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnSessionInviteAcceptedCallbackInternalImplementation(ref SessionInviteAcceptedCallbackInfoInternal data)
 		{
 			OnSessionInviteAcceptedCallback callback;
 			SessionInviteAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnSessionInviteAcceptedCallback, SessionInviteAcceptedCallbackInfoInternal, SessionInviteAcceptedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnSessionInviteReceivedCallbackInternal))]
-		internal static void OnSessionInviteReceivedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnSessionInviteReceivedCallbackInternalImplementation(ref SessionInviteReceivedCallbackInfoInternal data)
 		{
 			OnSessionInviteReceivedCallback callback;
 			SessionInviteReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnSessionInviteReceivedCallback, SessionInviteReceivedCallbackInfoInternal, SessionInviteReceivedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnStartSessionCallbackInternal))]
-		internal static void OnStartSessionCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnStartSessionCallbackInternalImplementation(ref StartSessionCallbackInfoInternal data)
 		{
 			OnStartSessionCallback callback;
 			StartSessionCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnStartSessionCallback, StartSessionCallbackInfoInternal, StartSessionCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnUnregisterPlayersCallbackInternal))]
-		internal static void OnUnregisterPlayersCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnUnregisterPlayersCallbackInternalImplementation(ref UnregisterPlayersCallbackInfoInternal data)
 		{
 			OnUnregisterPlayersCallback callback;
 			UnregisterPlayersCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnUnregisterPlayersCallback, UnregisterPlayersCallbackInfoInternal, UnregisterPlayersCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnUpdateSessionCallbackInternal))]
-		internal static void OnUpdateSessionCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnUpdateSessionCallbackInternalImplementation(ref UpdateSessionCallbackInfoInternal data)
 		{
 			OnUpdateSessionCallback callback;
 			UpdateSessionCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnUpdateSessionCallback, UpdateSessionCallbackInfoInternal, UpdateSessionCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

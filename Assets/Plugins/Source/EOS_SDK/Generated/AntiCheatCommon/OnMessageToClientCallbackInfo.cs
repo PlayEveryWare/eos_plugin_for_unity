@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	/// <summary>
 	/// Structure containing details about a new message that must be dispatched to a connected client/peer.
 	/// </summary>
-	public class OnMessageToClientCallbackInfo : ICallbackInfo, ISettable
+	public struct OnMessageToClientCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Caller-specified context data
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The identifier of the client/peer that this message must be delivered to. See the RegisterClient and RegisterPeer functions.
 		/// </summary>
-		public System.IntPtr ClientHandle { get; private set; }
+		public System.IntPtr ClientHandle { get; set; }
 
 		/// <summary>
 		/// The message data that must be sent to the client
 		/// </summary>
-		public byte[] MessageData { get; private set; }
+		public System.ArraySegment<byte> MessageData { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnMessageToClientCallbackInfoInternal? other)
+		internal void Set(ref OnMessageToClientCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				ClientHandle = other.Value.ClientHandle;
-				MessageData = other.Value.MessageData;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnMessageToClientCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			ClientHandle = other.ClientHandle;
+			MessageData = other.MessageData;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnMessageToClientCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnMessageToClientCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnMessageToClientCallbackInfo>, ISettable<OnMessageToClientCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_ClientHandle;
@@ -57,8 +49,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -76,16 +73,56 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			{
 				return m_ClientHandle;
 			}
+
+			set
+			{
+				m_ClientHandle = value;
+			}
 		}
 
-		public byte[] MessageData
+		public System.ArraySegment<byte> MessageData
 		{
 			get
 			{
-				byte[] value;
-				Helper.TryMarshalGet(m_MessageData, out value, m_MessageDataSizeBytes);
+				System.ArraySegment<byte> value;
+				Helper.Get(m_MessageData, out value, m_MessageDataSizeBytes);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_MessageData, out m_MessageDataSizeBytes);
+			}
+		}
+
+		public void Set(ref OnMessageToClientCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			ClientHandle = other.ClientHandle;
+			MessageData = other.MessageData;
+		}
+
+		public void Set(ref OnMessageToClientCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				ClientHandle = other.Value.ClientHandle;
+				MessageData = other.Value.MessageData;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_MessageData);
+		}
+
+		public void Get(out OnMessageToClientCallbackInfo output)
+		{
+			output = new OnMessageToClientCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

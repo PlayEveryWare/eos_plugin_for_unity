@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.AddNotifySessionInviteReceived" /> function.
 	/// </summary>
-	public class AddNotifySessionInviteReceivedOptions
+	public struct AddNotifySessionInviteReceivedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifySessionInviteReceivedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifySessionInviteReceivedOptionsInternal : ISettable<AddNotifySessionInviteReceivedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifySessionInviteReceivedOptions other)
+		public void Set(ref AddNotifySessionInviteReceivedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.AddnotifysessioninvitereceivedApiLatest;
+		}
+
+		public void Set(ref AddNotifySessionInviteReceivedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.AddnotifysessioninvitereceivedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifySessionInviteReceivedOptions);
 		}
 
 		public void Dispose()

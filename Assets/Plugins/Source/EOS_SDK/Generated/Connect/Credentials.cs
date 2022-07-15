@@ -10,52 +10,44 @@ namespace Epic.OnlineServices.Connect
 	/// <seealso cref="ExternalCredentialType" />
 	/// <seealso cref="ConnectInterface.Login" />
 	/// </summary>
-	public class Credentials : ISettable
+	public struct Credentials
 	{
 		/// <summary>
 		/// External token associated with the user logging in.
 		/// </summary>
-		public string Token { get; set; }
+		public Utf8String Token { get; set; }
 
 		/// <summary>
 		/// Type of external login; identifies the auth method to use.
 		/// </summary>
 		public ExternalCredentialType Type { get; set; }
 
-		internal void Set(CredentialsInternal? other)
+		internal void Set(ref CredentialsInternal other)
 		{
-			if (other != null)
-			{
-				Token = other.Value.Token;
-				Type = other.Value.Type;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CredentialsInternal?);
+			Token = other.Token;
+			Type = other.Type;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CredentialsInternal : ISettable, System.IDisposable
+	internal struct CredentialsInternal : IGettable<Credentials>, ISettable<Credentials>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Token;
 		private ExternalCredentialType m_Type;
 
-		public string Token
+		public Utf8String Token
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Token, out value);
+				Utf8String value;
+				Helper.Get(m_Token, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Token, value);
+				Helper.Set(value, ref m_Token);
 			}
 		}
 
@@ -72,24 +64,32 @@ namespace Epic.OnlineServices.Connect
 			}
 		}
 
-		public void Set(Credentials other)
+		public void Set(ref Credentials other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = ConnectInterface.CredentialsApiLatest;
-				Token = other.Token;
-				Type = other.Type;
-			}
+			m_ApiVersion = ConnectInterface.CredentialsApiLatest;
+			Token = other.Token;
+			Type = other.Type;
 		}
 
-		public void Set(object other)
+		public void Set(ref Credentials? other)
 		{
-			Set(other as Credentials);
+			if (other.HasValue)
+			{
+				m_ApiVersion = ConnectInterface.CredentialsApiLatest;
+				Token = other.Value.Token;
+				Type = other.Value.Type;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Token);
+			Helper.Dispose(ref m_Token);
+		}
+
+		public void Get(out Credentials output)
+		{
+			output = new Credentials();
+			output.Set(ref this);
 		}
 	}
 }

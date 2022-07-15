@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Stats
 	/// <summary>
 	/// Input parameters for the <see cref="StatsInterface.GetStatsCount" /> function.
 	/// </summary>
-	public class GetStatCountOptions
+	public struct GetStatCountOptions
 	{
 		/// <summary>
 		/// The Product User ID for the user whose stats are being counted
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Stats
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetStatCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetStatCountOptionsInternal : ISettable<GetStatCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(GetStatCountOptions other)
+		public void Set(ref GetStatCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = StatsInterface.GetstatscountApiLatest;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref GetStatCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = StatsInterface.GetstatscountApiLatest;
-				TargetUserId = other.TargetUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetStatCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

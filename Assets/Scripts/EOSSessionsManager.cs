@@ -188,12 +188,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         //private Session InvalidSession;
 
+        //-------------------------------------------------------------------------
         public bool InitFromInfoOfSessionDetails(SessionDetails session)
         {
             //SessionDetails
 
             SessionDetailsCopyInfoOptions copyOptions = new SessionDetailsCopyInfoOptions();
-            Result result = session.CopyInfo(new SessionDetailsCopyInfoOptions(), out SessionDetailsInfo outSessionInfo);
+            Result result = session.CopyInfo(ref copyOptions, out SessionDetailsInfo? outSessionInfo);
 
             if (result != Result.Success)
             {
@@ -205,52 +206,55 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return true;
         }
 
-        public void InitFromSessionInfo(SessionDetails session, SessionDetailsInfo sessionDetailsInfo)
+        //-------------------------------------------------------------------------
+        public void InitFromSessionInfo(SessionDetails session, SessionDetailsInfo? sessionDetailsInfo)
         {
-            if (sessionDetailsInfo != null && sessionDetailsInfo.Settings != null)
+            if (sessionDetailsInfo != null && sessionDetailsInfo?.Settings != null)
             {
                 // Copy session info
-                AllowJoinInProgress = sessionDetailsInfo.Settings.AllowJoinInProgress;
-                BucketId = sessionDetailsInfo.Settings.BucketId;
-                PermissionLevel = sessionDetailsInfo.Settings.PermissionLevel;
-                MaxPlayers = sessionDetailsInfo.Settings.NumPublicConnections;
-                Id = sessionDetailsInfo.SessionId;
+                AllowJoinInProgress = (bool)(sessionDetailsInfo?.Settings?.AllowJoinInProgress);
+                BucketId = sessionDetailsInfo?.Settings?.BucketId;
+                PermissionLevel = (OnlineSessionPermissionLevel)(sessionDetailsInfo?.Settings?.PermissionLevel);
+                MaxPlayers = (uint)(sessionDetailsInfo?.Settings?.NumPublicConnections);
+                Id = sessionDetailsInfo?.SessionId;
                 //PresenceSession = // TODO
             }
 
             // Get Attributes
             Attributes.Clear();
-            uint attributeCount = session.GetSessionAttributeCount(new SessionDetailsGetSessionAttributeCountOptions());
+            var sessionDetailsGetSessionAttributeCountOptions = new SessionDetailsGetSessionAttributeCountOptions();
+            uint attributeCount = session.GetSessionAttributeCount(ref sessionDetailsGetSessionAttributeCountOptions);
 
             for (uint attribIndex = 0; attribIndex < attributeCount; attribIndex++)
             {
                 SessionDetailsCopySessionAttributeByIndexOptions attributeOptions = new SessionDetailsCopySessionAttributeByIndexOptions();
                 attributeOptions.AttrIndex = attribIndex;
 
-                Result result = session.CopySessionAttributeByIndex(attributeOptions, out SessionDetailsAttribute sessionAttribute);
-                if (result == Result.Success && sessionAttribute != null && sessionAttribute.Data != null)
+                Result result = session.CopySessionAttributeByIndex(ref attributeOptions, out SessionDetailsAttribute? sessionAttribute);
+                if (result == Result.Success && sessionAttribute != null && sessionAttribute?.Data != null)
                 {
                     SessionAttribute nextAttribute = new SessionAttribute();
-                    nextAttribute.Advertisement = sessionAttribute.AdvertisementType;
-                    nextAttribute.Key = sessionAttribute.Data.Key;
+                    nextAttribute.Advertisement = (SessionAttributeAdvertisementType)(sessionAttribute?.AdvertisementType);
+                    nextAttribute.Key = sessionAttribute?.Data?.Key;
 
-                    switch (sessionAttribute.Data.Value.ValueType)
+                    var sessionAttributeDataValue = (AttributeDataValue)sessionAttribute?.Data?.Value;
+                    switch (sessionAttributeDataValue.ValueType)
                     {
                         case AttributeType.Boolean:
                             nextAttribute.ValueType = AttributeType.Boolean;
-                            nextAttribute.AsBool = sessionAttribute.Data.Value.AsBool;
+                            nextAttribute.AsBool = sessionAttributeDataValue.AsBool;
                             break;
                         case AttributeType.Int64:
                             nextAttribute.ValueType = AttributeType.Int64;
-                            nextAttribute.AsInt64 = sessionAttribute.Data.Value.AsInt64;
+                            nextAttribute.AsInt64 = sessionAttributeDataValue.AsInt64;
                             break;
                         case AttributeType.Double:
                             nextAttribute.ValueType = AttributeType.Double;
-                            nextAttribute.AsDouble = sessionAttribute.Data.Value.AsDouble;
+                            nextAttribute.AsDouble = sessionAttributeDataValue.AsDouble;
                             break;
                         case AttributeType.String:
                             nextAttribute.ValueType = AttributeType.String;
-                            nextAttribute.AsString = sessionAttribute.Data.Value.AsUtf8;
+                            nextAttribute.AsString = sessionAttributeDataValue.AsUtf8;
                             break;
                     }
 
@@ -263,6 +267,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateInProgress = false;
         }
 
+        //-------------------------------------------------------------------------
         public void InitActiveSession()
         {
             if (!string.IsNullOrEmpty(Name))
@@ -271,7 +276,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 copyOptions.SessionName = Name;
 
                 SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-                Result result = sessionInterface.CopyActiveSessionHandle(copyOptions, out ActiveSession sessionHandle);
+                Result result = sessionInterface.CopyActiveSessionHandle(ref copyOptions, out ActiveSession sessionHandle);
 
                 if (result != Result.Success)
                 {
@@ -389,6 +394,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return CurrentSessions;
         }
 
+        //-------------------------------------------------------------------------
         public void SubscribteToGameInvites()
         {
             if (subscribtedToGameInvites)
@@ -397,13 +403,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            PresenceInterface presenceInterface = EOSManager.Instance.GetEOSPlatformInterface().GetPresenceInterface();
+            SessionsInterface sessionInterface = EOSManager.Instance.GetEOSSessionsInterface();
+            PresenceInterface presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
 
-            SessionInviteNotificationHandle = sessionInterface.AddNotifySessionInviteReceived(new AddNotifySessionInviteReceivedOptions(), null, OnSessionInviteReceivedListener);
-            SessionInviteAcceptedNotificationHandle = sessionInterface.AddNotifySessionInviteAccepted(new AddNotifySessionInviteAcceptedOptions(), null, OnSessionInviteAcceptedListener);
-            JoinGameNotificationHandle = presenceInterface.AddNotifyJoinGameAccepted(new AddNotifyJoinGameAcceptedOptions(), null, OnJoinGameAcceptedListener);
-            SessionJoinGameNotificationHandle = sessionInterface.AddNotifyJoinSessionAccepted(new AddNotifyJoinSessionAcceptedOptions(), null, OnJoinSessionAcceptedListener);
+            var addNotifySessionInviteReceivedOptions = new AddNotifySessionInviteReceivedOptions();
+            var addNotifySessionInviteAcceptedOptions = new AddNotifySessionInviteAcceptedOptions();
+            var addNotifyJoinSessionAcceptedOptions = new AddNotifyJoinSessionAcceptedOptions();
+            var addNotifyJoinGameAcceptedOptions = new AddNotifyJoinGameAcceptedOptions();
+
+            SessionInviteNotificationHandle = sessionInterface.AddNotifySessionInviteReceived(ref addNotifySessionInviteReceivedOptions, null, OnSessionInviteReceivedListener);
+            SessionInviteAcceptedNotificationHandle = sessionInterface.AddNotifySessionInviteAccepted(ref addNotifySessionInviteAcceptedOptions, null, OnSessionInviteAcceptedListener);
+            JoinGameNotificationHandle = presenceInterface.AddNotifyJoinGameAccepted(ref addNotifyJoinGameAcceptedOptions, null, OnJoinGameAcceptedListener);
+            SessionJoinGameNotificationHandle = sessionInterface.AddNotifyJoinSessionAccepted(ref addNotifyJoinSessionAcceptedOptions, null, OnJoinSessionAcceptedListener);
 
             subscribtedToGameInvites = true;
         }
@@ -452,6 +463,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UnsubscribeFromGameInvites();
         }
 
+        //-------------------------------------------------------------------------
         public bool Update()
         {
             bool stateUpdates = false;
@@ -471,13 +483,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (session.ActiveSession != null)
                     {
                         SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
+                        var activeSessionCopyInfoOptions = new ActiveSessionCopyInfoOptions();
 
-                        Result result = session.ActiveSession.CopyInfo(new ActiveSessionCopyInfoOptions(), out ActiveSessionInfo activeSession);
+                        Result result = session.ActiveSession.CopyInfo(ref activeSessionCopyInfoOptions, out ActiveSessionInfo? activeSession);
                         if (result == Result.Success)
                         {
-                            if (activeSession != null && session.SessionState != activeSession.State)
+                            if (activeSession != null && session.SessionState != activeSession?.State)
                             {
-                                session.SessionState = activeSession.State;
+                                session.SessionState = (OnlineSessionState)(activeSession?.State);
                                 stateUpdates = true;
                             }
                         }
@@ -539,6 +552,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        //-------------------------------------------------------------------------
         public bool CreateSession(Session session, Action callback = null)
         {
             if (session == null)
@@ -561,7 +575,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             createOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
             createOptions.PresenceEnabled = session.PresenceSession;
 
-            Result result = sessionInterface.CreateSessionModification(createOptions, out SessionModification sessionModificationHandle);
+            Result result = sessionInterface.CreateSessionModification(ref createOptions, out SessionModification sessionModificationHandle);
 
             if (result != Result.Success)
             {
@@ -572,7 +586,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SessionModificationSetPermissionLevelOptions permisionOptions = new SessionModificationSetPermissionLevelOptions();
             permisionOptions.PermissionLevel = session.PermissionLevel;
 
-            result = sessionModificationHandle.SetPermissionLevel(permisionOptions);
+            result = sessionModificationHandle.SetPermissionLevel(ref permisionOptions);
 
             if (result != Result.Success)
             {
@@ -584,7 +598,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SessionModificationSetJoinInProgressAllowedOptions jipOptions = new SessionModificationSetJoinInProgressAllowedOptions();
             jipOptions.AllowJoinInProgress = session.AllowJoinInProgress;
 
-            result = sessionModificationHandle.SetJoinInProgressAllowed(jipOptions);
+            result = sessionModificationHandle.SetJoinInProgressAllowed(ref jipOptions);
 
             if (result != Result.Success)
             {
@@ -596,7 +610,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SessionModificationSetInvitesAllowedOptions iaOptions = new SessionModificationSetInvitesAllowedOptions();
             iaOptions.InvitesAllowed = session.InvitesAllowed;
 
-            result = sessionModificationHandle.SetInvitesAllowed(iaOptions);
+            result = sessionModificationHandle.SetInvitesAllowed(ref iaOptions);
 
             if (result != Result.Success)
             {
@@ -612,12 +626,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 AsUtf8 = BUCKET_ID
             };
-
+            
             SessionModificationAddAttributeOptions attrOptions = new SessionModificationAddAttributeOptions();
             attrOptions.SessionAttribute = attrData;
 
-
-            result = sessionModificationHandle.AddAttribute(attrOptions);
+            result = sessionModificationHandle.AddAttribute(ref attrOptions);
 
             if (result != Result.Success)
             {
@@ -627,30 +640,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Set Other Attributes
-
             foreach (SessionAttribute sdAttrib in session.Attributes)
             {
                 attrData.Key = sdAttrib.Key;
-
+                
                 switch (sdAttrib.ValueType)
                 {
                     case AttributeType.Boolean:
-                        attrData.Value.AsBool = sdAttrib.AsBool;
+                        attrData.Value = (AttributeDataValue)sdAttrib.AsBool;
                         break;
                     case AttributeType.Double:
-                        attrData.Value.AsDouble = sdAttrib.AsDouble;
+                        attrData.Value = (AttributeDataValue)sdAttrib.AsDouble;
                         break;
                     case AttributeType.Int64:
-                        attrData.Value.AsInt64 = sdAttrib.AsInt64;
+                        attrData.Value = (AttributeDataValue)sdAttrib.AsInt64;
                         break;
                     case AttributeType.String:
-                        attrData.Value.AsUtf8 = sdAttrib.AsString;
+                        attrData.Value = sdAttrib.AsString;
                         break;
                 }
 
                 attrOptions.AdvertisementType = sdAttrib.Advertisement;
+                attrOptions.SessionAttribute = attrData;
 
-                result = sessionModificationHandle.AddAttribute(attrOptions);
+                result = sessionModificationHandle.AddAttribute(ref attrOptions);
 
                 if (result != Result.Success)
                 {
@@ -667,7 +680,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             UpdateSessionOptions updateOptions = new UpdateSessionOptions();
             updateOptions.SessionModificationHandle = sessionModificationHandle;
-            sessionInterface.UpdateSession(updateOptions, null, OnUpdateSessionCompleteCallback_ForCreate);
+            sessionInterface.UpdateSession(ref updateOptions, null, OnUpdateSessionCompleteCallback_ForCreate);
 
             sessionModificationHandle.Release();
 
@@ -684,6 +697,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return true;
         }
 
+        //-------------------------------------------------------------------------
         public void DestroySession(string name)
         {
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
@@ -691,7 +705,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             DestroySessionOptions destroyOptions = new DestroySessionOptions();
             destroyOptions.SessionName = name;
 
-            sessionInterface.DestroySession(destroyOptions, name, OnDestroySessionCompleteCallback);
+            sessionInterface.DestroySession(ref destroyOptions, name, OnDestroySessionCompleteCallback);
         }
 
         public void DestroyAllSessions()
@@ -740,7 +754,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             copyOptions.LocalUserId = currentProductUserId;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            Result result = sessionInterface.CopySessionHandleForPresence(copyOptions, out SessionDetails sessionHandle);
+            Result result = sessionInterface.CopySessionHandleForPresence(ref copyOptions, out SessionDetails sessionHandle);
             if (result != Result.Success)
             {
                 return false;
@@ -752,13 +766,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             SessionDetailsCopyInfoOptions copyInfoOptions = new SessionDetailsCopyInfoOptions();
-            result = sessionHandle.CopyInfo(new SessionDetailsCopyInfoOptions(), out SessionDetailsInfo sessioninfo);
+            result = sessionHandle.CopyInfo(ref copyInfoOptions, out SessionDetailsInfo? sessioninfo);
             if (result != Result.Success)
             {
                 return false;
             }
 
-            KnownPresenceSessionId = sessioninfo.SessionId;
+            KnownPresenceSessionId = sessioninfo?.SessionId;
             return true;
         }
 
@@ -786,7 +800,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
 
-                sessionInterface.StartSession(sessionOptions, name, OnStartSessionCompleteCallBack);
+                sessionInterface.StartSession(ref sessionOptions, name, OnStartSessionCompleteCallBack);
             }
             else
             {
@@ -807,7 +821,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             endOptions.SessionName = name;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.EndSession(endOptions, name, OnEndSessionCompleteCallback);
+            sessionInterface.EndSession(ref endOptions, name, OnEndSessionCompleteCallback);
         }
 
         public void Register(string sessionName, ProductUserId friendId)
@@ -817,7 +831,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             registerOptions.PlayersToRegister = new ProductUserId[] { friendId };
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.RegisterPlayers(registerOptions, null, OnRegisterCompleteCallback);
+            sessionInterface.RegisterPlayers(ref registerOptions, null, OnRegisterCompleteCallback);
         }
 
         public void UnRegister(string sessionName, ProductUserId friendId)
@@ -827,7 +841,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             unregisterOptions.PlayersToUnregister = new ProductUserId[] { friendId };
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.UnregisterPlayers(unregisterOptions, null, OnUnregisterCompleteCallback);
+            sessionInterface.UnregisterPlayers(ref unregisterOptions, null, OnUnregisterCompleteCallback);
         }
 
         public void InviteToSession(string sessionName, ProductUserId friendId)
@@ -851,7 +865,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             sendInviteOptions.SessionName = sessionName;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.SendInvite(sendInviteOptions, null, OnSendInviteCompleteCallback);
+            sessionInterface.SendInvite(ref sendInviteOptions, null, OnSendInviteCompleteCallback);
         }
 
         public void SetInviteSession(Session session, SessionDetails sessionDetails)
@@ -878,7 +892,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             searchOptions.MaxSearchResults = 10;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            Result result = sessionInterface.CreateSessionSearch(searchOptions, out Epic.OnlineServices.Sessions.SessionSearch sessionSearchHandle);
+            Result result = sessionInterface.CreateSessionSearch(ref searchOptions, out Epic.OnlineServices.Sessions.SessionSearch sessionSearchHandle);
 
             if (result != Result.Success)
             {
@@ -894,12 +908,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 AsUtf8 = BUCKET_ID
             };
-
+            
             SessionSearchSetParameterOptions paramOptions = new SessionSearchSetParameterOptions();
             paramOptions.ComparisonOp = ComparisonOp.Equal;
             paramOptions.Parameter = attrData;
 
-            result = sessionSearchHandle.SetParameter(paramOptions);
+            result = sessionSearchHandle.SetParameter(ref paramOptions);
 
             if (result != Result.Success)
             {
@@ -915,22 +929,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 switch (attr.ValueType)
                 {
                     case AttributeType.Boolean:
-                        attrData.Value.AsBool = attr.AsBool;
+                        attrData.Value = (AttributeDataValue)attr.AsBool;
                         break;
                     case AttributeType.Int64:
-                        attrData.Value.AsInt64 = attr.AsInt64;
+                        attrData.Value = (AttributeDataValue)attr.AsInt64;
                         break;
                     case AttributeType.Double:
-                        attrData.Value.AsDouble = attr.AsDouble;
+                        attrData.Value = (AttributeDataValue)attr.AsDouble;
                         break;
                     case AttributeType.String:
-                        attrData.Value.AsUtf8 = attr.AsString;
+                        attrData.Value = attr.AsString;
                         break;
                 }
 
                 paramOptions.Parameter = attrData; // Needed or is by ref work?
 
-                result = sessionSearchHandle.SetParameter(paramOptions);
+                result = sessionSearchHandle.SetParameter(ref paramOptions);
 
                 if (result != Result.Success)
                 {
@@ -938,11 +952,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return;
                 }
             }
-
+            
             SessionSearchFindOptions findOptions = new SessionSearchFindOptions();
             findOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
 
-            sessionSearchHandle.Find(findOptions, null, OnFindSessionsCompleteCallback);
+            sessionSearchHandle.Find(ref findOptions, null, OnFindSessionsCompleteCallback);
         }
 
         public void SearchById(string sessionId)
@@ -954,7 +968,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             searchOptions.MaxSearchResults = 10;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            Result result = sessionInterface.CreateSessionSearch(searchOptions, out Epic.OnlineServices.Sessions.SessionSearch sessionSearchHandle);
+            Result result = sessionInterface.CreateSessionSearch(ref searchOptions, out Epic.OnlineServices.Sessions.SessionSearch sessionSearchHandle);
 
             if (result != Result.Success)
             {
@@ -968,7 +982,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SessionSearchSetSessionIdOptions sessionIdOptions = new SessionSearchSetSessionIdOptions();
             sessionIdOptions.SessionId = sessionId;
 
-            result = sessionSearchHandle.SetSessionId(sessionIdOptions);
+            result = sessionSearchHandle.SetSessionId(ref sessionIdOptions);
 
             if (result != Result.Success)
             {
@@ -980,7 +994,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SessionSearchFindOptions findOptions = new SessionSearchFindOptions();
             findOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
 
-            sessionSearchHandle.Find(findOptions, null, OnFindSessionsCompleteCallback);
+            sessionSearchHandle.Find(ref findOptions, null, OnFindSessionsCompleteCallback);
         }
 
         public SessionDetails MakeSessionHandleByInviteId(string inviteId)
@@ -989,7 +1003,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             options.InviteId = inviteId;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            Result result = sessionInterface.CopySessionHandleByInviteId(options, out SessionDetails sessionHandle);
+            Result result = sessionInterface.CopySessionHandleByInviteId(ref options, out SessionDetails sessionHandle);
 
             if (result == Result.Success)
             {
@@ -1005,7 +1019,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             copyOptions.UiEventId = uiEventId;
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            Result result = sessionInterface.CopySessionHandleByUiEventId(copyOptions, out SessionDetails sessionHandle);
+            Result result = sessionInterface.CopySessionHandleByUiEventId(ref copyOptions, out SessionDetails sessionHandle);
             if (result == Result.Success && sessionHandle != null)
             {
                 return sessionHandle;
@@ -1020,6 +1034,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return null;
         }
 
+        //-------------------------------------------------------------------------
         public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action callback = null)
         {
             JoinSessionOptions joinOptions = new JoinSessionOptions();
@@ -1034,12 +1049,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.JoinSession(joinOptions, null, OnJoinSessionListener);
+            sessionInterface.JoinSession(ref joinOptions, null, OnJoinSessionListener);
 
             //SetJoinSessionDetails
             JoiningSessionDetails = sessionHandle;
         }
 
+        //-------------------------------------------------------------------------
         public bool ModifySession(Session session, Action callback = null)
         {
             if (session == null)
@@ -1065,7 +1081,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateSessionModificationOptions updateModOptions = new UpdateSessionModificationOptions();
             updateModOptions.SessionName = session.Name;
 
-            Result result = sessionInterface.UpdateSessionModification(updateModOptions, out SessionModification sessionModificationHandle);
+            Result result = sessionInterface.UpdateSessionModification(ref updateModOptions, out SessionModification sessionModificationHandle);
 
             if (result != Result.Success)
             {
@@ -1100,7 +1116,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SessionModificationSetMaxPlayersOptions maxPlayerOptions = new SessionModificationSetMaxPlayersOptions();
                 maxPlayerOptions.MaxPlayers = session.MaxPlayers;
 
-                result = sessionModificationHandle.SetMaxPlayers(maxPlayerOptions);
+                result = sessionModificationHandle.SetMaxPlayers(ref maxPlayerOptions);
 
                 if (result != Result.Success)
                 {
@@ -1119,7 +1135,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SessionModificationSetPermissionLevelOptions permisionOptions = new SessionModificationSetPermissionLevelOptions();
                 permisionOptions.PermissionLevel = session.PermissionLevel;
 
-                result = sessionModificationHandle.SetPermissionLevel(permisionOptions);
+                result = sessionModificationHandle.SetPermissionLevel(ref permisionOptions);
 
                 if (result != Result.Success)
                 {
@@ -1138,7 +1154,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 SessionModificationSetJoinInProgressAllowedOptions jipOptions = new SessionModificationSetJoinInProgressAllowedOptions();
                 jipOptions.AllowJoinInProgress = session.AllowJoinInProgress;
 
-                result = sessionModificationHandle.SetJoinInProgressAllowed(jipOptions);
+                result = sessionModificationHandle.SetJoinInProgressAllowed(ref jipOptions);
 
                 if (result != Result.Success)
                 {
@@ -1200,7 +1216,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 attrOptions.AdvertisementType = nextAttribute.Advertisement;
 
-                result = sessionModificationHandle.AddAttribute(attrOptions);
+                result = sessionModificationHandle.AddAttribute(ref attrOptions);
 
                 if (result != Result.Success)
                 {
@@ -1221,7 +1237,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             UpdateSessionOptions updateOptions = new UpdateSessionOptions();
             updateOptions.SessionModificationHandle = sessionModificationHandle;
-            sessionInterface.UpdateSession(updateOptions, null, OnUpdateSessionCompleteCallback);
+            sessionInterface.UpdateSession(ref updateOptions, null, OnUpdateSessionCompleteCallback);
 
             currentSession = session;
             currentSession.UpdateInProgress = true;
@@ -1274,8 +1290,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnSearchResultsReceived()
         {
-            SessionSearchGetSearchResultCountOptions searchResultOptions = new SessionSearchGetSearchResultCountOptions();
-
             if (CurrentSearch == null)
             {
                 Debug.LogError("Session Matchmaking (OnSearchResultsReceived): CurrentSearch is null");
@@ -1290,7 +1304,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            uint numSearchResult = searchHandle.GetSearchResultCount(new SessionSearchGetSearchResultCountOptions());
+            var sessionSearchGetSearchResultCountOptions = new SessionSearchGetSearchResultCountOptions();
+            uint numSearchResult = searchHandle.GetSearchResultCount(ref sessionSearchGetSearchResultCountOptions);
 
             Dictionary<Session, SessionDetails> searchResults = new Dictionary<Session, SessionDetails>();
 
@@ -1300,11 +1315,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 indexOptions.SessionIndex = i;
 
-                Result result = searchHandle.CopySearchResultByIndex(indexOptions, out SessionDetails sessionHandle);
+                Result result = searchHandle.CopySearchResultByIndex(ref indexOptions, out SessionDetails sessionHandle);
 
                 if (result == Result.Success && sessionHandle != null)
                 {
-                    result = sessionHandle.CopyInfo(new SessionDetailsCopyInfoOptions(), out SessionDetailsInfo sessionInfo);
+                    var sessionDetailsCopyInfoOptions = new SessionDetailsCopyInfoOptions();
+                    result = sessionHandle.CopyInfo(ref sessionDetailsCopyInfoOptions, out SessionDetailsInfo? sessionInfo);
 
                     Session nextSession = new Session();
                     if (result == Result.Success)
@@ -1351,7 +1367,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (JoiningSessionDetails != null)
             {
-                Result result = JoiningSessionDetails.CopyInfo(new SessionDetailsCopyInfoOptions(), out SessionDetailsInfo sessionInfo);
+                var sessionDetailsCopyInfoOptions = new SessionDetailsCopyInfoOptions();
+                Result result = JoiningSessionDetails.CopyInfo(ref sessionDetailsCopyInfoOptions, out SessionDetailsInfo? sessionInfo);
 
                 if (result == Result.Success)
                 {
@@ -1410,7 +1427,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CreatePresenceModificationOptions createModOptions = new CreatePresenceModificationOptions();
             createModOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
 
-            Result result = presenceInterface.CreatePresenceModification(createModOptions, out PresenceModification presenceModification);
+            Result result = presenceInterface.CreatePresenceModification(ref createModOptions, out PresenceModification presenceModification);
             if (result != Result.Success)
             {
                 if(onLoggingOut)
@@ -1437,7 +1454,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 joinOptions.JoinInfo = sessionId;
             }
 
-            result = presenceModification.SetJoinInfo(joinOptions);
+            result = presenceModification.SetJoinInfo(ref joinOptions);
             if (result != Result.Success)
             {
                 Debug.LogErrorFormat("Session Matchmaking (SetJoinInfo): SetJoinInfo failed: {0}", result);
@@ -1448,7 +1465,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             setOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
             setOptions.PresenceModificationHandle = presenceModification;
 
-            presenceInterface.SetPresence(setOptions, null, OnSetPresenceCompleteCallback);
+            presenceInterface.SetPresence(ref setOptions, null, OnSetPresenceCompleteCallback);
 
             presenceModification.Release();
         }
@@ -1501,7 +1518,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 options.Result = result;
 
                 UIInterface uiInterface = EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface();
-                uiInterface.AcknowledgeEventId(options);
+                uiInterface.AcknowledgeEventId(ref options);
 
                 JoinUiEvent = 0;
             }
@@ -1517,13 +1534,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return string.Format("{0}{1}", JOINED_SESSION_NAME, JoinedSessionIndex);
         }
 
-        private void OnUpdateSessionCompleteCallback(UpdateSessionCallbackInfo data)
+        private void OnUpdateSessionCompleteCallback(ref UpdateSessionCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnStartSessionCompleteCallback): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnStartSessionCompleteCallback): data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1542,13 +1559,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnUpdateSessionCompleteCallback_ForCreate(UpdateSessionCallbackInfo data)
+        private void OnUpdateSessionCompleteCallback_ForCreate(ref UpdateSessionCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnUpdateSessionCompleteCallback_ForCreate): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnUpdateSessionCompleteCallback_ForCreate): data is null");
+            //    return;
+            //}
 
             bool removeSession = true;
             bool success = (data.ResultCode == Result.Success);
@@ -1581,13 +1598,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnSessionUpdateFinished(success, data.SessionName, data.SessionId, removeSession);
         }
 
-        private void OnStartSessionCompleteCallBack(StartSessionCallbackInfo data)
+        private void OnStartSessionCompleteCallBack(ref StartSessionCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnStartSessionCompleteCallback): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnStartSessionCompleteCallback): data is null");
+            //    return;
+            //}
 
             if (data.ClientData == null)
             {
@@ -1608,13 +1625,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //OnSessionStarted(sessionName); // Needed for C# wrapper?
         }
 
-        private void OnEndSessionCompleteCallback(EndSessionCallbackInfo data)
+        private void OnEndSessionCompleteCallback(ref EndSessionCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnEndSessionCompleteCallback): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnEndSessionCompleteCallback): data is null!");
+            //    return;
+            //}
 
             string sessionName = (string)data.ClientData;
 
@@ -1629,13 +1646,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //OnSessionEnded(sessionName); // Not used in C# wrapper
         }
 
-        private void OnDestroySessionCompleteCallback(DestroySessionCallbackInfo data)
+        private void OnDestroySessionCompleteCallback(ref DestroySessionCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnDestroySessionCompleteCallback): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnDestroySessionCompleteCallback): data is null!");
+            //    return;
+            //}
 
             if (data.ClientData == null)
             {
@@ -1657,13 +1674,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnRegisterCompleteCallback(RegisterPlayersCallbackInfo data)
+        private void OnRegisterCompleteCallback(ref RegisterPlayersCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnRegisterCompleteCallback): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnRegisterCompleteCallback): data is null!");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1672,13 +1689,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnUnregisterCompleteCallback(UnregisterPlayersCallbackInfo data)
+        private void OnUnregisterCompleteCallback(ref UnregisterPlayersCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnUnregisterCompleteCallback): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnUnregisterCompleteCallback): data is null!");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1687,14 +1704,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnFindSessionsCompleteCallback(SessionSearchFindCallbackInfo data)
+        private void OnFindSessionsCompleteCallback(ref SessionSearchFindCallbackInfo data)
         {
-            if (data == null)
-            {
-                AcknowledgeEventId(Result.UnexpectedError);
-                Debug.LogError("Session Matchmaking (OnFindSessionsCompleteCallback): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    AcknowledgeEventId(Result.UnexpectedError);
+            //    Debug.LogError("Session Matchmaking (OnFindSessionsCompleteCallback): data is null!");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1706,13 +1723,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnSearchResultsReceived();
         }
 
-        private void OnSendInviteCompleteCallback(SendInviteCallbackInfo data)
+        private void OnSendInviteCompleteCallback(ref SendInviteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnSendInviteCompleteCallback): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnSendInviteCompleteCallback): data is null!");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1723,13 +1740,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log("Session Matchmaking: invite to session sent successfully.");
         }
 
-        public void OnSessionInviteReceivedListener(SessionInviteReceivedCallbackInfo data) // OnSessionInviteReceivedCallback
+        public void OnSessionInviteReceivedListener(ref SessionInviteReceivedCallbackInfo data) // OnSessionInviteReceivedCallback
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnSessionInviteReceivedListener): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnSessionInviteReceivedListener): data is null!");
+            //    return;
+            //}
 
             Debug.LogFormat("Session Matchmaking: invite to session received. Invite id: {0}", data.InviteId);
 
@@ -1771,27 +1788,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void OnSessionInviteAcceptedListener(SessionInviteAcceptedCallbackInfo data) // OnSessionInviteAcceptedCallback
+        public void OnSessionInviteAcceptedListener(ref SessionInviteAcceptedCallbackInfo data) // OnSessionInviteAcceptedCallback
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnSessionInviteAcceptedListener): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnSessionInviteAcceptedListener): data is null!");
+            //    return;
+            //}
 
             Debug.Log("Session Matchmaking: joined session successfully.");
 
             OnJoinSessionFinished();
         }
 
-        private void OnJoinSessionListener(JoinSessionCallbackInfo data) // OnJoinSessionCallback
+        private void OnJoinSessionListener(ref JoinSessionCallbackInfo data) // OnJoinSessionCallback
         {
-            if (data == null)
-            {
-                AcknowledgeEventId(Result.UnexpectedError);
-                Debug.LogError("Session Matchmaking (OnJoinSessionListener): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    AcknowledgeEventId(Result.UnexpectedError);
+            //    Debug.LogError("Session Matchmaking (OnJoinSessionListener): data is null!");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -1808,39 +1825,39 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             AcknowledgeEventId(data.ResultCode);
         }
 
-        public void OnJoinGameAcceptedListener(JoinGameAcceptedCallbackInfo data) // OnPresenceJoinGameAcceptedListener
+        public void OnJoinGameAcceptedListener(ref JoinGameAcceptedCallbackInfo data) // OnPresenceJoinGameAcceptedListener
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnJoinGameAcceptedListener): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnJoinGameAcceptedListener): data is null!");
+            //    return;
+            //}
 
             Debug.Log("Session Matchmaking: join game accepted successfully.");
 
             OnJoinGameAcceptedByJoinInfo(data.JoinInfo, data.UiEventId);
         }
 
-        public void OnJoinSessionAcceptedListener(JoinSessionAcceptedCallbackInfo data) // OnSessionsJoinSessionAcceptedCallback
+        public void OnJoinSessionAcceptedListener(ref JoinSessionAcceptedCallbackInfo data) // OnSessionsJoinSessionAcceptedCallback
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnJoinSessionAcceptedListener): data is null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnJoinSessionAcceptedListener): data is null!");
+            //    return;
+            //}
 
             Debug.Log("Session Matchmaking: join game accepted successfully.");
 
             OnJoinGameAcceptedByEventId(data.UiEventId);
         }
 
-        private void OnSetPresenceCompleteCallback(SetPresenceCallbackInfo data)
+        private void OnSetPresenceCompleteCallback(ref SetPresenceCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Session Matchmaking (OnSetPresenceCallback): EOS_Presence_SetPresenceCallbackInfo is null");
-            }
-            else if (data.ResultCode != Result.Success)
+            //if (data == null)
+            //{
+            //    Debug.LogError("Session Matchmaking (OnSetPresenceCallback): EOS_Presence_SetPresenceCallbackInfo is null");
+            //}
+            if (data.ResultCode != Result.Success)
             {
                 Debug.LogErrorFormat("Session Matchmaking (OnSetPresenceCallback): error code: {0}", data.ResultCode);
             }

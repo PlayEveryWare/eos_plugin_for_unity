@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for the <see cref="PresenceModification.SetStatus" /> function.
 	/// </summary>
-	public class PresenceModificationSetStatusOptions
+	public struct PresenceModificationSetStatusOptions
 	{
 		/// <summary>
 		/// The status of the user
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Presence
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PresenceModificationSetStatusOptionsInternal : ISettable, System.IDisposable
+	internal struct PresenceModificationSetStatusOptionsInternal : ISettable<PresenceModificationSetStatusOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private Status m_Status;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Presence
 			}
 		}
 
-		public void Set(PresenceModificationSetStatusOptions other)
+		public void Set(ref PresenceModificationSetStatusOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = PresenceModification.PresencemodificationSetstatusApiLatest;
-				Status = other.Status;
-			}
+			m_ApiVersion = PresenceModification.PresencemodificationSetstatusApiLatest;
+			Status = other.Status;
 		}
 
-		public void Set(object other)
+		public void Set(ref PresenceModificationSetStatusOptions? other)
 		{
-			Set(other as PresenceModificationSetStatusOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = PresenceModification.PresencemodificationSetstatusApiLatest;
+				Status = other.Value.Status;
+			}
 		}
 
 		public void Dispose()

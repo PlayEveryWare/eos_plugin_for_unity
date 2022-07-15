@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class RegisterClientOptions
+	public struct RegisterClientOptions
 	{
 		/// <summary>
 		/// Locally unique value describing the remote user (e.g. a player object pointer)
@@ -26,18 +26,18 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// have the same string) and consistent (if the same user connects to this game session
 		/// twice, the same string will be used) in the scope of a single protected game session.
 		/// </summary>
-		public string AccountId { get; set; }
+		public Utf8String AccountId { get; set; }
 
 		/// <summary>
 		/// Optional IP address for the remote user. May be null if not available.
 		/// IPv4 format: "0.0.0.0"
 		/// IPv6 format: "0:0:0:0:0:0:0:0"
 		/// </summary>
-		public string IpAddress { get; set; }
+		public Utf8String IpAddress { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RegisterClientOptionsInternal : ISettable, System.IDisposable
+	internal struct RegisterClientOptionsInternal : ISettable<RegisterClientOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ClientHandle;
@@ -70,45 +70,50 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
-		public string AccountId
+		public Utf8String AccountId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AccountId, value);
+				Helper.Set(value, ref m_AccountId);
 			}
 		}
 
-		public string IpAddress
+		public Utf8String IpAddress
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_IpAddress, value);
+				Helper.Set(value, ref m_IpAddress);
 			}
 		}
 
-		public void Set(RegisterClientOptions other)
+		public void Set(ref RegisterClientOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatServerInterface.RegisterclientApiLatest;
+			ClientHandle = other.ClientHandle;
+			ClientType = other.ClientType;
+			ClientPlatform = other.ClientPlatform;
+			AccountId = other.AccountId;
+			IpAddress = other.IpAddress;
+		}
+
+		public void Set(ref RegisterClientOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatServerInterface.RegisterclientApiLatest;
-				ClientHandle = other.ClientHandle;
-				ClientType = other.ClientType;
-				ClientPlatform = other.ClientPlatform;
-				AccountId = other.AccountId;
-				IpAddress = other.IpAddress;
+				ClientHandle = other.Value.ClientHandle;
+				ClientType = other.Value.ClientType;
+				ClientPlatform = other.Value.ClientPlatform;
+				AccountId = other.Value.AccountId;
+				IpAddress = other.Value.IpAddress;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RegisterClientOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientHandle);
-			Helper.TryMarshalDispose(ref m_AccountId);
-			Helper.TryMarshalDispose(ref m_IpAddress);
+			Helper.Dispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_AccountId);
+			Helper.Dispose(ref m_IpAddress);
 		}
 	}
 }

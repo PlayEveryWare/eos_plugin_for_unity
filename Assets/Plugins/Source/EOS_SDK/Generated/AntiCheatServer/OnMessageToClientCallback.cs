@@ -12,8 +12,8 @@ namespace Epic.OnlineServices.AntiCheatServer
 	/// 
 	/// This callback is always issued from within <see cref="Platform.PlatformInterface.Tick" /> on its calling thread.
 	/// </summary>
-	public delegate void OnMessageToClientCallback(AntiCheatCommon.OnMessageToClientCallbackInfo data);
+	public delegate void OnMessageToClientCallback(ref AntiCheatCommon.OnMessageToClientCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnMessageToClientCallbackInternal(System.IntPtr data);
+	internal delegate void OnMessageToClientCallbackInternal(ref AntiCheatCommon.OnMessageToClientCallbackInfoInternal data);
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for the <see cref="PresenceModification.SetData" /> function.
 	/// </summary>
-	public class PresenceModificationSetDataOptions
+	public struct PresenceModificationSetDataOptions
 	{
 		/// <summary>
 		/// The pointer to start of a sequential array of Presence DataRecords
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Presence
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PresenceModificationSetDataOptionsInternal : ISettable, System.IDisposable
+	internal struct PresenceModificationSetDataOptionsInternal : ISettable<PresenceModificationSetDataOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private int m_RecordsCount;
@@ -25,27 +25,28 @@ namespace Epic.OnlineServices.Presence
 		{
 			set
 			{
-				Helper.TryMarshalSet<DataRecordInternal, DataRecord>(ref m_Records, value, out m_RecordsCount);
+				Helper.Set<DataRecord, DataRecordInternal>(ref value, ref m_Records, out m_RecordsCount);
 			}
 		}
 
-		public void Set(PresenceModificationSetDataOptions other)
+		public void Set(ref PresenceModificationSetDataOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceModification.PresencemodificationSetdataApiLatest;
+			Records = other.Records;
+		}
+
+		public void Set(ref PresenceModificationSetDataOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceModification.PresencemodificationSetdataApiLatest;
-				Records = other.Records;
+				Records = other.Value.Records;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PresenceModificationSetDataOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Records);
+			Helper.Dispose(ref m_Records);
 		}
 	}
 }

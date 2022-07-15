@@ -8,22 +8,22 @@ namespace Epic.OnlineServices.Ecom
 	/// created by <see cref="EcomInterface.CopyEntitlementByIndex" />, <see cref="EcomInterface.CopyEntitlementByNameAndIndex" />, or <see cref="EcomInterface.CopyEntitlementById" />.
 	/// They must be passed to <see cref="EcomInterface.Release" />.
 	/// </summary>
-	public class Entitlement : ISettable
+	public struct Entitlement
 	{
 		/// <summary>
 		/// Name of the entitlement
 		/// </summary>
-		public string EntitlementName { get; set; }
+		public Utf8String EntitlementName { get; set; }
 
 		/// <summary>
 		/// ID of the entitlement owned by an account
 		/// </summary>
-		public string EntitlementId { get; set; }
+		public Utf8String EntitlementId { get; set; }
 
 		/// <summary>
 		/// ID of the item associated with the offer which granted this entitlement
 		/// </summary>
-		public string CatalogItemId { get; set; }
+		public Utf8String CatalogItemId { get; set; }
 
 		/// <summary>
 		/// If queried using pagination then ServerIndex represents the index of the entitlement as it
@@ -41,27 +41,19 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public long EndTimestamp { get; set; }
 
-		internal void Set(EntitlementInternal? other)
+		internal void Set(ref EntitlementInternal other)
 		{
-			if (other != null)
-			{
-				EntitlementName = other.Value.EntitlementName;
-				EntitlementId = other.Value.EntitlementId;
-				CatalogItemId = other.Value.CatalogItemId;
-				ServerIndex = other.Value.ServerIndex;
-				Redeemed = other.Value.Redeemed;
-				EndTimestamp = other.Value.EndTimestamp;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as EntitlementInternal?);
+			EntitlementName = other.EntitlementName;
+			EntitlementId = other.EntitlementId;
+			CatalogItemId = other.CatalogItemId;
+			ServerIndex = other.ServerIndex;
+			Redeemed = other.Redeemed;
+			EndTimestamp = other.EndTimestamp;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct EntitlementInternal : ISettable, System.IDisposable
+	internal struct EntitlementInternal : IGettable<Entitlement>, ISettable<Entitlement>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_EntitlementName;
@@ -71,48 +63,48 @@ namespace Epic.OnlineServices.Ecom
 		private int m_Redeemed;
 		private long m_EndTimestamp;
 
-		public string EntitlementName
+		public Utf8String EntitlementName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_EntitlementName, out value);
+				Utf8String value;
+				Helper.Get(m_EntitlementName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_EntitlementName, value);
+				Helper.Set(value, ref m_EntitlementName);
 			}
 		}
 
-		public string EntitlementId
+		public Utf8String EntitlementId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_EntitlementId, out value);
+				Utf8String value;
+				Helper.Get(m_EntitlementId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_EntitlementId, value);
+				Helper.Set(value, ref m_EntitlementId);
 			}
 		}
 
-		public string CatalogItemId
+		public Utf8String CatalogItemId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_CatalogItemId, out value);
+				Utf8String value;
+				Helper.Get(m_CatalogItemId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_CatalogItemId, value);
+				Helper.Set(value, ref m_CatalogItemId);
 			}
 		}
 
@@ -134,13 +126,13 @@ namespace Epic.OnlineServices.Ecom
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_Redeemed, out value);
+				Helper.Get(m_Redeemed, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Redeemed, value);
+				Helper.Set(value, ref m_Redeemed);
 			}
 		}
 
@@ -157,30 +149,42 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(Entitlement other)
+		public void Set(ref Entitlement other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = EcomInterface.EntitlementApiLatest;
-				EntitlementName = other.EntitlementName;
-				EntitlementId = other.EntitlementId;
-				CatalogItemId = other.CatalogItemId;
-				ServerIndex = other.ServerIndex;
-				Redeemed = other.Redeemed;
-				EndTimestamp = other.EndTimestamp;
-			}
+			m_ApiVersion = EcomInterface.EntitlementApiLatest;
+			EntitlementName = other.EntitlementName;
+			EntitlementId = other.EntitlementId;
+			CatalogItemId = other.CatalogItemId;
+			ServerIndex = other.ServerIndex;
+			Redeemed = other.Redeemed;
+			EndTimestamp = other.EndTimestamp;
 		}
 
-		public void Set(object other)
+		public void Set(ref Entitlement? other)
 		{
-			Set(other as Entitlement);
+			if (other.HasValue)
+			{
+				m_ApiVersion = EcomInterface.EntitlementApiLatest;
+				EntitlementName = other.Value.EntitlementName;
+				EntitlementId = other.Value.EntitlementId;
+				CatalogItemId = other.Value.CatalogItemId;
+				ServerIndex = other.Value.ServerIndex;
+				Redeemed = other.Value.Redeemed;
+				EndTimestamp = other.Value.EndTimestamp;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_EntitlementName);
-			Helper.TryMarshalDispose(ref m_EntitlementId);
-			Helper.TryMarshalDispose(ref m_CatalogItemId);
+			Helper.Dispose(ref m_EntitlementName);
+			Helper.Dispose(ref m_EntitlementId);
+			Helper.Dispose(ref m_CatalogItemId);
+		}
+
+		public void Get(out Entitlement output)
+		{
+			output = new Entitlement();
+			output.Set(ref this);
 		}
 	}
 }

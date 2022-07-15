@@ -80,16 +80,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             ReportsInterface reportsHandle = EOSManager.Instance.GetEOSPlatformInterface().GetReportsInterface();
-            reportsHandle.SendPlayerBehaviorReport(reportOptions, null, OnSendPlayerBehaviorReportCompleted);
+            reportsHandle.SendPlayerBehaviorReport(ref reportOptions, null, OnSendPlayerBehaviorReportCompleted);
         }
 
-        private void OnSendPlayerBehaviorReportCompleted(SendPlayerBehaviorReportCompleteCallbackInfo data)
+        private void OnSendPlayerBehaviorReportCompleted(ref SendPlayerBehaviorReportCompleteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Report (OnSendPlayerBehaviorReportCompleted):  data == null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Report (OnSendPlayerBehaviorReportCompleted):  data == null!");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -114,17 +114,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Debug.Log("Reports (QueryActivePlayerSanctions): Running query...");
 
-            sanctionsHandle.QueryActivePlayerSanctions(queryOptions, null, OnQueryActivePlayerSanctionsCompleted);
+            sanctionsHandle.QueryActivePlayerSanctions(ref queryOptions, null, OnQueryActivePlayerSanctionsCompleted);
         }
 
-        private void OnQueryActivePlayerSanctionsCompleted(QueryActivePlayerSanctionsCallbackInfo data)
+        private void OnQueryActivePlayerSanctionsCompleted(ref QueryActivePlayerSanctionsCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Sanctions (OnQueryActivePlayerSanctionsCompleted):  data == null!");
-                QueryActivePlayerSanctionsCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Sanctions (OnQueryActivePlayerSanctionsCompleted):  data == null!");
+            //    QueryActivePlayerSanctionsCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -144,7 +144,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             List<Sanction> sanctionList = new List<Sanction>();
 
-            uint sanctionCount = sanctionsHandle.GetPlayerSanctionCount(countOptions);
+            uint sanctionCount = sanctionsHandle.GetPlayerSanctionCount(ref countOptions);
             for(uint sanctionIndex = 0; sanctionIndex < sanctionCount; sanctionIndex++)
             {
                 CopyPlayerSanctionByIndexOptions copyOptions = new CopyPlayerSanctionByIndexOptions()
@@ -153,7 +153,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     TargetUserId = data.TargetUserId
                 };
 
-                Result result = sanctionsHandle.CopyPlayerSanctionByIndex(copyOptions, out PlayerSanction sanction);
+                Result result = sanctionsHandle.CopyPlayerSanctionByIndex(ref copyOptions, out PlayerSanction? sanction);
 
                 if(result != Result.Success)
                 {
@@ -163,8 +163,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 sanctionList.Add(
                     new Sanction() {
-                        Action = sanction.Action,
-                        TimePlaced = DateTimeOffset.FromUnixTimeSeconds(sanction.TimePlaced).DateTime
+                        Action = sanction?.Action,
+                        TimePlaced = DateTimeOffset.FromUnixTimeSeconds((long)(sanction?.TimePlaced)).DateTime
                     });
             }
 

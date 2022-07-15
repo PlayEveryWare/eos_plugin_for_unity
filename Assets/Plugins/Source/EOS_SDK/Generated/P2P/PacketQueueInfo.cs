@@ -8,7 +8,7 @@ namespace Epic.OnlineServices.P2P
 	/// to be larger than the maximum size if the maximum size changes or if the maximum queue size is
 	/// set to <see cref="P2PInterface.MaxQueueSizeUnlimited" />.
 	/// </summary>
-	public class PacketQueueInfo : ISettable
+	public struct PacketQueueInfo
 	{
 		/// <summary>
 		/// The maximum size in bytes of the incoming packet queue
@@ -40,27 +40,19 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		public ulong OutgoingPacketQueueCurrentPacketCount { get; set; }
 
-		internal void Set(PacketQueueInfoInternal? other)
+		internal void Set(ref PacketQueueInfoInternal other)
 		{
-			if (other != null)
-			{
-				IncomingPacketQueueMaxSizeBytes = other.Value.IncomingPacketQueueMaxSizeBytes;
-				IncomingPacketQueueCurrentSizeBytes = other.Value.IncomingPacketQueueCurrentSizeBytes;
-				IncomingPacketQueueCurrentPacketCount = other.Value.IncomingPacketQueueCurrentPacketCount;
-				OutgoingPacketQueueMaxSizeBytes = other.Value.OutgoingPacketQueueMaxSizeBytes;
-				OutgoingPacketQueueCurrentSizeBytes = other.Value.OutgoingPacketQueueCurrentSizeBytes;
-				OutgoingPacketQueueCurrentPacketCount = other.Value.OutgoingPacketQueueCurrentPacketCount;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PacketQueueInfoInternal?);
+			IncomingPacketQueueMaxSizeBytes = other.IncomingPacketQueueMaxSizeBytes;
+			IncomingPacketQueueCurrentSizeBytes = other.IncomingPacketQueueCurrentSizeBytes;
+			IncomingPacketQueueCurrentPacketCount = other.IncomingPacketQueueCurrentPacketCount;
+			OutgoingPacketQueueMaxSizeBytes = other.OutgoingPacketQueueMaxSizeBytes;
+			OutgoingPacketQueueCurrentSizeBytes = other.OutgoingPacketQueueCurrentSizeBytes;
+			OutgoingPacketQueueCurrentPacketCount = other.OutgoingPacketQueueCurrentPacketCount;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PacketQueueInfoInternal : ISettable, System.IDisposable
+	internal struct PacketQueueInfoInternal : IGettable<PacketQueueInfo>, ISettable<PacketQueueInfo>, System.IDisposable
 	{
 		private ulong m_IncomingPacketQueueMaxSizeBytes;
 		private ulong m_IncomingPacketQueueCurrentSizeBytes;
@@ -147,26 +139,37 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		public void Set(PacketQueueInfo other)
+		public void Set(ref PacketQueueInfo other)
 		{
-			if (other != null)
-			{
-				IncomingPacketQueueMaxSizeBytes = other.IncomingPacketQueueMaxSizeBytes;
-				IncomingPacketQueueCurrentSizeBytes = other.IncomingPacketQueueCurrentSizeBytes;
-				IncomingPacketQueueCurrentPacketCount = other.IncomingPacketQueueCurrentPacketCount;
-				OutgoingPacketQueueMaxSizeBytes = other.OutgoingPacketQueueMaxSizeBytes;
-				OutgoingPacketQueueCurrentSizeBytes = other.OutgoingPacketQueueCurrentSizeBytes;
-				OutgoingPacketQueueCurrentPacketCount = other.OutgoingPacketQueueCurrentPacketCount;
-			}
+			IncomingPacketQueueMaxSizeBytes = other.IncomingPacketQueueMaxSizeBytes;
+			IncomingPacketQueueCurrentSizeBytes = other.IncomingPacketQueueCurrentSizeBytes;
+			IncomingPacketQueueCurrentPacketCount = other.IncomingPacketQueueCurrentPacketCount;
+			OutgoingPacketQueueMaxSizeBytes = other.OutgoingPacketQueueMaxSizeBytes;
+			OutgoingPacketQueueCurrentSizeBytes = other.OutgoingPacketQueueCurrentSizeBytes;
+			OutgoingPacketQueueCurrentPacketCount = other.OutgoingPacketQueueCurrentPacketCount;
 		}
 
-		public void Set(object other)
+		public void Set(ref PacketQueueInfo? other)
 		{
-			Set(other as PacketQueueInfo);
+			if (other.HasValue)
+			{
+				IncomingPacketQueueMaxSizeBytes = other.Value.IncomingPacketQueueMaxSizeBytes;
+				IncomingPacketQueueCurrentSizeBytes = other.Value.IncomingPacketQueueCurrentSizeBytes;
+				IncomingPacketQueueCurrentPacketCount = other.Value.IncomingPacketQueueCurrentPacketCount;
+				OutgoingPacketQueueMaxSizeBytes = other.Value.OutgoingPacketQueueMaxSizeBytes;
+				OutgoingPacketQueueCurrentSizeBytes = other.Value.OutgoingPacketQueueCurrentSizeBytes;
+				OutgoingPacketQueueCurrentPacketCount = other.Value.OutgoingPacketQueueCurrentPacketCount;
+			}
 		}
 
 		public void Dispose()
 		{
+		}
+
+		public void Get(out PacketQueueInfo output)
+		{
+			output = new PacketQueueInfo();
+			output.Set(ref this);
 		}
 	}
 }

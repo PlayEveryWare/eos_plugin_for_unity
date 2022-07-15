@@ -7,65 +7,64 @@ namespace Epic.OnlineServices.Auth
 	/// Intermediate data needed to complete account restriction verification during login flow, returned by <see cref="LoginCallbackInfo" /> when the ResultCode is <see cref="Result.AuthAccountFeatureRestricted" />
 	/// The URI inside should be exposed to the user for entry in a web browser. The URI must be copied out of this struct before completion of the callback.
 	/// </summary>
-	public class AccountFeatureRestrictedInfo : ISettable
+	public struct AccountFeatureRestrictedInfo
 	{
 		/// <summary>
 		/// The end-user verification URI. Users must be asked to open the page in a browser to address the restrictions
 		/// </summary>
-		public string VerificationURI { get; set; }
+		public Utf8String VerificationURI { get; set; }
 
-		internal void Set(AccountFeatureRestrictedInfoInternal? other)
+		internal void Set(ref AccountFeatureRestrictedInfoInternal other)
 		{
-			if (other != null)
-			{
-				VerificationURI = other.Value.VerificationURI;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AccountFeatureRestrictedInfoInternal?);
+			VerificationURI = other.VerificationURI;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AccountFeatureRestrictedInfoInternal : ISettable, System.IDisposable
+	internal struct AccountFeatureRestrictedInfoInternal : IGettable<AccountFeatureRestrictedInfo>, ISettable<AccountFeatureRestrictedInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_VerificationURI;
 
-		public string VerificationURI
+		public Utf8String VerificationURI
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_VerificationURI, out value);
+				Utf8String value;
+				Helper.Get(m_VerificationURI, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_VerificationURI, value);
+				Helper.Set(value, ref m_VerificationURI);
 			}
 		}
 
-		public void Set(AccountFeatureRestrictedInfo other)
+		public void Set(ref AccountFeatureRestrictedInfo other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.AccountfeaturerestrictedinfoApiLatest;
+			VerificationURI = other.VerificationURI;
+		}
+
+		public void Set(ref AccountFeatureRestrictedInfo? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.AccountfeaturerestrictedinfoApiLatest;
-				VerificationURI = other.VerificationURI;
+				VerificationURI = other.Value.VerificationURI;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AccountFeatureRestrictedInfo);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_VerificationURI);
+			Helper.Dispose(ref m_VerificationURI);
+		}
+
+		public void Get(out AccountFeatureRestrictedInfo output)
+		{
+			output = new AccountFeatureRestrictedInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// An attribution value and its advertisement setting stored with a session.
 	/// </summary>
-	public class SessionDetailsAttribute : ISettable
+	public struct SessionDetailsAttribute
 	{
 		/// <summary>
 		/// Key/Value pair describing the attribute
 		/// </summary>
-		public AttributeData Data { get; set; }
+		public AttributeData? Data { get; set; }
 
 		/// <summary>
 		/// Is this attribution advertised with the backend or simply stored locally
 		/// </summary>
 		public SessionAttributeAdvertisementType AdvertisementType { get; set; }
 
-		internal void Set(SessionDetailsAttributeInternal? other)
+		internal void Set(ref SessionDetailsAttributeInternal other)
 		{
-			if (other != null)
-			{
-				Data = other.Value.Data;
-				AdvertisementType = other.Value.AdvertisementType;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionDetailsAttributeInternal?);
+			Data = other.Data;
+			AdvertisementType = other.AdvertisementType;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionDetailsAttributeInternal : ISettable, System.IDisposable
+	internal struct SessionDetailsAttributeInternal : IGettable<SessionDetailsAttribute>, ISettable<SessionDetailsAttribute>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Data;
 		private SessionAttributeAdvertisementType m_AdvertisementType;
 
-		public AttributeData Data
+		public AttributeData? Data
 		{
 			get
 			{
-				AttributeData value;
-				Helper.TryMarshalGet<AttributeDataInternal, AttributeData>(m_Data, out value);
+				AttributeData? value;
+				Helper.Get<AttributeDataInternal, AttributeData>(m_Data, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<AttributeDataInternal, AttributeData>(ref m_Data, value);
+				Helper.Set<AttributeData, AttributeDataInternal>(ref value, ref m_Data);
 			}
 		}
 
@@ -68,24 +60,32 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(SessionDetailsAttribute other)
+		public void Set(ref SessionDetailsAttribute other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionDetails.SessiondetailsAttributeApiLatest;
-				Data = other.Data;
-				AdvertisementType = other.AdvertisementType;
-			}
+			m_ApiVersion = SessionDetails.SessiondetailsAttributeApiLatest;
+			Data = other.Data;
+			AdvertisementType = other.AdvertisementType;
 		}
 
-		public void Set(object other)
+		public void Set(ref SessionDetailsAttribute? other)
 		{
-			Set(other as SessionDetailsAttribute);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionDetails.SessiondetailsAttributeApiLatest;
+				Data = other.Value.Data;
+				AdvertisementType = other.Value.AdvertisementType;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Data);
+			Helper.Dispose(ref m_Data);
+		}
+
+		public void Get(out SessionDetailsAttribute output)
+		{
+			output = new SessionDetailsAttribute();
+			output.Set(ref this);
 		}
 	}
 }

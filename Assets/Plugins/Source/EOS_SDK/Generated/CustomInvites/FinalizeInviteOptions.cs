@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.CustomInvites
 {
-	public class FinalizeInviteOptions
+	public struct FinalizeInviteOptions
 	{
 		/// <summary>
 		/// User that sent the custom invite
@@ -18,7 +18,7 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// Id of the Custom Invite accepted
 		/// </summary>
-		public string CustomInviteId { get; set; }
+		public Utf8String CustomInviteId { get; set; }
 
 		/// <summary>
 		/// Result of the Processing operation, transmitted to Social Overlay if applicable
@@ -27,7 +27,7 @@ namespace Epic.OnlineServices.CustomInvites
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct FinalizeInviteOptionsInternal : ISettable, System.IDisposable
+	internal struct FinalizeInviteOptionsInternal : ISettable<FinalizeInviteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -39,7 +39,7 @@ namespace Epic.OnlineServices.CustomInvites
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -47,15 +47,15 @@ namespace Epic.OnlineServices.CustomInvites
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string CustomInviteId
+		public Utf8String CustomInviteId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_CustomInviteId, value);
+				Helper.Set(value, ref m_CustomInviteId);
 			}
 		}
 
@@ -67,28 +67,32 @@ namespace Epic.OnlineServices.CustomInvites
 			}
 		}
 
-		public void Set(FinalizeInviteOptions other)
+		public void Set(ref FinalizeInviteOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = CustomInvitesInterface.FinalizeinviteApiLatest;
-				TargetUserId = other.TargetUserId;
-				LocalUserId = other.LocalUserId;
-				CustomInviteId = other.CustomInviteId;
-				ProcessingResult = other.ProcessingResult;
-			}
+			m_ApiVersion = CustomInvitesInterface.FinalizeinviteApiLatest;
+			TargetUserId = other.TargetUserId;
+			LocalUserId = other.LocalUserId;
+			CustomInviteId = other.CustomInviteId;
+			ProcessingResult = other.ProcessingResult;
 		}
 
-		public void Set(object other)
+		public void Set(ref FinalizeInviteOptions? other)
 		{
-			Set(other as FinalizeInviteOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = CustomInvitesInterface.FinalizeinviteApiLatest;
+				TargetUserId = other.Value.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
+				CustomInviteId = other.Value.CustomInviteId;
+				ProcessingResult = other.Value.ProcessingResult;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_CustomInviteId);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_CustomInviteId);
 		}
 	}
 }

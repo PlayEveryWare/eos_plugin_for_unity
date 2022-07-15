@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-#if UNITY_PS5 || UNITY_PS4
+#if UNITY_PS5 || UNITY_PS4 || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
 #define ENABLE_GET_ALLOCATOR_FUNCTION
 #endif
 
@@ -33,7 +33,13 @@ using size_t = System.UIntPtr;
 
 public partial class SystemMemory
 {
-#if !(UNITY_ANDROID || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA_10_0) || UNITY_SWITCH || UNITY_GAMECORE
+#if !(UNITY_ANDROID || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA_10_0) || UNITY_SWITCH || UNITY_GAMECORE || UNITY_PS5 || UNITY_PS4
+
+    [StructLayout(LayoutKind.Sequential, Pack = 8)]
+    public struct MemCounters 
+    {
+        public Int64 currentMemoryAllocatedInBytes;
+    };
 
     public delegate IntPtr EOS_GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes);
     public delegate IntPtr EOS_GenericAlignRealloc(IntPtr ptr, size_t sizeInBytes, size_t alignmentInBytes);
@@ -105,6 +111,9 @@ public partial class SystemMemory
 
     [DllImport(DLLHBinaryName)]
     static public extern void Mem_generic_free(IntPtr ptr);
+
+    [DllImport(DLLHBinaryName)]
+    static public extern void Mem_GetAllocationCounters(out MemCounters data);
 
 #if ENABLE_GET_ALLOCATOR_FUNCTION
     [DllImport(DLLHBinaryName)]

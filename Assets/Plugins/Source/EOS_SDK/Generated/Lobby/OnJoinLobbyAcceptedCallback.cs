@@ -5,15 +5,13 @@ namespace Epic.OnlineServices.Lobby
 {
 	/// <summary>
 	/// Function prototype definition for notifications that comes from <see cref="LobbyInterface.AddNotifyJoinLobbyAccepted" />
+	/// The lobby for the join game must be joined.
 	/// <seealso cref="LobbyInterface.CopyLobbyDetailsHandleByUiEventId" />
 	/// <seealso cref="LobbyInterface.JoinLobby" />
 	/// </summary>
-	/// <param name="data">
-	/// A <see cref="JoinLobbyAcceptedCallbackInfo" /> containing the output information and result
-	/// @note The lobby for the join game must be joined.
-	/// </param>
-	public delegate void OnJoinLobbyAcceptedCallback(JoinLobbyAcceptedCallbackInfo data);
+	/// <param name="data">A <see cref="JoinLobbyAcceptedCallbackInfo" /> containing the output information and result</param>
+	public delegate void OnJoinLobbyAcceptedCallback(ref JoinLobbyAcceptedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnJoinLobbyAcceptedCallbackInternal(System.IntPtr data);
+	internal delegate void OnJoinLobbyAcceptedCallbackInternal(ref JoinLobbyAcceptedCallbackInfoInternal data);
 }

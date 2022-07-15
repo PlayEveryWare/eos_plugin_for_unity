@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Input data for the <see cref="TitleStorage.TitleStorageInterface.DeleteCache" /> function
 	/// </summary>
-	public class DeleteCacheOptions
+	public struct DeleteCacheOptions
 	{
 		/// <summary>
 		/// Product User ID of the local user who is deleting his cache
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DeleteCacheOptionsInternal : ISettable, System.IDisposable
+	internal struct DeleteCacheOptionsInternal : ISettable<DeleteCacheOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(DeleteCacheOptions other)
+		public void Set(ref DeleteCacheOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PlayerDataStorageInterface.DeletecacheoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref DeleteCacheOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PlayerDataStorageInterface.DeletecacheoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DeleteCacheOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

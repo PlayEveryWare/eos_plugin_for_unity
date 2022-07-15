@@ -3,45 +3,46 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class SetGameSessionIdOptions
+	public struct SetGameSessionIdOptions
 	{
 		/// <summary>
 		/// Game session identifier
 		/// </summary>
-		public string GameSessionId { get; set; }
+		public Utf8String GameSessionId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetGameSessionIdOptionsInternal : ISettable, System.IDisposable
+	internal struct SetGameSessionIdOptionsInternal : ISettable<SetGameSessionIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_GameSessionId;
 
-		public string GameSessionId
+		public Utf8String GameSessionId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_GameSessionId, value);
+				Helper.Set(value, ref m_GameSessionId);
 			}
 		}
 
-		public void Set(SetGameSessionIdOptions other)
+		public void Set(ref SetGameSessionIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatCommonInterface.SetgamesessionidApiLatest;
+			GameSessionId = other.GameSessionId;
+		}
+
+		public void Set(ref SetGameSessionIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatCommonInterface.SetgamesessionidApiLatest;
-				GameSessionId = other.GameSessionId;
+				GameSessionId = other.Value.GameSessionId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SetGameSessionIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_GameSessionId);
+			Helper.Dispose(ref m_GameSessionId);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class ReceiveMessageFromPeerOptions
+	public struct ReceiveMessageFromPeerOptions
 	{
 		/// <summary>
 		/// The handle describing the sender of this message
@@ -13,11 +13,11 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <summary>
 		/// The data received
 		/// </summary>
-		public byte[] Data { get; set; }
+		public System.ArraySegment<byte> Data { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ReceiveMessageFromPeerOptionsInternal : ISettable, System.IDisposable
+	internal struct ReceiveMessageFromPeerOptionsInternal : ISettable<ReceiveMessageFromPeerOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PeerHandle;
@@ -32,33 +32,35 @@ namespace Epic.OnlineServices.AntiCheatClient
 			}
 		}
 
-		public byte[] Data
+		public System.ArraySegment<byte> Data
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Data, value, out m_DataLengthBytes);
+				Helper.Set(value, ref m_Data, out m_DataLengthBytes);
 			}
 		}
 
-		public void Set(ReceiveMessageFromPeerOptions other)
+		public void Set(ref ReceiveMessageFromPeerOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatClientInterface.ReceivemessagefrompeerApiLatest;
+			PeerHandle = other.PeerHandle;
+			Data = other.Data;
+		}
+
+		public void Set(ref ReceiveMessageFromPeerOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatClientInterface.ReceivemessagefrompeerApiLatest;
-				PeerHandle = other.PeerHandle;
-				Data = other.Data;
+				PeerHandle = other.Value.PeerHandle;
+				Data = other.Value.Data;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ReceiveMessageFromPeerOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PeerHandle);
-			Helper.TryMarshalDispose(ref m_Data);
+			Helper.Dispose(ref m_PeerHandle);
+			Helper.Dispose(ref m_Data);
 		}
 	}
 }

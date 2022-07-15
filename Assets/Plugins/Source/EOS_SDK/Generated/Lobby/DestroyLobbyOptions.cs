@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.DestroyLobby" /> function.
 	/// </summary>
-	public class DestroyLobbyOptions
+	public struct DestroyLobbyOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user requesting destruction of the lobby; this user must currently own the lobby
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// The ID of the lobby to destroy
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DestroyLobbyOptionsInternal : ISettable, System.IDisposable
+	internal struct DestroyLobbyOptionsInternal : ISettable<DestroyLobbyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
-		public void Set(DestroyLobbyOptions other)
+		public void Set(ref DestroyLobbyOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.DestroylobbyApiLatest;
+			LocalUserId = other.LocalUserId;
+			LobbyId = other.LobbyId;
+		}
+
+		public void Set(ref DestroyLobbyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.DestroylobbyApiLatest;
-				LocalUserId = other.LocalUserId;
-				LobbyId = other.LobbyId;
+				LocalUserId = other.Value.LocalUserId;
+				LobbyId = other.Value.LobbyId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DestroyLobbyOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LobbyId);
 		}
 	}
 }

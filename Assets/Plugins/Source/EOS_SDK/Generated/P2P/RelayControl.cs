@@ -4,7 +4,12 @@
 namespace Epic.OnlineServices.P2P
 {
 	/// <summary>
-	/// Setting for controlling whether relay servers are used
+	/// Setting for controlling whether relay servers are used.
+	/// 
+	/// Please see the following <see cref="RelayControl" /> value compatibility-chart to better understand how changing this value
+	/// can affect compatibility between clients with different settings.
+	/// 
+	/// +------------------------------+---------------------+-------------------------------+---------------------+
 	/// </summary>
 	public enum RelayControl : int
 	{

@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Input parameters for the <see cref="LeaderboardsInterface.GetLeaderboardUserScoreCount" /> function.
 	/// </summary>
-	public class GetLeaderboardUserScoreCountOptions
+	public struct GetLeaderboardUserScoreCountOptions
 	{
 		/// <summary>
 		/// Name of stat used to rank leaderboard.
 		/// </summary>
-		public string StatName { get; set; }
+		public Utf8String StatName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetLeaderboardUserScoreCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetLeaderboardUserScoreCountOptionsInternal : ISettable<GetLeaderboardUserScoreCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_StatName;
 
-		public string StatName
+		public Utf8String StatName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_StatName, value);
+				Helper.Set(value, ref m_StatName);
 			}
 		}
 
-		public void Set(GetLeaderboardUserScoreCountOptions other)
+		public void Set(ref GetLeaderboardUserScoreCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.GetleaderboarduserscorecountApiLatest;
+			StatName = other.StatName;
+		}
+
+		public void Set(ref GetLeaderboardUserScoreCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.GetleaderboarduserscorecountApiLatest;
-				StatName = other.StatName;
+				StatName = other.Value.StatName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetLeaderboardUserScoreCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_StatName);
+			Helper.Dispose(ref m_StatName);
 		}
 	}
 }

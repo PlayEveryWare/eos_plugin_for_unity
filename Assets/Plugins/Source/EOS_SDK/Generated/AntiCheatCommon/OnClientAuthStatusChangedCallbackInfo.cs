@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	/// <summary>
 	/// Structure containing details about a client/peer authentication status change
 	/// </summary>
-	public class OnClientAuthStatusChangedCallbackInfo : ICallbackInfo, ISettable
+	public struct OnClientAuthStatusChangedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Caller-specified context data
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The identifier of the client/peer that this status change applies to. See the RegisterClient and RegisterPeer functions.
 		/// </summary>
-		public System.IntPtr ClientHandle { get; private set; }
+		public System.IntPtr ClientHandle { get; set; }
 
 		/// <summary>
 		/// The client/peer's new authentication status
 		/// </summary>
-		public AntiCheatCommonClientAuthStatus ClientAuthStatus { get; private set; }
+		public AntiCheatCommonClientAuthStatus ClientAuthStatus { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnClientAuthStatusChangedCallbackInfoInternal? other)
+		internal void Set(ref OnClientAuthStatusChangedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				ClientHandle = other.Value.ClientHandle;
-				ClientAuthStatus = other.Value.ClientAuthStatus;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnClientAuthStatusChangedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			ClientHandle = other.ClientHandle;
+			ClientAuthStatus = other.ClientAuthStatus;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnClientAuthStatusChangedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnClientAuthStatusChangedCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnClientAuthStatusChangedCallbackInfo>, ISettable<OnClientAuthStatusChangedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_ClientHandle;
@@ -56,8 +48,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -75,6 +72,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			{
 				return m_ClientHandle;
 			}
+
+			set
+			{
+				m_ClientHandle = value;
+			}
 		}
 
 		public AntiCheatCommonClientAuthStatus ClientAuthStatus
@@ -83,6 +85,40 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			{
 				return m_ClientAuthStatus;
 			}
+
+			set
+			{
+				m_ClientAuthStatus = value;
+			}
+		}
+
+		public void Set(ref OnClientAuthStatusChangedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			ClientHandle = other.ClientHandle;
+			ClientAuthStatus = other.ClientAuthStatus;
+		}
+
+		public void Set(ref OnClientAuthStatusChangedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				ClientHandle = other.Value.ClientHandle;
+				ClientAuthStatus = other.Value.ClientAuthStatus;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_ClientHandle);
+		}
+
+		public void Get(out OnClientAuthStatusChangedCallbackInfo output)
+		{
+			output = new OnClientAuthStatusChangedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

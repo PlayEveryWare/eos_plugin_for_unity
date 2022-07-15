@@ -27,6 +27,6 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public interface IEOSOnAuthLogout : IEOSSubManager
     {
-        void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo);
+        void OnAuthLogout(ref Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo);
     }
 }

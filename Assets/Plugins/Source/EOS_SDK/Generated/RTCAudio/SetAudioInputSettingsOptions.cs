@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is used to call <see cref="RTCAudioInterface.SetAudioInputSettings" />.
 	/// </summary>
-	public class SetAudioInputSettingsOptions
+	public struct SetAudioInputSettingsOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user trying to request this operation.
@@ -14,12 +14,20 @@ namespace Epic.OnlineServices.RTCAudio
 		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The device Id to be used for this user. Pass NULL or empty string to use default input device.
+		/// The device Id to be used for this user. Pass <see langword="null" /> or empty string to use default input device.
+		/// 
+		/// If the device ID is invalid, the default device will be used instead.
+		/// Despite this fact, that device ID will be stored and the library will try to move on it when an audio device pool is being changed.
+		/// 
+		/// The actual hardware audio device usage depends on the current payload and optimized not to use it
+		/// when generated audio frames cannot be processed by someone else based on a scope of rules (For instance, when a client is alone in a room).
+		/// <seealso cref="RTCAudioInterface.AddNotifyAudioDevicesChanged" />
 		/// </summary>
-		public string DeviceId { get; set; }
+		public Utf8String DeviceId { get; set; }
 
 		/// <summary>
-		/// The volume to be configured for this device (range 0.0 to 100.0).
+		/// The volume to be used for all rooms of this user (range 0.0 to 100.0).
+		/// 
 		/// At the moment, the only value that produce any effect is 0.0 (silence). Any other value is ignored and causes no change to the volume.
 		/// </summary>
 		public float Volume { get; set; }
@@ -31,7 +39,7 @@ namespace Epic.OnlineServices.RTCAudio
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetAudioInputSettingsOptionsInternal : ISettable, System.IDisposable
+	internal struct SetAudioInputSettingsOptionsInternal : ISettable<SetAudioInputSettingsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -43,15 +51,15 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string DeviceId
+		public Utf8String DeviceId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_DeviceId, value);
+				Helper.Set(value, ref m_DeviceId);
 			}
 		}
 
@@ -67,31 +75,35 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PlatformAEC, value);
+				Helper.Set(value, ref m_PlatformAEC);
 			}
 		}
 
-		public void Set(SetAudioInputSettingsOptions other)
+		public void Set(ref SetAudioInputSettingsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.SetaudioinputsettingsApiLatest;
+			LocalUserId = other.LocalUserId;
+			DeviceId = other.DeviceId;
+			Volume = other.Volume;
+			PlatformAEC = other.PlatformAEC;
+		}
+
+		public void Set(ref SetAudioInputSettingsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.SetaudioinputsettingsApiLatest;
-				LocalUserId = other.LocalUserId;
-				DeviceId = other.DeviceId;
-				Volume = other.Volume;
-				PlatformAEC = other.PlatformAEC;
+				LocalUserId = other.Value.LocalUserId;
+				DeviceId = other.Value.DeviceId;
+				Volume = other.Value.Volume;
+				PlatformAEC = other.Value.PlatformAEC;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SetAudioInputSettingsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_DeviceId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_DeviceId);
 		}
 	}
 }

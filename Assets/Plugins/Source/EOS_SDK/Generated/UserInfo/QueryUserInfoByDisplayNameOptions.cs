@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UserInfo
 	/// <summary>
 	/// Input parameters for the <see cref="UserInfoInterface.QueryUserInfoByDisplayName" /> function.
 	/// </summary>
-	public class QueryUserInfoByDisplayNameOptions
+	public struct QueryUserInfoByDisplayNameOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local player requesting the information
@@ -14,13 +14,13 @@ namespace Epic.OnlineServices.UserInfo
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// Display name of the player being queried
+		/// Raw display name (un-sanitized) of the player being queried
 		/// </summary>
-		public string DisplayName { get; set; }
+		public Utf8String DisplayName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryUserInfoByDisplayNameOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryUserInfoByDisplayNameOptionsInternal : ISettable<QueryUserInfoByDisplayNameOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.UserInfo
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string DisplayName
+		public Utf8String DisplayName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_DisplayName, value);
+				Helper.Set(value, ref m_DisplayName);
 			}
 		}
 
-		public void Set(QueryUserInfoByDisplayNameOptions other)
+		public void Set(ref QueryUserInfoByDisplayNameOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = UserInfoInterface.QueryuserinfobydisplaynameApiLatest;
+			LocalUserId = other.LocalUserId;
+			DisplayName = other.DisplayName;
+		}
+
+		public void Set(ref QueryUserInfoByDisplayNameOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = UserInfoInterface.QueryuserinfobydisplaynameApiLatest;
-				LocalUserId = other.LocalUserId;
-				DisplayName = other.DisplayName;
+				LocalUserId = other.Value.LocalUserId;
+				DisplayName = other.Value.DisplayName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryUserInfoByDisplayNameOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_DisplayName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_DisplayName);
 		}
 	}
 }

@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.GetAttributeCount" /> function.
 	/// </summary>
-	public class LobbyDetailsGetAttributeCountOptions
+	public struct LobbyDetailsGetAttributeCountOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsGetAttributeCountOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsGetAttributeCountOptionsInternal : ISettable<LobbyDetailsGetAttributeCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(LobbyDetailsGetAttributeCountOptions other)
+		public void Set(ref LobbyDetailsGetAttributeCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyDetails.LobbydetailsGetattributecountApiLatest;
+		}
+
+		public void Set(ref LobbyDetailsGetAttributeCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyDetails.LobbydetailsGetattributecountApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyDetailsGetAttributeCountOptions);
 		}
 
 		public void Dispose()

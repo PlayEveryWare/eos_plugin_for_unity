@@ -6,43 +6,35 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Output parameters for the <see cref="EcomInterface.QueryEntitlements" /> Function.
 	/// </summary>
-	public class QueryEntitlementsCallbackInfo : ICallbackInfo, ISettable
+	public struct QueryEntitlementsCallbackInfo : ICallbackInfo
 	{
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="EcomInterface.QueryEntitlements" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the local user whose entitlement was queried
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(QueryEntitlementsCallbackInfoInternal? other)
+		internal void Set(ref QueryEntitlementsCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryEntitlementsCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryEntitlementsCallbackInfoInternal : ICallbackInfoInternal
+	internal struct QueryEntitlementsCallbackInfoInternal : ICallbackInfoInternal, IGettable<QueryEntitlementsCallbackInfo>, ISettable<QueryEntitlementsCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -54,6 +46,11 @@ namespace Epic.OnlineServices.Ecom
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -61,8 +58,13 @@ namespace Epic.OnlineServices.Ecom
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -79,9 +81,43 @@ namespace Epic.OnlineServices.Ecom
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
+			}
+		}
+
+		public void Set(ref QueryEntitlementsCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryEntitlementsCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+		}
+
+		public void Get(out QueryEntitlementsCallbackInfo output)
+		{
+			output = new QueryEntitlementsCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

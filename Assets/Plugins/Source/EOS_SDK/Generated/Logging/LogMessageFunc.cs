@@ -8,8 +8,8 @@ namespace Epic.OnlineServices.Logging
 	/// <seealso cref="LogMessage" />
 	/// </summary>
 	/// <param name="message">A <see cref="LogMessage" /> containing the log category, log level, and message.</param>
-	public delegate void LogMessageFunc(LogMessage message);
+	public delegate void LogMessageFunc(ref LogMessage message);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void LogMessageFuncInternal(System.IntPtr message);
+	internal delegate void LogMessageFuncInternal(ref LogMessageInternal message);
 }

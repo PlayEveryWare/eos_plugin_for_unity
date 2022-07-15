@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.QueryDefinitions" /> function.
 	/// </summary>
-	public class QueryDefinitionsOptions
+	public struct QueryDefinitionsOptions
 	{
 		/// <summary>
 		/// Product User ID for user who is querying definitions.
@@ -24,11 +24,11 @@ namespace Epic.OnlineServices.Achievements
 		/// <summary>
 		/// Deprecated
 		/// </summary>
-		public string[] HiddenAchievementIds_DEPRECATED { get; set; }
+		public Utf8String[] HiddenAchievementIds_DEPRECATED { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryDefinitionsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryDefinitionsOptionsInternal : ISettable<QueryDefinitionsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -40,7 +40,7 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -48,39 +48,42 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EpicUserId_DEPRECATED, value);
+				Helper.Set(value, ref m_EpicUserId_DEPRECATED);
 			}
 		}
 
-		public string[] HiddenAchievementIds_DEPRECATED
+		public Utf8String[] HiddenAchievementIds_DEPRECATED
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_HiddenAchievementIds_DEPRECATED, value, out m_HiddenAchievementsCount_DEPRECATED, true);
+				Helper.Set(value, ref m_HiddenAchievementIds_DEPRECATED, true, out m_HiddenAchievementsCount_DEPRECATED);
 			}
 		}
 
-		public void Set(QueryDefinitionsOptions other)
+		public void Set(ref QueryDefinitionsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.QuerydefinitionsApiLatest;
+			LocalUserId = other.LocalUserId;
+			EpicUserId_DEPRECATED = other.EpicUserId_DEPRECATED;
+			HiddenAchievementIds_DEPRECATED = other.HiddenAchievementIds_DEPRECATED;
+		}
+
+		public void Set(ref QueryDefinitionsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.QuerydefinitionsApiLatest;
-				LocalUserId = other.LocalUserId;
-				EpicUserId_DEPRECATED = other.EpicUserId_DEPRECATED;
-				HiddenAchievementIds_DEPRECATED = other.HiddenAchievementIds_DEPRECATED;
+				LocalUserId = other.Value.LocalUserId;
+				EpicUserId_DEPRECATED = other.Value.EpicUserId_DEPRECATED;
+				HiddenAchievementIds_DEPRECATED = other.Value.HiddenAchievementIds_DEPRECATED;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryDefinitionsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_EpicUserId_DEPRECATED);
-			Helper.TryMarshalDispose(ref m_HiddenAchievementIds_DEPRECATED);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_EpicUserId_DEPRECATED);
+			Helper.Dispose(ref m_HiddenAchievementIds_DEPRECATED);
 		}
 	}
 }

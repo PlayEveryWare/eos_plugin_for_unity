@@ -16,6 +16,7 @@
 #include <utility>
 #include <filesystem>
 #include <optional>
+#include <codecvt>
 
 
 //#include "eos_minimum_includes.h"
@@ -25,6 +26,7 @@
 #endif
 #include "eos_sdk.h"
 #include "eos_logging.h"
+#include "eos_integratedplatform.h""
 
 #include "json.h"
 
@@ -80,12 +82,20 @@ typedef void (EOS_CALL* EOS_Platform_Release_t)(EOS_HPlatform Handle);
 typedef EOS_EResult (EOS_CALL *EOS_Logging_SetLogLevel_t)(EOS_ELogCategory LogCategory, EOS_ELogLevel LogLevel);
 typedef EOS_EResult (EOS_CALL *EOS_Logging_SetCallback_t)(EOS_LogMessageFunc Callback);
 
+typedef EOS_EResult (*EOS_IntegratedPlatformOptionsContainer_Add_t)(EOS_HIntegratedPlatformOptionsContainer Handle, const EOS_IntegratedPlatformOptionsContainer_AddOptions* InOptions);
+typedef EOS_EResult (*EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t)(const EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions* Options, EOS_HIntegratedPlatformOptionsContainer* OutIntegratedPlatformOptionsContainerHandle);
+typedef void (*EOS_IntegratedPlatformOptionsContainer_Release_t)(EOS_HIntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle);
+
 static EOS_Initialize_t EOS_Initialize_ptr;
 static EOS_Shutdown_t EOS_Shutdown_ptr;
 static EOS_Platform_Create_t EOS_Platform_Create_ptr;
 static EOS_Platform_Release_t EOS_Platform_Release_ptr;
 static EOS_Logging_SetLogLevel_t EOS_Logging_SetLogLevel_ptr;
 static EOS_Logging_SetCallback_t EOS_Logging_SetCallback_ptr;
+
+static EOS_IntegratedPlatformOptionsContainer_Add_t EOS_IntegratedPlatformOptionsContainer_Add_ptr;
+static EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr;
+static EOS_IntegratedPlatformOptionsContainer_Release_t EOS_IntegratedPlatformOptionsContainer_Release_ptr;
 
 static void *s_eos_sdk_overlay_lib_handle;
 static void *s_eos_sdk_lib_handle;
@@ -109,27 +119,37 @@ struct EOSConfig
     std::string overrideCountryCode;
     std::string overrideLocaleCode;
 
-    uint64_t flags;
+    // this is called platformOptionsFlags in C#
+    uint64_t flags = 0;
+
+    uint32_t tickBudgetInMilliseconds = 0;
+
+    uint64_t ThreadAffinity_networkWork = 0;
+    uint64_t ThreadAffinity_storageIO = 0;
+    uint64_t ThreadAffinity_webSocketIO = 0;
+    uint64_t ThreadAffinity_P2PIO = 0;
+    uint64_t ThreadAffinity_HTTPRequestIO = 0;
+    uint64_t ThreadAffinity_RTCIO = 0;
+
 };
 
 struct EOSSteamConfig
 {
+    EOS_EIntegratedPlatformManagementFlags flags;
     std::optional<std::string> OverrideLibraryPath;
 
     EOSSteamConfig()
     {
+        flags = static_cast<EOS_EIntegratedPlatformManagementFlags>(0);
     }
 
     bool isManagedByApplication()
     {
-        // AC/NOTE: Assumes the application is responsible for managing the Steam dll.
-        return true;
+        return std::underlying_type<EOS_EIntegratedPlatformManagementFlags>::type(flags & EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication);
     }
-
     bool isManagedBySDK()
     {
-        // AC/NOTE: Assumes the application is responsible for managing the Steam dll.
-        return false;
+        return std::underlying_type<EOS_EIntegratedPlatformManagementFlags>::type(flags & EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK);
     }
 
 };
@@ -140,6 +160,31 @@ extern "C"
     void __declspec(dllexport) __stdcall UnityPluginUnload();
 
     void __declspec(dllexport) __stdcall UnloadEOS();
+}
+
+//-------------------------------------------------------------------------
+static bool create_timestamp_str(char *final_timestamp, size_t final_timestamp_len)
+{
+    constexpr size_t buffer_len = 32;
+    char buffer[buffer_len];
+
+    if (buffer_len > final_timestamp_len)
+    {
+        return false;
+    }
+
+    time_t raw_time = time(NULL);
+    tm time_info = { 0 };
+
+    timespec time_spec = { 0 };
+    timespec_get(&time_spec, TIME_UTC);
+    localtime_s(&time_info, &raw_time);
+
+    strftime(buffer, buffer_len, "%Y-%m-%dT%H:%M:%S", &time_info);
+    long milliseconds = round(time_spec.tv_nsec / 1.0e6);
+    snprintf(final_timestamp, final_timestamp_len, "%s.%03ld", buffer, milliseconds);
+
+    return true;
 }
 
 //-------------------------------------------------------------------------
@@ -221,6 +266,50 @@ static std::string to_utf8_str(const fs::path& path)
     return to_utf8_str(path.native());
 }
 
+//-------------------------------------------------------------------------
+static uint64_t json_value_as_uint64(json_value_s *value)
+{
+    uint64_t val = 0;
+    json_number_s *n = json_value_as_number(value);
+
+    if (n != nullptr)
+    {
+        char *end = nullptr;
+        val = strtoull(n->number, &end, 10);
+    }
+    else
+    {
+        // try to treat it as a string, then parse as long
+        char *end = nullptr;
+        json_string_s* val_as_str = json_value_as_string(value);
+        val = strtoull(n->number, &end, 10);
+    }
+
+    return val;
+}
+
+//-------------------------------------------------------------------------
+static uint32_t json_value_as_uint32(json_value_s* value)
+{
+    uint32_t val = 0;
+    json_number_s* n = json_value_as_number(value);
+
+    if (n != nullptr)
+    {
+        char* end = nullptr;
+        val = strtoul(n->number, &end, 10);
+    }
+    else
+    {
+        // try to treat it as a string, then parse as long
+        char* end = nullptr;
+        json_string_s* val_as_str = json_value_as_string(value);
+        val = strtoul(n->number, &end, 10);
+    }
+
+    return val;
+}
+
 static const char* pick_if_32bit_else(const char* choice_if_32bit, const char* choice_if_else)
 {
 #if PLATFORM_32BITS
@@ -283,35 +372,32 @@ void global_log_close()
 }
 
 //-------------------------------------------------------------------------
-void global_vlogf(const char* format, va_list arg_list)
+void global_logf(const char* format, ...)
 {
-    if (log_file_s != NULL)
+    if (log_file_s != nullptr)
     {
+        va_list arg_list;
+        va_start(arg_list, format);
         vfprintf(log_file_s, format, arg_list);
+        va_end(arg_list);
+
         fprintf(log_file_s, "\n");
         fflush(log_file_s);
     }
     else
     {
+        va_list arg_list;
+        va_start(arg_list, format);
         va_list arg_list_copy;
         va_copy(arg_list_copy, arg_list);
-        int printed_length = vprintf(format, arg_list) + 1;
-        std::string buffer;
-        buffer.resize(printed_length);
-        vsprintf_s(buffer.data(), printed_length, format, arg_list_copy);
-        buffered_output.push_back(std::move(buffer));
+        const size_t printed_length = vsnprintf(nullptr, 0, format, arg_list) + 1;
+        va_end(arg_list);
+
+        std::vector<char> buffer(printed_length);
+        vsnprintf(buffer.data(), printed_length, format, arg_list_copy);
         va_end(arg_list_copy);
-
+        buffered_output.emplace_back(std::string(buffer.data(), printed_length));
     }
-}
-
-//-------------------------------------------------------------------------
-void global_logf(const char* format, ...)
-{
-    va_list arg_list;
-    va_start(arg_list, format);
-    global_vlogf(format, arg_list);
-    va_end(arg_list);
 }
 
 //-------------------------------------------------------------------------
@@ -348,50 +434,57 @@ DLL_EXPORT(void) global_log_flush_with_function(log_flush_function_t log_flush_f
 }
 
 //-------------------------------------------------------------------------
-void log_base(const char* header, const char* format_str, va_list arg_list)
+void log_base(const char* header, const char* message)
 {
-    std::string string_to_log("NativePlugin (");
-    string_to_log += header;
-    string_to_log += "): ";
-    string_to_log += format_str;
-    global_vlogf(string_to_log.c_str(), arg_list);
+    constexpr size_t final_timestamp_len = 32;
+    char final_timestamp[final_timestamp_len] = { };
+    if (create_timestamp_str(final_timestamp, final_timestamp_len))
+    {
+        global_logf("%s NativePlugin (%s): %s", final_timestamp, header, message);
+    }
+    else
+    {
+        global_logf("NativePlugin (%s): %s", header, message);
+    }
 }
 
 //-------------------------------------------------------------------------
 // TODO: If possible, hook this up into a proper logging channel.s
-void log_warn(const char* log_string, ...)
+void log_warn(const char* log_string)
 {
 #if SHOW_DIALOG_BOX_ON_WARN
     show_log_as_dialog(log_string);
 #endif
-    va_list arg_list;
-    va_start(arg_list, log_string);
-    log_base("WARNING", log_string, arg_list);
-    va_end(arg_list);
+    log_base("WARNING", log_string);
 }
 
 //-------------------------------------------------------------------------
-void log_inform(const char* log_string, ...)
+void log_inform(const char* log_string)
 {
-    va_list arg_list;
-    va_start(arg_list, log_string);
-    log_base("INFORM", log_string, arg_list);
-    va_end(arg_list);
+    log_base("INFORM", log_string);
 }
 
 //-------------------------------------------------------------------------
-void log_error(const char* log_string, ...)
+void log_error(const char* log_string)
 {
-    va_list arg_list;
-    va_start(arg_list, log_string);
-    log_base("ERROR", log_string, arg_list);
-    va_end(arg_list);
+    log_base("ERROR", log_string);
 }
 
 //-------------------------------------------------------------------------
 EXTERN_C void EOS_CALL eos_log_callback(const EOS_LogMessage* message)
 {
-    global_logf("%s (%s): %s", message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
+    constexpr size_t final_timestamp_len = 32;
+    char final_timestamp[final_timestamp_len] = {0};
+
+    if (create_timestamp_str(final_timestamp, final_timestamp_len))
+    {
+        global_logf("%s %s (%s): %s", final_timestamp, message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
+    }
+    else
+    {
+        global_logf("%s (%s): %s", message->Category, eos_loglevel_to_print_str(message->Level), message->Message);
+    }
+
 }
 
 //-------------------------------------------------------------------------
@@ -491,6 +584,7 @@ void unload_library(void* library_handle)
 //-------------------------------------------------------------------------
 void eos_init(const EOSConfig& eos_config)
 {
+    static int reserved[2] = {1, 1};
     EOS_InitializeOptions SDKOptions = { 0 };
     SDKOptions.ApiVersion = EOS_INITIALIZE_API_LATEST;
     SDKOptions.AllocateMemoryFunction = nullptr;
@@ -498,9 +592,22 @@ void eos_init(const EOSConfig& eos_config)
     SDKOptions.ReleaseMemoryFunction = nullptr;
     SDKOptions.ProductName = eos_config.productName.c_str();
     SDKOptions.ProductVersion = eos_config.productVersion.c_str();
-    SDKOptions.Reserved = nullptr;
+    SDKOptions.Reserved = reserved;
     SDKOptions.SystemInitializeOptions = nullptr;
-    SDKOptions.OverrideThreadAffinity = nullptr;
+
+    EOS_Initialize_ThreadAffinity overrideThreadAffinity = {0};
+
+    overrideThreadAffinity.ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST;
+
+    overrideThreadAffinity.HttpRequestIo = eos_config.ThreadAffinity_HTTPRequestIO;
+    overrideThreadAffinity.NetworkWork = eos_config.ThreadAffinity_networkWork;
+    overrideThreadAffinity.P2PIo = eos_config.ThreadAffinity_P2PIO;
+    overrideThreadAffinity.RTCIo = eos_config.ThreadAffinity_RTCIO;
+    overrideThreadAffinity.StorageIo = eos_config.ThreadAffinity_storageIO;
+    overrideThreadAffinity.WebSocketIo = eos_config.ThreadAffinity_webSocketIO;
+
+
+    SDKOptions.OverrideThreadAffinity = &overrideThreadAffinity;
 
     log_inform("call EOS_Initialize");
     EOS_EResult InitResult = EOS_Initialize_ptr(&SDKOptions);
@@ -691,6 +798,34 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
 
             eos_config.flags = collected_flags;
         }
+        else if (!strcmp("tickBudgetInMilliseconds", iter->name->string))
+        {
+            eos_config.tickBudgetInMilliseconds = json_value_as_uint32(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_networkWork", iter->name->string))
+        {
+            eos_config.ThreadAffinity_networkWork = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_storageIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_storageIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_webSocketIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_webSocketIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_P2PIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_P2PIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_HTTPRequestIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_HTTPRequestIO = json_value_as_uint64(iter->value);
+        }
+        else if (!strcmp("ThreadAffinity_RTCIO", iter->name->string))
+        {
+            eos_config.ThreadAffinity_RTCIO = json_value_as_uint64(iter->value);
+        }
 
         iter = iter->next;
     }
@@ -747,16 +882,70 @@ static bool str_is_equal_to_none(const char* str, ...)
 }
 
 //-------------------------------------------------------------------------
+static EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_managment_flags(json_object_element_s* iter)
+{
+    EOS_EIntegratedPlatformManagementFlags collected_flags = static_cast<EOS_EIntegratedPlatformManagementFlags>(0);
+    json_array_s* flags = json_value_as_array(iter->value);
+    bool flag_set = false;
+    for (auto e = flags->start; e != nullptr; e = e->next)
+    {
+        const char* flag_as_cstr = json_value_as_string(e->value)->string;
+
+        if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_Disabled", "Disabled", NULL))
+        {
+            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
+            flag_set = true;
+        }
+
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication", NULL))
+        {
+            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication;
+            flag_set = true;
+        }
+        else if (str_is_equal_to_any(flag_as_cstr,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK", NULL))
+        {
+            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK;
+            flag_set = true;
+        }
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring", NULL))
+        {
+            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring;
+            flag_set = true;
+        }
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions", NULL))
+        {
+            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions;
+            flag_set = true;
+        }
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity", NULL))
+        {
+            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity;
+            flag_set = true;
+        }
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity", NULL))
+        {
+            collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity;
+            flag_set = true;
+        }
+    }
+
+    return flag_set ? collected_flags : EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_Disabled;
+}
+
+//-------------------------------------------------------------------------
 static EOSSteamConfig eos_steam_config_from_json_value(json_value_s *config_json)
 {
     struct json_object_s* config_json_object = json_value_as_object(config_json);
     struct json_object_element_s* iter = config_json_object->start;
     EOSSteamConfig eos_config;
+    eos_config.flags;
 
     while (iter != nullptr)
     {
         if (!strcmp("flags", iter->name->string))
         {
+            eos_config.flags = eos_collect_integrated_platform_managment_flags(iter);
+
         }
         else if (!strcmp("overrideLibraryPath", iter->name->string))
         {
@@ -902,6 +1091,9 @@ void eos_create(EOSConfig& eosConfig)
     platform_options.DeploymentId = eosConfig.deploymentID.c_str();
     platform_options.ClientCredentials.ClientId = eosConfig.clientID.c_str();
     platform_options.ClientCredentials.ClientSecret = eosConfig.clientSecret.c_str();
+
+    platform_options.TickBudgetInMilliseconds = eosConfig.tickBudgetInMilliseconds;
+
     EOS_Platform_RTCOptions rtc_options = { 0 };
 
     rtc_options.ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST;
@@ -927,7 +1119,9 @@ void eos_create(EOSConfig& eosConfig)
 
     // Defined here so that the override path lives long enough to be referenced by the create option
     EOSSteamConfig eos_steam_config;
-
+    EOS_IntegratedPlatform_Options steam_integrated_platform_option = { 0 };
+    EOS_IntegratedPlatform_Steam_Options steam_platform = { 0 };
+    EOS_HIntegratedPlatformOptionsContainer integrated_platform_options_container = nullptr;
     std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
 
     if (std::filesystem::exists(path_to_steam_config_json))
@@ -971,12 +1165,38 @@ void eos_create(EOSConfig& eosConfig)
             eos_call_steam_init(eos_steam_config.OverrideLibraryPath.value());
             eos_steam_config.OverrideLibraryPath.reset();
         }
+
+        if (eos_steam_config.OverrideLibraryPath.has_value())
+        {
+            steam_platform.OverrideLibraryPath = eos_steam_config.OverrideLibraryPath.value().c_str();
+        }
+
+
+        steam_integrated_platform_option.ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST;
+        steam_integrated_platform_option.Type = EOS_IPT_Steam;
+        steam_integrated_platform_option.Flags = eos_steam_config.flags;
+        steam_integrated_platform_option.InitOptions = &steam_platform;
+
+        steam_platform.ApiVersion = EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST;
+
+        EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions options = { EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST };
+        EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr(&options, &integrated_platform_options_container);
+        platform_options.IntegratedPlatformOptionsContainerHandle = integrated_platform_options_container;
+
+        EOS_IntegratedPlatformOptionsContainer_AddOptions addOptions = { EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST };
+        addOptions.Options = &steam_integrated_platform_option;
+        EOS_IntegratedPlatformOptionsContainer_Add_ptr(integrated_platform_options_container, &addOptions);
     }
 #endif
 
     //EOS_Platform_Options_debug_log(platform_options);
     log_inform("run EOS_Platform_Create");
     eos_platform_handle = EOS_Platform_Create_ptr(&platform_options);
+    if (integrated_platform_options_container)
+    {
+        EOS_IntegratedPlatformOptionsContainer_Release_ptr(integrated_platform_options_container);
+    }
+
     if (!eos_platform_handle)
     {
         log_error("failed to create the platform");
@@ -1044,12 +1264,17 @@ static bool get_overlay_dll_path(fs::path* OutDllPath)
 //-------------------------------------------------------------------------
 static void FetchEOSFunctionPointers()
 {
+    // The '@' in the function names is apart of how names are mangled on windows. The value after the '@' is the size of the params on the stack
     EOS_Initialize_ptr = load_function_with_name<EOS_Initialize_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Initialize@4", "EOS_Initialize"));
     EOS_Shutdown_ptr = load_function_with_name<EOS_Shutdown_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Shutdown@0", "EOS_Shutdown"));
     EOS_Platform_Create_ptr = load_function_with_name<EOS_Platform_Create_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Create@4", "EOS_Platform_Create"));
     EOS_Platform_Release_ptr = load_function_with_name<EOS_Platform_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Platform_Release@4", "EOS_Platform_Release"));
     EOS_Logging_SetLogLevel_ptr = load_function_with_name<EOS_Logging_SetLogLevel_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_Logging_SetLogLevel@8", "EOS_Logging_SetLogLevel"));
     EOS_Logging_SetCallback_ptr = load_function_with_name<EOS_Logging_SetCallback_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("EOS_Logging_SetCallback@4", "EOS_Logging_SetCallback"));
+
+    EOS_IntegratedPlatformOptionsContainer_Add_ptr = load_function_with_name<EOS_IntegratedPlatformOptionsContainer_Add_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatformOptionsContainer_Add@8", "EOS_IntegratedPlatformOptionsContainer_Add"));
+    EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_ptr = load_function_with_name<EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer@8", "EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer"));
+    EOS_IntegratedPlatformOptionsContainer_Release_ptr = load_function_with_name<EOS_IntegratedPlatformOptionsContainer_Release_t>(s_eos_sdk_lib_handle, pick_if_32bit_else("_EOS_IntegratedPlatformOptionsContainer_Release@4", "EOS_IntegratedPlatformOptionsContainer_Release"));
 }
 
 //-------------------------------------------------------------------------

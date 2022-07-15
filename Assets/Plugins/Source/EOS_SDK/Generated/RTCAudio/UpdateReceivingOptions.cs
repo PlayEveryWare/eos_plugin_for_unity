@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="RTCAudioInterface.UpdateReceiving" />.
 	/// </summary>
-	public class UpdateReceivingOptions
+	public struct UpdateReceivingOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user trying to request this operation.
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// The room this settings should be applied on.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// The participant to modify or null to update the global configuration
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.RTCAudio
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UpdateReceivingOptionsInternal : ISettable, System.IDisposable
+	internal struct UpdateReceivingOptionsInternal : ISettable<UpdateReceivingOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -42,15 +42,15 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ParticipantId, value);
+				Helper.Set(value, ref m_ParticipantId);
 			}
 		}
 
@@ -66,32 +66,36 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AudioEnabled, value);
+				Helper.Set(value, ref m_AudioEnabled);
 			}
 		}
 
-		public void Set(UpdateReceivingOptions other)
+		public void Set(ref UpdateReceivingOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.UpdatereceivingApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ParticipantId = other.ParticipantId;
+			AudioEnabled = other.AudioEnabled;
+		}
+
+		public void Set(ref UpdateReceivingOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.UpdatereceivingApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
-				ParticipantId = other.ParticipantId;
-				AudioEnabled = other.AudioEnabled;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				ParticipantId = other.Value.ParticipantId;
+				AudioEnabled = other.Value.AudioEnabled;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UpdateReceivingOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
-			Helper.TryMarshalDispose(ref m_ParticipantId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_ParticipantId);
 		}
 	}
 }

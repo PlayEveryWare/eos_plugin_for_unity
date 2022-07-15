@@ -16,42 +16,63 @@ namespace Epic.OnlineServices
 		/// <summary>
 		/// Retrieve a null-terminated stringified continuance token from an <see cref="ContinuanceToken" />.
 		/// 
-		/// To get the required buffer size, call once with OutBuffer set to NULL, InOutBufferLength will contain the buffer size needed.
-		/// Call again with valid params to get the stringified continuance token which will only contain UTF8-encoded printable characters (excluding the null-terminator).
+		/// To get the required buffer size, call once with OutBuffer set to <see langword="null" />, InOutBufferLength will contain the buffer size needed.
+		/// Call again with valid params to get the stringified continuance token which will only contain UTF8-encoded printable characters as well as the null-terminator.
 		/// </summary>
 		/// <param name="continuanceToken">The continuance token for which to retrieve the stringified version.</param>
 		/// <param name="outBuffer">The buffer into which the character data should be written</param>
 		/// <param name="inOutBufferLength">
 		/// The size of the OutBuffer in characters.
 		/// The input buffer should include enough space to be null-terminated.
-		/// When the function returns, this parameter will be filled with the length of the string copied into OutBuffer including the null termination character.
+		/// When the function returns, this parameter will be filled with the length of the string copied into OutBuffer including the null-termination character.
 		/// </param>
 		/// <returns>
 		/// An <see cref="Result" /> that indicates whether the continuance token string was copied into the OutBuffer.
-		/// <see cref="Result.Success" /> - The OutBuffer was filled, and InOutBufferLength contains the number of characters copied into OutBuffer including the null terminator.
-		/// <see cref="Result.InvalidParameters" /> - Either OutBuffer or InOutBufferLength were passed as NULL parameters.
+		/// <see cref="Result.Success" /> - The OutBuffer was filled, and InOutBufferLength contains the number of characters copied into OutBuffer including the null-terminator.
+		/// <see cref="Result.InvalidParameters" /> - Either OutBuffer or InOutBufferLength were passed as <see langword="null" /> parameters.
 		/// <see cref="Result.InvalidUser" /> - The AccountId is invalid and cannot be stringified.
 		/// <see cref="Result.LimitExceeded" /> - The OutBuffer is not large enough to receive the continuance token string. InOutBufferLength contains the required minimum length to perform the operation successfully.
 		/// </returns>
-		public Result ToString(out string outBuffer)
+		public Result ToString(out Utf8String outBuffer)
 		{
-			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = 1024;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
 
 			var funcResult = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, outBufferAddress, ref inOutBufferLength);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer);
-			Helper.TryMarshalDispose(ref outBufferAddress);
+			Helper.Get(outBufferAddress, out outBuffer);
+			Helper.Dispose(ref outBufferAddress);
 
 			return funcResult;
 		}
 
 		public override string ToString()
 		{
-			string funcResult;
+			Utf8String funcResult;
 			ToString(out funcResult);
 			return funcResult;
+		}
+
+		public override string ToString(string format, System.IFormatProvider formatProvider)
+		{
+			if (format != null)
+			{
+				return string.Format(format, ToString());
+			}
+
+			return ToString();
+		}
+
+		public static explicit operator Utf8String(ContinuanceToken value)
+		{
+			Utf8String result = null;
+
+			if (value != null)
+			{
+				value.ToString(out result);
+			}
+
+			return result;
 		}
 	}
 }

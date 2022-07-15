@@ -6,61 +6,53 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Output parameters for the <see cref="OnJoinGameAcceptedCallback" /> Function.
 	/// </summary>
-	public class JoinGameAcceptedCallbackInfo : ICallbackInfo, ISettable
+	public struct JoinGameAcceptedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="PresenceInterface.AddNotifyJoinGameAccepted" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Join Info custom game-data string to use to join the target user.
 		/// Set to a null pointer to delete the value.
 		/// </summary>
-		public string JoinInfo { get; private set; }
+		public Utf8String JoinInfo { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user who accepted the invitation
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user who sent the invitation
 		/// </summary>
-		public EpicAccountId TargetUserId { get; private set; }
+		public EpicAccountId TargetUserId { get; set; }
 
 		/// <summary>
 		/// If the value is not <see cref="UI.UIInterface.EventidInvalid" /> then it must be passed back to the SDK using <see cref="UI.UIInterface.AcknowledgeEventId" />.
 		/// This should be done after attempting to join the game and either succeeding or failing to connect.
 		/// This is necessary to allow the Social Overlay UI to manage the `Join` button.
 		/// </summary>
-		public ulong UiEventId { get; private set; }
+		public ulong UiEventId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(JoinGameAcceptedCallbackInfoInternal? other)
+		internal void Set(ref JoinGameAcceptedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				JoinInfo = other.Value.JoinInfo;
-				LocalUserId = other.Value.LocalUserId;
-				TargetUserId = other.Value.TargetUserId;
-				UiEventId = other.Value.UiEventId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as JoinGameAcceptedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			JoinInfo = other.JoinInfo;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			UiEventId = other.UiEventId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct JoinGameAcceptedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct JoinGameAcceptedCallbackInfoInternal : ICallbackInfoInternal, IGettable<JoinGameAcceptedCallbackInfo>, ISettable<JoinGameAcceptedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_JoinInfo;
@@ -73,8 +65,13 @@ namespace Epic.OnlineServices.Presence
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -86,13 +83,18 @@ namespace Epic.OnlineServices.Presence
 			}
 		}
 
-		public string JoinInfo
+		public Utf8String JoinInfo
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_JoinInfo, out value);
+				Utf8String value;
+				Helper.Get(m_JoinInfo, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_JoinInfo);
 			}
 		}
 
@@ -101,8 +103,13 @@ namespace Epic.OnlineServices.Presence
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -111,8 +118,13 @@ namespace Epic.OnlineServices.Presence
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -122,6 +134,46 @@ namespace Epic.OnlineServices.Presence
 			{
 				return m_UiEventId;
 			}
+
+			set
+			{
+				m_UiEventId = value;
+			}
+		}
+
+		public void Set(ref JoinGameAcceptedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			JoinInfo = other.JoinInfo;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			UiEventId = other.UiEventId;
+		}
+
+		public void Set(ref JoinGameAcceptedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				JoinInfo = other.Value.JoinInfo;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				UiEventId = other.Value.UiEventId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_JoinInfo);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
+		}
+
+		public void Get(out JoinGameAcceptedCallbackInfo output)
+		{
+			output = new JoinGameAcceptedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,40 +6,32 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Output parameters for the <see cref="OnAuthExpirationCallback" /> function.
 	/// </summary>
-	public class AuthExpirationCallbackInfo : ICallbackInfo, ISettable
+	public struct AuthExpirationCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="ConnectInterface.AddNotifyAuthExpiration" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local player whose status has changed.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(AuthExpirationCallbackInfoInternal? other)
+		internal void Set(ref AuthExpirationCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AuthExpirationCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AuthExpirationCallbackInfoInternal : ICallbackInfoInternal
+	internal struct AuthExpirationCallbackInfoInternal : ICallbackInfoInternal, IGettable<AuthExpirationCallbackInfo>, ISettable<AuthExpirationCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -49,8 +41,13 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -67,9 +64,41 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
+			}
+		}
+
+		public void Set(ref AuthExpirationCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref AuthExpirationCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+		}
+
+		public void Get(out AuthExpirationCallbackInfo output)
+		{
+			output = new AuthExpirationCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

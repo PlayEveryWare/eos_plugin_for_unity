@@ -3,12 +3,12 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class UnprotectMessageOptions
+	public struct UnprotectMessageOptions
 	{
 		/// <summary>
 		/// The data to decrypt
 		/// </summary>
-		public byte[] Data { get; set; }
+		public System.ArraySegment<byte> Data { get; set; }
 
 		/// <summary>
 		/// The size in bytes of OutBuffer
@@ -17,18 +17,18 @@ namespace Epic.OnlineServices.AntiCheatClient
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UnprotectMessageOptionsInternal : ISettable, System.IDisposable
+	internal struct UnprotectMessageOptionsInternal : ISettable<UnprotectMessageOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_DataLengthBytes;
 		private System.IntPtr m_Data;
 		private uint m_OutBufferSizeBytes;
 
-		public byte[] Data
+		public System.ArraySegment<byte> Data
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Data, value, out m_DataLengthBytes);
+				Helper.Set(value, ref m_Data, out m_DataLengthBytes);
 			}
 		}
 
@@ -40,24 +40,26 @@ namespace Epic.OnlineServices.AntiCheatClient
 			}
 		}
 
-		public void Set(UnprotectMessageOptions other)
+		public void Set(ref UnprotectMessageOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatClientInterface.UnprotectmessageApiLatest;
-				Data = other.Data;
-				OutBufferSizeBytes = other.OutBufferSizeBytes;
-			}
+			m_ApiVersion = AntiCheatClientInterface.UnprotectmessageApiLatest;
+			Data = other.Data;
+			OutBufferSizeBytes = other.OutBufferSizeBytes;
 		}
 
-		public void Set(object other)
+		public void Set(ref UnprotectMessageOptions? other)
 		{
-			Set(other as UnprotectMessageOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatClientInterface.UnprotectmessageApiLatest;
+				Data = other.Value.Data;
+				OutBufferSizeBytes = other.Value.OutBufferSizeBytes;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Data);
+			Helper.Dispose(ref m_Data);
 		}
 	}
 }

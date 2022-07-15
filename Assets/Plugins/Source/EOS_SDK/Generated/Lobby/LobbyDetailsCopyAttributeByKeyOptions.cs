@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.CopyAttributeByKey" /> function.
 	/// </summary>
-	public class LobbyDetailsCopyAttributeByKeyOptions
+	public struct LobbyDetailsCopyAttributeByKeyOptions
 	{
 		/// <summary>
 		/// Name of the attribute
 		/// </summary>
-		public string AttrKey { get; set; }
+		public Utf8String AttrKey { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsCopyAttributeByKeyOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsCopyAttributeByKeyOptionsInternal : ISettable<LobbyDetailsCopyAttributeByKeyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AttrKey;
 
-		public string AttrKey
+		public Utf8String AttrKey
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AttrKey, value);
+				Helper.Set(value, ref m_AttrKey);
 			}
 		}
 
-		public void Set(LobbyDetailsCopyAttributeByKeyOptions other)
+		public void Set(ref LobbyDetailsCopyAttributeByKeyOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyDetails.LobbydetailsCopyattributebykeyApiLatest;
+			AttrKey = other.AttrKey;
+		}
+
+		public void Set(ref LobbyDetailsCopyAttributeByKeyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyDetails.LobbydetailsCopyattributebykeyApiLatest;
-				AttrKey = other.AttrKey;
+				AttrKey = other.Value.AttrKey;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyDetailsCopyAttributeByKeyOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AttrKey);
+			Helper.Dispose(ref m_AttrKey);
 		}
 	}
 }

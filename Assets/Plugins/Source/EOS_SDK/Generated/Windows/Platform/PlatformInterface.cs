@@ -8,19 +8,19 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The most recent version of the <see cref="WindowsRTCOptionsPlatformSpecificOptions" /> structure.
 		/// </summary>
-		public const int PlatformWindowsrtcoptionsplatformspecificoptionsApiLatest = 1;
+		public const int WindowsRtcoptionsplatformspecificoptionsApiLatest = 1;
 
-		public static PlatformInterface Create(WindowsOptions options)
+		public static PlatformInterface Create(ref WindowsOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<WindowsOptionsInternal, WindowsOptions>(ref optionsAddress, options);
+			WindowsOptionsInternal optionsInternal = new WindowsOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Platform_Create(optionsAddress);
+			var funcResult = WindowsBindings.EOS_Platform_Create(ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			PlatformInterface funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 	}

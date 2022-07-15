@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionDetails.CopyInfo" /> function.
 	/// </summary>
-	public class SessionDetailsCopyInfoOptions
+	public struct SessionDetailsCopyInfoOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionDetailsCopyInfoOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionDetailsCopyInfoOptionsInternal : ISettable<SessionDetailsCopyInfoOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(SessionDetailsCopyInfoOptions other)
+		public void Set(ref SessionDetailsCopyInfoOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionDetails.SessiondetailsCopyinfoApiLatest;
+		}
+
+		public void Set(ref SessionDetailsCopyInfoOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionDetails.SessiondetailsCopyinfoApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionDetailsCopyInfoOptions);
 		}
 
 		public void Dispose()

@@ -6,64 +6,56 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="RTCAudioInterface.AddNotifyParticipantUpdated" /> registered event.
 	/// </summary>
-	public class ParticipantUpdatedCallbackInfo : ICallbackInfo, ISettable
+	public struct ParticipantUpdatedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into <see cref="RTCAudioInterface.AddNotifyParticipantUpdated" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who initiated this request.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The room associated with this event.
 		/// </summary>
-		public string RoomName { get; private set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// The participant updated.
 		/// </summary>
-		public ProductUserId ParticipantId { get; private set; }
+		public ProductUserId ParticipantId { get; set; }
 
 		/// <summary>
 		/// The participant speaking / non-speaking status.
 		/// </summary>
-		public bool Speaking { get; private set; }
+		public bool Speaking { get; set; }
 
 		/// <summary>
 		/// The participant audio status (enabled, disabled).
 		/// </summary>
-		public RTCAudioStatus AudioStatus { get; private set; }
+		public RTCAudioStatus AudioStatus { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(ParticipantUpdatedCallbackInfoInternal? other)
+		internal void Set(ref ParticipantUpdatedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				RoomName = other.Value.RoomName;
-				ParticipantId = other.Value.ParticipantId;
-				Speaking = other.Value.Speaking;
-				AudioStatus = other.Value.AudioStatus;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ParticipantUpdatedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ParticipantId = other.ParticipantId;
+			Speaking = other.Speaking;
+			AudioStatus = other.AudioStatus;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ParticipantUpdatedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct ParticipantUpdatedCallbackInfoInternal : ICallbackInfoInternal, IGettable<ParticipantUpdatedCallbackInfo>, ISettable<ParticipantUpdatedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -77,8 +69,13 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -95,18 +92,28 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RoomName, out value);
+				Utf8String value;
+				Helper.Get(m_RoomName, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -115,8 +122,13 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_ParticipantId, out value);
+				Helper.Get(m_ParticipantId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ParticipantId);
 			}
 		}
 
@@ -125,8 +137,13 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_Speaking, out value);
+				Helper.Get(m_Speaking, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_Speaking);
 			}
 		}
 
@@ -136,6 +153,48 @@ namespace Epic.OnlineServices.RTCAudio
 			{
 				return m_AudioStatus;
 			}
+
+			set
+			{
+				m_AudioStatus = value;
+			}
+		}
+
+		public void Set(ref ParticipantUpdatedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ParticipantId = other.ParticipantId;
+			Speaking = other.Speaking;
+			AudioStatus = other.AudioStatus;
+		}
+
+		public void Set(ref ParticipantUpdatedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				ParticipantId = other.Value.ParticipantId;
+				Speaking = other.Value.Speaking;
+				AudioStatus = other.Value.AudioStatus;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_ParticipantId);
+		}
+
+		public void Get(out ParticipantUpdatedCallbackInfo output)
+		{
+			output = new ParticipantUpdatedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

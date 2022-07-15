@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionModification.SetJoinInProgressAllowed" /> function.
 	/// </summary>
-	public class SessionModificationSetJoinInProgressAllowedOptions
+	public struct SessionModificationSetJoinInProgressAllowedOptions
 	{
 		/// <summary>
 		/// Does the session allow join in progress
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionModificationSetJoinInProgressAllowedOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionModificationSetJoinInProgressAllowedOptionsInternal : ISettable<SessionModificationSetJoinInProgressAllowedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private int m_AllowJoinInProgress;
@@ -24,22 +24,23 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AllowJoinInProgress, value);
+				Helper.Set(value, ref m_AllowJoinInProgress);
 			}
 		}
 
-		public void Set(SessionModificationSetJoinInProgressAllowedOptions other)
+		public void Set(ref SessionModificationSetJoinInProgressAllowedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionModification.SessionmodificationSetjoininprogressallowedApiLatest;
+			AllowJoinInProgress = other.AllowJoinInProgress;
+		}
+
+		public void Set(ref SessionModificationSetJoinInProgressAllowedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionModification.SessionmodificationSetjoininprogressallowedApiLatest;
-				AllowJoinInProgress = other.AllowJoinInProgress;
+				AllowJoinInProgress = other.Value.AllowJoinInProgress;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionModificationSetJoinInProgressAllowedOptions);
 		}
 
 		public void Dispose()

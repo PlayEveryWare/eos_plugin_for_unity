@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Mods
 	/// <summary>
 	/// Output parameters for the <see cref="ModsInterface.UninstallMod" /> Function. These parameters are received through the callback provided to <see cref="ModsInterface.UninstallMod" />
 	/// </summary>
-	public class UninstallModCallbackInfo : ICallbackInfo, ISettable
+	public struct UninstallModCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// Result code for the operation. <see cref="Result.Success" /> is returned if the uninstallation was successfull, otherwise one of the error codes is returned.
+		/// Result code for the operation. <see cref="Result.Success" /> is returned if the uninstallation was successful, otherwise one of the error codes is returned.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user for which mod uninstallation was requested
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// Context that is passed into <see cref="ModsInterface.UninstallMod" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// Mod for which uninstallation was requested
 		/// </summary>
-		public ModIdentifier Mod { get; private set; }
+		public ModIdentifier? Mod { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(UninstallModCallbackInfoInternal? other)
+		internal void Set(ref UninstallModCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				LocalUserId = other.Value.LocalUserId;
-				ClientData = other.Value.ClientData;
-				Mod = other.Value.Mod;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UninstallModCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			LocalUserId = other.LocalUserId;
+			ClientData = other.ClientData;
+			Mod = other.Mod;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UninstallModCallbackInfoInternal : ICallbackInfoInternal
+	internal struct UninstallModCallbackInfoInternal : ICallbackInfoInternal, IGettable<UninstallModCallbackInfo>, ISettable<UninstallModCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_LocalUserId;
@@ -64,6 +56,11 @@ namespace Epic.OnlineServices.Mods
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public EpicAccountId LocalUserId
@@ -71,8 +68,13 @@ namespace Epic.OnlineServices.Mods
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -81,8 +83,13 @@ namespace Epic.OnlineServices.Mods
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -94,14 +101,51 @@ namespace Epic.OnlineServices.Mods
 			}
 		}
 
-		public ModIdentifier Mod
+		public ModIdentifier? Mod
 		{
 			get
 			{
-				ModIdentifier value;
-				Helper.TryMarshalGet<ModIdentifierInternal, ModIdentifier>(m_Mod, out value);
+				ModIdentifier? value;
+				Helper.Get<ModIdentifierInternal, ModIdentifier>(m_Mod, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set<ModIdentifier, ModIdentifierInternal>(ref value, ref m_Mod);
+			}
+		}
+
+		public void Set(ref UninstallModCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			LocalUserId = other.LocalUserId;
+			ClientData = other.ClientData;
+			Mod = other.Mod;
+		}
+
+		public void Set(ref UninstallModCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				LocalUserId = other.Value.LocalUserId;
+				ClientData = other.Value.ClientData;
+				Mod = other.Value.Mod;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_Mod);
+		}
+
+		public void Get(out UninstallModCallbackInfo output)
+		{
+			output = new UninstallModCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

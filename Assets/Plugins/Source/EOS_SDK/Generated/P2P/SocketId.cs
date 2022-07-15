@@ -13,29 +13,21 @@ namespace Epic.OnlineServices.P2P
 	/// information, such as a user's IP address. Using the socket name as a secret key can help prevent such leaks. Shared
 	/// private data, like a private match's Session ID are good candidates for a socket name.
 	/// </summary>
-	public class SocketId : ISettable
+	public struct SocketId
 	{
 		/// <summary>
-		/// A name for the connection. Must be a NULL-terminated string of between 1-32 alpha-numeric characters (A-Z, a-z, 0-9)
+		/// A name for the connection. Must be a <see langword="null" />-terminated string of between 1-32 alpha-numeric characters (A-Z, a-z, 0-9)
 		/// </summary>
 		public string SocketName { get; set; }
 
-		internal void Set(SocketIdInternal? other)
+		internal void Set(ref SocketIdInternal other)
 		{
-			if (other != null)
-			{
-				SocketName = other.Value.SocketName;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SocketIdInternal?);
+			SocketName = other.SocketName;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SocketIdInternal : ISettable, System.IDisposable
+	internal struct SocketIdInternal : IGettable<SocketId>, ISettable<SocketId>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		[System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.ByValArray, SizeConst = 33)]
@@ -46,32 +38,39 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				string value;
-				Helper.TryMarshalGet(m_SocketName, out value);
+				Helper.Get(m_SocketName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_SocketName, value, 33);
+				Helper.Set(value, ref m_SocketName, 33);
 			}
 		}
 
-		public void Set(SocketId other)
+		public void Set(ref SocketId other)
 		{
-			if (other != null)
+			m_ApiVersion = P2PInterface.SocketidApiLatest;
+			SocketName = other.SocketName;
+		}
+
+		public void Set(ref SocketId? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = P2PInterface.SocketidApiLatest;
-				SocketName = other.SocketName;
+				SocketName = other.Value.SocketName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SocketId);
 		}
 
 		public void Dispose()
 		{
+		}
+
+		public void Get(out SocketId output)
+		{
+			output = new SocketId();
+			output.Set(ref this);
 		}
 	}
 }

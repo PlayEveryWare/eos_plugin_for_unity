@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.CopySessionHandleForPresence" /> function.
 	/// </summary>
-	public class CopySessionHandleForPresenceOptions
+	public struct CopySessionHandleForPresenceOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user associated with the session
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopySessionHandleForPresenceOptionsInternal : ISettable, System.IDisposable
+	internal struct CopySessionHandleForPresenceOptionsInternal : ISettable<CopySessionHandleForPresenceOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(CopySessionHandleForPresenceOptions other)
+		public void Set(ref CopySessionHandleForPresenceOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.CopysessionhandleforpresenceApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref CopySessionHandleForPresenceOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.CopysessionhandleforpresenceApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopySessionHandleForPresenceOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

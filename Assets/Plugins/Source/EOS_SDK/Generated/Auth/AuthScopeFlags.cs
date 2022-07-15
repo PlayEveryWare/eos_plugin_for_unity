@@ -11,7 +11,7 @@ namespace Epic.OnlineServices.Auth
 	{
 		NoFlags = 0x0,
 		/// <summary>
-		/// Permissions to see your account ID, display name, language and country
+		/// Permissions to see your account ID, display name, and language
 		/// </summary>
 		BasicProfile = 0x1,
 		/// <summary>
@@ -29,6 +29,10 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Permissions to see email in the response when fetching information for a user. This scope is restricted to Epic first party products, and attempting to use it will result in authentication failures.
 		/// </summary>
-		Email = 0x10
+		Email = 0x10,
+		/// <summary>
+		/// Permissions to see your country
+		/// </summary>
+		Country = 0x20
 	}
 }

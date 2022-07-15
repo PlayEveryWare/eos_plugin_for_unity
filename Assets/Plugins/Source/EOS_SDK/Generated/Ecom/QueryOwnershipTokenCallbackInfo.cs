@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Output parameters for the <see cref="EcomInterface.QueryOwnershipToken" /> Function.
 	/// </summary>
-	public class QueryOwnershipTokenCallbackInfo : ICallbackInfo, ISettable
+	public struct QueryOwnershipTokenCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="EcomInterface.QueryOwnershipToken" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the local user whose ownership token was queried
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// Ownership token containing details about the catalog items queried
 		/// </summary>
-		public string OwnershipToken { get; private set; }
+		public Utf8String OwnershipToken { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(QueryOwnershipTokenCallbackInfoInternal? other)
+		internal void Set(ref QueryOwnershipTokenCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				OwnershipToken = other.Value.OwnershipToken;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryOwnershipTokenCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			OwnershipToken = other.OwnershipToken;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryOwnershipTokenCallbackInfoInternal : ICallbackInfoInternal
+	internal struct QueryOwnershipTokenCallbackInfoInternal : ICallbackInfoInternal, IGettable<QueryOwnershipTokenCallbackInfo>, ISettable<QueryOwnershipTokenCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -64,6 +56,11 @@ namespace Epic.OnlineServices.Ecom
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -71,8 +68,13 @@ namespace Epic.OnlineServices.Ecom
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -89,19 +91,61 @@ namespace Epic.OnlineServices.Ecom
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string OwnershipToken
+		public Utf8String OwnershipToken
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_OwnershipToken, out value);
+				Utf8String value;
+				Helper.Get(m_OwnershipToken, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_OwnershipToken);
+			}
+		}
+
+		public void Set(ref QueryOwnershipTokenCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			OwnershipToken = other.OwnershipToken;
+		}
+
+		public void Set(ref QueryOwnershipTokenCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				OwnershipToken = other.Value.OwnershipToken;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_OwnershipToken);
+		}
+
+		public void Get(out QueryOwnershipTokenCallbackInfo output)
+		{
+			output = new QueryOwnershipTokenCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

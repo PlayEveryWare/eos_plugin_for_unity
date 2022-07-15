@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about an incoming connection request.
 	/// </summary>
-	public class OnIncomingConnectionRequestInfo : ICallbackInfo, ISettable
+	public struct OnIncomingConnectionRequestInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into <see cref="Presence.PresenceInterface.AddNotifyOnPresenceChanged" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who is being requested to open a P2P session with RemoteUserId
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the remote user who requested a peer connection with the local user
 		/// </summary>
-		public ProductUserId RemoteUserId { get; private set; }
+		public ProductUserId RemoteUserId { get; set; }
 
 		/// <summary>
 		/// The ID of the socket the Remote User wishes to communicate on
 		/// </summary>
-		public SocketId SocketId { get; private set; }
+		public SocketId? SocketId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnIncomingConnectionRequestInfoInternal? other)
+		internal void Set(ref OnIncomingConnectionRequestInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				RemoteUserId = other.Value.RemoteUserId;
-				SocketId = other.Value.SocketId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnIncomingConnectionRequestInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RemoteUserId = other.RemoteUserId;
+			SocketId = other.SocketId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnIncomingConnectionRequestInfoInternal : ICallbackInfoInternal
+	internal struct OnIncomingConnectionRequestInfoInternal : ICallbackInfoInternal, IGettable<OnIncomingConnectionRequestInfo>, ISettable<OnIncomingConnectionRequestInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -63,8 +55,13 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -81,8 +78,13 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -91,19 +93,62 @@ namespace Epic.OnlineServices.P2P
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_RemoteUserId, out value);
+				Helper.Get(m_RemoteUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_RemoteUserId);
 			}
 		}
 
-		public SocketId SocketId
+		public SocketId? SocketId
 		{
 			get
 			{
-				SocketId value;
-				Helper.TryMarshalGet<SocketIdInternal, SocketId>(m_SocketId, out value);
+				SocketId? value;
+				Helper.Get<SocketIdInternal, SocketId>(m_SocketId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set<SocketId, SocketIdInternal>(ref value, ref m_SocketId);
+			}
+		}
+
+		public void Set(ref OnIncomingConnectionRequestInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RemoteUserId = other.RemoteUserId;
+			SocketId = other.SocketId;
+		}
+
+		public void Set(ref OnIncomingConnectionRequestInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				RemoteUserId = other.Value.RemoteUserId;
+				SocketId = other.Value.SocketId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RemoteUserId);
+			Helper.Dispose(ref m_SocketId);
+		}
+
+		public void Get(out OnIncomingConnectionRequestInfo output)
+		{
+			output = new OnIncomingConnectionRequestInfo();
+			output.Set(ref this);
 		}
 	}
 }

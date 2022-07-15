@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is used to call <see cref="RTCAudioInterface.AddNotifyAudioBeforeRender" />.
 	/// </summary>
-	public class AddNotifyAudioBeforeRenderOptions
+	public struct AddNotifyAudioBeforeRenderOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user trying to request this operation.
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// The room this event is registered on.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// Mixed audio or unmixed audio.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.RTCAudio
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyAudioBeforeRenderOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyAudioBeforeRenderOptionsInternal : ISettable<AddNotifyAudioBeforeRenderOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,15 +36,15 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -52,30 +52,33 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UnmixedAudio, value);
+				Helper.Set(value, ref m_UnmixedAudio);
 			}
 		}
 
-		public void Set(AddNotifyAudioBeforeRenderOptions other)
+		public void Set(ref AddNotifyAudioBeforeRenderOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.AddnotifyaudiobeforerenderApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			UnmixedAudio = other.UnmixedAudio;
+		}
+
+		public void Set(ref AddNotifyAudioBeforeRenderOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.AddnotifyaudiobeforerenderApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
-				UnmixedAudio = other.UnmixedAudio;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				UnmixedAudio = other.Value.UnmixedAudio;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyAudioBeforeRenderOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
 		}
 	}
 }

@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Ecom
 	/// Function prototype definition for callbacks passed to <see cref="EcomInterface.QueryOwnershipToken" />
 	/// </summary>
 	/// <param name="data">A <see cref="QueryEntitlementsCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnQueryEntitlementsCallback(QueryEntitlementsCallbackInfo data);
+	public delegate void OnQueryEntitlementsCallback(ref QueryEntitlementsCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryEntitlementsCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryEntitlementsCallbackInternal(ref QueryEntitlementsCallbackInfoInternal data);
 }

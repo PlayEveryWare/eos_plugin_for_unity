@@ -3,26 +3,26 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class AddNotifyClientActionRequiredOptions
+	public struct AddNotifyClientActionRequiredOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyClientActionRequiredOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyClientActionRequiredOptionsInternal : ISettable<AddNotifyClientActionRequiredOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyClientActionRequiredOptions other)
+		public void Set(ref AddNotifyClientActionRequiredOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatServerInterface.AddnotifyclientactionrequiredApiLatest;
+		}
+
+		public void Set(ref AddNotifyClientActionRequiredOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatServerInterface.AddnotifyclientactionrequiredApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyClientActionRequiredOptions);
 		}
 
 		public void Dispose()

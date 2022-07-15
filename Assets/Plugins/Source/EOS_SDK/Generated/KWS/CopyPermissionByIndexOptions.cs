@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.KWS
 	/// <summary>
 	/// Input parameters for the <see cref="KWSInterface.CopyPermissionByIndex" /> function.
 	/// </summary>
-	public class CopyPermissionByIndexOptions
+	public struct CopyPermissionByIndexOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user whose permissions are being accessed
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.KWS
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyPermissionByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyPermissionByIndexOptionsInternal : ISettable<CopyPermissionByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.KWS
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.KWS
 			}
 		}
 
-		public void Set(CopyPermissionByIndexOptions other)
+		public void Set(ref CopyPermissionByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = KWSInterface.CopypermissionbyindexApiLatest;
-				LocalUserId = other.LocalUserId;
-				Index = other.Index;
-			}
+			m_ApiVersion = KWSInterface.CopypermissionbyindexApiLatest;
+			LocalUserId = other.LocalUserId;
+			Index = other.Index;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyPermissionByIndexOptions? other)
 		{
-			Set(other as CopyPermissionByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = KWSInterface.CopypermissionbyindexApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Index = other.Value.Index;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Mods
 	/// <summary>
 	/// Input parameters for the <see cref="ModsInterface.EnumerateMods" /> Function.
 	/// </summary>
-	public class EnumerateModsOptions
+	public struct EnumerateModsOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user for which the mod should be enumerated
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Mods
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct EnumerateModsOptionsInternal : ISettable, System.IDisposable
+	internal struct EnumerateModsOptionsInternal : ISettable<EnumerateModsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Mods
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Mods
 			}
 		}
 
-		public void Set(EnumerateModsOptions other)
+		public void Set(ref EnumerateModsOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = ModsInterface.EnumeratemodsApiLatest;
-				LocalUserId = other.LocalUserId;
-				Type = other.Type;
-			}
+			m_ApiVersion = ModsInterface.EnumeratemodsApiLatest;
+			LocalUserId = other.LocalUserId;
+			Type = other.Type;
 		}
 
-		public void Set(object other)
+		public void Set(ref EnumerateModsOptions? other)
 		{
-			Set(other as EnumerateModsOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = ModsInterface.EnumeratemodsApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Type = other.Value.Type;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

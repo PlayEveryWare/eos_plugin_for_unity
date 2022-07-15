@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using System.IO.Compression;
 using Playeveryware.Editor;
 using System.Threading.Tasks;
+using System.IO.Compression;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -17,43 +17,43 @@ namespace PlayEveryWare.EpicOnlineServices
         [UnityEditor.MenuItem("Tools/Install EOS zip")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(InstallEpicOnlineServiceZip));
+            GetWindow(typeof(InstallEpicOnlineServiceZip), false, "Install EOS Zip", true);
         }
 
-        // static public void UnzipEntry(ZipArchiveEntry zipEntry, string pathName)
-        // {
-        //     using (var destStream = File.OpenWrite(pathName))
-        //     {
-        //         zipEntry.Open().CopyTo(destStream);
-        //     }
-        // }
+        static public void UnzipEntry(ZipArchiveEntry zipEntry, string pathName)
+        {
+            using (var destStream = File.OpenWrite(pathName))
+            {
+                zipEntry.Open().CopyTo(destStream);
+            }
+        }
 
         //-------------------------------------------------------------------------
         static public void UnzipFile(string pathToZipFile, string dest)
         {
-            // // unzip files
-            // using (var filestream = new FileStream(pathToZipFile, FileMode.Open))
-            // {
-            //     using (var zipArchive = new ZipArchive(filestream))
-            //     {
-            //         int zipCount = zipArchive.Entries.Count;
-            //         float i = 0.0f;
-            //         foreach (var zipEntry in zipArchive.Entries)
-            //         {
-            //             EditorUtility.DisplayProgressBar("Unzipping file", "Unzipping " + Path.GetFileName(pathToZipFile), i / zipCount);
-            //             string pathName = Path.Combine(dest, zipEntry.FullName);
-            //             string parentDirectory = Path.GetDirectoryName(pathName);
-            //             if (!Directory.Exists(parentDirectory))
-            //             {
-            //                 Directory.CreateDirectory(parentDirectory);
-            //             }
-            // 
-            //             UnzipEntry(zipEntry, pathName);
-            //             i += 1.0f;
-            //         }
-            //         EditorUtility.ClearProgressBar();
-            //     }
-            // }
+            // unzip files
+            using (var filestream = new FileStream(pathToZipFile, FileMode.Open))
+            {
+                using (var zipArchive = new ZipArchive(filestream))
+                {
+                    int zipCount = zipArchive.Entries.Count;
+                    float i = 0.0f;
+                    foreach (var zipEntry in zipArchive.Entries)
+                    {
+                        EditorUtility.DisplayProgressBar("Unzipping file", "Unzipping " + Path.GetFileName(pathToZipFile), i / zipCount);
+                        string pathName = Path.Combine(dest, zipEntry.FullName);
+                        string parentDirectory = Path.GetDirectoryName(pathName);
+                        if (!Directory.Exists(parentDirectory))
+                        {
+                            Directory.CreateDirectory(parentDirectory);
+                        }
+
+                        UnzipEntry(zipEntry, pathName);
+                        i += 1.0f;
+                    }
+                    EditorUtility.ClearProgressBar();
+                }
+            }
         }
         //-------------------------------------------------------------------------
         public string ToCapitalize(string str)

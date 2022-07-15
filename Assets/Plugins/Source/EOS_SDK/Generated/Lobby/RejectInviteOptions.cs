@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.RejectInvite" /> function.
 	/// </summary>
-	public class RejectInviteOptions
+	public struct RejectInviteOptions
 	{
 		/// <summary>
 		/// The ID of the lobby associated with the invitation
 		/// </summary>
-		public string InviteId { get; set; }
+		public Utf8String InviteId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who is rejecting the invitation
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RejectInviteOptionsInternal : ISettable, System.IDisposable
+	internal struct RejectInviteOptionsInternal : ISettable<RejectInviteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_InviteId;
 		private System.IntPtr m_LocalUserId;
 
-		public string InviteId
+		public Utf8String InviteId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_InviteId, value);
+				Helper.Set(value, ref m_InviteId);
 			}
 		}
 
@@ -38,29 +38,31 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(RejectInviteOptions other)
+		public void Set(ref RejectInviteOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.RejectinviteApiLatest;
+			InviteId = other.InviteId;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref RejectInviteOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.RejectinviteApiLatest;
-				InviteId = other.InviteId;
-				LocalUserId = other.LocalUserId;
+				InviteId = other.Value.InviteId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RejectInviteOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_InviteId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_InviteId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

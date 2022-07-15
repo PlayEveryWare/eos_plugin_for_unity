@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UI
 	/// <summary>
 	/// Input parameters for the <see cref="UIInterface.SetDisplayPreference" /> function.
 	/// </summary>
-	public class SetDisplayPreferenceOptions
+	public struct SetDisplayPreferenceOptions
 	{
 		/// <summary>
 		/// Preference for notification pop-up locations.
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.UI
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetDisplayPreferenceOptionsInternal : ISettable, System.IDisposable
+	internal struct SetDisplayPreferenceOptionsInternal : ISettable<SetDisplayPreferenceOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private NotificationLocation m_NotificationLocation;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.UI
 			}
 		}
 
-		public void Set(SetDisplayPreferenceOptions other)
+		public void Set(ref SetDisplayPreferenceOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = UIInterface.SetdisplaypreferenceApiLatest;
-				NotificationLocation = other.NotificationLocation;
-			}
+			m_ApiVersion = UIInterface.SetdisplaypreferenceApiLatest;
+			NotificationLocation = other.NotificationLocation;
 		}
 
-		public void Set(object other)
+		public void Set(ref SetDisplayPreferenceOptions? other)
 		{
-			Set(other as SetDisplayPreferenceOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = UIInterface.SetdisplaypreferenceApiLatest;
+				NotificationLocation = other.Value.NotificationLocation;
+			}
 		}
 
 		public void Dispose()

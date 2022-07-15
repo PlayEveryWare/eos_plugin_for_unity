@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.UserInfo
 	/// Function prototype definition for callbacks passed to <see cref="UserInfoInterface.QueryUserInfo" />
 	/// </summary>
 	/// <param name="data">A <see cref="QueryUserInfoCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnQueryUserInfoCallback(QueryUserInfoCallbackInfo data);
+	public delegate void OnQueryUserInfoCallback(ref QueryUserInfoCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryUserInfoCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryUserInfoCallbackInternal(ref QueryUserInfoCallbackInfoInternal data);
 }

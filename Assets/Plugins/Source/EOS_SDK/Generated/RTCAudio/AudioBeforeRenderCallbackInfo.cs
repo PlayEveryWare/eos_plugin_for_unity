@@ -6,59 +6,51 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="RTCAudioInterface.AddNotifyAudioBeforeRender" /> registered event.
 	/// </summary>
-	public class AudioBeforeRenderCallbackInfo : ICallbackInfo, ISettable
+	public struct AudioBeforeRenderCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into <see cref="RTCAudioInterface.AddNotifyAudioBeforeRender" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who initiated this request.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The room associated with this event.
 		/// </summary>
-		public string RoomName { get; private set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// Audio buffer.
 		/// </summary>
-		public AudioBuffer Buffer { get; private set; }
+		public AudioBuffer? Buffer { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the participant if bUnmixedAudio was set to true when setting the notifications, or empty if
 		/// bUnmixedAudio was set to false and thus the buffer is the mixed audio of all participants
 		/// </summary>
-		public ProductUserId ParticipantId { get; private set; }
+		public ProductUserId ParticipantId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(AudioBeforeRenderCallbackInfoInternal? other)
+		internal void Set(ref AudioBeforeRenderCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				RoomName = other.Value.RoomName;
-				Buffer = other.Value.Buffer;
-				ParticipantId = other.Value.ParticipantId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AudioBeforeRenderCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			Buffer = other.Buffer;
+			ParticipantId = other.ParticipantId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AudioBeforeRenderCallbackInfoInternal : ICallbackInfoInternal
+	internal struct AudioBeforeRenderCallbackInfoInternal : ICallbackInfoInternal, IGettable<AudioBeforeRenderCallbackInfo>, ISettable<AudioBeforeRenderCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -71,8 +63,13 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -89,28 +86,43 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RoomName, out value);
+				Utf8String value;
+				Helper.Get(m_RoomName, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
-		public AudioBuffer Buffer
+		public AudioBuffer? Buffer
 		{
 			get
 			{
-				AudioBuffer value;
-				Helper.TryMarshalGet<AudioBufferInternal, AudioBuffer>(m_Buffer, out value);
+				AudioBuffer? value;
+				Helper.Get<AudioBufferInternal, AudioBuffer>(m_Buffer, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set<AudioBuffer, AudioBufferInternal>(ref value, ref m_Buffer);
 			}
 		}
 
@@ -119,9 +131,50 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_ParticipantId, out value);
+				Helper.Get(m_ParticipantId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_ParticipantId);
+			}
+		}
+
+		public void Set(ref AudioBeforeRenderCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			Buffer = other.Buffer;
+			ParticipantId = other.ParticipantId;
+		}
+
+		public void Set(ref AudioBeforeRenderCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				Buffer = other.Value.Buffer;
+				ParticipantId = other.Value.ParticipantId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_Buffer);
+			Helper.Dispose(ref m_ParticipantId);
+		}
+
+		public void Get(out AudioBeforeRenderCallbackInfo output)
+		{
+			output = new AudioBeforeRenderCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

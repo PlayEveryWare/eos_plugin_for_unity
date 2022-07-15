@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Data containing the result information for querying a player's achievements request.
 	/// </summary>
-	public class OnQueryPlayerAchievementsCompleteCallbackInfo : ICallbackInfo, ISettable
+	public struct OnQueryPlayerAchievementsCompleteCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="AchievementsInterface.QueryPlayerAchievements" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who initiated this request.
 		/// </summary>
-		public ProductUserId UserId { get; private set; }
+		public ProductUserId UserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(OnQueryPlayerAchievementsCompleteCallbackInfoInternal? other)
+		internal void Set(ref OnQueryPlayerAchievementsCompleteCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				UserId = other.Value.UserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnQueryPlayerAchievementsCompleteCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			UserId = other.UserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnQueryPlayerAchievementsCompleteCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnQueryPlayerAchievementsCompleteCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnQueryPlayerAchievementsCompleteCallbackInfo>, ISettable<OnQueryPlayerAchievementsCompleteCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -57,6 +49,11 @@ namespace Epic.OnlineServices.Achievements
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -64,8 +61,13 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -82,9 +84,43 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_UserId, out value);
+				Helper.Get(m_UserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_UserId);
+			}
+		}
+
+		public void Set(ref OnQueryPlayerAchievementsCompleteCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			UserId = other.UserId;
+		}
+
+		public void Set(ref OnQueryPlayerAchievementsCompleteCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				UserId = other.Value.UserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_UserId);
+		}
+
+		public void Get(out OnQueryPlayerAchievementsCompleteCallbackInfo output)
+		{
+			output = new OnQueryPlayerAchievementsCompleteCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

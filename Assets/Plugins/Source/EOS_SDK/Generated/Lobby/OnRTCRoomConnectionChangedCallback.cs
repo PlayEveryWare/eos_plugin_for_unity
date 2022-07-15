@@ -8,8 +8,8 @@ namespace Epic.OnlineServices.Lobby
 	/// <seealso cref="LobbyInterface.IsRTCRoomConnected" />
 	/// </summary>
 	/// <param name="data">containing the connection state of the RTC Room for a lobby</param>
-	public delegate void OnRTCRoomConnectionChangedCallback(RTCRoomConnectionChangedCallbackInfo data);
+	public delegate void OnRTCRoomConnectionChangedCallback(ref RTCRoomConnectionChangedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnRTCRoomConnectionChangedCallbackInternal(System.IntPtr data);
+	internal delegate void OnRTCRoomConnectionChangedCallbackInternal(ref RTCRoomConnectionChangedCallbackInfoInternal data);
 }

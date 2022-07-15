@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is used to represent an audio buffer received in callbacks from <see cref="RTCAudioInterface.AddNotifyAudioBeforeSend" /> and <see cref="RTCAudioInterface.AddNotifyAudioBeforeRender" />.
 	/// </summary>
-	public class AudioBuffer : ISettable
+	public struct AudioBuffer
 	{
 		/// <summary>
 		/// Pointer to the data with the interleaved audio frames in signed 16 bits format.
@@ -23,24 +23,16 @@ namespace Epic.OnlineServices.RTCAudio
 		/// </summary>
 		public uint Channels { get; set; }
 
-		internal void Set(AudioBufferInternal? other)
+		internal void Set(ref AudioBufferInternal other)
 		{
-			if (other != null)
-			{
-				Frames = other.Value.Frames;
-				SampleRate = other.Value.SampleRate;
-				Channels = other.Value.Channels;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AudioBufferInternal?);
+			Frames = other.Frames;
+			SampleRate = other.SampleRate;
+			Channels = other.Channels;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AudioBufferInternal : ISettable, System.IDisposable
+	internal struct AudioBufferInternal : IGettable<AudioBuffer>, ISettable<AudioBuffer>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Frames;
@@ -53,13 +45,13 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				short[] value;
-				Helper.TryMarshalGet(m_Frames, out value, m_FramesCount);
+				Helper.Get(m_Frames, out value, m_FramesCount);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Frames, value, out m_FramesCount);
+				Helper.Set(value, ref m_Frames, out m_FramesCount);
 			}
 		}
 
@@ -89,25 +81,34 @@ namespace Epic.OnlineServices.RTCAudio
 			}
 		}
 
-		public void Set(AudioBuffer other)
+		public void Set(ref AudioBuffer other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = RTCAudioInterface.AudiobufferApiLatest;
-				Frames = other.Frames;
-				SampleRate = other.SampleRate;
-				Channels = other.Channels;
-			}
+			m_ApiVersion = RTCAudioInterface.AudiobufferApiLatest;
+			Frames = other.Frames;
+			SampleRate = other.SampleRate;
+			Channels = other.Channels;
 		}
 
-		public void Set(object other)
+		public void Set(ref AudioBuffer? other)
 		{
-			Set(other as AudioBuffer);
+			if (other.HasValue)
+			{
+				m_ApiVersion = RTCAudioInterface.AudiobufferApiLatest;
+				Frames = other.Value.Frames;
+				SampleRate = other.Value.SampleRate;
+				Channels = other.Value.Channels;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Frames);
+			Helper.Dispose(ref m_Frames);
+		}
+
+		public void Get(out AudioBuffer output)
+		{
+			output = new AudioBuffer();
+			output.Set(ref this);
 		}
 	}
 }

@@ -33,14 +33,14 @@ namespace Epic.OnlineServices.Metrics
 		/// <returns>
 		/// Returns <see cref="Result.Success" /> on success, or an error code if the input parameters are invalid or an active session for the player already exists.
 		/// </returns>
-		public Result BeginPlayerSession(BeginPlayerSessionOptions options)
+		public Result BeginPlayerSession(ref BeginPlayerSessionOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<BeginPlayerSessionOptionsInternal, BeginPlayerSessionOptions>(ref optionsAddress, options);
+			BeginPlayerSessionOptionsInternal optionsInternal = new BeginPlayerSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Metrics_BeginPlayerSession(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Metrics_BeginPlayerSession(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -55,14 +55,14 @@ namespace Epic.OnlineServices.Metrics
 		/// <returns>
 		/// Returns <see cref="Result.Success" /> on success, or an error code if the input parameters are invalid or there was no active session for the player.
 		/// </returns>
-		public Result EndPlayerSession(EndPlayerSessionOptions options)
+		public Result EndPlayerSession(ref EndPlayerSessionOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<EndPlayerSessionOptionsInternal, EndPlayerSessionOptions>(ref optionsAddress, options);
+			EndPlayerSessionOptionsInternal optionsInternal = new EndPlayerSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Metrics_EndPlayerSession(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Metrics_EndPlayerSession(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}

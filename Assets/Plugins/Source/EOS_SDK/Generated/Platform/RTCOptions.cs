@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Platform
 	/// <summary>
 	/// Platform RTC options.
 	/// </summary>
-	public class RTCOptions : ISettable
+	public struct RTCOptions
 	{
 		/// <summary>
 		/// This field is for platform specific initialization if any.
@@ -16,22 +16,14 @@ namespace Epic.OnlineServices.Platform
 		/// </summary>
 		public System.IntPtr PlatformSpecificOptions { get; set; }
 
-		internal void Set(RTCOptionsInternal? other)
+		internal void Set(ref RTCOptionsInternal other)
 		{
-			if (other != null)
-			{
-				PlatformSpecificOptions = other.Value.PlatformSpecificOptions;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RTCOptionsInternal?);
+			PlatformSpecificOptions = other.PlatformSpecificOptions;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RTCOptionsInternal : ISettable, System.IDisposable
+	internal struct RTCOptionsInternal : IGettable<RTCOptions>, ISettable<RTCOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PlatformSpecificOptions;
@@ -49,23 +41,30 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public void Set(RTCOptions other)
+		public void Set(ref RTCOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = PlatformInterface.RtcoptionsApiLatest;
-				PlatformSpecificOptions = other.PlatformSpecificOptions;
-			}
+			m_ApiVersion = PlatformInterface.RtcoptionsApiLatest;
+			PlatformSpecificOptions = other.PlatformSpecificOptions;
 		}
 
-		public void Set(object other)
+		public void Set(ref RTCOptions? other)
 		{
-			Set(other as RTCOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = PlatformInterface.RtcoptionsApiLatest;
+				PlatformSpecificOptions = other.Value.PlatformSpecificOptions;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PlatformSpecificOptions);
+			Helper.Dispose(ref m_PlatformSpecificOptions);
+		}
+
+		public void Get(out RTCOptions output)
+		{
+			output = new RTCOptions();
+			output.Set(ref this);
 		}
 	}
 }

@@ -71,28 +71,29 @@ namespace Epic.OnlineServices.RTC
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
 		/// </returns>
-		public ulong AddNotifyDisconnected(AddNotifyDisconnectedOptions options, object clientData, OnDisconnectedCallback completionDelegate)
+		public ulong AddNotifyDisconnected(ref AddNotifyDisconnectedOptions options, object clientData, OnDisconnectedCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyDisconnectedOptionsInternal, AddNotifyDisconnectedOptions>(ref optionsAddress, options);
+			AddNotifyDisconnectedOptionsInternal optionsInternal = new AddNotifyDisconnectedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnDisconnectedCallbackInternal(OnDisconnectedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			var funcResult = Bindings.EOS_RTC_AddNotifyDisconnected(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			var funcResult = Bindings.EOS_RTC_AddNotifyDisconnected(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
 
 		/// <summary>
-		/// Register to receive notifications when a participant's status changes (e.g: join or leave the room). If the returned NotificationId is valid, you must call
-		/// <see cref="RemoveNotifyParticipantStatusChanged" /> when you no longer wish to have your CompletionDelegate called.
+		/// Register to receive notifications when a participant's status changes (e.g: join or leave the room), or when the participant is added or removed
+		/// from an applicable block list (e.g: Epic block list and/or current platform's block list).
+		/// If the returned NotificationId is valid, you must call <see cref="RemoveNotifyParticipantStatusChanged" /> when you no longer wish to have your CompletionDelegate called.
 		/// 
 		/// If you register to this notification before joining a room, you will receive a notification for every member already in the room when you join said room.
 		/// This allows you to know who is already in the room when you join.
@@ -100,6 +101,13 @@ namespace Epic.OnlineServices.RTC
 		/// To be used effectively with a Lobby-managed RTC room, this should be registered during the <see cref="Lobby.LobbyInterface.CreateLobby" /> or <see cref="Lobby.LobbyInterface.JoinLobby" /> completion
 		/// callbacks when the ResultCode is <see cref="Result.Success" />. If this notification is registered after that point, it is possible to miss notifications for
 		/// already-existing room participants.
+		/// 
+		/// You can use this notification to detect internal automatic RTC blocks due to block lists.
+		/// When a participant joins a room and while the system resolves the block list status of said participant, the participant is set to blocked and you'll receive
+		/// a notification with ParticipantStatus set to <see cref="RTCParticipantStatus.Joined" /> and bParticipantInBlocklist set to true.
+		/// Once the block list status is resolved, if the player is not in any applicable block list(s), it is then unblocked a new notification is sent with
+		/// ParticipantStatus set to <see cref="RTCParticipantStatus.Joined" /> and bParticipantInBlocklist set to false.
+		/// This notification is also raised when the local user joins the room, but NOT when the local user leaves the room.
 		/// <seealso cref="Common.InvalidNotificationid" />
 		/// <seealso cref="RemoveNotifyParticipantStatusChanged" />
 		/// </summary>
@@ -107,23 +115,22 @@ namespace Epic.OnlineServices.RTC
 		/// <param name="completionDelegate">The callback to be fired when a presence change occurs</param>
 		/// <returns>
 		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
-		/// @note This notification is also raised when the local user joins the room, but NOT when the local user leaves the room.
 		/// </returns>
-		public ulong AddNotifyParticipantStatusChanged(AddNotifyParticipantStatusChangedOptions options, object clientData, OnParticipantStatusChangedCallback completionDelegate)
+		public ulong AddNotifyParticipantStatusChanged(ref AddNotifyParticipantStatusChangedOptions options, object clientData, OnParticipantStatusChangedCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyParticipantStatusChangedOptionsInternal, AddNotifyParticipantStatusChangedOptions>(ref optionsAddress, options);
+			AddNotifyParticipantStatusChangedOptionsInternal optionsInternal = new AddNotifyParticipantStatusChangedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnParticipantStatusChangedCallbackInternal(OnParticipantStatusChangedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			var funcResult = Bindings.EOS_RTC_AddNotifyParticipantStatusChanged(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			var funcResult = Bindings.EOS_RTC_AddNotifyParticipantStatusChanged(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -139,20 +146,21 @@ namespace Epic.OnlineServices.RTC
 		/// <see cref="Result.Success" /> if the operation succeeded
 		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
 		/// <see cref="Result.NotFound" /> if either the local user or specified participant are not in the specified room
+		/// <see cref="Result.UserIsInBlocklist" /> The user is in one of the platform's applicable block lists and thus an RTC unblock is not allowed.
 		/// </returns>
-		public void BlockParticipant(BlockParticipantOptions options, object clientData, OnBlockParticipantCallback completionDelegate)
+		public void BlockParticipant(ref BlockParticipantOptions options, object clientData, OnBlockParticipantCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<BlockParticipantOptionsInternal, BlockParticipantOptions>(ref optionsAddress, options);
+			BlockParticipantOptionsInternal optionsInternal = new BlockParticipantOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnBlockParticipantCallbackInternal(OnBlockParticipantCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_RTC_BlockParticipant(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_RTC_BlockParticipant(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -168,7 +176,7 @@ namespace Epic.OnlineServices.RTC
 			var funcResult = Bindings.EOS_RTC_GetAudioInterface(InnerHandle);
 
 			RTCAudio.RTCAudioInterface funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -181,19 +189,19 @@ namespace Epic.OnlineServices.RTC
 		/// <param name="options">structure containing the parameters for the operation.</param>
 		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void JoinRoom(JoinRoomOptions options, object clientData, OnJoinRoomCallback completionDelegate)
+		public void JoinRoom(ref JoinRoomOptions options, object clientData, OnJoinRoomCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<JoinRoomOptionsInternal, JoinRoomOptions>(ref optionsAddress, options);
+			JoinRoomOptionsInternal optionsInternal = new JoinRoomOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnJoinRoomCallbackInternal(OnJoinRoomCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_RTC_JoinRoom(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_RTC_JoinRoom(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -211,19 +219,19 @@ namespace Epic.OnlineServices.RTC
 		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
 		/// <see cref="Result.NotFound" /> if not in the specified room
 		/// </returns>
-		public void LeaveRoom(LeaveRoomOptions options, object clientData, OnLeaveRoomCallback completionDelegate)
+		public void LeaveRoom(ref LeaveRoomOptions options, object clientData, OnLeaveRoomCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LeaveRoomOptionsInternal, LeaveRoomOptions>(ref optionsAddress, options);
+			LeaveRoomOptionsInternal optionsInternal = new LeaveRoomOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnLeaveRoomCallbackInternal(OnLeaveRoomCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_RTC_LeaveRoom(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_RTC_LeaveRoom(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -232,9 +240,9 @@ namespace Epic.OnlineServices.RTC
 		/// <param name="notificationId">The Notification ID representing the registered callback</param>
 		public void RemoveNotifyDisconnected(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_RTC_RemoveNotifyDisconnected(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -243,9 +251,9 @@ namespace Epic.OnlineServices.RTC
 		/// <param name="notificationId">The Notification ID representing the registered callback</param>
 		public void RemoveNotifyParticipantStatusChanged(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_RTC_RemoveNotifyParticipantStatusChanged(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -257,14 +265,14 @@ namespace Epic.OnlineServices.RTC
 		/// <returns>
 		/// <see cref="Result.Success" /> when the setting is successfully set, <see cref="Result.NotFound" /> when the setting is unknown, <see cref="Result.InvalidParameters" /> when the value is invalid.
 		/// </returns>
-		public Result SetRoomSetting(SetRoomSettingOptions options)
+		public Result SetRoomSetting(ref SetRoomSettingOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SetRoomSettingOptionsInternal, SetRoomSettingOptions>(ref optionsAddress, options);
+			SetRoomSettingOptionsInternal optionsInternal = new SetRoomSettingOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_RTC_SetRoomSetting(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_RTC_SetRoomSetting(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -278,70 +286,70 @@ namespace Epic.OnlineServices.RTC
 		/// <returns>
 		/// <see cref="Result.Success" /> when the setting is successfully set, <see cref="Result.NotFound" /> when the setting is unknown, <see cref="Result.InvalidParameters" /> when the value is invalid.
 		/// </returns>
-		public Result SetSetting(SetSettingOptions options)
+		public Result SetSetting(ref SetSettingOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SetSettingOptionsInternal, SetSettingOptions>(ref optionsAddress, options);
+			SetSettingOptionsInternal optionsInternal = new SetSettingOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_RTC_SetSetting(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_RTC_SetSetting(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		[MonoPInvokeCallback(typeof(OnBlockParticipantCallbackInternal))]
-		internal static void OnBlockParticipantCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnBlockParticipantCallbackInternalImplementation(ref BlockParticipantCallbackInfoInternal data)
 		{
 			OnBlockParticipantCallback callback;
 			BlockParticipantCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnBlockParticipantCallback, BlockParticipantCallbackInfoInternal, BlockParticipantCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnDisconnectedCallbackInternal))]
-		internal static void OnDisconnectedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnDisconnectedCallbackInternalImplementation(ref DisconnectedCallbackInfoInternal data)
 		{
 			OnDisconnectedCallback callback;
 			DisconnectedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnDisconnectedCallback, DisconnectedCallbackInfoInternal, DisconnectedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnJoinRoomCallbackInternal))]
-		internal static void OnJoinRoomCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnJoinRoomCallbackInternalImplementation(ref JoinRoomCallbackInfoInternal data)
 		{
 			OnJoinRoomCallback callback;
 			JoinRoomCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnJoinRoomCallback, JoinRoomCallbackInfoInternal, JoinRoomCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnLeaveRoomCallbackInternal))]
-		internal static void OnLeaveRoomCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnLeaveRoomCallbackInternalImplementation(ref LeaveRoomCallbackInfoInternal data)
 		{
 			OnLeaveRoomCallback callback;
 			LeaveRoomCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnLeaveRoomCallback, LeaveRoomCallbackInfoInternal, LeaveRoomCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnParticipantStatusChangedCallbackInternal))]
-		internal static void OnParticipantStatusChangedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnParticipantStatusChangedCallbackInternalImplementation(ref ParticipantStatusChangedCallbackInfoInternal data)
 		{
 			OnParticipantStatusChangedCallback callback;
 			ParticipantStatusChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnParticipantStatusChangedCallback, ParticipantStatusChangedCallbackInfoInternal, ParticipantStatusChangedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

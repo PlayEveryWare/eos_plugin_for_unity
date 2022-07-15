@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Input parameters for the <see cref="AuthInterface.Logout" /> function.
 	/// </summary>
-	public class LogoutOptions
+	public struct LogoutOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user who is being logged out
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Auth
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogoutOptionsInternal : ISettable, System.IDisposable
+	internal struct LogoutOptionsInternal : ISettable<LogoutOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Auth
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(LogoutOptions other)
+		public void Set(ref LogoutOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.LogoutApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref LogoutOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.LogoutApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogoutOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

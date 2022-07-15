@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is used to inform the audio system of a user.
 	/// </summary>
-	public class RegisterPlatformAudioUserOptions
+	public struct RegisterPlatformAudioUserOptions
 	{
 		/// <summary>
 		/// Platform dependent user id.
 		/// </summary>
-		public string UserId { get; set; }
+		public Utf8String UserId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RegisterPlatformAudioUserOptionsInternal : ISettable, System.IDisposable
+	internal struct RegisterPlatformAudioUserOptionsInternal : ISettable<RegisterPlatformAudioUserOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
 
-		public string UserId
+		public Utf8String UserId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public void Set(RegisterPlatformAudioUserOptions other)
+		public void Set(ref RegisterPlatformAudioUserOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.RegisterplatformaudiouserApiLatest;
+			UserId = other.UserId;
+		}
+
+		public void Set(ref RegisterPlatformAudioUserOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.RegisterplatformaudiouserApiLatest;
-				UserId = other.UserId;
+				UserId = other.Value.UserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RegisterPlatformAudioUserOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
+			Helper.Dispose(ref m_UserId);
 		}
 	}
 }

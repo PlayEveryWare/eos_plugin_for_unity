@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionDetails.GetSessionAttributeCount" /> function.
 	/// </summary>
-	public class SessionDetailsGetSessionAttributeCountOptions
+	public struct SessionDetailsGetSessionAttributeCountOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionDetailsGetSessionAttributeCountOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionDetailsGetSessionAttributeCountOptionsInternal : ISettable<SessionDetailsGetSessionAttributeCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(SessionDetailsGetSessionAttributeCountOptions other)
+		public void Set(ref SessionDetailsGetSessionAttributeCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionDetails.SessiondetailsGetsessionattributecountApiLatest;
+		}
+
+		public void Set(ref SessionDetailsGetSessionAttributeCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionDetails.SessiondetailsGetsessionattributecountApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionDetailsGetSessionAttributeCountOptions);
 		}
 
 		public void Dispose()

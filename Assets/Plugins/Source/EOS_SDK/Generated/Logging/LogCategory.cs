@@ -93,9 +93,9 @@ namespace Epic.OnlineServices.Logging
 		/// </summary>
 		Keychain = 20,
 		/// <summary>
-		/// Logs related to external identity providers
+		/// Logs related to integrated platforms
 		/// </summary>
-		IdentityProvider = 21,
+		IntegratedPlatform = 21,
 		/// <summary>
 		/// Logs related to Title Storage
 		/// </summary>
@@ -133,17 +133,9 @@ namespace Epic.OnlineServices.Logging
 		/// </summary>
 		RTCAdmin = 30,
 		/// <summary>
-		/// Logs related to the Inventory service
-		/// </summary>
-		Inventory = 31,
-		/// <summary>
-		/// Logs related to the Receipt Validator API
-		/// </summary>
-		ReceiptValidator = 32,
-		/// <summary>
 		/// Logs related to the Custom Invites API
 		/// </summary>
-		CustomInvites = 33,
+		CustomInvites = 31,
 		/// <summary>
 		/// Not a real log category. Used by <see cref="LoggingInterface.SetLogLevel" /> to set the log level for all categories at the same time
 		/// </summary>

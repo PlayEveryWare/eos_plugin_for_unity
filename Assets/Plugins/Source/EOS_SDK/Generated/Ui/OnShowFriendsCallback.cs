@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.UI
 	/// Function prototype definition for callbacks passed to <see cref="UIInterface.ShowFriends" />
 	/// </summary>
 	/// <param name="data">A <see cref="ShowFriendsCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnShowFriendsCallback(ShowFriendsCallbackInfo data);
+	public delegate void OnShowFriendsCallback(ref ShowFriendsCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnShowFriendsCallbackInternal(System.IntPtr data);
+	internal delegate void OnShowFriendsCallbackInternal(ref ShowFriendsCallbackInfoInternal data);
 }

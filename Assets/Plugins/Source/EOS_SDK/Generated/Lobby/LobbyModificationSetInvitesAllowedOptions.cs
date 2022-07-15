@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyModification.SetInvitesAllowed" /> Function.
 	/// </summary>
-	public class LobbyModificationSetInvitesAllowedOptions
+	public struct LobbyModificationSetInvitesAllowedOptions
 	{
 		/// <summary>
 		/// If true then invites can currently be sent for the associated lobby
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyModificationSetInvitesAllowedOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyModificationSetInvitesAllowedOptionsInternal : ISettable<LobbyModificationSetInvitesAllowedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private int m_InvitesAllowed;
@@ -24,22 +24,23 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_InvitesAllowed, value);
+				Helper.Set(value, ref m_InvitesAllowed);
 			}
 		}
 
-		public void Set(LobbyModificationSetInvitesAllowedOptions other)
+		public void Set(ref LobbyModificationSetInvitesAllowedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyModification.LobbymodificationSetinvitesallowedApiLatest;
+			InvitesAllowed = other.InvitesAllowed;
+		}
+
+		public void Set(ref LobbyModificationSetInvitesAllowedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyModification.LobbymodificationSetinvitesallowedApiLatest;
-				InvitesAllowed = other.InvitesAllowed;
+				InvitesAllowed = other.Value.InvitesAllowed;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyModificationSetInvitesAllowedOptions);
 		}
 
 		public void Dispose()

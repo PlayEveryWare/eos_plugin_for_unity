@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is used to call <see cref="RTCAudioInterface.AddNotifyAudioDevicesChanged" />.
 	/// </summary>
-	public class AddNotifyAudioDevicesChangedOptions
+	public struct AddNotifyAudioDevicesChangedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyAudioDevicesChangedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyAudioDevicesChangedOptionsInternal : ISettable<AddNotifyAudioDevicesChangedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyAudioDevicesChangedOptions other)
+		public void Set(ref AddNotifyAudioDevicesChangedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.AddnotifyaudiodeviceschangedApiLatest;
+		}
+
+		public void Set(ref AddNotifyAudioDevicesChangedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.AddnotifyaudiodeviceschangedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyAudioDevicesChangedOptions);
 		}
 
 		public void Dispose()

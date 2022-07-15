@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Lobby
 	/// Function prototype definition for notifications that comes from <see cref="LobbyInterface.AddNotifyLobbyInviteAccepted" />
 	/// </summary>
 	/// <param name="data">A <see cref="LobbyInviteAcceptedCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnLobbyInviteAcceptedCallback(LobbyInviteAcceptedCallbackInfo data);
+	public delegate void OnLobbyInviteAcceptedCallback(ref LobbyInviteAcceptedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnLobbyInviteAcceptedCallbackInternal(System.IntPtr data);
+	internal delegate void OnLobbyInviteAcceptedCallbackInternal(ref LobbyInviteAcceptedCallbackInfoInternal data);
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.CopyProductUserExternalAccountByAccountType" /> function.
 	/// </summary>
-	public class CopyProductUserExternalAccountByAccountTypeOptions
+	public struct CopyProductUserExternalAccountByAccountTypeOptions
 	{
 		/// <summary>
 		/// The Product User ID to look for when copying external account info from the cache.
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyProductUserExternalAccountByAccountTypeOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyProductUserExternalAccountByAccountTypeOptionsInternal : ISettable<CopyProductUserExternalAccountByAccountTypeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Connect
 			}
 		}
 
-		public void Set(CopyProductUserExternalAccountByAccountTypeOptions other)
+		public void Set(ref CopyProductUserExternalAccountByAccountTypeOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = ConnectInterface.CopyproductuserexternalaccountbyaccounttypeApiLatest;
-				TargetUserId = other.TargetUserId;
-				AccountIdType = other.AccountIdType;
-			}
+			m_ApiVersion = ConnectInterface.CopyproductuserexternalaccountbyaccounttypeApiLatest;
+			TargetUserId = other.TargetUserId;
+			AccountIdType = other.AccountIdType;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyProductUserExternalAccountByAccountTypeOptions? other)
 		{
-			Set(other as CopyProductUserExternalAccountByAccountTypeOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = ConnectInterface.CopyproductuserexternalaccountbyaccounttypeApiLatest;
+				TargetUserId = other.Value.TargetUserId;
+				AccountIdType = other.Value.AccountIdType;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="ActiveSession.GetRegisteredPlayerByIndex" /> function.
 	/// </summary>
-	public class ActiveSessionGetRegisteredPlayerByIndexOptions
+	public struct ActiveSessionGetRegisteredPlayerByIndexOptions
 	{
 		/// <summary>
 		/// Index of the registered player to retrieve
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ActiveSessionGetRegisteredPlayerByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct ActiveSessionGetRegisteredPlayerByIndexOptionsInternal : ISettable<ActiveSessionGetRegisteredPlayerByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_PlayerIndex;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(ActiveSessionGetRegisteredPlayerByIndexOptions other)
+		public void Set(ref ActiveSessionGetRegisteredPlayerByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = ActiveSession.ActivesessionGetregisteredplayerbyindexApiLatest;
-				PlayerIndex = other.PlayerIndex;
-			}
+			m_ApiVersion = ActiveSession.ActivesessionGetregisteredplayerbyindexApiLatest;
+			PlayerIndex = other.PlayerIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref ActiveSessionGetRegisteredPlayerByIndexOptions? other)
 		{
-			Set(other as ActiveSessionGetRegisteredPlayerByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = ActiveSession.ActivesessionGetregisteredplayerbyindexApiLatest;
+				PlayerIndex = other.Value.PlayerIndex;
+			}
 		}
 
 		public void Dispose()

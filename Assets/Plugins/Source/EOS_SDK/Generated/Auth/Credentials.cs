@@ -21,17 +21,17 @@ namespace Epic.OnlineServices.Auth
 	/// <seealso cref="AuthInterface.Login" />
 	/// <seealso cref="DeletePersistentAuthOptions" />
 	/// </summary>
-	public class Credentials : ISettable
+	public struct Credentials
 	{
 		/// <summary>
 		/// ID of the user logging in, based on <see cref="LoginCredentialType" />
 		/// </summary>
-		public string Id { get; set; }
+		public Utf8String Id { get; set; }
 
 		/// <summary>
 		/// Credentials or token related to the user logging in
 		/// </summary>
-		public string Token { get; set; }
+		public Utf8String Token { get; set; }
 
 		/// <summary>
 		/// Type of login. Needed to identify the auth method to use
@@ -52,26 +52,18 @@ namespace Epic.OnlineServices.Auth
 		/// </summary>
 		public ExternalCredentialType ExternalType { get; set; }
 
-		internal void Set(CredentialsInternal? other)
+		internal void Set(ref CredentialsInternal other)
 		{
-			if (other != null)
-			{
-				Id = other.Value.Id;
-				Token = other.Value.Token;
-				Type = other.Value.Type;
-				SystemAuthCredentialsOptions = other.Value.SystemAuthCredentialsOptions;
-				ExternalType = other.Value.ExternalType;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CredentialsInternal?);
+			Id = other.Id;
+			Token = other.Token;
+			Type = other.Type;
+			SystemAuthCredentialsOptions = other.SystemAuthCredentialsOptions;
+			ExternalType = other.ExternalType;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CredentialsInternal : ISettable, System.IDisposable
+	internal struct CredentialsInternal : IGettable<Credentials>, ISettable<Credentials>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Id;
@@ -80,33 +72,33 @@ namespace Epic.OnlineServices.Auth
 		private System.IntPtr m_SystemAuthCredentialsOptions;
 		private ExternalCredentialType m_ExternalType;
 
-		public string Id
+		public Utf8String Id
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Id, out value);
+				Utf8String value;
+				Helper.Get(m_Id, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Id, value);
+				Helper.Set(value, ref m_Id);
 			}
 		}
 
-		public string Token
+		public Utf8String Token
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Token, out value);
+				Utf8String value;
+				Helper.Get(m_Token, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Token, value);
+				Helper.Set(value, ref m_Token);
 			}
 		}
 
@@ -149,29 +141,40 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public void Set(Credentials other)
+		public void Set(ref Credentials other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AuthInterface.CredentialsApiLatest;
-				Id = other.Id;
-				Token = other.Token;
-				Type = other.Type;
-				SystemAuthCredentialsOptions = other.SystemAuthCredentialsOptions;
-				ExternalType = other.ExternalType;
-			}
+			m_ApiVersion = AuthInterface.CredentialsApiLatest;
+			Id = other.Id;
+			Token = other.Token;
+			Type = other.Type;
+			SystemAuthCredentialsOptions = other.SystemAuthCredentialsOptions;
+			ExternalType = other.ExternalType;
 		}
 
-		public void Set(object other)
+		public void Set(ref Credentials? other)
 		{
-			Set(other as Credentials);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AuthInterface.CredentialsApiLatest;
+				Id = other.Value.Id;
+				Token = other.Value.Token;
+				Type = other.Value.Type;
+				SystemAuthCredentialsOptions = other.Value.SystemAuthCredentialsOptions;
+				ExternalType = other.Value.ExternalType;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Id);
-			Helper.TryMarshalDispose(ref m_Token);
-			Helper.TryMarshalDispose(ref m_SystemAuthCredentialsOptions);
+			Helper.Dispose(ref m_Id);
+			Helper.Dispose(ref m_Token);
+			Helper.Dispose(ref m_SystemAuthCredentialsOptions);
+		}
+
+		public void Get(out Credentials output)
+		{
+			output = new Credentials();
+			output.Set(ref this);
 		}
 	}
 }

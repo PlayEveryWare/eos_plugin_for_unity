@@ -12,8 +12,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <returns>
 	/// The result of the write operation. If this value is not <see cref="WriteResult.ContinueWriting" />, this callback will not be called again for the same request. If this is set to <see cref="WriteResult.FailRequest" /> or <see cref="WriteResult.CancelRequest" />, all data written during the request will not be saved
 	/// </returns>
-	public delegate WriteResult OnWriteFileDataCallback(WriteFileDataCallbackInfo data, out byte[] outDataBuffer);
+	public delegate WriteResult OnWriteFileDataCallback(ref WriteFileDataCallbackInfo data, out System.ArraySegment<byte> outDataBuffer);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate WriteResult OnWriteFileDataCallbackInternal(System.IntPtr data, System.IntPtr outDataBuffer, ref uint outDataWritten);
+	internal delegate WriteResult OnWriteFileDataCallbackInternal(ref WriteFileDataCallbackInfoInternal data, System.IntPtr outDataBuffer, ref uint outDataWritten);
 }

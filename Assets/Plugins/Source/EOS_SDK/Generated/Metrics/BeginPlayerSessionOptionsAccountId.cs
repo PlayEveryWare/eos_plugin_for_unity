@@ -3,11 +3,11 @@
 
 namespace Epic.OnlineServices.Metrics
 {
-	public class BeginPlayerSessionOptionsAccountId : ISettable
+	public struct BeginPlayerSessionOptionsAccountId
 	{
 		private MetricsAccountIdType m_AccountIdType;
 		private EpicAccountId m_Epic;
-		private string m_External;
+		private Utf8String m_External;
 
 		/// <summary>
 		/// Account ID type that is set in the union.
@@ -33,31 +33,31 @@ namespace Epic.OnlineServices.Metrics
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_Epic, out value, m_AccountIdType, MetricsAccountIdType.Epic);
+				Helper.Get(m_Epic, out value, m_AccountIdType, MetricsAccountIdType.Epic);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Epic, value, ref m_AccountIdType, MetricsAccountIdType.Epic);
+				Helper.Set<EpicAccountId, Metrics.MetricsAccountIdType>(value, ref m_Epic, MetricsAccountIdType.Epic, ref m_AccountIdType);
 			}
 		}
 
 		/// <summary>
 		/// An Account ID for another service. Set this field when AccountIdType is set to <see cref="MetricsAccountIdType.External" />.
 		/// </summary>
-		public string External
+		public Utf8String External
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_External, out value, m_AccountIdType, MetricsAccountIdType.External);
+				Utf8String value;
+				Helper.Get(m_External, out value, m_AccountIdType, MetricsAccountIdType.External);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_External, value, ref m_AccountIdType, MetricsAccountIdType.External);
+				Helper.Set<Utf8String, Metrics.MetricsAccountIdType>(value, ref m_External, MetricsAccountIdType.External, ref m_AccountIdType);
 			}
 		}
 
@@ -66,28 +66,25 @@ namespace Epic.OnlineServices.Metrics
 			return new BeginPlayerSessionOptionsAccountId() { Epic = value };
 		}
 
+		public static implicit operator BeginPlayerSessionOptionsAccountId(Utf8String value)
+		{
+			return new BeginPlayerSessionOptionsAccountId() { External = value };
+		}
+
 		public static implicit operator BeginPlayerSessionOptionsAccountId(string value)
 		{
 			return new BeginPlayerSessionOptionsAccountId() { External = value };
 		}
 
-		internal void Set(BeginPlayerSessionOptionsAccountIdInternal? other)
+		internal void Set(ref BeginPlayerSessionOptionsAccountIdInternal other)
 		{
-			if (other != null)
-			{
-				Epic = other.Value.Epic;
-				External = other.Value.External;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as BeginPlayerSessionOptionsAccountIdInternal?);
+			Epic = other.Epic;
+			External = other.External;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Explicit, Pack = 4)]
-	internal struct BeginPlayerSessionOptionsAccountIdInternal : ISettable, System.IDisposable
+	internal struct BeginPlayerSessionOptionsAccountIdInternal : IGettable<BeginPlayerSessionOptionsAccountId>, ISettable<BeginPlayerSessionOptionsAccountId>, System.IDisposable
 	{
 		[System.Runtime.InteropServices.FieldOffset(0)]
 		private MetricsAccountIdType m_AccountIdType;
@@ -101,49 +98,56 @@ namespace Epic.OnlineServices.Metrics
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_Epic, out value, m_AccountIdType, MetricsAccountIdType.Epic);
+				Helper.Get(m_Epic, out value, m_AccountIdType, MetricsAccountIdType.Epic);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Epic, value, ref m_AccountIdType, MetricsAccountIdType.Epic, this);
+				Helper.Set<Metrics.MetricsAccountIdType>(value, ref m_Epic, MetricsAccountIdType.Epic, ref m_AccountIdType, this);
 			}
 		}
 
-		public string External
+		public Utf8String External
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_External, out value, m_AccountIdType, MetricsAccountIdType.External);
+				Utf8String value;
+				Helper.Get(m_External, out value, m_AccountIdType, MetricsAccountIdType.External);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_External, value, ref m_AccountIdType, MetricsAccountIdType.External, this);
+				Helper.Set<Metrics.MetricsAccountIdType>(value, ref m_External, MetricsAccountIdType.External, ref m_AccountIdType, this);
 			}
 		}
 
-		public void Set(BeginPlayerSessionOptionsAccountId other)
+		public void Set(ref BeginPlayerSessionOptionsAccountId other)
 		{
-			if (other != null)
+			Epic = other.Epic;
+			External = other.External;
+		}
+
+		public void Set(ref BeginPlayerSessionOptionsAccountId? other)
+		{
+			if (other.HasValue)
 			{
-				Epic = other.Epic;
-				External = other.External;
+				Epic = other.Value.Epic;
+				External = other.Value.External;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as BeginPlayerSessionOptionsAccountId);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Epic);
-			Helper.TryMarshalDispose(ref m_External, m_AccountIdType, MetricsAccountIdType.External);
+			Helper.Dispose(ref m_Epic);
+			Helper.Dispose(ref m_External, m_AccountIdType, MetricsAccountIdType.External);
+		}
+
+		public void Get(out BeginPlayerSessionOptionsAccountId output)
+		{
+			output = new BeginPlayerSessionOptionsAccountId();
+			output.Set(ref this);
 		}
 	}
 }

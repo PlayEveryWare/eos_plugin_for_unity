@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// Input parameters for the <see cref="RTCAudioInterface.GetAudioInputDevicesCount" /> function.
 	/// </summary>
-	public class GetAudioInputDevicesCountOptions
+	public struct GetAudioInputDevicesCountOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetAudioInputDevicesCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetAudioInputDevicesCountOptionsInternal : ISettable<GetAudioInputDevicesCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(GetAudioInputDevicesCountOptions other)
+		public void Set(ref GetAudioInputDevicesCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.GetaudioinputdevicescountApiLatest;
+		}
+
+		public void Set(ref GetAudioInputDevicesCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.GetaudioinputdevicescountApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetAudioInputDevicesCountOptions);
 		}
 
 		public void Dispose()

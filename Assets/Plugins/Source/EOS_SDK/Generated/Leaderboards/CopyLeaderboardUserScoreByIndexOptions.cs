@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Input parameters for the <see cref="LeaderboardsInterface.CopyLeaderboardUserScoreByIndex" /> function.
 	/// </summary>
-	public class CopyLeaderboardUserScoreByIndexOptions
+	public struct CopyLeaderboardUserScoreByIndexOptions
 	{
 		/// <summary>
 		/// Index of the sorted leaderboard user score to retrieve from the cache.
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <summary>
 		/// Name of the stat used to rank the leaderboard.
 		/// </summary>
-		public string StatName { get; set; }
+		public Utf8String StatName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyLeaderboardUserScoreByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyLeaderboardUserScoreByIndexOptionsInternal : ISettable<CopyLeaderboardUserScoreByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_LeaderboardUserScoreIndex;
@@ -34,32 +34,34 @@ namespace Epic.OnlineServices.Leaderboards
 			}
 		}
 
-		public string StatName
+		public Utf8String StatName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_StatName, value);
+				Helper.Set(value, ref m_StatName);
 			}
 		}
 
-		public void Set(CopyLeaderboardUserScoreByIndexOptions other)
+		public void Set(ref CopyLeaderboardUserScoreByIndexOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.CopyleaderboarduserscorebyindexApiLatest;
+			LeaderboardUserScoreIndex = other.LeaderboardUserScoreIndex;
+			StatName = other.StatName;
+		}
+
+		public void Set(ref CopyLeaderboardUserScoreByIndexOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.CopyleaderboarduserscorebyindexApiLatest;
-				LeaderboardUserScoreIndex = other.LeaderboardUserScoreIndex;
-				StatName = other.StatName;
+				LeaderboardUserScoreIndex = other.Value.LeaderboardUserScoreIndex;
+				StatName = other.Value.StatName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyLeaderboardUserScoreByIndexOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_StatName);
+			Helper.Dispose(ref m_StatName);
 		}
 	}
 }

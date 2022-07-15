@@ -11,7 +11,7 @@ For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issue
 * Easy to use manager classes that handle common EOS API use-cases.
 * Straightforward sample Unity scene templates to get you started.
 * EOS Social Overlay support.
-* Includes [EOS SDK 1.14.2-hf-1](https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.14.2-hf-1_hotfix_-feb.14,2022).
+* Includes [EOS SDK 1.15](https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.15-16june,2022).
 * Targets [Unity 2020.1](https://unity.com/releases/2020-1).
 
 

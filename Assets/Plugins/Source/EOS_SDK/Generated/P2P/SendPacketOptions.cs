@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about the data being sent and to which player
 	/// </summary>
-	public class SendPacketOptions
+	public struct SendPacketOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who is sending this packet
@@ -21,7 +21,7 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// The socket ID for data you are sending in this packet
 		/// </summary>
-		public SocketId SocketId { get; set; }
+		public SocketId? SocketId { get; set; }
 
 		/// <summary>
 		/// Channel associated with this data
@@ -31,7 +31,7 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// The data to be sent to the RemoteUser
 		/// </summary>
-		public byte[] Data { get; set; }
+		public System.ArraySegment<byte> Data { get; set; }
 
 		/// <summary>
 		/// If false and we do not already have an established connection to the peer, this data will be dropped
@@ -45,7 +45,7 @@ namespace Epic.OnlineServices.P2P
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SendPacketOptionsInternal : ISettable, System.IDisposable
+	internal struct SendPacketOptionsInternal : ISettable<SendPacketOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -61,7 +61,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -69,15 +69,15 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RemoteUserId, value);
+				Helper.Set(value, ref m_RemoteUserId);
 			}
 		}
 
-		public SocketId SocketId
+		public SocketId? SocketId
 		{
 			set
 			{
-				Helper.TryMarshalSet<SocketIdInternal, SocketId>(ref m_SocketId, value);
+				Helper.Set<SocketId, SocketIdInternal>(ref value, ref m_SocketId);
 			}
 		}
 
@@ -89,11 +89,11 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		public byte[] Data
+		public System.ArraySegment<byte> Data
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Data, value, out m_DataLengthBytes);
+				Helper.Set(value, ref m_Data, out m_DataLengthBytes);
 			}
 		}
 
@@ -101,7 +101,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AllowDelayedDelivery, value);
+				Helper.Set(value, ref m_AllowDelayedDelivery);
 			}
 		}
 
@@ -113,32 +113,39 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		public void Set(SendPacketOptions other)
+		public void Set(ref SendPacketOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = P2PInterface.SendpacketApiLatest;
-				LocalUserId = other.LocalUserId;
-				RemoteUserId = other.RemoteUserId;
-				SocketId = other.SocketId;
-				Channel = other.Channel;
-				Data = other.Data;
-				AllowDelayedDelivery = other.AllowDelayedDelivery;
-				Reliability = other.Reliability;
-			}
+			m_ApiVersion = P2PInterface.SendpacketApiLatest;
+			LocalUserId = other.LocalUserId;
+			RemoteUserId = other.RemoteUserId;
+			SocketId = other.SocketId;
+			Channel = other.Channel;
+			Data = other.Data;
+			AllowDelayedDelivery = other.AllowDelayedDelivery;
+			Reliability = other.Reliability;
 		}
 
-		public void Set(object other)
+		public void Set(ref SendPacketOptions? other)
 		{
-			Set(other as SendPacketOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = P2PInterface.SendpacketApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				RemoteUserId = other.Value.RemoteUserId;
+				SocketId = other.Value.SocketId;
+				Channel = other.Value.Channel;
+				Data = other.Value.Data;
+				AllowDelayedDelivery = other.Value.AllowDelayedDelivery;
+				Reliability = other.Value.Reliability;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RemoteUserId);
-			Helper.TryMarshalDispose(ref m_SocketId);
-			Helper.TryMarshalDispose(ref m_Data);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RemoteUserId);
+			Helper.Dispose(ref m_SocketId);
+			Helper.Dispose(ref m_Data);
 		}
 	}
 }

@@ -6,63 +6,65 @@ namespace Epic.OnlineServices.Logging
 	/// <summary>
 	/// A structure representing a log message
 	/// </summary>
-	public class LogMessage : ISettable
+	public struct LogMessage
 	{
 		/// <summary>
 		/// A string representation of the log message category, encoded in UTF-8. Only valid during the life of the callback, so copy the string if you need it later.
 		/// </summary>
-		public string Category { get; private set; }
+		public Utf8String Category { get; set; }
 
 		/// <summary>
 		/// The log message, encoded in UTF-8. Only valid during the life of the callback, so copy the string if you need it later.
 		/// </summary>
-		public string Message { get; private set; }
+		public Utf8String Message { get; set; }
 
 		/// <summary>
 		/// The log level associated with the message
 		/// </summary>
-		public LogLevel Level { get; private set; }
+		public LogLevel Level { get; set; }
 
-		internal void Set(LogMessageInternal? other)
+		internal void Set(ref LogMessageInternal other)
 		{
-			if (other != null)
-			{
-				Category = other.Value.Category;
-				Message = other.Value.Message;
-				Level = other.Value.Level;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogMessageInternal?);
+			Category = other.Category;
+			Message = other.Message;
+			Level = other.Level;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogMessageInternal
+	internal struct LogMessageInternal : IGettable<LogMessage>, ISettable<LogMessage>, System.IDisposable
 	{
 		private System.IntPtr m_Category;
 		private System.IntPtr m_Message;
 		private LogLevel m_Level;
 
-		public string Category
+		public Utf8String Category
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Category, out value);
+				Utf8String value;
+				Helper.Get(m_Category, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_Category);
 			}
 		}
 
-		public string Message
+		public Utf8String Message
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Message, out value);
+				Utf8String value;
+				Helper.Get(m_Message, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_Message);
 			}
 		}
 
@@ -72,6 +74,40 @@ namespace Epic.OnlineServices.Logging
 			{
 				return m_Level;
 			}
+
+			set
+			{
+				m_Level = value;
+			}
+		}
+
+		public void Set(ref LogMessage other)
+		{
+			Category = other.Category;
+			Message = other.Message;
+			Level = other.Level;
+		}
+
+		public void Set(ref LogMessage? other)
+		{
+			if (other.HasValue)
+			{
+				Category = other.Value.Category;
+				Message = other.Value.Message;
+				Level = other.Value.Level;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_Category);
+			Helper.Dispose(ref m_Message);
+		}
+
+		public void Get(out LogMessage output)
+		{
+			output = new LogMessage();
+			output.Set(ref this);
 		}
 	}
 }

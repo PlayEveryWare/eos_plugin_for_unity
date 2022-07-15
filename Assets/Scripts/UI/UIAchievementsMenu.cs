@@ -36,6 +36,7 @@ using Epic.OnlineServices;
 using Epic.OnlineServices.Achievements;
 using Epic.OnlineServices.Ecom;
 using Epic.OnlineServices.UI;
+using Epic.OnlineServices.Stats;
 
 using PlayEveryWare.EpicOnlineServices;
 
@@ -49,6 +50,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         [Header("Store UI")]
         public Button getAchievementsButton;
+        public Toggle showDefinitionToggle;
+        public Button unlockAchievementButton;
         public Text definitionsDescription;
         public ScrollRect scrollRect;
         public Transform spawnPoint;
@@ -60,6 +63,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFirstSelected;
 
         private EOSAchievementManager achievementManager;
+
+        private bool displayDefinition = false;
+        private int displayIndex = -1;
 
         public void Start()
         {
@@ -87,6 +93,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             getAchievementsButton.gameObject.SetActive(true);
+            showDefinitionToggle.gameObject.SetActive(true);
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
@@ -95,13 +102,46 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void HideMenu()
         {
             getAchievementsButton.gameObject.SetActive(false);
+            showDefinitionToggle.gameObject.SetActive(false);
+            unlockAchievementButton.gameObject.SetActive(false);
             definitionsDescription.gameObject.SetActive(false);
             scrollRect.gameObject.SetActive(false);
             achievementUnlockedIcon.gameObject.SetActive(false);
             achievementLockedIcon.gameObject.SetActive(false);
         }
 
-        // Achievments
+        public void IncrementLoginStat()
+        {
+            var statsInterface = EOSManager.Instance.GetEOSPlatformInterface().GetStatsInterface();
+            var userId = EOSManager.Instance.GetProductUserId();
+            IngestStatOptions ingestOptions = new IngestStatOptions()
+            {
+                LocalUserId = userId,
+                TargetUserId = userId,
+                Stats = new IngestData[] { new IngestData() { StatName = "login_count", IngestAmount = 1 } }
+            };
+
+            statsInterface.IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo info) =>
+            {
+                Debug.LogFormat("Stat ingest result: {0}", info.ResultCode.ToString());
+            });
+        }
+
+        //manually unlock achievement being displayed
+        //TODO: refresh achievement data without having to log out
+        public void UnlockAchievement()
+        {
+            if (displayIndex < 0 || displayIndex > achievementManager.GetAchievementDefinitionCount())
+            {
+                return;
+            }
+
+            var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
+
+            achievementManager.UnlockAchievementManually(definition.AchievementId);
+        }
+
+        // Achievements
         public void OnGetAchievmentsClick()
         {
             uint achievementDefCount = achievementManager.GetAchievementDefinitionCount();
@@ -127,12 +167,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     });
                     i += 1;
                 }
-
             }
             else
             {
                 definitionsDescription.text = "No Achievements Found";
                 definitionsDescription.gameObject.SetActive(true);
+            }
+        }
+
+        public void OnShowDefinitionChanged(bool value)
+        {
+            displayDefinition = value;
+
+            if (displayIndex >= 0)
+            {
+                OnDefinitionIdButtonClicked(displayIndex);
             }
         }
 
@@ -143,10 +192,70 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            displayIndex = i;
+
             var definition = achievementManager.GetAchievementDefinitionAtIndex(i);
             achievementUnlockedIcon.texture = achievementManager.GetAchievementUnlockedIconTexture(definition.AchievementId);
             achievementLockedIcon.texture = achievementManager.GetAchievementLockedIconTexture(definition.AchievementId);
 
+            unlockAchievementButton.gameObject.SetActive(true);
+
+            if (displayDefinition)
+            {
+                DisplayAchievementDefinition(definition);
+            }
+            else
+            {
+                DisplayPlayerAchievement(definition);
+            }
+        }
+
+        //Show player-specific achievement data
+        void DisplayPlayerAchievement(DefinitionV2 definition)
+        {
+            PlayerAchievement? achievementNullable = null;
+            foreach (var ach in achievementManager.EnumerateCachedPlayerAchievement(EOSManager.Instance.GetProductUserId()))
+            {
+                if (ach.AchievementId == definition.AchievementId)
+                {
+                    achievementNullable = ach;
+                    break;
+                }
+            }
+
+            if (achievementNullable == null)
+            {
+                definitionsDescription.text = "Player achievement info not found.";
+                definitionsDescription.gameObject.SetActive(true);
+                achievementUnlockedIcon.gameObject.SetActive(true);
+                achievementLockedIcon.gameObject.SetActive(true);
+                return;
+            }
+
+            PlayerAchievement achievement = achievementNullable.Value;
+            string selectedDescription = string.Format(
+                "Id: {0}\nDisplay Name: {1}\nDescription: {2}\nProgress: {3}\nUnlock Time: {4}\n",
+                achievement.AchievementId, achievement.DisplayName, achievement.Description, achievement.Progress, achievement.UnlockTime);
+
+            if (achievement.StatInfo != null)
+            {
+                foreach (PlayerStatInfo si in achievement.StatInfo)
+                {
+                    selectedDescription += String.Format("Stat Info: '{0}': {1}/{2}\n", si.Name, si.CurrentValue, si.ThresholdValue);
+                }
+            }
+
+            bool locked = achievement.Progress < 1.0;
+
+            definitionsDescription.text = selectedDescription;
+            definitionsDescription.gameObject.SetActive(true);
+            achievementUnlockedIcon.gameObject.SetActive(!locked);
+            achievementLockedIcon.gameObject.SetActive(locked);
+        }
+
+        //Show global achievement definition
+        void DisplayAchievementDefinition(DefinitionV2 definition)
+        {
             string selectedDescription = string.Format(
                 "Id: {0}\nUnlocked Display Name: {1}\nUnlocked Description: {2}\nLocked Display Name: {3}\nLocked Description: {4}\nHidden: {5}\n",
                 definition.AchievementId, definition.UnlockedDisplayName, definition.UnlockedDescription, definition.LockedDisplayName, definition.LockedDescription, definition.IsHidden);

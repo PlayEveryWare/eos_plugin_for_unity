@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Connect
 	/// Function prototype definition for callbacks passed to <see cref="ConnectInterface.QueryExternalAccountMappings" />.
 	/// </summary>
 	/// <param name="data">A <see cref="QueryExternalAccountMappingsCallbackInfo" /> containing the output information and result.</param>
-	public delegate void OnQueryExternalAccountMappingsCallback(QueryExternalAccountMappingsCallbackInfo data);
+	public delegate void OnQueryExternalAccountMappingsCallback(ref QueryExternalAccountMappingsCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryExternalAccountMappingsCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryExternalAccountMappingsCallbackInternal(ref QueryExternalAccountMappingsCallbackInfoInternal data);
 }

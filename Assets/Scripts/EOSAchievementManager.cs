@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
+//#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
 
 using System.Collections;
 using System.Collections.Generic;
@@ -83,7 +83,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private string ProductUserIdToString(ProductUserId productUserId)
         {
-            string buffer;
+            Utf8String buffer;
             productUserId.ToString(out buffer);
             return buffer;
         }
@@ -107,7 +107,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 TargetUserId = productUserId
             };
-            uint statsCountForProductUserId = statInterface.GetStatsCount(countOptions);
+            uint statsCountForProductUserId = statInterface.GetStatsCount(ref countOptions);
 
             List<Stat> collectedStats = new List<Stat>();
             var copyStatsByIndexOptions = new CopyStatByIndexOptions
@@ -118,14 +118,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             for (uint i = 0; i < statsCountForProductUserId; ++i)
             {
-                Stat stat;
                 copyStatsByIndexOptions.StatIndex = i;
 
-                Result copyStatResult = statInterface.CopyStatByIndex(copyStatsByIndexOptions, out stat);
+                Result copyStatResult = statInterface.CopyStatByIndex(ref copyStatsByIndexOptions, out Stat? stat);
 
                 if (copyStatResult == Result.Success)
                 {
-                    collectedStats.Add(stat);
+                    collectedStats.Add(stat.Value);
                 }
             }
 
@@ -152,16 +151,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = productUserId
             };
 
-            statInterface.QueryStats(statsOptions, null, (OnQueryStatsCompleteCallbackInfo queryStatsCompleteCallbackInfo) =>
+            statInterface.QueryStats(ref statsOptions, null, (ref OnQueryStatsCompleteCallbackInfo queryStatsCompleteCallbackInfo) =>
             {
                 if (queryStatsCompleteCallbackInfo.ResultCode != Result.Success)
                 {
-                // TODO: handle error
-                print("Failed to query stats: " + queryStatsCompleteCallbackInfo.ResultCode);
+                    // TODO: handle error
+                    print("Failed to query stats: " + queryStatsCompleteCallbackInfo.ResultCode);
                 }
                 if (callback != null)
                 {
-                    callback(queryStatsCompleteCallbackInfo);
+                    callback(ref queryStatsCompleteCallbackInfo);
                 }
             });
         }
@@ -176,13 +175,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
             ProductUserId productUserId = loginCallbackInfo.LocalUserId;
-            QueryStatsForProductUserId(productUserId, (OnQueryStatsCompleteCallbackInfo statsQueryData) =>
+            QueryStatsForProductUserId(productUserId, (ref OnQueryStatsCompleteCallbackInfo statsQueryData) =>
             {
                 CacheStatsForProductUserId(productUserId);
-                QueryAchievementDefinitions(productUserId, (OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
+                QueryAchievementDefinitions(productUserId, (ref OnQueryDefinitionsCompleteCallbackInfo defQueryData) =>
                 {
                     CacheAllAchievementDefinitions(productUserId);
-                    QueryPlayerAchievements(productUserId, (OnQueryPlayerAchievementsCompleteCallbackInfo playerAchiQueryData) =>
+                    QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo playerAchiQueryData) =>
                     {
                         CacheAllPlayerAchievements(productUserId);
                     });
@@ -200,15 +199,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = targetEpicAccountId
             };
 
-            GetEOSUserInfoInterface().QueryUserInfo(options, null, (QueryUserInfoCallbackInfo data) =>
+            GetEOSUserInfoInterface().QueryUserInfo(ref options, null, (ref QueryUserInfoCallbackInfo data) =>
             {
-                Epic.OnlineServices.UserInfo.UserInfoData userInfoData;
                 var copyUserInfoOptions = new CopyUserInfoOptions
                 {
                     LocalUserId = localEpicAccountId,
                     TargetUserId = targetEpicAccountId
                 };
-                GetEOSUserInfoInterface().CopyUserInfo(copyUserInfoOptions, out userInfoData);
+                GetEOSUserInfoInterface().CopyUserInfo(ref copyUserInfoOptions, out UserInfoData? userInfoData);
 
             });
         }
@@ -232,14 +230,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LocalUserId = productUserId
             };
 
-            GetEOSAchievementInterface().QueryDefinitions(options, null, (OnQueryDefinitionsCompleteCallbackInfo data) =>
+            GetEOSAchievementInterface().QueryDefinitions(ref options, null, (ref OnQueryDefinitionsCompleteCallbackInfo data) =>
             {
                 if (data.ResultCode != Result.Success)
                 {
                     print("unable to query achievement definitions: " + data.ResultCode.ToString());
                 }
 
-                callback?.Invoke(data);
+                callback?.Invoke(ref data);
             });
         }
 
@@ -251,8 +249,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return new QueryPlayerAchievementsOptions
             {
-                TargetUserId = productUserId,
-                LocalUserId = EOSManager.Instance.GetProductUserId()
+                TargetUserId = productUserId
             };
         }
 
@@ -272,7 +269,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             QueryPlayerAchievementsOptions options = MakeQueryPlayerAchievementsOptions(productUserId);
 
-            GetEOSAchievementInterface().QueryPlayerAchievements(options, NewWeakThis(), (OnQueryPlayerAchievementsCompleteCallbackInfo data) =>
+            GetEOSAchievementInterface().QueryPlayerAchievements(ref options, NewWeakThis(), (ref OnQueryPlayerAchievementsCompleteCallbackInfo data) =>
             {
                 var strongThis = StrongThisFromClientData(data.ClientData);
                 if (strongThis != null)
@@ -282,7 +279,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         print("Error after query player achievements: " + data.ResultCode);
                     }
 
-                    callback?.Invoke(data);
+                    callback?.Invoke(ref data);
                 }
             });
         }
@@ -391,7 +388,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             var getAchievementDefinitionCountOptions = new GetAchievementDefinitionCountOptions();
 
-            uint achievementDefinitionCount = GetEOSAchievementInterface().GetAchievementDefinitionCount(getAchievementDefinitionCountOptions);
+            uint achievementDefinitionCount = GetEOSAchievementInterface().GetAchievementDefinitionCount(ref getAchievementDefinitionCountOptions);
 
             UnityEngine.Debug.LogFormat("Achievements (GetAchievementDefinitionCount): Count={0}", achievementDefinitionCount);
 
@@ -401,27 +398,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         // TODO: Create a callback version of this method
         // TODO: Create a debug mode to check if the achievement is valid?
-        public void UnlockAchievementManually(string achievementId, ProductUserId productUserId, OnUnlockAchievementsCompleteCallback completionDelegate = null)
+        public void UnlockAchievementManually(string achievementId)
         {
             var eosAchievementInterface = GetEOSAchievementInterface();
             var eosAchievementOption = new UnlockAchievementsOptions
             {
-                AchievementIds = new string[] { achievementId },
-                UserId = productUserId
+                AchievementIds = new Utf8String[] { achievementId }
             };
 
-            eosAchievementInterface.UnlockAchievements(eosAchievementOption, null, completionDelegate);
+            eosAchievementInterface.UnlockAchievements(ref eosAchievementOption, null, null);
         }
 
         //-------------------------------------------------------------------------
         private CopyPlayerAchievementByIndexOptions MakeCopyPlayerAchievementByIndexOptions(ProductUserId productUserId)
         {
-
             return new CopyPlayerAchievementByIndexOptions
             {
                 AchievementIndex = 0,
-                TargetUserId = productUserId,
-                LocalUserId = EOSManager.Instance.GetProductUserId()
+                TargetUserId = productUserId
             };
         }
 
@@ -434,28 +428,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 UserId = productUserId
             };
 
-            uint achievementCount = eosAchievementInterface.GetPlayerAchievementCount(achievementCountOptions);
+            uint achievementCount = eosAchievementInterface.GetPlayerAchievementCount(ref achievementCountOptions);
             var playerAchievementByIndexOptions = MakeCopyPlayerAchievementByIndexOptions(productUserId);
 
             print("Fetching achievments");
             var collectedAchievements = new List<PlayerAchievement>();
             for (uint i = 0; i < achievementCount; ++i)
             {
-                PlayerAchievement playerAchievement;
                 playerAchievementByIndexOptions.AchievementIndex = i;
-                var copyResult = eosAchievementInterface.CopyPlayerAchievementByIndex(playerAchievementByIndexOptions, out playerAchievement);
+                var copyResult = eosAchievementInterface.CopyPlayerAchievementByIndex(ref playerAchievementByIndexOptions, out PlayerAchievement? playerAchievement);
                 if (copyResult != Result.Success)
                 {
                     print("Failed to copy player achievement : " + copyResult);
                     continue; // TODO handle error
                 }
-                collectedAchievements.Add(playerAchievement);
+                if (playerAchievement.HasValue)
+                {
+                    collectedAchievements.Add(playerAchievement.Value);
+                }
             }
 
             productUserIdToPlayerAchievement[productUserId] = collectedAchievements;
 
         }
 
+        //-------------------------------------------------------------------------
         private void CacheAllAchievementDefinitions(ProductUserId productUserId)
         {
             uint achievementDefinitionCount = GetAchievementDefinitionCount();
@@ -466,9 +463,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             for (uint i = 0; i < achievementDefinitionCount; ++i)
             {
-                DefinitionV2 definition;
                 options.AchievementIndex = i;
-                GetEOSAchievementInterface().CopyAchievementDefinitionV2ByIndex(options, out definition);
+                GetEOSAchievementInterface().CopyAchievementDefinitionV2ByIndex(ref options, out DefinitionV2? definition);
                 cacheAchievementDef(definition);
 
             }
@@ -481,24 +477,39 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var eosAchievementInterface = eosPlatformInterface.GetAchievementsInterface();
 
             var options = new CopyAchievementDefinitionV2ByAchievementIdOptions();
-            DefinitionV2 achievementDef;
+
             options.AchievementId = achievementId;
 
-            eosAchievementInterface.CopyAchievementDefinitionV2ByAchievementId(options, out achievementDef);
+            eosAchievementInterface.CopyAchievementDefinitionV2ByAchievementId(ref options, out DefinitionV2? achievementDef);
             cacheAchievementDef(achievementDef);
         }
 
-        private void cacheAchievementDef(DefinitionV2 achievementDef)
+        private bool DoesCacheContainAchievementWithID(Utf8String achievementID)
         {
-
-            if (achievementDefinitionCache.Find((DefinitionV2 e) => { return e.AchievementId == achievementDef.AchievementId; }) == null)
+            //TODO: make this not copy by value when enumerating
+            foreach(DefinitionV2 achievementDef in achievementDefinitionCache)
             {
-                achievementDefinitionCache.Add(achievementDef);
+                if(achievementID == achievementDef.AchievementId)
+                {
+                    return true;
+                }
             }
-            UnityEngine.Debug.LogFormat("Achievements (cacheAchievementDef): Id={0}, LockedDisplayName={1}", achievementDef.AchievementId, achievementDef.LockedDisplayName);
 
-            DownloadIconDataFromURI(achievementDef.LockedIconURL);
-            DownloadIconDataFromURI(achievementDef.UnlockedIconURL);
+            return false;
+        }
+
+        private void cacheAchievementDef(DefinitionV2? achievementDef)
+        {
+            Utf8String achievementID = achievementDef.Value.AchievementId;
+
+            if (!DoesCacheContainAchievementWithID(achievementID))
+            {
+                achievementDefinitionCache.Add(achievementDef.Value);
+            }
+            UnityEngine.Debug.LogFormat("Achievements (cacheAchievementDef): Id={0}, LockedDisplayName={1}", achievementDef?.AchievementId, achievementDef?.LockedDisplayName);
+
+            DownloadIconDataFromURI(achievementDef?.LockedIconURL);
+            DownloadIconDataFromURI(achievementDef?.UnlockedIconURL);
         }
 
         //-------------------------------------------------------------------------

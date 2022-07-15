@@ -18,8 +18,8 @@ namespace Epic.OnlineServices
 		/// <summary>
 		/// Epic Account Services Token
 		/// 
-		/// Using ID Token is preferred, retrieved with <see cref="Auth.AuthInterface.CopyIdToken" /> that returns <see cref="Auth.IdToken" />::JsonWebToken.
-		/// Using Auth Token is supported for backwards compatibility, retrieved with <see cref="Auth.AuthInterface.CopyUserAuthToken" /> that returns <see cref="Auth.Token" />::AccessToken.
+		/// Using ID Token is preferred, retrieved with <see cref="Auth.AuthInterface.CopyIdToken" /> that returns <see cref="Auth.IdToken.JsonWebToken" />.
+		/// Using Auth Token is supported for backwards compatibility, retrieved with <see cref="Auth.AuthInterface.CopyUserAuthToken" /> that returns <see cref="Auth.Token.AccessToken" />.
 		/// 
 		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
 		/// <seealso cref="Auth.AuthInterface.CopyIdToken" />
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices
 		/// Steam Encrypted App Ticket
 		/// 
 		/// Generated using the ISteamUser::RequestEncryptedAppTicket API of Steamworks SDK.
-		/// For ticket generation parameters, use pDataToInclude(NULL) and cbDataToInclude(0).
+		/// For ticket generation parameters, use pDataToInclude(<see langword="null" />) and cbDataToInclude(0).
 		/// 
 		/// The retrieved App Ticket byte buffer needs to be converted into a hex-encoded UTF-8 string (e.g. "FA87097A..") before passing it to the <see cref="Connect.ConnectInterface.Login" /> API.
 		/// <see cref="Common.ToString" /> can be used for this conversion.
@@ -66,7 +66,7 @@ namespace Epic.OnlineServices
 		/// GOG Galaxy Encrypted App Ticket
 		/// 
 		/// Generated using the IUser::RequestEncryptedAppTicket API of GOG Galaxy SDK.
-		/// For ticket generation parameters, use data(NULL) and dataSize(0).
+		/// For ticket generation parameters, use data(<see langword="null" />) and dataSize(0).
 		/// 
 		/// The retrieved App Ticket byte buffer needs to be converted into a hex-encoded UTF-8 string (e.g. "FA87097A..") before passing it to the <see cref="Connect.ConnectInterface.Login" /> API.
 		/// For C/C++ API integration, use the <see cref="Common.ToString" /> API for the conversion.
@@ -176,7 +176,7 @@ namespace Epic.OnlineServices
 		/// <summary>
 		/// Epic Games ID Token
 		/// 
-		/// Acquired using <see cref="Auth.AuthInterface.CopyIdToken" /> that returns <see cref="Auth.IdToken" />::JsonWebToken.
+		/// Acquired using <see cref="Auth.AuthInterface.CopyIdToken" /> that returns <see cref="Auth.IdToken.JsonWebToken" />.
 		/// 
 		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
 		/// </summary>

@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Stats
 	/// Function prototype definition for callbacks passed to <see cref="StatsInterface.IngestStat" />
 	/// </summary>
 	/// <param name="data">A <see cref="IngestStatCompleteCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnIngestStatCompleteCallback(IngestStatCompleteCallbackInfo data);
+	public delegate void OnIngestStatCompleteCallback(ref IngestStatCompleteCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnIngestStatCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnIngestStatCompleteCallbackInternal(ref IngestStatCompleteCallbackInfoInternal data);
 }

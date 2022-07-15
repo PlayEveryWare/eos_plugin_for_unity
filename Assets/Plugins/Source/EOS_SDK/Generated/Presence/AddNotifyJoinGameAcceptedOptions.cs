@@ -3,26 +3,26 @@
 
 namespace Epic.OnlineServices.Presence
 {
-	public class AddNotifyJoinGameAcceptedOptions
+	public struct AddNotifyJoinGameAcceptedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyJoinGameAcceptedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyJoinGameAcceptedOptionsInternal : ISettable<AddNotifyJoinGameAcceptedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyJoinGameAcceptedOptions other)
+		public void Set(ref AddNotifyJoinGameAcceptedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceInterface.AddnotifyjoingameacceptedApiLatest;
+		}
+
+		public void Set(ref AddNotifyJoinGameAcceptedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceInterface.AddnotifyjoingameacceptedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyJoinGameAcceptedOptions);
 		}
 
 		public void Dispose()

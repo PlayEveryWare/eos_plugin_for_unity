@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.CreateDeviceId" /> function.
 	/// </summary>
-	public class CreateDeviceIdOptions
+	public struct CreateDeviceIdOptions
 	{
 		/// <summary>
 		/// A freeform text description identifying the device type and model,
@@ -19,40 +19,41 @@ namespace Epic.OnlineServices.Connect
 		/// 
 		/// This field is required to be present.
 		/// </summary>
-		public string DeviceModel { get; set; }
+		public Utf8String DeviceModel { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CreateDeviceIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CreateDeviceIdOptionsInternal : ISettable<CreateDeviceIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_DeviceModel;
 
-		public string DeviceModel
+		public Utf8String DeviceModel
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_DeviceModel, value);
+				Helper.Set(value, ref m_DeviceModel);
 			}
 		}
 
-		public void Set(CreateDeviceIdOptions other)
+		public void Set(ref CreateDeviceIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.CreatedeviceidApiLatest;
+			DeviceModel = other.DeviceModel;
+		}
+
+		public void Set(ref CreateDeviceIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.CreatedeviceidApiLatest;
-				DeviceModel = other.DeviceModel;
+				DeviceModel = other.Value.DeviceModel;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CreateDeviceIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_DeviceModel);
+			Helper.Dispose(ref m_DeviceModel);
 		}
 	}
 }

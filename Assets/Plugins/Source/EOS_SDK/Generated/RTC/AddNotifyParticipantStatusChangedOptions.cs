@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is used to call <see cref="RTCInterface.AddNotifyParticipantStatusChanged" />.
 	/// </summary>
-	public class AddNotifyParticipantStatusChangedOptions
+	public struct AddNotifyParticipantStatusChangedOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user trying to request this operation.
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.RTC
 		/// <summary>
 		/// The room this event is registered on.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyParticipantStatusChangedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyParticipantStatusChangedOptionsInternal : ISettable<AddNotifyParticipantStatusChangedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
-		public void Set(AddNotifyParticipantStatusChangedOptions other)
+		public void Set(ref AddNotifyParticipantStatusChangedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCInterface.AddnotifyparticipantstatuschangedApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+		}
+
+		public void Set(ref AddNotifyParticipantStatusChangedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCInterface.AddnotifyparticipantstatuschangedApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyParticipantStatusChangedOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.CopySessionHandleByUiEventId" /> function.
 	/// </summary>
-	public class CopySessionHandleByUiEventIdOptions
+	public struct CopySessionHandleByUiEventIdOptions
 	{
 		/// <summary>
 		/// UI Event associated with the session
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopySessionHandleByUiEventIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopySessionHandleByUiEventIdOptionsInternal : ISettable<CopySessionHandleByUiEventIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private ulong m_UiEventId;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(CopySessionHandleByUiEventIdOptions other)
+		public void Set(ref CopySessionHandleByUiEventIdOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionsInterface.CopysessionhandlebyuieventidApiLatest;
-				UiEventId = other.UiEventId;
-			}
+			m_ApiVersion = SessionsInterface.CopysessionhandlebyuieventidApiLatest;
+			UiEventId = other.UiEventId;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopySessionHandleByUiEventIdOptions? other)
 		{
-			Set(other as CopySessionHandleByUiEventIdOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionsInterface.CopysessionhandlebyuieventidApiLatest;
+				UiEventId = other.Value.UiEventId;
+			}
 		}
 
 		public void Dispose()

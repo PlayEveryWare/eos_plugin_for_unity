@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.CustomInvites
 	/// Function prototype definition for notifications that comes from <see cref="CustomInvitesInterface.AddNotifyCustomInviteAccepted" />
 	/// </summary>
 	/// <param name="data">A <see cref="OnCustomInviteAcceptedCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnCustomInviteAcceptedCallback(OnCustomInviteAcceptedCallbackInfo data);
+	public delegate void OnCustomInviteAcceptedCallback(ref OnCustomInviteAcceptedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnCustomInviteAcceptedCallbackInternal(System.IntPtr data);
+	internal delegate void OnCustomInviteAcceptedCallbackInternal(ref OnCustomInviteAcceptedCallbackInfoInternal data);
 }

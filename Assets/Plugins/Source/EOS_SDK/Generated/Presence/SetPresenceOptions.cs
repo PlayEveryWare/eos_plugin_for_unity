@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for the <see cref="PresenceInterface.SetPresence" /> function.
 	/// </summary>
-	public class SetPresenceOptions
+	public struct SetPresenceOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local, logged-in user making the request
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Presence
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetPresenceOptionsInternal : ISettable, System.IDisposable
+	internal struct SetPresenceOptionsInternal : ISettable<SetPresenceOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Presence
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -38,29 +38,31 @@ namespace Epic.OnlineServices.Presence
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PresenceModificationHandle, value);
+				Helper.Set(value, ref m_PresenceModificationHandle);
 			}
 		}
 
-		public void Set(SetPresenceOptions other)
+		public void Set(ref SetPresenceOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceInterface.SetpresenceApiLatest;
+			LocalUserId = other.LocalUserId;
+			PresenceModificationHandle = other.PresenceModificationHandle;
+		}
+
+		public void Set(ref SetPresenceOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceInterface.SetpresenceApiLatest;
-				LocalUserId = other.LocalUserId;
-				PresenceModificationHandle = other.PresenceModificationHandle;
+				LocalUserId = other.Value.LocalUserId;
+				PresenceModificationHandle = other.Value.PresenceModificationHandle;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SetPresenceOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_PresenceModificationHandle);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_PresenceModificationHandle);
 		}
 	}
 }

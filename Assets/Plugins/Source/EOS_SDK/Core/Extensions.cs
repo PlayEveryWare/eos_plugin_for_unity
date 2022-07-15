@@ -2,7 +2,7 @@
 
 namespace Epic.OnlineServices
 {
-	public static class HelperExtensions
+	public static class Extensions
 	{
 		/// <summary>
 		/// Checks whether the given result indicates that the operation has completed. Some operations may callback with a result indicating that they will callback again.
@@ -21,7 +21,8 @@ namespace Epic.OnlineServices
 		/// <returns>A hex string, e.g. "A56904FF".</returns>
 		public static string ToHexString(this byte[] byteArray)
 		{
-			return Common.ToString(byteArray);
+			var segment = new System.ArraySegment<byte>(byteArray);
+			return Common.ToString(segment);
 		}
 	}
 }

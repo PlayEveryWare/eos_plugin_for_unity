@@ -12,61 +12,63 @@ namespace Epic.OnlineServices.RTC
 	/// - DisableAutoGainControl: Disables the use of auto gain control for the audio channel. Default "False".
 	/// - DisableDtx: Allows to disable the use of DTX. Default "False".
 	/// </summary>
-	public class SetSettingOptions
+	public struct SetSettingOptions
 	{
 		/// <summary>
 		/// Setting that should be set.
 		/// </summary>
-		public string SettingName { get; set; }
+		public Utf8String SettingName { get; set; }
 
 		/// <summary>
 		/// Value to set the setting to.
 		/// </summary>
-		public string SettingValue { get; set; }
+		public Utf8String SettingValue { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetSettingOptionsInternal : ISettable, System.IDisposable
+	internal struct SetSettingOptionsInternal : ISettable<SetSettingOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SettingName;
 		private System.IntPtr m_SettingValue;
 
-		public string SettingName
+		public Utf8String SettingName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SettingName, value);
+				Helper.Set(value, ref m_SettingName);
 			}
 		}
 
-		public string SettingValue
+		public Utf8String SettingValue
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SettingValue, value);
+				Helper.Set(value, ref m_SettingValue);
 			}
 		}
 
-		public void Set(SetSettingOptions other)
+		public void Set(ref SetSettingOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCInterface.SetsettingApiLatest;
+			SettingName = other.SettingName;
+			SettingValue = other.SettingValue;
+		}
+
+		public void Set(ref SetSettingOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCInterface.SetsettingApiLatest;
-				SettingName = other.SettingName;
-				SettingValue = other.SettingValue;
+				SettingName = other.Value.SettingName;
+				SettingValue = other.Value.SettingValue;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SetSettingOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SettingName);
-			Helper.TryMarshalDispose(ref m_SettingValue);
+			Helper.Dispose(ref m_SettingName);
+			Helper.Dispose(ref m_SettingValue);
 		}
 	}
 }

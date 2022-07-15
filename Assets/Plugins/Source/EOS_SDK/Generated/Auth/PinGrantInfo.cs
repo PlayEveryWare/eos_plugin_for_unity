@@ -8,17 +8,17 @@ namespace Epic.OnlineServices.Auth
 	/// The data inside should be exposed to the user for entry on a secondary device.
 	/// All data must be copied out before the completion of this callback.
 	/// </summary>
-	public class PinGrantInfo : ISettable
+	public struct PinGrantInfo
 	{
 		/// <summary>
 		/// Code the user must input on an external device to activate the login
 		/// </summary>
-		public string UserCode { get; set; }
+		public Utf8String UserCode { get; set; }
 
 		/// <summary>
 		/// The end-user verification URI. Users can be asked to manually type this into their browser.
 		/// </summary>
-		public string VerificationURI { get; set; }
+		public Utf8String VerificationURI { get; set; }
 
 		/// <summary>
 		/// Time the user has, in seconds, to complete the process or else timeout
@@ -28,27 +28,19 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// A verification URI that includes the user code. Useful for non-textual transmission.
 		/// </summary>
-		public string VerificationURIComplete { get; set; }
+		public Utf8String VerificationURIComplete { get; set; }
 
-		internal void Set(PinGrantInfoInternal? other)
+		internal void Set(ref PinGrantInfoInternal other)
 		{
-			if (other != null)
-			{
-				UserCode = other.Value.UserCode;
-				VerificationURI = other.Value.VerificationURI;
-				ExpiresIn = other.Value.ExpiresIn;
-				VerificationURIComplete = other.Value.VerificationURIComplete;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PinGrantInfoInternal?);
+			UserCode = other.UserCode;
+			VerificationURI = other.VerificationURI;
+			ExpiresIn = other.ExpiresIn;
+			VerificationURIComplete = other.VerificationURIComplete;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PinGrantInfoInternal : ISettable, System.IDisposable
+	internal struct PinGrantInfoInternal : IGettable<PinGrantInfo>, ISettable<PinGrantInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserCode;
@@ -56,33 +48,33 @@ namespace Epic.OnlineServices.Auth
 		private int m_ExpiresIn;
 		private System.IntPtr m_VerificationURIComplete;
 
-		public string UserCode
+		public Utf8String UserCode
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_UserCode, out value);
+				Utf8String value;
+				Helper.Get(m_UserCode, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserCode, value);
+				Helper.Set(value, ref m_UserCode);
 			}
 		}
 
-		public string VerificationURI
+		public Utf8String VerificationURI
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_VerificationURI, out value);
+				Utf8String value;
+				Helper.Get(m_VerificationURI, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_VerificationURI, value);
+				Helper.Set(value, ref m_VerificationURI);
 			}
 		}
 
@@ -99,43 +91,53 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public string VerificationURIComplete
+		public Utf8String VerificationURIComplete
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_VerificationURIComplete, out value);
+				Utf8String value;
+				Helper.Get(m_VerificationURIComplete, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_VerificationURIComplete, value);
+				Helper.Set(value, ref m_VerificationURIComplete);
 			}
 		}
 
-		public void Set(PinGrantInfo other)
+		public void Set(ref PinGrantInfo other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.PingrantinfoApiLatest;
+			UserCode = other.UserCode;
+			VerificationURI = other.VerificationURI;
+			ExpiresIn = other.ExpiresIn;
+			VerificationURIComplete = other.VerificationURIComplete;
+		}
+
+		public void Set(ref PinGrantInfo? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.PingrantinfoApiLatest;
-				UserCode = other.UserCode;
-				VerificationURI = other.VerificationURI;
-				ExpiresIn = other.ExpiresIn;
-				VerificationURIComplete = other.VerificationURIComplete;
+				UserCode = other.Value.UserCode;
+				VerificationURI = other.Value.VerificationURI;
+				ExpiresIn = other.Value.ExpiresIn;
+				VerificationURIComplete = other.Value.VerificationURIComplete;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PinGrantInfo);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserCode);
-			Helper.TryMarshalDispose(ref m_VerificationURI);
-			Helper.TryMarshalDispose(ref m_VerificationURIComplete);
+			Helper.Dispose(ref m_UserCode);
+			Helper.Dispose(ref m_VerificationURI);
+			Helper.Dispose(ref m_VerificationURIComplete);
+		}
+
+		public void Get(out PinGrantInfo output)
+		{
+			output = new PinGrantInfo();
+			output.Set(ref this);
 		}
 	}
 }

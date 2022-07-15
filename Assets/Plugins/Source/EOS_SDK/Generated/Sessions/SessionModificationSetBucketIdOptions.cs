@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionModification.SetBucketId" /> function.
 	/// </summary>
-	public class SessionModificationSetBucketIdOptions
+	public struct SessionModificationSetBucketIdOptions
 	{
 		/// <summary>
 		/// The new bucket id associated with the session
 		/// </summary>
-		public string BucketId { get; set; }
+		public Utf8String BucketId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionModificationSetBucketIdOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionModificationSetBucketIdOptionsInternal : ISettable<SessionModificationSetBucketIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_BucketId;
 
-		public string BucketId
+		public Utf8String BucketId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_BucketId, value);
+				Helper.Set(value, ref m_BucketId);
 			}
 		}
 
-		public void Set(SessionModificationSetBucketIdOptions other)
+		public void Set(ref SessionModificationSetBucketIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionModification.SessionmodificationSetbucketidApiLatest;
+			BucketId = other.BucketId;
+		}
+
+		public void Set(ref SessionModificationSetBucketIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionModification.SessionmodificationSetbucketidApiLatest;
-				BucketId = other.BucketId;
+				BucketId = other.Value.BucketId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionModificationSetBucketIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_BucketId);
+			Helper.Dispose(ref m_BucketId);
 		}
 	}
 }

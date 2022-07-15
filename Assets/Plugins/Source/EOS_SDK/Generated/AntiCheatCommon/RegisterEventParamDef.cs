@@ -3,51 +3,43 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class RegisterEventParamDef : ISettable
+	public struct RegisterEventParamDef
 	{
 		/// <summary>
 		/// Parameter name. Allowed characters are 0-9, A-Z, a-z, '_', '-'
 		/// </summary>
-		public string ParamName { get; set; }
+		public Utf8String ParamName { get; set; }
 
 		/// <summary>
 		/// Parameter type
 		/// </summary>
 		public AntiCheatCommonEventParamType ParamType { get; set; }
 
-		internal void Set(RegisterEventParamDefInternal? other)
+		internal void Set(ref RegisterEventParamDefInternal other)
 		{
-			if (other != null)
-			{
-				ParamName = other.Value.ParamName;
-				ParamType = other.Value.ParamType;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RegisterEventParamDefInternal?);
+			ParamName = other.ParamName;
+			ParamType = other.ParamType;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RegisterEventParamDefInternal : ISettable, System.IDisposable
+	internal struct RegisterEventParamDefInternal : IGettable<RegisterEventParamDef>, ISettable<RegisterEventParamDef>, System.IDisposable
 	{
 		private System.IntPtr m_ParamName;
 		private AntiCheatCommonEventParamType m_ParamType;
 
-		public string ParamName
+		public Utf8String ParamName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ParamName, out value);
+				Utf8String value;
+				Helper.Get(m_ParamName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ParamName, value);
+				Helper.Set(value, ref m_ParamName);
 			}
 		}
 
@@ -64,23 +56,30 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(RegisterEventParamDef other)
+		public void Set(ref RegisterEventParamDef other)
 		{
-			if (other != null)
-			{
-				ParamName = other.ParamName;
-				ParamType = other.ParamType;
-			}
+			ParamName = other.ParamName;
+			ParamType = other.ParamType;
 		}
 
-		public void Set(object other)
+		public void Set(ref RegisterEventParamDef? other)
 		{
-			Set(other as RegisterEventParamDef);
+			if (other.HasValue)
+			{
+				ParamName = other.Value.ParamName;
+				ParamType = other.Value.ParamType;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ParamName);
+			Helper.Dispose(ref m_ParamName);
+		}
+
+		public void Get(out RegisterEventParamDef output)
+		{
+			output = new RegisterEventParamDef();
+			output.Set(ref this);
 		}
 	}
 }

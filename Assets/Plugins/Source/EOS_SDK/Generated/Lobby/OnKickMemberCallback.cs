@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Lobby
 	/// Function prototype definition for callbacks passed to <see cref="LobbyInterface.KickMember" />
 	/// </summary>
 	/// <param name="data">A <see cref="LobbyInterface.KickMember" /> CallbackInfo containing the output information and result</param>
-	public delegate void OnKickMemberCallback(KickMemberCallbackInfo data);
+	public delegate void OnKickMemberCallback(ref KickMemberCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnKickMemberCallbackInternal(System.IntPtr data);
+	internal delegate void OnKickMemberCallbackInternal(ref KickMemberCallbackInfoInternal data);
 }

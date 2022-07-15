@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.CopyProductUserInfo" /> function.
 	/// </summary>
-	public class CopyProductUserInfoOptions
+	public struct CopyProductUserInfoOptions
 	{
 		/// <summary>
 		/// Product user ID to look for when copying external account info from the cache.
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyProductUserInfoOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyProductUserInfoOptionsInternal : ISettable<CopyProductUserInfoOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(CopyProductUserInfoOptions other)
+		public void Set(ref CopyProductUserInfoOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.CopyproductuserinfoApiLatest;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref CopyProductUserInfoOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.CopyproductuserinfoApiLatest;
-				TargetUserId = other.TargetUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyProductUserInfoOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

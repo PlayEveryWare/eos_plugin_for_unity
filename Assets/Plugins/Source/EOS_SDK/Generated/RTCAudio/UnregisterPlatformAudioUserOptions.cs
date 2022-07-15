@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is used to remove a user from the audio system.
 	/// </summary>
-	public class UnregisterPlatformAudioUserOptions
+	public struct UnregisterPlatformAudioUserOptions
 	{
 		/// <summary>
 		/// The account of a user associated with this event.
 		/// </summary>
-		public string UserId { get; set; }
+		public Utf8String UserId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UnregisterPlatformAudioUserOptionsInternal : ISettable, System.IDisposable
+	internal struct UnregisterPlatformAudioUserOptionsInternal : ISettable<UnregisterPlatformAudioUserOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
 
-		public string UserId
+		public Utf8String UserId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public void Set(UnregisterPlatformAudioUserOptions other)
+		public void Set(ref UnregisterPlatformAudioUserOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.UnregisterplatformaudiouserApiLatest;
+			UserId = other.UserId;
+		}
+
+		public void Set(ref UnregisterPlatformAudioUserOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.UnregisterplatformaudiouserApiLatest;
-				UserId = other.UserId;
+				UserId = other.Value.UserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UnregisterPlatformAudioUserOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
+			Helper.Dispose(ref m_UserId);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is used to call <see cref="RTCInterface.LeaveRoom" />.
 	/// </summary>
-	public class LeaveRoomOptions
+	public struct LeaveRoomOptions
 	{
 		/// <summary>
 		/// Product User ID of the user requesting to leave the room
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.RTC
 		/// <summary>
 		/// The room to leave.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LeaveRoomOptionsInternal : ISettable, System.IDisposable
+	internal struct LeaveRoomOptionsInternal : ISettable<LeaveRoomOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
-		public void Set(LeaveRoomOptions other)
+		public void Set(ref LeaveRoomOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCInterface.LeaveroomApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+		}
+
+		public void Set(ref LeaveRoomOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCInterface.LeaveroomApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LeaveRoomOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
 		}
 	}
 }

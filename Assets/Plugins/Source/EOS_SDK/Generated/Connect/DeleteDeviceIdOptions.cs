@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.DeleteDeviceId" /> function.
 	/// </summary>
-	public class DeleteDeviceIdOptions
+	public struct DeleteDeviceIdOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DeleteDeviceIdOptionsInternal : ISettable, System.IDisposable
+	internal struct DeleteDeviceIdOptionsInternal : ISettable<DeleteDeviceIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(DeleteDeviceIdOptions other)
+		public void Set(ref DeleteDeviceIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.DeletedeviceidApiLatest;
+		}
+
+		public void Set(ref DeleteDeviceIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.DeletedeviceidApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DeleteDeviceIdOptions);
 		}
 
 		public void Dispose()

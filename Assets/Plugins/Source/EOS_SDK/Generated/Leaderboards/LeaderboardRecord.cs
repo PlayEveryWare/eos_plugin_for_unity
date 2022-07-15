@@ -6,10 +6,10 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Contains information about a single leaderboard record
 	/// </summary>
-	public class LeaderboardRecord : ISettable
+	public struct LeaderboardRecord
 	{
 		/// <summary>
-		/// The Product User ID assoicated with this record
+		/// The Product User ID associated with this record
 		/// </summary>
 		public ProductUserId UserId { get; set; }
 
@@ -26,27 +26,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <summary>
 		/// The latest display name seen for the user since they last time logged in. This is empty if the user does not have a display name set.
 		/// </summary>
-		public string UserDisplayName { get; set; }
+		public Utf8String UserDisplayName { get; set; }
 
-		internal void Set(LeaderboardRecordInternal? other)
+		internal void Set(ref LeaderboardRecordInternal other)
 		{
-			if (other != null)
-			{
-				UserId = other.Value.UserId;
-				Rank = other.Value.Rank;
-				Score = other.Value.Score;
-				UserDisplayName = other.Value.UserDisplayName;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LeaderboardRecordInternal?);
+			UserId = other.UserId;
+			Rank = other.Rank;
+			Score = other.Score;
+			UserDisplayName = other.UserDisplayName;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LeaderboardRecordInternal : ISettable, System.IDisposable
+	internal struct LeaderboardRecordInternal : IGettable<LeaderboardRecord>, ISettable<LeaderboardRecord>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
@@ -59,13 +51,13 @@ namespace Epic.OnlineServices.Leaderboards
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_UserId, out value);
+				Helper.Get(m_UserId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
@@ -95,42 +87,52 @@ namespace Epic.OnlineServices.Leaderboards
 			}
 		}
 
-		public string UserDisplayName
+		public Utf8String UserDisplayName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_UserDisplayName, out value);
+				Utf8String value;
+				Helper.Get(m_UserDisplayName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserDisplayName, value);
+				Helper.Set(value, ref m_UserDisplayName);
 			}
 		}
 
-		public void Set(LeaderboardRecord other)
+		public void Set(ref LeaderboardRecord other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.LeaderboardrecordApiLatest;
+			UserId = other.UserId;
+			Rank = other.Rank;
+			Score = other.Score;
+			UserDisplayName = other.UserDisplayName;
+		}
+
+		public void Set(ref LeaderboardRecord? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.LeaderboardrecordApiLatest;
-				UserId = other.UserId;
-				Rank = other.Rank;
-				Score = other.Score;
-				UserDisplayName = other.UserDisplayName;
+				UserId = other.Value.UserId;
+				Rank = other.Value.Rank;
+				Score = other.Value.Score;
+				UserDisplayName = other.Value.UserDisplayName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LeaderboardRecord);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
-			Helper.TryMarshalDispose(ref m_UserDisplayName);
+			Helper.Dispose(ref m_UserId);
+			Helper.Dispose(ref m_UserDisplayName);
+		}
+
+		public void Get(out LeaderboardRecord output)
+		{
+			output = new LeaderboardRecord();
+			output.Set(ref this);
 		}
 	}
 }

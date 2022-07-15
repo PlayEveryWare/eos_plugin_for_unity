@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.CopyAchievementDefinitionV2ByAchievementId" /> function.
 	/// </summary>
-	public class CopyAchievementDefinitionV2ByAchievementIdOptions
+	public struct CopyAchievementDefinitionV2ByAchievementIdOptions
 	{
 		/// <summary>
 		/// Achievement ID to look for when copying the definition from the cache.
 		/// </summary>
-		public string AchievementId { get; set; }
+		public Utf8String AchievementId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyAchievementDefinitionV2ByAchievementIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyAchievementDefinitionV2ByAchievementIdOptionsInternal : ISettable<CopyAchievementDefinitionV2ByAchievementIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AchievementId;
 
-		public string AchievementId
+		public Utf8String AchievementId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AchievementId, value);
+				Helper.Set(value, ref m_AchievementId);
 			}
 		}
 
-		public void Set(CopyAchievementDefinitionV2ByAchievementIdOptions other)
+		public void Set(ref CopyAchievementDefinitionV2ByAchievementIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.Copyachievementdefinitionv2ByachievementidApiLatest;
+			AchievementId = other.AchievementId;
+		}
+
+		public void Set(ref CopyAchievementDefinitionV2ByAchievementIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.Copyachievementdefinitionv2ByachievementidApiLatest;
-				AchievementId = other.AchievementId;
+				AchievementId = other.Value.AchievementId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyAchievementDefinitionV2ByAchievementIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AchievementId);
+			Helper.Dispose(ref m_AchievementId);
 		}
 	}
 }

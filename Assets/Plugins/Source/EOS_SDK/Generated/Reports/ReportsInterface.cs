@@ -34,29 +34,29 @@ namespace Epic.OnlineServices.Reports
 		/// <param name="options">Structure containing the player report information.</param>
 		/// <param name="clientData">Optional client data provided by the user of the SDK.</param>
 		/// <param name="completionDelegate">This function is called when the send operation completes.</param>
-		public void SendPlayerBehaviorReport(SendPlayerBehaviorReportOptions options, object clientData, OnSendPlayerBehaviorReportCompleteCallback completionDelegate)
+		public void SendPlayerBehaviorReport(ref SendPlayerBehaviorReportOptions options, object clientData, OnSendPlayerBehaviorReportCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SendPlayerBehaviorReportOptionsInternal, SendPlayerBehaviorReportOptions>(ref optionsAddress, options);
+			SendPlayerBehaviorReportOptionsInternal optionsInternal = new SendPlayerBehaviorReportOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnSendPlayerBehaviorReportCompleteCallbackInternal(OnSendPlayerBehaviorReportCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Reports_SendPlayerBehaviorReport(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Reports_SendPlayerBehaviorReport(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnSendPlayerBehaviorReportCompleteCallbackInternal))]
-		internal static void OnSendPlayerBehaviorReportCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnSendPlayerBehaviorReportCompleteCallbackInternalImplementation(ref SendPlayerBehaviorReportCompleteCallbackInfoInternal data)
 		{
 			OnSendPlayerBehaviorReportCompleteCallback callback;
 			SendPlayerBehaviorReportCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnSendPlayerBehaviorReportCompleteCallback, SendPlayerBehaviorReportCompleteCallbackInfoInternal, SendPlayerBehaviorReportCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

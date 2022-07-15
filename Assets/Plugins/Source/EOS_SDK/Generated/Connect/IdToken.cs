@@ -7,7 +7,7 @@ namespace Epic.OnlineServices.Connect
 	/// A structure that contains an ID token.
 	/// These structures are created by <see cref="ConnectInterface.CopyIdToken" /> and must be passed to <see cref="ConnectInterface.Release" />.
 	/// </summary>
-	public class IdToken : ISettable
+	public struct IdToken
 	{
 		/// <summary>
 		/// The Product User ID described by the ID token.
@@ -18,25 +18,17 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// The ID token as a Json Web Token (JWT) string.
 		/// </summary>
-		public string JsonWebToken { get; set; }
+		public Utf8String JsonWebToken { get; set; }
 
-		internal void Set(IdTokenInternal? other)
+		internal void Set(ref IdTokenInternal other)
 		{
-			if (other != null)
-			{
-				ProductUserId = other.Value.ProductUserId;
-				JsonWebToken = other.Value.JsonWebToken;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as IdTokenInternal?);
+			ProductUserId = other.ProductUserId;
+			JsonWebToken = other.JsonWebToken;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct IdTokenInternal : ISettable, System.IDisposable
+	internal struct IdTokenInternal : IGettable<IdToken>, ISettable<IdToken>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ProductUserId;
@@ -47,50 +39,58 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_ProductUserId, out value);
+				Helper.Get(m_ProductUserId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductUserId, value);
+				Helper.Set(value, ref m_ProductUserId);
 			}
 		}
 
-		public string JsonWebToken
+		public Utf8String JsonWebToken
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_JsonWebToken, out value);
+				Utf8String value;
+				Helper.Get(m_JsonWebToken, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_JsonWebToken, value);
+				Helper.Set(value, ref m_JsonWebToken);
 			}
 		}
 
-		public void Set(IdToken other)
+		public void Set(ref IdToken other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.IdtokenApiLatest;
+			ProductUserId = other.ProductUserId;
+			JsonWebToken = other.JsonWebToken;
+		}
+
+		public void Set(ref IdToken? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.IdtokenApiLatest;
-				ProductUserId = other.ProductUserId;
-				JsonWebToken = other.JsonWebToken;
+				ProductUserId = other.Value.ProductUserId;
+				JsonWebToken = other.Value.JsonWebToken;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as IdToken);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ProductUserId);
-			Helper.TryMarshalDispose(ref m_JsonWebToken);
+			Helper.Dispose(ref m_ProductUserId);
+			Helper.Dispose(ref m_JsonWebToken);
+		}
+
+		public void Get(out IdToken output)
+		{
+			output = new IdToken();
+			output.Set(ref this);
 		}
 	}
 }

@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Achievements
 	/// Function prototype definition for callbacks passed to <see cref="AchievementsInterface.QueryDefinitions" />
 	/// </summary>
 	/// <param name="data">An <see cref="OnQueryDefinitionsCompleteCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnQueryDefinitionsCompleteCallback(OnQueryDefinitionsCompleteCallbackInfo data);
+	public delegate void OnQueryDefinitionsCompleteCallback(ref OnQueryDefinitionsCompleteCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryDefinitionsCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryDefinitionsCompleteCallbackInternal(ref OnQueryDefinitionsCompleteCallbackInfoInternal data);
 }

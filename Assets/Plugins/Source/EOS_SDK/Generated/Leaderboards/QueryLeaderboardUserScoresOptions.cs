@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Input parameters for the <see cref="LeaderboardsInterface.QueryLeaderboardUserScores" /> function.
 	/// </summary>
-	public class QueryLeaderboardUserScoresOptions
+	public struct QueryLeaderboardUserScoresOptions
 	{
 		/// <summary>
 		/// An array of Product User IDs indicating the users whose scores you want to retrieve
@@ -37,7 +37,7 @@ namespace Epic.OnlineServices.Leaderboards
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryLeaderboardUserScoresOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryLeaderboardUserScoresOptionsInternal : ISettable<QueryLeaderboardUserScoresOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserIds;
@@ -52,7 +52,7 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserIds, value, out m_UserIdsCount);
+				Helper.Set(value, ref m_UserIds, out m_UserIdsCount);
 			}
 		}
 
@@ -60,7 +60,7 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet<UserScoresQueryStatInfoInternal, UserScoresQueryStatInfo>(ref m_StatInfo, value, out m_StatInfoCount);
+				Helper.Set<UserScoresQueryStatInfo, UserScoresQueryStatInfoInternal>(ref value, ref m_StatInfo, out m_StatInfoCount);
 			}
 		}
 
@@ -68,7 +68,7 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_StartTime, value);
+				Helper.Set(value, ref m_StartTime);
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EndTime, value);
+				Helper.Set(value, ref m_EndTime);
 			}
 		}
 
@@ -84,33 +84,38 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(QueryLeaderboardUserScoresOptions other)
+		public void Set(ref QueryLeaderboardUserScoresOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.QueryleaderboarduserscoresApiLatest;
+			UserIds = other.UserIds;
+			StatInfo = other.StatInfo;
+			StartTime = other.StartTime;
+			EndTime = other.EndTime;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryLeaderboardUserScoresOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.QueryleaderboarduserscoresApiLatest;
-				UserIds = other.UserIds;
-				StatInfo = other.StatInfo;
-				StartTime = other.StartTime;
-				EndTime = other.EndTime;
-				LocalUserId = other.LocalUserId;
+				UserIds = other.Value.UserIds;
+				StatInfo = other.Value.StatInfo;
+				StartTime = other.Value.StartTime;
+				EndTime = other.Value.EndTime;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryLeaderboardUserScoresOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserIds);
-			Helper.TryMarshalDispose(ref m_StatInfo);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_UserIds);
+			Helper.Dispose(ref m_StatInfo);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

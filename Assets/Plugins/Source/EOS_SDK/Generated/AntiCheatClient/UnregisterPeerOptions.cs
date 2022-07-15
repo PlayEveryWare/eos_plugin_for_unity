@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class UnregisterPeerOptions
+	public struct UnregisterPeerOptions
 	{
 		/// <summary>
 		/// Locally unique value describing the remote user, as previously passed to <see cref="AntiCheatClientInterface.RegisterPeer" />
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UnregisterPeerOptionsInternal : ISettable, System.IDisposable
+	internal struct UnregisterPeerOptionsInternal : ISettable<UnregisterPeerOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PeerHandle;
@@ -25,23 +25,24 @@ namespace Epic.OnlineServices.AntiCheatClient
 			}
 		}
 
-		public void Set(UnregisterPeerOptions other)
+		public void Set(ref UnregisterPeerOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatClientInterface.UnregisterpeerApiLatest;
-				PeerHandle = other.PeerHandle;
-			}
+			m_ApiVersion = AntiCheatClientInterface.UnregisterpeerApiLatest;
+			PeerHandle = other.PeerHandle;
 		}
 
-		public void Set(object other)
+		public void Set(ref UnregisterPeerOptions? other)
 		{
-			Set(other as UnregisterPeerOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatClientInterface.UnregisterpeerApiLatest;
+				PeerHandle = other.Value.PeerHandle;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PeerHandle);
+			Helper.Dispose(ref m_PeerHandle);
 		}
 	}
 }

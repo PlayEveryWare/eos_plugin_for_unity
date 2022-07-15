@@ -6,8 +6,8 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// Callback for completion of update sending request.
 	/// </summary>
-	public delegate void OnUpdateSendingCallback(UpdateSendingCallbackInfo data);
+	public delegate void OnUpdateSendingCallback(ref UpdateSendingCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnUpdateSendingCallbackInternal(System.IntPtr data);
+	internal delegate void OnUpdateSendingCallbackInternal(ref UpdateSendingCallbackInfoInternal data);
 }

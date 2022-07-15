@@ -6,65 +6,64 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for identifying which data records should be deleted.
 	/// </summary>
-	public class PresenceModificationDataRecordId : ISettable
+	public struct PresenceModificationDataRecordId
 	{
 		/// <summary>
 		/// The key to be deleted from the data record
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 
-		internal void Set(PresenceModificationDataRecordIdInternal? other)
+		internal void Set(ref PresenceModificationDataRecordIdInternal other)
 		{
-			if (other != null)
-			{
-				Key = other.Value.Key;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PresenceModificationDataRecordIdInternal?);
+			Key = other.Key;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PresenceModificationDataRecordIdInternal : ISettable, System.IDisposable
+	internal struct PresenceModificationDataRecordIdInternal : IGettable<PresenceModificationDataRecordId>, ISettable<PresenceModificationDataRecordId>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Key;
 
-		public string Key
+		public Utf8String Key
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Key, out value);
+				Utf8String value;
+				Helper.Get(m_Key, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
-		public void Set(PresenceModificationDataRecordId other)
+		public void Set(ref PresenceModificationDataRecordId other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceModification.PresencemodificationDatarecordidApiLatest;
+			Key = other.Key;
+		}
+
+		public void Set(ref PresenceModificationDataRecordId? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceModification.PresencemodificationDatarecordidApiLatest;
-				Key = other.Key;
+				Key = other.Value.Key;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PresenceModificationDataRecordId);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Key);
+			Helper.Dispose(ref m_Key);
+		}
+
+		public void Get(out PresenceModificationDataRecordId output)
+		{
+			output = new PresenceModificationDataRecordId();
+			output.Set(ref this);
 		}
 	}
 }

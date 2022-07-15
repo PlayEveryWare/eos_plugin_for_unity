@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Mods
 	/// Function prototype definition for callbacks passed to <see cref="ModsInterface.EnumerateMods" />
 	/// </summary>
 	/// <param name="data">A <see cref="EnumerateModsCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnEnumerateModsCallback(EnumerateModsCallbackInfo data);
+	public delegate void OnEnumerateModsCallback(ref EnumerateModsCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnEnumerateModsCallbackInternal(System.IntPtr data);
+	internal delegate void OnEnumerateModsCallbackInternal(ref EnumerateModsCallbackInfoInternal data);
 }

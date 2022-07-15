@@ -4,12 +4,30 @@ using UnityEditor;
 using UnityEngine;
 using System.IO;
 using PlayEveryWare.EpicOnlineServices;
+using System.Collections.Generic;
 
 public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
 {
     public int callbackOrder { get { return 0; } }
     private string[] postBuildFiles = {
+        "EACLauncher.exe",
+        //optional override config file for EAC CDN
+        "[UnityProductName].exe.eac",
+        "EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe",
+        "EasyAntiCheat/Settings.json",
+        "EasyAntiCheat/SplashScreen.png"
     };
+
+    private HashSet<string> postBuildFilesOptional = new HashSet<string>(){
+        "[UnityProductName].exe.eac"
+    };
+
+    //files with contents that need string vars replaced
+    private HashSet<string> postBuildFilesWithVars = new HashSet<string>(){
+        "EasyAntiCheat/Settings.json"
+    };
+
+    private EOSConfig eosConfig = null;
 
     //-------------------------------------------------------------------------
     private static string GetPackageName()
@@ -57,20 +75,20 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     //-------------------------------------------------------------------------
     private static void InstallBootStrapper(BuildReport report, string pathToEOSBootStrapperTool, string pathToEOSBootStrapper)
     {
-        string installPathForExe = report.summary.outputPath;
-        string installDirectory = Path.GetDirectoryName(installPathForExe);
+        string appFilenameExe = Path.GetFileName(report.summary.outputPath);
+        string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
         string installPathForEOSBootStrapper = Path.Combine(installDirectory, "EOSBootStrapper.exe");
+        string workingDirectory = Path.Combine(Application.dataPath, "../bin/");
         string bootStrapperArgs = ""
-           + " --source-bootstrapper-path " + "\"" + pathToEOSBootStrapper + "\""
-           + " --target-bootstrapper-path " + "\"" + installPathForEOSBootStrapper + "\""
-           + " --target-application-path "  + "\"" + installPathForExe + "\""
+           + " --output-path " + "\"" + installPathForEOSBootStrapper + "\""
+           + " --app-path "  + "\"" + appFilenameExe + "\""
         ;
 
         var procInfo = new System.Diagnostics.ProcessStartInfo();
         procInfo.FileName = pathToEOSBootStrapperTool;
         procInfo.Arguments = bootStrapperArgs;
         procInfo.UseShellExecute = false;
-        procInfo.WorkingDirectory = installDirectory;
+        procInfo.WorkingDirectory = workingDirectory;
         procInfo.RedirectStandardOutput = true;
         procInfo.RedirectStandardError = true;
 
@@ -119,19 +137,64 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
                     }
                     string destPathname = Path.Combine(fileToInstallParentDirectory, Path.GetFileName(fileToInstallPathName));
 
+                    destPathname = ReplaceFileNameVars(destPathname);
+
                     if (File.Exists(destPathname))
                     {
                         File.SetAttributes(destPathname, File.GetAttributes(destPathname) & ~FileAttributes.ReadOnly);
                     }
 
                     File.Copy(fileToInstallPathName, destPathname, true);
+
+                    if (postBuildFilesWithVars.Contains(fileToInstall))
+                    {
+                        ReplaceFileContentVars(destPathname);
+                    }
                 }
-                else
+                else if(!postBuildFilesOptional.Contains(fileToInstall))
                 {
                     Debug.LogError("Missing platform specific file: " + fileToInstall);
                 }
             }
         }
+    }
+
+    private EOSConfig GetEOSConfig()
+    {
+        if (eosConfig != null)
+        {
+            return eosConfig;
+        }
+
+        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSManager.ConfigFileName);
+        var configDataAsString = File.ReadAllText(configFilePath);
+        var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
+        eosConfig = configData;
+        return configData;
+    }
+
+    private static string ReplaceFileNameVars(string filename)
+    {
+        filename = filename.Replace("[UnityProductName]", Application.productName);
+        return filename;
+    }
+
+    private void ReplaceFileContentVars(string filepath)
+    {
+        var fileContents = File.ReadAllText(filepath);
+        EOSConfig eosConfig = GetEOSConfig();
+
+        var sb = new System.Text.StringBuilder(fileContents);
+
+        sb.Replace("<UnityProductName>", Application.productName);
+        sb.Replace("<ProductName>", eosConfig.productName);
+        sb.Replace("<ProductID>", eosConfig.productID);
+        sb.Replace("<SandboxID>", eosConfig.sandboxID);
+        sb.Replace("<DeploymentID>", eosConfig.deploymentID);
+
+        fileContents = sb.ToString();
+
+        File.WriteAllText(filepath, fileContents);
     }
 
     //-------------------------------------------------------------------------

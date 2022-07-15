@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Output parameters for the <see cref="LobbyInterface.AddNotifyLobbyMemberStatusReceived" /> function.
 	/// </summary>
-	public class LobbyMemberStatusReceivedCallbackInfo : ICallbackInfo, ISettable
+	public struct LobbyMemberStatusReceivedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="LobbyInterface.AddNotifyLobbyMemberStatusReceived" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The ID of the lobby
 		/// </summary>
-		public string LobbyId { get; private set; }
+		public Utf8String LobbyId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the lobby member
 		/// </summary>
-		public ProductUserId TargetUserId { get; private set; }
+		public ProductUserId TargetUserId { get; set; }
 
 		/// <summary>
 		/// Latest status of the user
 		/// </summary>
-		public LobbyMemberStatus CurrentStatus { get; private set; }
+		public LobbyMemberStatus CurrentStatus { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(LobbyMemberStatusReceivedCallbackInfoInternal? other)
+		internal void Set(ref LobbyMemberStatusReceivedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LobbyId = other.Value.LobbyId;
-				TargetUserId = other.Value.TargetUserId;
-				CurrentStatus = other.Value.CurrentStatus;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyMemberStatusReceivedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LobbyId = other.LobbyId;
+			TargetUserId = other.TargetUserId;
+			CurrentStatus = other.CurrentStatus;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyMemberStatusReceivedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct LobbyMemberStatusReceivedCallbackInfoInternal : ICallbackInfoInternal, IGettable<LobbyMemberStatusReceivedCallbackInfo>, ISettable<LobbyMemberStatusReceivedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LobbyId;
@@ -63,8 +55,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -76,13 +73,18 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LobbyId, out value);
+				Utf8String value;
+				Helper.Get(m_LobbyId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
@@ -91,8 +93,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -102,6 +109,43 @@ namespace Epic.OnlineServices.Lobby
 			{
 				return m_CurrentStatus;
 			}
+
+			set
+			{
+				m_CurrentStatus = value;
+			}
+		}
+
+		public void Set(ref LobbyMemberStatusReceivedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LobbyId = other.LobbyId;
+			TargetUserId = other.TargetUserId;
+			CurrentStatus = other.CurrentStatus;
+		}
+
+		public void Set(ref LobbyMemberStatusReceivedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LobbyId = other.Value.LobbyId;
+				TargetUserId = other.Value.TargetUserId;
+				CurrentStatus = other.Value.CurrentStatus;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LobbyId);
+			Helper.Dispose(ref m_TargetUserId);
+		}
+
+		public void Get(out LobbyMemberStatusReceivedCallbackInfo output)
+		{
+			output = new LobbyMemberStatusReceivedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

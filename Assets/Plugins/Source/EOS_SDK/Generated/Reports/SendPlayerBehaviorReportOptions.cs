@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Reports
 	/// <summary>
 	/// Input parameters for the <see cref="ReportsInterface.SendPlayerBehaviorReport" /> function.
 	/// </summary>
-	public class SendPlayerBehaviorReportOptions
+	public struct SendPlayerBehaviorReportOptions
 	{
 		/// <summary>
 		/// Product User ID of the reporting player
@@ -29,7 +29,7 @@ namespace Epic.OnlineServices.Reports
 		/// The length of the message can be at maximum up to <see cref="ReportsInterface.ReportmessageMaxLength" /> bytes
 		/// and any excess characters will be truncated upon sending the report.
 		/// </summary>
-		public string Message { get; set; }
+		public Utf8String Message { get; set; }
 
 		/// <summary>
 		/// Optional JSON string associated with the report as UTF-8 encoded null-terminated string.
@@ -38,11 +38,11 @@ namespace Epic.OnlineServices.Reports
 		/// This string needs to be valid JSON, report will fail otherwise.
 		/// The length of the context can be at maximum up to <see cref="ReportsInterface.ReportcontextMaxLength" /> bytes, not including the null terminator, report will fail otherwise.
 		/// </summary>
-		public string Context { get; set; }
+		public Utf8String Context { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SendPlayerBehaviorReportOptionsInternal : ISettable, System.IDisposable
+	internal struct SendPlayerBehaviorReportOptionsInternal : ISettable<SendPlayerBehaviorReportOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ReporterUserId;
@@ -55,7 +55,7 @@ namespace Epic.OnlineServices.Reports
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ReporterUserId, value);
+				Helper.Set(value, ref m_ReporterUserId);
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace Epic.OnlineServices.Reports
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ReportedUserId, value);
+				Helper.Set(value, ref m_ReportedUserId);
 			}
 		}
 
@@ -75,46 +75,51 @@ namespace Epic.OnlineServices.Reports
 			}
 		}
 
-		public string Message
+		public Utf8String Message
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Message, value);
+				Helper.Set(value, ref m_Message);
 			}
 		}
 
-		public string Context
+		public Utf8String Context
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Context, value);
+				Helper.Set(value, ref m_Context);
 			}
 		}
 
-		public void Set(SendPlayerBehaviorReportOptions other)
+		public void Set(ref SendPlayerBehaviorReportOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ReportsInterface.SendplayerbehaviorreportApiLatest;
+			ReporterUserId = other.ReporterUserId;
+			ReportedUserId = other.ReportedUserId;
+			Category = other.Category;
+			Message = other.Message;
+			Context = other.Context;
+		}
+
+		public void Set(ref SendPlayerBehaviorReportOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ReportsInterface.SendplayerbehaviorreportApiLatest;
-				ReporterUserId = other.ReporterUserId;
-				ReportedUserId = other.ReportedUserId;
-				Category = other.Category;
-				Message = other.Message;
-				Context = other.Context;
+				ReporterUserId = other.Value.ReporterUserId;
+				ReportedUserId = other.Value.ReportedUserId;
+				Category = other.Value.Category;
+				Message = other.Value.Message;
+				Context = other.Value.Context;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SendPlayerBehaviorReportOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ReporterUserId);
-			Helper.TryMarshalDispose(ref m_ReportedUserId);
-			Helper.TryMarshalDispose(ref m_Message);
-			Helper.TryMarshalDispose(ref m_Context);
+			Helper.Dispose(ref m_ReporterUserId);
+			Helper.Dispose(ref m_ReportedUserId);
+			Helper.Dispose(ref m_Message);
+			Helper.Dispose(ref m_Context);
 		}
 	}
 }
