@@ -71,7 +71,7 @@ public class UnityPackageCreationTool : EditorWindow
         packagingConfigSection.LoadConfigFromDisk();
 
         // Configure UI defaults
-        pathToJSONPackageDescription = Path.Combine(GetPackageConfigDirectory(), "eos_package_description_restricted.json");
+        pathToJSONPackageDescription = Path.Combine(GetPackageConfigDirectory(), "eos_package_description.json");
 
         var currentConfig = packagingConfigSection.GetCurrentConfig();
         if (!string.IsNullOrEmpty(currentConfig.pathToJSONPackageDescription))
