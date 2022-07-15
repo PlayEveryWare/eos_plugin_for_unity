@@ -22,6 +22,9 @@
 
 ﻿namespace PlayEveryWare.EpicOnlineServices
 {
+    /// <summary>
+    /// Interface for <c>Manager</c> classes.
+    /// </summary>
     public interface IEOSSubManager
     {
     }

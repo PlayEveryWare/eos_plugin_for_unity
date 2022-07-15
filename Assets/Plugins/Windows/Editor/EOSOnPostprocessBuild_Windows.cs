@@ -81,20 +81,20 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     //-------------------------------------------------------------------------
     private static void InstallBootStrapper(BuildReport report, string pathToEOSBootStrapperTool, string pathToEOSBootStrapper)
     {
-        string installPathForExe = report.summary.outputPath;
-        string installDirectory = Path.GetDirectoryName(installPathForExe);
+        string appFilenameExe = Path.GetFileName(report.summary.outputPath);
+        string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
         string installPathForEOSBootStrapper = Path.Combine(installDirectory, "EOSBootStrapper.exe");
+        string workingDirectory = Path.Combine(Application.dataPath, "../bin/");
         string bootStrapperArgs = ""
-           + " --source-bootstrapper-path " + "\"" + pathToEOSBootStrapper + "\""
-           + " --target-bootstrapper-path " + "\"" + installPathForEOSBootStrapper + "\""
-           + " --target-application-path "  + "\"" + installPathForExe + "\""
+           + " --output-path " + "\"" + installPathForEOSBootStrapper + "\""
+           + " --app-path "  + "\"" + appFilenameExe + "\""
         ;
 
         var procInfo = new System.Diagnostics.ProcessStartInfo();
         procInfo.FileName = pathToEOSBootStrapperTool;
         procInfo.Arguments = bootStrapperArgs;
         procInfo.UseShellExecute = false;
-        procInfo.WorkingDirectory = installDirectory;
+        procInfo.WorkingDirectory = workingDirectory;
         procInfo.RedirectStandardOutput = true;
         procInfo.RedirectStandardError = true;
 
