@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
-## [1.0.5] - 2022-07-05
+## [2.0.0] - 2022-07-14
 
 ### Added
 - Ability for platform specific implementations to update network status.
@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added toggle to Achievements scene menu to change between viewing the user-specific data for the achievement and the global definition.
 
 ### Changed
-- Updated to EOS SDK 1.15.
+- Updated to EOS SDK 1.15.1.
 - ApplicationStatus no longer updates on every application focus/pause change.
 - Improved keyboard navigation for login in samples.
 - Improved usability of creating packages with Editor coroutines.
@@ -56,6 +56,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Text box for file storage demo is now multiline.
 - Set LibraryName when using EOS_DISABLE directive.
 - Changed sample scenes to use old input system.
+
+## [1.0.5] - 2002-07-11
+
+### Changed
+- Update to EOS SDK with Steam hotfix
 
 ## [1.0.4] - 2022-03-18
 
