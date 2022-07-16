@@ -60,12 +60,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OutgoingMessageCounters = new Dictionary<ProductUserId, int>();
             IncomingMessageCounters = new Dictionary<ProductUserId, int>();
 
-            LobbyManager.SubscribeToLobbyChanges(OnLobbyChanged);
-            LobbyManager.SubscribeToLobbyUpdates(OnLobbyUpdated);
-            LobbyManager.SubscribeToMemberUpdates(OnMemberUpdated);
+            if (AntiCheatManager.IsAntiCheatAvailable())
+            {
+                LobbyManager.SubscribeToLobbyChanges(OnLobbyChanged);
+                LobbyManager.SubscribeToLobbyUpdates(OnLobbyUpdated);
+                LobbyManager.SubscribeToMemberUpdates(OnMemberUpdated);
 
-            AntiCheatManager.SubscribeToMessageToPeer(OnMessageToPeer);
-            AntiCheatManager.SubscribeToPeerActionRequired(OnPeerActionRequired);
+                AntiCheatManager.SubscribeToMessageToPeer(OnMessageToPeer);
+                AntiCheatManager.SubscribeToPeerActionRequired(OnPeerActionRequired);
+            }
+        }
+
+        /// <summary>
+        /// Check if EAC functionality is availble
+        /// </summary>
+        /// <returns>False if EAC client functionality is not available i.e. game was launched without EAC bootstrapper</returns>
+        public bool IsAntiCheatAvailable()
+        {
+            return AntiCheatManager.IsAntiCheatAvailable();
         }
 
         private void OnMessageToPeer(ref OnMessageToClientCallbackInfo data)

@@ -108,6 +108,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
             AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
+            if (AntiCheatEnabledVal != null)
+            {
+                AntiCheatEnabledVal.isOn = false;
+                AntiCheatEnabledVal.interactable = AntiCheatLobbyManager.IsAntiCheatAvailable();
+            }
 
             LobbyManager.SubscribeToMemberUpdates(OnMemberUpdate);
         }

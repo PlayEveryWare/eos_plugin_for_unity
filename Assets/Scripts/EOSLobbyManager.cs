@@ -2156,6 +2156,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (!string.IsNullOrEmpty(localUserDisplayName))
             {
+                Debug.Log("Lobbies (AddLocalUserAttributes): adding displayname attribute.");
                 LobbyAttribute nameAttrib = new LobbyAttribute() { Key = LobbyMember.DisplayNameKey, AsString = localUserDisplayName, ValueType = AttributeType.String };
                 SetMemberAttribute(nameAttrib);
             }

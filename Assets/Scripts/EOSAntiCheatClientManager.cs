@@ -108,6 +108,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Check if EAC functionality is availble
+        /// </summary>
+        /// <returns>False if EAC client functionality is not available i.e. game was launched without EAC bootstrapper</returns>
+        public bool IsAntiCheatAvailable()
+        {
+            return AntiCheatHandle != null;
+        }
+
         public void OnConnectLogin(LoginCallbackInfo loginCallbackInfo)
         {
             GetLocalIdToken();
