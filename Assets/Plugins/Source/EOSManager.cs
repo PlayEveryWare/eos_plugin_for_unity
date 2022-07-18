@@ -38,7 +38,8 @@
 #define PLATFORM_32BITS
 #endif
 
-#define ENABLE_DEBUG_EOSMANAGER
+
+//#define ENABLE_DEBUG_EOSMANAGER
 
 // If using a 1.12 or newer, this allows the eos manager to use the new
 // bindings API to hook up and load the library
