@@ -400,6 +400,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         private WriteResult SendData(string fileName, out ArraySegment<byte> data)
         {
+            data = new ArraySegment<byte>();
 
             if (TransfersInProgress.TryGetValue(fileName, out EOSTransferInProgress transfer))
             {
