@@ -36,7 +36,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : MonoBehaviour
+    public class UILobbiesMenu : MonoBehaviour, ISampleSceneUI
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;

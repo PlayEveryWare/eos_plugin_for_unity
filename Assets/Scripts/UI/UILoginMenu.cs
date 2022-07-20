@@ -742,6 +742,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnExitButtonClick()
         {
             Application.Quit();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.ExitPlaymode();
+#endif
         }
     }
 }

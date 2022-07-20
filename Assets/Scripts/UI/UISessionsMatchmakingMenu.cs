@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UISessionsMatchmakingMenu : MonoBehaviour
+    public class UISessionsMatchmakingMenu : MonoBehaviour, ISampleSceneUI
     {
         public GameObject SessionsMatchmakingUIParent;
 

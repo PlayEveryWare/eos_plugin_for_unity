@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPeer2PeerMenu : MonoBehaviour
+    public class UIPeer2PeerMenu : MonoBehaviour, ISampleSceneUI
     {
         [Header("Peer 2 Peer UI")]
         public GameObject Peer2PeerUIParent;

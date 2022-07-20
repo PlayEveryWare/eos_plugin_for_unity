@@ -42,7 +42,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIFriendsMenu : MonoBehaviour
+    public class UIFriendsMenu : MonoBehaviour, ISampleSceneUI
     {
         [Header("Friends UI")]
         public GameObject FriendsUIParent;

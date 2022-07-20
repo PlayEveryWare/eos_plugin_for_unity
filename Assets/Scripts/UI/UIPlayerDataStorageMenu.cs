@@ -37,7 +37,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPlayerDataStorageMenu : MonoBehaviour
+    public class UIPlayerDataStorageMenu : MonoBehaviour, ISampleSceneUI
     {
         [Header("Player Data Storage UI")]
         public GameObject PlayerDataStorageUIParent;
