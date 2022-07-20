@@ -24,6 +24,16 @@ using UnityEngine;
 
 public class SampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
 {
+    private Vector2 initialAnchorMin;
+    private Vector2 initialSizeDelta;
+
+    private void Start()
+    {
+        var rt = transform as RectTransform;
+        initialAnchorMin = rt.anchorMin;
+        initialSizeDelta = rt.sizeDelta;
+    }
+
     public void ShowMenu()
     {
         var childElements = GetComponentsInChildren<ISampleSceneUI>(true);
@@ -49,6 +59,21 @@ public class SampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
             }
 
             childElement.HideMenu();
+        }
+    }
+
+    public void SetFullscreen(bool fullscreen)
+    {
+        var rt = transform as RectTransform;
+        if (fullscreen)
+        {
+            rt.anchorMin = new Vector2(initialAnchorMin.x, 0);
+            rt.sizeDelta = new Vector2(initialSizeDelta.x, 0);
+        }
+        else
+        {
+            rt.anchorMin = initialAnchorMin;
+            rt.sizeDelta = initialSizeDelta;
         }
     }
 }

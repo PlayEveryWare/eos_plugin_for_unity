@@ -38,9 +38,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private bool _dirty = false;
         private string logCache = string.Empty;
+        private string textFilter = string.Empty;
 
         private float deltaTime_FPS;
         public Text FPSValue;
+
+        public SampleSceneUIContainer DemoSceneContainer;
+
+        public InputField FilterInput;
+        public GameObject[] OptionElements;
+        private bool optionsVisible;
+
+        private Vector2 initialAnchorMax;
+        private Vector2 initialSizeDelta;
+        private bool expanded;
+
+        private void Start()
+        {
+            initialAnchorMax = (transform as RectTransform).anchorMax;
+            initialSizeDelta = (transform as RectTransform).sizeDelta;
+            expanded = false;
+        }
 
         void OnEnable()
         {
@@ -52,6 +70,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 UIDebugLogText.text = "<I>OnScreen Logging Disabled</I>";
             }
+
+            foreach (var element in OptionElements)
+            {
+                element.SetActive(false);
+            }
+            optionsVisible = false;
         }
 
         void OnDisable()
@@ -105,12 +129,57 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 foreach (string logEntry in logCacheList)
                 {
+                    if (textFilter != string.Empty && !logEntry.ToLower().Contains(textFilter))
+                    {
+                        continue;
+                    }
+
                     logCache += '\n' + logEntry;
                 }
                 _dirty = false;
             }
 
             return logCache;
+        }
+
+        public void OnTextFilterEdit(string text)
+        {
+            textFilter = FilterInput.text.Trim().ToLower();
+            _dirty = true;
+        }
+
+        public void ToggleOptions()
+        {
+            optionsVisible = !optionsVisible;
+            foreach (var element in OptionElements)
+            {
+                element.SetActive(optionsVisible);
+            }
+        }
+
+        public void ToggleExpand()
+        {
+            var rt = transform as RectTransform;
+
+            expanded = !expanded;
+
+            if (expanded)
+            {
+                rt.anchorMax = new Vector2(initialAnchorMax.x, 1);
+                rt.sizeDelta = new Vector2(rt.sizeDelta.x, 0);
+            }
+            else
+            {
+                rt.anchorMax = initialAnchorMax;
+                rt.sizeDelta = initialSizeDelta;
+            }
+        }
+
+        public void ToggleLogVisibility()
+        {
+            bool newVisibility = !ScrollRect.gameObject.activeSelf;
+            ScrollRect.gameObject.SetActive(newVisibility);
+            DemoSceneContainer?.SetFullscreen(!newVisibility);
         }
 
         private void Update()
