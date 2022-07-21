@@ -48,7 +48,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject FriendsUIParent;
 
         public GameObject FriendsPanel;
-        public Button FriendsTabButton_Closed;
         private bool collapsed = false;
 
         public ConsoleInputField SearchFriendsInput;
@@ -81,12 +80,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public bool EnablePlayerReport = false;
         public UIPlayerReportMenu UIPlayerReportMenu;
 
+        private float initialPanelAnchoredPosX;
+
 
 #if !ENABLE_INPUT_SYSTEM
         private void Awake()
         {
             // Ensure Disable Controller UI
-            foreach(GameObject o in ControllerUIObjects)
+            foreach (GameObject o in ControllerUIObjects)
             {
                 o.SetActive(false);
             }
@@ -95,15 +96,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Start()
         {
+            Debug.Log("UIFriendsMenu::Start");
+            initialPanelAnchoredPosX = (FriendsPanel.transform as RectTransform).anchoredPosition.x;
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
 
             if (CollapseOnStart)
             {
                 CollapseFriendsTab();
-            }
-            else
-            {
-                FriendsTabButton_Closed.gameObject.SetActive(false);
             }
 
             SearchFriendsInput.InputField.onEndEdit.AddListener(SearchFriendsInputEnterPressed);
@@ -249,17 +248,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void CollapseFriendsTab()
         {
-            FriendsTabButton_Closed.gameObject.SetActive(true);
+            var panelRT = FriendsPanel.transform as RectTransform;
+            var newPos = panelRT.anchoredPosition;
+            newPos.x = 0;
+            panelRT.anchoredPosition = newPos;
 
-            FriendsPanel.SetActive(false);
             collapsed = true;
         }
 
         public void ExpandFriendsTab()
         {
-            FriendsTabButton_Closed.gameObject.SetActive(false);
-
-            FriendsPanel.SetActive(true);
+            var panelRT = FriendsPanel.transform as RectTransform;
+            var newPos = panelRT.anchoredPosition;
+            newPos.x = initialPanelAnchoredPosX;
+            panelRT.anchoredPosition = newPos;
 
             collapsed = false;
         }
