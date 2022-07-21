@@ -20,15 +20,18 @@
 * SOFTWARE.
 */
 
+using System;
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Epic.OnlineServices.Logging;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UIDebugLog : MonoBehaviour
     {
+        [Header("Debug Log UI")]
         public bool DisableOnScreenLog = false;
         public const int MAX_LINES_TO_DISPLAY = 7;
         public Text UIDebugLogText;
@@ -45,7 +48,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public SampleSceneUIContainer DemoSceneContainer;
 
-        public InputField FilterInput;
         public GameObject[] OptionElements;
         private bool optionsVisible;
 
@@ -53,11 +55,84 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Vector2 initialSizeDelta;
         private bool expanded;
 
+        [Header("Log Level Menu")]
+        public GameObject LogLevelMenu;
+        public Transform LogLevelContentContainer;
+        public UIDebugLogLevelMenuItem LogLevelTemplate;
+        private UIDebugLogLevelMenuItem allCategoriesMenuItem;
+        private List<UIDebugLogLevelMenuItem> logLevelMenuItems;
+        private bool ignoreLogLevelChange;
+
         private void Start()
         {
             initialAnchorMax = (transform as RectTransform).anchorMax;
             initialSizeDelta = (transform as RectTransform).sizeDelta;
             expanded = false;
+
+            ignoreLogLevelChange = true;
+            logLevelMenuItems = new List<UIDebugLogLevelMenuItem>();
+            BuildLogLevelMenu();
+            ignoreLogLevelChange = false;
+            LogLevelMenu.SetActive(false);
+        }
+
+        private void BuildLogLevelMenu()
+        {
+            LogLevelTemplate.InitDropdown();
+
+            allCategoriesMenuItem = CreateLogCategoryItem(LogCategory.AllCategories);
+            logLevelMenuItems.Add(allCategoriesMenuItem);
+            foreach (LogCategory cat in Enum.GetValues(typeof(LogCategory)))
+            {
+                if (cat != LogCategory.AllCategories)
+                {
+                    logLevelMenuItems.Add(CreateLogCategoryItem(cat));
+                }
+            }
+        }
+
+        private UIDebugLogLevelMenuItem CreateLogCategoryItem(LogCategory Category)
+        {
+            var newItem = Instantiate(LogLevelTemplate, LogLevelContentContainer);
+            newItem.SetCategory(Category);
+            LogLevel catLevel = EOSManager.Instance.GetLogLevel(Category);
+            newItem.SetLevel(catLevel);
+            newItem.gameObject.SetActive(true);
+            return newItem;
+        }
+
+        public void OnLogLevelChanged(LogCategory Category, LogLevel Level)
+        {
+            if (ignoreLogLevelChange)
+            {
+                //ignore value change events while menu is being initialized or changed here
+                return;
+            }
+
+            EOSManager.Instance.SetLogLevel(Category, Level);
+            ignoreLogLevelChange = true;
+            if (Category == LogCategory.AllCategories)
+            {
+                //update all levels if AllCategories was changed
+                foreach (var item in logLevelMenuItems)
+                {
+                    var cat = item.GetCategory();
+                    if (cat != LogCategory.AllCategories)
+                    {
+                        item.SetLevel(EOSManager.Instance.GetLogLevel(cat));
+                    }
+                }
+            }
+            else
+            {
+                allCategoriesMenuItem.SetLevel(EOSManager.Instance.GetLogLevel(LogCategory.AllCategories));
+            }
+            ignoreLogLevelChange = false;
+        }
+
+        public void ToggleLogLevelMenu()
+        {
+            LogLevelMenu.SetActive(!LogLevelMenu.activeSelf);
         }
 
         void OnEnable()
@@ -142,9 +217,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return logCache;
         }
 
-        public void OnTextFilterEdit(string text)
+        public void OnTextFilterEdit(string newFilter)
         {
-            textFilter = FilterInput.text.Trim().ToLower();
+            textFilter = newFilter.Trim().ToLower();
             _dirty = true;
         }
 

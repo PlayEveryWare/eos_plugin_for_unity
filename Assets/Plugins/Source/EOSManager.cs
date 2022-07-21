@@ -111,6 +111,9 @@ namespace PlayEveryWare.EpicOnlineServices
         private static bool s_isOverlayVisible = false;
         private static bool s_DoesOverlayHaveExcusiveInput = false;
 
+        //cached log levels for retrieving later
+        static Dictionary<LogCategory, LogLevel> logLevels = new Dictionary<LogCategory, LogLevel>();
+
         enum EOSState
         {
             NotStarted,
@@ -434,9 +437,9 @@ namespace PlayEveryWare.EpicOnlineServices
                         hasSetLoggingCallback = true;
                     }
 #if UNITY_EDITOR
-                    Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+                    SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
 #else
-                    Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
+                    SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 #endif
 
                     InitializeOverlay(coroutineOwner);
@@ -483,7 +486,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_hasInitializedPlatform = true;
 
                 Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
-                Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
+                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 
 
                 var eosPlatformInterface = CreatePlatformInterface(configData);
@@ -533,6 +536,67 @@ namespace PlayEveryWare.EpicOnlineServices
                 var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
                 UnityEngine.Debug.LogFormat(LogType.Log, LogOption.NoStacktrace, null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
+            }
+
+            /// <summary>
+            /// Wrapper function for [EOS_Logging_SetLogLevel](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/NoInterface/EOS_Logging_SetLogLevel/index.html)
+            /// that stores log level for later access
+            /// </summary>
+            /// <param name="Category">Log category to modify</param>
+            /// <param name="Level">New log level to set</param>
+            public void SetLogLevel(LogCategory Category, LogLevel Level)
+            {
+                LoggingInterface.SetLogLevel(Category, Level);
+                if (Category == LogCategory.AllCategories)
+                {
+                    foreach (LogCategory cat in Enum.GetValues(typeof(LogCategory)))
+                    {
+                        if (cat != LogCategory.AllCategories)
+                        {
+                            logLevels[cat] = Level;
+                        }
+                    }
+                }
+                else
+                {
+                    logLevels[Category] = Level;
+                }
+            }
+
+            /// <summary>
+            /// Retrieves a log level previously set with <c>SetLogLevel</c>
+            /// </summary>
+            /// <param name="Category"><c>LogCategory</c> to retrieve <c>LogLevel</c> for</param>
+            /// <returns><c>LogLevel</c> for the given <c>LogCategory</c>. Returns -1 if Category is AllCategories and not all categories are set to the same level.</returns>
+            public LogLevel GetLogLevel(LogCategory Category)
+            {
+                if (Category == LogCategory.AllCategories)
+                {
+                    LogLevel level = GetLogLevel(LogCategory.Core);
+                    foreach (LogCategory cat in Enum.GetValues(typeof(LogCategory)))
+                    {
+                        if (cat != LogCategory.AllCategories)
+                        {
+                            LogLevel catLevel = GetLogLevel(cat);
+                            if (catLevel != level)
+                            {
+                                return (LogLevel)(-1);
+                            }
+                        }
+                    }
+                    return level;
+                }
+                else
+                {
+                    if (logLevels.ContainsKey(Category))
+                    {
+                        return logLevels[Category];
+                    }
+                    else
+                    {
+                        return LogLevel.Off;
+                    }
+                }
             }
 
             //-------------------------------------------------------------------------
