@@ -133,6 +133,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ToggleLogLevelMenu()
         {
             LogLevelMenu.SetActive(!LogLevelMenu.activeSelf);
+
+            if (LogLevelMenu.activeSelf)
+            {
+                foreach (var item in logLevelMenuItems)
+                {
+                    var cat = item.GetCategory();
+                    item.SetLevel(EOSManager.Instance.GetLogLevel(cat));
+                }
+            }
         }
 
         void OnEnable()
