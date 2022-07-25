@@ -1148,8 +1148,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2211920899777240474}
   m_HandleRect: {fileID: 2211920899777240475}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.9999999
+  m_Value: 1
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1833,50 +1833,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2211920899434422385}
     m_Modifications:
-    - target: {fileID: 1075673800986059780, guid: 72716240d2b498c47bb1f155ea26e072,
+    - target: {fileID: 838087977350983969, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
+      propertyPath: m_AnchoredPosition.x
+      value: -99.72961
       objectReference: {fileID: 0}
-    - target: {fileID: 2543597308619985420, guid: 72716240d2b498c47bb1f155ea26e072,
+    - target: {fileID: 838087977350983969, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2936121744727547927, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3410185883374524599, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3740011867677961315, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4152535926956037405, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4156547808633010167, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5057580978792548703, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5334331452091252120, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
+      propertyPath: m_SizeDelta.x
+      value: -209.45921
       objectReference: {fileID: 0}
     - target: {fileID: 5374375564194558836, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
@@ -1901,7 +1866,7 @@ PrefabInstance:
     - target: {fileID: 5374375564194558836, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5374375564194558836, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
@@ -1911,7 +1876,7 @@ PrefabInstance:
     - target: {fileID: 5374375564194558836, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5374375564194558836, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
@@ -1961,12 +1926,12 @@ PrefabInstance:
     - target: {fileID: 5374375564194558836, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 130.02638
       objectReference: {fileID: 0}
     - target: {fileID: 5374375564194558836, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -11.665558
       objectReference: {fileID: 0}
     - target: {fileID: 5374375564194558836, guid: 72716240d2b498c47bb1f155ea26e072,
         type: 3}
@@ -1992,16 +1957,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5488340216806256163, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8313784390212198668, guid: 72716240d2b498c47bb1f155ea26e072,
-        type: 3}
-      propertyPath: m_CullTransparentMesh
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72716240d2b498c47bb1f155ea26e072, type: 3}
