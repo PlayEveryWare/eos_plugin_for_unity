@@ -186,7 +186,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (fileContent == null)
             {
-                fileContent = "*** Download File Content ***";
+                fileContent = "*** Press Download button to load file content ***";
             }
             else if (fileContent.Length == 0)
             {
