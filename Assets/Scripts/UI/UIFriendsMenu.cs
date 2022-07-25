@@ -105,11 +105,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 CollapseFriendsTab();
             }
 
-            SearchFriendsInput.InputField.onEndEdit.AddListener(SearchFriendsInputEnterPressed);
             isSearching = false;
         }
 
-        private void SearchFriendsInputEnterPressed(string searchString)
+        public void SearchFriendsEndEdit(string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
             {

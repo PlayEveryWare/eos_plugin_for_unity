@@ -56,6 +56,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button AddMemberAttributeButton;
 
         // Current Lobby
+        [Header("Lobbies UI - Current Lobby")]
+        public GameObject CurrentLobbyPanel;
         public Text LobbyIdVal;
         public Text OwnerIdVal;
 
@@ -101,10 +103,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByBucketIdBox.InputField.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
-            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
-            SearchByLobbyIdBox.InputField.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
-
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
             AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
@@ -115,6 +113,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             LobbyManager.SubscribeToMemberUpdates(OnMemberUpdate);
+            CurrentLobbyPanel.SetActive(false);
         }
 
         private void OnDestroy()
@@ -290,6 +289,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lastMemberCount = 0;
                 currentLobbyOwnerCache = null;
             }
+
+            CurrentLobbyPanel.SetActive(currentLobby.IsValid());
         }
 
         // UI Button Methods
@@ -542,17 +543,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Search UI
-        public void SearchByLevelAttributeEnterPressed(string searchAttributeValue)
+        public void SearchByLevelAttributeEndEdit(string searchAttributeValue)
         {
             LobbyManager.SearchByAttribute("LEVEL", searchAttributeValue, UIUpateSearchResults);
         }
 
-        public void SearchByBucketAttributeEnterPressed(string searchAttributeValue)
+        public void SearchByBucketAttributeEndEdit(string searchAttributeValue)
         {
             LobbyManager.SearchByAttribute("bucket", searchAttributeValue, UIUpateSearchResults);
         }
 
-        public void SearchByLobbyIdEnterPressed(string searchString)
+        public void SearchByLobbyIdEndEdit(string searchString)
         {
             LobbyManager.SearchByLobbyId(searchString, UIUpateSearchResults);
         }
