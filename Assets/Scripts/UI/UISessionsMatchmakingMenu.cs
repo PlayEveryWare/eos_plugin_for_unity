@@ -75,10 +75,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             HideMenu();
         }
 
-        private void Start()
+        /*private void Start()
         {
-            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelEnterPressed);
-        }
+        }*/
 
         private int previousFrameSessionCount = 0;
         private int previousFrameResultCount = 0;
@@ -350,7 +349,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Search
-        private void SearchByLevelEnterPressed(string searchPattern)
+        public void SearchByLevelEndEdit(string searchPattern)
         {
             if (string.IsNullOrEmpty(searchPattern))
             {
