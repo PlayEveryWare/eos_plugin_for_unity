@@ -997,7 +997,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e9d795e40e2584687febd34470933d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReadmeTextSource: {fileID: 4900000, guid: 5acb060498cd3cf469cfe21cfee65d1b, type: 3}
+  ReadmeTextSource: {fileID: 0}
   ReadmePanel: {fileID: 9164883006543576440}
   ReadmeScrollRect: {fileID: 4814414631669296710}
   ReadmeDisplay: {fileID: 4042754188689856819}
@@ -2078,8 +2078,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4072375487189397251}
   m_HandleRect: {fileID: 4072375487189397250}
   m_Direction: 2
-  m_Value: 0.00000008291017
-  m_Size: 0.03346361
+  m_Value: 0.00000005684909
+  m_Size: 0.035522223
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
