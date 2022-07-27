@@ -112,7 +112,7 @@ namespace PlayEveryWare.EpicOnlineServices
         private static bool s_DoesOverlayHaveExcusiveInput = false;
 
         //cached log levels for retrieving later
-        static Dictionary<LogCategory, LogLevel> logLevels = new Dictionary<LogCategory, LogLevel>();
+        private static Dictionary<LogCategory, LogLevel> logLevels = null;
 
         enum EOSState
         {
@@ -547,6 +547,11 @@ namespace PlayEveryWare.EpicOnlineServices
             public void SetLogLevel(LogCategory Category, LogLevel Level)
             {
                 LoggingInterface.SetLogLevel(Category, Level);
+                if (logLevels == null)
+                {
+                    //don't construct logLevels until it's needed
+                    logLevels = new Dictionary<LogCategory, LogLevel>();
+                }
                 if (Category == LogCategory.AllCategories)
                 {
                     foreach (LogCategory cat in Enum.GetValues(typeof(LogCategory)))
@@ -570,6 +575,11 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns><c>LogLevel</c> for the given <c>LogCategory</c>. Returns -1 if Category is AllCategories and not all categories are set to the same level.</returns>
             public LogLevel GetLogLevel(LogCategory Category)
             {
+                if (logLevels == null)
+                {
+                    //logLevels will only be null if log level was never set, so it should be off
+                    return LogLevel.Off;
+                }
                 if (Category == LogCategory.AllCategories)
                 {
                     LogLevel level = GetLogLevel(LogCategory.Core);
