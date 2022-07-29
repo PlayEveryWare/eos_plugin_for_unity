@@ -32,7 +32,7 @@ using UnityEngine.EventSystems;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILeaderboardMenu : MonoBehaviour
+    public class UILeaderboardMenu : MonoBehaviour, ISampleSceneUI
     {
         [Header("Leaderboard UI")]
         public GameObject LeaderboardUIParent;

@@ -23,11 +23,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UIAchievementButton : MonoBehaviour
     {
         public int index;
+        public RawImage IconImage;
+        public Text NameText;
+
+        public UnityEvent<int> OnClick;
+
+        public void SetIconTexture(Texture2D Texture)
+        {
+            IconImage.texture = Texture;
+        }
+
+        public void SetNameText(string Text)
+        {
+            NameText.text = Text;
+        }
+
+        public void OnButtonClicked()
+        {
+            OnClick?.Invoke(index);
+        }
     }
 }

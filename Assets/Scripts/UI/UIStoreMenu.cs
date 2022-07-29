@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIStoreMenu : MonoBehaviour
+    public class UIStoreMenu : MonoBehaviour, ISampleSceneUI
     {
         [Header("Store UI")]
         public GameObject StoreUIParent;

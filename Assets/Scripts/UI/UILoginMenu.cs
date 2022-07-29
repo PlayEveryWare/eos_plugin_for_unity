@@ -97,6 +97,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #else
             loginType = LoginCredentialType.AccountPortal; // Default on other platforms
 #endif
+
+#if UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX
+            idInputField.InputField.text = "localhost:7777"; //default on pc
+#endif
         }
 
         private void CacheIdInputField(string value)
@@ -742,6 +746,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnExitButtonClick()
         {
             Application.Quit();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.ExitPlaymode();
+#endif
         }
     }
 }

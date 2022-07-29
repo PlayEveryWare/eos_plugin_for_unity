@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public EOSEACLobbyManager()
         {
-            Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AntiCheat, LogLevel.Verbose);
+            EOSManager.Instance.SetLogLevel(LogCategory.AntiCheat, LogLevel.Verbose);
 
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             AntiCheatManager = EOSManager.Instance.GetOrCreateManager<EOSAntiCheatClientManager>();
