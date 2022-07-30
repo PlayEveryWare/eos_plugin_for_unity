@@ -8,12 +8,78 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.0.1] - 2022-07-29
+
+### Added
+- (sample) peer-to-peer sample with eac suppport
+
+### Changed
+- renamed EOSEACLobbyTestManager to EOSEACLobbyManager
+
+### Fixed
+- create config directory for eos plugin if the the dir isn't there.
+- (sample) lobby sample display names 
+- (sample): add local user as parameter for achievement interface calls
+- (sample): Set default value for storage data
+- disable debug logging in EOSManager; one may enable it in the ProjectSettings for PC.
+- (sample): Disable EAC functionality if AntiCheatClientInterface is unavailable e.g. when the EAC bootstrapper is not used
+    
+
+## [2.0.0] - 2022-07-14
+
+### Added
+- Ability for platform specific implementations to update network status.
+- Helper method for invoking setting User Presence with an Epic.
+- EOS Plugin tools to Player Settings and Preferences.
+- Support for grabbing memory counter stats from native code. Disabled by default.
+- Handle application status changes.
+- New feature for storing settings for the editor tools that don't need to be committed.
+- Allow for package descriptions to 'comment out' a line.
+- Config value for giving the plugin a time budget.
+- Allow EOSManager to keep track of new login and logout changes for connected accounts.
+- EAC tools and config files from EOS SDK, and updated Windows post build step to copy them and apply values from EOS config.
+- EOSUserInfoManager as a general access point for user info including the local user.
+- Standard set of member attributes when connecting to the lobby in EOSLobbyManager, which is currently only the display name.
+- Menu item to copy link.xml from UPM package to Assets/EOS.
+- Achievements sample scene has a button to manually unlock the achievement.
+- When logging into the Achievements scene, the login_count stat is incremented.
+- Added toggle to Achievements scene menu to change between viewing the user-specific data for the achievement and the global definition.
+
+### Changed
+- Updated to EOS SDK 1.15.1.
+- ApplicationStatus no longer updates on every application focus/pause change.
+- Improved keyboard navigation for login in samples.
+- Improved usability of creating packages with Editor coroutines.
+- Default log verbosity on non-editor platforms to Warning.
+- DLLHandle.GetPackageName() to public to provide a single access point to package name.
+
+### Removed
+- HelperExtensions removed as it was renamed to Extensions.
+- Reference to deleted Android docs directory from eos_package_description.json.
+
+### Fixed
+- Added workaround code to ensure voice input/output devices work correctly for RTC.
+- Achivement scene shows achievements properly.
+- Changed strtoull to strtoul to match int type.
+- DLL binding change in Windows.
+- Checks to ensure the EOS shutdown properly to prevent freezing in the editor when unloading the DLL.
+- Switched if check that was commented out incorreclty in EOSLobbyManager.
+- Windows workaround for loading EOS bindings so the playing in editor compiles.
+- Return correct auth token from GetUserAuthTokenForAccountId.
+- Disable the current event system input module when the overlay is up to prevent touch input from going through the overlay.
+- Forcing window ratio to 16:9 for samples.
+- Limited data transfer size to EOS max file size
+- Implemented file transfer of files that don't fit within one chunk.
+- Text box for file storage demo is now multiline.
+- Set LibraryName when using EOS_DISABLE directive.
+- Changed sample scenes to use old input system.
+
 ## [1.0.5] - 2002-07-11
 
 ### Changed
 - Update to EOS SDK with Steam hotfix
 
-## [1.0.4] - 2022-03-15
+## [1.0.4] - 2022-03-18
 
 ### Added
 - More debug logging around when the PUID changes.
@@ -40,7 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for debug builds of DynamicLibraryLoaderHelper.
 
 ### Changed
-- Update to EOS SDK 1.14.2-hf-1
+- Update to EOS SDK 1.14.2-hf-1.
 - Replaced HttpClient with UnityWebRequest.
 - Changed DynamicLibraryLoaderHelper to a static library and add EOSOverlayRenderSupport project as a dynamic library. Moved graphics code to EOSOverlayRenderSupport.
 - Changed to a format string in SimplePrintCallback, add null check for category.
