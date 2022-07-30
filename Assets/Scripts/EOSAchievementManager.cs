@@ -249,6 +249,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return new QueryPlayerAchievementsOptions
             {
+                LocalUserId = productUserId,
                 TargetUserId = productUserId
             };
         }
@@ -415,6 +416,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return new CopyPlayerAchievementByIndexOptions
             {
                 AchievementIndex = 0,
+                LocalUserId = productUserId,
                 TargetUserId = productUserId
             };
         }

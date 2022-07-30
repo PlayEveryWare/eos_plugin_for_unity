@@ -5,6 +5,7 @@ using UnityEngine;
 using System.IO;
 using PlayEveryWare.EpicOnlineServices;
 using System.Collections.Generic;
+using System;
 
 public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
 {
@@ -16,6 +17,11 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         "EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe",
         "EasyAntiCheat/Settings.json",
         "EasyAntiCheat/SplashScreen.png"
+    };
+
+    private string[] postBuildDirectories = {
+        "EasyAntiCheat/Licenses",
+        "EasyAntiCheat/Localization"
     };
 
     private HashSet<string> postBuildFilesOptional = new HashSet<string>(){
@@ -115,15 +121,81 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
 
     }
 
+    //use anticheat_integritytool to hash protected files and generate certificate for EAC
+    private static void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID, string keyFileName, string certFileName)
+    {
+        string installPathForExe = report.summary.outputPath;
+        string installDirectory = Path.GetDirectoryName(installPathForExe);
+        string toolDirectory = Path.GetDirectoryName(pathToEACIntegrityTool);
+        string integrityToolArgs = string.Format("-productid {0} -inkey \"{1}\" -incert \"{2}\" -target_game_dir \"{3}\"", productID, keyFileName, certFileName, installDirectory);
+
+        var procInfo = new System.Diagnostics.ProcessStartInfo();
+        procInfo.FileName = pathToEACIntegrityTool;
+        procInfo.Arguments = integrityToolArgs;
+        procInfo.UseShellExecute = false;
+        procInfo.WorkingDirectory = toolDirectory;
+        procInfo.RedirectStandardOutput = true;
+        procInfo.RedirectStandardError = true;
+
+        var process = new System.Diagnostics.Process { StartInfo = procInfo };
+        process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
+            if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+            {
+                Debug.Log(e.Data);
+            }
+        });
+
+        process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
+            if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+            {
+                Debug.LogError(e.Data);
+            }
+        });
+
+        bool didStart = process.Start();
+        process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
+        process.WaitForExit();
+        process.Close();
+    }
+
+    public static string GetRelativePath(string relativeTo, string path)
+    {
+        var uri = new Uri(relativeTo);
+        var rel = Uri.UnescapeDataString(uri.MakeRelativeUri(new Uri(path)).ToString()).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        if (rel.Contains(Path.DirectorySeparatorChar.ToString()) == false)
+        {
+            rel = $".{ Path.DirectorySeparatorChar }{ rel }";
+        }
+        return rel;
+    }
+
     //-------------------------------------------------------------------------
     private void InstallFiles(BuildReport report)
     {
         string destDir = Path.GetDirectoryName(report.summary.outputPath);
         string pathToInstallFrom = GetPathToPlatformSepecificAssetsForWindows();
 
+        List<string> filestoInstall = new List<string>(postBuildFiles);
+
+        //add all files in postBuildDirectories to list of files to copy (non-recursive)
+        foreach (string directoryToInstall in postBuildDirectories)
+        {
+            string dirToInstallPathName = Path.Combine(pathToInstallFrom, directoryToInstall);
+            if (Directory.Exists(dirToInstallPathName))
+            {
+                var dirFiles = Directory.GetFiles(dirToInstallPathName);
+                foreach (string dirFile in dirFiles)
+                {
+                    string relativePath = GetRelativePath(pathToInstallFrom, dirFile);
+                    filestoInstall.Add(relativePath);
+                }
+            }
+        }
+
         if (!EmptyPredicates.IsEmptyOrNull(pathToInstallFrom))
         {
-            foreach (var fileToInstall in postBuildFiles)
+            foreach (var fileToInstall in filestoInstall)
             {
                 string fileToInstallPathName = Path.Combine(pathToInstallFrom, fileToInstall);
 
@@ -207,7 +279,9 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
             
             string pathToEOSBootStrapperTool = GetPathToEOSBin() + "/EOSBootstrapperTool.exe";
             string pathToEOSBootStrapper = GetPathToEOSBin() + "/EOSBootStrapper.exe";
+            string pathToEACIntegrityTool = GetPathToEOSBin() + "/EAC/anticheat_integritytool.exe";
             InstallBootStrapper(report, pathToEOSBootStrapperTool, pathToEOSBootStrapper);
+            GenerateIntegrityCert(report, pathToEACIntegrityTool, GetEOSConfig().productID, "base_private.key", "base_public.cer");
         }
     }
 }

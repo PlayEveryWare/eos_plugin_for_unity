@@ -54,6 +54,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [HideInInspector]
         public ProductUserId ProductUserId;
 
+        public void UpdateMemberData(LobbyMember Member)
+        {
+            string displayName = Member.DisplayName;
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                MemberName = displayName;
+            }
+            else
+            {
+                Result result = Member.ProductId.ToString(out Utf8String outBuff);
+                if (result == Result.Success)
+                {
+                    MemberName = outBuff;
+                }
+                else
+                {
+                    MemberName = "Error: " + result;
+                }
+            }
+
+            ProductUserId = Member.ProductId;
+        }
+
         public void UpdateUI()
         {
             MemberNameText.text = MemberName;

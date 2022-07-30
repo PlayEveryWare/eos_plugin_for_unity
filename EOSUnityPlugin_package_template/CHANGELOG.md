@@ -8,6 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.0.1] - 2022-07-29
+
+### Added
+- (sample) peer-to-peer sample with eac suppport
+
+### Changed
+- renamed EOSEACLobbyTestManager to EOSEACLobbyManager
+
+### Fixed
+- create config directory for eos plugin if the the dir isn't there.
+- (sample) lobby sample display names 
+- (sample): add local user as parameter for achievement interface calls
+- (sample): Set default value for storage data
+- disable debug logging in EOSManager; one may enable it in the ProjectSettings for PC.
+- (sample): Disable EAC functionality if AntiCheatClientInterface is unavailable e.g. when the EAC bootstrapper is not used
+    
+
 ## [2.0.0] - 2022-07-14
 
 ### Added
