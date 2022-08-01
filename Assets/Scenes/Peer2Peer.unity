@@ -213,6 +213,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1796544660}
     m_Modifications:
+    - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
+      propertyPath: UIPeer2PeerMenu
+      value: 
+      objectReference: {fileID: 1396200475}
+    - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
+      propertyPath: EnableP2PChat
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1520068607348101689, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
       propertyPath: m_Name
@@ -501,6 +511,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.00024414062
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661937857440217319, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661937857440217319, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661937857440217319, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661937857440217319, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661937857440217319, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1661937857440217319, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1759150895687108616, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
@@ -1077,6 +1117,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6385380291453459038, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6385380291460701031, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1110,6 +1155,11 @@ PrefabInstance:
     - target: {fileID: 6385380291750483794, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440864997652558017, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6480838251680938628, guid: 11e4648022445f041b4c867ff8f3fd94,
@@ -1707,6 +1757,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7443171736971787950, guid: 0bcbfe182df3f0643b09c4fa32578ba4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.6117859
+      objectReference: {fileID: 0}
     - target: {fileID: 7443171737130832851, guid: 0bcbfe182df3f0643b09c4fa32578ba4,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1859,6 +1914,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0bcbfe182df3f0643b09c4fa32578ba4, type: 3}
+--- !u!114 &1396200475 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7443171737537963588, guid: 0bcbfe182df3f0643b09c4fa32578ba4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1396200474}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c55cb3e7656c234595e8d4e18d76192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1526980365
 GameObject:
   m_ObjectHideFlags: 0
