@@ -535,7 +535,21 @@ namespace PlayEveryWare.EpicOnlineServices
                 var dateTime = DateTime.Now;
                 var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
-                UnityEngine.Debug.LogFormat(LogType.Log, LogOption.NoStacktrace, null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
+                LogType type;
+                if (message.Level < LogLevel.Warning)
+                {
+                    type = LogType.Error;
+                }
+                else if (message.Level > LogLevel.Warning)
+                {
+                    type = LogType.Log;
+                }
+                else
+                {
+                    type = LogType.Warning;
+                }
+
+                UnityEngine.Debug.LogFormat(type, LogOption.NoStacktrace, null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
             }
 
             /// <summary>
