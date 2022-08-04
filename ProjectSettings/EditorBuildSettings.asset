@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/AuthAndFriends.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
+    path: Assets/Scenes/CustomInvites.unity
+    guid: 0b46f04bd9d0e824fbfd3715abc85620
+  - enabled: 1
     path: Assets/Scenes/Leaderboards.unity
     guid: b9206ccf78cf47a498a7d00f09a5fb7e
   - enabled: 1

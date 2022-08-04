@@ -36,7 +36,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : MonoBehaviour, ISampleSceneUI
+    public class UILobbiesMenu : UIInviteSource, ISampleSceneUI
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
@@ -446,6 +446,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager.DeclineLobbyInvite();
         }
 
+        public override void OnInviteButtonClicked(EpicAccountId UserId)
+        {
+            LobbyInviteButtonOnClick(UserId);
+        }
+
         public void LobbyInviteButtonOnClick(EpicAccountId userId)
         {
             // Set Current chat
@@ -465,8 +470,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogError("UIPeer2PeerMenu (ChatButtonOnClick): Friend not found in cached data.");
+                Debug.LogError("UILobbiesMenu (LobbyInviteButtonOnClick): Friend not found in cached data.");
             }
+        }
+
+        public override bool IsInviteActive()
+        {
+            return IsCurrentLobbyValid();
         }
 
         public bool IsCurrentLobbyValid()

@@ -38,7 +38,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 248.48444}
+  m_SizeDelta: {x: 0, y: 499.44684}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &383417152133218790
 CanvasRenderer:
@@ -2829,6 +2829,8 @@ MonoBehaviour:
     - m_Text: Achievements
       m_Image: {fileID: 0}
     - m_Text: Auth & Friends
+      m_Image: {fileID: 0}
+    - m_Text: Custom Invites
       m_Image: {fileID: 0}
     - m_Text: Leaderboards
       m_Image: {fileID: 0}

@@ -22,58 +22,61 @@
 
 using UnityEngine;
 
-public class SampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
+namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    private Vector2 initialAnchorMin;
-    private Vector2 initialSizeDelta;
-
-    private void Start()
+    public class SampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
     {
-        var rt = transform as RectTransform;
-        initialAnchorMin = rt.anchorMin;
-        initialSizeDelta = rt.sizeDelta;
-    }
+        private Vector2 initialAnchorMin;
+        private Vector2 initialSizeDelta;
 
-    public void ShowMenu()
-    {
-        var childElements = GetComponentsInChildren<ISampleSceneUI>(true);
-        foreach (var childElement in childElements)
+        private void Start()
         {
-            if ((childElement as MonoBehaviour)?.gameObject == gameObject)
+            var rt = transform as RectTransform;
+            initialAnchorMin = rt.anchorMin;
+            initialSizeDelta = rt.sizeDelta;
+        }
+
+        public void ShowMenu()
+        {
+            var childElements = GetComponentsInChildren<ISampleSceneUI>(true);
+            foreach (var childElement in childElements)
             {
-                continue;
+                if ((childElement as MonoBehaviour)?.gameObject == gameObject)
+                {
+                    continue;
+                }
+
+                childElement.ShowMenu();
             }
-
-            childElement.ShowMenu();
         }
-    }
 
-    public void HideMenu()
-    {
-        var childElements = GetComponentsInChildren<ISampleSceneUI>(true);
-        foreach (var childElement in childElements)
+        public void HideMenu()
         {
-            if ((childElement as MonoBehaviour)?.gameObject == gameObject)
+            var childElements = GetComponentsInChildren<ISampleSceneUI>(true);
+            foreach (var childElement in childElements)
             {
-                continue;
+                if ((childElement as MonoBehaviour)?.gameObject == gameObject)
+                {
+                    continue;
+                }
+
+                childElement.HideMenu();
             }
-
-            childElement.HideMenu();
         }
-    }
 
-    public void SetFullscreen(bool fullscreen)
-    {
-        var rt = transform as RectTransform;
-        if (fullscreen)
+        public void SetFullscreen(bool fullscreen)
         {
-            rt.anchorMin = new Vector2(initialAnchorMin.x, 0);
-            rt.sizeDelta = new Vector2(initialSizeDelta.x, 0);
-        }
-        else
-        {
-            rt.anchorMin = initialAnchorMin;
-            rt.sizeDelta = initialSizeDelta;
+            var rt = transform as RectTransform;
+            if (fullscreen)
+            {
+                rt.anchorMin = new Vector2(initialAnchorMin.x, 0);
+                rt.sizeDelta = new Vector2(initialSizeDelta.x, 0);
+            }
+            else
+            {
+                rt.anchorMin = initialAnchorMin;
+                rt.sizeDelta = initialSizeDelta;
+            }
         }
     }
 }

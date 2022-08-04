@@ -20,11 +20,23 @@
 * SOFTWARE.
 */
 
+using Epic.OnlineServices;
+using UnityEngine;
+
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public interface ISampleSceneUI
+    /// <summary>
+    /// Class <c>UIInviteSource</c> is the base class for sample UIs that use invite functionality.
+    /// </summary>
+    public class UIInviteSource : MonoBehaviour
     {
-        void ShowMenu();
-        void HideMenu();
+        public virtual bool IsInviteActive()
+        {
+            return false;
+        }
+
+        public virtual void OnInviteButtonClicked(EpicAccountId UserId)
+        {
+        }
     }
 }

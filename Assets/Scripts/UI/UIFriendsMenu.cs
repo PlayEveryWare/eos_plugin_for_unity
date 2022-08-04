@@ -72,8 +72,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Lobbies
         [Header("Lobbies Options (Optional)")]
-        public bool EnableLobbyInvites = false;
-        public UILobbiesMenu UILobbiesMenu;
+        public bool EnableInvites = false;
+        public UIInviteSource UIInviteMenu;
 
         // Player Report
         [Header("Player Report Options (Optional)")]
@@ -212,9 +212,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                                 uiEntry.EnableChatButton();
                             }
 
-                            if (EnableLobbyInvites && UILobbiesMenu.IsCurrentLobbyValid())
+                            if (EnableInvites && UIInviteMenu != null && UIInviteMenu.IsInviteActive())
                             {
-                                uiEntry.InviteFriendsOnClick = UILobbiesMenu.LobbyInviteButtonOnClick;
+                                uiEntry.InviteFriendsOnClick = UIInviteMenu.OnInviteButtonClicked;
                                 uiEntry.EnableInviteButton();
                             }
                         }

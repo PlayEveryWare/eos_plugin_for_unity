@@ -20,11 +20,47 @@
 * SOFTWARE.
 */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using Epic.OnlineServices;
+
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public interface ISampleSceneUI
+    public class UICustomInviteEntry : MonoBehaviour
     {
-        void ShowMenu();
-        void HideMenu();
+        public Text SenderText;
+        public Text PayloadText;
+
+        private Action<Utf8String> OnAccept;
+        private Action<Utf8String> OnReject;
+
+        [NonSerialized]
+        public Utf8String InviteId;
+
+        public void SetInviteData(CustomInviteData InviteData, string SenderName)
+        {
+            InviteId = InviteData.InviteId;
+            SenderText.text = SenderName;
+            PayloadText.text = InviteData.Payload;
+        }
+
+        public void SetCallbacks(Action<Utf8String> AcceptCallback, Action<Utf8String> RejectCallback)
+        {
+            OnAccept = AcceptCallback;
+            OnReject = RejectCallback;
+        }
+
+        public void OnAcceptButtonClicked()
+        {
+            OnAccept?.Invoke(InviteId);
+        }
+
+        public void OnRejectButtonClicked()
+        {
+            OnReject?.Invoke(InviteId);
+        }
     }
 }
