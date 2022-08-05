@@ -450,13 +450,34 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 //TODO: provide different way to load the config file?
                 string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
+                
+                string configDataAsString = "";
 
+#if UNITY_ANDROID
+                using (var request = UnityEngine.Networking.UnityWebRequest.Get(eosFinalConfigPath))
+                {
+                    request.timeout = 2; //seconds till timeout
+                    request.SendWebRequest();
+
+                    //Wait till webRequest completed
+                    while (!request.isDone) { }
+
+                    if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
+                    {
+                        print("Requesting " + eosFinalConfigPath + ", please make sure it exists and is a valid config");
+                        throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
+                    }
+
+                    //print("Load config file: Success");
+                    configDataAsString = request.downloadHandler.text;
+                }
+#else
                 if (!File.Exists(eosFinalConfigPath))
                 {
                     throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists and is a valid config");
-                }
-
-                var configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
+                } 
+                configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
+#endif
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
 
                 print("Loaded config file: " + configDataAsString);
