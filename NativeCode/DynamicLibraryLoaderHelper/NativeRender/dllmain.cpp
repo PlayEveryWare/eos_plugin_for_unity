@@ -267,7 +267,7 @@ static std::string to_utf8_str(const fs::path& path)
 }
 
 //-------------------------------------------------------------------------
-static uint64_t json_value_as_uint64(json_value_s *value)
+static uint64_t json_value_as_uint64(json_value_s *value, uint64_t default_value = 0)
 {
     uint64_t val = 0;
     json_number_s *n = json_value_as_number(value);
@@ -282,14 +282,21 @@ static uint64_t json_value_as_uint64(json_value_s *value)
         // try to treat it as a string, then parse as long
         char *end = nullptr;
         json_string_s* val_as_str = json_value_as_string(value);
-        val = strtoull(n->number, &end, 10);
+        if (val_as_str == nullptr || strlen(val_as_str->string) == 0)
+        {
+            val = default_value;
+        }
+        else
+        {
+            val = strtoull(val_as_str->string, &end, 10);
+        }
     }
 
     return val;
 }
 
 //-------------------------------------------------------------------------
-static uint32_t json_value_as_uint32(json_value_s* value)
+static uint32_t json_value_as_uint32(json_value_s* value, uint32_t default_value = 0)
 {
     uint32_t val = 0;
     json_number_s* n = json_value_as_number(value);
@@ -304,7 +311,15 @@ static uint32_t json_value_as_uint32(json_value_s* value)
         // try to treat it as a string, then parse as long
         char* end = nullptr;
         json_string_s* val_as_str = json_value_as_string(value);
-        val = strtoul(n->number, &end, 10);
+
+        if (val_as_str == nullptr || strlen(val_as_str->string) == 0)
+        {
+            val = default_value;
+        }
+        else
+        {
+            val = strtoul(val_as_str->string, &end, 10);
+        }
     }
 
     return val;
