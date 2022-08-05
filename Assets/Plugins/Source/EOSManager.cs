@@ -454,8 +454,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 //TODO: provide different way to load the config file?
                 string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
                 
-                var configDataAsString = "";
-
                 string configDataAsString = "";
 
 #if UNITY_ANDROID
@@ -469,11 +467,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
                     if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
                     {
-                        UnityEngine.Debug.LogWarning("Requesting " + eosFinalConfigPath + ", please make sure it exists and is a valid config");
+                        print("Requesting " + eosFinalConfigPath + ", please make sure it exists and is a valid config");
                         throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
                     }
 
-                    UnityEngine.Debug.Log("Load config file: Success");
+                    //print("Load config file: Success");
                     configDataAsString = request.downloadHandler.text;
                 }
 #else
