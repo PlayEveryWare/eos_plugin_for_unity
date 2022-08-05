@@ -2078,7 +2078,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4072375487189397251}
   m_HandleRect: {fileID: 4072375487189397250}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2591,6 +2591,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4072375486534778463}
+  - component: {fileID: 4646387830281125212}
   m_Layer: 5
   m_Name: UIDemoTemplate
   m_TagString: Untagged
@@ -2623,6 +2624,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4646387830281125212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4072375486534778462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd38faacabb59141b206ceb4d169e7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftAnchor: 2
+  BottomAnchor: 2
+  RightAnchor: 3
+  TopAnchor: 3
 --- !u!1 &4072375486631103417
 GameObject:
   m_ObjectHideFlags: 0
