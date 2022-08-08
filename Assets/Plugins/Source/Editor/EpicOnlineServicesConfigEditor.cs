@@ -24,6 +24,7 @@
 
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using PlayEveryWare.EpicOnlineServices;
@@ -34,8 +35,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class EpicOnlineServicesConfigEditor : EditorWindow
     {
+        static Regex EncryptionKeyRegex;
+
         static EpicOnlineServicesConfigEditor()
         {
+            EncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
         }
 
         public static void AddPlatformSpecificConfigEditor(IPlatformSpecificConfigEditor platformSpecificConfigEditor)
@@ -425,9 +429,15 @@ _WIN32 || _WIN64
             AssigningTextField("Client Secret", ref mainEOSConfigFile.currentEOSConfig.clientSecret);
             AssigningTextField("Encryption Key", ref mainEOSConfigFile.currentEOSConfig.encryptionKey);
 
-            if (mainEOSConfigFile.currentEOSConfig.encryptionKey.Length != 64)
+            var keyLength = mainEOSConfigFile.currentEOSConfig.encryptionKey.Length;
+            if (keyLength != 64)
             {
-                EditorGUILayout.HelpBox("Encryption key needs to be 64 characters in length.", MessageType.Error);
+                EditorGUILayout.HelpBox("Encryption key needs to be 64 characters in length. Current length is " + keyLength + ".", MessageType.Error);
+            }
+
+            if (EncryptionKeyRegex.Match(mainEOSConfigFile.currentEOSConfig.encryptionKey).Success)
+            {
+                EditorGUILayout.HelpBox("Encryption key must only contain hex characters (0-9,A-F).", MessageType.Error);
             }
 
             AssigningFlagTextField("Platform Flags (Seperated by '|')", 190, ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags);
