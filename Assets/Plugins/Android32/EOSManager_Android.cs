@@ -44,14 +44,37 @@ using JavaVM = System.IntPtr;
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
-    public class EOSAndroidOptions : Epic.OnlineServices.Platform.Options, IEOSCreateOptions
+    public class EOSAndroidOptions : IEOSCreateOptions
     {
 
+        public Epic.OnlineServices.Platform.Options options;
+
+        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get => options.IntegratedPlatformOptionsContainerHandle; set => options.IntegratedPlatformOptionsContainerHandle = value; }
+        IntPtr IEOSCreateOptions.Reserved { get => options.Reserved; set => options.Reserved = value; }
+        Utf8String IEOSCreateOptions.ProductId { get => options.ProductId; set => options.ProductId = value; }
+        Utf8String IEOSCreateOptions.SandboxId { get => options.SandboxId; set => options.SandboxId = value; }
+        ClientCredentials IEOSCreateOptions.ClientCredentials { get => options.ClientCredentials; set => options.ClientCredentials = value; }
+        bool IEOSCreateOptions.IsServer { get => options.IsServer; set => options.IsServer = value; }
+        Utf8String IEOSCreateOptions.EncryptionKey { get => options.EncryptionKey; set => options.EncryptionKey = value; }
+        Utf8String IEOSCreateOptions.OverrideCountryCode { get => options.OverrideCountryCode; set => options.OverrideCountryCode = value; }
+        Utf8String IEOSCreateOptions.OverrideLocaleCode { get => options.OverrideLocaleCode; set => options.OverrideLocaleCode = value; }
+        Utf8String IEOSCreateOptions.DeploymentId { get => options.DeploymentId; set => options.DeploymentId = value; }
+        PlatformFlags IEOSCreateOptions.Flags { get => options.Flags; set => options.Flags = value; }
+        Utf8String IEOSCreateOptions.CacheDirectory { get => options.CacheDirectory; set => options.CacheDirectory = value; }
+        uint IEOSCreateOptions.TickBudgetInMilliseconds { get => options.TickBudgetInMilliseconds; set => options.TickBudgetInMilliseconds = value; }
     }
 
     //-------------------------------------------------------------------------
-    public class EOSAndroidInitializeOptions : Epic.OnlineServices.Platform.AndroidInitializeOptions, IEOSInitializeOptions
+    public class EOSAndroidInitializeOptions : IEOSInitializeOptions
     {
+        public Epic.OnlineServices.Platform.AndroidInitializeOptions options;
+
+        public IntPtr AllocateMemoryFunction { get => options.AllocateMemoryFunction; set => options.AllocateMemoryFunction = value; }
+        public IntPtr ReallocateMemoryFunction { get => options.ReallocateMemoryFunction; set => options.ReallocateMemoryFunction = value; }
+        public IntPtr ReleaseMemoryFunction { get => options.ReleaseMemoryFunction; set => options.ReleaseMemoryFunction = value; }
+        public Utf8String ProductName { get => options.ProductName; set => options.ProductName = value; }
+        public Utf8String ProductVersion { get => options.ProductVersion; set => options.ProductVersion = value; }
+        public InitializeThreadAffinity? OverrideThreadAffinity { get => options.OverrideThreadAffinity; set => options.OverrideThreadAffinity = value; }
     }
 
     //-------------------------------------------------------------------------
@@ -100,8 +123,11 @@ namespace PlayEveryWare.EpicOnlineServices
         // This does some work to configure the Android side of things before doing the
         // 'normal' EOS init things.
         // TODO: Configure the internal and external directory
-        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
+        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
         {
+
+            EOSAndroidInitializeOptions initializeOptions = (initializeOptionsRef as EOSAndroidInitializeOptions);
+
             ConfigureAndroidActivity();
 
             // It should be safe to assume there is only one JVM, because
@@ -110,7 +136,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             var androidInitOptionsSystemInitOptions = new AndroidInitializeOptionsSystemInitializeOptions();
 
-            (initializeOptions as AndroidInitializeOptions).SystemInitializeOptions = androidInitOptionsSystemInitOptions; 
+            initializeOptions.options.SystemInitializeOptions = androidInitOptionsSystemInitOptions; 
         }
 
         //-------------------------------------------------------------------------
@@ -153,12 +179,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public Result InitializePlatformInterface(IEOSInitializeOptions options)
         {
-            return PlatformInterface.Initialize(options as AndroidInitializeOptions);
+            return PlatformInterface.Initialize(ref (options as EOSAndroidInitializeOptions).options);
         }
 
         public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
         {
-            return PlatformInterface.Create(platformOptions as Options);
+            return PlatformInterface.Create(ref (platformOptions as EOSAndroidOptions).options);
         }
 
         public void InitializeOverlay(IEOSCoroutineOwner owner)
