@@ -10,6 +10,13 @@
     "platformOptionsFlags": [
         ""
     ],
+    "tickBudgetInMilliseconds": 0,
+    "ThreadAffinity_networkWork": "",
+    "ThreadAffinity_storageIO": "",
+    "ThreadAffinity_webSocketIO": "",
+    "ThreadAffinity_P2PIO": "",
+    "ThreadAffinity_HTTPRequestIO": "",
+    "ThreadAffinity_RTCIO": "",
     "alwaysSendInputToOverlay": true,
     "initialButtonDelayForOverlay": "",
     "repeatButtonDelayForOverlay": "",

@@ -454,6 +454,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 string configDataAsString = "";
 
 #if UNITY_ANDROID
+                eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", "eos_android_config.json");
                 using (var request = UnityEngine.Networking.UnityWebRequest.Get(eosFinalConfigPath))
                 {
                     request.timeout = 2; //seconds till timeout
