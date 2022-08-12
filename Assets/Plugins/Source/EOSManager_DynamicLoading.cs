@@ -88,6 +88,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
                         static extern IntPtr EOS_GetPlatformInterface();
 
+                        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
                         delegate void PrintDelegateType(string str);
                         [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
                         static extern void global_log_flush_with_function(IntPtr ptr);
