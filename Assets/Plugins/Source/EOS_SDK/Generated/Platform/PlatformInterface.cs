@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The most recent version of the <see cref="Initialize" /> API.
 		/// </summary>
-		public const int InitializeApiLatest = 4;
+		public const int InitializeApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="InitializeThreadAffinity" /> API.
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.Platform
 
 		public const int LocalecodeMaxLength = 9;
 
-		public const int OptionsApiLatest = 12;
+		public const int OptionsApiLatest = 15;
 
 		/// <summary>
 		/// The most recent version of the <see cref="RTCOptions" /> API.
