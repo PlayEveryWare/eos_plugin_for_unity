@@ -425,8 +425,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void UnlockAchievementManually(string achievementId)
         {
             var eosAchievementInterface = GetEOSAchievementInterface();
+            var localUserId = EOSManager.Instance.GetProductUserId();
             var eosAchievementOption = new UnlockAchievementsOptions
             {
+                UserId = localUserId,
                 AchievementIds = new Utf8String[] { achievementId }
             };
 
