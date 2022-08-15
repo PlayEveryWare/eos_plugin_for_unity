@@ -1,3 +1,25 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
+
 using UnityEditor.Build.Reporting;
 using UnityEditor.Build;
 using UnityEditor;
@@ -13,7 +35,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     private string[] postBuildFiles = {
         "EACLauncher.exe",
         //optional override config file for EAC CDN
-        "[UnityProductName].exe.eac",
+        "[ExeName].eac",
         "EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe",
         "EasyAntiCheat/Settings.json",
         "EasyAntiCheat/SplashScreen.png"
@@ -25,7 +47,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     };
 
     private HashSet<string> postBuildFilesOptional = new HashSet<string>(){
-        "[UnityProductName].exe.eac"
+        "[ExeName].eac",
     };
 
     //files with contents that need string vars replaced
@@ -34,6 +56,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     };
 
     private EOSConfig eosConfig = null;
+    private string buildExeName = null;
 
     //-------------------------------------------------------------------------
     private static string GetPackageName()
@@ -245,9 +268,10 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         return configData;
     }
 
-    private static string ReplaceFileNameVars(string filename)
+    private string ReplaceFileNameVars(string filename)
     {
         filename = filename.Replace("[UnityProductName]", Application.productName);
+        filename = filename.Replace("[ExeName]", buildExeName);
         return filename;
     }
 
@@ -259,6 +283,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         var sb = new System.Text.StringBuilder(fileContents);
 
         sb.Replace("<UnityProductName>", Application.productName);
+        sb.Replace("<ExeName>", buildExeName);
         sb.Replace("<ProductName>", eosConfig.productName);
         sb.Replace("<ProductID>", eosConfig.productID);
         sb.Replace("<SandboxID>", eosConfig.sandboxID);
@@ -275,6 +300,8 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         // Get the output path, and install the launcher if on a target that supports it
         if (report.summary.platform == BuildTarget.StandaloneWindows || report.summary.platform == BuildTarget.StandaloneWindows64)
         {
+            buildExeName = Path.GetFileName(report.summary.outputPath);
+
             InstallFiles(report);
             
             string pathToEOSBootStrapperTool = GetPathToEOSBin() + "/EOSBootstrapperTool.exe";

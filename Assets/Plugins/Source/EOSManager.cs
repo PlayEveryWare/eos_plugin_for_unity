@@ -391,7 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.ClientCredentials = clientCredentials;
 
 
-#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
                 var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
                 //TODO: handle errors
                 var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
