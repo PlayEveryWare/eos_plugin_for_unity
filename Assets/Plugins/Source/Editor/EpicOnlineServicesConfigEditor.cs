@@ -102,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static string GetConfigDirectory()
         {
-            return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS");
+            return System.IO.Path.Combine("Assets", "StreamingAssets", "EOS");
         }
 
         public static string GetConfigPath(string configFilename)
