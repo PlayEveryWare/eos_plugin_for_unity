@@ -37,6 +37,7 @@ using System;
 using jint = System.Int32;
 using jsize = System.Int32;
 using JavaVM = System.IntPtr;
+using System.Diagnostics;
 
 
 
@@ -81,6 +82,9 @@ namespace PlayEveryWare.EpicOnlineServices
     // Android specific Unity Parts.
     public partial class EOSPlatformSpecificsAndroid : IEOSManagerPlatformSpecifics
     {
+
+        EOSAndroidConfig androidConfig;
+
         [DllImport("UnityHelpers_Android")]
         private static extern JavaVM UnityHelpers_GetJavaVM();
 
@@ -88,34 +92,68 @@ namespace PlayEveryWare.EpicOnlineServices
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
+            print("Register");
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
+        }
+
+        //-------------------------------------------------------------------------
+        private string GetPathToEOSConfig()
+        {
+            return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", "eos_android_config.json");
+        }
+
+        //-------------------------------------------------------------------------
+        EOSAndroidConfig GetEOSAndroidConfig()
+        {
+            string eosFinalConfigPath = GetPathToEOSConfig();
+            using (var request = UnityEngine.Networking.UnityWebRequest.Get(eosFinalConfigPath))
+            {
+                request.timeout = 2; //seconds till timeout
+                request.SendWebRequest();
+
+                //Wait till webRequest completed
+                while (!request.isDone) { }
+
+                if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
+                {
+                    print("Requesting " + eosFinalConfigPath + ", please make sure it exists and is a valid config");
+                    throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
+                }
+
+                androidConfig = JsonUtility.FromJson<EOSAndroidConfig>(request.downloadHandler.text);
+            }
+            return androidConfig;
         }
 
         //-------------------------------------------------------------------------
         public string GetTempDir()
         {
+            print("GetTempDir");
+
             return Application.temporaryCachePath;
         }
 
         //-------------------------------------------------------------------------
         static private void ConfigureAndroidActivity()
         {
-            Debug.Log("EOSAndroid: Getting activity context...");
+            print("ConfigureAndroidActivity");
+
+            UnityEngine.Debug.Log("EOSAndroid: Getting activity context...");
             AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
             AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
 
             if(context != null)
             {
-                Debug.Log("EOSAndroid: activity context found!");
+                UnityEngine.Debug.Log("EOSAndroid: activity context found!");
                 AndroidJavaClass pluginClass = new AndroidJavaClass("com.epicgames.mobile.eossdk.EOSSDK");
 
-                Debug.Log("EOSAndroid: call EOS SDK init.");
+                UnityEngine.Debug.Log("EOSAndroid: call EOS SDK init.");
                 pluginClass.CallStatic("init", context);
             }
             else
             {
-                Debug.LogError("EOSAndroid: activity context is null!");
+                UnityEngine.Debug.LogError("EOSAndroid: activity context is null!");
             }
         }
 
@@ -125,82 +163,131 @@ namespace PlayEveryWare.EpicOnlineServices
         // TODO: Configure the internal and external directory
         public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
         {
+            print("ConfigureSystemInitOptions");
 
             EOSAndroidInitializeOptions initializeOptions = (initializeOptionsRef as EOSAndroidInitializeOptions);
 
+            if (initializeOptions == null)
+            {
+                throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
+            }
+            initializeOptions.options.Reserved = IntPtr.Zero;
+
+
+            AndroidInitializeOptionsSystemInitializeOptions androidInitOptionsSystemInitOptions = new AndroidInitializeOptionsSystemInitializeOptions();
+            initializeOptions.options.SystemInitializeOptions = androidInitOptionsSystemInitOptions;
+
             ConfigureAndroidActivity();
 
-            // It should be safe to assume there is only one JVM, because
-            // android assumes there is only one
-            //  JavaVM javavm = UnityHelpers_GetJavaVM();
-
-            var androidInitOptionsSystemInitOptions = new AndroidInitializeOptionsSystemInitializeOptions();
-
-            initializeOptions.options.SystemInitializeOptions = androidInitOptionsSystemInitOptions; 
+            if (GetEOSAndroidConfig() != null)
+            {
+                print("GetEOSAndroidConfig() is not null");
+                if (initializeOptions.OverrideThreadAffinity.HasValue)
+                {
+                    var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
+                    overrideThreadAffinity.NetworkWork = androidConfig.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
+                    overrideThreadAffinity.StorageIo = androidConfig.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
+                    overrideThreadAffinity.WebSocketIo = androidConfig.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
+                    overrideThreadAffinity.P2PIo = androidConfig.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
+                    overrideThreadAffinity.HttpRequestIo = androidConfig.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
+                    overrideThreadAffinity.RTCIo = androidConfig.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+                    initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
+                }
+            }
         }
 
         //-------------------------------------------------------------------------
         public IEOSCreateOptions CreateSystemPlatformOption()
         {
+            print("CreateSystemPlatformOption");
+
             return new EOSAndroidOptions();
         }
 
         //-------------------------------------------------------------------------
         public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
         {
+            print("ConfigureSystemPlatformCreateOptions");
+
         }
 
         //-------------------------------------------------------------------------
         private void InitailizeOverlaySupport()
         {
+            print("InitailizeOverlaySupport");
+
         }
 
         //-------------------------------------------------------------------------
         public void AddPluginSearchPaths(ref List<string> pluginPaths)
         {
+            print("AddPluginSearchPaths");
+
         }
 
         //-------------------------------------------------------------------------
         public string GetDynamicLibraryExtension()
         {
+            print("GetDynamicLibraryExtension");
+
             return ".so";
         }
 
         //-------------------------------------------------------------------------
         public void LoadDelegatesWithEOSBindingAPI()
         {
+            print("LoadDelegatesWithEOSBindingAPI");
+
         }
 
         public IEOSInitializeOptions CreateSystemInitOptions()
         {
+            print("CreateSystemInitOptions");
+
             return new EOSAndroidInitializeOptions();
         }
 
 
         public Result InitializePlatformInterface(IEOSInitializeOptions options)
         {
+            print("InitializePlatformInterface");
+
             return PlatformInterface.Initialize(ref (options as EOSAndroidInitializeOptions).options);
         }
 
         public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
         {
+            print("CreatePlatformInterface");
+
             return PlatformInterface.Create(ref (platformOptions as EOSAndroidOptions).options);
         }
 
         public void InitializeOverlay(IEOSCoroutineOwner owner)
         {
+            print("InitializeOverlay");
+
         }
 
         //-------------------------------------------------------------------------
         public void RegisterForPlatformNotifications()
         {
-            
+            print("RegisterForPlatformNotifications");
+
         }
 
         public bool IsApplicationConstrainedWhenOutOfFocus()
         {
+            print("IsApplicationConstrainedWhenOutOfFocus");
+
             // TODO: Need to implement this for Android
             return false;
+        }
+
+        //-------------------------------------------------------------------------
+        [Conditional("ENABLE_DEBUG_EOSMANAGERANDROID")]
+        static void print(string toPrint)
+        {
+            UnityEngine.Debug.Log(toPrint);
         }
     }
 }
