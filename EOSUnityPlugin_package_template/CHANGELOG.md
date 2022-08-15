@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.0.2] - 2022-08-15
+
+### Fixed
+- Fixed function pointer size causing x86 crash when logging from native DLL.
+
 ## [2.0.1] - 2022-07-29
 
 ### Added
