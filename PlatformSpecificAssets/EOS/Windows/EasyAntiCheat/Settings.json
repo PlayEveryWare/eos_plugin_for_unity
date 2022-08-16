@@ -1,6 +1,6 @@
 {
 	"title"											: "<ProductName>",
-	"executable"									: "<UnityProductName>.exe",
+	"executable"									: "<ExeName>",
 	"productid"										: "<ProductID>",
 	"sandboxid"										: "<SandboxID>",
 	"deploymentid"									: "<DeploymentID>",

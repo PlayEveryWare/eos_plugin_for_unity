@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
         Utf8String CacheDirectory { get; set; }
         uint TickBudgetInMilliseconds { get; set; }
 
-#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN)
+#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
         Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get; set; }
 #endif
     }
