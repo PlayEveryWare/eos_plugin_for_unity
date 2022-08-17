@@ -210,4 +210,5 @@ See [standards.md](docs/standards.md)
 See [docs/class_description.md](docs/class_description.md)
 
 ## Additional Documentation
-Additional documentation can be found in the [docs/ directory](docs/).
+Additional documentation can be found in the [docs/ directory](docs/).  
+Android documentation can be found [here](docs/android/).
