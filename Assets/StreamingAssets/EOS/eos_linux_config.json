@@ -1,0 +1,27 @@
+{
+    "flags": [],
+    "overrideValues": {
+        "productName": "",
+        "productVersion": "",
+        "productID": "",
+        "sandboxID": "",
+        "deploymentID": "",
+        "clientSecret": "",
+        "clientID": "",
+        "encryptionKey": "",
+        "platformOptionsFlags": [
+            ""
+        ],
+        "tickBudgetInMilliseconds": 0,
+        "ThreadAffinity_networkWork": "",
+        "ThreadAffinity_storageIO": "",
+        "ThreadAffinity_webSocketIO": "",
+        "ThreadAffinity_P2PIO": "",
+        "ThreadAffinity_HTTPRequestIO": "",
+        "ThreadAffinity_RTCIO": "",
+        "alwaysSendInputToOverlay": false,
+        "initialButtonDelayForOverlay": "",
+        "repeatButtonDelayForOverlay": "",
+        "hackForceSendInputDirectlyToSDK": false
+    }
+}

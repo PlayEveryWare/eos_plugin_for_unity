@@ -158,7 +158,7 @@ static string SteamDllName = "steam_api.dll";
         //-------------------------------------------------------------------------
         public string GetDynamicLibraryExtension()
         {
-            return ".dll";
+            return ".so";
         }
 
         //-------------------------------------------------------------------------
@@ -168,6 +168,26 @@ static string SteamDllName = "steam_api.dll";
             const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
 #endif
+        }
+
+        //-------------------------------------------------------------------------
+        private string GetPathToEOSConfig()
+        {
+            return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", "eos_linux_config.json");
+        }
+
+        //-------------------------------------------------------------------------
+        EOSLinuxConfig GetEOSLinuxConfig()
+        {
+            EOSLinuxConfig linuxConfigData = null;
+            string eosFinalConfigPath = GetPathToEOSConfig();
+
+            if (File.Exists(eosFinalConfigPath))
+            {
+                var linuxConfigDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
+                linuxConfigData = JsonUtility.FromJson<EOSLinuxConfig>(linuxConfigDataAsString);
+            }
+            return linuxConfigData;
         }
 
         //-------------------------------------------------------------------------
@@ -198,8 +218,31 @@ static string SteamDllName = "steam_api.dll";
         /// </summary>
         /// <param name="initializeOptions"></param>
         /// <param name="configData"></param>
-        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
+        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
         {
+            EOSLinuxInitializeOptions initializeOptions = (initializeOptionsRef as EOSLinuxInitializeOptions);
+
+            if (initializeOptions == null)
+            {
+                throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
+            }
+
+            EOSLinuxConfig linuxConfig = GetEOSLinuxConfig();
+
+            if (linuxConfig != null)
+            {
+                if (initializeOptions.OverrideThreadAffinity.HasValue)
+                {
+                    var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
+                    overrideThreadAffinity.NetworkWork = linuxConfig.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
+                    overrideThreadAffinity.StorageIo = linuxConfig.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
+                    overrideThreadAffinity.WebSocketIo = linuxConfig.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
+                    overrideThreadAffinity.P2PIo = linuxConfig.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
+                    overrideThreadAffinity.HttpRequestIo = linuxConfig.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
+                    overrideThreadAffinity.RTCIo = linuxConfig.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+                    initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
+                }
+            }
         }
 
         //-------------------------------------------------------------------------

@@ -33,7 +33,7 @@ using size_t = System.UIntPtr;
 
 public partial class SystemMemory
 {
-#if !(UNITY_ANDROID || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || UNITY_WSA_10_0) || UNITY_SWITCH || UNITY_GAMECORE || UNITY_PS5 || UNITY_PS4
+#if !(UNITY_ANDROID || UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_WSA_10_0) || UNITY_SWITCH || UNITY_GAMECORE || UNITY_PS5 || UNITY_PS4
 
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     public struct MemCounters 
