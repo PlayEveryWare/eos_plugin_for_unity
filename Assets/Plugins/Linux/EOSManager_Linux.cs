@@ -217,6 +217,9 @@ static string SteamDllName = "steam_api.dll";
         /// <param name="createOptions"></param>
         public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
         {
+            var rtcOptions = new RTCOptions();
+            (createOptions as EOSLinuxOptions).options.RTCOptions = rtcOptions;
+
             // This code seems to commonly cause hangs in the editor, so until those can be resolved this code is being 
             // disabled in the editor
 #if !UNITY_EDITOR && ENABLE_CONFIGURE_STEAM_FROM_MANAGED
