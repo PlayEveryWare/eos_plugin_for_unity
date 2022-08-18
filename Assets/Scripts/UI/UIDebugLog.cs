@@ -34,6 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Debug Log UI")]
         public bool DisableOnScreenLog = false;
         public const int MAX_LINES_TO_DISPLAY = 7;
+        public RectTransform DebugLogContainer;
         public Text UIDebugLogText;
         public ScrollRect ScrollRect;
 
@@ -65,8 +66,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            initialAnchorMax = (transform as RectTransform).anchorMax;
-            initialSizeDelta = (transform as RectTransform).sizeDelta;
+            initialAnchorMax = DebugLogContainer.anchorMax;
+            initialSizeDelta = DebugLogContainer.sizeDelta;
             expanded = false;
 
             ignoreLogLevelChange = true;
@@ -243,19 +244,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ToggleExpand()
         {
-            var rt = transform as RectTransform;
-
             expanded = !expanded;
 
             if (expanded)
             {
-                rt.anchorMax = new Vector2(initialAnchorMax.x, 1);
-                rt.sizeDelta = new Vector2(rt.sizeDelta.x, 0);
+                DebugLogContainer.anchorMax = new Vector2(initialAnchorMax.x, 1);
+                DebugLogContainer.sizeDelta = new Vector2(DebugLogContainer.sizeDelta.x, 0);
             }
             else
             {
-                rt.anchorMax = initialAnchorMax;
-                rt.sizeDelta = initialSizeDelta;
+                DebugLogContainer.anchorMax = initialAnchorMax;
+                DebugLogContainer.sizeDelta = initialSizeDelta;
             }
         }
 
