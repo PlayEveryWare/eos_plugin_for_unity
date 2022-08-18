@@ -31,7 +31,7 @@ The follow target platforms are supported in Unity for the current release of th
 | Universal Windows Platform x64 | Supported |
 | Android | Future |
 | iOS | Future |
-| Linux | Future |
+| Linux | [Supported](docs/linux/linux_supported_versions.md) |
 | MacOS | Future |
 | Console Platforms | Future |
 | WebGL | Not Supported |
