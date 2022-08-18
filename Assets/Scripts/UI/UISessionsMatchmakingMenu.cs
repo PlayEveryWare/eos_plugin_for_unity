@@ -163,7 +163,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         uiEntry.PlayersTxt.text = string.Format("{0}/{1}", sessionResult.NumConnections, sessionResult.MaxPlayers);
                         uiEntry.PresenceTxt.text = sessionResult.PresenceSession.ToString();
                         uiEntry.JIPTxt.text = sessionResult.AllowJoinInProgress.ToString();
-                        uiEntry.PublicTxt.text = sessionResult.AllowJoinInProgress.ToString();
+                        uiEntry.PublicTxt.text = (sessionResult.PermissionLevel == OnlineSessionPermissionLevel.PublicAdvertised).ToString();
                         uiEntry.InvitesTxt.text = sessionResult.InvitesAllowed.ToString();
 
                         uiEntry.JoinOnClick = JoinButtonOnClick;
@@ -243,7 +243,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         uiEntry.PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
                         uiEntry.PresenceTxt.text = session.PresenceSession.ToString();
                         uiEntry.JIPTxt.text = session.AllowJoinInProgress.ToString();
-                        uiEntry.PublicTxt.text = session.AllowJoinInProgress.ToString();
+                        uiEntry.PublicTxt.text = (session.PermissionLevel == OnlineSessionPermissionLevel.PublicAdvertised).ToString();
                         uiEntry.InvitesTxt.text = session.InvitesAllowed.ToString();
 
                         uiEntry.StartOnClick = StartButtonOnClick;

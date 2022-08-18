@@ -1273,7 +1273,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (success)
                 {
                     session.Id = sessionId;
-                    if (session.PresenceSession)
+                    if (!session.PresenceSession)
                     {
                         SetJoininfo(sessionId);
                     }
@@ -1383,7 +1383,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         if (currentSession.Id == session.Id)
                         {
                             localSessionFound = true;
-                            if (session.PresenceSession)
+                            if (!session.PresenceSession)
                             {
                                 SetJoininfo(session.Id);
                             }
@@ -1394,7 +1394,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (!localSessionFound)
                     {
                         CurrentSessions[session.Name] = session;
-                        if (session.PresenceSession)
+                        if (!session.PresenceSession)
                         {
                             SetJoininfo(session.Id);
                         }
