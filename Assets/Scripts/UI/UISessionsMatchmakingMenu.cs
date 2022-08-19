@@ -43,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text SessionNameVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
-        public Toggle PublicVal;
+        public Dropdown PermissionVal;
         public Toggle PresenceVal;
         public Toggle JoinInProgressVal;
         public Toggle InvitesAllowedVal;
@@ -163,7 +163,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         uiEntry.PlayersTxt.text = string.Format("{0}/{1}", sessionResult.NumConnections, sessionResult.MaxPlayers);
                         uiEntry.PresenceTxt.text = sessionResult.PresenceSession.ToString();
                         uiEntry.JIPTxt.text = sessionResult.AllowJoinInProgress.ToString();
-                        uiEntry.PublicTxt.text = (sessionResult.PermissionLevel == OnlineSessionPermissionLevel.PublicAdvertised).ToString();
+                        uiEntry.PermissionTxt.text = sessionResult.PermissionLevel.ToString();
                         uiEntry.InvitesTxt.text = sessionResult.InvitesAllowed.ToString();
 
                         uiEntry.JoinOnClick = JoinButtonOnClick;
@@ -243,7 +243,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         uiEntry.PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
                         uiEntry.PresenceTxt.text = session.PresenceSession.ToString();
                         uiEntry.JIPTxt.text = session.AllowJoinInProgress.ToString();
-                        uiEntry.PublicTxt.text = (session.PermissionLevel == OnlineSessionPermissionLevel.PublicAdvertised).ToString();
+                        uiEntry.PermissionTxt.text = session.PermissionLevel.ToString();
                         uiEntry.InvitesTxt.text = session.InvitesAllowed.ToString();
 
                         uiEntry.StartOnClick = StartButtonOnClick;
@@ -280,7 +280,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             session.InvitesAllowed = InvitesAllowedVal.isOn;
             session.MaxPlayers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
             session.Name = SessionNameVal.text;
-            session.PermissionLevel = PublicVal.isOn ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
+            session.PermissionLevel = (OnlineSessionPermissionLevel)PermissionVal.value;
 
             SessionAttribute attribute = new SessionAttribute();
             attribute.Key = "Level";
@@ -328,7 +328,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             session.MaxPlayers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
             session.AllowJoinInProgress = JoinInProgressVal.isOn;
             session.InvitesAllowed = InvitesAllowedVal.isOn;
-            session.PermissionLevel = PublicVal.enabled ? OnlineSessionPermissionLevel.PublicAdvertised : OnlineSessionPermissionLevel.InviteOnly;
+            session.PermissionLevel = (OnlineSessionPermissionLevel)PermissionVal.value;
 
             SessionAttribute attr = new SessionAttribute();
             attr.Key = "Level";
