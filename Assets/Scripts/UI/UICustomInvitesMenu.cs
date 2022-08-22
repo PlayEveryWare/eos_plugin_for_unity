@@ -41,7 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<UICustomInviteEntry> PendingInviteEntries;
         private bool PayloadSet = false;
 
-        public void Awake()
+        private void Awake()
         {
             PendingInviteEntries = new List<UICustomInviteEntry>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
@@ -50,6 +50,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CustomInvitesManager.AddNotifyCustomInviteAccepted(OnInviteAccepted);
             CustomInvitesManager.AddNotifyCustomInviteRejected(OnInviteRejected);
             HideMenu();
+        }
+
+        private void OnDestroy()
+        {
+            CustomInvitesManager?.RemoveNotifyCustomInviteReceived(OnInviteReceived);
+            CustomInvitesManager?.RemoveNotifyCustomInviteAccepted(OnInviteAccepted);
+            CustomInvitesManager?.RemoveNotifyCustomInviteRejected(OnInviteRejected);
         }
 
         public void HideMenu()
