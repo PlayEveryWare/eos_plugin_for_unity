@@ -289,7 +289,7 @@ _WIN32 || _WIN64
                 EditorGUILayout.BeginHorizontal();
                 var newValueAsString = EditorGUILayout.TextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
 
-                if (GUILayout.Button("clear"))
+                if (GUILayout.Button("Clear"))
                 {
                     value = null;
                 }
@@ -427,7 +427,22 @@ _WIN32 || _WIN64
             GUILayout.Label("Default Client Credentials", EditorStyles.boldLabel);
             AssigningTextField("Client ID", ref mainEOSConfigFile.currentEOSConfig.clientID);
             AssigningTextField("Client Secret", ref mainEOSConfigFile.currentEOSConfig.clientSecret);
+            GUI.SetNextControlName("KeyText");
             AssigningTextField("Encryption Key", ref mainEOSConfigFile.currentEOSConfig.encryptionKey);
+            GUI.SetNextControlName("GenerateButton");
+            if (GUILayout.Button("Generate"))
+            {
+                //generate random 32-byte hex sequence
+                var rng = new System.Random(SystemInfo.deviceUniqueIdentifier.GetHashCode() * (int)(EditorApplication.timeSinceStartup * 1000));
+                var keyBytes = new byte[32];
+                rng.NextBytes(keyBytes);
+                mainEOSConfigFile.currentEOSConfig.encryptionKey = BitConverter.ToString(keyBytes).Replace("-", "");
+                //unfocus key input field so the new key is shown
+                if (GUI.GetNameOfFocusedControl() == "KeyText")
+                {
+                    GUI.FocusControl("GenerateButton");
+                }
+            }
 
             var keyLength = mainEOSConfigFile.currentEOSConfig.encryptionKey.Length;
             if (keyLength != 64)
