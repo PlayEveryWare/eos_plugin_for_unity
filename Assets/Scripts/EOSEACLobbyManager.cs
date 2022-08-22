@@ -62,12 +62,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (AntiCheatManager.IsAntiCheatAvailable())
             {
-                LobbyManager.SubscribeToLobbyChanges(OnLobbyChanged);
-                LobbyManager.SubscribeToLobbyUpdates(OnLobbyUpdated);
-                LobbyManager.SubscribeToMemberUpdates(OnMemberUpdated);
+                LobbyManager.AddNotifyLobbyChange(OnLobbyChanged);
+                LobbyManager.AddNotifyLobbyUpdate(OnLobbyUpdated);
+                LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdated);
 
-                AntiCheatManager.SubscribeToMessageToPeer(OnMessageToPeer);
-                AntiCheatManager.SubscribeToPeerActionRequired(OnPeerActionRequired);
+                AntiCheatManager.AddNotifyToMessageToPeer(OnMessageToPeer);
+                AntiCheatManager.AddNotifyPeerActionRequired(OnPeerActionRequired);
             }
         }
 

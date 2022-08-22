@@ -112,13 +112,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AntiCheatEnabledVal.interactable = AntiCheatLobbyManager.IsAntiCheatAvailable();
             }
 
-            LobbyManager.SubscribeToMemberUpdates(OnMemberUpdate);
+            LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdate);
             CurrentLobbyPanel.SetActive(false);
         }
 
         private void OnDestroy()
         {
-            LobbyManager?.UnsubscribeFromMemberUpdates(OnMemberUpdate);
+            LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
         }
 
         private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)
