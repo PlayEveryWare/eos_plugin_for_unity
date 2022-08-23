@@ -466,6 +466,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSUserInfoManager UserInfoManager;
 
+
+#if UNITY_ANDROID && !UNITY_EDITOR && EOS_ANDROID_ENABLED//TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
+        const bool ONANDROIDPLATFORM = true;
+#else
+        const bool ONANDROIDPLATFORM = false;
+#endif
+
         // Init
 
         public EOSLobbyManager()
@@ -677,6 +684,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if(!CurrentLobby.RTCRoomConnectionChanged.IsValid())
             {
                 Debug.LogError("Lobbies (SubscribeToRTCEvents): Failed to bind to Lobby NotifyRTCRoomConnectionChanged notification.");
+                return;
             }
 
             // Get the current room connection status now that we're listening for changes
@@ -691,6 +699,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogFormat("Lobbies (SubscribeToRTCEvents): Failed to get RTC Room connection status:. Error Code: {0}", result);
+                return;
             }
             else
             {
@@ -2174,8 +2183,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
-
-            HackWorkaroundRTCInitIssues();
+            if (!ONANDROIDPLATFORM)
+            {
+#pragma warning disable CS0162 // Unreachable code when not in Android, but findable with intellisense
+                HackWorkaroundRTCInitIssues();
+#pragma warning restore CS0162 
+            }
 
             if (string.IsNullOrEmpty(lobbyId))
             {
