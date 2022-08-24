@@ -2183,9 +2183,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
-            if (!ONANDROIDPLATFORM)
+            if (ONANDROIDPLATFORM == false)
             {
-#pragma warning disable CS0162 // Unreachable code when not in Android, but findable with intellisense
+#pragma warning disable CS0162 // Unreachable code when on Android, but findable with intellisense
                 HackWorkaroundRTCInitIssues();
 #pragma warning restore CS0162 
             }
