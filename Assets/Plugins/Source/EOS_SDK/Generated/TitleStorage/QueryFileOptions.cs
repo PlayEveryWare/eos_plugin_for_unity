@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.TitleStorage
 	/// <summary>
 	/// Input data for the <see cref="TitleStorageInterface.QueryFile" /> function
 	/// </summary>
-	public class QueryFileOptions
+	public struct QueryFileOptions
 	{
 		/// <summary>
 		/// Product User ID of the local user requesting file metadata (optional)
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <summary>
 		/// The requested file's name
 		/// </summary>
-		public string Filename { get; set; }
+		public Utf8String Filename { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryFileOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryFileOptionsInternal : ISettable<QueryFileOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.TitleStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string Filename
+		public Utf8String Filename
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Filename, value);
+				Helper.Set(value, ref m_Filename);
 			}
 		}
 
-		public void Set(QueryFileOptions other)
+		public void Set(ref QueryFileOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = TitleStorageInterface.QueryfileoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+			Filename = other.Filename;
+		}
+
+		public void Set(ref QueryFileOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = TitleStorageInterface.QueryfileoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
-				Filename = other.Filename;
+				LocalUserId = other.Value.LocalUserId;
+				Filename = other.Value.Filename;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryFileOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Filename);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Filename);
 		}
 	}
 }

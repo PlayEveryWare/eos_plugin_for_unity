@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.JoinSession" /> function.
 	/// </summary>
-	public class JoinSessionOptions
+	public struct JoinSessionOptions
 	{
 		/// <summary>
 		/// Name of the session to create after joining session
 		/// </summary>
-		public string SessionName { get; set; }
+		public Utf8String SessionName { get; set; }
 
 		/// <summary>
 		/// Session handle to join
@@ -26,11 +26,10 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// If true, this session will be associated with presence. Only one session at a time can have this flag true.
 		/// This affects the ability of the Social Overlay to show game related actions to take in the user's social graph.
-		/// 
-		/// @note The Social Overlay can handle only one of the following three options at a time:
+		/// The Social Overlay can handle only one of the following three options at a time:
 		/// using the bPresenceEnabled flags within the Sessions interface
 		/// using the bPresenceEnabled flags within the Lobby interface
-		/// using <see cref="Presence.PresenceModification.SetJoinInfo" />
+		/// using EOS_PresenceModification_SetJoinInfo
 		/// <seealso cref="Presence.PresenceModificationSetJoinInfoOptions" />
 		/// <seealso cref="Lobby.CreateLobbyOptions" />
 		/// <seealso cref="Lobby.JoinLobbyOptions" />
@@ -40,7 +39,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct JoinSessionOptionsInternal : ISettable, System.IDisposable
+	internal struct JoinSessionOptionsInternal : ISettable<JoinSessionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionName;
@@ -48,11 +47,11 @@ namespace Epic.OnlineServices.Sessions
 		private System.IntPtr m_LocalUserId;
 		private int m_PresenceEnabled;
 
-		public string SessionName
+		public Utf8String SessionName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionName, value);
+				Helper.Set(value, ref m_SessionName);
 			}
 		}
 
@@ -60,7 +59,7 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionHandle, value);
+				Helper.Set(value, ref m_SessionHandle);
 			}
 		}
 
@@ -68,7 +67,7 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -76,32 +75,36 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PresenceEnabled, value);
+				Helper.Set(value, ref m_PresenceEnabled);
 			}
 		}
 
-		public void Set(JoinSessionOptions other)
+		public void Set(ref JoinSessionOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.JoinsessionApiLatest;
+			SessionName = other.SessionName;
+			SessionHandle = other.SessionHandle;
+			LocalUserId = other.LocalUserId;
+			PresenceEnabled = other.PresenceEnabled;
+		}
+
+		public void Set(ref JoinSessionOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.JoinsessionApiLatest;
-				SessionName = other.SessionName;
-				SessionHandle = other.SessionHandle;
-				LocalUserId = other.LocalUserId;
-				PresenceEnabled = other.PresenceEnabled;
+				SessionName = other.Value.SessionName;
+				SessionHandle = other.Value.SessionHandle;
+				LocalUserId = other.Value.LocalUserId;
+				PresenceEnabled = other.Value.PresenceEnabled;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as JoinSessionOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionName);
-			Helper.TryMarshalDispose(ref m_SessionHandle);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_SessionName);
+			Helper.Dispose(ref m_SessionHandle);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

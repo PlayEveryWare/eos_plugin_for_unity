@@ -62,18 +62,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopyInfo(SessionDetailsCopyInfoOptions options, out SessionDetailsInfo outSessionInfo)
+		public Result CopyInfo(ref SessionDetailsCopyInfoOptions options, out SessionDetailsInfo? outSessionInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionDetailsCopyInfoOptionsInternal, SessionDetailsCopyInfoOptions>(ref optionsAddress, options);
+			SessionDetailsCopyInfoOptionsInternal optionsInternal = new SessionDetailsCopyInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_SessionDetails_CopyInfo(InnerHandle, optionsAddress, ref outSessionInfoAddress);
+			var funcResult = Bindings.EOS_SessionDetails_CopyInfo(InnerHandle, ref optionsInternal, ref outSessionInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<SessionDetailsInfoInternal, SessionDetailsInfo>(outSessionInfoAddress, out outSessionInfo))
+			Helper.Get<SessionDetailsInfoInternal, SessionDetailsInfo>(outSessionInfoAddress, out outSessionInfo);
+			if (outSessionInfo != null)
 			{
 				Bindings.EOS_SessionDetails_Info_Release(outSessionInfoAddress);
 			}
@@ -95,18 +96,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopySessionAttributeByIndex(SessionDetailsCopySessionAttributeByIndexOptions options, out SessionDetailsAttribute outSessionAttribute)
+		public Result CopySessionAttributeByIndex(ref SessionDetailsCopySessionAttributeByIndexOptions options, out SessionDetailsAttribute? outSessionAttribute)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionDetailsCopySessionAttributeByIndexOptionsInternal, SessionDetailsCopySessionAttributeByIndexOptions>(ref optionsAddress, options);
+			SessionDetailsCopySessionAttributeByIndexOptionsInternal optionsInternal = new SessionDetailsCopySessionAttributeByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionAttributeAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_SessionDetails_CopySessionAttributeByIndex(InnerHandle, optionsAddress, ref outSessionAttributeAddress);
+			var funcResult = Bindings.EOS_SessionDetails_CopySessionAttributeByIndex(InnerHandle, ref optionsInternal, ref outSessionAttributeAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<SessionDetailsAttributeInternal, SessionDetailsAttribute>(outSessionAttributeAddress, out outSessionAttribute))
+			Helper.Get<SessionDetailsAttributeInternal, SessionDetailsAttribute>(outSessionAttributeAddress, out outSessionAttribute);
+			if (outSessionAttribute != null)
 			{
 				Bindings.EOS_SessionDetails_Attribute_Release(outSessionAttributeAddress);
 			}
@@ -128,18 +130,19 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopySessionAttributeByKey(SessionDetailsCopySessionAttributeByKeyOptions options, out SessionDetailsAttribute outSessionAttribute)
+		public Result CopySessionAttributeByKey(ref SessionDetailsCopySessionAttributeByKeyOptions options, out SessionDetailsAttribute? outSessionAttribute)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionDetailsCopySessionAttributeByKeyOptionsInternal, SessionDetailsCopySessionAttributeByKeyOptions>(ref optionsAddress, options);
+			SessionDetailsCopySessionAttributeByKeyOptionsInternal optionsInternal = new SessionDetailsCopySessionAttributeByKeyOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSessionAttributeAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_SessionDetails_CopySessionAttributeByKey(InnerHandle, optionsAddress, ref outSessionAttributeAddress);
+			var funcResult = Bindings.EOS_SessionDetails_CopySessionAttributeByKey(InnerHandle, ref optionsInternal, ref outSessionAttributeAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<SessionDetailsAttributeInternal, SessionDetailsAttribute>(outSessionAttributeAddress, out outSessionAttribute))
+			Helper.Get<SessionDetailsAttributeInternal, SessionDetailsAttribute>(outSessionAttributeAddress, out outSessionAttribute);
+			if (outSessionAttribute != null)
 			{
 				Bindings.EOS_SessionDetails_Attribute_Release(outSessionAttributeAddress);
 			}
@@ -154,14 +157,14 @@ namespace Epic.OnlineServices.Sessions
 		/// <returns>
 		/// number of attributes on the session or 0 if there is an error
 		/// </returns>
-		public uint GetSessionAttributeCount(SessionDetailsGetSessionAttributeCountOptions options)
+		public uint GetSessionAttributeCount(ref SessionDetailsGetSessionAttributeCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SessionDetailsGetSessionAttributeCountOptionsInternal, SessionDetailsGetSessionAttributeCountOptions>(ref optionsAddress, options);
+			SessionDetailsGetSessionAttributeCountOptionsInternal optionsInternal = new SessionDetailsGetSessionAttributeCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_SessionDetails_GetSessionAttributeCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_SessionDetails_GetSessionAttributeCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}

@@ -74,7 +74,7 @@ namespace Epic.OnlineServices.KWS
 		/// This interface is not available for general access at this time.
 		/// 
 		/// Register to receive notifications about KWS permissions changes for any logged in local users
-		/// @note must call <see cref="RemoveNotifyPermissionsUpdateReceived" /> to remove the notification
+		/// must call EOS_KWS_RemoveNotifyPermissionsUpdateReceived to remove the notification
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -82,21 +82,21 @@ namespace Epic.OnlineServices.KWS
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifyPermissionsUpdateReceived(AddNotifyPermissionsUpdateReceivedOptions options, object clientData, OnPermissionsUpdateReceivedCallback notificationFn)
+		public ulong AddNotifyPermissionsUpdateReceived(ref AddNotifyPermissionsUpdateReceivedOptions options, object clientData, OnPermissionsUpdateReceivedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyPermissionsUpdateReceivedOptionsInternal, AddNotifyPermissionsUpdateReceivedOptions>(ref optionsAddress, options);
+			AddNotifyPermissionsUpdateReceivedOptionsInternal optionsInternal = new AddNotifyPermissionsUpdateReceivedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnPermissionsUpdateReceivedCallbackInternal(OnPermissionsUpdateReceivedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_KWS_AddNotifyPermissionsUpdateReceived(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_KWS_AddNotifyPermissionsUpdateReceived(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -116,18 +116,19 @@ namespace Epic.OnlineServices.KWS
 		/// <see cref="Result.Success" /> if the permission state is known for the given user and index
 		/// <see cref="Result.NotFound" /> if the user is not found or the index is invalid
 		/// </returns>
-		public Result CopyPermissionByIndex(CopyPermissionByIndexOptions options, out PermissionStatus outPermission)
+		public Result CopyPermissionByIndex(ref CopyPermissionByIndexOptions options, out PermissionStatus? outPermission)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyPermissionByIndexOptionsInternal, CopyPermissionByIndexOptions>(ref optionsAddress, options);
+			CopyPermissionByIndexOptionsInternal optionsInternal = new CopyPermissionByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outPermissionAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_KWS_CopyPermissionByIndex(InnerHandle, optionsAddress, ref outPermissionAddress);
+			var funcResult = Bindings.EOS_KWS_CopyPermissionByIndex(InnerHandle, ref optionsInternal, ref outPermissionAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<PermissionStatusInternal, PermissionStatus>(outPermissionAddress, out outPermission))
+			Helper.Get<PermissionStatusInternal, PermissionStatus>(outPermissionAddress, out outPermission);
+			if (outPermission != null)
 			{
 				Bindings.EOS_KWS_PermissionStatus_Release(outPermissionAddress);
 			}
@@ -148,19 +149,19 @@ namespace Epic.OnlineServices.KWS
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.TooManyRequests" /> if the number of allowed requests is exceeded
 		/// </returns>
-		public void CreateUser(CreateUserOptions options, object clientData, OnCreateUserCallback completionDelegate)
+		public void CreateUser(ref CreateUserOptions options, object clientData, OnCreateUserCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CreateUserOptionsInternal, CreateUserOptions>(ref optionsAddress, options);
+			CreateUserOptionsInternal optionsInternal = new CreateUserOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnCreateUserCallbackInternal(OnCreateUserCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_KWS_CreateUser(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_KWS_CreateUser(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -177,16 +178,16 @@ namespace Epic.OnlineServices.KWS
 		/// <see cref="Result.Success" /> if the permission state is known for the given user and key
 		/// <see cref="Result.NotFound" /> if the user or the permission is not found
 		/// </returns>
-		public Result GetPermissionByKey(GetPermissionByKeyOptions options, out KWSPermissionStatus outPermission)
+		public Result GetPermissionByKey(ref GetPermissionByKeyOptions options, out KWSPermissionStatus outPermission)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetPermissionByKeyOptionsInternal, GetPermissionByKeyOptions>(ref optionsAddress, options);
+			GetPermissionByKeyOptionsInternal optionsInternal = new GetPermissionByKeyOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			outPermission = Helper.GetDefault<KWSPermissionStatus>();
 
-			var funcResult = Bindings.EOS_KWS_GetPermissionByKey(InnerHandle, optionsAddress, ref outPermission);
+			var funcResult = Bindings.EOS_KWS_GetPermissionByKey(InnerHandle, ref optionsInternal, ref outPermission);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -200,14 +201,14 @@ namespace Epic.OnlineServices.KWS
 		/// <returns>
 		/// the number of permissions associated with the given user
 		/// </returns>
-		public int GetPermissionsCount(GetPermissionsCountOptions options)
+		public int GetPermissionsCount(ref GetPermissionsCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetPermissionsCountOptionsInternal, GetPermissionsCountOptions>(ref optionsAddress, options);
+			GetPermissionsCountOptionsInternal optionsInternal = new GetPermissionsCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_KWS_GetPermissionsCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_KWS_GetPermissionsCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -225,19 +226,19 @@ namespace Epic.OnlineServices.KWS
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.TooManyRequests" /> if the number of allowed queries is exceeded
 		/// </returns>
-		public void QueryAgeGate(QueryAgeGateOptions options, object clientData, OnQueryAgeGateCallback completionDelegate)
+		public void QueryAgeGate(ref QueryAgeGateOptions options, object clientData, OnQueryAgeGateCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryAgeGateOptionsInternal, QueryAgeGateOptions>(ref optionsAddress, options);
+			QueryAgeGateOptionsInternal optionsInternal = new QueryAgeGateOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryAgeGateCallbackInternal(OnQueryAgeGateCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_KWS_QueryAgeGate(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_KWS_QueryAgeGate(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -253,19 +254,19 @@ namespace Epic.OnlineServices.KWS
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.TooManyRequests" /> if the number of allowed requests is exceeded
 		/// </returns>
-		public void QueryPermissions(QueryPermissionsOptions options, object clientData, OnQueryPermissionsCallback completionDelegate)
+		public void QueryPermissions(ref QueryPermissionsOptions options, object clientData, OnQueryPermissionsCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryPermissionsOptionsInternal, QueryPermissionsOptions>(ref optionsAddress, options);
+			QueryPermissionsOptionsInternal optionsInternal = new QueryPermissionsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryPermissionsCallbackInternal(OnQueryPermissionsCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_KWS_QueryPermissions(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_KWS_QueryPermissions(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -276,9 +277,9 @@ namespace Epic.OnlineServices.KWS
 		/// <param name="inId">Handle representing the registered callback</param>
 		public void RemoveNotifyPermissionsUpdateReceived(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_KWS_RemoveNotifyPermissionsUpdateReceived(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -296,19 +297,19 @@ namespace Epic.OnlineServices.KWS
 		/// <see cref="Result.ParentEmailMissing" /> if the account requesting permissions has no parent email associated with it
 		/// <see cref="Result.LimitExceeded" /> if the number of permissions exceeds <see cref="MaxPermissions" />, or if any permission name exceeds <see cref="MaxPermissionLength" />
 		/// </returns>
-		public void RequestPermissions(RequestPermissionsOptions options, object clientData, OnRequestPermissionsCallback completionDelegate)
+		public void RequestPermissions(ref RequestPermissionsOptions options, object clientData, OnRequestPermissionsCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<RequestPermissionsOptionsInternal, RequestPermissionsOptions>(ref optionsAddress, options);
+			RequestPermissionsOptionsInternal optionsInternal = new RequestPermissionsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnRequestPermissionsCallbackInternal(OnRequestPermissionsCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_KWS_RequestPermissions(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_KWS_RequestPermissions(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -324,84 +325,84 @@ namespace Epic.OnlineServices.KWS
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.TooManyRequests" /> if the number of allowed requests is exceeded
 		/// </returns>
-		public void UpdateParentEmail(UpdateParentEmailOptions options, object clientData, OnUpdateParentEmailCallback completionDelegate)
+		public void UpdateParentEmail(ref UpdateParentEmailOptions options, object clientData, OnUpdateParentEmailCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UpdateParentEmailOptionsInternal, UpdateParentEmailOptions>(ref optionsAddress, options);
+			UpdateParentEmailOptionsInternal optionsInternal = new UpdateParentEmailOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnUpdateParentEmailCallbackInternal(OnUpdateParentEmailCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_KWS_UpdateParentEmail(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_KWS_UpdateParentEmail(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnCreateUserCallbackInternal))]
-		internal static void OnCreateUserCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnCreateUserCallbackInternalImplementation(ref CreateUserCallbackInfoInternal data)
 		{
 			OnCreateUserCallback callback;
 			CreateUserCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnCreateUserCallback, CreateUserCallbackInfoInternal, CreateUserCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnPermissionsUpdateReceivedCallbackInternal))]
-		internal static void OnPermissionsUpdateReceivedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnPermissionsUpdateReceivedCallbackInternalImplementation(ref PermissionsUpdateReceivedCallbackInfoInternal data)
 		{
 			OnPermissionsUpdateReceivedCallback callback;
 			PermissionsUpdateReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnPermissionsUpdateReceivedCallback, PermissionsUpdateReceivedCallbackInfoInternal, PermissionsUpdateReceivedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryAgeGateCallbackInternal))]
-		internal static void OnQueryAgeGateCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryAgeGateCallbackInternalImplementation(ref QueryAgeGateCallbackInfoInternal data)
 		{
 			OnQueryAgeGateCallback callback;
 			QueryAgeGateCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryAgeGateCallback, QueryAgeGateCallbackInfoInternal, QueryAgeGateCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryPermissionsCallbackInternal))]
-		internal static void OnQueryPermissionsCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryPermissionsCallbackInternalImplementation(ref QueryPermissionsCallbackInfoInternal data)
 		{
 			OnQueryPermissionsCallback callback;
 			QueryPermissionsCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryPermissionsCallback, QueryPermissionsCallbackInfoInternal, QueryPermissionsCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnRequestPermissionsCallbackInternal))]
-		internal static void OnRequestPermissionsCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnRequestPermissionsCallbackInternalImplementation(ref RequestPermissionsCallbackInfoInternal data)
 		{
 			OnRequestPermissionsCallback callback;
 			RequestPermissionsCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnRequestPermissionsCallback, RequestPermissionsCallbackInfoInternal, RequestPermissionsCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnUpdateParentEmailCallbackInternal))]
-		internal static void OnUpdateParentEmailCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnUpdateParentEmailCallbackInternalImplementation(ref UpdateParentEmailCallbackInfoInternal data)
 		{
 			OnUpdateParentEmailCallback callback;
 			UpdateParentEmailCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnUpdateParentEmailCallback, UpdateParentEmailCallbackInfoInternal, UpdateParentEmailCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

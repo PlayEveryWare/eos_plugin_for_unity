@@ -3,47 +3,39 @@
 
 namespace Epic.OnlineServices.UI
 {
-	public class OnDisplaySettingsUpdatedCallbackInfo : ICallbackInfo, ISettable
+	public struct OnDisplaySettingsUpdatedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="UIInterface.AddNotifyDisplaySettingsUpdated" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// True when any portion of the overlay is visible.
 		/// </summary>
-		public bool IsVisible { get; private set; }
+		public bool IsVisible { get; set; }
 
 		/// <summary>
 		/// True when the overlay has switched to exclusive input mode.
 		/// While in exclusive input mode, no keyboard or mouse input will be sent to the game.
 		/// </summary>
-		public bool IsExclusiveInput { get; private set; }
+		public bool IsExclusiveInput { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(OnDisplaySettingsUpdatedCallbackInfoInternal? other)
+		internal void Set(ref OnDisplaySettingsUpdatedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				IsVisible = other.Value.IsVisible;
-				IsExclusiveInput = other.Value.IsExclusiveInput;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnDisplaySettingsUpdatedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			IsVisible = other.IsVisible;
+			IsExclusiveInput = other.IsExclusiveInput;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnDisplaySettingsUpdatedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnDisplaySettingsUpdatedCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnDisplaySettingsUpdatedCallbackInfo>, ISettable<OnDisplaySettingsUpdatedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private int m_IsVisible;
@@ -54,8 +46,13 @@ namespace Epic.OnlineServices.UI
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -72,8 +69,13 @@ namespace Epic.OnlineServices.UI
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsVisible, out value);
+				Helper.Get(m_IsVisible, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_IsVisible);
 			}
 		}
 
@@ -82,9 +84,42 @@ namespace Epic.OnlineServices.UI
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsExclusiveInput, out value);
+				Helper.Get(m_IsExclusiveInput, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_IsExclusiveInput);
+			}
+		}
+
+		public void Set(ref OnDisplaySettingsUpdatedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			IsVisible = other.IsVisible;
+			IsExclusiveInput = other.IsExclusiveInput;
+		}
+
+		public void Set(ref OnDisplaySettingsUpdatedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				IsVisible = other.Value.IsVisible;
+				IsExclusiveInput = other.Value.IsExclusiveInput;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+		}
+
+		public void Get(out OnDisplaySettingsUpdatedCallbackInfo output)
+		{
+			output = new OnDisplaySettingsUpdatedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

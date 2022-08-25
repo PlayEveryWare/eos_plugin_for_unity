@@ -6,53 +6,45 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters to use with Lobby RTC Rooms.
 	/// </summary>
-	public class LocalRTCOptions : ISettable
+	public struct LocalRTCOptions
 	{
 		/// <summary>
-		/// Flags for the local user in this room. The default is 0 if this struct is not specified. @see <see cref="RTC.JoinRoomOptions" />::Flags
+		/// Flags for the local user in this room. The default is 0 if this struct is not specified. @see <see cref="RTC.JoinRoomOptions.Flags" />
 		/// </summary>
 		public uint Flags { get; set; }
 
 		/// <summary>
-		/// Set to true to enable Manual Audio Input. If manual audio input is enabled, audio recording is not started and the audio buffers
-		/// must be passed manually using <see cref="RTCAudio.RTCAudioInterface.SendAudio" />. The default is false if this struct is not specified.
+		/// Set to <see langword="true" /> to enable Manual Audio Input. If manual audio input is enabled, audio recording is not started and the audio buffers
+		/// must be passed manually using <see cref="RTCAudio.RTCAudioInterface.SendAudio" />. The default is <see langword="false" /> if this struct is not specified.
 		/// </summary>
 		public bool UseManualAudioInput { get; set; }
 
 		/// <summary>
-		/// Set to true to enable Manual Audio Output. If manual audio output is enabled, audio rendering is not started and the audio buffers
-		/// must be received with <see cref="RTCAudio.RTCAudioInterface.AddNotifyAudioBeforeRender" /> and rendered manually. The default is false if this struct is not
+		/// Set to <see langword="true" /> to enable Manual Audio Output. If manual audio output is enabled, audio rendering is not started and the audio buffers
+		/// must be received with <see cref="RTCAudio.RTCAudioInterface.AddNotifyAudioBeforeRender" /> and rendered manually. The default is <see langword="false" /> if this struct is not
 		/// specified.
 		/// </summary>
 		public bool UseManualAudioOutput { get; set; }
 
 		/// <summary>
-		/// Set to true to start the audio input device's stream as muted when first connecting to the RTC room.
+		/// Set to <see langword="true" /> to start the audio input device's stream as muted when first connecting to the RTC room.
 		/// 
 		/// It must be manually unmuted with a call to <see cref="RTCAudio.RTCAudioInterface.UpdateSending" />. If manual audio output is enabled, this value is ignored.
-		/// The default value is false if this struct is not specified.
+		/// The default value is <see langword="false" /> if this struct is not specified.
 		/// </summary>
 		public bool LocalAudioDeviceInputStartsMuted { get; set; }
 
-		internal void Set(LocalRTCOptionsInternal? other)
+		internal void Set(ref LocalRTCOptionsInternal other)
 		{
-			if (other != null)
-			{
-				Flags = other.Value.Flags;
-				UseManualAudioInput = other.Value.UseManualAudioInput;
-				UseManualAudioOutput = other.Value.UseManualAudioOutput;
-				LocalAudioDeviceInputStartsMuted = other.Value.LocalAudioDeviceInputStartsMuted;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LocalRTCOptionsInternal?);
+			Flags = other.Flags;
+			UseManualAudioInput = other.UseManualAudioInput;
+			UseManualAudioOutput = other.UseManualAudioOutput;
+			LocalAudioDeviceInputStartsMuted = other.LocalAudioDeviceInputStartsMuted;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LocalRTCOptionsInternal : ISettable, System.IDisposable
+	internal struct LocalRTCOptionsInternal : IGettable<LocalRTCOptions>, ISettable<LocalRTCOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_Flags;
@@ -78,13 +70,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_UseManualAudioInput, out value);
+				Helper.Get(m_UseManualAudioInput, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UseManualAudioInput, value);
+				Helper.Set(value, ref m_UseManualAudioInput);
 			}
 		}
 
@@ -93,13 +85,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_UseManualAudioOutput, out value);
+				Helper.Get(m_UseManualAudioOutput, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UseManualAudioOutput, value);
+				Helper.Set(value, ref m_UseManualAudioOutput);
 			}
 		}
 
@@ -108,35 +100,45 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_LocalAudioDeviceInputStartsMuted, out value);
+				Helper.Get(m_LocalAudioDeviceInputStartsMuted, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalAudioDeviceInputStartsMuted, value);
+				Helper.Set(value, ref m_LocalAudioDeviceInputStartsMuted);
 			}
 		}
 
-		public void Set(LocalRTCOptions other)
+		public void Set(ref LocalRTCOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.LocalrtcoptionsApiLatest;
+			Flags = other.Flags;
+			UseManualAudioInput = other.UseManualAudioInput;
+			UseManualAudioOutput = other.UseManualAudioOutput;
+			LocalAudioDeviceInputStartsMuted = other.LocalAudioDeviceInputStartsMuted;
+		}
+
+		public void Set(ref LocalRTCOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.LocalrtcoptionsApiLatest;
-				Flags = other.Flags;
-				UseManualAudioInput = other.UseManualAudioInput;
-				UseManualAudioOutput = other.UseManualAudioOutput;
-				LocalAudioDeviceInputStartsMuted = other.LocalAudioDeviceInputStartsMuted;
+				Flags = other.Value.Flags;
+				UseManualAudioInput = other.Value.UseManualAudioInput;
+				UseManualAudioOutput = other.Value.UseManualAudioOutput;
+				LocalAudioDeviceInputStartsMuted = other.Value.LocalAudioDeviceInputStartsMuted;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LocalRTCOptions);
 		}
 
 		public void Dispose()
 		{
+		}
+
+		public void Get(out LocalRTCOptions output)
+		{
+			output = new LocalRTCOptions();
+			output.Set(ref this);
 		}
 	}
 }

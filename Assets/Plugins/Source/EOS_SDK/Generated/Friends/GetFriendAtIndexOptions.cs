@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Friends
 	/// <summary>
 	/// Input parameters for the <see cref="FriendsInterface.GetFriendAtIndex" /> function.
 	/// </summary>
-	public class GetFriendAtIndexOptions
+	public struct GetFriendAtIndexOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user whose friend list is being queried
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Friends
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetFriendAtIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct GetFriendAtIndexOptionsInternal : ISettable<GetFriendAtIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Friends
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Friends
 			}
 		}
 
-		public void Set(GetFriendAtIndexOptions other)
+		public void Set(ref GetFriendAtIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = FriendsInterface.GetfriendatindexApiLatest;
-				LocalUserId = other.LocalUserId;
-				Index = other.Index;
-			}
+			m_ApiVersion = FriendsInterface.GetfriendatindexApiLatest;
+			LocalUserId = other.LocalUserId;
+			Index = other.Index;
 		}
 
-		public void Set(object other)
+		public void Set(ref GetFriendAtIndexOptions? other)
 		{
-			Set(other as GetFriendAtIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = FriendsInterface.GetfriendatindexApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Index = other.Value.Index;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

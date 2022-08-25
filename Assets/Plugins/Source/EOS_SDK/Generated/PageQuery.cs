@@ -6,7 +6,7 @@ namespace Epic.OnlineServices
 	/// <summary>
 	/// A page query is part of query options. It is used to allow pagination of query results.
 	/// </summary>
-	public class PageQuery : ISettable
+	public struct PageQuery
 	{
 		/// <summary>
 		/// The index into the ordered query results to start the page at.
@@ -18,23 +18,15 @@ namespace Epic.OnlineServices
 		/// </summary>
 		public int MaxCount { get; set; }
 
-		internal void Set(PageQueryInternal? other)
+		internal void Set(ref PageQueryInternal other)
 		{
-			if (other != null)
-			{
-				StartIndex = other.Value.StartIndex;
-				MaxCount = other.Value.MaxCount;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PageQueryInternal?);
+			StartIndex = other.StartIndex;
+			MaxCount = other.MaxCount;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PageQueryInternal : ISettable, System.IDisposable
+	internal struct PageQueryInternal : IGettable<PageQuery>, ISettable<PageQuery>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private int m_StartIndex;
@@ -66,23 +58,31 @@ namespace Epic.OnlineServices
 			}
 		}
 
-		public void Set(PageQuery other)
+		public void Set(ref PageQuery other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = Common.PagequeryApiLatest;
-				StartIndex = other.StartIndex;
-				MaxCount = other.MaxCount;
-			}
+			m_ApiVersion = Common.PagequeryApiLatest;
+			StartIndex = other.StartIndex;
+			MaxCount = other.MaxCount;
 		}
 
-		public void Set(object other)
+		public void Set(ref PageQuery? other)
 		{
-			Set(other as PageQuery);
+			if (other.HasValue)
+			{
+				m_ApiVersion = Common.PagequeryApiLatest;
+				StartIndex = other.Value.StartIndex;
+				MaxCount = other.Value.MaxCount;
+			}
 		}
 
 		public void Dispose()
 		{
+		}
+
+		public void Get(out PageQuery output)
+		{
+			output = new PageQuery();
+			output.Set(ref this);
 		}
 	}
 }

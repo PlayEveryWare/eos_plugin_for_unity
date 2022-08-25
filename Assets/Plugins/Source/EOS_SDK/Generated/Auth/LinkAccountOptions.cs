@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Input parameters for the <see cref="AuthInterface.LinkAccount" /> function.
 	/// </summary>
-	public class LinkAccountOptions
+	public struct LinkAccountOptions
 	{
 		/// <summary>
 		/// Combination of the enumeration flags to specify how the account linking operation will be performed.
@@ -26,16 +26,16 @@ namespace Epic.OnlineServices.Auth
 		public ContinuanceToken ContinuanceToken { get; set; }
 
 		/// <summary>
-		/// The Epic Account ID of the logged in local user whose Epic Account will be linked with the local Nintendo NSA ID Account. By default set to NULL.
+		/// The Epic Account ID of the logged in local user whose Epic Account will be linked with the local Nintendo NSA ID Account. By default set to <see langword="null" />.
 		/// 
-		/// This parameter is only used and required to be set when <see cref="LinkAccountFlags" />::<see cref="LinkAccountFlags.NintendoNsaId" /> is specified.
-		/// Otherwise, set to NULL, as the standard account linking and login flow using continuance token will handle logging in the user to their Epic Account.
+		/// This parameter is only used and required to be set when <see cref="LinkAccountFlags.NintendoNsaId" /> is specified.
+		/// Otherwise, set to <see langword="null" />, as the standard account linking and login flow using continuance token will handle logging in the user to their Epic Account.
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LinkAccountOptionsInternal : ISettable, System.IDisposable
+	internal struct LinkAccountOptionsInternal : ISettable<LinkAccountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private LinkAccountFlags m_LinkAccountFlags;
@@ -54,7 +54,7 @@ namespace Epic.OnlineServices.Auth
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ContinuanceToken, value);
+				Helper.Set(value, ref m_ContinuanceToken);
 			}
 		}
 
@@ -62,30 +62,33 @@ namespace Epic.OnlineServices.Auth
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(LinkAccountOptions other)
+		public void Set(ref LinkAccountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.LinkaccountApiLatest;
+			LinkAccountFlags = other.LinkAccountFlags;
+			ContinuanceToken = other.ContinuanceToken;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref LinkAccountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.LinkaccountApiLatest;
-				LinkAccountFlags = other.LinkAccountFlags;
-				ContinuanceToken = other.ContinuanceToken;
-				LocalUserId = other.LocalUserId;
+				LinkAccountFlags = other.Value.LinkAccountFlags;
+				ContinuanceToken = other.Value.ContinuanceToken;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LinkAccountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ContinuanceToken);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ContinuanceToken);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

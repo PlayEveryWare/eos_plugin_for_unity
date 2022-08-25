@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.CopyProductUserExternalAccountByIndex" /> function.
 	/// </summary>
-	public class CopyProductUserExternalAccountByIndexOptions
+	public struct CopyProductUserExternalAccountByIndexOptions
 	{
 		/// <summary>
 		/// The Product User ID to look for when copying external account info from the cache.
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyProductUserExternalAccountByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyProductUserExternalAccountByIndexOptionsInternal : ISettable<CopyProductUserExternalAccountByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Connect
 			}
 		}
 
-		public void Set(CopyProductUserExternalAccountByIndexOptions other)
+		public void Set(ref CopyProductUserExternalAccountByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = ConnectInterface.CopyproductuserexternalaccountbyindexApiLatest;
-				TargetUserId = other.TargetUserId;
-				ExternalAccountInfoIndex = other.ExternalAccountInfoIndex;
-			}
+			m_ApiVersion = ConnectInterface.CopyproductuserexternalaccountbyindexApiLatest;
+			TargetUserId = other.TargetUserId;
+			ExternalAccountInfoIndex = other.ExternalAccountInfoIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyProductUserExternalAccountByIndexOptions? other)
 		{
-			Set(other as CopyProductUserExternalAccountByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = ConnectInterface.CopyproductuserexternalaccountbyindexApiLatest;
+				TargetUserId = other.Value.TargetUserId;
+				ExternalAccountInfoIndex = other.Value.ExternalAccountInfoIndex;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

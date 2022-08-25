@@ -94,6 +94,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <summary>(async) Query list of files.</summary>
         public void QueryFileList(string[] tags, OnQueryFileListCallback QueryFileListCompleted)
         {
+            Utf8String[] utf8StringTags = new Utf8String[tags.Length];
+
+
+            for (int i = 0; i < tags.Length; ++i)
+            {
+                utf8StringTags[i] = tags[i];
+            }
+            QueryFileList(utf8StringTags, QueryListCallback);
+        }
+
+        public void QueryFileList(Utf8String[] tags, OnQueryFileListCallback QueryFileListCompleted)
+        {
             QueryFileListOptions queryOptions = new QueryFileListOptions();
             queryOptions.ListOfTags = tags;
             queryOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
@@ -101,17 +113,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryListCallback = QueryFileListCompleted;
 
             TitleStorageInterface titleStorageHandle = EOSManager.Instance.GetEOSPlatformInterface().GetTitleStorageInterface();
-            titleStorageHandle.QueryFileList(queryOptions, null, OnQueryFileListCompleted);
+            titleStorageHandle.QueryFileList(ref queryOptions, null, OnQueryFileListCompleted);
         }
 
-        private void OnQueryFileListCompleted(QueryFileListCallbackInfo data)
+        private void OnQueryFileListCompleted(ref QueryFileListCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Title storage: OnFileListRetrieved data == null!");
-                QueryListCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Title storage: OnFileListRetrieved data == null!");
+            //    QueryListCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -132,13 +144,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 copyFileOptions.Index = fileIndex;
                 copyFileOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
 
-                titleStorageHandle.CopyFileMetadataAtIndex(copyFileOptions, out FileMetadata fileMetadata);
+                titleStorageHandle.CopyFileMetadataAtIndex(ref copyFileOptions, out FileMetadata? fileMetadata);
 
                 if (fileMetadata != null)
                 {
-                    if (!string.IsNullOrEmpty(fileMetadata.Filename))
+                    if (!string.IsNullOrEmpty(fileMetadata?.Filename))
                     {
-                        CurrentFileNames.Add(fileMetadata.Filename);
+                        CurrentFileNames.Add(fileMetadata?.Filename);
                     }
                 }
             }
@@ -149,41 +161,60 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ReadFile(string fileName, OnReadFileCallback ReadFileCompleted)
         {
             // StartFileDataDownload
-            ReadFileOptions fileReadOptions = new ReadFileOptions();
-            fileReadOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
-            fileReadOptions.Filename = fileName;
-            fileReadOptions.ReadChunkLengthBytes = MAX_CHUNK_SIZE;
 
-            fileReadOptions.ReadFileDataCallback = OnFileDataReceived;
-            fileReadOptions.FileTransferProgressCallback = OnFileTransferProgressUpdated;
-
-            // ReadFile Callback
-            ReadFileCallback = ReadFileCompleted;
-
-            TitleStorageInterface titleStorageHandle = EOSManager.Instance.GetEOSPlatformInterface().GetTitleStorageInterface();
-            TitleStorageFileTransferRequest transferReq = titleStorageHandle.ReadFile(fileReadOptions, null, OnFileReceived);
-
-            CancelCurrentTransfer();
-            CurrentTransferHandle = transferReq;
-
-            EOSTransferInProgress newTransfer = new EOSTransferInProgress();
-            newTransfer.Download = true;
-
-
-            TransfersInProgress.Add(fileName, newTransfer);
-
-            CurrentTransferProgress = 0.0f;
-            CurrentTransferName = fileName;
-        }
-
-        private void OnFileReceived(ReadFileCallbackInfo data)
-        {
-            if (data == null)
+            ProductUserId localUserId = EOSManager.Instance.GetProductUserId();
+            if (localUserId == null || !localUserId.IsValid())
             {
-                Debug.LogError("Title storage: OnReadFileComplete data == null!");
-                ReadFileCallback?.Invoke(Result.InvalidState);
                 return;
             }
+
+            var queryFileOptions = new QueryFileOptions { Filename = fileName, LocalUserId = localUserId };
+            EOSManager.Instance.GetEOSTitleStorageInterface().QueryFile(ref queryFileOptions, null, (ref QueryFileCallbackInfo data) => 
+            {
+                if(data.ResultCode == Result.Success)
+                {
+                    var copyFileMetadataByFilenameOptions = new CopyFileMetadataByFilenameOptions { Filename = fileName, LocalUserId = localUserId };
+                    EOSManager.Instance.GetEOSTitleStorageInterface().CopyFileMetadataByFilename(ref copyFileMetadataByFilenameOptions, out FileMetadata? fileMetadata);
+
+
+                    ReadFileOptions fileReadOptions = new ReadFileOptions();
+                    fileReadOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
+                    fileReadOptions.Filename = fileName;
+                    fileReadOptions.ReadChunkLengthBytes = MAX_CHUNK_SIZE;
+
+                    fileReadOptions.ReadFileDataCallback = OnFileDataReceived;
+                    fileReadOptions.FileTransferProgressCallback = OnFileTransferProgressUpdated;
+
+                    // ReadFile Callback
+                    ReadFileCallback = ReadFileCompleted;
+
+                    TitleStorageInterface titleStorageHandle = EOSManager.Instance.GetEOSPlatformInterface().GetTitleStorageInterface();
+                    TitleStorageFileTransferRequest transferReq = titleStorageHandle.ReadFile(ref fileReadOptions, null, OnFileReceived);
+
+                    CancelCurrentTransfer();
+                    CurrentTransferHandle = transferReq;
+
+                    EOSTransferInProgress newTransfer = new EOSTransferInProgress();
+                    newTransfer.Download = true;
+                    newTransfer.Data = new byte[(uint)fileMetadata?.FileSizeBytes];
+
+
+                    TransfersInProgress.Add(fileName, newTransfer);
+
+                    CurrentTransferProgress = 0.0f;
+                    CurrentTransferName = fileName;
+                }
+            });
+        }
+
+        private void OnFileReceived(ref ReadFileCallbackInfo data)
+        {
+            //if (data == null)
+            //{
+            //    Debug.LogError("Title storage: OnReadFileComplete data == null!");
+            //    ReadFileCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -230,7 +261,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             string fileData = string.Empty;
             if (transfer.TotalSize > 0)
             {
-                fileData = new string(transfer.Data.ToArray());
+                fileData = System.Text.Encoding.UTF8.GetString(transfer.Data);
             }
 
             StorageData.Add(fileName, fileData);
@@ -289,13 +320,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnFileTransferProgressUpdated(FileTransferProgressCallbackInfo data)
+        private void OnFileTransferProgressUpdated(ref FileTransferProgressCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Title storage: OnFileTransferProgressUpdated data == null!");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Title storage: OnFileTransferProgressUpdated data == null!");
+            //    return;
+            //}
 
             if (data.TotalFileSizeBytes > 0)
             {
@@ -312,17 +343,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private ReadResult OnFileDataReceived(ReadFileDataCallbackInfo data)
+        private ReadResult OnFileDataReceived(ref ReadFileDataCallbackInfo data)
         {
-            if (data != null)
-            {
-                return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes);
-            }
 
-            return ReadResult.RrFailrequest;
+            return ReceiveData(data.Filename, data.DataChunk, data.TotalFileSizeBytes);
+
+            //return ReadResult.RrFailrequest;
         }
 
-        private ReadResult ReceiveData(string fileName, byte[] data, uint totalSize)
+        private ReadResult ReceiveData(string fileName, ArraySegment<byte> data, uint totalSize)
         {
             if (data == null)
             {
@@ -352,12 +381,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
 
                 // Make sure we have enough space
-                if (transfer.TotalSize - transfer.CurrentIndex >= data.Length)
+                if (transfer.TotalSize - transfer.CurrentIndex >= data.Count)
                 {
-                    char[] chars = Encoding.Default.GetChars(data);  // Must match encoding of file
-
-                    transfer.Data.AddRange(chars);
-                    transfer.CurrentIndex += (uint)data.Length;
+                    data.Array.CopyTo(transfer.Data, transfer.CurrentIndex);
+                    transfer.CurrentIndex += (uint)data.Count;
 
                     return ReadResult.RrContinuereading;
                 }

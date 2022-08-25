@@ -3,52 +3,44 @@
 
 namespace Epic.OnlineServices.KWS
 {
-	public class PermissionStatus : ISettable
+	public struct PermissionStatus
 	{
 		/// <summary>
 		/// Name of the permission
 		/// </summary>
-		public string Name { get; set; }
+		public Utf8String Name { get; set; }
 
 		/// <summary>
 		/// Status of the permission
 		/// </summary>
 		public KWSPermissionStatus Status { get; set; }
 
-		internal void Set(PermissionStatusInternal? other)
+		internal void Set(ref PermissionStatusInternal other)
 		{
-			if (other != null)
-			{
-				Name = other.Value.Name;
-				Status = other.Value.Status;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PermissionStatusInternal?);
+			Name = other.Name;
+			Status = other.Status;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PermissionStatusInternal : ISettable, System.IDisposable
+	internal struct PermissionStatusInternal : IGettable<PermissionStatus>, ISettable<PermissionStatus>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Name;
 		private KWSPermissionStatus m_Status;
 
-		public string Name
+		public Utf8String Name
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Name, out value);
+				Utf8String value;
+				Helper.Get(m_Name, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Name, value);
+				Helper.Set(value, ref m_Name);
 			}
 		}
 
@@ -65,24 +57,32 @@ namespace Epic.OnlineServices.KWS
 			}
 		}
 
-		public void Set(PermissionStatus other)
+		public void Set(ref PermissionStatus other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = KWSInterface.PermissionstatusApiLatest;
-				Name = other.Name;
-				Status = other.Status;
-			}
+			m_ApiVersion = KWSInterface.PermissionstatusApiLatest;
+			Name = other.Name;
+			Status = other.Status;
 		}
 
-		public void Set(object other)
+		public void Set(ref PermissionStatus? other)
 		{
-			Set(other as PermissionStatus);
+			if (other.HasValue)
+			{
+				m_ApiVersion = KWSInterface.PermissionstatusApiLatest;
+				Name = other.Value.Name;
+				Status = other.Value.Status;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Name);
+			Helper.Dispose(ref m_Name);
+		}
+
+		public void Get(out PermissionStatus output)
+		{
+			output = new PermissionStatus();
+			output.Set(ref this);
 		}
 	}
 }

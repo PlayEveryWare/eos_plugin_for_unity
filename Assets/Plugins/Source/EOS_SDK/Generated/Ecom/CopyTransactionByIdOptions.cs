@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.CopyTransactionById" /> function.
 	/// </summary>
-	public class CopyTransactionByIdOptions
+	public struct CopyTransactionByIdOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user who is associated with the transaction
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The ID of the transaction to get
 		/// </summary>
-		public string TransactionId { get; set; }
+		public Utf8String TransactionId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyTransactionByIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyTransactionByIdOptionsInternal : ISettable<CopyTransactionByIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string TransactionId
+		public Utf8String TransactionId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TransactionId, value);
+				Helper.Set(value, ref m_TransactionId);
 			}
 		}
 
-		public void Set(CopyTransactionByIdOptions other)
+		public void Set(ref CopyTransactionByIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.CopytransactionbyidApiLatest;
+			LocalUserId = other.LocalUserId;
+			TransactionId = other.TransactionId;
+		}
+
+		public void Set(ref CopyTransactionByIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.CopytransactionbyidApiLatest;
-				LocalUserId = other.LocalUserId;
-				TransactionId = other.TransactionId;
+				LocalUserId = other.Value.LocalUserId;
+				TransactionId = other.Value.TransactionId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyTransactionByIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TransactionId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TransactionId);
 		}
 	}
 }

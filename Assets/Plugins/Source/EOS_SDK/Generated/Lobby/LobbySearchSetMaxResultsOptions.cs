@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbySearch.SetMaxResults" /> function.
 	/// </summary>
-	public class LobbySearchSetMaxResultsOptions
+	public struct LobbySearchSetMaxResultsOptions
 	{
 		/// <summary>
 		/// Maximum number of search results to return from the query
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbySearchSetMaxResultsOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbySearchSetMaxResultsOptionsInternal : ISettable<LobbySearchSetMaxResultsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_MaxResults;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbySearchSetMaxResultsOptions other)
+		public void Set(ref LobbySearchSetMaxResultsOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbySearch.LobbysearchSetmaxresultsApiLatest;
-				MaxResults = other.MaxResults;
-			}
+			m_ApiVersion = LobbySearch.LobbysearchSetmaxresultsApiLatest;
+			MaxResults = other.MaxResults;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbySearchSetMaxResultsOptions? other)
 		{
-			Set(other as LobbySearchSetMaxResultsOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbySearch.LobbysearchSetmaxresultsApiLatest;
+				MaxResults = other.Value.MaxResults;
+			}
 		}
 
 		public void Dispose()

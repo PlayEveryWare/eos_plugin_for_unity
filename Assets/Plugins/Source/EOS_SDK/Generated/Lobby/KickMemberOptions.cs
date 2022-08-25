@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.KickMember" /> function.
 	/// </summary>
-	public class KickMemberOptions
+	public struct KickMemberOptions
 	{
 		/// <summary>
 		/// The ID of the lobby
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user requesting the removal; this user must be the lobby owner
@@ -25,18 +25,18 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct KickMemberOptionsInternal : ISettable, System.IDisposable
+	internal struct KickMemberOptionsInternal : ISettable<KickMemberOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LobbyId;
 		private System.IntPtr m_LocalUserId;
 		private System.IntPtr m_TargetUserId;
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -52,31 +52,34 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(KickMemberOptions other)
+		public void Set(ref KickMemberOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.KickmemberApiLatest;
+			LobbyId = other.LobbyId;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref KickMemberOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.KickmemberApiLatest;
-				LobbyId = other.LobbyId;
-				LocalUserId = other.LocalUserId;
-				TargetUserId = other.TargetUserId;
+				LobbyId = other.Value.LobbyId;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as KickMemberOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LobbyId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

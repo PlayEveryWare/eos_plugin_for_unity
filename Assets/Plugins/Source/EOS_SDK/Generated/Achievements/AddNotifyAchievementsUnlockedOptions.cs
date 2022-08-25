@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.AddNotifyAchievementsUnlocked" /> function.
 	/// </summary>
-	public class AddNotifyAchievementsUnlockedOptions
+	public struct AddNotifyAchievementsUnlockedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyAchievementsUnlockedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyAchievementsUnlockedOptionsInternal : ISettable<AddNotifyAchievementsUnlockedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyAchievementsUnlockedOptions other)
+		public void Set(ref AddNotifyAchievementsUnlockedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.AddnotifyachievementsunlockedApiLatest;
+		}
+
+		public void Set(ref AddNotifyAchievementsUnlockedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.AddnotifyachievementsunlockedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyAchievementsUnlockedOptions);
 		}
 
 		public void Dispose()

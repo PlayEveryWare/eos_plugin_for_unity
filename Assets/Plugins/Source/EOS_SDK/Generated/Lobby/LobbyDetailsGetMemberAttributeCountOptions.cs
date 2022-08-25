@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.GetMemberAttributeCount" /> function.
 	/// </summary>
-	public class LobbyDetailsGetMemberAttributeCountOptions
+	public struct LobbyDetailsGetMemberAttributeCountOptions
 	{
 		/// <summary>
 		/// The Product User ID of the lobby member
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsGetMemberAttributeCountOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsGetMemberAttributeCountOptionsInternal : ISettable<LobbyDetailsGetMemberAttributeCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(LobbyDetailsGetMemberAttributeCountOptions other)
+		public void Set(ref LobbyDetailsGetMemberAttributeCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyDetails.LobbydetailsGetmemberattributecountApiLatest;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref LobbyDetailsGetMemberAttributeCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyDetails.LobbydetailsGetmemberattributecountApiLatest;
-				TargetUserId = other.TargetUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyDetailsGetMemberAttributeCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

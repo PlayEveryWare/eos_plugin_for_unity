@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.KWS
 	/// Function prototype definition for callbacks passed to <see cref="KWSInterface.CreateUser" />
 	/// </summary>
 	/// <param name="data">A <see cref="CreateUserCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnCreateUserCallback(CreateUserCallbackInfo data);
+	public delegate void OnCreateUserCallback(ref CreateUserCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnCreateUserCallbackInternal(System.IntPtr data);
+	internal delegate void OnCreateUserCallbackInternal(ref CreateUserCallbackInfoInternal data);
 }

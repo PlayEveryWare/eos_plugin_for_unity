@@ -3,27 +3,27 @@
 
 namespace Epic.OnlineServices.Lobby
 {
-	public class RTCRoomConnectionChangedCallbackInfo : ICallbackInfo, ISettable
+	public struct RTCRoomConnectionChangedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="LobbyInterface.AddNotifyRTCRoomConnectionChanged" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The ID of the lobby which had a RTC Room connection state change
 		/// </summary>
-		public string LobbyId { get; private set; }
+		public Utf8String LobbyId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who is in the lobby and registered for notifications
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The new connection state of the room
 		/// </summary>
-		public bool IsConnected { get; private set; }
+		public bool IsConnected { get; set; }
 
 		/// <summary>
 		/// <see cref="Result.Success" />: The room was left locally. This may be because: the associated lobby was Left or Destroyed, the connection to the lobby was interrupted, or because the SDK is being shutdown. If the lobby connection returns (lobby did not permanently go away), we will reconnect.
@@ -33,33 +33,25 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.ServiceFailure" />: A known error occurred during interaction with the server. We will attempt to reconnect soon.
 		/// <see cref="Result.UnexpectedError" />: Unexpected error. We will attempt to reconnect soon.
 		/// </summary>
-		public Result DisconnectReason { get; private set; }
+		public Result DisconnectReason { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(RTCRoomConnectionChangedCallbackInfoInternal? other)
+		internal void Set(ref RTCRoomConnectionChangedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LobbyId = other.Value.LobbyId;
-				LocalUserId = other.Value.LocalUserId;
-				IsConnected = other.Value.IsConnected;
-				DisconnectReason = other.Value.DisconnectReason;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RTCRoomConnectionChangedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LobbyId = other.LobbyId;
+			LocalUserId = other.LocalUserId;
+			IsConnected = other.IsConnected;
+			DisconnectReason = other.DisconnectReason;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RTCRoomConnectionChangedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct RTCRoomConnectionChangedCallbackInfoInternal : ICallbackInfoInternal, IGettable<RTCRoomConnectionChangedCallbackInfo>, ISettable<RTCRoomConnectionChangedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LobbyId;
@@ -72,8 +64,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -85,13 +82,18 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LobbyId, out value);
+				Utf8String value;
+				Helper.Get(m_LobbyId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
@@ -100,8 +102,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -110,8 +117,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsConnected, out value);
+				Helper.Get(m_IsConnected, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_IsConnected);
 			}
 		}
 
@@ -121,6 +133,45 @@ namespace Epic.OnlineServices.Lobby
 			{
 				return m_DisconnectReason;
 			}
+
+			set
+			{
+				m_DisconnectReason = value;
+			}
+		}
+
+		public void Set(ref RTCRoomConnectionChangedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LobbyId = other.LobbyId;
+			LocalUserId = other.LocalUserId;
+			IsConnected = other.IsConnected;
+			DisconnectReason = other.DisconnectReason;
+		}
+
+		public void Set(ref RTCRoomConnectionChangedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LobbyId = other.Value.LobbyId;
+				LocalUserId = other.Value.LocalUserId;
+				IsConnected = other.Value.IsConnected;
+				DisconnectReason = other.Value.DisconnectReason;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LocalUserId);
+		}
+
+		public void Get(out RTCRoomConnectionChangedCallbackInfo output)
+		{
+			output = new RTCRoomConnectionChangedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class RegisterPeerOptions
+	public struct RegisterPeerOptions
 	{
 		/// <summary>
 		/// Locally unique value describing the remote user (e.g. a player object pointer)
@@ -21,30 +21,40 @@ namespace Epic.OnlineServices.AntiCheatClient
 		public AntiCheatCommon.AntiCheatCommonClientPlatform ClientPlatform { get; set; }
 
 		/// <summary>
-		/// Identifier for the remote user. This is typically a string representation of an
-		/// account ID, but it can be any string which is both unique (two different users will never
-		/// have the same string) and consistent (if the same user connects to this game session
-		/// twice, the same string will be used) in the scope of a single protected game session.
+		/// Time in seconds to allow newly registered peers to send the initial message containing their token.
+		/// Recommended value: 60
 		/// </summary>
-		public string AccountId { get; set; }
+		public uint AuthenticationTimeout { get; set; }
+
+		/// <summary>
+		/// Deprecated - use PeerProductUserId instead
+		/// </summary>
+		public Utf8String AccountId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// Optional IP address for the remote user. May be null if not available.
 		/// IPv4 format: "0.0.0.0"
 		/// IPv6 format: "0:0:0:0:0:0:0:0"
 		/// </summary>
-		public string IpAddress { get; set; }
+		public Utf8String IpAddress { get; set; }
+
+		/// <summary>
+		/// <see cref="ProductUserId" /> Identifier for the remote user
+		/// </summary>
+		public ProductUserId PeerProductUserId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RegisterPeerOptionsInternal : ISettable, System.IDisposable
+	internal struct RegisterPeerOptionsInternal : ISettable<RegisterPeerOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PeerHandle;
 		private AntiCheatCommon.AntiCheatCommonClientType m_ClientType;
 		private AntiCheatCommon.AntiCheatCommonClientPlatform m_ClientPlatform;
-		private System.IntPtr m_AccountId;
+		private uint m_AuthenticationTimeout;
+		private System.IntPtr m_AccountId_DEPRECATED;
 		private System.IntPtr m_IpAddress;
+		private System.IntPtr m_PeerProductUserId;
 
 		public System.IntPtr PeerHandle
 		{
@@ -70,45 +80,71 @@ namespace Epic.OnlineServices.AntiCheatClient
 			}
 		}
 
-		public string AccountId
+		public uint AuthenticationTimeout
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AccountId, value);
+				m_AuthenticationTimeout = value;
 			}
 		}
 
-		public string IpAddress
+		public Utf8String AccountId_DEPRECATED
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_IpAddress, value);
+				Helper.Set(value, ref m_AccountId_DEPRECATED);
 			}
 		}
 
-		public void Set(RegisterPeerOptions other)
+		public Utf8String IpAddress
 		{
-			if (other != null)
+			set
+			{
+				Helper.Set(value, ref m_IpAddress);
+			}
+		}
+
+		public ProductUserId PeerProductUserId
+		{
+			set
+			{
+				Helper.Set(value, ref m_PeerProductUserId);
+			}
+		}
+
+		public void Set(ref RegisterPeerOptions other)
+		{
+			m_ApiVersion = AntiCheatClientInterface.RegisterpeerApiLatest;
+			PeerHandle = other.PeerHandle;
+			ClientType = other.ClientType;
+			ClientPlatform = other.ClientPlatform;
+			AuthenticationTimeout = other.AuthenticationTimeout;
+			AccountId_DEPRECATED = other.AccountId_DEPRECATED;
+			IpAddress = other.IpAddress;
+			PeerProductUserId = other.PeerProductUserId;
+		}
+
+		public void Set(ref RegisterPeerOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatClientInterface.RegisterpeerApiLatest;
-				PeerHandle = other.PeerHandle;
-				ClientType = other.ClientType;
-				ClientPlatform = other.ClientPlatform;
-				AccountId = other.AccountId;
-				IpAddress = other.IpAddress;
+				PeerHandle = other.Value.PeerHandle;
+				ClientType = other.Value.ClientType;
+				ClientPlatform = other.Value.ClientPlatform;
+				AuthenticationTimeout = other.Value.AuthenticationTimeout;
+				AccountId_DEPRECATED = other.Value.AccountId_DEPRECATED;
+				IpAddress = other.Value.IpAddress;
+				PeerProductUserId = other.Value.PeerProductUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RegisterPeerOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PeerHandle);
-			Helper.TryMarshalDispose(ref m_AccountId);
-			Helper.TryMarshalDispose(ref m_IpAddress);
+			Helper.Dispose(ref m_PeerHandle);
+			Helper.Dispose(ref m_AccountId_DEPRECATED);
+			Helper.Dispose(ref m_IpAddress);
+			Helper.Dispose(ref m_PeerProductUserId);
 		}
 	}
 }

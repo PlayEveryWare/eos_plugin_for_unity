@@ -172,8 +172,7 @@ namespace Epic.OnlineServices.Connect
 		/// Register to receive upcoming authentication expiration notifications.
 		/// Notification is approximately 10 minutes prior to expiration.
 		/// Call <see cref="Login" /> again with valid third party credentials to refresh access.
-		/// 
-		/// @note must call RemoveNotifyAuthExpiration to remove the notification.
+		/// must call RemoveNotifyAuthExpiration to remove the notification.
 		/// </summary>
 		/// <param name="options">structure containing the API version of the callback to use.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the callback.</param>
@@ -181,28 +180,28 @@ namespace Epic.OnlineServices.Connect
 		/// <returns>
 		/// handle representing the registered callback.
 		/// </returns>
-		public ulong AddNotifyAuthExpiration(AddNotifyAuthExpirationOptions options, object clientData, OnAuthExpirationCallback notification)
+		public ulong AddNotifyAuthExpiration(ref AddNotifyAuthExpirationOptions options, object clientData, OnAuthExpirationCallback notification)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyAuthExpirationOptionsInternal, AddNotifyAuthExpirationOptions>(ref optionsAddress, options);
+			AddNotifyAuthExpirationOptionsInternal optionsInternal = new AddNotifyAuthExpirationOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationInternal = new OnAuthExpirationCallbackInternal(OnAuthExpirationCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notification, notificationInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notification, notificationInternal);
 
-			var funcResult = Bindings.EOS_Connect_AddNotifyAuthExpiration(InnerHandle, optionsAddress, clientDataAddress, notificationInternal);
+			var funcResult = Bindings.EOS_Connect_AddNotifyAuthExpiration(InnerHandle, ref optionsInternal, clientDataAddress, notificationInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
 
 		/// <summary>
 		/// Register to receive user login status updates.
-		/// @note must call RemoveNotifyLoginStatusChanged to remove the notification.
+		/// must call RemoveNotifyLoginStatusChanged to remove the notification.
 		/// </summary>
 		/// <param name="options">structure containing the API version of the callback to use.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the callback.</param>
@@ -210,21 +209,21 @@ namespace Epic.OnlineServices.Connect
 		/// <returns>
 		/// handle representing the registered callback.
 		/// </returns>
-		public ulong AddNotifyLoginStatusChanged(AddNotifyLoginStatusChangedOptions options, object clientData, OnLoginStatusChangedCallback notification)
+		public ulong AddNotifyLoginStatusChanged(ref AddNotifyLoginStatusChangedOptions options, object clientData, OnLoginStatusChangedCallback notification)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyLoginStatusChangedOptionsInternal, AddNotifyLoginStatusChangedOptions>(ref optionsAddress, options);
+			AddNotifyLoginStatusChangedOptionsInternal optionsInternal = new AddNotifyLoginStatusChangedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationInternal = new OnLoginStatusChangedCallbackInternal(OnLoginStatusChangedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notification, notificationInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notification, notificationInternal);
 
-			var funcResult = Bindings.EOS_Connect_AddNotifyLoginStatusChanged(InnerHandle, optionsAddress, clientDataAddress, notificationInternal);
+			var funcResult = Bindings.EOS_Connect_AddNotifyLoginStatusChanged(InnerHandle, ref optionsInternal, clientDataAddress, notificationInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -240,18 +239,19 @@ namespace Epic.OnlineServices.Connect
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter.
 		/// <see cref="Result.NotFound" /> if the ID token is not found or expired.
 		/// </returns>
-		public Result CopyIdToken(CopyIdTokenOptions options, out IdToken outIdToken)
+		public Result CopyIdToken(ref CopyIdTokenOptions options, out IdToken? outIdToken)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyIdTokenOptionsInternal, CopyIdTokenOptions>(ref optionsAddress, options);
+			CopyIdTokenOptionsInternal optionsInternal = new CopyIdTokenOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outIdTokenAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Connect_CopyIdToken(InnerHandle, optionsAddress, ref outIdTokenAddress);
+			var funcResult = Bindings.EOS_Connect_CopyIdToken(InnerHandle, ref optionsInternal, ref outIdTokenAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<IdTokenInternal, IdToken>(outIdTokenAddress, out outIdToken))
+			Helper.Get<IdTokenInternal, IdToken>(outIdTokenAddress, out outIdToken);
+			if (outIdToken != null)
 			{
 				Bindings.EOS_Connect_IdToken_Release(outIdTokenAddress);
 			}
@@ -272,18 +272,19 @@ namespace Epic.OnlineServices.Connect
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter.
 		/// <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
 		/// </returns>
-		public Result CopyProductUserExternalAccountByAccountId(CopyProductUserExternalAccountByAccountIdOptions options, out ExternalAccountInfo outExternalAccountInfo)
+		public Result CopyProductUserExternalAccountByAccountId(ref CopyProductUserExternalAccountByAccountIdOptions options, out ExternalAccountInfo? outExternalAccountInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyProductUserExternalAccountByAccountIdOptionsInternal, CopyProductUserExternalAccountByAccountIdOptions>(ref optionsAddress, options);
+			CopyProductUserExternalAccountByAccountIdOptionsInternal optionsInternal = new CopyProductUserExternalAccountByAccountIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outExternalAccountInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Connect_CopyProductUserExternalAccountByAccountId(InnerHandle, optionsAddress, ref outExternalAccountInfoAddress);
+			var funcResult = Bindings.EOS_Connect_CopyProductUserExternalAccountByAccountId(InnerHandle, ref optionsInternal, ref outExternalAccountInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ExternalAccountInfoInternal, ExternalAccountInfo>(outExternalAccountInfoAddress, out outExternalAccountInfo))
+			Helper.Get<ExternalAccountInfoInternal, ExternalAccountInfo>(outExternalAccountInfoAddress, out outExternalAccountInfo);
+			if (outExternalAccountInfo != null)
 			{
 				Bindings.EOS_Connect_ExternalAccountInfo_Release(outExternalAccountInfoAddress);
 			}
@@ -304,18 +305,19 @@ namespace Epic.OnlineServices.Connect
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter.
 		/// <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
 		/// </returns>
-		public Result CopyProductUserExternalAccountByAccountType(CopyProductUserExternalAccountByAccountTypeOptions options, out ExternalAccountInfo outExternalAccountInfo)
+		public Result CopyProductUserExternalAccountByAccountType(ref CopyProductUserExternalAccountByAccountTypeOptions options, out ExternalAccountInfo? outExternalAccountInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyProductUserExternalAccountByAccountTypeOptionsInternal, CopyProductUserExternalAccountByAccountTypeOptions>(ref optionsAddress, options);
+			CopyProductUserExternalAccountByAccountTypeOptionsInternal optionsInternal = new CopyProductUserExternalAccountByAccountTypeOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outExternalAccountInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Connect_CopyProductUserExternalAccountByAccountType(InnerHandle, optionsAddress, ref outExternalAccountInfoAddress);
+			var funcResult = Bindings.EOS_Connect_CopyProductUserExternalAccountByAccountType(InnerHandle, ref optionsInternal, ref outExternalAccountInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ExternalAccountInfoInternal, ExternalAccountInfo>(outExternalAccountInfoAddress, out outExternalAccountInfo))
+			Helper.Get<ExternalAccountInfoInternal, ExternalAccountInfo>(outExternalAccountInfoAddress, out outExternalAccountInfo);
+			if (outExternalAccountInfo != null)
 			{
 				Bindings.EOS_Connect_ExternalAccountInfo_Release(outExternalAccountInfoAddress);
 			}
@@ -336,18 +338,19 @@ namespace Epic.OnlineServices.Connect
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter.
 		/// <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
 		/// </returns>
-		public Result CopyProductUserExternalAccountByIndex(CopyProductUserExternalAccountByIndexOptions options, out ExternalAccountInfo outExternalAccountInfo)
+		public Result CopyProductUserExternalAccountByIndex(ref CopyProductUserExternalAccountByIndexOptions options, out ExternalAccountInfo? outExternalAccountInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyProductUserExternalAccountByIndexOptionsInternal, CopyProductUserExternalAccountByIndexOptions>(ref optionsAddress, options);
+			CopyProductUserExternalAccountByIndexOptionsInternal optionsInternal = new CopyProductUserExternalAccountByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outExternalAccountInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Connect_CopyProductUserExternalAccountByIndex(InnerHandle, optionsAddress, ref outExternalAccountInfoAddress);
+			var funcResult = Bindings.EOS_Connect_CopyProductUserExternalAccountByIndex(InnerHandle, ref optionsInternal, ref outExternalAccountInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ExternalAccountInfoInternal, ExternalAccountInfo>(outExternalAccountInfoAddress, out outExternalAccountInfo))
+			Helper.Get<ExternalAccountInfoInternal, ExternalAccountInfo>(outExternalAccountInfoAddress, out outExternalAccountInfo);
+			if (outExternalAccountInfo != null)
 			{
 				Bindings.EOS_Connect_ExternalAccountInfo_Release(outExternalAccountInfoAddress);
 			}
@@ -368,18 +371,19 @@ namespace Epic.OnlineServices.Connect
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter.
 		/// <see cref="Result.NotFound" /> if the account data doesn't exist or hasn't been queried yet.
 		/// </returns>
-		public Result CopyProductUserInfo(CopyProductUserInfoOptions options, out ExternalAccountInfo outExternalAccountInfo)
+		public Result CopyProductUserInfo(ref CopyProductUserInfoOptions options, out ExternalAccountInfo? outExternalAccountInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyProductUserInfoOptionsInternal, CopyProductUserInfoOptions>(ref optionsAddress, options);
+			CopyProductUserInfoOptionsInternal optionsInternal = new CopyProductUserInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outExternalAccountInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Connect_CopyProductUserInfo(InnerHandle, optionsAddress, ref outExternalAccountInfoAddress);
+			var funcResult = Bindings.EOS_Connect_CopyProductUserInfo(InnerHandle, ref optionsInternal, ref outExternalAccountInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ExternalAccountInfoInternal, ExternalAccountInfo>(outExternalAccountInfoAddress, out outExternalAccountInfo))
+			Helper.Get<ExternalAccountInfoInternal, ExternalAccountInfo>(outExternalAccountInfoAddress, out outExternalAccountInfo);
+			if (outExternalAccountInfo != null)
 			{
 				Bindings.EOS_Connect_ExternalAccountInfo_Release(outExternalAccountInfoAddress);
 			}
@@ -413,19 +417,19 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="options">structure containing operation input parameters.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">a callback that is fired when the create operation completes, either successfully or in error.</param>
-		public void CreateDeviceId(CreateDeviceIdOptions options, object clientData, OnCreateDeviceIdCallback completionDelegate)
+		public void CreateDeviceId(ref CreateDeviceIdOptions options, object clientData, OnCreateDeviceIdCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CreateDeviceIdOptionsInternal, CreateDeviceIdOptions>(ref optionsAddress, options);
+			CreateDeviceIdOptionsInternal optionsInternal = new CreateDeviceIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnCreateDeviceIdCallbackInternal(OnCreateDeviceIdCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_CreateDeviceId(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_CreateDeviceId(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -434,19 +438,19 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="options">structure containing a continuance token from a "user not found" response during Login (always try login first).</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">a callback that is fired when the create operation completes, either successfully or in error.</param>
-		public void CreateUser(CreateUserOptions options, object clientData, OnCreateUserCallback completionDelegate)
+		public void CreateUser(ref CreateUserOptions options, object clientData, OnCreateUserCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CreateUserOptionsInternal, CreateUserOptions>(ref optionsAddress, options);
+			CreateUserOptionsInternal optionsInternal = new CreateUserOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnCreateUserCallbackInternal(OnCreateUserCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_CreateUser(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_CreateUser(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -465,19 +469,19 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="options">structure containing operation input parameters</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the delete operation completes, either successfully or in error</param>
-		public void DeleteDeviceId(DeleteDeviceIdOptions options, object clientData, OnDeleteDeviceIdCallback completionDelegate)
+		public void DeleteDeviceId(ref DeleteDeviceIdOptions options, object clientData, OnDeleteDeviceIdCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<DeleteDeviceIdOptionsInternal, DeleteDeviceIdOptions>(ref optionsAddress, options);
+			DeleteDeviceIdOptionsInternal optionsInternal = new DeleteDeviceIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnDeleteDeviceIdCallbackInternal(OnDeleteDeviceIdCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_DeleteDeviceId(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_DeleteDeviceId(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -487,17 +491,17 @@ namespace Epic.OnlineServices.Connect
 		/// <returns>
 		/// The Product User ID, previously retrieved from the backend service, for the given target external account.
 		/// </returns>
-		public ProductUserId GetExternalAccountMapping(GetExternalAccountMappingsOptions options)
+		public ProductUserId GetExternalAccountMapping(ref GetExternalAccountMappingsOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetExternalAccountMappingsOptionsInternal, GetExternalAccountMappingsOptions>(ref optionsAddress, options);
+			GetExternalAccountMappingsOptionsInternal optionsInternal = new GetExternalAccountMappingsOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Connect_GetExternalAccountMapping(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Connect_GetExternalAccountMapping(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			ProductUserId funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -513,7 +517,7 @@ namespace Epic.OnlineServices.Connect
 			var funcResult = Bindings.EOS_Connect_GetLoggedInUserByIndex(InnerHandle, index);
 
 			ProductUserId funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -540,7 +544,7 @@ namespace Epic.OnlineServices.Connect
 		public LoginStatus GetLoginStatus(ProductUserId localUserId)
 		{
 			var localUserIdInnerHandle = System.IntPtr.Zero;
-			Helper.TryMarshalSet(ref localUserIdInnerHandle, localUserId);
+			Helper.Set(localUserId, ref localUserIdInnerHandle);
 
 			var funcResult = Bindings.EOS_Connect_GetLoginStatus(InnerHandle, localUserIdInnerHandle);
 
@@ -555,14 +559,14 @@ namespace Epic.OnlineServices.Connect
 		/// <returns>
 		/// Number of external accounts or 0 otherwise.
 		/// </returns>
-		public uint GetProductUserExternalAccountCount(GetProductUserExternalAccountCountOptions options)
+		public uint GetProductUserExternalAccountCount(ref GetProductUserExternalAccountCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetProductUserExternalAccountCountOptionsInternal, GetProductUserExternalAccountCountOptions>(ref optionsAddress, options);
+			GetProductUserExternalAccountCountOptionsInternal optionsInternal = new GetProductUserExternalAccountCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Connect_GetProductUserExternalAccountCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Connect_GetProductUserExternalAccountCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -584,21 +588,20 @@ namespace Epic.OnlineServices.Connect
 		/// <see cref="Result.NotFound" /> if the mapping doesn't exist or hasn't been queried yet.
 		/// <see cref="Result.LimitExceeded" /> if the OutBuffer is not large enough to receive the external account ID. InOutBufferLength contains the required minimum length to perform the operation successfully.
 		/// </returns>
-		public Result GetProductUserIdMapping(GetProductUserIdMappingOptions options, out string outBuffer)
+		public Result GetProductUserIdMapping(ref GetProductUserIdMappingOptions options, out Utf8String outBuffer)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetProductUserIdMappingOptionsInternal, GetProductUserIdMappingOptions>(ref optionsAddress, options);
+			GetProductUserIdMappingOptionsInternal optionsInternal = new GetProductUserIdMappingOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			System.IntPtr outBufferAddress = System.IntPtr.Zero;
 			int inOutBufferLength = ExternalAccountIdMaxLength + 1;
-			Helper.TryMarshalAllocate(ref outBufferAddress, inOutBufferLength);
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
 
-			var funcResult = Bindings.EOS_Connect_GetProductUserIdMapping(InnerHandle, optionsAddress, outBufferAddress, ref inOutBufferLength);
+			var funcResult = Bindings.EOS_Connect_GetProductUserIdMapping(InnerHandle, ref optionsInternal, outBufferAddress, ref inOutBufferLength);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer);
-			Helper.TryMarshalDispose(ref outBufferAddress);
+			Helper.Get(outBufferAddress, out outBuffer);
+			Helper.Dispose(ref outBufferAddress);
 
 			return funcResult;
 		}
@@ -609,19 +612,19 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="options">structure containing a continuance token from a "user not found" response during Login (always try login first) and a currently logged in user not already associated with this external auth provider.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">a callback that is fired when the link operation completes, either successfully or in error.</param>
-		public void LinkAccount(LinkAccountOptions options, object clientData, OnLinkAccountCallback completionDelegate)
+		public void LinkAccount(ref LinkAccountOptions options, object clientData, OnLinkAccountCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LinkAccountOptionsInternal, LinkAccountOptions>(ref optionsAddress, options);
+			LinkAccountOptionsInternal optionsInternal = new LinkAccountOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnLinkAccountCallbackInternal(OnLinkAccountCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_LinkAccount(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_LinkAccount(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -630,44 +633,43 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="options">structure containing the external account credentials and type to use during the login operation.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">a callback that is fired when the login operation completes, either successfully or in error.</param>
-		public void Login(LoginOptions options, object clientData, OnLoginCallback completionDelegate)
+		public void Login(ref LoginOptions options, object clientData, OnLoginCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LoginOptionsInternal, LoginOptions>(ref optionsAddress, options);
+			LoginOptionsInternal optionsInternal = new LoginOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnLoginCallbackInternal(OnLoginCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_Login(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_Login(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
 		/// Retrieve the equivalent Product User IDs from a list of external account IDs from supported account providers.
 		/// The values will be cached and retrievable through <see cref="GetExternalAccountMapping" />.
-		/// 
-		/// @note A common use case is to query other users who are connected through the same account system as the local user.
+		/// A common use case is to query other users who are connected through the same account system as the local user.
 		/// Queries using external account IDs of another account system may not be available, depending on the account system specifics.
 		/// </summary>
 		/// <param name="options">structure containing a list of external account IDs, in string form, to query for the Product User ID representation.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">a callback that is fired when the query operation completes, either successfully or in error.</param>
-		public void QueryExternalAccountMappings(QueryExternalAccountMappingsOptions options, object clientData, OnQueryExternalAccountMappingsCallback completionDelegate)
+		public void QueryExternalAccountMappings(ref QueryExternalAccountMappingsOptions options, object clientData, OnQueryExternalAccountMappingsCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryExternalAccountMappingsOptionsInternal, QueryExternalAccountMappingsOptions>(ref optionsAddress, options);
+			QueryExternalAccountMappingsOptionsInternal optionsInternal = new QueryExternalAccountMappingsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryExternalAccountMappingsCallbackInternal(OnQueryExternalAccountMappingsCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_QueryExternalAccountMappings(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_QueryExternalAccountMappings(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -686,19 +688,19 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="options">structure containing a list of Product User IDs to query for the external account representation.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">a callback that is fired when the query operation completes, either successfully or in error.</param>
-		public void QueryProductUserIdMappings(QueryProductUserIdMappingsOptions options, object clientData, OnQueryProductUserIdMappingsCallback completionDelegate)
+		public void QueryProductUserIdMappings(ref QueryProductUserIdMappingsOptions options, object clientData, OnQueryProductUserIdMappingsCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryProductUserIdMappingsOptionsInternal, QueryProductUserIdMappingsOptions>(ref optionsAddress, options);
+			QueryProductUserIdMappingsOptionsInternal optionsInternal = new QueryProductUserIdMappingsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryProductUserIdMappingsCallbackInternal(OnQueryProductUserIdMappingsCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_QueryProductUserIdMappings(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_QueryProductUserIdMappings(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -707,9 +709,9 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="inId">handle representing the registered callback.</param>
 		public void RemoveNotifyAuthExpiration(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_Connect_RemoveNotifyAuthExpiration(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -718,9 +720,9 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="inId">handle representing the registered callback.</param>
 		public void RemoveNotifyLoginStatusChanged(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_Connect_RemoveNotifyLoginStatusChanged(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -778,7 +780,7 @@ namespace Epic.OnlineServices.Connect
 		/// checks that the other product user does not have any meaningful progression data, or otherwise
 		/// will prompt the user to make the choice on which game progression to preserve and which can
 		/// be discarded permanently. The other product user will be discarded permanently and cannot be
-		/// recovered, so it is very important that the user is guided to make the right choice to avoid
+		/// recovered, so it is very important that the user is guided to make the right choice to a<see cref="void" />
 		/// accidental loss of all game progression.
 		/// <seealso cref="Login" />
 		/// <seealso cref="CreateDeviceId" />
@@ -786,19 +788,19 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="options">structure containing the logged in product users and specifying which one will be preserved.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">a callback that is fired when the transfer operation completes, either successfully or in error.</param>
-		public void TransferDeviceIdAccount(TransferDeviceIdAccountOptions options, object clientData, OnTransferDeviceIdAccountCallback completionDelegate)
+		public void TransferDeviceIdAccount(ref TransferDeviceIdAccountOptions options, object clientData, OnTransferDeviceIdAccountCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<TransferDeviceIdAccountOptionsInternal, TransferDeviceIdAccountOptions>(ref optionsAddress, options);
+			TransferDeviceIdAccountOptionsInternal optionsInternal = new TransferDeviceIdAccountOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnTransferDeviceIdAccountCallbackInternal(OnTransferDeviceIdAccountCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_TransferDeviceIdAccount(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_TransferDeviceIdAccount(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -828,172 +830,171 @@ namespace Epic.OnlineServices.Connect
 		/// <param name="options">structure containing operation input parameters.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
 		/// <param name="completionDelegate">a callback that is fired when the unlink operation completes, either successfully or in error.</param>
-		public void UnlinkAccount(UnlinkAccountOptions options, object clientData, OnUnlinkAccountCallback completionDelegate)
+		public void UnlinkAccount(ref UnlinkAccountOptions options, object clientData, OnUnlinkAccountCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UnlinkAccountOptionsInternal, UnlinkAccountOptions>(ref optionsAddress, options);
+			UnlinkAccountOptionsInternal optionsInternal = new UnlinkAccountOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnUnlinkAccountCallbackInternal(OnUnlinkAccountCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_UnlinkAccount(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_UnlinkAccount(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
 		/// Verify a given ID token for authenticity and validity.
-		/// @note Can only be called by dedicated servers.
 		/// </summary>
 		/// <param name="options">structure containing information about the ID token to verify.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the callback.</param>
 		/// <param name="completionDelegate">a callback that is fired when the operation completes, either successfully or in error.</param>
-		public void VerifyIdToken(VerifyIdTokenOptions options, object clientData, OnVerifyIdTokenCallback completionDelegate)
+		public void VerifyIdToken(ref VerifyIdTokenOptions options, object clientData, OnVerifyIdTokenCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<VerifyIdTokenOptionsInternal, VerifyIdTokenOptions>(ref optionsAddress, options);
+			VerifyIdTokenOptionsInternal optionsInternal = new VerifyIdTokenOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnVerifyIdTokenCallbackInternal(OnVerifyIdTokenCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Connect_VerifyIdToken(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Connect_VerifyIdToken(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnAuthExpirationCallbackInternal))]
-		internal static void OnAuthExpirationCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnAuthExpirationCallbackInternalImplementation(ref AuthExpirationCallbackInfoInternal data)
 		{
 			OnAuthExpirationCallback callback;
 			AuthExpirationCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnAuthExpirationCallback, AuthExpirationCallbackInfoInternal, AuthExpirationCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnCreateDeviceIdCallbackInternal))]
-		internal static void OnCreateDeviceIdCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnCreateDeviceIdCallbackInternalImplementation(ref CreateDeviceIdCallbackInfoInternal data)
 		{
 			OnCreateDeviceIdCallback callback;
 			CreateDeviceIdCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnCreateDeviceIdCallback, CreateDeviceIdCallbackInfoInternal, CreateDeviceIdCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnCreateUserCallbackInternal))]
-		internal static void OnCreateUserCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnCreateUserCallbackInternalImplementation(ref CreateUserCallbackInfoInternal data)
 		{
 			OnCreateUserCallback callback;
 			CreateUserCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnCreateUserCallback, CreateUserCallbackInfoInternal, CreateUserCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnDeleteDeviceIdCallbackInternal))]
-		internal static void OnDeleteDeviceIdCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnDeleteDeviceIdCallbackInternalImplementation(ref DeleteDeviceIdCallbackInfoInternal data)
 		{
 			OnDeleteDeviceIdCallback callback;
 			DeleteDeviceIdCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnDeleteDeviceIdCallback, DeleteDeviceIdCallbackInfoInternal, DeleteDeviceIdCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnLinkAccountCallbackInternal))]
-		internal static void OnLinkAccountCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnLinkAccountCallbackInternalImplementation(ref LinkAccountCallbackInfoInternal data)
 		{
 			OnLinkAccountCallback callback;
 			LinkAccountCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnLinkAccountCallback, LinkAccountCallbackInfoInternal, LinkAccountCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnLoginCallbackInternal))]
-		internal static void OnLoginCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnLoginCallbackInternalImplementation(ref LoginCallbackInfoInternal data)
 		{
 			OnLoginCallback callback;
 			LoginCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnLoginCallback, LoginCallbackInfoInternal, LoginCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnLoginStatusChangedCallbackInternal))]
-		internal static void OnLoginStatusChangedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnLoginStatusChangedCallbackInternalImplementation(ref LoginStatusChangedCallbackInfoInternal data)
 		{
 			OnLoginStatusChangedCallback callback;
 			LoginStatusChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnLoginStatusChangedCallback, LoginStatusChangedCallbackInfoInternal, LoginStatusChangedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryExternalAccountMappingsCallbackInternal))]
-		internal static void OnQueryExternalAccountMappingsCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryExternalAccountMappingsCallbackInternalImplementation(ref QueryExternalAccountMappingsCallbackInfoInternal data)
 		{
 			OnQueryExternalAccountMappingsCallback callback;
 			QueryExternalAccountMappingsCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryExternalAccountMappingsCallback, QueryExternalAccountMappingsCallbackInfoInternal, QueryExternalAccountMappingsCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryProductUserIdMappingsCallbackInternal))]
-		internal static void OnQueryProductUserIdMappingsCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryProductUserIdMappingsCallbackInternalImplementation(ref QueryProductUserIdMappingsCallbackInfoInternal data)
 		{
 			OnQueryProductUserIdMappingsCallback callback;
 			QueryProductUserIdMappingsCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryProductUserIdMappingsCallback, QueryProductUserIdMappingsCallbackInfoInternal, QueryProductUserIdMappingsCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnTransferDeviceIdAccountCallbackInternal))]
-		internal static void OnTransferDeviceIdAccountCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnTransferDeviceIdAccountCallbackInternalImplementation(ref TransferDeviceIdAccountCallbackInfoInternal data)
 		{
 			OnTransferDeviceIdAccountCallback callback;
 			TransferDeviceIdAccountCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnTransferDeviceIdAccountCallback, TransferDeviceIdAccountCallbackInfoInternal, TransferDeviceIdAccountCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnUnlinkAccountCallbackInternal))]
-		internal static void OnUnlinkAccountCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnUnlinkAccountCallbackInternalImplementation(ref UnlinkAccountCallbackInfoInternal data)
 		{
 			OnUnlinkAccountCallback callback;
 			UnlinkAccountCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnUnlinkAccountCallback, UnlinkAccountCallbackInfoInternal, UnlinkAccountCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnVerifyIdTokenCallbackInternal))]
-		internal static void OnVerifyIdTokenCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnVerifyIdTokenCallbackInternalImplementation(ref VerifyIdTokenCallbackInfoInternal data)
 		{
 			OnVerifyIdTokenCallback callback;
 			VerifyIdTokenCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnVerifyIdTokenCallback, VerifyIdTokenCallbackInfoInternal, VerifyIdTokenCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

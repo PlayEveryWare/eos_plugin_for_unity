@@ -3,26 +3,26 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class AddNotifyPeerAuthStatusChangedOptions
+	public struct AddNotifyPeerAuthStatusChangedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyPeerAuthStatusChangedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyPeerAuthStatusChangedOptionsInternal : ISettable<AddNotifyPeerAuthStatusChangedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyPeerAuthStatusChangedOptions other)
+		public void Set(ref AddNotifyPeerAuthStatusChangedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatClientInterface.AddnotifypeerauthstatuschangedApiLatest;
+		}
+
+		public void Set(ref AddNotifyPeerAuthStatusChangedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatClientInterface.AddnotifypeerauthstatuschangedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyPeerAuthStatusChangedOptions);
 		}
 
 		public void Dispose()

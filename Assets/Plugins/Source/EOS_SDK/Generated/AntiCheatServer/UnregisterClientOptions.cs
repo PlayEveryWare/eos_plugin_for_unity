@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatServer
 {
-	public class UnregisterClientOptions
+	public struct UnregisterClientOptions
 	{
 		/// <summary>
 		/// Locally unique value describing the remote user, as previously passed to RegisterClient
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UnregisterClientOptionsInternal : ISettable, System.IDisposable
+	internal struct UnregisterClientOptionsInternal : ISettable<UnregisterClientOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ClientHandle;
@@ -25,23 +25,24 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
-		public void Set(UnregisterClientOptions other)
+		public void Set(ref UnregisterClientOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatServerInterface.UnregisterclientApiLatest;
-				ClientHandle = other.ClientHandle;
-			}
+			m_ApiVersion = AntiCheatServerInterface.UnregisterclientApiLatest;
+			ClientHandle = other.ClientHandle;
 		}
 
-		public void Set(object other)
+		public void Set(ref UnregisterClientOptions? other)
 		{
-			Set(other as UnregisterClientOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatServerInterface.UnregisterclientApiLatest;
+				ClientHandle = other.Value.ClientHandle;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_ClientHandle);
 		}
 	}
 }

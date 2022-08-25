@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Stats
 	/// <summary>
 	/// Input parameters for the <see cref="StatsInterface.CopyStatByIndex" /> function.
 	/// </summary>
-	public class CopyStatByIndexOptions
+	public struct CopyStatByIndexOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user who owns the stat
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Stats
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyStatByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyStatByIndexOptionsInternal : ISettable<CopyStatByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Stats
 			}
 		}
 
-		public void Set(CopyStatByIndexOptions other)
+		public void Set(ref CopyStatByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = StatsInterface.CopystatbyindexApiLatest;
-				TargetUserId = other.TargetUserId;
-				StatIndex = other.StatIndex;
-			}
+			m_ApiVersion = StatsInterface.CopystatbyindexApiLatest;
+			TargetUserId = other.TargetUserId;
+			StatIndex = other.StatIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyStatByIndexOptions? other)
 		{
-			Set(other as CopyStatByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = StatsInterface.CopystatbyindexApiLatest;
+				TargetUserId = other.Value.TargetUserId;
+				StatIndex = other.Value.StatIndex;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

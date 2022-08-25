@@ -166,6 +166,14 @@ namespace Epic.OnlineServices
 		/// </summary>
 		RequestInProgress = 39,
 		/// <summary>
+		/// Application is suspended
+		/// </summary>
+		ApplicationSuspended = 40,
+		/// <summary>
+		/// Network is disconnected
+		/// </summary>
+		NetworkDisconnected = 41,
+		/// <summary>
 		/// Account locked due to login failures
 		/// </summary>
 		AuthAccountLocked = 1001,
@@ -234,6 +242,14 @@ namespace Epic.OnlineServices
 		/// </summary>
 		AuthAccountFeatureRestricted = 1017,
 		/// <summary>
+		/// The overlay failed to load the Account Portal. This can range from general overlay failure, to overlay failed to connect to the web server, to overlay failed to render the web page.
+		/// </summary>
+		AuthAccountPortalLoadError = 1018,
+		/// <summary>
+		/// An attempted login has failed due to the user needing to take corrective action on their account.
+		/// </summary>
+		AuthCorrectiveActionRequired = 1019,
+		/// <summary>
 		/// Pin grant code initiated
 		/// </summary>
 		AuthPinGrantCode = 1020,
@@ -284,7 +300,7 @@ namespace Epic.OnlineServices
 		/// <summary>
 		/// The account has been disabled and cannot be used for authentication
 		/// </summary>
-		AuthPersistentAuthAccountNotActive = 1050,
+		AuthAccountNotActive = 1050,
 		/// <summary>
 		/// MFA challenge required
 		/// </summary>
@@ -514,7 +530,7 @@ namespace Epic.OnlineServices
 		/// </summary>
 		PlayerDataStorageEncryptionKeyNotSet = 6011,
 		/// <summary>
-		/// User data callback returned error (<see cref="PlayerDataStorage.WriteResult" />::<see cref="PlayerDataStorage.WriteResult.FailRequest" /> or <see cref="PlayerDataStorage.ReadResult" />::<see cref="PlayerDataStorage.ReadResult.FailRequest" />)
+		/// User data callback returned error (<see cref="PlayerDataStorage.WriteResult.FailRequest" /> or <see cref="PlayerDataStorage.ReadResult.FailRequest" />)
 		/// </summary>
 		PlayerDataStorageUserErrorFromDataCallback = 6012,
 		/// <summary>
@@ -641,6 +657,10 @@ namespace Epic.OnlineServices
 		/// Presence lobby already exists for the client
 		/// </summary>
 		LobbyPresenceLobbyExists = 9018,
+		/// <summary>
+		/// Operation requires lobby with voice enabled
+		/// </summary>
+		LobbyVoiceNotEnabled = 9019,
 		/// <summary>
 		/// User callback that receives data from storage returned error.
 		/// </summary>
@@ -798,6 +818,14 @@ namespace Epic.OnlineServices
 		/// </summary>
 		ReconnectionTimegateExpired = 13005,
 		/// <summary>
+		/// EOS RTC room was left due to platform release
+		/// </summary>
+		ShutdownInvoked = 13006,
+		/// <summary>
+		/// EOS RTC operation failed because the user is in the local user's block list
+		/// </summary>
+		UserIsInBlocklist = 13007,
+		/// <summary>
 		/// The number of available Snapshot IDs have all been exhausted.
 		/// </summary>
 		ProgressionSnapshotSnapshotIdUnavailable = 14000,
@@ -813,6 +841,50 @@ namespace Epic.OnlineServices
 		/// EOS Android VM not stored
 		/// </summary>
 		AndroidJavaVMNotStored = 17000,
+		/// <summary>
+		/// Patch required before the user can use the privilege
+		/// </summary>
+		PermissionRequiredPatchAvailable = 18000,
+		/// <summary>
+		/// System update required before the user can use the privilege
+		/// </summary>
+		PermissionRequiredSystemUpdate = 18001,
+		/// <summary>
+		/// Parental control failure usually
+		/// </summary>
+		PermissionAgeRestrictionFailure = 18002,
+		/// <summary>
+		/// Premium Account Subscription required but not available
+		/// </summary>
+		PermissionAccountTypeFailure = 18003,
+		/// <summary>
+		/// User restricted from chat
+		/// </summary>
+		PermissionChatRestriction = 18004,
+		/// <summary>
+		/// User restricted from User Generated Content
+		/// </summary>
+		PermissionUGCRestriction = 18005,
+		/// <summary>
+		/// Online play is restricted
+		/// </summary>
+		PermissionOnlinePlayRestricted = 18006,
+		/// <summary>
+		/// The application was not launched through the Bootstrapper. Desktop crossplay functionality is unavailable.
+		/// </summary>
+		DesktopCrossplayApplicationNotBootstrapped = 19000,
+		/// <summary>
+		/// The redistributable service is not installed.
+		/// </summary>
+		DesktopCrossplayServiceNotInstalled = 19001,
+		/// <summary>
+		/// The desktop crossplay service failed to start.
+		/// </summary>
+		DesktopCrossplayServiceStartFailed = 19002,
+		/// <summary>
+		/// The desktop crossplay service is no longer running for an unknown reason.
+		/// </summary>
+		DesktopCrossplayServiceNotRunning = 19003,
 		/// <summary>
 		/// An unexpected error that we cannot identify has occurred.
 		/// </summary>

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.QueryInvites" /> function.
 	/// </summary>
-	public class QueryInvitesOptions
+	public struct QueryInvitesOptions
 	{
 		/// <summary>
 		/// The Product User ID to query for invitations
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryInvitesOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryInvitesOptionsInternal : ISettable<QueryInvitesOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(QueryInvitesOptions other)
+		public void Set(ref QueryInvitesOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.QueryinvitesApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryInvitesOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.QueryinvitesApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryInvitesOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

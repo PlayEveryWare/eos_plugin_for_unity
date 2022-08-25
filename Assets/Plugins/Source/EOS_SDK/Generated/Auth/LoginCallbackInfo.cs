@@ -6,37 +6,37 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Output parameters for the <see cref="AuthInterface.Login" /> Function.
 	/// </summary>
-	public class LoginCallbackInfo : ICallbackInfo, ISettable
+	public struct LoginCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="AuthInterface.Login" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the local user who has logged in
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// Optional data returned in the middle of a <see cref="LoginCredentialType.DeviceCode" /> request
 		/// </summary>
-		public PinGrantInfo PinGrantInfo { get; private set; }
+		public PinGrantInfo? PinGrantInfo { get; set; }
 
 		/// <summary>
 		/// If the user was not found with external auth credentials passed into <see cref="AuthInterface.Login" />, this continuance token can be passed to <see cref="AuthInterface.LinkAccount" /> to continue the flow.
 		/// </summary>
-		public ContinuanceToken ContinuanceToken { get; private set; }
+		public ContinuanceToken ContinuanceToken { get; set; }
 
 		/// <summary>
 		/// If the user trying to login is restricted from doing so, the ResultCode of this structure will be <see cref="Result.AuthAccountFeatureRestricted" />, and AccountFeatureRestrictedInfo will be populated with the data needed to get past the restriction
 		/// </summary>
-		public AccountFeatureRestrictedInfo AccountFeatureRestrictedInfo { get; private set; }
+		public AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID that has been previously selected to be used for the current application.
@@ -45,35 +45,27 @@ namespace Epic.OnlineServices.Auth
 		/// Note: This ID may be different from LocalUserId if the user has previously merged Epic accounts into the account
 		/// represented by LocalUserId, and one of the accounts that got merged had game data associated with it for the application.
 		/// </summary>
-		public EpicAccountId SelectedAccountId { get; private set; }
+		public EpicAccountId SelectedAccountId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(LoginCallbackInfoInternal? other)
+		internal void Set(ref LoginCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				PinGrantInfo = other.Value.PinGrantInfo;
-				ContinuanceToken = other.Value.ContinuanceToken;
-				AccountFeatureRestrictedInfo = other.Value.AccountFeatureRestrictedInfo;
-				SelectedAccountId = other.Value.SelectedAccountId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LoginCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			PinGrantInfo = other.PinGrantInfo;
+			ContinuanceToken = other.ContinuanceToken;
+			AccountFeatureRestrictedInfo = other.AccountFeatureRestrictedInfo;
+			SelectedAccountId = other.SelectedAccountId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LoginCallbackInfoInternal : ICallbackInfoInternal
+	internal struct LoginCallbackInfoInternal : ICallbackInfoInternal, IGettable<LoginCallbackInfo>, ISettable<LoginCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -89,6 +81,11 @@ namespace Epic.OnlineServices.Auth
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -96,8 +93,13 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -114,18 +116,28 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public PinGrantInfo PinGrantInfo
+		public PinGrantInfo? PinGrantInfo
 		{
 			get
 			{
-				PinGrantInfo value;
-				Helper.TryMarshalGet<PinGrantInfoInternal, PinGrantInfo>(m_PinGrantInfo, out value);
+				PinGrantInfo? value;
+				Helper.Get<PinGrantInfoInternal, PinGrantInfo>(m_PinGrantInfo, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set<PinGrantInfo, PinGrantInfoInternal>(ref value, ref m_PinGrantInfo);
 			}
 		}
 
@@ -134,18 +146,28 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				ContinuanceToken value;
-				Helper.TryMarshalGet(m_ContinuanceToken, out value);
+				Helper.Get(m_ContinuanceToken, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ContinuanceToken);
 			}
 		}
 
-		public AccountFeatureRestrictedInfo AccountFeatureRestrictedInfo
+		public AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo
 		{
 			get
 			{
-				AccountFeatureRestrictedInfo value;
-				Helper.TryMarshalGet<AccountFeatureRestrictedInfoInternal, AccountFeatureRestrictedInfo>(m_AccountFeatureRestrictedInfo, out value);
+				AccountFeatureRestrictedInfo? value;
+				Helper.Get<AccountFeatureRestrictedInfoInternal, AccountFeatureRestrictedInfo>(m_AccountFeatureRestrictedInfo, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set<AccountFeatureRestrictedInfo, AccountFeatureRestrictedInfoInternal>(ref value, ref m_AccountFeatureRestrictedInfo);
 			}
 		}
 
@@ -154,9 +176,55 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_SelectedAccountId, out value);
+				Helper.Get(m_SelectedAccountId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_SelectedAccountId);
+			}
+		}
+
+		public void Set(ref LoginCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			PinGrantInfo = other.PinGrantInfo;
+			ContinuanceToken = other.ContinuanceToken;
+			AccountFeatureRestrictedInfo = other.AccountFeatureRestrictedInfo;
+			SelectedAccountId = other.SelectedAccountId;
+		}
+
+		public void Set(ref LoginCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				PinGrantInfo = other.Value.PinGrantInfo;
+				ContinuanceToken = other.Value.ContinuanceToken;
+				AccountFeatureRestrictedInfo = other.Value.AccountFeatureRestrictedInfo;
+				SelectedAccountId = other.Value.SelectedAccountId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_PinGrantInfo);
+			Helper.Dispose(ref m_ContinuanceToken);
+			Helper.Dispose(ref m_AccountFeatureRestrictedInfo);
+			Helper.Dispose(ref m_SelectedAccountId);
+		}
+
+		public void Get(out LoginCallbackInfo output)
+		{
+			output = new LoginCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

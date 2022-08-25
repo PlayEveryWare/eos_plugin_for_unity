@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionSearch.SetMaxResults" /> function.
 	/// </summary>
-	public class SessionSearchSetMaxResultsOptions
+	public struct SessionSearchSetMaxResultsOptions
 	{
 		/// <summary>
 		/// Maximum number of search results returned with this query, may not exceed <see cref="SessionsInterface.MaxSearchResults" />
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionSearchSetMaxResultsOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionSearchSetMaxResultsOptionsInternal : ISettable<SessionSearchSetMaxResultsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_MaxSearchResults;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(SessionSearchSetMaxResultsOptions other)
+		public void Set(ref SessionSearchSetMaxResultsOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionSearch.SessionsearchSetmaxsearchresultsApiLatest;
-				MaxSearchResults = other.MaxSearchResults;
-			}
+			m_ApiVersion = SessionSearch.SessionsearchSetmaxsearchresultsApiLatest;
+			MaxSearchResults = other.MaxSearchResults;
 		}
 
-		public void Set(object other)
+		public void Set(ref SessionSearchSetMaxResultsOptions? other)
 		{
-			Set(other as SessionSearchSetMaxResultsOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionSearch.SessionsearchSetmaxsearchresultsApiLatest;
+				MaxSearchResults = other.Value.MaxSearchResults;
+			}
 		}
 
 		public void Dispose()

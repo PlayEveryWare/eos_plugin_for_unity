@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
-	public class AddProgressionOptions
+	public struct AddProgressionOptions
 	{
 		/// <summary>
 		/// The Snapshot Id received via a <see cref="ProgressionSnapshotInterface.BeginSnapshot" /> function.
@@ -13,16 +13,16 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 		/// <summary>
 		/// The key in a key/value pair of progression entry
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 
 		/// <summary>
 		/// The value in a key/value pair of progression entry
 		/// </summary>
-		public string Value { get; set; }
+		public Utf8String Value { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddProgressionOptionsInternal : ISettable, System.IDisposable
+	internal struct AddProgressionOptionsInternal : ISettable<AddProgressionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_SnapshotId;
@@ -37,42 +37,45 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 			}
 		}
 
-		public string Key
+		public Utf8String Key
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
-		public string Value
+		public Utf8String Value
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Value, value);
+				Helper.Set(value, ref m_Value);
 			}
 		}
 
-		public void Set(AddProgressionOptions other)
+		public void Set(ref AddProgressionOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ProgressionSnapshotInterface.AddprogressionApiLatest;
+			SnapshotId = other.SnapshotId;
+			Key = other.Key;
+			Value = other.Value;
+		}
+
+		public void Set(ref AddProgressionOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ProgressionSnapshotInterface.AddprogressionApiLatest;
-				SnapshotId = other.SnapshotId;
-				Key = other.Key;
-				Value = other.Value;
+				SnapshotId = other.Value.SnapshotId;
+				Key = other.Value.Key;
+				Value = other.Value.Value;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddProgressionOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Key);
-			Helper.TryMarshalDispose(ref m_Value);
+			Helper.Dispose(ref m_Key);
+			Helper.Dispose(ref m_Value);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Stats
 	/// <summary>
 	/// Input parameters for the <see cref="StatsInterface.QueryStats" /> function.
 	/// </summary>
-	public class QueryStatsOptions
+	public struct QueryStatsOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user requesting the stats. Set to null for dedicated server.
@@ -26,7 +26,7 @@ namespace Epic.OnlineServices.Stats
 		/// <summary>
 		/// An array of stat names to query for (Optional).
 		/// </summary>
-		public string[] StatNames { get; set; }
+		public Utf8String[] StatNames { get; set; }
 
 		/// <summary>
 		/// The Product User ID for the user whose stats are being retrieved
@@ -35,7 +35,7 @@ namespace Epic.OnlineServices.Stats
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryStatsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryStatsOptionsInternal : ISettable<QueryStatsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -49,7 +49,7 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_StartTime, value);
+				Helper.Set(value, ref m_StartTime);
 			}
 		}
 
@@ -65,15 +65,15 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EndTime, value);
+				Helper.Set(value, ref m_EndTime);
 			}
 		}
 
-		public string[] StatNames
+		public Utf8String[] StatNames
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_StatNames, value, out m_StatNamesCount, true);
+				Helper.Set(value, ref m_StatNames, true, out m_StatNamesCount);
 			}
 		}
 
@@ -81,33 +81,38 @@ namespace Epic.OnlineServices.Stats
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(QueryStatsOptions other)
+		public void Set(ref QueryStatsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = StatsInterface.QuerystatsApiLatest;
+			LocalUserId = other.LocalUserId;
+			StartTime = other.StartTime;
+			EndTime = other.EndTime;
+			StatNames = other.StatNames;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref QueryStatsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = StatsInterface.QuerystatsApiLatest;
-				LocalUserId = other.LocalUserId;
-				StartTime = other.StartTime;
-				EndTime = other.EndTime;
-				StatNames = other.StatNames;
-				TargetUserId = other.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
+				StartTime = other.Value.StartTime;
+				EndTime = other.Value.EndTime;
+				StatNames = other.Value.StatNames;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryStatsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_StatNames);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_StatNames);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

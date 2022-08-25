@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.CreateLobby" /> function.
 	/// </summary>
-	public class CreateLobbyOptions
+	public struct CreateLobbyOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user creating the lobby; this user will automatically join the lobby as its owner
@@ -26,13 +26,13 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// If true, this lobby will be associated with presence information. A user's presence can only be associated with one lobby at a time.
 		/// This affects the ability of the Social Overlay to show game related actions to take in the user's social graph.
-		/// 
-		/// @note The Social Overlay can handle only one of the following three options at a time:
+		/// The Social Overlay can handle only one of the following three options at a time:
 		/// using the bPresenceEnabled flags within the Sessions interface
 		/// using the bPresenceEnabled flags within the Lobby interface
-		/// using <see cref="Presence.PresenceModification.SetJoinInfo" />
+		/// using EOS_PresenceModification_SetJoinInfo
 		/// <seealso cref="Presence.PresenceModificationSetJoinInfoOptions" />
 		/// <seealso cref="JoinLobbyOptions" />
+		/// <seealso cref="JoinLobbyByIdOptions" />
 		/// <seealso cref="Sessions.CreateSessionModificationOptions" />
 		/// <seealso cref="Sessions.JoinSessionOptions" />
 		/// </summary>
@@ -46,7 +46,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Bucket ID associated with the lobby
 		/// </summary>
-		public string BucketId { get; set; }
+		public Utf8String BucketId { get; set; }
 
 		/// <summary>
 		/// Is host migration allowed (will the lobby stay open if the original host leaves?)
@@ -65,21 +65,37 @@ namespace Epic.OnlineServices.Lobby
 		public bool EnableRTCRoom { get; set; }
 
 		/// <summary>
-		/// (Optional) Allows the local application to set local audio options for the RTC Room if it is enabled. Set this to NULL if the RTC
+		/// (Optional) Allows the local application to set local audio options for the RTC Room if it is enabled. Set this to <see langword="null" /> if the RTC
 		/// RTC room is disabled or you would like to use the defaults.
 		/// </summary>
-		public LocalRTCOptions LocalRTCOptions { get; set; }
+		public LocalRTCOptions? LocalRTCOptions { get; set; }
 
 		/// <summary>
 		/// (Optional) Set to a globally unique value to override the backend assignment
 		/// If not specified the backend service will assign one to the lobby. Do not mix and match override and non override settings.
 		/// This value can be of size [<see cref="LobbyInterface.MinLobbyidoverrideLength" />, <see cref="LobbyInterface.MaxLobbyidoverrideLength" />]
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId { get; set; }
+
+		/// <summary>
+		/// Is <see cref="LobbyInterface.JoinLobbyById" /> allowed.
+		/// This is provided to support cases where an integrated platform's invite system is used.
+		/// In these cases the game should provide the lobby ID securely to the invited player. Such as by attaching the
+		/// lobby ID to the integrated platform's session data or sending the lobby ID within the invite data.
+		/// </summary>
+		public bool EnableJoinById { get; set; }
+
+		/// <summary>
+		/// Does rejoining after being kicked require an invite?
+		/// When this is set, a kicked player cannot return to the session even if the session was set with
+		/// <see cref="LobbyPermissionLevel.Publicadvertised" />. When this is set, a player with invite privileges must use <see cref="LobbyInterface.SendInvite" /> to
+		/// allow the kicked player to return to the session.
+		/// </summary>
+		public bool RejoinAfterKickRequiresInvite { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CreateLobbyOptionsInternal : ISettable, System.IDisposable
+	internal struct CreateLobbyOptionsInternal : ISettable<CreateLobbyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -92,12 +108,14 @@ namespace Epic.OnlineServices.Lobby
 		private int m_EnableRTCRoom;
 		private System.IntPtr m_LocalRTCOptions;
 		private System.IntPtr m_LobbyId;
+		private int m_EnableJoinById;
+		private int m_RejoinAfterKickRequiresInvite;
 
 		public ProductUserId LocalUserId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -121,7 +139,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PresenceEnabled, value);
+				Helper.Set(value, ref m_PresenceEnabled);
 			}
 		}
 
@@ -129,15 +147,15 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AllowInvites, value);
+				Helper.Set(value, ref m_AllowInvites);
 			}
 		}
 
-		public string BucketId
+		public Utf8String BucketId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_BucketId, value);
+				Helper.Set(value, ref m_BucketId);
 			}
 		}
 
@@ -145,7 +163,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_DisableHostMigration, value);
+				Helper.Set(value, ref m_DisableHostMigration);
 			}
 		}
 
@@ -153,55 +171,85 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EnableRTCRoom, value);
+				Helper.Set(value, ref m_EnableRTCRoom);
 			}
 		}
 
-		public LocalRTCOptions LocalRTCOptions
+		public LocalRTCOptions? LocalRTCOptions
 		{
 			set
 			{
-				Helper.TryMarshalSet<LocalRTCOptionsInternal, LocalRTCOptions>(ref m_LocalRTCOptions, value);
+				Helper.Set<LocalRTCOptions, LocalRTCOptionsInternal>(ref value, ref m_LocalRTCOptions);
 			}
 		}
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
-		public void Set(CreateLobbyOptions other)
+		public bool EnableJoinById
 		{
-			if (other != null)
+			set
+			{
+				Helper.Set(value, ref m_EnableJoinById);
+			}
+		}
+
+		public bool RejoinAfterKickRequiresInvite
+		{
+			set
+			{
+				Helper.Set(value, ref m_RejoinAfterKickRequiresInvite);
+			}
+		}
+
+		public void Set(ref CreateLobbyOptions other)
+		{
+			m_ApiVersion = LobbyInterface.CreatelobbyApiLatest;
+			LocalUserId = other.LocalUserId;
+			MaxLobbyMembers = other.MaxLobbyMembers;
+			PermissionLevel = other.PermissionLevel;
+			PresenceEnabled = other.PresenceEnabled;
+			AllowInvites = other.AllowInvites;
+			BucketId = other.BucketId;
+			DisableHostMigration = other.DisableHostMigration;
+			EnableRTCRoom = other.EnableRTCRoom;
+			LocalRTCOptions = other.LocalRTCOptions;
+			LobbyId = other.LobbyId;
+			EnableJoinById = other.EnableJoinById;
+			RejoinAfterKickRequiresInvite = other.RejoinAfterKickRequiresInvite;
+		}
+
+		public void Set(ref CreateLobbyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.CreatelobbyApiLatest;
-				LocalUserId = other.LocalUserId;
-				MaxLobbyMembers = other.MaxLobbyMembers;
-				PermissionLevel = other.PermissionLevel;
-				PresenceEnabled = other.PresenceEnabled;
-				AllowInvites = other.AllowInvites;
-				BucketId = other.BucketId;
-				DisableHostMigration = other.DisableHostMigration;
-				EnableRTCRoom = other.EnableRTCRoom;
-				LocalRTCOptions = other.LocalRTCOptions;
-				LobbyId = other.LobbyId;
+				LocalUserId = other.Value.LocalUserId;
+				MaxLobbyMembers = other.Value.MaxLobbyMembers;
+				PermissionLevel = other.Value.PermissionLevel;
+				PresenceEnabled = other.Value.PresenceEnabled;
+				AllowInvites = other.Value.AllowInvites;
+				BucketId = other.Value.BucketId;
+				DisableHostMigration = other.Value.DisableHostMigration;
+				EnableRTCRoom = other.Value.EnableRTCRoom;
+				LocalRTCOptions = other.Value.LocalRTCOptions;
+				LobbyId = other.Value.LobbyId;
+				EnableJoinById = other.Value.EnableJoinById;
+				RejoinAfterKickRequiresInvite = other.Value.RejoinAfterKickRequiresInvite;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CreateLobbyOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_BucketId);
-			Helper.TryMarshalDispose(ref m_LocalRTCOptions);
-			Helper.TryMarshalDispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_BucketId);
+			Helper.Dispose(ref m_LocalRTCOptions);
+			Helper.Dispose(ref m_LobbyId);
 		}
 	}
 }

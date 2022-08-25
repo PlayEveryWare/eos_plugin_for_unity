@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	/// <summary>
 	/// Quaternion using left-handed coordinate system (as in Unreal Engine)
 	/// </summary>
-	public class Quat : ISettable
+	public struct Quat
 	{
 		/// <summary>
 		/// W component - scalar part
@@ -28,25 +28,17 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// </summary>
 		public float z { get; set; }
 
-		internal void Set(QuatInternal? other)
+		internal void Set(ref QuatInternal other)
 		{
-			if (other != null)
-			{
-				w = other.Value.w;
-				x = other.Value.x;
-				y = other.Value.y;
-				z = other.Value.z;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QuatInternal?);
+			w = other.w;
+			x = other.x;
+			y = other.y;
+			z = other.z;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QuatInternal : ISettable, System.IDisposable
+	internal struct QuatInternal : IGettable<Quat>, ISettable<Quat>, System.IDisposable
 	{
 		private float m_w;
 		private float m_x;
@@ -105,24 +97,33 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(Quat other)
+		public void Set(ref Quat other)
 		{
-			if (other != null)
-			{
-				w = other.w;
-				x = other.x;
-				y = other.y;
-				z = other.z;
-			}
+			w = other.w;
+			x = other.x;
+			y = other.y;
+			z = other.z;
 		}
 
-		public void Set(object other)
+		public void Set(ref Quat? other)
 		{
-			Set(other as Quat);
+			if (other.HasValue)
+			{
+				w = other.Value.w;
+				x = other.Value.x;
+				y = other.Value.y;
+				z = other.Value.z;
+			}
 		}
 
 		public void Dispose()
 		{
+		}
+
+		public void Get(out Quat output)
+		{
+			output = new Quat();
+			output.Set(ref this);
 		}
 	}
 }

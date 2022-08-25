@@ -3,45 +3,46 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogPlayerUseWeaponOptions
+	public struct LogPlayerUseWeaponOptions
 	{
 		/// <summary>
 		/// Struct containing detailed information about a weapon use event
 		/// </summary>
-		public LogPlayerUseWeaponData UseWeaponData { get; set; }
+		public LogPlayerUseWeaponData? UseWeaponData { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogPlayerUseWeaponOptionsInternal : ISettable, System.IDisposable
+	internal struct LogPlayerUseWeaponOptionsInternal : ISettable<LogPlayerUseWeaponOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UseWeaponData;
 
-		public LogPlayerUseWeaponData UseWeaponData
+		public LogPlayerUseWeaponData? UseWeaponData
 		{
 			set
 			{
-				Helper.TryMarshalSet<LogPlayerUseWeaponDataInternal, LogPlayerUseWeaponData>(ref m_UseWeaponData, value);
+				Helper.Set<LogPlayerUseWeaponData, LogPlayerUseWeaponDataInternal>(ref value, ref m_UseWeaponData);
 			}
 		}
 
-		public void Set(LogPlayerUseWeaponOptions other)
+		public void Set(ref LogPlayerUseWeaponOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatCommonInterface.LogplayeruseweaponApiLatest;
+			UseWeaponData = other.UseWeaponData;
+		}
+
+		public void Set(ref LogPlayerUseWeaponOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatCommonInterface.LogplayeruseweaponApiLatest;
-				UseWeaponData = other.UseWeaponData;
+				UseWeaponData = other.Value.UseWeaponData;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogPlayerUseWeaponOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UseWeaponData);
+			Helper.Dispose(ref m_UseWeaponData);
 		}
 	}
 }

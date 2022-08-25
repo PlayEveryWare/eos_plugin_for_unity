@@ -7,7 +7,7 @@ namespace Epic.OnlineServices.Platform
 	/// Options for initializing defining thread affinity for use by Epic Online Services SDK.
 	/// Set the affinity to 0 to allow EOS SDK to use a platform specific default value.
 	/// </summary>
-	public class InitializeThreadAffinity : ISettable
+	public struct InitializeThreadAffinity
 	{
 		/// <summary>
 		/// Any thread related to network management that is not IO.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Platform
 		public ulong WebSocketIo { get; set; }
 
 		/// <summary>
-		/// Any thread that will generate IO related to P2P traffic and mangement.
+		/// Any thread that will generate IO related to P2P traffic and management.
 		/// </summary>
 		public ulong P2PIo { get; set; }
 
@@ -34,26 +34,24 @@ namespace Epic.OnlineServices.Platform
 		/// </summary>
 		public ulong HttpRequestIo { get; set; }
 
-		internal void Set(InitializeThreadAffinityInternal? other)
-		{
-			if (other != null)
-			{
-				NetworkWork = other.Value.NetworkWork;
-				StorageIo = other.Value.StorageIo;
-				WebSocketIo = other.Value.WebSocketIo;
-				P2PIo = other.Value.P2PIo;
-				HttpRequestIo = other.Value.HttpRequestIo;
-			}
-		}
+		/// <summary>
+		/// Any thread that will generate IO related to RTC traffic and management.
+		/// </summary>
+		public ulong RTCIo { get; set; }
 
-		public void Set(object other)
+		internal void Set(ref InitializeThreadAffinityInternal other)
 		{
-			Set(other as InitializeThreadAffinityInternal?);
+			NetworkWork = other.NetworkWork;
+			StorageIo = other.StorageIo;
+			WebSocketIo = other.WebSocketIo;
+			P2PIo = other.P2PIo;
+			HttpRequestIo = other.HttpRequestIo;
+			RTCIo = other.RTCIo;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct InitializeThreadAffinityInternal : ISettable, System.IDisposable
+	internal struct InitializeThreadAffinityInternal : IGettable<InitializeThreadAffinity>, ISettable<InitializeThreadAffinity>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private ulong m_NetworkWork;
@@ -61,6 +59,7 @@ namespace Epic.OnlineServices.Platform
 		private ulong m_WebSocketIo;
 		private ulong m_P2PIo;
 		private ulong m_HttpRequestIo;
+		private ulong m_RTCIo;
 
 		public ulong NetworkWork
 		{
@@ -127,26 +126,52 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public void Set(InitializeThreadAffinity other)
+		public ulong RTCIo
 		{
-			if (other != null)
+			get
 			{
-				m_ApiVersion = PlatformInterface.InitializeThreadaffinityApiLatest;
-				NetworkWork = other.NetworkWork;
-				StorageIo = other.StorageIo;
-				WebSocketIo = other.WebSocketIo;
-				P2PIo = other.P2PIo;
-				HttpRequestIo = other.HttpRequestIo;
+				return m_RTCIo;
+			}
+
+			set
+			{
+				m_RTCIo = value;
 			}
 		}
 
-		public void Set(object other)
+		public void Set(ref InitializeThreadAffinity other)
 		{
-			Set(other as InitializeThreadAffinity);
+			m_ApiVersion = PlatformInterface.InitializeThreadaffinityApiLatest;
+			NetworkWork = other.NetworkWork;
+			StorageIo = other.StorageIo;
+			WebSocketIo = other.WebSocketIo;
+			P2PIo = other.P2PIo;
+			HttpRequestIo = other.HttpRequestIo;
+			RTCIo = other.RTCIo;
+		}
+
+		public void Set(ref InitializeThreadAffinity? other)
+		{
+			if (other.HasValue)
+			{
+				m_ApiVersion = PlatformInterface.InitializeThreadaffinityApiLatest;
+				NetworkWork = other.Value.NetworkWork;
+				StorageIo = other.Value.StorageIo;
+				WebSocketIo = other.Value.WebSocketIo;
+				P2PIo = other.Value.P2PIo;
+				HttpRequestIo = other.Value.HttpRequestIo;
+				RTCIo = other.Value.RTCIo;
+			}
 		}
 
 		public void Dispose()
 		{
+		}
+
+		public void Get(out InitializeThreadAffinity output)
+		{
+			output = new InitializeThreadAffinity();
+			output.Set(ref this);
 		}
 	}
 }

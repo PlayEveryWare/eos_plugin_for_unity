@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.UnlinkAccount" /> Function.
 	/// </summary>
-	public class UnlinkAccountOptions
+	public struct UnlinkAccountOptions
 	{
 		/// <summary>
 		/// Existing logged in product user that is subject for the unlinking operation.
@@ -18,7 +18,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UnlinkAccountOptionsInternal : ISettable, System.IDisposable
+	internal struct UnlinkAccountOptionsInternal : ISettable<UnlinkAccountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -27,27 +27,28 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(UnlinkAccountOptions other)
+		public void Set(ref UnlinkAccountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.UnlinkaccountApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref UnlinkAccountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.UnlinkaccountApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UnlinkAccountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

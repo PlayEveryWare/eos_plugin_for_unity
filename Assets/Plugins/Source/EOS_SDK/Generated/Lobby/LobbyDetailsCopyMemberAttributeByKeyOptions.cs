@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyDetails.CopyMemberAttributeByKey" /> function.
 	/// </summary>
-	public class LobbyDetailsCopyMemberAttributeByKeyOptions
+	public struct LobbyDetailsCopyMemberAttributeByKeyOptions
 	{
 		/// <summary>
 		/// The Product User ID of the lobby member
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Name of the attribute to copy
 		/// </summary>
-		public string AttrKey { get; set; }
+		public Utf8String AttrKey { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyDetailsCopyMemberAttributeByKeyOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyDetailsCopyMemberAttributeByKeyOptionsInternal : ISettable<LobbyDetailsCopyMemberAttributeByKeyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public string AttrKey
+		public Utf8String AttrKey
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AttrKey, value);
+				Helper.Set(value, ref m_AttrKey);
 			}
 		}
 
-		public void Set(LobbyDetailsCopyMemberAttributeByKeyOptions other)
+		public void Set(ref LobbyDetailsCopyMemberAttributeByKeyOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyDetails.LobbydetailsCopymemberattributebykeyApiLatest;
+			TargetUserId = other.TargetUserId;
+			AttrKey = other.AttrKey;
+		}
+
+		public void Set(ref LobbyDetailsCopyMemberAttributeByKeyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyDetails.LobbydetailsCopymemberattributebykeyApiLatest;
-				TargetUserId = other.TargetUserId;
-				AttrKey = other.AttrKey;
+				TargetUserId = other.Value.TargetUserId;
+				AttrKey = other.Value.AttrKey;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyDetailsCopyMemberAttributeByKeyOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
-			Helper.TryMarshalDispose(ref m_AttrKey);
+			Helper.Dispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_AttrKey);
 		}
 	}
 }

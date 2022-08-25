@@ -6,8 +6,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Callback for when <see cref="PlayerDataStorageInterface.QueryFileList" /> completes
 	/// </summary>
-	public delegate void OnQueryFileListCompleteCallback(QueryFileListCallbackInfo data);
+	public delegate void OnQueryFileListCompleteCallback(ref QueryFileListCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryFileListCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryFileListCompleteCallbackInternal(ref QueryFileListCallbackInfoInternal data);
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.CopyTransactionByIndex" /> function.
 	/// </summary>
-	public class CopyTransactionByIndexOptions
+	public struct CopyTransactionByIndexOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user who is associated with the transaction
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyTransactionByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyTransactionByIndexOptionsInternal : ISettable<CopyTransactionByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(CopyTransactionByIndexOptions other)
+		public void Set(ref CopyTransactionByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = EcomInterface.CopytransactionbyindexApiLatest;
-				LocalUserId = other.LocalUserId;
-				TransactionIndex = other.TransactionIndex;
-			}
+			m_ApiVersion = EcomInterface.CopytransactionbyindexApiLatest;
+			LocalUserId = other.LocalUserId;
+			TransactionIndex = other.TransactionIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyTransactionByIndexOptions? other)
 		{
-			Set(other as CopyTransactionByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = EcomInterface.CopytransactionbyindexApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				TransactionIndex = other.Value.TransactionIndex;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

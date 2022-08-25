@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Auth
 	/// Function prototype definition for callbacks passed to <see cref="AuthInterface.Login" />
 	/// </summary>
 	/// <param name="data">A <see cref="LoginCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnLoginCallback(LoginCallbackInfo data);
+	public delegate void OnLoginCallback(ref LoginCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnLoginCallbackInternal(System.IntPtr data);
+	internal delegate void OnLoginCallbackInternal(ref LoginCallbackInfoInternal data);
 }

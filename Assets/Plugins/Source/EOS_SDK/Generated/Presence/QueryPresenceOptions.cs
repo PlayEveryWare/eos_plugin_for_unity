@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for the <see cref="PresenceInterface.QueryPresence" /> function
 	/// </summary>
-	public class QueryPresenceOptions
+	public struct QueryPresenceOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local, logged-in user making the request
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Presence
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryPresenceOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryPresenceOptionsInternal : ISettable<QueryPresenceOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Presence
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -38,29 +38,31 @@ namespace Epic.OnlineServices.Presence
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(QueryPresenceOptions other)
+		public void Set(ref QueryPresenceOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceInterface.QuerypresenceApiLatest;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref QueryPresenceOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceInterface.QuerypresenceApiLatest;
-				LocalUserId = other.LocalUserId;
-				TargetUserId = other.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryPresenceOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

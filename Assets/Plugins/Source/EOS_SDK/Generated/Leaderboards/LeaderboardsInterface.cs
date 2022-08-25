@@ -109,18 +109,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the leaderboard is not found
 		/// </returns>
-		public Result CopyLeaderboardDefinitionByIndex(CopyLeaderboardDefinitionByIndexOptions options, out Definition outLeaderboardDefinition)
+		public Result CopyLeaderboardDefinitionByIndex(ref CopyLeaderboardDefinitionByIndexOptions options, out Definition? outLeaderboardDefinition)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyLeaderboardDefinitionByIndexOptionsInternal, CopyLeaderboardDefinitionByIndexOptions>(ref optionsAddress, options);
+			CopyLeaderboardDefinitionByIndexOptionsInternal optionsInternal = new CopyLeaderboardDefinitionByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outLeaderboardDefinitionAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardDefinitionByIndex(InnerHandle, optionsAddress, ref outLeaderboardDefinitionAddress);
+			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardDefinitionByIndex(InnerHandle, ref optionsInternal, ref outLeaderboardDefinitionAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<DefinitionInternal, Definition>(outLeaderboardDefinitionAddress, out outLeaderboardDefinition))
+			Helper.Get<DefinitionInternal, Definition>(outLeaderboardDefinitionAddress, out outLeaderboardDefinition);
+			if (outLeaderboardDefinition != null)
 			{
 				Bindings.EOS_Leaderboards_Definition_Release(outLeaderboardDefinitionAddress);
 			}
@@ -139,18 +140,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the leaderboard data is not found
 		/// </returns>
-		public Result CopyLeaderboardDefinitionByLeaderboardId(CopyLeaderboardDefinitionByLeaderboardIdOptions options, out Definition outLeaderboardDefinition)
+		public Result CopyLeaderboardDefinitionByLeaderboardId(ref CopyLeaderboardDefinitionByLeaderboardIdOptions options, out Definition? outLeaderboardDefinition)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyLeaderboardDefinitionByLeaderboardIdOptionsInternal, CopyLeaderboardDefinitionByLeaderboardIdOptions>(ref optionsAddress, options);
+			CopyLeaderboardDefinitionByLeaderboardIdOptionsInternal optionsInternal = new CopyLeaderboardDefinitionByLeaderboardIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outLeaderboardDefinitionAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId(InnerHandle, optionsAddress, ref outLeaderboardDefinitionAddress);
+			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId(InnerHandle, ref optionsInternal, ref outLeaderboardDefinitionAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<DefinitionInternal, Definition>(outLeaderboardDefinitionAddress, out outLeaderboardDefinition))
+			Helper.Get<DefinitionInternal, Definition>(outLeaderboardDefinitionAddress, out outLeaderboardDefinition);
+			if (outLeaderboardDefinition != null)
 			{
 				Bindings.EOS_Leaderboards_Definition_Release(outLeaderboardDefinitionAddress);
 			}
@@ -169,18 +171,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the leaderboard is not found
 		/// </returns>
-		public Result CopyLeaderboardRecordByIndex(CopyLeaderboardRecordByIndexOptions options, out LeaderboardRecord outLeaderboardRecord)
+		public Result CopyLeaderboardRecordByIndex(ref CopyLeaderboardRecordByIndexOptions options, out LeaderboardRecord? outLeaderboardRecord)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyLeaderboardRecordByIndexOptionsInternal, CopyLeaderboardRecordByIndexOptions>(ref optionsAddress, options);
+			CopyLeaderboardRecordByIndexOptionsInternal optionsInternal = new CopyLeaderboardRecordByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outLeaderboardRecordAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardRecordByIndex(InnerHandle, optionsAddress, ref outLeaderboardRecordAddress);
+			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardRecordByIndex(InnerHandle, ref optionsInternal, ref outLeaderboardRecordAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<LeaderboardRecordInternal, LeaderboardRecord>(outLeaderboardRecordAddress, out outLeaderboardRecord))
+			Helper.Get<LeaderboardRecordInternal, LeaderboardRecord>(outLeaderboardRecordAddress, out outLeaderboardRecord);
+			if (outLeaderboardRecord != null)
 			{
 				Bindings.EOS_Leaderboards_LeaderboardRecord_Release(outLeaderboardRecordAddress);
 			}
@@ -199,18 +202,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the leaderboard data is not found
 		/// </returns>
-		public Result CopyLeaderboardRecordByUserId(CopyLeaderboardRecordByUserIdOptions options, out LeaderboardRecord outLeaderboardRecord)
+		public Result CopyLeaderboardRecordByUserId(ref CopyLeaderboardRecordByUserIdOptions options, out LeaderboardRecord? outLeaderboardRecord)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyLeaderboardRecordByUserIdOptionsInternal, CopyLeaderboardRecordByUserIdOptions>(ref optionsAddress, options);
+			CopyLeaderboardRecordByUserIdOptionsInternal optionsInternal = new CopyLeaderboardRecordByUserIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outLeaderboardRecordAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardRecordByUserId(InnerHandle, optionsAddress, ref outLeaderboardRecordAddress);
+			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardRecordByUserId(InnerHandle, ref optionsInternal, ref outLeaderboardRecordAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<LeaderboardRecordInternal, LeaderboardRecord>(outLeaderboardRecordAddress, out outLeaderboardRecord))
+			Helper.Get<LeaderboardRecordInternal, LeaderboardRecord>(outLeaderboardRecordAddress, out outLeaderboardRecord);
+			if (outLeaderboardRecord != null)
 			{
 				Bindings.EOS_Leaderboards_LeaderboardRecord_Release(outLeaderboardRecordAddress);
 			}
@@ -229,18 +233,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the leaderboard user scores are not found
 		/// </returns>
-		public Result CopyLeaderboardUserScoreByIndex(CopyLeaderboardUserScoreByIndexOptions options, out LeaderboardUserScore outLeaderboardUserScore)
+		public Result CopyLeaderboardUserScoreByIndex(ref CopyLeaderboardUserScoreByIndexOptions options, out LeaderboardUserScore? outLeaderboardUserScore)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyLeaderboardUserScoreByIndexOptionsInternal, CopyLeaderboardUserScoreByIndexOptions>(ref optionsAddress, options);
+			CopyLeaderboardUserScoreByIndexOptionsInternal optionsInternal = new CopyLeaderboardUserScoreByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outLeaderboardUserScoreAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardUserScoreByIndex(InnerHandle, optionsAddress, ref outLeaderboardUserScoreAddress);
+			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardUserScoreByIndex(InnerHandle, ref optionsInternal, ref outLeaderboardUserScoreAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<LeaderboardUserScoreInternal, LeaderboardUserScore>(outLeaderboardUserScoreAddress, out outLeaderboardUserScore))
+			Helper.Get<LeaderboardUserScoreInternal, LeaderboardUserScore>(outLeaderboardUserScoreAddress, out outLeaderboardUserScore);
+			if (outLeaderboardUserScore != null)
 			{
 				Bindings.EOS_Leaderboards_LeaderboardUserScore_Release(outLeaderboardUserScoreAddress);
 			}
@@ -259,18 +264,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the leaderboard user scores are not found
 		/// </returns>
-		public Result CopyLeaderboardUserScoreByUserId(CopyLeaderboardUserScoreByUserIdOptions options, out LeaderboardUserScore outLeaderboardUserScore)
+		public Result CopyLeaderboardUserScoreByUserId(ref CopyLeaderboardUserScoreByUserIdOptions options, out LeaderboardUserScore? outLeaderboardUserScore)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyLeaderboardUserScoreByUserIdOptionsInternal, CopyLeaderboardUserScoreByUserIdOptions>(ref optionsAddress, options);
+			CopyLeaderboardUserScoreByUserIdOptionsInternal optionsInternal = new CopyLeaderboardUserScoreByUserIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outLeaderboardUserScoreAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardUserScoreByUserId(InnerHandle, optionsAddress, ref outLeaderboardUserScoreAddress);
+			var funcResult = Bindings.EOS_Leaderboards_CopyLeaderboardUserScoreByUserId(InnerHandle, ref optionsInternal, ref outLeaderboardUserScoreAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<LeaderboardUserScoreInternal, LeaderboardUserScore>(outLeaderboardUserScoreAddress, out outLeaderboardUserScore))
+			Helper.Get<LeaderboardUserScoreInternal, LeaderboardUserScore>(outLeaderboardUserScoreAddress, out outLeaderboardUserScore);
+			if (outLeaderboardUserScore != null)
 			{
 				Bindings.EOS_Leaderboards_LeaderboardUserScore_Release(outLeaderboardUserScoreAddress);
 			}
@@ -287,14 +293,14 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <returns>
 		/// Number of leaderboards or 0 if there is an error
 		/// </returns>
-		public uint GetLeaderboardDefinitionCount(GetLeaderboardDefinitionCountOptions options)
+		public uint GetLeaderboardDefinitionCount(ref GetLeaderboardDefinitionCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetLeaderboardDefinitionCountOptionsInternal, GetLeaderboardDefinitionCountOptions>(ref optionsAddress, options);
+			GetLeaderboardDefinitionCountOptionsInternal optionsInternal = new GetLeaderboardDefinitionCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Leaderboards_GetLeaderboardDefinitionCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Leaderboards_GetLeaderboardDefinitionCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -308,14 +314,14 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <returns>
 		/// Number of leaderboard records or 0 if there is an error
 		/// </returns>
-		public uint GetLeaderboardRecordCount(GetLeaderboardRecordCountOptions options)
+		public uint GetLeaderboardRecordCount(ref GetLeaderboardRecordCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetLeaderboardRecordCountOptionsInternal, GetLeaderboardRecordCountOptions>(ref optionsAddress, options);
+			GetLeaderboardRecordCountOptionsInternal optionsInternal = new GetLeaderboardRecordCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Leaderboards_GetLeaderboardRecordCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Leaderboards_GetLeaderboardRecordCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -329,14 +335,14 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <returns>
 		/// Number of leaderboard records or 0 if there is an error
 		/// </returns>
-		public uint GetLeaderboardUserScoreCount(GetLeaderboardUserScoreCountOptions options)
+		public uint GetLeaderboardUserScoreCount(ref GetLeaderboardUserScoreCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetLeaderboardUserScoreCountOptionsInternal, GetLeaderboardUserScoreCountOptions>(ref optionsAddress, options);
+			GetLeaderboardUserScoreCountOptionsInternal optionsInternal = new GetLeaderboardUserScoreCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Leaderboards_GetLeaderboardUserScoreCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Leaderboards_GetLeaderboardUserScoreCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -351,19 +357,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public void QueryLeaderboardDefinitions(QueryLeaderboardDefinitionsOptions options, object clientData, OnQueryLeaderboardDefinitionsCompleteCallback completionDelegate)
+		public void QueryLeaderboardDefinitions(ref QueryLeaderboardDefinitionsOptions options, object clientData, OnQueryLeaderboardDefinitionsCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryLeaderboardDefinitionsOptionsInternal, QueryLeaderboardDefinitionsOptions>(ref optionsAddress, options);
+			QueryLeaderboardDefinitionsOptionsInternal optionsInternal = new QueryLeaderboardDefinitionsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryLeaderboardDefinitionsCompleteCallbackInternal(OnQueryLeaderboardDefinitionsCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Leaderboards_QueryLeaderboardDefinitions(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Leaderboards_QueryLeaderboardDefinitions(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -376,19 +382,19 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public void QueryLeaderboardRanks(QueryLeaderboardRanksOptions options, object clientData, OnQueryLeaderboardRanksCompleteCallback completionDelegate)
+		public void QueryLeaderboardRanks(ref QueryLeaderboardRanksOptions options, object clientData, OnQueryLeaderboardRanksCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryLeaderboardRanksOptionsInternal, QueryLeaderboardRanksOptions>(ref optionsAddress, options);
+			QueryLeaderboardRanksOptionsInternal optionsInternal = new QueryLeaderboardRanksOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryLeaderboardRanksCompleteCallbackInternal(OnQueryLeaderboardRanksCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Leaderboards_QueryLeaderboardRanks(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Leaderboards_QueryLeaderboardRanks(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -401,51 +407,51 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public void QueryLeaderboardUserScores(QueryLeaderboardUserScoresOptions options, object clientData, OnQueryLeaderboardUserScoresCompleteCallback completionDelegate)
+		public void QueryLeaderboardUserScores(ref QueryLeaderboardUserScoresOptions options, object clientData, OnQueryLeaderboardUserScoresCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryLeaderboardUserScoresOptionsInternal, QueryLeaderboardUserScoresOptions>(ref optionsAddress, options);
+			QueryLeaderboardUserScoresOptionsInternal optionsInternal = new QueryLeaderboardUserScoresOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryLeaderboardUserScoresCompleteCallbackInternal(OnQueryLeaderboardUserScoresCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Leaderboards_QueryLeaderboardUserScores(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Leaderboards_QueryLeaderboardUserScores(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryLeaderboardDefinitionsCompleteCallbackInternal))]
-		internal static void OnQueryLeaderboardDefinitionsCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryLeaderboardDefinitionsCompleteCallbackInternalImplementation(ref OnQueryLeaderboardDefinitionsCompleteCallbackInfoInternal data)
 		{
 			OnQueryLeaderboardDefinitionsCompleteCallback callback;
 			OnQueryLeaderboardDefinitionsCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryLeaderboardDefinitionsCompleteCallback, OnQueryLeaderboardDefinitionsCompleteCallbackInfoInternal, OnQueryLeaderboardDefinitionsCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryLeaderboardRanksCompleteCallbackInternal))]
-		internal static void OnQueryLeaderboardRanksCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryLeaderboardRanksCompleteCallbackInternalImplementation(ref OnQueryLeaderboardRanksCompleteCallbackInfoInternal data)
 		{
 			OnQueryLeaderboardRanksCompleteCallback callback;
 			OnQueryLeaderboardRanksCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryLeaderboardRanksCompleteCallback, OnQueryLeaderboardRanksCompleteCallbackInfoInternal, OnQueryLeaderboardRanksCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryLeaderboardUserScoresCompleteCallbackInternal))]
-		internal static void OnQueryLeaderboardUserScoresCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryLeaderboardUserScoresCompleteCallbackInternalImplementation(ref OnQueryLeaderboardUserScoresCompleteCallbackInfoInternal data)
 		{
 			OnQueryLeaderboardUserScoresCompleteCallback callback;
 			OnQueryLeaderboardUserScoresCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryLeaderboardUserScoresCompleteCallback, OnQueryLeaderboardUserScoresCompleteCallbackInfoInternal, OnQueryLeaderboardUserScoresCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

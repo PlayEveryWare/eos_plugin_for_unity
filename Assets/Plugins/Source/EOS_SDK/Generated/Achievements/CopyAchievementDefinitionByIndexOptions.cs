@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.CopyAchievementDefinitionByIndex" /> function.
 	/// </summary>
-	public class CopyAchievementDefinitionByIndexOptions
+	public struct CopyAchievementDefinitionByIndexOptions
 	{
 		/// <summary>
 		/// Index of the achievement definition to retrieve from the cache
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Achievements
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyAchievementDefinitionByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyAchievementDefinitionByIndexOptionsInternal : ISettable<CopyAchievementDefinitionByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_AchievementIndex;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Achievements
 			}
 		}
 
-		public void Set(CopyAchievementDefinitionByIndexOptions other)
+		public void Set(ref CopyAchievementDefinitionByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AchievementsInterface.CopydefinitionbyindexApiLatest;
-				AchievementIndex = other.AchievementIndex;
-			}
+			m_ApiVersion = AchievementsInterface.CopydefinitionbyindexApiLatest;
+			AchievementIndex = other.AchievementIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyAchievementDefinitionByIndexOptions? other)
 		{
-			Set(other as CopyAchievementDefinitionByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AchievementsInterface.CopydefinitionbyindexApiLatest;
+				AchievementIndex = other.Value.AchievementIndex;
+			}
 		}
 
 		public void Dispose()

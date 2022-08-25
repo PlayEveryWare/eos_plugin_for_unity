@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogPlayerUseWeaponData : ISettable
+	public struct LogPlayerUseWeaponData
 	{
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -13,12 +13,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// <summary>
 		/// Attack origin world position as a 3D vector
 		/// </summary>
-		public Vec3f PlayerPosition { get; set; }
+		public Vec3f? PlayerPosition { get; set; }
 
 		/// <summary>
 		/// Attack direction as a quaternion
 		/// </summary>
-		public Quat PlayerViewRotation { get; set; }
+		public Quat? PlayerViewRotation { get; set; }
 
 		/// <summary>
 		/// True if the player's view is zoomed (e.g. using a sniper rifle), otherwise false
@@ -33,29 +33,21 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// <summary>
 		/// Name of the weapon used. Will be truncated to <see cref="AntiCheatCommonInterface.LogplayeruseweaponWeaponnameMaxLength" /> bytes if longer.
 		/// </summary>
-		public string WeaponName { get; set; }
+		public Utf8String WeaponName { get; set; }
 
-		internal void Set(LogPlayerUseWeaponDataInternal? other)
+		internal void Set(ref LogPlayerUseWeaponDataInternal other)
 		{
-			if (other != null)
-			{
-				PlayerHandle = other.Value.PlayerHandle;
-				PlayerPosition = other.Value.PlayerPosition;
-				PlayerViewRotation = other.Value.PlayerViewRotation;
-				IsPlayerViewZoomed = other.Value.IsPlayerViewZoomed;
-				IsMeleeAttack = other.Value.IsMeleeAttack;
-				WeaponName = other.Value.WeaponName;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogPlayerUseWeaponDataInternal?);
+			PlayerHandle = other.PlayerHandle;
+			PlayerPosition = other.PlayerPosition;
+			PlayerViewRotation = other.PlayerViewRotation;
+			IsPlayerViewZoomed = other.IsPlayerViewZoomed;
+			IsMeleeAttack = other.IsMeleeAttack;
+			WeaponName = other.WeaponName;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogPlayerUseWeaponDataInternal : ISettable, System.IDisposable
+	internal struct LogPlayerUseWeaponDataInternal : IGettable<LogPlayerUseWeaponData>, ISettable<LogPlayerUseWeaponData>, System.IDisposable
 	{
 		private System.IntPtr m_PlayerHandle;
 		private System.IntPtr m_PlayerPosition;
@@ -77,33 +69,33 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public Vec3f PlayerPosition
+		public Vec3f? PlayerPosition
 		{
 			get
 			{
-				Vec3f value;
-				Helper.TryMarshalGet<Vec3fInternal, Vec3f>(m_PlayerPosition, out value);
+				Vec3f? value;
+				Helper.Get<Vec3fInternal, Vec3f>(m_PlayerPosition, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<Vec3fInternal, Vec3f>(ref m_PlayerPosition, value);
+				Helper.Set<Vec3f, Vec3fInternal>(ref value, ref m_PlayerPosition);
 			}
 		}
 
-		public Quat PlayerViewRotation
+		public Quat? PlayerViewRotation
 		{
 			get
 			{
-				Quat value;
-				Helper.TryMarshalGet<QuatInternal, Quat>(m_PlayerViewRotation, out value);
+				Quat? value;
+				Helper.Get<QuatInternal, Quat>(m_PlayerViewRotation, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<QuatInternal, Quat>(ref m_PlayerViewRotation, value);
+				Helper.Set<Quat, QuatInternal>(ref value, ref m_PlayerViewRotation);
 			}
 		}
 
@@ -112,13 +104,13 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsPlayerViewZoomed, out value);
+				Helper.Get(m_IsPlayerViewZoomed, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsPlayerViewZoomed, value);
+				Helper.Set(value, ref m_IsPlayerViewZoomed);
 			}
 		}
 
@@ -127,55 +119,66 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_IsMeleeAttack, out value);
+				Helper.Get(m_IsMeleeAttack, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsMeleeAttack, value);
+				Helper.Set(value, ref m_IsMeleeAttack);
 			}
 		}
 
-		public string WeaponName
+		public Utf8String WeaponName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_WeaponName, out value);
+				Utf8String value;
+				Helper.Get(m_WeaponName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_WeaponName, value);
+				Helper.Set(value, ref m_WeaponName);
 			}
 		}
 
-		public void Set(LogPlayerUseWeaponData other)
+		public void Set(ref LogPlayerUseWeaponData other)
 		{
-			if (other != null)
+			PlayerHandle = other.PlayerHandle;
+			PlayerPosition = other.PlayerPosition;
+			PlayerViewRotation = other.PlayerViewRotation;
+			IsPlayerViewZoomed = other.IsPlayerViewZoomed;
+			IsMeleeAttack = other.IsMeleeAttack;
+			WeaponName = other.WeaponName;
+		}
+
+		public void Set(ref LogPlayerUseWeaponData? other)
+		{
+			if (other.HasValue)
 			{
-				PlayerHandle = other.PlayerHandle;
-				PlayerPosition = other.PlayerPosition;
-				PlayerViewRotation = other.PlayerViewRotation;
-				IsPlayerViewZoomed = other.IsPlayerViewZoomed;
-				IsMeleeAttack = other.IsMeleeAttack;
-				WeaponName = other.WeaponName;
+				PlayerHandle = other.Value.PlayerHandle;
+				PlayerPosition = other.Value.PlayerPosition;
+				PlayerViewRotation = other.Value.PlayerViewRotation;
+				IsPlayerViewZoomed = other.Value.IsPlayerViewZoomed;
+				IsMeleeAttack = other.Value.IsMeleeAttack;
+				WeaponName = other.Value.WeaponName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogPlayerUseWeaponData);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PlayerHandle);
-			Helper.TryMarshalDispose(ref m_PlayerPosition);
-			Helper.TryMarshalDispose(ref m_PlayerViewRotation);
-			Helper.TryMarshalDispose(ref m_WeaponName);
+			Helper.Dispose(ref m_PlayerHandle);
+			Helper.Dispose(ref m_PlayerPosition);
+			Helper.Dispose(ref m_PlayerViewRotation);
+			Helper.Dispose(ref m_WeaponName);
+		}
+
+		public void Get(out LogPlayerUseWeaponData output)
+		{
+			output = new LogPlayerUseWeaponData();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Input parameters for the <see cref="LeaderboardsInterface.CopyLeaderboardUserScoreByUserId" /> function.
 	/// </summary>
-	public class CopyLeaderboardUserScoreByUserIdOptions
+	public struct CopyLeaderboardUserScoreByUserIdOptions
 	{
 		/// <summary>
 		/// The Product User ID to look for when copying leaderboard score data from the cache
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// <summary>
 		/// The name of the stat that is used to rank this leaderboard
 		/// </summary>
-		public string StatName { get; set; }
+		public Utf8String StatName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyLeaderboardUserScoreByUserIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyLeaderboardUserScoreByUserIdOptionsInternal : ISettable<CopyLeaderboardUserScoreByUserIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public string StatName
+		public Utf8String StatName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_StatName, value);
+				Helper.Set(value, ref m_StatName);
 			}
 		}
 
-		public void Set(CopyLeaderboardUserScoreByUserIdOptions other)
+		public void Set(ref CopyLeaderboardUserScoreByUserIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.CopyleaderboarduserscorebyuseridApiLatest;
+			UserId = other.UserId;
+			StatName = other.StatName;
+		}
+
+		public void Set(ref CopyLeaderboardUserScoreByUserIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.CopyleaderboarduserscorebyuseridApiLatest;
-				UserId = other.UserId;
-				StatName = other.StatName;
+				UserId = other.Value.UserId;
+				StatName = other.Value.StatName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyLeaderboardUserScoreByUserIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
-			Helper.TryMarshalDispose(ref m_StatName);
+			Helper.Dispose(ref m_UserId);
+			Helper.Dispose(ref m_StatName);
 		}
 	}
 }

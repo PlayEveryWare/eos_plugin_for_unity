@@ -6,16 +6,16 @@ namespace Epic.OnlineServices.UI
 	/// <summary>
 	/// Input parameters for the <see cref="UIInterface.GetFriendsVisible" /> function.
 	/// </summary>
-	public class GetFriendsVisibleOptions
+	public struct GetFriendsVisibleOptions
 	{
 		/// <summary>
-		/// The Epic Account ID of the user whose overlay is being updated.
+		/// The Epic Account ID of the user whose overlay is being checked.
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetFriendsVisibleOptionsInternal : ISettable, System.IDisposable
+	internal struct GetFriendsVisibleOptionsInternal : ISettable<GetFriendsVisibleOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.UI
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(GetFriendsVisibleOptions other)
+		public void Set(ref GetFriendsVisibleOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = UIInterface.GetfriendsvisibleApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref GetFriendsVisibleOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = UIInterface.GetfriendsvisibleApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetFriendsVisibleOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

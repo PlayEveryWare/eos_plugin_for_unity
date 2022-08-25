@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Auth
 	/// Function prototype definition for callbacks passed to <see cref="AuthInterface.VerifyUserAuth" />
 	/// </summary>
 	/// <param name="data">A <see cref="VerifyUserAuthCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnVerifyUserAuthCallback(VerifyUserAuthCallbackInfo data);
+	public delegate void OnVerifyUserAuthCallback(ref VerifyUserAuthCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnVerifyUserAuthCallbackInternal(System.IntPtr data);
+	internal delegate void OnVerifyUserAuthCallbackInternal(ref VerifyUserAuthCallbackInfoInternal data);
 }

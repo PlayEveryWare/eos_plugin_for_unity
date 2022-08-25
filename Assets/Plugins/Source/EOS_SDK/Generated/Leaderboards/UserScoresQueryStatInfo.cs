@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Contains information about a single stat to query with user scores.
 	/// </summary>
-	public class UserScoresQueryStatInfo : ISettable
+	public struct UserScoresQueryStatInfo
 	{
 		/// <summary>
 		/// The name of the stat to query.
 		/// </summary>
-		public string StatName { get; set; }
+		public Utf8String StatName { get; set; }
 
 		/// <summary>
 		/// Aggregation used to sort the cached user scores.
 		/// </summary>
 		public LeaderboardAggregation Aggregation { get; set; }
 
-		internal void Set(UserScoresQueryStatInfoInternal? other)
+		internal void Set(ref UserScoresQueryStatInfoInternal other)
 		{
-			if (other != null)
-			{
-				StatName = other.Value.StatName;
-				Aggregation = other.Value.Aggregation;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UserScoresQueryStatInfoInternal?);
+			StatName = other.StatName;
+			Aggregation = other.Aggregation;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UserScoresQueryStatInfoInternal : ISettable, System.IDisposable
+	internal struct UserScoresQueryStatInfoInternal : IGettable<UserScoresQueryStatInfo>, ISettable<UserScoresQueryStatInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_StatName;
 		private LeaderboardAggregation m_Aggregation;
 
-		public string StatName
+		public Utf8String StatName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_StatName, out value);
+				Utf8String value;
+				Helper.Get(m_StatName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_StatName, value);
+				Helper.Set(value, ref m_StatName);
 			}
 		}
 
@@ -68,24 +60,32 @@ namespace Epic.OnlineServices.Leaderboards
 			}
 		}
 
-		public void Set(UserScoresQueryStatInfo other)
+		public void Set(ref UserScoresQueryStatInfo other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LeaderboardsInterface.UserscoresquerystatinfoApiLatest;
-				StatName = other.StatName;
-				Aggregation = other.Aggregation;
-			}
+			m_ApiVersion = LeaderboardsInterface.UserscoresquerystatinfoApiLatest;
+			StatName = other.StatName;
+			Aggregation = other.Aggregation;
 		}
 
-		public void Set(object other)
+		public void Set(ref UserScoresQueryStatInfo? other)
 		{
-			Set(other as UserScoresQueryStatInfo);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LeaderboardsInterface.UserscoresquerystatinfoApiLatest;
+				StatName = other.Value.StatName;
+				Aggregation = other.Value.Aggregation;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_StatName);
+			Helper.Dispose(ref m_StatName);
+		}
+
+		public void Get(out UserScoresQueryStatInfo output)
+		{
+			output = new UserScoresQueryStatInfo();
+			output.Set(ref this);
 		}
 	}
 }

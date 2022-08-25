@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.SendInvite" /> function.
 	/// </summary>
-	public class SendInviteOptions
+	public struct SendInviteOptions
 	{
 		/// <summary>
 		/// Name of the session associated with the invite
 		/// </summary>
-		public string SessionName { get; set; }
+		public Utf8String SessionName { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user sending the invitation
@@ -25,18 +25,18 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SendInviteOptionsInternal : ISettable, System.IDisposable
+	internal struct SendInviteOptionsInternal : ISettable<SendInviteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionName;
 		private System.IntPtr m_LocalUserId;
 		private System.IntPtr m_TargetUserId;
 
-		public string SessionName
+		public Utf8String SessionName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionName, value);
+				Helper.Set(value, ref m_SessionName);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -52,31 +52,34 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(SendInviteOptions other)
+		public void Set(ref SendInviteOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.SendinviteApiLatest;
+			SessionName = other.SessionName;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref SendInviteOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.SendinviteApiLatest;
-				SessionName = other.SessionName;
-				LocalUserId = other.LocalUserId;
-				TargetUserId = other.TargetUserId;
+				SessionName = other.Value.SessionName;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SendInviteOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionName);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_SessionName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

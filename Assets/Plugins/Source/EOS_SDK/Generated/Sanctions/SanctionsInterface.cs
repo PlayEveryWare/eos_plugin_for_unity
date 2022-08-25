@@ -47,18 +47,19 @@ namespace Epic.OnlineServices.Sanctions
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the player achievement is not found
 		/// </returns>
-		public Result CopyPlayerSanctionByIndex(CopyPlayerSanctionByIndexOptions options, out PlayerSanction outSanction)
+		public Result CopyPlayerSanctionByIndex(ref CopyPlayerSanctionByIndexOptions options, out PlayerSanction? outSanction)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyPlayerSanctionByIndexOptionsInternal, CopyPlayerSanctionByIndexOptions>(ref optionsAddress, options);
+			CopyPlayerSanctionByIndexOptionsInternal optionsInternal = new CopyPlayerSanctionByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outSanctionAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Sanctions_CopyPlayerSanctionByIndex(InnerHandle, optionsAddress, ref outSanctionAddress);
+			var funcResult = Bindings.EOS_Sanctions_CopyPlayerSanctionByIndex(InnerHandle, ref optionsInternal, ref outSanctionAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<PlayerSanctionInternal, PlayerSanction>(outSanctionAddress, out outSanction))
+			Helper.Get<PlayerSanctionInternal, PlayerSanction>(outSanctionAddress, out outSanction);
+			if (outSanction != null)
 			{
 				Bindings.EOS_Sanctions_PlayerSanction_Release(outSanctionAddress);
 			}
@@ -76,14 +77,14 @@ namespace Epic.OnlineServices.Sanctions
 		/// <returns>
 		/// Number of available sanctions for this player.
 		/// </returns>
-		public uint GetPlayerSanctionCount(GetPlayerSanctionCountOptions options)
+		public uint GetPlayerSanctionCount(ref GetPlayerSanctionCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetPlayerSanctionCountOptionsInternal, GetPlayerSanctionCountOptions>(ref optionsAddress, options);
+			GetPlayerSanctionCountOptionsInternal optionsInternal = new GetPlayerSanctionCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Sanctions_GetPlayerSanctionCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Sanctions_GetPlayerSanctionCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -97,29 +98,29 @@ namespace Epic.OnlineServices.Sanctions
 		/// <param name="options">Structure containing the input parameters</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">A callback that is fired when the async operation completes, either successfully or in error</param>
-		public void QueryActivePlayerSanctions(QueryActivePlayerSanctionsOptions options, object clientData, OnQueryActivePlayerSanctionsCallback completionDelegate)
+		public void QueryActivePlayerSanctions(ref QueryActivePlayerSanctionsOptions options, object clientData, OnQueryActivePlayerSanctionsCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryActivePlayerSanctionsOptionsInternal, QueryActivePlayerSanctionsOptions>(ref optionsAddress, options);
+			QueryActivePlayerSanctionsOptionsInternal optionsInternal = new QueryActivePlayerSanctionsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryActivePlayerSanctionsCallbackInternal(OnQueryActivePlayerSanctionsCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Sanctions_QueryActivePlayerSanctions(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Sanctions_QueryActivePlayerSanctions(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryActivePlayerSanctionsCallbackInternal))]
-		internal static void OnQueryActivePlayerSanctionsCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryActivePlayerSanctionsCallbackInternalImplementation(ref QueryActivePlayerSanctionsCallbackInfoInternal data)
 		{
 			OnQueryActivePlayerSanctionsCallback callback;
 			QueryActivePlayerSanctionsCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryActivePlayerSanctionsCallback, QueryActivePlayerSanctionsCallbackInfoInternal, QueryActivePlayerSanctionsCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

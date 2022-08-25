@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Input parameters for the <see cref="LeaderboardsInterface.CopyLeaderboardRecordByUserId" /> function.
 	/// </summary>
-	public class CopyLeaderboardRecordByUserIdOptions
+	public struct CopyLeaderboardRecordByUserIdOptions
 	{
 		/// <summary>
 		/// Leaderboard data will be copied from the cache if it relates to the user matching this Product User ID
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Leaderboards
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyLeaderboardRecordByUserIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyLeaderboardRecordByUserIdOptionsInternal : ISettable<CopyLeaderboardRecordByUserIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public void Set(CopyLeaderboardRecordByUserIdOptions other)
+		public void Set(ref CopyLeaderboardRecordByUserIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.CopyleaderboardrecordbyuseridApiLatest;
+			UserId = other.UserId;
+		}
+
+		public void Set(ref CopyLeaderboardRecordByUserIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.CopyleaderboardrecordbyuseridApiLatest;
-				UserId = other.UserId;
+				UserId = other.Value.UserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyLeaderboardRecordByUserIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
+			Helper.Dispose(ref m_UserId);
 		}
 	}
 }

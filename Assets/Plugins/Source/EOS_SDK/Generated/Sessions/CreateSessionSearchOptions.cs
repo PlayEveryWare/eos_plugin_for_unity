@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.CreateSessionSearch" /> function.
 	/// </summary>
-	public class CreateSessionSearchOptions
+	public struct CreateSessionSearchOptions
 	{
 		/// <summary>
 		/// Max number of results to return
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CreateSessionSearchOptionsInternal : ISettable, System.IDisposable
+	internal struct CreateSessionSearchOptionsInternal : ISettable<CreateSessionSearchOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_MaxSearchResults;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(CreateSessionSearchOptions other)
+		public void Set(ref CreateSessionSearchOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionsInterface.CreatesessionsearchApiLatest;
-				MaxSearchResults = other.MaxSearchResults;
-			}
+			m_ApiVersion = SessionsInterface.CreatesessionsearchApiLatest;
+			MaxSearchResults = other.MaxSearchResults;
 		}
 
-		public void Set(object other)
+		public void Set(ref CreateSessionSearchOptions? other)
 		{
-			Set(other as CreateSessionSearchOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionsInterface.CreatesessionsearchApiLatest;
+				MaxSearchResults = other.Value.MaxSearchResults;
+			}
 		}
 
 		public void Dispose()

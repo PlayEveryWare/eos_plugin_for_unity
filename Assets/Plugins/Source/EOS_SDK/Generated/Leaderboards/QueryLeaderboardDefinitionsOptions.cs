@@ -8,7 +8,7 @@ namespace Epic.OnlineServices.Leaderboards
 	/// StartTime and EndTime are optional parameters, they can be used to limit the list of definitions
 	/// to overlap the time window specified.
 	/// </summary>
-	public class QueryLeaderboardDefinitionsOptions
+	public struct QueryLeaderboardDefinitionsOptions
 	{
 		/// <summary>
 		/// An optional POSIX timestamp for the leaderboard's start time, or <see cref="LeaderboardsInterface.TimeUndefined" />
@@ -29,7 +29,7 @@ namespace Epic.OnlineServices.Leaderboards
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryLeaderboardDefinitionsOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryLeaderboardDefinitionsOptionsInternal : ISettable<QueryLeaderboardDefinitionsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private long m_StartTime;
@@ -40,7 +40,7 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_StartTime, value);
+				Helper.Set(value, ref m_StartTime);
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_EndTime, value);
+				Helper.Set(value, ref m_EndTime);
 			}
 		}
 
@@ -56,29 +56,32 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(QueryLeaderboardDefinitionsOptions other)
+		public void Set(ref QueryLeaderboardDefinitionsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.QueryleaderboarddefinitionsApiLatest;
+			StartTime = other.StartTime;
+			EndTime = other.EndTime;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref QueryLeaderboardDefinitionsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.QueryleaderboarddefinitionsApiLatest;
-				StartTime = other.StartTime;
-				EndTime = other.EndTime;
-				LocalUserId = other.LocalUserId;
+				StartTime = other.Value.StartTime;
+				EndTime = other.Value.EndTime;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryLeaderboardDefinitionsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

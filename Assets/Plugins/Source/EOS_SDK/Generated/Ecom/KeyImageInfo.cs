@@ -11,17 +11,17 @@ namespace Epic.OnlineServices.Ecom
 	/// <seealso cref="EcomInterface.CopyItemImageInfoByIndex" />
 	/// <seealso cref="EcomInterface.Release" />
 	/// </summary>
-	public class KeyImageInfo : ISettable
+	public struct KeyImageInfo
 	{
 		/// <summary>
 		/// Describes the usage of the image (ex: home_thumbnail)
 		/// </summary>
-		public string Type { get; set; }
+		public Utf8String Type { get; set; }
 
 		/// <summary>
 		/// The URL of the image
 		/// </summary>
-		public string Url { get; set; }
+		public Utf8String Url { get; set; }
 
 		/// <summary>
 		/// The expected width in pixels of the image
@@ -33,25 +33,17 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public uint Height { get; set; }
 
-		internal void Set(KeyImageInfoInternal? other)
+		internal void Set(ref KeyImageInfoInternal other)
 		{
-			if (other != null)
-			{
-				Type = other.Value.Type;
-				Url = other.Value.Url;
-				Width = other.Value.Width;
-				Height = other.Value.Height;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as KeyImageInfoInternal?);
+			Type = other.Type;
+			Url = other.Url;
+			Width = other.Width;
+			Height = other.Height;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct KeyImageInfoInternal : ISettable, System.IDisposable
+	internal struct KeyImageInfoInternal : IGettable<KeyImageInfo>, ISettable<KeyImageInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Type;
@@ -59,33 +51,33 @@ namespace Epic.OnlineServices.Ecom
 		private uint m_Width;
 		private uint m_Height;
 
-		public string Type
+		public Utf8String Type
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Type, out value);
+				Utf8String value;
+				Helper.Get(m_Type, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Type, value);
+				Helper.Set(value, ref m_Type);
 			}
 		}
 
-		public string Url
+		public Utf8String Url
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Url, out value);
+				Utf8String value;
+				Helper.Get(m_Url, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Url, value);
+				Helper.Set(value, ref m_Url);
 			}
 		}
 
@@ -115,27 +107,37 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(KeyImageInfo other)
+		public void Set(ref KeyImageInfo other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = EcomInterface.KeyimageinfoApiLatest;
-				Type = other.Type;
-				Url = other.Url;
-				Width = other.Width;
-				Height = other.Height;
-			}
+			m_ApiVersion = EcomInterface.KeyimageinfoApiLatest;
+			Type = other.Type;
+			Url = other.Url;
+			Width = other.Width;
+			Height = other.Height;
 		}
 
-		public void Set(object other)
+		public void Set(ref KeyImageInfo? other)
 		{
-			Set(other as KeyImageInfo);
+			if (other.HasValue)
+			{
+				m_ApiVersion = EcomInterface.KeyimageinfoApiLatest;
+				Type = other.Value.Type;
+				Url = other.Value.Url;
+				Width = other.Value.Width;
+				Height = other.Value.Height;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Type);
-			Helper.TryMarshalDispose(ref m_Url);
+			Helper.Dispose(ref m_Type);
+			Helper.Dispose(ref m_Url);
+		}
+
+		public void Get(out KeyImageInfo output)
+		{
+			output = new KeyImageInfo();
+			output.Set(ref this);
 		}
 	}
 }

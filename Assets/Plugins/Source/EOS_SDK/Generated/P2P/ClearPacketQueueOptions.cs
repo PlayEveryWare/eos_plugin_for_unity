@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about the packet queue to be cleared
 	/// </summary>
-	public class ClearPacketQueueOptions
+	public struct ClearPacketQueueOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user for whom we want to clear the queued packets
@@ -21,11 +21,11 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// The socket used for packets to be cleared
 		/// </summary>
-		public SocketId SocketId { get; set; }
+		public SocketId? SocketId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ClearPacketQueueOptionsInternal : ISettable, System.IDisposable
+	internal struct ClearPacketQueueOptionsInternal : ISettable<ClearPacketQueueOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -44,39 +44,42 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RemoteUserId, value);
+				Helper.Set(value, ref m_RemoteUserId);
 			}
 		}
 
-		public SocketId SocketId
+		public SocketId? SocketId
 		{
 			set
 			{
-				Helper.TryMarshalSet<SocketIdInternal, SocketId>(ref m_SocketId, value);
+				Helper.Set<SocketId, SocketIdInternal>(ref value, ref m_SocketId);
 			}
 		}
 
-		public void Set(ClearPacketQueueOptions other)
+		public void Set(ref ClearPacketQueueOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = P2PInterface.ClearpacketqueueApiLatest;
+			LocalUserId = other.LocalUserId;
+			RemoteUserId = other.RemoteUserId;
+			SocketId = other.SocketId;
+		}
+
+		public void Set(ref ClearPacketQueueOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = P2PInterface.ClearpacketqueueApiLatest;
-				LocalUserId = other.LocalUserId;
-				RemoteUserId = other.RemoteUserId;
-				SocketId = other.SocketId;
+				LocalUserId = other.Value.LocalUserId;
+				RemoteUserId = other.Value.RemoteUserId;
+				SocketId = other.Value.SocketId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ClearPacketQueueOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RemoteUserId);
-			Helper.TryMarshalDispose(ref m_SocketId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RemoteUserId);
+			Helper.Dispose(ref m_SocketId);
 		}
 	}
 }

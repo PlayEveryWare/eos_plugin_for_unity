@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.GetTransactionCount" /> function.
 	/// </summary>
-	public class GetTransactionCountOptions
+	public struct GetTransactionCountOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose transaction count to get
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetTransactionCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetTransactionCountOptionsInternal : ISettable<GetTransactionCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(GetTransactionCountOptions other)
+		public void Set(ref GetTransactionCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.GettransactioncountApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref GetTransactionCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.GettransactioncountApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetTransactionCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

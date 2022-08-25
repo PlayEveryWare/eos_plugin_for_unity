@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Lobby
 	/// Function prototype definition for callbacks passed to <see cref="LobbyInterface.LeaveLobby" />
 	/// </summary>
 	/// <param name="data">A <see cref="LobbyInterface.LeaveLobby" /> CallbackInfo containing the output information and result</param>
-	public delegate void OnLeaveLobbyCallback(LeaveLobbyCallbackInfo data);
+	public delegate void OnLeaveLobbyCallback(ref LeaveLobbyCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnLeaveLobbyCallbackInternal(System.IntPtr data);
+	internal delegate void OnLeaveLobbyCallbackInternal(ref LeaveLobbyCallbackInfoInternal data);
 }

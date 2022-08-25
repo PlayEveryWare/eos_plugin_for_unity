@@ -8,12 +8,12 @@ namespace Epic.OnlineServices.Sessions
 	/// 
 	/// Removal requires both the key and its comparator in order to remove as the same key can be used in more than one operation
 	/// </summary>
-	public class SessionSearchRemoveParameterOptions
+	public struct SessionSearchRemoveParameterOptions
 	{
 		/// <summary>
 		/// Search parameter key to remove from the search
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 
 		/// <summary>
 		/// Search comparison operation associated with the key to remove
@@ -22,17 +22,17 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionSearchRemoveParameterOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionSearchRemoveParameterOptionsInternal : ISettable<SessionSearchRemoveParameterOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Key;
 		private ComparisonOp m_ComparisonOp;
 
-		public string Key
+		public Utf8String Key
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
@@ -44,24 +44,26 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
-		public void Set(SessionSearchRemoveParameterOptions other)
+		public void Set(ref SessionSearchRemoveParameterOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = SessionSearch.SessionsearchRemoveparameterApiLatest;
-				Key = other.Key;
-				ComparisonOp = other.ComparisonOp;
-			}
+			m_ApiVersion = SessionSearch.SessionsearchRemoveparameterApiLatest;
+			Key = other.Key;
+			ComparisonOp = other.ComparisonOp;
 		}
 
-		public void Set(object other)
+		public void Set(ref SessionSearchRemoveParameterOptions? other)
 		{
-			Set(other as SessionSearchRemoveParameterOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = SessionSearch.SessionsearchRemoveparameterApiLatest;
+				Key = other.Value.Key;
+				ComparisonOp = other.Value.ComparisonOp;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Key);
+			Helper.Dispose(ref m_Key);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.ProgressionSnapshot
 {
-	public class SubmitSnapshotOptions
+	public struct SubmitSnapshotOptions
 	{
 		/// <summary>
 		/// The Snapshot Id received via a <see cref="ProgressionSnapshotInterface.BeginSnapshot" /> function.
@@ -12,7 +12,7 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SubmitSnapshotOptionsInternal : ISettable, System.IDisposable
+	internal struct SubmitSnapshotOptionsInternal : ISettable<SubmitSnapshotOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_SnapshotId;
@@ -25,18 +25,19 @@ namespace Epic.OnlineServices.ProgressionSnapshot
 			}
 		}
 
-		public void Set(SubmitSnapshotOptions other)
+		public void Set(ref SubmitSnapshotOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = ProgressionSnapshotInterface.SubmitsnapshotApiLatest;
-				SnapshotId = other.SnapshotId;
-			}
+			m_ApiVersion = ProgressionSnapshotInterface.SubmitsnapshotApiLatest;
+			SnapshotId = other.SnapshotId;
 		}
 
-		public void Set(object other)
+		public void Set(ref SubmitSnapshotOptions? other)
 		{
-			Set(other as SubmitSnapshotOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = ProgressionSnapshotInterface.SubmitsnapshotApiLatest;
+				SnapshotId = other.Value.SnapshotId;
+			}
 		}
 
 		public void Dispose()

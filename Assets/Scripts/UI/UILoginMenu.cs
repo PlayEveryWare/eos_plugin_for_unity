@@ -82,8 +82,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
 #if UNITY_EDITOR
             loginType = LoginCredentialType.AccountPortal; // Default in editor
-#elif UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH || UNITY_GAMECORE
-            loginType = LoginCredentialType.ExternalAuth; // Default on console
+#else
+            loginType = LoginCredentialType.AccountPortal; // Default on other platforms
+#endif
+
+#if UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX
+            idInputField.InputField.text = "localhost:7777"; //default on pc
 #endif
         }
 
@@ -110,22 +114,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 case 1:
                     loginType = LoginCredentialType.AccountPortal;
-                    ConfigureUIForAccountPortalLogin();
                     break;
                 case 2:
                     loginType = LoginCredentialType.PersistentAuth;
-                    ConfigureUIForPersistentLogin();
                     break;
                 case 3:
                     loginType = LoginCredentialType.ExternalAuth;
-                    ConfigureUIForExternalAuth();
                     break;
                 case 0:
                 default:
                     loginType = LoginCredentialType.Developer;
-                    ConfigureUIForDevAuthLogin();
                     break;
             }
+
+            ConfigureUIForLogin();
         }
 
         public void Start()
@@ -133,13 +135,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ConfigureUIForLogin();
 
             system = EventSystem.current;
-
-            tokenInputField.InputField.onEndEdit.AddListener(EnterPressedToLogin);
         }
 
-        private void EnterPressedToLogin(string arg0)
+        private void EnterPressedToLogin()
         {
-            OnLoginButtonClick();
+            if (loginButton.IsActive())
+            {
+                OnLoginButtonClick();
+            }
         }
 
 #if ENABLE_INPUT_SYSTEM
@@ -154,41 +157,69 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
                     EventSystem.current.sendNavigationEvents = false;
+                    EventSystem.current.currentInputModule.enabled = false;
                     return;
                 }
                 else
                 {
                     Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
                     EventSystem.current.sendNavigationEvents = true;
+                    EventSystem.current.currentInputModule.enabled = true;
                 }
             }
 
-            // Tab between input fields
-            if (keyboard != null && keyboard.tabKey.wasPressedThisFrame
+            if (keyboard != null
                 && system.currentSelectedGameObject != null)
             {
-                Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
-
-                if (next != null)
+                // Tab between input fields
+                if (keyboard.tabKey.wasPressedThisFrame)
                 {
-                    InputField inputfield = next.GetComponent<InputField>();
-                    if (inputfield != null)
+                    Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+                    if (keyboard.shiftKey.isPressed)
                     {
-                        inputfield.OnPointerClick(new PointerEventData(system));
+                        next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
+                    }
+
+                    // Make sure the object is active or exit out if no more objects are found
+                    while (next != null && !next.gameObject.activeSelf)
+                    {
+                        next = next.FindSelectableOnDown();
+                    }
+
+                    if (next != null)
+                    {
+                        InputField inputField = next.GetComponent<InputField>();
+                        ConsoleInputField consoleInputField = next.GetComponent<ConsoleInputField>();
+                        if (inputField != null)
+                        {
+                            inputField.OnPointerClick(new PointerEventData(system));
+                            system.SetSelectedGameObject(next.gameObject);
+                        }
+                        else if (consoleInputField != null)
+                        {
+                            consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
+                            system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
+                        }
+                        else
+                        {
+                            system.SetSelectedGameObject(next.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        next = FindTopUISelectable();
                         system.SetSelectedGameObject(next.gameObject);
                     }
-
-                    ConsoleInputField consoleInputField = next.GetComponent<ConsoleInputField>();
-                    if(consoleInputField != null)
-                    {
-                        consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
-                        system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
-                    }
                 }
-                else
+                else if (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame)
                 {
-                    next = FindTopUISelectable();
-                    system.SetSelectedGameObject(next.gameObject);
+                    // Enter pressed in an input field
+                    InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
+                    ConsoleInputField consoleInputField = system.currentSelectedGameObject.GetComponent<ConsoleInputField>();
+                    if (inputField != null || consoleInputField != null)
+                    {
+                        EnterPressedToLogin();
+                    }
                 }
             }
 
@@ -275,14 +306,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Selectable FindTopUISelectable()
         {
             Selectable currentTop = Selectable.allSelectablesArray[0];
-            double currentTopXaxis = currentTop.transform.position.x;
+            double currentTopYaxis = currentTop.transform.position.y;
 
             foreach (Selectable s in Selectable.allSelectablesArray)
             {
-                if (s.transform.position.x > currentTopXaxis)
+                if (s.transform.position.y > currentTopYaxis &&
+                    s.navigation.mode != Navigation.Mode.None)
                 {
                     currentTop = s;
-                    currentTopXaxis = s.transform.position.x;
+                    currentTopYaxis = s.transform.position.y;
                 }
             }
 
@@ -347,6 +379,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 selectOnDown = logoutButton,
                 selectOnLeft = logoutButton
             };
+
+            // AC/TODO: Reduce duplicated UI code for the different login types
+            SceneSwitcherDropDown.gameObject.SetActive(true);
+            DemoTitle.gameObject.SetActive(true);
+            loginTypeDropdown.gameObject.SetActive(true);
+
+            loginButton.enabled = true;
+            loginButton.gameObject.SetActive(true);
+            logoutButton.gameObject.SetActive(false);
+
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
         }
 
         private void ConfigureUIForPersistentLogin()
@@ -460,7 +503,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnLogoutButtonClick()
         {
-            EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (LogoutCallbackInfo data) => {
+            EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
                 if (data.ResultCode == Result.Success)
                 {
                     print("Logout Successful. [" + data.ResultCode + "]");
@@ -516,14 +559,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
-                EOSManager.Instance.StartPersistantLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
+                EOSManager.Instance.StartPersistentLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
                 {
                     // In this state, it means one needs to login in again with the previous login type, or a new one, as the
                     // tokens are invalid
                     if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
                     {
                         print("Failed to login with Persistent token [" + callbackInfo.ResultCode + "]");
-                        ConfigureUIForDevAuthLogin();
+                        loginType = LoginCredentialType.Developer;
+                        ConfigureUIForLogin();
                     }
                     else
                     {
@@ -563,6 +607,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             {
                                 ConfigureUIForLogout();
                             }
+                            else
+                            {
+                                // For any other error, re-enable the login procedure
+                                ConfigureUIForLogin();
+                            }
                         });
                     });
                 }
@@ -583,8 +632,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 ///TODO(mendsley): Handle pin-grant in a more reasonable way
                 Debug.LogError("------------PIN GRANT------------");
                 Debug.LogError("External account is not connected to an Epic Account. Use link below");
-                Debug.LogError($"URL: {loginCallbackInfo.PinGrantInfo.VerificationURI}");
-                Debug.LogError($"CODE: {loginCallbackInfo.PinGrantInfo.UserCode}");
+                Debug.LogError($"URL: {loginCallbackInfo.PinGrantInfo?.VerificationURI}");
+                Debug.LogError($"CODE: {loginCallbackInfo.PinGrantInfo?.UserCode}");
                 Debug.LogError("---------------------------------");
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
@@ -605,6 +654,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 print("Error logging in. [" + loginCallbackInfo.ResultCode + "]");
+            }
+
+            // Re-enable the login button and associated UI on any error
+            if (loginCallbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
+            {
                 ConfigureUIForLogin();
             }
         }
@@ -612,6 +666,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnExitButtonClick()
         {
             Application.Quit();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.ExitPlaymode();
+#endif
         }
     }
 }

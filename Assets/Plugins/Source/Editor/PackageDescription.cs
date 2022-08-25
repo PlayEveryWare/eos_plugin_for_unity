@@ -58,6 +58,7 @@ namespace Playeveryware.Editor
         // doesn't match this. This allows as a reminder to update files
         [SerializeField]
         public string sha1;
+
         [SerializeField]
         public string sha1_mismatch_error;
 
@@ -69,6 +70,8 @@ namespace Playeveryware.Editor
         // One probably shouldn't do this for non-text files.
         [SerializeField]
         public bool dos2unix;
+
+        public bool signWithDefaultCertificate;
 
         public bool IsCommentOnly()
         {

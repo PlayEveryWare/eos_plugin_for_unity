@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.PromoteMember" /> function.
 	/// </summary>
-	public class PromoteMemberOptions
+	public struct PromoteMemberOptions
 	{
 		/// <summary>
 		/// The ID of the lobby
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user making the request
@@ -25,18 +25,18 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PromoteMemberOptionsInternal : ISettable, System.IDisposable
+	internal struct PromoteMemberOptionsInternal : ISettable<PromoteMemberOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LobbyId;
 		private System.IntPtr m_LocalUserId;
 		private System.IntPtr m_TargetUserId;
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -52,31 +52,34 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(PromoteMemberOptions other)
+		public void Set(ref PromoteMemberOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.PromotememberApiLatest;
+			LobbyId = other.LobbyId;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref PromoteMemberOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.PromotememberApiLatest;
-				LobbyId = other.LobbyId;
-				LocalUserId = other.LocalUserId;
-				TargetUserId = other.TargetUserId;
+				LobbyId = other.Value.LobbyId;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PromoteMemberOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LobbyId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

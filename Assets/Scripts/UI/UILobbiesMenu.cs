@@ -36,7 +36,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : MonoBehaviour
+    public class UILobbiesMenu : UIInviteSource, ISampleSceneUI
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
@@ -47,6 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Toggle AllowInvitesVal;
         public Toggle PresenceEnabledVal;
         public Toggle RTCVoiceRoomEnabledVal;
+        public Toggle AntiCheatEnabledVal;
 
         // Create/Modify/Leave UI
         public Button CreateLobbyButton;
@@ -55,6 +56,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button AddMemberAttributeButton;
 
         // Current Lobby
+        [Header("Lobbies UI - Current Lobby")]
+        public GameObject CurrentLobbyPanel;
         public Text LobbyIdVal;
         public Text OwnerIdVal;
 
@@ -88,6 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSLobbyManager LobbyManager;
         private EOSFriendsManager FriendsManager;
+        private EOSEACLobbyManager AntiCheatLobbyManager;
 
         public void Awake()
         {
@@ -99,12 +103,42 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByBucketIdBox.InputField.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
-            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
-            SearchByLobbyIdBox.InputField.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
-
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
+            AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
+            if (AntiCheatEnabledVal != null)
+            {
+                AntiCheatEnabledVal.isOn = false;
+                AntiCheatEnabledVal.interactable = AntiCheatLobbyManager.IsAntiCheatAvailable();
+            }
+
+            LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdate);
+            CurrentLobbyPanel.SetActive(false);
+        }
+
+        private void OnDestroy()
+        {
+            LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
+        }
+
+        private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)
+        {
+            Lobby currentLobby = LobbyManager.GetCurrentLobby();
+            if (currentLobby.Id != LobbyId)
+            {
+                return;
+            }
+
+            UIMemberEntry uiEntry = UIMemberEntries.Find((UIMemberEntry entry) => { return entry.ProductUserId == MemberId; });
+            if (uiEntry != null)
+            {
+                LobbyMember updatedMember = currentLobby.Members.Find((LobbyMember member) => { return member.ProductId == MemberId; });
+                if (updatedMember != null)
+                {
+                    uiEntry.UpdateMemberData(updatedMember);
+                    uiEntry.UpdateUI();
+                }
+            }
         }
 
         private void Update()
@@ -156,7 +190,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (currentLobbyOwnerCache != currentLobby.LobbyOwner)
                 {
                     ownerChanged = true;
-                    Result resultLobbyOwner = currentLobby.LobbyOwner.ToString(out string outBuffer);
+                    Result resultLobbyOwner = currentLobby.LobbyOwner.ToString(out Utf8String outBuffer);
                     if (resultLobbyOwner == Result.Success)
                     {
                         // Update owner
@@ -191,17 +225,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         UIMemberEntry uiEntry = memberUIObj.GetComponent<UIMemberEntry>();
                         if (uiEntry != null)
                         {
-                            Result result = member.ProductId.ToString(out string outBuff);
-                            if (result == Result.Success)
-                            {
-                                uiEntry.MemberName = outBuff;
-                            }
-                            else
-                            {
-                                uiEntry.MemberName = "Error: " + result;
-                            }
+                            uiEntry.UpdateMemberData(member);
 
-                            uiEntry.ProductUserId = member.ProductId;
                             //uiEntry.IsOwner = currentLobby.LobbyOwner == member.ProductId;
 
                             uiEntry.IsTalkingText.text = "---";
@@ -226,7 +251,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 UIInvitePanel.SetActive(true);
 
-                Result resultInviteFrom = LobbyManager.GetCurrentInvite().FriendId.ToString(out string outBuffer);
+                Result resultInviteFrom = LobbyManager.GetCurrentInvite().FriendId.ToString(out Utf8String outBuffer);
                 if (resultInviteFrom == Result.Success)
                 {
                     // Update invite from
@@ -264,6 +289,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lastMemberCount = 0;
                 currentLobbyOwnerCache = null;
             }
+
+            CurrentLobbyPanel.SetActive(currentLobby.IsValid());
         }
 
         // UI Button Methods
@@ -285,12 +312,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             lobbyProperties.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
 
             // Level Attributes
-            LobbyAttribute attribute = new LobbyAttribute();
-            attribute.Key = "LEVEL";
-            attribute.AsString = LevelVal.options[LevelVal.value].text;
-            attribute.ValueType = AttributeType.String;
-            attribute.Visibility = LobbyAttributeVisibility.Public;  // Needs to be public for Search
-            lobbyProperties.Attributes.Add(attribute);
+            LobbyAttribute levelAttribute = new LobbyAttribute();
+            levelAttribute.Key = "LEVEL";
+            levelAttribute.AsString = LevelVal.options[LevelVal.value].text;
+            levelAttribute.ValueType = AttributeType.String;
+            levelAttribute.Visibility = LobbyAttributeVisibility.Public;  // Needs to be public for Search
+            lobbyProperties.Attributes.Add(levelAttribute);
+
+            // Anti-Cheat Attributes
+            LobbyAttribute antiCheatAttribute = new LobbyAttribute();
+            antiCheatAttribute.Key = "ANTICHEAT";
+            antiCheatAttribute.AsBool = AntiCheatEnabledVal.isOn;
+            antiCheatAttribute.ValueType = AttributeType.Boolean;
+            antiCheatAttribute.Visibility = LobbyAttributeVisibility.Public;
+            lobbyProperties.Attributes.Add(antiCheatAttribute);
 
             // Permission
             string permissionStr = PermissionVal.options[PermissionVal.value].text;
@@ -411,6 +446,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager.DeclineLobbyInvite();
         }
 
+        public override void OnInviteButtonClicked(EpicAccountId UserId)
+        {
+            LobbyInviteButtonOnClick(UserId);
+        }
+
         public void LobbyInviteButtonOnClick(EpicAccountId userId)
         {
             // Set Current chat
@@ -430,8 +470,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogError("UIPeer2PeerMenu (ChatButtonOnClick): Friend not found in cached data.");
+                Debug.LogError("UILobbiesMenu (LobbyInviteButtonOnClick): Friend not found in cached data.");
             }
+        }
+
+        public override bool IsInviteActive()
+        {
+            return IsCurrentLobbyValid();
         }
 
         public bool IsCurrentLobbyValid()
@@ -508,17 +553,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Search UI
-        public void SearchByLevelAttributeEnterPressed(string searchAttributeValue)
+        public void SearchByLevelAttributeEndEdit(string searchAttributeValue)
         {
             LobbyManager.SearchByAttribute("LEVEL", searchAttributeValue, UIUpateSearchResults);
         }
 
-        public void SearchByBucketAttributeEnterPressed(string searchAttributeValue)
+        public void SearchByBucketAttributeEndEdit(string searchAttributeValue)
         {
             LobbyManager.SearchByAttribute("bucket", searchAttributeValue, UIUpateSearchResults);
         }
 
-        public void SearchByLobbyIdEnterPressed(string searchString)
+        public void SearchByLobbyIdEndEdit(string searchString)
         {
             LobbyManager.SearchByLobbyId(searchString, UIUpateSearchResults);
         }
@@ -606,7 +651,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     // If DisplayName not found, display ProductUserId
                     if (string.IsNullOrEmpty(uiEntry.OwnerName))
                     {
-                        Result resultLobbyOwner = kvp.Key.LobbyOwner.ToString(out string outBuff);
+                        Result resultLobbyOwner = kvp.Key.LobbyOwner.ToString(out Utf8String outBuff);
                         if (resultLobbyOwner == Result.Success)
                         {
                             uiEntry.OwnerName = outBuff;
@@ -627,13 +672,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         EventSystem.current.SetSelectedGameObject(uiEntry.JoinButton.gameObject);
                         firstResultSelected = true;
-                    }                    
+                    }
 
                     // Get Level
-                    Result attrResult = kvp.Value.CopyAttributeByKey(new LobbyDetailsCopyAttributeByKeyOptions() { AttrKey = "LEVEL" }, out Epic.OnlineServices.Lobby.Attribute outAttrbite);
+                    var lobbyDetailsCopyAttributeByKeyOptions = new LobbyDetailsCopyAttributeByKeyOptions() { AttrKey = "LEVEL" };
+                    Result attrResult = kvp.Value.CopyAttributeByKey(ref lobbyDetailsCopyAttributeByKeyOptions, out Epic.OnlineServices.Lobby.Attribute? outAttrbite);
                     if (attrResult == Result.Success)
                     {
-                        uiEntry.Level = outAttrbite.Data.Value.AsUtf8;
+                        uiEntry.Level = outAttrbite?.Data?.Value.AsUtf8;
                     }
                     else
                     {

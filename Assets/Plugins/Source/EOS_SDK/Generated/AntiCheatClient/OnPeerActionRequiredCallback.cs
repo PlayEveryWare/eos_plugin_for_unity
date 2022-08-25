@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 	/// Callback issued when an action must be applied to a connected peer.
 	/// This callback is always issued from within <see cref="Platform.PlatformInterface.Tick" /> on its calling thread.
 	/// </summary>
-	public delegate void OnPeerActionRequiredCallback(AntiCheatCommon.OnClientActionRequiredCallbackInfo data);
+	public delegate void OnPeerActionRequiredCallback(ref AntiCheatCommon.OnClientActionRequiredCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnPeerActionRequiredCallbackInternal(System.IntPtr data);
+	internal delegate void OnPeerActionRequiredCallbackInternal(ref AntiCheatCommon.OnClientActionRequiredCallbackInfoInternal data);
 }

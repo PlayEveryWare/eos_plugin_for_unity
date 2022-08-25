@@ -3,8 +3,8 @@
 
 namespace Epic.OnlineServices.RTC
 {
-	public delegate void OnDisconnectedCallback(DisconnectedCallbackInfo data);
+	public delegate void OnDisconnectedCallback(ref DisconnectedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnDisconnectedCallbackInternal(System.IntPtr data);
+	internal delegate void OnDisconnectedCallbackInternal(ref DisconnectedCallbackInfoInternal data);
 }

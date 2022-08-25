@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.UnlockAchievements" /> function.
 	/// </summary>
-	public class UnlockAchievementsOptions
+	public struct UnlockAchievementsOptions
 	{
 		/// <summary>
 		/// The Product User ID for the user whose achievements we want to unlock.
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Achievements
 		/// <summary>
 		/// An array of Achievement IDs to unlock.
 		/// </summary>
-		public string[] AchievementIds { get; set; }
+		public Utf8String[] AchievementIds { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UnlockAchievementsOptionsInternal : ISettable, System.IDisposable
+	internal struct UnlockAchievementsOptionsInternal : ISettable<UnlockAchievementsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
@@ -31,37 +31,39 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public string[] AchievementIds
+		public Utf8String[] AchievementIds
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AchievementIds, value, out m_AchievementsCount, true);
+				Helper.Set(value, ref m_AchievementIds, true, out m_AchievementsCount);
 			}
 		}
 
-		public void Set(UnlockAchievementsOptions other)
+		public void Set(ref UnlockAchievementsOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.UnlockachievementsApiLatest;
+			UserId = other.UserId;
+			AchievementIds = other.AchievementIds;
+		}
+
+		public void Set(ref UnlockAchievementsOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.UnlockachievementsApiLatest;
-				UserId = other.UserId;
-				AchievementIds = other.AchievementIds;
+				UserId = other.Value.UserId;
+				AchievementIds = other.Value.AchievementIds;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UnlockAchievementsOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
-			Helper.TryMarshalDispose(ref m_AchievementIds);
+			Helper.Dispose(ref m_UserId);
+			Helper.Dispose(ref m_AchievementIds);
 		}
 	}
 }

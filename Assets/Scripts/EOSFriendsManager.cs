@@ -175,18 +175,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             AddFriendCallback = AddFriendCompleted;
 
-            FriendsHandle.SendInvite(options, null, OnSendInviteCompleted);
+            FriendsHandle.SendInvite(ref options, null, OnSendInviteCompleted);
         }
 
         [Obsolete("OnSendInviteCompleted is obsolete.  ErrorCode=NotImplemented")]
-        private void OnSendInviteCompleted(SendInviteCallbackInfo data)
+        private void OnSendInviteCompleted(ref SendInviteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (SendInviteCallback): data is null");
-                AddFriendCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (SendInviteCallback): data is null");
+            //    AddFriendCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -216,17 +216,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             AcceptInviteCallback = AcceptInviteCompleted;
 
-            FriendsHandle.AcceptInvite(options, null, OnAcceptInviteCompleted);
+            FriendsHandle.AcceptInvite(ref options, null, OnAcceptInviteCompleted);
         }
 
-        private void OnAcceptInviteCompleted(AcceptInviteCallbackInfo data)
+        private void OnAcceptInviteCompleted(ref AcceptInviteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnAcceptInviteCompleted): data is null");
-                AcceptInviteCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnAcceptInviteCompleted): data is null");
+            //    AcceptInviteCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -256,17 +256,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             RejectInviteCallback = RejectInviteCompleted;
 
-            FriendsHandle.RejectInvite(options, null, OnRejectInviteCompleted);
+            FriendsHandle.RejectInvite(ref options, null, OnRejectInviteCompleted);
         }
 
-        private void OnRejectInviteCompleted(RejectInviteCallbackInfo data)
+        private void OnRejectInviteCompleted(ref RejectInviteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnRejectInviteCompleted): data is null");
-                RejectInviteCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnRejectInviteCompleted): data is null");
+            //    RejectInviteCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -294,17 +294,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             QueryFriendCallback = QueryFriendsCompleted;
 
-            FriendsHandle.QueryFriends(options, null, QueryFriendsCallback);
+            FriendsHandle.QueryFriends(ref options, null, QueryFriendsCallback);
         }
 
-        private void QueryFriendsCallback(QueryFriendsCallbackInfo data)
+        private void QueryFriendsCallback(ref QueryFriendsCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (QueryFriendsCallback): data is null");
-                QueryFriendCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (QueryFriendsCallback): data is null");
+            //    QueryFriendCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -320,7 +320,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 LocalUserId = EOSManager.Instance.GetLocalUserId()
             };
 
-            int friendsCount = FriendsHandle.GetFriendsCount(countOptions);
+            int friendsCount = FriendsHandle.GetFriendsCount(ref countOptions);
 
             Debug.LogFormat("Friends (QueryFriendsCallback): Number of friends: {0}", friendsCount);
 
@@ -335,7 +335,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 options.Index = friendIndex;
 
-                EpicAccountId friendUserId = FriendsHandle.GetFriendAtIndex(options);
+                EpicAccountId friendUserId = FriendsHandle.GetFriendAtIndex(ref options);
 
                 if (friendUserId.IsValid())
                 {
@@ -345,7 +345,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         TargetUserId = friendUserId
                     };
 
-                    FriendsStatus friendStatus = FriendsHandle.GetStatus(statusOptions);
+                    FriendsStatus friendStatus = FriendsHandle.GetStatus(ref statusOptions);
 
                     Debug.LogFormat("Friends (QueryFriendsCallback): Friend Status {0} => {1}", friendUserId, friendStatus);
 
@@ -386,16 +386,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = targetUserId
             };
 
-            PresenceHandle.QueryPresence(options, null, OnQueryPresenceCompleted);
+            PresenceHandle.QueryPresence(ref options, null, OnQueryPresenceCompleted);
         }
 
-        private void OnQueryPresenceCompleted(QueryPresenceCallbackInfo data)
+        private void OnQueryPresenceCompleted(ref QueryPresenceCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnQueryPresenceCompleted): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnQueryPresenceCompleted): data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -411,7 +411,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = data.TargetUserId
             };
 
-            Result result = PresenceHandle.CopyPresence(options, out Info presence);
+            Result result = PresenceHandle.CopyPresence(ref options, out Info? presence);
 
             if(result != Result.Success)
             {
@@ -421,10 +421,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             PresenceInfo presenceInfo = new PresenceInfo()
             {
-                Application = presence.ProductId,
-                Platform = presence.Platform,
-                Status = presence.Status,
-                RichText = presence.RichText
+                Application = presence?.ProductId,
+                Platform = presence?.Platform,
+                Status = (Status)(presence?.Status),
+                RichText = presence?.RichText
             };
 
             if(CachedFriends.TryGetValue(data.TargetUserId, out FriendData friendData))
@@ -436,7 +436,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                data.TargetUserId.ToString(out string targetUserIdString);
+                data.TargetUserId.ToString(out Utf8String targetUserIdString);
 
                 if(string.IsNullOrEmpty(targetUserIdString))
 
@@ -452,12 +452,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            string[] externalAccountIds = new string[CachedFriends.Count];
+            var externalAccountIds = new Utf8String[CachedFriends.Count];
 
             int i = 0;
             foreach(EpicAccountId account in CachedFriends.Keys)
             {
-                Result result = account.ToString(out string accountAsString);
+                Result result = account.ToString(out Utf8String accountAsString);
 
                 if(result != Result.Success)
                 {
@@ -476,16 +476,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 ExternalAccountIds = externalAccountIds
             };
 
-            ConnectHandle.QueryExternalAccountMappings(options, null, OnQueryExternalAccountMappingsCompleted);
+            ConnectHandle.QueryExternalAccountMappings(ref options, null, OnQueryExternalAccountMappingsCompleted);
         }
 
-        private void OnQueryExternalAccountMappingsCompleted(QueryExternalAccountMappingsCallbackInfo data)
+        private void OnQueryExternalAccountMappingsCompleted(ref QueryExternalAccountMappingsCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnQueryExternalAccountMappingsCompleted): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnQueryExternalAccountMappingsCompleted): data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -501,7 +501,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if(friend.UserProductUserId == null || !friend.UserProductUserId.IsValid())
                 {
-                    Result result = friend.UserId.ToString(out string epidAccountIdString);
+                    Result result = friend.UserId.ToString(out Utf8String epidAccountIdString);
 
                     if(result == Result.Success)
                     {
@@ -512,7 +512,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             TargetExternalUserId = epidAccountIdString
                         };
 
-                        ProductUserId newProductUserId = ConnectHandle.GetExternalAccountMapping(options);
+                        ProductUserId newProductUserId = ConnectHandle.GetExternalAccountMapping(ref options);
                         if(newProductUserId != null && newProductUserId.IsValid())
                         {
                             mappingsToUpdate.Add(friend.UserId, newProductUserId);
@@ -559,16 +559,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 DisplayName = displayName
             };
 
-            UserInfoHandle.QueryUserInfoByDisplayName(options, null, QueryUserInfoByDisplaynameCompleted);
+            UserInfoHandle.QueryUserInfoByDisplayName(ref options, null, QueryUserInfoByDisplaynameCompleted);
         }
 
-        private void QueryUserInfoByDisplaynameCompleted(QueryUserInfoByDisplayNameCallbackInfo data)
+        private void QueryUserInfoByDisplaynameCompleted(ref QueryUserInfoByDisplayNameCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (QueryUserInfoByDisplaynameCompleted): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (QueryUserInfoByDisplaynameCompleted): data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -604,16 +604,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = friendUserId
             };
 
-            FriendsHandle.SendInvite(options, null, SendInviteCompleted);
+            FriendsHandle.SendInvite(ref options, null, SendInviteCompleted);
         }
 
-        private void SendInviteCompleted(SendInviteCallbackInfo data)
+        private void SendInviteCompleted(ref SendInviteCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (SendInviteCompleted): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (SendInviteCompleted): data is null");
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -645,17 +645,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             QueryUserInfoCallback = QueryUserInfoCompleted;
 
-            UserInfoHandle.QueryUserInfo(options, null, OnQueryUserInfoCompleted);
+            UserInfoHandle.QueryUserInfo(ref options, null, OnQueryUserInfoCompleted);
         }
 
-        private void OnQueryUserInfoCompleted(QueryUserInfoCallbackInfo data)
+        private void OnQueryUserInfoCompleted(ref QueryUserInfoCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnQueryUserInfoCompleted): data is null");
-                QueryUserInfoCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnQueryUserInfoCompleted): data is null");
+            //    QueryUserInfoCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -673,7 +673,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 TargetUserId = data.TargetUserId
             };
 
-            Result result = UserInfoHandle.CopyUserInfo(options, out UserInfoData userInfo);
+            Result result = UserInfoHandle.CopyUserInfo(ref options, out UserInfoData? userInfo);
 
             if(result != Result.Success)
             {
@@ -685,7 +685,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 LocalUserId = data.LocalUserId,
                 UserId = data.TargetUserId,
-                Name = userInfo.DisplayName
+                Name = userInfo?.DisplayName
             };
 
             if (CachedFriends.TryGetValue(retrievedFriendData.UserId, out FriendData friend))
@@ -711,17 +711,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowFriendsOverlay(OnFriendsCallback ShowFriendsOverlayCompleted)
         {
             ShowFriendsOverlayCallback = ShowFriendsOverlayCompleted;
-            EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().ShowFriends(new ShowFriendsOptions() { LocalUserId = EOSManager.Instance.GetLocalUserId() }, null, OnShowFriendsCallback);
+            var showFriendsOptions = new ShowFriendsOptions() { LocalUserId = EOSManager.Instance.GetLocalUserId() };
+            EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().ShowFriends(ref showFriendsOptions, null, OnShowFriendsCallback);
         }
 
-        private void OnShowFriendsCallback(ShowFriendsCallbackInfo data)
+        private void OnShowFriendsCallback(ref ShowFriendsCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnShowFriendsCallback): data is null");
-                ShowFriendsOverlayCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnShowFriendsCallback): data is null");
+            //    ShowFriendsOverlayCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -738,17 +739,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void HideFriendsOverlay(OnFriendsCallback HideFriendsOverlayCompleted)
         {
             HideFriendsOverlayCallback = HideFriendsOverlayCompleted;
-            EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().HideFriends(new HideFriendsOptions() { LocalUserId = EOSManager.Instance.GetLocalUserId() }, null, OnHideFriendsCallback);
+            var hideFriendsOptions = new HideFriendsOptions() { LocalUserId = EOSManager.Instance.GetLocalUserId() };
+            EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().HideFriends(ref hideFriendsOptions, null, OnHideFriendsCallback);
         }
 
-        private void OnHideFriendsCallback(HideFriendsCallbackInfo data)
+        private void OnHideFriendsCallback(ref HideFriendsCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnHideFriendsCallback): data is null");
-                HideFriendsOverlayCallback?.Invoke(Result.InvalidState);
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnHideFriendsCallback): data is null");
+            //    HideFriendsOverlayCallback?.Invoke(Result.InvalidState);
+            //    return;
+            //}
 
             if (data.ResultCode != Result.Success)
             {
@@ -772,7 +774,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UnsubscribeFromFriendUpdates(userId);
 
             // Status
-            ulong notificationId = FriendsHandle.AddNotifyFriendsUpdate(new AddNotifyFriendsUpdateOptions(), null, OnFriendsUpdateCallbackHandler);
+            var addNotifyFriendsUpdateOptions = new AddNotifyFriendsUpdateOptions();
+            ulong notificationId = FriendsHandle.AddNotifyFriendsUpdate(ref addNotifyFriendsUpdateOptions, null, OnFriendsUpdateCallbackHandler);
 
             if(notificationId == Common.InvalidNotificationid)
             {
@@ -784,7 +787,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Presence
-            ulong presenceNotificationId = PresenceHandle.AddNotifyOnPresenceChanged(new AddNotifyOnPresenceChangedOptions(), null, OnPresenceChangedCallbackHandler);
+            var addNotifyOnPresenceChangedOptions = new AddNotifyOnPresenceChangedOptions();
+            ulong presenceNotificationId = PresenceHandle.AddNotifyOnPresenceChanged(ref addNotifyOnPresenceChangedOptions , null, OnPresenceChangedCallbackHandler);
 
             if(presenceNotificationId == Common.InvalidNotificationid)
             {
@@ -823,13 +827,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnFriendsUpdateCallbackHandler(OnFriendsUpdateInfo data)
+        private void OnFriendsUpdateCallbackHandler(ref OnFriendsUpdateInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnFriendsUpdateCallbackHandler): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnFriendsUpdateCallbackHandler): data is null");
+            //    return;
+            //}
 
             // Friend Status Changed
 
@@ -863,13 +867,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnPresenceChangedCallbackHandler(PresenceChangedCallbackInfo data)
+        private void OnPresenceChangedCallbackHandler(ref PresenceChangedCallbackInfo data)
         {
-            if (data == null)
-            {
-                Debug.LogError("Friends (OnPresenceChangedCallbackHandler): data is null");
-                return;
-            }
+            //if (data == null)
+            //{
+            //    Debug.LogError("Friends (OnPresenceChangedCallbackHandler): data is null");
+            //    return;
+            //}
 
             QueryPresenceInfo(data.LocalUserId, data.PresenceUserId);
         }

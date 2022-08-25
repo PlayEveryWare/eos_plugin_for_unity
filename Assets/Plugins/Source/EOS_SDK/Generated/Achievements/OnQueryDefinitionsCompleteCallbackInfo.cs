@@ -6,40 +6,32 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Data containing the result information for a query definitions request.
 	/// </summary>
-	public class OnQueryDefinitionsCompleteCallbackInfo : ICallbackInfo, ISettable
+	public struct OnQueryDefinitionsCompleteCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// User-defined context that was passed into <see cref="AchievementsInterface.QueryDefinitions" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(OnQueryDefinitionsCompleteCallbackInfoInternal? other)
+		internal void Set(ref OnQueryDefinitionsCompleteCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as OnQueryDefinitionsCompleteCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnQueryDefinitionsCompleteCallbackInfoInternal : ICallbackInfoInternal
+	internal struct OnQueryDefinitionsCompleteCallbackInfoInternal : ICallbackInfoInternal, IGettable<OnQueryDefinitionsCompleteCallbackInfo>, ISettable<OnQueryDefinitionsCompleteCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -50,6 +42,11 @@ namespace Epic.OnlineServices.Achievements
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -57,8 +54,13 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -68,6 +70,32 @@ namespace Epic.OnlineServices.Achievements
 			{
 				return m_ClientData;
 			}
+		}
+
+		public void Set(ref OnQueryDefinitionsCompleteCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+		}
+
+		public void Set(ref OnQueryDefinitionsCompleteCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+		}
+
+		public void Get(out OnQueryDefinitionsCompleteCallbackInfo output)
+		{
+			output = new OnQueryDefinitionsCompleteCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

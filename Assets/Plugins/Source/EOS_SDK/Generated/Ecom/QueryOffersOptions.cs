@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.QueryOffers" /> function.
 	/// </summary>
-	public class QueryOffersOptions
+	public struct QueryOffersOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose offer to query
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// If not provided then the SandboxId is used as the catalog namespace
 		/// </summary>
-		public string OverrideCatalogNamespace { get; set; }
+		public Utf8String OverrideCatalogNamespace { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryOffersOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryOffersOptionsInternal : ISettable<QueryOffersOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string OverrideCatalogNamespace
+		public Utf8String OverrideCatalogNamespace
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_OverrideCatalogNamespace, value);
+				Helper.Set(value, ref m_OverrideCatalogNamespace);
 			}
 		}
 
-		public void Set(QueryOffersOptions other)
+		public void Set(ref QueryOffersOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.QueryoffersApiLatest;
+			LocalUserId = other.LocalUserId;
+			OverrideCatalogNamespace = other.OverrideCatalogNamespace;
+		}
+
+		public void Set(ref QueryOffersOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.QueryoffersApiLatest;
-				LocalUserId = other.LocalUserId;
-				OverrideCatalogNamespace = other.OverrideCatalogNamespace;
+				LocalUserId = other.Value.LocalUserId;
+				OverrideCatalogNamespace = other.Value.OverrideCatalogNamespace;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryOffersOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_OverrideCatalogNamespace);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_OverrideCatalogNamespace);
 		}
 	}
 }

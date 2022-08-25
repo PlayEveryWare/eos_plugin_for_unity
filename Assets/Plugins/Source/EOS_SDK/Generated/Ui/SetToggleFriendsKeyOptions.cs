@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UI
 	/// <summary>
 	/// Input parameters for the <see cref="UIInterface.SetToggleFriendsKey" /> function.
 	/// </summary>
-	public class SetToggleFriendsKeyOptions
+	public struct SetToggleFriendsKeyOptions
 	{
 		/// <summary>
 		/// The new key combination which will be used to toggle the friends overlay.
@@ -17,7 +17,7 @@ namespace Epic.OnlineServices.UI
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetToggleFriendsKeyOptionsInternal : ISettable, System.IDisposable
+	internal struct SetToggleFriendsKeyOptionsInternal : ISettable<SetToggleFriendsKeyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private KeyCombination m_KeyCombination;
@@ -30,18 +30,19 @@ namespace Epic.OnlineServices.UI
 			}
 		}
 
-		public void Set(SetToggleFriendsKeyOptions other)
+		public void Set(ref SetToggleFriendsKeyOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = UIInterface.SettogglefriendskeyApiLatest;
-				KeyCombination = other.KeyCombination;
-			}
+			m_ApiVersion = UIInterface.SettogglefriendskeyApiLatest;
+			KeyCombination = other.KeyCombination;
 		}
 
-		public void Set(object other)
+		public void Set(ref SetToggleFriendsKeyOptions? other)
 		{
-			Set(other as SetToggleFriendsKeyOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = UIInterface.SettogglefriendskeyApiLatest;
+				KeyCombination = other.Value.KeyCombination;
+			}
 		}
 
 		public void Dispose()

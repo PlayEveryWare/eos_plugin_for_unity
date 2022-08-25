@@ -3,12 +3,12 @@
 
 namespace Epic.OnlineServices.Lobby
 {
-	public class IsRTCRoomConnectedOptions
+	public struct IsRTCRoomConnectedOptions
 	{
 		/// <summary>
 		/// The ID of the lobby to get the RTC Room name for
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user in the lobby
@@ -17,17 +17,17 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct IsRTCRoomConnectedOptionsInternal : ISettable, System.IDisposable
+	internal struct IsRTCRoomConnectedOptionsInternal : ISettable<IsRTCRoomConnectedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LobbyId;
 		private System.IntPtr m_LocalUserId;
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
@@ -35,29 +35,31 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(IsRTCRoomConnectedOptions other)
+		public void Set(ref IsRTCRoomConnectedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.IsrtcroomconnectedApiLatest;
+			LobbyId = other.LobbyId;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref IsRTCRoomConnectedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.IsrtcroomconnectedApiLatest;
-				LobbyId = other.LobbyId;
-				LocalUserId = other.LocalUserId;
+				LobbyId = other.Value.LobbyId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as IsRTCRoomConnectedOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LobbyId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

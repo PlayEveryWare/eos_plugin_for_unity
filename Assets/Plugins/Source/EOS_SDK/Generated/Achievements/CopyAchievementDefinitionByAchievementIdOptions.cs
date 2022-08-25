@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.CopyAchievementDefinitionByAchievementId" /> function.
 	/// </summary>
-	public class CopyAchievementDefinitionByAchievementIdOptions
+	public struct CopyAchievementDefinitionByAchievementIdOptions
 	{
 		/// <summary>
 		/// Achievement ID to look for when copying definition from the cache
 		/// </summary>
-		public string AchievementId { get; set; }
+		public Utf8String AchievementId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyAchievementDefinitionByAchievementIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyAchievementDefinitionByAchievementIdOptionsInternal : ISettable<CopyAchievementDefinitionByAchievementIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AchievementId;
 
-		public string AchievementId
+		public Utf8String AchievementId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AchievementId, value);
+				Helper.Set(value, ref m_AchievementId);
 			}
 		}
 
-		public void Set(CopyAchievementDefinitionByAchievementIdOptions other)
+		public void Set(ref CopyAchievementDefinitionByAchievementIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.CopydefinitionbyachievementidApiLatest;
+			AchievementId = other.AchievementId;
+		}
+
+		public void Set(ref CopyAchievementDefinitionByAchievementIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.CopydefinitionbyachievementidApiLatest;
-				AchievementId = other.AchievementId;
+				AchievementId = other.Value.AchievementId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyAchievementDefinitionByAchievementIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AchievementId);
+			Helper.Dispose(ref m_AchievementId);
 		}
 	}
 }

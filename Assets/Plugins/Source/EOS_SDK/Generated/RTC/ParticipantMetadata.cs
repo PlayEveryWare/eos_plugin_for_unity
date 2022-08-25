@@ -6,89 +6,89 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is used to get information about a specific participant metadata item.
 	/// </summary>
-	public class ParticipantMetadata : ISettable
+	public struct ParticipantMetadata
 	{
 		/// <summary>
 		/// The unique key of this metadata item. The max size of the string is <see cref="RTCInterface.ParticipantmetadataKeyMaxcharcount" />.
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 
 		/// <summary>
 		/// The value of this metadata item. The max size of the string is <see cref="RTCInterface.ParticipantmetadataValueMaxcharcount" />.
 		/// </summary>
-		public string Value { get; set; }
+		public Utf8String Value { get; set; }
 
-		internal void Set(ParticipantMetadataInternal? other)
+		internal void Set(ref ParticipantMetadataInternal other)
 		{
-			if (other != null)
-			{
-				Key = other.Value.Key;
-				Value = other.Value.Value;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ParticipantMetadataInternal?);
+			Key = other.Key;
+			Value = other.Value;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ParticipantMetadataInternal : ISettable, System.IDisposable
+	internal struct ParticipantMetadataInternal : IGettable<ParticipantMetadata>, ISettable<ParticipantMetadata>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Key;
 		private System.IntPtr m_Value;
 
-		public string Key
+		public Utf8String Key
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Key, out value);
+				Utf8String value;
+				Helper.Get(m_Key, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
-		public string Value
+		public Utf8String Value
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Value, out value);
+				Utf8String value;
+				Helper.Get(m_Value, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Value, value);
+				Helper.Set(value, ref m_Value);
 			}
 		}
 
-		public void Set(ParticipantMetadata other)
+		public void Set(ref ParticipantMetadata other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCInterface.ParticipantmetadataApiLatest;
+			Key = other.Key;
+			Value = other.Value;
+		}
+
+		public void Set(ref ParticipantMetadata? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCInterface.ParticipantmetadataApiLatest;
-				Key = other.Key;
-				Value = other.Value;
+				Key = other.Value.Key;
+				Value = other.Value.Value;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ParticipantMetadata);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Key);
-			Helper.TryMarshalDispose(ref m_Value);
+			Helper.Dispose(ref m_Key);
+			Helper.Dispose(ref m_Value);
+		}
+
+		public void Get(out ParticipantMetadata output)
+		{
+			output = new ParticipantMetadata();
+			output.Set(ref this);
 		}
 	}
 }

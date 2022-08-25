@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Input parameters for the <see cref="AuthInterface.Login" /> function.
 	/// </summary>
-	public class IOSLoginOptions
+	public struct IOSLoginOptions
 	{
 		/// <summary>
 		/// Credentials specified for a given login method
 		/// </summary>
-		public IOSCredentials Credentials { get; set; }
+		public IOSCredentials? Credentials { get; set; }
 
 		/// <summary>
 		/// Auth scope flags are permissions to request from the user while they are logging in. This is a bitwise-or union of <see cref="AuthScopeFlags" /> flags defined above
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.Auth
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct IOSLoginOptionsInternal : ISettable, System.IDisposable
+	internal struct IOSLoginOptionsInternal : ISettable<IOSLoginOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Credentials;
 		private AuthScopeFlags m_ScopeFlags;
 
-		public IOSCredentials Credentials
+		public IOSCredentials? Credentials
 		{
 			set
 			{
-				Helper.TryMarshalSet<IOSCredentialsInternal, IOSCredentials>(ref m_Credentials, value);
+				Helper.Set<IOSCredentials, IOSCredentialsInternal>(ref value, ref m_Credentials);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public void Set(IOSLoginOptions other)
+		public void Set(ref IOSLoginOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AuthInterface.LoginApiLatest;
-				Credentials = other.Credentials;
-				ScopeFlags = other.ScopeFlags;
-			}
+			m_ApiVersion = AuthInterface.LoginApiLatest;
+			Credentials = other.Credentials;
+			ScopeFlags = other.ScopeFlags;
 		}
 
-		public void Set(object other)
+		public void Set(ref IOSLoginOptions? other)
 		{
-			Set(other as IOSLoginOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AuthInterface.LoginApiLatest;
+				Credentials = other.Value.Credentials;
+				ScopeFlags = other.Value.ScopeFlags;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Credentials);
+			Helper.Dispose(ref m_Credentials);
 		}
 	}
 }

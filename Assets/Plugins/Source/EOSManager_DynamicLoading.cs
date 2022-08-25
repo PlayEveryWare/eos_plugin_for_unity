@@ -89,6 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
                         static extern IntPtr EOS_GetPlatformInterface();
 
+                        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
                         delegate void PrintDelegateType(string str);
                         [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
                         static extern void global_log_flush_with_function(IntPtr ptr);
@@ -213,11 +214,16 @@ namespace PlayEveryWare.EpicOnlineServices
             static public void LoadDelegatesWithEOSBindingAPI()
             {
 #if EOS_DYNAMIC_BINDINGS
+                print($"Loading EOS binary {EOSBinaryName}");
                 var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
                         return handle.LoadFunctionAsIntPtr(functionName);
-                        });
+                 });
+
+//#if !UNITY_EDITOR
+                EOSManagerPlatformSpecifics.Instance?.LoadDelegatesWithEOSBindingAPI();
+//#endif
 #endif
             }
             //-------------------------------------------------------------------------

@@ -7,17 +7,17 @@ namespace Epic.OnlineServices.Auth
 	/// A structure that contains an auth token.
 	/// These structures are created by <see cref="AuthInterface.CopyUserAuthToken" /> and must be passed to <see cref="AuthInterface.Release" />.
 	/// </summary>
-	public class Token : ISettable
+	public struct Token
 	{
 		/// <summary>
 		/// Name of the app related to the client ID involved with this token
 		/// </summary>
-		public string App { get; set; }
+		public Utf8String App { get; set; }
 
 		/// <summary>
 		/// Client ID that requested this token
 		/// </summary>
-		public string ClientId { get; set; }
+		public Utf8String ClientId { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID associated with this auth token
@@ -27,7 +27,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Access token for the current user login session
 		/// </summary>
-		public string AccessToken { get; set; }
+		public Utf8String AccessToken { get; set; }
 
 		/// <summary>
 		/// Time before the access token expires, in seconds, relative to the call to <see cref="AuthInterface.CopyUserAuthToken" />
@@ -37,7 +37,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Absolute time in UTC before the access token expires, in ISO 8601 format
 		/// </summary>
-		public string ExpiresAt { get; set; }
+		public Utf8String ExpiresAt { get; set; }
 
 		/// <summary>
 		/// Type of auth token
@@ -46,9 +46,9 @@ namespace Epic.OnlineServices.Auth
 
 		/// <summary>
 		/// Refresh token.
-		/// <seealso cref="LoginCredentialType" />::<seealso cref="LoginCredentialType.RefreshToken" />
+		/// <seealso cref="LoginCredentialType.RefreshToken" />
 		/// </summary>
-		public string RefreshToken { get; set; }
+		public Utf8String RefreshToken { get; set; }
 
 		/// <summary>
 		/// Time before the access token expires, in seconds, relative to the call to <see cref="AuthInterface.CopyUserAuthToken" />
@@ -58,33 +58,25 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Absolute time in UTC before the refresh token expires, in ISO 8601 format
 		/// </summary>
-		public string RefreshExpiresAt { get; set; }
+		public Utf8String RefreshExpiresAt { get; set; }
 
-		internal void Set(TokenInternal? other)
+		internal void Set(ref TokenInternal other)
 		{
-			if (other != null)
-			{
-				App = other.Value.App;
-				ClientId = other.Value.ClientId;
-				AccountId = other.Value.AccountId;
-				AccessToken = other.Value.AccessToken;
-				ExpiresIn = other.Value.ExpiresIn;
-				ExpiresAt = other.Value.ExpiresAt;
-				AuthType = other.Value.AuthType;
-				RefreshToken = other.Value.RefreshToken;
-				RefreshExpiresIn = other.Value.RefreshExpiresIn;
-				RefreshExpiresAt = other.Value.RefreshExpiresAt;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as TokenInternal?);
+			App = other.App;
+			ClientId = other.ClientId;
+			AccountId = other.AccountId;
+			AccessToken = other.AccessToken;
+			ExpiresIn = other.ExpiresIn;
+			ExpiresAt = other.ExpiresAt;
+			AuthType = other.AuthType;
+			RefreshToken = other.RefreshToken;
+			RefreshExpiresIn = other.RefreshExpiresIn;
+			RefreshExpiresAt = other.RefreshExpiresAt;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct TokenInternal : ISettable, System.IDisposable
+	internal struct TokenInternal : IGettable<Token>, ISettable<Token>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_App;
@@ -98,33 +90,33 @@ namespace Epic.OnlineServices.Auth
 		private double m_RefreshExpiresIn;
 		private System.IntPtr m_RefreshExpiresAt;
 
-		public string App
+		public Utf8String App
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_App, out value);
+				Utf8String value;
+				Helper.Get(m_App, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_App, value);
+				Helper.Set(value, ref m_App);
 			}
 		}
 
-		public string ClientId
+		public Utf8String ClientId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ClientId, out value);
+				Utf8String value;
+				Helper.Get(m_ClientId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ClientId, value);
+				Helper.Set(value, ref m_ClientId);
 			}
 		}
 
@@ -133,28 +125,28 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_AccountId, out value);
+				Helper.Get(m_AccountId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AccountId, value);
+				Helper.Set(value, ref m_AccountId);
 			}
 		}
 
-		public string AccessToken
+		public Utf8String AccessToken
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AccessToken, out value);
+				Utf8String value;
+				Helper.Get(m_AccessToken, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AccessToken, value);
+				Helper.Set(value, ref m_AccessToken);
 			}
 		}
 
@@ -171,18 +163,18 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public string ExpiresAt
+		public Utf8String ExpiresAt
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ExpiresAt, out value);
+				Utf8String value;
+				Helper.Get(m_ExpiresAt, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ExpiresAt, value);
+				Helper.Set(value, ref m_ExpiresAt);
 			}
 		}
 
@@ -199,18 +191,18 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public string RefreshToken
+		public Utf8String RefreshToken
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RefreshToken, out value);
+				Utf8String value;
+				Helper.Get(m_RefreshToken, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_RefreshToken, value);
+				Helper.Set(value, ref m_RefreshToken);
 			}
 		}
 
@@ -227,53 +219,69 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public string RefreshExpiresAt
+		public Utf8String RefreshExpiresAt
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RefreshExpiresAt, out value);
+				Utf8String value;
+				Helper.Get(m_RefreshExpiresAt, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_RefreshExpiresAt, value);
+				Helper.Set(value, ref m_RefreshExpiresAt);
 			}
 		}
 
-		public void Set(Token other)
+		public void Set(ref Token other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.TokenApiLatest;
+			App = other.App;
+			ClientId = other.ClientId;
+			AccountId = other.AccountId;
+			AccessToken = other.AccessToken;
+			ExpiresIn = other.ExpiresIn;
+			ExpiresAt = other.ExpiresAt;
+			AuthType = other.AuthType;
+			RefreshToken = other.RefreshToken;
+			RefreshExpiresIn = other.RefreshExpiresIn;
+			RefreshExpiresAt = other.RefreshExpiresAt;
+		}
+
+		public void Set(ref Token? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.TokenApiLatest;
-				App = other.App;
-				ClientId = other.ClientId;
-				AccountId = other.AccountId;
-				AccessToken = other.AccessToken;
-				ExpiresIn = other.ExpiresIn;
-				ExpiresAt = other.ExpiresAt;
-				AuthType = other.AuthType;
-				RefreshToken = other.RefreshToken;
-				RefreshExpiresIn = other.RefreshExpiresIn;
-				RefreshExpiresAt = other.RefreshExpiresAt;
+				App = other.Value.App;
+				ClientId = other.Value.ClientId;
+				AccountId = other.Value.AccountId;
+				AccessToken = other.Value.AccessToken;
+				ExpiresIn = other.Value.ExpiresIn;
+				ExpiresAt = other.Value.ExpiresAt;
+				AuthType = other.Value.AuthType;
+				RefreshToken = other.Value.RefreshToken;
+				RefreshExpiresIn = other.Value.RefreshExpiresIn;
+				RefreshExpiresAt = other.Value.RefreshExpiresAt;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as Token);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_App);
-			Helper.TryMarshalDispose(ref m_ClientId);
-			Helper.TryMarshalDispose(ref m_AccountId);
-			Helper.TryMarshalDispose(ref m_AccessToken);
-			Helper.TryMarshalDispose(ref m_ExpiresAt);
-			Helper.TryMarshalDispose(ref m_RefreshToken);
-			Helper.TryMarshalDispose(ref m_RefreshExpiresAt);
+			Helper.Dispose(ref m_App);
+			Helper.Dispose(ref m_ClientId);
+			Helper.Dispose(ref m_AccountId);
+			Helper.Dispose(ref m_AccessToken);
+			Helper.Dispose(ref m_ExpiresAt);
+			Helper.Dispose(ref m_RefreshToken);
+			Helper.Dispose(ref m_RefreshExpiresAt);
+		}
+
+		public void Get(out Token output)
+		{
+			output = new Token();
+			output.Set(ref this);
 		}
 	}
 }

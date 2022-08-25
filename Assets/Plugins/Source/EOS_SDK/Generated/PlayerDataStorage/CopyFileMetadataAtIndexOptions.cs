@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Input data for the CopyFileMetadataAtIndex function
 	/// </summary>
-	public class CopyFileMetadataAtIndexOptions
+	public struct CopyFileMetadataAtIndexOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who is requesting file metadata
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyFileMetadataAtIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyFileMetadataAtIndexOptionsInternal : ISettable<CopyFileMetadataAtIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			}
 		}
 
-		public void Set(CopyFileMetadataAtIndexOptions other)
+		public void Set(ref CopyFileMetadataAtIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = PlayerDataStorageInterface.CopyfilemetadataatindexoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
-				Index = other.Index;
-			}
+			m_ApiVersion = PlayerDataStorageInterface.CopyfilemetadataatindexoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+			Index = other.Index;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyFileMetadataAtIndexOptions? other)
 		{
-			Set(other as CopyFileMetadataAtIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = PlayerDataStorageInterface.CopyfilemetadataatindexoptionsApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				Index = other.Value.Index;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

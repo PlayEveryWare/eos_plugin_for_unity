@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.RejectInvite" /> function.
 	/// </summary>
-	public class RejectInviteOptions
+	public struct RejectInviteOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user rejecting the invitation
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// The invite ID to reject
 		/// </summary>
-		public string InviteId { get; set; }
+		public Utf8String InviteId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct RejectInviteOptionsInternal : ISettable, System.IDisposable
+	internal struct RejectInviteOptionsInternal : ISettable<RejectInviteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string InviteId
+		public Utf8String InviteId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_InviteId, value);
+				Helper.Set(value, ref m_InviteId);
 			}
 		}
 
-		public void Set(RejectInviteOptions other)
+		public void Set(ref RejectInviteOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.RejectinviteApiLatest;
+			LocalUserId = other.LocalUserId;
+			InviteId = other.InviteId;
+		}
+
+		public void Set(ref RejectInviteOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.RejectinviteApiLatest;
-				LocalUserId = other.LocalUserId;
-				InviteId = other.InviteId;
+				LocalUserId = other.Value.LocalUserId;
+				InviteId = other.Value.InviteId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as RejectInviteOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_InviteId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_InviteId);
 		}
 	}
 }

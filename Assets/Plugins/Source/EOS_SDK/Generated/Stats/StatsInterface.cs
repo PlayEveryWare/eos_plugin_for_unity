@@ -79,18 +79,19 @@ namespace Epic.OnlineServices.Stats
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the stat is not found
 		/// </returns>
-		public Result CopyStatByIndex(CopyStatByIndexOptions options, out Stat outStat)
+		public Result CopyStatByIndex(ref CopyStatByIndexOptions options, out Stat? outStat)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyStatByIndexOptionsInternal, CopyStatByIndexOptions>(ref optionsAddress, options);
+			CopyStatByIndexOptionsInternal optionsInternal = new CopyStatByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outStatAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Stats_CopyStatByIndex(InnerHandle, optionsAddress, ref outStatAddress);
+			var funcResult = Bindings.EOS_Stats_CopyStatByIndex(InnerHandle, ref optionsInternal, ref outStatAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<StatInternal, Stat>(outStatAddress, out outStat))
+			Helper.Get<StatInternal, Stat>(outStatAddress, out outStat);
+			if (outStat != null)
 			{
 				Bindings.EOS_Stats_Stat_Release(outStatAddress);
 			}
@@ -109,18 +110,19 @@ namespace Epic.OnlineServices.Stats
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the stat is not found
 		/// </returns>
-		public Result CopyStatByName(CopyStatByNameOptions options, out Stat outStat)
+		public Result CopyStatByName(ref CopyStatByNameOptions options, out Stat? outStat)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyStatByNameOptionsInternal, CopyStatByNameOptions>(ref optionsAddress, options);
+			CopyStatByNameOptionsInternal optionsInternal = new CopyStatByNameOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outStatAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Stats_CopyStatByName(InnerHandle, optionsAddress, ref outStatAddress);
+			var funcResult = Bindings.EOS_Stats_CopyStatByName(InnerHandle, ref optionsInternal, ref outStatAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<StatInternal, Stat>(outStatAddress, out outStat))
+			Helper.Get<StatInternal, Stat>(outStatAddress, out outStat);
+			if (outStat != null)
 			{
 				Bindings.EOS_Stats_Stat_Release(outStatAddress);
 			}
@@ -136,14 +138,14 @@ namespace Epic.OnlineServices.Stats
 		/// <returns>
 		/// Number of stats or 0 if there is an error
 		/// </returns>
-		public uint GetStatsCount(GetStatCountOptions options)
+		public uint GetStatsCount(ref GetStatCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetStatCountOptionsInternal, GetStatCountOptions>(ref optionsAddress, options);
+			GetStatCountOptionsInternal optionsInternal = new GetStatCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Stats_GetStatsCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Stats_GetStatsCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -161,19 +163,19 @@ namespace Epic.OnlineServices.Stats
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.InvalidUser" /> if target user ID is missing or incorrect
 		/// </returns>
-		public void IngestStat(IngestStatOptions options, object clientData, OnIngestStatCompleteCallback completionDelegate)
+		public void IngestStat(ref IngestStatOptions options, object clientData, OnIngestStatCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<IngestStatOptionsInternal, IngestStatOptions>(ref optionsAddress, options);
+			IngestStatOptionsInternal optionsInternal = new IngestStatOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnIngestStatCompleteCallbackInternal(OnIngestStatCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Stats_IngestStat(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Stats_IngestStat(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -187,40 +189,40 @@ namespace Epic.OnlineServices.Stats
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.InvalidUser" /> if target user ID is missing or incorrect
 		/// </returns>
-		public void QueryStats(QueryStatsOptions options, object clientData, OnQueryStatsCompleteCallback completionDelegate)
+		public void QueryStats(ref QueryStatsOptions options, object clientData, OnQueryStatsCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryStatsOptionsInternal, QueryStatsOptions>(ref optionsAddress, options);
+			QueryStatsOptionsInternal optionsInternal = new QueryStatsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryStatsCompleteCallbackInternal(OnQueryStatsCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Stats_QueryStats(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Stats_QueryStats(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnIngestStatCompleteCallbackInternal))]
-		internal static void OnIngestStatCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnIngestStatCompleteCallbackInternalImplementation(ref IngestStatCompleteCallbackInfoInternal data)
 		{
 			OnIngestStatCompleteCallback callback;
 			IngestStatCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnIngestStatCompleteCallback, IngestStatCompleteCallbackInfoInternal, IngestStatCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryStatsCompleteCallbackInternal))]
-		internal static void OnQueryStatsCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryStatsCompleteCallbackInternalImplementation(ref OnQueryStatsCompleteCallbackInfoInternal data)
 		{
 			OnQueryStatsCompleteCallback callback;
 			OnQueryStatsCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryStatsCompleteCallback, OnQueryStatsCompleteCallbackInfoInternal, OnQueryStatsCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

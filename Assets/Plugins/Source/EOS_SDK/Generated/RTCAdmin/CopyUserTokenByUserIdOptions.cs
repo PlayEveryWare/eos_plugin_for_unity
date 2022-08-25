@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// <summary>
 	/// Input parameters for the <see cref="RTCAdminInterface.CopyUserTokenByUserId" /> function.
 	/// </summary>
-	public class CopyUserTokenByUserIdOptions
+	public struct CopyUserTokenByUserIdOptions
 	{
 		/// <summary>
 		/// The Product User ID for the user whose user token we're copying.
@@ -21,7 +21,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyUserTokenByUserIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyUserTokenByUserIdOptionsInternal : ISettable<CopyUserTokenByUserIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -31,7 +31,7 @@ namespace Epic.OnlineServices.RTCAdmin
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -43,24 +43,26 @@ namespace Epic.OnlineServices.RTCAdmin
 			}
 		}
 
-		public void Set(CopyUserTokenByUserIdOptions other)
+		public void Set(ref CopyUserTokenByUserIdOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = RTCAdminInterface.CopyusertokenbyuseridApiLatest;
-				TargetUserId = other.TargetUserId;
-				QueryId = other.QueryId;
-			}
+			m_ApiVersion = RTCAdminInterface.CopyusertokenbyuseridApiLatest;
+			TargetUserId = other.TargetUserId;
+			QueryId = other.QueryId;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyUserTokenByUserIdOptions? other)
 		{
-			Set(other as CopyUserTokenByUserIdOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = RTCAdminInterface.CopyusertokenbyuseridApiLatest;
+				TargetUserId = other.Value.TargetUserId;
+				QueryId = other.Value.QueryId;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

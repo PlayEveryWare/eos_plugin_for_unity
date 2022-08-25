@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Reports
 	/// Function prototype definition for callbacks passed to <see cref="ReportsInterface.SendPlayerBehaviorReport" />.
 	/// </summary>
 	/// <param name="data">A <see cref="SendPlayerBehaviorReportCompleteCallbackInfo" /> containing the output information and result.</param>
-	public delegate void OnSendPlayerBehaviorReportCompleteCallback(SendPlayerBehaviorReportCompleteCallbackInfo data);
+	public delegate void OnSendPlayerBehaviorReportCompleteCallback(ref SendPlayerBehaviorReportCompleteCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnSendPlayerBehaviorReportCompleteCallbackInternal(System.IntPtr data);
+	internal delegate void OnSendPlayerBehaviorReportCompleteCallbackInternal(ref SendPlayerBehaviorReportCompleteCallbackInfoInternal data);
 }

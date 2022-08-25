@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.KWS
 	/// <summary>
 	/// Input parameters for the <see cref="KWSInterface.CreateUser" /> function.
 	/// </summary>
-	public class CreateUserOptions
+	public struct CreateUserOptions
 	{
 		/// <summary>
 		/// Local user creating a KWS entry
@@ -16,16 +16,16 @@ namespace Epic.OnlineServices.KWS
 		/// <summary>
 		/// Date of birth in ISO8601 form (YYYY-MM-DD)
 		/// </summary>
-		public string DateOfBirth { get; set; }
+		public Utf8String DateOfBirth { get; set; }
 
 		/// <summary>
 		/// Parent email
 		/// </summary>
-		public string ParentEmail { get; set; }
+		public Utf8String ParentEmail { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CreateUserOptionsInternal : ISettable, System.IDisposable
+	internal struct CreateUserOptionsInternal : ISettable<CreateUserOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,47 +36,50 @@ namespace Epic.OnlineServices.KWS
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string DateOfBirth
+		public Utf8String DateOfBirth
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_DateOfBirth, value);
+				Helper.Set(value, ref m_DateOfBirth);
 			}
 		}
 
-		public string ParentEmail
+		public Utf8String ParentEmail
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ParentEmail, value);
+				Helper.Set(value, ref m_ParentEmail);
 			}
 		}
 
-		public void Set(CreateUserOptions other)
+		public void Set(ref CreateUserOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = KWSInterface.CreateuserApiLatest;
+			LocalUserId = other.LocalUserId;
+			DateOfBirth = other.DateOfBirth;
+			ParentEmail = other.ParentEmail;
+		}
+
+		public void Set(ref CreateUserOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = KWSInterface.CreateuserApiLatest;
-				LocalUserId = other.LocalUserId;
-				DateOfBirth = other.DateOfBirth;
-				ParentEmail = other.ParentEmail;
+				LocalUserId = other.Value.LocalUserId;
+				DateOfBirth = other.Value.DateOfBirth;
+				ParentEmail = other.Value.ParentEmail;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CreateUserOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_DateOfBirth);
-			Helper.TryMarshalDispose(ref m_ParentEmail);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_DateOfBirth);
+			Helper.Dispose(ref m_ParentEmail);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogEventOptions
+	public struct LogEventOptions
 	{
 		/// <summary>
 		/// Optional client who this event is primarily associated with. If not applicable, use 0.
@@ -22,7 +22,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogEventOptionsInternal : ISettable, System.IDisposable
+	internal struct LogEventOptionsInternal : ISettable<LogEventOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ClientHandle;
@@ -50,30 +50,33 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		{
 			set
 			{
-				Helper.TryMarshalSet<LogEventParamPairInternal, LogEventParamPair>(ref m_Params, value, out m_ParamsCount);
+				Helper.Set<LogEventParamPair, LogEventParamPairInternal>(ref value, ref m_Params, out m_ParamsCount);
 			}
 		}
 
-		public void Set(LogEventOptions other)
+		public void Set(ref LogEventOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatCommonInterface.LogeventApiLatest;
+			ClientHandle = other.ClientHandle;
+			EventId = other.EventId;
+			Params = other.Params;
+		}
+
+		public void Set(ref LogEventOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatCommonInterface.LogeventApiLatest;
-				ClientHandle = other.ClientHandle;
-				EventId = other.EventId;
-				Params = other.Params;
+				ClientHandle = other.Value.ClientHandle;
+				EventId = other.Value.EventId;
+				Params = other.Value.Params;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogEventOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientHandle);
-			Helper.TryMarshalDispose(ref m_Params);
+			Helper.Dispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_Params);
 		}
 	}
 }

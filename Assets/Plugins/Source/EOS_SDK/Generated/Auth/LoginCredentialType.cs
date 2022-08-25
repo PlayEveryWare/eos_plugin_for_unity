@@ -12,8 +12,7 @@ namespace Epic.OnlineServices.Auth
 	{
 		/// <summary>
 		/// Login using account email address and password.
-		/// 
-		/// @note Use of this login method is restricted and cannot be used in general.
+		/// Use of this login method is restricted and cannot be used in general.
 		/// </summary>
 		Password = 0,
 		/// <summary>
@@ -22,20 +21,21 @@ namespace Epic.OnlineServices.Auth
 		/// @details Typically retrieved via command-line parameters provided by a launcher that generated the exchange code for this application.
 		/// When started, the application is expected to consume the exchange code by using the <see cref="AuthInterface.Login" /> API as soon as possible.
 		/// This is needed in order to authenticate the local user before the exchange code would expire.
-		/// Attempting to consume an already expired exchange code will return <see cref="Result" />::AuthExchangeCodeNotFound error by the <see cref="AuthInterface.Login" /> API.
+		/// Attempting to consume an already expired exchange code will return <see cref="Result.AuthExchangeCodeNotFound" /> error by the <see cref="AuthInterface.Login" /> API.
 		/// </summary>
 		ExchangeCode = 1,
 		/// <summary>
 		/// Desktop and Mobile only; deprecated on Console platforms in favor of <see cref="ExternalAuth" /> login method.
+		/// Used by standalone applications distributed outside the supported game platforms such as Epic Games Store or Steam.
 		/// 
-		/// Long-lived access token that is stored on the local device to allow persisting a user login session over multiple runs of the application.
-		/// When using this login type, if an existing access token is not found or it is invalid or otherwise expired, the error result <see cref="Result" />::<see cref="Result.InvalidAuth" /> is returned.
+		/// Persistent Auth is used in conjuction with the <see cref="AccountPortal" /> login method for automatic login of the local user across multiple runs of the application.
 		/// 
-		/// @note On Desktop and Mobile platforms, the persistent access token is automatically managed by the SDK that stores it in the keychain of the currently logged in user of the local device.
-		/// On Console platforms, after a successful login using the <see cref="DeviceCode" /> login type,
-		/// the persistent access token is retrieved using the <see cref="AuthInterface.CopyUserAuthToken" /> API and
-		/// stored by the application for the currently logged in user of the local device.
-		/// <seealso cref="ExternalAuth" />
+		/// Standalone applications implement the login sequence as follows:
+		/// 1. Application calls <see cref="AuthInterface.Login" /> with <see cref="PersistentAuth" /> to attempt automatic login.
+		/// 2. If automatic login fails, the application calls <see cref="AuthInterface.Login" /> with <see cref="AccountPortal" /> to prompt the user for manual login.
+		/// On Desktop and Mobile platforms, the persistent refresh token is automatically managed by the SDK that stores it in the keychain of the currently logged in user of the local device.
+		/// On Console platforms, after a successful login the refresh token must be retrieved using the EOS_Auth_CopyUserAuthToken API and stored by the application for the currently logged in user of the local device.
+		/// <seealso cref="AccountPortal" />
 		/// </summary>
 		PersistentAuth = 2,
 		/// <summary>
@@ -48,7 +48,7 @@ namespace Epic.OnlineServices.Auth
 		/// 1. Game initiates the user login flow by calling <see cref="AuthInterface.Login" /> API with the <see cref="DeviceCode" /> login type.
 		/// 2. The SDK internally requests the authentication backend service to begin the login flow, and returns the game
 		/// a new randomly generated device code along with authorization URL information needed to complete the flow.
-		/// This information is returned via the <see cref="AuthInterface.Login" /> API callback. The <see cref="LoginCallbackInfo" />::ResultCode
+		/// This information is returned via the <see cref="AuthInterface.Login" /> API callback. The <see cref="LoginCallbackInfo.ResultCode" />
 		/// will be set to <see cref="Result.AuthPinGrantCode" /> and the <see cref="PinGrantInfo" /> struct will contain the needed information.
 		/// 3. Game presents the device code and the authorization URL information on screen to the end-user.
 		/// 4. The user will login to their Epic Account using an external device, e.g. a mobile device or a desktop PC,
@@ -70,13 +70,12 @@ namespace Epic.OnlineServices.Auth
 		DeviceCode = 3,
 		/// <summary>
 		/// Login with named credentials hosted by the EOS SDK Developer Authentication Tool.
-		/// 
-		/// @note Used for development purposes only.
+		/// Used for development purposes only.
 		/// </summary>
 		Developer = 4,
 		/// <summary>
 		/// Refresh token that was retrieved from a previous call to <see cref="AuthInterface.Login" /> API in another local process context.
-		/// Mainly used in conjunction with custom launcher applications.
+		/// Mainly used in conjunction with custom desktop launcher applications.
 		/// 
 		/// @details Can be used for example when launching the game from Epic Games Launcher and having an intermediate process
 		/// in-between that requires authenticating the user before eventually starting the actual game client application.
@@ -88,29 +87,33 @@ namespace Epic.OnlineServices.Auth
 		RefreshToken = 5,
 		/// <summary>
 		/// Desktop and Mobile only.
+		/// Used by standalone applications distributed outside the supported game platforms such as Epic Games Store or Steam.
 		/// 
-		/// Initiate a login through the Epic account portal.
-		/// 
-		/// @details Can be used in scenarios where seamless user login via other means is not available,
-		/// for example when starting the application through a proprietary ecosystem launcher or otherwise.
+		/// Login using the built-in user onboarding experience provided by the SDK, which will automatically store a persistent
+		/// refresh token to enable automatic user login for consecutive application runs on the local device. Applications are
+		/// expected to attempt automatic login using the <see cref="PersistentAuth" /> login method, and fall back to <see cref="AccountPortal" />
+		/// to prompt users for manual login.
+		/// On Windows, using this login method requires applications to be started through the EOS Bootstrapper application
+		/// and to have the local Epic Online Services redistributable installed on the local system. See EOS_Platform_GetDesktopCrossplayStatus
+		/// for adding a readiness check prior to calling EOS_Auth_Login.
 		/// </summary>
 		AccountPortal = 6,
 		/// <summary>
-		/// Login using external account provider credentials, such as Steam, PlayStation(TM)Network, Xbox Live, or Nintendo.
+		/// Login using external account provider credentials, such as PlayStation(TM)Network, Steam, and Xbox Live.
 		/// 
 		/// This is the intended login method on Console. On Desktop and Mobile, used when launched through any of the commonly supported platform clients.
 		/// 
 		/// @details The user is seamlessly logged in to their Epic account using an external account access token.
-		/// If the local platform account is already linked with the user's Epic account, the login will succeed and <see cref="Result" />::<see cref="Result.Success" /> is returned.
+		/// If the local platform account is already linked with the user's Epic account, the login will succeed and <see cref="Result.Success" /> is returned.
 		/// When the local platform account has not been linked with an Epic account yet,
-		/// <see cref="Result" />::<see cref="Result.InvalidUser" /> is returned and the <see cref="ContinuanceToken" /> will be set in the <see cref="LoginCallbackInfo" /> data.
-		/// If <see cref="Result" />::<see cref="Result.InvalidUser" /> is returned,
+		/// <see cref="Result.InvalidUser" /> is returned and the <see cref="ContinuanceToken" /> will be set in the <see cref="LoginCallbackInfo" /> data.
+		/// If <see cref="Result.InvalidUser" /> is returned,
 		/// the application should proceed to call the <see cref="AuthInterface.LinkAccount" /> API with the <see cref="ContinuanceToken" /> to continue with the external account login
 		/// and to link the external account at the end of the login flow.
 		/// 
 		/// @details On Console, login flow when the platform user account has not been linked with an Epic account yet:
 		/// 1. Game calls <see cref="AuthInterface.Login" /> with the <see cref="ExternalAuth" /> credential type.
-		/// 2. <see cref="AuthInterface.Login" /> returns <see cref="Result" />::<see cref="Result.InvalidUser" /> with a non-null <see cref="ContinuanceToken" /> in the <see cref="LoginCallbackInfo" /> data.
+		/// 2. <see cref="AuthInterface.Login" /> returns <see cref="Result.InvalidUser" /> with a non-null <see cref="ContinuanceToken" /> in the <see cref="LoginCallbackInfo" /> data.
 		/// 3. Game calls <see cref="AuthInterface.LinkAccount" /> with the <see cref="ContinuanceToken" /> to initiate the login flow for linking the platform account with the user's Epic account.
 		/// - During the login process, the user will be able to login to their existing Epic account or create a new account if needed.
 		/// 4. <see cref="AuthInterface.LinkAccount" /> will make an intermediate callback to provide the caller with <see cref="PinGrantInfo" /> struct set in the <see cref="LoginCallbackInfo" /> data.
@@ -118,7 +121,10 @@ namespace Epic.OnlineServices.Auth
 		/// - Game visualizes the URI and user code so that the user can proceed with the login flow outside the console.
 		/// - In the meantime, EOS SDK will internally keep polling the backend for a completion status of the login flow.
 		/// 6. Once user completes the login, cancels it or if the login flow times out, <see cref="AuthInterface.LinkAccount" /> makes the second and final callback to the caller with the operation result status.
-		/// - If the user was logged in successfully, <see cref="Result" />::<see cref="Result.Success" /> is returned in the <see cref="LoginCallbackInfo" />. Otherwise, an error result code is returned accordingly.
+		/// - If the user was logged in successfully, <see cref="Result.Success" /> is returned in the <see cref="LoginCallbackInfo" />. Otherwise, an error result code is returned accordingly.
+		/// On Windows, using this login method requires applications to be started through the EOS Bootstrapper application
+		/// and to have the local Epic Online Services redistributable installed on the local system. See EOS_Platform_GetDesktopCrossplayStatus
+		/// for adding a readiness check prior to calling EOS_Auth_Login.
 		/// </summary>
 		ExternalAuth = 7
 	}

@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.GetAchievementDefinitionCount" /> function.
 	/// </summary>
-	public class GetAchievementDefinitionCountOptions
+	public struct GetAchievementDefinitionCountOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetAchievementDefinitionCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetAchievementDefinitionCountOptionsInternal : ISettable<GetAchievementDefinitionCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(GetAchievementDefinitionCountOptions other)
+		public void Set(ref GetAchievementDefinitionCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.GetachievementdefinitioncountApiLatest;
+		}
+
+		public void Set(ref GetAchievementDefinitionCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.GetachievementdefinitioncountApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetAchievementDefinitionCountOptions);
 		}
 
 		public void Dispose()

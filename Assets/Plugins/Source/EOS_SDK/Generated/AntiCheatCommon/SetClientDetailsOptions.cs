@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class SetClientDetailsOptions
+	public struct SetClientDetailsOptions
 	{
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -22,7 +22,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetClientDetailsOptionsInternal : ISettable, System.IDisposable
+	internal struct SetClientDetailsOptionsInternal : ISettable<SetClientDetailsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_ClientHandle;
@@ -53,25 +53,28 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(SetClientDetailsOptions other)
+		public void Set(ref SetClientDetailsOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatCommonInterface.SetclientdetailsApiLatest;
-				ClientHandle = other.ClientHandle;
-				ClientFlags = other.ClientFlags;
-				ClientInputMethod = other.ClientInputMethod;
-			}
+			m_ApiVersion = AntiCheatCommonInterface.SetclientdetailsApiLatest;
+			ClientHandle = other.ClientHandle;
+			ClientFlags = other.ClientFlags;
+			ClientInputMethod = other.ClientInputMethod;
 		}
 
-		public void Set(object other)
+		public void Set(ref SetClientDetailsOptions? other)
 		{
-			Set(other as SetClientDetailsOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatCommonInterface.SetclientdetailsApiLatest;
+				ClientHandle = other.Value.ClientHandle;
+				ClientFlags = other.Value.ClientFlags;
+				ClientInputMethod = other.Value.ClientInputMethod;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_ClientHandle);
+			Helper.Dispose(ref m_ClientHandle);
 		}
 	}
 }

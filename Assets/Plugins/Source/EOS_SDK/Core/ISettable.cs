@@ -2,8 +2,9 @@
 
 namespace Epic.OnlineServices
 {
-	public interface ISettable
+	internal interface ISettable<T> where T : struct
 	{
-		void Set(object other);
+		void Set(ref T other);
+		void Set(ref T? other);
 	}
 }

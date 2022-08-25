@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.GetOfferImageInfoCount" /> function.
 	/// </summary>
-	public class GetOfferImageInfoCountOptions
+	public struct GetOfferImageInfoCountOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose offer image is being accessed.
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The ID of the offer to get the images for.
 		/// </summary>
-		public string OfferId { get; set; }
+		public Utf8String OfferId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetOfferImageInfoCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetOfferImageInfoCountOptionsInternal : ISettable<GetOfferImageInfoCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string OfferId
+		public Utf8String OfferId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_OfferId, value);
+				Helper.Set(value, ref m_OfferId);
 			}
 		}
 
-		public void Set(GetOfferImageInfoCountOptions other)
+		public void Set(ref GetOfferImageInfoCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.GetofferimageinfocountApiLatest;
+			LocalUserId = other.LocalUserId;
+			OfferId = other.OfferId;
+		}
+
+		public void Set(ref GetOfferImageInfoCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.GetofferimageinfocountApiLatest;
-				LocalUserId = other.LocalUserId;
-				OfferId = other.OfferId;
+				LocalUserId = other.Value.LocalUserId;
+				OfferId = other.Value.OfferId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetOfferImageInfoCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_OfferId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_OfferId);
 		}
 	}
 }

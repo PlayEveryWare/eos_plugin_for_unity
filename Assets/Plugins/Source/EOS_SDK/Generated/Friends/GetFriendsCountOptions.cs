@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Friends
 	/// <summary>
 	/// Input parameters for the <see cref="FriendsInterface.GetFriendsCount" /> function.
 	/// </summary>
-	public class GetFriendsCountOptions
+	public struct GetFriendsCountOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user whose friends should be counted
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Friends
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetFriendsCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetFriendsCountOptionsInternal : ISettable<GetFriendsCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Friends
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(GetFriendsCountOptions other)
+		public void Set(ref GetFriendsCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = FriendsInterface.GetfriendscountApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref GetFriendsCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = FriendsInterface.GetfriendscountApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetFriendsCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

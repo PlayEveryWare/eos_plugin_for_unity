@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogPlayerTakeDamageOptions
+	public struct LogPlayerTakeDamageOptions
 	{
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -13,12 +13,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// <summary>
 		/// Victim player's current world position as a 3D vector
 		/// </summary>
-		public Vec3f VictimPlayerPosition { get; set; }
+		public Vec3f? VictimPlayerPosition { get; set; }
 
 		/// <summary>
 		/// Victim player's view rotation as a quaternion
 		/// </summary>
-		public Quat VictimPlayerViewRotation { get; set; }
+		public Quat? VictimPlayerViewRotation { get; set; }
 
 		/// <summary>
 		/// Locally unique value used in RegisterClient/RegisterPeer
@@ -28,12 +28,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// <summary>
 		/// Attacker player's current world position as a 3D vector
 		/// </summary>
-		public Vec3f AttackerPlayerPosition { get; set; }
+		public Vec3f? AttackerPlayerPosition { get; set; }
 
 		/// <summary>
 		/// Attacker player's view rotation as a quaternion
 		/// </summary>
-		public Quat AttackerPlayerViewRotation { get; set; }
+		public Quat? AttackerPlayerViewRotation { get; set; }
 
 		/// <summary>
 		/// True if the damage was applied instantly at the time of attack from the game
@@ -47,6 +47,9 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// the way. For some situations like melee or hitscan weapons this is trivially
 		/// true, for others like projectiles with simulated physics it may not be e.g. a player
 		/// could fire a slow moving projectile and then move behind cover before it strikes.
+		/// 
+		/// This can be an estimate, or can simply be always set to true if it is not feasible
+		/// to compute in your game.
 		/// </summary>
 		public bool HasLineOfSight { get; set; }
 
@@ -86,23 +89,23 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public AntiCheatCommonPlayerTakeDamageResult DamageResult { get; set; }
 
 		/// <summary>
-		/// PlayerUseWeaponData associated with this damage event if available, otherwise NULL
+		/// PlayerUseWeaponData associated with this damage event if available, otherwise <see langword="null" />
 		/// </summary>
-		public LogPlayerUseWeaponData PlayerUseWeaponData { get; set; }
+		public LogPlayerUseWeaponData? PlayerUseWeaponData { get; set; }
 
 		/// <summary>
-		/// Time in milliseconds since the PlayerUseWeaponData event occurred if available, otherwise 0
+		/// Time in milliseconds since the associated PlayerUseWeaponData event occurred if available, otherwise 0
 		/// </summary>
 		public uint TimeSincePlayerUseWeaponMs { get; set; }
 
 		/// <summary>
-		/// World position where damage hit the victim as a 3D vector if available, otherwise NULL
+		/// World position where damage hit the victim as a 3D vector if available, otherwise <see langword="null" />
 		/// </summary>
-		public Vec3f DamagePosition { get; set; }
+		public Vec3f? DamagePosition { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogPlayerTakeDamageOptionsInternal : ISettable, System.IDisposable
+	internal struct LogPlayerTakeDamageOptionsInternal : ISettable<LogPlayerTakeDamageOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_VictimPlayerHandle;
@@ -132,19 +135,19 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public Vec3f VictimPlayerPosition
+		public Vec3f? VictimPlayerPosition
 		{
 			set
 			{
-				Helper.TryMarshalSet<Vec3fInternal, Vec3f>(ref m_VictimPlayerPosition, value);
+				Helper.Set<Vec3f, Vec3fInternal>(ref value, ref m_VictimPlayerPosition);
 			}
 		}
 
-		public Quat VictimPlayerViewRotation
+		public Quat? VictimPlayerViewRotation
 		{
 			set
 			{
-				Helper.TryMarshalSet<QuatInternal, Quat>(ref m_VictimPlayerViewRotation, value);
+				Helper.Set<Quat, QuatInternal>(ref value, ref m_VictimPlayerViewRotation);
 			}
 		}
 
@@ -156,19 +159,19 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public Vec3f AttackerPlayerPosition
+		public Vec3f? AttackerPlayerPosition
 		{
 			set
 			{
-				Helper.TryMarshalSet<Vec3fInternal, Vec3f>(ref m_AttackerPlayerPosition, value);
+				Helper.Set<Vec3f, Vec3fInternal>(ref value, ref m_AttackerPlayerPosition);
 			}
 		}
 
-		public Quat AttackerPlayerViewRotation
+		public Quat? AttackerPlayerViewRotation
 		{
 			set
 			{
-				Helper.TryMarshalSet<QuatInternal, Quat>(ref m_AttackerPlayerViewRotation, value);
+				Helper.Set<Quat, QuatInternal>(ref value, ref m_AttackerPlayerViewRotation);
 			}
 		}
 
@@ -176,7 +179,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsHitscanAttack, value);
+				Helper.Set(value, ref m_IsHitscanAttack);
 			}
 		}
 
@@ -184,7 +187,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_HasLineOfSight, value);
+				Helper.Set(value, ref m_HasLineOfSight);
 			}
 		}
 
@@ -192,7 +195,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_IsCriticalHit, value);
+				Helper.Set(value, ref m_IsCriticalHit);
 			}
 		}
 
@@ -244,11 +247,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public LogPlayerUseWeaponData PlayerUseWeaponData
+		public LogPlayerUseWeaponData? PlayerUseWeaponData
 		{
 			set
 			{
-				Helper.TryMarshalSet<LogPlayerUseWeaponDataInternal, LogPlayerUseWeaponData>(ref m_PlayerUseWeaponData, value);
+				Helper.Set<LogPlayerUseWeaponData, LogPlayerUseWeaponDataInternal>(ref value, ref m_PlayerUseWeaponData);
 			}
 		}
 
@@ -260,55 +263,73 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public Vec3f DamagePosition
+		public Vec3f? DamagePosition
 		{
 			set
 			{
-				Helper.TryMarshalSet<Vec3fInternal, Vec3f>(ref m_DamagePosition, value);
+				Helper.Set<Vec3f, Vec3fInternal>(ref value, ref m_DamagePosition);
 			}
 		}
 
-		public void Set(LogPlayerTakeDamageOptions other)
+		public void Set(ref LogPlayerTakeDamageOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatCommonInterface.LogplayertakedamageApiLatest;
+			VictimPlayerHandle = other.VictimPlayerHandle;
+			VictimPlayerPosition = other.VictimPlayerPosition;
+			VictimPlayerViewRotation = other.VictimPlayerViewRotation;
+			AttackerPlayerHandle = other.AttackerPlayerHandle;
+			AttackerPlayerPosition = other.AttackerPlayerPosition;
+			AttackerPlayerViewRotation = other.AttackerPlayerViewRotation;
+			IsHitscanAttack = other.IsHitscanAttack;
+			HasLineOfSight = other.HasLineOfSight;
+			IsCriticalHit = other.IsCriticalHit;
+			HitBoneId_DEPRECATED = other.HitBoneId_DEPRECATED;
+			DamageTaken = other.DamageTaken;
+			HealthRemaining = other.HealthRemaining;
+			DamageSource = other.DamageSource;
+			DamageType = other.DamageType;
+			DamageResult = other.DamageResult;
+			PlayerUseWeaponData = other.PlayerUseWeaponData;
+			TimeSincePlayerUseWeaponMs = other.TimeSincePlayerUseWeaponMs;
+			DamagePosition = other.DamagePosition;
+		}
+
+		public void Set(ref LogPlayerTakeDamageOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatCommonInterface.LogplayertakedamageApiLatest;
-				VictimPlayerHandle = other.VictimPlayerHandle;
-				VictimPlayerPosition = other.VictimPlayerPosition;
-				VictimPlayerViewRotation = other.VictimPlayerViewRotation;
-				AttackerPlayerHandle = other.AttackerPlayerHandle;
-				AttackerPlayerPosition = other.AttackerPlayerPosition;
-				AttackerPlayerViewRotation = other.AttackerPlayerViewRotation;
-				IsHitscanAttack = other.IsHitscanAttack;
-				HasLineOfSight = other.HasLineOfSight;
-				IsCriticalHit = other.IsCriticalHit;
-				HitBoneId_DEPRECATED = other.HitBoneId_DEPRECATED;
-				DamageTaken = other.DamageTaken;
-				HealthRemaining = other.HealthRemaining;
-				DamageSource = other.DamageSource;
-				DamageType = other.DamageType;
-				DamageResult = other.DamageResult;
-				PlayerUseWeaponData = other.PlayerUseWeaponData;
-				TimeSincePlayerUseWeaponMs = other.TimeSincePlayerUseWeaponMs;
-				DamagePosition = other.DamagePosition;
+				VictimPlayerHandle = other.Value.VictimPlayerHandle;
+				VictimPlayerPosition = other.Value.VictimPlayerPosition;
+				VictimPlayerViewRotation = other.Value.VictimPlayerViewRotation;
+				AttackerPlayerHandle = other.Value.AttackerPlayerHandle;
+				AttackerPlayerPosition = other.Value.AttackerPlayerPosition;
+				AttackerPlayerViewRotation = other.Value.AttackerPlayerViewRotation;
+				IsHitscanAttack = other.Value.IsHitscanAttack;
+				HasLineOfSight = other.Value.HasLineOfSight;
+				IsCriticalHit = other.Value.IsCriticalHit;
+				HitBoneId_DEPRECATED = other.Value.HitBoneId_DEPRECATED;
+				DamageTaken = other.Value.DamageTaken;
+				HealthRemaining = other.Value.HealthRemaining;
+				DamageSource = other.Value.DamageSource;
+				DamageType = other.Value.DamageType;
+				DamageResult = other.Value.DamageResult;
+				PlayerUseWeaponData = other.Value.PlayerUseWeaponData;
+				TimeSincePlayerUseWeaponMs = other.Value.TimeSincePlayerUseWeaponMs;
+				DamagePosition = other.Value.DamagePosition;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LogPlayerTakeDamageOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_VictimPlayerHandle);
-			Helper.TryMarshalDispose(ref m_VictimPlayerPosition);
-			Helper.TryMarshalDispose(ref m_VictimPlayerViewRotation);
-			Helper.TryMarshalDispose(ref m_AttackerPlayerHandle);
-			Helper.TryMarshalDispose(ref m_AttackerPlayerPosition);
-			Helper.TryMarshalDispose(ref m_AttackerPlayerViewRotation);
-			Helper.TryMarshalDispose(ref m_PlayerUseWeaponData);
-			Helper.TryMarshalDispose(ref m_DamagePosition);
+			Helper.Dispose(ref m_VictimPlayerHandle);
+			Helper.Dispose(ref m_VictimPlayerPosition);
+			Helper.Dispose(ref m_VictimPlayerViewRotation);
+			Helper.Dispose(ref m_AttackerPlayerHandle);
+			Helper.Dispose(ref m_AttackerPlayerPosition);
+			Helper.Dispose(ref m_AttackerPlayerViewRotation);
+			Helper.Dispose(ref m_PlayerUseWeaponData);
+			Helper.Dispose(ref m_DamagePosition);
 		}
 	}
 }

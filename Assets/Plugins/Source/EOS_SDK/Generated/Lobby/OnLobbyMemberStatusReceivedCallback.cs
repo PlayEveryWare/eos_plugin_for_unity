@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Lobby
 	/// Function prototype definition for callbacks passed to <see cref="LobbyInterface.AddNotifyLobbyMemberStatusReceived" />
 	/// </summary>
 	/// <param name="data">A <see cref="LobbyMemberStatusReceivedCallbackInfo" /> CallbackInfo containing the output information and result</param>
-	public delegate void OnLobbyMemberStatusReceivedCallback(LobbyMemberStatusReceivedCallbackInfo data);
+	public delegate void OnLobbyMemberStatusReceivedCallback(ref LobbyMemberStatusReceivedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnLobbyMemberStatusReceivedCallbackInternal(System.IntPtr data);
+	internal delegate void OnLobbyMemberStatusReceivedCallbackInternal(ref LobbyMemberStatusReceivedCallbackInfoInternal data);
 }

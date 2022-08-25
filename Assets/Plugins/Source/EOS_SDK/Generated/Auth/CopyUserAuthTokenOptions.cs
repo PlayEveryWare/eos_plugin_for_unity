@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Input parameters for the <see cref="AuthInterface.CopyUserAuthToken" /> function.
 	/// </summary>
-	public class CopyUserAuthTokenOptions
+	public struct CopyUserAuthTokenOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyUserAuthTokenOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyUserAuthTokenOptionsInternal : ISettable<CopyUserAuthTokenOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(CopyUserAuthTokenOptions other)
+		public void Set(ref CopyUserAuthTokenOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.CopyuserauthtokenApiLatest;
+		}
+
+		public void Set(ref CopyUserAuthTokenOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.CopyuserauthtokenApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyUserAuthTokenOptions);
 		}
 
 		public void Dispose()

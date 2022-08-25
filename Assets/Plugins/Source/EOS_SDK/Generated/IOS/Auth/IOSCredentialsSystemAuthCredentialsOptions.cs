@@ -6,34 +6,26 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Options for initializing login for IOS.
 	/// </summary>
-	public class IOSCredentialsSystemAuthCredentialsOptions : ISettable
+	public struct IOSCredentialsSystemAuthCredentialsOptions
 	{
 		/// <summary>
 		/// When calling <see cref="AuthInterface.Login" />
 		/// NSObject that implements the ASWebAuthenticationPresentationContextProviding protocol,
 		/// typically this is added to the applications UIViewController.
 		/// Required for iOS 13+ only, for earlier versions this value must be a nullptr.
-		/// using: (void*)CFBridgingRetain(presentationContextProviding)
+		/// using: (<see cref="void" />*)CFBridgingRetain(presentationContextProviding)
 		/// EOSSDK will release this bridged object when the value is consumed for iOS 13+.
 		/// </summary>
 		public System.IntPtr PresentationContextProviding { get; set; }
 
-		internal void Set(IOSCredentialsSystemAuthCredentialsOptionsInternal? other)
+		internal void Set(ref IOSCredentialsSystemAuthCredentialsOptionsInternal other)
 		{
-			if (other != null)
-			{
-				PresentationContextProviding = other.Value.PresentationContextProviding;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as IOSCredentialsSystemAuthCredentialsOptionsInternal?);
+			PresentationContextProviding = other.PresentationContextProviding;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct IOSCredentialsSystemAuthCredentialsOptionsInternal : ISettable, System.IDisposable
+	internal struct IOSCredentialsSystemAuthCredentialsOptionsInternal : IGettable<IOSCredentialsSystemAuthCredentialsOptions>, ISettable<IOSCredentialsSystemAuthCredentialsOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PresentationContextProviding;
@@ -51,23 +43,30 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public void Set(IOSCredentialsSystemAuthCredentialsOptions other)
+		public void Set(ref IOSCredentialsSystemAuthCredentialsOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AuthInterface.AuthIoscredentialssystemauthcredentialsoptionsApiLatest;
-				PresentationContextProviding = other.PresentationContextProviding;
-			}
+			m_ApiVersion = AuthInterface.IosCredentialssystemauthcredentialsoptionsApiLatest;
+			PresentationContextProviding = other.PresentationContextProviding;
 		}
 
-		public void Set(object other)
+		public void Set(ref IOSCredentialsSystemAuthCredentialsOptions? other)
 		{
-			Set(other as IOSCredentialsSystemAuthCredentialsOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AuthInterface.IosCredentialssystemauthcredentialsoptionsApiLatest;
+				PresentationContextProviding = other.Value.PresentationContextProviding;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PresentationContextProviding);
+			Helper.Dispose(ref m_PresentationContextProviding);
+		}
+
+		public void Get(out IOSCredentialsSystemAuthCredentialsOptions output)
+		{
+			output = new IOSCredentialsSystemAuthCredentialsOptions();
+			output.Set(ref this);
 		}
 	}
 }

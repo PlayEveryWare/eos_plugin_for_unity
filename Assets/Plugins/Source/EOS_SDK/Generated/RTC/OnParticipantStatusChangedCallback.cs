@@ -3,8 +3,8 @@
 
 namespace Epic.OnlineServices.RTC
 {
-	public delegate void OnParticipantStatusChangedCallback(ParticipantStatusChangedCallbackInfo data);
+	public delegate void OnParticipantStatusChangedCallback(ref ParticipantStatusChangedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnParticipantStatusChangedCallbackInternal(System.IntPtr data);
+	internal delegate void OnParticipantStatusChangedCallbackInternal(ref ParticipantStatusChangedCallbackInfoInternal data);
 }

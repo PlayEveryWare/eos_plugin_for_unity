@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Friends
 	/// Function prototype definition for callbacks passed to <see cref="FriendsInterface.QueryFriends" />
 	/// </summary>
 	/// <param name="data">A <see cref="QueryFriendsCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnQueryFriendsCallback(QueryFriendsCallbackInfo data);
+	public delegate void OnQueryFriendsCallback(ref QueryFriendsCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryFriendsCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryFriendsCallbackInternal(ref QueryFriendsCallbackInfoInternal data);
 }

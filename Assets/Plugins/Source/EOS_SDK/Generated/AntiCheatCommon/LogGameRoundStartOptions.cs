@@ -3,22 +3,22 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public class LogGameRoundStartOptions
+	public struct LogGameRoundStartOptions
 	{
 		/// <summary>
 		/// Optional game session or match identifier useful for some backend API integrations
 		/// </summary>
-		public string SessionIdentifier { get; set; }
+		public Utf8String SessionIdentifier { get; set; }
 
 		/// <summary>
 		/// Optional name of the map being played
 		/// </summary>
-		public string LevelName { get; set; }
+		public Utf8String LevelName { get; set; }
 
 		/// <summary>
 		/// Optional name of the game mode being played
 		/// </summary>
-		public string ModeName { get; set; }
+		public Utf8String ModeName { get; set; }
 
 		/// <summary>
 		/// Optional length of the game round to be played, in seconds. If none, use 0.
@@ -27,7 +27,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LogGameRoundStartOptionsInternal : ISettable, System.IDisposable
+	internal struct LogGameRoundStartOptionsInternal : ISettable<LogGameRoundStartOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionIdentifier;
@@ -35,27 +35,27 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private System.IntPtr m_ModeName;
 		private uint m_RoundTimeSeconds;
 
-		public string SessionIdentifier
+		public Utf8String SessionIdentifier
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionIdentifier, value);
+				Helper.Set(value, ref m_SessionIdentifier);
 			}
 		}
 
-		public string LevelName
+		public Utf8String LevelName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LevelName, value);
+				Helper.Set(value, ref m_LevelName);
 			}
 		}
 
-		public string ModeName
+		public Utf8String ModeName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ModeName, value);
+				Helper.Set(value, ref m_ModeName);
 			}
 		}
 
@@ -67,28 +67,32 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
-		public void Set(LogGameRoundStartOptions other)
+		public void Set(ref LogGameRoundStartOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = AntiCheatCommonInterface.LoggameroundstartApiLatest;
-				SessionIdentifier = other.SessionIdentifier;
-				LevelName = other.LevelName;
-				ModeName = other.ModeName;
-				RoundTimeSeconds = other.RoundTimeSeconds;
-			}
+			m_ApiVersion = AntiCheatCommonInterface.LoggameroundstartApiLatest;
+			SessionIdentifier = other.SessionIdentifier;
+			LevelName = other.LevelName;
+			ModeName = other.ModeName;
+			RoundTimeSeconds = other.RoundTimeSeconds;
 		}
 
-		public void Set(object other)
+		public void Set(ref LogGameRoundStartOptions? other)
 		{
-			Set(other as LogGameRoundStartOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = AntiCheatCommonInterface.LoggameroundstartApiLatest;
+				SessionIdentifier = other.Value.SessionIdentifier;
+				LevelName = other.Value.LevelName;
+				ModeName = other.Value.ModeName;
+				RoundTimeSeconds = other.Value.RoundTimeSeconds;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionIdentifier);
-			Helper.TryMarshalDispose(ref m_LevelName);
-			Helper.TryMarshalDispose(ref m_ModeName);
+			Helper.Dispose(ref m_SessionIdentifier);
+			Helper.Dispose(ref m_LevelName);
+			Helper.Dispose(ref m_ModeName);
 		}
 	}
 }

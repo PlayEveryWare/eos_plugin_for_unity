@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.KWS
 	/// Function prototype definition for callbacks passed to <see cref="KWSInterface.UpdateParentEmail" />
 	/// </summary>
 	/// <param name="data">A <see cref="UpdateParentEmailCallbackInfo" /> containing the output information and result</param>
-	public delegate void OnUpdateParentEmailCallback(UpdateParentEmailCallbackInfo data);
+	public delegate void OnUpdateParentEmailCallback(ref UpdateParentEmailCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnUpdateParentEmailCallbackInternal(System.IntPtr data);
+	internal delegate void OnUpdateParentEmailCallbackInternal(ref UpdateParentEmailCallbackInfoInternal data);
 }

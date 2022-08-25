@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Data containing the result information for a delete file request
 	/// </summary>
-	public class DeleteFileCallbackInfo : ICallbackInfo, ISettable
+	public struct DeleteFileCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Result code for the operation. <see cref="Result.Success" /> is returned for a successful request, other codes indicate an error
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Client-specified data passed into the file deletion request
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who initiated this request
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(DeleteFileCallbackInfoInternal? other)
+		internal void Set(ref DeleteFileCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DeleteFileCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DeleteFileCallbackInfoInternal : ICallbackInfoInternal
+	internal struct DeleteFileCallbackInfoInternal : ICallbackInfoInternal, IGettable<DeleteFileCallbackInfo>, ISettable<DeleteFileCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -57,6 +49,11 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -64,8 +61,13 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -82,9 +84,43 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
+			}
+		}
+
+		public void Set(ref DeleteFileCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref DeleteFileCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+		}
+
+		public void Get(out DeleteFileCallbackInfo output)
+		{
+			output = new DeleteFileCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

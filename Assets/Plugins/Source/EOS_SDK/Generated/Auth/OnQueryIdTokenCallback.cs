@@ -3,8 +3,8 @@
 
 namespace Epic.OnlineServices.Auth
 {
-	public delegate void OnQueryIdTokenCallback(QueryIdTokenCallbackInfo data);
+	public delegate void OnQueryIdTokenCallback(ref QueryIdTokenCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnQueryIdTokenCallbackInternal(System.IntPtr data);
+	internal delegate void OnQueryIdTokenCallbackInternal(ref QueryIdTokenCallbackInfoInternal data);
 }

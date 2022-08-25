@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.AddNotifyJoinSessionAccepted" /> function.
 	/// </summary>
-	public class AddNotifyJoinSessionAcceptedOptions
+	public struct AddNotifyJoinSessionAcceptedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyJoinSessionAcceptedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyJoinSessionAcceptedOptionsInternal : ISettable<AddNotifyJoinSessionAcceptedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyJoinSessionAcceptedOptions other)
+		public void Set(ref AddNotifyJoinSessionAcceptedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.AddnotifyjoinsessionacceptedApiLatest;
+		}
+
+		public void Set(ref AddNotifyJoinSessionAcceptedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.AddnotifyjoinsessionacceptedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyJoinSessionAcceptedOptions);
 		}
 
 		public void Dispose()

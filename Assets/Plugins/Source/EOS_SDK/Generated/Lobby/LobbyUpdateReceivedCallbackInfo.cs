@@ -6,40 +6,32 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Output parameters for the <see cref="OnLobbyUpdateReceivedCallback" /> Function.
 	/// </summary>
-	public class LobbyUpdateReceivedCallbackInfo : ICallbackInfo, ISettable
+	public struct LobbyUpdateReceivedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="LobbyInterface.AddNotifyLobbyUpdateReceived" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The ID of the lobby
 		/// </summary>
-		public string LobbyId { get; private set; }
+		public Utf8String LobbyId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(LobbyUpdateReceivedCallbackInfoInternal? other)
+		internal void Set(ref LobbyUpdateReceivedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LobbyId = other.Value.LobbyId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyUpdateReceivedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LobbyId = other.LobbyId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyUpdateReceivedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct LobbyUpdateReceivedCallbackInfoInternal : ICallbackInfoInternal, IGettable<LobbyUpdateReceivedCallbackInfo>, ISettable<LobbyUpdateReceivedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LobbyId;
@@ -49,8 +41,13 @@ namespace Epic.OnlineServices.Lobby
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -62,14 +59,46 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LobbyId, out value);
+				Utf8String value;
+				Helper.Get(m_LobbyId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_LobbyId);
+			}
+		}
+
+		public void Set(ref LobbyUpdateReceivedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LobbyId = other.LobbyId;
+		}
+
+		public void Set(ref LobbyUpdateReceivedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LobbyId = other.Value.LobbyId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LobbyId);
+		}
+
+		public void Get(out LobbyUpdateReceivedCallbackInfo output)
+		{
+			output = new LobbyUpdateReceivedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

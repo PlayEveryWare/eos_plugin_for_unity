@@ -2,10 +2,13 @@
 
 #include "DLLHContext.h"
 
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 #include <locale>
 #include <codecvt>
 
 #if PLATFORM_WINDOWS
+
+
 
 static void show_log_as_dialog(std::wstring log_string)
 {

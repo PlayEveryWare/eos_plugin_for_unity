@@ -6,61 +6,65 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.AddNotifyRTCRoomConnectionChanged" /> function.
 	/// </summary>
-	public class AddNotifyRTCRoomConnectionChangedOptions
+	public struct AddNotifyRTCRoomConnectionChangedOptions
 	{
 		/// <summary>
 		/// The ID of the lobby to receive RTC Room connection change notifications for
+		/// This is deprecated and no longer needed. The notification is raised for any LobbyId or LocalUserId. If any filtering is required, the callback struct (<see cref="RTCRoomConnectionChangedCallbackInfo" />) has both a LobbyId and LocalUserId field.
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user in the lobby
+		/// This is deprecated and no longer needed. The notification is raised for any LobbyId or LocalUserId. If any filtering is required, the callback struct (<see cref="RTCRoomConnectionChangedCallbackInfo" />) has both a LobbyId and LocalUserId field.
 		/// </summary>
-		public ProductUserId LocalUserId { get; set; }
+		public ProductUserId LocalUserId_DEPRECATED { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyRTCRoomConnectionChangedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyRTCRoomConnectionChangedOptionsInternal : ISettable<AddNotifyRTCRoomConnectionChangedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
-		private System.IntPtr m_LobbyId;
-		private System.IntPtr m_LocalUserId;
+		private System.IntPtr m_LobbyId_DEPRECATED;
+		private System.IntPtr m_LocalUserId_DEPRECATED;
 
-		public string LobbyId
+		public Utf8String LobbyId_DEPRECATED
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId_DEPRECATED);
 			}
 		}
 
-		public ProductUserId LocalUserId
+		public ProductUserId LocalUserId_DEPRECATED
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId_DEPRECATED);
 			}
 		}
 
-		public void Set(AddNotifyRTCRoomConnectionChangedOptions other)
+		public void Set(ref AddNotifyRTCRoomConnectionChangedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.AddnotifyrtcroomconnectionchangedApiLatest;
+			LobbyId_DEPRECATED = other.LobbyId_DEPRECATED;
+			LocalUserId_DEPRECATED = other.LocalUserId_DEPRECATED;
+		}
+
+		public void Set(ref AddNotifyRTCRoomConnectionChangedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.AddnotifyrtcroomconnectionchangedApiLatest;
-				LobbyId = other.LobbyId;
-				LocalUserId = other.LocalUserId;
+				LobbyId_DEPRECATED = other.Value.LobbyId_DEPRECATED;
+				LocalUserId_DEPRECATED = other.Value.LocalUserId_DEPRECATED;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyRTCRoomConnectionChangedOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LobbyId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LobbyId_DEPRECATED);
+			Helper.Dispose(ref m_LocalUserId_DEPRECATED);
 		}
 	}
 }

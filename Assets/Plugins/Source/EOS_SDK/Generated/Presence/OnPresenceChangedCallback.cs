@@ -6,8 +6,8 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Callback for information related to notifications from <see cref="PresenceInterface.AddNotifyOnPresenceChanged" /> triggering.
 	/// </summary>
-	public delegate void OnPresenceChangedCallback(PresenceChangedCallbackInfo data);
+	public delegate void OnPresenceChangedCallback(ref PresenceChangedCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnPresenceChangedCallbackInternal(System.IntPtr data);
+	internal delegate void OnPresenceChangedCallbackInternal(ref PresenceChangedCallbackInfoInternal data);
 }

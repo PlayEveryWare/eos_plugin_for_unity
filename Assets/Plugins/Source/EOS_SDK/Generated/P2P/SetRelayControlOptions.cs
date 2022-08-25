@@ -6,17 +6,17 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about new relay configurations.
 	/// </summary>
-	public class SetRelayControlOptions
+	public struct SetRelayControlOptions
 	{
 		/// <summary>
 		/// The requested level of relay servers for P2P connections. This setting is only applied to new P2P connections, or when existing P2P connections
-		/// reconnect during a temporary connectivity outage. Peers with an incompatible setting to the local setting will not be able to connnect.
+		/// reconnect during a temporary connectivity outage. Peers with an incompatible setting to the local setting will not be able to connect.
 		/// </summary>
 		public RelayControl RelayControl { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetRelayControlOptionsInternal : ISettable, System.IDisposable
+	internal struct SetRelayControlOptionsInternal : ISettable<SetRelayControlOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private RelayControl m_RelayControl;
@@ -29,18 +29,19 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		public void Set(SetRelayControlOptions other)
+		public void Set(ref SetRelayControlOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = P2PInterface.SetrelaycontrolApiLatest;
-				RelayControl = other.RelayControl;
-			}
+			m_ApiVersion = P2PInterface.SetrelaycontrolApiLatest;
+			RelayControl = other.RelayControl;
 		}
 
-		public void Set(object other)
+		public void Set(ref SetRelayControlOptions? other)
 		{
-			Set(other as SetRelayControlOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = P2PInterface.SetrelaycontrolApiLatest;
+				RelayControl = other.Value.RelayControl;
+			}
 		}
 
 		public void Dispose()

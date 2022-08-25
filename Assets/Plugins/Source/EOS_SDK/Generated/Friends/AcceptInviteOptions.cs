@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Friends
 	/// <summary>
 	/// Input parameters for the <see cref="FriendsInterface.AcceptInvite" /> function.
 	/// </summary>
-	public class AcceptInviteOptions
+	public struct AcceptInviteOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local, logged-in user who is accepting the friends list invitation
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Friends
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AcceptInviteOptionsInternal : ISettable, System.IDisposable
+	internal struct AcceptInviteOptionsInternal : ISettable<AcceptInviteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Friends
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -38,29 +38,31 @@ namespace Epic.OnlineServices.Friends
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(AcceptInviteOptions other)
+		public void Set(ref AcceptInviteOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = FriendsInterface.AcceptinviteApiLatest;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref AcceptInviteOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = FriendsInterface.AcceptinviteApiLatest;
-				LocalUserId = other.LocalUserId;
-				TargetUserId = other.TargetUserId;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AcceptInviteOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

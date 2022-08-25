@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UserInfo
 	/// <summary>
 	/// Input parameters for the <see cref="UserInfoInterface.CopyExternalUserInfoByAccountType" /> function.
 	/// </summary>
-	public class CopyExternalUserInfoByAccountTypeOptions
+	public struct CopyExternalUserInfoByAccountTypeOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local player requesting the information
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.UserInfo
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyExternalUserInfoByAccountTypeOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyExternalUserInfoByAccountTypeOptionsInternal : ISettable<CopyExternalUserInfoByAccountTypeOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.UserInfo
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.UserInfo
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -56,26 +56,29 @@ namespace Epic.OnlineServices.UserInfo
 			}
 		}
 
-		public void Set(CopyExternalUserInfoByAccountTypeOptions other)
+		public void Set(ref CopyExternalUserInfoByAccountTypeOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = UserInfoInterface.CopyexternaluserinfobyaccounttypeApiLatest;
-				LocalUserId = other.LocalUserId;
-				TargetUserId = other.TargetUserId;
-				AccountType = other.AccountType;
-			}
+			m_ApiVersion = UserInfoInterface.CopyexternaluserinfobyaccounttypeApiLatest;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			AccountType = other.AccountType;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyExternalUserInfoByAccountTypeOptions? other)
 		{
-			Set(other as CopyExternalUserInfoByAccountTypeOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = UserInfoInterface.CopyexternaluserinfobyaccounttypeApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				AccountType = other.Value.AccountType;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// <summary>
 	/// Input parameters for the <see cref="RTCAdminInterface.QueryJoinRoomToken" /> function.
 	/// </summary>
-	public class QueryJoinRoomTokenOptions
+	public struct QueryJoinRoomTokenOptions
 	{
 		/// <summary>
 		/// Product User ID for local user who is querying join room tokens.
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <summary>
 		/// Room name to request a token for.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// An array of Product User IDs indicating the users to retrieve a token for.
@@ -25,16 +25,16 @@ namespace Epic.OnlineServices.RTCAdmin
 
 		/// <summary>
 		/// Array of IP Addresses, one for each of the users we're querying tokens for.
-		/// There should be TargetUserIdsCount Ip Addresses, you can set an entry to NULL if not known.
-		/// If TargetUserIpAddresses is set to NULL IP Addresses will be ignored.
+		/// There should be TargetUserIdsCount Ip Addresses, you can set an entry to <see langword="null" /> if not known.
+		/// If TargetUserIpAddresses is set to <see langword="null" /> IP Addresses will be ignored.
 		/// IPv4 format: "0.0.0.0"
 		/// IPv6 format: "0:0:0:0:0:0:0:0"
 		/// </summary>
-		public string TargetUserIpAddresses { get; set; }
+		public Utf8String TargetUserIpAddresses { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryJoinRoomTokenOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryJoinRoomTokenOptionsInternal : ISettable<QueryJoinRoomTokenOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -47,15 +47,15 @@ namespace Epic.OnlineServices.RTCAdmin
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -63,41 +63,45 @@ namespace Epic.OnlineServices.RTCAdmin
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserIds, value, out m_TargetUserIdsCount);
+				Helper.Set(value, ref m_TargetUserIds, out m_TargetUserIdsCount);
 			}
 		}
 
-		public string TargetUserIpAddresses
+		public Utf8String TargetUserIpAddresses
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserIpAddresses, value);
+				Helper.Set(value, ref m_TargetUserIpAddresses);
 			}
 		}
 
-		public void Set(QueryJoinRoomTokenOptions other)
+		public void Set(ref QueryJoinRoomTokenOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAdminInterface.QueryjoinroomtokenApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			TargetUserIds = other.TargetUserIds;
+			TargetUserIpAddresses = other.TargetUserIpAddresses;
+		}
+
+		public void Set(ref QueryJoinRoomTokenOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAdminInterface.QueryjoinroomtokenApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
-				TargetUserIds = other.TargetUserIds;
-				TargetUserIpAddresses = other.TargetUserIpAddresses;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				TargetUserIds = other.Value.TargetUserIds;
+				TargetUserIpAddresses = other.Value.TargetUserIpAddresses;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryJoinRoomTokenOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
-			Helper.TryMarshalDispose(ref m_TargetUserIds);
-			Helper.TryMarshalDispose(ref m_TargetUserIpAddresses);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_TargetUserIds);
+			Helper.Dispose(ref m_TargetUserIpAddresses);
 		}
 	}
 }

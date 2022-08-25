@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.GetProductUserExternalAccountCount" /> function.
 	/// </summary>
-	public class GetProductUserExternalAccountCountOptions
+	public struct GetProductUserExternalAccountCountOptions
 	{
 		/// <summary>
 		/// The Product User ID to look for when getting external account info count from the cache.
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetProductUserExternalAccountCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetProductUserExternalAccountCountOptionsInternal : ISettable<GetProductUserExternalAccountCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(GetProductUserExternalAccountCountOptions other)
+		public void Set(ref GetProductUserExternalAccountCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.GetproductuserexternalaccountcountApiLatest;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref GetProductUserExternalAccountCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.GetproductuserexternalaccountcountApiLatest;
-				TargetUserId = other.TargetUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetProductUserExternalAccountCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

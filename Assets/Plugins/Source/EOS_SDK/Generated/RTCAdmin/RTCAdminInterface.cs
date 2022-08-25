@@ -45,31 +45,30 @@ namespace Epic.OnlineServices.RTCAdmin
 
 		/// <summary>
 		/// Fetches a user token when called inside of the OnQueryJoinRoomTokenComplete callback.
+		/// The order of the tokens doesn't necessarily match the order of the EOS_ProductUserId array specified in the EOS_RTCAdmin_QueryJoinRoomTokenOptions when
+		/// initiating the query.
 		/// <seealso cref="Release" />
 		/// </summary>
 		/// <param name="options">Structure containing the index being accessed</param>
-		/// <param name="outUserToken">
-		/// The user token for the given index, if it exists and is valid. Use <see cref="Release" /> when finished
-		/// @note The order of the tokens doesn't necessarily match the order of the <see cref="ProductUserId" /> array specified in the <see cref="QueryJoinRoomTokenOptions" /> when
-		/// initiating the query.
-		/// </param>
+		/// <param name="outUserToken">The user token for the given index, if it exists and is valid. Use <see cref="Release" /> when finished</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutUserToken
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the user token is not found
 		/// </returns>
-		public Result CopyUserTokenByIndex(CopyUserTokenByIndexOptions options, out UserToken outUserToken)
+		public Result CopyUserTokenByIndex(ref CopyUserTokenByIndexOptions options, out UserToken? outUserToken)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyUserTokenByIndexOptionsInternal, CopyUserTokenByIndexOptions>(ref optionsAddress, options);
+			CopyUserTokenByIndexOptionsInternal optionsInternal = new CopyUserTokenByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outUserTokenAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_RTCAdmin_CopyUserTokenByIndex(InnerHandle, optionsAddress, ref outUserTokenAddress);
+			var funcResult = Bindings.EOS_RTCAdmin_CopyUserTokenByIndex(InnerHandle, ref optionsInternal, ref outUserTokenAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<UserTokenInternal, UserToken>(outUserTokenAddress, out outUserToken))
+			Helper.Get<UserTokenInternal, UserToken>(outUserTokenAddress, out outUserToken);
+			if (outUserToken != null)
 			{
 				Bindings.EOS_RTCAdmin_UserToken_Release(outUserTokenAddress);
 			}
@@ -88,18 +87,19 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the user token is not found
 		/// </returns>
-		public Result CopyUserTokenByUserId(CopyUserTokenByUserIdOptions options, out UserToken outUserToken)
+		public Result CopyUserTokenByUserId(ref CopyUserTokenByUserIdOptions options, out UserToken? outUserToken)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyUserTokenByUserIdOptionsInternal, CopyUserTokenByUserIdOptions>(ref optionsAddress, options);
+			CopyUserTokenByUserIdOptionsInternal optionsInternal = new CopyUserTokenByUserIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outUserTokenAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_RTCAdmin_CopyUserTokenByUserId(InnerHandle, optionsAddress, ref outUserTokenAddress);
+			var funcResult = Bindings.EOS_RTCAdmin_CopyUserTokenByUserId(InnerHandle, ref optionsInternal, ref outUserTokenAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<UserTokenInternal, UserToken>(outUserTokenAddress, out outUserToken))
+			Helper.Get<UserTokenInternal, UserToken>(outUserTokenAddress, out outUserToken);
+			if (outUserToken != null)
 			{
 				Bindings.EOS_RTCAdmin_UserToken_Release(outUserTokenAddress);
 			}
@@ -113,19 +113,19 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <param name="options">structure containing the room and user to revoke the token from.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void Kick(KickOptions options, object clientData, OnKickCompleteCallback completionDelegate)
+		public void Kick(ref KickOptions options, object clientData, OnKickCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<KickOptionsInternal, KickOptions>(ref optionsAddress, options);
+			KickOptionsInternal optionsInternal = new KickOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnKickCompleteCallbackInternal(OnKickCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_RTCAdmin_Kick(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_RTCAdmin_Kick(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -141,19 +141,19 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public void QueryJoinRoomToken(QueryJoinRoomTokenOptions options, object clientData, OnQueryJoinRoomTokenCompleteCallback completionDelegate)
+		public void QueryJoinRoomToken(ref QueryJoinRoomTokenOptions options, object clientData, OnQueryJoinRoomTokenCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryJoinRoomTokenOptionsInternal, QueryJoinRoomTokenOptions>(ref optionsAddress, options);
+			QueryJoinRoomTokenOptionsInternal optionsInternal = new QueryJoinRoomTokenOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryJoinRoomTokenCompleteCallbackInternal(OnQueryJoinRoomTokenCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_RTCAdmin_QueryJoinRoomToken(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_RTCAdmin_QueryJoinRoomToken(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -164,51 +164,51 @@ namespace Epic.OnlineServices.RTCAdmin
 		/// <param name="options">structure containing the room and user to mute.</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void SetParticipantHardMute(SetParticipantHardMuteOptions options, object clientData, OnSetParticipantHardMuteCompleteCallback completionDelegate)
+		public void SetParticipantHardMute(ref SetParticipantHardMuteOptions options, object clientData, OnSetParticipantHardMuteCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SetParticipantHardMuteOptionsInternal, SetParticipantHardMuteOptions>(ref optionsAddress, options);
+			SetParticipantHardMuteOptionsInternal optionsInternal = new SetParticipantHardMuteOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnSetParticipantHardMuteCompleteCallbackInternal(OnSetParticipantHardMuteCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_RTCAdmin_SetParticipantHardMute(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_RTCAdmin_SetParticipantHardMute(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnKickCompleteCallbackInternal))]
-		internal static void OnKickCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnKickCompleteCallbackInternalImplementation(ref KickCompleteCallbackInfoInternal data)
 		{
 			OnKickCompleteCallback callback;
 			KickCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnKickCompleteCallback, KickCompleteCallbackInfoInternal, KickCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryJoinRoomTokenCompleteCallbackInternal))]
-		internal static void OnQueryJoinRoomTokenCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryJoinRoomTokenCompleteCallbackInternalImplementation(ref QueryJoinRoomTokenCompleteCallbackInfoInternal data)
 		{
 			OnQueryJoinRoomTokenCompleteCallback callback;
 			QueryJoinRoomTokenCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryJoinRoomTokenCompleteCallback, QueryJoinRoomTokenCompleteCallbackInfoInternal, QueryJoinRoomTokenCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnSetParticipantHardMuteCompleteCallbackInternal))]
-		internal static void OnSetParticipantHardMuteCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnSetParticipantHardMuteCompleteCallbackInternalImplementation(ref SetParticipantHardMuteCompleteCallbackInfoInternal data)
 		{
 			OnSetParticipantHardMuteCompleteCallback callback;
 			SetParticipantHardMuteCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnSetParticipantHardMuteCompleteCallback, SetParticipantHardMuteCompleteCallbackInfoInternal, SetParticipantHardMuteCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

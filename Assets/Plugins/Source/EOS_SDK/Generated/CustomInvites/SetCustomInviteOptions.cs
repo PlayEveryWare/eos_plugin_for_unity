@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.CustomInvites
 {
-	public class SetCustomInviteOptions
+	public struct SetCustomInviteOptions
 	{
 		/// <summary>
 		/// Local user creating / sending a Custom Invite
@@ -13,11 +13,11 @@ namespace Epic.OnlineServices.CustomInvites
 		/// <summary>
 		/// String payload for the Custom Invite (must be less than <see cref="CustomInvitesInterface.MaxPayloadLength" />)
 		/// </summary>
-		public string Payload { get; set; }
+		public Utf8String Payload { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SetCustomInviteOptionsInternal : ISettable, System.IDisposable
+	internal struct SetCustomInviteOptionsInternal : ISettable<SetCustomInviteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -27,37 +27,39 @@ namespace Epic.OnlineServices.CustomInvites
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string Payload
+		public Utf8String Payload
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Payload, value);
+				Helper.Set(value, ref m_Payload);
 			}
 		}
 
-		public void Set(SetCustomInviteOptions other)
+		public void Set(ref SetCustomInviteOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = CustomInvitesInterface.SetcustominviteApiLatest;
+			LocalUserId = other.LocalUserId;
+			Payload = other.Payload;
+		}
+
+		public void Set(ref SetCustomInviteOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = CustomInvitesInterface.SetcustominviteApiLatest;
-				LocalUserId = other.LocalUserId;
-				Payload = other.Payload;
+				LocalUserId = other.Value.LocalUserId;
+				Payload = other.Value.Payload;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SetCustomInviteOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Payload);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Payload);
 		}
 	}
 }

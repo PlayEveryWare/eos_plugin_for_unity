@@ -15,6 +15,8 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 		public const int AddexternalintegritycatalogApiLatest = 1;
 
+		public const int AddnotifyclientintegrityviolatedApiLatest = 1;
+
 		public const int AddnotifymessagetopeerApiLatest = 1;
 
 		public const int AddnotifymessagetoserverApiLatest = 1;
@@ -45,7 +47,14 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 		public const int ReceivemessagefromserverApiLatest = 1;
 
-		public const int RegisterpeerApiLatest = 1;
+		public const int RegisterpeerApiLatest = 3;
+
+		public const int RegisterpeerMaxAuthenticationtimeout = 120;
+
+		/// <summary>
+		/// Limits on RegisterTimeoutSeconds parameter
+		/// </summary>
+		public const int RegisterpeerMinAuthenticationtimeout = 40;
 
 		public const int UnprotectmessageApiLatest = 1;
 
@@ -61,14 +70,44 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.Success" /> - If the integrity catalog was added successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// </returns>
-		public Result AddExternalIntegrityCatalog(AddExternalIntegrityCatalogOptions options)
+		public Result AddExternalIntegrityCatalog(ref AddExternalIntegrityCatalogOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddExternalIntegrityCatalogOptionsInternal, AddExternalIntegrityCatalogOptions>(ref optionsAddress, options);
+			AddExternalIntegrityCatalogOptionsInternal optionsInternal = new AddExternalIntegrityCatalogOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_AddExternalIntegrityCatalog(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_AddExternalIntegrityCatalog(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Add a callback when a message must be displayed to the local client informing them on a local integrity violation,
+		/// which will prevent further online play.
+		/// Mode: Any.
+		/// </summary>
+		/// <param name="options">Structure containing input data</param>
+		/// <param name="clientData">This value is returned to the caller when NotificationFn is invoked</param>
+		/// <param name="notificationFn">The callback to be fired</param>
+		/// <returns>
+		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
+		/// </returns>
+		public ulong AddNotifyClientIntegrityViolated(ref AddNotifyClientIntegrityViolatedOptions options, object clientData, OnClientIntegrityViolatedCallback notificationFn)
+		{
+			AddNotifyClientIntegrityViolatedOptionsInternal optionsInternal = new AddNotifyClientIntegrityViolatedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnClientIntegrityViolatedCallbackInternal(OnClientIntegrityViolatedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyClientIntegrityViolated(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -84,21 +123,21 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
-		public ulong AddNotifyMessageToPeer(AddNotifyMessageToPeerOptions options, object clientData, OnMessageToPeerCallback notificationFn)
+		public ulong AddNotifyMessageToPeer(ref AddNotifyMessageToPeerOptions options, object clientData, OnMessageToPeerCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyMessageToPeerOptionsInternal, AddNotifyMessageToPeerOptions>(ref optionsAddress, options);
+			AddNotifyMessageToPeerOptionsInternal optionsInternal = new AddNotifyMessageToPeerOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnMessageToPeerCallbackInternal(OnMessageToPeerCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyMessageToPeer(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyMessageToPeer(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -114,21 +153,21 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
-		public ulong AddNotifyMessageToServer(AddNotifyMessageToServerOptions options, object clientData, OnMessageToServerCallback notificationFn)
+		public ulong AddNotifyMessageToServer(ref AddNotifyMessageToServerOptions options, object clientData, OnMessageToServerCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyMessageToServerOptionsInternal, AddNotifyMessageToServerOptions>(ref optionsAddress, options);
+			AddNotifyMessageToServerOptionsInternal optionsInternal = new AddNotifyMessageToServerOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnMessageToServerCallbackInternal(OnMessageToServerCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyMessageToServer(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyMessageToServer(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -144,21 +183,21 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
-		public ulong AddNotifyPeerActionRequired(AddNotifyPeerActionRequiredOptions options, object clientData, OnPeerActionRequiredCallback notificationFn)
+		public ulong AddNotifyPeerActionRequired(ref AddNotifyPeerActionRequiredOptions options, object clientData, OnPeerActionRequiredCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyPeerActionRequiredOptionsInternal, AddNotifyPeerActionRequiredOptions>(ref optionsAddress, options);
+			AddNotifyPeerActionRequiredOptionsInternal optionsInternal = new AddNotifyPeerActionRequiredOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnPeerActionRequiredCallbackInternal(OnPeerActionRequiredCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyPeerActionRequired(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyPeerActionRequired(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -174,21 +213,21 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
-		public ulong AddNotifyPeerAuthStatusChanged(AddNotifyPeerAuthStatusChangedOptions options, object clientData, OnPeerAuthStatusChangedCallback notificationFn)
+		public ulong AddNotifyPeerAuthStatusChanged(ref AddNotifyPeerAuthStatusChangedOptions options, object clientData, OnPeerAuthStatusChangedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyPeerAuthStatusChangedOptionsInternal, AddNotifyPeerAuthStatusChangedOptions>(ref optionsAddress, options);
+			AddNotifyPeerAuthStatusChangedOptionsInternal optionsInternal = new AddNotifyPeerAuthStatusChangedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnPeerAuthStatusChangedCallbackInternal(OnPeerAuthStatusChangedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -205,14 +244,14 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result BeginSession(BeginSessionOptions options)
+		public Result BeginSession(ref BeginSessionOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<BeginSessionOptionsInternal, BeginSessionOptions>(ref optionsAddress, options);
+			BeginSessionOptionsInternal optionsInternal = new BeginSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_BeginSession(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_BeginSession(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -229,14 +268,14 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result EndSession(EndSessionOptions options)
+		public Result EndSession(ref EndSessionOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<EndSessionOptionsInternal, EndSessionOptions>(ref optionsAddress, options);
+			EndSessionOptionsInternal optionsInternal = new EndSessionOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_EndSession(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_EndSession(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -248,22 +287,22 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// Mode: <see cref="AntiCheatClientMode.ClientServer" />.
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
-		/// <param name="outBufferSizeBytes">On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.</param>
+		/// <param name="outBufferLengthBytes">On success, the OutBuffer length in bytes that is required to call ProtectMessage on the given input size.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the output length was calculated successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result GetProtectMessageOutputLength(GetProtectMessageOutputLengthOptions options, out uint outBufferSizeBytes)
+		public Result GetProtectMessageOutputLength(ref GetProtectMessageOutputLengthOptions options, out uint outBufferSizeBytes)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetProtectMessageOutputLengthOptionsInternal, GetProtectMessageOutputLengthOptions>(ref optionsAddress, options);
+			GetProtectMessageOutputLengthOptionsInternal optionsInternal = new GetProtectMessageOutputLengthOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			outBufferSizeBytes = Helper.GetDefault<uint>();
 
-			var funcResult = Bindings.EOS_AntiCheatClient_GetProtectMessageOutputLength(InnerHandle, optionsAddress, ref outBufferSizeBytes);
+			var funcResult = Bindings.EOS_AntiCheatClient_GetProtectMessageOutputLength(InnerHandle, ref optionsInternal, ref outBufferSizeBytes);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -280,6 +319,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// at any time and afterwards the user will be unable to join any protected multiplayer
 		/// session until after restarting the game. Note that this function returns <see cref="Result.NotFound" />
 		/// when everything is normal and there is no violation to display.
+		/// 
+		/// NOTE: This API is deprecated. In order to get client status updates,
+		/// use AddNotifyClientIntegrityViolated to register a callback that will
+		/// be called when violations are triggered.
 		/// </summary>
 		/// <param name="options">Structure containing input data.</param>
 		/// <param name="outViolationType">On success, receives a code describing the violation that occurred.</param>
@@ -289,23 +332,22 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.LimitExceeded" /> - If OutMessage is too small to receive the message string. Call again with a larger OutMessage.
 		/// <see cref="Result.NotFound" /> - If no violation has occurred since the last call
 		/// </returns>
-		public Result PollStatus(PollStatusOptions options, out AntiCheatClientViolationType outViolationType, out string outMessage)
+		public Result PollStatus(ref PollStatusOptions options, out AntiCheatClientViolationType outViolationType, out Utf8String outMessage)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<PollStatusOptionsInternal, PollStatusOptions>(ref optionsAddress, options);
+			PollStatusOptionsInternal optionsInternal = new PollStatusOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			outViolationType = Helper.GetDefault<AntiCheatClientViolationType>();
 
-			System.IntPtr outMessageAddress = System.IntPtr.Zero;
 			uint OutMessageLength = options.OutMessageLength;
-			Helper.TryMarshalAllocate(ref outMessageAddress, OutMessageLength);
+			System.IntPtr outMessageAddress = Helper.AddAllocation(OutMessageLength);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_PollStatus(InnerHandle, optionsAddress, ref outViolationType, outMessageAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_PollStatus(InnerHandle, ref optionsInternal, ref outViolationType, outMessageAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outMessageAddress, out outMessage);
-			Helper.TryMarshalDispose(ref outMessageAddress);
+			Helper.Get(outMessageAddress, out outMessage);
+			Helper.Dispose(ref outMessageAddress);
 
 			return funcResult;
 		}
@@ -325,21 +367,19 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result ProtectMessage(ProtectMessageOptions options, out byte[] outBuffer)
+		public Result ProtectMessage(ref ProtectMessageOptions options, System.ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ProtectMessageOptionsInternal, ProtectMessageOptions>(ref optionsAddress, options);
+			ProtectMessageOptionsInternal optionsInternal = new ProtectMessageOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			System.IntPtr outBufferAddress = System.IntPtr.Zero;
-			uint outBytesWritten = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBytesWritten);
+			outBytesWritten = 0;
+			System.IntPtr outBufferAddress = Helper.AddPinnedBuffer(outBuffer);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_ProtectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBytesWritten);
+			var funcResult = Bindings.EOS_AntiCheatClient_ProtectMessage(InnerHandle, ref optionsInternal, outBufferAddress, ref outBytesWritten);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBytesWritten);
-			Helper.TryMarshalDispose(ref outBufferAddress);
+			Helper.Dispose(ref outBufferAddress);
 
 			return funcResult;
 		}
@@ -354,14 +394,14 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result ReceiveMessageFromPeer(ReceiveMessageFromPeerOptions options)
+		public Result ReceiveMessageFromPeer(ref ReceiveMessageFromPeerOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ReceiveMessageFromPeerOptionsInternal, ReceiveMessageFromPeerOptions>(ref optionsAddress, options);
+			ReceiveMessageFromPeerOptionsInternal optionsInternal = new ReceiveMessageFromPeerOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_ReceiveMessageFromPeer(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_ReceiveMessageFromPeer(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -376,14 +416,14 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result ReceiveMessageFromServer(ReceiveMessageFromServerOptions options)
+		public Result ReceiveMessageFromServer(ref ReceiveMessageFromServerOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ReceiveMessageFromServerOptionsInternal, ReceiveMessageFromServerOptions>(ref optionsAddress, options);
+			ReceiveMessageFromServerOptionsInternal optionsInternal = new ReceiveMessageFromServerOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_ReceiveMessageFromServer(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_ReceiveMessageFromServer(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -401,16 +441,28 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result RegisterPeer(RegisterPeerOptions options)
+		public Result RegisterPeer(ref RegisterPeerOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<RegisterPeerOptionsInternal, RegisterPeerOptions>(ref optionsAddress, options);
+			RegisterPeerOptionsInternal optionsInternal = new RegisterPeerOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_RegisterPeer(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_RegisterPeer(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
+		}
+
+		/// <summary>
+		/// Remove a previously bound <see cref="AddNotifyClientIntegrityViolated" /> handler.
+		/// Mode: Any.
+		/// </summary>
+		/// <param name="notificationId">The previously bound notification ID</param>
+		public void RemoveNotifyClientIntegrityViolated(ulong notificationId)
+		{
+			Bindings.EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -420,9 +472,9 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyMessageToPeer(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_AntiCheatClient_RemoveNotifyMessageToPeer(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -432,9 +484,9 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyMessageToServer(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_AntiCheatClient_RemoveNotifyMessageToServer(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -444,9 +496,9 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyPeerActionRequired(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_AntiCheatClient_RemoveNotifyPeerActionRequired(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -456,9 +508,9 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyPeerAuthStatusChanged(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -476,21 +528,19 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result UnprotectMessage(UnprotectMessageOptions options, out byte[] outBuffer)
+		public Result UnprotectMessage(ref UnprotectMessageOptions options, System.ArraySegment<byte> outBuffer, out uint outBytesWritten)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UnprotectMessageOptionsInternal, UnprotectMessageOptions>(ref optionsAddress, options);
+			UnprotectMessageOptionsInternal optionsInternal = new UnprotectMessageOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			System.IntPtr outBufferAddress = System.IntPtr.Zero;
-			uint outBytesWritten = options.OutBufferSizeBytes;
-			Helper.TryMarshalAllocate(ref outBufferAddress, outBytesWritten);
+			outBytesWritten = 0;
+			System.IntPtr outBufferAddress = Helper.AddPinnedBuffer(outBuffer);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_UnprotectMessage(InnerHandle, optionsAddress, outBufferAddress, ref outBytesWritten);
+			var funcResult = Bindings.EOS_AntiCheatClient_UnprotectMessage(InnerHandle, ref optionsInternal, outBufferAddress, ref outBytesWritten);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outBufferAddress, out outBuffer, outBytesWritten);
-			Helper.TryMarshalDispose(ref outBufferAddress);
+			Helper.Dispose(ref outBufferAddress);
 
 			return funcResult;
 		}
@@ -507,59 +557,70 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
-		public Result UnregisterPeer(UnregisterPeerOptions options)
+		public Result UnregisterPeer(ref UnregisterPeerOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UnregisterPeerOptionsInternal, UnregisterPeerOptions>(ref optionsAddress, options);
+			UnregisterPeerOptionsInternal optionsInternal = new UnregisterPeerOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_AntiCheatClient_UnregisterPeer(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_AntiCheatClient_UnregisterPeer(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
+		[MonoPInvokeCallback(typeof(OnClientIntegrityViolatedCallbackInternal))]
+		internal static void OnClientIntegrityViolatedCallbackInternalImplementation(ref OnClientIntegrityViolatedCallbackInfoInternal data)
+		{
+			OnClientIntegrityViolatedCallback callback;
+			OnClientIntegrityViolatedCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
 		[MonoPInvokeCallback(typeof(OnMessageToPeerCallbackInternal))]
-		internal static void OnMessageToPeerCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnMessageToPeerCallbackInternalImplementation(ref AntiCheatCommon.OnMessageToClientCallbackInfoInternal data)
 		{
 			OnMessageToPeerCallback callback;
 			AntiCheatCommon.OnMessageToClientCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnMessageToPeerCallback, AntiCheatCommon.OnMessageToClientCallbackInfoInternal, AntiCheatCommon.OnMessageToClientCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnMessageToServerCallbackInternal))]
-		internal static void OnMessageToServerCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnMessageToServerCallbackInternalImplementation(ref OnMessageToServerCallbackInfoInternal data)
 		{
 			OnMessageToServerCallback callback;
 			OnMessageToServerCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnMessageToServerCallback, OnMessageToServerCallbackInfoInternal, OnMessageToServerCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnPeerActionRequiredCallbackInternal))]
-		internal static void OnPeerActionRequiredCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnPeerActionRequiredCallbackInternalImplementation(ref AntiCheatCommon.OnClientActionRequiredCallbackInfoInternal data)
 		{
 			OnPeerActionRequiredCallback callback;
 			AntiCheatCommon.OnClientActionRequiredCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnPeerActionRequiredCallback, AntiCheatCommon.OnClientActionRequiredCallbackInfoInternal, AntiCheatCommon.OnClientActionRequiredCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnPeerAuthStatusChangedCallbackInternal))]
-		internal static void OnPeerAuthStatusChangedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnPeerAuthStatusChangedCallbackInternalImplementation(ref AntiCheatCommon.OnClientAuthStatusChangedCallbackInfoInternal data)
 		{
 			OnPeerAuthStatusChangedCallback callback;
 			AntiCheatCommon.OnClientAuthStatusChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnPeerAuthStatusChangedCallback, AntiCheatCommon.OnClientAuthStatusChangedCallbackInfoInternal, AntiCheatCommon.OnClientAuthStatusChangedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

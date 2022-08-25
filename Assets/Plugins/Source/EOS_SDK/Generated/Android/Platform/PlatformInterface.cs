@@ -8,16 +8,16 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The most recent version of the <see cref="AndroidInitializeOptionsSystemInitializeOptions" /> structure.
 		/// </summary>
-		public const int AndroidinitializeoptionssysteminitializeoptionsApiLatest = 2;
+		public const int AndroidInitializeoptionssysteminitializeoptionsApiLatest = 2;
 
-		public static Result Initialize(AndroidInitializeOptions options)
+		public static Result Initialize(ref AndroidInitializeOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AndroidInitializeOptionsInternal, AndroidInitializeOptions>(ref optionsAddress, options);
+			AndroidInitializeOptionsInternal optionsInternal = new AndroidInitializeOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Initialize(optionsAddress);
+			var funcResult = AndroidBindings.EOS_Initialize(ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}

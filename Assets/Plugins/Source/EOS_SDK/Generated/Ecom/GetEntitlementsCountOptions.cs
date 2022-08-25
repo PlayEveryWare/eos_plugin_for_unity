@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.GetEntitlementsCount" /> function.
 	/// </summary>
-	public class GetEntitlementsCountOptions
+	public struct GetEntitlementsCountOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user for which to retrieve the entitlement count
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetEntitlementsCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetEntitlementsCountOptionsInternal : ISettable<GetEntitlementsCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(GetEntitlementsCountOptions other)
+		public void Set(ref GetEntitlementsCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.GetentitlementscountApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref GetEntitlementsCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.GetentitlementscountApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetEntitlementsCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

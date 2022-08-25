@@ -22,6 +22,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Unity.EditorCoroutines.Editor;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
@@ -41,12 +42,13 @@ public class UnityPackageCreationTool : EditorWindow
     string pathToJSONPackageDescription = "";
     string pathToOutput = "";
     string customBuildDirectoryPath = "";
+    EOSPluginEditorPackagingConfigSection packagingConfigSection;
 
     //-------------------------------------------------------------------------
     [MenuItem("Tools/Create Package")]
     public static void ShowWindow()
     {
-        GetWindow(typeof(UnityPackageCreationTool));
+        GetWindow(typeof(UnityPackageCreationTool), false, "Create Package", true);
     }
 
     //-------------------------------------------------------------------------
@@ -64,8 +66,26 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private void Awake()
     {
+        packagingConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorPackagingConfigSection>();
+        packagingConfigSection.Awake();
+        packagingConfigSection.LoadConfigFromDisk();
+
         // Configure UI defaults
         pathToJSONPackageDescription = Path.Combine(GetPackageConfigDirectory(), "eos_package_description.json");
+
+        var currentConfig = packagingConfigSection.GetCurrentConfig();
+        if (!string.IsNullOrEmpty(currentConfig.pathToJSONPackageDescription))
+        {
+            pathToJSONPackageDescription = currentConfig.pathToJSONPackageDescription;
+        }
+        if (!string.IsNullOrEmpty(currentConfig.pathToOutput))
+        {
+            pathToOutput = currentConfig.pathToOutput;
+        }
+        if(!string.IsNullOrEmpty(currentConfig.customBuildDirectoryPath))
+        {
+            customBuildDirectoryPath = currentConfig.customBuildDirectoryPath;
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -78,7 +98,12 @@ public class UnityPackageCreationTool : EditorWindow
         GUILayout.Label(pathToJSONPackageDescription);
         if (GUILayout.Button("Select"))
         {
-            pathToJSONPackageDescription = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
+            var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
+            if (!string.IsNullOrWhiteSpace(jsonFile))
+            {
+                pathToJSONPackageDescription = jsonFile;
+                packagingConfigSection.GetCurrentConfig().pathToJSONPackageDescription = pathToJSONPackageDescription;
+            }
         }
 
         GUILayout.EndHorizontal();
@@ -88,7 +113,12 @@ public class UnityPackageCreationTool : EditorWindow
         GUILayout.Label(pathToOutput);
         if (GUILayout.Button("Select"))
         {
-            pathToOutput = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
+            var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
+            if (!string.IsNullOrWhiteSpace(outputDir))
+            {
+                pathToOutput = outputDir;
+                packagingConfigSection.GetCurrentConfig().pathToOutput = pathToOutput;
+            }
         }
         GUILayout.EndHorizontal();
 
@@ -97,23 +127,28 @@ public class UnityPackageCreationTool : EditorWindow
         GUILayout.Label(customBuildDirectoryPath);
         if (GUILayout.Button("Select"))
         {
-            customBuildDirectoryPath = EditorUtility.OpenFolderPanel("Pick Custom Build Directory", "", "");
+            var buildDir = EditorUtility.OpenFolderPanel("Pick Custom Build Directory", "", "");
+            if (!string.IsNullOrWhiteSpace(buildDir))
+            {
+                customBuildDirectoryPath = buildDir;
+                packagingConfigSection.GetCurrentConfig().customBuildDirectoryPath = buildDir;
+            }
         }
         GUILayout.EndHorizontal();
 
         if (GUILayout.Button("Create UPM Package"))
         {
-            if (pathToOutput.Length == 0)
+            if (string.IsNullOrWhiteSpace(pathToOutput))
             {
                 return;
             }
-
+            packagingConfigSection.SaveToJSONConfig(true);
             CreateUPMPackage(pathToOutput, pathToJSONPackageDescription);
         }
 
         if (GUILayout.Button("Create .unitypackage"))
         {
-            if (pathToOutput.Length == 0)
+            if (string.IsNullOrWhiteSpace(pathToOutput))
             {
                 return;
             }
@@ -122,21 +157,11 @@ public class UnityPackageCreationTool : EditorWindow
 
         if (GUILayout.Button("Export to Custom Build Directory"))
         {
-            if (customBuildDirectoryPath.Length == 0)
+            if (string.IsNullOrWhiteSpace(customBuildDirectoryPath))
             {
                 return;
             }
             CopyFilesInPackageDescriptionToBuildDir(pathToJSONPackageDescription);
-
-        }
-
-        if (packRequest != null && !packRequest.IsCompleted)
-        {
-            EditorUtility.DisplayProgressBar("Title", "Info", 0.5f);
-        }
-        else
-        {
-            EditorUtility.ClearProgressBar();
         }
     }
 
@@ -192,23 +217,10 @@ public class UnityPackageCreationTool : EditorWindow
         string packageFolder = GetPackageOutputFolder();
         var fileInfoForFilesToCompress = GetFileInfoMatchingPackageDescription(packageDescription);
 
+        EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.3f);
         CopyFilesToPackageDirectory(packageFolder, fileInfoForFilesToCompress);
 
-        packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
-
-        
-        while(!packRequest.IsCompleted)
-        {
-            EditorUtility.DisplayProgressBar("PEW Package Tool", "Packaging...", 0.5f);
-        }
-
-        if (packRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
-        {
-            if (packRequest.Error != null)
-            {
-                throw new Exception("Error making package " + packRequest.Error.message);
-            }
-        }
+        this.StartCoroutine(ClientMakePackage(packageFolder, outputPath));
     }
 
     //-------------------------------------------------------------------------
@@ -223,7 +235,9 @@ public class UnityPackageCreationTool : EditorWindow
         var toExport = fileInfoForFilesToCompress.Where((path) => { return !path.Contains(".meta"); }).ToArray();
         var options = ExportPackageOptions.Interactive;
 
+        EditorUtility.DisplayProgressBar("PEW Package Tool", "Packaging...", 0.5f);
         AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);
+        EditorUtility.ClearProgressBar();
     }
 
     //-------------------------------------------------------------------------
@@ -231,7 +245,10 @@ public class UnityPackageCreationTool : EditorWindow
     {
         var packageDescription = ReadPackageDescription(pathToJSONPackageDescription);
         var fileInfoForFilesToCopy = GetFileInfoMatchingPackageDescription(packageDescription);
+
+        EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.5f);
         CopyFilesToPackageDirectory(customBuildDirectoryPath, fileInfoForFilesToCopy);
+        EditorUtility.ClearProgressBar();
     }
 
     //-------------------------------------------------------------------------
@@ -259,5 +276,29 @@ public class UnityPackageCreationTool : EditorWindow
                 }
             }
         }
+    }
+
+    //-------------------------------------------------------------------------
+    // Helper coroutine for making the client package.
+    private IEnumerator ClientMakePackage(string packageFolder, string outputPath)
+    {
+        packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
+
+        EditorUtility.DisplayProgressBar("PEW Package Tool", "Packaging...", 0.5f);
+
+        while (!packRequest.IsCompleted)
+        {
+            yield return null;
+        }
+
+        if (packRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
+        {
+            if (packRequest.Error != null)
+            {
+                throw new Exception("Error making package " + packRequest.Error.message);
+            }
+        }
+
+        EditorUtility.ClearProgressBar();
     }
 }

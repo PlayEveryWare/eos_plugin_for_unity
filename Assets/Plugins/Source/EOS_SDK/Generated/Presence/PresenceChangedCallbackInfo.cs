@@ -6,46 +6,38 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data containing which users presence has changed
 	/// </summary>
-	public class PresenceChangedCallbackInfo : ICallbackInfo, ISettable
+	public struct PresenceChangedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Client-specified data passed into <see cref="PresenceInterface.AddNotifyOnPresenceChanged" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the local user who is being informed for PresenceUserId's presence change
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the user who had their presence changed
 		/// </summary>
-		public EpicAccountId PresenceUserId { get; private set; }
+		public EpicAccountId PresenceUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(PresenceChangedCallbackInfoInternal? other)
+		internal void Set(ref PresenceChangedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				PresenceUserId = other.Value.PresenceUserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PresenceChangedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			PresenceUserId = other.PresenceUserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PresenceChangedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct PresenceChangedCallbackInfoInternal : ICallbackInfoInternal, IGettable<PresenceChangedCallbackInfo>, ISettable<PresenceChangedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -56,8 +48,13 @@ namespace Epic.OnlineServices.Presence
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -74,8 +71,13 @@ namespace Epic.OnlineServices.Presence
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -84,9 +86,44 @@ namespace Epic.OnlineServices.Presence
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_PresenceUserId, out value);
+				Helper.Get(m_PresenceUserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_PresenceUserId);
+			}
+		}
+
+		public void Set(ref PresenceChangedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			PresenceUserId = other.PresenceUserId;
+		}
+
+		public void Set(ref PresenceChangedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				PresenceUserId = other.Value.PresenceUserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_PresenceUserId);
+		}
+
+		public void Get(out PresenceChangedCallbackInfo output)
+		{
+			output = new PresenceChangedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

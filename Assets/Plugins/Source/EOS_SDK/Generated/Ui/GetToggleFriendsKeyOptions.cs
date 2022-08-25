@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.UI
 	/// <summary>
 	/// Input parameters for the <see cref="UIInterface.GetToggleFriendsKey" /> function.
 	/// </summary>
-	public class GetToggleFriendsKeyOptions
+	public struct GetToggleFriendsKeyOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetToggleFriendsKeyOptionsInternal : ISettable, System.IDisposable
+	internal struct GetToggleFriendsKeyOptionsInternal : ISettable<GetToggleFriendsKeyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(GetToggleFriendsKeyOptions other)
+		public void Set(ref GetToggleFriendsKeyOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = UIInterface.GettogglefriendskeyApiLatest;
+		}
+
+		public void Set(ref GetToggleFriendsKeyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = UIInterface.GettogglefriendskeyApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetToggleFriendsKeyOptions);
 		}
 
 		public void Dispose()

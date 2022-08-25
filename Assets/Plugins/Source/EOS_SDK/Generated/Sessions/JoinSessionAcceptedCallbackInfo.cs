@@ -6,48 +6,40 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Output parameters for the <see cref="OnJoinSessionAcceptedCallback" /> function.
 	/// </summary>
-	public class JoinSessionAcceptedCallbackInfo : ICallbackInfo, ISettable
+	public struct JoinSessionAcceptedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// Context that was passed into <see cref="SessionsInterface.AddNotifyJoinSessionAccepted" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID for the user who initialized the game
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The UI Event associated with this Join Game event.
 		/// This should be used with <see cref="SessionsInterface.CopySessionHandleByUiEventId" /> to get a handle to be used
 		/// when calling <see cref="SessionsInterface.JoinSession" />.
 		/// </summary>
-		public ulong UiEventId { get; private set; }
+		public ulong UiEventId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(JoinSessionAcceptedCallbackInfoInternal? other)
+		internal void Set(ref JoinSessionAcceptedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				UiEventId = other.Value.UiEventId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as JoinSessionAcceptedCallbackInfoInternal?);
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			UiEventId = other.UiEventId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct JoinSessionAcceptedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct JoinSessionAcceptedCallbackInfoInternal : ICallbackInfoInternal, IGettable<JoinSessionAcceptedCallbackInfo>, ISettable<JoinSessionAcceptedCallbackInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
@@ -58,8 +50,13 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -76,8 +73,13 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -87,6 +89,40 @@ namespace Epic.OnlineServices.Sessions
 			{
 				return m_UiEventId;
 			}
+
+			set
+			{
+				m_UiEventId = value;
+			}
+		}
+
+		public void Set(ref JoinSessionAcceptedCallbackInfo other)
+		{
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			UiEventId = other.UiEventId;
+		}
+
+		public void Set(ref JoinSessionAcceptedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				UiEventId = other.Value.UiEventId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+		}
+
+		public void Get(out JoinSessionAcceptedCallbackInfo output)
+		{
+			output = new JoinSessionAcceptedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

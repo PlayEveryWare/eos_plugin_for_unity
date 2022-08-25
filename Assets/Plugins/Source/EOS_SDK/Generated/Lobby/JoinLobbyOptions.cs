@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.JoinLobby" /> function.
 	/// </summary>
-	public class JoinLobbyOptions
+	public struct JoinLobbyOptions
 	{
 		/// <summary>
 		/// The handle of the lobby to join
@@ -21,11 +21,10 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// If true, this lobby will be associated with the user's presence information. A user can only associate one lobby at a time with their presence information.
 		/// This affects the ability of the Social Overlay to show game related actions to take in the user's social graph.
-		/// 
-		/// @note The Social Overlay can handle only one of the following three options at a time:
+		/// The Social Overlay can handle only one of the following three options at a time:
 		/// using the bPresenceEnabled flags within the Sessions interface
 		/// using the bPresenceEnabled flags within the Lobby interface
-		/// using <see cref="Presence.PresenceModification.SetJoinInfo" />
+		/// using EOS_PresenceModification_SetJoinInfo
 		/// <seealso cref="Presence.PresenceModificationSetJoinInfoOptions" />
 		/// <seealso cref="CreateLobbyOptions" />
 		/// <seealso cref="JoinLobbyOptions" />
@@ -35,15 +34,15 @@ namespace Epic.OnlineServices.Lobby
 		public bool PresenceEnabled { get; set; }
 
 		/// <summary>
-		/// (Optional) Set this value to override the default local options for the RTC Room, if it is enabled for this lobby. Set this to NULL if
+		/// (Optional) Set this value to override the default local options for the RTC Room, if it is enabled for this lobby. Set this to <see langword="null" /> if
 		/// your application does not use the Lobby RTC Rooms feature, or if you would like to use the default settings. This option is ignored if
 		/// the specified lobby does not have an RTC Room enabled and will not cause errors.
 		/// </summary>
-		public LocalRTCOptions LocalRTCOptions { get; set; }
+		public LocalRTCOptions? LocalRTCOptions { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct JoinLobbyOptionsInternal : ISettable, System.IDisposable
+	internal struct JoinLobbyOptionsInternal : ISettable<JoinLobbyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LobbyDetailsHandle;
@@ -55,7 +54,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyDetailsHandle, value);
+				Helper.Set(value, ref m_LobbyDetailsHandle);
 			}
 		}
 
@@ -63,7 +62,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -71,40 +70,44 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PresenceEnabled, value);
+				Helper.Set(value, ref m_PresenceEnabled);
 			}
 		}
 
-		public LocalRTCOptions LocalRTCOptions
+		public LocalRTCOptions? LocalRTCOptions
 		{
 			set
 			{
-				Helper.TryMarshalSet<LocalRTCOptionsInternal, LocalRTCOptions>(ref m_LocalRTCOptions, value);
+				Helper.Set<LocalRTCOptions, LocalRTCOptionsInternal>(ref value, ref m_LocalRTCOptions);
 			}
 		}
 
-		public void Set(JoinLobbyOptions other)
+		public void Set(ref JoinLobbyOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.JoinlobbyApiLatest;
+			LobbyDetailsHandle = other.LobbyDetailsHandle;
+			LocalUserId = other.LocalUserId;
+			PresenceEnabled = other.PresenceEnabled;
+			LocalRTCOptions = other.LocalRTCOptions;
+		}
+
+		public void Set(ref JoinLobbyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.JoinlobbyApiLatest;
-				LobbyDetailsHandle = other.LobbyDetailsHandle;
-				LocalUserId = other.LocalUserId;
-				PresenceEnabled = other.PresenceEnabled;
-				LocalRTCOptions = other.LocalRTCOptions;
+				LobbyDetailsHandle = other.Value.LobbyDetailsHandle;
+				LocalUserId = other.Value.LocalUserId;
+				PresenceEnabled = other.Value.PresenceEnabled;
+				LocalRTCOptions = other.Value.LocalRTCOptions;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as JoinLobbyOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LobbyDetailsHandle);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_LocalRTCOptions);
+			Helper.Dispose(ref m_LobbyDetailsHandle);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalRTCOptions);
 		}
 	}
 }

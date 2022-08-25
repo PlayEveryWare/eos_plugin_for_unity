@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.CreateLobbySearch" /> function.
 	/// </summary>
-	public class CreateLobbySearchOptions
+	public struct CreateLobbySearchOptions
 	{
 		/// <summary>
 		/// Maximum number of results allowed from the search
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CreateLobbySearchOptionsInternal : ISettable, System.IDisposable
+	internal struct CreateLobbySearchOptionsInternal : ISettable<CreateLobbySearchOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_MaxResults;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(CreateLobbySearchOptions other)
+		public void Set(ref CreateLobbySearchOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyInterface.CreatelobbysearchApiLatest;
-				MaxResults = other.MaxResults;
-			}
+			m_ApiVersion = LobbyInterface.CreatelobbysearchApiLatest;
+			MaxResults = other.MaxResults;
 		}
 
-		public void Set(object other)
+		public void Set(ref CreateLobbySearchOptions? other)
 		{
-			Set(other as CreateLobbySearchOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyInterface.CreatelobbysearchApiLatest;
+				MaxResults = other.Value.MaxResults;
+			}
 		}
 
 		public void Dispose()

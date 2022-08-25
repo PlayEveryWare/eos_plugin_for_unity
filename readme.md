@@ -10,7 +10,7 @@ Things this plugin provides:
 * Feature specific manager classes for most common use-cases of EOS SDK API
 * Feature specific samples as Unity scenes
 * Social Overlay support
-* Targets [EOS SDK 1.14.2-hf-1] (https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.14.2-hf-1_hotfix_-feb.14,2022) *(bundled with plugin)*
+* Targets [EOS SDK 1.15] (https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.15-16june,2022) *(bundled with plugin)*
 * Targets [Unity 2020.1](https://unity.com/releases/2020-1)
 
 This repo contains:
@@ -31,7 +31,7 @@ The follow target platforms are supported in Unity for the current release of th
 | Universal Windows Platform x64 | Supported |
 | Android | Future |
 | iOS | Future |
-| Linux | Future |
+| Linux | [Supported](docs/linux/linux_supported_versions.md) |
 | MacOS | Future |
 | Console Platforms | Future |
 | WebGL | Not Supported |
@@ -125,7 +125,8 @@ To get the EOS working, the plugin needs to know some specific things about your
     * [DeploymentID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=DeploymentId)
     * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientSecret)
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientId)
-    * EncryptionKey
+
+5) If you've already configured an encryption key in the EOS portal, enter it into the Encryption Key field. Otherwise, click the Generate button to make a random one.
    
 At this point, you are ready to start developing using the Epic Online Services Plugin for Unity!  Simply attach <code>EOSManager.cs (Script)</code> to a Unity object and it will intialize the plugin with the specified configuration in <code>OnAwake()</code>.
 

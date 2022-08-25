@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Lobby
 	/// Function prototype definition for callbacks passed to <see cref="LobbySearch.Find" />
 	/// </summary>
 	/// <param name="data">A <see cref="LobbySearch.Find" /> CallbackInfo containing the output information and result</param>
-	public delegate void LobbySearchOnFindCallback(LobbySearchFindCallbackInfo data);
+	public delegate void LobbySearchOnFindCallback(ref LobbySearchFindCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void LobbySearchOnFindCallbackInternal(System.IntPtr data);
+	internal delegate void LobbySearchOnFindCallbackInternal(ref LobbySearchFindCallbackInfoInternal data);
 }

@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.RTCAdmin
 	/// <summary>
 	/// Input parameters for the <see cref="RTCAdminInterface.Kick" /> function.
 	/// </summary>
-	public class KickOptions
+	public struct KickOptions
 	{
 		/// <summary>
 		/// Room name to kick the participant from
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// Product User ID of the participant to kick from the room
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.RTCAdmin
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct KickOptionsInternal : ISettable, System.IDisposable
+	internal struct KickOptionsInternal : ISettable<KickOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_RoomName;
 		private System.IntPtr m_TargetUserId;
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
@@ -38,29 +38,31 @@ namespace Epic.OnlineServices.RTCAdmin
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(KickOptions other)
+		public void Set(ref KickOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAdminInterface.KickApiLatest;
+			RoomName = other.RoomName;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref KickOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAdminInterface.KickApiLatest;
-				RoomName = other.RoomName;
-				TargetUserId = other.TargetUserId;
+				RoomName = other.Value.RoomName;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as KickOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_RoomName);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

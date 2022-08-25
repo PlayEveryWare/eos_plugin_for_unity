@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbySearch.SetLobbyId" /> function.
 	/// </summary>
-	public class LobbySearchSetLobbyIdOptions
+	public struct LobbySearchSetLobbyIdOptions
 	{
 		/// <summary>
 		/// The ID of the lobby to find
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbySearchSetLobbyIdOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbySearchSetLobbyIdOptionsInternal : ISettable<LobbySearchSetLobbyIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LobbyId;
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
-		public void Set(LobbySearchSetLobbyIdOptions other)
+		public void Set(ref LobbySearchSetLobbyIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbySearch.LobbysearchSetlobbyidApiLatest;
+			LobbyId = other.LobbyId;
+		}
+
+		public void Set(ref LobbySearchSetLobbyIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbySearch.LobbysearchSetlobbyidApiLatest;
-				LobbyId = other.LobbyId;
+				LobbyId = other.Value.LobbyId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbySearchSetLobbyIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LobbyId);
 		}
 	}
 }

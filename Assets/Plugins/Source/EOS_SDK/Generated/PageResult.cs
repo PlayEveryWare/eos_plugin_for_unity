@@ -6,7 +6,7 @@ namespace Epic.OnlineServices
 	/// <summary>
 	/// A page result is part of query callback info. It is used to provide pagination details of query results.
 	/// </summary>
-	public class PageResult : ISettable
+	public struct PageResult
 	{
 		/// <summary>
 		/// The index into the ordered query results to start the page at.
@@ -23,24 +23,16 @@ namespace Epic.OnlineServices
 		/// </summary>
 		public int TotalCount { get; set; }
 
-		internal void Set(PageResultInternal? other)
+		internal void Set(ref PageResultInternal other)
 		{
-			if (other != null)
-			{
-				StartIndex = other.Value.StartIndex;
-				Count = other.Value.Count;
-				TotalCount = other.Value.TotalCount;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as PageResultInternal?);
+			StartIndex = other.StartIndex;
+			Count = other.Count;
+			TotalCount = other.TotalCount;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct PageResultInternal : ISettable, System.IDisposable
+	internal struct PageResultInternal : IGettable<PageResult>, ISettable<PageResult>, System.IDisposable
 	{
 		private int m_StartIndex;
 		private int m_Count;
@@ -85,23 +77,31 @@ namespace Epic.OnlineServices
 			}
 		}
 
-		public void Set(PageResult other)
+		public void Set(ref PageResult other)
 		{
-			if (other != null)
-			{
-				StartIndex = other.StartIndex;
-				Count = other.Count;
-				TotalCount = other.TotalCount;
-			}
+			StartIndex = other.StartIndex;
+			Count = other.Count;
+			TotalCount = other.TotalCount;
 		}
 
-		public void Set(object other)
+		public void Set(ref PageResult? other)
 		{
-			Set(other as PageResult);
+			if (other.HasValue)
+			{
+				StartIndex = other.Value.StartIndex;
+				Count = other.Value.Count;
+				TotalCount = other.Value.TotalCount;
+			}
 		}
 
 		public void Dispose()
 		{
+		}
+
+		public void Get(out PageResult output)
+		{
+			output = new PageResult();
+			output.Set(ref this);
 		}
 	}
 }

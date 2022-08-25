@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is used to get information about a specific output device.
 	/// </summary>
-	public class AudioOutputDeviceInfo : ISettable
+	public struct AudioOutputDeviceInfo
 	{
 		/// <summary>
 		/// True if this is the default audio output device in the system.
@@ -15,32 +15,26 @@ namespace Epic.OnlineServices.RTCAudio
 
 		/// <summary>
 		/// The persistent unique id of the device.
+		/// The value can be cached - invalidated only when the audio device pool is changed.
+		/// <seealso cref="RTCAudioInterface.AddNotifyAudioDevicesChanged" />
 		/// </summary>
-		public string DeviceId { get; set; }
+		public Utf8String DeviceId { get; set; }
 
 		/// <summary>
-		/// The name of the device
+		/// The human readable name of the device
 		/// </summary>
-		public string DeviceName { get; set; }
+		public Utf8String DeviceName { get; set; }
 
-		internal void Set(AudioOutputDeviceInfoInternal? other)
+		internal void Set(ref AudioOutputDeviceInfoInternal other)
 		{
-			if (other != null)
-			{
-				DefaultDevice = other.Value.DefaultDevice;
-				DeviceId = other.Value.DeviceId;
-				DeviceName = other.Value.DeviceName;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AudioOutputDeviceInfoInternal?);
+			DefaultDevice = other.DefaultDevice;
+			DeviceId = other.DeviceId;
+			DeviceName = other.DeviceName;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AudioOutputDeviceInfoInternal : ISettable, System.IDisposable
+	internal struct AudioOutputDeviceInfoInternal : IGettable<AudioOutputDeviceInfo>, ISettable<AudioOutputDeviceInfo>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private int m_DefaultDevice;
@@ -52,66 +46,75 @@ namespace Epic.OnlineServices.RTCAudio
 			get
 			{
 				bool value;
-				Helper.TryMarshalGet(m_DefaultDevice, out value);
+				Helper.Get(m_DefaultDevice, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DefaultDevice, value);
+				Helper.Set(value, ref m_DefaultDevice);
 			}
 		}
 
-		public string DeviceId
+		public Utf8String DeviceId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DeviceId, out value);
+				Utf8String value;
+				Helper.Get(m_DeviceId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DeviceId, value);
+				Helper.Set(value, ref m_DeviceId);
 			}
 		}
 
-		public string DeviceName
+		public Utf8String DeviceName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DeviceName, out value);
+				Utf8String value;
+				Helper.Get(m_DeviceName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DeviceName, value);
+				Helper.Set(value, ref m_DeviceName);
 			}
 		}
 
-		public void Set(AudioOutputDeviceInfo other)
+		public void Set(ref AudioOutputDeviceInfo other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.AudiooutputdeviceinfoApiLatest;
+			DefaultDevice = other.DefaultDevice;
+			DeviceId = other.DeviceId;
+			DeviceName = other.DeviceName;
+		}
+
+		public void Set(ref AudioOutputDeviceInfo? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.AudiooutputdeviceinfoApiLatest;
-				DefaultDevice = other.DefaultDevice;
-				DeviceId = other.DeviceId;
-				DeviceName = other.DeviceName;
+				DefaultDevice = other.Value.DefaultDevice;
+				DeviceId = other.Value.DeviceId;
+				DeviceName = other.Value.DeviceName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AudioOutputDeviceInfo);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_DeviceId);
-			Helper.TryMarshalDispose(ref m_DeviceName);
+			Helper.Dispose(ref m_DeviceId);
+			Helper.Dispose(ref m_DeviceName);
+		}
+
+		public void Get(out AudioOutputDeviceInfo output)
+		{
+			output = new AudioOutputDeviceInfo();
+			output.Set(ref this);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.TitleStorage
 	/// <summary>
 	/// Metadata information for a specific file
 	/// </summary>
-	public class FileMetadata : ISettable
+	public struct FileMetadata
 	{
 		/// <summary>
 		/// The total size of the file in bytes (Includes file header in addition to file contents).
@@ -16,37 +16,29 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <summary>
 		/// The MD5 Hash of the entire file (including additional file header), in hex digits
 		/// </summary>
-		public string MD5Hash { get; set; }
+		public Utf8String MD5Hash { get; set; }
 
 		/// <summary>
 		/// The file's name
 		/// </summary>
-		public string Filename { get; set; }
+		public Utf8String Filename { get; set; }
 
 		/// <summary>
 		/// The size of data (payload) in file in unencrypted (original) form.
 		/// </summary>
 		public uint UnencryptedDataSizeBytes { get; set; }
 
-		internal void Set(FileMetadataInternal? other)
+		internal void Set(ref FileMetadataInternal other)
 		{
-			if (other != null)
-			{
-				FileSizeBytes = other.Value.FileSizeBytes;
-				MD5Hash = other.Value.MD5Hash;
-				Filename = other.Value.Filename;
-				UnencryptedDataSizeBytes = other.Value.UnencryptedDataSizeBytes;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as FileMetadataInternal?);
+			FileSizeBytes = other.FileSizeBytes;
+			MD5Hash = other.MD5Hash;
+			Filename = other.Filename;
+			UnencryptedDataSizeBytes = other.UnencryptedDataSizeBytes;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct FileMetadataInternal : ISettable, System.IDisposable
+	internal struct FileMetadataInternal : IGettable<FileMetadata>, ISettable<FileMetadata>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_FileSizeBytes;
@@ -67,33 +59,33 @@ namespace Epic.OnlineServices.TitleStorage
 			}
 		}
 
-		public string MD5Hash
+		public Utf8String MD5Hash
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_MD5Hash, out value);
+				Utf8String value;
+				Helper.Get(m_MD5Hash, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_MD5Hash, value);
+				Helper.Set(value, ref m_MD5Hash);
 			}
 		}
 
-		public string Filename
+		public Utf8String Filename
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Filename, out value);
+				Utf8String value;
+				Helper.Get(m_Filename, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Filename, value);
+				Helper.Set(value, ref m_Filename);
 			}
 		}
 
@@ -110,27 +102,37 @@ namespace Epic.OnlineServices.TitleStorage
 			}
 		}
 
-		public void Set(FileMetadata other)
+		public void Set(ref FileMetadata other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = TitleStorageInterface.FilemetadataApiLatest;
-				FileSizeBytes = other.FileSizeBytes;
-				MD5Hash = other.MD5Hash;
-				Filename = other.Filename;
-				UnencryptedDataSizeBytes = other.UnencryptedDataSizeBytes;
-			}
+			m_ApiVersion = TitleStorageInterface.FilemetadataApiLatest;
+			FileSizeBytes = other.FileSizeBytes;
+			MD5Hash = other.MD5Hash;
+			Filename = other.Filename;
+			UnencryptedDataSizeBytes = other.UnencryptedDataSizeBytes;
 		}
 
-		public void Set(object other)
+		public void Set(ref FileMetadata? other)
 		{
-			Set(other as FileMetadata);
+			if (other.HasValue)
+			{
+				m_ApiVersion = TitleStorageInterface.FilemetadataApiLatest;
+				FileSizeBytes = other.Value.FileSizeBytes;
+				MD5Hash = other.Value.MD5Hash;
+				Filename = other.Value.Filename;
+				UnencryptedDataSizeBytes = other.Value.UnencryptedDataSizeBytes;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_MD5Hash);
-			Helper.TryMarshalDispose(ref m_Filename);
+			Helper.Dispose(ref m_MD5Hash);
+			Helper.Dispose(ref m_Filename);
+		}
+
+		public void Get(out FileMetadata output)
+		{
+			output = new FileMetadata();
+			output.Set(ref this);
 		}
 	}
 }

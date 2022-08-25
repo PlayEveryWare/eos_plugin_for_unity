@@ -7,8 +7,8 @@ namespace Epic.OnlineServices.Lobby
 	/// Function prototype definition for callbacks passed to <see cref="LobbyInterface.PromoteMember" />
 	/// </summary>
 	/// <param name="data">A <see cref="LobbyInterface.PromoteMember" /> CallbackInfo containing the output information and result</param>
-	public delegate void OnPromoteMemberCallback(PromoteMemberCallbackInfo data);
+	public delegate void OnPromoteMemberCallback(ref PromoteMemberCallbackInfo data);
 
 	[System.Runtime.InteropServices.UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-	internal delegate void OnPromoteMemberCallbackInternal(System.IntPtr data);
+	internal delegate void OnPromoteMemberCallbackInternal(ref PromoteMemberCallbackInfoInternal data);
 }

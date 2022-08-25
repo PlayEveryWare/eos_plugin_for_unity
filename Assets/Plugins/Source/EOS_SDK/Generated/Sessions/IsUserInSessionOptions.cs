@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionsInterface.IsUserInSession" /> function.
 	/// </summary>
-	public class IsUserInSessionOptions
+	public struct IsUserInSessionOptions
 	{
 		/// <summary>
 		/// Active session name to search within
 		/// </summary>
-		public string SessionName { get; set; }
+		public Utf8String SessionName { get; set; }
 
 		/// <summary>
 		/// Product User ID to search for in the session
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct IsUserInSessionOptionsInternal : ISettable, System.IDisposable
+	internal struct IsUserInSessionOptionsInternal : ISettable<IsUserInSessionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_SessionName;
 		private System.IntPtr m_TargetUserId;
 
-		public string SessionName
+		public Utf8String SessionName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_SessionName, value);
+				Helper.Set(value, ref m_SessionName);
 			}
 		}
 
@@ -38,29 +38,31 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(IsUserInSessionOptions other)
+		public void Set(ref IsUserInSessionOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionsInterface.IsuserinsessionApiLatest;
+			SessionName = other.SessionName;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref IsUserInSessionOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionsInterface.IsuserinsessionApiLatest;
-				SessionName = other.SessionName;
-				TargetUserId = other.TargetUserId;
+				SessionName = other.Value.SessionName;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as IsUserInSessionOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_SessionName);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_SessionName);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

@@ -11,7 +11,7 @@ namespace Epic.OnlineServices.RTC
 		/// Enables echo mode.
 		/// This can be used during development to have the server send your voice back to you so you don't need 2 clients to test
 		/// if voice is being sent and received.
-		/// <seealso cref="JoinRoomOptions" />::Flags
+		/// <seealso cref="JoinRoomOptions.Flags" />
 		/// </summary>
 		EnableEcho = 0x01
 	}

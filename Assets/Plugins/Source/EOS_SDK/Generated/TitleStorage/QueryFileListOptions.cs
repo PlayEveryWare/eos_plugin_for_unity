@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.TitleStorage
 	/// <summary>
 	/// Input data for the <see cref="TitleStorageInterface.QueryFileList" /> function
 	/// </summary>
-	public class QueryFileListOptions
+	public struct QueryFileListOptions
 	{
 		/// <summary>
 		/// Product User ID of the local user who requested file metadata (optional)
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <summary>
 		/// List of tags to use for lookup.
 		/// </summary>
-		public string[] ListOfTags { get; set; }
+		public Utf8String[] ListOfTags { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryFileListOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryFileListOptionsInternal : ISettable<QueryFileListOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -31,37 +31,39 @@ namespace Epic.OnlineServices.TitleStorage
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string[] ListOfTags
+		public Utf8String[] ListOfTags
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ListOfTags, value, out m_ListOfTagsCount);
+				Helper.Set(value, ref m_ListOfTags, out m_ListOfTagsCount);
 			}
 		}
 
-		public void Set(QueryFileListOptions other)
+		public void Set(ref QueryFileListOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = TitleStorageInterface.QueryfilelistoptionsApiLatest;
+			LocalUserId = other.LocalUserId;
+			ListOfTags = other.ListOfTags;
+		}
+
+		public void Set(ref QueryFileListOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = TitleStorageInterface.QueryfilelistoptionsApiLatest;
-				LocalUserId = other.LocalUserId;
-				ListOfTags = other.ListOfTags;
+				LocalUserId = other.Value.LocalUserId;
+				ListOfTags = other.Value.ListOfTags;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryFileListOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_ListOfTags);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ListOfTags);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.Logging
 {
-	public static class LoggingInterface
+	public sealed partial class LoggingInterface
 	{
 		/// <summary>
 		/// Set the callback function to use for SDK log messages. Any previously set callback will no longer be called.
@@ -41,15 +41,15 @@ namespace Epic.OnlineServices.Logging
 		}
 
 		[MonoPInvokeCallback(typeof(LogMessageFuncInternal))]
-		internal static void LogMessageFuncInternalImplementation(System.IntPtr message)
+		internal static void LogMessageFuncInternalImplementation(ref LogMessageInternal message)
 		{
 			LogMessageFunc callback;
 			if (Helper.TryGetStaticCallback("LogMessageFuncInternalImplementation", out callback))
 			{
 				LogMessage messageObj;
-				Helper.TryMarshalGet<LogMessageInternal, LogMessage>(message, out messageObj);
+				Helper.Get(ref message, out messageObj);
 
-				callback(messageObj);
+				callback(ref messageObj);
 			}
 		}
 	}

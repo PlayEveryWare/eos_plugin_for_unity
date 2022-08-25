@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTCAudio
 	/// <summary>
 	/// This struct is used to call <see cref="RTCAudioInterface.AddNotifyAudioOutputState" />.
 	/// </summary>
-	public class AddNotifyAudioOutputStateOptions
+	public struct AddNotifyAudioOutputStateOptions
 	{
 		/// <summary>
 		/// The Product User ID of the user trying to request this operation.
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.RTCAudio
 		/// <summary>
 		/// The room this event is registered on.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyAudioOutputStateOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyAudioOutputStateOptionsInternal : ISettable<AddNotifyAudioOutputStateOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
-		public void Set(AddNotifyAudioOutputStateOptions other)
+		public void Set(ref AddNotifyAudioOutputStateOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCAudioInterface.AddnotifyaudiooutputstateApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+		}
+
+		public void Set(ref AddNotifyAudioOutputStateOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCAudioInterface.AddnotifyaudiooutputstateApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyAudioOutputStateOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
 		}
 	}
 }

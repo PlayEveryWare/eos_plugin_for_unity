@@ -8,7 +8,7 @@ namespace Epic.OnlineServices.Presence
 	/// <seealso cref="PresenceInterface.CopyPresence" />
 	/// <seealso cref="PresenceInterface.Release" />
 	/// </summary>
-	public class Info : ISettable
+	public struct Info
 	{
 		/// <summary>
 		/// The status of the user
@@ -23,56 +23,54 @@ namespace Epic.OnlineServices.Presence
 		/// <summary>
 		/// The product ID that the user is logged in from
 		/// </summary>
-		public string ProductId { get; set; }
+		public Utf8String ProductId { get; set; }
 
 		/// <summary>
 		/// The version of the product the user is logged in from
 		/// </summary>
-		public string ProductVersion { get; set; }
+		public Utf8String ProductVersion { get; set; }
 
 		/// <summary>
 		/// The platform of that the user is logged in from
 		/// </summary>
-		public string Platform { get; set; }
+		public Utf8String Platform { get; set; }
 
 		/// <summary>
 		/// The rich-text of the user
 		/// </summary>
-		public string RichText { get; set; }
+		public Utf8String RichText { get; set; }
 
 		/// <summary>
-		/// The first data record, or NULL if RecordsCount is not at least 1
+		/// The first data record, or <see langword="null" /> if RecordsCount is not at least 1
 		/// </summary>
 		public DataRecord[] Records { get; set; }
 
 		/// <summary>
 		/// The user-facing name for the product the user is logged in from
 		/// </summary>
-		public string ProductName { get; set; }
+		public Utf8String ProductName { get; set; }
 
-		internal void Set(InfoInternal? other)
-		{
-			if (other != null)
-			{
-				Status = other.Value.Status;
-				UserId = other.Value.UserId;
-				ProductId = other.Value.ProductId;
-				ProductVersion = other.Value.ProductVersion;
-				Platform = other.Value.Platform;
-				RichText = other.Value.RichText;
-				Records = other.Value.Records;
-				ProductName = other.Value.ProductName;
-			}
-		}
+		/// <summary>
+		/// The integrated platform that the user is logged in with
+		/// </summary>
+		public Utf8String IntegratedPlatform { get; set; }
 
-		public void Set(object other)
+		internal void Set(ref InfoInternal other)
 		{
-			Set(other as InfoInternal?);
+			Status = other.Status;
+			UserId = other.UserId;
+			ProductId = other.ProductId;
+			ProductVersion = other.ProductVersion;
+			Platform = other.Platform;
+			RichText = other.RichText;
+			Records = other.Records;
+			ProductName = other.ProductName;
+			IntegratedPlatform = other.IntegratedPlatform;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct InfoInternal : ISettable, System.IDisposable
+	internal struct InfoInternal : IGettable<Info>, ISettable<Info>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private Status m_Status;
@@ -84,6 +82,7 @@ namespace Epic.OnlineServices.Presence
 		private int m_RecordsCount;
 		private System.IntPtr m_Records;
 		private System.IntPtr m_ProductName;
+		private System.IntPtr m_IntegratedPlatform;
 
 		public Status Status
 		{
@@ -103,73 +102,73 @@ namespace Epic.OnlineServices.Presence
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_UserId, out value);
+				Helper.Get(m_UserId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public string ProductId
+		public Utf8String ProductId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ProductId, out value);
+				Utf8String value;
+				Helper.Get(m_ProductId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductId, value);
+				Helper.Set(value, ref m_ProductId);
 			}
 		}
 
-		public string ProductVersion
+		public Utf8String ProductVersion
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ProductVersion, out value);
+				Utf8String value;
+				Helper.Get(m_ProductVersion, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductVersion, value);
+				Helper.Set(value, ref m_ProductVersion);
 			}
 		}
 
-		public string Platform
+		public Utf8String Platform
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Platform, out value);
+				Utf8String value;
+				Helper.Get(m_Platform, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Platform, value);
+				Helper.Set(value, ref m_Platform);
 			}
 		}
 
-		public string RichText
+		public Utf8String RichText
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RichText, out value);
+				Utf8String value;
+				Helper.Get(m_RichText, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_RichText, value);
+				Helper.Set(value, ref m_RichText);
 			}
 		}
 
@@ -178,61 +177,93 @@ namespace Epic.OnlineServices.Presence
 			get
 			{
 				DataRecord[] value;
-				Helper.TryMarshalGet<DataRecordInternal, DataRecord>(m_Records, out value, m_RecordsCount);
+				Helper.Get<DataRecordInternal, DataRecord>(m_Records, out value, m_RecordsCount);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<DataRecordInternal, DataRecord>(ref m_Records, value, out m_RecordsCount);
+				Helper.Set<DataRecord, DataRecordInternal>(ref value, ref m_Records, out m_RecordsCount);
 			}
 		}
 
-		public string ProductName
+		public Utf8String ProductName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ProductName, out value);
+				Utf8String value;
+				Helper.Get(m_ProductName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_ProductName, value);
+				Helper.Set(value, ref m_ProductName);
 			}
 		}
 
-		public void Set(Info other)
+		public Utf8String IntegratedPlatform
 		{
-			if (other != null)
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_IntegratedPlatform, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_IntegratedPlatform);
+			}
+		}
+
+		public void Set(ref Info other)
+		{
+			m_ApiVersion = PresenceInterface.InfoApiLatest;
+			Status = other.Status;
+			UserId = other.UserId;
+			ProductId = other.ProductId;
+			ProductVersion = other.ProductVersion;
+			Platform = other.Platform;
+			RichText = other.RichText;
+			Records = other.Records;
+			ProductName = other.ProductName;
+			IntegratedPlatform = other.IntegratedPlatform;
+		}
+
+		public void Set(ref Info? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceInterface.InfoApiLatest;
-				Status = other.Status;
-				UserId = other.UserId;
-				ProductId = other.ProductId;
-				ProductVersion = other.ProductVersion;
-				Platform = other.Platform;
-				RichText = other.RichText;
-				Records = other.Records;
-				ProductName = other.ProductName;
+				Status = other.Value.Status;
+				UserId = other.Value.UserId;
+				ProductId = other.Value.ProductId;
+				ProductVersion = other.Value.ProductVersion;
+				Platform = other.Value.Platform;
+				RichText = other.Value.RichText;
+				Records = other.Value.Records;
+				ProductName = other.Value.ProductName;
+				IntegratedPlatform = other.Value.IntegratedPlatform;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as Info);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
-			Helper.TryMarshalDispose(ref m_ProductId);
-			Helper.TryMarshalDispose(ref m_ProductVersion);
-			Helper.TryMarshalDispose(ref m_Platform);
-			Helper.TryMarshalDispose(ref m_RichText);
-			Helper.TryMarshalDispose(ref m_Records);
-			Helper.TryMarshalDispose(ref m_ProductName);
+			Helper.Dispose(ref m_UserId);
+			Helper.Dispose(ref m_ProductId);
+			Helper.Dispose(ref m_ProductVersion);
+			Helper.Dispose(ref m_Platform);
+			Helper.Dispose(ref m_RichText);
+			Helper.Dispose(ref m_Records);
+			Helper.Dispose(ref m_ProductName);
+			Helper.Dispose(ref m_IntegratedPlatform);
+		}
+
+		public void Get(out Info output)
+		{
+			output = new Info();
+			output.Set(ref this);
 		}
 	}
 }

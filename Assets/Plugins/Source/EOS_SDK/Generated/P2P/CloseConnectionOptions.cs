@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about who would like to close a connection, and which connection.
 	/// </summary>
-	public class CloseConnectionOptions
+	public struct CloseConnectionOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who would like to close a previously accepted connection (or decline a pending invite)
@@ -19,13 +19,13 @@ namespace Epic.OnlineServices.P2P
 		public ProductUserId RemoteUserId { get; set; }
 
 		/// <summary>
-		/// The socket ID of the connection to close (or optionally NULL to not accept any connection requests from the Remote User)
+		/// The socket ID of the connection to close (or optionally <see langword="null" /> to not accept any connection requests from the Remote User)
 		/// </summary>
-		public SocketId SocketId { get; set; }
+		public SocketId? SocketId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CloseConnectionOptionsInternal : ISettable, System.IDisposable
+	internal struct CloseConnectionOptionsInternal : ISettable<CloseConnectionOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -44,39 +44,42 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RemoteUserId, value);
+				Helper.Set(value, ref m_RemoteUserId);
 			}
 		}
 
-		public SocketId SocketId
+		public SocketId? SocketId
 		{
 			set
 			{
-				Helper.TryMarshalSet<SocketIdInternal, SocketId>(ref m_SocketId, value);
+				Helper.Set<SocketId, SocketIdInternal>(ref value, ref m_SocketId);
 			}
 		}
 
-		public void Set(CloseConnectionOptions other)
+		public void Set(ref CloseConnectionOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = P2PInterface.CloseconnectionApiLatest;
+			LocalUserId = other.LocalUserId;
+			RemoteUserId = other.RemoteUserId;
+			SocketId = other.SocketId;
+		}
+
+		public void Set(ref CloseConnectionOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = P2PInterface.CloseconnectionApiLatest;
-				LocalUserId = other.LocalUserId;
-				RemoteUserId = other.RemoteUserId;
-				SocketId = other.SocketId;
+				LocalUserId = other.Value.LocalUserId;
+				RemoteUserId = other.Value.RemoteUserId;
+				SocketId = other.Value.SocketId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CloseConnectionOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RemoteUserId);
-			Helper.TryMarshalDispose(ref m_SocketId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RemoteUserId);
+			Helper.Dispose(ref m_SocketId);
 		}
 	}
 }

@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyModification.SetBucketId" /> function.
 	/// </summary>
-	public class LobbyModificationSetBucketIdOptions
+	public struct LobbyModificationSetBucketIdOptions
 	{
 		/// <summary>
 		/// The new bucket id associated with the lobby
 		/// </summary>
-		public string BucketId { get; set; }
+		public Utf8String BucketId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyModificationSetBucketIdOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyModificationSetBucketIdOptionsInternal : ISettable<LobbyModificationSetBucketIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_BucketId;
 
-		public string BucketId
+		public Utf8String BucketId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_BucketId, value);
+				Helper.Set(value, ref m_BucketId);
 			}
 		}
 
-		public void Set(LobbyModificationSetBucketIdOptions other)
+		public void Set(ref LobbyModificationSetBucketIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyModification.LobbymodificationSetbucketidApiLatest;
+			BucketId = other.BucketId;
+		}
+
+		public void Set(ref LobbyModificationSetBucketIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyModification.LobbymodificationSetbucketidApiLatest;
-				BucketId = other.BucketId;
+				BucketId = other.Value.BucketId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbyModificationSetBucketIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_BucketId);
+			Helper.Dispose(ref m_BucketId);
 		}
 	}
 }

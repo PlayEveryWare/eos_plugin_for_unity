@@ -6,22 +6,22 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Output parameters for the <see cref="AuthInterface.LinkAccount" /> Function.
 	/// </summary>
-	public class LinkAccountCallbackInfo : ICallbackInfo, ISettable
+	public struct LinkAccountCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="AuthInterface.LinkAccount" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the local user whose account has been linked during login
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// Optional data returned when ResultCode is <see cref="Result.AuthPinGrantCode" />.
@@ -29,7 +29,7 @@ namespace Epic.OnlineServices.Auth
 		/// Once the user has logged in with their Epic Online Services account, the account will be linked with the external account supplied when <see cref="AuthInterface.Login" /> was called.
 		/// <see cref="OnLinkAccountCallback" /> will be fired again with ResultCode in <see cref="LinkAccountCallbackInfo" /> set to <see cref="Result.Success" />.
 		/// </summary>
-		public PinGrantInfo PinGrantInfo { get; private set; }
+		public PinGrantInfo? PinGrantInfo { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID that has been previously selected to be used for the current application.
@@ -38,33 +38,25 @@ namespace Epic.OnlineServices.Auth
 		/// Note: This ID may be different from LocalUserId if the user has previously merged Epic accounts into the account
 		/// represented by LocalUserId, and one of the accounts that got merged had game data associated with it for the application.
 		/// </summary>
-		public EpicAccountId SelectedAccountId { get; private set; }
+		public EpicAccountId SelectedAccountId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(LinkAccountCallbackInfoInternal? other)
+		internal void Set(ref LinkAccountCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				PinGrantInfo = other.Value.PinGrantInfo;
-				SelectedAccountId = other.Value.SelectedAccountId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LinkAccountCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			PinGrantInfo = other.PinGrantInfo;
+			SelectedAccountId = other.SelectedAccountId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LinkAccountCallbackInfoInternal : ICallbackInfoInternal
+	internal struct LinkAccountCallbackInfoInternal : ICallbackInfoInternal, IGettable<LinkAccountCallbackInfo>, ISettable<LinkAccountCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -78,6 +70,11 @@ namespace Epic.OnlineServices.Auth
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -85,8 +82,13 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -103,18 +105,28 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public PinGrantInfo PinGrantInfo
+		public PinGrantInfo? PinGrantInfo
 		{
 			get
 			{
-				PinGrantInfo value;
-				Helper.TryMarshalGet<PinGrantInfoInternal, PinGrantInfo>(m_PinGrantInfo, out value);
+				PinGrantInfo? value;
+				Helper.Get<PinGrantInfoInternal, PinGrantInfo>(m_PinGrantInfo, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set<PinGrantInfo, PinGrantInfoInternal>(ref value, ref m_PinGrantInfo);
 			}
 		}
 
@@ -123,9 +135,49 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_SelectedAccountId, out value);
+				Helper.Get(m_SelectedAccountId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_SelectedAccountId);
+			}
+		}
+
+		public void Set(ref LinkAccountCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			PinGrantInfo = other.PinGrantInfo;
+			SelectedAccountId = other.SelectedAccountId;
+		}
+
+		public void Set(ref LinkAccountCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				PinGrantInfo = other.Value.PinGrantInfo;
+				SelectedAccountId = other.Value.SelectedAccountId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_PinGrantInfo);
+			Helper.Dispose(ref m_SelectedAccountId);
+		}
+
+		public void Get(out LinkAccountCallbackInfo output)
+		{
+			output = new LinkAccountCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

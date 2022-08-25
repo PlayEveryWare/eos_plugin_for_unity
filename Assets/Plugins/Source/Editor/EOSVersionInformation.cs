@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/Epic Online Services Version")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(EOSVersionInformation));
+            GetWindow(typeof(EOSVersionInformation), false, "EOS Version", true);
         }
 
         public string GetRepositoryRoot()

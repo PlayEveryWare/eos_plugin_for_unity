@@ -44,7 +44,7 @@ public class DLLHandle : SafeHandle
     }
 
     //-------------------------------------------------------------------------
-    private static string GetPackageName()
+    public static string GetPackageName()
     {
         return "com.playeveryware.eos";
     }
@@ -186,12 +186,12 @@ public class DLLHandle : SafeHandle
 
                 if (libraryHandle != IntPtr.Zero)
                 {
-                    print("found library");
+                    print("found library in " + pluginPath);
                     return new DLLHandle(libraryHandle);
                 }
                 else
                 {
-                    throw new System.ComponentModel.Win32Exception();
+                    throw new System.ComponentModel.Win32Exception("Searched in : " + string.Join(" ", pluginPaths));
                 }
             }
         }

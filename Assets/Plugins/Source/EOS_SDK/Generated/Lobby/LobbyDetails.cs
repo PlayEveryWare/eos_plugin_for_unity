@@ -63,7 +63,7 @@ namespace Epic.OnlineServices.Lobby
 		/// </summary>
 		public const int LobbydetailsGetmembercountApiLatest = 1;
 
-		public const int LobbydetailsInfoApiLatest = 1;
+		public const int LobbydetailsInfoApiLatest = 2;
 
 		/// <summary>
 		/// <see cref="CopyAttributeByIndex" /> is used to immediately retrieve a copy of a lobby attribute from a given source such as a existing lobby or a search result.
@@ -79,18 +79,19 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopyAttributeByIndex(LobbyDetailsCopyAttributeByIndexOptions options, out Attribute outAttribute)
+		public Result CopyAttributeByIndex(ref LobbyDetailsCopyAttributeByIndexOptions options, out Attribute? outAttribute)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsCopyAttributeByIndexOptionsInternal, LobbyDetailsCopyAttributeByIndexOptions>(ref optionsAddress, options);
+			LobbyDetailsCopyAttributeByIndexOptionsInternal optionsInternal = new LobbyDetailsCopyAttributeByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outAttributeAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_LobbyDetails_CopyAttributeByIndex(InnerHandle, optionsAddress, ref outAttributeAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_CopyAttributeByIndex(InnerHandle, ref optionsInternal, ref outAttributeAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<AttributeInternal, Attribute>(outAttributeAddress, out outAttribute))
+			Helper.Get<AttributeInternal, Attribute>(outAttributeAddress, out outAttribute);
+			if (outAttribute != null)
 			{
 				Bindings.EOS_Lobby_Attribute_Release(outAttributeAddress);
 			}
@@ -112,18 +113,19 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopyAttributeByKey(LobbyDetailsCopyAttributeByKeyOptions options, out Attribute outAttribute)
+		public Result CopyAttributeByKey(ref LobbyDetailsCopyAttributeByKeyOptions options, out Attribute? outAttribute)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsCopyAttributeByKeyOptionsInternal, LobbyDetailsCopyAttributeByKeyOptions>(ref optionsAddress, options);
+			LobbyDetailsCopyAttributeByKeyOptionsInternal optionsInternal = new LobbyDetailsCopyAttributeByKeyOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outAttributeAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_LobbyDetails_CopyAttributeByKey(InnerHandle, optionsAddress, ref outAttributeAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_CopyAttributeByKey(InnerHandle, ref optionsInternal, ref outAttributeAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<AttributeInternal, Attribute>(outAttributeAddress, out outAttribute))
+			Helper.Get<AttributeInternal, Attribute>(outAttributeAddress, out outAttribute);
+			if (outAttribute != null)
 			{
 				Bindings.EOS_Lobby_Attribute_Release(outAttributeAddress);
 			}
@@ -145,18 +147,19 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopyInfo(LobbyDetailsCopyInfoOptions options, out LobbyDetailsInfo outLobbyDetailsInfo)
+		public Result CopyInfo(ref LobbyDetailsCopyInfoOptions options, out LobbyDetailsInfo? outLobbyDetailsInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsCopyInfoOptionsInternal, LobbyDetailsCopyInfoOptions>(ref optionsAddress, options);
+			LobbyDetailsCopyInfoOptionsInternal optionsInternal = new LobbyDetailsCopyInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outLobbyDetailsInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_LobbyDetails_CopyInfo(InnerHandle, optionsAddress, ref outLobbyDetailsInfoAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_CopyInfo(InnerHandle, ref optionsInternal, ref outLobbyDetailsInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<LobbyDetailsInfoInternal, LobbyDetailsInfo>(outLobbyDetailsInfoAddress, out outLobbyDetailsInfo))
+			Helper.Get<LobbyDetailsInfoInternal, LobbyDetailsInfo>(outLobbyDetailsInfoAddress, out outLobbyDetailsInfo);
+			if (outLobbyDetailsInfo != null)
 			{
 				Bindings.EOS_LobbyDetails_Info_Release(outLobbyDetailsInfoAddress);
 			}
@@ -178,18 +181,19 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopyMemberAttributeByIndex(LobbyDetailsCopyMemberAttributeByIndexOptions options, out Attribute outAttribute)
+		public Result CopyMemberAttributeByIndex(ref LobbyDetailsCopyMemberAttributeByIndexOptions options, out Attribute? outAttribute)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsCopyMemberAttributeByIndexOptionsInternal, LobbyDetailsCopyMemberAttributeByIndexOptions>(ref optionsAddress, options);
+			LobbyDetailsCopyMemberAttributeByIndexOptionsInternal optionsInternal = new LobbyDetailsCopyMemberAttributeByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outAttributeAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_LobbyDetails_CopyMemberAttributeByIndex(InnerHandle, optionsAddress, ref outAttributeAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_CopyMemberAttributeByIndex(InnerHandle, ref optionsInternal, ref outAttributeAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<AttributeInternal, Attribute>(outAttributeAddress, out outAttribute))
+			Helper.Get<AttributeInternal, Attribute>(outAttributeAddress, out outAttribute);
+			if (outAttribute != null)
 			{
 				Bindings.EOS_Lobby_Attribute_Release(outAttributeAddress);
 			}
@@ -211,18 +215,19 @@ namespace Epic.OnlineServices.Lobby
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// </returns>
-		public Result CopyMemberAttributeByKey(LobbyDetailsCopyMemberAttributeByKeyOptions options, out Attribute outAttribute)
+		public Result CopyMemberAttributeByKey(ref LobbyDetailsCopyMemberAttributeByKeyOptions options, out Attribute? outAttribute)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsCopyMemberAttributeByKeyOptionsInternal, LobbyDetailsCopyMemberAttributeByKeyOptions>(ref optionsAddress, options);
+			LobbyDetailsCopyMemberAttributeByKeyOptionsInternal optionsInternal = new LobbyDetailsCopyMemberAttributeByKeyOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outAttributeAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_LobbyDetails_CopyMemberAttributeByKey(InnerHandle, optionsAddress, ref outAttributeAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_CopyMemberAttributeByKey(InnerHandle, ref optionsInternal, ref outAttributeAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<AttributeInternal, Attribute>(outAttributeAddress, out outAttribute))
+			Helper.Get<AttributeInternal, Attribute>(outAttributeAddress, out outAttribute);
+			if (outAttribute != null)
 			{
 				Bindings.EOS_Lobby_Attribute_Release(outAttributeAddress);
 			}
@@ -237,14 +242,14 @@ namespace Epic.OnlineServices.Lobby
 		/// <returns>
 		/// number of attributes on the lobby or 0 if there is an error
 		/// </returns>
-		public uint GetAttributeCount(LobbyDetailsGetAttributeCountOptions options)
+		public uint GetAttributeCount(ref LobbyDetailsGetAttributeCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsGetAttributeCountOptionsInternal, LobbyDetailsGetAttributeCountOptions>(ref optionsAddress, options);
+			LobbyDetailsGetAttributeCountOptionsInternal optionsInternal = new LobbyDetailsGetAttributeCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbyDetails_GetAttributeCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_GetAttributeCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -256,17 +261,17 @@ namespace Epic.OnlineServices.Lobby
 		/// <returns>
 		/// the product user ID for the lobby owner or null if the input parameters are invalid
 		/// </returns>
-		public ProductUserId GetLobbyOwner(LobbyDetailsGetLobbyOwnerOptions options)
+		public ProductUserId GetLobbyOwner(ref LobbyDetailsGetLobbyOwnerOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsGetLobbyOwnerOptionsInternal, LobbyDetailsGetLobbyOwnerOptions>(ref optionsAddress, options);
+			LobbyDetailsGetLobbyOwnerOptionsInternal optionsInternal = new LobbyDetailsGetLobbyOwnerOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbyDetails_GetLobbyOwner(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_GetLobbyOwner(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			ProductUserId funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -279,14 +284,14 @@ namespace Epic.OnlineServices.Lobby
 		/// <returns>
 		/// the number of attributes associated with a given lobby member or 0 if that member is invalid
 		/// </returns>
-		public uint GetMemberAttributeCount(LobbyDetailsGetMemberAttributeCountOptions options)
+		public uint GetMemberAttributeCount(ref LobbyDetailsGetMemberAttributeCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsGetMemberAttributeCountOptionsInternal, LobbyDetailsGetMemberAttributeCountOptions>(ref optionsAddress, options);
+			LobbyDetailsGetMemberAttributeCountOptionsInternal optionsInternal = new LobbyDetailsGetMemberAttributeCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbyDetails_GetMemberAttributeCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_GetMemberAttributeCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -300,17 +305,17 @@ namespace Epic.OnlineServices.Lobby
 		/// <returns>
 		/// the product user ID for the registered member at a given index or null if that index is invalid
 		/// </returns>
-		public ProductUserId GetMemberByIndex(LobbyDetailsGetMemberByIndexOptions options)
+		public ProductUserId GetMemberByIndex(ref LobbyDetailsGetMemberByIndexOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsGetMemberByIndexOptionsInternal, LobbyDetailsGetMemberByIndexOptions>(ref optionsAddress, options);
+			LobbyDetailsGetMemberByIndexOptionsInternal optionsInternal = new LobbyDetailsGetMemberByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbyDetails_GetMemberByIndex(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_GetMemberByIndex(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			ProductUserId funcResultReturn;
-			Helper.TryMarshalGet(funcResult, out funcResultReturn);
+			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
 
@@ -321,14 +326,14 @@ namespace Epic.OnlineServices.Lobby
 		/// <returns>
 		/// number of members in the existing lobby or 0 if there is an error
 		/// </returns>
-		public uint GetMemberCount(LobbyDetailsGetMemberCountOptions options)
+		public uint GetMemberCount(ref LobbyDetailsGetMemberCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<LobbyDetailsGetMemberCountOptionsInternal, LobbyDetailsGetMemberCountOptions>(ref optionsAddress, options);
+			LobbyDetailsGetMemberCountOptionsInternal optionsInternal = new LobbyDetailsGetMemberCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_LobbyDetails_GetMemberCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_LobbyDetails_GetMemberCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}

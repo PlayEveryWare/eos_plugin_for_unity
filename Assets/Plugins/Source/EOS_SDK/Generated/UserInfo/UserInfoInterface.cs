@@ -31,12 +31,12 @@ namespace Epic.OnlineServices.UserInfo
 		/// <summary>
 		/// The most recent version of the <see cref="CopyUserInfo" /> API.
 		/// </summary>
-		public const int CopyuserinfoApiLatest = 2;
+		public const int CopyuserinfoApiLatest = 3;
 
 		/// <summary>
 		/// The most recent version of the <see cref="ExternalUserInfo" /> struct.
 		/// </summary>
-		public const int ExternaluserinfoApiLatest = 1;
+		public const int ExternaluserinfoApiLatest = 2;
 
 		/// <summary>
 		/// The most recent version of the <see cref="Achievements.AchievementsInterface.GetAchievementDefinitionCount" /> API.
@@ -79,18 +79,19 @@ namespace Epic.OnlineServices.UserInfo
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the external user info is not found
 		/// </returns>
-		public Result CopyExternalUserInfoByAccountId(CopyExternalUserInfoByAccountIdOptions options, out ExternalUserInfo outExternalUserInfo)
+		public Result CopyExternalUserInfoByAccountId(ref CopyExternalUserInfoByAccountIdOptions options, out ExternalUserInfo? outExternalUserInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyExternalUserInfoByAccountIdOptionsInternal, CopyExternalUserInfoByAccountIdOptions>(ref optionsAddress, options);
+			CopyExternalUserInfoByAccountIdOptionsInternal optionsInternal = new CopyExternalUserInfoByAccountIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outExternalUserInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_UserInfo_CopyExternalUserInfoByAccountId(InnerHandle, optionsAddress, ref outExternalUserInfoAddress);
+			var funcResult = Bindings.EOS_UserInfo_CopyExternalUserInfoByAccountId(InnerHandle, ref optionsInternal, ref outExternalUserInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ExternalUserInfoInternal, ExternalUserInfo>(outExternalUserInfoAddress, out outExternalUserInfo))
+			Helper.Get<ExternalUserInfoInternal, ExternalUserInfo>(outExternalUserInfoAddress, out outExternalUserInfo);
+			if (outExternalUserInfo != null)
 			{
 				Bindings.EOS_UserInfo_ExternalUserInfo_Release(outExternalUserInfoAddress);
 			}
@@ -109,18 +110,19 @@ namespace Epic.OnlineServices.UserInfo
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the external user info is not found
 		/// </returns>
-		public Result CopyExternalUserInfoByAccountType(CopyExternalUserInfoByAccountTypeOptions options, out ExternalUserInfo outExternalUserInfo)
+		public Result CopyExternalUserInfoByAccountType(ref CopyExternalUserInfoByAccountTypeOptions options, out ExternalUserInfo? outExternalUserInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyExternalUserInfoByAccountTypeOptionsInternal, CopyExternalUserInfoByAccountTypeOptions>(ref optionsAddress, options);
+			CopyExternalUserInfoByAccountTypeOptionsInternal optionsInternal = new CopyExternalUserInfoByAccountTypeOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outExternalUserInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_UserInfo_CopyExternalUserInfoByAccountType(InnerHandle, optionsAddress, ref outExternalUserInfoAddress);
+			var funcResult = Bindings.EOS_UserInfo_CopyExternalUserInfoByAccountType(InnerHandle, ref optionsInternal, ref outExternalUserInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ExternalUserInfoInternal, ExternalUserInfo>(outExternalUserInfoAddress, out outExternalUserInfo))
+			Helper.Get<ExternalUserInfoInternal, ExternalUserInfo>(outExternalUserInfoAddress, out outExternalUserInfo);
+			if (outExternalUserInfo != null)
 			{
 				Bindings.EOS_UserInfo_ExternalUserInfo_Release(outExternalUserInfoAddress);
 			}
@@ -139,18 +141,19 @@ namespace Epic.OnlineServices.UserInfo
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the external user info is not found
 		/// </returns>
-		public Result CopyExternalUserInfoByIndex(CopyExternalUserInfoByIndexOptions options, out ExternalUserInfo outExternalUserInfo)
+		public Result CopyExternalUserInfoByIndex(ref CopyExternalUserInfoByIndexOptions options, out ExternalUserInfo? outExternalUserInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyExternalUserInfoByIndexOptionsInternal, CopyExternalUserInfoByIndexOptions>(ref optionsAddress, options);
+			CopyExternalUserInfoByIndexOptionsInternal optionsInternal = new CopyExternalUserInfoByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outExternalUserInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_UserInfo_CopyExternalUserInfoByIndex(InnerHandle, optionsAddress, ref outExternalUserInfoAddress);
+			var funcResult = Bindings.EOS_UserInfo_CopyExternalUserInfoByIndex(InnerHandle, ref optionsInternal, ref outExternalUserInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<ExternalUserInfoInternal, ExternalUserInfo>(outExternalUserInfoAddress, out outExternalUserInfo))
+			Helper.Get<ExternalUserInfoInternal, ExternalUserInfo>(outExternalUserInfoAddress, out outExternalUserInfo);
+			if (outExternalUserInfo != null)
 			{
 				Bindings.EOS_UserInfo_ExternalUserInfo_Release(outExternalUserInfoAddress);
 			}
@@ -173,18 +176,19 @@ namespace Epic.OnlineServices.UserInfo
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// <see cref="Result.NotFound" /> if the user info is not locally cached. The information must have been previously cached by a call to <see cref="QueryUserInfo" />
 		/// </returns>
-		public Result CopyUserInfo(CopyUserInfoOptions options, out UserInfoData outUserInfo)
+		public Result CopyUserInfo(ref CopyUserInfoOptions options, out UserInfoData? outUserInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyUserInfoOptionsInternal, CopyUserInfoOptions>(ref optionsAddress, options);
+			CopyUserInfoOptionsInternal optionsInternal = new CopyUserInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outUserInfoAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_UserInfo_CopyUserInfo(InnerHandle, optionsAddress, ref outUserInfoAddress);
+			var funcResult = Bindings.EOS_UserInfo_CopyUserInfo(InnerHandle, ref optionsInternal, ref outUserInfoAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<UserInfoDataInternal, UserInfoData>(outUserInfoAddress, out outUserInfo))
+			Helper.Get<UserInfoDataInternal, UserInfoData>(outUserInfoAddress, out outUserInfo);
+			if (outUserInfo != null)
 			{
 				Bindings.EOS_UserInfo_Release(outUserInfoAddress);
 			}
@@ -200,14 +204,14 @@ namespace Epic.OnlineServices.UserInfo
 		/// <returns>
 		/// The number of external user infos, or 0 if there is an error
 		/// </returns>
-		public uint GetExternalUserInfoCount(GetExternalUserInfoCountOptions options)
+		public uint GetExternalUserInfoCount(ref GetExternalUserInfoCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetExternalUserInfoCountOptionsInternal, GetExternalUserInfoCountOptions>(ref optionsAddress, options);
+			GetExternalUserInfoCountOptionsInternal optionsInternal = new GetExternalUserInfoCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_UserInfo_GetExternalUserInfoCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_UserInfo_GetExternalUserInfoCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -223,19 +227,19 @@ namespace Epic.OnlineServices.UserInfo
 		/// <param name="options">structure containing the input parameters</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void QueryUserInfo(QueryUserInfoOptions options, object clientData, OnQueryUserInfoCallback completionDelegate)
+		public void QueryUserInfo(ref QueryUserInfoOptions options, object clientData, OnQueryUserInfoCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryUserInfoOptionsInternal, QueryUserInfoOptions>(ref optionsAddress, options);
+			QueryUserInfoOptionsInternal optionsInternal = new QueryUserInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryUserInfoCallbackInternal(OnQueryUserInfoCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_UserInfo_QueryUserInfo(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_UserInfo_QueryUserInfo(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -249,19 +253,19 @@ namespace Epic.OnlineServices.UserInfo
 		/// <param name="options">structure containing the input parameters</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void QueryUserInfoByDisplayName(QueryUserInfoByDisplayNameOptions options, object clientData, OnQueryUserInfoByDisplayNameCallback completionDelegate)
+		public void QueryUserInfoByDisplayName(ref QueryUserInfoByDisplayNameOptions options, object clientData, OnQueryUserInfoByDisplayNameCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryUserInfoByDisplayNameOptionsInternal, QueryUserInfoByDisplayNameOptions>(ref optionsAddress, options);
+			QueryUserInfoByDisplayNameOptionsInternal optionsInternal = new QueryUserInfoByDisplayNameOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryUserInfoByDisplayNameCallbackInternal(OnQueryUserInfoByDisplayNameCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_UserInfo_QueryUserInfoByDisplayName(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_UserInfo_QueryUserInfoByDisplayName(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -275,51 +279,51 @@ namespace Epic.OnlineServices.UserInfo
 		/// <param name="options">structure containing the input parameters</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
-		public void QueryUserInfoByExternalAccount(QueryUserInfoByExternalAccountOptions options, object clientData, OnQueryUserInfoByExternalAccountCallback completionDelegate)
+		public void QueryUserInfoByExternalAccount(ref QueryUserInfoByExternalAccountOptions options, object clientData, OnQueryUserInfoByExternalAccountCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryUserInfoByExternalAccountOptionsInternal, QueryUserInfoByExternalAccountOptions>(ref optionsAddress, options);
+			QueryUserInfoByExternalAccountOptionsInternal optionsInternal = new QueryUserInfoByExternalAccountOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryUserInfoByExternalAccountCallbackInternal(OnQueryUserInfoByExternalAccountCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_UserInfo_QueryUserInfoByExternalAccount(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_UserInfo_QueryUserInfoByExternalAccount(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryUserInfoByDisplayNameCallbackInternal))]
-		internal static void OnQueryUserInfoByDisplayNameCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryUserInfoByDisplayNameCallbackInternalImplementation(ref QueryUserInfoByDisplayNameCallbackInfoInternal data)
 		{
 			OnQueryUserInfoByDisplayNameCallback callback;
 			QueryUserInfoByDisplayNameCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryUserInfoByDisplayNameCallback, QueryUserInfoByDisplayNameCallbackInfoInternal, QueryUserInfoByDisplayNameCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryUserInfoByExternalAccountCallbackInternal))]
-		internal static void OnQueryUserInfoByExternalAccountCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryUserInfoByExternalAccountCallbackInternalImplementation(ref QueryUserInfoByExternalAccountCallbackInfoInternal data)
 		{
 			OnQueryUserInfoByExternalAccountCallback callback;
 			QueryUserInfoByExternalAccountCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryUserInfoByExternalAccountCallback, QueryUserInfoByExternalAccountCallbackInfoInternal, QueryUserInfoByExternalAccountCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryUserInfoCallbackInternal))]
-		internal static void OnQueryUserInfoCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryUserInfoCallbackInternalImplementation(ref QueryUserInfoCallbackInfoInternal data)
 		{
 			OnQueryUserInfoCallback callback;
 			QueryUserInfoCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryUserInfoCallback, QueryUserInfoCallbackInfoInternal, QueryUserInfoCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

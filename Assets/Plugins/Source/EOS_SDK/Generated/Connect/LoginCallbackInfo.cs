@@ -6,54 +6,46 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Output parameters for the <see cref="ConnectInterface.Login" /> function.
 	/// </summary>
-	public class LoginCallbackInfo : ICallbackInfo, ISettable
+	public struct LoginCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="ConnectInterface.Login" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
-		/// If login was succesful, this is the Product User ID of the local player that logged in.
+		/// If login was successful, this is the Product User ID of the local player that logged in.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// If the user was not found with credentials passed into <see cref="ConnectInterface.Login" />,
 		/// this continuance token can be passed to either <see cref="ConnectInterface.CreateUser" />
 		/// or <see cref="ConnectInterface.LinkAccount" /> to continue the flow.
 		/// </summary>
-		public ContinuanceToken ContinuanceToken { get; private set; }
+		public ContinuanceToken ContinuanceToken { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(LoginCallbackInfoInternal? other)
+		internal void Set(ref LoginCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				ContinuanceToken = other.Value.ContinuanceToken;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LoginCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			ContinuanceToken = other.ContinuanceToken;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LoginCallbackInfoInternal : ICallbackInfoInternal
+	internal struct LoginCallbackInfoInternal : ICallbackInfoInternal, IGettable<LoginCallbackInfo>, ISettable<LoginCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -66,6 +58,11 @@ namespace Epic.OnlineServices.Connect
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -73,8 +70,13 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -91,8 +93,13 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -101,9 +108,46 @@ namespace Epic.OnlineServices.Connect
 			get
 			{
 				ContinuanceToken value;
-				Helper.TryMarshalGet(m_ContinuanceToken, out value);
+				Helper.Get(m_ContinuanceToken, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_ContinuanceToken);
+			}
+		}
+
+		public void Set(ref LoginCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			ContinuanceToken = other.ContinuanceToken;
+		}
+
+		public void Set(ref LoginCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				ContinuanceToken = other.Value.ContinuanceToken;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ContinuanceToken);
+		}
+
+		public void Get(out LoginCallbackInfo output)
+		{
+			output = new LoginCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

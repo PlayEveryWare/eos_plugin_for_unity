@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.CopyOfferByIndex" /> function.
 	/// </summary>
-	public class CopyOfferByIndexOptions
+	public struct CopyOfferByIndexOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user whose offer is being copied
@@ -20,7 +20,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyOfferByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyOfferByIndexOptionsInternal : ISettable<CopyOfferByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(CopyOfferByIndexOptions other)
+		public void Set(ref CopyOfferByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = EcomInterface.CopyofferbyindexApiLatest;
-				LocalUserId = other.LocalUserId;
-				OfferIndex = other.OfferIndex;
-			}
+			m_ApiVersion = EcomInterface.CopyofferbyindexApiLatest;
+			LocalUserId = other.LocalUserId;
+			OfferIndex = other.OfferIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyOfferByIndexOptions? other)
 		{
-			Set(other as CopyOfferByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = EcomInterface.CopyofferbyindexApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				OfferIndex = other.Value.OfferIndex;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

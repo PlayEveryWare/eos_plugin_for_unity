@@ -3,45 +3,46 @@
 
 namespace Epic.OnlineServices.AntiCheatClient
 {
-	public class AddExternalIntegrityCatalogOptions
+	public struct AddExternalIntegrityCatalogOptions
 	{
 		/// <summary>
 		/// UTF-8 path to the .bin catalog file to add
 		/// </summary>
-		public string PathToBinFile { get; set; }
+		public Utf8String PathToBinFile { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddExternalIntegrityCatalogOptionsInternal : ISettable, System.IDisposable
+	internal struct AddExternalIntegrityCatalogOptionsInternal : ISettable<AddExternalIntegrityCatalogOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PathToBinFile;
 
-		public string PathToBinFile
+		public Utf8String PathToBinFile
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_PathToBinFile, value);
+				Helper.Set(value, ref m_PathToBinFile);
 			}
 		}
 
-		public void Set(AddExternalIntegrityCatalogOptions other)
+		public void Set(ref AddExternalIntegrityCatalogOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AntiCheatClientInterface.AddexternalintegritycatalogApiLatest;
+			PathToBinFile = other.PathToBinFile;
+		}
+
+		public void Set(ref AddExternalIntegrityCatalogOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AntiCheatClientInterface.AddexternalintegritycatalogApiLatest;
-				PathToBinFile = other.PathToBinFile;
+				PathToBinFile = other.Value.PathToBinFile;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddExternalIntegrityCatalogOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PathToBinFile);
+			Helper.Dispose(ref m_PathToBinFile);
 		}
 	}
 }

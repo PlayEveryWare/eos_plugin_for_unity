@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Input parameters for the <see cref="AchievementsInterface.GetPlayerAchievementCount" /> function.
 	/// </summary>
-	public class GetPlayerAchievementCountOptions
+	public struct GetPlayerAchievementCountOptions
 	{
 		/// <summary>
 		/// The Product User ID for the user whose achievement count is being retrieved.
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Achievements
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetPlayerAchievementCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetPlayerAchievementCountOptionsInternal : ISettable<GetPlayerAchievementCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_UserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Achievements
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_UserId, value);
+				Helper.Set(value, ref m_UserId);
 			}
 		}
 
-		public void Set(GetPlayerAchievementCountOptions other)
+		public void Set(ref GetPlayerAchievementCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.GetplayerachievementcountApiLatest;
+			UserId = other.UserId;
+		}
+
+		public void Set(ref GetPlayerAchievementCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.GetplayerachievementcountApiLatest;
-				UserId = other.UserId;
+				UserId = other.Value.UserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetPlayerAchievementCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_UserId);
+			Helper.Dispose(ref m_UserId);
 		}
 	}
 }

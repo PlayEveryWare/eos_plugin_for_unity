@@ -3,7 +3,7 @@
 
 namespace Epic.OnlineServices.AntiCheatCommon
 {
-	public static class AntiCheatCommonInterface
+	public sealed partial class AntiCheatCommonInterface
 	{
 		public const int LogeventApiLatest = 1;
 

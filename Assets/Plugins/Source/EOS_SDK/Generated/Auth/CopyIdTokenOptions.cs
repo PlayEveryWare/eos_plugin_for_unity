@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Input parameters for the <see cref="AuthInterface.CopyIdToken" /> function.
 	/// </summary>
-	public class CopyIdTokenOptions
+	public struct CopyIdTokenOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user being queried.
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Auth
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyIdTokenOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyIdTokenOptionsInternal : ISettable<CopyIdTokenOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AccountId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Auth
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_AccountId, value);
+				Helper.Set(value, ref m_AccountId);
 			}
 		}
 
-		public void Set(CopyIdTokenOptions other)
+		public void Set(ref CopyIdTokenOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.CopyidtokenApiLatest;
+			AccountId = other.AccountId;
+		}
+
+		public void Set(ref CopyIdTokenOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.CopyidtokenApiLatest;
-				AccountId = other.AccountId;
+				AccountId = other.Value.AccountId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CopyIdTokenOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AccountId);
+			Helper.Dispose(ref m_AccountId);
 		}
 	}
 }

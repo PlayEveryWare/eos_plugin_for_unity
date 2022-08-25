@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Platform
 	/// <summary>
 	/// Platform RTC options.
 	/// </summary>
-	public class WindowsRTCOptions : ISettable
+	public struct WindowsRTCOptions
 	{
 		/// <summary>
 		/// This field is for platform specific initialization if any.
@@ -14,60 +14,59 @@ namespace Epic.OnlineServices.Platform
 		/// If provided then the structure will be located in <System>/eos_<System>.h.
 		/// The structure will be named EOS_<System>_RTCOptions.
 		/// </summary>
-		public WindowsRTCOptionsPlatformSpecificOptions PlatformSpecificOptions { get; set; }
+		public WindowsRTCOptionsPlatformSpecificOptions? PlatformSpecificOptions { get; set; }
 
-		internal void Set(WindowsRTCOptionsInternal? other)
+		internal void Set(ref WindowsRTCOptionsInternal other)
 		{
-			if (other != null)
-			{
-				PlatformSpecificOptions = other.Value.PlatformSpecificOptions;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as WindowsRTCOptionsInternal?);
+			PlatformSpecificOptions = other.PlatformSpecificOptions;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct WindowsRTCOptionsInternal : ISettable, System.IDisposable
+	internal struct WindowsRTCOptionsInternal : IGettable<WindowsRTCOptions>, ISettable<WindowsRTCOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PlatformSpecificOptions;
 
-		public WindowsRTCOptionsPlatformSpecificOptions PlatformSpecificOptions
+		public WindowsRTCOptionsPlatformSpecificOptions? PlatformSpecificOptions
 		{
 			get
 			{
-				WindowsRTCOptionsPlatformSpecificOptions value;
-				Helper.TryMarshalGet<WindowsRTCOptionsPlatformSpecificOptionsInternal, WindowsRTCOptionsPlatformSpecificOptions>(m_PlatformSpecificOptions, out value);
+				WindowsRTCOptionsPlatformSpecificOptions? value;
+				Helper.Get<WindowsRTCOptionsPlatformSpecificOptionsInternal, WindowsRTCOptionsPlatformSpecificOptions>(m_PlatformSpecificOptions, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet<WindowsRTCOptionsPlatformSpecificOptionsInternal, WindowsRTCOptionsPlatformSpecificOptions>(ref m_PlatformSpecificOptions, value);
+				Helper.Set<WindowsRTCOptionsPlatformSpecificOptions, WindowsRTCOptionsPlatformSpecificOptionsInternal>(ref value, ref m_PlatformSpecificOptions);
 			}
 		}
 
-		public void Set(WindowsRTCOptions other)
+		public void Set(ref WindowsRTCOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PlatformInterface.RtcoptionsApiLatest;
+			PlatformSpecificOptions = other.PlatformSpecificOptions;
+		}
+
+		public void Set(ref WindowsRTCOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PlatformInterface.RtcoptionsApiLatest;
-				PlatformSpecificOptions = other.PlatformSpecificOptions;
+				PlatformSpecificOptions = other.Value.PlatformSpecificOptions;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as WindowsRTCOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_PlatformSpecificOptions);
+			Helper.Dispose(ref m_PlatformSpecificOptions);
+		}
+
+		public void Get(out WindowsRTCOptions output)
+		{
+			output = new WindowsRTCOptions();
+			output.Set(ref this);
 		}
 	}
 }

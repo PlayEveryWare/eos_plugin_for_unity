@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.CopyLobbyDetailsHandleByUiEventId" /> function.
 	/// </summary>
-	public class CopyLobbyDetailsHandleByUiEventIdOptions
+	public struct CopyLobbyDetailsHandleByUiEventIdOptions
 	{
 		/// <summary>
 		/// UI Event associated with the lobby
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyLobbyDetailsHandleByUiEventIdOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyLobbyDetailsHandleByUiEventIdOptionsInternal : ISettable<CopyLobbyDetailsHandleByUiEventIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private ulong m_UiEventId;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(CopyLobbyDetailsHandleByUiEventIdOptions other)
+		public void Set(ref CopyLobbyDetailsHandleByUiEventIdOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyInterface.CopylobbydetailshandlebyuieventidApiLatest;
-				UiEventId = other.UiEventId;
-			}
+			m_ApiVersion = LobbyInterface.CopylobbydetailshandlebyuieventidApiLatest;
+			UiEventId = other.UiEventId;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyLobbyDetailsHandleByUiEventIdOptions? other)
 		{
-			Set(other as CopyLobbyDetailsHandleByUiEventIdOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyInterface.CopylobbydetailshandlebyuieventidApiLatest;
+				UiEventId = other.Value.UiEventId;
+			}
 		}
 
 		public void Dispose()

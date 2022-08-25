@@ -144,7 +144,7 @@ namespace Epic.OnlineServices.Achievements
 		/// DEPRECATED! Use <see cref="AddNotifyAchievementsUnlockedV2" /> instead.
 		/// 
 		/// Register to receive achievement unlocked notifications.
-		/// @note must call <see cref="RemoveNotifyAchievementsUnlocked" /> to remove the notification
+		/// must call EOS_Achievements_RemoveNotifyAchievementsUnlocked to remove the notification
 		/// <seealso cref="RemoveNotifyAchievementsUnlocked" />
 		/// </summary>
 		/// <param name="options">Structure containing information about the achievement unlocked notification</param>
@@ -153,28 +153,28 @@ namespace Epic.OnlineServices.Achievements
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifyAchievementsUnlocked(AddNotifyAchievementsUnlockedOptions options, object clientData, OnAchievementsUnlockedCallback notificationFn)
+		public ulong AddNotifyAchievementsUnlocked(ref AddNotifyAchievementsUnlockedOptions options, object clientData, OnAchievementsUnlockedCallback notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyAchievementsUnlockedOptionsInternal, AddNotifyAchievementsUnlockedOptions>(ref optionsAddress, options);
+			AddNotifyAchievementsUnlockedOptionsInternal optionsInternal = new AddNotifyAchievementsUnlockedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnAchievementsUnlockedCallbackInternal(OnAchievementsUnlockedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_Achievements_AddNotifyAchievementsUnlocked(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_Achievements_AddNotifyAchievementsUnlocked(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
 
 		/// <summary>
 		/// Register to receive achievement unlocked notifications.
-		/// @note must call <see cref="RemoveNotifyAchievementsUnlocked" /> to remove the notification
+		/// must call EOS_Achievements_RemoveNotifyAchievementsUnlocked to remove the notification
 		/// <seealso cref="RemoveNotifyAchievementsUnlocked" />
 		/// </summary>
 		/// <param name="options">Structure containing information about the achievement unlocked notification</param>
@@ -183,21 +183,21 @@ namespace Epic.OnlineServices.Achievements
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
-		public ulong AddNotifyAchievementsUnlockedV2(AddNotifyAchievementsUnlockedV2Options options, object clientData, OnAchievementsUnlockedCallbackV2 notificationFn)
+		public ulong AddNotifyAchievementsUnlockedV2(ref AddNotifyAchievementsUnlockedV2Options options, object clientData, OnAchievementsUnlockedCallbackV2 notificationFn)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyAchievementsUnlockedV2OptionsInternal, AddNotifyAchievementsUnlockedV2Options>(ref optionsAddress, options);
+			AddNotifyAchievementsUnlockedV2OptionsInternal optionsInternal = new AddNotifyAchievementsUnlockedV2OptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var notificationFnInternal = new OnAchievementsUnlockedCallbackV2Internal(OnAchievementsUnlockedCallbackV2InternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, notificationFn, notificationFnInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
-			var funcResult = Bindings.EOS_Achievements_AddNotifyAchievementsUnlockedV2(InnerHandle, optionsAddress, clientDataAddress, notificationFnInternal);
+			var funcResult = Bindings.EOS_Achievements_AddNotifyAchievementsUnlockedV2(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -216,18 +216,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the achievement definition is not found
 		/// </returns>
-		public Result CopyAchievementDefinitionByAchievementId(CopyAchievementDefinitionByAchievementIdOptions options, out Definition outDefinition)
+		public Result CopyAchievementDefinitionByAchievementId(ref CopyAchievementDefinitionByAchievementIdOptions options, out Definition? outDefinition)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyAchievementDefinitionByAchievementIdOptionsInternal, CopyAchievementDefinitionByAchievementIdOptions>(ref optionsAddress, options);
+			CopyAchievementDefinitionByAchievementIdOptionsInternal optionsInternal = new CopyAchievementDefinitionByAchievementIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outDefinitionAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Achievements_CopyAchievementDefinitionByAchievementId(InnerHandle, optionsAddress, ref outDefinitionAddress);
+			var funcResult = Bindings.EOS_Achievements_CopyAchievementDefinitionByAchievementId(InnerHandle, ref optionsInternal, ref outDefinitionAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<DefinitionInternal, Definition>(outDefinitionAddress, out outDefinition))
+			Helper.Get<DefinitionInternal, Definition>(outDefinitionAddress, out outDefinition);
+			if (outDefinition != null)
 			{
 				Bindings.EOS_Achievements_Definition_Release(outDefinitionAddress);
 			}
@@ -249,18 +250,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the achievement definition is not found
 		/// </returns>
-		public Result CopyAchievementDefinitionByIndex(CopyAchievementDefinitionByIndexOptions options, out Definition outDefinition)
+		public Result CopyAchievementDefinitionByIndex(ref CopyAchievementDefinitionByIndexOptions options, out Definition? outDefinition)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyAchievementDefinitionByIndexOptionsInternal, CopyAchievementDefinitionByIndexOptions>(ref optionsAddress, options);
+			CopyAchievementDefinitionByIndexOptionsInternal optionsInternal = new CopyAchievementDefinitionByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outDefinitionAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Achievements_CopyAchievementDefinitionByIndex(InnerHandle, optionsAddress, ref outDefinitionAddress);
+			var funcResult = Bindings.EOS_Achievements_CopyAchievementDefinitionByIndex(InnerHandle, ref optionsInternal, ref outDefinitionAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<DefinitionInternal, Definition>(outDefinitionAddress, out outDefinition))
+			Helper.Get<DefinitionInternal, Definition>(outDefinitionAddress, out outDefinition);
+			if (outDefinition != null)
 			{
 				Bindings.EOS_Achievements_Definition_Release(outDefinitionAddress);
 			}
@@ -280,18 +282,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.NotFound" /> if the achievement definition is not found
 		/// <see cref="Result.InvalidProductUserID" /> if any of the userid options are incorrect
 		/// </returns>
-		public Result CopyAchievementDefinitionV2ByAchievementId(CopyAchievementDefinitionV2ByAchievementIdOptions options, out DefinitionV2 outDefinition)
+		public Result CopyAchievementDefinitionV2ByAchievementId(ref CopyAchievementDefinitionV2ByAchievementIdOptions options, out DefinitionV2? outDefinition)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyAchievementDefinitionV2ByAchievementIdOptionsInternal, CopyAchievementDefinitionV2ByAchievementIdOptions>(ref optionsAddress, options);
+			CopyAchievementDefinitionV2ByAchievementIdOptionsInternal optionsInternal = new CopyAchievementDefinitionV2ByAchievementIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outDefinitionAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId(InnerHandle, optionsAddress, ref outDefinitionAddress);
+			var funcResult = Bindings.EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId(InnerHandle, ref optionsInternal, ref outDefinitionAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<DefinitionV2Internal, DefinitionV2>(outDefinitionAddress, out outDefinition))
+			Helper.Get<DefinitionV2Internal, DefinitionV2>(outDefinitionAddress, out outDefinition);
+			if (outDefinition != null)
 			{
 				Bindings.EOS_Achievements_DefinitionV2_Release(outDefinitionAddress);
 			}
@@ -311,18 +314,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.NotFound" /> if the achievement definition is not found
 		/// <see cref="Result.InvalidProductUserID" /> if any of the userid options are incorrect
 		/// </returns>
-		public Result CopyAchievementDefinitionV2ByIndex(CopyAchievementDefinitionV2ByIndexOptions options, out DefinitionV2 outDefinition)
+		public Result CopyAchievementDefinitionV2ByIndex(ref CopyAchievementDefinitionV2ByIndexOptions options, out DefinitionV2? outDefinition)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyAchievementDefinitionV2ByIndexOptionsInternal, CopyAchievementDefinitionV2ByIndexOptions>(ref optionsAddress, options);
+			CopyAchievementDefinitionV2ByIndexOptionsInternal optionsInternal = new CopyAchievementDefinitionV2ByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outDefinitionAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Achievements_CopyAchievementDefinitionV2ByIndex(InnerHandle, optionsAddress, ref outDefinitionAddress);
+			var funcResult = Bindings.EOS_Achievements_CopyAchievementDefinitionV2ByIndex(InnerHandle, ref optionsInternal, ref outDefinitionAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<DefinitionV2Internal, DefinitionV2>(outDefinitionAddress, out outDefinition))
+			Helper.Get<DefinitionV2Internal, DefinitionV2>(outDefinitionAddress, out outDefinition);
+			if (outDefinition != null)
 			{
 				Bindings.EOS_Achievements_DefinitionV2_Release(outDefinitionAddress);
 			}
@@ -342,18 +346,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.NotFound" /> if the player achievement is not found
 		/// <see cref="Result.InvalidProductUserID" /> if you pass an invalid user ID
 		/// </returns>
-		public Result CopyPlayerAchievementByAchievementId(CopyPlayerAchievementByAchievementIdOptions options, out PlayerAchievement outAchievement)
+		public Result CopyPlayerAchievementByAchievementId(ref CopyPlayerAchievementByAchievementIdOptions options, out PlayerAchievement? outAchievement)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyPlayerAchievementByAchievementIdOptionsInternal, CopyPlayerAchievementByAchievementIdOptions>(ref optionsAddress, options);
+			CopyPlayerAchievementByAchievementIdOptionsInternal optionsInternal = new CopyPlayerAchievementByAchievementIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outAchievementAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Achievements_CopyPlayerAchievementByAchievementId(InnerHandle, optionsAddress, ref outAchievementAddress);
+			var funcResult = Bindings.EOS_Achievements_CopyPlayerAchievementByAchievementId(InnerHandle, ref optionsInternal, ref outAchievementAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<PlayerAchievementInternal, PlayerAchievement>(outAchievementAddress, out outAchievement))
+			Helper.Get<PlayerAchievementInternal, PlayerAchievement>(outAchievementAddress, out outAchievement);
+			if (outAchievement != null)
 			{
 				Bindings.EOS_Achievements_PlayerAchievement_Release(outAchievementAddress);
 			}
@@ -373,18 +378,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.NotFound" /> if the player achievement is not found
 		/// <see cref="Result.InvalidProductUserID" /> if you pass an invalid user ID
 		/// </returns>
-		public Result CopyPlayerAchievementByIndex(CopyPlayerAchievementByIndexOptions options, out PlayerAchievement outAchievement)
+		public Result CopyPlayerAchievementByIndex(ref CopyPlayerAchievementByIndexOptions options, out PlayerAchievement? outAchievement)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyPlayerAchievementByIndexOptionsInternal, CopyPlayerAchievementByIndexOptions>(ref optionsAddress, options);
+			CopyPlayerAchievementByIndexOptionsInternal optionsInternal = new CopyPlayerAchievementByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outAchievementAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Achievements_CopyPlayerAchievementByIndex(InnerHandle, optionsAddress, ref outAchievementAddress);
+			var funcResult = Bindings.EOS_Achievements_CopyPlayerAchievementByIndex(InnerHandle, ref optionsInternal, ref outAchievementAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<PlayerAchievementInternal, PlayerAchievement>(outAchievementAddress, out outAchievement))
+			Helper.Get<PlayerAchievementInternal, PlayerAchievement>(outAchievementAddress, out outAchievement);
+			if (outAchievement != null)
 			{
 				Bindings.EOS_Achievements_PlayerAchievement_Release(outAchievementAddress);
 			}
@@ -405,18 +411,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the unlocked achievement is not found
 		/// </returns>
-		public Result CopyUnlockedAchievementByAchievementId(CopyUnlockedAchievementByAchievementIdOptions options, out UnlockedAchievement outAchievement)
+		public Result CopyUnlockedAchievementByAchievementId(ref CopyUnlockedAchievementByAchievementIdOptions options, out UnlockedAchievement? outAchievement)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyUnlockedAchievementByAchievementIdOptionsInternal, CopyUnlockedAchievementByAchievementIdOptions>(ref optionsAddress, options);
+			CopyUnlockedAchievementByAchievementIdOptionsInternal optionsInternal = new CopyUnlockedAchievementByAchievementIdOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outAchievementAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Achievements_CopyUnlockedAchievementByAchievementId(InnerHandle, optionsAddress, ref outAchievementAddress);
+			var funcResult = Bindings.EOS_Achievements_CopyUnlockedAchievementByAchievementId(InnerHandle, ref optionsInternal, ref outAchievementAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<UnlockedAchievementInternal, UnlockedAchievement>(outAchievementAddress, out outAchievement))
+			Helper.Get<UnlockedAchievementInternal, UnlockedAchievement>(outAchievementAddress, out outAchievement);
+			if (outAchievement != null)
 			{
 				Bindings.EOS_Achievements_UnlockedAchievement_Release(outAchievementAddress);
 			}
@@ -437,18 +444,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.NotFound" /> if the unlocked achievement is not found
 		/// </returns>
-		public Result CopyUnlockedAchievementByIndex(CopyUnlockedAchievementByIndexOptions options, out UnlockedAchievement outAchievement)
+		public Result CopyUnlockedAchievementByIndex(ref CopyUnlockedAchievementByIndexOptions options, out UnlockedAchievement? outAchievement)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CopyUnlockedAchievementByIndexOptionsInternal, CopyUnlockedAchievementByIndexOptions>(ref optionsAddress, options);
+			CopyUnlockedAchievementByIndexOptionsInternal optionsInternal = new CopyUnlockedAchievementByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outAchievementAddress = System.IntPtr.Zero;
 
-			var funcResult = Bindings.EOS_Achievements_CopyUnlockedAchievementByIndex(InnerHandle, optionsAddress, ref outAchievementAddress);
+			var funcResult = Bindings.EOS_Achievements_CopyUnlockedAchievementByIndex(InnerHandle, ref optionsInternal, ref outAchievementAddress);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			if (Helper.TryMarshalGet<UnlockedAchievementInternal, UnlockedAchievement>(outAchievementAddress, out outAchievement))
+			Helper.Get<UnlockedAchievementInternal, UnlockedAchievement>(outAchievementAddress, out outAchievement);
+			if (outAchievement != null)
 			{
 				Bindings.EOS_Achievements_UnlockedAchievement_Release(outAchievementAddress);
 			}
@@ -464,14 +472,14 @@ namespace Epic.OnlineServices.Achievements
 		/// <returns>
 		/// Number of achievement definitions or 0 if there is an error
 		/// </returns>
-		public uint GetAchievementDefinitionCount(GetAchievementDefinitionCountOptions options)
+		public uint GetAchievementDefinitionCount(ref GetAchievementDefinitionCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetAchievementDefinitionCountOptionsInternal, GetAchievementDefinitionCountOptions>(ref optionsAddress, options);
+			GetAchievementDefinitionCountOptionsInternal optionsInternal = new GetAchievementDefinitionCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Achievements_GetAchievementDefinitionCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Achievements_GetAchievementDefinitionCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -484,14 +492,14 @@ namespace Epic.OnlineServices.Achievements
 		/// <returns>
 		/// Number of player achievements or 0 if there is an error
 		/// </returns>
-		public uint GetPlayerAchievementCount(GetPlayerAchievementCountOptions options)
+		public uint GetPlayerAchievementCount(ref GetPlayerAchievementCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetPlayerAchievementCountOptionsInternal, GetPlayerAchievementCountOptions>(ref optionsAddress, options);
+			GetPlayerAchievementCountOptionsInternal optionsInternal = new GetPlayerAchievementCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Achievements_GetPlayerAchievementCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Achievements_GetPlayerAchievementCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -506,22 +514,21 @@ namespace Epic.OnlineServices.Achievements
 		/// <returns>
 		/// Number of unlocked achievements or 0 if there is an error
 		/// </returns>
-		public uint GetUnlockedAchievementCount(GetUnlockedAchievementCountOptions options)
+		public uint GetUnlockedAchievementCount(ref GetUnlockedAchievementCountOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetUnlockedAchievementCountOptionsInternal, GetUnlockedAchievementCountOptions>(ref optionsAddress, options);
+			GetUnlockedAchievementCountOptionsInternal optionsInternal = new GetUnlockedAchievementCountOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_Achievements_GetUnlockedAchievementCount(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_Achievements_GetUnlockedAchievementCount(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		/// <summary>
 		/// Query for a list of definitions for all existing achievements, including localized text, icon IDs and whether an achievement is hidden.
-		/// 
-		/// @note When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see <see cref="Platform.PlatformFlags.DisableSocialOverlay" />).
+		/// When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see EOS_PF_DISABLE_SOCIAL_OVERLAY).
 		/// </summary>
 		/// <param name="options">Structure containing information about the application whose achievement definitions we're retrieving.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
@@ -530,25 +537,24 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public void QueryDefinitions(QueryDefinitionsOptions options, object clientData, OnQueryDefinitionsCompleteCallback completionDelegate)
+		public void QueryDefinitions(ref QueryDefinitionsOptions options, object clientData, OnQueryDefinitionsCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryDefinitionsOptionsInternal, QueryDefinitionsOptions>(ref optionsAddress, options);
+			QueryDefinitionsOptionsInternal optionsInternal = new QueryDefinitionsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryDefinitionsCompleteCallbackInternal(OnQueryDefinitionsCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Achievements_QueryDefinitions(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Achievements_QueryDefinitions(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
 		/// Query for a list of achievements for a specific player, including progress towards completion for each achievement.
-		/// 
-		/// @note When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see <see cref="Platform.PlatformFlags.DisableSocialOverlay" />).
+		/// When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see EOS_PF_DISABLE_SOCIAL_OVERLAY).
 		/// </summary>
 		/// <param name="options">Structure containing information about the player whose achievements we're retrieving.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
@@ -558,19 +564,19 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.InvalidProductUserID" /> if any of the userid options are incorrect
 		/// <see cref="Result.InvalidParameters" /> if any of the other options are incorrect
 		/// </returns>
-		public void QueryPlayerAchievements(QueryPlayerAchievementsOptions options, object clientData, OnQueryPlayerAchievementsCompleteCallback completionDelegate)
+		public void QueryPlayerAchievements(ref QueryPlayerAchievementsOptions options, object clientData, OnQueryPlayerAchievementsCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryPlayerAchievementsOptionsInternal, QueryPlayerAchievementsOptions>(ref optionsAddress, options);
+			QueryPlayerAchievementsOptionsInternal optionsInternal = new QueryPlayerAchievementsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryPlayerAchievementsCompleteCallbackInternal(OnQueryPlayerAchievementsCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Achievements_QueryPlayerAchievements(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Achievements_QueryPlayerAchievements(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -580,9 +586,9 @@ namespace Epic.OnlineServices.Achievements
 		/// <param name="inId">Handle representing the registered callback</param>
 		public void RemoveNotifyAchievementsUnlocked(ulong inId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(inId);
-
 			Bindings.EOS_Achievements_RemoveNotifyAchievementsUnlocked(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
 		}
 
 		/// <summary>
@@ -595,73 +601,73 @@ namespace Epic.OnlineServices.Achievements
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// </returns>
-		public void UnlockAchievements(UnlockAchievementsOptions options, object clientData, OnUnlockAchievementsCompleteCallback completionDelegate)
+		public void UnlockAchievements(ref UnlockAchievementsOptions options, object clientData, OnUnlockAchievementsCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<UnlockAchievementsOptionsInternal, UnlockAchievementsOptions>(ref optionsAddress, options);
+			UnlockAchievementsOptionsInternal optionsInternal = new UnlockAchievementsOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnUnlockAchievementsCompleteCallbackInternal(OnUnlockAchievementsCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_Achievements_UnlockAchievements(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_Achievements_UnlockAchievements(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		[MonoPInvokeCallback(typeof(OnAchievementsUnlockedCallbackInternal))]
-		internal static void OnAchievementsUnlockedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnAchievementsUnlockedCallbackInternalImplementation(ref OnAchievementsUnlockedCallbackInfoInternal data)
 		{
 			OnAchievementsUnlockedCallback callback;
 			OnAchievementsUnlockedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnAchievementsUnlockedCallback, OnAchievementsUnlockedCallbackInfoInternal, OnAchievementsUnlockedCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnAchievementsUnlockedCallbackV2Internal))]
-		internal static void OnAchievementsUnlockedCallbackV2InternalImplementation(System.IntPtr data)
+		internal static void OnAchievementsUnlockedCallbackV2InternalImplementation(ref OnAchievementsUnlockedCallbackV2InfoInternal data)
 		{
 			OnAchievementsUnlockedCallbackV2 callback;
 			OnAchievementsUnlockedCallbackV2Info callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnAchievementsUnlockedCallbackV2, OnAchievementsUnlockedCallbackV2InfoInternal, OnAchievementsUnlockedCallbackV2Info>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryDefinitionsCompleteCallbackInternal))]
-		internal static void OnQueryDefinitionsCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryDefinitionsCompleteCallbackInternalImplementation(ref OnQueryDefinitionsCompleteCallbackInfoInternal data)
 		{
 			OnQueryDefinitionsCompleteCallback callback;
 			OnQueryDefinitionsCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryDefinitionsCompleteCallback, OnQueryDefinitionsCompleteCallbackInfoInternal, OnQueryDefinitionsCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryPlayerAchievementsCompleteCallbackInternal))]
-		internal static void OnQueryPlayerAchievementsCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryPlayerAchievementsCompleteCallbackInternalImplementation(ref OnQueryPlayerAchievementsCompleteCallbackInfoInternal data)
 		{
 			OnQueryPlayerAchievementsCompleteCallback callback;
 			OnQueryPlayerAchievementsCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryPlayerAchievementsCompleteCallback, OnQueryPlayerAchievementsCompleteCallbackInfoInternal, OnQueryPlayerAchievementsCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnUnlockAchievementsCompleteCallbackInternal))]
-		internal static void OnUnlockAchievementsCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnUnlockAchievementsCompleteCallbackInternalImplementation(ref OnUnlockAchievementsCompleteCallbackInfoInternal data)
 		{
 			OnUnlockAchievementsCompleteCallback callback;
 			OnUnlockAchievementsCompleteCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnUnlockAchievementsCompleteCallback, OnUnlockAchievementsCompleteCallbackInfoInternal, OnUnlockAchievementsCompleteCallbackInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

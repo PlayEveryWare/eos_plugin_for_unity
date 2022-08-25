@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Mods
 	/// <summary>
 	/// Input parameters for the <see cref="ModsInterface.UninstallMod" /> Function.
 	/// </summary>
-	public class UninstallModOptions
+	public struct UninstallModOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the user for which the mod should be uninstalled
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.Mods
 		/// <summary>
 		/// The mod to uninstall
 		/// </summary>
-		public ModIdentifier Mod { get; set; }
+		public ModIdentifier? Mod { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UninstallModOptionsInternal : ISettable, System.IDisposable
+	internal struct UninstallModOptionsInternal : ISettable<UninstallModOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.Mods
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public ModIdentifier Mod
+		public ModIdentifier? Mod
 		{
 			set
 			{
-				Helper.TryMarshalSet<ModIdentifierInternal, ModIdentifier>(ref m_Mod, value);
+				Helper.Set<ModIdentifier, ModIdentifierInternal>(ref value, ref m_Mod);
 			}
 		}
 
-		public void Set(UninstallModOptions other)
+		public void Set(ref UninstallModOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ModsInterface.UninstallmodApiLatest;
+			LocalUserId = other.LocalUserId;
+			Mod = other.Mod;
+		}
+
+		public void Set(ref UninstallModOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ModsInterface.UninstallmodApiLatest;
-				LocalUserId = other.LocalUserId;
-				Mod = other.Mod;
+				LocalUserId = other.Value.LocalUserId;
+				Mod = other.Value.Mod;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UninstallModOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Mod);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Mod);
 		}
 	}
 }

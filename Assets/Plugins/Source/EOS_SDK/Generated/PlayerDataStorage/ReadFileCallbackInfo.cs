@@ -6,52 +6,55 @@ namespace Epic.OnlineServices.PlayerDataStorage
 	/// <summary>
 	/// Data containing the result of a read file request
 	/// </summary>
-	public class ReadFileCallbackInfo : ICallbackInfo, ISettable
+	public struct ReadFileCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// Result code for the operation. <see cref="Result.Success" /> is returned for a successful request, other codes indicate an error
+		/// The result code for the operation.
+		/// <see cref="Result.Success" />: The request was successful.
+		/// <see cref="Result.Canceled" />: The request was canceled.
+		/// <see cref="Result.TooManyRequests" />: There are too many requests in progress for the local user at this time.
+		/// <see cref="Result.AlreadyPending" />: There is another requests in progress for the specified file by this user.
+		/// <see cref="Result.CacheDirectoryMissing" />: The cache directory was not set when calling <see cref="Platform.PlatformInterface.Create" />.
+		/// <see cref="Result.CacheDirectoryInvalid" />: The cache directory provided when calling <see cref="Platform.PlatformInterface.Create" /> was invalid.
+		/// <see cref="Result.PlayerDataStorageUserThrottled" />: There were too many requests to the Data Storage service recently by the local user. The application must wait some time before trying again.
+		/// <see cref="Result.PlayerDataStorageEncryptionKeyNotSet" />: The encryption key value was not set when calling <see cref="Platform.PlatformInterface.Create" />.
+		/// <see cref="Result.PlayerDataStorageFileCorrupted" />: The downloaded or cached file was corrupted or invalid in some way. What exactly is wrong with the file is returned in the logs (potentially retryable).
+		/// <see cref="Result.InvalidState" />: The read operation is not allowed (e.g. when application is suspended).
+		/// <see cref="Result.UnexpectedError" />: An unexpected error occurred either downloading, or reading the downloaded file. This most commonly means there were file IO issues such as: permission issues, disk is full, etc. (potentially retryable)
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Client-specified data passed into the file read request
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user who initiated this request
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The filename of the file that has been finished reading
 		/// </summary>
-		public string Filename { get; private set; }
+		public Utf8String Filename { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(ReadFileCallbackInfoInternal? other)
+		internal void Set(ref ReadFileCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				Filename = other.Value.Filename;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as ReadFileCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			Filename = other.Filename;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct ReadFileCallbackInfoInternal : ICallbackInfoInternal
+	internal struct ReadFileCallbackInfoInternal : ICallbackInfoInternal, IGettable<ReadFileCallbackInfo>, ISettable<ReadFileCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -64,6 +67,11 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -71,8 +79,13 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -89,19 +102,61 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string Filename
+		public Utf8String Filename
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Filename, out value);
+				Utf8String value;
+				Helper.Get(m_Filename, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_Filename);
+			}
+		}
+
+		public void Set(ref ReadFileCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			Filename = other.Filename;
+		}
+
+		public void Set(ref ReadFileCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				Filename = other.Value.Filename;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Filename);
+		}
+
+		public void Get(out ReadFileCallbackInfo output)
+		{
+			output = new ReadFileCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

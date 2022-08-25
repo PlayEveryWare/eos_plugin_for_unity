@@ -134,17 +134,17 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		/// <param name="options">Information about who would like to accept a connection, and which connection</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the provided data is valid
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// <see cref="Result.Success" /> - if the provided data is valid
+		/// <see cref="Result.InvalidParameters" /> - if the provided data is invalid
 		/// </returns>
-		public Result AcceptConnection(AcceptConnectionOptions options)
+		public Result AcceptConnection(ref AcceptConnectionOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AcceptConnectionOptionsInternal, AcceptConnectionOptions>(ref optionsAddress, options);
+			AcceptConnectionOptionsInternal optionsInternal = new AcceptConnectionOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_P2P_AcceptConnection(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_P2P_AcceptConnection(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -161,21 +161,21 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
-		public ulong AddNotifyIncomingPacketQueueFull(AddNotifyIncomingPacketQueueFullOptions options, object clientData, OnIncomingPacketQueueFullCallback incomingPacketQueueFullHandler)
+		public ulong AddNotifyIncomingPacketQueueFull(ref AddNotifyIncomingPacketQueueFullOptions options, object clientData, OnIncomingPacketQueueFullCallback incomingPacketQueueFullHandler)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyIncomingPacketQueueFullOptionsInternal, AddNotifyIncomingPacketQueueFullOptions>(ref optionsAddress, options);
+			AddNotifyIncomingPacketQueueFullOptionsInternal optionsInternal = new AddNotifyIncomingPacketQueueFullOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var incomingPacketQueueFullHandlerInternal = new OnIncomingPacketQueueFullCallbackInternal(OnIncomingPacketQueueFullCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, incomingPacketQueueFullHandler, incomingPacketQueueFullHandlerInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, incomingPacketQueueFullHandler, incomingPacketQueueFullHandlerInternal);
 
-			var funcResult = Bindings.EOS_P2P_AddNotifyIncomingPacketQueueFull(InnerHandle, optionsAddress, clientDataAddress, incomingPacketQueueFullHandlerInternal);
+			var funcResult = Bindings.EOS_P2P_AddNotifyIncomingPacketQueueFull(InnerHandle, ref optionsInternal, clientDataAddress, incomingPacketQueueFullHandlerInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -189,21 +189,21 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
-		public ulong AddNotifyPeerConnectionClosed(AddNotifyPeerConnectionClosedOptions options, object clientData, OnRemoteConnectionClosedCallback connectionClosedHandler)
+		public ulong AddNotifyPeerConnectionClosed(ref AddNotifyPeerConnectionClosedOptions options, object clientData, OnRemoteConnectionClosedCallback connectionClosedHandler)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyPeerConnectionClosedOptionsInternal, AddNotifyPeerConnectionClosedOptions>(ref optionsAddress, options);
+			AddNotifyPeerConnectionClosedOptionsInternal optionsInternal = new AddNotifyPeerConnectionClosedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var connectionClosedHandlerInternal = new OnRemoteConnectionClosedCallbackInternal(OnRemoteConnectionClosedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, connectionClosedHandler, connectionClosedHandlerInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, connectionClosedHandler, connectionClosedHandlerInternal);
 
-			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionClosed(InnerHandle, optionsAddress, clientDataAddress, connectionClosedHandlerInternal);
+			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionClosed(InnerHandle, ref optionsInternal, clientDataAddress, connectionClosedHandlerInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -217,21 +217,21 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
-		public ulong AddNotifyPeerConnectionEstablished(AddNotifyPeerConnectionEstablishedOptions options, object clientData, OnPeerConnectionEstablishedCallback connectionEstablishedHandler)
+		public ulong AddNotifyPeerConnectionEstablished(ref AddNotifyPeerConnectionEstablishedOptions options, object clientData, OnPeerConnectionEstablishedCallback connectionEstablishedHandler)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyPeerConnectionEstablishedOptionsInternal, AddNotifyPeerConnectionEstablishedOptions>(ref optionsAddress, options);
+			AddNotifyPeerConnectionEstablishedOptionsInternal optionsInternal = new AddNotifyPeerConnectionEstablishedOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var connectionEstablishedHandlerInternal = new OnPeerConnectionEstablishedCallbackInternal(OnPeerConnectionEstablishedCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, connectionEstablishedHandler, connectionEstablishedHandlerInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, connectionEstablishedHandler, connectionEstablishedHandlerInternal);
 
-			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionEstablished(InnerHandle, optionsAddress, clientDataAddress, connectionEstablishedHandlerInternal);
+			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionEstablished(InnerHandle, ref optionsInternal, clientDataAddress, connectionEstablishedHandlerInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -246,21 +246,21 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
 		/// </returns>
-		public ulong AddNotifyPeerConnectionRequest(AddNotifyPeerConnectionRequestOptions options, object clientData, OnIncomingConnectionRequestCallback connectionRequestHandler)
+		public ulong AddNotifyPeerConnectionRequest(ref AddNotifyPeerConnectionRequestOptions options, object clientData, OnIncomingConnectionRequestCallback connectionRequestHandler)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<AddNotifyPeerConnectionRequestOptionsInternal, AddNotifyPeerConnectionRequestOptions>(ref optionsAddress, options);
+			AddNotifyPeerConnectionRequestOptionsInternal optionsInternal = new AddNotifyPeerConnectionRequestOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var connectionRequestHandlerInternal = new OnIncomingConnectionRequestCallbackInternal(OnIncomingConnectionRequestCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, connectionRequestHandler, connectionRequestHandlerInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, connectionRequestHandler, connectionRequestHandlerInternal);
 
-			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionRequest(InnerHandle, optionsAddress, clientDataAddress, connectionRequestHandlerInternal);
+			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionRequest(InnerHandle, ref optionsInternal, clientDataAddress, connectionRequestHandlerInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryAssignNotificationIdToCallback(clientDataAddress, funcResult);
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
 
 			return funcResult;
 		}
@@ -270,19 +270,19 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		/// <param name="options">Information about which queues should be cleared</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the input options were valid (even if queues were empty and no packets where cleared)
-		/// <see cref="Result" />::<see cref="Result.IncompatibleVersion" /> - if wrong API version
-		/// <see cref="Result" />::<see cref="Result.InvalidUser" /> - if wrong local and/or remote user
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if input was invalid in other way
+		/// <see cref="Result.Success" /> - if the input options were valid (even if queues were empty and no packets where cleared)
+		/// <see cref="Result.IncompatibleVersion" /> - if wrong API version
+		/// <see cref="Result.InvalidUser" /> - if wrong local and/or remote user
+		/// <see cref="Result.InvalidParameters" /> - if input was invalid in other way
 		/// </returns>
-		public Result ClearPacketQueue(ClearPacketQueueOptions options)
+		public Result ClearPacketQueue(ref ClearPacketQueueOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ClearPacketQueueOptionsInternal, ClearPacketQueueOptions>(ref optionsAddress, options);
+			ClearPacketQueueOptionsInternal optionsInternal = new ClearPacketQueueOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_P2P_ClearPacketQueue(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_P2P_ClearPacketQueue(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -292,17 +292,17 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		/// <param name="options">Information about who would like to close a connection, and which connection.</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the provided data is valid
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// <see cref="Result.Success" /> - if the provided data is valid
+		/// <see cref="Result.InvalidParameters" /> - if the provided data is invalid
 		/// </returns>
-		public Result CloseConnection(CloseConnectionOptions options)
+		public Result CloseConnection(ref CloseConnectionOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CloseConnectionOptionsInternal, CloseConnectionOptions>(ref optionsAddress, options);
+			CloseConnectionOptionsInternal optionsInternal = new CloseConnectionOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_P2P_CloseConnection(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_P2P_CloseConnection(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -312,17 +312,17 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		/// <param name="options">Information about who would like to close connections, and by what socket ID</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the provided data is valid
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the provided data is invalid
+		/// <see cref="Result.Success" /> - if the provided data is valid
+		/// <see cref="Result.InvalidParameters" /> - if the provided data is invalid
 		/// </returns>
-		public Result CloseConnections(CloseConnectionsOptions options)
+		public Result CloseConnections(ref CloseConnectionsOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<CloseConnectionsOptionsInternal, CloseConnectionsOptions>(ref optionsAddress, options);
+			CloseConnectionsOptionsInternal optionsInternal = new CloseConnectionsOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_P2P_CloseConnections(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_P2P_CloseConnections(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -333,19 +333,19 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="options">Information about what version of the <see cref="GetNATType" /> API is supported</param>
 		/// <param name="outNATType">The queried NAT Type, or unknown if unknown</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if we have cached data
-		/// <see cref="Result" />::<see cref="Result.NotFound" /> - If we do not have queried data cached
+		/// <see cref="Result.Success" /> - if we have cached data
+		/// <see cref="Result.NotFound" /> - If we do not have queried data cached
 		/// </returns>
-		public Result GetNATType(GetNATTypeOptions options, out NATType outNATType)
+		public Result GetNATType(ref GetNATTypeOptions options, out NATType outNATType)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetNATTypeOptionsInternal, GetNATTypeOptions>(ref optionsAddress, options);
+			GetNATTypeOptionsInternal optionsInternal = new GetNATTypeOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			outNATType = Helper.GetDefault<NATType>();
 
-			var funcResult = Bindings.EOS_P2P_GetNATType(InnerHandle, optionsAddress, ref outNATType);
+			var funcResult = Bindings.EOS_P2P_GetNATType(InnerHandle, ref optionsInternal, ref outNATType);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -357,20 +357,20 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="options">Information about who is requesting the size of their next packet</param>
 		/// <param name="outPacketSizeBytes">The amount of bytes required to store the data of the next packet for the requested user</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - If OutPacketSizeBytes was successfully set and there is data to be received
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - If input was invalid
-		/// <see cref="Result" />::<see cref="Result.NotFound" /> - If there are no packets available for the requesting user
+		/// <see cref="Result.Success" /> - If OutPacketSizeBytes was successfully set and there is data to be received
+		/// <see cref="Result.InvalidParameters" /> - If input was invalid
+		/// <see cref="Result.NotFound" /> - If there are no packets available for the requesting user
 		/// </returns>
-		public Result GetNextReceivedPacketSize(GetNextReceivedPacketSizeOptions options, out uint outPacketSizeBytes)
+		public Result GetNextReceivedPacketSize(ref GetNextReceivedPacketSizeOptions options, out uint outPacketSizeBytes)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetNextReceivedPacketSizeOptionsInternal, GetNextReceivedPacketSizeOptions>(ref optionsAddress, options);
+			GetNextReceivedPacketSizeOptionsInternal optionsInternal = new GetNextReceivedPacketSizeOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			outPacketSizeBytes = Helper.GetDefault<uint>();
 
-			var funcResult = Bindings.EOS_P2P_GetNextReceivedPacketSize(InnerHandle, optionsAddress, ref outPacketSizeBytes);
+			var funcResult = Bindings.EOS_P2P_GetNextReceivedPacketSize(InnerHandle, ref optionsInternal, ref outPacketSizeBytes);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -381,21 +381,21 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="options">Information about what version of the <see cref="GetPacketQueueInfo" /> API is supported</param>
 		/// <param name="outPacketQueueInfo">The current information of the incoming and outgoing packet queues</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the input options were valid
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the input was invalid in some way
+		/// <see cref="Result.Success" /> - if the input options were valid
+		/// <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
 		/// </returns>
-		public Result GetPacketQueueInfo(GetPacketQueueInfoOptions options, out PacketQueueInfo outPacketQueueInfo)
+		public Result GetPacketQueueInfo(ref GetPacketQueueInfoOptions options, out PacketQueueInfo outPacketQueueInfo)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetPacketQueueInfoOptionsInternal, GetPacketQueueInfoOptions>(ref optionsAddress, options);
+			GetPacketQueueInfoOptionsInternal optionsInternal = new GetPacketQueueInfoOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outPacketQueueInfoInternal = Helper.GetDefault<PacketQueueInfoInternal>();
 
-			var funcResult = Bindings.EOS_P2P_GetPacketQueueInfo(InnerHandle, optionsAddress, ref outPacketQueueInfoInternal);
+			var funcResult = Bindings.EOS_P2P_GetPacketQueueInfo(InnerHandle, ref optionsInternal, ref outPacketQueueInfoInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outPacketQueueInfoInternal, out outPacketQueueInfo);
+			Helper.Get(ref outPacketQueueInfoInternal, out outPacketQueueInfo);
 
 			return funcResult;
 		}
@@ -407,21 +407,21 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="outPort">The port that will be tried first</param>
 		/// <param name="outNumAdditionalPortsToTry">The amount of ports to try above the value in OutPort, if OutPort is unavailable</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the input options were valid
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the input was invalid in some way
+		/// <see cref="Result.Success" /> - if the input options were valid
+		/// <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
 		/// </returns>
-		public Result GetPortRange(GetPortRangeOptions options, out ushort outPort, out ushort outNumAdditionalPortsToTry)
+		public Result GetPortRange(ref GetPortRangeOptions options, out ushort outPort, out ushort outNumAdditionalPortsToTry)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetPortRangeOptionsInternal, GetPortRangeOptions>(ref optionsAddress, options);
+			GetPortRangeOptionsInternal optionsInternal = new GetPortRangeOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			outPort = Helper.GetDefault<ushort>();
 
 			outNumAdditionalPortsToTry = Helper.GetDefault<ushort>();
 
-			var funcResult = Bindings.EOS_P2P_GetPortRange(InnerHandle, optionsAddress, ref outPort, ref outNumAdditionalPortsToTry);
+			var funcResult = Bindings.EOS_P2P_GetPortRange(InnerHandle, ref optionsInternal, ref outPort, ref outNumAdditionalPortsToTry);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -432,19 +432,19 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="options">Information about what version of the <see cref="GetRelayControl" /> API is supported</param>
 		/// <param name="outRelayControl">The relay control setting currently configured</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the input was valid
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the input was invalid in some way
+		/// <see cref="Result.Success" /> - if the input was valid
+		/// <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
 		/// </returns>
-		public Result GetRelayControl(GetRelayControlOptions options, out RelayControl outRelayControl)
+		public Result GetRelayControl(ref GetRelayControlOptions options, out RelayControl outRelayControl)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<GetRelayControlOptionsInternal, GetRelayControlOptions>(ref optionsAddress, options);
+			GetRelayControlOptionsInternal optionsInternal = new GetRelayControlOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			outRelayControl = Helper.GetDefault<RelayControl>();
 
-			var funcResult = Bindings.EOS_P2P_GetRelayControl(InnerHandle, optionsAddress, ref outRelayControl);
+			var funcResult = Bindings.EOS_P2P_GetRelayControl(InnerHandle, ref optionsInternal, ref outRelayControl);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -455,19 +455,19 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="options">Information about what version of the <see cref="QueryNATType" /> API is supported</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
 		/// <param name="completionDelegate">The callback to be fired when we finish querying our NAT type</param>
-		public void QueryNATType(QueryNATTypeOptions options, object clientData, OnQueryNATTypeCompleteCallback completionDelegate)
+		public void QueryNATType(ref QueryNATTypeOptions options, object clientData, OnQueryNATTypeCompleteCallback completionDelegate)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<QueryNATTypeOptionsInternal, QueryNATTypeOptions>(ref optionsAddress, options);
+			QueryNATTypeOptionsInternal optionsInternal = new QueryNATTypeOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var clientDataAddress = System.IntPtr.Zero;
 
 			var completionDelegateInternal = new OnQueryNATTypeCompleteCallbackInternal(OnQueryNATTypeCompleteCallbackInternalImplementation);
-			Helper.AddCallback(ref clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
-			Bindings.EOS_P2P_QueryNATType(InnerHandle, optionsAddress, clientDataAddress, completionDelegateInternal);
+			Bindings.EOS_P2P_QueryNATType(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -480,14 +480,14 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="outData">Buffer to store the data being received. Must be at least <see cref="GetNextReceivedPacketSize" /> in length or data will be truncated</param>
 		/// <param name="outBytesWritten">The amount of bytes written to OutData. Only set if there was a packet to receive.</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - If the packet was received successfully
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - If input was invalid
-		/// <see cref="Result" />::<see cref="Result.NotFound" /> - If there are no packets available for the requesting user
+		/// <see cref="Result.Success" /> - If the packet was received successfully
+		/// <see cref="Result.InvalidParameters" /> - If input was invalid
+		/// <see cref="Result.NotFound" /> - If there are no packets available for the requesting user
 		/// </returns>
-		public Result ReceivePacket(ReceivePacketOptions options, out ProductUserId outPeerId, out SocketId outSocketId, out byte outChannel, out byte[] outData)
+		public Result ReceivePacket(ref ReceivePacketOptions options, out ProductUserId outPeerId, out SocketId outSocketId, out byte outChannel, System.ArraySegment<byte> outData, out uint outBytesWritten)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<ReceivePacketOptionsInternal, ReceivePacketOptions>(ref optionsAddress, options);
+			ReceivePacketOptionsInternal optionsInternal = new ReceivePacketOptionsInternal();
+			optionsInternal.Set(ref options);
 
 			var outPeerIdAddress = System.IntPtr.Zero;
 
@@ -495,20 +495,18 @@ namespace Epic.OnlineServices.P2P
 
 			outChannel = Helper.GetDefault<byte>();
 
-			System.IntPtr outDataAddress = System.IntPtr.Zero;
-			uint outBytesWritten = MaxPacketSize;
-			Helper.TryMarshalAllocate(ref outDataAddress, outBytesWritten);
+			outBytesWritten = 0;
+			System.IntPtr outDataAddress = Helper.AddPinnedBuffer(outData);
 
-			var funcResult = Bindings.EOS_P2P_ReceivePacket(InnerHandle, optionsAddress, ref outPeerIdAddress, ref outSocketIdInternal, ref outChannel, outDataAddress, ref outBytesWritten);
+			var funcResult = Bindings.EOS_P2P_ReceivePacket(InnerHandle, ref optionsInternal, ref outPeerIdAddress, ref outSocketIdInternal, ref outChannel, outDataAddress, ref outBytesWritten);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
-			Helper.TryMarshalGet(outPeerIdAddress, out outPeerId);
+			Helper.Get(outPeerIdAddress, out outPeerId);
 
-			Helper.TryMarshalGet(outSocketIdInternal, out outSocketId);
+			Helper.Get(ref outSocketIdInternal, out outSocketId);
 
-			Helper.TryMarshalGet(outDataAddress, out outData, outBytesWritten);
-			Helper.TryMarshalDispose(ref outDataAddress);
+			Helper.Dispose(ref outDataAddress);
 
 			return funcResult;
 		}
@@ -519,9 +517,9 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyIncomingPacketQueueFull(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_P2P_RemoveNotifyIncomingPacketQueueFull(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -530,9 +528,9 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyPeerConnectionClosed(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_P2P_RemoveNotifyPeerConnectionClosed(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -541,9 +539,9 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyPeerConnectionEstablished(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_P2P_RemoveNotifyPeerConnectionEstablished(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -552,9 +550,9 @@ namespace Epic.OnlineServices.P2P
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyPeerConnectionRequest(ulong notificationId)
 		{
-			Helper.TryRemoveCallbackByNotificationId(notificationId);
-
 			Bindings.EOS_P2P_RemoveNotifyPeerConnectionRequest(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -564,18 +562,18 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		/// <param name="options">Information about the data being sent, by who, to who</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - If packet was queued to be sent successfully
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - If input was invalid
-		/// <see cref="Result" />::<see cref="Result.LimitExceeded" /> - If amount of data being sent is too large, or the outgoing packet queue was full
+		/// <see cref="Result.Success" /> - If packet was queued to be sent successfully
+		/// <see cref="Result.InvalidParameters" /> - If input was invalid
+		/// <see cref="Result.LimitExceeded" /> - If amount of data being sent is too large, or the outgoing packet queue was full
 		/// </returns>
-		public Result SendPacket(SendPacketOptions options)
+		public Result SendPacket(ref SendPacketOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SendPacketOptionsInternal, SendPacketOptions>(ref optionsAddress, options);
+			SendPacketOptionsInternal optionsInternal = new SendPacketOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_P2P_SendPacket(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_P2P_SendPacket(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -588,17 +586,17 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		/// <param name="options">Information about packet queue size</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the input options were valid
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the input was invalid in some way
+		/// <see cref="Result.Success" /> - if the input options were valid
+		/// <see cref="Result.InvalidParameters" /> - if the input was invalid in some way
 		/// </returns>
-		public Result SetPacketQueueSize(SetPacketQueueSizeOptions options)
+		public Result SetPacketQueueSize(ref SetPacketQueueSizeOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SetPacketQueueSizeOptionsInternal, SetPacketQueueSizeOptions>(ref optionsAddress, options);
+			SetPacketQueueSizeOptionsInternal optionsInternal = new SetPacketQueueSizeOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_P2P_SetPacketQueueSize(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_P2P_SetPacketQueueSize(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -608,17 +606,17 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		/// <param name="options">Information about network ports config options</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the options were set successfully
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the options are invalid in some way
+		/// <see cref="Result.Success" /> - if the options were set successfully
+		/// <see cref="Result.InvalidParameters" /> - if the options are invalid in some way
 		/// </returns>
-		public Result SetPortRange(SetPortRangeOptions options)
+		public Result SetPortRange(ref SetPortRangeOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SetPortRangeOptionsInternal, SetPortRangeOptions>(ref optionsAddress, options);
+			SetPortRangeOptionsInternal optionsInternal = new SetPortRangeOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_P2P_SetPortRange(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_P2P_SetPortRange(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -626,76 +624,77 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// Set how relay servers are to be used. This setting does not immediately apply to existing connections, but may apply to existing
 		/// connections if the connection requires renegotiation.
+		/// <seealso cref="RelayControl" />
 		/// </summary>
 		/// <param name="options">Information about relay server config options</param>
 		/// <returns>
-		/// <see cref="Result" />::<see cref="Result.Success" /> - if the options were set successfully
-		/// <see cref="Result" />::<see cref="Result.InvalidParameters" /> - if the options are invalid in some way
+		/// <see cref="Result.Success" /> - if the options were set successfully
+		/// <see cref="Result.InvalidParameters" /> - if the options are invalid in some way
 		/// </returns>
-		public Result SetRelayControl(SetRelayControlOptions options)
+		public Result SetRelayControl(ref SetRelayControlOptions options)
 		{
-			var optionsAddress = System.IntPtr.Zero;
-			Helper.TryMarshalSet<SetRelayControlOptionsInternal, SetRelayControlOptions>(ref optionsAddress, options);
+			SetRelayControlOptionsInternal optionsInternal = new SetRelayControlOptionsInternal();
+			optionsInternal.Set(ref options);
 
-			var funcResult = Bindings.EOS_P2P_SetRelayControl(InnerHandle, optionsAddress);
+			var funcResult = Bindings.EOS_P2P_SetRelayControl(InnerHandle, ref optionsInternal);
 
-			Helper.TryMarshalDispose(ref optionsAddress);
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
 
 		[MonoPInvokeCallback(typeof(OnIncomingConnectionRequestCallbackInternal))]
-		internal static void OnIncomingConnectionRequestCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnIncomingConnectionRequestCallbackInternalImplementation(ref OnIncomingConnectionRequestInfoInternal data)
 		{
 			OnIncomingConnectionRequestCallback callback;
 			OnIncomingConnectionRequestInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnIncomingConnectionRequestCallback, OnIncomingConnectionRequestInfoInternal, OnIncomingConnectionRequestInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnIncomingPacketQueueFullCallbackInternal))]
-		internal static void OnIncomingPacketQueueFullCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnIncomingPacketQueueFullCallbackInternalImplementation(ref OnIncomingPacketQueueFullInfoInternal data)
 		{
 			OnIncomingPacketQueueFullCallback callback;
 			OnIncomingPacketQueueFullInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnIncomingPacketQueueFullCallback, OnIncomingPacketQueueFullInfoInternal, OnIncomingPacketQueueFullInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnPeerConnectionEstablishedCallbackInternal))]
-		internal static void OnPeerConnectionEstablishedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnPeerConnectionEstablishedCallbackInternalImplementation(ref OnPeerConnectionEstablishedInfoInternal data)
 		{
 			OnPeerConnectionEstablishedCallback callback;
 			OnPeerConnectionEstablishedInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnPeerConnectionEstablishedCallback, OnPeerConnectionEstablishedInfoInternal, OnPeerConnectionEstablishedInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnQueryNATTypeCompleteCallbackInternal))]
-		internal static void OnQueryNATTypeCompleteCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnQueryNATTypeCompleteCallbackInternalImplementation(ref OnQueryNATTypeCompleteInfoInternal data)
 		{
 			OnQueryNATTypeCompleteCallback callback;
 			OnQueryNATTypeCompleteInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnQueryNATTypeCompleteCallback, OnQueryNATTypeCompleteInfoInternal, OnQueryNATTypeCompleteInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 
 		[MonoPInvokeCallback(typeof(OnRemoteConnectionClosedCallbackInternal))]
-		internal static void OnRemoteConnectionClosedCallbackInternalImplementation(System.IntPtr data)
+		internal static void OnRemoteConnectionClosedCallbackInternalImplementation(ref OnRemoteConnectionClosedInfoInternal data)
 		{
 			OnRemoteConnectionClosedCallback callback;
 			OnRemoteConnectionClosedInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback<OnRemoteConnectionClosedCallback, OnRemoteConnectionClosedInfoInternal, OnRemoteConnectionClosedInfo>(data, out callback, out callbackInfo))
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
-				callback(callbackInfo);
+				callback(ref callbackInfo);
 			}
 		}
 	}

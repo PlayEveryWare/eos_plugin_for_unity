@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbySearch.RemoveParameter" /> function.
 	/// </summary>
-	public class LobbySearchRemoveParameterOptions
+	public struct LobbySearchRemoveParameterOptions
 	{
 		/// <summary>
 		/// Search parameter key to remove from the search
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 
 		/// <summary>
 		/// Search comparison operation associated with the key to remove
@@ -20,17 +20,17 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbySearchRemoveParameterOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbySearchRemoveParameterOptionsInternal : ISettable<LobbySearchRemoveParameterOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_Key;
 		private ComparisonOp m_ComparisonOp;
 
-		public string Key
+		public Utf8String Key
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
@@ -42,24 +42,26 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbySearchRemoveParameterOptions other)
+		public void Set(ref LobbySearchRemoveParameterOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbySearch.LobbysearchRemoveparameterApiLatest;
-				Key = other.Key;
-				ComparisonOp = other.ComparisonOp;
-			}
+			m_ApiVersion = LobbySearch.LobbysearchRemoveparameterApiLatest;
+			Key = other.Key;
+			ComparisonOp = other.ComparisonOp;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbySearchRemoveParameterOptions? other)
 		{
-			Set(other as LobbySearchRemoveParameterOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbySearch.LobbysearchRemoveparameterApiLatest;
+				Key = other.Value.Key;
+				ComparisonOp = other.Value.ComparisonOp;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_Key);
+			Helper.Dispose(ref m_Key);
 		}
 	}
 }

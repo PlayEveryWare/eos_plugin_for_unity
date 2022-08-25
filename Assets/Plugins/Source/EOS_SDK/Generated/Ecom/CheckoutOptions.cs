@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="EcomInterface.Checkout" /> function.
 	/// </summary>
-	public class CheckoutOptions
+	public struct CheckoutOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local user who is making the purchase
@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The catalog namespace will be the current Sandbox ID (in <see cref="Platform.Options" />) unless overridden by this field
 		/// </summary>
-		public string OverrideCatalogNamespace { get; set; }
+		public Utf8String OverrideCatalogNamespace { get; set; }
 
 		/// <summary>
 		/// An array of <see cref="CheckoutEntry" /> elements, each containing the details of a single offer
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CheckoutOptionsInternal : ISettable, System.IDisposable
+	internal struct CheckoutOptionsInternal : ISettable<CheckoutOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -37,15 +37,15 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string OverrideCatalogNamespace
+		public Utf8String OverrideCatalogNamespace
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_OverrideCatalogNamespace, value);
+				Helper.Set(value, ref m_OverrideCatalogNamespace);
 			}
 		}
 
@@ -53,31 +53,34 @@ namespace Epic.OnlineServices.Ecom
 		{
 			set
 			{
-				Helper.TryMarshalSet<CheckoutEntryInternal, CheckoutEntry>(ref m_Entries, value, out m_EntryCount);
+				Helper.Set<CheckoutEntry, CheckoutEntryInternal>(ref value, ref m_Entries, out m_EntryCount);
 			}
 		}
 
-		public void Set(CheckoutOptions other)
+		public void Set(ref CheckoutOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = EcomInterface.CheckoutApiLatest;
+			LocalUserId = other.LocalUserId;
+			OverrideCatalogNamespace = other.OverrideCatalogNamespace;
+			Entries = other.Entries;
+		}
+
+		public void Set(ref CheckoutOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = EcomInterface.CheckoutApiLatest;
-				LocalUserId = other.LocalUserId;
-				OverrideCatalogNamespace = other.OverrideCatalogNamespace;
-				Entries = other.Entries;
+				LocalUserId = other.Value.LocalUserId;
+				OverrideCatalogNamespace = other.Value.OverrideCatalogNamespace;
+				Entries = other.Value.Entries;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CheckoutOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_OverrideCatalogNamespace);
-			Helper.TryMarshalDispose(ref m_Entries);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_OverrideCatalogNamespace);
+			Helper.Dispose(ref m_Entries);
 		}
 	}
 }

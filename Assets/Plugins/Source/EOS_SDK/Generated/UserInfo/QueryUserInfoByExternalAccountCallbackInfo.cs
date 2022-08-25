@@ -6,64 +6,56 @@ namespace Epic.OnlineServices.UserInfo
 	/// <summary>
 	/// Output parameters for the <see cref="UserInfoInterface.QueryUserInfoByExternalAccount" /> Function.
 	/// </summary>
-	public class QueryUserInfoByExternalAccountCallbackInfo : ICallbackInfo, ISettable
+	public struct QueryUserInfoByExternalAccountCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="UserInfoInterface.QueryUserInfoByExternalAccount" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the local player who requested the information
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// External account id of the user whose information has been retrieved
 		/// </summary>
-		public string ExternalAccountId { get; private set; }
+		public Utf8String ExternalAccountId { get; set; }
 
 		/// <summary>
 		/// Account type of the external account id
 		/// </summary>
-		public ExternalAccountType AccountType { get; private set; }
+		public ExternalAccountType AccountType { get; set; }
 
 		/// <summary>
 		/// Account ID of the player whose information has been retrieved
 		/// </summary>
-		public EpicAccountId TargetUserId { get; private set; }
+		public EpicAccountId TargetUserId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(QueryUserInfoByExternalAccountCallbackInfoInternal? other)
+		internal void Set(ref QueryUserInfoByExternalAccountCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				ExternalAccountId = other.Value.ExternalAccountId;
-				AccountType = other.Value.AccountType;
-				TargetUserId = other.Value.TargetUserId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryUserInfoByExternalAccountCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			ExternalAccountId = other.ExternalAccountId;
+			AccountType = other.AccountType;
+			TargetUserId = other.TargetUserId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryUserInfoByExternalAccountCallbackInfoInternal : ICallbackInfoInternal
+	internal struct QueryUserInfoByExternalAccountCallbackInfoInternal : ICallbackInfoInternal, IGettable<QueryUserInfoByExternalAccountCallbackInfo>, ISettable<QueryUserInfoByExternalAccountCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -78,6 +70,11 @@ namespace Epic.OnlineServices.UserInfo
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -85,8 +82,13 @@ namespace Epic.OnlineServices.UserInfo
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -103,18 +105,28 @@ namespace Epic.OnlineServices.UserInfo
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string ExternalAccountId
+		public Utf8String ExternalAccountId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_ExternalAccountId, out value);
+				Utf8String value;
+				Helper.Get(m_ExternalAccountId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ExternalAccountId);
 			}
 		}
 
@@ -124,6 +136,11 @@ namespace Epic.OnlineServices.UserInfo
 			{
 				return m_AccountType;
 			}
+
+			set
+			{
+				m_AccountType = value;
+			}
 		}
 
 		public EpicAccountId TargetUserId
@@ -131,9 +148,51 @@ namespace Epic.OnlineServices.UserInfo
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_TargetUserId, out value);
+				Helper.Get(m_TargetUserId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetUserId);
+			}
+		}
+
+		public void Set(ref QueryUserInfoByExternalAccountCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			ExternalAccountId = other.ExternalAccountId;
+			AccountType = other.AccountType;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref QueryUserInfoByExternalAccountCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				ExternalAccountId = other.Value.ExternalAccountId;
+				AccountType = other.Value.AccountType;
+				TargetUserId = other.Value.TargetUserId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_ExternalAccountId);
+			Helper.Dispose(ref m_TargetUserId);
+		}
+
+		public void Get(out QueryUserInfoByExternalAccountCallbackInfo output)
+		{
+			output = new QueryUserInfoByExternalAccountCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

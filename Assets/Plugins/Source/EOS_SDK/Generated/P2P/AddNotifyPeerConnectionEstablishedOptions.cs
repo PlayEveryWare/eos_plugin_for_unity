@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.P2P
 	/// <summary>
 	/// Structure containing information about which connections should be notified
 	/// </summary>
-	public class AddNotifyPeerConnectionEstablishedOptions
+	public struct AddNotifyPeerConnectionEstablishedOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user who would like to receive notifications
@@ -14,13 +14,13 @@ namespace Epic.OnlineServices.P2P
 		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The optional socket ID, used as a filter for established connections. If NULL, this handler will be called for all sockets
+		/// The optional socket ID, used as a filter for established connections. If <see langword="null" />, this handler will be called for all sockets
 		/// </summary>
-		public SocketId SocketId { get; set; }
+		public SocketId? SocketId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyPeerConnectionEstablishedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyPeerConnectionEstablishedOptionsInternal : ISettable<AddNotifyPeerConnectionEstablishedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.P2P
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public SocketId SocketId
+		public SocketId? SocketId
 		{
 			set
 			{
-				Helper.TryMarshalSet<SocketIdInternal, SocketId>(ref m_SocketId, value);
+				Helper.Set<SocketId, SocketIdInternal>(ref value, ref m_SocketId);
 			}
 		}
 
-		public void Set(AddNotifyPeerConnectionEstablishedOptions other)
+		public void Set(ref AddNotifyPeerConnectionEstablishedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = P2PInterface.AddnotifypeerconnectionestablishedApiLatest;
+			LocalUserId = other.LocalUserId;
+			SocketId = other.SocketId;
+		}
+
+		public void Set(ref AddNotifyPeerConnectionEstablishedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = P2PInterface.AddnotifypeerconnectionestablishedApiLatest;
-				LocalUserId = other.LocalUserId;
-				SocketId = other.SocketId;
+				LocalUserId = other.Value.LocalUserId;
+				SocketId = other.Value.SocketId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyPeerConnectionEstablishedOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_SocketId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_SocketId);
 		}
 	}
 }

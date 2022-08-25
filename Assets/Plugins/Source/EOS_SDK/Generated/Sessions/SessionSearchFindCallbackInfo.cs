@@ -3,40 +3,32 @@
 
 namespace Epic.OnlineServices.Sessions
 {
-	public class SessionSearchFindCallbackInfo : ICallbackInfo, ISettable
+	public struct SessionSearchFindCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="SessionSearch.Find" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(SessionSearchFindCallbackInfoInternal? other)
+		internal void Set(ref SessionSearchFindCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionSearchFindCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionSearchFindCallbackInfoInternal : ICallbackInfoInternal
+	internal struct SessionSearchFindCallbackInfoInternal : ICallbackInfoInternal, IGettable<SessionSearchFindCallbackInfo>, ISettable<SessionSearchFindCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -47,6 +39,11 @@ namespace Epic.OnlineServices.Sessions
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -54,8 +51,13 @@ namespace Epic.OnlineServices.Sessions
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -65,6 +67,32 @@ namespace Epic.OnlineServices.Sessions
 			{
 				return m_ClientData;
 			}
+		}
+
+		public void Set(ref SessionSearchFindCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+		}
+
+		public void Set(ref SessionSearchFindCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+		}
+
+		public void Get(out SessionSearchFindCallbackInfo output)
+		{
+			output = new SessionSearchFindCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

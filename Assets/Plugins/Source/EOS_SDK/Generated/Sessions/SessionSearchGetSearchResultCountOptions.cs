@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionSearch.GetSearchResultCount" /> function.
 	/// </summary>
-	public class SessionSearchGetSearchResultCountOptions
+	public struct SessionSearchGetSearchResultCountOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionSearchGetSearchResultCountOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionSearchGetSearchResultCountOptionsInternal : ISettable<SessionSearchGetSearchResultCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(SessionSearchGetSearchResultCountOptions other)
+		public void Set(ref SessionSearchGetSearchResultCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionSearch.SessionsearchGetsearchresultcountApiLatest;
+		}
+
+		public void Set(ref SessionSearchGetSearchResultCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionSearch.SessionsearchGetsearchresultcountApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionSearchGetSearchResultCountOptions);
 		}
 
 		public void Dispose()

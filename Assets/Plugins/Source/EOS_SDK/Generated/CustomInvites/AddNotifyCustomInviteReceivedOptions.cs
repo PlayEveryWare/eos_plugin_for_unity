@@ -3,26 +3,26 @@
 
 namespace Epic.OnlineServices.CustomInvites
 {
-	public class AddNotifyCustomInviteReceivedOptions
+	public struct AddNotifyCustomInviteReceivedOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyCustomInviteReceivedOptionsInternal : ISettable, System.IDisposable
+	internal struct AddNotifyCustomInviteReceivedOptionsInternal : ISettable<AddNotifyCustomInviteReceivedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(AddNotifyCustomInviteReceivedOptions other)
+		public void Set(ref AddNotifyCustomInviteReceivedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = CustomInvitesInterface.AddnotifycustominvitereceivedApiLatest;
+		}
+
+		public void Set(ref AddNotifyCustomInviteReceivedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = CustomInvitesInterface.AddnotifycustominvitereceivedApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as AddNotifyCustomInviteReceivedOptions);
 		}
 
 		public void Dispose()

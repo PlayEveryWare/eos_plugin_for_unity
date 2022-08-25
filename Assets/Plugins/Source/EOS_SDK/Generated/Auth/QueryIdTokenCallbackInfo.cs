@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Output parameters for the <see cref="AuthInterface.QueryIdToken" /> Function.
 	/// </summary>
-	public class QueryIdTokenCallbackInfo : ICallbackInfo, ISettable
+	public struct QueryIdTokenCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// The <see cref="Result" /> code for the operation. <see cref="Result.Success" /> indicates that the operation succeeded; other codes indicate errors.
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Context that was passed into <see cref="AuthInterface.QueryIdToken" />
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID of the local authenticated user.
 		/// </summary>
-		public EpicAccountId LocalUserId { get; private set; }
+		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The target Epic Account ID for which the ID token was retrieved.
 		/// </summary>
-		public EpicAccountId TargetAccountId { get; private set; }
+		public EpicAccountId TargetAccountId { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(QueryIdTokenCallbackInfoInternal? other)
+		internal void Set(ref QueryIdTokenCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				TargetAccountId = other.Value.TargetAccountId;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryIdTokenCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			TargetAccountId = other.TargetAccountId;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryIdTokenCallbackInfoInternal : ICallbackInfoInternal
+	internal struct QueryIdTokenCallbackInfoInternal : ICallbackInfoInternal, IGettable<QueryIdTokenCallbackInfo>, ISettable<QueryIdTokenCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -64,6 +56,11 @@ namespace Epic.OnlineServices.Auth
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -71,8 +68,13 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -89,8 +91,13 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -99,9 +106,46 @@ namespace Epic.OnlineServices.Auth
 			get
 			{
 				EpicAccountId value;
-				Helper.TryMarshalGet(m_TargetAccountId, out value);
+				Helper.Get(m_TargetAccountId, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_TargetAccountId);
+			}
+		}
+
+		public void Set(ref QueryIdTokenCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			TargetAccountId = other.TargetAccountId;
+		}
+
+		public void Set(ref QueryIdTokenCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				TargetAccountId = other.Value.TargetAccountId;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetAccountId);
+		}
+
+		public void Get(out QueryIdTokenCallbackInfo output)
+		{
+			output = new QueryIdTokenCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }

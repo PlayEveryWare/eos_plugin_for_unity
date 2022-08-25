@@ -1,7 +1,8 @@
 {
     "name": "com.playeveryware.eos-Editor",
     "references": [
-        "com.playeveryware.eos"
+        "com.playeveryware.eos",
+        "Unity.EditorCoroutines.Editor"
     ],
     "includePlatforms": [
         "Editor"

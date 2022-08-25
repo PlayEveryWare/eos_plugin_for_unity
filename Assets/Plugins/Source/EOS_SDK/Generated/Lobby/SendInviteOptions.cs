@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyInterface.SendInvite" /> function.
 	/// </summary>
-	public class SendInviteOptions
+	public struct SendInviteOptions
 	{
 		/// <summary>
 		/// The ID of the lobby associated with the invitation
 		/// </summary>
-		public string LobbyId { get; set; }
+		public Utf8String LobbyId { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user sending the invitation
@@ -25,18 +25,18 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SendInviteOptionsInternal : ISettable, System.IDisposable
+	internal struct SendInviteOptionsInternal : ISettable<SendInviteOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LobbyId;
 		private System.IntPtr m_LocalUserId;
 		private System.IntPtr m_TargetUserId;
 
-		public string LobbyId
+		public Utf8String LobbyId
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LobbyId, value);
+				Helper.Set(value, ref m_LobbyId);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -52,31 +52,34 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(SendInviteOptions other)
+		public void Set(ref SendInviteOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbyInterface.SendinviteApiLatest;
+			LobbyId = other.LobbyId;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref SendInviteOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbyInterface.SendinviteApiLatest;
-				LobbyId = other.LobbyId;
-				LocalUserId = other.LocalUserId;
-				TargetUserId = other.TargetUserId;
+				LobbyId = other.Value.LobbyId;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SendInviteOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LobbyId);
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LobbyId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

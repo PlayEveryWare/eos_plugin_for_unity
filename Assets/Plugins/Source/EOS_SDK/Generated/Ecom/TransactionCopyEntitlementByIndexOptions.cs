@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Ecom
 	/// <summary>
 	/// Input parameters for the <see cref="Transaction.CopyEntitlementByIndex" /> function.
 	/// </summary>
-	public class TransactionCopyEntitlementByIndexOptions
+	public struct TransactionCopyEntitlementByIndexOptions
 	{
 		/// <summary>
 		/// The index of the entitlement to get
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Ecom
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct TransactionCopyEntitlementByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct TransactionCopyEntitlementByIndexOptionsInternal : ISettable<TransactionCopyEntitlementByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_EntitlementIndex;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(TransactionCopyEntitlementByIndexOptions other)
+		public void Set(ref TransactionCopyEntitlementByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = Transaction.TransactionCopyentitlementbyindexApiLatest;
-				EntitlementIndex = other.EntitlementIndex;
-			}
+			m_ApiVersion = Transaction.TransactionCopyentitlementbyindexApiLatest;
+			EntitlementIndex = other.EntitlementIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref TransactionCopyEntitlementByIndexOptions? other)
 		{
-			Set(other as TransactionCopyEntitlementByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = Transaction.TransactionCopyentitlementbyindexApiLatest;
+				EntitlementIndex = other.Value.EntitlementIndex;
+			}
 		}
 
 		public void Dispose()

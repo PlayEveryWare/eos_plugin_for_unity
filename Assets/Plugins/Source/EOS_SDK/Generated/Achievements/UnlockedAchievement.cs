@@ -6,52 +6,44 @@ namespace Epic.OnlineServices.Achievements
 	/// <summary>
 	/// Contains information about a single unlocked achievement.
 	/// </summary>
-	public class UnlockedAchievement : ISettable
+	public struct UnlockedAchievement
 	{
 		/// <summary>
 		/// Achievement ID that can be used to uniquely identify the unlocked achievement.
 		/// </summary>
-		public string AchievementId { get; set; }
+		public Utf8String AchievementId { get; set; }
 
 		/// <summary>
 		/// If not <see cref="AchievementsInterface.AchievementUnlocktimeUndefined" /> then this is the POSIX timestamp that the achievement was unlocked.
 		/// </summary>
 		public System.DateTimeOffset? UnlockTime { get; set; }
 
-		internal void Set(UnlockedAchievementInternal? other)
+		internal void Set(ref UnlockedAchievementInternal other)
 		{
-			if (other != null)
-			{
-				AchievementId = other.Value.AchievementId;
-				UnlockTime = other.Value.UnlockTime;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UnlockedAchievementInternal?);
+			AchievementId = other.AchievementId;
+			UnlockTime = other.UnlockTime;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct UnlockedAchievementInternal : ISettable, System.IDisposable
+	internal struct UnlockedAchievementInternal : IGettable<UnlockedAchievement>, ISettable<UnlockedAchievement>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_AchievementId;
 		private long m_UnlockTime;
 
-		public string AchievementId
+		public Utf8String AchievementId
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_AchievementId, out value);
+				Utf8String value;
+				Helper.Get(m_AchievementId, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_AchievementId, value);
+				Helper.Set(value, ref m_AchievementId);
 			}
 		}
 
@@ -60,34 +52,42 @@ namespace Epic.OnlineServices.Achievements
 			get
 			{
 				System.DateTimeOffset? value;
-				Helper.TryMarshalGet(m_UnlockTime, out value);
+				Helper.Get(m_UnlockTime, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_UnlockTime, value);
+				Helper.Set(value, ref m_UnlockTime);
 			}
 		}
 
-		public void Set(UnlockedAchievement other)
+		public void Set(ref UnlockedAchievement other)
 		{
-			if (other != null)
+			m_ApiVersion = AchievementsInterface.UnlockedachievementApiLatest;
+			AchievementId = other.AchievementId;
+			UnlockTime = other.UnlockTime;
+		}
+
+		public void Set(ref UnlockedAchievement? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AchievementsInterface.UnlockedachievementApiLatest;
-				AchievementId = other.AchievementId;
-				UnlockTime = other.UnlockTime;
+				AchievementId = other.Value.AchievementId;
+				UnlockTime = other.Value.UnlockTime;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as UnlockedAchievement);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_AchievementId);
+			Helper.Dispose(ref m_AchievementId);
+		}
+
+		public void Get(out UnlockedAchievement output)
+		{
+			output = new UnlockedAchievement();
+			output.Set(ref this);
 		}
 	}
 }

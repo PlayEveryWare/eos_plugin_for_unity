@@ -98,7 +98,7 @@ namespace Playeveryware.Editor
             var filepaths = new List<string>();
             foreach(var srcToDestKeyValues in packageDescription.source_to_dest)
             {
-                if (srcToDestKeyValues.IsCommentOnly())
+                if (srcToDestKeyValues.IsCommentOnly() || srcToDestKeyValues.comment.StartsWith("//"))
                 {
                     continue;
                 }
@@ -144,9 +144,12 @@ namespace Playeveryware.Editor
             List<SrcDestPair> ignoreList = new List<SrcDestPair>();
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
-            foreach(var srcToDestKeyValues in packageDescription.source_to_dest)
+            var toolsSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+            toolsSection?.Awake();
+
+            foreach (var srcToDestKeyValues in packageDescription.source_to_dest)
             {
-                if (srcToDestKeyValues.IsCommentOnly())
+                if (srcToDestKeyValues.IsCommentOnly() || (srcToDestKeyValues.comment != null && srcToDestKeyValues.comment.StartsWith("//")))
                 {
                     continue;
                 }
@@ -160,34 +163,54 @@ namespace Playeveryware.Editor
                 var srcFileInfo = new FileInfo(srcToDestKeyValues.src);
 
                 // Find instead the part of the path that does exist on disk
-                if(!srcFileInfo.Exists)
+                if (!srcFileInfo.Exists)
                 {
                     srcFileInfo = new FileInfo(srcFileInfo.DirectoryName);
                 }
-                else if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.sha1))
+                else
                 {
-                    string computedSHA = "";
-
-                    using(SHA1 fileSHA = SHA1.Create())
+                    if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.sha1))
                     {
-                        byte[] computedHash = null;
+                        string computedSHA = "";
 
-                        using (var srcFileStream = srcFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                        using (SHA1 fileSHA = SHA1.Create())
                         {
-                            srcFileStream.Position = 0;
-                            computedHash = fileSHA.ComputeHash(srcFileStream);
+                            byte[] computedHash = null;
+
+                            using (var srcFileStream = srcFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
+                            {
+                                srcFileStream.Position = 0;
+                                computedHash = fileSHA.ComputeHash(srcFileStream);
+                            }
+                            StringBuilder formatedStr = new StringBuilder(computedHash.Length * 2);
+                            foreach (byte b in computedHash)
+                            {
+                                formatedStr.AppendFormat("{0:x2}", b);
+                            }
+                            computedSHA = formatedStr.ToString();
                         }
-                        StringBuilder formatedStr = new StringBuilder(computedHash.Length * 2);
-                        foreach(byte b in computedHash)
+                        if (computedSHA != srcToDestKeyValues.sha1)
                         {
-                            formatedStr.AppendFormat("{0:x2}", b);
+                            string errorMessageToUse = EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
+                            Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + srcToDestKeyValues.sha1_mismatch_error);
                         }
-                        computedSHA = formatedStr.ToString();
                     }
-                    if (computedSHA != srcToDestKeyValues.sha1)
+                    if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.signWithDefaultCertificate))
                     {
-                        string errorMessageToUse = EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
-                        Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + srcToDestKeyValues.sha1_mismatch_error);
+                        
+                        if (toolsSection != null)
+                        {
+                            if (toolsSection.GetCurrentConfig() == null)
+                            {
+                                toolsSection.LoadConfigFromDisk();
+                            }
+                            var pathToSignTool = toolsSection.GetCurrentConfig().pathToSignTool;
+                            var pathToDefaultCertificate = toolsSection.GetCurrentConfig().pathToDefaultCertificate;
+                        }
+                        else
+                        {
+                            Debug.LogError("No tools configuration set!");
+                        }
                     }
                 }
 

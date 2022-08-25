@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.UserInfo
 	/// <summary>
 	/// Input parameters for the <see cref="UserInfoInterface.CopyExternalUserInfoByIndex" /> function.
 	/// </summary>
-	public class CopyExternalUserInfoByIndexOptions
+	public struct CopyExternalUserInfoByIndexOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local player requesting the information
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.UserInfo
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyExternalUserInfoByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyExternalUserInfoByIndexOptionsInternal : ISettable<CopyExternalUserInfoByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.UserInfo
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.UserInfo
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
@@ -56,26 +56,29 @@ namespace Epic.OnlineServices.UserInfo
 			}
 		}
 
-		public void Set(CopyExternalUserInfoByIndexOptions other)
+		public void Set(ref CopyExternalUserInfoByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = UserInfoInterface.CopyexternaluserinfobyindexApiLatest;
-				LocalUserId = other.LocalUserId;
-				TargetUserId = other.TargetUserId;
-				Index = other.Index;
-			}
+			m_ApiVersion = UserInfoInterface.CopyexternaluserinfobyindexApiLatest;
+			LocalUserId = other.LocalUserId;
+			TargetUserId = other.TargetUserId;
+			Index = other.Index;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyExternalUserInfoByIndexOptions? other)
 		{
-			Set(other as CopyExternalUserInfoByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = UserInfoInterface.CopyexternaluserinfobyindexApiLatest;
+				LocalUserId = other.Value.LocalUserId;
+				TargetUserId = other.Value.TargetUserId;
+				Index = other.Value.Index;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

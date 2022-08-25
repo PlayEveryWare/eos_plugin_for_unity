@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbySearch.SetTargetUserId" /> function.
 	/// </summary>
-	public class LobbySearchSetTargetUserIdOptions
+	public struct LobbySearchSetTargetUserIdOptions
 	{
 		/// <summary>
 		/// Search lobbies for given user by Product User ID, returning any lobbies where this user is currently registered
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbySearchSetTargetUserIdOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbySearchSetTargetUserIdOptionsInternal : ISettable<LobbySearchSetTargetUserIdOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Lobby
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(LobbySearchSetTargetUserIdOptions other)
+		public void Set(ref LobbySearchSetTargetUserIdOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LobbySearch.LobbysearchSettargetuseridApiLatest;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref LobbySearchSetTargetUserIdOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LobbySearch.LobbysearchSettargetuseridApiLatest;
-				TargetUserId = other.TargetUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as LobbySearchSetTargetUserIdOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

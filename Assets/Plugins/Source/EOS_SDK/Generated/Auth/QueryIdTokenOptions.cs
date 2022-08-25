@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Input parameters for the <see cref="AuthInterface.QueryIdToken" /> function.
 	/// </summary>
-	public class QueryIdTokenOptions
+	public struct QueryIdTokenOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local authenticated user.
@@ -24,7 +24,7 @@ namespace Epic.OnlineServices.Auth
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct QueryIdTokenOptionsInternal : ISettable, System.IDisposable
+	internal struct QueryIdTokenOptionsInternal : ISettable<QueryIdTokenOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -34,7 +34,7 @@ namespace Epic.OnlineServices.Auth
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -42,29 +42,31 @@ namespace Epic.OnlineServices.Auth
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetAccountId, value);
+				Helper.Set(value, ref m_TargetAccountId);
 			}
 		}
 
-		public void Set(QueryIdTokenOptions other)
+		public void Set(ref QueryIdTokenOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.QueryidtokenApiLatest;
+			LocalUserId = other.LocalUserId;
+			TargetAccountId = other.TargetAccountId;
+		}
+
+		public void Set(ref QueryIdTokenOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.QueryidtokenApiLatest;
-				LocalUserId = other.LocalUserId;
-				TargetAccountId = other.TargetAccountId;
+				LocalUserId = other.Value.LocalUserId;
+				TargetAccountId = other.Value.TargetAccountId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as QueryIdTokenOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetAccountId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetAccountId);
 		}
 	}
 }

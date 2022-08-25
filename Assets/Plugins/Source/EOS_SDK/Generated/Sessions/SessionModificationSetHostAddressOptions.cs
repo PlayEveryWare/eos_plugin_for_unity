@@ -6,45 +6,46 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionModification.SetHostAddress" /> function.
 	/// </summary>
-	public class SessionModificationSetHostAddressOptions
+	public struct SessionModificationSetHostAddressOptions
 	{
 		/// <summary>
 		/// A string representing the host address for the session, its meaning is up to the application
 		/// </summary>
-		public string HostAddress { get; set; }
+		public Utf8String HostAddress { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionModificationSetHostAddressOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionModificationSetHostAddressOptionsInternal : ISettable<SessionModificationSetHostAddressOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_HostAddress;
 
-		public string HostAddress
+		public Utf8String HostAddress
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_HostAddress, value);
+				Helper.Set(value, ref m_HostAddress);
 			}
 		}
 
-		public void Set(SessionModificationSetHostAddressOptions other)
+		public void Set(ref SessionModificationSetHostAddressOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionModification.SessionmodificationSethostaddressApiLatest;
+			HostAddress = other.HostAddress;
+		}
+
+		public void Set(ref SessionModificationSetHostAddressOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionModification.SessionmodificationSethostaddressApiLatest;
-				HostAddress = other.HostAddress;
+				HostAddress = other.Value.HostAddress;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionModificationSetHostAddressOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_HostAddress);
+			Helper.Dispose(ref m_HostAddress);
 		}
 	}
 }

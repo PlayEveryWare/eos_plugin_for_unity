@@ -18,7 +18,7 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		Consumable = 1,
 		/// <summary>
-		/// This entitlement has a type that is not currently intneded for an in-game store.
+		/// This entitlement has a type that is not currently intended for an in-game store.
 		/// </summary>
 		Other = 2
 	}

@@ -7,47 +7,47 @@ namespace Epic.OnlineServices.Ecom
 	/// Contains information about a single item within the catalog. Instances of this structure are created
 	/// by <see cref="EcomInterface.CopyOfferItemByIndex" />. They must be passed to <see cref="EcomInterface.Release" />.
 	/// </summary>
-	public class CatalogItem : ISettable
+	public struct CatalogItem
 	{
 		/// <summary>
 		/// Product namespace in which this item exists
 		/// </summary>
-		public string CatalogNamespace { get; set; }
+		public Utf8String CatalogNamespace { get; set; }
 
 		/// <summary>
 		/// The ID of this item
 		/// </summary>
-		public string Id { get; set; }
+		public Utf8String Id { get; set; }
 
 		/// <summary>
 		/// The entitlement name associated with this item
 		/// </summary>
-		public string EntitlementName { get; set; }
+		public Utf8String EntitlementName { get; set; }
 
 		/// <summary>
 		/// Localized UTF-8 title of this item
 		/// </summary>
-		public string TitleText { get; set; }
+		public Utf8String TitleText { get; set; }
 
 		/// <summary>
 		/// Localized UTF-8 description of this item
 		/// </summary>
-		public string DescriptionText { get; set; }
+		public Utf8String DescriptionText { get; set; }
 
 		/// <summary>
 		/// Localized UTF-8 long description of this item
 		/// </summary>
-		public string LongDescriptionText { get; set; }
+		public Utf8String LongDescriptionText { get; set; }
 
 		/// <summary>
 		/// Localized UTF-8 technical details of this item
 		/// </summary>
-		public string TechnicalDetailsText { get; set; }
+		public Utf8String TechnicalDetailsText { get; set; }
 
 		/// <summary>
 		/// Localized UTF-8 developer of this item
 		/// </summary>
-		public string DeveloperText { get; set; }
+		public Utf8String DeveloperText { get; set; }
 
 		/// <summary>
 		/// The type of item as defined in the catalog
@@ -59,31 +59,23 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public long EntitlementEndTimestamp { get; set; }
 
-		internal void Set(CatalogItemInternal? other)
+		internal void Set(ref CatalogItemInternal other)
 		{
-			if (other != null)
-			{
-				CatalogNamespace = other.Value.CatalogNamespace;
-				Id = other.Value.Id;
-				EntitlementName = other.Value.EntitlementName;
-				TitleText = other.Value.TitleText;
-				DescriptionText = other.Value.DescriptionText;
-				LongDescriptionText = other.Value.LongDescriptionText;
-				TechnicalDetailsText = other.Value.TechnicalDetailsText;
-				DeveloperText = other.Value.DeveloperText;
-				ItemType = other.Value.ItemType;
-				EntitlementEndTimestamp = other.Value.EntitlementEndTimestamp;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CatalogItemInternal?);
+			CatalogNamespace = other.CatalogNamespace;
+			Id = other.Id;
+			EntitlementName = other.EntitlementName;
+			TitleText = other.TitleText;
+			DescriptionText = other.DescriptionText;
+			LongDescriptionText = other.LongDescriptionText;
+			TechnicalDetailsText = other.TechnicalDetailsText;
+			DeveloperText = other.DeveloperText;
+			ItemType = other.ItemType;
+			EntitlementEndTimestamp = other.EntitlementEndTimestamp;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CatalogItemInternal : ISettable, System.IDisposable
+	internal struct CatalogItemInternal : IGettable<CatalogItem>, ISettable<CatalogItem>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_CatalogNamespace;
@@ -97,123 +89,123 @@ namespace Epic.OnlineServices.Ecom
 		private EcomItemType m_ItemType;
 		private long m_EntitlementEndTimestamp;
 
-		public string CatalogNamespace
+		public Utf8String CatalogNamespace
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_CatalogNamespace, out value);
+				Utf8String value;
+				Helper.Get(m_CatalogNamespace, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_CatalogNamespace, value);
+				Helper.Set(value, ref m_CatalogNamespace);
 			}
 		}
 
-		public string Id
+		public Utf8String Id
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_Id, out value);
+				Utf8String value;
+				Helper.Get(m_Id, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_Id, value);
+				Helper.Set(value, ref m_Id);
 			}
 		}
 
-		public string EntitlementName
+		public Utf8String EntitlementName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_EntitlementName, out value);
+				Utf8String value;
+				Helper.Get(m_EntitlementName, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_EntitlementName, value);
+				Helper.Set(value, ref m_EntitlementName);
 			}
 		}
 
-		public string TitleText
+		public Utf8String TitleText
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_TitleText, out value);
+				Utf8String value;
+				Helper.Get(m_TitleText, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_TitleText, value);
+				Helper.Set(value, ref m_TitleText);
 			}
 		}
 
-		public string DescriptionText
+		public Utf8String DescriptionText
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DescriptionText, out value);
+				Utf8String value;
+				Helper.Get(m_DescriptionText, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DescriptionText, value);
+				Helper.Set(value, ref m_DescriptionText);
 			}
 		}
 
-		public string LongDescriptionText
+		public Utf8String LongDescriptionText
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_LongDescriptionText, out value);
+				Utf8String value;
+				Helper.Get(m_LongDescriptionText, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_LongDescriptionText, value);
+				Helper.Set(value, ref m_LongDescriptionText);
 			}
 		}
 
-		public string TechnicalDetailsText
+		public Utf8String TechnicalDetailsText
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_TechnicalDetailsText, out value);
+				Utf8String value;
+				Helper.Get(m_TechnicalDetailsText, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_TechnicalDetailsText, value);
+				Helper.Set(value, ref m_TechnicalDetailsText);
 			}
 		}
 
-		public string DeveloperText
+		public Utf8String DeveloperText
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_DeveloperText, out value);
+				Utf8String value;
+				Helper.Get(m_DeveloperText, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.TryMarshalSet(ref m_DeveloperText, value);
+				Helper.Set(value, ref m_DeveloperText);
 			}
 		}
 
@@ -243,39 +235,55 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public void Set(CatalogItem other)
+		public void Set(ref CatalogItem other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = EcomInterface.CatalogitemApiLatest;
-				CatalogNamespace = other.CatalogNamespace;
-				Id = other.Id;
-				EntitlementName = other.EntitlementName;
-				TitleText = other.TitleText;
-				DescriptionText = other.DescriptionText;
-				LongDescriptionText = other.LongDescriptionText;
-				TechnicalDetailsText = other.TechnicalDetailsText;
-				DeveloperText = other.DeveloperText;
-				ItemType = other.ItemType;
-				EntitlementEndTimestamp = other.EntitlementEndTimestamp;
-			}
+			m_ApiVersion = EcomInterface.CatalogitemApiLatest;
+			CatalogNamespace = other.CatalogNamespace;
+			Id = other.Id;
+			EntitlementName = other.EntitlementName;
+			TitleText = other.TitleText;
+			DescriptionText = other.DescriptionText;
+			LongDescriptionText = other.LongDescriptionText;
+			TechnicalDetailsText = other.TechnicalDetailsText;
+			DeveloperText = other.DeveloperText;
+			ItemType = other.ItemType;
+			EntitlementEndTimestamp = other.EntitlementEndTimestamp;
 		}
 
-		public void Set(object other)
+		public void Set(ref CatalogItem? other)
 		{
-			Set(other as CatalogItem);
+			if (other.HasValue)
+			{
+				m_ApiVersion = EcomInterface.CatalogitemApiLatest;
+				CatalogNamespace = other.Value.CatalogNamespace;
+				Id = other.Value.Id;
+				EntitlementName = other.Value.EntitlementName;
+				TitleText = other.Value.TitleText;
+				DescriptionText = other.Value.DescriptionText;
+				LongDescriptionText = other.Value.LongDescriptionText;
+				TechnicalDetailsText = other.Value.TechnicalDetailsText;
+				DeveloperText = other.Value.DeveloperText;
+				ItemType = other.Value.ItemType;
+				EntitlementEndTimestamp = other.Value.EntitlementEndTimestamp;
+			}
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_CatalogNamespace);
-			Helper.TryMarshalDispose(ref m_Id);
-			Helper.TryMarshalDispose(ref m_EntitlementName);
-			Helper.TryMarshalDispose(ref m_TitleText);
-			Helper.TryMarshalDispose(ref m_DescriptionText);
-			Helper.TryMarshalDispose(ref m_LongDescriptionText);
-			Helper.TryMarshalDispose(ref m_TechnicalDetailsText);
-			Helper.TryMarshalDispose(ref m_DeveloperText);
+			Helper.Dispose(ref m_CatalogNamespace);
+			Helper.Dispose(ref m_Id);
+			Helper.Dispose(ref m_EntitlementName);
+			Helper.Dispose(ref m_TitleText);
+			Helper.Dispose(ref m_DescriptionText);
+			Helper.Dispose(ref m_LongDescriptionText);
+			Helper.Dispose(ref m_TechnicalDetailsText);
+			Helper.Dispose(ref m_DeveloperText);
+		}
+
+		public void Get(out CatalogItem output)
+		{
+			output = new CatalogItem();
+			output.Set(ref this);
 		}
 	}
 }

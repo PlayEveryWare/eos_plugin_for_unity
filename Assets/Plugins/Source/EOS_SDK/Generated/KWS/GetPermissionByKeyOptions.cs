@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.KWS
 	/// <summary>
 	/// Input parameters for the <see cref="KWSInterface.GetPermissionByKey" /> function.
 	/// </summary>
-	public class GetPermissionByKeyOptions
+	public struct GetPermissionByKeyOptions
 	{
 		/// <summary>
 		/// The Product User ID of the local user getting permissions
@@ -16,11 +16,11 @@ namespace Epic.OnlineServices.KWS
 		/// <summary>
 		/// Permission name to query
 		/// </summary>
-		public string Key { get; set; }
+		public Utf8String Key { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetPermissionByKeyOptionsInternal : ISettable, System.IDisposable
+	internal struct GetPermissionByKeyOptionsInternal : ISettable<GetPermissionByKeyOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -30,37 +30,39 @@ namespace Epic.OnlineServices.KWS
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string Key
+		public Utf8String Key
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_Key, value);
+				Helper.Set(value, ref m_Key);
 			}
 		}
 
-		public void Set(GetPermissionByKeyOptions other)
+		public void Set(ref GetPermissionByKeyOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = KWSInterface.GetpermissionbykeyApiLatest;
+			LocalUserId = other.LocalUserId;
+			Key = other.Key;
+		}
+
+		public void Set(ref GetPermissionByKeyOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = KWSInterface.GetpermissionbykeyApiLatest;
-				LocalUserId = other.LocalUserId;
-				Key = other.Key;
+				LocalUserId = other.Value.LocalUserId;
+				Key = other.Value.Key;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetPermissionByKeyOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_Key);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_Key);
 		}
 	}
 }

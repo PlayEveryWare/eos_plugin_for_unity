@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Lobby
 	/// <summary>
 	/// Input parameters for the <see cref="LobbyModification.SetMaxMembers" /> function.
 	/// </summary>
-	public class LobbyModificationSetMaxMembersOptions
+	public struct LobbyModificationSetMaxMembersOptions
 	{
 		/// <summary>
 		/// New maximum number of lobby members
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Lobby
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct LobbyModificationSetMaxMembersOptionsInternal : ISettable, System.IDisposable
+	internal struct LobbyModificationSetMaxMembersOptionsInternal : ISettable<LobbyModificationSetMaxMembersOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_MaxMembers;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
-		public void Set(LobbyModificationSetMaxMembersOptions other)
+		public void Set(ref LobbyModificationSetMaxMembersOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LobbyModification.LobbymodificationSetmaxmembersApiLatest;
-				MaxMembers = other.MaxMembers;
-			}
+			m_ApiVersion = LobbyModification.LobbymodificationSetmaxmembersApiLatest;
+			MaxMembers = other.MaxMembers;
 		}
 
-		public void Set(object other)
+		public void Set(ref LobbyModificationSetMaxMembersOptions? other)
 		{
-			Set(other as LobbyModificationSetMaxMembersOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LobbyModification.LobbymodificationSetmaxmembersApiLatest;
+				MaxMembers = other.Value.MaxMembers;
+			}
 		}
 
 		public void Dispose()

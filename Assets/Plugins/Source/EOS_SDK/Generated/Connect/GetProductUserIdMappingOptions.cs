@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Connect
 	/// <summary>
 	/// Input parameters for the <see cref="ConnectInterface.GetProductUserIdMapping" /> function.
 	/// </summary>
-	public class GetProductUserIdMappingOptions
+	public struct GetProductUserIdMappingOptions
 	{
 		/// <summary>
 		/// The Product User ID of the existing, logged-in user that is querying account mappings.
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Connect
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetProductUserIdMappingOptionsInternal : ISettable, System.IDisposable
+	internal struct GetProductUserIdMappingOptionsInternal : ISettable<GetProductUserIdMappingOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
@@ -52,30 +52,33 @@ namespace Epic.OnlineServices.Connect
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetProductUserId, value);
+				Helper.Set(value, ref m_TargetProductUserId);
 			}
 		}
 
-		public void Set(GetProductUserIdMappingOptions other)
+		public void Set(ref GetProductUserIdMappingOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = ConnectInterface.GetproductuseridmappingApiLatest;
+			LocalUserId = other.LocalUserId;
+			AccountIdType = other.AccountIdType;
+			TargetProductUserId = other.TargetProductUserId;
+		}
+
+		public void Set(ref GetProductUserIdMappingOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = ConnectInterface.GetproductuseridmappingApiLatest;
-				LocalUserId = other.LocalUserId;
-				AccountIdType = other.AccountIdType;
-				TargetProductUserId = other.TargetProductUserId;
+				LocalUserId = other.Value.LocalUserId;
+				AccountIdType = other.Value.AccountIdType;
+				TargetProductUserId = other.Value.TargetProductUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetProductUserIdMappingOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_TargetProductUserId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_TargetProductUserId);
 		}
 	}
 }

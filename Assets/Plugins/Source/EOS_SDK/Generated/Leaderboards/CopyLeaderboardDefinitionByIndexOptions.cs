@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Input parameters for the <see cref="LeaderboardsInterface.CopyLeaderboardDefinitionByIndex" /> function.
 	/// </summary>
-	public class CopyLeaderboardDefinitionByIndexOptions
+	public struct CopyLeaderboardDefinitionByIndexOptions
 	{
 		/// <summary>
 		/// Index of the leaderboard definition to retrieve from the cache
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Leaderboards
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CopyLeaderboardDefinitionByIndexOptionsInternal : ISettable, System.IDisposable
+	internal struct CopyLeaderboardDefinitionByIndexOptionsInternal : ISettable<CopyLeaderboardDefinitionByIndexOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private uint m_LeaderboardIndex;
@@ -28,18 +28,19 @@ namespace Epic.OnlineServices.Leaderboards
 			}
 		}
 
-		public void Set(CopyLeaderboardDefinitionByIndexOptions other)
+		public void Set(ref CopyLeaderboardDefinitionByIndexOptions other)
 		{
-			if (other != null)
-			{
-				m_ApiVersion = LeaderboardsInterface.CopyleaderboarddefinitionbyindexApiLatest;
-				LeaderboardIndex = other.LeaderboardIndex;
-			}
+			m_ApiVersion = LeaderboardsInterface.CopyleaderboarddefinitionbyindexApiLatest;
+			LeaderboardIndex = other.LeaderboardIndex;
 		}
 
-		public void Set(object other)
+		public void Set(ref CopyLeaderboardDefinitionByIndexOptions? other)
 		{
-			Set(other as CopyLeaderboardDefinitionByIndexOptions);
+			if (other.HasValue)
+			{
+				m_ApiVersion = LeaderboardsInterface.CopyleaderboarddefinitionbyindexApiLatest;
+				LeaderboardIndex = other.Value.LeaderboardIndex;
+			}
 		}
 
 		public void Dispose()

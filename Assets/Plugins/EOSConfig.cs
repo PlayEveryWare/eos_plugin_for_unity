@@ -61,13 +61,27 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value><c>Flags</c> used to initilize the EOS platform.</value>
         public List<string> platformOptionsFlags;
 
-        /// <value><c>Always Send Input to Overlay </c>IF true, the plugin will always send input to the overlay, and handle showing the overlay</value>
+        public uint tickBudgetInMilliseconds;
+
+        public string ThreadAffinity_networkWork;
+        public string ThreadAffinity_storageIO;
+        public string ThreadAffinity_webSocketIO;
+        public string ThreadAffinity_P2PIO;
+        public string ThreadAffinity_HTTPRequestIO;
+        public string ThreadAffinity_RTCIO;
+
+
+        /// <value><c>Always Send Input to Overlay </c>If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK</value>
         public bool alwaysSendInputToOverlay;
 
         /// <value><c>Initial Button Delay</c> Stored as a string so it can be 'empty'</value>
         public string initialButtonDelayForOverlay;
+
         /// <value><c>Rpeat button delay for overlay</c> Stored as a string so it can be 'empty' </value>
         public string repeatButtonDelayForOverlay;
+
+        /// <value><c>HACK: send force send input without delay</c>If true, the native plugin will always send input received directly to the SDK. If set to false, the plugin will attempt to delay the input to mitigate CPU spikes caused by spamming the SDK </value>
+        public bool hackForceSendInputDirectlyToSDK;
 
 
         //-------------------------------------------------------------------------
@@ -88,7 +102,47 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return (T)Enum.ToObject(typeof(T), value);
         }
-        
+
+        //-------------------------------------------------------------------------
+        public static Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags(List<string> flags)
+        {
+            int toReturn = 0;
+ 
+            foreach (var flagAsCString in flags)
+            {
+                if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_Disabled", "Disabled"))
+                {
+                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.Disabled;
+                }
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication"))
+                {
+                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.LibraryManagedByApplication;
+                }
+                else if (StringIsEqualToAny(flagAsCString,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK"))
+                {
+                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.LibraryManagedBySDK;
+                }
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring"))
+                {
+                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.DisablePresenceMirroring;
+                }
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions"))
+                {
+                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions;
+                }
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity"))
+                {
+                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity;
+                }
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity"))
+                {
+                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity;
+                }
+            }
+
+            return EnumCast<Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags, int>(toReturn);
+        }
+
         //-------------------------------------------------------------------------
         public static PlatformFlags platformOptionsFlagsAsPlatformFlags(List<string> platformOptionsFlags)
         {
@@ -189,6 +243,97 @@ namespace PlayEveryWare.EpicOnlineServices
         public void SetRepeatButtonDelayForOverlayFromFloat(float f)
         {
             repeatButtonDelayForOverlay = f.ToString();
+        }
+
+        //-------------------------------------------------------------------------
+        public ulong GetThreadAffinityNetworkWork(ulong defaultValue = 0)
+        {
+            ulong value;
+            if (!string.IsNullOrEmpty(ThreadAffinity_networkWork))
+            {
+                value = ulong.Parse(ThreadAffinity_networkWork);
+            }
+            else
+            {
+                value = defaultValue;
+            }
+
+            return value;
+        }
+
+        //-------------------------------------------------------------------------
+        public ulong GetThreadAffinityStorageIO(ulong defaultValue = 0)
+        {
+            ulong value;
+            if (!string.IsNullOrEmpty(ThreadAffinity_storageIO))
+            {
+                value = ulong.Parse(ThreadAffinity_storageIO);
+            }
+            else
+            {
+                value = defaultValue;
+            }
+            return value;
+        }
+ 
+        //-------------------------------------------------------------------------
+        public ulong GetThreadAffinityWebSocketIO(ulong defaultValue = 0)
+        {
+            ulong value;
+            if (!string.IsNullOrEmpty(ThreadAffinity_webSocketIO))
+            {
+                value = ulong.Parse(ThreadAffinity_webSocketIO);
+            }
+            else
+            {
+                value = defaultValue;
+            }
+            return value;
+        }
+
+        //-------------------------------------------------------------------------
+        public ulong GetThreadAffinityP2PIO(ulong defaultValue = 0)
+        {
+            ulong value;
+            if (!string.IsNullOrEmpty(ThreadAffinity_P2PIO))
+            {
+                value = ulong.Parse(ThreadAffinity_P2PIO);
+            }
+            else
+            {
+                value = defaultValue;
+            }
+            return value;
+        }
+
+        //-------------------------------------------------------------------------
+        public ulong GetThreadAffinityHTTPRequestIO(ulong defaultValue = 0)
+        {
+            ulong value;
+            if (!string.IsNullOrEmpty(ThreadAffinity_HTTPRequestIO))
+            {
+                value = ulong.Parse(ThreadAffinity_HTTPRequestIO);
+            }
+            else
+            {
+                value = defaultValue;
+            }
+            return value;
+        }
+
+        //-------------------------------------------------------------------------
+        public ulong GetThreadAffinityRTCIO(ulong defaultValue = 0)
+        {
+            ulong value;
+            if (!string.IsNullOrEmpty(ThreadAffinity_RTCIO))
+            {
+                value = ulong.Parse(ThreadAffinity_RTCIO);
+            }
+            else
+            {
+                value = defaultValue;
+            }
+            return value;
         }
     }
 }

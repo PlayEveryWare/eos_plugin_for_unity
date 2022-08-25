@@ -1,0 +1,2 @@
+anticheat_integritytool.exe filter=lfs diff=lfs merge=lfs -text
+anticheat_integritytool64.exe filter=lfs diff=lfs merge=lfs -text

@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is used to call <see cref="RTCInterface.JoinRoom" />.
 	/// </summary>
-	public class JoinRoomOptions
+	public struct JoinRoomOptions
 	{
 		/// <summary>
 		/// The product user id of the user trying to request this operation.
@@ -16,20 +16,20 @@ namespace Epic.OnlineServices.RTC
 		/// <summary>
 		/// The room the user would like to join.
 		/// </summary>
-		public string RoomName { get; set; }
+		public Utf8String RoomName { get; set; }
 
 		/// <summary>
 		/// The room the user would like to join.
 		/// </summary>
-		public string ClientBaseUrl { get; set; }
+		public Utf8String ClientBaseUrl { get; set; }
 
 		/// <summary>
 		/// Authorization credential token to join the room.
 		/// </summary>
-		public string ParticipantToken { get; set; }
+		public Utf8String ParticipantToken { get; set; }
 
 		/// <summary>
-		/// The participant id used to join the room. If set to NULL the LocalUserId will be used instead.
+		/// The participant id used to join the room. If set to <see langword="null" /> the LocalUserId will be used instead.
 		/// </summary>
 		public ProductUserId ParticipantId { get; set; }
 
@@ -52,7 +52,7 @@ namespace Epic.OnlineServices.RTC
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct JoinRoomOptionsInternal : ISettable, System.IDisposable
+	internal struct JoinRoomOptionsInternal : ISettable<JoinRoomOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -68,31 +68,31 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RoomName, value);
+				Helper.Set(value, ref m_RoomName);
 			}
 		}
 
-		public string ClientBaseUrl
+		public Utf8String ClientBaseUrl
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ClientBaseUrl, value);
+				Helper.Set(value, ref m_ClientBaseUrl);
 			}
 		}
 
-		public string ParticipantToken
+		public Utf8String ParticipantToken
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ParticipantToken, value);
+				Helper.Set(value, ref m_ParticipantToken);
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ParticipantId, value);
+				Helper.Set(value, ref m_ParticipantId);
 			}
 		}
 
@@ -116,7 +116,7 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ManualAudioInputEnabled, value);
+				Helper.Set(value, ref m_ManualAudioInputEnabled);
 			}
 		}
 
@@ -124,38 +124,46 @@ namespace Epic.OnlineServices.RTC
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_ManualAudioOutputEnabled, value);
+				Helper.Set(value, ref m_ManualAudioOutputEnabled);
 			}
 		}
 
-		public void Set(JoinRoomOptions other)
+		public void Set(ref JoinRoomOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = RTCInterface.JoinroomApiLatest;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+			ClientBaseUrl = other.ClientBaseUrl;
+			ParticipantToken = other.ParticipantToken;
+			ParticipantId = other.ParticipantId;
+			Flags = other.Flags;
+			ManualAudioInputEnabled = other.ManualAudioInputEnabled;
+			ManualAudioOutputEnabled = other.ManualAudioOutputEnabled;
+		}
+
+		public void Set(ref JoinRoomOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = RTCInterface.JoinroomApiLatest;
-				LocalUserId = other.LocalUserId;
-				RoomName = other.RoomName;
-				ClientBaseUrl = other.ClientBaseUrl;
-				ParticipantToken = other.ParticipantToken;
-				ParticipantId = other.ParticipantId;
-				Flags = other.Flags;
-				ManualAudioInputEnabled = other.ManualAudioInputEnabled;
-				ManualAudioOutputEnabled = other.ManualAudioOutputEnabled;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+				ClientBaseUrl = other.Value.ClientBaseUrl;
+				ParticipantToken = other.Value.ParticipantToken;
+				ParticipantId = other.Value.ParticipantId;
+				Flags = other.Value.Flags;
+				ManualAudioInputEnabled = other.Value.ManualAudioInputEnabled;
+				ManualAudioOutputEnabled = other.Value.ManualAudioOutputEnabled;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as JoinRoomOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
-			Helper.TryMarshalDispose(ref m_RoomName);
-			Helper.TryMarshalDispose(ref m_ClientBaseUrl);
-			Helper.TryMarshalDispose(ref m_ParticipantToken);
-			Helper.TryMarshalDispose(ref m_ParticipantId);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_ClientBaseUrl);
+			Helper.Dispose(ref m_ParticipantToken);
+			Helper.Dispose(ref m_ParticipantId);
 		}
 	}
 }

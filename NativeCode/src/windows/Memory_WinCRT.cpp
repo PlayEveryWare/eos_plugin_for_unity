@@ -26,4 +26,10 @@ void platform::free_aligned(void *ptr)
     _aligned_free(ptr);
 }
 
+size_t platform::mem_usable_size(void* pointer)
+{
+    return _msize(pointer);
+}
+
+
 #endif

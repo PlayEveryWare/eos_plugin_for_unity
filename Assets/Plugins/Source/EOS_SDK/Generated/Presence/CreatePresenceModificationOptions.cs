@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Presence
 	/// <summary>
 	/// Data for the <see cref="PresenceInterface.CreatePresenceModification" /> function.
 	/// </summary>
-	public class CreatePresenceModificationOptions
+	public struct CreatePresenceModificationOptions
 	{
 		/// <summary>
 		/// The Epic Account ID of the local, logged-in user making the request
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Presence
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct CreatePresenceModificationOptionsInternal : ISettable, System.IDisposable
+	internal struct CreatePresenceModificationOptionsInternal : ISettable<CreatePresenceModificationOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Presence
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_LocalUserId, value);
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public void Set(CreatePresenceModificationOptions other)
+		public void Set(ref CreatePresenceModificationOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = PresenceInterface.CreatepresencemodificationApiLatest;
+			LocalUserId = other.LocalUserId;
+		}
+
+		public void Set(ref CreatePresenceModificationOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = PresenceInterface.CreatepresencemodificationApiLatest;
-				LocalUserId = other.LocalUserId;
+				LocalUserId = other.Value.LocalUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as CreatePresenceModificationOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_LocalUserId);
 		}
 	}
 }

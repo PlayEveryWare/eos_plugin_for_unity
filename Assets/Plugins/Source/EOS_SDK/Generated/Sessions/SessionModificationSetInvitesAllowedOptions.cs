@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sessions
 	/// <summary>
 	/// Input parameters for the <see cref="SessionModification.SetInvitesAllowed" /> function.
 	/// </summary>
-	public class SessionModificationSetInvitesAllowedOptions
+	public struct SessionModificationSetInvitesAllowedOptions
 	{
 		/// <summary>
 		/// If true then invites can currently be sent for the associated session
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sessions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct SessionModificationSetInvitesAllowedOptionsInternal : ISettable, System.IDisposable
+	internal struct SessionModificationSetInvitesAllowedOptionsInternal : ISettable<SessionModificationSetInvitesAllowedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private int m_InvitesAllowed;
@@ -24,22 +24,23 @@ namespace Epic.OnlineServices.Sessions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_InvitesAllowed, value);
+				Helper.Set(value, ref m_InvitesAllowed);
 			}
 		}
 
-		public void Set(SessionModificationSetInvitesAllowedOptions other)
+		public void Set(ref SessionModificationSetInvitesAllowedOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SessionModification.SessionmodificationSetinvitesallowedApiLatest;
+			InvitesAllowed = other.InvitesAllowed;
+		}
+
+		public void Set(ref SessionModificationSetInvitesAllowedOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SessionModification.SessionmodificationSetinvitesallowedApiLatest;
-				InvitesAllowed = other.InvitesAllowed;
+				InvitesAllowed = other.Value.InvitesAllowed;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as SessionModificationSetInvitesAllowedOptions);
 		}
 
 		public void Dispose()

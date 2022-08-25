@@ -11,12 +11,12 @@
         {"src":"EOSUnityPlugin_package_template/README.md.meta", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/Editor.meta", "dest" : ""},
         {"src":"EOSUnityPlugin_package_template/Runtime.meta", "dest" : ""},
-
-        {"src":"docs/android/*.md", "dest" : "Documentation~/android/"},
         {"src":"docs/class_description.md", "dest" : "Documentation~/"},
         {"src":"docs/standards.md", "dest" : "Documentation~/"},
         {"src":"docs/configuring_the_eos_plugin.md", "dest" : "Documentation~/"},
         {"src":"docs/custom_eos_config_location.md", "dest" : "Documentation~/"},
+
+        {"src":"docs/images/*", "dest" : "Documentation~/images/"},
 
         {"src":"Assets/Plugins/com.playeveryware.eos.asmdef", "dest": "Runtime/"},
         {"src":"Assets/Plugins/com.playeveryware.eos.asmdef.meta", "dest": "Runtime/"},
@@ -47,8 +47,8 @@
         {"src":"Assets/Plugins/Windows/x86.meta", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/*.dll.meta", "dest": "Runtime/Windows/x86/"},
-        {"src":"Assets/Plugins/Windows/x86/*.lib", "dest": "Runtime/windows/x86/"},
-        {"src":"Assets/Plugins/Windows/x86/*.lib.meta", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.lib", "dest": "Runtime/Windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.lib.meta", "dest": "Runtime/Windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/license.txt", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/license.txt.meta", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt", "dest": "Runtime/windows/x86/"},
@@ -62,6 +62,9 @@
 
         {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
+
+        {"src":"Assets/link.xml", "dest": "Editor/"},
+        {"src":"Assets/link.xml.meta", "dest": "Editor/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK.meta", "dest": "Runtime/"},
 
@@ -122,6 +125,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Friends/*.cs", "dest": "Runtime/EOS_SDK/Generated/Friends/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Friends/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Friends/"},
 
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform/*.cs", "dest": "Runtime/EOS_SDK/Generated/IntegratedPlatform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IntegratedPlatform/"},
+        
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS/*.cs", "dest": "Runtime/EOS_SDK/Generated/KWS/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/KWS/"},
@@ -207,6 +214,8 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},

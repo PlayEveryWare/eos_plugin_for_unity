@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.Sanctions
 	/// <summary>
 	/// Input parameters for the <see cref="SanctionsInterface.GetPlayerSanctionCount" /> function.
 	/// </summary>
-	public class GetPlayerSanctionCountOptions
+	public struct GetPlayerSanctionCountOptions
 	{
 		/// <summary>
 		/// Product User ID of the user whose sanction count should be returned
@@ -15,7 +15,7 @@ namespace Epic.OnlineServices.Sanctions
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetPlayerSanctionCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetPlayerSanctionCountOptionsInternal : ISettable<GetPlayerSanctionCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_TargetUserId;
@@ -24,27 +24,28 @@ namespace Epic.OnlineServices.Sanctions
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_TargetUserId, value);
+				Helper.Set(value, ref m_TargetUserId);
 			}
 		}
 
-		public void Set(GetPlayerSanctionCountOptions other)
+		public void Set(ref GetPlayerSanctionCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = SanctionsInterface.GetplayersanctioncountApiLatest;
+			TargetUserId = other.TargetUserId;
+		}
+
+		public void Set(ref GetPlayerSanctionCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = SanctionsInterface.GetplayersanctioncountApiLatest;
-				TargetUserId = other.TargetUserId;
+				TargetUserId = other.Value.TargetUserId;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetPlayerSanctionCountOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_TargetUserId);
+			Helper.Dispose(ref m_TargetUserId);
 		}
 	}
 }

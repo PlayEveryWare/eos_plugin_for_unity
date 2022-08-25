@@ -6,26 +6,26 @@ namespace Epic.OnlineServices.Leaderboards
 	/// <summary>
 	/// Input parameters for the <see cref="LeaderboardsInterface.GetLeaderboardDefinitionCount" /> function.
 	/// </summary>
-	public class GetLeaderboardDefinitionCountOptions
+	public struct GetLeaderboardDefinitionCountOptions
 	{
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetLeaderboardDefinitionCountOptionsInternal : ISettable, System.IDisposable
+	internal struct GetLeaderboardDefinitionCountOptionsInternal : ISettable<GetLeaderboardDefinitionCountOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 
-		public void Set(GetLeaderboardDefinitionCountOptions other)
+		public void Set(ref GetLeaderboardDefinitionCountOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = LeaderboardsInterface.GetleaderboarddefinitioncountApiLatest;
+		}
+
+		public void Set(ref GetLeaderboardDefinitionCountOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = LeaderboardsInterface.GetleaderboarddefinitioncountApiLatest;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as GetLeaderboardDefinitionCountOptions);
 		}
 
 		public void Dispose()

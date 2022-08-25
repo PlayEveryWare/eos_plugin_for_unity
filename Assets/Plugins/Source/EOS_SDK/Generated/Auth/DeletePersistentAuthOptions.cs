@@ -6,46 +6,47 @@ namespace Epic.OnlineServices.Auth
 	/// <summary>
 	/// Input parameters for the <see cref="AuthInterface.DeletePersistentAuth" /> function.
 	/// </summary>
-	public class DeletePersistentAuthOptions
+	public struct DeletePersistentAuthOptions
 	{
 		/// <summary>
 		/// A long-lived refresh token that is used with the <see cref="LoginCredentialType.PersistentAuth" /> login type and is to be revoked from the authentication server. Only used on Console platforms.
-		/// On Desktop and Mobile platforms, set this parameter to NULL.
+		/// On Desktop and Mobile platforms, set this parameter to <see langword="null" />.
 		/// </summary>
-		public string RefreshToken { get; set; }
+		public Utf8String RefreshToken { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DeletePersistentAuthOptionsInternal : ISettable, System.IDisposable
+	internal struct DeletePersistentAuthOptionsInternal : ISettable<DeletePersistentAuthOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_RefreshToken;
 
-		public string RefreshToken
+		public Utf8String RefreshToken
 		{
 			set
 			{
-				Helper.TryMarshalSet(ref m_RefreshToken, value);
+				Helper.Set(value, ref m_RefreshToken);
 			}
 		}
 
-		public void Set(DeletePersistentAuthOptions other)
+		public void Set(ref DeletePersistentAuthOptions other)
 		{
-			if (other != null)
+			m_ApiVersion = AuthInterface.DeletepersistentauthApiLatest;
+			RefreshToken = other.RefreshToken;
+		}
+
+		public void Set(ref DeletePersistentAuthOptions? other)
+		{
+			if (other.HasValue)
 			{
 				m_ApiVersion = AuthInterface.DeletepersistentauthApiLatest;
-				RefreshToken = other.RefreshToken;
+				RefreshToken = other.Value.RefreshToken;
 			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DeletePersistentAuthOptions);
 		}
 
 		public void Dispose()
 		{
-			Helper.TryMarshalDispose(ref m_RefreshToken);
+			Helper.Dispose(ref m_RefreshToken);
 		}
 	}
 }

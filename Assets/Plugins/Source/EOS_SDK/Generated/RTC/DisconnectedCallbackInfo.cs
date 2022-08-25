@@ -6,7 +6,7 @@ namespace Epic.OnlineServices.RTC
 	/// <summary>
 	/// This struct is passed in with a call to <see cref="RTCInterface.AddNotifyDisconnected" /> registered event.
 	/// </summary>
-	public class DisconnectedCallbackInfo : ICallbackInfo, ISettable
+	public struct DisconnectedCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
 		/// This returns:
@@ -16,47 +16,39 @@ namespace Epic.OnlineServices.RTC
 		/// <see cref="Result.ServiceFailure" />: A known error occurred during interaction with the server (retryable).
 		/// <see cref="Result.UnexpectedError" /> Unexpected error (retryable).
 		/// </summary>
-		public Result ResultCode { get; private set; }
+		public Result ResultCode { get; set; }
 
 		/// <summary>
 		/// Client-specified data passed into <see cref="RTCInterface.AddNotifyDisconnected" />.
 		/// </summary>
-		public object ClientData { get; private set; }
+		public object ClientData { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the user who initiated this request.
 		/// </summary>
-		public ProductUserId LocalUserId { get; private set; }
+		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
 		/// The room associated with this event.
 		/// </summary>
-		public string RoomName { get; private set; }
+		public Utf8String RoomName { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return ResultCode;
 		}
 
-		internal void Set(DisconnectedCallbackInfoInternal? other)
+		internal void Set(ref DisconnectedCallbackInfoInternal other)
 		{
-			if (other != null)
-			{
-				ResultCode = other.Value.ResultCode;
-				ClientData = other.Value.ClientData;
-				LocalUserId = other.Value.LocalUserId;
-				RoomName = other.Value.RoomName;
-			}
-		}
-
-		public void Set(object other)
-		{
-			Set(other as DisconnectedCallbackInfoInternal?);
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct DisconnectedCallbackInfoInternal : ICallbackInfoInternal
+	internal struct DisconnectedCallbackInfoInternal : ICallbackInfoInternal, IGettable<DisconnectedCallbackInfo>, ISettable<DisconnectedCallbackInfo>, System.IDisposable
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
@@ -69,6 +61,11 @@ namespace Epic.OnlineServices.RTC
 			{
 				return m_ResultCode;
 			}
+
+			set
+			{
+				m_ResultCode = value;
+			}
 		}
 
 		public object ClientData
@@ -76,8 +73,13 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				object value;
-				Helper.TryMarshalGet(m_ClientData, out value);
+				Helper.Get(m_ClientData, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ClientData);
 			}
 		}
 
@@ -94,19 +96,61 @@ namespace Epic.OnlineServices.RTC
 			get
 			{
 				ProductUserId value;
-				Helper.TryMarshalGet(m_LocalUserId, out value);
+				Helper.Get(m_LocalUserId, out value);
 				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LocalUserId);
 			}
 		}
 
-		public string RoomName
+		public Utf8String RoomName
 		{
 			get
 			{
-				string value;
-				Helper.TryMarshalGet(m_RoomName, out value);
+				Utf8String value;
+				Helper.Get(m_RoomName, out value);
 				return value;
 			}
+
+			set
+			{
+				Helper.Set(value, ref m_RoomName);
+			}
+		}
+
+		public void Set(ref DisconnectedCallbackInfo other)
+		{
+			ResultCode = other.ResultCode;
+			ClientData = other.ClientData;
+			LocalUserId = other.LocalUserId;
+			RoomName = other.RoomName;
+		}
+
+		public void Set(ref DisconnectedCallbackInfo? other)
+		{
+			if (other.HasValue)
+			{
+				ResultCode = other.Value.ResultCode;
+				ClientData = other.Value.ClientData;
+				LocalUserId = other.Value.LocalUserId;
+				RoomName = other.Value.RoomName;
+			}
+		}
+
+		public void Dispose()
+		{
+			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_RoomName);
+		}
+
+		public void Get(out DisconnectedCallbackInfo output)
+		{
+			output = new DisconnectedCallbackInfo();
+			output.Set(ref this);
 		}
 	}
 }
