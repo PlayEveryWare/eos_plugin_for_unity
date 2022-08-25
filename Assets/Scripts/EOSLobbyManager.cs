@@ -466,13 +466,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSUserInfoManager UserInfoManager;
 
-
-#if UNITY_ANDROID && !UNITY_EDITOR && EOS_ANDROID_ENABLED//TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
-        const bool ONANDROIDPLATFORM = true;
-#else
-        const bool ONANDROIDPLATFORM = false;
-#endif
-
         // Init
 
         public EOSLobbyManager()
@@ -2183,12 +2176,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
-            if (ONANDROIDPLATFORM == false)
-            {
-#pragma warning disable CS0162 // Unreachable code when on Android, but findable with intellisense
-                HackWorkaroundRTCInitIssues();
-#pragma warning restore CS0162 
-            }
+            
+            HackWorkaroundRTCInitIssues();
 
             if (string.IsNullOrEmpty(lobbyId))
             {

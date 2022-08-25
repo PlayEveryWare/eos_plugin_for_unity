@@ -208,6 +208,12 @@ namespace PlayEveryWare.EpicOnlineServices
         public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
         {
             print("ConfigureSystemPlatformCreateOptions");
+            var rtcOptions = new RTCOptions();
+
+
+
+            // assume that RTC needs to be enabled and enable with a default option.
+            (createOptions as EOSAndroidOptions).options.RTCOptions = rtcOptions;
 
         }
 
