@@ -58,7 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices
     //-------------------------------------------------------------------------
     public class EOSmacOSInitializeOptions : IEOSInitializeOptions
     {
-        public Epic.OnlineServices.Platform.AndroidInitializeOptions options;
+        public Epic.OnlineServices.Platform.InitializeOptions options;
 
         public IntPtr AllocateMemoryFunction { get => options.AllocateMemoryFunction; set => options.AllocateMemoryFunction = value; }
         public IntPtr ReallocateMemoryFunction { get => options.ReallocateMemoryFunction; set => options.ReallocateMemoryFunction = value; }
