@@ -153,6 +153,8 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_GetNATType(EOS_HP2P Handle, const EOS_P2P_
  * @param Options Information about relay server config options
  * @return EOS_EResult::EOS_Success - if the options were set successfully
  *         EOS_EResult::EOS_InvalidParameters - if the options are invalid in some way
+ *
+ * @see EOS_ERelayControl
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_P2P_SetRelayControl(EOS_HP2P Handle, const EOS_P2P_SetRelayControlOptions* Options);
 
