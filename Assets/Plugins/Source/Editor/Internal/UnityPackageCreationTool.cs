@@ -177,19 +177,19 @@ public class UnityPackageCreationTool : EditorWindow
     private List<string> GetFilePathsMatchingPackageDescription(PackageDescription packageDescription)
     {
         string root = "./";
-        return FileUtils.GetFilePathsMatchingPackageDescription(root, packageDescription);
+        return PackageFileUtils.GetFilePathsMatchingPackageDescription(root, packageDescription);
     }
 
     //-------------------------------------------------------------------------
     private List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(PackageDescription packageDescription)
     {
-        return FileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
+        return PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
     }
 
     //-------------------------------------------------------------------------
     private string GenerateTemporaryBuildPath()
     {
-        return FileUtils.GenerateTemporaryBuildPath();
+        return PackageFileUtils.GenerateTemporaryBuildPath();
     }
 
     //-------------------------------------------------------------------------
@@ -205,7 +205,7 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private void CopyFilesToPackageDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
     {
-        FileUtils.CopyFilesToDirectory(packageFolder, fileInfoForFilesToCompress);
+        PackageFileUtils.CopyFilesToDirectory(packageFolder, fileInfoForFilesToCompress);
     }
 
     //-------------------------------------------------------------------------
