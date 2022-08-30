@@ -576,7 +576,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     await System.Threading.Tasks.Task.Yield();
                 }
 
-                if (!request.isNetworkError && !request.isHttpError)
+                if (request.result != UnityWebRequest.Result.ConnectionError && request.result != UnityWebRequest.Result.ProtocolError)
                 {
                     downloadCache[uri] = downloadHandler.data;
                 }
