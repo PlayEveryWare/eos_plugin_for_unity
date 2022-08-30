@@ -38,7 +38,7 @@ using System.Text.RegularExpressions;
 namespace Playeveryware.Editor
 {
     //-------------------------------------------------------------------------
-    public class FileUtils
+    public class PackageFileUtils
     {
         //-------------------------------------------------------------------------
         public static string GenerateTemporaryBuildPath()

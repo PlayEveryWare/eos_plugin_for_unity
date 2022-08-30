@@ -43,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private bool _dirty = false;
         private string logCache = string.Empty;
         private string textFilter = string.Empty;
-        private bool userDrag = false;
+        //private bool userDrag = false;
         private bool userScroll = false;
 
         private float deltaTime_FPS;
@@ -81,13 +81,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnScollDragBegin()
         {
-            userDrag = true;
+            //userDrag = true;
             userScroll = true;
         }
 
         public void OnScollDragEnd()
         {
-            userDrag = false;
+            //userDrag = false;
             userScroll = ScrollRect.velocity.y != 0 && ScrollRect.verticalNormalizedPosition > 0;
         }
 
