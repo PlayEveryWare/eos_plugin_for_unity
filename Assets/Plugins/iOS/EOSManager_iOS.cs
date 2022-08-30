@@ -33,6 +33,7 @@ using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
 
+#if UNITY_IOS
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
@@ -71,6 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
     //-------------------------------------------------------------------------
     public class EOSPlatformSpecificsiOS : IEOSManagerPlatformSpecifics
     {
+        EOS_iOSConfig iOSConfig;
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
@@ -97,18 +99,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        static string GetPlatformPathComponent()
-        {
-#if PLATFORM_64BITS
-            return "x64";
-#elif PLATFORM_32BITS
-            return "x86";
-#else
-            return "";
-#endif
-        }
-
-        //-------------------------------------------------------------------------
         public string GetDynamicLibraryExtension()
         {
             return ".dylib";
@@ -120,20 +110,39 @@ namespace PlayEveryWare.EpicOnlineServices
 
         }
         //-------------------------------------------------------------------------
+        private string GetPathToEOSConfig()
+        {
+            return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", "eos_ios_config.json");
+        }
+        //-------------------------------------------------------------------------
+        private EOS_iOSConfig GetEOS_iOSConfig()
+        {
+            if (iOSConfig != null)
+            {
+                return iOSConfig;
+            }
+
+            string eosFinalConfigPath = GetPathToEOSConfig();
+            var configDataAsString = File.ReadAllText(eosFinalConfigPath);
+            var configData = JsonUtility.FromJson<EOS_iOSConfig>(configDataAsString);
+            iOSConfig = configData;
+            return iOSConfig;
+        }
+        //-------------------------------------------------------------------------
         public Epic.OnlineServices.Result InitializePlatformInterface(IEOSInitializeOptions options)
         {
             return Epic.OnlineServices.Platform.PlatformInterface.Initialize(ref (options as EOSiOSInitializeOptions).options);
         }
-
         //-------------------------------------------------------------------------
         public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
         {
+            Debug.Log(platformOptions.ProductId);
             return Epic.OnlineServices.Platform.PlatformInterface.Create(ref (platformOptions as EOSiOSOptions).options);
         }
 
         //-------------------------------------------------------------------------
         /// <summary>
-        /// The windows version doesn't have any specific types for init
+        /// 
         /// </summary>
         /// <returns></returns>
         public IEOSInitializeOptions CreateSystemInitOptions()
@@ -143,12 +152,36 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //-------------------------------------------------------------------------
         /// <summary>
-        /// Nothing to be done on windows for the moment
+        /// 
         /// </summary>
         /// <param name="initializeOptions"></param>
         /// <param name="configData"></param>
-        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
+        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
         {
+            Debug.Log("ConfigureSystemInitOptions");
+
+            EOSiOSInitializeOptions initializeOptions = (initializeOptionsRef as EOSiOSInitializeOptions);
+
+            if (initializeOptions == null)
+            {
+                throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
+            }
+
+            if (GetEOS_iOSConfig() != null)
+            {
+                Debug.Log("GetEOS_iOSConfig() is not null");
+                if (initializeOptions.OverrideThreadAffinity.HasValue)
+                {
+                    var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
+                    overrideThreadAffinity.NetworkWork = iOSConfig.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
+                    overrideThreadAffinity.StorageIo = iOSConfig.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
+                    overrideThreadAffinity.WebSocketIo = iOSConfig.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
+                    overrideThreadAffinity.P2PIo = iOSConfig.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
+                    overrideThreadAffinity.HttpRequestIo = iOSConfig.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
+                    overrideThreadAffinity.RTCIo = iOSConfig.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+                    initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
+                }
+            }
         }
 
         //-------------------------------------------------------------------------
@@ -185,3 +218,4 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+#endif
