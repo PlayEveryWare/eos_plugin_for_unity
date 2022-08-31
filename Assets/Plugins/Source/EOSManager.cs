@@ -249,6 +249,16 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            /// <summary>
+            /// Check if encryption key is EOS config is a valid 32-byte hex string.
+            /// </summary>
+            /// <returns></returns>
+            public bool IsEncryptionKeyValid()
+            {
+                return GetLoadedEOSConfig().IsEncryptionKeyValid();
+            }
+
+            //-------------------------------------------------------------------------
             private bool HasShutdown()
             {
                 return s_state == EOSState.Shutdown;
@@ -370,9 +380,13 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                 configData.platformOptionsFlagsAsPlatformFlags();
 #endif
-                if (!string.IsNullOrEmpty(configData.encryptionKey))
+                if (configData.IsEncryptionKeyValid())
                 {
                     platformOptions.EncryptionKey = configData.encryptionKey;
+                }
+                else
+                {
+                    UnityEngine.Debug.LogError("EOS config data does not contain valid encryption key");
                 }
 
                 platformOptions.OverrideCountryCode = null;

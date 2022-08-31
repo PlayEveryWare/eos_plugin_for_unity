@@ -444,15 +444,9 @@ _WIN32 || _WIN64
                 }
             }
 
-            var keyLength = mainEOSConfigFile.currentEOSConfig.encryptionKey.Length;
-            if (keyLength != 64)
+            if (!mainEOSConfigFile.currentEOSConfig.IsEncryptionKeyValid())
             {
-                EditorGUILayout.HelpBox("Encryption key needs to be 64 characters in length. Current length is " + keyLength + ".", MessageType.Error);
-            }
-
-            if (EncryptionKeyRegex.Match(mainEOSConfigFile.currentEOSConfig.encryptionKey).Success)
-            {
-                EditorGUILayout.HelpBox("Encryption key must only contain hex characters (0-9,A-F).", MessageType.Error);
+                EditorGUILayout.HelpBox("Encryption key must be 64 hex characters (0-9,A-F). Current length is " + mainEOSConfigFile.currentEOSConfig.encryptionKey.Length + ".", MessageType.Error);
             }
 
             AssigningFlagTextField("Platform Flags (Seperated by '|')", 190, ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags);
