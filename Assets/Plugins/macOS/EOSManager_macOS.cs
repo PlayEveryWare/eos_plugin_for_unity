@@ -33,6 +33,7 @@ using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
 
+#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
 namespace PlayEveryWare.EpicOnlineServices 
 {
     //-------------------------------------------------------------------------
@@ -71,6 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
     //-------------------------------------------------------------------------
     public class EOSPlatformSpecificsmacOS : IEOSManagerPlatformSpecifics
     {
+        EOS_macOSConfig macOSConfig;
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
@@ -95,18 +97,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public void AddPluginSearchPaths(ref List<string> pluginPaths)
         {
         }
-
-        //-------------------------------------------------------------------------
-        static string GetPlatformPathComponent()
-        {
-#if PLATFORM_64BITS
-            return "x64";
-#elif PLATFORM_32BITS
-            return "x86";
-#else
-            return "";
-#endif
-        }
         
         //-------------------------------------------------------------------------
         public string GetDynamicLibraryExtension()
@@ -118,6 +108,25 @@ namespace PlayEveryWare.EpicOnlineServices
         public void LoadDelegatesWithEOSBindingAPI()
         {
          
+        }
+        //-------------------------------------------------------------------------
+        private string GetPathToEOSConfig()
+        {
+            return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", "eos_macos_config.json");
+        }
+        //-------------------------------------------------------------------------
+        private EOS_macOSConfig GetEOS_macOSConfig()
+        {
+            if (macOSConfig != null)
+            {
+                return macOSConfig;
+            }
+
+            string eosFinalConfigPath = GetPathToEOSConfig();
+            var configDataAsString = File.ReadAllText(eosFinalConfigPath);
+            var configData = JsonUtility.FromJson<EOS_macOSConfig>(configDataAsString);
+            macOSConfig = configData;
+            return macOSConfig;
         }
         //-------------------------------------------------------------------------
         public Epic.OnlineServices.Result InitializePlatformInterface(IEOSInitializeOptions options)
@@ -147,8 +156,32 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <param name="initializeOptions"></param>
         /// <param name="configData"></param>
-        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
+        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
         {
+            Debug.Log("ConfigureSystemInitOptions");
+
+            EOSmacOSInitializeOptions initializeOptions = (initializeOptionsRef as EOSmacOSInitializeOptions);
+
+            if (initializeOptions == null)
+            {
+                throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
+            }
+
+            if (GetEOS_macOSConfig() != null)
+            {
+                Debug.Log("GetEOS_macOSConfig() is not null");
+                if (initializeOptions.OverrideThreadAffinity.HasValue)
+                {
+                    var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
+                    overrideThreadAffinity.NetworkWork = macOSConfig.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
+                    overrideThreadAffinity.StorageIo = macOSConfig.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
+                    overrideThreadAffinity.WebSocketIo = macOSConfig.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
+                    overrideThreadAffinity.P2PIo = macOSConfig.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
+                    overrideThreadAffinity.HttpRequestIo = macOSConfig.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
+                    overrideThreadAffinity.RTCIo = macOSConfig.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+                    initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
+                }
+            }
         }
 
         //-------------------------------------------------------------------------
@@ -185,4 +218,4 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
-
+#endif
