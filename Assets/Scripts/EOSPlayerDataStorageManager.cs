@@ -389,7 +389,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else
                 {
-                    Debug.LogError("[EOS SDK] Player data storage: could not receive data: more than expected.");
+                    Debug.LogError("[EOS SDK] Player data storage: could not receive data: too much of it.");
                     return ReadResult.FailRequest;
                 }
             }

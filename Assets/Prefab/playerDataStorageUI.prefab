@@ -2740,7 +2740,7 @@ PrefabInstance:
     - target: {fileID: 8911648705881328061, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: m_FontData.m_HorizontalOverflow
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8911648705881328061, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
@@ -2796,11 +2796,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8911648706222086650, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
-        type: 3}
-      propertyPath: m_LineType
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8911648706222086651, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
