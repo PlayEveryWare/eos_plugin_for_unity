@@ -36,7 +36,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UIMemberEntry : MonoBehaviour
     {
         public Text MemberNameText;
-        public Text IsOwnerText;
         public Text IsTalkingText;
         public Button MuteButton;
         public Button KickButton;

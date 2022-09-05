@@ -46,16 +46,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Unity UI sample that uses <c>AchievementManager</c> to demo features.  Can be used as a template or starting point for implementing Achievement features.
     /// </summary>
 
-    public class UIAchievementsMenu : MonoBehaviour
+    public class UIAchievementsMenu : MonoBehaviour, ISampleSceneUI
     {
-        [Header("Store UI")]
-        public Button getAchievementsButton;
+        [Header("Achievements UI")]
+        public Button refreshDataButton;
         public Toggle showDefinitionToggle;
         public Button unlockAchievementButton;
         public Text definitionsDescription;
         public ScrollRect scrollRect;
-        public Transform spawnPoint;
-        public Button item;
+        public Transform achievementListContainer;
+        public UIAchievementButton itemTemplate;
         public RawImage achievementUnlockedIcon;
         public RawImage achievementLockedIcon;
 
@@ -64,13 +64,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSAchievementManager achievementManager;
 
+        private List<UIAchievementButton> achievementListItems;
+
         private bool displayDefinition = false;
         private int displayIndex = -1;
 
-        public void Start()
+        class AchievementData
         {
+            public DefinitionV2 Definition;
+            public PlayerAchievement? PlayerData;
+        }
+        List<AchievementData> achievementDataList;
+
+        private void Awake()
+        {
+            achievementDataList = new List<AchievementData>();
+            achievementListItems = new List<UIAchievementButton>();
+
             HideMenu();
             achievementManager = EOSManager.Instance.GetOrCreateManager<EOSAchievementManager>();
+        }
+
+        private void OnEnable()
+        {
+            achievementManager.AddNotifyAchievementDataUpdated(OnAchievementDataUpdated);
+        }
+
+        private void OnDisable()
+        {
+            achievementManager.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
         }
 
 #if ENABLE_INPUT_SYSTEM
@@ -92,7 +114,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ShowMenu()
         {
-            getAchievementsButton.gameObject.SetActive(true);
+            refreshDataButton.gameObject.SetActive(true);
             showDefinitionToggle.gameObject.SetActive(true);
 
             // Controller
@@ -101,7 +123,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void HideMenu()
         {
-            getAchievementsButton.gameObject.SetActive(false);
+            refreshDataButton.gameObject.SetActive(false);
             showDefinitionToggle.gameObject.SetActive(false);
             unlockAchievementButton.gameObject.SetActive(false);
             definitionsDescription.gameObject.SetActive(false);
@@ -141,31 +163,65 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementManager.UnlockAchievementManually(definition.AchievementId);
         }
 
-        // Achievements
-        public void OnGetAchievmentsClick()
+        public void OnRefreshDataClicked()
         {
+            achievementManager.RefreshData();
+        }
+
+        // Achievements
+        private void OnAchievementDataUpdated()
+        {
+            foreach (var item in achievementListItems)
+            {
+                Destroy(item.gameObject);
+            }
+            achievementListItems.Clear();
+            achievementDataList.Clear();
+
             uint achievementDefCount = achievementManager.GetAchievementDefinitionCount();
 
             if (achievementDefCount > 1)
             {
+                foreach (var achievementDef in achievementManager.EnumerateCachedAchievementDefinitions())
+                {
+                    achievementDataList.Add(new AchievementData()
+                    {
+                        Definition = achievementDef,
+                        PlayerData = null
+                    });
+                }
+
+                var userId = EOSManager.Instance.GetProductUserId();
+                if (userId.IsValid())
+                {
+                    foreach (var playerAch in achievementManager.EnumerateCachedPlayerAchievement(userId))
+                    {
+                        var achData = achievementDataList.Find((AchievementData data) => data.Definition.AchievementId == playerAch.AchievementId);
+                        if (achData != null)
+                        {
+                            achData.PlayerData = playerAch;
+                        }
+                    }
+                }
+
                 scrollRect.gameObject.SetActive(true);
                 scrollRect.content.sizeDelta = new Vector2(0, achievementDefCount * 30);
 
                 int i = 0;
-                foreach (var achievementDef in achievementManager.EnumerateCachedAchievementDefinitions())
+                foreach (var achievementData in achievementDataList)
                 {
-                    Vector3 newPos = new Vector3(spawnPoint.localPosition.x, -i * 30, spawnPoint.localPosition.z);
-                    var newButton = Instantiate<Button>(item, newPos, spawnPoint.rotation);
-                    newButton.GetComponentInChildren<Text>().text = achievementDef.AchievementId;
-                    newButton.transform.SetParent(scrollRect.content, false);
+                    var newButton = Instantiate(itemTemplate, achievementListContainer);
+                    newButton.SetNameText(achievementData.Definition.AchievementId);
                     newButton.gameObject.SetActive(true);
-                    var achievementButton = newButton.GetComponent<UIAchievementButton>();
-                    achievementButton.index = i;
-                    newButton.onClick.AddListener(() =>
-                    {
-                        OnDefinitionIdButtonClicked(achievementButton.index);
-                    });
+                    newButton.index = i;
+                    bool unlocked = achievementData.PlayerData.HasValue && achievementData.PlayerData.Value.Progress >= 1;
+                    Texture2D iconTex = unlocked ?
+                        achievementManager.GetAchievementUnlockedIconTexture(achievementData.Definition.AchievementId)
+                        : achievementManager.GetAchievementLockedIconTexture(achievementData.Definition.AchievementId);
+
+                    newButton.SetIconTexture(iconTex);
                     i += 1;
+                    achievementListItems.Add(newButton);
                 }
             }
             else
@@ -194,7 +250,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             displayIndex = i;
 
-            var definition = achievementManager.GetAchievementDefinitionAtIndex(i);
+            var achievementData = achievementDataList[i];
+            var definition = achievementData.Definition;
             achievementUnlockedIcon.texture = achievementManager.GetAchievementUnlockedIconTexture(definition.AchievementId);
             achievementLockedIcon.texture = achievementManager.GetAchievementLockedIconTexture(definition.AchievementId);
 
@@ -208,6 +265,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 DisplayPlayerAchievement(definition);
             }
+
+            unlockAchievementButton.interactable = achievementData.PlayerData.HasValue && achievementData.PlayerData?.Progress < 1;
         }
 
         //Show player-specific achievement data

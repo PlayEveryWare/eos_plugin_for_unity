@@ -20,17 +20,21 @@
 * SOFTWARE.
 */
 
+using System;
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Epic.OnlineServices.Logging;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UIDebugLog : MonoBehaviour
     {
+        [Header("Debug Log UI")]
         public bool DisableOnScreenLog = false;
         public const int MAX_LINES_TO_DISPLAY = 7;
+        public RectTransform DebugLogContainer;
         public Text UIDebugLogText;
         public ScrollRect ScrollRect;
 
@@ -38,9 +42,130 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private bool _dirty = false;
         private string logCache = string.Empty;
+        private string textFilter = string.Empty;
+        //private bool userDrag = false;
+        private bool userScroll = false;
 
         private float deltaTime_FPS;
         public Text FPSValue;
+
+        public SampleSceneUIContainer DemoSceneContainer;
+
+        public GameObject[] OptionElements;
+        private bool optionsVisible;
+
+        private Vector2 initialAnchorMax;
+        private Vector2 initialSizeDelta;
+        private bool expanded;
+
+        [Header("Log Level Menu")]
+        public GameObject LogLevelMenu;
+        public Transform LogLevelContentContainer;
+        public UIDebugLogLevelMenuItem LogLevelTemplate;
+        private UIDebugLogLevelMenuItem allCategoriesMenuItem;
+        private List<UIDebugLogLevelMenuItem> logLevelMenuItems;
+        private bool ignoreLogLevelChange;
+
+        private void Start()
+        {
+            initialAnchorMax = DebugLogContainer.anchorMax;
+            initialSizeDelta = DebugLogContainer.sizeDelta;
+            expanded = false;
+
+            ignoreLogLevelChange = true;
+            logLevelMenuItems = new List<UIDebugLogLevelMenuItem>();
+            BuildLogLevelMenu();
+            ignoreLogLevelChange = false;
+            LogLevelMenu.SetActive(false);
+        }
+
+        public void OnScollDragBegin()
+        {
+            //userDrag = true;
+            userScroll = true;
+        }
+
+        public void OnScollDragEnd()
+        {
+            //userDrag = false;
+            userScroll = ScrollRect.velocity.y != 0 && ScrollRect.verticalNormalizedPosition > 0;
+        }
+
+        public void OnScrollValueChanged(Vector2 value)
+        {
+            if (userScroll && value.y <= 0)
+            {
+                userScroll = false;
+            }
+        }
+
+        private void BuildLogLevelMenu()
+        {
+            LogLevelTemplate.InitDropdown();
+
+            allCategoriesMenuItem = CreateLogCategoryItem(LogCategory.AllCategories);
+            logLevelMenuItems.Add(allCategoriesMenuItem);
+            foreach (LogCategory cat in Enum.GetValues(typeof(LogCategory)))
+            {
+                if (cat != LogCategory.AllCategories)
+                {
+                    logLevelMenuItems.Add(CreateLogCategoryItem(cat));
+                }
+            }
+        }
+
+        private UIDebugLogLevelMenuItem CreateLogCategoryItem(LogCategory Category)
+        {
+            var newItem = Instantiate(LogLevelTemplate, LogLevelContentContainer);
+            newItem.SetCategory(Category);
+            LogLevel catLevel = EOSManager.Instance.GetLogLevel(Category);
+            newItem.SetLevel(catLevel);
+            newItem.gameObject.SetActive(true);
+            return newItem;
+        }
+
+        public void OnLogLevelChanged(LogCategory Category, LogLevel Level)
+        {
+            if (ignoreLogLevelChange)
+            {
+                //ignore value change events while menu is being initialized or changed here
+                return;
+            }
+
+            EOSManager.Instance.SetLogLevel(Category, Level);
+            ignoreLogLevelChange = true;
+            if (Category == LogCategory.AllCategories)
+            {
+                //update all levels if AllCategories was changed
+                foreach (var item in logLevelMenuItems)
+                {
+                    var cat = item.GetCategory();
+                    if (cat != LogCategory.AllCategories)
+                    {
+                        item.SetLevel(EOSManager.Instance.GetLogLevel(cat));
+                    }
+                }
+            }
+            else
+            {
+                allCategoriesMenuItem.SetLevel(EOSManager.Instance.GetLogLevel(LogCategory.AllCategories));
+            }
+            ignoreLogLevelChange = false;
+        }
+
+        public void ToggleLogLevelMenu()
+        {
+            LogLevelMenu.SetActive(!LogLevelMenu.activeSelf);
+
+            if (LogLevelMenu.activeSelf)
+            {
+                foreach (var item in logLevelMenuItems)
+                {
+                    var cat = item.GetCategory();
+                    item.SetLevel(EOSManager.Instance.GetLogLevel(cat));
+                }
+            }
+        }
 
         void OnEnable()
         {
@@ -52,6 +177,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 UIDebugLogText.text = "<I>OnScreen Logging Disabled</I>";
             }
+
+            foreach (var element in OptionElements)
+            {
+                element.SetActive(false);
+            }
+            optionsVisible = false;
         }
 
         void OnDisable()
@@ -105,6 +236,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 foreach (string logEntry in logCacheList)
                 {
+                    if (textFilter != string.Empty && !logEntry.ToLower().Contains(textFilter))
+                    {
+                        continue;
+                    }
+
                     logCache += '\n' + logEntry;
                 }
                 _dirty = false;
@@ -113,17 +249,70 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return logCache;
         }
 
+        public void OnTextFilterEdit(string newFilter)
+        {
+            textFilter = newFilter.Trim().ToLower();
+            _dirty = true;
+        }
+
+        public void ToggleOptions()
+        {
+            optionsVisible = !optionsVisible;
+            foreach (var element in OptionElements)
+            {
+                element.SetActive(optionsVisible);
+            }
+        }
+
+        public void ToggleExpand()
+        {
+            bool shouldScrollToBottom = !userScroll && ScrollRect.verticalNormalizedPosition <= 0.000001f;
+            expanded = !expanded;
+
+            if (expanded)
+            {
+                DebugLogContainer.anchorMax = new Vector2(initialAnchorMax.x, 1);
+                DebugLogContainer.sizeDelta = new Vector2(DebugLogContainer.sizeDelta.x, 0);
+            }
+            else
+            {
+                DebugLogContainer.anchorMax = initialAnchorMax;
+                DebugLogContainer.sizeDelta = initialSizeDelta;
+            }
+
+            if (shouldScrollToBottom)
+            {
+                Invoke("ScrollToBottom", 0.1f);
+            }
+        }
+
+        public void ToggleLogVisibility()
+        {
+            bool newVisibility = !ScrollRect.gameObject.activeSelf;
+            ScrollRect.gameObject.SetActive(newVisibility);
+            DemoSceneContainer?.SetFullscreen(!newVisibility);
+        }
+
         private void Update()
         {
-            if (!DisableOnScreenLog)
+            if (!DisableOnScreenLog && _dirty)
             {
                 UIDebugLogText.text = GetLastEntries();
+                if (!userScroll)
+                {
+                    Invoke("ScrollToBottom", 0.1f);
+                }
             }
 
             // FPS
             deltaTime_FPS += (Time.deltaTime - deltaTime_FPS) * 0.1f;
             float fps = 1.0f / deltaTime_FPS;
             FPSValue.text = Mathf.Ceil(fps).ToString();
+        }
+
+        private void ScrollToBottom()
+        {
+            ScrollRect.verticalNormalizedPosition = 0;
         }
     }
 }

@@ -154,12 +154,12 @@ public partial class SystemDynamicLibrary
     }
 
     //-------------------------------------------------------------------------
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_IOS
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX
     public bool UnloadLibrary(IntPtr libraryHandle)
     {
 #if EOS_DISABLE
         return true;
-#elif UNITY_EDITOR_WIN && !UNITY_ANDROID
+#elif UNITY_EDITOR && !UNITY_ANDROID
         return FreeLibrary(libraryHandle);
 #else
         return DLLH_unload_library_at_path(DLLHContex, libraryHandle);

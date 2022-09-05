@@ -36,7 +36,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : MonoBehaviour
+    public class UILobbiesMenu : UIInviteSource, ISampleSceneUI
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
@@ -56,6 +56,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button AddMemberAttributeButton;
 
         // Current Lobby
+        [Header("Lobbies UI - Current Lobby")]
+        public GameObject CurrentLobbyPanel;
         public Text LobbyIdVal;
         public Text OwnerIdVal;
 
@@ -101,10 +103,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            SearchByBucketIdBox.InputField.onEndEdit.AddListener(SearchByBucketAttributeEnterPressed);
-            SearchByLevelBox.InputField.onEndEdit.AddListener(SearchByLevelAttributeEnterPressed);
-            SearchByLobbyIdBox.InputField.onEndEdit.AddListener(SearchByLobbyIdEnterPressed);
-
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
             AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
@@ -114,12 +112,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AntiCheatEnabledVal.interactable = AntiCheatLobbyManager.IsAntiCheatAvailable();
             }
 
-            LobbyManager.SubscribeToMemberUpdates(OnMemberUpdate);
+            LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdate);
+            CurrentLobbyPanel.SetActive(false);
         }
 
         private void OnDestroy()
         {
-            LobbyManager?.UnsubscribeFromMemberUpdates(OnMemberUpdate);
+            LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
         }
 
         private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)
@@ -290,6 +289,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 lastMemberCount = 0;
                 currentLobbyOwnerCache = null;
             }
+
+            CurrentLobbyPanel.SetActive(currentLobby.IsValid());
         }
 
         // UI Button Methods
@@ -445,6 +446,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager.DeclineLobbyInvite();
         }
 
+        public override void OnInviteButtonClicked(EpicAccountId UserId)
+        {
+            LobbyInviteButtonOnClick(UserId);
+        }
+
         public void LobbyInviteButtonOnClick(EpicAccountId userId)
         {
             // Set Current chat
@@ -464,8 +470,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogError("UIPeer2PeerMenu (ChatButtonOnClick): Friend not found in cached data.");
+                Debug.LogError("UILobbiesMenu (LobbyInviteButtonOnClick): Friend not found in cached data.");
             }
+        }
+
+        public override bool IsInviteActive()
+        {
+            return IsCurrentLobbyValid();
         }
 
         public bool IsCurrentLobbyValid()
@@ -542,17 +553,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Search UI
-        public void SearchByLevelAttributeEnterPressed(string searchAttributeValue)
+        public void SearchByLevelAttributeEndEdit(string searchAttributeValue)
         {
             LobbyManager.SearchByAttribute("LEVEL", searchAttributeValue, UIUpateSearchResults);
         }
 
-        public void SearchByBucketAttributeEnterPressed(string searchAttributeValue)
+        public void SearchByBucketAttributeEndEdit(string searchAttributeValue)
         {
             LobbyManager.SearchByAttribute("bucket", searchAttributeValue, UIUpateSearchResults);
         }
 
-        public void SearchByLobbyIdEnterPressed(string searchString)
+        public void SearchByLobbyIdEndEdit(string searchString)
         {
             LobbyManager.SearchByLobbyId(searchString, UIUpateSearchResults);
         }

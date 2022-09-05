@@ -56,6 +56,17 @@
 
         {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
+		
+		{"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
+		
+		{"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/license.txt.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Linux/"},
+		{"src":"Assets/Plugins/Linux/*.so", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.so.meta", "dest": "Runtime/Linux/"},
+		{"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.cs.meta", "dest": "Runtime/Linux/"},
 
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
@@ -64,6 +75,10 @@
 
         {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
+		
+		{"src":"Assets/Plugins/Source/Editor/Linux.meta", "dest": "Editor/"},
+		{"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Source/Editor/Linux/*.cs.meta", "dest": "Editor/Linux/"},
 
         {"src":"Assets/link.xml", "dest": "Editor/"},
         {"src":"Assets/link.xml.meta", "dest": "Editor/"},

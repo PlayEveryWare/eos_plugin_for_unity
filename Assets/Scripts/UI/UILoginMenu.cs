@@ -36,10 +36,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-#if UNITY_PS5
-using Unity.PSN.PS5.Auth;
-#endif
-
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -80,22 +76,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
 
-#if UNITY_PS4
-        //private bool socialOverlayActivated = false;
-#endif
-
         private void Awake()
         {
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
 #if UNITY_EDITOR
             loginType = LoginCredentialType.AccountPortal; // Default in editor
-#elif UNITY_SWITCH
-            loginType = LoginCredentialType.PersistentAuth; // Default on switch
-#elif UNITY_PS4 || UNITY_PS5 || UNITY_GAMECORE
-            loginType = LoginCredentialType.ExternalAuth; // Default on other consoles
 #else
             loginType = LoginCredentialType.AccountPortal; // Default on other platforms
+#endif
+
+#if UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX
+            idInputField.InputField.text = "localhost:7777"; //default on pc
 #endif
         }
 
@@ -122,22 +114,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 case 1:
                     loginType = LoginCredentialType.AccountPortal;
-                    ConfigureUIForAccountPortalLogin();
                     break;
                 case 2:
                     loginType = LoginCredentialType.PersistentAuth;
-                    ConfigureUIForPersistentLogin();
                     break;
                 case 3:
                     loginType = LoginCredentialType.ExternalAuth;
-                    ConfigureUIForExternalAuth();
                     break;
                 case 0:
                 default:
                     loginType = LoginCredentialType.Developer;
-                    ConfigureUIForDevAuthLogin();
                     break;
             }
+
+            ConfigureUIForLogin();
         }
 
         public void Start()
@@ -266,42 +256,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 system.SetSelectedGameObject(selectedGameObject);
             }
-
-#if UNITY_PS4 || UNITY_PS5
-            /* // Overlay handles 'R3', input is always sent
-            if (Input.GetButtonDown("R3"))
-            {
-                Debug.Log("UILoginMenu (Update): R3 pressed, socialOverlayActivated=" + socialOverlayActivated);
-                if(socialOverlayActivated)
-                {
-                    // Show overlay
-                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().ShowFriendsOverlay(null);
-                }
-                else
-                {
-                    // Hide Overlay
-                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().HideFriendsOverlay(null);
-                }
-                socialOverlayActivated = !socialOverlayActivated;
-            }
-            */
-
-            // Disable game input if Overlay is visible and has exclusive input
-            if (EventSystem.current != null && EventSystem.current.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-            {
-                if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-                {
-                    Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
-                    EventSystem.current.sendNavigationEvents = false;
-                    return;
-                }
-                else
-                {
-                    Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
-                    EventSystem.current.sendNavigationEvents = true;
-                }
-            }
-#endif
 
             // Controller: Detect if nothing is selected and controller input detected, and set default
             bool nothingSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null;
@@ -601,31 +555,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (loginType == LoginCredentialType.ExternalAuth)
             {
-#if (UNITY_PS4 || UNITY_PS5)// && !UNITY_EDITOR
-                EOSPSNManager psnManager = EOSManager.Instance.GetOrCreateManager<EOSPSNManager>();
-
-                ///TOO(mendsley): Use activating controller index here
-                psnManager.StartLoginWithPSN(0, StartLoginWithLoginTypeAndTokenCallback);
-#elif UNITY_SWITCH
-                EOSNintendoManager nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
-
-                ///TODO(mendsley): Use activating controller's user here
-                nn.account.UserHandle userHandle = new nn.account.UserHandle();
-
-                if (nintendoManager.GetPreselectedUser(ref userHandle))
-                {
-                    nintendoManager.StartLoginWithNSA(userHandle, StartLoginWithLoginTypeAndTokenCallback);
-                }
-                else
-                {
-                    Debug.LogError("Failed to get a Preselected User");
-                }
-#elif UNITY_GAMECORE
-                EOSXBLManager xblManager = EOSManager.Instance.GetOrCreateManager<EOSXBLManager>();
-                xblManager.StartLoginWithXbl(StartLoginWithLoginTypeAndTokenCallback);
-#else
                 Debug.LogError("ExternalAuth is not implemented on this platform");
-#endif
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
@@ -636,15 +566,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
                     {
                         print("Failed to login with Persistent token [" + callbackInfo.ResultCode + "]");
-#if UNITY_SWITCH
-                        // On switch: Fallback to AccountPortal login flow
-                        loginType = LoginCredentialType.AccountPortal;
-                        ConfigureUIForAccountPortalLogin();
-#else
-                        // Other platforms: Fallback to DevAuth login flow
                         loginType = LoginCredentialType.Developer;
-                        ConfigureUIForDevAuthLogin();
-#endif
+                        ConfigureUIForLogin();
                     }
                     else
                     {
@@ -684,6 +607,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             {
                                 ConfigureUIForLogout();
                             }
+                            else
+                            {
+                                // For any other error, re-enable the login procedure
+                                ConfigureUIForLogin();
+                            }
                         });
                     });
                 }
@@ -716,11 +644,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 print("Trying Auth link with external account: " + loginCallbackInfo.ContinuanceToken);
                 EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, 
-#if UNITY_SWITCH
-                                                                                LinkAccountFlags.NintendoNsaId,
-#else
                                                                                 LinkAccountFlags.NoFlags,
-#endif
                                                                                 (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
                     StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
@@ -742,6 +666,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnExitButtonClick()
         {
             Application.Quit();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.ExitPlaymode();
+#endif
         }
     }
 }

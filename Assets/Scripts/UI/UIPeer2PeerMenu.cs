@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPeer2PeerMenu : MonoBehaviour
+    public class UIPeer2PeerMenu : MonoBehaviour, ISampleSceneUI
     {
         [Header("Peer 2 Peer UI")]
         public GameObject Peer2PeerUIParent;
@@ -68,12 +68,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
 
-            ChatMessageInput.InputField.onEndEdit.AddListener(EnterPressedToSend);
-
             CloseChatOnClick();
         }
 
-        private void EnterPressedToSend(string arg0)
+        public void ChatMessageEndEdit(string arg0)
         {
             SendOnClick();
         }

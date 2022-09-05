@@ -213,6 +213,7 @@ namespace PlayEveryWare.EpicOnlineServices
             static public void LoadDelegatesWithEOSBindingAPI()
             {
 #if EOS_DYNAMIC_BINDINGS
+                print($"Loading EOS binary {EOSBinaryName}");
                 var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {

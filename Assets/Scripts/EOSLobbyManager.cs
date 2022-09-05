@@ -1754,33 +1754,44 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void SubscribeToMemberUpdates(OnMemberUpdateCallback Callback)
+        /// <summary>
+        /// Use to access functionality of [EOS_Lobby_AddNotifyLobbyMemberUpdateReceived](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_AddNotifyLobbyMemberUpdateReceived/index.html)
+        /// </summary>
+        /// <param name="Callback">Callback to receive notification when lobby member update is received</param>
+        public void AddNotifyMemberUpdateReceived(OnMemberUpdateCallback Callback)
         {
             MemberUpdateCallbacks.Add(Callback);
         }
 
-        public void UnsubscribeFromMemberUpdates(OnMemberUpdateCallback Callback)
+        public void RemoveNotifyMemberUpdate(OnMemberUpdateCallback Callback)
         {
             MemberUpdateCallbacks.Remove(Callback);
         }
 
-        public void SubscribeToLobbyChanges(Action Callback)
+        /// <summary>
+        /// Subscribe to event callback for when the user has changed lobbies
+        /// </summary>
+        /// <param name="Callback">Callback to receive notification when lobby is changed</param>
+        public void AddNotifyLobbyChange(Action Callback)
         {
             LobbyChangeCallbacks.Add(Callback);
         }
 
-        public void UnsubscribeFromLobbyChanges(Action Callback)
+        public void RemoveNotifyLobbyChange(Action Callback)
         {
             LobbyChangeCallbacks.Remove(Callback);
         }
 
-
-        public void SubscribeToLobbyUpdates(Action Callback)
+        /// <summary>
+        /// Subscribe to event callback for when the current lobby data has been updated
+        /// </summary>
+        /// <param name="Callback">Callback to receive notification when lobby data is updated</param>
+        public void AddNotifyLobbyUpdate(Action Callback)
         {
             LobbyUpdateCallbacks.Add(Callback);
         }
 
-        public void UnsubscribeFromLobbyUpdates(Action Callback)
+        public void RemoveNotifyLobbyUpdate(Action Callback)
         {
             LobbyUpdateCallbacks.Remove(Callback);
         }

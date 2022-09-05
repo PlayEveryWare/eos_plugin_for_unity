@@ -104,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
                 var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-                string tmpDir = FileUtils.GenerateTemporaryBuildPath();
+                string tmpDir = PackageFileUtils.GenerateTemporaryBuildPath();
 
                 UnzipFile(pathToZipFile, tmpDir);
 
@@ -122,15 +122,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     var entity = toConvert[i];
                     EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity), (float)i / toConvert.Count);
-                    FileUtils.Dos2UnixLineEndings(entity);
+                    PackageFileUtils.Dos2UnixLineEndings(entity);
                 }
                 EditorUtility.ClearProgressBar();
 
-                var fileResults = FileUtils.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
+                var fileResults = PackageFileUtils.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
 
                 // This should be the correct directory
-                var projectDir = FileUtils.GetProjectPath();
-                FileUtils.CopyFilesToDirectory(projectDir, fileResults);
+                var projectDir = PackageFileUtils.GetProjectPath();
+                PackageFileUtils.CopyFilesToDirectory(projectDir, fileResults);
 
             }
         }

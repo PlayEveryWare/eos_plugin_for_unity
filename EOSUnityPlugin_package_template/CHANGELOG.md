@@ -8,6 +8,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.1.0] - 2022-08-30
+
+### Added
+- Preliminary Linux platform support
+- Settings UI for sample debug log to change log size, search for strings, and change EOS logging levels
+- Sample for Custom Invites Interface
+- Warning in EOS config editor when encryption key is invalid
+- Button in EOS config editor to generate valid encryption key
+- Compiler and runtime warning when running on unsupported platform
+- JoinViaPresence option in Sessions sample
+
+### Changed
+- Rebuilt sample UI to scale with aspect ratio
+- Changed event binding method for some sample UI to make it easier to follow code
+- Reduced height and font size of sample debug log and increased scroll wheel sensitivity
+
+### Removed
+- Plugin packaging tool from packaged plugin
+
+### Fixed
+- Broken UI when resizing sample window
+- Scrolling behavior of sample debug log
+- UI behavior around mobile screen cutouts
+- Issue with parsing uint64_t from empty string in Windows native config code
+- Windows x86 logging crash
+- Manual achievement unlock
+- EOS config save path issue that occurred in newer versions of Unity
+- Error in Sessions sample when joining session with presence enabled
+- Shutting down EOS when play ends in editor
+- Login button enables itself correctly after failed login
+- Event listener removal when logging out of Achievements sample
+- Title storage sample file query
+- Updated obsolete UnityWebRequest use in Achievements sample
+
 ## [2.0.2] - 2022-08-15
 
 ### Fixed
@@ -16,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.1] - 2022-07-29
 
 ### Added
-- (sample) peer-to-peer sample with eac suppport
+- (sample) peer-to-peer sample with eac support
 
 ### Changed
 - renamed EOSEACLobbyTestManager to EOSEACLobbyManager
@@ -64,11 +98,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Added workaround code to ensure voice input/output devices work correctly for RTC.
-- Achivement scene shows achievements properly.
+- Achievement scene shows achievements properly.
 - Changed strtoull to strtoul to match int type.
 - DLL binding change in Windows.
 - Checks to ensure the EOS shutdown properly to prevent freezing in the editor when unloading the DLL.
-- Switched if check that was commented out incorreclty in EOSLobbyManager.
+- Switched if check that was commented out incorrectly in EOSLobbyManager.
 - Windows workaround for loading EOS bindings so the playing in editor compiles.
 - Return correct auth token from GetUserAuthTokenForAccountId.
 - Disable the current event system input module when the overlay is up to prevent touch input from going through the overlay.
@@ -133,7 +167,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Certain unused variables.
 - An error that shows on some platforms about the str being a bad format.
 - Removed code to turn off logging to mitigate reported potential hangs on EOS platform shutdown.
-- Removed passing of values that are no longer needed for contruction of AddNotifyRTCRoomConnectionChangedOptions.
+- Removed passing of values that are no longer needed for construction of AddNotifyRTCRoomConnectionChangedOptions.
 - Changed EOSManager so it can use flags from JSON file.
 - Removed support for old EOS_UI_ReportKeyEvent.
 - Removed input system dependency.
@@ -153,7 +187,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed UILoginMenu to use method for checking if EOS Overlay is open with exclusive input.
 - Handled loading and calling 'init' when the steam dll has already been loaded.
 - Changed how some strings are converted from UTF-16 to UTF-8, and how std::filesystem::path is converted.
-- Handled case where the steam dll name isn't overriden but the found path doesn't have the steam DLL by assuming the steam dll is either steam_api.dll or steam_api64.dll.
+- Handled case where the steam dll name isn't overridden but the found path doesn't have the steam DLL by assuming the steam dll is either steam_api.dll or steam_api64.dll.
 - Moved overlay initialization into EOSManager.Init.
 - Allowed starting up of Steam SDK from the Native code so that EOS can work with Steam when configured to be managed by the application. This allows for steam friends to show in the EOS friend's list.
 - Fixed controller navigation on login menu when changing login types.

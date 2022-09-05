@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public EOSEACLobbyManager()
         {
-            Epic.OnlineServices.Logging.LoggingInterface.SetLogLevel(LogCategory.AntiCheat, LogLevel.Verbose);
+            EOSManager.Instance.SetLogLevel(LogCategory.AntiCheat, LogLevel.Verbose);
 
             LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
             AntiCheatManager = EOSManager.Instance.GetOrCreateManager<EOSAntiCheatClientManager>();
@@ -62,12 +62,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (AntiCheatManager.IsAntiCheatAvailable())
             {
-                LobbyManager.SubscribeToLobbyChanges(OnLobbyChanged);
-                LobbyManager.SubscribeToLobbyUpdates(OnLobbyUpdated);
-                LobbyManager.SubscribeToMemberUpdates(OnMemberUpdated);
+                LobbyManager.AddNotifyLobbyChange(OnLobbyChanged);
+                LobbyManager.AddNotifyLobbyUpdate(OnLobbyUpdated);
+                LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdated);
 
-                AntiCheatManager.SubscribeToMessageToPeer(OnMessageToPeer);
-                AntiCheatManager.SubscribeToPeerActionRequired(OnPeerActionRequired);
+                AntiCheatManager.AddNotifyToMessageToPeer(OnMessageToPeer);
+                AntiCheatManager.AddNotifyPeerActionRequired(OnPeerActionRequired);
             }
         }
 
