@@ -1052,8 +1052,39 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
             //-------------------------------------------------------------------------
+#if UNITY_IOS
             [DllImport("__Internal")]
-            static private extern IntPtr OverlayLoginUtility_create_context_provider();
+            static private extern IntPtr LoginUtility_get_app_controller();
+
+            IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
+            {
+                IOSLoginOptions modifiedLoginOptions = new IOSLoginOptions();
+                modifiedLoginOptions.ScopeFlags = loginOptions.ScopeFlags;
+                
+                var credentials = new IOSCredentials();
+
+                credentials.Token = loginOptions.Credentials.Value.Token;
+                credentials.Id = loginOptions.Credentials.Value.Id;
+                credentials.Type = loginOptions.Credentials.Value.Type;
+                credentials.ExternalType = loginOptions.Credentials.Value.ExternalType;
+
+                var systemAuthCredentialsOptions = new IOSCredentialsSystemAuthCredentialsOptions();
+
+                systemAuthCredentialsOptions.PresentationContextProviding = LoginUtility_get_app_controller();
+                credentials.SystemAuthCredentialsOptions = systemAuthCredentialsOptions;
+
+                modifiedLoginOptions.Credentials = credentials;
+
+                //print(loginOptions.ScopeFlags.ToString());
+                //print(credentials.Id);
+                //print(credentials.Token);
+                //print(credentials.Type.ToString());
+                //print(credentials.ExternalType.ToString());
+                //print("Credential Options : " + credentials.SystemAuthCredentialsOptions);
+
+                return modifiedLoginOptions;
+            }
+#endif
             //-------------------------------------------------------------------------
             /// <summary>
             /// Start an EOS Auth Login with the passed in LoginOptions. Call this instead of the method on EOSAuthInterface to ensure that 
@@ -1081,28 +1112,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 print("StartLoginWithLoginTypeAndToken");
 
 #if UNITY_IOS
-                IOSLoginOptions modifiedLoginOptions = new IOSLoginOptions();
-                modifiedLoginOptions.ScopeFlags = loginOptions.ScopeFlags;
-                print(loginOptions.ScopeFlags.ToString());
-                var credentials = new IOSCredentials();
-
-                credentials.Token = loginOptions.Credentials.Value.Token;
-                credentials.Id = loginOptions.Credentials.Value.Id;
-                credentials.Type = loginOptions.Credentials.Value.Type;
-                credentials.ExternalType = loginOptions.Credentials.Value.ExternalType;
-              
-                print("ID : " + credentials.Id); 
-                print("Token : " + credentials.Token);
-                print("Type : " + credentials.Type.ToString());
-                print("External Type : " + credentials.ExternalType.ToString());
-
-                var systemAuthCredentialsOptions = new IOSCredentialsSystemAuthCredentialsOptions();
-                systemAuthCredentialsOptions.PresentationContextProviding = OverlayLoginUtility_create_context_provider();
-                credentials.SystemAuthCredentialsOptions = systemAuthCredentialsOptions;
-                print("Credential Options : " + credentials.SystemAuthCredentialsOptions);
-
-                modifiedLoginOptions.Credentials = credentials;
-
+                IOSLoginOptions modifiedLoginOptions = MakeIOSLoginOptionsFromDefualt(loginOptions);
                 EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 #else
                 EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
