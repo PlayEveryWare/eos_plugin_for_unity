@@ -194,8 +194,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //-------------------------------------------------------------------------
         /// <summary>
-        /// On iOS, this method handles looking up where the RTC options are.
-        /// This method assumes that the IEOSCreateOptions passed in is the right type.
+        /// 
         /// </summary>
         /// <param name="createOptions"></param>
         public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)

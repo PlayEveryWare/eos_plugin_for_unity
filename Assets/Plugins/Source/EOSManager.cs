@@ -1075,13 +1075,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 modifiedLoginOptions.Credentials = credentials;
 
-                //print(loginOptions.ScopeFlags.ToString());
-                //print(credentials.Id);
-                //print(credentials.Token);
-                //print(credentials.Type.ToString());
-                //print(credentials.ExternalType.ToString());
-                //print("Credential Options : " + credentials.SystemAuthCredentialsOptions);
-
                 return modifiedLoginOptions;
             }
 #endif
