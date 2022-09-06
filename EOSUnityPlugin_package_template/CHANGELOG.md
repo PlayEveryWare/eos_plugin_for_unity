@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.1.1] - 2022-09-06
+
+### Fixed
+- Updated GfxPluginNativeRender dll with latest changes
+
 ## [2.1.0] - 2022-08-30
 
 ### Added
