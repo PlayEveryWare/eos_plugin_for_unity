@@ -106,22 +106,8 @@ namespace PlayEveryWare.EpicOnlineServices
         EOSAndroidConfig GetEOSAndroidConfig()
         {
             string eosFinalConfigPath = GetPathToEOSConfig();
-            using (var request = UnityEngine.Networking.UnityWebRequest.Get(eosFinalConfigPath))
-            {
-                request.timeout = 2; //seconds till timeout
-                request.SendWebRequest();
-
-                //Wait till webRequest completed
-                while (!request.isDone) { }
-
-                if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
-                {
-                    print("Requesting " + eosFinalConfigPath + ", please make sure it exists and is a valid config");
-                    throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
-                }
-
-                androidConfig = JsonUtility.FromJson<EOSAndroidConfig>(request.downloadHandler.text);
-            }
+            var configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
+            androidConfig = JsonUtility.FromJson<EOSAndroidConfig>(configDataAsString);
             return androidConfig;
         }
 
