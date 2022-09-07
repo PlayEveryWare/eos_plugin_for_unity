@@ -446,7 +446,8 @@ _WIN32 || _WIN64
 
             if (!mainEOSConfigFile.currentEOSConfig.IsEncryptionKeyValid())
             {
-                EditorGUILayout.HelpBox("Encryption key must be 64 hex characters (0-9,A-F). Current length is " + mainEOSConfigFile.currentEOSConfig.encryptionKey.Length + ".", MessageType.Error);
+                int keyLength = mainEOSConfigFile.currentEOSConfig.encryptionKey?.Length ?? 0;
+                EditorGUILayout.HelpBox("Encryption key must be 64 hex characters (0-9,A-F). Current length is " + keyLength + ".", MessageType.Error);
             }
 
             AssigningFlagTextField("Platform Flags (Seperated by '|')", 190, ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags);
