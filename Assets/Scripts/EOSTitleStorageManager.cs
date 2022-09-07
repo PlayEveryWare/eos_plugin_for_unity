@@ -101,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 utf8StringTags[i] = tags[i];
             }
-            QueryFileList(utf8StringTags, QueryListCallback);
+            QueryFileList(utf8StringTags, QueryFileListCompleted);
         }
 
         public void QueryFileList(Utf8String[] tags, OnQueryFileListCallback QueryFileListCompleted)

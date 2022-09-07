@@ -289,7 +289,7 @@ _WIN32 || _WIN64
                 EditorGUILayout.BeginHorizontal();
                 var newValueAsString = EditorGUILayout.TextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
 
-                if (GUILayout.Button("clear"))
+                if (GUILayout.Button("Clear"))
                 {
                     value = null;
                 }
@@ -427,17 +427,27 @@ _WIN32 || _WIN64
             GUILayout.Label("Default Client Credentials", EditorStyles.boldLabel);
             AssigningTextField("Client ID", ref mainEOSConfigFile.currentEOSConfig.clientID);
             AssigningTextField("Client Secret", ref mainEOSConfigFile.currentEOSConfig.clientSecret);
+            GUI.SetNextControlName("KeyText");
             AssigningTextField("Encryption Key", ref mainEOSConfigFile.currentEOSConfig.encryptionKey);
-
-            var keyLength = mainEOSConfigFile.currentEOSConfig.encryptionKey.Length;
-            if (keyLength != 64)
+            GUI.SetNextControlName("GenerateButton");
+            if (GUILayout.Button("Generate"))
             {
-                EditorGUILayout.HelpBox("Encryption key needs to be 64 characters in length. Current length is " + keyLength + ".", MessageType.Error);
+                //generate random 32-byte hex sequence
+                var rng = new System.Random(SystemInfo.deviceUniqueIdentifier.GetHashCode() * (int)(EditorApplication.timeSinceStartup * 1000));
+                var keyBytes = new byte[32];
+                rng.NextBytes(keyBytes);
+                mainEOSConfigFile.currentEOSConfig.encryptionKey = BitConverter.ToString(keyBytes).Replace("-", "");
+                //unfocus key input field so the new key is shown
+                if (GUI.GetNameOfFocusedControl() == "KeyText")
+                {
+                    GUI.FocusControl("GenerateButton");
+                }
             }
 
-            if (EncryptionKeyRegex.Match(mainEOSConfigFile.currentEOSConfig.encryptionKey).Success)
+            if (!mainEOSConfigFile.currentEOSConfig.IsEncryptionKeyValid())
             {
-                EditorGUILayout.HelpBox("Encryption key must only contain hex characters (0-9,A-F).", MessageType.Error);
+                int keyLength = mainEOSConfigFile.currentEOSConfig.encryptionKey?.Length ?? 0;
+                EditorGUILayout.HelpBox("Encryption key must be 64 hex characters (0-9,A-F). Current length is " + keyLength + ".", MessageType.Error);
             }
 
             AssigningFlagTextField("Platform Flags (Seperated by '|')", 190, ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags);

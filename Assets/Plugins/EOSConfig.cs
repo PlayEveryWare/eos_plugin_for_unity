@@ -24,6 +24,7 @@ using Epic.OnlineServices.Platform;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -83,6 +84,22 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value><c>HACK: send force send input without delay</c>If true, the native plugin will always send input received directly to the SDK. If set to false, the plugin will attempt to delay the input to mitigate CPU spikes caused by spamming the SDK </value>
         public bool hackForceSendInputDirectlyToSDK;
 
+        public static Regex InvalidEncryptionKeyRegex;
+        static EOSConfig()
+        {
+            InvalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
+        }
+
+        public static bool IsEncryptionKeyValid(string key)
+        {
+            return
+                //key not null
+                key != null &&
+                //key is 64 characters
+                key.Length == 64 &&
+                //key is all hex characters
+                !InvalidEncryptionKeyRegex.Match(key).Success;
+        }
 
         //-------------------------------------------------------------------------
         //TODO: Move this to a shared place
@@ -334,6 +351,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 value = defaultValue;
             }
             return value;
+        }
+
+        //-------------------------------------------------------------------------
+        public bool IsEncryptionKeyValid()
+        {
+            return IsEncryptionKeyValid(encryptionKey);
         }
     }
 }

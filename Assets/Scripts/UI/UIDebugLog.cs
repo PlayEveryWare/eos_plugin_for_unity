@@ -43,6 +43,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private bool _dirty = false;
         private string logCache = string.Empty;
         private string textFilter = string.Empty;
+        //private bool userDrag = false;
+        private bool userScroll = false;
 
         private float deltaTime_FPS;
         public Text FPSValue;
@@ -75,6 +77,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             BuildLogLevelMenu();
             ignoreLogLevelChange = false;
             LogLevelMenu.SetActive(false);
+        }
+
+        public void OnScollDragBegin()
+        {
+            //userDrag = true;
+            userScroll = true;
+        }
+
+        public void OnScollDragEnd()
+        {
+            //userDrag = false;
+            userScroll = ScrollRect.velocity.y != 0 && ScrollRect.verticalNormalizedPosition > 0;
+        }
+
+        public void OnScrollValueChanged(Vector2 value)
+        {
+            if (userScroll && value.y <= 0)
+            {
+                userScroll = false;
+            }
         }
 
         private void BuildLogLevelMenu()
@@ -244,6 +266,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ToggleExpand()
         {
+            bool shouldScrollToBottom = !userScroll && ScrollRect.verticalNormalizedPosition <= 0.000001f;
             expanded = !expanded;
 
             if (expanded)
@@ -256,6 +279,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 DebugLogContainer.anchorMax = initialAnchorMax;
                 DebugLogContainer.sizeDelta = initialSizeDelta;
             }
+
+            if (shouldScrollToBottom)
+            {
+                Invoke("ScrollToBottom", 0.1f);
+            }
         }
 
         public void ToggleLogVisibility()
@@ -267,15 +295,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Update()
         {
-            if (!DisableOnScreenLog)
+            if (!DisableOnScreenLog && _dirty)
             {
                 UIDebugLogText.text = GetLastEntries();
+                if (!userScroll)
+                {
+                    Invoke("ScrollToBottom", 0.1f);
+                }
             }
 
             // FPS
             deltaTime_FPS += (Time.deltaTime - deltaTime_FPS) * 0.1f;
             float fps = 1.0f / deltaTime_FPS;
             FPSValue.text = Mathf.Ceil(fps).ToString();
+        }
+
+        private void ScrollToBottom()
+        {
+            ScrollRect.verticalNormalizedPosition = 0;
         }
     }
 }

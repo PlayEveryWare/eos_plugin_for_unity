@@ -249,6 +249,16 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            /// <summary>
+            /// Check if encryption key is EOS config is a valid 32-byte hex string.
+            /// </summary>
+            /// <returns></returns>
+            public bool IsEncryptionKeyValid()
+            {
+                return GetLoadedEOSConfig().IsEncryptionKeyValid();
+            }
+
+            //-------------------------------------------------------------------------
             private bool HasShutdown()
             {
                 return s_state == EOSState.Shutdown;
@@ -370,9 +380,13 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                 configData.platformOptionsFlagsAsPlatformFlags();
 #endif
-                if (!string.IsNullOrEmpty(configData.encryptionKey))
+                if (configData.IsEncryptionKeyValid())
                 {
                     platformOptions.EncryptionKey = configData.encryptionKey;
+                }
+                else
+                {
+                    UnityEngine.Debug.LogError("EOS config data does not contain valid encryption key");
                 }
 
                 platformOptions.OverrideCountryCode = null;
@@ -1035,7 +1049,33 @@ namespace PlayEveryWare.EpicOnlineServices
                     callback.Invoke(connectLoginData);
                 }
             }
+            //-------------------------------------------------------------------------
+#if UNITY_IOS
+            [DllImport("__Internal")]
+            static private extern IntPtr LoginUtility_get_app_controller();
 
+            IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
+            {
+                IOSLoginOptions modifiedLoginOptions = new IOSLoginOptions();
+                modifiedLoginOptions.ScopeFlags = loginOptions.ScopeFlags;
+                
+                var credentials = new IOSCredentials();
+
+                credentials.Token = loginOptions.Credentials.Value.Token;
+                credentials.Id = loginOptions.Credentials.Value.Id;
+                credentials.Type = loginOptions.Credentials.Value.Type;
+                credentials.ExternalType = loginOptions.Credentials.Value.ExternalType;
+
+                var systemAuthCredentialsOptions = new IOSCredentialsSystemAuthCredentialsOptions();
+
+                systemAuthCredentialsOptions.PresentationContextProviding = LoginUtility_get_app_controller();
+                credentials.SystemAuthCredentialsOptions = systemAuthCredentialsOptions;
+
+                modifiedLoginOptions.Credentials = credentials;
+
+                return modifiedLoginOptions;
+            }
+#endif
             //-------------------------------------------------------------------------
             /// <summary>
             /// Start an EOS Auth Login with the passed in LoginOptions. Call this instead of the method on EOSAuthInterface to ensure that 
@@ -1062,8 +1102,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("StartLoginWithLoginTypeAndToken");
 
+#if UNITY_IOS
+                IOSLoginOptions modifiedLoginOptions = MakeIOSLoginOptionsFromDefualt(loginOptions);
+                EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
+#else
                 EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
-                    if(data.ResultCode == Result.Success)
+#endif
+                    print("LoginCallBackResult : " + data.ResultCode.ToString());
+                    if (data.ResultCode == Result.Success)
                     {
                         loggedInAccountIDs.Add(data.LocalUserId);
 

@@ -125,7 +125,8 @@ To get the EOS working, the plugin needs to know some specific things about your
     * [DeploymentID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=DeploymentId)
     * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientSecret)
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientId)
-    * EncryptionKey
+
+5) If you've already configured an encryption key in the EOS portal, enter it into the Encryption Key field. Otherwise, click the Generate button to make a random one.
    
 At this point, you are ready to start developing using the Epic Online Services Plugin for Unity!  Simply attach <code>EOSManager.cs (Script)</code> to a Unity object and it will intialize the plugin with the specified configuration in <code>OnAwake()</code>.
 

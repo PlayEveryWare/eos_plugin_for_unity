@@ -147,12 +147,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Use to access functionality of [EOS_AntiCheatClient_AddNotifyClientIntegrityViolated](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyClientIntegrityViolated/index.html)
         /// </summary>
         /// <param name="Callback">Callback to receive notification of client integriy violation (modification of program memory or protected files, etc.</param>
-        public void SubscribeToClientIntegrityViolated(OnClientIntegrityViolatedCallback Callback)
+        public void AddNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback Callback)
         {
             ClientIntegrityViolatedCallbacks.Add(Callback);
         }
 
-        public void UnsubscribeFromClientIntegrityViolated(OnClientIntegrityViolatedCallback Callback)
+        public void RemoveNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback Callback)
         {
             ClientIntegrityViolatedCallbacks.Remove(Callback);
         }
@@ -170,12 +170,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Use to access functionality of [EOS_AntiCheatClient_AddNotifyMessageToPeer](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyMessageToPeer/index.html)
         /// </summary>
         /// <param name="Callback">Callback to receive message data to send to peer</param>
-        public void SubscribeToMessageToPeer(OnMessageToPeerCallback Callback)
+        public void AddNotifyToMessageToPeer(OnMessageToPeerCallback Callback)
         {
             MessageToPeerCallbacks.Add(Callback);
         }
 
-        public void UnsubscribeFromMessageToPeer(OnMessageToPeerCallback Callback)
+        public void RemoveNotifyMessageToPeer(OnMessageToPeerCallback Callback)
         {
             MessageToPeerCallbacks.Remove(Callback);
         }
@@ -184,7 +184,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Wrapper for calling [EOS_AntiCheatClient_ReceiveMessageFromPeer]https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_ReceiveMessageFromPeer/index.html)
         /// </summary>
         /// <param name="PeerHandle"><c>IntPtr</c> referencing another player</param>
-        /// <param name="Data"><c>ArraySegment&lt;byte&gt;</c> previously received from <c>SubscribeToMessageToPeer</c> callback</param>
+        /// <param name="Data"><c>ArraySegment&lt;byte&gt;</c> previously received from <c>AddNotifyToMessageToPeer</c> callback</param>
         public void ReceiveMessageFromPeer(IntPtr PeerHandle, ArraySegment<byte> Data)
         {
             var options = new ReceiveMessageFromPeerOptions()
@@ -213,12 +213,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Use to access functionality of [EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged/index.html)
         /// </summary>
         /// <param name="Callback">Callback to receive notification when peer auth is complete</param>
-        public void SubscribeToPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback Callback)
+        public void AddNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback Callback)
         {
             PeerAuthStatusChangedCallbacks.Add(Callback);
         }
 
-        public void UnsubscribeFromPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback Callback)
+        public void RemoveNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback Callback)
         {
             PeerAuthStatusChangedCallbacks.Remove(Callback);
         }
@@ -236,12 +236,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// Use to access functionality of [EOS_AntiCheatClient_AddNotifyPeerActionRequired](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyPeerActionRequired/index.html)
         /// </summary>
         /// <param name="Callback">Callback to receive notification about action required for a peer (usually removal from the session)</param>
-        public void SubscribeToPeerActionRequired(OnPeerActionRequiredCallback Callback)
+        public void AddNotifyPeerActionRequired(OnPeerActionRequiredCallback Callback)
         {
             PeerActionRequiredCallbacks.Add(Callback);
         }
 
-        public void UnsubscribeFromPeerActionRequired(OnPeerActionRequiredCallback Callback)
+        public void RemoveNotifyPeerActionRequired(OnPeerActionRequiredCallback Callback)
         {
             PeerActionRequiredCallbacks.Remove(Callback);
         }

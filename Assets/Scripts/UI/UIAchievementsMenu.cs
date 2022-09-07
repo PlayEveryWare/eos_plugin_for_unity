@@ -76,14 +76,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
         List<AchievementData> achievementDataList;
 
-        public void Start()
+        private void Awake()
         {
             achievementDataList = new List<AchievementData>();
             achievementListItems = new List<UIAchievementButton>();
 
             HideMenu();
             achievementManager = EOSManager.Instance.GetOrCreateManager<EOSAchievementManager>();
+        }
+
+        private void OnEnable()
+        {
             achievementManager.AddNotifyAchievementDataUpdated(OnAchievementDataUpdated);
+        }
+
+        private void OnDisable()
+        {
+            achievementManager.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
         }
 
 #if ENABLE_INPUT_SYSTEM

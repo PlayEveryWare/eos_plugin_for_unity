@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 6462584374938625574}
   - component: {fileID: 7631497489262539960}
   m_Layer: 5
-  m_Name: 'publicTxt '
+  m_Name: 'permissionTxt '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1679,7 +1679,7 @@ MonoBehaviour:
   LevelTxt: {fileID: 6462584376239817141}
   PresenceTxt: {fileID: 6462584375505503732}
   JIPTxt: {fileID: 6462584374668270519}
-  PublicTxt: {fileID: 6462584374938625574}
+  PermissionTxt: {fileID: 6462584374938625574}
   InvitesTxt: {fileID: 6462584375869899046}
   JoinButton: {fileID: 5551348299345302978}
   StartButton: {fileID: 6462584376260460577}

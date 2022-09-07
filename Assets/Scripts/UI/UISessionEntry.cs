@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text LevelTxt;
         public Text PresenceTxt;
         public Text JIPTxt;
-        public Text PublicTxt;
+        public Text PermissionTxt;
         public Text InvitesTxt;
 
         public Button JoinButton;
