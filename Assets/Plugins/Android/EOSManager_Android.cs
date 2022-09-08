@@ -20,8 +20,6 @@
 * SOFTWARE.
 */
 
-// #define EOS_ANDROID_ENABLED
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -92,7 +90,6 @@ namespace PlayEveryWare.EpicOnlineServices
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
-            print("Register");
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
         }
 
@@ -114,7 +111,6 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public string GetTempDir()
         {
-            print("GetTempDir");
 
             return Application.temporaryCachePath;
         }
@@ -122,7 +118,6 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         static private void ConfigureAndroidActivity()
         {
-            print("ConfigureAndroidActivity");
 
             UnityEngine.Debug.Log("EOSAndroid: Getting activity context...");
             AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -149,7 +144,6 @@ namespace PlayEveryWare.EpicOnlineServices
         // TODO: Configure the internal and external directory
         public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
         {
-            print("ConfigureSystemInitOptions");
 
             EOSAndroidInitializeOptions initializeOptions = (initializeOptionsRef as EOSAndroidInitializeOptions);
 
@@ -167,7 +161,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (GetEOSAndroidConfig() != null)
             {
-                print("GetEOSAndroidConfig() is not null");
                 if (initializeOptions.OverrideThreadAffinity.HasValue)
                 {
                     var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
@@ -185,7 +178,6 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public IEOSCreateOptions CreateSystemPlatformOption()
         {
-            print("CreateSystemPlatformOption");
 
             return new EOSAndroidOptions();
         }
@@ -193,7 +185,6 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
         {
-            print("ConfigureSystemPlatformCreateOptions");
             var rtcOptions = new RTCOptions();
 
 
@@ -206,21 +197,18 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         private void InitailizeOverlaySupport()
         {
-            print("InitailizeOverlaySupport");
 
         }
 
         //-------------------------------------------------------------------------
         public void AddPluginSearchPaths(ref List<string> pluginPaths)
         {
-            print("AddPluginSearchPaths");
 
         }
 
         //-------------------------------------------------------------------------
         public string GetDynamicLibraryExtension()
         {
-            print("GetDynamicLibraryExtension");
 
             return ".so";
         }
@@ -228,13 +216,11 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public void LoadDelegatesWithEOSBindingAPI()
         {
-            print("LoadDelegatesWithEOSBindingAPI");
 
         }
 
         public IEOSInitializeOptions CreateSystemInitOptions()
         {
-            print("CreateSystemInitOptions");
 
             return new EOSAndroidInitializeOptions();
         }
@@ -242,34 +228,29 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public Result InitializePlatformInterface(IEOSInitializeOptions options)
         {
-            print("InitializePlatformInterface");
 
             return PlatformInterface.Initialize(ref (options as EOSAndroidInitializeOptions).options);
         }
 
         public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
         {
-            print("CreatePlatformInterface");
 
             return PlatformInterface.Create(ref (platformOptions as EOSAndroidOptions).options);
         }
 
         public void InitializeOverlay(IEOSCoroutineOwner owner)
         {
-            print("InitializeOverlay");
 
         }
 
         //-------------------------------------------------------------------------
         public void RegisterForPlatformNotifications()
         {
-            print("RegisterForPlatformNotifications");
 
         }
 
         public bool IsApplicationConstrainedWhenOutOfFocus()
         {
-            print("IsApplicationConstrainedWhenOutOfFocus");
 
             // TODO: Need to implement this for Android
             return false;
