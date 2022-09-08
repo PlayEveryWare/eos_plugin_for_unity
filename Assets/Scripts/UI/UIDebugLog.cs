@@ -37,6 +37,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RectTransform DebugLogContainer;
         public Text UIDebugLogText;
         public ScrollRect ScrollRect;
+        public RectTransform OptionsBar;
+        public LayoutElement DebugLogLayout;
 
         private Queue<string> logCacheList = new Queue<string>();
 
@@ -54,8 +56,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject[] OptionElements;
         private bool optionsVisible;
 
-        private Vector2 initialAnchorMax;
-        private Vector2 initialSizeDelta;
+        private float initialFlexHeight;
+        private bool visible;
         private bool expanded;
 
         [Header("Log Level Menu")]
@@ -68,9 +70,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            initialAnchorMax = DebugLogContainer.anchorMax;
-            initialSizeDelta = DebugLogContainer.sizeDelta;
+            initialFlexHeight = DebugLogLayout.flexibleHeight;
             expanded = false;
+            visible = true;
 
             ignoreLogLevelChange = true;
             logLevelMenuItems = new List<UIDebugLogLevelMenuItem>();
@@ -269,16 +271,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             bool shouldScrollToBottom = !userScroll && ScrollRect.verticalNormalizedPosition <= 0.000001f;
             expanded = !expanded;
 
-            if (expanded)
+            if (!visible)
             {
-                DebugLogContainer.anchorMax = new Vector2(initialAnchorMax.x, 1);
-                DebugLogContainer.sizeDelta = new Vector2(DebugLogContainer.sizeDelta.x, 0);
+                ToggleLogVisibility();
             }
-            else
-            {
-                DebugLogContainer.anchorMax = initialAnchorMax;
-                DebugLogContainer.sizeDelta = initialSizeDelta;
-            }
+
+            DemoSceneContainer.SetVisible(!expanded);
+
+            float optionsPivotY = expanded ? 1 : 0;
+            OptionsBar.pivot = new Vector2(OptionsBar.pivot.x, optionsPivotY);
 
             if (shouldScrollToBottom)
             {
@@ -288,9 +289,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ToggleLogVisibility()
         {
-            bool newVisibility = !ScrollRect.gameObject.activeSelf;
-            ScrollRect.gameObject.SetActive(newVisibility);
-            DemoSceneContainer?.SetFullscreen(!newVisibility);
+            visible = !visible;
+            DebugLogLayout.flexibleHeight = visible ? initialFlexHeight : 0;
         }
 
         private void Update()
