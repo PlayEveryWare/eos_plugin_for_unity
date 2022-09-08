@@ -111,10 +111,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 #endif
-        private void OnDestroy()
-        {
-            achievementManager.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
-        }
 
         public void ShowMenu()
         {
