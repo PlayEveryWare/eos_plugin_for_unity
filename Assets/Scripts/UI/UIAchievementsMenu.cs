@@ -173,7 +173,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Achievements
-        private void OnAchievementDataUpdated()
+        private async void OnAchievementDataUpdated()
         {
             foreach (var item in achievementListItems)
             {
@@ -219,10 +219,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     newButton.gameObject.SetActive(true);
                     newButton.index = i;
                     bool unlocked = achievementData.PlayerData.HasValue && achievementData.PlayerData.Value.Progress >= 1;
-                    Texture2D iconTex = unlocked ?
-                        achievementManager.GetAchievementUnlockedIconTexture(achievementData.Definition.AchievementId)
-                        : achievementManager.GetAchievementLockedIconTexture(achievementData.Definition.AchievementId);
+                    Texture2D iconTex = null;
+                    int iconGiveupFrame = Time.frameCount + 120;
+                    while (iconTex == null)
+                    {
+                        iconTex = unlocked ?
+                           achievementManager.GetAchievementUnlockedIconTexture(achievementData.Definition.AchievementId)
+                           : achievementManager.GetAchievementLockedIconTexture(achievementData.Definition.AchievementId);
+                        await System.Threading.Tasks.Task.Yield();
 
+                        if (Time.frameCount > iconGiveupFrame)
+                        {
+                            UnityEngine.Debug.LogWarning("Timeout : Failed to get icon");
+                            break;
+                        }
+                    }
                     newButton.SetIconTexture(iconTex);
                     i += 1;
                     achievementListItems.Add(newButton);
