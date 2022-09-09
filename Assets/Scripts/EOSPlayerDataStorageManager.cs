@@ -573,7 +573,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //-------------------------------------------------------------------------
         private void OnFileListRetrieved(ref QueryFileListCallbackInfo data)
         {
-            if (data.ResultCode != Result.Success)
+            if (data.ResultCode != Result.Success && data.ResultCode != Result.NotFound)
             {
                 Debug.LogErrorFormat("[EOS SDK] Player data storage: file list retrieval error: {0}", data.ResultCode);
                 return;
