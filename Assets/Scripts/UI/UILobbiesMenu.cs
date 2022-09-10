@@ -33,6 +33,7 @@ using Epic.OnlineServices.Platform;
 using Epic.OnlineServices.Lobby;
 
 using PlayEveryWare.EpicOnlineServices;
+using UnityEngine.Android;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -93,6 +94,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         private EOSEACLobbyManager AntiCheatLobbyManager;
 
+#if UNITY_ANDROID && !UNITY_EDITOR && EOS_ANDROID_ENABLED//TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
+        const bool ONANDROIDPLATFORM = true;
+#else
+        const bool ONANDROIDPLATFORM = false;
+#endif
+
         public void Awake()
         {
             // Hide Invite Pop-up (Default)
@@ -114,6 +121,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdate);
             CurrentLobbyPanel.SetActive(false);
+
+            if (ONANDROIDPLATFORM){
+#pragma warning disable CS0162 // Unreachable code when not in Android, but findable with intellisense
+                if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+                {
+                    //TODO call a popup explaining that mic permissions are needed for rtc rooms to function propperly, eventhough you can create/join rtc rooms without it. and on close, make permissions request
+                    Permission.RequestUserPermission(Permission.Microphone);
+                }
+                /*if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))//turns off the option to create an rtc room
+                {
+                    RTCVoiceRoomEnabledVal.isOn = false;
+                    RTCVoiceRoomEnabledVal.interactable = false;
+                }*/
+#pragma warning restore CS0162 
+            }
         }
 
         private void OnDestroy()

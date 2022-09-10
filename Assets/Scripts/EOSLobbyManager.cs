@@ -677,6 +677,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if(!CurrentLobby.RTCRoomConnectionChanged.IsValid())
             {
                 Debug.LogError("Lobbies (SubscribeToRTCEvents): Failed to bind to Lobby NotifyRTCRoomConnectionChanged notification.");
+                return;
             }
 
             // Get the current room connection status now that we're listening for changes
@@ -691,6 +692,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogFormat("Lobbies (SubscribeToRTCEvents): Failed to get RTC Room connection status:. Error Code: {0}", result);
+                return;
             }
             else
             {

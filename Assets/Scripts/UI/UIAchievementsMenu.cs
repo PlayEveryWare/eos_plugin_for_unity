@@ -50,6 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         [Header("Achievements UI")]
         public Button refreshDataButton;
+        public Button loginIncreaseButton;
         public Toggle showDefinitionToggle;
         public Button unlockAchievementButton;
         public Text definitionsDescription;
@@ -115,6 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             refreshDataButton.gameObject.SetActive(true);
+            loginIncreaseButton.gameObject.SetActive(true);
             showDefinitionToggle.gameObject.SetActive(true);
 
             // Controller
@@ -124,6 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void HideMenu()
         {
             refreshDataButton.gameObject.SetActive(false);
+            loginIncreaseButton.gameObject.SetActive(false);
             showDefinitionToggle.gameObject.SetActive(false);
             unlockAchievementButton.gameObject.SetActive(false);
             definitionsDescription.gameObject.SetActive(false);
@@ -146,6 +149,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             statsInterface.IngestStat(ref ingestOptions, null, (ref IngestStatCompleteCallbackInfo info) =>
             {
                 Debug.LogFormat("Stat ingest result: {0}", info.ResultCode.ToString());
+                achievementManager.RefreshData();
             });
         }
 
@@ -161,6 +165,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
 
             achievementManager.UnlockAchievementManually(definition.AchievementId);
+
+            achievementManager.RefreshData();
         }
 
         public void OnRefreshDataClicked()
@@ -169,8 +175,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Achievements
-        private void OnAchievementDataUpdated()
+        private async void OnAchievementDataUpdated()
         {
+            RefreshDisplayingDefinition();
+
             foreach (var item in achievementListItems)
             {
                 Destroy(item.gameObject);
@@ -215,10 +223,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     newButton.gameObject.SetActive(true);
                     newButton.index = i;
                     bool unlocked = achievementData.PlayerData.HasValue && achievementData.PlayerData.Value.Progress >= 1;
-                    Texture2D iconTex = unlocked ?
-                        achievementManager.GetAchievementUnlockedIconTexture(achievementData.Definition.AchievementId)
-                        : achievementManager.GetAchievementLockedIconTexture(achievementData.Definition.AchievementId);
+                    Texture2D iconTex = null;
+                    int iconGiveupFrame = Time.frameCount + 120;
+                    while (iconTex == null)
+                    {
+                        iconTex = unlocked ?
+                           achievementManager.GetAchievementUnlockedIconTexture(achievementData.Definition.AchievementId)
+                           : achievementManager.GetAchievementLockedIconTexture(achievementData.Definition.AchievementId);
+                        await System.Threading.Tasks.Task.Yield();
 
+                        if (Time.frameCount > iconGiveupFrame)
+                        {
+                            UnityEngine.Debug.LogWarning("Timeout : Failed to get icon");
+                            break;
+                        }
+                    }
                     newButton.SetIconTexture(iconTex);
                     i += 1;
                     achievementListItems.Add(newButton);
@@ -239,6 +258,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 OnDefinitionIdButtonClicked(displayIndex);
             }
+        }
+        public void RefreshDisplayingDefinition()
+        {
+            if (displayIndex == -1)
+            {
+                return;
+            }
+            OnDefinitionIdButtonClicked(displayIndex);
         }
 
         public void OnDefinitionIdButtonClicked(int i)
