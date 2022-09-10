@@ -2187,7 +2187,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
-            
+
             HackWorkaroundRTCInitIssues();
 
             if (string.IsNullOrEmpty(lobbyId))
