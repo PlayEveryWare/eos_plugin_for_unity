@@ -421,6 +421,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         //-------------------------------------------------------------------------
         // TODO: Create a callback version of this method
+        public void UnlockAchievementManually(string achievementId,OnUnlockAchievementsCompleteCallback callback)
+        {
+            var eosAchievementInterface = GetEOSAchievementInterface();
+            var localUserId = EOSManager.Instance.GetProductUserId();
+            var eosAchievementOption = new UnlockAchievementsOptions
+            {
+                UserId = localUserId,
+                AchievementIds = new Utf8String[] { achievementId }
+            };
+
+            eosAchievementInterface.UnlockAchievements(ref eosAchievementOption, null, callback);
+        }
         // TODO: Create a debug mode to check if the achievement is valid?
         public void UnlockAchievementManually(string achievementId)
         {

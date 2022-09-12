@@ -164,9 +164,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             var definition = achievementManager.GetAchievementDefinitionAtIndex(displayIndex);
 
-            achievementManager.UnlockAchievementManually(definition.AchievementId);
-
-            achievementManager.RefreshData();
+            achievementManager.UnlockAchievementManually(definition.AchievementId, (ref OnUnlockAchievementsCompleteCallbackInfo info) =>
+            {
+                if (info.ResultCode == Result.Success)
+                {
+                    Debug.Log("UnlockAchievement Succeed"); 
+                    achievementManager.RefreshData();
+                }
+            });
         }
 
         public void OnRefreshDataClicked()
