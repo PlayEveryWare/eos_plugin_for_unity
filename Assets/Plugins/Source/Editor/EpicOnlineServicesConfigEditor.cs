@@ -472,6 +472,7 @@ _WIN32 || _WIN64
         //TODO: Add something that warns if a feature won't work without some config
         private void OnGUI()
         {
+            EnsureConfigLoaded();
             string[] toolbarTitlesToUse = CreateToolbarTitles();
             toolbarInt = GUILayout.Toolbar(toolbarInt, toolbarTitleStrings);
             switch (toolbarInt)
@@ -510,6 +511,19 @@ _WIN32 || _WIN64
             if (DoesHaveUnsavedChanges())
             {
                 //Show Model window to confirm close on changes?
+            }
+        }
+
+        private void EnsureConfigLoaded()
+        {
+            if (mainEOSConfigFile == null ||
+                mainEOSConfigFile.configDataOnDisk == null ||
+                mainEOSConfigFile.currentEOSConfig == null ||
+                steamEOSConfigFile == null ||
+                steamEOSConfigFile.configDataOnDisk == null ||
+                steamEOSConfigFile.currentEOSConfig == null)
+            {
+                Awake();
             }
         }
     }
