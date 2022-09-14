@@ -326,6 +326,29 @@ namespace PlayEveryWare.EpicOnlineServices
                 return manager;
             }
 
+            public void RemoveManager<T>() where T : IEOSSubManager
+            {
+                Type type = typeof(T);
+                if (s_subManagers.ContainsKey(type))
+                {
+                    T manager = (T)s_subManagers[type];
+                    if (manager is IEOSOnConnectLogin)
+                    {
+                        s_onConnectLoginCallbacks.Remove((manager as IEOSOnConnectLogin).OnConnectLogin);
+                    }
+                    if (manager is IEOSOnAuthLogin)
+                    {
+                        s_onAuthLoginCallbacks.Remove((manager as IEOSOnAuthLogin).OnAuthLogin);
+                    }
+                    if (manager is IEOSOnAuthLogout)
+                    {
+                        s_onAuthLogoutCallbacks.Remove((manager as IEOSOnAuthLogout).OnAuthLogout);
+                    }
+
+                    s_subManagers.Remove(type);
+                }
+            }
+
             //-------------------------------------------------------------------------
             private Epic.OnlineServices.Result InitializePlatformInterface(EOSConfig configData)
             {

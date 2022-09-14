@@ -95,6 +95,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentFileNameText.text = "*No File Selected*";
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSPlayerDataStorageManager>();
+        }
+
         private void UpdateFileListUI()
         {
             if (PlayerDataStorageManager.GetCachedStorageData().Count != fileNameUIEntries.Count)

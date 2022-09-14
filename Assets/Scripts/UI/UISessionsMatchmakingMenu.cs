@@ -82,6 +82,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private int previousFrameSessionCount = 0;
         private int previousFrameResultCount = 0;
 
+        private void OnDestroy()
+        {
+            //HideMenu();
+            // Unity crashes if you try to access EOSSinglton OnDestroy
+            EOSManager.Instance.RemoveManager<EOSSessionsManager>();
+        }
+
         public void Update()
         {
             EOSSessionsManager sessionsManager = EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>();
@@ -369,12 +376,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             previousFrameResultCount = 0;
             ShowSearchResults = true;
-        }
-
-        private void OnDestroy()
-        {
-            //HideMenu();
-            // Unity crashes if you try to access EOSSinglton OnDestroy
         }
 
         // Invite

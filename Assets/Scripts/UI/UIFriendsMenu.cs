@@ -108,6 +108,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             isSearching = false;
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+        }
+
         public void SearchFriendsEndEdit(string searchString)
         {
             if (string.IsNullOrEmpty(searchString))

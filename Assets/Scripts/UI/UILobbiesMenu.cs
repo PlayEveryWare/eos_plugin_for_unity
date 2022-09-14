@@ -141,6 +141,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void OnDestroy()
         {
             LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
+
+            EOSManager.Instance.RemoveManager<EOSLobbyManager>();
+            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+            EOSManager.Instance.RemoveManager<EOSEACLobbyManager>();
         }
 
         private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)

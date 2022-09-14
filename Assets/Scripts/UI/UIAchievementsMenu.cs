@@ -96,6 +96,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             achievementManager.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSAchievementManager>();
+        }
+
 #if ENABLE_INPUT_SYSTEM
         private void Update()
         {

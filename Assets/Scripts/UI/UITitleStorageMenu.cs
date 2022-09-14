@@ -84,6 +84,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             TitleStorageManager = EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>();
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSTitleStorageManager>();
+        }
+
         public void AddTagOnClick()
         {
             if (AddTag(AddTagTextBox.InputField.text))
