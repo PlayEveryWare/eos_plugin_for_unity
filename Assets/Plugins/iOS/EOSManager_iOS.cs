@@ -199,6 +199,9 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="createOptions"></param>
         public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
         {
+            var rtcOptions = new RTCOptions();
+
+            (createOptions as EOSiOSOptions).options.RTCOptions = rtcOptions;
         }
 
         //-------------------------------------------------------------------------
