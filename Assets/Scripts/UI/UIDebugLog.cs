@@ -37,8 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public RectTransform DebugLogContainer;
         public Text UIDebugLogText;
         public ScrollRect ScrollRect;
-        public RectTransform OptionsBar;
-        public LayoutElement DebugLogLayout;
 
         private Queue<string> logCacheList = new Queue<string>();
 
@@ -70,7 +68,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            initialFlexHeight = DebugLogLayout.flexibleHeight;
             expanded = false;
             visible = true;
 
@@ -279,7 +276,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             DemoSceneContainer.SetVisible(!expanded);
 
             float optionsPivotY = expanded ? 1 : 0;
-            OptionsBar.pivot = new Vector2(OptionsBar.pivot.x, optionsPivotY);
+            //OptionsBar.pivot = new Vector2(OptionsBar.pivot.x, optionsPivotY);
 
             if (shouldScrollToBottom)
             {
@@ -290,7 +287,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ToggleLogVisibility()
         {
             visible = !visible;
-            DebugLogLayout.flexibleHeight = visible ? initialFlexHeight : 0;
+            DebugLogContainer.gameObject.SetActive(visible);
+            if (!visible)
+            {
+                DemoSceneContainer.SetVisible(true);
+            }
+            else if(expanded)
+            {
+                DemoSceneContainer.SetVisible(false);
+            }
         }
 
         private void Update()
