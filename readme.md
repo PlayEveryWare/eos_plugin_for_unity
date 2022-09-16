@@ -44,25 +44,26 @@ The EOS SDK is continually releasing new features and functionality.  The follow
 
 | EOS Feature | Included in Sample |
 | - | - |
-| [Achievements](https://dev.epicgames.com/docs/services/en-US/GameServices/Achievements/index.html) | Achievements Sample |
-| [Authentication](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/AuthInterface/index.html) | - All Samples - |
-| [Ecommerce](https://dev.epicgames.com/docs/services/en-US/EpicGamesStore/TechFeaturesConfig/Ecom/index.html) | Store Sample |
-| [Friends](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/Friends/index.html) | Auth & Friends Sample |
-| [Leaderboards](https://dev.epicgames.com/docs/services/en-US/GameServices/Leaderboards/index.html) | Leaderboards Sample |
-| [Lobby](https://dev.epicgames.com/docs/services/en-US/GameServices/Lobbies/index.html) | Lobbies Sample |
-| [Lobby with Voice](https://dev.epicgames.com/docs/services/en-US/GameServices/Voice/index.html#voicewithlobbies) | Lobbies Sample |
-| [NAT P2P](https://dev.epicgames.com/docs/services/en-US/GameServices/P2P/index.html) | P2P Sample |
-| [Player Data Storage](https://dev.epicgames.com/docs/services/en-US/GameServices/PlayerDataStorage/index.html) | Player Data Storage Sample |
-| [Presence](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/Presence/index.html) | Auth & Friends Sample |
-| [Sessions](https://dev.epicgames.com/docs/services/en-US/GameServices/Sessions/index.html) | Sessions Sample |
-| [Social Overlay](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/SocialOverlayOverview/index.html) | - All Samples - |
-| [Stats](https://dev.epicgames.com/docs/services/en-US/GameServices/Stats/index.html) | Leaderboards Sample |
-| [Title Storage](https://dev.epicgames.com/docs/services/en-US/GameServices/TitleStorage/index.html) | Title Storage Sample |
-| [Reports](https://dev.epicgames.com/docs/services/en-US/GameServices/ReportsInterface/index.html) | Player Reports & Sanctions Sample |
-| [Sanctions](https://dev.epicgames.com/docs/services/en-US/GameServices/SanctionsInterface/index.html) | Player Reports & Sanctions Sample |
-| [Anti-Cheat](https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html) | Not Supported |
-| [EOS Mod SDK](https://dev.epicgames.com/docs/services/en-US/EpicGamesStore/TechFeaturesConfig/Mods/index.html) | Not Supported |
-| [Voice Trusted Server](https://dev.epicgames.com/docs/services/en-US/GameServices/Voice/index.html#voicewithatrustedserverapplication) | Not Supported |
+| [Achievements](https://dev.epicgames.com/docs/game-services/achievements) | Achievements Sample |
+| [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) | - All Samples - |
+| [Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) | Store Sample |
+| [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) | Auth & Friends Sample |
+| [Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) | Leaderboards Sample |
+| [Lobby](https://dev.epicgames.com/docs/game-services/lobbies) | Lobbies Sample |
+| [Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) | Lobbies Sample |
+| [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) | P2P Sample |
+| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | Player Data Storage Sample |
+| [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) | Auth & Friends Sample |
+| [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | Sessions Sample |
+| [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) | - All Samples - |
+| [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) | Leaderboards Sample |
+| [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) | Title Storage Sample |
+| [Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | Player Reports & Sanctions Sample |
+| [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) | Player Reports & Sanctions Sample |
+| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | Lobbies Sample |
+| [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | Custom Invites Sample |
+| [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | Not Supported |
+| [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | Not Supported |
 
 
 ---
