@@ -136,6 +136,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }*/
 #pragma warning restore CS0162 
             }
+
+            // Clear any search results that's in by default
+            ClearSearchResults();
         }
 
         private void OnDestroy()
@@ -598,18 +601,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (result != Result.Success)
             {
-                Debug.LogErrorFormat("UILobbiesMenu (UpdateSearchResults): result error '{0}'", result);
+                if (result == Result.NotFound || result == Result.InvalidParameters)
+                {
+                    // It's not an error if there's no results found when searching or there's invalid characters in the search
+                    Debug.Log("UILobbiesMenu (UpdateSearchResults): No results found.");
+                    ClearSearchResults();
+                }
+                else
+                {
+                    Debug.LogErrorFormat("UILobbiesMenu (UpdateSearchResults): result error '{0}'", result);
+                }
                 return;
             }
 
-            // Destroy current UI member list
-            foreach (Transform child in SearchContentParent.transform)
-            {
-                if (child != null)
-                {
-                    GameObject.Destroy(child.gameObject);
-                }
-            }
+            ClearSearchResults();
 
             bool firstResultSelected = false;
 
@@ -732,6 +737,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager?.OnLoggedOut();
 
             LobbiesUIParent.gameObject.SetActive(false);
+        }
+
+        private void ClearSearchResults()
+        {
+            // Destroy current UI member list
+            foreach (Transform child in SearchContentParent.transform)
+            {
+                if (child != null)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
         }
     }
 }

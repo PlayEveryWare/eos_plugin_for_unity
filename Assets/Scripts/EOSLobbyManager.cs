@@ -1810,7 +1810,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (string.IsNullOrEmpty(lobbyId))
             {
-                Debug.LogError("Lobbies (SearchByLobbyId): lobbyId is null or empty!");
+                Debug.LogWarning("Lobbies (SearchByLobbyId): lobbyId is null or empty!");
                 SearchCompleted?.Invoke(Result.InvalidParameters);
                 return;
             }
@@ -1922,7 +1922,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogErrorFormat("Lobbies (OnLobbySearchCompleted): error code: {0}", data.ResultCode);
+                if (data.ResultCode == Result.NotFound)
+                {
+                    // It's not an error if there's no results found when searching
+                    Debug.Log("Lobbies (OnLobbySearchCompleted): No results found.");
+                }
+                else
+                {
+                    Debug.LogErrorFormat("Lobbies (OnLobbySearchCompleted): error code: {0}", data.ResultCode);
+                }
+
                 LobbySearchCallback?.Invoke(data.ResultCode);
                 return;
             }
