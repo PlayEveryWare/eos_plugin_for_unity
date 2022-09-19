@@ -23,6 +23,11 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
+		/// <summary>
+		/// The number of redeemed Entitlements
+		/// </summary>
+		public uint RedeemedEntitlementIdsCount { get; set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -33,6 +38,7 @@ namespace Epic.OnlineServices.Ecom
 			ResultCode = other.ResultCode;
 			ClientData = other.ClientData;
 			LocalUserId = other.LocalUserId;
+			RedeemedEntitlementIdsCount = other.RedeemedEntitlementIdsCount;
 		}
 	}
 
@@ -42,6 +48,7 @@ namespace Epic.OnlineServices.Ecom
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
+		private uint m_RedeemedEntitlementIdsCount;
 
 		public Result ResultCode
 		{
@@ -94,11 +101,25 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
+		public uint RedeemedEntitlementIdsCount
+		{
+			get
+			{
+				return m_RedeemedEntitlementIdsCount;
+			}
+
+			set
+			{
+				m_RedeemedEntitlementIdsCount = value;
+			}
+		}
+
 		public void Set(ref RedeemEntitlementsCallbackInfo other)
 		{
 			ResultCode = other.ResultCode;
 			ClientData = other.ClientData;
 			LocalUserId = other.LocalUserId;
+			RedeemedEntitlementIdsCount = other.RedeemedEntitlementIdsCount;
 		}
 
 		public void Set(ref RedeemEntitlementsCallbackInfo? other)
@@ -108,6 +129,7 @@ namespace Epic.OnlineServices.Ecom
 				ResultCode = other.Value.ResultCode;
 				ClientData = other.Value.ClientData;
 				LocalUserId = other.Value.LocalUserId;
+				RedeemedEntitlementIdsCount = other.Value.RedeemedEntitlementIdsCount;
 			}
 		}
 

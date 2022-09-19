@@ -14,7 +14,7 @@ namespace Epic.OnlineServices.P2P
 		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The optional socket ID to listen for to be closed. If <see langword="null" />, this handler will be called for all closed connections
+		/// The optional socket ID to listen for to be closed. If <see langword="null" />, this function handler will be called for all closed connections
 		/// </summary>
 		public SocketId? SocketId { get; set; }
 	}

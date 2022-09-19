@@ -5,6 +5,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 {
 	/// <summary>
 	/// Required initialization options to use with <see cref="Options" /> for Steam.
+	/// Steamworks API needs to be at least v1.48
 	/// <seealso cref="Options" />
 	/// </summary>
 	public struct SteamOptions
@@ -25,9 +26,25 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// </summary>
 		public Utf8String OverrideLibraryPath { get; set; }
 
+		/// <summary>
+		/// Used to specify the major version of the Steam SDK your game is compiled against, e.g.:
+		/// 
+		/// Options.SteamMajorVersion = 1;
+		/// </summary>
+		public uint SteamMajorVersion { get; set; }
+
+		/// <summary>
+		/// Used to specify the minor version of the Steam SDK your game is compiled against, e.g.:
+		/// 
+		/// Options.SteamMinorVersion = 48;
+		/// </summary>
+		public uint SteamMinorVersion { get; set; }
+
 		internal void Set(ref SteamOptionsInternal other)
 		{
 			OverrideLibraryPath = other.OverrideLibraryPath;
+			SteamMajorVersion = other.SteamMajorVersion;
+			SteamMinorVersion = other.SteamMinorVersion;
 		}
 	}
 
@@ -36,6 +53,8 @@ namespace Epic.OnlineServices.IntegratedPlatform
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_OverrideLibraryPath;
+		private uint m_SteamMajorVersion;
+		private uint m_SteamMinorVersion;
 
 		public Utf8String OverrideLibraryPath
 		{
@@ -52,10 +71,38 @@ namespace Epic.OnlineServices.IntegratedPlatform
 			}
 		}
 
+		public uint SteamMajorVersion
+		{
+			get
+			{
+				return m_SteamMajorVersion;
+			}
+
+			set
+			{
+				m_SteamMajorVersion = value;
+			}
+		}
+
+		public uint SteamMinorVersion
+		{
+			get
+			{
+				return m_SteamMinorVersion;
+			}
+
+			set
+			{
+				m_SteamMinorVersion = value;
+			}
+		}
+
 		public void Set(ref SteamOptions other)
 		{
 			m_ApiVersion = IntegratedPlatformInterface.SteamOptionsApiLatest;
 			OverrideLibraryPath = other.OverrideLibraryPath;
+			SteamMajorVersion = other.SteamMajorVersion;
+			SteamMinorVersion = other.SteamMinorVersion;
 		}
 
 		public void Set(ref SteamOptions? other)
@@ -64,6 +111,8 @@ namespace Epic.OnlineServices.IntegratedPlatform
 			{
 				m_ApiVersion = IntegratedPlatformInterface.SteamOptionsApiLatest;
 				OverrideLibraryPath = other.Value.OverrideLibraryPath;
+				SteamMajorVersion = other.Value.SteamMajorVersion;
+				SteamMinorVersion = other.Value.SteamMinorVersion;
 			}
 		}
 

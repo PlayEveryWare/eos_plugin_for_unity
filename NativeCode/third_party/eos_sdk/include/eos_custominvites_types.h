@@ -135,7 +135,7 @@ EOS_STRUCT(EOS_CustomInvites_AddNotifyCustomInviteRejectedOptions, (
 ));
 
 /**
- * Output parameters for the EOS_CustomInvites_CustomInviteRejectedCallback Function.
+ * Output parameters for the EOS_CustomInvites_OnCustomInviteRejectedCallback Function.
  */
 EOS_STRUCT(EOS_CustomInvites_CustomInviteRejectedCallbackInfo, (
 	/** Context that was passed into EOS_CustomInvites_AddNotifyCustomInviteRejected */

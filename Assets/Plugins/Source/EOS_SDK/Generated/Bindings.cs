@@ -209,6 +209,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_CopyItemByIdName = "EOS_Ecom_CopyItemById";
 		private const string EOS_Ecom_CopyItemImageInfoByIndexName = "EOS_Ecom_CopyItemImageInfoByIndex";
 		private const string EOS_Ecom_CopyItemReleaseByIndexName = "EOS_Ecom_CopyItemReleaseByIndex";
+		private const string EOS_Ecom_CopyLastRedeemedEntitlementByIndexName = "EOS_Ecom_CopyLastRedeemedEntitlementByIndex";
 		private const string EOS_Ecom_CopyOfferByIdName = "EOS_Ecom_CopyOfferById";
 		private const string EOS_Ecom_CopyOfferByIndexName = "EOS_Ecom_CopyOfferByIndex";
 		private const string EOS_Ecom_CopyOfferImageInfoByIndexName = "EOS_Ecom_CopyOfferImageInfoByIndex";
@@ -220,6 +221,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetEntitlementsCountName = "EOS_Ecom_GetEntitlementsCount";
 		private const string EOS_Ecom_GetItemImageInfoCountName = "EOS_Ecom_GetItemImageInfoCount";
 		private const string EOS_Ecom_GetItemReleaseCountName = "EOS_Ecom_GetItemReleaseCount";
+		private const string EOS_Ecom_GetLastRedeemedEntitlementsCountName = "EOS_Ecom_GetLastRedeemedEntitlementsCount";
 		private const string EOS_Ecom_GetOfferCountName = "EOS_Ecom_GetOfferCount";
 		private const string EOS_Ecom_GetOfferImageInfoCountName = "EOS_Ecom_GetOfferImageInfoCount";
 		private const string EOS_Ecom_GetOfferItemCountName = "EOS_Ecom_GetOfferItemCount";
@@ -362,6 +364,7 @@ namespace Epic.OnlineServices
 		private const string EOS_P2P_AddNotifyIncomingPacketQueueFullName = "EOS_P2P_AddNotifyIncomingPacketQueueFull";
 		private const string EOS_P2P_AddNotifyPeerConnectionClosedName = "EOS_P2P_AddNotifyPeerConnectionClosed";
 		private const string EOS_P2P_AddNotifyPeerConnectionEstablishedName = "EOS_P2P_AddNotifyPeerConnectionEstablished";
+		private const string EOS_P2P_AddNotifyPeerConnectionInterruptedName = "EOS_P2P_AddNotifyPeerConnectionInterrupted";
 		private const string EOS_P2P_AddNotifyPeerConnectionRequestName = "EOS_P2P_AddNotifyPeerConnectionRequest";
 		private const string EOS_P2P_ClearPacketQueueName = "EOS_P2P_ClearPacketQueue";
 		private const string EOS_P2P_CloseConnectionName = "EOS_P2P_CloseConnection";
@@ -376,6 +379,7 @@ namespace Epic.OnlineServices
 		private const string EOS_P2P_RemoveNotifyIncomingPacketQueueFullName = "EOS_P2P_RemoveNotifyIncomingPacketQueueFull";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionClosedName = "EOS_P2P_RemoveNotifyPeerConnectionClosed";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionEstablishedName = "EOS_P2P_RemoveNotifyPeerConnectionEstablished";
+		private const string EOS_P2P_RemoveNotifyPeerConnectionInterruptedName = "EOS_P2P_RemoveNotifyPeerConnectionInterrupted";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionRequestName = "EOS_P2P_RemoveNotifyPeerConnectionRequest";
 		private const string EOS_P2P_SendPacketName = "EOS_P2P_SendPacket";
 		private const string EOS_P2P_SetPacketQueueSizeName = "EOS_P2P_SetPacketQueueSize";
@@ -753,6 +757,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_CopyItemByIdName = "_EOS_Ecom_CopyItemById";
 		private const string EOS_Ecom_CopyItemImageInfoByIndexName = "_EOS_Ecom_CopyItemImageInfoByIndex";
 		private const string EOS_Ecom_CopyItemReleaseByIndexName = "_EOS_Ecom_CopyItemReleaseByIndex";
+		private const string EOS_Ecom_CopyLastRedeemedEntitlementByIndexName = "_EOS_Ecom_CopyLastRedeemedEntitlementByIndex";
 		private const string EOS_Ecom_CopyOfferByIdName = "_EOS_Ecom_CopyOfferById";
 		private const string EOS_Ecom_CopyOfferByIndexName = "_EOS_Ecom_CopyOfferByIndex";
 		private const string EOS_Ecom_CopyOfferImageInfoByIndexName = "_EOS_Ecom_CopyOfferImageInfoByIndex";
@@ -764,6 +769,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetEntitlementsCountName = "_EOS_Ecom_GetEntitlementsCount";
 		private const string EOS_Ecom_GetItemImageInfoCountName = "_EOS_Ecom_GetItemImageInfoCount";
 		private const string EOS_Ecom_GetItemReleaseCountName = "_EOS_Ecom_GetItemReleaseCount";
+		private const string EOS_Ecom_GetLastRedeemedEntitlementsCountName = "_EOS_Ecom_GetLastRedeemedEntitlementsCount";
 		private const string EOS_Ecom_GetOfferCountName = "_EOS_Ecom_GetOfferCount";
 		private const string EOS_Ecom_GetOfferImageInfoCountName = "_EOS_Ecom_GetOfferImageInfoCount";
 		private const string EOS_Ecom_GetOfferItemCountName = "_EOS_Ecom_GetOfferItemCount";
@@ -906,6 +912,7 @@ namespace Epic.OnlineServices
 		private const string EOS_P2P_AddNotifyIncomingPacketQueueFullName = "_EOS_P2P_AddNotifyIncomingPacketQueueFull";
 		private const string EOS_P2P_AddNotifyPeerConnectionClosedName = "_EOS_P2P_AddNotifyPeerConnectionClosed";
 		private const string EOS_P2P_AddNotifyPeerConnectionEstablishedName = "_EOS_P2P_AddNotifyPeerConnectionEstablished";
+		private const string EOS_P2P_AddNotifyPeerConnectionInterruptedName = "_EOS_P2P_AddNotifyPeerConnectionInterrupted";
 		private const string EOS_P2P_AddNotifyPeerConnectionRequestName = "_EOS_P2P_AddNotifyPeerConnectionRequest";
 		private const string EOS_P2P_ClearPacketQueueName = "_EOS_P2P_ClearPacketQueue";
 		private const string EOS_P2P_CloseConnectionName = "_EOS_P2P_CloseConnection";
@@ -920,6 +927,7 @@ namespace Epic.OnlineServices
 		private const string EOS_P2P_RemoveNotifyIncomingPacketQueueFullName = "_EOS_P2P_RemoveNotifyIncomingPacketQueueFull";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionClosedName = "_EOS_P2P_RemoveNotifyPeerConnectionClosed";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionEstablishedName = "_EOS_P2P_RemoveNotifyPeerConnectionEstablished";
+		private const string EOS_P2P_RemoveNotifyPeerConnectionInterruptedName = "_EOS_P2P_RemoveNotifyPeerConnectionInterrupted";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionRequestName = "_EOS_P2P_RemoveNotifyPeerConnectionRequest";
 		private const string EOS_P2P_SendPacketName = "_EOS_P2P_SendPacket";
 		private const string EOS_P2P_SetPacketQueueSizeName = "_EOS_P2P_SetPacketQueueSize";
@@ -1297,6 +1305,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_CopyItemByIdName = "_EOS_Ecom_CopyItemById@12";
 		private const string EOS_Ecom_CopyItemImageInfoByIndexName = "_EOS_Ecom_CopyItemImageInfoByIndex@12";
 		private const string EOS_Ecom_CopyItemReleaseByIndexName = "_EOS_Ecom_CopyItemReleaseByIndex@12";
+		private const string EOS_Ecom_CopyLastRedeemedEntitlementByIndexName = "_EOS_Ecom_CopyLastRedeemedEntitlementByIndex@16";
 		private const string EOS_Ecom_CopyOfferByIdName = "_EOS_Ecom_CopyOfferById@12";
 		private const string EOS_Ecom_CopyOfferByIndexName = "_EOS_Ecom_CopyOfferByIndex@12";
 		private const string EOS_Ecom_CopyOfferImageInfoByIndexName = "_EOS_Ecom_CopyOfferImageInfoByIndex@12";
@@ -1308,6 +1317,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetEntitlementsCountName = "_EOS_Ecom_GetEntitlementsCount@8";
 		private const string EOS_Ecom_GetItemImageInfoCountName = "_EOS_Ecom_GetItemImageInfoCount@8";
 		private const string EOS_Ecom_GetItemReleaseCountName = "_EOS_Ecom_GetItemReleaseCount@8";
+		private const string EOS_Ecom_GetLastRedeemedEntitlementsCountName = "_EOS_Ecom_GetLastRedeemedEntitlementsCount@8";
 		private const string EOS_Ecom_GetOfferCountName = "_EOS_Ecom_GetOfferCount@8";
 		private const string EOS_Ecom_GetOfferImageInfoCountName = "_EOS_Ecom_GetOfferImageInfoCount@8";
 		private const string EOS_Ecom_GetOfferItemCountName = "_EOS_Ecom_GetOfferItemCount@8";
@@ -1450,6 +1460,7 @@ namespace Epic.OnlineServices
 		private const string EOS_P2P_AddNotifyIncomingPacketQueueFullName = "_EOS_P2P_AddNotifyIncomingPacketQueueFull@16";
 		private const string EOS_P2P_AddNotifyPeerConnectionClosedName = "_EOS_P2P_AddNotifyPeerConnectionClosed@16";
 		private const string EOS_P2P_AddNotifyPeerConnectionEstablishedName = "_EOS_P2P_AddNotifyPeerConnectionEstablished@16";
+		private const string EOS_P2P_AddNotifyPeerConnectionInterruptedName = "_EOS_P2P_AddNotifyPeerConnectionInterrupted@16";
 		private const string EOS_P2P_AddNotifyPeerConnectionRequestName = "_EOS_P2P_AddNotifyPeerConnectionRequest@16";
 		private const string EOS_P2P_ClearPacketQueueName = "_EOS_P2P_ClearPacketQueue@8";
 		private const string EOS_P2P_CloseConnectionName = "_EOS_P2P_CloseConnection@8";
@@ -1464,6 +1475,7 @@ namespace Epic.OnlineServices
 		private const string EOS_P2P_RemoveNotifyIncomingPacketQueueFullName = "_EOS_P2P_RemoveNotifyIncomingPacketQueueFull@12";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionClosedName = "_EOS_P2P_RemoveNotifyPeerConnectionClosed@12";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionEstablishedName = "_EOS_P2P_RemoveNotifyPeerConnectionEstablished@12";
+		private const string EOS_P2P_RemoveNotifyPeerConnectionInterruptedName = "_EOS_P2P_RemoveNotifyPeerConnectionInterrupted@12";
 		private const string EOS_P2P_RemoveNotifyPeerConnectionRequestName = "_EOS_P2P_RemoveNotifyPeerConnectionRequest@12";
 		private const string EOS_P2P_SendPacketName = "_EOS_P2P_SendPacket@8";
 		private const string EOS_P2P_SetPacketQueueSizeName = "_EOS_P2P_SetPacketQueueSize@8";
@@ -2282,6 +2294,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_CopyItemReleaseByIndexName);
 			EOS_Ecom_CopyItemReleaseByIndex = (EOS_Ecom_CopyItemReleaseByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyItemReleaseByIndexDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_CopyLastRedeemedEntitlementByIndexName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_CopyLastRedeemedEntitlementByIndexName);
+			EOS_Ecom_CopyLastRedeemedEntitlementByIndex = (EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_CopyOfferByIdName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_CopyOfferByIdName);
 			EOS_Ecom_CopyOfferById = (EOS_Ecom_CopyOfferByIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_CopyOfferByIdDelegate));
@@ -2325,6 +2341,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_GetItemReleaseCountName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_GetItemReleaseCountName);
 			EOS_Ecom_GetItemReleaseCount = (EOS_Ecom_GetItemReleaseCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetItemReleaseCountDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_GetLastRedeemedEntitlementsCountName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_GetLastRedeemedEntitlementsCountName);
+			EOS_Ecom_GetLastRedeemedEntitlementsCount = (EOS_Ecom_GetLastRedeemedEntitlementsCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_GetLastRedeemedEntitlementsCountDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_GetOfferCountName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_GetOfferCountName);
@@ -2894,6 +2914,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_P2P_AddNotifyPeerConnectionEstablishedName);
 			EOS_P2P_AddNotifyPeerConnectionEstablished = (EOS_P2P_AddNotifyPeerConnectionEstablishedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyPeerConnectionEstablishedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_P2P_AddNotifyPeerConnectionInterruptedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_P2P_AddNotifyPeerConnectionInterruptedName);
+			EOS_P2P_AddNotifyPeerConnectionInterrupted = (EOS_P2P_AddNotifyPeerConnectionInterruptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyPeerConnectionInterruptedDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_P2P_AddNotifyPeerConnectionRequestName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_P2P_AddNotifyPeerConnectionRequestName);
 			EOS_P2P_AddNotifyPeerConnectionRequest = (EOS_P2P_AddNotifyPeerConnectionRequestDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_AddNotifyPeerConnectionRequestDelegate));
@@ -2949,6 +2973,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_P2P_RemoveNotifyPeerConnectionEstablishedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_P2P_RemoveNotifyPeerConnectionEstablishedName);
 			EOS_P2P_RemoveNotifyPeerConnectionEstablished = (EOS_P2P_RemoveNotifyPeerConnectionEstablishedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_RemoveNotifyPeerConnectionEstablishedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_P2P_RemoveNotifyPeerConnectionInterruptedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_P2P_RemoveNotifyPeerConnectionInterruptedName);
+			EOS_P2P_RemoveNotifyPeerConnectionInterrupted = (EOS_P2P_RemoveNotifyPeerConnectionInterruptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_P2P_RemoveNotifyPeerConnectionInterruptedDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_P2P_RemoveNotifyPeerConnectionRequestName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_P2P_RemoveNotifyPeerConnectionRequestName);
@@ -4022,6 +4050,7 @@ namespace Epic.OnlineServices
 			EOS_Ecom_CopyItemById = null;
 			EOS_Ecom_CopyItemImageInfoByIndex = null;
 			EOS_Ecom_CopyItemReleaseByIndex = null;
+			EOS_Ecom_CopyLastRedeemedEntitlementByIndex = null;
 			EOS_Ecom_CopyOfferById = null;
 			EOS_Ecom_CopyOfferByIndex = null;
 			EOS_Ecom_CopyOfferImageInfoByIndex = null;
@@ -4033,6 +4062,7 @@ namespace Epic.OnlineServices
 			EOS_Ecom_GetEntitlementsCount = null;
 			EOS_Ecom_GetItemImageInfoCount = null;
 			EOS_Ecom_GetItemReleaseCount = null;
+			EOS_Ecom_GetLastRedeemedEntitlementsCount = null;
 			EOS_Ecom_GetOfferCount = null;
 			EOS_Ecom_GetOfferImageInfoCount = null;
 			EOS_Ecom_GetOfferItemCount = null;
@@ -4175,6 +4205,7 @@ namespace Epic.OnlineServices
 			EOS_P2P_AddNotifyIncomingPacketQueueFull = null;
 			EOS_P2P_AddNotifyPeerConnectionClosed = null;
 			EOS_P2P_AddNotifyPeerConnectionEstablished = null;
+			EOS_P2P_AddNotifyPeerConnectionInterrupted = null;
 			EOS_P2P_AddNotifyPeerConnectionRequest = null;
 			EOS_P2P_ClearPacketQueue = null;
 			EOS_P2P_CloseConnection = null;
@@ -4189,6 +4220,7 @@ namespace Epic.OnlineServices
 			EOS_P2P_RemoveNotifyIncomingPacketQueueFull = null;
 			EOS_P2P_RemoveNotifyPeerConnectionClosed = null;
 			EOS_P2P_RemoveNotifyPeerConnectionEstablished = null;
+			EOS_P2P_RemoveNotifyPeerConnectionInterrupted = null;
 			EOS_P2P_RemoveNotifyPeerConnectionRequest = null;
 			EOS_P2P_SendPacket = null;
 			EOS_P2P_SetPacketQueueSize = null;
@@ -5000,6 +5032,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Ecom_CopyItemReleaseByIndexDelegate EOS_Ecom_CopyItemReleaseByIndex;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate(System.IntPtr handle, ref Ecom.CopyLastRedeemedEntitlementByIndexOptionsInternal options, System.IntPtr outRedeemedEntitlementId, ref int inOutRedeemedEntitlementIdLength);
+		internal static EOS_Ecom_CopyLastRedeemedEntitlementByIndexDelegate EOS_Ecom_CopyLastRedeemedEntitlementByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_Ecom_CopyOfferByIdDelegate(System.IntPtr handle, ref Ecom.CopyOfferByIdOptionsInternal options, ref System.IntPtr outOffer);
 		internal static EOS_Ecom_CopyOfferByIdDelegate EOS_Ecom_CopyOfferById;
 
@@ -5042,6 +5078,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate uint EOS_Ecom_GetItemReleaseCountDelegate(System.IntPtr handle, ref Ecom.GetItemReleaseCountOptionsInternal options);
 		internal static EOS_Ecom_GetItemReleaseCountDelegate EOS_Ecom_GetItemReleaseCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_Ecom_GetLastRedeemedEntitlementsCountDelegate(System.IntPtr handle, ref Ecom.GetLastRedeemedEntitlementsCountOptionsInternal options);
+		internal static EOS_Ecom_GetLastRedeemedEntitlementsCountDelegate EOS_Ecom_GetLastRedeemedEntitlementsCount;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate uint EOS_Ecom_GetOfferCountDelegate(System.IntPtr handle, ref Ecom.GetOfferCountOptionsInternal options);
@@ -5612,6 +5652,10 @@ namespace Epic.OnlineServices
 		internal static EOS_P2P_AddNotifyPeerConnectionEstablishedDelegate EOS_P2P_AddNotifyPeerConnectionEstablished;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_P2P_AddNotifyPeerConnectionInterruptedDelegate(System.IntPtr handle, ref P2P.AddNotifyPeerConnectionInterruptedOptionsInternal options, System.IntPtr clientData, P2P.OnPeerConnectionInterruptedCallbackInternal connectionInterruptedHandler);
+		internal static EOS_P2P_AddNotifyPeerConnectionInterruptedDelegate EOS_P2P_AddNotifyPeerConnectionInterrupted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_P2P_AddNotifyPeerConnectionRequestDelegate(System.IntPtr handle, ref P2P.AddNotifyPeerConnectionRequestOptionsInternal options, System.IntPtr clientData, P2P.OnIncomingConnectionRequestCallbackInternal connectionRequestHandler);
 		internal static EOS_P2P_AddNotifyPeerConnectionRequestDelegate EOS_P2P_AddNotifyPeerConnectionRequest;
 
@@ -5666,6 +5710,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionEstablishedDelegate(System.IntPtr handle, ulong notificationId);
 		internal static EOS_P2P_RemoveNotifyPeerConnectionEstablishedDelegate EOS_P2P_RemoveNotifyPeerConnectionEstablished;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionInterruptedDelegate(System.IntPtr handle, ulong notificationId);
+		internal static EOS_P2P_RemoveNotifyPeerConnectionInterruptedDelegate EOS_P2P_RemoveNotifyPeerConnectionInterrupted;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_P2P_RemoveNotifyPeerConnectionRequestDelegate(System.IntPtr handle, ulong notificationId);
@@ -7022,6 +7070,9 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_Ecom_CopyItemReleaseByIndex(System.IntPtr handle, ref Ecom.CopyItemReleaseByIndexOptionsInternal options, ref System.IntPtr outRelease);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Ecom_CopyLastRedeemedEntitlementByIndex(System.IntPtr handle, ref Ecom.CopyLastRedeemedEntitlementByIndexOptionsInternal options, System.IntPtr outRedeemedEntitlementId, ref int inOutRedeemedEntitlementIdLength);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_Ecom_CopyOfferById(System.IntPtr handle, ref Ecom.CopyOfferByIdOptionsInternal options, ref System.IntPtr outOffer);
 
 		[DllImport(Config.LibraryName)]
@@ -7053,6 +7104,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern uint EOS_Ecom_GetItemReleaseCount(System.IntPtr handle, ref Ecom.GetItemReleaseCountOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_Ecom_GetLastRedeemedEntitlementsCount(System.IntPtr handle, ref Ecom.GetLastRedeemedEntitlementsCountOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern uint EOS_Ecom_GetOfferCount(System.IntPtr handle, ref Ecom.GetOfferCountOptionsInternal options);
@@ -7481,6 +7535,9 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionEstablished(System.IntPtr handle, ref P2P.AddNotifyPeerConnectionEstablishedOptionsInternal options, System.IntPtr clientData, P2P.OnPeerConnectionEstablishedCallbackInternal connectionEstablishedHandler);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionInterrupted(System.IntPtr handle, ref P2P.AddNotifyPeerConnectionInterruptedOptionsInternal options, System.IntPtr clientData, P2P.OnPeerConnectionInterruptedCallbackInternal connectionInterruptedHandler);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_P2P_AddNotifyPeerConnectionRequest(System.IntPtr handle, ref P2P.AddNotifyPeerConnectionRequestOptionsInternal options, System.IntPtr clientData, P2P.OnIncomingConnectionRequestCallbackInternal connectionRequestHandler);
 
 		[DllImport(Config.LibraryName)]
@@ -7521,6 +7578,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionEstablished(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionInterrupted(System.IntPtr handle, ulong notificationId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_P2P_RemoveNotifyPeerConnectionRequest(System.IntPtr handle, ulong notificationId);

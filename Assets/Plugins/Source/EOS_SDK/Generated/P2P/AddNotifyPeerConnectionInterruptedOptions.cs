@@ -4,23 +4,23 @@
 namespace Epic.OnlineServices.P2P
 {
 	/// <summary>
-	/// Structure containing information about which connections should be notified
+	/// Structure containing information about who would like notifications about interrupted connections, and for which socket.
 	/// </summary>
-	public struct AddNotifyPeerConnectionEstablishedOptions
+	public struct AddNotifyPeerConnectionInterruptedOptions
 	{
 		/// <summary>
-		/// The Product User ID of the local user who would like to receive notifications
+		/// The Product User ID of the local user who would like notifications
 		/// </summary>
 		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The optional socket ID, used as a filter for established connections. If <see langword="null" />, this function handler will be called for all sockets
+		/// An optional socket ID to filter interrupted connections on. If <see langword="null" />, this function handler will be called for all interrupted connections
 		/// </summary>
 		public SocketId? SocketId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct AddNotifyPeerConnectionEstablishedOptionsInternal : ISettable<AddNotifyPeerConnectionEstablishedOptions>, System.IDisposable
+	internal struct AddNotifyPeerConnectionInterruptedOptionsInternal : ISettable<AddNotifyPeerConnectionInterruptedOptions>, System.IDisposable
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_LocalUserId;
@@ -42,18 +42,18 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		public void Set(ref AddNotifyPeerConnectionEstablishedOptions other)
+		public void Set(ref AddNotifyPeerConnectionInterruptedOptions other)
 		{
-			m_ApiVersion = P2PInterface.AddnotifypeerconnectionestablishedApiLatest;
+			m_ApiVersion = P2PInterface.AddnotifypeerconnectioninterruptedApiLatest;
 			LocalUserId = other.LocalUserId;
 			SocketId = other.SocketId;
 		}
 
-		public void Set(ref AddNotifyPeerConnectionEstablishedOptions? other)
+		public void Set(ref AddNotifyPeerConnectionInterruptedOptions? other)
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = P2PInterface.AddnotifypeerconnectionestablishedApiLatest;
+				m_ApiVersion = P2PInterface.AddnotifypeerconnectioninterruptedApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				SocketId = other.Value.SocketId;
 			}

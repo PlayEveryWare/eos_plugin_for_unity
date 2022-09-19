@@ -26,12 +26,22 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The most recent version of the <see cref="CatalogOffer" /> struct.
 		/// </summary>
-		public const int CatalogofferApiLatest = 4;
+		public const int CatalogofferApiLatest = 5;
+
+		/// <summary>
+		/// Timestamp value representing an undefined EffectiveDateTimestamp for <see cref="CatalogOffer" />
+		/// </summary>
+		public const int CatalogofferEffectivedatetimestampUndefined = -1;
 
 		/// <summary>
 		/// Timestamp value representing an undefined ExpirationTimestamp for <see cref="CatalogOffer" />
 		/// </summary>
 		public const int CatalogofferExpirationtimestampUndefined = -1;
+
+		/// <summary>
+		/// Timestamp value representing an undefined ReleaseDateTimestamp for <see cref="CatalogOffer" />
+		/// </summary>
+		public const int CatalogofferReleasedatetimestampUndefined = -1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="CatalogRelease" /> struct.
@@ -84,14 +94,19 @@ namespace Epic.OnlineServices.Ecom
 		public const int CopyitemreleasebyindexApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="CopyLastRedeemedEntitlementByIndex" /> API.
+		/// </summary>
+		public const int CopylastredeemedentitlementbyindexApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="CopyOfferById" /> API.
 		/// </summary>
-		public const int CopyofferbyidApiLatest = 2;
+		public const int CopyofferbyidApiLatest = 3;
 
 		/// <summary>
 		/// The most recent version of the <see cref="CopyOfferByIndex" /> API.
 		/// </summary>
-		public const int CopyofferbyindexApiLatest = 2;
+		public const int CopyofferbyindexApiLatest = 3;
 
 		/// <summary>
 		/// The most recent version of the <see cref="CopyOfferImageInfoByIndex" /> API.
@@ -124,6 +139,11 @@ namespace Epic.OnlineServices.Ecom
 		public const int EntitlementEndtimestampUndefined = -1;
 
 		/// <summary>
+		/// The maximum length of an entitlement ID
+		/// </summary>
+		public const int EntitlementidMaxLength = 32;
+
+		/// <summary>
 		/// The most recent version of the <see cref="GetEntitlementsByNameCount" /> API.
 		/// </summary>
 		public const int GetentitlementsbynamecountApiLatest = 1;
@@ -142,6 +162,11 @@ namespace Epic.OnlineServices.Ecom
 		/// The most recent version of the <see cref="GetItemReleaseCount" /> API.
 		/// </summary>
 		public const int GetitemreleasecountApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="GetLastRedeemedEntitlementsCount" /> API.
+		/// </summary>
+		public const int GetlastredeemedentitlementscountApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="GetOfferCount" /> API.
@@ -211,7 +236,7 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The most recent version of the <see cref="RedeemEntitlements" /> API.
 		/// </summary>
-		public const int RedeementitlementsApiLatest = 1;
+		public const int RedeementitlementsApiLatest = 2;
 
 		/// <summary>
 		/// The maximum number of entitlement IDs that may be redeemed in a single pass
@@ -441,6 +466,41 @@ namespace Epic.OnlineServices.Ecom
 			{
 				Bindings.EOS_Ecom_CatalogRelease_Release(outReleaseAddress);
 			}
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Fetches a redeemed entitlement id from a given index.
+		/// Only entitlements that were redeemed during the last <see cref="RedeemEntitlements" /> call can be copied.
+		/// <seealso cref="EntitlementidMaxLength" />
+		/// </summary>
+		/// <param name="options">structure containing the Epic Account ID and index being accessed</param>
+		/// <param name="outRedeemedEntitlementId">The ID of the redeemed entitlement. Must be long enough to hold a string of <see cref="EntitlementidMaxLength" />.</param>
+		/// <param name="inOutRedeemedEntitlementIdLength">
+		/// The size of the OutRedeemedEntitlementId in characters.
+		/// The input buffer should include enough space to be null-terminated.
+		/// When the function returns, this parameter will be filled with the length of the string copied into OutRedeemedEntitlementId.
+		/// </param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the information is available and passed out in OutRedeemedEntitlementId
+		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
+		/// <see cref="Result.NotFound" /> if the entitlement id is not found
+		/// </returns>
+		public Result CopyLastRedeemedEntitlementByIndex(ref CopyLastRedeemedEntitlementByIndexOptions options, out Utf8String outRedeemedEntitlementId)
+		{
+			CopyLastRedeemedEntitlementByIndexOptionsInternal optionsInternal = new CopyLastRedeemedEntitlementByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			int inOutRedeemedEntitlementIdLength = EntitlementidMaxLength + 1;
+			System.IntPtr outRedeemedEntitlementIdAddress = Helper.AddAllocation(inOutRedeemedEntitlementIdLength);
+
+			var funcResult = Bindings.EOS_Ecom_CopyLastRedeemedEntitlementByIndex(InnerHandle, ref optionsInternal, outRedeemedEntitlementIdAddress, ref inOutRedeemedEntitlementIdLength);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get(outRedeemedEntitlementIdAddress, out outRedeemedEntitlementId);
+			Helper.Dispose(ref outRedeemedEntitlementIdAddress);
 
 			return funcResult;
 		}
@@ -703,6 +763,26 @@ namespace Epic.OnlineServices.Ecom
 			optionsInternal.Set(ref options);
 
 			var funcResult = Bindings.EOS_Ecom_GetItemReleaseCount(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Fetch the number of entitlements that were redeemed during the last <see cref="RedeemEntitlements" /> call.
+		/// <seealso cref="CopyLastRedeemedEntitlementByIndex" />
+		/// </summary>
+		/// <param name="options">structure containing the Epic Account ID</param>
+		/// <returns>
+		/// the number of the redeemed entitlements.
+		/// </returns>
+		public uint GetLastRedeemedEntitlementsCount(ref GetLastRedeemedEntitlementsCountOptions options)
+		{
+			GetLastRedeemedEntitlementsCountOptionsInternal optionsInternal = new GetLastRedeemedEntitlementsCountOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var funcResult = Bindings.EOS_Ecom_GetLastRedeemedEntitlementsCount(InnerHandle, ref optionsInternal);
 
 			Helper.Dispose(ref optionsInternal);
 

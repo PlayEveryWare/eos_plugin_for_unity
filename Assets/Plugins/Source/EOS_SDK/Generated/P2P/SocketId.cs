@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.P2P
 	public struct SocketId
 	{
 		/// <summary>
-		/// A name for the connection. Must be a <see langword="null" />-terminated string of between 1-32 alpha-numeric characters (A-Z, a-z, 0-9)
+		/// A name for the connection. Must be a <see langword="null" />-terminated string of between 1-32 alpha-numeric characters (A-Z, a-z, 0-9, '-', '_', ' ', '+', '=', '.')
 		/// </summary>
 		public string SocketName { get; set; }
 

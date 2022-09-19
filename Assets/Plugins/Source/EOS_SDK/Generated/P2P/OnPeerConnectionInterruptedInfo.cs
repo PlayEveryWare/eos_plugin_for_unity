@@ -4,17 +4,17 @@
 namespace Epic.OnlineServices.P2P
 {
 	/// <summary>
-	/// Structure containing information about a connection being established
+	/// Structure containing information about an connection request that is that was interrupted.
 	/// </summary>
-	public struct OnPeerConnectionEstablishedInfo : ICallbackInfo
+	public struct OnPeerConnectionInterruptedInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// Client-specified data passed into <see cref="P2PInterface.AddNotifyPeerConnectionEstablished" />
+		/// Client-specified data passed into <see cref="Presence.PresenceInterface.AddNotifyOnPresenceChanged" />
 		/// </summary>
 		public object ClientData { get; set; }
 
 		/// <summary>
-		/// The Product User ID of the local user who is being notified of a connection being established
+		/// The local user who is being notified of a connection that was interrupted
 		/// </summary>
 		public ProductUserId LocalUserId { get; set; }
 
@@ -24,45 +24,31 @@ namespace Epic.OnlineServices.P2P
 		public ProductUserId RemoteUserId { get; set; }
 
 		/// <summary>
-		/// The socket ID of the connection being established
+		/// The socket ID of the connection that was interrupted
 		/// </summary>
 		public SocketId? SocketId { get; set; }
-
-		/// <summary>
-		/// Information if this is a new connection or reconnection
-		/// </summary>
-		public ConnectionEstablishedType ConnectionType { get; set; }
-
-		/// <summary>
-		/// What type of network connection is being used for this connection
-		/// </summary>
-		public NetworkConnectionType NetworkType { get; set; }
 
 		public Result? GetResultCode()
 		{
 			return null;
 		}
 
-		internal void Set(ref OnPeerConnectionEstablishedInfoInternal other)
+		internal void Set(ref OnPeerConnectionInterruptedInfoInternal other)
 		{
 			ClientData = other.ClientData;
 			LocalUserId = other.LocalUserId;
 			RemoteUserId = other.RemoteUserId;
 			SocketId = other.SocketId;
-			ConnectionType = other.ConnectionType;
-			NetworkType = other.NetworkType;
 		}
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct OnPeerConnectionEstablishedInfoInternal : ICallbackInfoInternal, IGettable<OnPeerConnectionEstablishedInfo>, ISettable<OnPeerConnectionEstablishedInfo>, System.IDisposable
+	internal struct OnPeerConnectionInterruptedInfoInternal : ICallbackInfoInternal, IGettable<OnPeerConnectionInterruptedInfo>, ISettable<OnPeerConnectionInterruptedInfo>, System.IDisposable
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
 		private System.IntPtr m_RemoteUserId;
 		private System.IntPtr m_SocketId;
-		private ConnectionEstablishedType m_ConnectionType;
-		private NetworkConnectionType m_NetworkType;
 
 		public object ClientData
 		{
@@ -132,43 +118,15 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
-		public ConnectionEstablishedType ConnectionType
-		{
-			get
-			{
-				return m_ConnectionType;
-			}
-
-			set
-			{
-				m_ConnectionType = value;
-			}
-		}
-
-		public NetworkConnectionType NetworkType
-		{
-			get
-			{
-				return m_NetworkType;
-			}
-
-			set
-			{
-				m_NetworkType = value;
-			}
-		}
-
-		public void Set(ref OnPeerConnectionEstablishedInfo other)
+		public void Set(ref OnPeerConnectionInterruptedInfo other)
 		{
 			ClientData = other.ClientData;
 			LocalUserId = other.LocalUserId;
 			RemoteUserId = other.RemoteUserId;
 			SocketId = other.SocketId;
-			ConnectionType = other.ConnectionType;
-			NetworkType = other.NetworkType;
 		}
 
-		public void Set(ref OnPeerConnectionEstablishedInfo? other)
+		public void Set(ref OnPeerConnectionInterruptedInfo? other)
 		{
 			if (other.HasValue)
 			{
@@ -176,8 +134,6 @@ namespace Epic.OnlineServices.P2P
 				LocalUserId = other.Value.LocalUserId;
 				RemoteUserId = other.Value.RemoteUserId;
 				SocketId = other.Value.SocketId;
-				ConnectionType = other.Value.ConnectionType;
-				NetworkType = other.Value.NetworkType;
 			}
 		}
 
@@ -189,9 +145,9 @@ namespace Epic.OnlineServices.P2P
 			Helper.Dispose(ref m_SocketId);
 		}
 
-		public void Get(out OnPeerConnectionEstablishedInfo output)
+		public void Get(out OnPeerConnectionInterruptedInfo output)
 		{
-			output = new OnPeerConnectionEstablishedInfo();
+			output = new OnPeerConnectionInterruptedInfo();
 			output.Set(ref this);
 		}
 	}
