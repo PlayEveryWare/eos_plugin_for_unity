@@ -246,6 +246,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         {
                             uiEntry.StatusTxt.text = session.SessionState.ToString();
                         }
+                        uiEntry.EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState);
 
                         uiEntry.PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
                         uiEntry.PresenceTxt.text = session.PresenceSession.ToString();
@@ -339,6 +340,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             SessionAttribute attr = new SessionAttribute();
             attr.Key = "Level";
+            attr.ValueType = AttributeType.String;
             attr.AsString = LevelVal.options[LevelVal.value].text;
             session.Attributes.Add(attr);
 
@@ -367,7 +369,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SessionAttribute levelAttribute = new SessionAttribute();
             levelAttribute.Key = "Level";
             levelAttribute.ValueType = AttributeType.String;
-            levelAttribute.AsString = searchPattern;
+            levelAttribute.AsString = searchPattern.ToUpper();
             levelAttribute.Advertisement = SessionAttributeAdvertisementType.Advertise;
 
             List<SessionAttribute> attributes = new List<SessionAttribute>() { levelAttribute };

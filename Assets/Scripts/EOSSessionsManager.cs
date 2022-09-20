@@ -1170,7 +1170,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             AttributeData attributeData = new AttributeData();
 
             SessionModificationAddAttributeOptions attrOptions = new SessionModificationAddAttributeOptions();
-            attrOptions.SessionAttribute = attributeData;
 
             foreach (SessionAttribute nextAttribute in session.Attributes)
             {
@@ -1214,6 +1213,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         break;
                 }
 
+                attrOptions.SessionAttribute = attributeData;
                 attrOptions.AdvertisementType = nextAttribute.Advertisement;
 
                 result = sessionModificationHandle.AddAttribute(ref attrOptions);

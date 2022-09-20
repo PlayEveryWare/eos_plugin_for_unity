@@ -78,6 +78,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaveButton.interactable = false;
         }
 
+        public void EnableButtonsBySessionState(bool updating, OnlineSessionState state)
+        {
+            StartButton.interactable = !updating && (state == OnlineSessionState.Pending || state == OnlineSessionState.Ended);
+            EndButton.interactable = !updating && state == OnlineSessionState.InProgress;
+        }
+
         public void JoinOnClickHandler()
         {
             if (JoinOnClick != null)
