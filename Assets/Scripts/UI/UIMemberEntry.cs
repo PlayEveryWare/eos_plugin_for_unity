@@ -195,12 +195,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
 #if UNITY_IOS
             return Application.HasUserAuthorization(UserAuthorization.Microphone);
-#endif
-#if UNITY_STANDALONE_OSX  //Always returns true, needs workaround
+#elif UNITY_STANDALONE_OSX  //Always returns true, needs workaround
             return Application.HasUserAuthorization(UserAuthorization.Microphone);
-#endif
-#if UNITY_ANDROID
+#elif UNITY_ANDROID
             return UnityEngine.Android.Permission.HasUserAuthorizedPermission(UnityEngine.Android.Permission.Microphone);
+#else
+            return true;
 #endif
         }
     }
