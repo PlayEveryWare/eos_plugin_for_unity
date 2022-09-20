@@ -200,7 +200,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return Application.HasUserAuthorization(UserAuthorization.Microphone);
 #endif
 #if UNITY_ANDROID
-            return Permission.HasUserAuthorizedPermission(Permission.Microphone);
+            return UnityEngine.Android.Permission.HasUserAuthorizedPermission(UnityEngine.Android.Permission.Microphone);
 #endif
         }
     }
