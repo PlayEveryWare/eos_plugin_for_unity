@@ -209,6 +209,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         uiEntry.Status.text = friend.Presence.Status.ToString();
 
+                        if (EnableInvites)
+                        {
+                            uiEntry.EnableInviteButton(true);
+                            uiEntry.EnableInviteButtonInteraction(false);
+                        }
+
                         if (friend.Presence.Status == Status.Online)
                         {
                             if (EnableP2PChat)
@@ -221,6 +227,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             {
                                 uiEntry.InviteFriendsOnClick = UIInviteMenu.OnInviteButtonClicked;
                                 uiEntry.EnableInviteButton();
+                                uiEntry.EnableInviteButtonInteraction(true);
                             }
                         }
                     }
