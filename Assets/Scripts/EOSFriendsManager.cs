@@ -543,6 +543,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Search Results
+        public void SearchFriendList(string displayName)
+        {
+            CachedSearchResults.Clear();
+            CachedSearchResultsDirty = true;
+
+            foreach (FriendData data in CachedFriends.Values)
+            {
+                if (data.Name.Contains(displayName))
+                {
+                    CachedSearchResults.Add(data.UserId, data);
+                }
+            }
+        }
+
         public void QueryUserInfo(string displayName, OnFriendsCallback QueryUserInfoCompleted)
         {
             CachedSearchResults.Clear();
