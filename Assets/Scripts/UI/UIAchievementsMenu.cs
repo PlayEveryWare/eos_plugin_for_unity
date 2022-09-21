@@ -187,8 +187,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Achievements
         private async void OnAchievementDataUpdated()
         {
-            RefreshDisplayingDefinition();
-
             foreach (var item in achievementListItems)
             {
                 Destroy(item.gameObject);
@@ -258,6 +256,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 definitionsDescription.text = "No Achievements Found";
                 definitionsDescription.gameObject.SetActive(true);
             }
+
+            RefreshDisplayingDefinition();
         }
 
         public void OnShowDefinitionChanged(bool value)
