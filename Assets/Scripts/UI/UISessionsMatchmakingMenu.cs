@@ -137,7 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         // Destroy current UI member list
                         foreach (Transform child in SessionContentParent.transform)
                         {
-                            GameObject.Destroy(child.gameObject);
+                            Destroy(child.gameObject);
                         }
                     }
 
@@ -312,9 +312,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().JoinSession(sessionHandle, true, OnJoinSessionFinished); // Default Presence True
         }
 
-        private void OnJoinSessionFinished()
+        private void OnJoinSessionFinished(Result result)
         {
-            ShowSearchResults = false;
+            if (result != Result.Success)
+            {
+                RefreshSearch();
+            }
+            else
+            {
+                ShowSearchResults = false;
+            }
         }
 
         // Session Member
@@ -342,6 +349,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             attr.Key = "Level";
             attr.ValueType = AttributeType.String;
             attr.AsString = LevelVal.options[LevelVal.value].text;
+            attr.Advertisement = SessionAttributeAdvertisementType.Advertise;
             session.Attributes.Add(attr);
 
             EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().ModifySession(session, OnModifySessionCompleted);
@@ -355,6 +363,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void LeaveButtonOnClick(string sessionName)
         {
             EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().DestroySession(sessionName);
+        }
+
+        public void RefreshSearch()
+        {
+            SearchByLevelEndEdit(SearchByLevelBox.InputField.text);
         }
 
         // Search

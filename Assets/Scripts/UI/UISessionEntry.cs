@@ -58,13 +58,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Action<SessionDetails> JoinOnClick;
 
-        private void Start()
-        {
-            // Prefab is destroyed and state is not maintained between updates
-            //StartButton.interactable = true;
-            //EndButton.interactable = false;
-        }
-
         public void OnlyEnableSearchResultButtons()
         {
             NameTxt.transform.gameObject.SetActive(false);
