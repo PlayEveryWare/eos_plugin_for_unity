@@ -209,7 +209,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             CacheAllPlayerAchievements(userId);
                         });
                     });
-                }                
+                }
+                //A user with empty stats would not be added to "productUserIdToStatsCache"
+                //This chunk of code makes up for that and welcomes the newcomers.
+                if (!productUserIdToStatsCache.ContainsKey(productUserId))
+                {
+                    QueryStatsForProductUserId(productUserId, (ref OnQueryStatsCompleteCallbackInfo statsQueryData) =>
+                    {
+                        CacheStatsForProductUserId(productUserId);
+                        QueryPlayerAchievements(productUserId, (ref OnQueryPlayerAchievementsCompleteCallbackInfo playerAchiQueryData) =>
+                        {
+                            CacheAllPlayerAchievements(productUserId);
+                        });
+                    });
+                }
             });
         }
 
