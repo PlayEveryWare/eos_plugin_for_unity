@@ -33,7 +33,7 @@ using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
 
-#if UNITY_STANDALONE_OSX && !UNITY_EDITOR
+#if UNITY_STANDALONE_OSX
 namespace PlayEveryWare.EpicOnlineServices 
 {
     //-------------------------------------------------------------------------
