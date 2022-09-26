@@ -2163,6 +2163,7 @@ MonoBehaviour:
   idInputField: {fileID: 649806418139123822}
   tokenText: {fileID: 5557305859178432502}
   tokenInputField: {fileID: 6047561500282386758}
+  loginButtonText: {fileID: 5557305860001481239}
   loginButton: {fileID: 5557305858795951438}
   logoutButton: {fileID: 0}
   OnLogin:
@@ -2365,7 +2366,7 @@ GameObject:
   - component: {fileID: 5557305860001481238}
   - component: {fileID: 5557305860001481239}
   m_Layer: 5
-  m_Name: Text
+  m_Name: LoginText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
