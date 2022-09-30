@@ -2894,6 +2894,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: Lobbies
       m_Image: {fileID: 0}
+    - m_Text: Metrics
+      m_Image: {fileID: 0}
     - m_Text: Peer 2 Peer
       m_Image: {fileID: 0}
     - m_Text: Player Data Storage

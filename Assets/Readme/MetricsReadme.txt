@@ -1,0 +1,3 @@
+The Metrics Interface is used to collect data on game usage and populate the Game Analytics dashboard in the EOS portal.
+
+To use the demo, simply fill out the display name field and select a controller type (and optionally a session ID and a server IP in IPv4 or IPv6 format), then press the Begin Session button. This will start a Metrics tracking session, which will complete upon pressing the End Session button.

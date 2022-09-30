@@ -86,7 +86,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void UpdateLocalUserInfo()
         {
-            QueryUserInfoById(EOSManager.Instance.GetLocalUserId());
+            var userId = EOSManager.Instance.GetLocalUserId();
+            if (userId?.IsValid() == true)
+            {
+                QueryUserInfoById(userId);
+            }
         }
 
         public UserInfoData GetUserInfoById(EpicAccountId UserId)
@@ -103,7 +107,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void QueryUserInfoById(EpicAccountId UserId, OnUserInfoQueryIdCallback Callback = null)
         {
-            if(!UserId.IsValid())
+            if(UserId?.IsValid() != true)
             {
                 Debug.LogError("UserInfo (QueryUserInfoById): Invalid UserId");
                 Callback?.Invoke(UserId, Result.InvalidUser);
