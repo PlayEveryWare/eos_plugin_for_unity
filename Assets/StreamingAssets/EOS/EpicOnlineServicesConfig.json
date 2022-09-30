@@ -10,6 +10,7 @@
     "platformOptionsFlags": [
         ""
     ],
+    "tickBudgetInMilliseconds": 0,
     "alwaysSendInputToOverlay": true,
     "initialButtonDelayForOverlay": "",
     "repeatButtonDelayForOverlay": "",

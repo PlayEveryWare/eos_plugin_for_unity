@@ -65,7 +65,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void Awake()
         {
             HideMenu();
-            FileContent.text = string.Empty;
+        }
+
+        public void OnEnable()
+        {
+            if (EOSManager.Instance.IsEncryptionKeyValid())
+            {
+                FileContent.text = string.Empty;
+            }
+            else
+            {
+                FileContent.text = "Valid encryption key not set. Use the EOS Config Editor to add one.";
+            }
         }
 
         private void Start()
@@ -73,30 +84,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             TitleStorageManager = EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>();
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSTitleStorageManager>();
+        }
+
         public void AddTagOnClick()
         {
-            if (string.IsNullOrEmpty(AddTagTextBox.InputField.text))
+            if (AddTag(AddTagTextBox.InputField.text))
             {
-                Debug.LogError("UITitleStorageMenu - Empty tag cannot be added!");
-                return;
+                AddTagTextBox.InputField.text = string.Empty;
             }
-
-            if (CurrentTags.Contains(AddTagTextBox.InputField.text))
-            {
-                Debug.LogErrorFormat("UITitleStorageMenu - Tag '{0}' is already in the list.", AddTagTextBox.InputField.text);
-                return;
-            }
-
-            CurrentTags.Add(AddTagTextBox.InputField.text);
-
-            GameObject tagUIObj = Instantiate(UITagEntryPrefab, TagContentParent.transform);
-            UITagEntry tagEntry = tagUIObj.GetComponent<UITagEntry>();
-            if (tagEntry != null)
-            {
-                tagEntry.TagTxt.text = AddTagTextBox.InputField.text;
-            }
-
-            AddTagTextBox.InputField.text = string.Empty;
         }
 
         public void ClearTagsOnClick()
@@ -108,6 +106,56 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 GameObject.Destroy(child.gameObject);
             }
+        }
+
+        public void AddPlatformTagOnClick()
+        {
+
+#if UNITY_STANDALONE_WIN
+            string platformTag = "PLATFORM_WINDOWS";
+#elif UNITY_STANDALONE_OSX
+            string platformTag = "PLATFORM_MAC";
+#elif UNITY_STANDALONE_LINUX
+            string platformTag = "PLATFORM_LINUX";
+#elif UNITY_IOS
+            string platformTag = "PLATFORM_IOS";
+#elif UNITY_ANDROID
+            string platformTag = "PLATFORM_ANDROID";
+#elif UNITY_PS4
+            string platformTag = "PLATFORM_PS4";
+#elif UNITY_XBOXONE
+            string platformTag = "PLATFORM_XBOXONE";
+#else
+            string platformTag = "PLATFORM_UNKNOWN";
+#endif
+
+            AddTag(platformTag);
+        }
+
+        private bool AddTag(string tag)
+        {
+            if (string.IsNullOrEmpty(tag))
+            {
+                Debug.LogError("UITitleStorageMenu - Empty tag cannot be added!");
+                return false;
+            }
+
+            if (CurrentTags.Contains(tag))
+            {
+                Debug.LogErrorFormat("UITitleStorageMenu - Tag '{0}' is already in the list.", tag);
+                return false;
+            }
+
+            CurrentTags.Add(tag);
+
+            GameObject tagUIObj = Instantiate(UITagEntryPrefab, TagContentParent.transform);
+            UITagEntry tagEntry = tagUIObj.GetComponent<UITagEntry>();
+            if (tagEntry != null)
+            {
+                tagEntry.TagTxt.text = tag;
+            }
+
+            return true;
         }
 
         public void QueryListOnClick()

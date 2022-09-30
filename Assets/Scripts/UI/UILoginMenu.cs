@@ -57,7 +57,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text tokenText;
         public ConsoleInputField tokenInputField;
 
+        public Text loginButtonText;
+        private string _OriginalloginButtonText;
         public Button loginButton;
+        private Coroutine PreventLogIn = null;
         public Button logoutButton;
 
         public UnityEvent OnLogin;
@@ -132,6 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Start()
         {
+            _OriginalloginButtonText = loginButtonText.text;
             ConfigureUIForLogin();
 
             system = EventSystem.current;
@@ -385,6 +389,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             DemoTitle.gameObject.SetActive(true);
             loginTypeDropdown.gameObject.SetActive(true);
 
+            loginButtonText.text = _OriginalloginButtonText;
+            if (PreventLogIn != null)
+                StopCoroutine(PreventLogIn);
             loginButton.enabled = true;
             loginButton.gameObject.SetActive(true);
             logoutButton.gameObject.SetActive(false);
@@ -455,6 +462,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             DemoTitle.gameObject.SetActive(true);
             loginTypeDropdown.gameObject.SetActive(true);
 
+            loginButtonText.text = _OriginalloginButtonText;
+            if (PreventLogIn != null)
+                StopCoroutine(PreventLogIn);
             loginButton.enabled = true;
             loginButton.gameObject.SetActive(true);
             logoutButton.gameObject.SetActive(false);
@@ -525,6 +535,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return loginType == LoginCredentialType.Developer;
         }
 
+        private IEnumerator TurnButtonOnAfter15Sec()
+        {
+            for (int i = 15; i >= 0; i--)
+            {
+                yield return new WaitForSecondsRealtime(1);
+                loginButtonText.text = _OriginalloginButtonText + " (" + i + ")";
+            }
+            loginButton.enabled = true;
+            loginButtonText.text = _OriginalloginButtonText;
+        }
+
         // Username and password aren't always the username and password
         public void OnLoginButtonClick()
         {
@@ -544,6 +565,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             loginButton.enabled = false;
+            if(PreventLogIn!=null)
+                StopCoroutine(PreventLogIn);
+            PreventLogIn = StartCoroutine(TurnButtonOnAfter15Sec());
             //usernameInputField.enabled = false;
             //passwordInputField.enabled = false;
             print("Attempting to login...");

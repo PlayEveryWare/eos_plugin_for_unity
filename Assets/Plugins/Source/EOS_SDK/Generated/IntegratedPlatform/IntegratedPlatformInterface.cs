@@ -14,7 +14,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 
 		public const int OptionsApiLatest = 1;
 
-		public const int SteamOptionsApiLatest = 1;
+		public const int SteamOptionsApiLatest = 2;
 
 		/// <summary>
 		/// Creates an integrated platform options container handle. This handle can used to add multiple options to your container which will then be applied with <see cref="Platform.PlatformInterface.Create" />.

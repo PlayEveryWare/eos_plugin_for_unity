@@ -33,6 +33,7 @@ using Epic.OnlineServices.Platform;
 using Epic.OnlineServices.Lobby;
 
 using PlayEveryWare.EpicOnlineServices;
+using UnityEngine.Android;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -93,6 +94,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         private EOSEACLobbyManager AntiCheatLobbyManager;
 
+#if UNITY_ANDROID && !UNITY_EDITOR && EOS_ANDROID_ENABLED//TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
+        const bool ONANDROIDPLATFORM = true;
+#else
+        const bool ONANDROIDPLATFORM = false;
+#endif
+
         public void Awake()
         {
             // Hide Invite Pop-up (Default)
@@ -114,11 +121,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdate);
             CurrentLobbyPanel.SetActive(false);
+
+            if (ONANDROIDPLATFORM){
+#pragma warning disable CS0162 // Unreachable code when not in Android, but findable with intellisense
+                if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+                {
+                    //TODO call a popup explaining that mic permissions are needed for rtc rooms to function propperly, eventhough you can create/join rtc rooms without it. and on close, make permissions request
+                    Permission.RequestUserPermission(Permission.Microphone);
+                }
+                /*if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))//turns off the option to create an rtc room
+                {
+                    RTCVoiceRoomEnabledVal.isOn = false;
+                    RTCVoiceRoomEnabledVal.interactable = false;
+                }*/
+#pragma warning restore CS0162 
+            }
+
+            // Clear any search results that's in by default
+            ClearSearchResults();
         }
 
         private void OnDestroy()
         {
             LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
+
+            EOSManager.Instance.RemoveManager<EOSLobbyManager>();
+            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+            EOSManager.Instance.RemoveManager<EOSEACLobbyManager>();
         }
 
         private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)
@@ -572,18 +601,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (result != Result.Success)
             {
-                Debug.LogErrorFormat("UILobbiesMenu (UpdateSearchResults): result error '{0}'", result);
+                if (result == Result.NotFound || result == Result.InvalidParameters)
+                {
+                    // It's not an error if there's no results found when searching or there's invalid characters in the search
+                    Debug.Log("UILobbiesMenu (UpdateSearchResults): No results found.");
+                    ClearSearchResults();
+                }
+                else
+                {
+                    Debug.LogErrorFormat("UILobbiesMenu (UpdateSearchResults): result error '{0}'", result);
+                }
                 return;
             }
 
-            // Destroy current UI member list
-            foreach (Transform child in SearchContentParent.transform)
-            {
-                if (child != null)
-                {
-                    GameObject.Destroy(child.gameObject);
-                }
-            }
+            ClearSearchResults();
 
             bool firstResultSelected = false;
 
@@ -706,6 +737,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager?.OnLoggedOut();
 
             LobbiesUIParent.gameObject.SetActive(false);
+        }
+
+        private void ClearSearchResults()
+        {
+            // Destroy current UI member list
+            foreach (Transform child in SearchContentParent.transform)
+            {
+                if (child != null)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
         }
     }
 }

@@ -81,6 +81,35 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_Checkout(EOS_HEcom Handle, const EOS_Ecom_Checko
 EOS_DECLARE_FUNC(void) EOS_Ecom_RedeemEntitlements(EOS_HEcom Handle, const EOS_Ecom_RedeemEntitlementsOptions* Options, void* ClientData, const EOS_Ecom_OnRedeemEntitlementsCallback CompletionDelegate);
 
 /**
+ * Fetch the number of entitlements that were redeemed during the last EOS_Ecom_RedeemEntitlements call.
+ *
+ * @param Options structure containing the Epic Account ID
+ *
+ * @see EOS_Ecom_CopyLastRedeemedEntitlementByIndex
+ *
+ * @return the number of the redeemed entitlements.
+ */
+EOS_DECLARE_FUNC(uint32_t) EOS_Ecom_GetLastRedeemedEntitlementsCount(EOS_HEcom Handle, const EOS_Ecom_GetLastRedeemedEntitlementsCountOptions* Options);
+
+/**
+ * Fetches a redeemed entitlement id from a given index.
+ * Only entitlements that were redeemed during the last EOS_Ecom_RedeemEntitlements call can be copied.
+ *
+ * @param Options structure containing the Epic Account ID and index being accessed
+ * @param OutRedeemedEntitlementId The ID of the redeemed entitlement. Must be long enough to hold a string of EOS_ECOM_ENTITLEMENTID_MAX_LENGTH.
+ * @param InOutRedeemedEntitlementIdLength The size of the OutRedeemedEntitlementId in characters.
+ *										   The input buffer should include enough space to be null-terminated.
+ *										   When the function returns, this parameter will be filled with the length of the string copied into OutRedeemedEntitlementId.
+ *
+ * @return EOS_Success if the information is available and passed out in OutRedeemedEntitlementId
+ *         EOS_InvalidParameters if you pass a null pointer for the out parameter
+ *         EOS_NotFound if the entitlement id is not found
+ *
+ * @see EOS_ECOM_ENTITLEMENTID_MAX_LENGTH
+ */
+EOS_DECLARE_FUNC(EOS_EResult) EOS_Ecom_CopyLastRedeemedEntitlementByIndex(EOS_HEcom Handle, const EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions* Options, char* OutRedeemedEntitlementId, int32_t* InOutRedeemedEntitlementIdLength);
+
+/**
  * Fetch the number of entitlements that are cached for a given local user.
  *
  * @param Options structure containing the Epic Account ID being accessed

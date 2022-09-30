@@ -14,7 +14,7 @@ namespace Epic.OnlineServices.P2P
 		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
-		/// The optional socket ID, used as a filter for established connections. If <see langword="null" />, this handler will be called for all sockets
+		/// The optional socket ID, used as a filter for established connections. If <see langword="null" />, this function handler will be called for all sockets
 		/// </summary>
 		public SocketId? SocketId { get; set; }
 	}

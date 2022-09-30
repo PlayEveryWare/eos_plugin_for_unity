@@ -71,6 +71,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CloseChatOnClick();
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSPeer2PeerManager>();
+            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+        }
         public void ChatMessageEndEdit(string arg0)
         {
             SendOnClick();

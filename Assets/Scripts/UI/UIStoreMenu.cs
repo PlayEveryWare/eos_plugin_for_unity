@@ -60,6 +60,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             HideMenu();
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSStoreManager>();
+        }
+
         private void Update()
         {
             if (StoreManager.GetCatalogOffers(out List<CatalogOffer> CatalogOffers))

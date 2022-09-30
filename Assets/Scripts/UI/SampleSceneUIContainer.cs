@@ -21,19 +21,19 @@
 */
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class SampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
     {
-        private Vector2 initialAnchorMin;
-        private Vector2 initialSizeDelta;
+        public LayoutElement ContainerLayout;
+        private float initialFlexHeight;
 
         private void Start()
         {
             var rt = transform as RectTransform;
-            initialAnchorMin = rt.anchorMin;
-            initialSizeDelta = rt.sizeDelta;
+            initialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
         public void ShowMenu()
@@ -64,19 +64,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void SetFullscreen(bool fullscreen)
+        public void SetVisible(bool visible)
         {
-            var rt = transform as RectTransform;
-            if (fullscreen)
-            {
-                rt.anchorMin = new Vector2(initialAnchorMin.x, 0);
-                rt.sizeDelta = new Vector2(initialSizeDelta.x, 0);
-            }
-            else
-            {
-                rt.anchorMin = initialAnchorMin;
-                rt.sizeDelta = initialSizeDelta;
-            }
+            ContainerLayout.flexibleHeight = visible ? initialFlexHeight : 0;
         }
     }
 }

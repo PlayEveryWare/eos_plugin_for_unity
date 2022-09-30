@@ -37,6 +37,22 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    [Serializable]
+    public class PlayerDataInventory
+    {
+        public const string InventoryType = "INVENTORY";
+        public string Type = InventoryType;
+        public int Sword = 0;
+        public int Potion = 0;
+        public int Gold = 0;
+        public int Ration = 0;
+
+        public bool IsValid()
+        {
+            return Type == InventoryType;
+        }
+    }
+
     public class UIPlayerDataStorageMenu : MonoBehaviour, ISampleSceneUI
     {
         [Header("Player Data Storage UI")]
@@ -47,8 +63,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject FilesContentParent;
         public GameObject UIFileNameEntryPrefab;
 
-        public ConsoleInputField FileContentTextBox;
+        public Text RemoteViewText;
+        public Text LocalViewText;
+        public Text CurrentFileNameText;
 
+        public Dropdown AddItemDropdown;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
@@ -56,57 +75,68 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private string currentSelectedFile = string.Empty;
 
         private EOSPlayerDataStorageManager PlayerDataStorageManager;
+        private PlayerDataInventory currentInventory = null;
 
-        public void Start()
+        private HashSet<string> fileNames;
+        private List<UIFileNameEntry> fileNameUIEntries;
+
+        private void Awake()
         {
-            FileContentTextBox.InputField.text = string.Empty;
+            fileNames = new HashSet<string>();
+            fileNameUIEntries = new List<UIFileNameEntry>();
+            fileNameUIEntries.AddRange(FilesContentParent.GetComponentsInChildren<UIFileNameEntry>(true));
             PlayerDataStorageManager = EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>();
         }
 
-        private int previousFrameStorageDataCount = 0;
-        private bool updateUI = false;
-
-        private void Update()
+        private void Start()
         {
-            if (PlayerDataStorageManager.GetCachedStorageData().Count != previousFrameStorageDataCount || updateUI)
+            RemoteViewText.text = string.Empty;
+            LocalViewText.text = string.Empty;
+            CurrentFileNameText.text = "*No File Selected*";
+        }
+
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSPlayerDataStorageManager>();
+        }
+
+        private void UpdateFileListUI()
+        {
+            if (PlayerDataStorageManager.GetCachedStorageData().Count != fileNameUIEntries.Count)
             {
                 // Destroy current UI member list
-                foreach (Transform child in FilesContentParent.transform)
+                foreach (var entry in fileNameUIEntries)
                 {
-                    GameObject.Destroy(child.gameObject);
+                    Destroy(entry.gameObject);
                 }
+                fileNameUIEntries.Clear();
+                fileNames.Clear();
 
                 foreach (string fileName in PlayerDataStorageManager.GetCachedStorageData().Keys)
                 {
+                    fileNames.Add(fileName);
                     GameObject fileUIObj = Instantiate(UIFileNameEntryPrefab, FilesContentParent.transform);
                     UIFileNameEntry uiEntry = fileUIObj.GetComponent<UIFileNameEntry>();
 
                     uiEntry.FileNameTxt.text = fileName;
                     uiEntry.FileNameOnClick = FileListOnClick;
 
-                    if (fileName.Equals(currentSelectedFile, StringComparison.OrdinalIgnoreCase))
-                    {
-                        uiEntry.ShowSelectedColor();
-                        FileContentTextBox.InputField.text = GetLocalFileData(fileName);
-                    }
+                    fileNameUIEntries.Add(uiEntry);
                 }
-
-                updateUI = false;
             }
 
-            previousFrameStorageDataCount = PlayerDataStorageManager.GetCachedStorageData().Count;
+            if (!fileNames.Contains(currentSelectedFile))
+            {
+                RemoteViewText.text = string.Empty;
+                LocalViewText.text = string.Empty;
+                CurrentFileNameText.text = "*No File Selected*";
+                currentInventory = null;
+            }
         }
 
         public void RefreshButtonOnClick()
         {
             PlayerDataStorageManager.QueryFileList();
-
-            updateUI = true;
-        }
-
-        public void UpdateUI()
-        {
-            updateUI = true;
         }
 
         public void NewFileButtonOnClick()
@@ -117,7 +147,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            PlayerDataStorageManager.AddFile(NewFileNameTextBox.InputField.text, string.Empty);
+            string newFileContents = JsonUtility.ToJson(new PlayerDataInventory(), true);
+
+            PlayerDataStorageManager.AddFile(NewFileNameTextBox.InputField.text, newFileContents, UpdateFileListUI);
 
             NewFileNameTextBox.InputField.text = string.Empty;
         }
@@ -130,7 +162,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            PlayerDataStorageManager.AddFile(currentSelectedFile, FileContentTextBox.InputField.text, UpdateUI);
+            if (currentInventory == null)
+            {
+                Debug.LogError("UIPlayerDatatStorageMenu (SaveButtonOnClick): Local file is not a valid inventory.");
+                return;
+            }
+
+            PlayerDataStorageManager.AddFile(currentSelectedFile, LocalViewText.text, () => UpdateRemoteView(currentSelectedFile));
         }
 
         public void DownloadButtonOnClick()
@@ -141,7 +179,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            PlayerDataStorageManager.StartFileDataDownload(currentSelectedFile, UpdateUI);
+            PlayerDataInventory newInventory = null;
+            try
+            {
+                newInventory = JsonUtility.FromJson<PlayerDataInventory>(RemoteViewText.text);
+            }
+            catch (Exception){ }
+            if (newInventory != null && newInventory.IsValid())
+            {
+                currentInventory = newInventory;
+                LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
+            }
+            else
+            {
+                currentInventory = null;
+                LocalViewText.text = "*** File is not valid inventory json ***";
+            }
         }
 
         public void DuplicateButtonOnClick()
@@ -152,7 +205,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            PlayerDataStorageManager.CopyFile(currentSelectedFile, currentSelectedFile + "_Copy");
+            string copyName = currentSelectedFile + "_Copy";
+            if (fileNames.Contains(copyName))
+            {
+                int copyIndex = 2;
+                while (fileNames.Contains(copyName + copyIndex))
+                {
+                    copyIndex++;
+                }
+                copyName = copyName + copyIndex;
+            }
+
+            PlayerDataStorageManager.CopyFile(currentSelectedFile, copyName);
         }
 
         public void DeleteButtonOnClick()
@@ -166,39 +230,79 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PlayerDataStorageManager.DeleteFile(currentSelectedFile);
 
             currentSelectedFile = string.Empty;
+            CurrentFileNameText.text = "*No File Selected*";
         }
 
         private void FileListOnClick(string fileName)
         {
+            if (currentSelectedFile == fileName)
+            {
+                return;
+            }
+
             // Store selected
             //PlayerDataStorageManager.SelectFile(fileName);
             currentSelectedFile = fileName;
 
-            // Update File content if local cash exists
-            FileContentTextBox.InputField.text = GetLocalFileData(fileName);
-
-            updateUI = true;
+            // Update File content if local cache exists
+            CurrentFileNameText.text = currentSelectedFile;
+            UpdateRemoteView(fileName);
+            currentInventory = null;
+            LocalViewText.text = "*** Click Download button to create a local copy to modify ***";
         }
 
-        private string GetLocalFileData(string fileName)
+        private void UpdateRemoteView(string fileName)
         {
             string fileContent = PlayerDataStorageManager.GetCachedFileContent(fileName);
 
             if (fileContent == null)
             {
-                fileContent = "*** Press Download button to load file content ***";
+                RemoteViewText.text = "*** Downloading content ***";
+                PlayerDataStorageManager.StartFileDataDownload(fileName, () => UpdateRemoteView(fileName));
             }
             else if (fileContent.Length == 0)
             {
-                fileContent = "*** File is empty ***";
+                RemoteViewText.text = "*** File is empty ***";
+            }
+            else
+            {
+                RemoteViewText.text = fileContent;
+            }
+        }
+
+        public void AddItemOnClick()
+        {
+            if (currentInventory == null)
+            {
+                Debug.LogError("UIPlayerDatatStorageMenu (AddItemOnClick): Need to download a valid inventory first.");
+                return;
             }
 
-            return fileContent;
+            string itemToAdd = AddItemDropdown.options[AddItemDropdown.value].text;
+            switch (itemToAdd)
+            {
+                case "Sword":
+                    currentInventory.Sword++;
+                    break;
+                case "Potion":
+                    currentInventory.Potion++;
+                    break;
+                case "Gold":
+                    currentInventory.Gold++;
+                    break;
+                case "Ration":
+                    currentInventory.Ration++;
+                    break;
+            }
+
+            LocalViewText.text = JsonUtility.ToJson(currentInventory, true);
         }
 
         public void ShowMenu()
         {
-            EOSManager.Instance.GetOrCreateManager<EOSPlayerDataStorageManager>().OnLoggedIn();
+            UpdateFileListUI();
+            PlayerDataStorageManager.AddNotifyFileListUpdated(UpdateFileListUI);
+            PlayerDataStorageManager.OnLoggedIn();
 
             PlayerDataStorageUIParent.gameObject.SetActive(true);
 
@@ -208,9 +312,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void HideMenu()
         {
+            PlayerDataStorageManager?.RemoveNotifyFileListUpdated(UpdateFileListUI);
             PlayerDataStorageManager?.OnLoggedOut();
 
             PlayerDataStorageUIParent.gameObject.SetActive(false);
+            currentSelectedFile = string.Empty;
+            currentInventory = null;
         }
     }
 }

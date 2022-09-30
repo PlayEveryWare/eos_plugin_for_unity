@@ -33,6 +33,11 @@ namespace Epic.OnlineServices.P2P
 		/// </summary>
 		public ConnectionEstablishedType ConnectionType { get; set; }
 
+		/// <summary>
+		/// What type of network connection is being used for this connection
+		/// </summary>
+		public NetworkConnectionType NetworkType { get; set; }
+
 		public Result? GetResultCode()
 		{
 			return null;
@@ -45,6 +50,7 @@ namespace Epic.OnlineServices.P2P
 			RemoteUserId = other.RemoteUserId;
 			SocketId = other.SocketId;
 			ConnectionType = other.ConnectionType;
+			NetworkType = other.NetworkType;
 		}
 	}
 
@@ -56,6 +62,7 @@ namespace Epic.OnlineServices.P2P
 		private System.IntPtr m_RemoteUserId;
 		private System.IntPtr m_SocketId;
 		private ConnectionEstablishedType m_ConnectionType;
+		private NetworkConnectionType m_NetworkType;
 
 		public object ClientData
 		{
@@ -138,6 +145,19 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
+		public NetworkConnectionType NetworkType
+		{
+			get
+			{
+				return m_NetworkType;
+			}
+
+			set
+			{
+				m_NetworkType = value;
+			}
+		}
+
 		public void Set(ref OnPeerConnectionEstablishedInfo other)
 		{
 			ClientData = other.ClientData;
@@ -145,6 +165,7 @@ namespace Epic.OnlineServices.P2P
 			RemoteUserId = other.RemoteUserId;
 			SocketId = other.SocketId;
 			ConnectionType = other.ConnectionType;
+			NetworkType = other.NetworkType;
 		}
 
 		public void Set(ref OnPeerConnectionEstablishedInfo? other)
@@ -156,6 +177,7 @@ namespace Epic.OnlineServices.P2P
 				RemoteUserId = other.Value.RemoteUserId;
 				SocketId = other.Value.SocketId;
 				ConnectionType = other.Value.ConnectionType;
+				NetworkType = other.Value.NetworkType;
 			}
 		}
 

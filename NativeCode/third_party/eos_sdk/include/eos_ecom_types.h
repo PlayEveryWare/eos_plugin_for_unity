@@ -188,10 +188,14 @@ EOS_STRUCT(EOS_Ecom_CatalogItem, (
 EOS_DECLARE_FUNC(void) EOS_Ecom_CatalogItem_Release(EOS_Ecom_CatalogItem* CatalogItem);
 
 /** The most recent version of the EOS_Ecom_CatalogOffer struct. */
-#define EOS_ECOM_CATALOGOFFER_API_LATEST 4
+#define EOS_ECOM_CATALOGOFFER_API_LATEST 5
 
 /** Timestamp value representing an undefined ExpirationTimestamp for EOS_Ecom_CatalogOffer */
 #define EOS_ECOM_CATALOGOFFER_EXPIRATIONTIMESTAMP_UNDEFINED -1
+/** Timestamp value representing an undefined ReleaseDateTimestamp for EOS_Ecom_CatalogOffer */
+#define EOS_ECOM_CATALOGOFFER_RELEASEDATETIMESTAMP_UNDEFINED -1
+/** Timestamp value representing an undefined EffectiveDateTimestamp for EOS_Ecom_CatalogOffer */
+#define EOS_ECOM_CATALOGOFFER_EFFECTIVEDATETIMESTAMP_UNDEFINED -1
 
 /**
  * Contains information about a single offer within the catalog. Instances of this structure are
@@ -237,8 +241,11 @@ EOS_STRUCT(EOS_Ecom_CatalogOffer, (
 	uint8_t DiscountPercentage;
 	/** Contains the POSIX timestamp that the offer expires or -1 if it does not expire */
 	int64_t ExpirationTimestamp;
-	/** The number of times that the requesting account has purchased this offer. */
-	uint32_t PurchasedCount;
+	/** 
+	* The number of times that the requesting account has purchased this offer.
+	* This value is deprecated and the backend no longer returns this value.
+	*/
+	uint32_t PurchasedCount_DEPRECATED;
 	/**
 	 * The maximum number of times that the offer can be purchased.
 	 * A negative value implies there is no limit.
@@ -252,6 +259,10 @@ EOS_STRUCT(EOS_Ecom_CatalogOffer, (
 	uint64_t CurrentPrice64;
 	/** The decimal point for the provided price.  For example, DecimalPoint '2' and CurrentPrice64 '12345' would be '123.45'. */
 	uint32_t DecimalPoint;
+	/** Timestamp indicating when the time when the offer was released. Can be ignored if set to -1. */
+	int64_t ReleaseDateTimestamp;
+	/** Timestamp indicating the effective date of the offer. Can be ignored if set to -1. */
+	int64_t EffectiveDateTimestamp;
 ));
 
 /**
@@ -560,12 +571,17 @@ EOS_DECLARE_CALLBACK(EOS_Ecom_OnCheckoutCallback, const EOS_Ecom_CheckoutCallbac
 
 
 /** The most recent version of the EOS_Ecom_RedeemEntitlements API. */
-#define EOS_ECOM_REDEEMENTITLEMENTS_API_LATEST 1
+#define EOS_ECOM_REDEEMENTITLEMENTS_API_LATEST 2
 
 /**
  * The maximum number of entitlement IDs that may be redeemed in a single pass
  */
 #define EOS_ECOM_REDEEMENTITLEMENTS_MAX_IDS 32
+
+/**
+* The maximum length of an entitlement ID
+*/
+#define EOS_ECOM_ENTITLEMENTID_MAX_LENGTH 32
 
 /**
  * Input parameters for the EOS_Ecom_RedeemEntitlements function.
@@ -591,6 +607,8 @@ EOS_STRUCT(EOS_Ecom_RedeemEntitlementsCallbackInfo, (
 	void* ClientData;
 	/** The Epic Account ID of the user who has redeemed entitlements */
 	EOS_EpicAccountId LocalUserId;
+	/* The number of redeemed Entitlements */
+	uint32_t RedeemedEntitlementIdsCount;
 ));
 
 /**
@@ -599,6 +617,33 @@ EOS_STRUCT(EOS_Ecom_RedeemEntitlementsCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_Ecom_OnRedeemEntitlementsCallback, const EOS_Ecom_RedeemEntitlementsCallbackInfo* Data);
 
+/** The most recent version of the EOS_Ecom_GetLastRedeemedEntitlementsCount API. */
+#define EOS_ECOM_GETLASTREDEEMEDENTITLEMENTSCOUNT_API_LATEST 1
+
+/**
+ * Input parameters for the EOS_Ecom_GetLastRedeemedEntitlementsCount function.
+ */
+EOS_STRUCT(EOS_Ecom_GetLastRedeemedEntitlementsCountOptions, (
+	/** API Version: Set this to EOS_ECOM_GETLASTREDEEMEDENTITLEMENTSCOUNT_API_LATEST. */
+	int32_t ApiVersion;
+	/** The Epic Account ID of the local user for who to retrieve the last redeemed entitlements count */
+	EOS_EpicAccountId LocalUserId;
+));
+
+/** The most recent version of the EOS_Ecom_CopyLastRedeemedEntitlementByIndex API. */
+#define EOS_ECOM_COPYLASTREDEEMEDENTITLEMENTBYINDEX_API_LATEST 1
+
+ /**
+  * Input parameters for the EOS_Ecom_CopyLastRedeemedEntitlementByIndex function.
+  */
+EOS_STRUCT(EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions, (
+	/** API Version: Set this to EOS_ECOM_COPYLASTREDEEMEDENTITLEMENTBYINDEX_API_LATEST. */
+	int32_t ApiVersion;
+	/** The Epic Account ID of the local user whose last redeemed entitlement id is being copied */
+	EOS_EpicAccountId LocalUserId;
+	/** Index of the last redeemed entitlement id to retrieve from the cache */
+	uint32_t RedeemedEntitlementIndex;
+));
 
 /** The most recent version of the EOS_Ecom_GetEntitlementsCount API. */
 #define EOS_ECOM_GETENTITLEMENTSCOUNT_API_LATEST 1
@@ -689,7 +734,7 @@ EOS_STRUCT(EOS_Ecom_GetOfferCountOptions, (
 ));
 
 /** The most recent version of the EOS_Ecom_CopyOfferByIndex API. */
-#define EOS_ECOM_COPYOFFERBYINDEX_API_LATEST 2
+#define EOS_ECOM_COPYOFFERBYINDEX_API_LATEST 3
 
 /**
  * Input parameters for the EOS_Ecom_CopyOfferByIndex function.
@@ -704,7 +749,7 @@ EOS_STRUCT(EOS_Ecom_CopyOfferByIndexOptions, (
 ));
 
 /** The most recent version of the EOS_Ecom_CopyOfferById API. */
-#define EOS_ECOM_COPYOFFERBYID_API_LATEST 2
+#define EOS_ECOM_COPYOFFERBYID_API_LATEST 3
 
 /**
  * Input parameters for the EOS_Ecom_CopyOfferById function.

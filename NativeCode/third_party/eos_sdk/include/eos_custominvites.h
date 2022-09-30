@@ -15,8 +15,6 @@
  * Initializes a Custom Invite with a specified payload in preparation for it to be sent to another user or users.
  *
  * @param Options Structure containing information about the request.
- * @param ClientData Arbitrary data that is passed back to you in the CompletionDelegate
- * @param CompletionDelegate A callback that is fired when the operation completes, either successfully or in error
  *
  * @return EOS_Success if the operation completes successfully
  *         EOS_InvalidParameters if any of the options values are incorrect

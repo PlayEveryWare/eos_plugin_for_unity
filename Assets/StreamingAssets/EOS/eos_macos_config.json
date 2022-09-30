@@ -1,0 +1,21 @@
+{
+    "flags": [],
+    "overrideValues": {
+        "productName": "",
+        "productVersion": "",
+        "productID": "",
+        "sandboxID": "",
+        "deploymentID": "",
+        "clientSecret": "",
+        "clientID": "",
+        "encryptionKey": "",
+        "platformOptionsFlags": [
+            ""
+        ],
+        "tickBudgetInMilliseconds": 0,
+        "alwaysSendInputToOverlay": false,
+        "initialButtonDelayForOverlay": "",
+        "repeatButtonDelayForOverlay": "",
+        "hackForceSendInputDirectlyToSDK": false
+    }
+}

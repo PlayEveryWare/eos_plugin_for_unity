@@ -81,8 +81,9 @@ namespace Epic.OnlineServices.Ecom
 
 		/// <summary>
 		/// The number of times that the requesting account has purchased this offer.
+		/// This value is deprecated and the backend no longer returns this value.
 		/// </summary>
-		public uint PurchasedCount { get; set; }
+		public uint PurchasedCount_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// The maximum number of times that the offer can be purchased.
@@ -110,6 +111,16 @@ namespace Epic.OnlineServices.Ecom
 		/// </summary>
 		public uint DecimalPoint { get; set; }
 
+		/// <summary>
+		/// Timestamp indicating when the time when the offer was released. Can be ignored if set to -1.
+		/// </summary>
+		public long ReleaseDateTimestamp { get; set; }
+
+		/// <summary>
+		/// Timestamp indicating the effective date of the offer. Can be ignored if set to -1.
+		/// </summary>
+		public long EffectiveDateTimestamp { get; set; }
+
 		internal void Set(ref CatalogOfferInternal other)
 		{
 			ServerIndex = other.ServerIndex;
@@ -125,12 +136,14 @@ namespace Epic.OnlineServices.Ecom
 			CurrentPrice_DEPRECATED = other.CurrentPrice_DEPRECATED;
 			DiscountPercentage = other.DiscountPercentage;
 			ExpirationTimestamp = other.ExpirationTimestamp;
-			PurchasedCount = other.PurchasedCount;
+			PurchasedCount_DEPRECATED = other.PurchasedCount_DEPRECATED;
 			PurchaseLimit = other.PurchaseLimit;
 			AvailableForPurchase = other.AvailableForPurchase;
 			OriginalPrice64 = other.OriginalPrice64;
 			CurrentPrice64 = other.CurrentPrice64;
 			DecimalPoint = other.DecimalPoint;
+			ReleaseDateTimestamp = other.ReleaseDateTimestamp;
+			EffectiveDateTimestamp = other.EffectiveDateTimestamp;
 		}
 	}
 
@@ -151,12 +164,14 @@ namespace Epic.OnlineServices.Ecom
 		private uint m_CurrentPrice_DEPRECATED;
 		private byte m_DiscountPercentage;
 		private long m_ExpirationTimestamp;
-		private uint m_PurchasedCount;
+		private uint m_PurchasedCount_DEPRECATED;
 		private int m_PurchaseLimit;
 		private int m_AvailableForPurchase;
 		private ulong m_OriginalPrice64;
 		private ulong m_CurrentPrice64;
 		private uint m_DecimalPoint;
+		private long m_ReleaseDateTimestamp;
+		private long m_EffectiveDateTimestamp;
 
 		public int ServerIndex
 		{
@@ -341,16 +356,16 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
-		public uint PurchasedCount
+		public uint PurchasedCount_DEPRECATED
 		{
 			get
 			{
-				return m_PurchasedCount;
+				return m_PurchasedCount_DEPRECATED;
 			}
 
 			set
 			{
-				m_PurchasedCount = value;
+				m_PurchasedCount_DEPRECATED = value;
 			}
 		}
 
@@ -421,6 +436,32 @@ namespace Epic.OnlineServices.Ecom
 			}
 		}
 
+		public long ReleaseDateTimestamp
+		{
+			get
+			{
+				return m_ReleaseDateTimestamp;
+			}
+
+			set
+			{
+				m_ReleaseDateTimestamp = value;
+			}
+		}
+
+		public long EffectiveDateTimestamp
+		{
+			get
+			{
+				return m_EffectiveDateTimestamp;
+			}
+
+			set
+			{
+				m_EffectiveDateTimestamp = value;
+			}
+		}
+
 		public void Set(ref CatalogOffer other)
 		{
 			m_ApiVersion = EcomInterface.CatalogofferApiLatest;
@@ -437,12 +478,14 @@ namespace Epic.OnlineServices.Ecom
 			CurrentPrice_DEPRECATED = other.CurrentPrice_DEPRECATED;
 			DiscountPercentage = other.DiscountPercentage;
 			ExpirationTimestamp = other.ExpirationTimestamp;
-			PurchasedCount = other.PurchasedCount;
+			PurchasedCount_DEPRECATED = other.PurchasedCount_DEPRECATED;
 			PurchaseLimit = other.PurchaseLimit;
 			AvailableForPurchase = other.AvailableForPurchase;
 			OriginalPrice64 = other.OriginalPrice64;
 			CurrentPrice64 = other.CurrentPrice64;
 			DecimalPoint = other.DecimalPoint;
+			ReleaseDateTimestamp = other.ReleaseDateTimestamp;
+			EffectiveDateTimestamp = other.EffectiveDateTimestamp;
 		}
 
 		public void Set(ref CatalogOffer? other)
@@ -463,12 +506,14 @@ namespace Epic.OnlineServices.Ecom
 				CurrentPrice_DEPRECATED = other.Value.CurrentPrice_DEPRECATED;
 				DiscountPercentage = other.Value.DiscountPercentage;
 				ExpirationTimestamp = other.Value.ExpirationTimestamp;
-				PurchasedCount = other.Value.PurchasedCount;
+				PurchasedCount_DEPRECATED = other.Value.PurchasedCount_DEPRECATED;
 				PurchaseLimit = other.Value.PurchaseLimit;
 				AvailableForPurchase = other.Value.AvailableForPurchase;
 				OriginalPrice64 = other.Value.OriginalPrice64;
 				CurrentPrice64 = other.Value.CurrentPrice64;
 				DecimalPoint = other.Value.DecimalPoint;
+				ReleaseDateTimestamp = other.Value.ReleaseDateTimestamp;
+				EffectiveDateTimestamp = other.Value.EffectiveDateTimestamp;
 			}
 		}
 

@@ -58,13 +58,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Action<SessionDetails> JoinOnClick;
 
-        private void Start()
-        {
-            // Prefab is destroyed and state is not maintained between updates
-            //StartButton.interactable = true;
-            //EndButton.interactable = false;
-        }
-
         public void OnlyEnableSearchResultButtons()
         {
             NameTxt.transform.gameObject.SetActive(false);
@@ -76,6 +69,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EndButton.interactable = false;
             ModifyButton.interactable = false;
             LeaveButton.interactable = false;
+        }
+
+        public void EnableButtonsBySessionState(bool updating, OnlineSessionState state)
+        {
+            StartButton.interactable = !updating && (state == OnlineSessionState.Pending || state == OnlineSessionState.Ended);
+            EndButton.interactable = !updating && state == OnlineSessionState.InProgress;
         }
 
         public void JoinOnClickHandler()

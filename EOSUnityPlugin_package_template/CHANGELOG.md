@@ -8,6 +8,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.1.3] - 2022-09-30
+
+### Added
+- Adding instructions to Custom Invites readme
+- Custom invites readme
+- Updated EOS docs urls and added EAC and custom invites sample locations
+- Unlock Achievement Callback
+
+### Changed
+- Making the invite button in the appropriate scenes now visible but inactive when not useable
+- Modified document to clarify options for obfuscating the EOSConfigs
+- Renamed document that describes the EOSConfig loading
+- Changed some storage sample text based on UX feedback
+- Added spacing to login ui in to better center login button
+- Updated to EOS SDK to 1.15.2.1
+
+### Fixed
+- Update achievements for users with empty stats
+- Deactivate unlock button when achievement unlocked
+- Session sample NotFound error
+- Friends search does a proper search on cache
+- Made session level search case insensitive
+- Disabled start and end session buttons based on session state
+- Fixed handling of session attributes in session modification
+- Fixed compiler error in UIMemberEntry caused by unhandled platforms.
+- Talking status for mic permission
+- Added readme dir to package description
+- Adjusting error logging for searches and clearning search results when scene loads
+- Fixed UIMemberEntry prefab RectTransforms
+- Fixed debug log layout so log options UI doesn't overlap demo scene
+- Some clean up for callbacks
+- Fixed scaling issues of Lobby sample UI that were interfering with the create lobby button
+- EOS Config editor window on play mode fix to keep window data valid
+- Fixed player data storage sample behavior when switching accounts and copying files
+- Fixed expand and hide behavior of debug log ui
+- EOS config editor encryption key null reference
+
 ## [2.1.2] - 2022-09-06
 
 ### Fixed

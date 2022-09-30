@@ -83,10 +83,11 @@ EOS_STRUCT(EOS_IntegratedPlatform_Options, (
 	const void* InitOptions;
 ));
 
-#define EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST 1
+#define EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST 2
 
 /**
  * Required initialization options to use with EOS_IntegratedPlatform_Options for Steam.
+ * Steamworks API needs to be at least v1.48
  *
  * @see EOS_IntegratedPlatform_Options
  */
@@ -108,6 +109,18 @@ EOS_STRUCT(EOS_IntegratedPlatform_Steam_Options, (
 	 * Set to a fully qualified file path to the Steamworks SDK runtime library on disk.
 	 */
 	const char* OverrideLibraryPath;
+	/**
+	 * Used to specify the major version of the Steam SDK your game is compiled against, e.g.:
+	 *
+	 * Options.SteamMajorVersion = 1;
+	 */
+	uint32_t SteamMajorVersion;
+	/**
+	 * Used to specify the minor version of the Steam SDK your game is compiled against, e.g.:
+	 *
+	 * Options.SteamMinorVersion = 48;
+	 */
+	uint32_t SteamMinorVersion;
 ));
 
 #define EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST 1

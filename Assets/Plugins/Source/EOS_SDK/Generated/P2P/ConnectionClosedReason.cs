@@ -9,47 +9,47 @@ namespace Epic.OnlineServices.P2P
 	public enum ConnectionClosedReason : int
 	{
 		/// <summary>
-		/// The connection was closed for unknown reasons
+		/// The connection was closed for unknown reasons. This most notably happens during application shutdown.
 		/// </summary>
 		Unknown = 0,
 		/// <summary>
-		/// The connection was gracefully closed by the local user
+		/// The connection was at least locally accepted, but was closed by the local user via a call to <see cref="P2PInterface.CloseConnection" /> / <see cref="P2PInterface.CloseConnections" />.
 		/// </summary>
 		ClosedByLocalUser = 1,
 		/// <summary>
-		/// The connection was gracefully closed by the remote user
+		/// The connection was at least locally accepted, but was gracefully closed by the remote user via a call to <see cref="P2PInterface.CloseConnection" /> / <see cref="P2PInterface.CloseConnections" />.
 		/// </summary>
 		ClosedByPeer = 2,
 		/// <summary>
-		/// The connection timed out
+		/// The connection was at least locally accepted, but was not remotely accepted in time.
 		/// </summary>
 		TimedOut = 3,
 		/// <summary>
-		/// The connection could not be created due to too many other connections
+		/// The connection was accepted, but the connection could not be created due to too many other existing connections
 		/// </summary>
 		TooManyConnections = 4,
 		/// <summary>
-		/// The remote user sent an invalid message
+		/// The connection was accepted, The remote user sent an invalid message
 		/// </summary>
 		InvalidMessage = 5,
 		/// <summary>
-		/// The remote user sent us invalid data
+		/// The connection was accepted, but the remote user sent us invalid data
 		/// </summary>
 		InvalidData = 6,
 		/// <summary>
-		/// We failed to establish a connection with the remote user
+		/// The connection was accepted, but we failed to ever establish a connection with the remote user due to connectivity issues.
 		/// </summary>
 		ConnectionFailed = 7,
 		/// <summary>
-		/// The connection was unexpectedly closed
+		/// The connection was accepted and established, but the peer silently went away.
 		/// </summary>
 		ConnectionClosed = 8,
 		/// <summary>
-		/// We failed to negotiate a connection with the remote user
+		/// The connection was locally accepted, but we failed to negotiate a connection with the remote user. This most commonly occurs if the local user goes offline or is logged-out during the connection process.
 		/// </summary>
 		NegotiationFailed = 9,
 		/// <summary>
-		/// There was an unexpected error and the connection cannot continue
+		/// The connection was accepted, but there was an internal error occurred and the connection cannot be created or continue.
 		/// </summary>
 		UnexpectedError = 10
 	}

@@ -57,6 +57,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CustomInvitesManager?.RemoveNotifyCustomInviteReceived(OnInviteReceived);
             CustomInvitesManager?.RemoveNotifyCustomInviteAccepted(OnInviteAccepted);
             CustomInvitesManager?.RemoveNotifyCustomInviteRejected(OnInviteRejected);
+
+            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+            EOSManager.Instance.RemoveManager<EOSCustomInvitesManager>();
         }
 
         public void HideMenu()

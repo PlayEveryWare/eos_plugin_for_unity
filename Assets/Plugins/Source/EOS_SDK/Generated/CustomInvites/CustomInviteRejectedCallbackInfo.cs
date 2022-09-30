@@ -4,7 +4,7 @@
 namespace Epic.OnlineServices.CustomInvites
 {
 	/// <summary>
-	/// Output parameters for the EOS_CustomInvites_CustomInviteRejectedCallback Function.
+	/// Output parameters for the <see cref="OnCustomInviteRejectedCallback" /> Function.
 	/// </summary>
 	public struct CustomInviteRejectedCallbackInfo : ICallbackInfo
 	{

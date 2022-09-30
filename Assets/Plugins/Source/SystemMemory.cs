@@ -112,8 +112,10 @@ public partial class SystemMemory
     [DllImport(DLLHBinaryName)]
     static public extern void Mem_generic_free(IntPtr ptr);
 
+#if !UNITY_IOS && !UNITY_STANDALONE_OSX
     [DllImport(DLLHBinaryName)]
     static public extern void Mem_GetAllocationCounters(out MemCounters data);
+#endif
 
 #if ENABLE_GET_ALLOCATOR_FUNCTION
     [DllImport(DLLHBinaryName)]

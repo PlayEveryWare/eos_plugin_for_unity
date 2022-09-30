@@ -108,17 +108,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             isSearching = false;
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+        }
+
         public void SearchFriendsEndEdit(string searchString)
         {
             if (string.IsNullOrEmpty(searchString))
             {
                 isSearching = false;
                 FriendsManager.ClearCachedSearchResults();
+                RenderFriendsList(true);
             }
             else
             {
-                FriendsManager.QueryUserInfo(searchString, null);
                 isSearching = true;
+                FriendsManager.SearchFriendList(searchString);
             }
         }
 
@@ -131,98 +137,85 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 ToggleFriendsTab();
             }
 #endif
-
             if (isSearching)
             {
-                if (FriendsManager.GetCachedSearchResults(out Dictionary<EpicAccountId, FriendData> searchResults))
-                {
-                    // Destroy current UI member list
-                    foreach (Transform child in FriendsListContentParent.transform)
-                    {
-                        GameObject.Destroy(child.gameObject);
-                    }
+                RenderSearchResults();
+            }
+            else
+            {
+                RenderFriendsList(false);
+            }
+        }
 
-                    foreach (FriendData friend in searchResults.Values)
-                    {
-                        GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);
-                        UIFriendEntry uiEntry = friendUIObj.GetComponent<UIFriendEntry>();
+        private void RenderFriendsList(bool forceUpdate)
+        {
+            if (FriendsManager.GetCachedFriends(out Dictionary<EpicAccountId, FriendData> friendList) || forceUpdate)
+            {
+                RefreshUIList(friendList.Values);
+            }
+        }
 
-                        uiEntry.SetEpicAccount(friend.UserId, friend.UserProductUserId);
+        private void RenderSearchResults()
+        {
+            if (FriendsManager.GetCachedSearchResults(out Dictionary<EpicAccountId, FriendData> searchResults))
+            {
+                RefreshUIList(searchResults.Values);
+            }
+        }
 
-                        uiEntry.DisplayName.text = friend.Name;
-
-                        if (friend.Status == FriendsStatus.Friends && friend.Presence != null)
-                        {
-                            uiEntry.Status.text = friend.Presence.Status.ToString();
-                        }
-                        else
-                        {
-                            uiEntry.Status.text = friend.Status.ToString();
-                        }
-
-                        // Report offline/online players
-                        if (EnablePlayerReport)
-                        {
-                            uiEntry.ReportOnClick = UIPlayerReportMenu.ReportButtonOnClick;
-                            uiEntry.EnableReportButton();
-                        }
-
-                        // AddFriends is Deprecated
-                        // uiEntry.AddFriendOnClick = AddFriendButtonOnClick;
-                        // uiEntry.EnableAddButton();
-                    }
-                }
-
-                return;
+        private void RefreshUIList(Dictionary<EpicAccountId, FriendData>.ValueCollection friendDataList)
+        {
+            // Destroy current UI member list
+            foreach (Transform child in FriendsListContentParent.transform)
+            {
+                GameObject.Destroy(child.gameObject);
             }
 
-            if (FriendsManager.GetCachedFriends(out Dictionary<EpicAccountId, FriendData> friendList))
+            foreach (FriendData friend in friendDataList)
             {
-                // Destroy current UI member list
-                foreach (Transform child in FriendsListContentParent.transform)
+                GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);
+                UIFriendEntry uiEntry = friendUIObj.GetComponent<UIFriendEntry>();
+
+                uiEntry.SetEpicAccount(friend.UserId, friend.UserProductUserId);
+
+                uiEntry.DisplayName.text = friend.Name;
+
+                // Report offline/online players
+                if (EnablePlayerReport)
                 {
-                    GameObject.Destroy(child.gameObject);
+                    uiEntry.ReportOnClick = UIPlayerReportMenu.ReportButtonOnClick;
+                    uiEntry.EnableReportButton();
                 }
 
-                foreach (FriendData friend in friendList.Values)
+                if (friend.Status == FriendsStatus.Friends && friend.Presence != null)
                 {
-                    GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);
-                    UIFriendEntry uiEntry = friendUIObj.GetComponent<UIFriendEntry>();
+                    uiEntry.Status.text = friend.Presence.Status.ToString();
 
-                    uiEntry.SetEpicAccount(friend.UserId, friend.UserProductUserId);
-
-                    uiEntry.DisplayName.text = friend.Name;
-
-                    // Report offline/online players
-                    if (EnablePlayerReport)
+                    if (EnableInvites)
                     {
-                        uiEntry.ReportOnClick = UIPlayerReportMenu.ReportButtonOnClick;
-                        uiEntry.EnableReportButton();
+                        uiEntry.EnableInviteButton(true);
+                        uiEntry.EnableInviteButtonInteraction(false);
                     }
 
-                    if (friend.Status == FriendsStatus.Friends && friend.Presence != null)
+                    if (friend.Presence.Status == Status.Online)
                     {
-                        uiEntry.Status.text = friend.Presence.Status.ToString();
-
-                        if (friend.Presence.Status == Status.Online)
+                        if (EnableP2PChat)
                         {
-                            if (EnableP2PChat)
-                            {
-                                uiEntry.ChatOnClick = UIPeer2PeerMenu.ChatButtonOnClick;
-                                uiEntry.EnableChatButton();
-                            }
+                            uiEntry.ChatOnClick = UIPeer2PeerMenu.ChatButtonOnClick;
+                            uiEntry.EnableChatButton();
+                        }
 
-                            if (EnableInvites && UIInviteMenu != null && UIInviteMenu.IsInviteActive())
-                            {
-                                uiEntry.InviteFriendsOnClick = UIInviteMenu.OnInviteButtonClicked;
-                                uiEntry.EnableInviteButton();
-                            }
+                        if (EnableInvites && UIInviteMenu != null && UIInviteMenu.IsInviteActive())
+                        {
+                            uiEntry.InviteFriendsOnClick = UIInviteMenu.OnInviteButtonClicked;
+                            uiEntry.EnableInviteButton();
+                            uiEntry.EnableInviteButtonInteraction(true);
                         }
                     }
-                    else
-                    {
-                        uiEntry.Status.text = friend.Status.ToString();
-                    }
+                }
+                else
+                {
+                    uiEntry.Status.text = friend.Status.ToString();
                 }
             }
         }

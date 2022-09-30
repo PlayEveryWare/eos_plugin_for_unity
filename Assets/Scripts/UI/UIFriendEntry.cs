@@ -69,6 +69,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InviteButton.gameObject.SetActive(enable);
         }
 
+        public void EnableInviteButtonInteraction(bool enable = true)
+        {
+            InviteButton.interactable = enable;
+        }
+
         [Obsolete("EnableAddButton is obsolete.")]
         public void EnableAddButton(bool enable = true)
         {

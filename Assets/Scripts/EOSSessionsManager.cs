@@ -1035,7 +1035,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //-------------------------------------------------------------------------
-        public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action callback = null)
+        public void JoinSession(SessionDetails sessionHandle, bool presenceSession, Action<Result> callback = null)
         {
             JoinSessionOptions joinOptions = new JoinSessionOptions();
             joinOptions.SessionHandle = sessionHandle;
@@ -1043,13 +1043,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             joinOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
             joinOptions.PresenceEnabled = presenceSession;
 
-            if (callback != null)
-            {
-                UIOnJoinSession.Enqueue(callback);
-            }
-
             SessionsInterface sessionInterface = EOSManager.Instance.GetEOSPlatformInterface().GetSessionsInterface();
-            sessionInterface.JoinSession(ref joinOptions, null, OnJoinSessionListener);
+            sessionInterface.JoinSession(ref joinOptions, callback, OnJoinSessionListener);
 
             //SetJoinSessionDetails
             JoiningSessionDetails = sessionHandle;
@@ -1170,7 +1165,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             AttributeData attributeData = new AttributeData();
 
             SessionModificationAddAttributeOptions attrOptions = new SessionModificationAddAttributeOptions();
-            attrOptions.SessionAttribute = attributeData;
 
             foreach (SessionAttribute nextAttribute in session.Attributes)
             {
@@ -1214,6 +1208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         break;
                 }
 
+                attrOptions.SessionAttribute = attributeData;
                 attrOptions.AdvertisementType = nextAttribute.Advertisement;
 
                 result = sessionModificationHandle.AddAttribute(ref attrOptions);
@@ -1363,7 +1358,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        private void OnJoinSessionFinished()
+        private void OnJoinSessionFinished(Action<Result> callback)
         {
             if (JoiningSessionDetails != null)
             {
@@ -1383,10 +1378,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         if (currentSession.Id == session.Id)
                         {
                             localSessionFound = true;
-                            if (!session.PresenceSession)
+                            /*if (!session.PresenceSession)
                             {
                                 SetJoininfo(session.Id);
-                            }
+                            }*/
                             break;
                         }
                     }
@@ -1394,17 +1389,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (!localSessionFound)
                     {
                         CurrentSessions[session.Name] = session;
-                        if (!session.PresenceSession)
+                        /*if (!session.PresenceSession)
                         {
                             SetJoininfo(session.Id);
-                        }
-                    }
-
-                    if (UIOnJoinSession.Count > 0)
-                    {
-                        UIOnJoinSession.Dequeue().Invoke();
+                        }*/
                     }
                 }
+                callback?.Invoke(result);
             }
         }
 
@@ -1450,7 +1441,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                // Use loca sessionId to build JoinInfo string to share with friends
+                // Use local sessionId to build JoinInfo string to share with friends
                 joinOptions.JoinInfo = sessionId;
             }
 
@@ -1798,11 +1789,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Debug.Log("Session Matchmaking: joined session successfully.");
 
-            OnJoinSessionFinished();
+            OnJoinSessionFinished(null);
         }
 
         private void OnJoinSessionListener(ref JoinSessionCallbackInfo data) // OnJoinSessionCallback
         {
+            var callback = data.ClientData as Action<Result>;
             //if (data == null)
             //{
             //    AcknowledgeEventId(Result.UnexpectedError);
@@ -1814,13 +1806,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 AcknowledgeEventId(data.ResultCode);
                 Debug.LogErrorFormat("Session Matchmaking (OnJoinSessionListener): error code: {0}", data.ResultCode);
+                callback?.Invoke(data.ResultCode);
                 return;
             }
 
             Debug.Log("Session Matchmaking: joined session successfully.");
 
             // Add joined session to list of current sessions
-            OnJoinSessionFinished();
+            OnJoinSessionFinished(callback);
 
             AcknowledgeEventId(data.ResultCode);
         }
@@ -1871,7 +1864,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (CurrentInvite != null && Invites.TryGetValue(CurrentInvite, out SessionDetails sessionHandle))
             {
-                JoinSession(sessionHandle, invitePresenceToggled, OnJoinSessionFinished);
+                JoinSession(sessionHandle, invitePresenceToggled);
                 PopLobbyInvite();
             }
             else

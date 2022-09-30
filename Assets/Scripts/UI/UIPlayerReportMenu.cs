@@ -65,6 +65,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSReportsManager>();
+            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+        }
+
         public void ReportButtonOnClick(ProductUserId userId, string playerName)
         {
             if(userId == null)

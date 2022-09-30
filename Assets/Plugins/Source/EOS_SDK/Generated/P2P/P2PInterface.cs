@@ -34,6 +34,11 @@ namespace Epic.OnlineServices.P2P
 		public const int AddnotifypeerconnectionestablishedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyPeerConnectionInterrupted" /> API.
+		/// </summary>
+		public const int AddnotifypeerconnectioninterruptedApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="AddNotifyPeerConnectionRequest" /> API.
 		/// </summary>
 		public const int AddnotifypeerconnectionrequestApiLatest = 1;
@@ -107,7 +112,7 @@ namespace Epic.OnlineServices.P2P
 		/// <summary>
 		/// The most recent version of the <see cref="SendPacket" /> API.
 		/// </summary>
-		public const int SendpacketApiLatest = 2;
+		public const int SendpacketApiLatest = 3;
 
 		/// <summary>
 		/// The most recent version of the <see cref="SetPacketQueueSize" /> API.
@@ -130,7 +135,23 @@ namespace Epic.OnlineServices.P2P
 		public const int SocketidApiLatest = 1;
 
 		/// <summary>
-		/// Accept connections from a specific peer. If this peer has not attempted to connect yet, when they do, they will automatically be accepted.
+		/// The total buffer size of a <see cref="SocketId" /> SocketName, including space for the null-terminator
+		/// </summary>
+		public const int SocketidSocketnameSize = 33;
+
+		/// <summary>
+		/// Accept or Request a connection with a specific peer on a specific Socket ID.
+		/// 
+		/// If this connection was not already locally accepted, we will securely message the peer, and trigger a PeerConnectionRequest notification notifying
+		/// them of the connection request. If the PeerConnectionRequest notification is not bound for all Socket IDs or for the requested Socket ID in particular,
+		/// the request will be silently ignored.
+		/// 
+		/// If the remote peer accepts the connection, a notification will be broadcast to the <see cref="AddNotifyPeerConnectionEstablished" /> when the connection is
+		/// ready to send packets.
+		/// 
+		/// If multiple Socket IDs are accepted with one peer, they will share one physical socket.
+		/// 
+		/// Even if a connection is already locally accepted, <see cref="Result.Success" /> will still be returned if the input was valid.
 		/// </summary>
 		/// <param name="options">Information about who would like to accept a connection, and which connection</param>
 		/// <returns>
@@ -182,6 +203,9 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Listen for when a previously opened connection is closed.
+		/// <seealso cref="AddNotifyPeerConnectionEstablished" />
+		/// <seealso cref="AddNotifyPeerConnectionInterrupted" />
+		/// <seealso cref="RemoveNotifyPeerConnectionClosed" />
 		/// </summary>
 		/// <param name="options">Information about who would like notifications about closed connections, and for which socket</param>
 		/// <param name="clientData">This value is returned to the caller when ConnectionClosedHandler is invoked</param>
@@ -209,7 +233,12 @@ namespace Epic.OnlineServices.P2P
 		}
 
 		/// <summary>
-		/// Listen for when a connection is established.
+		/// Listen for when a connection is established. This is fired when we first connect to a peer, when we reconnect to a peer after a connection interruption,
+		/// and when our underlying network connection type changes (for example, from a direct connection to relay, or vice versa). Network Connection Type changes
+		/// will always be broadcast with a <see cref="ConnectionEstablishedType.Reconnection" /> connection type, even if the connection was not interrupted.
+		/// <seealso cref="AddNotifyPeerConnectionInterrupted" />
+		/// <seealso cref="AddNotifyPeerConnectionClosed" />
+		/// <seealso cref="RemoveNotifyPeerConnectionEstablished" />
 		/// </summary>
 		/// <param name="options">Information about who would like notifications about established connections, and for which socket</param>
 		/// <param name="clientData">This value is returned to the caller when ConnectionEstablishedHandler is invoked</param>
@@ -237,8 +266,43 @@ namespace Epic.OnlineServices.P2P
 		}
 
 		/// <summary>
+		/// Listen for when a previously opened connection is interrupted. The connection will automatically attempt to reestablish, but it may not be successful.
+		/// 
+		/// If a connection reconnects, it will trigger the P2P PeerConnectionEstablished notification with the <see cref="ConnectionEstablishedType.Reconnection" /> connection type.
+		/// If a connection fails to reconnect, it will trigger the P2P PeerConnectionClosed notification.
+		/// <seealso cref="AddNotifyPeerConnectionEstablished" />
+		/// <seealso cref="AddNotifyPeerConnectionClosed" />
+		/// <seealso cref="RemoveNotifyPeerConnectionInterrupted" />
+		/// </summary>
+		/// <param name="options">Information about who would like notifications about interrupted connections, and for which socket</param>
+		/// <param name="clientData">This value is returned to the caller when ConnectionInterruptedHandler is invoked</param>
+		/// <param name="connectionInterruptedHandler">The callback to be fired when an open connection has been interrupted</param>
+		/// <returns>
+		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise
+		/// </returns>
+		public ulong AddNotifyPeerConnectionInterrupted(ref AddNotifyPeerConnectionInterruptedOptions options, object clientData, OnPeerConnectionInterruptedCallback connectionInterruptedHandler)
+		{
+			AddNotifyPeerConnectionInterruptedOptionsInternal optionsInternal = new AddNotifyPeerConnectionInterruptedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var connectionInterruptedHandlerInternal = new OnPeerConnectionInterruptedCallbackInternal(OnPeerConnectionInterruptedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, connectionInterruptedHandler, connectionInterruptedHandlerInternal);
+
+			var funcResult = Bindings.EOS_P2P_AddNotifyPeerConnectionInterrupted(InnerHandle, ref optionsInternal, clientDataAddress, connectionInterruptedHandlerInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
 		/// Listen for incoming connection requests on a particular Socket ID, or optionally all Socket IDs. The bound function
 		/// will only be called if the connection has not already been accepted.
+		/// <seealso cref="RemoveNotifyPeerConnectionRequest" />
 		/// </summary>
 		/// <param name="options">Information about who would like notifications, and (optionally) only for a specific socket</param>
 		/// <param name="clientData">This value is returned to the caller when ConnectionRequestHandler is invoked</param>
@@ -272,7 +336,7 @@ namespace Epic.OnlineServices.P2P
 		/// <returns>
 		/// <see cref="Result.Success" /> - if the input options were valid (even if queues were empty and no packets where cleared)
 		/// <see cref="Result.IncompatibleVersion" /> - if wrong API version
-		/// <see cref="Result.InvalidUser" /> - if wrong local and/or remote user
+		/// <see cref="Result.InvalidUser" /> - if an invalid/remote user was used
 		/// <see cref="Result.InvalidParameters" /> - if input was invalid in other way
 		/// </returns>
 		public Result ClearPacketQueue(ref ClearPacketQueueOptions options)
@@ -288,7 +352,11 @@ namespace Epic.OnlineServices.P2P
 		}
 
 		/// <summary>
-		/// Stop accepting new connections from a specific peer and close any open connections.
+		/// For all (or optionally one specific) Socket ID(s) with a specific peer: stop receiving packets, drop any locally queued packets, and if no other
+		/// Socket ID is using the connection with the peer, close the underlying connection.
+		/// 
+		/// If your application wants to migrate an existing connection with a peer it already connected to, it is recommended to call <see cref="AcceptConnection" />
+		/// with the new Socket ID first before calling <see cref="CloseConnection" />, to prevent the shared physical socket from being torn down prematurely.
 		/// </summary>
 		/// <param name="options">Information about who would like to close a connection, and which connection.</param>
 		/// <returns>
@@ -472,6 +540,7 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Receive the next packet for the local user, and information associated with this packet, if it exists.
+		/// <seealso cref="GetNextReceivedPacketSize" />
 		/// </summary>
 		/// <param name="options">Information about who is requesting the size of their next packet, and how much data can be stored safely</param>
 		/// <param name="outPeerId">The Remote User who sent data. Only set if there was a packet to receive.</param>
@@ -524,6 +593,7 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Stop notifications for connections being closed on a previously bound handler.
+		/// <seealso cref="AddNotifyPeerConnectionClosed" />
 		/// </summary>
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyPeerConnectionClosed(ulong notificationId)
@@ -535,6 +605,7 @@ namespace Epic.OnlineServices.P2P
 
 		/// <summary>
 		/// Stop notifications for connections being established on a previously bound handler.
+		/// <seealso cref="AddNotifyPeerConnectionEstablished" />
 		/// </summary>
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyPeerConnectionEstablished(ulong notificationId)
@@ -545,7 +616,20 @@ namespace Epic.OnlineServices.P2P
 		}
 
 		/// <summary>
+		/// Stop notifications for connections being interrupted on a previously bound handler.
+		/// <seealso cref="AddNotifyPeerConnectionInterrupted" />
+		/// </summary>
+		/// <param name="notificationId">The previously bound notification ID</param>
+		public void RemoveNotifyPeerConnectionInterrupted(ulong notificationId)
+		{
+			Bindings.EOS_P2P_RemoveNotifyPeerConnectionInterrupted(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
+		}
+
+		/// <summary>
 		/// Stop listening for connection requests on a previously bound handler.
+		/// <seealso cref="AddNotifyPeerConnectionRequest" />
 		/// </summary>
 		/// <param name="notificationId">The previously bound notification ID</param>
 		public void RemoveNotifyPeerConnectionRequest(ulong notificationId)
@@ -565,6 +649,7 @@ namespace Epic.OnlineServices.P2P
 		/// <see cref="Result.Success" /> - If packet was queued to be sent successfully
 		/// <see cref="Result.InvalidParameters" /> - If input was invalid
 		/// <see cref="Result.LimitExceeded" /> - If amount of data being sent is too large, or the outgoing packet queue was full
+		/// <see cref="Result.NoConnection" /> - If bDisableAutoAcceptConnection was set to <see langword="true" /> and the connection was not currently accepted (call <see cref="AcceptConnection" /> first, or set bDisableAutoAcceptConnection to <see langword="false" />)
 		/// </returns>
 		public Result SendPacket(ref SendPacketOptions options)
 		{
@@ -670,6 +755,17 @@ namespace Epic.OnlineServices.P2P
 		{
 			OnPeerConnectionEstablishedCallback callback;
 			OnPeerConnectionEstablishedInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnPeerConnectionInterruptedCallbackInternal))]
+		internal static void OnPeerConnectionInterruptedCallbackInternalImplementation(ref OnPeerConnectionInterruptedInfoInternal data)
+		{
+			OnPeerConnectionInterruptedCallback callback;
+			OnPeerConnectionInterruptedInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);

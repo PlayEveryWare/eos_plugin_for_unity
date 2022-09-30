@@ -221,8 +221,6 @@ namespace Epic.OnlineServices.CustomInvites
 		/// Initializes a Custom Invite with a specified payload in preparation for it to be sent to another user or users.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
-		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
-		/// <param name="completionDelegate">A callback that is fired when the operation completes, either successfully or in error</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the operation completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect

@@ -133,6 +133,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         else
                         {
                             IsTalkingText.text = "Silent";
+
+                            if (member.ProductId == EOSManager.Instance.GetProductUserId())
+                            {
+                                if (!HasPlatformMicrophonePermission())
+                                {
+                                    IsTalkingText.text = "Mic not permitted";
+                                }
+                            }
                         }
                         break;
                     }
@@ -181,6 +189,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError("MemberEntryPromoteButtonOnClick: PromoteOnClick action is null!");
             }
+        }
+
+        private bool HasPlatformMicrophonePermission()
+        {
+#if UNITY_IOS
+            return Application.HasUserAuthorization(UserAuthorization.Microphone);
+#elif UNITY_STANDALONE_OSX  //Always returns true, needs workaround
+            return Application.HasUserAuthorization(UserAuthorization.Microphone);
+#elif UNITY_ANDROID
+            return UnityEngine.Android.Permission.HasUserAuthorizedPermission(UnityEngine.Android.Permission.Microphone);
+#else
+            return true;
+#endif
         }
     }
 }

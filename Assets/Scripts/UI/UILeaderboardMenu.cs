@@ -64,6 +64,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSelectedLeaderboardTxt.text = "*select definition*";
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
+            EOSManager.Instance.RemoveManager<EOSLeaderboardManager>();
+        }
+
         private void DefinitionListOnClick(string leaderboardId)
         {
             currentSelectedDefinitionLeaderboardId = leaderboardId;

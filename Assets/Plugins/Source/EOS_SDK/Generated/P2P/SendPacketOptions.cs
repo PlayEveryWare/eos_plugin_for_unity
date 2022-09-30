@@ -42,6 +42,13 @@ namespace Epic.OnlineServices.P2P
 		/// Setting to control the delivery reliability of this packet
 		/// </summary>
 		public PacketReliability Reliability { get; set; }
+
+		/// <summary>
+		/// If set to <see langword="true" />, <see cref="P2PInterface.SendPacket" /> will not automatically establish a connection with the RemoteUserId and will require explicit calls to
+		/// <see cref="P2PInterface.AcceptConnection" /> first whenever the connection is closed. If set to <see langword="false" />, <see cref="P2PInterface.SendPacket" /> will automatically accept and start
+		/// the connection any time it is called and the connection is not already open.
+		/// </summary>
+		public bool DisableAutoAcceptConnection { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -56,6 +63,7 @@ namespace Epic.OnlineServices.P2P
 		private System.IntPtr m_Data;
 		private int m_AllowDelayedDelivery;
 		private PacketReliability m_Reliability;
+		private int m_DisableAutoAcceptConnection;
 
 		public ProductUserId LocalUserId
 		{
@@ -113,6 +121,14 @@ namespace Epic.OnlineServices.P2P
 			}
 		}
 
+		public bool DisableAutoAcceptConnection
+		{
+			set
+			{
+				Helper.Set(value, ref m_DisableAutoAcceptConnection);
+			}
+		}
+
 		public void Set(ref SendPacketOptions other)
 		{
 			m_ApiVersion = P2PInterface.SendpacketApiLatest;
@@ -123,6 +139,7 @@ namespace Epic.OnlineServices.P2P
 			Data = other.Data;
 			AllowDelayedDelivery = other.AllowDelayedDelivery;
 			Reliability = other.Reliability;
+			DisableAutoAcceptConnection = other.DisableAutoAcceptConnection;
 		}
 
 		public void Set(ref SendPacketOptions? other)
@@ -137,6 +154,7 @@ namespace Epic.OnlineServices.P2P
 				Data = other.Value.Data;
 				AllowDelayedDelivery = other.Value.AllowDelayedDelivery;
 				Reliability = other.Value.Reliability;
+				DisableAutoAcceptConnection = other.Value.DisableAutoAcceptConnection;
 			}
 		}
 

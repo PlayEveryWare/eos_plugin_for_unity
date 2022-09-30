@@ -82,6 +82,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private int previousFrameSessionCount = 0;
         private int previousFrameResultCount = 0;
 
+        private void OnDestroy()
+        {
+            //HideMenu();
+            // Unity crashes if you try to access EOSSinglton OnDestroy
+            EOSManager.Instance.RemoveManager<EOSSessionsManager>();
+        }
+
         public void Update()
         {
             EOSSessionsManager sessionsManager = EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>();
@@ -130,7 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         // Destroy current UI member list
                         foreach (Transform child in SessionContentParent.transform)
                         {
-                            GameObject.Destroy(child.gameObject);
+                            Destroy(child.gameObject);
                         }
                     }
 
@@ -239,6 +246,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         {
                             uiEntry.StatusTxt.text = session.SessionState.ToString();
                         }
+                        uiEntry.EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState);
 
                         uiEntry.PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
                         uiEntry.PresenceTxt.text = session.PresenceSession.ToString();
@@ -304,9 +312,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().JoinSession(sessionHandle, true, OnJoinSessionFinished); // Default Presence True
         }
 
-        private void OnJoinSessionFinished()
+        private void OnJoinSessionFinished(Result result)
         {
-            ShowSearchResults = false;
+            if (result != Result.Success)
+            {
+                RefreshSearch();
+            }
+            else
+            {
+                ShowSearchResults = false;
+            }
         }
 
         // Session Member
@@ -332,7 +347,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             SessionAttribute attr = new SessionAttribute();
             attr.Key = "Level";
+            attr.ValueType = AttributeType.String;
             attr.AsString = LevelVal.options[LevelVal.value].text;
+            attr.Advertisement = SessionAttributeAdvertisementType.Advertise;
             session.Attributes.Add(attr);
 
             EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().ModifySession(session, OnModifySessionCompleted);
@@ -348,6 +365,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().DestroySession(sessionName);
         }
 
+        public void RefreshSearch()
+        {
+            SearchByLevelEndEdit(SearchByLevelBox.InputField.text);
+        }
+
         // Search
         public void SearchByLevelEndEdit(string searchPattern)
         {
@@ -360,7 +382,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SessionAttribute levelAttribute = new SessionAttribute();
             levelAttribute.Key = "Level";
             levelAttribute.ValueType = AttributeType.String;
-            levelAttribute.AsString = searchPattern;
+            levelAttribute.AsString = searchPattern.ToUpper();
             levelAttribute.Advertisement = SessionAttributeAdvertisementType.Advertise;
 
             List<SessionAttribute> attributes = new List<SessionAttribute>() { levelAttribute };
@@ -369,12 +391,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             previousFrameResultCount = 0;
             ShowSearchResults = true;
-        }
-
-        private void OnDestroy()
-        {
-            //HideMenu();
-            // Unity crashes if you try to access EOSSinglton OnDestroy
         }
 
         // Invite
