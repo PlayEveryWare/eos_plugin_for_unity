@@ -71,6 +71,9 @@ public partial class SystemDynamicLibrary
 
     [DllImport(DynamicLinkLibrary)]
     private static extern IntPtr LoadLibrary(string lpFileName);
+
+    [DllImport(DynamicLinkLibrary)]
+    private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 #endif
 
     private static SystemDynamicLibrary s_instance;
@@ -131,7 +134,7 @@ public partial class SystemDynamicLibrary
 
     static public IntPtr GetHandleForModule(string moduleName)
     {
-#if UNITY_EDITOR_WIN && !EOS_DISABLE
+#if (UNITY_EDITOR_WIN || UNITY_EDITOR_OSX) && !EOS_DISABLE
         return GetModuleHandle(moduleName);
 #else
         return IntPtr.Zero;
@@ -142,7 +145,7 @@ public partial class SystemDynamicLibrary
     //-------------------------------------------------------------------------
     static public bool UnloadLibraryInEditor(IntPtr libraryHandle)
     {
-#if UNITY_EDITOR_WIN && !EOS_DISABLE
+#if (UNITY_EDITOR_WIN || UNITY_EDITOR_OSX) && !EOS_DISABLE
         return FreeLibrary(libraryHandle);
 #else
         return true;
@@ -185,7 +188,7 @@ public partial class SystemDynamicLibrary
     {
 #if EOS_DISABLE
         return IntPtr.Zero;
-#elif UNITY_EDITOR_WIN
+#elif UNITY_EDITOR_WIN || UNITY_EDITOR_OSX
         return GetProcAddress(libraryHandle, functionName);
 #else
         return DLLH_load_function_with_name(DLLHContex, libraryHandle, functionName);
