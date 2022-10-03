@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.1.4] - 2022-10-03
+
+### Fixed
+- Updated DLLs and fixed merge error
+
 ## [2.1.3] - 2022-09-30
 
 ### Added
