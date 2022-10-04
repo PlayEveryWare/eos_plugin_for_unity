@@ -27,13 +27,14 @@ using UnityEngine;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.UserInfo;
+using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     /// <summary>
     /// Class <c>EOSUserInfoManager</c> is a general purpose access point for user info, including local user.
     /// </summary>
-    public class EOSUserInfoManager : IEOSSubManager, IEOSOnConnectLogin, IEOSOnAuthLogin
+    public class EOSUserInfoManager : IEOSSubManager, IEOSOnConnectLogin, IEOSOnAuthLogin, IEOSOnAuthLogout
     {
         private UserInfoData LocalUserInfo;
 
@@ -46,22 +47,46 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<EpicAccountId, UserInfoData> UserInfoIdMapping;
         private Dictionary<string, UserInfoData> UserInfoDisplayNameMapping;
 
+        private List<OnUserInfoChangedCallback> LocalUserInfoChangedCallbacks;
+
         public EOSUserInfoManager()
         {
-            UserInfoHandle = EOSManager.Instance.GetEOSPlatformInterface().GetUserInfoInterface();
+            UserInfoHandle = EOSManager.Instance?.GetEOSPlatformInterface()?.GetUserInfoInterface();
             UserInfoIdMapping = new Dictionary<EpicAccountId, UserInfoData>();
             UserInfoDisplayNameMapping = new Dictionary<string, UserInfoData>();
+            LocalUserInfoChangedCallbacks = new List<OnUserInfoChangedCallback>();
             UpdateLocalUserInfo();
         }
 
         public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
         {
+            UserInfoHandle = EOSManager.Instance?.GetEOSPlatformInterface()?.GetUserInfoInterface();
             UpdateLocalUserInfo();
         }
 
         public void OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)
         {
+            UserInfoHandle = EOSManager.Instance?.GetEOSPlatformInterface()?.GetUserInfoInterface();
             UpdateLocalUserInfo();
+        }
+
+        public void OnAuthLogout(ref LogoutCallbackInfo logoutCallbackInfo)
+        {
+            LocalUserInfo = default;
+            foreach (var callback in LocalUserInfoChangedCallbacks)
+            {
+                callback?.Invoke(LocalUserInfo);
+            }
+        }
+
+        public void AddNotifyLocalUserInfoChanged(OnUserInfoChangedCallback Callback)
+        {
+            LocalUserInfoChangedCallbacks.Add(Callback);
+        }
+
+        public void RemoveNotifyLocalUserInfoChanged(OnUserInfoChangedCallback Callback)
+        {
+            LocalUserInfoChangedCallbacks.Remove(Callback);
         }
 
         public UserInfoData GetLocalUserInfo()
@@ -86,6 +111,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void UpdateLocalUserInfo()
         {
+            if (UserInfoHandle == null)
+            {
+                return;
+            }
+
             var userId = EOSManager.Instance.GetLocalUserId();
             if (userId?.IsValid() == true)
             {
@@ -218,14 +248,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void AddUserInfo(UserInfoData UserInfo)
         {
-            if (UserInfo.UserId == EOSManager.Instance.GetLocalUserId())
-            {
-                LocalUserInfo = UserInfo;
-            }
             UserInfoIdMapping[UserInfo.UserId] = UserInfo;
             if (!string.IsNullOrEmpty(UserInfo.DisplayName))
             {
                 UserInfoDisplayNameMapping[UserInfo.DisplayName] = UserInfo;
+            }
+
+            if (UserInfo.UserId == EOSManager.Instance.GetLocalUserId())
+            {
+                LocalUserInfo = UserInfo;
+                foreach (var callback in LocalUserInfoChangedCallbacks)
+                {
+                    callback?.Invoke(LocalUserInfo);
+                }
             }
         }
     }
