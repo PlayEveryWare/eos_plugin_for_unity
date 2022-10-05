@@ -525,6 +525,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
 #endif
+#if UNITY_EDITOR_OSX
+                    if (secondTryResult != Result.AlreadyConfigured)
+#endif
                     {
                         throw new System.Exception("Epic Online Services didn't init correctly: " + initResult);
                     }
@@ -1277,6 +1280,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     s_state = EOSState.ShuttingDown;
                     print("Shutting down eos and releasing handles");
                     // Not doing this in the editor, because it doesn't seem to be an issue there
+#if !UNITY_EDITOR_OSX
 #if !UNITY_EDITOR
                     //LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Off);
                     //Epic.OnlineServices.Logging.LoggingInterface.SetCallback(null);
@@ -1286,6 +1290,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     GetEOSPlatformInterface()?.Release();
                     ShutdownPlatformInterface();
                     SetEOSPlatformInterface(null);
+#endif
 #if UNITY_EDITOR
                     UnloadAllLibraries();
 #endif

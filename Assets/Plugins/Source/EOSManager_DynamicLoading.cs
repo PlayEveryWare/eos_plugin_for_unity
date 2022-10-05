@@ -326,6 +326,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
 #if UNITY_EDITOR
                 IntPtr existingHandle;
+                int timeout = 50;
                 do
                 {
                     existingHandle = SystemDynamicLibrary.GetHandleForModule(EOSBinaryName);
@@ -334,8 +335,13 @@ namespace PlayEveryWare.EpicOnlineServices
                         GC.WaitForPendingFinalizers();
                         SystemDynamicLibrary.UnloadLibraryInEditor(existingHandle);
                     }
+                    timeout--;
+                } while (IntPtr.Zero != existingHandle && timeout > 0);
 
-                } while (IntPtr.Zero != existingHandle);
+                if (IntPtr.Zero != existingHandle)
+                {
+                    UnityEngine.Debug.LogWarning("Free Library { " + EOSBinaryName + " }:Timeout");
+                }
 #endif
             }
 
