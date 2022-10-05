@@ -62,6 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaderboardManager = EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>();
 
             CurrentSelectedLeaderboardTxt.text = "*select definition*";
+            PlayerManager.QueryFriends(null);
         }
 
         private void OnDestroy()
@@ -213,7 +214,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 // key == leaderboardId
 
-                Debug.LogFormat("  Display LeaderboardId entries: Count={0}", leaderboardUserScores.Count);
+                Debug.Log($"  Display LeaderboardId entries: Count={leaderboardUserScores.Count}");
 
                 // Destroy current entries
                 foreach (Transform child in LeaderboardEntriesContentParent.transform)
@@ -223,13 +224,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 foreach (KeyValuePair<string, List<LeaderboardUserScore>> kvp in leaderboardUserScores)
                 {
-                    Debug.LogFormat("  Display LeaderboardId={0}, UserScores: Count={1}", kvp.Key, kvp.Value.Count);
+                    Debug.Log($"  Display LeaderboardId={kvp.Key}, UserScores: Count={kvp.Value.Count}");
 
                     foreach (LeaderboardUserScore userScore in kvp.Value)
                     {
-                        Debug.LogFormat("    UserScore: UserId={0}, Score={3}", userScore.UserId, userScore.Score);
+                        Debug.Log($"    UserScore: UserId={userScore.UserId}, Score={userScore.Score}");
 
                         // Display in UI
+                        var copyResult = LeaderboardManager.CopyUserScore(userScore.UserId, out LeaderboardRecord? record);
 
                         GameObject entryUIObj = Instantiate(UILeaderboardEntryPrefab, LeaderboardEntriesContentParent.transform);
 
@@ -237,9 +239,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                         if (uiEntry != null)
                         {
-                            uiEntry.RankTxt.text = "-";
-                            uiEntry.NameTxt.text = userScore.UserId.ToString();
-                            uiEntry.ScoreTxt.text = userScore.Score.ToString();
+                            if (copyResult == Result.Success && record.HasValue)
+                            {
+                                uiEntry.RankTxt.text = record.Value.Rank.ToString();
+                                uiEntry.NameTxt.text = record.Value.UserDisplayName;
+                                uiEntry.ScoreTxt.text = record.Value.Score.ToString();
+                            }
+                            else
+                            {
+                                uiEntry.RankTxt.text = "-";
+                                uiEntry.NameTxt.text = userScore.UserId.ToString();
+                                uiEntry.ScoreTxt.text = userScore.Score.ToString();
+                            }
                         }
                     }
                 }
