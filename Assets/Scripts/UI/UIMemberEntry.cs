@@ -115,12 +115,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if(lobbyManager.GetCurrentLobby().RTCRoomEnabled)
             {
                 MuteButton.enabled = true;
+                MuteButton.interactable = true;
                 MuteButton.gameObject.SetActive(true);
 
                 foreach(LobbyMember member in lobbyManager.GetCurrentLobby().Members)
                 {
-                    if(member.ProductId == ProductUserId)
+                    if (member.ProductId == ProductUserId)
                     {
+                        if (member.ProductId == EOSManager.Instance.GetProductUserId())
+                        {
+                            if (!HasPlatformMicrophonePermission())
+                            {
+                                IsTalkingText.text = "Mic not permitted";
+                                MuteButton.interactable = false;
+                                break;
+                            }
+                        }
                         // Update Talking state
                         if (member.RTCState.IsTalking)
                         {
@@ -133,14 +143,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         else
                         {
                             IsTalkingText.text = "Silent";
-
-                            if (member.ProductId == EOSManager.Instance.GetProductUserId())
-                            {
-                                if (!HasPlatformMicrophonePermission())
-                                {
-                                    IsTalkingText.text = "Mic not permitted";
-                                }
-                            }
                         }
                         break;
                     }
