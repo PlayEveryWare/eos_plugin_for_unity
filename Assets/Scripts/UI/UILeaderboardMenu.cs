@@ -62,7 +62,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaderboardManager = EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>();
 
             CurrentSelectedLeaderboardTxt.text = "*select definition*";
-            PlayerManager.QueryFriends(null);
         }
 
         private void OnDestroy()
@@ -295,6 +294,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
+            PlayerManager.QueryFriends(null);
             RefreshDefinitionsOnClick();
 
             LeaderboardUIParent.gameObject.SetActive(true);
