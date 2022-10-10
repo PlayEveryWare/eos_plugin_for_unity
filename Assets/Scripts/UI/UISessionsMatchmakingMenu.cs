@@ -47,6 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Toggle PresenceVal;
         public Toggle JoinInProgressVal;
         public Toggle InvitesAllowedVal;
+        public Toggle SanctionsVal;
 
         [Header("Sessions/Matchmaking UI - Session Members")]
         public GameObject UISessionEntryPrefab;
@@ -168,7 +169,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         }
 
                         uiEntry.PlayersTxt.text = string.Format("{0}/{1}", sessionResult.NumConnections, sessionResult.MaxPlayers);
-                        uiEntry.PresenceTxt.text = sessionResult.PresenceSession.ToString();
                         uiEntry.JIPTxt.text = sessionResult.AllowJoinInProgress.ToString();
                         uiEntry.PermissionTxt.text = sessionResult.PermissionLevel.ToString();
                         uiEntry.InvitesTxt.text = sessionResult.InvitesAllowed.ToString();
@@ -249,7 +249,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         uiEntry.EnableButtonsBySessionState(session.UpdateInProgress, session.SessionState);
 
                         uiEntry.PlayersTxt.text = string.Format("{0}/{1}", session.NumConnections, session.MaxPlayers);
-                        uiEntry.PresenceTxt.text = session.PresenceSession.ToString();
                         uiEntry.JIPTxt.text = session.AllowJoinInProgress.ToString();
                         uiEntry.PermissionTxt.text = session.PermissionLevel.ToString();
                         uiEntry.InvitesTxt.text = session.InvitesAllowed.ToString();
@@ -284,8 +283,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Session session = new Session();
             session.AllowJoinInProgress = JoinInProgressVal.isOn;
-            session.PresenceSession = PresenceVal.isOn;
             session.InvitesAllowed = InvitesAllowedVal.isOn;
+            session.SanctionsEnabled = SanctionsVal.isOn;
             session.MaxPlayers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
             session.Name = SessionNameVal.text;
             session.PermissionLevel = (OnlineSessionPermissionLevel)PermissionVal.value;
@@ -298,7 +297,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             session.Attributes.Add(attribute);
 
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().CreateSession(session, UIOnSessionCreated);
+            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().CreateSession(session, PresenceVal.isOn, UIOnSessionCreated);
         }
 
         private void UIOnSessionCreated()
