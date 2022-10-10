@@ -362,6 +362,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void ConfigureUIForAccountPortalLogin()
         {
+
+            Debug.Log("Configuring for Account Portal Login");
             loginTypeDropdown.value = loginTypeDropdown.options.FindIndex(option => option.text == "Account Portal");
 
             idInputField.gameObject.SetActive(false);

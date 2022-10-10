@@ -52,6 +52,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public ConsoleInputField ChatMessageInput;
         public Button SendButton;
 
+        public UIPeer2PeerParticleManager ParticleManager;
+
         [Header("Controller")]
         public GameObject UIFirstSelected;
 
@@ -60,12 +62,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSPeer2PeerManager Peer2PeerManager;
         private EOSFriendsManager FriendsManager;
 
+        
+
         private string currentChatDisplayName;
         private ProductUserId currentChatProductUserId;
 
         void Start()
         {
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
+            Peer2PeerManager.ParticleManager = ParticleManager;
+            Peer2PeerManager.parent = this.transform;
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
 
             CloseChatOnClick();
@@ -225,9 +231,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("UIPeer2PeerMenu (SendOnClick): Message is empty.");
                 return;
             }
+            messageData message;
+            message.textData = ChatMessageInput.InputField.text;
+            message.type = messageType.textMessage;
+            message.xPos = 0;
+            message.yPos = 0;
 
-            string message = ChatMessageInput.InputField.text;
-            ChatMessageInput.InputField.text = string.Empty;
+            
 
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
@@ -235,8 +245,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-
+            
             Peer2PeerManager.SendMessage(currentChatProductUserId, message);
+            ChatMessageInput.InputField.text = string.Empty;
         }
 
         public void ShowMenu()
@@ -256,6 +267,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CloseChatOnClick();
 
             Peer2PeerUIParent.gameObject.SetActive(false);
+        }
+
+         public void ParticlesOnClick()
+        {
+            Debug.Log("UIPeer2PeerMenu (OnMouseDown): Mouse click recieved");
+            Vector2 mousePos = Input.mousePosition;
+
+            messageData message;
+            message.type = messageType.coordinatesMessage;
+            message.xPos = mousePos.x;
+            message.yPos = mousePos.y;
+            message.textData = null;
+
+            if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
+            {
+                Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
+                return;
+            }
+
+
+            Peer2PeerManager.SendMessage(currentChatProductUserId, message);
         }
     }
 }
