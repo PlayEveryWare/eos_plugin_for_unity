@@ -238,6 +238,22 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
+        /// <summary>
+        /// Set Default Audio Session for iOS (Category to AVAudioSessionCategoryPlayAndRecord)
+        /// </summary>
+        [DllImport("__Internal")]
+        static private extern void MicrophoneUtility_set_default_audio_session();
+
+        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Set Default Audio Session for iOS
+        /// </summary>
+        public void SetDefaultAudioSession()
+        {
+            MicrophoneUtility_set_default_audio_session();
+        }
+        //-------------------------------------------------------------------------
+
         public void InitializeOverlay(IEOSCoroutineOwner owner)
         {
         }

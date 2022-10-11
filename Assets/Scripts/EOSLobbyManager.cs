@@ -2234,7 +2234,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             joinOptions.LobbyDetailsHandle = lobbyDetails;
             joinOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
             joinOptions.PresenceEnabled = presenceEnabled;
-
+#if UNITY_IOS && !UNITY_EDITOR
+            (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).SetDefaultAudioSession();
+#endif
             EOSManager.Instance.GetEOSLobbyInterface().JoinLobby(ref joinOptions, JoinLobbyCompleted, OnJoinLobbyCompleted);
         }
 
