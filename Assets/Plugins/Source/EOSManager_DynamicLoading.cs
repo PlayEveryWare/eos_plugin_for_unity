@@ -218,14 +218,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
-                        return handle.LoadFunctionAsIntPtr(functionName);
+#if UNITY_EDITOR_OSX
+                    return handle.LoadFunctionAsIntPtr(functionName.Trim('_'));
+#else
+                    return handle.LoadFunctionAsIntPtr(functionName);
+#endif
                  });
 
 //#if !UNITY_EDITOR
                 EOSManagerPlatformSpecifics.Instance?.LoadDelegatesWithEOSBindingAPI();
 //#endif
 #endif
-            }
+                }
             //-------------------------------------------------------------------------
             // Using runtime reflection, hook up things
             static public void LoadDelegatesWithReflection()
