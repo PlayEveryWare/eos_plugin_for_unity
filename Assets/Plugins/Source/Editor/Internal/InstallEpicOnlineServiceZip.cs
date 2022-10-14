@@ -36,12 +36,34 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 using (var zipArchive = new ZipArchive(filestream))
                 {
+                    string extraPath = "";
+                    //search for guaranteed file to check if SDK root is inside any extraneous subfolders
+                    foreach (var zipEntry in zipArchive.Entries)
+                    {
+                        if (zipEntry.FullName.EndsWith("SDK/Tools/EOSBootstrapper.exe"))
+                        {
+                            extraPath = zipEntry.FullName.Replace("SDK/Tools/EOSBootstrapper.exe", "");
+                            break;
+                        }
+                    }
+
                     int zipCount = zipArchive.Entries.Count;
                     float i = 0.0f;
                     foreach (var zipEntry in zipArchive.Entries)
                     {
+                        if (string.IsNullOrWhiteSpace(zipEntry.Name))
+                        {
+                            i += 1.0f;
+                            continue;
+                        }
+
                         EditorUtility.DisplayProgressBar("Unzipping file", "Unzipping " + Path.GetFileName(pathToZipFile), i / zipCount);
-                        string pathName = Path.Combine(dest, zipEntry.FullName);
+                        string targetPath = zipEntry.FullName;
+                        if (!string.IsNullOrEmpty(extraPath))
+                        {
+                            targetPath = targetPath.Replace(extraPath, "");
+                        }
+                        string pathName = Path.Combine(dest, targetPath);
                         string parentDirectory = Path.GetDirectoryName(pathName);
                         if (!Directory.Exists(parentDirectory))
                         {
@@ -83,55 +105,61 @@ namespace PlayEveryWare.EpicOnlineServices
 
             GUILayout.Label("JSON Description Path");
             GUILayout.BeginHorizontal(GUIStyle.none);
-            GUILayout.Label(pathToJSONPackageDescription);
-            if(GUILayout.Button("select"))
+            if (GUILayout.Button("Select", GUILayout.Width(100)))
             {
                 pathToJSONPackageDescription = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
             }
+            GUILayout.Label(pathToJSONPackageDescription);
             GUILayout.EndHorizontal();
-
-
+            
             GUILayout.Label("Select Zip Path");
             GUILayout.BeginHorizontal(GUIStyle.none);
-            GUILayout.Label(pathToZipFile);
-            if (GUILayout.Button("Select"))
+            if (GUILayout.Button("Select", GUILayout.Width(100)))
             {
                 pathToZipFile = EditorUtility.OpenFilePanel("Pick Zip File", "", "zip");
             }
+            GUILayout.Label(pathToZipFile);
             GUILayout.EndHorizontal();
 
-            if(GUILayout.Button("Install"))
+            if (GUILayout.Button("Install"))
             {
                 var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
                 var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
                 string tmpDir = PackageFileUtils.GenerateTemporaryBuildPath();
 
-                UnzipFile(pathToZipFile, tmpDir);
-
-                var toConvert = new List<string>();
-                // Convert files to a consistant line ending
-                foreach(var entity in Directory.EnumerateFiles(tmpDir, "*", SearchOption.AllDirectories))
+                try
                 {
-                    if (Path.GetExtension(entity) == ".cs")
+                    UnzipFile(pathToZipFile, tmpDir);
+
+                    var toConvert = new List<string>();
+                    // Convert files to a consistant line ending
+                    foreach (var entity in Directory.EnumerateFiles(tmpDir, "*", SearchOption.AllDirectories))
                     {
-                        toConvert.Add(entity);
+                        if (Path.GetExtension(entity) == ".cs")
+                        {
+                            toConvert.Add(entity);
+                        }
                     }
-                }
 
-                for(int i = 0; i < toConvert.Count; ++i)
+                    for (int i = 0; i < toConvert.Count; ++i)
+                    {
+                        var entity = toConvert[i];
+                        EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity), (float)i / toConvert.Count);
+                        PackageFileUtils.Dos2UnixLineEndings(entity);
+                    }
+                    EditorUtility.ClearProgressBar();
+
+                    var fileResults = PackageFileUtils.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
+
+                    // This should be the correct directory
+                    var projectDir = PackageFileUtils.GetProjectPath();
+                    PackageFileUtils.CopyFilesToDirectory(projectDir, fileResults);
+                }
+                finally
                 {
-                    var entity = toConvert[i];
-                    EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity), (float)i / toConvert.Count);
-                    PackageFileUtils.Dos2UnixLineEndings(entity);
+                    //clean up unzipped files on success or error
+                    Directory.Delete(tmpDir, true);
                 }
-                EditorUtility.ClearProgressBar();
-
-                var fileResults = PackageFileUtils.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
-
-                // This should be the correct directory
-                var projectDir = PackageFileUtils.GetProjectPath();
-                PackageFileUtils.CopyFilesToDirectory(projectDir, fileResults);
-
             }
         }
 
