@@ -22,7 +22,7 @@
 
 #if UNITY_64 || UNITY_EDITOR_64
 #define PLATFORM_64BITS
-#elif (UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX)
+#elif (UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX) && EOS_PREVIEW_PLATFORM
 #define PLATFORM_32BITS
 #endif
 
@@ -46,7 +46,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Epic.OnlineServices.IntegratedPlatform;
 
-#if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
+#if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------

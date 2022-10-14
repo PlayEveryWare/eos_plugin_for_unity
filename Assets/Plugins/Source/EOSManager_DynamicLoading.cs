@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         //static UnloadEOS_delegate UnloadEOS;
                         //static EOS_GetPlatformInterface_delegate EOS_GetPlatformInterface;
                         public const string GfxPluginNativeRenderPath =
-#if UNITY_STANDALONE_OSX
+#if UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM
                             "GfxPluginNativeRender-macOS";
 #elif (UNITY_STANDALONE_WIN || UNITY_WSA) && PLATFORM_64BITS
                         "GfxPluginNativeRender-x64";
@@ -218,7 +218,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
-#if UNITY_EDITOR_OSX
+#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
                     return handle.LoadFunctionAsIntPtr(functionName.Trim('_'));
 #else
                     return handle.LoadFunctionAsIntPtr(functionName);

@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             loginType = LoginCredentialType.AccountPortal; // Default on other platforms
 #endif
 
-#if UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX
+#if UNITY_EDITOR || (UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM) || UNITY_STANDALONE_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM)
             idInputField.InputField.text = "localhost:7777"; //default on pc
 #endif
         }

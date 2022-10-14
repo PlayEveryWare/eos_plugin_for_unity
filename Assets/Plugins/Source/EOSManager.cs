@@ -428,7 +428,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.ClientCredentials = clientCredentials;
 
 
-#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
+#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM) || (UNITY_EDITOR_LINUX && EOS_PREVIEW_PLATFORM))
                 var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
                 //TODO: handle errors
                 var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
@@ -498,7 +498,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 string configDataAsString = "";
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && EOS_PREVIEW_PLATFORM
 
                 configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
 #else
@@ -525,7 +525,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
 #endif
-#if UNITY_EDITOR_OSX
+#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
                     if (secondTryResult != Result.AlreadyConfigured)
 #endif
                     {
@@ -1102,7 +1102,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("StartLoginWithLoginTypeAndToken");
 
-#if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS && !UNITY_EDITOR  && EOS_PREVIEW_PLATFORM
                 IOSLoginOptions modifiedLoginOptions = (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).MakeIOSLoginOptionsFromDefualt(loginOptions);
                 EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 #else
