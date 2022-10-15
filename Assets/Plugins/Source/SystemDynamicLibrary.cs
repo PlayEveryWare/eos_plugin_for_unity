@@ -61,7 +61,7 @@ public partial class SystemDynamicLibrary
 
     [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
     private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
-#elif UNITY_EDITOR_OSX
+#elif UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
     private const string DynamicLinkLibrary = "__Internal";
     [DllImport(DynamicLinkLibrary)]
     public static extern bool FreeLibrary(IntPtr hModule);
@@ -71,6 +71,9 @@ public partial class SystemDynamicLibrary
 
     [DllImport(DynamicLinkLibrary)]
     private static extern IntPtr LoadLibrary(string lpFileName);
+
+    [DllImport(DynamicLinkLibrary)]
+    private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 #endif
 
     private static SystemDynamicLibrary s_instance;
@@ -80,7 +83,7 @@ public partial class SystemDynamicLibrary
     private const string DLLHBinaryName =
 #if UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_GAMECORE
         "DynamicLibraryLoaderHelper";
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID  && EOS_PREVIEW_PLATFORM
         "DynamicLibraryLoaderHelper_Android";
 #else
         "__Internal";
@@ -131,18 +134,18 @@ public partial class SystemDynamicLibrary
 
     static public IntPtr GetHandleForModule(string moduleName)
     {
-#if UNITY_EDITOR_WIN && !EOS_DISABLE
+#if (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)) && !EOS_DISABLE
         return GetModuleHandle(moduleName);
 #else
         return IntPtr.Zero;
 #endif
     }
 
-#if UNITY_EDITOR || UNITY_STANDALONE_OSX
+#if UNITY_EDITOR || (UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM)
     //-------------------------------------------------------------------------
     static public bool UnloadLibraryInEditor(IntPtr libraryHandle)
     {
-#if UNITY_EDITOR_WIN && !EOS_DISABLE
+#if (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)) && !EOS_DISABLE
         return FreeLibrary(libraryHandle);
 #else
         return true;
@@ -156,7 +159,7 @@ public partial class SystemDynamicLibrary
     {
 #if EOS_DISABLE
         return IntPtr.Zero;
-#elif  UNITY_EDITOR_WIN || UNITY_EDITOR_OSX
+#elif  UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)
         return LoadLibrary(libraryPath);
 #else
         return DLLH_load_library_at_path(DLLHContex, libraryPath);
@@ -164,12 +167,12 @@ public partial class SystemDynamicLibrary
     }
 
     //-------------------------------------------------------------------------
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || ((UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX) && EOS_PREVIEW_PLATFORM )
     public bool UnloadLibrary(IntPtr libraryHandle)
     {
 #if EOS_DISABLE
         return true;
-#elif (UNITY_EDITOR_WIN || UNITY_EDITOR_OSX) && !UNITY_ANDROID
+#elif (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)) && !UNITY_ANDROID
         return FreeLibrary(libraryHandle);
 #else
         return DLLH_unload_library_at_path(DLLHContex, libraryHandle);
@@ -185,7 +188,7 @@ public partial class SystemDynamicLibrary
     {
 #if EOS_DISABLE
         return IntPtr.Zero;
-#elif UNITY_EDITOR_WIN
+#elif UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)
         return GetProcAddress(libraryHandle, functionName);
 #else
         return DLLH_load_function_with_name(DLLHContex, libraryHandle, functionName);

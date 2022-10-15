@@ -8,6 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.1.5] - 2022-10-14
+### Added
+- doc(mac) : supported version doc
+- RTC support on iOS
+- feat(sessions sample): sanctions flag and presence changes
+- feat: local username ui
+### Changed
+- EOS SDK to 1.15.3
+- Move iOS specific login code to EOS iOS Specific class
+### Fixed
+- (Binding) : Correct binding function names for OSX Editor
+- (iOS,RTC) : support RTC when hosting a lobby and someone joins
+- (UI) : iOS mic permission status fix
+- Moving friend query to prevent errors
+- (Lobby,UI) : Make mute button not interactable if mic not permitted
+- Leaderboard friends list now works
+
 ## [2.1.4] - 2022-10-03
 
 ### Fixed

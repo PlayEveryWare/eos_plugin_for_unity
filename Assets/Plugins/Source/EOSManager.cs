@@ -428,7 +428,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.ClientCredentials = clientCredentials;
 
 
-#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
+#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM) || (UNITY_EDITOR_LINUX && EOS_PREVIEW_PLATFORM))
                 var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
                 //TODO: handle errors
                 var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
@@ -498,7 +498,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 string configDataAsString = "";
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && EOS_PREVIEW_PLATFORM
 
                 configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
 #else
@@ -524,6 +524,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     var secondTryResult = InitializePlatformInterface(configData);
                     UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
+#endif
+#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
+                    if (secondTryResult != Result.AlreadyConfigured)
 #endif
                     {
                         throw new System.Exception("Epic Online Services didn't init correctly: " + initResult);
@@ -1072,33 +1075,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     callback.Invoke(connectLoginData);
                 }
             }
-            //-------------------------------------------------------------------------
-#if UNITY_IOS
-            [DllImport("__Internal")]
-            static private extern IntPtr LoginUtility_get_app_controller();
 
-            IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
-            {
-                IOSLoginOptions modifiedLoginOptions = new IOSLoginOptions();
-                modifiedLoginOptions.ScopeFlags = loginOptions.ScopeFlags;
-                
-                var credentials = new IOSCredentials();
-
-                credentials.Token = loginOptions.Credentials.Value.Token;
-                credentials.Id = loginOptions.Credentials.Value.Id;
-                credentials.Type = loginOptions.Credentials.Value.Type;
-                credentials.ExternalType = loginOptions.Credentials.Value.ExternalType;
-
-                var systemAuthCredentialsOptions = new IOSCredentialsSystemAuthCredentialsOptions();
-
-                systemAuthCredentialsOptions.PresentationContextProviding = LoginUtility_get_app_controller();
-                credentials.SystemAuthCredentialsOptions = systemAuthCredentialsOptions;
-
-                modifiedLoginOptions.Credentials = credentials;
-
-                return modifiedLoginOptions;
-            }
-#endif
             //-------------------------------------------------------------------------
             /// <summary>
             /// Start an EOS Auth Login with the passed in LoginOptions. Call this instead of the method on EOSAuthInterface to ensure that 
@@ -1125,8 +1102,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("StartLoginWithLoginTypeAndToken");
 
-#if UNITY_IOS
-                IOSLoginOptions modifiedLoginOptions = MakeIOSLoginOptionsFromDefualt(loginOptions);
+#if UNITY_IOS && !UNITY_EDITOR  && EOS_PREVIEW_PLATFORM
+                IOSLoginOptions modifiedLoginOptions = (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).MakeIOSLoginOptionsFromDefualt(loginOptions);
                 EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 #else
                 EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
@@ -1277,6 +1254,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     s_state = EOSState.ShuttingDown;
                     print("Shutting down eos and releasing handles");
                     // Not doing this in the editor, because it doesn't seem to be an issue there
+#if !UNITY_EDITOR_OSX
 #if !UNITY_EDITOR
                     //LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Off);
                     //Epic.OnlineServices.Logging.LoggingInterface.SetCallback(null);
@@ -1286,6 +1264,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     GetEOSPlatformInterface()?.Release();
                     ShutdownPlatformInterface();
                     SetEOSPlatformInterface(null);
+#endif
 #if UNITY_EDITOR
                     UnloadAllLibraries();
 #endif

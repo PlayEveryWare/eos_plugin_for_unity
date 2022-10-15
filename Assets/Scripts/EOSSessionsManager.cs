@@ -176,8 +176,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public uint MaxPlayers;
         public uint NumConnections = 1;
         public bool AllowJoinInProgress;
-        public bool PresenceSession = false;
         public bool InvitesAllowed = true;
+        public bool SanctionsEnabled = true;
         public OnlineSessionPermissionLevel PermissionLevel;
         public ActiveSession ActiveSession;
 
@@ -295,15 +295,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public override bool Equals(object other)
         {
-            Session session = (Session)other;
+            Session session = other as Session;
 
-            return Name.Equals(session.Name, StringComparison.OrdinalIgnoreCase) &&
+            return other != null && 
+                Name.Equals(session.Name, StringComparison.OrdinalIgnoreCase) &&
                 Id.Equals(session.Id, StringComparison.OrdinalIgnoreCase) &&
                 BucketId.Equals(session.BucketId, StringComparison.OrdinalIgnoreCase) &&
                 MaxPlayers == session.MaxPlayers &&
                 NumConnections == session.NumConnections &&
                 AllowJoinInProgress == session.AllowJoinInProgress &&
-                PresenceSession == session.PresenceSession &&
                 InvitesAllowed == session.InvitesAllowed &&
                 PermissionLevel == session.PermissionLevel &&
                 Attributes == session.Attributes;
@@ -516,7 +516,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SubscribteToGameInvites();
 
             CurrentInvite = null;
-            SetJoininfo("");
 
             userLoggedIn = true;
         }
@@ -533,7 +532,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LeaveAllSessions();
 
-            SetJoininfo("", true);
             CurrentSearch.Release();
             CurrentSessions.Clear();
             Invites.Clear();
@@ -553,7 +551,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //-------------------------------------------------------------------------
-        public bool CreateSession(Session session, Action callback = null)
+        public bool CreateSession(Session session, bool presence = false, Action callback = null)
         {
             if (session == null)
             {
@@ -572,8 +570,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             createOptions.BucketId = BUCKET_ID;
             createOptions.MaxPlayers = session.MaxPlayers;
             createOptions.SessionName = session.Name;
+            createOptions.SanctionsEnabled = session.SanctionsEnabled;
             createOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
-            createOptions.PresenceEnabled = session.PresenceSession;
+            createOptions.PresenceEnabled = presence;
 
             Result result = sessionInterface.CreateSessionModification(ref createOptions, out SessionModification sessionModificationHandle);
 
@@ -710,7 +709,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void DestroyAllSessions()
         {
-            SetJoininfo("");
             foreach (KeyValuePair<string, Session> session in CurrentSessions)
             {
                 if (!session.Key.Contains(JOINED_SESSION_NAME))
@@ -1247,11 +1245,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if (CurrentSessions.TryGetValue(sessionName, out Session session))
                 {
-                    if (session != null && session.PresenceSession)
-                    {
-                        SetJoininfo("");
-                    }
-
                     CurrentSessions.Remove(sessionName);
                 }
             }
@@ -1268,10 +1261,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (success)
                 {
                     session.Id = sessionId;
-                    if (!session.PresenceSession)
-                    {
-                        SetJoininfo(sessionId);
-                    }
                 }
                 else
                 {
@@ -1378,10 +1367,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         if (currentSession.Id == session.Id)
                         {
                             localSessionFound = true;
-                            /*if (!session.PresenceSession)
-                            {
-                                SetJoininfo(session.Id);
-                            }*/
                             break;
                         }
                     }
@@ -1389,10 +1374,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (!localSessionFound)
                     {
                         CurrentSessions[session.Name] = session;
-                        /*if (!session.PresenceSession)
-                        {
-                            SetJoininfo(session.Id);
-                        }*/
                     }
                 }
                 callback?.Invoke(result);

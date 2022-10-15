@@ -36,7 +36,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text StatusTxt;
         public Text PlayersTxt;
         public Text LevelTxt;
-        public Text PresenceTxt;
         public Text JIPTxt;
         public Text PermissionTxt;
         public Text InvitesTxt;

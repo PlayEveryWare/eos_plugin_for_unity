@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobbies.unity
     guid: fcd189b36a515624697742cfeadccf3c
   - enabled: 1
+    path: Assets/Scenes/Metrics.unity
+    guid: d2276bf4e1f9b674c83d20c8de1a6207
+  - enabled: 1
     path: Assets/Scenes/Peer2Peer.unity
     guid: f0e74d05ae7114d4ba6ea2d6fcd2be54
   - enabled: 1

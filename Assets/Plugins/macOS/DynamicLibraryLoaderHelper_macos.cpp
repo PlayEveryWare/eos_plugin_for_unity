@@ -3,8 +3,15 @@
 
 #include <assert.h>
 #include <dlfcn.h>
+#include <stdio.h>
+#include <map>
+#include <string>
+#include <libgen.h>
+#include <mach-o/dyld.h>
 
 #define STATIC_EXPORT(return_type) extern "C" return_type
+
+std::map <std::string,std::string> baseNameToPath;
 
 struct DLLHContext
 {
@@ -13,22 +20,48 @@ struct DLLHContext
 //-------------------------------------------------------------------------
 STATIC_EXPORT(void*) LoadLibrary(const char *library_path)
 {
-    return dlopen(library_path, RTLD_NOW);
+    std::string filename = std::string(basename((char*)library_path));
+    std::string stemname = filename.substr(0, filename.find_last_of("."));
+   
+    void* handle = dlopen(library_path, RTLD_NOW);
+    if(handle == nullptr)
+    {
+        return nullptr;
+    }
+    
+    baseNameToPath[stemname] = std::string(library_path);
+
+    return handle;
 }
 
 //-------------------------------------------------------------------------
 // pretend windows like function
 STATIC_EXPORT(bool) FreeLibrary(void *library_handle)
 {
-    dlclose(library_handle);    
+    dlclose(library_handle);
+    
+    if(dlerror())
+    {
+        return false;
+    }
+    
     return true;
 }
 
 //-------------------------------------------------------------------------
-STATIC_EXPORT(void*) GetModuleHandle(const char *library_path)
+STATIC_EXPORT(void*) GetModuleHandle(const char *stemname)
 {
-    void *to_return = dlopen(library_path, RTLD_NOLOAD);
-
+    if(baseNameToPath.find(stemname) == baseNameToPath.end())
+    {
+        return nullptr;
+    }
+        
+    void *to_return = dlopen(baseNameToPath[stemname].c_str(), RTLD_NOLOAD);
+    
+    if(to_return == nullptr)
+    {
+        baseNameToPath.erase(stemname);
+    }
     // dlopen increments the ref handle, so make sure to 
     // release the ref handle. See `man dlopen`
     if (to_return)
@@ -43,6 +76,31 @@ STATIC_EXPORT(void*) GetModuleHandle(const char *library_path)
 STATIC_EXPORT(void*) GetProcAddress(void *library_handle, const char *function_name)
 {
     return dlsym(library_handle, function_name);
+}
+
+//-------------------------------------------------------------------------
+STATIC_EXPORT(void) GetError()
+{
+    char *errstr;
+
+    errstr = dlerror();
+    
+    freopen("debug.txt", "w", stdout);
+    printf ("TryDynamicLinking \n");
+    if (errstr != NULL)
+    printf ("A dynamic linking error occurred: (%s)\n", errstr);
+    fclose (stdout);
+
+}
+
+STATIC_EXPORT(void) PrintLibs()
+{
+    freopen("libs.txt", "w", stdout);
+    for(uint32_t i=0;i<_dyld_image_count();i++)
+    {
+        printf("lib num %d : %s\n",i,_dyld_get_image_name(i));
+    }
+    fclose (stdout);
 }
 
 //-------------------------------------------------------------------------

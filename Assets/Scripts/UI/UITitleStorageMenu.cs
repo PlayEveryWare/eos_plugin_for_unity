@@ -113,13 +113,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
 #if UNITY_STANDALONE_WIN
             string platformTag = "PLATFORM_WINDOWS";
-#elif UNITY_STANDALONE_OSX
+#elif UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM
             string platformTag = "PLATFORM_MAC";
-#elif UNITY_STANDALONE_LINUX
+#elif UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM
             string platformTag = "PLATFORM_LINUX";
-#elif UNITY_IOS
+#elif UNITY_IOS && EOS_PREVIEW_PLATFORM
             string platformTag = "PLATFORM_IOS";
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID && EOS_PREVIEW_PLATFORM
             string platformTag = "PLATFORM_ANDROID";
 #elif UNITY_PS4
             string platformTag = "PLATFORM_PS4";

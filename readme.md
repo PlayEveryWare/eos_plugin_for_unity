@@ -32,7 +32,7 @@ The follow target platforms are supported in Unity for the current release of th
 | Android | Future |
 | iOS | Future |
 | Linux | [Supported](docs/linux/linux_supported_versions.md) |
-| MacOS | Future |
+| MacOS | [Future](docs/macOS/macOS_supported_versions.md)) |
 | Console Platforms | Future |
 | WebGL | Not Supported |
 | Universal Windows Platform x86 | Not Supported |
@@ -62,6 +62,7 @@ The EOS SDK is continually releasing new features and functionality.  The follow
 | [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) | Player Reports & Sanctions Sample |
 | [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | Lobbies Sample |
 | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | Custom Invites Sample |
+| [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) | Metrics Sample |
 | [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | Not Supported |
 | [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | Not Supported |
 

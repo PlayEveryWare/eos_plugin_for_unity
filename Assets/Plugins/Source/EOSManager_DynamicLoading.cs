@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         //static UnloadEOS_delegate UnloadEOS;
                         //static EOS_GetPlatformInterface_delegate EOS_GetPlatformInterface;
                         public const string GfxPluginNativeRenderPath =
-#if UNITY_STANDALONE_OSX
+#if UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM
                             "GfxPluginNativeRender-macOS";
 #elif (UNITY_STANDALONE_WIN || UNITY_WSA) && PLATFORM_64BITS
                         "GfxPluginNativeRender-x64";
@@ -218,14 +218,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
-                        return handle.LoadFunctionAsIntPtr(functionName);
+#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
+                    return handle.LoadFunctionAsIntPtr(functionName.Trim('_'));
+#else
+                    return handle.LoadFunctionAsIntPtr(functionName);
+#endif
                  });
 
 //#if !UNITY_EDITOR
                 EOSManagerPlatformSpecifics.Instance?.LoadDelegatesWithEOSBindingAPI();
 //#endif
 #endif
-            }
+                }
             //-------------------------------------------------------------------------
             // Using runtime reflection, hook up things
             static public void LoadDelegatesWithReflection()
@@ -326,6 +330,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
 #if UNITY_EDITOR
                 IntPtr existingHandle;
+                int timeout = 50;
                 do
                 {
                     existingHandle = SystemDynamicLibrary.GetHandleForModule(EOSBinaryName);
@@ -334,8 +339,13 @@ namespace PlayEveryWare.EpicOnlineServices
                         GC.WaitForPendingFinalizers();
                         SystemDynamicLibrary.UnloadLibraryInEditor(existingHandle);
                     }
+                    timeout--;
+                } while (IntPtr.Zero != existingHandle && timeout > 0);
 
-                } while (IntPtr.Zero != existingHandle);
+                if (IntPtr.Zero != existingHandle)
+                {
+                    UnityEngine.Debug.LogWarning("Free Library { " + EOSBinaryName + " }:Timeout");
+                }
 #endif
             }
 

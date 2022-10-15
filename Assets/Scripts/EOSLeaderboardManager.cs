@@ -345,6 +345,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaderboardsHandle.QueryLeaderboardUserScores(ref options, null, LeaderboardUserScoresReceivedCallbackFn);
         }
 
+        /// <summary>Retrieves the leaderboard record for the specified user id.</summary>
+        /// <param name="userId">UserId to query.</param>
+        /// <param name="record">LeaderboardRecord output from the query.</param>
+        /// <returns>Result of the copying the record for the user id.</returns>
+        public Result CopyUserScore(ProductUserId userId, out LeaderboardRecord? record)
+        {
+            record = null;
+            var options = new CopyLeaderboardRecordByUserIdOptions
+            {
+                UserId = userId
+            };
+            return LeaderboardsHandle.CopyLeaderboardRecordByUserId(ref options, out record);
+        }
+
         private void CacheLeaderboardUserScores()
         {
             CachedLeaderboardUserScores.Clear();

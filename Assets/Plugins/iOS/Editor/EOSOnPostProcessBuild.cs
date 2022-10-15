@@ -4,7 +4,7 @@ using UnityEditor.Callbacks;
 using System.Collections;
 using System.IO;
 
-#if UNITY_IOS
+#if UNITY_IOS && EOS_PREVIEW_PLATFORM
 using UnityEditor.iOS.Xcode;
 public class iOS_BuildPostProcess
 {
