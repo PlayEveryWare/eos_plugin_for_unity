@@ -103,11 +103,6 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Achievements/*.cs", "dest": "Runtime/EOS_SDK/Generated/Achievements/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Achievements/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Achievements/"},
 
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android.meta", "dest": "Runtime/EOS_SDK/Generated/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Android/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Android/Platform"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Android/Platform"},
-
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatClient.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatClient/*.cs", "dest": "Runtime/EOS_SDK/Generated/AntiCheatClient/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatClient/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/AntiCheatClient/"},
@@ -234,6 +229,44 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
+
+
+        {"comment": "--------------------------------Prerelease platforms-----------------------------------------"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/*.cs", "dest": "Runtime/EOS_SDK/Generated/Android/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Android/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Android/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Android/Platform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Android/Platform/"},
+
+        {"src":"Assets/Plugins/Android.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Android/*.cs", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/*.cs.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/AndroidEditor.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/AndroidEditor/Editor/*.cs", "dest": "Editor/AndroidEditor/"},
+        {"src":"Assets/Plugins/AndroidEditor/Editor/*.cs.meta", "dest": "Editor/AndroidEditor/"},
+        {"src":"Assets/Plugins/AndroidEditor/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/AndroidEditor/"},
+        {"src":"Assets/Plugins/AndroidEditor/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/AndroidEditor/"},
+
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/Auth/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/Auth/"},
+
+        {"src":"Assets/Plugins/iOS.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/iOS/*.cs", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.cs.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Runtime/iOS/Editor/"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Runtime/iOS/Editor/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/iOS/Editor/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/iOS/Editor/"},
+        {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
+
+
 
         {"src":"EOSUnityPlugin_package_template/.sample.json", "dest" : ""},
         {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/"},
