@@ -1,3 +1,6 @@
+## Preview Platform
+To access Preview platforms, enable `EOS_PREVIEW_PLATFORM`
+
 ## What is the Android Helper Library?
 It's a dynamically linked library and AAR that brings in the C++ dependencies that the
 EOS SO needs on Android, and provides a place for any native Android code to live.
