@@ -70,6 +70,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// <summary>
     /// Class <c>EOSPeer2PeerManager</c> is a simplified wrapper for EOS [P2P Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/P2P/index.html).
     /// </summary>
+    public enum messageType
+    {
+        textMessage,
+        coordinatesMessage
+    };
+    public struct messageData
+    {
+        public messageType type;
+        public string textData;
+
+        public float xPos;
+        public float yPos;
+    };
 
     public class EOSPeer2PeerManager : IEOSSubManager
     {
@@ -78,6 +91,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private ulong ConnectionNotificationId;
         private Dictionary<ProductUserId, ChatWithFriendData> ChatDataCache;
         private bool ChatDataCacheDirty;
+
+        public UIPeer2PeerParticleManager ParticleManager;
+        public Transform parent;
+
 
         public EOSPeer2PeerManager()
         {
@@ -147,61 +164,104 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log("P2p (OnRefreshNATTypeFinished): RefreshNATType Completed");
         }
 
-        public void SendMessage(ProductUserId friendId, string message)
+        public void SendMessage(ProductUserId friendId, messageData message)
         {
-            if (!friendId.IsValid() || string.IsNullOrEmpty(message))
+            if (!friendId.IsValid())
             {
-                Debug.LogError("EOS P2PNAT SendMessage: bad input data (account id is wrong or message is empty).");
+                Debug.LogError("EOS P2PNAT SendMessage: bad input data: account id is wrong.");
                 return;
             }
-
-            // Update Cache
-            ChatEntry chatEntry = new ChatEntry()
+            if (message.type == messageType.textMessage)
             {
-                isOwnEntry = true,
-                Message = message
-            };
+                if (string.IsNullOrEmpty(message.textData))
+                {
+                    Debug.LogError("EOS P2PNAT SendMessage: bad input data message is empty.");
+                    return;
+                }
 
-            if (ChatDataCache.TryGetValue(friendId, out ChatWithFriendData chatData))
-            {
-                chatData.ChatLines.Enqueue(chatEntry);
-                ChatDataCacheDirty = true;
+                // Update Cache
+                ChatEntry chatEntry = new ChatEntry()
+                {
+                    isOwnEntry = true,
+                    Message = message.textData
+                };
+
+                if (ChatDataCache.TryGetValue(friendId, out ChatWithFriendData chatData))
+                {
+                    chatData.ChatLines.Enqueue(chatEntry);
+                    ChatDataCacheDirty = true;
+                }
+                else
+                {
+                    ChatWithFriendData newChatData = new ChatWithFriendData(friendId);
+                    newChatData.ChatLines.Enqueue(chatEntry);
+
+                    ChatDataCache.Add(friendId, newChatData);
+                    ChatDataCacheDirty = true;
+                }
+
+                // Send Message
+                SocketId socketId = new SocketId()
+                {
+                    SocketName = "CHAT"
+                };
+
+                SendPacketOptions options = new SendPacketOptions()
+                {
+                    LocalUserId = EOSManager.Instance.GetProductUserId(),
+                    RemoteUserId = friendId,
+                    SocketId = socketId,
+                    AllowDelayedDelivery = true,
+                    Channel = 0,
+                    Reliability = PacketReliability.ReliableOrdered,
+                    Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes("t" + message.textData))
+                };
+
+                Result result = P2PHandle.SendPacket(ref options);
+
+                if (result != Result.Success)
+                {
+                    Debug.LogErrorFormat("EOS P2PNAT SendMessage: error while sending data, code: {0}", result);
+                    return;
+                }
+
+                Debug.Log("EOS P2PNAT SendMessage: Message successfully sent to user.");
             }
+
+            else if (message.type == messageType.coordinatesMessage)
+            {
+
+                string rawData = ("m" + message.xPos.ToString() + "," + message.yPos.ToString());
+                // Send Message
+                SocketId socketId = new SocketId()
+                {
+                    SocketName = "CHAT"
+                };
+
+                SendPacketOptions options = new SendPacketOptions()
+                {
+                    LocalUserId = EOSManager.Instance.GetProductUserId(),
+                    RemoteUserId = friendId,
+                    SocketId = socketId,
+                    AllowDelayedDelivery = true,
+                    Channel = 0,
+                    Reliability = PacketReliability.ReliableOrdered,
+                    Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes(rawData))
+                };
+
+                Result result = P2PHandle.SendPacket(ref options);
+
+                if (result != Result.Success)
+                {
+                    Debug.LogErrorFormat("EOS P2PNAT SendMessage: error while sending data, code: {0}", result);
+                    return;
+                }
+            }
+
             else
             {
-                ChatWithFriendData newChatData = new ChatWithFriendData(friendId);
-                newChatData.ChatLines.Enqueue(chatEntry);
-
-                ChatDataCache.Add(friendId, newChatData);
-                ChatDataCacheDirty = true;
+                Debug.Log("EOS P2PNAT SendMessage: Message content was not valid.");
             }
-
-            // Send Message
-            SocketId socketId = new SocketId()
-            {
-                SocketName = "CHAT"
-            };
-
-            SendPacketOptions options = new SendPacketOptions()
-            {
-                LocalUserId = EOSManager.Instance.GetProductUserId(),
-                RemoteUserId = friendId,
-                SocketId = socketId,
-                AllowDelayedDelivery = true,
-                Channel = 0,
-                Reliability = PacketReliability.ReliableOrdered,
-                Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes(message))
-            };
-
-            Result result = P2PHandle.SendPacket(ref options);
-
-            if (result != Result.Success)
-            {
-                Debug.LogErrorFormat("EOS P2PNAT SendMessage: error while sending data, code: {0}", result);
-                return;
-            }
-
-            Debug.Log("EOS P2PNAT SendMessage: Message successfully sent to user.");
         }
 
         public ProductUserId HandleReceivedMessages()
@@ -213,7 +273,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RequestedChannel = null
             };
 
-            var getNextReceivedPacketSizeOptions = new GetNextReceivedPacketSizeOptions 
+            var getNextReceivedPacketSizeOptions = new GetNextReceivedPacketSizeOptions
             {
                 LocalUserId = EOSManager.Instance.GetProductUserId(),
                 RequestedChannel = null
@@ -234,42 +294,64 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 //Do something with chat output
                 Debug.LogFormat("Message received: peerId={0}, socketId={1}, data={2}", peerId, socketId, Encoding.UTF8.GetString(data));
 
-                if(!peerId.IsValid())
+                if (!peerId.IsValid())
                 {
                     Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: ProductUserId peerId is not valid!");
                     return null;
                 }
 
-                ChatEntry newMessage = new ChatEntry()
-                {
-                    isOwnEntry = false,
-                    Message = System.Text.Encoding.UTF8.GetString(data)
-                };
+                string message = System.Text.Encoding.UTF8.GetString(data);
 
-                if (ChatDataCache.TryGetValue(peerId, out ChatWithFriendData chatData))
+                if (message.StartsWith("t"))
                 {
-                    // Update existing chat
-                    chatData.ChatLines.Enqueue(newMessage);
+                    ChatEntry newMessage = new ChatEntry()
+                    {
+                        isOwnEntry = false,
+                        Message = message.Substring(1)
+                    };
 
-                    ChatDataCacheDirty = true;
+                    if (ChatDataCache.TryGetValue(peerId, out ChatWithFriendData chatData))
+                    {
+                        // Update existing chat
+                        chatData.ChatLines.Enqueue(newMessage);
+
+                        ChatDataCacheDirty = true;
+                        return peerId;
+                    }
+                    else
+                    {
+                        ChatWithFriendData newChat = new ChatWithFriendData(peerId);
+                        newChat.ChatLines.Enqueue(newMessage);
+
+                        // New Chat Request
+                        ChatDataCache.Add(peerId, newChat);
+
+                        return peerId;
+                    }
+                }
+                else if (message.StartsWith("m"))
+                {
+                    message = message.Substring(1);
+
+                    string[] coords = message.Split(',');
+                    int xPos = Int32.Parse(coords[0]);
+                    int yPos = Int32.Parse(coords[1]);
+                    Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + xPos + ", " + yPos);
+
+                    ParticleManager.SpawnParticles(xPos, yPos, parent);
+
                     return peerId;
                 }
+
+
+
                 else
                 {
-                    ChatWithFriendData newChat = new ChatWithFriendData(peerId);
-                    newChat.ChatLines.Enqueue(newMessage);
-
-                    // New Chat Request
-                    ChatDataCache.Add(peerId, newChat);
-
-                    return peerId;
+                    Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: error while reading data, code: {0}", result);
+                    return null;
                 }
             }
-            else
-            {
-                Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: error while reading data, code: {0}", result);
-                return null;
-            }
+            return null;
         }
 
         private void SubscribeToConnectionRequest()
