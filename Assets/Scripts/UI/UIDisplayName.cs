@@ -23,25 +23,37 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Epic.OnlineServices.UserInfo;
+using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIDisplayName : MonoBehaviour
+    public class UIDisplayName : MonoBehaviour, IEOSOnAuthLogin, IEOSOnConnectLogin
     {
         public Text DisplayNameText;
 
+        private EOSUserInfoManager userInfoManager = null;
+
+        const string NoUser = "No Local User";
+
         private void OnEnable()
         {
-            var userInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
-            userInfoManager.AddNotifyLocalUserInfoChanged(OnLocalUserInfoChanged);
-            var userInfo = userInfoManager.GetLocalUserInfo();
-            OnLocalUserInfoChanged(userInfo);
+            EOSManager.Instance.AddConnectLoginListener(this);
+            EOSManager.Instance.AddAuthLoginListener(this);
+
+            DisplayNameText.text = NoUser;
+
+            if (EOSManager.Instance.GetLocalUserId() != null)
+            {
+                OnLogin();
+            }
         }
 
         private void OnDisable()
         {
-            var userInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
-            userInfoManager.RemoveNotifyLocalUserInfoChanged(OnLocalUserInfoChanged);
+            EOSManager.Instance.RemoveConnectLoginListener(this);
+            EOSManager.Instance.RemoveAuthLoginListener(this);
+
+            userInfoManager?.RemoveNotifyLocalUserInfoChanged(OnLocalUserInfoChanged);
             DisplayNameText.text = string.Empty;
         }
 
@@ -53,9 +65,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                DisplayNameText.text = "No Local User";
+                DisplayNameText.text = NoUser;
             }
         }
 
+        void OnLogin()
+        {
+            if (userInfoManager == null)
+            {
+                userInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
+            }
+            userInfoManager.AddNotifyLocalUserInfoChanged(OnLocalUserInfoChanged);
+            var userInfo = userInfoManager.GetLocalUserInfo();
+            OnLocalUserInfoChanged(userInfo);
+        }
+
+        public void OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
+        {
+            OnLogin();
+        }
+
+        public void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo)
+        {
+            OnLogin();
+        }
     }
 }
