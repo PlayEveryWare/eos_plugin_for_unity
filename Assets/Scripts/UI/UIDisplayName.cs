@@ -75,6 +75,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 userInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
             }
+            //remove callback first to avoid duplicating
+            userInfoManager.RemoveNotifyLocalUserInfoChanged(OnLocalUserInfoChanged);
             userInfoManager.AddNotifyLocalUserInfoChanged(OnLocalUserInfoChanged);
             var userInfo = userInfoManager.GetLocalUserInfo();
             OnLocalUserInfoChanged(userInfo);
