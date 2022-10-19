@@ -83,15 +83,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
-#if UNITY_EDITOR
-            loginType = LoginCredentialType.AccountPortal; // Default in editor
-#else
-            loginType = LoginCredentialType.AccountPortal; // Default on other platforms
-#endif
+            if (Platform.IS_EDITOR)
+            {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                loginType = LoginCredentialType.AccountPortal; // Default in editor
+#pragma warning restore CS0162 // Unreachable code on some platforms
+            }
+            else
+            {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                loginType = LoginCredentialType.AccountPortal; // Default on other platforms
+#pragma warning restore CS0162 // Unreachable code on some platforms
+            }
 
-#if UNITY_EDITOR || (UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM) || UNITY_STANDALONE_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM)
-            idInputField.InputField.text = "localhost:7777"; //default on pc
-#endif
+            if (Platform.IS_EDITOR || (Platform.STANDALONE_OSX && Platform.IS_EOS_PREVIEW_ENABLED) || Platform.STANDALONE_WIN || (Platform.STANDALONE_LINUX && Platform.IS_EOS_PREVIEW_ENABLED))
+            {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                idInputField.InputField.text = "localhost:7777"; //default on pc
+#pragma warning restore CS0162 // Unreachable code on some platforms
+            }
         }
 
         private void CacheIdInputField(string value)

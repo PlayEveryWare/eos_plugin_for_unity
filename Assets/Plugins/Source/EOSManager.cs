@@ -498,16 +498,23 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 string configDataAsString = "";
 
-#if UNITY_ANDROID && EOS_PREVIEW_PLATFORM
-
-                configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
-#else
-                if (!File.Exists(eosFinalConfigPath))
+                if (Platform.IS_ANDROID && Platform.IS_EOS_PREVIEW_ENABLED)
                 {
-                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists and is a valid config");
-                } 
-                configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
-#endif
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                }
+                else
+                {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    if (!File.Exists(eosFinalConfigPath))
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    {
+                        throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists and is a valid config");
+                    }
+                    configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
+                }
+
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
 
                 print("Loaded config file: " + configDataAsString);
