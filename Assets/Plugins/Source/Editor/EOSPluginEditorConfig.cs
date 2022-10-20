@@ -182,7 +182,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public string GetNameForMenu()
         {
-            return "Version";
+            return "Prebuild Settings";
         }
 
         //-------------------------------------------------------------------------
