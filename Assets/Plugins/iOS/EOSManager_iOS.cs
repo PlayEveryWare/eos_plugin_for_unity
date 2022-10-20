@@ -115,7 +115,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", "eos_ios_config.json");
         }
         //-------------------------------------------------------------------------
-        private EOS_iOSConfig GetEOS_iOSConfig()
+        private EOS_iOSConfig GetEOSIOSConfig()
         {
             if (iOSConfig != null)
             {
@@ -123,9 +123,14 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             string eosFinalConfigPath = GetPathToEOSConfig();
+            
+            if (!File.Exists(eosFinalConfigPath))
+            {
+                return null;
+            }
+            
             var configDataAsString = File.ReadAllText(eosFinalConfigPath);
-            var configData = JsonUtility.FromJson<EOS_iOSConfig>(configDataAsString);
-            iOSConfig = configData;
+            iOSConfig = JsonUtility.FromJson<EOS_iOSConfig>(configDataAsString);
             return iOSConfig;
         }
         //-------------------------------------------------------------------------
@@ -167,9 +172,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
             }
 
-            if (GetEOS_iOSConfig() != null)
+            if (GetEOSIOSConfig() != null)
             {
-                Debug.Log("GetEOS_iOSConfig() is not null");
+                Debug.Log("GetEOSIOSConfig() is not null");
                 if (initializeOptions.OverrideThreadAffinity.HasValue)
                 {
                     var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
