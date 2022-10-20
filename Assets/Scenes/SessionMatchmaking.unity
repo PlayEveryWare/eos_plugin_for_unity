@@ -2393,6 +2393,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4094067151960579091, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: ReadmeTextSource
+      value: 
+      objectReference: {fileID: 4900000, guid: aba43550a7d6ecd43b75c1efaff645c1, type: 3}
     - target: {fileID: 4289020540593131842, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_AnchoredPosition.y
