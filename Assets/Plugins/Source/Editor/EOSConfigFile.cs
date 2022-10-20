@@ -68,6 +68,11 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 var configDataAsJSON = JsonUtility.ToJson(currentEOSConfig, prettyPrint);
 
+                // If this is the first time we are saving the config, we need to create the directory
+                // If the directory already exists this will do nothing
+                System.IO.FileInfo file = new System.IO.FileInfo(configFilenamePath);
+                file.Directory.Create();
+                
                 File.WriteAllText(configFilenamePath, configDataAsJSON);
             }
             AssetDatabase.SaveAssets();
