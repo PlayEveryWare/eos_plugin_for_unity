@@ -61,6 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject CurrentLobbyPanel;
         public Text LobbyIdVal;
         public Text OwnerIdVal;
+        public Text memberCountVal;
 
         [Header("Lobbies UI - Lobby Members")]
         public GameObject UIMemberEntryPrefab;
@@ -172,6 +173,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Update()
         {
+            memberCountVal.text = UIMemberEntries.Count.ToString();
             ProductUserId productUserId = EOSManager.Instance.GetProductUserId();
             if (productUserId == null || !productUserId.IsValid())
             {
