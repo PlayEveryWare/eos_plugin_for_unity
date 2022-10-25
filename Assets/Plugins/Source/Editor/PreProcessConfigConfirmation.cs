@@ -53,11 +53,12 @@ class PreProcessConfigConfirmation : IPreprocessBuildWithReport
             Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + "Target is supported");
             if (System.IO.File.Exists(fileDictionary[target]))
             {
-                configFileExist(target);
+                Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + " config file exists");
             }
             else
             {
-                configFileDoesNotExist(target);
+                Debug.LogError("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + " config file is missing");
+                throw new BuildFailedException("Config file for " + target + " is missing");
             }
         }
         else
@@ -66,16 +67,4 @@ class PreProcessConfigConfirmation : IPreprocessBuildWithReport
             //throw new BuildFailedException( target + " is not supported, refer to above message");
         }
     }
-
-    private void configFileExist(BuildTarget target)
-    {
-        Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + " config file exists");
-    }
-
-    private void configFileDoesNotExist(BuildTarget target)
-    {
-        Debug.LogError("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + " config file is missing");
-        throw new BuildFailedException("Config file for " + target + " is missing");
-    }
-
 }
