@@ -25,131 +25,57 @@ using UnityEditor.Build;
 using UnityEditor;
 using UnityEngine;
 using System.IO;
+using System.Collections.Generic;
 
 class PreProcessConfigConfirmation : IPreprocessBuildWithReport
 {
     public int callbackOrder { get { return 0; } }
     public void OnPreprocessBuild(BuildReport report)
     {
-        Debug.Log("PreProcessConfigConfirmation_Windows.OnPreprocessBuild for target " + report.summary.platform + " at path " + System.IO.Directory.GetCurrentDirectory());
+        Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + report.summary.platform);
         BuildTarget target = report.summary.platform;
 
-        switch (target)
+        Dictionary<BuildTarget, string> fileDictionary = new Dictionary<BuildTarget, string>();
+        fileDictionary.Add(BuildTarget.StandaloneWindows,   "Assets/StreamingAssets/EOS/EpicOnlineServicesConfig.json");
+        fileDictionary.Add(BuildTarget.StandaloneWindows64, "Assets/StreamingAssets/EOS/EpicOnlineServicesConfig.json");
+        fileDictionary.Add(BuildTarget.iOS,                 "Assets/StreamingAssets/EOS/eos_ios_config.json");
+        fileDictionary.Add(BuildTarget.StandaloneOSX,       "Assets/StreamingAssets/EOS/eos_macos_config.json");
+        fileDictionary.Add(BuildTarget.StandaloneLinux64,   "Assets/StreamingAssets/EOS/eos_linux_config.json");
+        fileDictionary.Add(BuildTarget.Android,             "Assets/StreamingAssets/EOS/eos_android_config.json");
+        /* Unupported cases(Playstation and XBox)
+        file
+        fileDictionary.Add(BuildTarget.PS4,             "Assets/StreamingAssets/EOS/.json");
+        fileDictionary.Add(BuildTarget.PS5,             "Assets/StreamingAssets/EOS/.json");
+        fileDictionary.Add(BuildTarget.Xbox,             "Assets/StreamingAssets/EOS/.json");
+        */
+        if (fileDictionary.ContainsKey(target))
         {
-            case BuildTarget.StandaloneWindows:
-
-                if(System.IO.File.Exists("Assets/StreamingAssets/EOS/EpicOnlineServicesConfig.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;
-
-            case BuildTarget.StandaloneWindows64:
-                if (System.IO.File.Exists("Assets/StreamingAssets/EOS/EpicOnlineServicesConfig.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;
-
-            case BuildTarget.iOS:
-                if (System.IO.File.Exists("Assets/StreamingAssets/EOS/eos_ios_config.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;
-
-            case BuildTarget.StandaloneOSX:
-                if (System.IO.File.Exists("Assets/StreamingAssets/EOS/eos_macos_config.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;
-
-            case BuildTarget.StandaloneLinux64:
-                if (System.IO.File.Exists("Assets/StreamingAssets/EOS/eos_linux_config.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;
-
-            case BuildTarget.Android:
-                if (System.IO.File.Exists("Assets/StreamingAssets/EOS/eos_android_config.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;
-
-            /*   Unupported cases(Playstation and XBox
-            case BuildTarget.PS4:
-                if (System.IO.File.Exists("Assets/StreamingAssets/EOS/eos_android_config.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;
-
-            case BuildTarget.PS5:
-                if (System.IO.File.Exists("Assets/StreamingAssets/EOS/eos_android_config.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;
-
-            //Xbox case
-            case BuildTarget.:
-                if (System.IO.File.Exists("Assets/StreamingAssets/EOS/eos_android_config.json"))
-                {
-                    configFileExist(target);
-                }
-                else
-                {
-                    configFileDoesNotExist(target);
-                }
-                break;*/
+            Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + "Target is supported");
+            if (System.IO.File.Exists(fileDictionary[target]))
+            {
+                configFileExist(target);
+            }
+            else
+            {
+                configFileDoesNotExist(target);
+            }
         }
-
+        else
+        {
+            Debug.LogError("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + ". Target is not supported");
+            //throw new BuildFailedException( target + " is not supported, refer to above message");
+        }
     }
 
     private void configFileExist(BuildTarget target)
     {
-        Debug.Log("PreProcessConfigConfirmation_Windows.OnPreprocessBuild for target " + target + " config file exists");
+        Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + " config file exists");
     }
 
     private void configFileDoesNotExist(BuildTarget target)
     {
-        Debug.LogError("PreProcessConfigConfirmation_Windows.OnPreprocessBuild for target " + target + " config file is missing");
-        throw new BuildFailedException("Config file is missing, refer to above message");
+        Debug.LogError("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + " config file is missing");
+        throw new BuildFailedException("Config file for " + target + " is missing");
     }
 
 }
