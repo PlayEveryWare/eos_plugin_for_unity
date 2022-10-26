@@ -43,11 +43,11 @@ class PreProcessConfigConfirmation : IPreprocessBuildWithReport
         fileDictionary.Add(BuildTarget.StandaloneLinux64,   "Assets/StreamingAssets/EOS/eos_linux_config.json");
         fileDictionary.Add(BuildTarget.Android,             "Assets/StreamingAssets/EOS/eos_android_config.json");
         /* Unupported cases(Playstation and XBox)
-        file
         fileDictionary.Add(BuildTarget.PS4,             "Assets/StreamingAssets/EOS/.json");
         fileDictionary.Add(BuildTarget.PS5,             "Assets/StreamingAssets/EOS/.json");
         fileDictionary.Add(BuildTarget.Xbox,             "Assets/StreamingAssets/EOS/.json");
         */
+
         if (fileDictionary.ContainsKey(target))
         {
             Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + target + "Target is supported");
