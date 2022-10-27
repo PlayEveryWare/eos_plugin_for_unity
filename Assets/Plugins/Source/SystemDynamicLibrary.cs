@@ -62,7 +62,7 @@ public partial class SystemDynamicLibrary
     [DllImport(Kernel32BinaryName, SetLastError = true, CharSet = CharSet.Ansi, ExactSpelling = true)]
     private static extern IntPtr GetProcAddress(IntPtr hModule, string procedureName);
 #elif UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
-    private const string DynamicLinkLibrary = "__Internal";
+    private const string DynamicLinkLibrary = "libDynamicLibraryLoaderHelper";
     [DllImport(DynamicLinkLibrary)]
     public static extern bool FreeLibrary(IntPtr hModule);
 
