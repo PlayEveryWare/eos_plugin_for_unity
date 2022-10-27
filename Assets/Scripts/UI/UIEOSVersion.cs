@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void Start()
         {
             var textComp = GetComponent<Text>();
-            textComp.text = "EOS Version:\n" + Epic.OnlineServices.Version.VersionInterface.GetVersion();
+            textComp.text = $"v{DLLHandle.GetPackageVersion()}";
         }
     }
 }
