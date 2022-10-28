@@ -168,15 +168,15 @@ namespace PlayEveryWare.EpicOnlineServices
     }
 
 
-    public class EOSPluginEditorVersionConfigSection : IEOSPluginEditorConfigurationSection
+    public class EOSPluginEditorPrebuildConfigSection : IEOSPluginEditorConfigurationSection
     {
         private static string ConfigName = "eos_plugin_version_config.json";
-        private EOSConfigFile<EOSPluginEditorVersionConfig> configFile;
+        private EOSConfigFile<EOSPluginEditorPrebuildConfig> configFile;
 
         [InitializeOnLoadMethod]
         static void Register()
         {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorVersionConfigSection());
+            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorPrebuildConfigSection());
         }
 
         //-------------------------------------------------------------------------
@@ -189,7 +189,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public void Awake()
         {
             var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorVersionConfig>(configFilenamePath);
+            configFile = new EOSConfigFile<EOSPluginEditorPrebuildConfig>(configFilenamePath);
         }
 
         //-------------------------------------------------------------------------
@@ -204,7 +204,7 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile.LoadConfigFromDisk();
         }
 
-        public EOSPluginEditorVersionConfig GetCurrentConfig()
+        public EOSPluginEditorPrebuildConfig GetCurrentConfig()
         {
             return configFile.currentEOSConfig;
         }
@@ -212,7 +212,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Use app version as product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion);
+            EpicOnlineServicesConfigEditor.AssigningBoolField("Use Unity App Version for the EOS product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion);
         }
 
         //-------------------------------------------------------------------------
@@ -453,14 +453,14 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class EOSPluginEditorVersionConfig : ICloneableGeneric<EOSPluginEditorVersionConfig>, IEmpty
+    public class EOSPluginEditorPrebuildConfig : ICloneableGeneric<EOSPluginEditorPrebuildConfig>, IEmpty
     {
 
         public bool useAppVersionAsProductVersion;
 
-        public EOSPluginEditorVersionConfig Clone()
+        public EOSPluginEditorPrebuildConfig Clone()
         {
-            return (EOSPluginEditorVersionConfig)this.MemberwiseClone();
+            return (EOSPluginEditorPrebuildConfig)this.MemberwiseClone();
         }
 
         public bool IsEmpty()
