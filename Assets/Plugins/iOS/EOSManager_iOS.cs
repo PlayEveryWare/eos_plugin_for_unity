@@ -269,4 +269,19 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+#else
+namespace PlayEveryWare.EpicOnlineServices
+{
+    public class EOSPlatformSpecificsiOS //This is a placeholder class, to enhance readability and navigation when the main class is defined out
+    {
+        public IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
+        {
+            return new IOSLoginOptions();
+        }
+
+        public void SetDefaultAudioSession()
+        {
+        }
+    }
+}
 #endif

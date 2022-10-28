@@ -30,6 +30,17 @@ public static class Platform
 #else
     public const bool IS_EDITOR_OSX = false;
 #endif
+#if UNITY_EDITOR_LINUX
+    public const bool IS_EDITOR_LINUX = true;
+#else
+    public const bool IS_EDITOR_LINUX = false;
+#endif
+
+#if UNITY_PS4
+    public const bool IS_PS4 = true;
+#else
+    public const bool IS_PS4 = false;
+#endif
 
 #if UNITY_ANDROID
     public const bool IS_ANDROID = true;

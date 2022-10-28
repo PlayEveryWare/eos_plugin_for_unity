@@ -134,22 +134,36 @@ public partial class SystemDynamicLibrary
 
     static public IntPtr GetHandleForModule(string moduleName)
     {
-#if (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)) && !EOS_DISABLE
-        return GetModuleHandle(moduleName);
-#else
-        return IntPtr.Zero;
-#endif
+        if((Platform.IS_EDITOR_WIN || (Platform.IS_EDITOR_OSX && Platform.IS_EOS_PREVIEW_ENABLED)) && !Platform.IS_EOS_DISABLED)
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return GetModuleHandle(moduleName);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
+        else
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return IntPtr.Zero;
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
     }
 
 #if UNITY_EDITOR || (UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM)
     //-------------------------------------------------------------------------
     static public bool UnloadLibraryInEditor(IntPtr libraryHandle)
     {
-#if (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)) && !EOS_DISABLE
-        return FreeLibrary(libraryHandle);
-#else
-        return true;
-    #endif
+        if((Platform.IS_EDITOR_WIN || (Platform.IS_EDITOR_OSX && Platform.IS_EOS_PREVIEW_ENABLED)) && !Platform.IS_EOS_DISABLED)
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return FreeLibrary(libraryHandle);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
+        else
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return true;
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
     }
 #endif
 
@@ -157,26 +171,48 @@ public partial class SystemDynamicLibrary
     //-------------------------------------------------------------------------
     public IntPtr LoadLibraryAtPath(string libraryPath)
     {
-#if EOS_DISABLE
-        return IntPtr.Zero;
-#elif  UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)
-        return LoadLibrary(libraryPath);
-#else
-        return DLLH_load_library_at_path(DLLHContex, libraryPath);
-#endif
+        if (Platform.IS_EOS_DISABLED)
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return IntPtr.Zero;
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
+        else if(Platform.IS_EDITOR_WIN || (Platform.IS_EDITOR_OSX && Platform.IS_EOS_PREVIEW_ENABLED))
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return LoadLibrary(libraryPath);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
+        else
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return DLLH_load_library_at_path(DLLHContex, libraryPath);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
     }
 
     //-------------------------------------------------------------------------
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || ((UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX) && EOS_PREVIEW_PLATFORM )
     public bool UnloadLibrary(IntPtr libraryHandle)
     {
-#if EOS_DISABLE
-        return true;
-#elif (UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)) && !UNITY_ANDROID
-        return FreeLibrary(libraryHandle);
-#else
-        return DLLH_unload_library_at_path(DLLHContex, libraryHandle);
-#endif
+        if (Platform.IS_EOS_DISABLED)
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return true;
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
+        else if((Platform.IS_EDITOR_WIN || (Platform.IS_EDITOR_OSX && Platform.IS_EOS_PREVIEW_ENABLED)) && !Platform.IS_ANDROID)
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return FreeLibrary(libraryHandle);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
+        else
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return DLLH_unload_library_at_path(DLLHContex, libraryHandle);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
     }
 #endif
 
@@ -186,12 +222,23 @@ public partial class SystemDynamicLibrary
     // on the DLL
     public IntPtr LoadFunctionWithName(IntPtr libraryHandle, string functionName)
     {
-#if EOS_DISABLE
-        return IntPtr.Zero;
-#elif UNITY_EDITOR_WIN || (UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM)
-        return GetProcAddress(libraryHandle, functionName);
-#else
-        return DLLH_load_function_with_name(DLLHContex, libraryHandle, functionName);
-#endif
+        if (Platform.IS_EOS_DISABLED)
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return IntPtr.Zero;
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
+        else if(Platform.IS_EDITOR_WIN || (Platform.IS_EDITOR_OSX && Platform.IS_EOS_PREVIEW_ENABLED))
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return GetProcAddress(libraryHandle, functionName);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
+        else
+        {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            return DLLH_load_function_with_name(DLLHContex, libraryHandle, functionName);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+        }
     }
 }

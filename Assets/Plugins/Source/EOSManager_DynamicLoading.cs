@@ -218,16 +218,23 @@ namespace PlayEveryWare.EpicOnlineServices
                 var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
-#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
-                    return handle.LoadFunctionAsIntPtr(functionName.Trim('_'));
-#else
-                    return handle.LoadFunctionAsIntPtr(functionName);
-#endif
-                 });
+                    if(Platform.IS_EDITOR_OSX && Platform.IS_EOS_PREVIEW_ENABLED)
+                    {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                        return handle.LoadFunctionAsIntPtr(functionName.Trim('_'));
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    }
+                    else
+                    {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                        return handle.LoadFunctionAsIntPtr(functionName);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    }
+                });
 
-//#if !UNITY_EDITOR
+//if(Platform.IS_EDITOR){
                 EOSManagerPlatformSpecifics.Instance?.LoadDelegatesWithEOSBindingAPI();
-//#endif
+//}
 #endif
                 }
             //-------------------------------------------------------------------------
@@ -361,10 +368,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
                     return;
                 }
-
-#if UNITY_EDITOR
-                LoadDelegatesByHand();
-#endif
+                if (Platform.IS_EDITOR)
+                {
+                    LoadDelegatesByHand();
+                }
             }
         }
     }

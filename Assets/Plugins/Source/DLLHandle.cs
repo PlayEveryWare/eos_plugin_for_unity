@@ -214,10 +214,13 @@ public class DLLHandle : SafeHandle
             return true;
         }
         bool didUnload = true;
-#if !UNITY_EDITOR
-        didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
-        print("Unloading a Dll with result : " + didUnload);
-#endif
+        if (!Platform.IS_EDITOR) {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+            didUnload = SystemDynamicLibrary.Instance.UnloadLibrary(handle);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+            print("Unloading a Dll with result : " + didUnload);
+        }
+
         SetHandle(IntPtr.Zero);
         return didUnload;
     }

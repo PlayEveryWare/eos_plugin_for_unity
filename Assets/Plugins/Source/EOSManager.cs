@@ -410,11 +410,16 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 platformSpecifics.ConfigureSystemInitOptions(ref initOptions, configData);
 
-#if UNITY_PS4 && !UNITY_EDITOR
-                // On PS4, RegisterForPlatformNotifications is called at a later time by EOSPSNManager
-#else
-                RegisterForPlatformNotifications();
-#endif
+                if(Platform.IS_PS4 && !Platform.IS_EDITOR)
+                {
+                    // On PS4, RegisterForPlatformNotifications is called at a later time by EOSPSNManager
+                }
+                else
+                {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    RegisterForPlatformNotifications();
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                }
 
                 return platformSpecifics.InitializePlatformInterface(initOptions);
             }
@@ -427,12 +432,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 var platformOptions = platformSpecifics.CreateSystemPlatformOption();
                 platformOptions.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.IsServer = false;
-                platformOptions.Flags =
-#if UNITY_EDITOR
-                PlatformFlags.LoadingInEditor;
-#else
-                configData.platformOptionsFlagsAsPlatformFlags();
-#endif
+                if (Platform.IS_EDITOR)
+                {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    platformOptions.Flags = PlatformFlags.LoadingInEditor;
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                }
+                else
+                {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    platformOptions.Flags = configData.platformOptionsFlagsAsPlatformFlags();
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                }
                 if (configData.IsEncryptionKeyValid())
                 {
                     platformOptions.EncryptionKey = configData.encryptionKey;
@@ -457,14 +468,16 @@ namespace PlayEveryWare.EpicOnlineServices
                 };
                 platformOptions.ClientCredentials = clientCredentials;
 
-
-#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM) || (UNITY_EDITOR_LINUX && EOS_PREVIEW_PLATFORM))
-                var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
-                //TODO: handle errors
-                var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
-                Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformInterface.CreateIntegratedPlatformOptionsContainer(ref createIntegratedPlatformOptionsContainerOptions, out integratedPlatformOptionsContainer);
-                platformOptions.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
-#endif
+                if (!(Platform.STANDALONE_WIN || Platform.IS_EDITOR_WIN || (Platform.STANDALONE_LINUX && Platform.IS_EOS_PREVIEW_ENABLED) || (Platform.IS_EDITOR_LINUX && Platform.IS_EOS_PREVIEW_ENABLED)))
+                {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    //TODO: handle errors
+                    var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
+                    Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformInterface.CreateIntegratedPlatformOptionsContainer(ref createIntegratedPlatformOptionsContainerOptions, out integratedPlatformOptionsContainer);
+                    platformOptions.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
+                }
                 platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
 
                 return platformSpecifics.CreatePlatformInterface(platformOptions);
@@ -490,9 +503,14 @@ namespace PlayEveryWare.EpicOnlineServices
             public void Init(IEOSCoroutineOwner coroutineOwner)
             {
 #if !UNITY_EDITOR && !(UNITY_STANDALONE_WIN)
-#warning Platform not supported
-                UnityEngine.Debug.LogError("Platform not supported");    
+#warning Platform not supported  
 #endif
+                if(!Platform.IS_EDITOR && !Platform.STANDALONE_WIN)
+                {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    UnityEngine.Debug.LogError("Platform not supported");
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                }
 
                 Init(coroutineOwner, ConfigFileName);
             }
@@ -508,11 +526,18 @@ namespace PlayEveryWare.EpicOnlineServices
                         Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
                         hasSetLoggingCallback = true;
                     }
-#if UNITY_EDITOR
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#else
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
-#endif
+                    if (Platform.IS_EDITOR)
+                    {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                        SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    }
+                    else
+                    {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                        SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    }
 
                     InitializeOverlay(coroutineOwner);
                     return;
@@ -553,21 +578,34 @@ namespace PlayEveryWare.EpicOnlineServices
                 
                 if (initResult != Epic.OnlineServices.Result.Success)
                 {
-#if UNITY_EDITOR
-                    ShutdownPlatformInterface();
-                    UnloadAllLibraries();
-                    ForceUnloadEOSLibrary();
-                    LoadEOSLibraries();
-                    var secondTryResult = InitializePlatformInterface(configData);
-                    UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
-                    if (secondTryResult != Result.Success)
-#endif
-#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
-                    if (secondTryResult != Result.AlreadyConfigured)
-#endif
+                    if (Platform.IS_EDITOR)
                     {
-                        throw new System.Exception("Epic Online Services didn't init correctly: " + initResult);
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                        ShutdownPlatformInterface();
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                        UnloadAllLibraries();
+                        ForceUnloadEOSLibrary();
+                        LoadEOSLibraries();
+                        var secondTryResult = InitializePlatformInterface(configData);
+                        UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
+                        if (secondTryResult != Result.Success)
+                        {
+                            if (!(Platform.IS_EDITOR_OSX && Platform.IS_EOS_PREVIEW_ENABLED) || secondTryResult != Result.AlreadyConfigured)
+                            {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                                throw new System.Exception("Epic Online Services didn't init correctly: " + initResult);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                            }
+                        }
                     }
+                    else
+                    {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                        throw new System.Exception("Epic Online Services didn't init correctly: " + initResult);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    }
+
+
                 }
 
                 s_hasInitializedPlatform = true;
@@ -1154,12 +1192,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("StartLoginWithLoginTypeAndToken");
 
-#if UNITY_IOS && !UNITY_EDITOR  && EOS_PREVIEW_PLATFORM
-                IOSLoginOptions modifiedLoginOptions = (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).MakeIOSLoginOptionsFromDefualt(loginOptions);
-                EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
-#else
-                EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
-#endif
+                Epic.OnlineServices.Auth.OnLoginCallback startLoginCallback = delegate (ref Epic.OnlineServices.Auth.LoginCallbackInfo data) {
                     print("LoginCallBackResult : " + data.ResultCode.ToString());
                     if (data.ResultCode == Result.Success)
                     {
@@ -1171,13 +1204,26 @@ namespace PlayEveryWare.EpicOnlineServices
 
                         CallOnAuthLogin(data);
                     }
-                                        
+
                     if (onLoginCallback != null)
                     {
                         onLoginCallback(data);
                     }
-                    
-                }));
+                };                
+
+                if(Platform.IS_IOS && !Platform.IS_EDITOR && Platform.IS_EOS_PREVIEW_ENABLED)
+                {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    IOSLoginOptions modifiedLoginOptions = (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).MakeIOSLoginOptionsFromDefualt(loginOptions);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    EOSAuthInterface.Login(ref modifiedLoginOptions, null, startLoginCallback);
+                }
+                else
+                {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                    EOSAuthInterface.Login(ref loginOptions, null, startLoginCallback);
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                }
             }
 
             //-------------------------------------------------------------------------
@@ -1303,20 +1349,29 @@ namespace PlayEveryWare.EpicOnlineServices
                     s_state = EOSState.ShuttingDown;
                     print("Shutting down eos and releasing handles");
                     // Not doing this in the editor, because it doesn't seem to be an issue there
-#if !UNITY_EDITOR_OSX
-#if !UNITY_EDITOR
-                    //LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Off);
-                    //Epic.OnlineServices.Logging.LoggingInterface.SetCallback(null);
-                    System.GC.Collect();
-                    System.GC.WaitForPendingFinalizers();
-#endif
-                    GetEOSPlatformInterface()?.Release();
-                    ShutdownPlatformInterface();
-                    SetEOSPlatformInterface(null);
-#endif
-#if UNITY_EDITOR
-                    UnloadAllLibraries();
-#endif
+                    if (!Platform.IS_EDITOR_OSX)
+                    {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                        if (!Platform.IS_EDITOR)
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                        {
+                            //LoggingInterface.SetLogLevel(LogCategory.AllCategories, LogLevel.Off);
+                            //Epic.OnlineServices.Logging.LoggingInterface.SetCallback(null);
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                            System.GC.Collect();
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                            System.GC.WaitForPendingFinalizers();
+                        }
+                        GetEOSPlatformInterface()?.Release();
+                        ShutdownPlatformInterface();
+                        SetEOSPlatformInterface(null);
+                    }
+                    if (Platform.IS_EDITOR)
+                    {
+#pragma warning disable CS0162 // Unreachable code on some platforms
+                        UnloadAllLibraries();
+#pragma warning restore CS0162 // Unreachable code on some platforms
+                    }
                     s_state = EOSState.Shutdown;
                 }
             }
