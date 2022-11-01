@@ -5,7 +5,7 @@ using UnityEngine;
 using System.IO;
 using PlayEveryWare.EpicOnlineServices;
 
-public class EOSOnPreprocessBuild_Windows : IPreprocessBuildWithReport
+public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
 {
     public int callbackOrder { get { return 0; } }
     public void OnPreprocessBuild(BuildReport report)
