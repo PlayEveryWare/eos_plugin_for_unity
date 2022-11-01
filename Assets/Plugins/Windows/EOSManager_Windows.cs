@@ -91,7 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             set
             {
-                if(m_OverrideLibraryPath != null)
+                if(m_OverrideLibraryPath != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(m_OverrideLibraryPath);
                 }
@@ -114,7 +114,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public void Dispose()
         {
-            if (m_OverrideLibraryPath != null)
+            if (m_OverrideLibraryPath != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(m_OverrideLibraryPath);
             }
