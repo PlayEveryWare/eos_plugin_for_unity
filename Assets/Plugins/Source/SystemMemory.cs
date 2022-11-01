@@ -97,7 +97,7 @@ public partial class SystemMemory
     }
 
     private const string DLLHBinaryName =
-#if UNITY_GAMECORE
+#if UNITY_GAMECORE || UNITY_STANDALONE_OSX
         "DynamicLibraryLoaderHelper";
 #else
         "__Internal";

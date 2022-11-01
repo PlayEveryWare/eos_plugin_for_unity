@@ -466,7 +466,8 @@ PlayerSettings:
   enableCrashReportAPI: 0
   cameraUsageDescription: 
   locationUsageDescription: 
-  microphoneUsageDescription: To achieve real time chatting features
+  microphoneUsageDescription: Allow microphone access if you would like to speak
+    in a chatroom. (Would be able to hear others with either option)
   switchNMETAOverride: 
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144

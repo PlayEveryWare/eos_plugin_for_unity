@@ -103,20 +103,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnCustomInviteReceived(ref OnCustomInviteReceivedCallbackInfo data)
         {
-            Debug.Log("CustomInvites (OnCustomInviteReceived)");
-
-            var inviteData = new CustomInviteData()
+            if (PendingInvites.ContainsKey(data.CustomInviteId))
             {
-                InviteId = data.CustomInviteId,
-                Payload = data.Payload,
-                Sender = data.TargetUserId,
-                Recipient = data.LocalUserId
-            };
-            PendingInvites.Add(inviteData.InviteId, inviteData);
-
-            foreach (var callback in CustomInviteReceivedCallbacks)
+                Debug.Log($"CustomInvites (OnCustomInviteReceived): Invite {data.CustomInviteId} already pending");
+            }
+            else
             {
-                callback?.Invoke(inviteData);
+                Debug.Log($"CustomInvites (OnCustomInviteReceived): Received invite {data.CustomInviteId}");
+
+                var inviteData = new CustomInviteData()
+                {
+                    InviteId = data.CustomInviteId,
+                    Payload = data.Payload,
+                    Sender = data.TargetUserId,
+                    Recipient = data.LocalUserId
+                };
+                PendingInvites.Add(inviteData.InviteId, inviteData);
+
+                foreach (var callback in CustomInviteReceivedCallbacks)
+                {
+                    callback?.Invoke(inviteData);
+                }
             }
         }
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,17 +20,15 @@
 * SOFTWARE.
 */
 
-﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Readme : ScriptableObject {
-	public Texture2D icon;
-	public string title;
-	public Section[] sections;
-	public bool loadedLayout;
-	
-	[Serializable]
-	public class Section {
-		public string heading, text, linkText, url;
-	}
+public class UIPeer2PeerParticleManager : MonoBehaviour
+{
+    public GameObject ClickParticles;
+    public void SpawnParticles(int xPos, int yPos, Transform parent)
+    {
+        Instantiate(ClickParticles, new Vector3(xPos, yPos, -3), Quaternion.identity, parent);
+    }
 }

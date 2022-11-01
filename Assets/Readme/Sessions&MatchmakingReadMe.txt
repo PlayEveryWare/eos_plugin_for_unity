@@ -1,0 +1,19 @@
+PlayEveryWare Sessions & Matchmaking Epic Online Services Demo
+
+This demo is intended to show the Sessions & Matchmaking function of the EOS Plugin for unity through a faux session an matchmaking application,
+a sample of the Sessions & Matchmaking interface can be found in the EOS_SessionsManager script.
+
+How to use:
+Select a login type
+    Dev Auth uses the Dev Auth tool that comes with the EOS SDK
+    Account Portal uses the popup Epic window
+    Persistent uses the most recent logged in information
+
+If you are getting a error logging in pertaining to the EOS Overlay, this is caused by the overlay not being installed yet. 
+To install it create a build of the demo and run the bootstrapper included in the build folder, this will install the overlay.
+
+Once logged in you can start using the demo, the friends list on the right should contain your Epic friends list, it is recommended
+that you have 2 accounts set up to run the app in parallel, as only one instance of the demo cannot do much on its own. 
+
+Using the menu in the top left you can create a session by chosing a name and selecting any options you would like. 
+Other users can then search by the level name and join if the match has notbeen started, or if join in progress has been selected.

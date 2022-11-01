@@ -192,13 +192,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("MemberEntryPromoteButtonOnClick: PromoteOnClick action is null!");
             }
         }
-#if (UNITY_IOS  && EOS_PREVIEW_PLATFORM) //|| (UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM)
+
+#if EOS_PREVIEW_PLATFORM
+    #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+        [System.Runtime.InteropServices.DllImport("MicrophoneUtility_macos.dylib")]
+        public static extern bool MicrophoneUtility_get_mic_permission();
+    #elif UNITY_IOS
         [System.Runtime.InteropServices.DllImport("__Internal")]
         public static extern bool MicrophoneUtility_get_mic_permission();
+    #endif
 #endif
         private bool HasPlatformMicrophonePermission()
         {
-#if (UNITY_IOS && EOS_PREVIEW_PLATFORM) //|| (UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM)
+#if (UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM
             return MicrophoneUtility_get_mic_permission();
 #elif UNITY_ANDROID && EOS_PREVIEW_PLATFORM
             return UnityEngine.Android.Permission.HasUserAuthorizedPermission(UnityEngine.Android.Permission.Microphone);

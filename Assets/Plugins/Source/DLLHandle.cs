@@ -50,6 +50,12 @@ public class DLLHandle : SafeHandle
     }
 
     //-------------------------------------------------------------------------
+    public static string GetPackageVersion()
+    {
+        return "2.1.5";
+    }
+
+    //-------------------------------------------------------------------------
     public static List<string> GetPathsToPlugins()
     {
         string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");

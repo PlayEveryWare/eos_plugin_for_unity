@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateLocalUserInfo();
         }
 
-        public void OnAuthLogout(ref LogoutCallbackInfo logoutCallbackInfo)
+        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
             LocalUserInfo = default;
             foreach (var callback in LocalUserInfoChangedCallbacks)

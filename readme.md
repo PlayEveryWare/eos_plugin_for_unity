@@ -29,14 +29,16 @@ The follow target platforms are supported in Unity for the current release of th
 | Windows Standalone x64 | Supported |
 | Windows Standalone x86 | Supported |
 | Universal Windows Platform x64 | Supported |
-| Android | Future |
-| iOS | Future |
-| Linux | [Supported](docs/linux/linux_supported_versions.md) |
-| MacOS | [Future](docs/macOS/macOS_supported_versions.md)) |
-| Console Platforms | Future |
+| Android | Preview|
+| iOS | Preview|
+| Linux | [Preview](docs/linux/linux_supported_versions.md) |
+| MacOS | [Preview](docs/macOS/macOS_supported_versions.md)) |
+| Console Platforms | Preview |
 | WebGL | Not Supported |
 | Universal Windows Platform x86 | Not Supported |
 | Unity Web Player | Not Supported |
+
+To access Preview platforms, enable `EOS_PREVIEW_PLATFORM`
 
 ## Supported EOS SDK Features
 

@@ -121,7 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void OnAuthLogout(ref LogoutCallbackInfo logoutCallbackInfo)
+        public void OnAuthLogout(LogoutCallbackInfo logoutCallbackInfo)
         {
             if (sessionActive)
             {
