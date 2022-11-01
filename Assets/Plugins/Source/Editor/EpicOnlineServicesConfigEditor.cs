@@ -67,8 +67,6 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         bool prettyPrint = false;
 
-        bool useApplicationVersionAsProductVersion = false;
-
         EOSConfigFile<EOSSteamConfig> steamEOSConfigFile;
 
         [MenuItem("Tools/EpicOnlineServicesConfigEditor")]
@@ -213,9 +211,6 @@ _WIN32 || _WIN64
 
         private void SaveToJSONConfig(bool prettyPrint)
         {
-
-            mainEOSConfigFile.currentEOSConfig.productVersion =
-                useApplicationVersionAsProductVersion ? Application.version : mainEOSConfigFile.currentEOSConfig.productVersion;
             mainEOSConfigFile.SaveToJSONConfig(prettyPrint);
             steamEOSConfigFile.SaveToJSONConfig(prettyPrint);
 
@@ -386,9 +381,6 @@ _WIN32 || _WIN64
             AssigningTextField("Product Name", ref mainEOSConfigFile.currentEOSConfig.productName);
 
             // TODO: bool to take product version form application version; should be automatic?
-            AssigningBoolField("Use Application Version as Product Version", 270, ref useApplicationVersionAsProductVersion);
-            EditorGUILayout.LabelField("Application Version", Application.version);
-
             AssigningTextField("Product Version", ref mainEOSConfigFile.currentEOSConfig.productVersion);
             AssigningTextField("Product ID", ref mainEOSConfigFile.currentEOSConfig.productID);
             AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxID);

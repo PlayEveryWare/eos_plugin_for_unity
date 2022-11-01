@@ -8,6 +8,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.1.6] - 2022-10-31
+### Added
+- (samples) : plugin version ui
+- (readme) Added Missing ReadMes
+-  generalized callback functionality for eos auth
+
+### Changed
+- (macos): move more native files over to the custom makefile
+### Removed
+### Fixed
+- (windows): re-add DynamicLibraryLoaderHelper.dll.meta
+- (samples): ignore received duplicate custom invites
+- (mic,iOS) : Link function from the correct dylib for iOS
+- fix directory not found when using a fresh copy of the project and attempting to build the upm package
+- (macos,mic): add source file for microphone utility
+- (ios): Add cpp, mm, framework files and associated meta files to eos_package_description to be included with upm package builds to fix ios build errors
+- (samples): display name ui error
+
 ## [2.1.5] - 2022-10-14
 ### Added
 - doc(mac) : supported version doc
