@@ -167,6 +167,61 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
+
+    public class EOSPluginEditorPrebuildConfigSection : IEOSPluginEditorConfigurationSection
+    {
+        private static string ConfigName = "eos_plugin_version_config.json";
+        private EOSConfigFile<EOSPluginEditorPrebuildConfig> configFile;
+
+        [InitializeOnLoadMethod]
+        static void Register()
+        {
+            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorPrebuildConfigSection());
+        }
+
+        //-------------------------------------------------------------------------
+        public string GetNameForMenu()
+        {
+            return "Prebuild Settings";
+        }
+
+        //-------------------------------------------------------------------------
+        public void Awake()
+        {
+            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
+            configFile = new EOSConfigFile<EOSPluginEditorPrebuildConfig>(configFilenamePath);
+        }
+
+        //-------------------------------------------------------------------------
+        public bool DoesHaveUnsavedChanges()
+        {
+            return false;
+        }
+
+        //-------------------------------------------------------------------------
+        public void LoadConfigFromDisk()
+        {
+            configFile.LoadConfigFromDisk();
+        }
+
+        public EOSPluginEditorPrebuildConfig GetCurrentConfig()
+        {
+            return configFile.currentEOSConfig;
+        }
+
+        //-------------------------------------------------------------------------
+        void IEOSPluginEditorConfigurationSection.OnGUI()
+        {
+            EpicOnlineServicesConfigEditor.AssigningBoolField("Use Unity App Version for the EOS product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion);
+        }
+
+        //-------------------------------------------------------------------------
+        public void SaveToJSONConfig(bool prettyPrint)
+        {
+            configFile.SaveToJSONConfig(prettyPrint);
+        }
+    }
+
     //-------------------------------------------------------------------------
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
@@ -395,6 +450,22 @@ namespace PlayEveryWare.EpicOnlineServices
                 && string.IsNullOrEmpty(pathToJSONPackageDescription)
                 && string.IsNullOrEmpty(pathToOutput)
                 ;
+        }
+    }
+
+    public class EOSPluginEditorPrebuildConfig : ICloneableGeneric<EOSPluginEditorPrebuildConfig>, IEmpty
+    {
+
+        public bool useAppVersionAsProductVersion;
+
+        public EOSPluginEditorPrebuildConfig Clone()
+        {
+            return (EOSPluginEditorPrebuildConfig)this.MemberwiseClone();
+        }
+
+        public bool IsEmpty()
+        {
+            return false;
         }
     }
 }
