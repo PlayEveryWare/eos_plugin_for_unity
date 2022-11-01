@@ -100,6 +100,27 @@
 		{"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
         {"src":"Assets/Plugins/Source/Editor/Linux/*.cs.meta", "dest": "Editor/Linux/"},
 
+        {"comment": "----------------------------macOS---------------------------------------------"},
+        {"src":"Assets/Plugins/macOS.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/macOS/libDynamicLibraryLoaderHelper.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/libDynamicLibraryLoaderHelper.dylib.meta", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/MicrophoneUtility_macos.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/MicrophoneUtility_macos.dylib.meta", "dest": "Runtime/macOS/"},
+
+        {"src":"Assets/Plugins/macOS/libEOSSDK-Mac-Shipping.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/libEOSSDK-Mac-Shipping.dylib.meta", "dest": "Runtime/macOS/"},
+
+        {"src":"Assets/Plugins/macOS/*.cs", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/*.cs.meta", "dest": "Runtime/macOS/"},
+
+        {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/macOS/Editor/"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/macOS/Editor/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Runtime/macOS/Editor/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Runtime/macOS/Editor/"},
+
+        {"comment": "----------------------------End macOS---------------------------------------------"},
+
         {"src":"Assets/link.xml", "dest": "Editor/"},
         {"src":"Assets/link.xml.meta", "dest": "Editor/"},
 
