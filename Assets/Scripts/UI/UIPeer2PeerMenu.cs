@@ -49,10 +49,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject ChatEntriesContentParent;
         public GameObject ChatEntryPrefab;
 
-        public ConsoleInputField ChatMessageInput;
+        public UIConsoleInputField ChatMessageInput;
         public Button SendButton;
 
-        public UIPeer2PeerParticleManager ParticleManager;
+        public UIPeer2PeerParticleController ParticleManager;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;

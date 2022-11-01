@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject FriendsPanel;
         private bool collapsed = false;
 
-        public ConsoleInputField SearchFriendsInput;
+        public UIConsoleInputField SearchFriendsInput;
 
         public GameObject FriendsListContentParent;
         public GameObject UIFriendEntryPrefab;

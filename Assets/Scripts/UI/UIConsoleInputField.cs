@@ -32,7 +32,7 @@ using UnityEngine.InputSystem;
 
 using System;
 
-public class ConsoleInputField : MonoBehaviour
+public class UIConsoleInputField : MonoBehaviour
 {
     public Button InputFieldButton;
     public InputField InputField;

@@ -25,7 +25,7 @@ using UnityEngine.UI;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class SampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
+    public class UISampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
     {
         public LayoutElement ContainerLayout;
         private float initialFlexHeight;

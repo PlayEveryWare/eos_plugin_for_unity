@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text CurrentSessionsHeader;
 
         [Header("Sessions/Matchmaking UI - Search")]
-        public ConsoleInputField SearchByLevelBox;
+        public UIConsoleInputField SearchByLevelBox;
 
         private bool ShowSearchResults = false;
 

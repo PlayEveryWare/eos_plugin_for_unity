@@ -92,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<ProductUserId, ChatWithFriendData> ChatDataCache;
         private bool ChatDataCacheDirty;
 
-        public UIPeer2PeerParticleManager ParticleManager;
+        public UIPeer2PeerParticleController ParticleManager;
         public Transform parent;
 
 

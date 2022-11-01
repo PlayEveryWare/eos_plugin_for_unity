@@ -59,13 +59,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         void OnEnable()
         {
-            UIScreenRotationEventManager.OnScreenRotatated += OnScreenRotated;
+            UIScreenRotationEventController.OnScreenRotatated += OnScreenRotated;
             UpdateAnchors();
         }
 
         void OnDisable()
         {
-            UIScreenRotationEventManager.OnScreenRotatated -= OnScreenRotated;
+            UIScreenRotationEventController.OnScreenRotatated -= OnScreenRotated;
         }
 
         private void OnScreenRotated(DeviceOrientation newOrientation)
