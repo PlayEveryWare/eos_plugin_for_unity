@@ -293,7 +293,7 @@ static string SteamDllName = "steam_api.dll";
 
                     string SteamDllVersion = DLLHandle.GetVersionForLibrary(SteamDllName);
 
-                    if (steamIntegratedPlatform.m_OverrideLibraryPath != null)
+                    if (steamIntegratedPlatform.m_OverrideLibraryPath != IntPtr.Zero)
                     {
                         SteamOptionsGCHandle = GCHandle.Alloc(steamIntegratedPlatform, GCHandleType.Pinned);
                         integratedPlatforms[0].InitOptions = SteamOptionsGCHandle.AddrOfPinnedObject();
