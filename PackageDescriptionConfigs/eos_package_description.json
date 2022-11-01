@@ -32,6 +32,7 @@
         {"src":"Assets/Plugins/Source/*.cs", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Source/*.cs.meta", "dest": "Runtime/"},
 
+        {"comment": "----------------------------Windows---------------------------------------------"},
         {"src":"Assets/Plugins/Windows.meta", "dest": "Runtime/"},
 
         {"src":"Assets/Plugins/Windows/x64.meta", "dest": "Runtime/Windows/"},
@@ -52,6 +53,31 @@
 
         {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
+
+
+        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Runtime/Windows/Editor/"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Runtime/Windows/Editor/"},
+        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/Windows/Editor/"},
+        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/Windows/Editor/"},
+
+        {"src":"PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
+        {"src":"bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
+        {"src":"bin/EOSBootstrapper.exe", "dest": "bin~/"},
+        {"src":"PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "bin~/"},
+
+        {"src":"PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
+        {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+        {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Licenses/"},
+        {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Localization/"},
+        {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+        {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+
+
+        {"ignore_regex":"Assets/Plugins/Windows/.*/steam_api\\.dll"},
+        {"ignore_regex":"Assets/Plugins/Windows/.*/steam_api64\\.dll"},
+
+        {"comment": "----------------------------End Windows---------------------------------------------"},
 		
 		{"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
 		
@@ -236,6 +262,26 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Android/Platform/"},
 
         {"src":"Assets/Plugins/Android.meta", "dest": "Runtime/"},
+
+        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp.meta", "dest": "Runtime/"},
+
+        {"src":"Assets/Plugins/Android/eos_dependencies.androidlib.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/eos_dependencies.androidlib/*", "dest": "Runtime/Android/eos_dependencies.androidlib/"},
+        {"src":"Assets/Plugins/Android/eos_dependencies.androidlib/res.meta", "dest": "Runtime/Android/eos_dependencies.androidlib/"},
+        {"src":"Assets/Plugins/Android/eos_dependencies.androidlib/res/values.meta", "dest": "Runtime/Android/eos_dependencies.androidlib/res/"},
+        {"src":"Assets/Plugins/Android/eos_dependencies.androidlib/res/values/*.xml", "dest": "Runtime/Android/eos_dependencies.androidlib/res/values/"},
+        {"src":"Assets/Plugins/Android/eos_dependencies.androidlib/res/values/*.xml.meta", "dest": "Runtime/Android/eos_dependencies.androidlib/res/values/"},
+
+        {"src":"Assets/Plugins/Android/mainTemplate.gradle.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/mainTemplate.gradle", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/proguard-user.txt.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/proguard-user.txt", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/eos-sdk.aar", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/eos-sdk.aar.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar.meta", "dest": "Runtime/Android/"},
+
         {"src":"Assets/Plugins/Android/*.cs", "dest": "Runtime/Android/"},
         {"src":"Assets/Plugins/Android/*.cs.meta", "dest": "Runtime/Android/"},
         {"src":"Assets/Plugins/AndroidEditor.meta", "dest": "Editor/"},
