@@ -19,15 +19,17 @@ public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
 
     public void AutoSetProductVersion()
     {
-        var eosVersionConfigSession = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorPrebuildConfigSection>();
+        var eosVersionConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorPrebuildConfigSection>();
+
 
         string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSManager.ConfigFileName);
         var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
         eosConfigFile.LoadConfigFromDisk();
 
         var previousProdVer = eosConfigFile.currentEOSConfig.productVersion;
+        var currentSectionConfig = eosVersionConfigSection.GetCurrentConfig();
 
-        if (eosVersionConfigSession.GetCurrentConfig().useAppVersionAsProductVersion)
+        if (eosVersionConfigSection.GetCurrentConfig().useAppVersionAsProductVersion)
         {
             eosConfigFile.currentEOSConfig.productVersion = Application.version;
         }
