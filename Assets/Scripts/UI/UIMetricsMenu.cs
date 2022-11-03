@@ -69,6 +69,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UpdateButtons();
         }
 
+        private void OnDestroy()
+        {
+            EOSManager.Instance.RemoveManager<EOSMetricsManager>();
+        }
+
         private bool ValidateIp(ref string ip)
         {
             if (string.IsNullOrWhiteSpace(ip))

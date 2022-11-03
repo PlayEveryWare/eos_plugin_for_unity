@@ -148,6 +148,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSLobbyManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
             EOSManager.Instance.RemoveManager<EOSEACLobbyManager>();
+            EOSManager.Instance.RemoveManager<EOSAntiCheatClientManager>();
         }
 
         private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)
