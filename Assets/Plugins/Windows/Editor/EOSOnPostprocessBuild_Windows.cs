@@ -107,7 +107,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         string appFilenameExe = Path.GetFileName(report.summary.outputPath);
         string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
         string installPathForEOSBootStrapper = Path.Combine(installDirectory, "EOSBootStrapper.exe");
-        string workingDirectory = Path.Combine(Application.dataPath, "../bin/");
+        string workingDirectory = GetPathToEOSBin();
         string bootStrapperArgs = ""
            + " --output-path " + "\"" + installPathForEOSBootStrapper + "\""
            + " --app-path "  + "\"" + appFilenameExe + "\""
@@ -304,11 +304,24 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
 
             InstallFiles(report);
             
-            string pathToEOSBootStrapperTool = GetPathToEOSBin() + "/EOSBootstrapperTool.exe";
-            string pathToEOSBootStrapper = GetPathToEOSBin() + "/EOSBootStrapper.exe";
-            string pathToEACIntegrityTool = GetPathToEOSBin() + "/EAC/anticheat_integritytool.exe";
+            string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
+            string pathToEOSBootStrapper = Path.Combine(GetPathToEOSBin(), "EOSBootStrapper.exe");
+            string pathToEACIntegrityTool = Path.Combine(GetPathToEOSBin(), "EAC/anticheat_integritytool.exe");
             InstallBootStrapper(report, pathToEOSBootStrapperTool, pathToEOSBootStrapper);
-            GenerateIntegrityCert(report, pathToEACIntegrityTool, GetEOSConfig().productID, "base_private.key", "base_public.cer");
+
+            //TODO: Actually use the editor tool config
+            var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+
+            if (editorToolsConfigSection != null)
+            {
+                editorToolsConfigSection.Awake();
+                editorToolsConfigSection.LoadConfigFromDisk();
+                var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
+                if (editorToolConfig != null && editorToolConfig.pathToEACPublicKey != null)
+                {
+                    GenerateIntegrityCert(report, pathToEACIntegrityTool, GetEOSConfig().productID, "base_private.key", "base_public.cer");
+                }
+            }
         }
     }
 }

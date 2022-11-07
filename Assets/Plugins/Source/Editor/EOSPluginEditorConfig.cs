@@ -91,11 +91,25 @@ namespace PlayEveryWare.EpicOnlineServices
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
             string pathToSigntool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToSignTool);
+            string pathToEACCertificate = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACCertificate);
+            string pathToEACPublicKey = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACPublicKey);
             EpicOnlineServicesConfigEditor.AssigningTextField("Path to signtool", ref pathToSigntool);
+            EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC public key", ref pathToEACPublicKey);
+            EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC Certificate", ref pathToEACCertificate);
 
             if (pathToSigntool.Length != 0)
             {
                 configFile.currentEOSConfig.pathToSignTool = pathToSigntool;
+            }
+
+            if (pathToEACPublicKey.Length != 0)
+            {
+                configFile.currentEOSConfig.pathToEACPublicKey = pathToEACPublicKey;
+            }
+
+            if (pathToEACCertificate.Length != 0)
+            {
+                configFile.currentEOSConfig.pathToEACCertificate = pathToEACCertificate;
             }
         }
 
@@ -419,6 +433,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value><c>Path To signtool</c> The path to find the tool used for signing binaries</value>
         public string pathToSignTool;
         public string pathToDefaultCertificate;
+        public string pathToEACPublicKey;
+        public string pathToEACCertificate;
 
         public EOSPluginEditorToolsConfig Clone()
         {
