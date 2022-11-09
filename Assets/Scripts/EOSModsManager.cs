@@ -35,9 +35,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         private ModsInterface eosModsInterface;
 
-        private ModInfo? allAvailableModsInfo;
-        private ModInfo? installedModsInfo;
+        public ModInfo? allAvailableModsInfo;
+        public ModInfo? installedModsInfo;
 
+        bool installedModsCopied = false;
+        bool allAvailableModsCopied = false;
         public EOSModsManager()
         {
         }
@@ -64,14 +66,32 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void CacheModsInfo()
         {
-            EnumerateMods(ModEnumerationType.AllAvailable, (ref EnumerateModsCallbackInfo info) =>
-             {
-                 CopyModInfo(ModEnumerationType.AllAvailable, out allAvailableModsInfo);
-             });
+            installedModsCopied = false;
+            allAvailableModsCopied = false;
 
             EnumerateMods(ModEnumerationType.Installed, (ref EnumerateModsCallbackInfo info) =>
             {
-                CopyModInfo(ModEnumerationType.Installed, out installedModsInfo);
+                if (info.ResultCode == Result.Success)
+                {
+                    CopyModInfo(ModEnumerationType.Installed, out installedModsInfo);
+                    installedModsCopied = true;
+                }
+                else
+                {
+                    Debug.Log("Enumerate InstalledMods" + info.ResultCode);
+                }
+            });
+            EnumerateMods(ModEnumerationType.AllAvailable, (ref EnumerateModsCallbackInfo info) =>
+            {
+                if (info.ResultCode == Result.Success)
+                {
+                    CopyModInfo(ModEnumerationType.AllAvailable, out allAvailableModsInfo);
+                    allAvailableModsCopied = true;
+                }
+                else 
+                {
+                    Debug.Log("Enumerate AllAvailableMods" + info.ResultCode);
+                }
             });
         }
 
