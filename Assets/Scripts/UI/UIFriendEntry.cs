@@ -34,138 +34,57 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         public Text Status;
         public Text DisplayName;
-        public Button InviteButton;
-        public Button AddButton;
-        public Button ChatButton;
-        public Button ReportButton;
+        public Button FriendInteractButton;
+        public Text FriendInteractButtonText;
 
-        private EpicAccountId accountId;
-        private ProductUserId productUserId;
+        private FriendData friendData;
 
         // Callbacks
-        public Action<EpicAccountId> AddFriendOnClick;
-        public Action<EpicAccountId> InviteFriendsOnClick;
-        public Action<EpicAccountId> ChatOnClick;
+        public Action<FriendData> FriendInteractOnClick;
         public Action<ProductUserId, String> ReportOnClick;
 
         private void Awake()
         {
-            InviteButton.gameObject.SetActive(false);
-            AddButton.gameObject.SetActive(false);
-            ChatButton.gameObject.SetActive(false);
-            ReportButton.gameObject.SetActive(false);
-            accountId = null;
-            productUserId = null;
+            FriendInteractButton.gameObject.SetActive(false);
+            friendData = null;
         }
 
-        public void SetEpicAccount(EpicAccountId accountId, ProductUserId productUserId)
+        public void SetFriendData(FriendData data)
         {
-            this.accountId = accountId;
-            this.productUserId = productUserId;
+            friendData = data;
+            DisplayName.text = data.Name;
         }
 
-        public void EnableInviteButton(bool enable = true)
+        public void EnableFriendButton(bool enable = true)
         {
-            InviteButton.gameObject.SetActive(enable);
+            FriendInteractButton.gameObject.SetActive(enable);
         }
 
-        public void EnableInviteButtonInteraction(bool enable = true)
+        public void EnableFriendButtonInteraction(bool enable = true)
         {
-            InviteButton.interactable = enable;
+            FriendInteractButton.interactable = enable;
         }
 
-        [Obsolete("EnableAddButton is obsolete.")]
-        public void EnableAddButton(bool enable = true)
+        public void SetFriendbuttonText(string text)
         {
-            AddButton.gameObject.SetActive(enable);
+            FriendInteractButtonText.text = text;
         }
 
-        public void EnableChatButton(bool enable = true)
+        public void FriendInteractOnClickHandler()
         {
-            ChatButton.gameObject.SetActive(enable);
-        }
-
-        public void EnableReportButton(bool enable = true)
-        {
-            ReportButton.gameObject.SetActive(enable);
-        }
-
-        public void AddFriendOnClickHandler()
-        {
-            if (accountId == null)
+            if (friendData == null)
             {
-                Debug.LogError("UIFriendEntry (AddFriendOnClickHandler): accountId is not set!");
+                Debug.LogError("UIFriendEntry (FriendInteractOnClickHandler): friendData is not set!");
                 return;
             }
 
-            if (AddFriendOnClick != null)
+            if (FriendInteractOnClick != null)
             {
-                AddFriendOnClick(accountId);
+                FriendInteractOnClick(friendData);
             }
             else
             {
-                Debug.LogError("UIFriendEntry (AddFriendOnClickHandler): AddFriendOnClick is not defined!");
-            }
-        }
-
-        public void InviteFriendOnClickHandler()
-        {
-            if (accountId == null)
-            {
-                Debug.LogError("UIFriendEntry (InviteFriendOnClickHandler): accountId is not set!");
-                return;
-            }
-
-            if (InviteFriendsOnClick != null)
-            {
-                InviteFriendsOnClick(accountId);
-            }
-            else
-            {
-                Debug.LogError("UIFriendEntry (InviteFriendOnClickHandler): InviteFriendsOnClick is not defined!");
-            }
-        }
-
-
-        public void ChatButtonOnClickHandler()
-        {
-            if (accountId == null)
-            {
-                Debug.LogError("UIFriendEntry (ChatButtonOnClickHandler): accountId is not set!");
-                return;
-            }
-
-            if (ChatOnClick != null)
-            {
-                ChatOnClick(accountId);
-            }
-            else
-            {
-                Debug.LogError("UIFriendEntry (ChatButtonOnClickHandler): ChatOnClick is not defined!");
-            }
-        }
-
-        public void ReportButtonOnClickHander()
-        {
-            if (accountId == null)
-            {
-                Debug.LogError("UIFriendEntry (ReportButtonOnClickHander): accountId is not set!");
-                return;
-            }
-
-            if(productUserId == null)
-            {
-                Debug.LogWarning("UIFriendEntry (ReportButtonOnClickHander): productUserId is null (still querying), try again later.");
-                return;
-            }
-
-            if (ReportOnClick != null)
-            {
-                ReportOnClick(productUserId, DisplayName.text);
-            }
-            else
-            {
-                Debug.LogError("UIFriendEntry (ReportButtonOnClickHander): ReportOnClick is not defined!");
+                Debug.LogError("UIFriendEntry (FriendInteractOnClickHandler): FriendInteractOnClickHandler is not defined!");
             }
         }
     }

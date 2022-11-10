@@ -26,16 +26,38 @@ using UnityEngine;
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     /// <summary>
-    /// Class <c>UIInviteSource</c> is the base class for sample UIs that use invite functionality.
+    /// Class <c>UIFriendInteractionSource</c> is the base class for sample UIs that interact with the friend list UI.
     /// </summary>
-    public class UIInviteSource : MonoBehaviour
+    public class UIFriendInteractionSource : MonoBehaviour
     {
-        public virtual bool IsInviteActive()
+        public enum FriendInteractionState
+        {
+            Hidden,
+            Disabled,
+            Enabled
+        }
+
+        public virtual FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            return FriendInteractionState.Hidden;
+        }
+
+        public virtual string GetFriendInteractButtonText()
+        {
+            return string.Empty;
+        }
+
+        public virtual void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+        }
+
+        //Should the friend UI update interaction state from this source?
+        public virtual bool IsDirty()
         {
             return false;
         }
 
-        public virtual void OnInviteButtonClicked(EpicAccountId UserId)
+        public virtual void ResetDirtyFlag()
         {
         }
     }
