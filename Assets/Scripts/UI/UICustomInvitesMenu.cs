@@ -26,6 +26,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Epic.OnlineServices;
 using Epic.OnlineServices.CustomInvites;
+using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -70,6 +71,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             gameObject.SetActive(true);
+
+            var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
+            var presenceModificationOptions = new CreatePresenceModificationOptions();
+            presenceModificationOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
+
+            Result result = presenceInterface.CreatePresenceModification(ref presenceModificationOptions, out PresenceModification presenceModificationHandle);
+
+            if (result == Result.Success)
+            {
+
+                //mark user as online
+                var presenceModificationSetStatusOptions = new PresenceModificationSetStatusOptions();
+                presenceModificationSetStatusOptions.Status = Status.Online;
+                presenceModificationHandle.SetStatus(ref presenceModificationSetStatusOptions);
+
+                var presenceModificationSetJoinOptions = new PresenceModificationSetJoinInfoOptions();
+
+                presenceModificationSetJoinOptions.JoinInfo = "Custom Invite";
+                presenceModificationHandle.SetJoinInfo(ref presenceModificationSetJoinOptions);
+
+                // actually update all the status changes
+                var setPresenceOptions = new Epic.OnlineServices.Presence.SetPresenceOptions();
+                setPresenceOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
+                setPresenceOptions.PresenceModificationHandle = presenceModificationHandle;
+                presenceInterface.SetPresence(ref setPresenceOptions, null, (ref SetPresenceCallbackInfo data) => { });
+                presenceModificationHandle.Release();
+            }
         }
 
         private string GetSenderName(CustomInviteData InviteData)
