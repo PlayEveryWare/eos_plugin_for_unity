@@ -35,7 +35,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPeer2PeerMenu : MonoBehaviour, ISampleSceneUI
+    public class UIPeer2PeerMenu : UIFriendInteractionSource, ISampleSceneUI
     {
         [Header("Peer 2 Peer UI")]
         public GameObject Peer2PeerUIParent;
@@ -140,6 +140,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
             }
+        }
+
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            return friendData.IsFriend() && friendData.IsOnline() ? FriendInteractionState.Enabled : FriendInteractionState.Hidden;
+        }
+
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+            ChatButtonOnClick(friendData.UserId);
+        }
+
+        public override string GetFriendInteractButtonText()
+        {
+            return "Chat";
         }
 
         public void ChatButtonOnClick(EpicAccountId userId)

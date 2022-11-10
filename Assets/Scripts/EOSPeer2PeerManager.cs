@@ -95,14 +95,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public UIPeer2PeerParticleManager ParticleManager;
         public Transform parent;
 
+#if UNITY_EDITOR
+        void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
+        {
+            if (modeChange == UnityEditor.PlayModeStateChange.ExitingPlayMode)
+            {
+                //prevent attempts to call native EOS code while exiting play mode, which crashes the editor
+                P2PHandle = null;
+            }
+        }
+#endif
 
         public EOSPeer2PeerManager()
         {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeChanged;
+#endif
+
             P2PHandle = EOSManager.Instance.GetEOSPlatformInterface().GetP2PInterface();
 
             ChatDataCache = new Dictionary<ProductUserId, ChatWithFriendData>();
             ChatDataCacheDirty = true;
         }
+
+#if UNITY_EDITOR
+        ~EOSPeer2PeerManager()
+        {
+            UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+        }
+#endif
 
         public bool GetChatDataCache(out Dictionary<ProductUserId, ChatWithFriendData> ChatDataCache)
         {
@@ -266,6 +288,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public ProductUserId HandleReceivedMessages()
         {
+            if (P2PHandle == null)
+            {
+                return null;
+            }
+
             ReceivePacketOptions options = new ReceivePacketOptions()
             {
                 LocalUserId = EOSManager.Instance.GetProductUserId(),

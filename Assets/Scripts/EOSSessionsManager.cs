@@ -1383,12 +1383,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // private void OnSessionStarted(string name) // Not needed for C# Wrapper
 
         // private void OnSessionEnded(string name) // Not needed for C# Wrapper
-
-        private void SetJoininfo(string sessionId, bool onLoggingOut = false)
+        //TODO: move this somewhere more general purpose
+        public static void SetJoinInfo(string joinInfo, bool onLoggingOut = false)
         {
-            ProductUserId prodUserId = EOSManager.Instance.GetProductUserId();
+            EpicAccountId userId = EOSManager.Instance.GetLocalUserId();
 
-            if (prodUserId == null)
+            if (userId?.IsValid() != true)
             {
                 Debug.LogError("Session Matchmaking (SetJoinInfo): Current player is invalid");
                 return;
@@ -1404,18 +1404,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if(onLoggingOut)
                 {
-                    Debug.LogWarning("Session Matchmaking (SetJoinInfo): Create presence modification during logOut, ignore.");
+                    Debug.LogWarning("EOSSessionsManager.SetJoininfo: Create presence modification during logOut, ignore.");
                     return;
                 }
                 else
                 {
-                    Debug.LogErrorFormat("Session Matchmaking (SetJoinInfo): Create presence modification failed: {0}", result);
+                    Debug.LogErrorFormat("EOSSessionsManager.SetJoininfo: Create presence modification failed: {0}", result);
                     return;
                 }
             }
 
             PresenceModificationSetJoinInfoOptions joinOptions = new PresenceModificationSetJoinInfoOptions();
-            if (string.IsNullOrEmpty(sessionId))
+            if (string.IsNullOrEmpty(joinInfo))
             {
                 // Clear JoinInfo string if there is no local sessionId
                 joinOptions.JoinInfo = null;
@@ -1423,7 +1423,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 // Use local sessionId to build JoinInfo string to share with friends
-                joinOptions.JoinInfo = sessionId;
+                joinOptions.JoinInfo = joinInfo;
             }
 
             result = presenceModification.SetJoinInfo(ref joinOptions);
@@ -1434,7 +1434,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             SetPresenceOptions setOptions = new SetPresenceOptions();
-            setOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
+            setOptions.LocalUserId = userId;
             setOptions.PresenceModificationHandle = presenceModification;
 
             presenceInterface.SetPresence(ref setOptions, null, OnSetPresenceCompleteCallback);
@@ -1825,7 +1825,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             OnJoinGameAcceptedByEventId(data.UiEventId);
         }
 
-        private void OnSetPresenceCompleteCallback(ref SetPresenceCallbackInfo data)
+        private static void OnSetPresenceCompleteCallback(ref SetPresenceCallbackInfo data)
         {
             //if (data == null)
             //{
@@ -1833,11 +1833,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //}
             if (data.ResultCode != Result.Success)
             {
-                Debug.LogErrorFormat("Session Matchmaking (OnSetPresenceCallback): error code: {0}", data.ResultCode);
+                Debug.LogErrorFormat("EOSSessionsManager.OnSetPresenceCallback: error code: {0}", data.ResultCode);
             }
             else
             {
-                Debug.Log("Session Matchmaking: set presence successfully.");
+                Debug.Log("EOSSessionsManager.OnSetPresenceCallback: set presence successfully.");
             }
         }
 

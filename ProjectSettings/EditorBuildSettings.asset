@@ -41,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TitleStorage.unity
     guid: 7c514de4a3ca1b844b5571dda6b46b70
+  - enabled: 1
+    path: Assets/Scenes/TransportLayer.unity
+    guid: 5bc893a381bed4647ab60a3e6ca962d7
   m_configObjects: {}
