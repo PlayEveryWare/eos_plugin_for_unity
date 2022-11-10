@@ -84,23 +84,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             UIModEntries.Clear();
 
-            ModInfo? modsInfoSet = showAllMods ? modsManager.allAvailableModsInfo : modsManager.installedModsInfo;
-            //foreach (ModIdentifier modIdentifier in modsInfoSet?.Mods)
-            //{
-            //    GameObject modUIObj = Instantiate(UIModEntryPrefab, ModContentParent.transform);
-            //    UIModEntry uiEntry = modUIObj.GetComponent<UIModEntry>();
-            //    if (uiEntry != null)
-            //    {
-            //        uiEntry.UpdateModData(modIdentifier);
-
-            //        uiEntry.InstallOnClick = InstallButtonOnClick;
-            //        uiEntry.UpdateOnClick = UpdateButtonOnClick;
-            //        uiEntry.UninstallOnClick = UninstallButtonOnClick;
-
-            //        UIModEntries.Add(uiEntry);
-            //    }
-            //}
-
+            //Dummy Mod Entry For Testing
             GameObject a = Instantiate(UIModEntryPrefab, ModContentParent.transform);
             UIModEntry b = a.GetComponent<UIModEntry>();
             if (b != null)
@@ -110,6 +94,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 b.UninstallOnClick = UninstallButtonOnClick;
 
                 UIModEntries.Add(b);
+            }
+
+            ModInfo? modsInfoSet = showAllMods ? modsManager.allAvailableModsInfo : modsManager.installedModsInfo;
+            if (modsInfoSet == null) { return; }
+            foreach (ModIdentifier modIdentifier in modsInfoSet?.Mods)
+            {
+                GameObject modUIObj = Instantiate(UIModEntryPrefab, ModContentParent.transform);
+                UIModEntry uiEntry = modUIObj.GetComponent<UIModEntry>();
+                if (uiEntry != null)
+                {
+                    uiEntry.UpdateModData(modIdentifier);
+
+                    uiEntry.InstallOnClick = InstallButtonOnClick;
+                    uiEntry.UpdateOnClick = UpdateButtonOnClick;
+                    uiEntry.UninstallOnClick = UninstallButtonOnClick;
+
+                    UIModEntries.Add(uiEntry);
+                }
             }
         }
         public void ShowMenu()

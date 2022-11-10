@@ -48,9 +48,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Action<ModIdentifier> UninstallOnClick;
 
         ModIdentifier modIdentifier;
-        //public void UpdateModData(ModIdentifier identifier)
-        //{
-        //}
+
+        public void UpdateModData(ModIdentifier identifier)
+        {
+            modIdentifier = identifier;
+        }
 
         public void UpdateUI()
         {
