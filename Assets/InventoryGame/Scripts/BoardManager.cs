@@ -156,7 +156,15 @@ public class BoardManager : MonoBehaviour
     /// </summary>
     public void DiscardPiece()
     {
+        // Destroy any blocked piece indicators as well as the current object
+        foreach (var block in blockedObjectList)
+        {
+            Destroy(block);
+        }
+
+        blockedObjectList.Clear();
         Destroy(currentPiece.gameObject);
+
         AdvanceTurn();
     }
 
