@@ -294,7 +294,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ShowMenu()
         {
             //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
-            PlayerManager.QueryFriends(null);
+            EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().QueryFriends(null);
             RefreshDefinitionsOnClick();
 
             LeaderboardUIParent.gameObject.SetActive(true);
