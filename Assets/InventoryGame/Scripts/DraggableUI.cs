@@ -1,40 +1,43 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableUI : EventTrigger
+namespace PlayEveryWare.EpicOnlineServices.InventoryGame
 {
-    private bool selected;
-    private Vector2 offset;
-    private GamePiece gamePiece;
-
-    private void Awake()
+    public class DraggableUI : EventTrigger
     {
-        gamePiece = GetComponent<GamePiece>();    
-    }
+        private bool selected;
+        private Vector2 offset;
+        private GamePiece gamePiece;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && selected)
+        private void Awake()
         {
-            gamePiece.RotatePiece();
+            gamePiece = GetComponent<GamePiece>();
         }
-    }
 
-    public override void OnBeginDrag(PointerEventData eventData)
-    {
-        selected = true;
-        offset = eventData.position - new Vector2(transform.position.x, transform.position.y);
-        gamePiece.BeginDrag();
-    }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && selected)
+            {
+                gamePiece.RotatePiece();
+            }
+        }
 
-    public override void OnEndDrag(PointerEventData eventData)
-    {
-        selected = false;
-        gamePiece.TryPlacePiece();
-    }
+        public override void OnBeginDrag(PointerEventData eventData)
+        {
+            selected = true;
+            offset = eventData.position - new Vector2(transform.position.x, transform.position.y);
+            gamePiece.BeginDrag();
+        }
 
-    public override void OnDrag(PointerEventData eventData)
-    {
-        transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - offset;
+        public override void OnEndDrag(PointerEventData eventData)
+        {
+            selected = false;
+            gamePiece.TryPlacePiece();
+        }
+
+        public override void OnDrag(PointerEventData eventData)
+        {
+            transform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y) - offset;
+        }
     }
 }
