@@ -69,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
-            Peer2PeerManager.ParticleManager = ParticleManager;
+            Peer2PeerManager.ParticleController = ParticleManager;
             Peer2PeerManager.parent = this.transform;
             CloseChatOnClick();
         }
