@@ -34,7 +34,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPlayerReportMenu : MonoBehaviour
+    public class UIPlayerReportMenu : UIFriendInteractionSource
     {
         [Header("Reports")]
         public GameObject CrashReportUIParent;
@@ -181,6 +181,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             currentProdcutUserId = null;
             CrashReportUIParent.gameObject.SetActive(false);
+        }
+
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            return FriendInteractionState.Enabled;
+        }
+
+        public override string GetFriendInteractButtonText()
+        {
+            return "Report";
+        }
+
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+            ReportButtonOnClick(friendData.UserProductUserId, friendData.Name);
         }
     }
 }

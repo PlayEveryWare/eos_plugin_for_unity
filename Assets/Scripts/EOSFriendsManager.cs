@@ -45,6 +45,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public string Name;
         public FriendsStatus Status = FriendsStatus.NotFriends;
         public PresenceInfo Presence;
+
+        public bool IsFriend()
+        {
+            return Status == FriendsStatus.Friends;
+        }
+
+        public bool IsOnline()
+        {
+            return Presence?.Status == Epic.OnlineServices.Presence.Status.Online;
+        }
     }
 
     /// <summary>Class <c>PresenceInfo</c> stores Player Presence data.</summary>
@@ -55,6 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public string RichText;
         public string Application;
         public string Platform;
+        public string JoinInfo;
     }
 
     /// <summary>
@@ -405,13 +416,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Debug.Log("Friends (OnQueryPresenceCompleted): QueryPresence successful");
 
-            CopyPresenceOptions options = new CopyPresenceOptions()
+            CopyPresenceOptions presenceOptions = new CopyPresenceOptions()
             {
                 LocalUserId = data.LocalUserId,
                 TargetUserId = data.TargetUserId
             };
 
-            Result result = PresenceHandle.CopyPresence(ref options, out Info? presence);
+            Result result = PresenceHandle.CopyPresence(ref presenceOptions, out Info? presence);
 
             if(result != Result.Success)
             {
@@ -419,12 +430,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            GetJoinInfoOptions joinInfoOptions = new GetJoinInfoOptions()
+            {
+                LocalUserId = data.LocalUserId,
+                TargetUserId = data.TargetUserId
+            };
+
+            Result joinInfoResult = PresenceHandle.GetJoinInfo(ref joinInfoOptions, out Utf8String joinInfo);
+            if (joinInfoResult != Result.Success)
+            {
+                joinInfo = null;
+            }
+
             PresenceInfo presenceInfo = new PresenceInfo()
             {
                 Application = presence?.ProductId,
                 Platform = presence?.Platform,
                 Status = (Status)(presence?.Status),
-                RichText = presence?.RichText
+                RichText = presence?.RichText,
+                JoinInfo = joinInfo
             };
 
             if(CachedFriends.TryGetValue(data.TargetUserId, out FriendData friendData))
