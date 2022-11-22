@@ -555,7 +555,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
 #endif
-#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
+#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM
                     if (secondTryResult != Result.AlreadyConfigured)
 #endif
                     {
