@@ -1,7 +1,7 @@
 PlayEveryWare Player Reports & Sanctions Epic Online Services Demo
 
-This demo is intended to show the Player Reports & Sanctions function of the EOS Plugin for unity through a friends list report application,
-a sample of the Player Reports & Sanctions interface can be found in the EOS_REportsManager script.
+This demo is intended to show the Player Reports & Sanctions function of the EOS Plugin for Unity through a friends list report application.
+A sample of the Player Reports and Sanctions interfaces can be found in the EOSReportsManager script.
 
 How to use:
 Select a login type
