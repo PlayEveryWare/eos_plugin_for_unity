@@ -180,9 +180,10 @@ public partial class SystemDynamicLibrary
     }
 
     //-------------------------------------------------------------------------
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || ((UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM )
+
     public bool UnloadLibrary(IntPtr libraryHandle)
     {
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || ((UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM )
 #if EOS_DISABLE
         return true;
 #elif (UNITY_EDITOR_WIN || ((UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM)) && !UNITY_ANDROID
@@ -190,8 +191,11 @@ public partial class SystemDynamicLibrary
 #else
         return DLLH_unload_library_at_path(DLLHContex, libraryHandle);
 #endif
-    }
+#else
+        return true;
 #endif
+    }
+
 
     //-------------------------------------------------------------------------
     // TODO: evaluate if we can just use DLLH_load_function; it might make it
