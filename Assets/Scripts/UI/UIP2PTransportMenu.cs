@@ -20,6 +20,7 @@
 * SOFTWARE.
 */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,8 +77,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 return FriendInteractionState.Hidden;
             }
 
-            var joinInfo = JsonUtility.FromJson<P2PTransportPresenceData>(friendData.Presence.JoinInfo);
-            return joinInfo.IsValid() ? FriendInteractionState.Enabled : FriendInteractionState.Hidden;
+            P2PTransportPresenceData joinInfo = null;
+            try
+            {
+                JsonUtility.FromJson<P2PTransportPresenceData>(friendData.Presence.JoinInfo);
+            }
+            catch(ArgumentException)
+            {
+                return FriendInteractionState.Hidden;
+            }
+            return joinInfo?.IsValid() == true ? FriendInteractionState.Enabled : FriendInteractionState.Hidden;
         }
 
         public override string GetFriendInteractButtonText()
