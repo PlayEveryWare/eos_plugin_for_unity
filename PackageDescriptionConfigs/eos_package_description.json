@@ -67,6 +67,7 @@
         {"src":"PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "bin~/"},
 
         {"src":"PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
+        {"src":"bin/EAC/anticheat_integritytool.exe", "dest": "bin~/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Licenses/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Localization/"},
