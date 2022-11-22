@@ -39,7 +39,7 @@ using System.Diagnostics;
 
 
 
-#if UNITY_ANDROID && !UNITY_EDITOR && EOS_PREVIEW_PLATFORM
+#if UNITY_ANDROID && !UNITY_EDITOR
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
