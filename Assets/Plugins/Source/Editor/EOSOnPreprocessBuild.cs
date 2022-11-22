@@ -21,6 +21,12 @@ public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
     {
         var eosVersionConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorPrebuildConfigSection>();
 
+        if (eosVersionConfigSection == null)
+        {
+            return;
+        }
+
+        eosVersionConfigSection.Awake();
 
         string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSManager.ConfigFileName);
         var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
@@ -29,7 +35,12 @@ public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
         var previousProdVer = eosConfigFile.currentEOSConfig.productVersion;
         var currentSectionConfig = eosVersionConfigSection.GetCurrentConfig();
 
-        if (eosVersionConfigSection.GetCurrentConfig().useAppVersionAsProductVersion)
+        if (currentSectionConfig == null)
+        {
+            return;
+        }
+
+        if (currentSectionConfig.useAppVersionAsProductVersion)
         {
             eosConfigFile.currentEOSConfig.productVersion = Application.version;
         }
