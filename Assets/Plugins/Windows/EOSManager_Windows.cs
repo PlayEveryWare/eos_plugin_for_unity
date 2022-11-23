@@ -91,7 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             set
             {
-                if(m_OverrideLibraryPath != null)
+                if(m_OverrideLibraryPath != IntPtr.Zero)
                 {
                     Marshal.FreeHGlobal(m_OverrideLibraryPath);
                 }
@@ -114,7 +114,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public void Dispose()
         {
-            if (m_OverrideLibraryPath != null)
+            if (m_OverrideLibraryPath != IntPtr.Zero)
             {
                 Marshal.FreeHGlobal(m_OverrideLibraryPath);
             }
@@ -293,7 +293,7 @@ static string SteamDllName = "steam_api.dll";
 
                     string SteamDllVersion = DLLHandle.GetVersionForLibrary(SteamDllName);
 
-                    if (steamIntegratedPlatform.m_OverrideLibraryPath != null)
+                    if (steamIntegratedPlatform.m_OverrideLibraryPath != IntPtr.Zero)
                     {
                         SteamOptionsGCHandle = GCHandle.Alloc(steamIntegratedPlatform, GCHandleType.Pinned);
                         integratedPlatforms[0].InitOptions = SteamOptionsGCHandle.AddrOfPinnedObject();

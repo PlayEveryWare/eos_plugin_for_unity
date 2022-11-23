@@ -884,7 +884,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             _Dirty = true;
             CurrentInvite = null;
 
-#if UNITY_IOS && !UNITY_EDITOR && EOS_PREVIEW_PLATFORM
+#if UNITY_IOS && !UNITY_EDITOR
             (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).SetDefaultAudioSession();
 #endif
         }

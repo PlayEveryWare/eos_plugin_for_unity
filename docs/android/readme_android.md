@@ -1,5 +1,6 @@
-## Preview Platform
-To access Preview platforms, enable `EOS_PREVIEW_PLATFORM`
+## Prereqs
+Unity _must_ have 'Custom Gradle Properties Template' set to true for the plugin to work.
+This setting can be found in the 'Publishing Settings' in the Player Settings.
 
 ## What is the Android Helper Library?
 It's a dynamically linked library and AAR that brings in the C++ dependencies that the

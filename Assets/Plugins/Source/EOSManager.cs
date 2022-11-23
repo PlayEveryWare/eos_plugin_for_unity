@@ -528,7 +528,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 string configDataAsString = "";
 
-#if UNITY_ANDROID && EOS_PREVIEW_PLATFORM
+#if UNITY_ANDROID
 
                 configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
 #else
@@ -1147,7 +1147,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("StartLoginWithLoginTypeAndToken");
 
-#if UNITY_IOS && !UNITY_EDITOR  && EOS_PREVIEW_PLATFORM
+#if UNITY_IOS && !UNITY_EDITOR
                 IOSLoginOptions modifiedLoginOptions = (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).MakeIOSLoginOptionsFromDefualt(loginOptions);
                 EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 #else

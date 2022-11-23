@@ -94,7 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         private EOSEACLobbyManager AntiCheatLobbyManager;
 
-#if UNITY_ANDROID && !UNITY_EDITOR && EOS_PREVIEW_PLATFORM//TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
+#if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
         const bool ONANDROIDPLATFORM = true;
 #else
         const bool ONANDROIDPLATFORM = false;
@@ -148,6 +148,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSLobbyManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
             EOSManager.Instance.RemoveManager<EOSEACLobbyManager>();
+            EOSManager.Instance.RemoveManager<EOSAntiCheatClientManager>();
         }
 
         private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)

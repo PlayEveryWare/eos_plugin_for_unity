@@ -83,7 +83,7 @@ public partial class SystemDynamicLibrary
     private const string DLLHBinaryName =
 #if UNITY_WSA || UNITY_STANDALONE_WIN || UNITY_GAMECORE
         "DynamicLibraryLoaderHelper";
-#elif UNITY_ANDROID  && EOS_PREVIEW_PLATFORM
+#elif UNITY_ANDROID
         "DynamicLibraryLoaderHelper_Android";
 #else
         "__Internal";
@@ -167,7 +167,7 @@ public partial class SystemDynamicLibrary
     }
 
     //-------------------------------------------------------------------------
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || ((UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX) && EOS_PREVIEW_PLATFORM )
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_ANDROID || UNITY_IOS || ((UNITY_STANDALONE_OSX) && EOS_PREVIEW_PLATFORM )
     public bool UnloadLibrary(IntPtr libraryHandle)
     {
 #if EOS_DISABLE
