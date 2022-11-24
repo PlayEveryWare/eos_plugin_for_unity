@@ -27,6 +27,7 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 using PlayEveryWare.EpicOnlineServices;
+using System.Collections.Generic;
 
 public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 {
@@ -116,6 +117,45 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         return pathToInstallFrom;
     }
 
+    //-------------------------------------------------------------------------
+    bool DoesGradlePropertiesContainSetting(string gradleTemplatePathname, string setting)
+    {
+        // check if it contains the android.useAndroidX=true
+        foreach (string line in File.ReadAllLines(gradleTemplatePathname))
+        {
+            if (line.Contains(setting) && !line.StartsWith("#"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //-------------------------------------------------------------------------
+    void ReplaceOrSetGradleProperty(string gradleTemplatePathname, string setting, string value)
+    {
+        var gradleTemplateToWrite = new List<string>();
+        bool wasAdded = false;
+
+        foreach(string line in File.ReadAllLines(gradleTemplatePathname))
+        {
+            if (line.Contains(setting) && !line.StartsWith("#"))
+            {
+                gradleTemplateToWrite.Add($"{setting}={value}");
+                wasAdded = true;
+            }
+            else
+            {
+                gradleTemplateToWrite.Add(line);
+            }
+        }
+
+        if (!wasAdded)
+        {
+            gradleTemplateToWrite.Add($"{setting}={value}");
+        }
+        File.WriteAllLines(gradleTemplatePathname, gradleTemplateToWrite.ToArray());
+    }
 
     //-------------------------------------------------------------------------
     public void InstallEOSDependentLibrary()
@@ -135,6 +175,22 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 
             };
             InstallFiles(filenames, packagedPathname, assetsPathname);
+
+            // Unity has a fixed location for the gradleTemplate.properties file. (as of 2021)
+            string gradleTemplatePathname = Path.Combine(Application.dataPath, "Plugins/Android/gradleTemplate.properties");
+            if (File.Exists(gradleTemplatePathname))
+            {
+                if (!DoesGradlePropertiesContainSetting(gradleTemplatePathname, "android.useAndroidX=true"))
+                {
+                    ReplaceOrSetGradleProperty(gradleTemplatePathname, "android.useAndroidX", "true");
+                }
+            }
+            else
+            {
+                // Use one we have bundled
+                string bundledGradleTemplatePathname = GetPlatformSpecificAssetsPath("EOS/Android/gradleTemplate.properties");
+                File.Copy(bundledGradleTemplatePathname, gradleTemplatePathname);
+            }
         }
     }
 
@@ -163,7 +219,6 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
                 currentEOSValuesConfigAsXML.Save(pathToEOSValuesConfig);
             }
         }
-
     }
 
 }

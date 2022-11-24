@@ -96,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private bool UIDirty = false;
 
-#if UNITY_ANDROID && !UNITY_EDITOR && EOS_PREVIEW_PLATFORM//TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
+#if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
         const bool ONANDROIDPLATFORM = true;
 #else
         const bool ONANDROIDPLATFORM = false;

@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.1.7] - 2022-11-22
+### Added
+- docs(android): update readme for android to included needed settings
+- feat(android): Auto config gradleTemplate file so that aar files won't cause gradle build errors
+- feat(config): Config Verification Prebuild Step (#158)
+- feat(config) : Save Application version as product version at build time (#151)
+- feat(android): remove dependency on including gradle files in the published plugin && add support for auto configure eos_dependencies strings.
+### Fixed
+- (windows): add eac tool to package description.
+- ensure config file is loaded and not null before using in preprocess script
+- (android): resolve gradle error that occur due to unity editor version update
+- (android,ios): Properly set presence in UICustomMenu and UIPeer2PeerMenu
+- EOSbootstrapper and EAC binary install when building from plugin (#161)
+- invalid IntPtr Null check (#160)
+- resolve null pointer exception that can occur when config section hasn't been setup yet.
+
 ## [2.1.6] - 2022-10-31
 ### Added
 - (samples) : plugin version ui
