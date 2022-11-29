@@ -1,2 +1,5 @@
-#PS5 settings config
+#PS5 settings
 PS5Settings.json
+#XSX settings
+GameCoreScarlettSettings.asset
+ScarlettGame.config
