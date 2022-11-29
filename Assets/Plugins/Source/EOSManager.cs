@@ -541,6 +541,41 @@ namespace PlayEveryWare.EpicOnlineServices
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
 
                 print("Loaded config file: " + configDataAsString);
+
+                //support sandbox and deployment id override via command line arguments
+                var commandArgs = System.Environment.GetCommandLineArgs();
+                for (int i = 0; i < commandArgs.Length - 1; ++i)
+                {
+                    if (commandArgs[i] == "-eossandboxid")
+                    {
+                        var sandboxArg = commandArgs[i + 1];
+                        UnityEngine.Debug.Log("Sandbox ID override specified: " + sandboxArg);
+                        if (sandboxArg.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(sandboxArg).Success)
+                        {
+                            configData.sandboxID = sandboxArg;
+                            UnityEngine.Debug.Log("Sandbox ID override applied");
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.LogWarning("Sandbox ID override is invalid: must be 32 hex characters");
+                        }
+                    }
+                    else if (commandArgs[i] == "-eosdeploymentid")
+                    {
+                        var deploymentArg = commandArgs[i + 1];
+                        UnityEngine.Debug.Log("Deployment ID override specified: " + deploymentArg);
+                        if (deploymentArg.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(deploymentArg).Success)
+                        {
+                            configData.deploymentID = deploymentArg;
+                            UnityEngine.Debug.Log("Deployment ID override applied");
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.LogWarning("Deployment ID override is invalid: must be 32 hex characters");
+                        }
+                    }
+                }
+
                 Epic.OnlineServices.Result initResult = InitializePlatformInterface(configData);
                 UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
                 
