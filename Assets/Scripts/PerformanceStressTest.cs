@@ -38,20 +38,15 @@ public class PerformanceStressTest : MonoBehaviour
     List<Thread> threadList;
     bool threadOverride = false;
     public Slider threadSlider;
+    public GameObject gpuRenderObjects;
 
     Resolution screenRes;
     // Start is called before the first frame update
     void Start()
     {
-        threads = SystemInfo.processorCount * 2;
+        threads = SystemInfo.processorCount;
         Debug.Log("Working with: " + threads + " threads");
         threadList = new List<Thread>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void CPUTest()
@@ -85,6 +80,7 @@ public class PerformanceStressTest : MonoBehaviour
     
     public void StopCPUTest()
     {
+        Debug.Log("Stopping: " + threadList.Count + " threads");
         for (int i = 0; i < threadList.Count; i++)
         {
 
@@ -100,19 +96,14 @@ public class PerformanceStressTest : MonoBehaviour
 
     public void StartGPUTest()
     {
-        screenRes = Screen.currentResolution;
-        Screen.SetResolution(7680, 4320, false);
+        Debug.Log("Starting GPU Stress Test");
+        gpuRenderObjects.SetActive(true);
     }
 
     public void StopGPUTest()
     {
-
-        Screen.SetResolution(screenRes.width, screenRes.height, false);
-    }
-
-    public void CheckScreenSize()
-    {
-        Debug.Log("Render Screen Size is: " + Screen.currentResolution);
+        Debug.Log("Stopping GPU Stress Test");
+        gpuRenderObjects.SetActive(false);
     }
 
 }
