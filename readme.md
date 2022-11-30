@@ -10,8 +10,8 @@ Things this plugin provides:
 * Feature specific manager classes for most common use-cases of EOS SDK API
 * Feature specific samples as Unity scenes
 * Social Overlay support
-* Targets [EOS SDK 1.15] (https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.15-16june,2022) *(bundled with plugin)*
-* Targets [Unity 2020.1](https://unity.com/releases/2020-1)
+* Targets [EOS SDK 1.15.3] (https://dev.epicgames.com/docs/epic-online-services/release-notes#1153---2022-sep-19) *(bundled with plugin)*
+* Targets Unity 2021.3.8f1
 
 This repo contains:
 * A Unity Project for development of feature managers and samples
@@ -29,8 +29,8 @@ The follow target platforms are supported in Unity for the current release of th
 | Windows Standalone x64 | Supported |
 | Windows Standalone x86 | Supported |
 | Universal Windows Platform x64 | Supported |
-| Android | Preview|
-| iOS | Preview|
+| Android | Supported |
+| iOS | Supported |
 | Linux | [Preview](docs/linux/linux_supported_versions.md) |
 | MacOS | [Preview](docs/macOS/macOS_supported_versions.md)) |
 | Console Platforms | Preview |
@@ -71,7 +71,7 @@ The EOS SDK is continually releasing new features and functionality.  The follow
 
 ---
 # Integration Notes
-For best results, Unity 2020 is preferred. 
+For best results, Unity 2021 is preferred. 
 
 ## Installing from a git URL
 Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.com/Manual/upm-git.html).
@@ -90,6 +90,9 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 
 ## Installing from a tarball
 Download the latest release tarball from https://github.com/PlayEveryWare/eos_plugin_for_unity/releases
+The tarball is a tgz file, not the source download. If one uses the source download it will be missing all 
+the git-lfs files i.e. the binaries/dynamic libraries. 
+
 1. From the Unity Editor, open the Package Manager
     * It's listed under ```Window -> Package Manager```
 2. Click the ```+``` button
