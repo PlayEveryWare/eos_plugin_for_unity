@@ -41,7 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
-        public ConsoleInputField BucketIdVal;
+        public UIConsoleInputField BucketIdVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
         public Dropdown PermissionVal;
@@ -70,9 +70,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UILobbyEntryPrefab;
         public GameObject SearchContentParent;
 
-        public ConsoleInputField SearchByBucketIdBox;
-        public ConsoleInputField SearchByLevelBox;
-        public ConsoleInputField SearchByLobbyIdBox;
+        public UIConsoleInputField SearchByBucketIdBox;
+        public UIConsoleInputField SearchByLevelBox;
+        public UIConsoleInputField SearchByLobbyIdBox;
 
         [Header("Lobbies UI - Invite PopUp")]
         public GameObject UIInvitePanel;

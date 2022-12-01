@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject LeaderboardEntriesContentParent;
         public GameObject UILeaderboardEntryPrefab;
 
-        public ConsoleInputField ingestStatValueInput;
+        public UIConsoleInputField ingestStatValueInput;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;

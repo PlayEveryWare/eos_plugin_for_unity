@@ -50,10 +50,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject ChatEntriesContentParent;
         public GameObject ChatEntryPrefab;
 
-        public ConsoleInputField ChatMessageInput;
+        public UIConsoleInputField ChatMessageInput;
         public Button SendButton;
 
-        public UIPeer2PeerParticleManager ParticleManager;
+        public UIPeer2PeerParticleController ParticleManager;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
-            Peer2PeerManager.ParticleManager = ParticleManager;
+            Peer2PeerManager.ParticleController = ParticleManager;
             Peer2PeerManager.parent = this.transform;
             CloseChatOnClick();
         }

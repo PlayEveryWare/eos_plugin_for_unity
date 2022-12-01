@@ -24,7 +24,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIPeer2PeerParticleManager : MonoBehaviour
+public class UIPeer2PeerParticleController : MonoBehaviour
 {
     public GameObject ClickParticles;
     public void SpawnParticles(int xPos, int yPos, Transform parent)

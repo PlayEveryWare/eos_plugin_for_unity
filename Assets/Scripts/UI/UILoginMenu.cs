@@ -52,10 +52,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Dropdown loginTypeDropdown;
 
         public Text idText;
-        public ConsoleInputField idInputField;
+        public UIConsoleInputField idInputField;
 
         public Text tokenText;
-        public ConsoleInputField tokenInputField;
+        public UIConsoleInputField tokenInputField;
 
         public Text loginButtonText;
         private string _OriginalloginButtonText;

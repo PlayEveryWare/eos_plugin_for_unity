@@ -28,11 +28,11 @@ using UnityEngine;
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     /// <summary>
-    /// Class <c>UIScreenRotationEventManager</c> provides event callback functionality for screen rotation on mobile devices. 
+    /// Class <c>UIScreenRotationEventController</c> provides event callback functionality for screen rotation on mobile devices. 
     /// </summary>
-    public class UIScreenRotationEventManager : MonoBehaviour
+    public class UIScreenRotationEventController : MonoBehaviour
     {
-        private static UIScreenRotationEventManager Instance;
+        private static UIScreenRotationEventController Instance;
 
         public static Action<DeviceOrientation> OnScreenRotatated;
         private DeviceOrientation orientation;
