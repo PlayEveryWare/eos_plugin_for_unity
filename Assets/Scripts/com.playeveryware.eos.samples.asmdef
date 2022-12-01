@@ -1,12 +1,12 @@
 {
-    "name": "com.playeveryware.eos-Editor",
+    "name": "com.playeveryware.eos.samples",
     "rootNamespace": "",
     "references": [
-        "com.playeveryware.eos"
+        "GUID:2ced8f3cc58f63843bc26c7591a35628",
+        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
