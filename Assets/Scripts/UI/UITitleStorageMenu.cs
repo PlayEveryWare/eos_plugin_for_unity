@@ -44,8 +44,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Title Storage UI")]
         public GameObject TitleStorageUIParent;
 
-        public ConsoleInputField AddTagTextBox;
-        public ConsoleInputField FileNameTextBox;
+        public UIConsoleInputField AddTagTextBox;
+        public UIConsoleInputField FileNameTextBox;
 
         public GameObject TagContentParent;
         public GameObject UITagEntryPrefab;

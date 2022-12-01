@@ -92,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private Dictionary<ProductUserId, ChatWithFriendData> ChatDataCache;
         private bool ChatDataCacheDirty;
 
-        public UIPeer2PeerParticleManager ParticleManager;
+        public UIPeer2PeerParticleController ParticleController;
         public Transform parent;
 
 #if UNITY_EDITOR
@@ -365,7 +365,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     int yPos = Int32.Parse(coords[1]);
                     Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + xPos + ", " + yPos);
 
-                    ParticleManager.SpawnParticles(xPos, yPos, parent);
+                    ParticleController.SpawnParticles(xPos, yPos, parent);
 
                     return peerId;
                 }

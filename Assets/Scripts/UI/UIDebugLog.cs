@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private float deltaTime_FPS;
         public Text FPSValue;
 
-        public SampleSceneUIContainer DemoSceneContainer;
+        public UISampleSceneUIContainer DemoSceneContainer;
 
         public GameObject[] OptionElements;
         private bool optionsVisible;

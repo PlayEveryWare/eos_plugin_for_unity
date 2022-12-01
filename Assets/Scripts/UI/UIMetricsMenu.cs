@@ -33,11 +33,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UIMetricsMenu : MonoBehaviour, ISampleSceneUI
     {
-        public ConsoleInputField DisplayNameVal;
+        public UIConsoleInputField DisplayNameVal;
         public Dropdown ControllerTypeDropdown;
-        public ConsoleInputField ServerIpVal;
+        public UIConsoleInputField ServerIpVal;
         public Text ErrorMessageTxt;
-        public ConsoleInputField SessionIdVal;
+        public UIConsoleInputField SessionIdVal;
         public Button BeginBtn;
         public Button EndBtn;
 

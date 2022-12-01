@@ -58,7 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Player Data Storage UI")]
         public GameObject PlayerDataStorageUIParent;
 
-        public ConsoleInputField NewFileNameTextBox;
+        public UIConsoleInputField NewFileNameTextBox;
 
         public GameObject FilesContentParent;
         public GameObject UIFileNameEntryPrefab;

@@ -97,20 +97,9 @@ namespace PlayEveryWare.EpicOnlineServices
             EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC public key", ref pathToEACPublicKey);
             EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC Certificate", ref pathToEACCertificate);
 
-            if (pathToSigntool.Length != 0)
-            {
-                configFile.currentEOSConfig.pathToSignTool = pathToSigntool;
-            }
-
-            if (pathToEACPublicKey.Length != 0)
-            {
-                configFile.currentEOSConfig.pathToEACPublicKey = pathToEACPublicKey;
-            }
-
-            if (pathToEACCertificate.Length != 0)
-            {
-                configFile.currentEOSConfig.pathToEACCertificate = pathToEACCertificate;
-            }
+            configFile.currentEOSConfig.pathToSignTool = pathToSigntool;
+            configFile.currentEOSConfig.pathToEACPublicKey = pathToEACPublicKey;
+            configFile.currentEOSConfig.pathToEACCertificate = pathToEACCertificate;
         }
 
         //-------------------------------------------------------------------------
@@ -166,12 +155,9 @@ namespace PlayEveryWare.EpicOnlineServices
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
             string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory Path", ref customBuildDirectoryPath);
+            EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory Path", 170, ref customBuildDirectoryPath);
 
-            if (customBuildDirectoryPath.Length != 0)
-            {
-                configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
-            }
+            configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
         }
 
         //-------------------------------------------------------------------------
@@ -226,7 +212,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Use Unity App Version for the EOS product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion);
+            EpicOnlineServicesConfigEditor.AssigningBoolField("Use Unity App Version for the EOS product version", 300, ref configFile.currentEOSConfig.useAppVersionAsProductVersion);
         }
 
         //-------------------------------------------------------------------------
@@ -309,13 +295,31 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         private static string GetConfigDirectory()
         {
-            return System.IO.Path.Combine(Application.dataPath, "..", ConfigDirectory);
+            return System.IO.Path.Combine("..", ConfigDirectory);
         }
 
         //-------------------------------------------------------------------------
         public static string GetConfigPath(string configFilename)
         {
             return System.IO.Path.Combine(GetConfigDirectory(), configFilename);
+        }
+
+        //-------------------------------------------------------------------------
+        public static bool IsAsset(string configFilepath)
+        {
+            var assetDir = new DirectoryInfo(Application.dataPath);
+            var fileDir = new DirectoryInfo(configFilepath);
+            bool isParent = false;
+            while (fileDir.Parent != null)
+            {
+                if (fileDir.Parent.FullName == assetDir.FullName)
+                {
+                    isParent = true;
+                    break;
+                }
+                else fileDir = fileDir.Parent;
+            }
+            return isParent;
         }
 
         //-------------------------------------------------------------------------

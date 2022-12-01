@@ -23,7 +23,7 @@
 using UnityEngine;
 using UnityEditor;
 
-public static class UGUIFitAnchors
+public static class UIUGFitAnchors
 {
     [MenuItem("UI/Snap Anchor Around Object")]
     static void uGUIAnchorAroundObject()

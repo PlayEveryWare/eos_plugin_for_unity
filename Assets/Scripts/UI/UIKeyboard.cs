@@ -31,9 +31,9 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 #endif
 
-public class KeyboardUI : MonoBehaviour
+public class UIKeyboard : MonoBehaviour
 {
-    public static KeyboardUI instance;
+    public static UIKeyboard instance;
 
     public GameObject KeyboardPanel;
 

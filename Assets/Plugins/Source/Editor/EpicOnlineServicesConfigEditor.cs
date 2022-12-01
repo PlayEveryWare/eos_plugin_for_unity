@@ -256,19 +256,39 @@ _WIN32 || _WIN64
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
+        public static void AssigningTextField(string label, float labelWidth, ref string value)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            AssigningTextField(label, ref value);
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
         public static void AssigningTextField(string label, ref string value)
         {
-            var newValue = EditorGUILayout.TextField(label, EmptyPredicates.NewIfNull(value), GUILayout.ExpandWidth(true));
-            if (!EmptyPredicates.IsEmptyOrNull(newValue))
+            var newValue = EditorGUILayout.DelayedTextField(label, EmptyPredicates.NewIfNull(value), GUILayout.ExpandWidth(true));
+            if (newValue != null)
             {
                 value = newValue;
-            }
+            }   
+        }
+
+        public static void AssigningULongField(string label, float labelWidth, ref ulong value)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            AssigningULongField(label, ref value);
+            EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
         public static void AssigningULongField(string label, ref ulong value)
         {
             ulong newValue = value;
-            var newValueAsString = EditorGUILayout.TextField(label, value.ToString(), GUILayout.ExpandWidth(true));
+            var newValueAsString = EditorGUILayout.DelayedTextField(label, value.ToString(), GUILayout.ExpandWidth(true));
+            if (string.IsNullOrWhiteSpace(newValueAsString))
+            {
+                newValueAsString = "0";
+            }
 
             try
             {
@@ -282,12 +302,20 @@ _WIN32 || _WIN64
             }
         }
 
+        public static void AssigningULongToStringField(string label, float labelWidth, ref string value)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            EditorGUIUtility.labelWidth = labelWidth;
+            AssigningULongToStringField(label, ref value);
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
         public static void AssigningULongToStringField(string label, ref string value)
         {
             try
             {
                 EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.TextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
+                var newValueAsString = EditorGUILayout.DelayedTextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
 
                 if (GUILayout.Button("Clear"))
                 {
@@ -295,7 +323,7 @@ _WIN32 || _WIN64
                 }
                 else
                 {
-                    if (newValueAsString.Length == 0)
+                    if (string.IsNullOrWhiteSpace(newValueAsString))
                     {
                         value = null;
                         return;
@@ -307,6 +335,7 @@ _WIN32 || _WIN64
             }
             catch (FormatException)
             {
+                value = null;
             }
             catch (OverflowException)
             {
@@ -315,7 +344,6 @@ _WIN32 || _WIN64
             {
                 EditorGUILayout.EndHorizontal();
             }
-
         }
 
         public static void AssigningBoolField(string label, float labelWidth, ref bool value)
@@ -333,31 +361,51 @@ _WIN32 || _WIN64
 
         public static void AssigningFloatToStringField(string label, float labelWidth, ref string value)
         {
-            float valueAsFloat = EmptyPredicates.IsEmptyOrNull(value) ? 0.0f : float.Parse(value);
-
-            EditorGUILayout.BeginHorizontal();
             float originalLabelWidth = EditorGUIUtility.labelWidth;
             EditorGUIUtility.labelWidth = labelWidth;
-            float newValueAsFloat = EditorGUILayout.FloatField(label, valueAsFloat, GUILayout.ExpandWidth(false));
+            AssigningFloatToStringField(label, ref value);
             EditorGUIUtility.labelWidth = originalLabelWidth;
-            if(GUILayout.Button("Clear"))
+        }
+
+        public static void AssigningFloatToStringField(string label, ref string value)
+        {
+            try
+            {
+                EditorGUILayout.BeginHorizontal();
+                var newValueAsString = EditorGUILayout.DelayedTextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
+
+                if (GUILayout.Button("Clear"))
+                {
+                    value = null;
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(newValueAsString))
+                    {
+                        value = null;
+                        return;
+                    }
+
+                    var valueAsFloat = float.Parse(newValueAsString);
+                    value = valueAsFloat.ToString();
+                }
+            }
+            catch (FormatException)
             {
                 value = null;
             }
-            else
+            catch (OverflowException)
             {
-                if (!(newValueAsFloat == valueAsFloat && EmptyPredicates.IsEmptyOrNull(value)))
-                {
-                    value = newValueAsFloat.ToString();
-                }
             }
-            EditorGUILayout.EndHorizontal();
+            finally
+            {
+                EditorGUILayout.EndHorizontal();
+            }
         }
 
 
         public static void HorizontalLine(Color color)
         {
-
             var defaultHorizontalLineStyle = new GUIStyle();
             defaultHorizontalLineStyle.normal.background = EditorGUIUtility.whiteTexture;
             defaultHorizontalLineStyle.margin = new RectOffset(0, 0, 4, 4);
