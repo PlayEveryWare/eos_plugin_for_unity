@@ -62,7 +62,14 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             if (currentEOSConfig.IsEmpty())
             {
-                AssetDatabase.DeleteAsset(configFilenamePath);
+                if (EOSPluginEditorConfigEditor.IsAsset(configFilenamePath))
+                {
+                    AssetDatabase.DeleteAsset(configFilenamePath);
+                }
+                else
+                {
+                    File.Delete(configFilenamePath);
+                }
             }
             else
             {
