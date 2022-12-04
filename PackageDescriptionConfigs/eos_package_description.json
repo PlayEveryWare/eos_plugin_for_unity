@@ -358,6 +358,8 @@
         {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/Scripts/UI/"},
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
+		{"src":"Assets/Scripts/Networking/*.cs", "dest": "Samples~/Samples/Scripts/Networking/"},
+        {"src":"Assets/Scripts/Networking/*.cs.meta", "dest": "Samples~/Samples/Scripts/Networking/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},
