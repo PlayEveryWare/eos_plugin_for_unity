@@ -134,6 +134,12 @@ To get the EOS working, the plugin needs to know some specific things about your
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientId)
 
 5) If you've already configured an encryption key in the EOS portal, enter it into the Encryption Key field. Otherwise, click the Generate button to make a random one.
+
+## Disable on selected platforms (optional)
+
+If you do not want the EOS plugin enabled on certain platforms (such as unsupported ones), add the EOS_DISABLE define to the Scripting Define Symbols in the Player Settings for that platform.
+
+<img width="409" alt="eos_disable" src="https://user-images.githubusercontent.com/106182927/205743282-0a10ef98-19fe-4456-b307-e1d09c15e063.png">
    
 At this point, you are ready to start developing using the Epic Online Services Plugin for Unity!  Simply attach <code>EOSManager.cs (Script)</code> to a Unity object and it will intialize the plugin with the specified configuration in <code>OnAwake()</code>.
 
