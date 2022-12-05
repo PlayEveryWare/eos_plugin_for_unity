@@ -197,7 +197,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     //-------------------------------------------------------------------------
     public void ConfigureEOSDependentLibrary()
     {
-        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSManager.ConfigFileName);
+        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
         var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
         eosConfigFile.LoadConfigFromDisk();
         string clientIDAsLower = eosConfigFile.currentEOSConfig.clientID.ToLower();

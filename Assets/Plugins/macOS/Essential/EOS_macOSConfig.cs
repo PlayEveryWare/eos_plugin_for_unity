@@ -28,16 +28,16 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
     // Flags specificly for Switch
-    public class EOS_iOSConfig : ICloneableGeneric<EOS_iOSConfig>, IEmpty
+    public class EOS_macOSConfig : ICloneableGeneric<EOS_macOSConfig>, IEmpty
     {
         public List<string> flags;
 
         public EOSConfig overrideValues;
 
         //-------------------------------------------------------------------------
-        public EOS_iOSConfig Clone()
+        public EOS_macOSConfig Clone()
         {
-            return (EOS_iOSConfig)this.MemberwiseClone();
+            return (EOS_macOSConfig)this.MemberwiseClone();
         }
 
         //-------------------------------------------------------------------------
@@ -49,9 +49,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
 
         //-------------------------------------------------------------------------
+#if !EOS_DISABLE
         public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
         {
             return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
         }
+#endif
     }
 }

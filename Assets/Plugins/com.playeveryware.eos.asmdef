@@ -2,7 +2,8 @@
     "name": "com.playeveryware.eos",
     "rootNamespace": "",
     "references": [
-        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75"
+        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75",
+        "GUID:3a63500f0eef43a438c0553491f7c5da"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -11,7 +12,8 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "!EOS_DISABLE"
+        "!EOS_DISABLE",
+        "!EOS_DISABLE_FULL"
     ],
     "versionDefines": [],
     "noEngineReferences": false

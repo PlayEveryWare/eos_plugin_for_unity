@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "com.playeveryware.eos",
-        "Unity.EditorCoroutines.Editor"
+        "Unity.EditorCoroutines.Editor",
+        "com.playeveryware.eos.essential"
     ],
     "includePlatforms": [
         "Editor"
@@ -13,9 +14,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "!EOS_DISABLE"
-    ],
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }

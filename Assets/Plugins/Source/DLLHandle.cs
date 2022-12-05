@@ -44,23 +44,11 @@ public class DLLHandle : SafeHandle
     }
 
     //-------------------------------------------------------------------------
-    public static string GetPackageName()
-    {
-        return "com.playeveryware.eos";
-    }
-
-    //-------------------------------------------------------------------------
-    public static string GetPackageVersion()
-    {
-        return "2.1.5";
-    }
-
-    //-------------------------------------------------------------------------
     public static List<string> GetPathsToPlugins()
     {
         string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
         string pluginsPath = Path.Combine(Application.dataPath, "Plugins");
-        string packagedPluginPath = Path.GetFullPath(Path.Combine("Packages", GetPackageName(), "Runtime"));
+        string packagedPluginPath = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Runtime"));
         var pluginPaths = new List<string>();
 
         pluginPaths.Add(pluginsPath);

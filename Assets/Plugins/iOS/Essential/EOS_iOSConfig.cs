@@ -27,34 +27,32 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    // Flags specificly for Linux
-    [Serializable]
-    public class EOSLinuxConfig : ICloneableGeneric<EOSLinuxConfig>, IEmpty
+    // Flags specificly for Switch
+    public class EOS_iOSConfig : ICloneableGeneric<EOS_iOSConfig>, IEmpty
     {
         public List<string> flags;
 
         public EOSConfig overrideValues;
 
         //-------------------------------------------------------------------------
-        public EOSLinuxConfig Clone()
+        public EOS_iOSConfig Clone()
         {
-            return (EOSLinuxConfig)this.MemberwiseClone();
+            return (EOS_iOSConfig)this.MemberwiseClone();
         }
 
         //-------------------------------------------------------------------------
         public bool IsEmpty()
         {
-            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags)
-                && EmptyPredicates.IsEmptyOrNull(overrideValues)
-                ;
-
+            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags) &&
+                EmptyPredicates.IsEmptyOrNull(overrideValues);
         }
 
-
         //-------------------------------------------------------------------------
+#if !EOS_DISABLE
         public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
         {
             return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
         }
+#endif
     }
 }
