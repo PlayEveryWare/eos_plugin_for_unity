@@ -79,16 +79,16 @@
         {"ignore_regex":"Assets/Plugins/Windows/.*/steam_api64\\.dll"},
 
         {"comment": "----------------------------End Windows---------------------------------------------"},
-		
-		{"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
-		
-		{"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
+        
+        {"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
+        
+        {"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/license.txt.meta", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Linux/"},
-		{"src":"Assets/Plugins/Linux/*.so", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.so", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/*.so.meta", "dest": "Runtime/Linux/"},
-		{"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/*.cs.meta", "dest": "Runtime/Linux/"},
 
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
@@ -96,9 +96,9 @@
 
         {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
-		
-		{"src":"Assets/Plugins/Source/Editor/Linux.meta", "dest": "Editor/"},
-		{"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
+        
+        {"src":"Assets/Plugins/Source/Editor/Linux.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
         {"src":"Assets/Plugins/Source/Editor/Linux/*.cs.meta", "dest": "Editor/Linux/"},
 
         {"comment": "----------------------------macOS---------------------------------------------"},
@@ -166,8 +166,8 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
-		
-		{"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
 
@@ -222,8 +222,8 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
-		
-		{"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
 
@@ -353,25 +353,25 @@
         {"src":"EOSUnityPlugin_package_template/Samples.meta", "dest" : "Samples~/"},
         {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/Scripts/"},
-		{"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/Scripts/"},
+        {"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/*.asmdef", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/UI.meta", "dest": "Samples~/Samples/Scripts/UI.meta"},
         {"src":"Assets/Scripts/UI/*.cs", "dest": "Samples~/Samples/Scripts/UI/"},
         {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/Scripts/UI/"},
-		{"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/Scripts/Util.meta"},
+        {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/Scripts/Util.meta"},
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
-		{"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/Scripts/Networking.meta"},
+        {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/Scripts/Networking.meta"},
         {"src":"Assets/Scripts/Networking/*.cs", "dest": "Samples~/Samples/Scripts/Networking/"},
         {"src":"Assets/Scripts/Networking/*.cs.meta", "dest": "Samples~/Samples/Scripts/Networking/"},
-		{"src":"Assets/Scripts/Networking/*.asmdef", "dest": "Samples~/Samples/Scripts/Networking/"},
+        {"src":"Assets/Scripts/Networking/*.asmdef", "dest": "Samples~/Samples/Scripts/Networking/"},
         {"src":"Assets/Scripts/Networking/*.asmdef.meta", "dest": "Samples~/Samples/Scripts/Networking/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},
         {"src":"Assets/Scenes/*.unity.meta", "dest": "Samples~/Samples/Scenes/"},
-		
-		{"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
+        
+        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},
         {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/Readme/"}
     ],
