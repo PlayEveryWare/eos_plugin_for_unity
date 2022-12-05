@@ -1,4 +1,5 @@
-﻿/*
+﻿
+/*
 * Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -20,25 +21,39 @@
 * SOFTWARE.
 */
 
-using UnityEditor;
-using PlayEveryWare.EpicOnlineServices;
+using System;
+using UnityEngine;
+using System.Collections.Generic;
 
-// Ensure class initializer is called whenever scripts recompile
-[InitializeOnLoad]
-public static class PlayModeDetection
+namespace PlayEveryWare.EpicOnlineServices
 {
-    // Register an event handler when the class is initialized
-    static PlayModeDetection()
+    // Flags specificly for Switch
+    public class EOSAndroidConfig : ICloneableGeneric<EOSAndroidConfig>, IEmpty
     {
-        EditorApplication.playModeStateChanged += LogPlayModeState;
-    }
+        public List<string> flags;
 
-    private static void LogPlayModeState(PlayModeStateChange state)
-    {
-        // If play mode ended in the editor, shutdown the EOSManager as OnApplicationQuit isn't called in the editor.
-        if (state == PlayModeStateChange.ExitingPlayMode)
+        public EOSConfig overrideValues;
+
+        //-------------------------------------------------------------------------
+        public EOSAndroidConfig Clone()
         {
-            EOSManager.Instance.OnShutdown();
+            return (EOSAndroidConfig)this.MemberwiseClone();
         }
+
+        //-------------------------------------------------------------------------
+        public bool IsEmpty()
+        {
+            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags) &&
+                EmptyPredicates.IsEmptyOrNull(overrideValues);
+        }
+
+
+        //-------------------------------------------------------------------------
+#if !EOS_DISABLE
+        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
+        {
+            return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
+        }
+#endif
     }
 }

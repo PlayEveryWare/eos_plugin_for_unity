@@ -1,4 +1,3 @@
-﻿
 /*
 * Copyright (c) 2021 PlayEveryWare
 * 
@@ -21,37 +20,21 @@
 * SOFTWARE.
 */
 
-using System;
-using UnityEngine;
-using System.Collections.Generic;
-
-namespace PlayEveryWare.EpicOnlineServices
+public static class EOSPackageInfo
 {
-    // Flags specificly for Switch
-    public class EOS_macOSConfig : ICloneableGeneric<EOS_macOSConfig>, IEmpty
+    /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
+    public static string ConfigFileName = "EpicOnlineServicesConfig.json";
+
+    //-------------------------------------------------------------------------
+
+    public static string GetPackageName()
     {
-        public List<string> flags;
+        return "com.playeveryware.eos";
+    }
 
-        public EOSConfig overrideValues;
-
-        //-------------------------------------------------------------------------
-        public EOS_macOSConfig Clone()
-        {
-            return (EOS_macOSConfig)this.MemberwiseClone();
-        }
-
-        //-------------------------------------------------------------------------
-        public bool IsEmpty()
-        {
-            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags) &&
-                EmptyPredicates.IsEmptyOrNull(overrideValues);
-        }
-
-
-        //-------------------------------------------------------------------------
-        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
-        {
-            return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
-        }
+    //-------------------------------------------------------------------------
+    public static string GetPackageVersion()
+    {
+        return "2.1.5";
     }
 }

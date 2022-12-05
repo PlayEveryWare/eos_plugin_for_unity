@@ -1,3 +1,17 @@
-﻿{
-	"name": "com.Epic.OnlineServices"
+{
+    "name": "com.Epic.OnlineServices",
+    "rootNamespace": "",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "!EOS_DISABLE",
+        "!EOS_DISABLE_FULL"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

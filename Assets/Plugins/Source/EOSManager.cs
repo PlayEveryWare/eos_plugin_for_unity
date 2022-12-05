@@ -87,9 +87,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public delegate void OnConnectLinkExternalAccountCallback(Epic.OnlineServices.Connect.LinkAccountCallbackInfo linkAccountCallbackInfo);
         public delegate void OnAuthLinkExternalAccountCallback(Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo);
 
-        /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
-        public static string ConfigFileName = "EpicOnlineServicesConfig.json";
-
         /// <value>List of logged in <c>EpicAccountId</c></value>
         private static List<EpicAccountId> loggedInAccountIDs = new List<EpicAccountId>();
 
@@ -494,7 +491,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 UnityEngine.Debug.LogError("Platform not supported");    
 #endif
 
-                Init(coroutineOwner, ConfigFileName);
+                Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
             }
 
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)

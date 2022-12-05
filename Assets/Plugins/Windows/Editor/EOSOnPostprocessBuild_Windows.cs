@@ -261,7 +261,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
             return eosConfig;
         }
 
-        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSManager.ConfigFileName);
+        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
         var configDataAsString = File.ReadAllText(configFilePath);
         var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
         eosConfig = configData;
