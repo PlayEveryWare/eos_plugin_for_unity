@@ -254,7 +254,7 @@ namespace Playeveryware.Editor
         }
 
         //-------------------------------------------------------------------------
-        public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
+        public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress, Action<string> postProcessCallback = null)
         {
             Directory.CreateDirectory(packageFolder);
 
@@ -291,6 +291,7 @@ namespace Playeveryware.Editor
                 }
 
                 File.Copy(src.FullName, destPath, true);
+                postProcessCallback?.Invoke(destPath);
             }
         }
 

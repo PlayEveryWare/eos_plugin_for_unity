@@ -59,16 +59,10 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     private string buildExeName = null;
 
     //-------------------------------------------------------------------------
-    private static string GetPackageName()
-    {
-        return "com.playeveryware.eos";
-    }
-
-    //-------------------------------------------------------------------------
     private static string GetPathToEOSBin()
     {
         string projectPathToBin = Path.Combine(Application.dataPath, "../bin/");
-        string packagePathToBin = Path.GetFullPath("Packages/" + GetPackageName() + "/bin~/");
+        string packagePathToBin = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/bin~/");
 
         if (Directory.Exists(packagePathToBin))
         {
@@ -84,7 +78,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     //-------------------------------------------------------------------------
     private static string GetPathToPlatformSepecificAssetsForWindows()
     {
-        string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/EOS/Windows/");
+        string packagePathname = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Windows/");
         string platformSpecificPathname = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Windows/");
         string pathToInstallFrom = "";
         // If the Plugin is installed with StreamAssets, install them

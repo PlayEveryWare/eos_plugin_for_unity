@@ -33,8 +33,31 @@ public static class EOSPackageInfo
     }
 
     //-------------------------------------------------------------------------
+    //VERSION START
+    private struct VersionReader
+    {
+        public string version;
+    }
     public static string GetPackageVersion()
     {
-        return "2.1.5";
+        try
+        {
+            var pathToManifest = System.IO.Path.Combine(UnityEngine.Application.dataPath, "..", "EOSUnityPlugin_package_template", "package.json");
+            var contents = System.IO.File.ReadAllText(pathToManifest);
+            var versionData = UnityEngine.JsonUtility.FromJson<VersionReader>(contents);
+            if (versionData.version != null)
+            {
+                return versionData.version;
+            }
+            else
+            {
+                return "unknown";
+            }
+        }
+        catch
+        {
+            return "unknown";
+        }
     }
+    //VERSION END
 }
