@@ -80,11 +80,17 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value><c>Initial Button Delay</c> Stored as a string so it can be 'empty'</value>
         public string initialButtonDelayForOverlay;
 
-        /// <value><c>Rpeat button delay for overlay</c> Stored as a string so it can be 'empty' </value>
+        /// <value><c>Repeat button delay for overlay</c> Stored as a string so it can be 'empty' </value>
         public string repeatButtonDelayForOverlay;
 
         /// <value><c>HACK: send force send input without delay</c>If true, the native plugin will always send input received directly to the SDK. If set to false, the plugin will attempt to delay the input to mitigate CPU spikes caused by spamming the SDK </value>
         public bool hackForceSendInputDirectlyToSDK;
+
+        /// <value><c>Bootstrapper override name</c>Optional override name for EOSBootstrapper.exe</value>
+        public string bootstrapperNameOverride;
+
+        /// <value><c>Use EAC</c>If enabled, making a build will run the Easy Anti-Cheat integrity tool and copy EAC files to the build directory</value>
+        public bool useEAC;
 
         public static Regex InvalidEncryptionKeyRegex;
         static EOSConfig()

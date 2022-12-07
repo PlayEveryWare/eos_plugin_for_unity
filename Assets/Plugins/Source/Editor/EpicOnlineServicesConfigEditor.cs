@@ -51,7 +51,6 @@ namespace PlayEveryWare.EpicOnlineServices
             platformSpecificConfigEditors.Add(platformSpecificConfigEditor);
         }
 
-        private static string ConfigFilename = "EpicOnlineServicesConfig.json";
         private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
         static List<IPlatformSpecificConfigEditor> platformSpecificConfigEditors;
@@ -181,7 +180,7 @@ _WIN32 || _WIN64
 
         private void Awake()
         {
-            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename));
+            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
             steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
 
             if (platformSpecificConfigEditors == null)
@@ -501,6 +500,11 @@ _WIN32 || _WIN64
             AssigningFlagTextField("Platform Flags (Seperated by '|')", 190, ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags);
 
             AssigningBoolField("Always send Input to Overlay", 190, ref mainEOSConfigFile.currentEOSConfig.alwaysSendInputToOverlay);
+
+            EditorGUILayout.Separator();
+            GUILayout.Label("Post Build", EditorStyles.boldLabel);
+            AssigningTextField("Bootstrapper Name Override", 180, ref mainEOSConfigFile.currentEOSConfig.bootstrapperNameOverride);
+            AssigningBoolField("Use Easy Anti-Cheat", 130, ref mainEOSConfigFile.currentEOSConfig.useEAC);
         }
 
         private void OnSteamGUI()

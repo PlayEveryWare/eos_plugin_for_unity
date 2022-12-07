@@ -33,6 +33,10 @@ public class EOSOnPostprocessBuild_Linux:  IPostprocessBuildWithReport
 {
     public int callbackOrder { get { return 0; } }
     private string[] postBuildFiles = {
+        
+    };
+
+    private string[] postBuildFilesEAC = {
         "eac_launcher",
         //optional override config file for EAC CDN
         "[ExeName].eac",
@@ -41,6 +45,9 @@ public class EOSOnPostprocessBuild_Linux:  IPostprocessBuildWithReport
     };
 
     private string[] postBuildDirectories = {
+    };
+
+    private string[] postBuildDirectoriesEAC = {
         "EasyAntiCheat/Licenses",
         "EasyAntiCheat/Localization"
     };
@@ -144,15 +151,21 @@ public class EOSOnPostprocessBuild_Linux:  IPostprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
-    private void InstallFiles(BuildReport report)
+    private void InstallFiles(BuildReport report, EOSConfig config)
     {
         string destDir = Path.GetDirectoryName(report.summary.outputPath);
         string pathToInstallFrom = GetPathToPlatformSepecificAssetsForLinux();
 
         List<string> filestoInstall = new List<string>(postBuildFiles);
+        List<string> directoriesToInstall = new List<string>(postBuildDirectories);
+        if (config.useEAC)
+        {
+            filestoInstall.AddRange(postBuildFilesEAC);
+            directoriesToInstall.AddRange(postBuildDirectoriesEAC);
+        }
 
         //add all files in postBuildDirectories to list of files to copy (non-recursive)
-        foreach (string directoryToInstall in postBuildDirectories)
+        foreach (string directoryToInstall in directoriesToInstall)
         {
             string dirToInstallPathName = Path.Combine(pathToInstallFrom, directoryToInstall);
             if (Directory.Exists(dirToInstallPathName))
@@ -250,12 +263,29 @@ public class EOSOnPostprocessBuild_Linux:  IPostprocessBuildWithReport
         // Get the output path, and install the launcher if on a target that supports it
         if (report.summary.platform == BuildTarget.StandaloneLinux64)
         {
+            var mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
+            mainEOSConfigFile.LoadConfigFromDisk();
+
             buildExeName = Path.GetFileName(report.summary.outputPath);
 
-            InstallFiles(report);
-            
-            string pathToEACIntegrityTool = GetPathToEOSBin() + "/EAC/anticheat_integritytool.exe";
-            GenerateIntegrityCert(report, pathToEACIntegrityTool, GetEOSConfig().productID, "base_private.key", "base_public.cer");
+            InstallFiles(report, mainEOSConfigFile.currentEOSConfig);
+
+            var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+
+            if (editorToolsConfigSection != null)
+            {
+                editorToolsConfigSection.Awake();
+                editorToolsConfigSection.LoadConfigFromDisk();
+                var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
+                if (mainEOSConfigFile.currentEOSConfig.useEAC &&
+                    editorToolConfig != null &&
+                    editorToolConfig.pathToEACIntegrityTool != null &&
+                    editorToolConfig.pathToEACPrivateKey != null &&
+                    editorToolConfig.pathToEACCertificate != null)
+                {
+                    GenerateIntegrityCert(report, editorToolConfig.pathToEACIntegrityTool, GetEOSConfig().productID, editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate);
+                }
+            }
         }
     }
 }
