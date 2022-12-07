@@ -317,7 +317,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
                 editorToolsConfigSection.Awake();
                 editorToolsConfigSection.LoadConfigFromDisk();
                 var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
-                if (editorToolConfig != null && editorToolConfig.pathToEACPublicKey != null)
+                if (editorToolConfig != null && editorToolConfig.pathToEACPrivateKey != null)
                 {
                     GenerateIntegrityCert(report, pathToEACIntegrityTool, GetEOSConfig().productID, "base_private.key", "base_public.cer");
                 }

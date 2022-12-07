@@ -90,15 +90,15 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
-            string pathToSigntool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToSignTool);
+            string pathToIntegrityTool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityTool);
             string pathToEACCertificate = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACCertificate);
-            string pathToEACPublicKey = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACPublicKey);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Path to signtool", ref pathToSigntool);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC public key", ref pathToEACPublicKey);
+            string pathToEACPrivateKey = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACPrivateKey);
+            EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC Integrity Tool", ref pathToIntegrityTool);
+            EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC private key", ref pathToEACPrivateKey);
             EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC Certificate", ref pathToEACCertificate);
 
-            configFile.currentEOSConfig.pathToSignTool = pathToSigntool;
-            configFile.currentEOSConfig.pathToEACPublicKey = pathToEACPublicKey;
+            configFile.currentEOSConfig.pathToEACIntegrityTool = pathToIntegrityTool;
+            configFile.currentEOSConfig.pathToEACPrivateKey = pathToEACPrivateKey;
             configFile.currentEOSConfig.pathToEACCertificate = pathToEACCertificate;
         }
 
@@ -110,63 +110,6 @@ namespace PlayEveryWare.EpicOnlineServices
     }
 
     //-------------------------------------------------------------------------
-    public class EOSPluginEditorPackagingConfigSection : IEOSPluginEditorConfigurationSection
-    {
-        private static string ConfigName = "eos_plugin_packaging_config.json";
-        private EOSConfigFile<EOSPluginEditorPackagingConfig> configFile;
-
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorPackagingConfigSection());
-        }
-
-        //-------------------------------------------------------------------------
-        public string GetNameForMenu()
-        {
-            return "Packaging";
-        }
-
-        //-------------------------------------------------------------------------
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorPackagingConfig>(configFilenamePath);
-        }
-
-        //-------------------------------------------------------------------------
-        public bool DoesHaveUnsavedChanges()
-        {
-            return false;
-        }
-
-        //-------------------------------------------------------------------------
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public EOSPluginEditorPackagingConfig GetCurrentConfig()
-        {
-            return configFile.currentEOSConfig;
-        }
-
-        //-------------------------------------------------------------------------
-        void IEOSPluginEditorConfigurationSection.OnGUI()
-        {
-            string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory Path", 170, ref customBuildDirectoryPath);
-
-            configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
-        }
-
-        //-------------------------------------------------------------------------
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
-        }
-    }
-
 
     public class EOSPluginEditorPrebuildConfigSection : IEOSPluginEditorConfigurationSection
     {
@@ -295,7 +238,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         private static string GetConfigDirectory()
         {
-            return System.IO.Path.Combine("..", ConfigDirectory);
+            return System.IO.Path.Combine(Application.dataPath, "..", ConfigDirectory);
         }
 
         //-------------------------------------------------------------------------
@@ -371,8 +314,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
             GUILayout.EndScrollView();
             EpicOnlineServicesConfigEditor.AssigningBoolField("Save JSON in 'Pretty' Format", 190, ref prettyPrint);
+            GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
             {
+                GUI.FocusControl("Save");
                 SaveToJSONConfig(prettyPrint);
             }
         }
@@ -435,9 +380,9 @@ namespace PlayEveryWare.EpicOnlineServices
     public class EOSPluginEditorToolsConfig : ICloneableGeneric<EOSPluginEditorToolsConfig>, IEmpty
     {
         /// <value><c>Path To signtool</c> The path to find the tool used for signing binaries</value>
-        public string pathToSignTool;
+        public string pathToEACIntegrityTool;
         public string pathToDefaultCertificate;
-        public string pathToEACPublicKey;
+        public string pathToEACPrivateKey;
         public string pathToEACCertificate;
 
         public EOSPluginEditorToolsConfig Clone()
@@ -447,29 +392,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public bool IsEmpty()
         {
-            return String.IsNullOrEmpty(pathToSignTool)
+            return String.IsNullOrEmpty(pathToEACIntegrityTool)
                 && String.IsNullOrEmpty(pathToDefaultCertificate)
             ;
-        }
-    }
-
-    public class EOSPluginEditorPackagingConfig : ICloneableGeneric<EOSPluginEditorPackagingConfig>, IEmpty
-    {
-        public string customBuildDirectoryPath;
-        public string pathToJSONPackageDescription;
-        public string pathToOutput;
-
-        public EOSPluginEditorPackagingConfig Clone()
-        {
-            return (EOSPluginEditorPackagingConfig)this.MemberwiseClone();
-        }
-
-        public bool IsEmpty()
-        {
-            return string.IsNullOrEmpty(customBuildDirectoryPath)
-                && string.IsNullOrEmpty(pathToJSONPackageDescription)
-                && string.IsNullOrEmpty(pathToOutput)
-                ;
         }
     }
 

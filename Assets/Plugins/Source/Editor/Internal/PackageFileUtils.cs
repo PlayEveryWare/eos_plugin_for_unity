@@ -204,7 +204,7 @@ namespace Playeveryware.Editor
                             {
                                 toolsSection.LoadConfigFromDisk();
                             }
-                            var pathToSignTool = toolsSection.GetCurrentConfig().pathToSignTool;
+                            var pathToSignTool = toolsSection.GetCurrentConfig().pathToEACIntegrityTool;
                             var pathToDefaultCertificate = toolsSection.GetCurrentConfig().pathToDefaultCertificate;
                         }
                         else

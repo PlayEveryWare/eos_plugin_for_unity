@@ -266,7 +266,7 @@ _WIN32 || _WIN64
 
         public static void AssigningTextField(string label, ref string value)
         {
-            var newValue = EditorGUILayout.DelayedTextField(label, EmptyPredicates.NewIfNull(value), GUILayout.ExpandWidth(true));
+            var newValue = EditorGUILayout.TextField(label, EmptyPredicates.NewIfNull(value), GUILayout.ExpandWidth(true));
             if (newValue != null)
             {
                 value = newValue;
@@ -284,7 +284,7 @@ _WIN32 || _WIN64
         public static void AssigningULongField(string label, ref ulong value)
         {
             ulong newValue = value;
-            var newValueAsString = EditorGUILayout.DelayedTextField(label, value.ToString(), GUILayout.ExpandWidth(true));
+            var newValueAsString = EditorGUILayout.TextField(label, value.ToString(), GUILayout.ExpandWidth(true));
             if (string.IsNullOrWhiteSpace(newValueAsString))
             {
                 newValueAsString = "0";
@@ -315,7 +315,7 @@ _WIN32 || _WIN64
             try
             {
                 EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.DelayedTextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
+                var newValueAsString = EditorGUILayout.TextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
 
                 if (GUILayout.Button("Clear"))
                 {
@@ -372,7 +372,7 @@ _WIN32 || _WIN64
             try
             {
                 EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.DelayedTextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
+                var newValueAsString = EditorGUILayout.TextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
 
                 if (GUILayout.Button("Clear"))
                 {
