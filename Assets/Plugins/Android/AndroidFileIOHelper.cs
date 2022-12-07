@@ -15,7 +15,11 @@ public class AndroidFileIOHelper : MonoBehaviour
             //Wait till webRequest completed
             while (!request.isDone) { }
 
+#if UNITY_2020_1_OR_NEWER
             if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
+#else
+            if (request.isNetworkError || request.isHttpError)
+#endif
             {
                 Debug.Log("Requesting " + filePath + ", please make sure it exists and is a valid config");
                 throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);

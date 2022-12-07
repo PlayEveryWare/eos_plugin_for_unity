@@ -601,7 +601,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     await System.Threading.Tasks.Task.Yield();
                 }
 
-                if (request.result != UnityWebRequest.Result.ConnectionError && request.result != UnityWebRequest.Result.ProtocolError)
+#if UNITY_2020_1_OR_NEWER
+                if (request.result == UnityWebRequest.Result.Success)
+#else
+                if (!request.isNetworkError && !request.isHttpError)
+#endif
                 {
                     downloadCache[uri] = downloadHandler.data;
                 }
