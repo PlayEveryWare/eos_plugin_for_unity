@@ -31,6 +31,10 @@
         {"src":"Assets/Plugins/*.prefab.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Source/*.cs", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Source/*.cs.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Essential.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Essential/*", "dest": "Runtime/Essential/"},
+        {"src":"Assets/Plugins/Source/Essential/*.cs", "dest": "Runtime/Essential/"},
+        {"src":"Assets/Plugins/Source/Essential/*.cs.meta", "dest": "Runtime/Essential/"},
 
         {"comment": "----------------------------Windows---------------------------------------------"},
         {"src":"Assets/Plugins/Windows.meta", "dest": "Runtime/"},
@@ -90,6 +94,9 @@
         {"src":"Assets/Plugins/Linux/*.so.meta", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/*.cs.meta", "dest": "Runtime/Linux/"},
+        
+        {"src":"Assets/Plugins/Linux/Essential.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/Essential/*", "dest": "Runtime/Linux/Essential/"},
 
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
@@ -113,6 +120,9 @@
 
         {"src":"Assets/Plugins/macOS/*.cs", "dest": "Runtime/macOS/"},
         {"src":"Assets/Plugins/macOS/*.cs.meta", "dest": "Runtime/macOS/"},
+        
+        {"src":"Assets/Plugins/macOS/Essential.meta", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/Essential/*", "dest": "Runtime/macOS/Essential/"},
 
         {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Runtime/macOS/"},
         {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/macOS/Editor/"},
@@ -311,6 +321,8 @@
         {"src":"Assets/Plugins/AndroidEditor/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/AndroidEditor/"},
         {"src":"Assets/Plugins/AndroidEditor/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/AndroidEditor/"},
 
+        {"src":"Assets/Plugins/Android/Essential.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/Essential/*", "dest": "Runtime/Android/Essential/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
@@ -326,6 +338,8 @@
         {"src":"Assets/Plugins/iOS/*.cpp.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/*.mm", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/*.mm.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Essential.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Essential/*", "dest": "Runtime/iOS/Essential/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
