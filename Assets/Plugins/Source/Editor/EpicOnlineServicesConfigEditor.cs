@@ -498,6 +498,7 @@ _WIN32 || _WIN64
             }
 
             AssigningFlagTextField("Platform Flags (Seperated by '|')", 190, ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags);
+            AssigningFlagTextField("Auth Scope Flags (Seperated by '|')", 210, ref mainEOSConfigFile.currentEOSConfig.authScopeOptionsFlags);
 
             AssigningBoolField("Always send Input to Overlay", 190, ref mainEOSConfigFile.currentEOSConfig.alwaysSendInputToOverlay);
 

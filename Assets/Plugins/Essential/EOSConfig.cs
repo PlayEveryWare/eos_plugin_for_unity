@@ -22,6 +22,7 @@
 
 #if !EOS_DISABLE
 using Epic.OnlineServices.Platform;
+using Epic.OnlineServices.Auth;
 #endif
 using System;
 using System.Collections.Generic;
@@ -63,6 +64,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <value><c>Flags</c> used to initilize the EOS platform.</value>
         public List<string> platformOptionsFlags;
+
+        /// <value><c>Flags</c> used to set user auth when logging in.</value>
+        public List<string> authScopeOptionsFlags;
 
         public uint tickBudgetInMilliseconds;
 
@@ -218,6 +222,64 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return EOSConfig.platformOptionsFlagsAsPlatformFlags(platformOptionsFlags);
         }
+
+        //-------------------------------------------------------------------------
+        public static AuthScopeFlags authScopeOptionsFlagsAsAuthScopeFlags(List<string> authScopeOptionsFlags)
+        {
+            AuthScopeFlags toReturn = AuthScopeFlags.NoFlags;
+            bool flagSet = false;
+
+            foreach (var flagAsString in authScopeOptionsFlags)
+            {
+                bool validFlag = true;
+                if (flagAsString == "NoFlags" || flagAsString == "EOS_AS_NoFlags")
+                {
+                }
+                else if (flagAsString == "BasicProfile" || flagAsString == "EOS_AS_BasicProfile")
+                {
+                    toReturn |= AuthScopeFlags.BasicProfile;
+                }
+                else if (flagAsString == "FriendsList" || flagAsString == "EOS_AS_FriendsList")
+                {
+                    toReturn |= AuthScopeFlags.FriendsList;
+                }
+                else if (flagAsString == "Presence" || flagAsString == "EOS_AS_Presence")
+                {
+                    toReturn |= AuthScopeFlags.Presence;
+                }
+                else if (flagAsString == "FriendsManagement" || flagAsString == "EOS_AS_FriendsManagement")
+                {
+                    toReturn |= AuthScopeFlags.FriendsManagement;
+                }
+                else if (flagAsString == "Email" || flagAsString == "EOS_AS_Email")
+                {
+                    toReturn |= AuthScopeFlags.Email;
+                }
+                else if (flagAsString == "Country" || flagAsString == "EOS_AS_Country")
+                {
+                    toReturn |= AuthScopeFlags.Country;
+                }
+                else
+                {
+                    validFlag = false;
+                }
+
+                flagSet &= validFlag;
+            }
+
+            if (!flagSet)
+            {
+                toReturn = AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
+            }
+
+            return toReturn;
+        }
+
+        //-------------------------------------------------------------------------
+        public AuthScopeFlags authScopeOptionsFlagsAsAuthScopeFlags()
+        {
+            return EOSConfig.authScopeOptionsFlagsAsAuthScopeFlags(authScopeOptionsFlags);
+        }
 #endif
 
         //-------------------------------------------------------------------------
@@ -242,6 +304,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 && EmptyPredicates.IsEmptyOrNull(clientID)
                 && EmptyPredicates.IsEmptyOrNull(encryptionKey)
                 && EmptyPredicates.IsEmptyOrNull(platformOptionsFlags)
+                && EmptyPredicates.IsEmptyOrNull(authScopeOptionsFlags)
                 && EmptyPredicates.IsEmptyOrNull(repeatButtonDelayForOverlay)
                 && EmptyPredicates.IsEmptyOrNull(initialButtonDelayForOverlay)
                 ;

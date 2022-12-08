@@ -141,6 +141,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             static private EpicAccountId s_localUserId;
             static private ProductUserId s_localProductUserId = null;
+            static private AuthScopeFlags s_authScopeFlags;
 
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
@@ -611,6 +612,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 SetEOSPlatformInterface(eosPlatformInterface);
                 UpdateEOSApplicationStatus();
 
+                s_authScopeFlags = configData.authScopeOptionsFlagsAsAuthScopeFlags();
+
                 loadedEOSConfig = configData;
 
                 InitializeOverlay(coroutineOwner);
@@ -757,7 +760,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 return new Epic.OnlineServices.Auth.LoginOptions {
                     Credentials = loginCredentials,
-                    ScopeFlags = AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence
+                    ScopeFlags = s_authScopeFlags
                 };
             }
 
