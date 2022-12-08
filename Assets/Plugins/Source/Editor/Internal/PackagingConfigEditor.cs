@@ -92,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
             string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory Path", 170, ref customBuildDirectoryPath);
+            EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory Path", ref customBuildDirectoryPath, 170);
 
             configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
         }

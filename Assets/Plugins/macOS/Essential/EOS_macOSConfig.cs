@@ -27,7 +27,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    // Flags specificly for Switch
+    // Flags specificly for macOS
     public class EOS_macOSConfig : ICloneableGeneric<EOS_macOSConfig>, IEmpty
     {
         public List<string> flags;

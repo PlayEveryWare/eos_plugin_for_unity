@@ -68,13 +68,20 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value><c>Flags</c> used to set user auth when logging in.</value>
         public List<string> authScopeOptionsFlags;
 
+        /// <value><c>Tick Budget</c> used to define the maximum amount of execution time the EOS SDK can use each frame.</value>
         public uint tickBudgetInMilliseconds;
 
+        /// <value><c>Network Work Affinity</c> specifies thread affinity for network management that is not IO.</value>
         public string ThreadAffinity_networkWork;
+        /// <value><c>Storage IO Affinity</c> specifies affinity for threads that will interact with a storage device.</value>
         public string ThreadAffinity_storageIO;
+        /// <value><c>Web Socket IO Affinity</c> specifies affinity for threads that generate web socket IO.</value>
         public string ThreadAffinity_webSocketIO;
+        /// <value><c>P2P IO Affinity</c> specifies affinity for any thread that will generate IO related to P2P traffic and management.</value>
         public string ThreadAffinity_P2PIO;
+        /// <value><c>HTTP Request IO Affinity</c> specifies affinity for any thread that will generate http request IO.</value>
         public string ThreadAffinity_HTTPRequestIO;
+        /// <value><c>RTC IO Affinity</c> specifies affinity for any thread that will generate IO related to RTC traffic and management.</value>
         public string ThreadAffinity_RTCIO;
 
 

@@ -155,7 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Use Unity App Version for the EOS product version", 300, ref configFile.currentEOSConfig.useAppVersionAsProductVersion);
+            EpicOnlineServicesConfigEditor.AssigningBoolField("Use Unity App Version for the EOS product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion, 300);
         }
 
         //-------------------------------------------------------------------------
@@ -313,7 +313,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             GUILayout.EndScrollView();
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Save JSON in 'Pretty' Format", 190, ref prettyPrint);
+            EpicOnlineServicesConfigEditor.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
             {

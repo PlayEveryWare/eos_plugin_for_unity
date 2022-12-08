@@ -69,13 +69,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 overrideValues = configFile.currentEOSConfig.overrideValues;
             }
 
-            EpicOnlineServicesConfigEditor.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", 190, ref overrideValues.platformOptionsFlags);
+            EpicOnlineServicesConfigEditor.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override initial button delay for overlay", 250, ref overrideValues.initialButtonDelayForOverlay);
+            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override initial button delay for overlay", ref overrideValues.initialButtonDelayForOverlay, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override repeat button delay for overlay", 250, ref overrideValues.repeatButtonDelayForOverlay);
+            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override repeat button delay for overlay", ref overrideValues.repeatButtonDelayForOverlay, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningBoolField("HACK: force send input without delay", 250, ref overrideValues.hackForceSendInputDirectlyToSDK);
+            EpicOnlineServicesConfigEditor.AssigningBoolField("HACK: force send input without delay", ref overrideValues.hackForceSendInputDirectlyToSDK, 250);
 
             EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: networkWork", ref overrideValues.ThreadAffinity_networkWork);
             EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: storageIO", ref overrideValues.ThreadAffinity_storageIO);
