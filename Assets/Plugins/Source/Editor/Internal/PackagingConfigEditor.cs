@@ -91,10 +91,48 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
+            string pathToJSONPackageDescription = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToJSONPackageDescription);
             string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory Path", ref customBuildDirectoryPath, 170);
+            string pathToOutput = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToOutput);
+            EditorGUILayout.BeginHorizontal();
+            EpicOnlineServicesConfigEditor.AssigningTextField("JSON Description Path", ref pathToJSONPackageDescription, 170);
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
+            {
+                var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
+                if (!string.IsNullOrWhiteSpace(jsonFile))
+                {
+                    pathToJSONPackageDescription = jsonFile;
+                }
+            }
+            EditorGUILayout.EndHorizontal();
 
+            EditorGUILayout.BeginHorizontal();
+            EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory Path", ref customBuildDirectoryPath, 170);
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
+            {
+                var buildDir = EditorUtility.OpenFolderPanel("Pick Custom Build Directory", "", "");
+                if (!string.IsNullOrWhiteSpace(buildDir))
+                {
+                    customBuildDirectoryPath = buildDir;
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            EpicOnlineServicesConfigEditor.AssigningTextField("Output Path", ref pathToOutput, 170);
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
+            {
+                var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
+                if (!string.IsNullOrWhiteSpace(outputDir))
+                {
+                    pathToOutput = outputDir;
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+
+            configFile.currentEOSConfig.pathToJSONPackageDescription = pathToJSONPackageDescription;
             configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
+            configFile.currentEOSConfig.pathToOutput = pathToOutput;
         }
 
         //-------------------------------------------------------------------------

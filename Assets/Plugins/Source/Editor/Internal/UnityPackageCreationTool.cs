@@ -150,6 +150,7 @@ public class UnityPackageCreationTool : EditorWindow
             {
                 return;
             }
+            packagingConfigSection.SaveToJSONConfig(true);
             CreateLegacyUnityPackage(pathToOutput, pathToJSONPackageDescription);
         }
 
@@ -159,6 +160,7 @@ public class UnityPackageCreationTool : EditorWindow
             {
                 return;
             }
+            packagingConfigSection.SaveToJSONConfig(true);
             CopyFilesInPackageDescriptionToBuildDir(pathToJSONPackageDescription);
         }
     }
