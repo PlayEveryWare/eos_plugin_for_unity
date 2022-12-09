@@ -7,38 +7,93 @@ using Unity.Jobs;
 using UnityEngine;
 
 
-/*public struct CPUTest : IJob
+//struct of size 4k
+public class Databomb
 {
-    //int iterationCap = 100000;
-    private double CPUPiTest(int iterations)
+    long[] data;
+    public Databomb()
     {
-        double pi = 0;
-        int n = 0;
-
-        for(int i = 0; i < iterations; i+=2)
+        data = new long[512];
+        for(int i = 0; i < 512; i++)
         {
-            pi += Math.Pow(-1, n+1) * (4 / iterations);
-            n++;
+            data[i] = 1;
         }
-        return pi;
     }
-    public void Execute()
+}
+public class GaseousArray
+{
+    List<List<Databomb>> primaryContainer;
+
+    public GaseousArray()
     {
-        //int iterationCap = 100;
-        //CPUPiTest(100000000);
+        primaryContainer = new List<List<Databomb>>();
 
-        
     }
-}*/
 
+    public void grow(int goalGB)
+    {
+        ulong target = ((ulong)1073741824 * (ulong)goalGB);
+        ulong counter = 0;
+        bool xFlag = true;
+        Debug.Log("Starting memory test allocation with a target of: " + target + " Bytes or: " + goalGB + "GB");
+        //this loop manages everything, this flag will be triggered when the program can allocate anything at all
+        while (xFlag)
+        {
+            List<Databomb> temp = null;
+            //try creating a small array if this fails there are no more spaces available
+            //for small objects and we are probably at or close enough to the system limit
+            try
+            {
+                temp = new List<Databomb>();
+            }
+            catch(OutOfMemoryException)
+            {
+                xFlag = false;
+            }
 
+            //keep adding to the secondary array until the allocation fails
+            bool yFlag = true;
+            while(yFlag && xFlag)
+            {
+                try
+                {
+                    
+                    temp.Add(new Databomb());
+                    counter += 8192 + 8;
+                    if (counter >= target)
+                    {
+                        Debug.Log("Allocated: " + counter + " Bytes or: " + counter / (ulong)1073741824 + "GB");
+                        xFlag = false;
+                    }
+                }
+                catch (OutOfMemoryException)
+                {
+                    //counter -= 4096 + 8;
+                    yFlag = false;
+                }
+            }
+        }
+    }
+    ~GaseousArray()
+    {
+        Debug.Log("Destroying gaseous array");
+        for (int i = 0; i < primaryContainer.Count; i++)
+        {
+            primaryContainer[i].Clear();
+        }
+        primaryContainer.Clear();
+    }
+}
 public class PerformanceStressTest : MonoBehaviour
 {
     int threads = 0;
     List<Thread> threadList;
     bool threadOverride = false;
     public Slider threadSlider;
+    public Slider memorySlider;
     public GameObject gpuRenderObjects;
+    Thread memoryThread;
+
 
     Resolution screenRes;
     // Start is called before the first frame update
@@ -51,6 +106,7 @@ public class PerformanceStressTest : MonoBehaviour
 
     public void CPUTest()
     {
+        Debug.Log("CPU Thread started");
         long count = 0;
         while (true)
         {
@@ -65,7 +121,7 @@ public class PerformanceStressTest : MonoBehaviour
     public void StartCPUTest()
     {
         int targetThreads = threads;
-        if(!threadOverride)
+        if (!threadOverride)
         {
             targetThreads = (int)threadSlider.value;
         }
@@ -77,7 +133,7 @@ public class PerformanceStressTest : MonoBehaviour
             threadList[i].Start();
         }
     }
-    
+
     public void StopCPUTest()
     {
         Debug.Log("Stopping: " + threadList.Count + " threads");
@@ -104,6 +160,25 @@ public class PerformanceStressTest : MonoBehaviour
     {
         Debug.Log("Stopping GPU Stress Test");
         gpuRenderObjects.SetActive(false);
+    }
+
+    private void memtest()
+    {
+        print("Memory thread spawned");
+        GaseousArray gasArray;
+        gasArray = new GaseousArray();
+        gasArray.grow((int)memorySlider.value);
+    }
+    public void StartMemoryTest()
+    {
+        Debug.Log("Starting Memory Stress Test");
+        memoryThread = new Thread(new ThreadStart(memtest));
+        memoryThread.Start();
+    }
+
+    public void StopMemoryTest()
+    {
+        memoryThread.Abort();   
     }
 
 }
