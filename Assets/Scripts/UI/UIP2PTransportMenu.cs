@@ -295,10 +295,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 userInfoManager.QueryUserInfoById(userId, (EpicAccountId UserId, Result QueryResult) => {
                     if (QueryResult == Result.Success)
                     {
-                        var userInfo = userInfoManager.GetUserInfoById(userId);
-                        if (userInfo.UserId.IsValid())
+                        var queriedUserInfo = userInfoManager.GetUserInfoById(userId);
+                        if (queriedUserInfo.UserId.IsValid())
                         {
-                            displayNameUI.text = userInfo.DisplayName;
+                            displayNameUI.text = queriedUserInfo.DisplayName;
                         }
                     }
                 });

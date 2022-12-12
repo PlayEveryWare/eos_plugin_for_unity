@@ -211,7 +211,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         if (node != null)
         {
             string eosProtocolScheme = node.InnerText;
-            string storedClientID = eosProtocolScheme.Split(".").Last();
+            string storedClientID = eosProtocolScheme.Split('.').Last();
 
             if (storedClientID != clientIDAsLower)
             {

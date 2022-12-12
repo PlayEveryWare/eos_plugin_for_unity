@@ -1015,7 +1015,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     AllowDelayedDelivery = allowDelayedDelivery,
                     Channel = channel,
                     Reliability = reliability,
-                    Data = fragment,
+                    Data = new ArraySegment<byte>(fragment),
                 };
 
                 Result result = P2PHandle.SendPacket(ref options);
@@ -1103,8 +1103,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
 
 
-            ArraySegment<byte> header = new(packet, 0, FragmentHeaderSize);
-            ArraySegment<byte> payload = new(packet, FragmentHeaderSize, packet.Length - FragmentHeaderSize);
+            ArraySegment<byte> header = new ArraySegment<byte>(packet, 0, FragmentHeaderSize);
+            ArraySegment<byte> payload = new ArraySegment<byte>(packet, FragmentHeaderSize, packet.Length - FragmentHeaderSize);
 
             //TODO: verify that this still works
             // Combine the bytes from the header to form 2 shorts, one for the message index, and one for the fragment number/end flag
@@ -1159,7 +1159,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             if (!InProgressPackets.ContainsKey(index))
             {
-                InProgressPackets[index] = new();
+                InProgressPackets[index] = new SortedList<ushort, byte[]>();
             }
             InProgressPackets[index].Add(fragmentPos,payload.ToArray());
 
