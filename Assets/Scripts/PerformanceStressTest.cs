@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Threading;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
@@ -35,7 +36,7 @@ public class GaseousArray
         ulong target = ((ulong)1073741824 * (ulong)goalGB);
         ulong counter = 0;
         bool xFlag = true;
-        Debug.Log("Starting memory test allocation with a target of: " + target + " Bytes or: " + goalGB + "GB");
+        UnityEngine.Debug.Log("Starting memory test allocation with a target of: " + target + " Bytes or: " + goalGB + "GB");
         //this loop manages everything, this flag will be triggered when the program can allocate anything at all
         while (xFlag)
         {
@@ -62,7 +63,7 @@ public class GaseousArray
                     counter += 8192 + 8;
                     if (counter >= target)
                     {
-                        Debug.Log("Allocated: " + counter + " Bytes or: " + counter / (ulong)1073741824 + "GB");
+                        UnityEngine.Debug.Log("Allocated: " + counter + " Bytes or: " + counter / (ulong)1073741824 + "GB");
                         xFlag = false;
                     }
                 }
@@ -76,7 +77,7 @@ public class GaseousArray
     }
     ~GaseousArray()
     {
-        Debug.Log("Destroying gaseous array");
+        UnityEngine.Debug.Log("Destroying gaseous array");
         for (int i = 0; i < primaryContainer.Count; i++)
         {
             primaryContainer[i].Clear();
@@ -86,36 +87,54 @@ public class GaseousArray
 }
 public class PerformanceStressTest : MonoBehaviour
 {
+    //CPU Test 
     int threads = 0;
     List<Thread> threadList;
     bool threadOverride = false;
     public Slider threadSlider;
-    public Slider memorySlider;
+    public Slider targetUtilizationSlider;
+    private float targetUtilization;
+
+    //GPU Test
     public GameObject gpuRenderObjects;
+
+    //Memory Test
+    public Slider memorySlider;
     Thread memoryThread;
 
-
-    Resolution screenRes;
     // Start is called before the first frame update
     void Start()
     {
         threads = SystemInfo.processorCount;
-        Debug.Log("Working with: " + threads + " threads");
+        UnityEngine.Debug.Log("Working with: " + threads + " threads");
         threadList = new List<Thread>();
     }
 
     public void CPUTest()
     {
-        Debug.Log("CPU Thread started");
+        UnityEngine.Debug.Log("CPU Thread started");
         long count = 0;
+        Stopwatch watch = new Stopwatch();
+        watch.Start();
         while (true)
         {
-            count++;
-            if (count > 10000000)
+            //sleep for the desired time
+            if (watch.ElapsedMilliseconds > targetUtilization)
             {
-                count = 0;
-            }
+                Thread.Sleep((int)(100 - targetUtilization));
 
+                watch.Reset();
+                watch.Start();
+            }
+            //work for the determined time to hit the target utilization
+            else
+            {
+                count++;
+                if (count > 10000000)
+                {
+                    count = 0;
+                }
+            }
         }
     }
     public void StartCPUTest()
@@ -126,7 +145,10 @@ public class PerformanceStressTest : MonoBehaviour
             targetThreads = (int)threadSlider.value;
         }
 
-        Debug.Log("Starting: " + targetThreads + " threads");
+        //trim 5% off due to general program usage
+        targetUtilization = targetUtilizationSlider.value - 5;
+
+        UnityEngine.Debug.Log("Starting: " + targetThreads + " threads with a target usage of: " + targetUtilization);
         for (int i = 0; i < targetThreads; i++)
         {
             threadList.Add(new Thread(new ThreadStart(CPUTest)));
@@ -136,7 +158,7 @@ public class PerformanceStressTest : MonoBehaviour
 
     public void StopCPUTest()
     {
-        Debug.Log("Stopping: " + threadList.Count + " threads");
+        UnityEngine.Debug.Log("Stopping: " + threadList.Count + " threads");
         for (int i = 0; i < threadList.Count; i++)
         {
 
@@ -152,13 +174,13 @@ public class PerformanceStressTest : MonoBehaviour
 
     public void StartGPUTest()
     {
-        Debug.Log("Starting GPU Stress Test");
+        UnityEngine.Debug.Log("Starting GPU Stress Test");
         gpuRenderObjects.SetActive(true);
     }
 
     public void StopGPUTest()
     {
-        Debug.Log("Stopping GPU Stress Test");
+        UnityEngine.Debug.Log("Stopping GPU Stress Test");
         gpuRenderObjects.SetActive(false);
     }
 
@@ -171,7 +193,7 @@ public class PerformanceStressTest : MonoBehaviour
     }
     public void StartMemoryTest()
     {
-        Debug.Log("Starting Memory Stress Test");
+        UnityEngine.Debug.Log("Starting Memory Stress Test");
         memoryThread = new Thread(new ThreadStart(memtest));
         memoryThread.Start();
     }
