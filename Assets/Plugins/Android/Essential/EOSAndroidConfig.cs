@@ -34,7 +34,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public EOSConfig overrideValues;
 
-        public bool linkLibStatically = false;
         //-------------------------------------------------------------------------
         public EOSAndroidConfig Clone()
         {
