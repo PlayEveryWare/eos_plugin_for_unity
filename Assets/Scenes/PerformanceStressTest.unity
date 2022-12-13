@@ -3346,6 +3346,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4094067151960579091, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: ReadmeTextSource
+      value: 
+      objectReference: {fileID: 4900000, guid: c155d49c37aeab349a5a482166f82662, type: 3}
     - target: {fileID: 4102991555955435622, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_Options.m_Options.Array.size
