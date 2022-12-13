@@ -45,7 +45,7 @@ namespace Epic.OnlineServices.TitleStorage
 
 		public void Set(ref QueryFileListOptions other)
 		{
-			m_ApiVersion = TitleStorageInterface.QueryfilelistoptionsApiLatest;
+			m_ApiVersion = TitleStorageInterface.QueryfilelistApiLatest;
 			LocalUserId = other.LocalUserId;
 			ListOfTags = other.ListOfTags;
 		}
@@ -54,7 +54,7 @@ namespace Epic.OnlineServices.TitleStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = TitleStorageInterface.QueryfilelistoptionsApiLatest;
+				m_ApiVersion = TitleStorageInterface.QueryfilelistApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				ListOfTags = other.Value.ListOfTags;
 			}

@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		public void Set(ref DeleteFileOptions other)
 		{
-			m_ApiVersion = PlayerDataStorageInterface.DeletefileoptionsApiLatest;
+			m_ApiVersion = PlayerDataStorageInterface.DeletefileApiLatest;
 			LocalUserId = other.LocalUserId;
 			Filename = other.Filename;
 		}
@@ -53,7 +53,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = PlayerDataStorageInterface.DeletefileoptionsApiLatest;
+				m_ApiVersion = PlayerDataStorageInterface.DeletefileApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				Filename = other.Value.Filename;
 			}

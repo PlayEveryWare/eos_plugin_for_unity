@@ -14,19 +14,25 @@ namespace Epic.OnlineServices.TitleStorage
 		}
 
 		/// <summary>
-		/// The most recent version of the <see cref="CopyFileMetadataAtIndexOptions" /> API.
+		/// The most recent version of the <see cref="CopyFileMetadataAtIndex" /> API.
 		/// </summary>
-		public const int CopyfilemetadataatindexoptionsApiLatest = 1;
+		public const int CopyfilemetadataatindexApiLatest = 1;
+
+		public const int CopyfilemetadataatindexoptionsApiLatest = CopyfilemetadataatindexApiLatest;
 
 		/// <summary>
-		/// The most recent version of the <see cref="CopyFileMetadataByFilenameOptions" /> API.
+		/// The most recent version of the <see cref="CopyFileMetadataByFilename" /> API.
 		/// </summary>
-		public const int CopyfilemetadatabyfilenameoptionsApiLatest = 1;
+		public const int CopyfilemetadatabyfilenameApiLatest = 1;
+
+		public const int CopyfilemetadatabyfilenameoptionsApiLatest = CopyfilemetadatabyfilenameApiLatest;
 
 		/// <summary>
-		/// The most recent version of the <see cref="DeleteCacheOptions" /> API.
+		/// The most recent version of the <see cref="DeleteCache" /> API.
 		/// </summary>
-		public const int DeletecacheoptionsApiLatest = 1;
+		public const int DeletecacheApiLatest = 1;
+
+		public const int DeletecacheoptionsApiLatest = DeletecacheApiLatest;
 
 		/// <summary>
 		/// The most recent version of the <see cref="FileMetadata" /> API.
@@ -39,24 +45,32 @@ namespace Epic.OnlineServices.TitleStorage
 		public const int FilenameMaxLengthBytes = 64;
 
 		/// <summary>
-		/// The most recent version of the <see cref="GetFileMetadataCountOptions" /> API.
+		/// The most recent version of the <see cref="GetFileMetadataCount" /> API.
 		/// </summary>
-		public const int GetfilemetadatacountoptionsApiLatest = 1;
+		public const int GetfilemetadatacountApiLatest = 1;
+
+		public const int GetfilemetadatacountoptionsApiLatest = GetfilemetadatacountApiLatest;
 
 		/// <summary>
-		/// The most recent version of the <see cref="QueryFileListOptions" /> API.
+		/// The most recent version of the <see cref="QueryFile" /> API.
 		/// </summary>
-		public const int QueryfilelistoptionsApiLatest = 1;
+		public const int QueryfileApiLatest = 1;
 
 		/// <summary>
-		/// The most recent version of the <see cref="QueryFileOptions" /> API.
+		/// The most recent version of the <see cref="QueryFileList" /> API.
 		/// </summary>
-		public const int QueryfileoptionsApiLatest = 1;
+		public const int QueryfilelistApiLatest = 1;
+
+		public const int QueryfilelistoptionsApiLatest = QueryfilelistApiLatest;
+
+		public const int QueryfileoptionsApiLatest = QueryfileApiLatest;
 
 		/// <summary>
-		/// The most recent version of the <see cref="ReadFileOptions" /> API.
+		/// The most recent version of the <see cref="ReadFile" /> API.
 		/// </summary>
-		public const int ReadfileoptionsApiLatest = 1;
+		public const int ReadfileApiLatest = 1;
+
+		public const int ReadfileoptionsApiLatest = ReadfileApiLatest;
 
 		/// <summary>
 		/// Get the cached copy of a file's metadata by index. The metadata will be for the last retrieved version. The returned pointer must be released by the user when no longer needed.

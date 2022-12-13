@@ -209,6 +209,16 @@ namespace Epic.OnlineServices.Ecom
 		public const int QueryentitlementsMaxEntitlementIds = 32;
 
 		/// <summary>
+		/// The most recent version of the <see cref="QueryEntitlementToken" /> API.
+		/// </summary>
+		public const int QueryentitlementtokenApiLatest = 1;
+
+		/// <summary>
+		/// The maximum number of entitlements that may be queried in a single pass.
+		/// </summary>
+		public const int QueryentitlementtokenMaxEntitlementIds = 32;
+
+		/// <summary>
 		/// The most recent version of the <see cref="QueryOffers" /> API.
 		/// </summary>
 		public const int QueryoffersApiLatest = 1;
@@ -866,6 +876,29 @@ namespace Epic.OnlineServices.Ecom
 		}
 
 		/// <summary>
+		/// Query the entitlement verification status defined with Epic Online Services.
+		/// An optional set of entitlement names can be provided to filter the set of entitlements associated with the account.
+		/// The data is return via the callback in the form of a signed JWT that should be verified by an external backend server using a public key for authenticity.
+		/// </summary>
+		/// <param name="options">structure containing the account and catalog item IDs to retrieve in token form</param>
+		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
+		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error</param>
+		public void QueryEntitlementToken(ref QueryEntitlementTokenOptions options, object clientData, OnQueryEntitlementTokenCallback completionDelegate)
+		{
+			QueryEntitlementTokenOptionsInternal optionsInternal = new QueryEntitlementTokenOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnQueryEntitlementTokenCallbackInternal(OnQueryEntitlementTokenCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_Ecom_QueryEntitlementToken(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
 		/// Query the entitlement information defined with Epic Online Services.
 		/// A set of entitlement names can be provided to filter the set of entitlements associated with the account.
 		/// This data will be cached for a limited time and retrieved again from the backend when necessary.
@@ -983,6 +1016,17 @@ namespace Epic.OnlineServices.Ecom
 		{
 			OnCheckoutCallback callback;
 			CheckoutCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnQueryEntitlementTokenCallbackInternal))]
+		internal static void OnQueryEntitlementTokenCallbackInternalImplementation(ref QueryEntitlementTokenCallbackInfoInternal data)
+		{
+			OnQueryEntitlementTokenCallback callback;
+			QueryEntitlementTokenCallbackInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);

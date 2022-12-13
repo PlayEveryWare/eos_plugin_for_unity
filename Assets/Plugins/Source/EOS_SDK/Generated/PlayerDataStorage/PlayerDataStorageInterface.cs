@@ -13,18 +13,40 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 		}
 
-		public const int CopyfilemetadataatindexoptionsApiLatest = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="CopyFileMetadataAtIndex" /> API.
+		/// </summary>
+		public const int CopyfilemetadataatindexApiLatest = 1;
 
-		public const int CopyfilemetadatabyfilenameoptionsApiLatest = 1;
+		public const int CopyfilemetadataatindexoptionsApiLatest = CopyfilemetadataatindexApiLatest;
 
 		/// <summary>
-		/// The most recent version of the <see cref="DeleteCacheOptions" /> API.
+		/// The most recent version of the <see cref="CopyFileMetadataByFilename" /> API.
 		/// </summary>
-		public const int DeletecacheoptionsApiLatest = 1;
+		public const int CopyfilemetadatabyfilenameApiLatest = 1;
 
-		public const int DeletefileoptionsApiLatest = 1;
+		public const int CopyfilemetadatabyfilenameoptionsApiLatest = CopyfilemetadatabyfilenameApiLatest;
 
-		public const int DuplicatefileoptionsApiLatest = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="DeleteCache" /> API.
+		/// </summary>
+		public const int DeletecacheApiLatest = 1;
+
+		public const int DeletecacheoptionsApiLatest = DeletecacheApiLatest;
+
+		/// <summary>
+		/// The most recent version of the <see cref="DeleteFile" /> API.
+		/// </summary>
+		public const int DeletefileApiLatest = 1;
+
+		public const int DeletefileoptionsApiLatest = DeletefileApiLatest;
+
+		/// <summary>
+		/// The most recent version of the <see cref="DuplicateFile" /> API.
+		/// </summary>
+		public const int DuplicatefileApiLatest = 1;
+
+		public const int DuplicatefileoptionsApiLatest = DuplicatefileApiLatest;
 
 		/// <summary>
 		/// Maximum File size in bytes
@@ -38,15 +60,40 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// </summary>
 		public const int FilenameMaxLengthBytes = 64;
 
-		public const int GetfilemetadatacountoptionsApiLatest = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="GetFileMetadataCount" /> API.
+		/// </summary>
+		public const int GetfilemetadatacountApiLatest = 1;
 
-		public const int QueryfilelistoptionsApiLatest = 1;
+		public const int GetfilemetadatacountoptionsApiLatest = GetfilemetadatacountApiLatest;
 
-		public const int QueryfileoptionsApiLatest = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="QueryFile" /> API.
+		/// </summary>
+		public const int QueryfileApiLatest = 1;
 
-		public const int ReadfileoptionsApiLatest = 1;
+		/// <summary>
+		/// The most recent version of the <see cref="QueryFileList" /> API.
+		/// </summary>
+		public const int QueryfilelistApiLatest = 1;
 
-		public const int WritefileoptionsApiLatest = 1;
+		public const int QueryfilelistoptionsApiLatest = QueryfilelistApiLatest;
+
+		public const int QueryfileoptionsApiLatest = QueryfileApiLatest;
+
+		/// <summary>
+		/// The most recent version of the <see cref="ReadFile" /> API.
+		/// </summary>
+		public const int ReadfileApiLatest = 1;
+
+		public const int ReadfileoptionsApiLatest = ReadfileApiLatest;
+
+		/// <summary>
+		/// The most recent version of the <see cref="WriteFile" /> API.
+		/// </summary>
+		public const int WritefileApiLatest = 1;
+
+		public const int WritefileoptionsApiLatest = WritefileApiLatest;
 
 		/// <summary>
 		/// Get the cached copy of a file's metadata by index. The metadata will be for the last retrieved or successfully saved version, and will not include any local changes that have not been

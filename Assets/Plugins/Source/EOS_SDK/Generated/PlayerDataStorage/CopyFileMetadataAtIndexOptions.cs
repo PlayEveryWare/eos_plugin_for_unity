@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		public void Set(ref CopyFileMetadataAtIndexOptions other)
 		{
-			m_ApiVersion = PlayerDataStorageInterface.CopyfilemetadataatindexoptionsApiLatest;
+			m_ApiVersion = PlayerDataStorageInterface.CopyfilemetadataatindexApiLatest;
 			LocalUserId = other.LocalUserId;
 			Index = other.Index;
 		}
@@ -53,7 +53,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = PlayerDataStorageInterface.CopyfilemetadataatindexoptionsApiLatest;
+				m_ApiVersion = PlayerDataStorageInterface.CopyfilemetadataatindexApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				Index = other.Value.Index;
 			}

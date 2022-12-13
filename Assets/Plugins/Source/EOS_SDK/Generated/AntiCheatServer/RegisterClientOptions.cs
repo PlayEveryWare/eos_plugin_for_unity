@@ -21,12 +21,14 @@ namespace Epic.OnlineServices.AntiCheatServer
 		public AntiCheatCommon.AntiCheatCommonClientPlatform ClientPlatform { get; set; }
 
 		/// <summary>
+		/// DEPRECATED - New code should set this to null and specify UserId instead.
+		/// 
 		/// Identifier for the remote user. This is typically a string representation of an
 		/// account ID, but it can be any string which is both unique (two different users will never
 		/// have the same string) and consistent (if the same user connects to this game session
 		/// twice, the same string will be used) in the scope of a single protected game session.
 		/// </summary>
-		public Utf8String AccountId { get; set; }
+		public Utf8String AccountId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// Optional IP address for the remote user. May be null if not available.
@@ -34,6 +36,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// IPv6 format: "0:0:0:0:0:0:0:0"
 		/// </summary>
 		public Utf8String IpAddress { get; set; }
+
+		/// <summary>
+		/// The Product User ID for the remote user who is being registered.
+		/// </summary>
+		public ProductUserId UserId { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -43,8 +50,9 @@ namespace Epic.OnlineServices.AntiCheatServer
 		private System.IntPtr m_ClientHandle;
 		private AntiCheatCommon.AntiCheatCommonClientType m_ClientType;
 		private AntiCheatCommon.AntiCheatCommonClientPlatform m_ClientPlatform;
-		private System.IntPtr m_AccountId;
+		private System.IntPtr m_AccountId_DEPRECATED;
 		private System.IntPtr m_IpAddress;
+		private System.IntPtr m_UserId;
 
 		public System.IntPtr ClientHandle
 		{
@@ -70,11 +78,11 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
-		public Utf8String AccountId
+		public Utf8String AccountId_DEPRECATED
 		{
 			set
 			{
-				Helper.Set(value, ref m_AccountId);
+				Helper.Set(value, ref m_AccountId_DEPRECATED);
 			}
 		}
 
@@ -86,14 +94,23 @@ namespace Epic.OnlineServices.AntiCheatServer
 			}
 		}
 
+		public ProductUserId UserId
+		{
+			set
+			{
+				Helper.Set(value, ref m_UserId);
+			}
+		}
+
 		public void Set(ref RegisterClientOptions other)
 		{
 			m_ApiVersion = AntiCheatServerInterface.RegisterclientApiLatest;
 			ClientHandle = other.ClientHandle;
 			ClientType = other.ClientType;
 			ClientPlatform = other.ClientPlatform;
-			AccountId = other.AccountId;
+			AccountId_DEPRECATED = other.AccountId_DEPRECATED;
 			IpAddress = other.IpAddress;
+			UserId = other.UserId;
 		}
 
 		public void Set(ref RegisterClientOptions? other)
@@ -104,16 +121,18 @@ namespace Epic.OnlineServices.AntiCheatServer
 				ClientHandle = other.Value.ClientHandle;
 				ClientType = other.Value.ClientType;
 				ClientPlatform = other.Value.ClientPlatform;
-				AccountId = other.Value.AccountId;
+				AccountId_DEPRECATED = other.Value.AccountId_DEPRECATED;
 				IpAddress = other.Value.IpAddress;
+				UserId = other.Value.UserId;
 			}
 		}
 
 		public void Dispose()
 		{
 			Helper.Dispose(ref m_ClientHandle);
-			Helper.Dispose(ref m_AccountId);
+			Helper.Dispose(ref m_AccountId_DEPRECATED);
 			Helper.Dispose(ref m_IpAddress);
+			Helper.Dispose(ref m_UserId);
 		}
 	}
 }

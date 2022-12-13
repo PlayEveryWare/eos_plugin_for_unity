@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.TitleStorage
 
 		public void Set(ref GetFileMetadataCountOptions other)
 		{
-			m_ApiVersion = TitleStorageInterface.GetfilemetadatacountoptionsApiLatest;
+			m_ApiVersion = TitleStorageInterface.GetfilemetadatacountApiLatest;
 			LocalUserId = other.LocalUserId;
 		}
 
@@ -38,7 +38,7 @@ namespace Epic.OnlineServices.TitleStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = TitleStorageInterface.GetfilemetadatacountoptionsApiLatest;
+				m_ApiVersion = TitleStorageInterface.GetfilemetadatacountApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 			}
 		}
