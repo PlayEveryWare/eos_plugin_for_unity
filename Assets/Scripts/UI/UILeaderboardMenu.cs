@@ -293,14 +293,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ShowMenu()
         {
-            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
-            PlayerManager.QueryFriends(null);
-            RefreshDefinitionsOnClick();
-
             LeaderboardUIParent.gameObject.SetActive(true);
+
+            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
+            Invoke("InitFriends",0);
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+        }
+
+        private void InitFriends()
+        {
+            PlayerManager.QueryFriends(null);
+            RefreshDefinitionsOnClick();
         }
 
         public void HideMenu()
