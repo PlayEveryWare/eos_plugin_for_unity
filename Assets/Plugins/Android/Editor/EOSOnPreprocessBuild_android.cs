@@ -225,30 +225,32 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 
     private void DetermineLibraryLinkingMethod()
     {
-        var configFilenamePath = EpicOnlineServicesConfigEditor.GetConfigPath(PlatformSpecificConfigEditorAndroid.ConfigFilename);
-        EOSConfigFile<EOSAndroidConfig> configFile = new EOSConfigFile<EOSAndroidConfig>(configFilenamePath);
-        configFile.LoadConfigFromDisk();
-
-        var sdkAndroidPath = System.IO.Path.Combine("Assets", "PlatformSpecificStreamingAssets", "EOS", "Android");
-        var dynamicPathName = System.IO.Path.Combine(sdkAndroidPath, "dynamic-stdc++", "aar", "eos-sdk.aar");
-        var staticPathName = System.IO.Path.Combine(sdkAndroidPath, "static-stdc++", "aar", "eos-sdk.aar");
-        var destPathname = System.IO.Path.Combine("Assets", "Plugins", "Android", "eos-sdk.aar");
-
-        //if (File.Exists(dynamicPathName))
-        //{
-        //    Debug.Log("exist");
-        //}
-        //else 
-        //{
-        //    Debug.Log("not exist");
-        //}
-        if (configFile.currentEOSConfig.linkLibStatically)
+        var androidBuildConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorAndroidBuildConfigSection>();
+        androidBuildConfigSection?.Awake();
+        if (androidBuildConfigSection != null)
         {
-            File.Copy(staticPathName, destPathname, true);
+            if (androidBuildConfigSection.GetCurrentConfig() == null)
+            {
+                androidBuildConfigSection.LoadConfigFromDisk();
+            }
+        }
+
+        var androidAssetFilepath = "../PlatformSpecificAssets/EOS/Android/";
+        var libSubpath = "/aar/eos-sdk.aar";
+
+        //string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/" );
+        string dynamicPathName = Path.Combine(Application.dataPath, androidAssetFilepath, "dynamic-stdc++" + libSubpath);
+        string staticPathName = Path.Combine(Application.dataPath, androidAssetFilepath, "static-stdc++" + libSubpath);
+
+        string destPathname = "Assets/Plugins/Android/eos-sdk.aar";
+
+        if (androidBuildConfigSection.GetCurrentConfig().DynamicallyLinkEOSLibrary)
+        {
+            File.Copy(dynamicPathName, destPathname, true);
         }
         else
         {
-            File.Copy(dynamicPathName, destPathname, true);
+            File.Copy(staticPathName, destPathname, true);
         }
     }
 }
