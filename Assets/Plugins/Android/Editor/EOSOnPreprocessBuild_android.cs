@@ -235,12 +235,11 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             }
         }
 
-        var androidAssetFilepath = "../PlatformSpecificAssets/EOS/Android/";
-        var libSubpath = "/aar/eos-sdk.aar";
+        string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
+        string libSubpath = "/aar/eos-sdk.aar";
 
-        //string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/" );
-        string dynamicPathName = Path.Combine(Application.dataPath, androidAssetFilepath, "dynamic-stdc++" + libSubpath);
-        string staticPathName = Path.Combine(Application.dataPath, androidAssetFilepath, "static-stdc++" + libSubpath);
+        string dynamicPathName = Path.Combine(Application.dataPath, packagePathname, "dynamic-stdc++" + libSubpath);
+        string staticPathName = Path.Combine(Application.dataPath, packagePathname, "static-stdc++" + libSubpath);
 
         string destPathname = "Assets/Plugins/Android/eos-sdk.aar";
 
