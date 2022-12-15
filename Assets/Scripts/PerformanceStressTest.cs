@@ -1,3 +1,24 @@
+/*
+* Copyright (c) 2021 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 using System.Collections;
 using System.Threading;
 using System.Diagnostics;
@@ -28,7 +49,6 @@ public class GaseousArray
     public GaseousArray()
     {
         primaryContainer = new List<List<Databomb>>();
-
     }
 
     public void grow(int goalGB)
@@ -58,7 +78,6 @@ public class GaseousArray
             {
                 try
                 {
-                    
                     temp.Add(new Databomb());
                     counter += 8192 + 8;
                     if (counter >= target)
@@ -94,6 +113,7 @@ public class PerformanceStressTest : MonoBehaviour
     public Slider threadSlider;
     public Slider targetUtilizationSlider;
     private float targetUtilization;
+    public UISliderToText coreSliderScript;
 
     //GPU Test
     public GameObject gpuRenderObjects;
@@ -161,7 +181,6 @@ public class PerformanceStressTest : MonoBehaviour
         UnityEngine.Debug.Log("Stopping: " + threadList.Count + " threads");
         for (int i = 0; i < threadList.Count; i++)
         {
-
             threadList[i].Abort();
         }
         threadList.Clear();
@@ -170,6 +189,14 @@ public class PerformanceStressTest : MonoBehaviour
     public void ToggleOverride()
     {
         threadOverride = !threadOverride;
+        if(threadOverride)
+        {
+            coreSliderScript.SliderText.SetText(threads.ToString());
+        }
+        else
+        {
+            coreSliderScript.updateText();
+        }
     }
 
     public void StartGPUTest()
