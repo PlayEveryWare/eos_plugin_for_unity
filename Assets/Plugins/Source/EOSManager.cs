@@ -1469,7 +1469,7 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>Init()</c></description></item>
         /// </list>
         /// </summary>
-        void Awake()
+        protected virtual void Awake()
         {
             if (InitializeOnAwake)
             {
@@ -1483,7 +1483,7 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>Tick()</c></description></item>
         /// </list>
         /// </summary>
-        void Update()
+        protected virtual void Update()
         {
             EOSManager.Instance.Tick();
         }
@@ -1494,7 +1494,7 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>OnShutdown()</c></description></item>
         /// </list>
         /// </summary>
-        private void OnApplicationQuit()
+        protected virtual void OnApplicationQuit()
         {
             EOSManager.Instance.OnShutdown();
         }
@@ -1505,7 +1505,7 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>OnApplicationFocus()</c></description></item>
         /// </list>
         /// </summary>
-        void OnApplicationFocus(bool hasFocus)
+        protected virtual OnApplicationFocus(bool hasFocus)
         {
             EOSManager.Instance.OnApplicationFocus(hasFocus);
         }
@@ -1516,7 +1516,7 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>OnApplicationPause()</c></description></item>
         /// </list>
         /// </summary>
-        void OnApplicationPause(bool pauseStatus)
+        protected virtual OnApplicationPause(bool pauseStatus)
         {
             EOSManager.Instance.OnApplicationPause(pauseStatus);
         }
