@@ -235,21 +235,19 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             }
         }
 
-        string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
-        string libSubpath = "/aar/eos-sdk.aar";
+        string packagePath = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
+        string androidAssetFilepath = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Android/");
+        string sourcePath = Directory.Exists(packagePath) ? packagePath : androidAssetFilepath;
+        
+        string libSubPathname = "/aar/eos-sdk.aar";
 
-        string dynamicPathName = Path.Combine(Application.dataPath, packagePathname, "dynamic-stdc++" + libSubpath);
-        string staticPathName = Path.Combine(Application.dataPath, packagePathname, "static-stdc++" + libSubpath);
+        string dynamicPathname = Path.Combine(sourcePath, "dynamic-stdc++" + libSubPathname);
+        string staticPathname = Path.Combine(sourcePath, "static-stdc++" + libSubPathname);
 
         string destPathname = "Assets/Plugins/Android/eos-sdk.aar";
 
-        if (androidBuildConfigSection.GetCurrentConfig().DynamicallyLinkEOSLibrary)
-        {
-            File.Copy(dynamicPathName, destPathname, true);
-        }
-        else
-        {
-            File.Copy(staticPathName, destPathname, true);
-        }
+        File.Copy(androidBuildConfigSection.GetCurrentConfig().DynamicallyLinkEOSLibrary ? dynamicPathname : staticPathname, 
+            destPathname, true);
+     
     }
 }
