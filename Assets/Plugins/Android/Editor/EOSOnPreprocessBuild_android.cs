@@ -23,11 +23,13 @@
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
+using UnityEditor.Android;
 using UnityEngine;
 using System.IO;
 using System.Linq;
 using PlayEveryWare.EpicOnlineServices;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 {
@@ -39,13 +41,6 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         string assetsPathname = Path.Combine(Application.dataPath, "Plugins/Android/EOS/");
         return Path.Combine(assetsPathname, "eos_dependencies.androidlib/res/values/eos_values.xml");
     }
-
-    //-------------------------------------------------------------------------
-    private static string GetPackageName()
-    {
-        return "com.playeveryware.eos";
-    }
-
 
     //-------------------------------------------------------------------------
     public void OnPreprocessBuild(BuildReport report)
@@ -103,8 +98,8 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     //-------------------------------------------------------------------------
     private string GetPlatformSpecificAssetsPath(string subpath)
     {
-        string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/" + subpath);
-        string streamingAssetsSamplesPathname = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/" + subpath);
+        string packagePathname = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "PlatformSpecificAssets~", subpath));
+        string streamingAssetsSamplesPathname = Path.Combine(Application.dataPath, "..", "PlatformSpecificAssets", subpath);
         string pathToInstallFrom = "";
 
         if (Directory.Exists(packagePathname))
@@ -160,17 +155,109 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
+    int GetTargetAPI()
+    {
+        var playerApiTarget = PlayerSettings.Android.targetSdkVersion;
+        if (playerApiTarget == AndroidSdkVersions.AndroidApiLevelAuto)
+        {
+            int maxVersion = 0;
+            var apiRegex = new Regex(@"android-(\d+)");
+            //find max installed android api
+            foreach (var dir in Directory.GetDirectories(Path.Combine(AndroidExternalToolsSettings.sdkRootPath, "platforms")))
+            {
+                var dirName = Path.GetFileName(dir);
+                var match = apiRegex.Match(dirName);
+                if (match.Success && match.Groups.Count == 2)
+                {
+                    if (int.TryParse(match.Groups[1].Value, out int matchVal))
+                    {
+                        if (matchVal > maxVersion)
+                        {
+                            maxVersion = matchVal;
+                        }
+                    }
+                }
+            }
+            if (maxVersion == 0)
+            {
+                return 29;
+            }
+            return maxVersion;
+        }
+        else
+        {
+            return (int)playerApiTarget;
+        }
+    }
+
+    //-------------------------------------------------------------------------
+    string GetBuildTools()
+    {
+        var toolsRegex = new Regex(@"(\d+)\.(\d+)\.(\d+)");
+        int maxMajor = 0, maxMinor = 0, maxPatch = 0;
+        //find highest usable build tools version
+#if UNITY_2022_2_OR_NEWER
+        const int highestVersion = 32;
+#else
+        const int highestVersion = 30;
+#endif
+        foreach (var dir in Directory.GetDirectories(Path.Combine(AndroidExternalToolsSettings.sdkRootPath, "build-tools")))
+        {
+            var dirName = Path.GetFileName(dir);
+            var match = toolsRegex.Match(dirName);
+            int majorVersion = 0, minorVersion = 0, patchVersion = 0;
+            bool success = match.Success && match.Groups.Count == 4 &&
+                int.TryParse(match.Groups[1].Value, out majorVersion) &&
+                int.TryParse(match.Groups[2].Value, out minorVersion) &&
+                int.TryParse(match.Groups[3].Value, out patchVersion);
+            if (success)
+            {
+                if (majorVersion > highestVersion)
+                {
+                    continue;
+                }
+                if (majorVersion > maxMajor ||
+                    (majorVersion == maxMajor && minorVersion > maxMinor) ||
+                    (majorVersion == maxMajor && minorVersion == maxMinor && patchVersion > maxPatch))
+                {
+                    maxMajor = majorVersion;
+                    maxMinor = minorVersion;
+                    maxPatch = patchVersion;
+                }
+            }
+        }
+        if (maxMajor == 0)
+        {
+            return "30.0.3";
+        }
+        else
+        {
+            return $"{maxMajor}.{maxMinor}.{maxPatch}";
+        }
+    }
+    //-------------------------------------------------------------------------
+    void WriteConfigMacros(string filepath)
+    {
+        var contents = File.ReadAllText(filepath);
+        string apiVersion = GetTargetAPI().ToString();
+        string buildTools = GetBuildTools();
+        string newContents = contents.Replace("**APIVERSION**", apiVersion).Replace("**TARGETSDKVERSION**", apiVersion).Replace("**BUILDTOOLS**", buildTools);
+        File.WriteAllText(filepath, newContents);
+    }
+
+    //-------------------------------------------------------------------------
     public void InstallEOSDependentLibrary()
     {
         string packagedPathname = GetPlatformSpecificAssetsPath("EOS/Android/");
 
         if (Directory.Exists(packagedPathname))
         {
-            string assetsPathname = Path.Combine(Application.dataPath, "Plugins/Android/EOS/");
+            string assetsPathname = Path.Combine(Application.dataPath, "Plugins", "Android", "EOS");
+            string buildGradlePath = "eos_dependencies.androidlib/build.gradle";
             string[] filenames =
             {
                 "eos_dependencies.androidlib/AndroidManifest.xml",
-                "eos_dependencies.androidlib/build.gradle",
+                buildGradlePath,
                 "eos_dependencies.androidlib/project.properties",
                 "eos_dependencies.androidlib/res/values/eos_values.xml",
                 "eos_dependencies.androidlib/res/values/styles.xml"
@@ -178,8 +265,10 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             };
             InstallFiles(filenames, packagedPathname, assetsPathname);
 
+            WriteConfigMacros(Path.Combine(assetsPathname, buildGradlePath));
+
             // Unity has a fixed location for the gradleTemplate.properties file. (as of 2021)
-            string gradleTemplatePathname = Path.Combine(Application.dataPath, "Plugins/Android/gradleTemplate.properties");
+            string gradleTemplatePathname = Path.Combine(Application.dataPath, "Plugins", "Android", "gradleTemplate.properties");
             if (File.Exists(gradleTemplatePathname))
             {
                 if (!DoesGradlePropertiesContainSetting(gradleTemplatePathname, "android.useAndroidX=true"))
