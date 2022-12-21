@@ -23,10 +23,10 @@ android {
         }
     }
 
-    compileSdkVersion **APIVERSION**
-    buildToolsVersion '**BUILDTOOLS**'
+    compileSdkVersion 29
+    buildToolsVersion '30.0.3'
     defaultConfig {
-        targetSdkVersion **TARGETSDKVERSION**
+        targetSdkVersion 29
     }
 }
 dependencies {

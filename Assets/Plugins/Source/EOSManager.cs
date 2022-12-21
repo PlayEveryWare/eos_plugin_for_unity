@@ -960,7 +960,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     case ExternalCredentialType.NintendoIdToken:
                     case ExternalCredentialType.NintendoNsaIdToken:
                     case ExternalCredentialType.AppleIdToken:
-                    case ExternalCredentialType.OculusUseridNonce:
                         loginOptions.UserLoginInfo = new UserLoginInfo { DisplayName = displayname };
                         break;
                 }
