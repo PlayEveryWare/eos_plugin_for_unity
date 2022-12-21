@@ -324,7 +324,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             }
         }
 
-        string packagePath = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
+        string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
         string androidAssetFilepath = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Android/");
         string sourcePath = Directory.Exists(packagePath) ? packagePath : androidAssetFilepath;
         
