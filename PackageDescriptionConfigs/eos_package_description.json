@@ -59,11 +59,11 @@
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
 
 
-        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Runtime/Windows/"},
-        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Runtime/Windows/Editor/"},
-        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Runtime/Windows/Editor/"},
-        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/Windows/Editor/"},
-        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/Windows/Editor/"},
+        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Editor/Windows.meta"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/Windows/"},
 
         {"src":"PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
         {"src":"bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
@@ -124,11 +124,11 @@
         {"src":"Assets/Plugins/macOS/Essential.meta", "dest": "Runtime/macOS/"},
         {"src":"Assets/Plugins/macOS/Essential/*", "dest": "Runtime/macOS/Essential/"},
 
-        {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Runtime/macOS/"},
-        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/macOS/Editor/"},
-        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/macOS/Editor/"},
-        {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Runtime/macOS/Editor/"},
-        {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Runtime/macOS/Editor/"},
+        {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Editor/macOS.meta"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Editor/macOS/"},
 
         {"comment": "----------------------------End macOS---------------------------------------------"},
 
@@ -348,11 +348,13 @@
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
-        {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Runtime/iOS/"},
-        {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Runtime/iOS/Editor/"},
-        {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Runtime/iOS/Editor/"},
-        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/iOS/Editor/"},
-        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/iOS/Editor/"},
+<<
+        {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Editor/iOS.meta"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/iOS/"},
+>>
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
 
