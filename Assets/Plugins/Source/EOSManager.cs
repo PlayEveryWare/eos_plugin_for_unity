@@ -1505,7 +1505,7 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>OnApplicationFocus()</c></description></item>
         /// </list>
         /// </summary>
-        protected virtual OnApplicationFocus(bool hasFocus)
+        protected virtual void OnApplicationFocus(bool hasFocus)
         {
             EOSManager.Instance.OnApplicationFocus(hasFocus);
         }
@@ -1516,7 +1516,7 @@ namespace PlayEveryWare.EpicOnlineServices
         ///     <item><description>Calls <c>OnApplicationPause()</c></description></item>
         /// </list>
         /// </summary>
-        protected virtual OnApplicationPause(bool pauseStatus)
+        protected virtual void OnApplicationPause(bool pauseStatus)
         {
             EOSManager.Instance.OnApplicationPause(pauseStatus);
         }
