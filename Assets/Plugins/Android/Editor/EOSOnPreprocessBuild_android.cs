@@ -277,7 +277,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             else
             {
                 // Use one we have bundled
-                string bundledGradleTemplatePathname = GetPlatformSpecificAssetsPath("EOS/Android/gradleTemplate.properties");
+                string bundledGradleTemplatePathname = Path.Combine(packagedPathname,"gradleTemplate.properties");
                 File.Copy(bundledGradleTemplatePathname, gradleTemplatePathname);
             }
         }
