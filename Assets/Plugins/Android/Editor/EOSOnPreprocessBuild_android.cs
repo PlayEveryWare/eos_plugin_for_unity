@@ -48,6 +48,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         if (report.summary.platform == BuildTarget.Android)
         {
             InstallEOSDependentLibrary();
+            ConfigureGradleTemplateProperties();
             ConfigureEOSDependentLibrary();
         }
     }
@@ -264,25 +265,33 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             InstallFiles(filenames, packagedPathname, assetsPathname);
 
             WriteConfigMacros(Path.Combine(assetsPathname, buildGradlePath));
-
-            // Unity has a fixed location for the gradleTemplate.properties file. (as of 2021)
-            string gradleTemplatePathname = Path.Combine(Application.dataPath, "Plugins", "Android", "gradleTemplate.properties");
-            if (File.Exists(gradleTemplatePathname))
-            {
-                if (!DoesGradlePropertiesContainSetting(gradleTemplatePathname, "android.useAndroidX=true"))
-                {
-                    ReplaceOrSetGradleProperty(gradleTemplatePathname, "android.useAndroidX", "true");
-                }
-            }
-            else
-            {
-                // Use one we have bundled
-                string bundledGradleTemplatePathname = Path.Combine(packagedPathname,"gradleTemplate.properties");
-                File.Copy(bundledGradleTemplatePathname, gradleTemplatePathname);
-            }
         }
     }
+    //-------------------------------------------------------------------------
+    public void ConfigureGradleTemplateProperties()
+    {   
+        // Unity has a fixed location for the gradleTemplate.properties file. (as of 2021)
+        string gradleTemplatePathname = Path.Combine(Application.dataPath, "Plugins", "Android", "gradleTemplate.properties");
 
+        // If the custom gradle template properties option is disabled, delete gradleTemplate.properties.DISABLED
+        File.Delete(gradleTemplatePathname + ".DISABLED");
+
+        // Then create a copy of gradleTemplate.properties in the target folder
+        // Once gradleTemplate.properties file exists, the custom gradle template properties option is automatically enabled 
+        if (File.Exists(gradleTemplatePathname))
+        {
+            if (!DoesGradlePropertiesContainSetting(gradleTemplatePathname, "android.useAndroidX=true"))
+            {
+                ReplaceOrSetGradleProperty(gradleTemplatePathname, "android.useAndroidX", "true");
+            }
+        }
+        else
+        {
+            // Use one we have bundled
+            string bundledGradleTemplatePathname = Path.Combine(GetPlatformSpecificAssetsPath("EOS/Android/"), "gradleTemplate.properties");
+            File.Copy(bundledGradleTemplatePathname, gradleTemplatePathname);
+        }
+    }
     //-------------------------------------------------------------------------
     public void ConfigureEOSDependentLibrary()
     {
