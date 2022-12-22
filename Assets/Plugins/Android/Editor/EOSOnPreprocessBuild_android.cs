@@ -110,6 +110,10 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         {
             pathToInstallFrom = streamingAssetsSamplesPathname;
         }
+        else
+        {
+            Debug.LogError("PreprocessBuildError : EOS Plugin Package Missing");
+        }
         return pathToInstallFrom;
     }
 
