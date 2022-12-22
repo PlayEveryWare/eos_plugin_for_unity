@@ -128,6 +128,23 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
+    void DisableGradleProperty(string gradleTemplatePathname, string setting)
+    {
+        var gradleTemplateToWrite = new List<string>();
+        
+        foreach (string line in File.ReadAllLines(gradleTemplatePathname))
+        {
+            if (line.Contains(setting) && !line.StartsWith("#"))
+            {
+            }
+            else
+            {
+                gradleTemplateToWrite.Add(line);
+            }
+        }
+        File.WriteAllLines(gradleTemplatePathname, gradleTemplateToWrite.ToArray());
+    }
+    //-------------------------------------------------------------------------
     void ReplaceOrSetGradleProperty(string gradleTemplatePathname, string setting, string value)
     {
         var gradleTemplateToWrite = new List<string>();
@@ -291,6 +308,9 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             string bundledGradleTemplatePathname = Path.Combine(GetPlatformSpecificAssetsPath("EOS/Android/"), "gradleTemplate.properties");
             File.Copy(bundledGradleTemplatePathname, gradleTemplatePathname);
         }
+#if UNITY_2022_2_OR_NEWER
+        DisableGradleProperty(gradleTemplatePathname, "android.enableR8");
+#endif
     }
     //-------------------------------------------------------------------------
     public void ConfigureEOSDependentLibrary()
