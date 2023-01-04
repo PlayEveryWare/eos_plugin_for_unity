@@ -12,7 +12,7 @@ For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issue
 * Straightforward sample Unity scene templates to get you started.
 * EOS Social Overlay support.
 * Includes [EOS SDK 1.15.4](https://dev.epicgames.com/docs/epic-online-services/whats-new#1154---2022-nov-16).
-* Targets [Unity 2021.3.8](https://unity.com/releases/editor/whats-new/2021.3.8).
+* Targets [Unity 2021.3.8f1](https://unity.com/releases/editor/whats-new/2021.3.8).
 
 
 ## Supported Platforms
