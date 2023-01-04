@@ -93,9 +93,10 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToIntegrityTool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityTool);
             string pathToEACCertificate = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACCertificate);
             string pathToEACPrivateKey = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACPrivateKey);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC Integrity Tool", ref pathToIntegrityTool);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC private key", ref pathToEACPrivateKey);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Path to EAC Certificate", ref pathToEACCertificate);
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool", tooltip: "EOS SDK tool used to generate EAC certificate from file hashes");
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC private key", ref pathToEACPrivateKey, "Select EAC private key", extension: "key",
+                tooltip: "EAC private key used in integrity tool cert generation. Exposing this to the public will comprimise anti-cheat functionality.");
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer", tooltip: "EAC public key used in integrity tool cert generation");
 
             configFile.currentEOSConfig.pathToEACIntegrityTool = pathToIntegrityTool;
             configFile.currentEOSConfig.pathToEACPrivateKey = pathToEACPrivateKey;

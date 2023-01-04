@@ -145,8 +145,8 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToPFX = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToPFX);
             string pfxPassword = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pfxPassword);
             string timestampURL = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.timestampURL);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Path to SignTool", ref pathToSigntool);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Path to PFX key", ref pathToPFX);
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
             EpicOnlineServicesConfigEditor.AssigningTextField("PFX password", ref pfxPassword);
             EpicOnlineServicesConfigEditor.AssigningTextField("Timestamp Authority URL", ref timestampURL);
 

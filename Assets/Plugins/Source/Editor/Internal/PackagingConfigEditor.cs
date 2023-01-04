@@ -94,41 +94,9 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToJSONPackageDescription = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToJSONPackageDescription);
             string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
             string pathToOutput = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToOutput);
-            EditorGUILayout.BeginHorizontal();
-            EpicOnlineServicesConfigEditor.AssigningTextField("JSON Description Path", ref pathToJSONPackageDescription, 170);
-            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
-            {
-                var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
-                if (!string.IsNullOrWhiteSpace(jsonFile))
-                {
-                    pathToJSONPackageDescription = jsonFile;
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory Path", ref customBuildDirectoryPath, 170);
-            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
-            {
-                var buildDir = EditorUtility.OpenFolderPanel("Pick Custom Build Directory", "", "");
-                if (!string.IsNullOrWhiteSpace(buildDir))
-                {
-                    customBuildDirectoryPath = buildDir;
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EpicOnlineServicesConfigEditor.AssigningTextField("Output Path", ref pathToOutput, 170);
-            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
-            {
-                var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
-                if (!string.IsNullOrWhiteSpace(outputDir))
-                {
-                    pathToOutput = outputDir;
-                }
-            }
-            EditorGUILayout.EndHorizontal();
+            EpicOnlineServicesConfigEditor.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
+            EpicOnlineServicesConfigEditor.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
+            EpicOnlineServicesConfigEditor.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
 
             configFile.currentEOSConfig.pathToJSONPackageDescription = pathToJSONPackageDescription;
             configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
