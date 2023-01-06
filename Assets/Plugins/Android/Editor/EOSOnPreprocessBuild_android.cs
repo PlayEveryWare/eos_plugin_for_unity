@@ -49,6 +49,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         if (report.summary.platform == BuildTarget.Android)
         {
             InstallEOSDependentLibrary();
+            ConfigureGradleTemplateProperties();
             ConfigureEOSDependentLibrary();
 
             DetermineLibraryLinkingMethod();
@@ -112,6 +113,10 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         {
             pathToInstallFrom = streamingAssetsSamplesPathname;
         }
+        else
+        {
+            Debug.LogError("PreprocessBuildError : EOS Plugin Package Missing");
+        }
         return pathToInstallFrom;
     }
 
@@ -129,6 +134,23 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         return false;
     }
 
+    //-------------------------------------------------------------------------
+    void DisableGradleProperty(string gradleTemplatePathname, string setting)
+    {
+        var gradleTemplateToWrite = new List<string>();
+        
+        foreach (string line in File.ReadAllLines(gradleTemplatePathname))
+        {
+            if (line.Contains(setting) && !line.StartsWith("#"))
+            {
+            }
+            else
+            {
+                gradleTemplateToWrite.Add(line);
+            }
+        }
+        File.WriteAllLines(gradleTemplatePathname, gradleTemplateToWrite.ToArray());
+    }
     //-------------------------------------------------------------------------
     void ReplaceOrSetGradleProperty(string gradleTemplatePathname, string setting, string value)
     {
@@ -267,25 +289,36 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             InstallFiles(filenames, packagedPathname, assetsPathname);
 
             WriteConfigMacros(Path.Combine(assetsPathname, buildGradlePath));
-
-            // Unity has a fixed location for the gradleTemplate.properties file. (as of 2021)
-            string gradleTemplatePathname = Path.Combine(Application.dataPath, "Plugins", "Android", "gradleTemplate.properties");
-            if (File.Exists(gradleTemplatePathname))
-            {
-                if (!DoesGradlePropertiesContainSetting(gradleTemplatePathname, "android.useAndroidX=true"))
-                {
-                    ReplaceOrSetGradleProperty(gradleTemplatePathname, "android.useAndroidX", "true");
-                }
-            }
-            else
-            {
-                // Use one we have bundled
-                string bundledGradleTemplatePathname = GetPlatformSpecificAssetsPath("EOS/Android/gradleTemplate.properties");
-                File.Copy(bundledGradleTemplatePathname, gradleTemplatePathname);
-            }
         }
     }
+    //-------------------------------------------------------------------------
+    public void ConfigureGradleTemplateProperties()
+    {   
+        // Unity has a fixed location for the gradleTemplate.properties file. (as of 2021)
+        string gradleTemplatePathname = Path.Combine(Application.dataPath, "Plugins", "Android", "gradleTemplate.properties");
 
+        // If the custom gradle template properties option is disabled, delete gradleTemplate.properties.DISABLED
+        File.Delete(gradleTemplatePathname + ".DISABLED");
+
+        // Then create a copy of gradleTemplate.properties in the target folder
+        // Once gradleTemplate.properties file exists, the custom gradle template properties option is automatically enabled 
+        if (File.Exists(gradleTemplatePathname))
+        {
+            if (!DoesGradlePropertiesContainSetting(gradleTemplatePathname, "android.useAndroidX=true"))
+            {
+                ReplaceOrSetGradleProperty(gradleTemplatePathname, "android.useAndroidX", "true");
+            }
+        }
+        else
+        {
+            // Use one we have bundled
+            string bundledGradleTemplatePathname = Path.Combine(GetPlatformSpecificAssetsPath("EOS/Android/"), "gradleTemplate.properties");
+            File.Copy(bundledGradleTemplatePathname, gradleTemplatePathname);
+        }
+#if UNITY_2022_2_OR_NEWER
+        DisableGradleProperty(gradleTemplatePathname, "android.enableR8");
+#endif
+    }
     //-------------------------------------------------------------------------
     public void ConfigureEOSDependentLibrary()
     {

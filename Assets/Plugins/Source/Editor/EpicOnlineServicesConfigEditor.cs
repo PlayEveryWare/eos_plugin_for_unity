@@ -285,6 +285,32 @@ _WIN32 || _WIN64
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
+        public static void AssigningPath(string label, ref string filePath, string prompt, string directory = "", string extension = "", bool selectFolder = false, bool horizontalLayout = true, float maxButtonWidth = 100, float labelWidth = -1, string tooltip = null)
+        {
+            if (horizontalLayout)
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
+
+            AssigningTextField(label, ref filePath, labelWidth, tooltip);
+
+            bool buttonPressed = maxButtonWidth > 0 ? GUILayout.Button("Select", GUILayout.MaxWidth(maxButtonWidth)) : GUILayout.Button("Select");
+
+            if (buttonPressed)
+            {
+                var newFilePath = selectFolder ? EditorUtility.OpenFolderPanel(prompt, "", "") : EditorUtility.OpenFilePanel(prompt, directory, extension);
+                if (!string.IsNullOrWhiteSpace(newFilePath))
+                {
+                    filePath = newFilePath;
+                }
+            }
+
+            if (horizontalLayout)
+            {
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
         public static void AssigningULongField(string label, ref ulong value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;

@@ -118,6 +118,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 MuteButton.interactable = true;
                 MuteButton.gameObject.SetActive(true);
 
+                if (lobbyManager.GetCurrentLobby().Members.Count == 1) 
+                {
+                    IsTalkingText.text = "-------------";
+                    return;
+                }
                 foreach(LobbyMember member in lobbyManager.GetCurrentLobby().Members)
                 {
                     if (member.ProductId == ProductUserId)
