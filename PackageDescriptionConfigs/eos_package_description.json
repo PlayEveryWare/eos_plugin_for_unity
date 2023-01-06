@@ -304,6 +304,9 @@
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
+	
+        {"src":"PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
+        {"src":"PlatformSpecificAssets/EOS/Android/static-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/static-stdc++/aar/"},
 
         {"src":"Assets/Plugins/Android/gradleTemplate.properties", "dest": "PlatformSpecificAssets~/EOS/Android/"},
         {"src":"Assets/Plugins/Android/gradleTemplate.properties.meta", "dest": "PlatformSpecificAssets~/EOS/Android/"},
@@ -345,11 +348,13 @@
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
+<<
         {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Editor/iOS.meta"},
         {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Editor/iOS/"},
         {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Editor/iOS/"},
         {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/iOS/"},
         {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/iOS/"},
+>>
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
 
