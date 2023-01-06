@@ -135,6 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                                 MuteButton.interactable = false;
                                 break;
                             }
+                            lobbyManager.PressToTalk(null);
                         }
                         // Update Talking state
                         if (member.RTCState.IsTalking)

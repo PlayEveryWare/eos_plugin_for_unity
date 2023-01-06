@@ -1411,6 +1411,47 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Member Events
+        public void PressToTalk(OnLobbyCallback ToggleMuteCompleted)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+            ProductUserId targetUserId = EOSManager.Instance.GetProductUserId();
+
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find the correct lobby member
+                if (lobbyMember.ProductId != targetUserId)
+                {
+                    continue;
+                }
+
+                // Do not allow multiple local mute toggles at the same time
+                if (lobbyMember.RTCState.MuteActionInProgress)
+                {
+                    Debug.LogWarningFormat("Lobbies (ToggleMute): 'MuteActionInProgress' for productUserId {0}.", targetUserId);
+                    ToggleMuteCompleted?.Invoke(Result.RequestInProgress);
+                    return;
+                }
+
+                if (Input.GetKey(KeyCode.Space) ^ !lobbyMember.RTCState.IsAudioOutputDisabled)
+                {   
+                    // Set mute action as in progress
+                    lobbyMember.RTCState.MuteActionInProgress = true;
+
+                    // Toggle our mute status
+                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        AudioStatus = Input.GetKey(KeyCode.Space) ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                    };
+
+                    Debug.LogFormat("Lobbies (ToggleMute): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+                    
+                    rtcAudioHandle.UpdateSending(ref sendOptions, ToggleMuteCompleted, OnRTCRoomUpdateSendingCompleted);
+                }
+            }
+        }
 
         /// <summary>
         /// Wrapper for calling [EOS_RTCAudio_UpdateReceiving](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/NoInterface/EOS_RTCAudio_UpdateReceiving/index.html)
