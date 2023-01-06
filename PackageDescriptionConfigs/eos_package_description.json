@@ -348,13 +348,13 @@
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
-<<
+
         {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Editor/iOS.meta"},
         {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Editor/iOS/"},
         {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Editor/iOS/"},
         {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/iOS/"},
         {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/iOS/"},
->>
+
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
 
