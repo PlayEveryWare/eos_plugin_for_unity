@@ -1490,7 +1490,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         LocalUserId = EOSManager.Instance.GetProductUserId(),
                         RoomName = CurrentLobby.RTCRoomName,
-                        AudioStatus = lobbyMember.RTCState.IsAudioOutputDisabled ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                        AudioStatus = lobbyMember.RTCState.IsLocalMuted ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
                     };
 
                     Debug.LogFormat("Lobbies (ToggleMute): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
@@ -1567,6 +1567,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 _Dirty = true;
                 break;
             }
+
+            ToggleMuteCallback?.Invoke(data.ResultCode);
         }
 
         private void OnRTCRoomUpdateReceivingCompleted(ref UpdateReceivingCallbackInfo data)

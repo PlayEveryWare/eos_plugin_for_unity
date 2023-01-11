@@ -41,6 +41,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button KickButton;
         public Button Promotebutton;
 
+        public bool PressToTalkEnabled = true;
+
         // Callbacks
         public Action<ProductUserId> MuteOnClick;
         public Action<ProductUserId> KickOnClick;
@@ -135,7 +137,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                                 MuteButton.interactable = false;
                                 break;
                             }
-                            lobbyManager.PressToTalk(null);
+
+                            if (!member.RTCState.IsLocalMuted && PressToTalkEnabled)
+                            {
+                                lobbyManager.PressToTalk(null);
+                            }
                         }
                         // Update Talking state
                         if (member.RTCState.IsTalking)
