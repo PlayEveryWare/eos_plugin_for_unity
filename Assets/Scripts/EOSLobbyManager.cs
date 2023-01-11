@@ -1411,7 +1411,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         // Member Events
-        public void PressToTalk(OnLobbyCallback ToggleMuteCompleted)
+        public void PressToTalk(OnLobbyCallback TogglePressToTalkCompleted)
         {
             RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
             RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
@@ -1428,8 +1428,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // Do not allow multiple local mute toggles at the same time
                 if (lobbyMember.RTCState.MuteActionInProgress)
                 {
-                    Debug.LogWarningFormat("Lobbies (ToggleMute): 'MuteActionInProgress' for productUserId {0}.", targetUserId);
-                    ToggleMuteCompleted?.Invoke(Result.RequestInProgress);
+                    Debug.LogWarningFormat("Lobbies (TogglePressToTalk): 'MuteActionInProgress' for productUserId {0}.", targetUserId);
+                    TogglePressToTalkCompleted?.Invoke(Result.RequestInProgress);
                     return;
                 }
 
@@ -1446,9 +1446,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         AudioStatus = Input.GetKey(KeyCode.Space) ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
                     };
 
-                    Debug.LogFormat("Lobbies (ToggleMute): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+                    Debug.LogFormat("Lobbies (TogglePressToTalk): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
                     
-                    rtcAudioHandle.UpdateSending(ref sendOptions, ToggleMuteCompleted, OnRTCRoomUpdateSendingCompleted);
+                    rtcAudioHandle.UpdateSending(ref sendOptions, TogglePressToTalkCompleted, OnRTCRoomUpdateSendingCompleted);
                 }
             }
         }
