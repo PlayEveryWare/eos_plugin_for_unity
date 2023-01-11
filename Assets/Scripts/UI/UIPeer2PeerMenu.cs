@@ -229,12 +229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("UIPeer2PeerMenu (SendOnClick): Message is empty.");
                 return;
             }
-            messageData message;
-            message.textData = ChatMessageInput.InputField.text;
-            message.type = messageType.textMessage;
-            message.xPos = 0;
-            message.yPos = 0;
-
+            messageData message = createMessage(messageType.textMessage, ChatMessageInput.InputField.text);
 
 
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
@@ -301,11 +296,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Debug.Log("UIPeer2PeerMenu (OnMouseDown): Mouse click recieved");
             Vector2 mousePos = Input.mousePosition;
 
-            messageData message;
-            message.type = messageType.coordinatesMessage;
-            message.xPos = mousePos.x;
-            message.yPos = mousePos.y;
-            message.textData = null;
+            string mousePosData = new string(mousePos.x + "," + mousePos.y);
+
+            messageData message = createMessage(messageType.coordinatesMessage, mousePosData);
 
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
@@ -315,6 +308,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
 
             Peer2PeerManager.SendMessage(currentChatProductUserId, message);
+        }
+
+        public messageData createMessage(messageType type, string rawData)
+        {
+            messageData message;
+            message.type = type;
+            message.dataArray = (((int)type).ToString() + rawData);
+            return message;
         }
     }
 }

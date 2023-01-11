@@ -68,22 +68,38 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     }
 
     /// <summary>
-    /// Class <c>EOSPeer2PeerManager</c> is a simplified wrapper for EOS [P2P Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/P2P/index.html).
+    /// Enum <c>messageType</c> is used to indicate the type of message in <c>messageData</c>.
     /// </summary>
     public enum messageType
     {
-        textMessage,
-        coordinatesMessage
+        textMessage = 0,
+        coordinatesMessage = 1
     };
+    /// <summary>
+    /// Enum <c>messageData</c> is used to store a message <c>messageData</c>.
+    /// </summary>
     public struct messageData
     {
         public messageType type;
-        public string textData;
-
-        public float xPos;
-        public float yPos;
+        public string dataArray;
     };
 
+    public struct messageTypeText
+    {
+        public int length;
+        public string message;
+    }
+    public struct messageTypeCoordinates
+    {
+        public int x;
+        public int y;
+    }
+
+    /// <summary>
+    /// Class <c>EOSPeer2PeerManager</c> is a simplified wrapper for EOS [P2P Interface](https://dev.epicgames.com/docs/services/en-US/Interfaces/P2P/index.html).
+    /// </summary>
+
+    
     public class EOSPeer2PeerManager : IEOSSubManager
     {
         private P2PInterface P2PHandle;
@@ -147,6 +163,37 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UnsubscribeFromConnectionRequests();
         }
 
+        
+        public messageTypeText messageToTextMessage(messageData data)
+        {
+            messageTypeText message;
+            message.message = data.dataArray.Substring(1);
+            message.length = message.message.Length;
+            return message;
+        }
+
+
+        //   message type
+        //     |  x coord
+        //     |  ______
+        //    \|/|      |               
+        //    |1|1|4|5|6|,|1|2|3|4|
+        //                  |_______|
+        //                   y coord
+        //       
+        //   
+        public messageTypeCoordinates MessageToCoordinates(messageData data)
+        {
+            messageTypeCoordinates coords = new messageTypeCoordinates();
+            string substring = data.dataArray.Substring(1);
+
+            string[] temp = substring.Split(',');
+            coords.x = Int32.Parse(temp[0]);
+            coords.y = Int32.Parse(temp[1]);
+
+            return coords;
+        }
+
         private void OnRefreshNATTypeFinished(ref OnQueryNATTypeCompleteInfo data)
         {
             //if (data == null)
@@ -173,7 +220,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             if (message.type == messageType.textMessage)
             {
-                if (string.IsNullOrEmpty(message.textData))
+
+                messageTypeText textMessage = messageToTextMessage(message);
+                if (string.IsNullOrEmpty(textMessage.message))
                 {
                     Debug.LogError("EOS P2PNAT SendMessage: bad input data message is empty.");
                     return;
@@ -183,7 +232,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 ChatEntry chatEntry = new ChatEntry()
                 {
                     isOwnEntry = true,
-                    Message = message.textData
+                    Message = textMessage.message
                 };
 
                 if (ChatDataCache.TryGetValue(friendId, out ChatWithFriendData chatData))
@@ -206,16 +255,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     SocketName = "CHAT"
                 };
 
-                SendPacketOptions options = new SendPacketOptions()
-                {
-                    LocalUserId = EOSManager.Instance.GetProductUserId(),
-                    RemoteUserId = friendId,
-                    SocketId = socketId,
-                    AllowDelayedDelivery = true,
-                    Channel = 0,
-                    Reliability = PacketReliability.ReliableOrdered,
-                    Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes("t" + message.textData))
-                };
+                SendPacketOptions options = CreateSendPacketOptions(socketId, friendId, message.dataArray);
 
                 Result result = P2PHandle.SendPacket(ref options);
 
@@ -231,23 +271,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else if (message.type == messageType.coordinatesMessage)
             {
 
-                string rawData = ("m" + message.xPos.ToString() + "," + message.yPos.ToString());
+                
                 // Send Message
                 SocketId socketId = new SocketId()
                 {
                     SocketName = "CHAT"
                 };
 
-                SendPacketOptions options = new SendPacketOptions()
-                {
-                    LocalUserId = EOSManager.Instance.GetProductUserId(),
-                    RemoteUserId = friendId,
-                    SocketId = socketId,
-                    AllowDelayedDelivery = true,
-                    Channel = 0,
-                    Reliability = PacketReliability.ReliableOrdered,
-                    Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes(rawData))
-                };
+                SendPacketOptions options = CreateSendPacketOptions(socketId, friendId, message.dataArray);
 
                 Result result = P2PHandle.SendPacket(ref options);
 
@@ -264,6 +295,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        public SendPacketOptions CreateSendPacketOptions(SocketId socketId, ProductUserId friendId, string data)
+        {
+            SendPacketOptions options = new SendPacketOptions()
+            {
+                LocalUserId = EOSManager.Instance.GetProductUserId(),
+                RemoteUserId = friendId,
+                SocketId = socketId,
+                AllowDelayedDelivery = true,
+                Channel = 0,
+                Reliability = PacketReliability.ReliableOrdered,
+                Data = new ArraySegment<byte>(Encoding.UTF8.GetBytes(data))
+            };
+
+            return options;
+        }
+
+        public messageData deserializeMessage(byte[] data)
+        {
+            messageData message = new messageData();
+            string tempString = data[0].ToString();
+            int tempInt = Convert.ToInt32(tempString);
+            message.type = (messageType) tempInt - 48; //convert from ascii decimal to the integer value of the ascii character
+            message.dataArray = System.Text.Encoding.UTF8.GetString(data);
+            return message;
+        }
         public ProductUserId HandleReceivedMessages()
         {
             ReceivePacketOptions options = new ReceivePacketOptions()
@@ -300,14 +356,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return null;
                 }
 
-                string message = System.Text.Encoding.UTF8.GetString(data);
+                messageData message = deserializeMessage(data);
 
-                if (message.StartsWith("t"))
+                if (message.type == messageType.textMessage)
                 {
+                    messageTypeText textMessage = messageToTextMessage(message);
+
                     ChatEntry newMessage = new ChatEntry()
                     {
                         isOwnEntry = false,
-                        Message = message.Substring(1)
+                        Message = textMessage.message
                     };
 
                     if (ChatDataCache.TryGetValue(peerId, out ChatWithFriendData chatData))
@@ -329,16 +387,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         return peerId;
                     }
                 }
-                else if (message.StartsWith("m"))
+                else if (message.type == messageType.coordinatesMessage)
                 {
-                    message = message.Substring(1);
+                    messageTypeCoordinates coords = MessageToCoordinates(message);
+                    Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + coords.x + ", " + coords.y);
 
-                    string[] coords = message.Split(',');
-                    int xPos = Int32.Parse(coords[0]);
-                    int yPos = Int32.Parse(coords[1]);
-                    Debug.Log("EOS P2PNAT HandleReceivedMessages:  Mouse position Recieved at " + xPos + ", " + yPos);
-
-                    ParticleManager.SpawnParticles(xPos, yPos, parent);
+                    ParticleManager.SpawnParticles(coords.x, coords.y, parent);
 
                     return peerId;
                 }
@@ -348,6 +402,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 else
                 {
                     Debug.LogErrorFormat("EOS P2PNAT HandleReceivedMessages: error while reading data, code: {0}", result);
+                    Debug.Log("Message Type was: " + message.type);
                     return null;
                 }
             }
