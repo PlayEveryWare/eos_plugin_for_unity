@@ -41,6 +41,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button KickButton;
         public Button Promotebutton;
 
+        public bool PressToTalkEnabled = true;
+
         // Callbacks
         public Action<ProductUserId> MuteOnClick;
         public Action<ProductUserId> KickOnClick;
@@ -134,6 +136,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                                 IsTalkingText.text = "Mic not permitted";
                                 MuteButton.interactable = false;
                                 break;
+                            }
+
+                            if (!member.RTCState.IsLocalMuted && PressToTalkEnabled)
+                            {
+                                lobbyManager.PressToTalk(null);
                             }
                         }
                         // Update Talking state
