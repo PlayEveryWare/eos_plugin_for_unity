@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject FriendsPanel;
         private bool collapsed = false;
 
-        public ConsoleInputField SearchFriendsInput;
+        public UIConsoleInputField SearchFriendsInput;
 
         public GameObject FriendsListContentParent;
         public GameObject UIFriendEntryPrefab;
@@ -65,20 +65,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private bool isSearching;
 
-        // P2P
-        [Header("P2P Options (Optional)")]
-        public bool EnableP2PChat = false;
-        public UIPeer2PeerMenu UIPeer2PeerMenu;
-
-        // Lobbies
-        [Header("Lobbies Options (Optional)")]
-        public bool EnableInvites = false;
-        public UIInviteSource UIInviteMenu;
-
-        // Player Report
-        [Header("Player Report Options (Optional)")]
-        public bool EnablePlayerReport = false;
-        public UIPlayerReportMenu UIPlayerReportMenu;
+        // Lobbies, P2P Chat, etc.
+        [Header("Friend Interaction Source (Optional)")]
+        [Tooltip("UI for Lobbies, P2P Chat, Reports, etc.")]
+        public UIFriendInteractionSource UIFriendInteractionSource;
 
         private float initialPanelAnchoredPosX;
 
@@ -128,6 +118,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        // Use when friend button states need to be updated without querying friend list
+        public void RefreshFriendUI()
+        {
+            RenderFriendsList(true);
+        }
+
         private void Update()
         {
 #if ENABLE_INPUT_SYSTEM
@@ -143,7 +139,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                RenderFriendsList(false);
+                if (UIFriendInteractionSource != null && UIFriendInteractionSource.IsDirty())
+                {
+                    RenderFriendsList(true);
+                    UIFriendInteractionSource.ResetDirtyFlag();
+                }
+                else
+                {
+                    RenderFriendsList(false);
+                }
             }
         }
 
@@ -175,43 +179,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 GameObject friendUIObj = Instantiate(UIFriendEntryPrefab, FriendsListContentParent.transform);
                 UIFriendEntry uiEntry = friendUIObj.GetComponent<UIFriendEntry>();
+                uiEntry.EnableFriendButton(false);
 
-                uiEntry.SetEpicAccount(friend.UserId, friend.UserProductUserId);
+                uiEntry.SetFriendData(friend);
 
-                uiEntry.DisplayName.text = friend.Name;
-
-                // Report offline/online players
-                if (EnablePlayerReport)
+                if (UIFriendInteractionSource != null)
                 {
-                    uiEntry.ReportOnClick = UIPlayerReportMenu.ReportButtonOnClick;
-                    uiEntry.EnableReportButton();
+                    var friendButtonState = UIFriendInteractionSource.GetFriendInteractionState(friend);
+                    uiEntry.SetFriendbuttonText(UIFriendInteractionSource.GetFriendInteractButtonText());
+                    uiEntry.FriendInteractOnClick = UIFriendInteractionSource.OnFriendInteractButtonClicked;
+                    switch (friendButtonState)
+                    {
+                        case UIFriendInteractionSource.FriendInteractionState.Hidden:
+                            uiEntry.EnableFriendButton(false);
+                            break;
+
+                        case UIFriendInteractionSource.FriendInteractionState.Disabled:
+                            uiEntry.EnableFriendButtonInteraction(false);
+                            uiEntry.EnableFriendButton(true);                           
+                            break;
+
+                        case UIFriendInteractionSource.FriendInteractionState.Enabled:
+                            uiEntry.EnableFriendButtonInteraction(true);
+                            uiEntry.EnableFriendButton(true);
+                            break;
+                    }
                 }
 
                 if (friend.Status == FriendsStatus.Friends && friend.Presence != null)
                 {
                     uiEntry.Status.text = friend.Presence.Status.ToString();
-
-                    if (EnableInvites)
-                    {
-                        uiEntry.EnableInviteButton(true);
-                        uiEntry.EnableInviteButtonInteraction(false);
-                    }
-
-                    if (friend.Presence.Status == Status.Online)
-                    {
-                        if (EnableP2PChat)
-                        {
-                            uiEntry.ChatOnClick = UIPeer2PeerMenu.ChatButtonOnClick;
-                            uiEntry.EnableChatButton();
-                        }
-
-                        if (EnableInvites && UIInviteMenu != null && UIInviteMenu.IsInviteActive())
-                        {
-                            uiEntry.InviteFriendsOnClick = UIInviteMenu.OnInviteButtonClicked;
-                            uiEntry.EnableInviteButton();
-                            uiEntry.EnableInviteButtonInteraction(true);
-                        }
-                    }
                 }
                 else
                 {

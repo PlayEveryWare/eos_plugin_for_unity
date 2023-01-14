@@ -98,7 +98,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		public void Set(ref ReadFileOptions other)
 		{
-			m_ApiVersion = PlayerDataStorageInterface.ReadfileoptionsApiLatest;
+			m_ApiVersion = PlayerDataStorageInterface.ReadfileApiLatest;
 			LocalUserId = other.LocalUserId;
 			Filename = other.Filename;
 			ReadChunkLengthBytes = other.ReadChunkLengthBytes;
@@ -110,7 +110,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = PlayerDataStorageInterface.ReadfileoptionsApiLatest;
+				m_ApiVersion = PlayerDataStorageInterface.ReadfileApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				Filename = other.Value.Filename;
 				ReadChunkLengthBytes = other.Value.ReadChunkLengthBytes;

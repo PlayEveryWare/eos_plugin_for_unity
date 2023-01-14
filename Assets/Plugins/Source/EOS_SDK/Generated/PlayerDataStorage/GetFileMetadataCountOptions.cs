@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		public void Set(ref GetFileMetadataCountOptions other)
 		{
-			m_ApiVersion = PlayerDataStorageInterface.GetfilemetadatacountoptionsApiLatest;
+			m_ApiVersion = PlayerDataStorageInterface.GetfilemetadatacountApiLatest;
 			LocalUserId = other.LocalUserId;
 		}
 
@@ -38,7 +38,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = PlayerDataStorageInterface.GetfilemetadatacountoptionsApiLatest;
+				m_ApiVersion = PlayerDataStorageInterface.GetfilemetadatacountApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 			}
 		}

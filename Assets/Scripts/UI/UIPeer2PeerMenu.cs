@@ -36,7 +36,7 @@ using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPeer2PeerMenu : MonoBehaviour, ISampleSceneUI
+    public class UIPeer2PeerMenu : UIFriendInteractionSource, ISampleSceneUI
     {
         [Header("Peer 2 Peer UI")]
         public GameObject Peer2PeerUIParent;
@@ -50,10 +50,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject ChatEntriesContentParent;
         public GameObject ChatEntryPrefab;
 
-        public ConsoleInputField ChatMessageInput;
+        public UIConsoleInputField ChatMessageInput;
         public Button SendButton;
 
-        public UIPeer2PeerParticleManager ParticleManager;
+        public UIPeer2PeerParticleController ParticleManager;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
-            Peer2PeerManager.ParticleManager = ParticleManager;
+            Peer2PeerManager.ParticleController = ParticleManager;
             Peer2PeerManager.parent = this.transform;
             CloseChatOnClick();
         }
@@ -141,6 +141,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
             }
+        }
+
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            return friendData.IsFriend() && friendData.IsOnline() ? FriendInteractionState.Enabled : FriendInteractionState.Hidden;
+        }
+
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+            ChatButtonOnClick(friendData.UserId);
+        }
+
+        public override string GetFriendInteractButtonText()
+        {
+            return "Chat";
         }
 
         public void ChatButtonOnClick(EpicAccountId userId)

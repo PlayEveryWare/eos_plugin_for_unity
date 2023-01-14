@@ -1,7 +1,7 @@
 PlayEveryWare Leaderboard Epic Online Services Demo
 
-This demo is intended to show the leaderboard function of the EOS Plugin for unity through a leaderboard display application,
-a sample of the leaderboard interface can be found in the EOS_LeaderboardManager script.
+This demo is intended to show the Leaderboard function of the EOS Plugin for Unity through a leaderboard display application.
+A sample of the Leaderboard interface can be found in the EOSLeaderboardManager script.
 
 How to use:
 Select a login type

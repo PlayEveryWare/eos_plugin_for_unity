@@ -51,7 +51,6 @@ namespace PlayEveryWare.EpicOnlineServices
             platformSpecificConfigEditors.Add(platformSpecificConfigEditor);
         }
 
-        private static string ConfigFilename = "EpicOnlineServicesConfig.json";
         private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
         static List<IPlatformSpecificConfigEditor> platformSpecificConfigEditors;
@@ -181,7 +180,7 @@ _WIN32 || _WIN64
 
         private void Awake()
         {
-            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename));
+            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
             steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
 
             if (platformSpecificConfigEditors == null)
@@ -238,41 +237,99 @@ _WIN32 || _WIN64
             return new List<string>(collectedFlags.Split('|'));
         }
 
-        public static void AssigningFlagTextField(string label, ref List<string> flags)
+        private static GUIContent CreateGUIContent(string label, string tooltip = null)
         {
-            var collectedEOSplatformFlags = CollectFlags(flags);
-            var platformFlags = EditorGUILayout.TextField(label, collectedEOSplatformFlags);
-            flags = SplitFlags(platformFlags);
+            if (label == null)
+            {
+                label = "";
+            }
+            if (tooltip == null)
+            {
+                return new GUIContent(label);
+            }
+            else
+            {
+                return new GUIContent(label, tooltip);
+            }
         }
 
-        public static void AssigningFlagTextField(string label, float labelWidth, ref List<string> flags)
+        public static void AssigningFlagTextField(string label, ref List<string> flags, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
 
-            EditorGUIUtility.labelWidth = labelWidth;
-
-            AssigningFlagTextField(label, ref flags);
+            var collectedEOSplatformFlags = CollectFlags(flags);
+            var platformFlags = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), collectedEOSplatformFlags);
+            flags = SplitFlags(platformFlags);
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningTextField(string label, ref string value)
+        public static void AssigningTextField(string label, ref string value, float labelWidth = -1, string tooltip = null)
         {
-            var newValue = EditorGUILayout.TextField(label, EmptyPredicates.NewIfNull(value), GUILayout.ExpandWidth(true));
-            if (!EmptyPredicates.IsEmptyOrNull(newValue))
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            var newValue = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), EmptyPredicates.NewIfNull(value), GUILayout.ExpandWidth(true));
+            if (newValue != null)
             {
                 value = newValue;
             }
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningULongField(string label, ref ulong value)
+        public static void AssigningPath(string label, ref string filePath, string prompt, string directory = "", string extension = "", bool selectFolder = false, bool horizontalLayout = true, float maxButtonWidth = 100, float labelWidth = -1, string tooltip = null)
         {
+            if (horizontalLayout)
+            {
+                EditorGUILayout.BeginHorizontal();
+            }
+
+            AssigningTextField(label, ref filePath, labelWidth, tooltip);
+
+            bool buttonPressed = maxButtonWidth > 0 ? GUILayout.Button("Select", GUILayout.MaxWidth(maxButtonWidth)) : GUILayout.Button("Select");
+
+            if (buttonPressed)
+            {
+                var newFilePath = selectFolder ? EditorUtility.OpenFolderPanel(prompt, "", "") : EditorUtility.OpenFilePanel(prompt, directory, extension);
+                if (!string.IsNullOrWhiteSpace(newFilePath))
+                {
+                    filePath = newFilePath;
+                }
+            }
+
+            if (horizontalLayout)
+            {
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
+        public static void AssigningULongField(string label, ref ulong value, float labelWidth = -1, string tooltip = null)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
             ulong newValue = value;
-            var newValueAsString = EditorGUILayout.TextField(label, value.ToString(), GUILayout.ExpandWidth(true));
+            var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value.ToString(), GUILayout.ExpandWidth(true));
+            if (string.IsNullOrWhiteSpace(newValueAsString))
+            {
+                newValueAsString = "0";
+            }
 
             try
             {
                 newValue = ulong.Parse(newValueAsString);
+                value = newValue;
             }
             catch (FormatException)
             {
@@ -280,22 +337,30 @@ _WIN32 || _WIN64
             catch (OverflowException)
             {
             }
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningULongToStringField(string label, ref string value)
+        public static void AssigningULongToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
         {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
             try
             {
                 EditorGUILayout.BeginHorizontal();
-                var newValueAsString = EditorGUILayout.TextField(label, value == null ? "" : value, GUILayout.ExpandWidth(true));
+                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
 
-                if (GUILayout.Button("Clear"))
+                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
                 {
                     value = null;
                 }
                 else
                 {
-                    if (newValueAsString.Length == 0)
+                    if (string.IsNullOrWhiteSpace(newValueAsString))
                     {
                         value = null;
                         return;
@@ -307,6 +372,7 @@ _WIN32 || _WIN64
             }
             catch (FormatException)
             {
+                value = null;
             }
             catch (OverflowException)
             {
@@ -316,48 +382,70 @@ _WIN32 || _WIN64
                 EditorGUILayout.EndHorizontal();
             }
 
-        }
-
-        public static void AssigningBoolField(string label, float labelWidth, ref bool value)
-        {
-            float originalLabelWidth = EditorGUIUtility.labelWidth;
-            EditorGUIUtility.labelWidth = labelWidth;
-            AssigningBoolField(label, ref value);
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
-        public static void AssigningBoolField(string label, ref bool value)
+
+        public static void AssigningBoolField(string label, ref bool value, float labelWidth = -1, string tooltip = null)
         {
-            var newValue = EditorGUILayout.Toggle(label, value, GUILayout.ExpandWidth(true));
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            var newValue = EditorGUILayout.Toggle(CreateGUIContent(label, tooltip), value, GUILayout.ExpandWidth(true));
             value = newValue;
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
-        public static void AssigningFloatToStringField(string label, float labelWidth, ref string value)
+        public static void AssigningFloatToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
         {
-            float valueAsFloat = EmptyPredicates.IsEmptyOrNull(value) ? 0.0f : float.Parse(value);
-
-            EditorGUILayout.BeginHorizontal();
             float originalLabelWidth = EditorGUIUtility.labelWidth;
-            EditorGUIUtility.labelWidth = labelWidth;
-            float newValueAsFloat = EditorGUILayout.FloatField(label, valueAsFloat, GUILayout.ExpandWidth(false));
-            EditorGUIUtility.labelWidth = originalLabelWidth;
-            if(GUILayout.Button("Clear"))
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            try
+            {
+                EditorGUILayout.BeginHorizontal();
+                var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value == null ? "" : value, GUILayout.ExpandWidth(true));
+
+                if (GUILayout.Button("Clear", GUILayout.MaxWidth(50)))
+                {
+                    value = null;
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(newValueAsString))
+                    {
+                        value = null;
+                        return;
+                    }
+
+                    var valueAsFloat = float.Parse(newValueAsString);
+                    value = valueAsFloat.ToString();
+                }
+            }
+            catch (FormatException)
             {
                 value = null;
             }
-            else
+            catch (OverflowException)
             {
-                if (!(newValueAsFloat == valueAsFloat && EmptyPredicates.IsEmptyOrNull(value)))
-                {
-                    value = newValueAsFloat.ToString();
-                }
             }
-            EditorGUILayout.EndHorizontal();
+            finally
+            {
+                EditorGUILayout.EndHorizontal();
+            }
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
 
         public static void HorizontalLine(Color color)
         {
-
             var defaultHorizontalLineStyle = new GUIStyle();
             defaultHorizontalLineStyle.normal.background = EditorGUIUtility.whiteTexture;
             defaultHorizontalLineStyle.margin = new RectOffset(0, 0, 4, 4);
@@ -377,26 +465,32 @@ _WIN32 || _WIN64
         {
             GUILayout.Label("Epic Online Services", EditorStyles.boldLabel);
 
-            // TODO: Id the Product Name userfacing? If so, we need loc
-            AssigningTextField("Product Name", ref mainEOSConfigFile.currentEOSConfig.productName);
-
-            // TODO: bool to take product version form application version; should be automatic?
-            AssigningTextField("Product Version", ref mainEOSConfigFile.currentEOSConfig.productVersion);
-            AssigningTextField("Product ID", ref mainEOSConfigFile.currentEOSConfig.productID);
-            AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxID);
-            AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.deploymentID);
-
             float originalLabelWidth = EditorGUIUtility.labelWidth;
 
             EditorGUIUtility.labelWidth = 200;
-            AssigningULongToStringField("Thread Affinity: networkWork", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_networkWork);
-            AssigningULongToStringField("Thread Affinity: storageIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_storageIO);
-            AssigningULongToStringField("Thread Affinity: webSocketIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_webSocketIO);
-            AssigningULongToStringField("Thread Affinity: P2PIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_P2PIO);
-            AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_HTTPRequestIO);
-            AssigningULongToStringField("Thread Affinity: RTCIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_RTCIO);
 
-            EditorGUIUtility.labelWidth = originalLabelWidth;
+            // TODO: Id the Product Name userfacing? If so, we need loc
+            AssigningTextField("Product Name", ref mainEOSConfigFile.currentEOSConfig.productName, tooltip: "Product Name defined in the EOS Development Portal");
+
+            // TODO: bool to take product version form application version; should be automatic?
+            AssigningTextField("Product Version", ref mainEOSConfigFile.currentEOSConfig.productVersion, tooltip: "Version of Product");
+            AssigningTextField("Product ID", ref mainEOSConfigFile.currentEOSConfig.productID, tooltip: "Product ID defined in the EOS Development Portal");
+            AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxID, tooltip: "Sandbox ID defined in the EOS Development Portal");
+            AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.deploymentID, tooltip: "Deployment ID defined in the EOS Development Portal");
+
+            
+            AssigningULongToStringField("Thread Affinity: networkWork", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_networkWork,
+                tooltip: "(Optional) Specifies thread affinity for network management that is not IO");
+            AssigningULongToStringField("Thread Affinity: storageIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_storageIO,
+                tooltip: "(Optional) Specifies affinity for threads that will interact with a storage device");
+            AssigningULongToStringField("Thread Affinity: webSocketIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_webSocketIO,
+                tooltip: "(Optional) Specifies affinity for threads that generate web socket IO");
+            AssigningULongToStringField("Thread Affinity: P2PIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_P2PIO,
+                tooltip: "(Optional) Specifies affinity for any thread that will generate IO related to P2P traffic and management");
+            AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_HTTPRequestIO,
+                tooltip: "(Optional) Specifies affinity for any thread that will generate http request IO");
+            AssigningULongToStringField("Thread Affinity: RTCIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_RTCIO,
+                tooltip: "(Optional) Specifies affinity for any thread that will generate IO related to RTC traffic and management");
 
             string timeBudgetAsSting = "";
 
@@ -404,7 +498,7 @@ _WIN32 || _WIN64
             {
                 timeBudgetAsSting = mainEOSConfigFile.currentEOSConfig.tickBudgetInMilliseconds.ToString();
             }
-            AssigningTextField("Time Budget in milliseconds", ref timeBudgetAsSting);
+            AssigningTextField("Time Budget in milliseconds", ref timeBudgetAsSting, tooltip: "(Optional) Define the maximum amount of execution time the EOS SDK can use each frame");
 
             if (timeBudgetAsSting.Length != 0)
             {
@@ -422,13 +516,15 @@ _WIN32 || _WIN64
                 mainEOSConfigFile.currentEOSConfig.tickBudgetInMilliseconds = 0;
             }
 
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+
             // This will be used on Windows via the nativerender code, unless otherwise specified
             EditorGUILayout.Separator();
             GUILayout.Label("Default Client Credentials", EditorStyles.boldLabel);
-            AssigningTextField("Client ID", ref mainEOSConfigFile.currentEOSConfig.clientID);
-            AssigningTextField("Client Secret", ref mainEOSConfigFile.currentEOSConfig.clientSecret);
+            AssigningTextField("Client ID", ref mainEOSConfigFile.currentEOSConfig.clientID, tooltip: "Client ID defined in the EOS Development Portal");
+            AssigningTextField("Client Secret", ref mainEOSConfigFile.currentEOSConfig.clientSecret, tooltip: "Client Secret defined in the EOS Development Portal");
             GUI.SetNextControlName("KeyText");
-            AssigningTextField("Encryption Key", ref mainEOSConfigFile.currentEOSConfig.encryptionKey);
+            AssigningTextField("Encryption Key", ref mainEOSConfigFile.currentEOSConfig.encryptionKey, tooltip: "Used to decode files previously encoded and stored in EOS");
             GUI.SetNextControlName("GenerateButton");
             if (GUILayout.Button("Generate"))
             {
@@ -450,15 +546,24 @@ _WIN32 || _WIN64
                 EditorGUILayout.HelpBox("Encryption key must be 64 hex characters (0-9,A-F). Current length is " + keyLength + ".", MessageType.Error);
             }
 
-            AssigningFlagTextField("Platform Flags (Seperated by '|')", 190, ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags);
+            AssigningFlagTextField("Platform Flags (Seperated by '|')", ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags, 190,
+                "Flags used to initialize EOS Platform. Available flags are defined in PlatformFlags.cs");
+            AssigningFlagTextField("Auth Scope Flags (Seperated by '|')", ref mainEOSConfigFile.currentEOSConfig.authScopeOptionsFlags, 210,
+                "Flags used to specify Auth Scope during login. Available flags are defined in AuthScopeFlags.cs");
 
-            AssigningBoolField("Always send Input to Overlay", 190, ref mainEOSConfigFile.currentEOSConfig.alwaysSendInputToOverlay);
+            AssigningBoolField("Always send Input to Overlay", ref mainEOSConfigFile.currentEOSConfig.alwaysSendInputToOverlay, 190,
+                "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
+
+            EditorGUILayout.Separator();
+            GUILayout.Label("Post Build", EditorStyles.boldLabel);
+            AssigningTextField("Bootstrapper Name Override", ref mainEOSConfigFile.currentEOSConfig.bootstrapperNameOverride, 180, "Renames EOSBootstrapper.exe when making Windows build");
+            AssigningBoolField("Use Easy Anti-Cheat", ref mainEOSConfigFile.currentEOSConfig.useEAC, 130, "If true, copy EAC files and run EAC integrity tool after building");
         }
 
         private void OnSteamGUI()
         {
             GUILayout.Label("Steam Configuration Values", EditorStyles.boldLabel);
-            AssigningFlagTextField("Steam Flags (Seperated by '|')", 190, ref steamEOSConfigFile.currentEOSConfig.flags);
+            AssigningFlagTextField("Steam Flags (Seperated by '|')", ref steamEOSConfigFile.currentEOSConfig.flags, 190);
             AssigningTextField("Override Library path", ref steamEOSConfigFile.currentEOSConfig.overrideLibraryPath);
         }
 
@@ -474,7 +579,8 @@ _WIN32 || _WIN64
         {
             EnsureConfigLoaded();
             string[] toolbarTitlesToUse = CreateToolbarTitles();
-            toolbarInt = GUILayout.Toolbar(toolbarInt, toolbarTitleStrings);
+            int xCount = (int)(EditorGUIUtility.currentViewWidth / 120);
+            toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitlesToUse, xCount);
             switch (toolbarInt)
             {
                 case 0:
@@ -499,7 +605,7 @@ _WIN32 || _WIN64
 #endif
             EditorGUILayout.Separator();
             GUILayout.Label("Config Format Options", EditorStyles.boldLabel);
-            AssigningBoolField("Save JSON in 'Pretty' Format", 190, ref prettyPrint);
+            AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
             if (GUILayout.Button("Save All Changes"))
             {
                 SaveToJSONConfig(prettyPrint);

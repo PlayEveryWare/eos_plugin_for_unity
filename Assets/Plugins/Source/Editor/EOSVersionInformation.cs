@@ -80,7 +80,12 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public void Awake()
         {
+#if EOS_DISABLE
+            eos_library_version = "disabled";
+#else
             eos_library_version = DLLHandle.GetProductVersionForLibrary("EOSSDK-Win64-Shipping");
+#endif
+
             string templateDirectory = GetTemplateDirectory();
             string packagedPluginPath = Path.GetFullPath("Packages/" + GetPackageName());
 

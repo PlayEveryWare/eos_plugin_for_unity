@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>EOSSDK</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.epicgames.EOSSDK.embedded</string>
+	<string>com.epicgames.EOSSDK.EOSSDK.Embedded</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

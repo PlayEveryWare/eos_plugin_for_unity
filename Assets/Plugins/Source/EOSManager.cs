@@ -87,9 +87,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public delegate void OnConnectLinkExternalAccountCallback(Epic.OnlineServices.Connect.LinkAccountCallbackInfo linkAccountCallbackInfo);
         public delegate void OnAuthLinkExternalAccountCallback(Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo);
 
-        /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
-        public static string ConfigFileName = "EpicOnlineServicesConfig.json";
-
         /// <value>List of logged in <c>EpicAccountId</c></value>
         private static List<EpicAccountId> loggedInAccountIDs = new List<EpicAccountId>();
 
@@ -144,6 +141,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             static private EpicAccountId s_localUserId;
             static private ProductUserId s_localProductUserId = null;
+            static private AuthScopeFlags s_authScopeFlags;
 
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
@@ -494,7 +492,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 UnityEngine.Debug.LogError("Platform not supported");    
 #endif
 
-                Init(coroutineOwner, ConfigFileName);
+                Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
             }
 
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
@@ -541,6 +539,41 @@ namespace PlayEveryWare.EpicOnlineServices
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
 
                 print("Loaded config file: " + configDataAsString);
+
+                //support sandbox and deployment id override via command line arguments
+                var commandArgs = System.Environment.GetCommandLineArgs();
+                for (int i = 0; i < commandArgs.Length - 1; ++i)
+                {
+                    if (commandArgs[i] == "-eossandboxid")
+                    {
+                        var sandboxArg = commandArgs[i + 1];
+                        UnityEngine.Debug.Log("Sandbox ID override specified: " + sandboxArg);
+                        if (sandboxArg.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(sandboxArg).Success)
+                        {
+                            configData.sandboxID = sandboxArg;
+                            UnityEngine.Debug.Log("Sandbox ID override applied");
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.LogWarning("Sandbox ID override is invalid: must be 32 hex characters");
+                        }
+                    }
+                    else if (commandArgs[i] == "-eosdeploymentid")
+                    {
+                        var deploymentArg = commandArgs[i + 1];
+                        UnityEngine.Debug.Log("Deployment ID override specified: " + deploymentArg);
+                        if (deploymentArg.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(deploymentArg).Success)
+                        {
+                            configData.deploymentID = deploymentArg;
+                            UnityEngine.Debug.Log("Deployment ID override applied");
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.LogWarning("Deployment ID override is invalid: must be 32 hex characters");
+                        }
+                    }
+                }
+
                 Epic.OnlineServices.Result initResult = InitializePlatformInterface(configData);
                 UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
                 
@@ -555,7 +588,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
 #endif
-#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
+#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM
                     if (secondTryResult != Result.AlreadyConfigured)
 #endif
                     {
@@ -578,6 +611,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 SetEOSPlatformInterface(eosPlatformInterface);
                 UpdateEOSApplicationStatus();
+
+                s_authScopeFlags = configData.authScopeOptionsFlagsAsAuthScopeFlags();
 
                 loadedEOSConfig = configData;
 
@@ -725,7 +760,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 return new Epic.OnlineServices.Auth.LoginOptions {
                     Credentials = loginCredentials,
-                    ScopeFlags = AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence
+                    ScopeFlags = s_authScopeFlags
                 };
             }
 
@@ -925,6 +960,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     case ExternalCredentialType.NintendoIdToken:
                     case ExternalCredentialType.NintendoNsaIdToken:
                     case ExternalCredentialType.AppleIdToken:
+                    case ExternalCredentialType.OculusUseridNonce:
                         loginOptions.UserLoginInfo = new UserLoginInfo { DisplayName = displayname };
                         break;
                 }

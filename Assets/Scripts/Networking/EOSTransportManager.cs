@@ -29,6 +29,10 @@ using System.Text;
 
 using UnityEngine;
 
+#if COM_UNITY_MODULE_NETCODE
+using Unity.Netcode;
+#endif
+
 using Epic.OnlineServices;
 using Epic.OnlineServices.P2P;
 using System.Text.RegularExpressions;
@@ -297,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public EOSTransportManager()
         {
 #if !COM_UNITY_MODULE_NETCODE
-            Debug.LogError("EOSTransportManager: Network for GameObjects package not ins");
+            Debug.LogError("EOSTransportManager: Netcode for GameObjects package not installed");
 #endif
 
             Clear();
@@ -313,6 +317,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             IsInitialized = false;
         }
 
+#if UNITY_EDITOR
+        void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
+        {
+            if (modeChange == UnityEditor.PlayModeStateChange.ExitingPlayMode)
+            {
+                //prevent attempts to call native EOS code while exiting play mode, which crashes the editor
+                P2PHandle = null;
+                Shutdown();
+            }
+        }
+#endif
+
         /// <summary>
         /// Initializes the EOS P2P Manager.
         /// </summary>
@@ -324,6 +340,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 print("EOSTransportManager.Initialize: Already initialized - Shutting down EOSTransportManager first before proceeding.", LogType.Warning);
                 Shutdown();
             }
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeChanged;
+#endif
 
             Debug.Assert(IsInitialized == false);
             print("EOSTransportManager.Initialize: Initializing EOSTransportManager...");
@@ -389,6 +410,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             UnsubscribeFromConnectionClosedNotifications();
             UnsubscribeFromConnectionRequestNotifications();
             Clear();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+#endif
         }
 
         //
@@ -731,7 +756,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                         SocketId = connection.SocketId,
                     };
 
-                    Result result = P2PHandle.CloseConnection(ref options);
+                    Result result = P2PHandle?.CloseConnection(ref options) ?? Result.NetworkDisconnected;
                     if (result != Result.Success)
                     {
                         print($"EOSTransportManager.CloseConnection: Failed to close remote peer connection - P2PInterface.CloseConnection error result '{result}'.", LogType.Error);
@@ -852,7 +877,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             if (Connections.TryGetValue(remoteUserId, out List<Connection> connections))
             {
-                var connectionsCopy = connections;
+                var connectionsCopy = new List<Connection>(connections);
                 foreach (var connection in connectionsCopy)
                 {
                     if (CloseConnection(remoteUserId, connection.SocketName, forceClose) == false)
@@ -990,7 +1015,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     AllowDelayedDelivery = allowDelayedDelivery,
                     Channel = channel,
                     Reliability = reliability,
-                    Data = fragment,
+                    Data = new ArraySegment<byte>(fragment),
                 };
 
                 Result result = P2PHandle.SendPacket(ref options);
@@ -1016,6 +1041,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <returns><c>true</c> if a packet was recieved, <c>false</c> if not. In the latter case, all parameters will be set to <c>null</c> or <c>0</c></returns>
         public bool TryReceivePacket(out ProductUserId remoteUserId, out string socketName, out byte channel, out byte[] packet)
         {
+            if (P2PHandle == null)
+            {
+                remoteUserId = null;
+                socketName = null;
+                channel = 0;
+                packet = null;
+                return false;
+            }
+
             ReceivePacketOptions receivePacketOptions = new ReceivePacketOptions()
             {
                 LocalUserId = LocalUserId,
@@ -1069,8 +1103,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
 
 
-            ArraySegment<byte> header = new(packet, 0, FragmentHeaderSize);
-            ArraySegment<byte> payload = new(packet, FragmentHeaderSize, packet.Length - FragmentHeaderSize);
+            ArraySegment<byte> header = new ArraySegment<byte>(packet, 0, FragmentHeaderSize);
+            ArraySegment<byte> payload = new ArraySegment<byte>(packet, FragmentHeaderSize, packet.Length - FragmentHeaderSize);
 
             //TODO: verify that this still works
             // Combine the bytes from the header to form 2 shorts, one for the message index, and one for the fragment number/end flag
@@ -1125,7 +1159,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             if (!InProgressPackets.ContainsKey(index))
             {
-                InProgressPackets[index] = new();
+                InProgressPackets[index] = new SortedList<ushort, byte[]>();
             }
             InProgressPackets[index].Add(fragmentPos,payload.ToArray());
 
@@ -1179,7 +1213,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
         private void UnsubscribeFromConnectionRequestNotifications()
         {
-            P2PHandle.RemoveNotifyPeerConnectionRequest(ConnectionRequestNotificationsId);
+            P2PHandle?.RemoveNotifyPeerConnectionRequest(ConnectionRequestNotificationsId);
         }
         private void OnConnectionRequestNotification(ref OnIncomingConnectionRequestInfo data)
         {
@@ -1222,7 +1256,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
         private void UnsubscribeFromConnectionClosedNotifications()
         {
-            P2PHandle.RemoveNotifyPeerConnectionClosed(ConnectionClosedNotificationsId);
+            P2PHandle?.RemoveNotifyPeerConnectionClosed(ConnectionClosedNotificationsId);
         }
         private void OnConnectionClosedNotification(ref OnRemoteConnectionClosedInfo data)
         {
@@ -1234,6 +1268,45 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             // Force close (from incoming direction)
             CloseConnection(remoteUserId, socketName, true);
+        }
+
+        public bool StartHost()
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager (StartHost): Network for GameObjects package not installed");
+            return false;
+#else
+            return NetworkManager.Singleton.StartHost();
+#endif
+        }
+
+        public bool StartServer()
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager (StartServer): Network for GameObjects package not installed");
+            return false;
+#else
+            return NetworkManager.Singleton.StartServer();
+#endif
+        }
+
+        public bool StartClient()
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager (StartHost): Network for GameObjects package not installed");
+            return false;
+#else
+            return NetworkManager.Singleton.StartClient();
+#endif
+        }
+
+        public void Disconnect(bool discardMessageQueue = false)
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager (Shutdown): Network for GameObjects package not installed");
+#else
+            NetworkManager.Singleton?.Shutdown(discardMessageQueue);
+#endif
         }
     }
 }

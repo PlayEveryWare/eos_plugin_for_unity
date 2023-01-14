@@ -69,13 +69,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 overrideValues = configFile.currentEOSConfig.overrideValues;
             }
 
-            EpicOnlineServicesConfigEditor.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", 190, ref overrideValues.platformOptionsFlags);
+            EpicOnlineServicesConfigEditor.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override initial button delay for overlay", 250, ref overrideValues.initialButtonDelayForOverlay);
+            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override initial button delay for overlay", ref overrideValues.initialButtonDelayForOverlay, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override repeat button delay for overlay", 250, ref overrideValues.repeatButtonDelayForOverlay);
+            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override repeat button delay for overlay", ref overrideValues.repeatButtonDelayForOverlay, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningBoolField("HACK: force send input without delay", 250, ref overrideValues.hackForceSendInputDirectlyToSDK);
+            EpicOnlineServicesConfigEditor.AssigningBoolField("HACK: force send input without delay", ref overrideValues.hackForceSendInputDirectlyToSDK, 250);
 
             //EpicOnlineServicesConfigEditor.AssigningBoolField("Use Eased Restriction NRO path", 250, ref configFile.currentEOSConfig.useEasedRestrictionNROPath);
 

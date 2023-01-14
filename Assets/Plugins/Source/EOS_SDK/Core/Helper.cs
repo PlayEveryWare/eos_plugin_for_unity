@@ -68,6 +68,18 @@ namespace Epic.OnlineServices
 				IsArrayItemAllocated = isArrayItemAllocated;
 			}
 		}
+		private struct PinnedBuffer
+		{
+			public GCHandle Handle { get; private set; }
+
+			public int RefCount { get; set; }
+
+			public PinnedBuffer(GCHandle handle)
+			{
+				Handle = handle;
+				RefCount = 1;
+			}
+		}
 
 		private class DelegateHolder
 		{
@@ -85,7 +97,7 @@ namespace Epic.OnlineServices
 		}
 
 		private static Dictionary<IntPtr, Allocation> s_Allocations = new Dictionary<IntPtr, Allocation>();
-		private static Dictionary<IntPtr, GCHandle> s_PinnedBuffers = new Dictionary<IntPtr, GCHandle>();
+		private static Dictionary<IntPtr, PinnedBuffer> s_PinnedBuffers = new Dictionary<IntPtr, PinnedBuffer>();
 		private static Dictionary<IntPtr, DelegateHolder> s_Callbacks = new Dictionary<IntPtr, DelegateHolder>();
 		private static Dictionary<string, DelegateHolder> s_StaticCallbacks = new Dictionary<string, DelegateHolder>();
 		private static long s_LastClientDataId = 0;
@@ -97,7 +109,7 @@ namespace Epic.OnlineServices
 		/// <returns>The number of unmanaged allocations currently active within the wrapper.</returns>
 		public static int GetAllocationCount()
 		{
-			return s_Allocations.Count + s_PinnedBuffers.Count + s_Callbacks.Count + s_ClientDatas.Count;
+			return s_Allocations.Count + s_PinnedBuffers.Aggregate(0, (acc, x) => acc + x.Value.RefCount) + s_Callbacks.Count + s_ClientDatas.Count;
 		}
 
 		internal static void Copy(byte[] from, IntPtr to)
@@ -243,6 +255,7 @@ namespace Epic.OnlineServices
 
 			// If this is an allocation containing cached data, we should be able to fetch it from the cache
 			object allocationCache;
+
 			if (TryGetAllocationCache(source, out allocationCache))
 			{
 				if (allocationCache != null)
@@ -562,6 +575,35 @@ namespace Epic.OnlineServices
 			return false;
 		}
 
+		private static IntPtr AddPinnedBuffer(byte[] buffer, int offset)
+		{
+			if (buffer == null)
+			{
+				return IntPtr.Zero;
+			}
+
+			GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+			IntPtr address = Marshal.UnsafeAddrOfPinnedArrayElement(buffer, offset);
+
+			lock (s_PinnedBuffers)
+			{
+				// If the item is already pinned, increase the reference count.
+				if (s_PinnedBuffers.ContainsKey(address))
+				{
+					// Since this is a structure, need to copy to modify the element.
+					PinnedBuffer pinned = s_PinnedBuffers[address];
+					pinned.RefCount++;
+					s_PinnedBuffers[address] = pinned;
+				}
+				else
+				{
+					s_PinnedBuffers.Add(address, new PinnedBuffer(handle));
+				}
+
+				return address;
+			}
+		}
+
 		private static IntPtr AddPinnedBuffer(Utf8String str)
 		{
 			if (str == null || str.Bytes == null)
@@ -569,13 +611,7 @@ namespace Epic.OnlineServices
 				return IntPtr.Zero;
 			}
 
-			lock (s_PinnedBuffers)
-			{
-				GCHandle pinnedBuffer = GCHandle.Alloc(str.Bytes, GCHandleType.Pinned);
-				IntPtr address = Marshal.UnsafeAddrOfPinnedArrayElement(str.Bytes, 0);
-				s_PinnedBuffers.Add(address, pinnedBuffer);
-				return address;
-			}
+			return AddPinnedBuffer(str.Bytes, 0);
 		}
 
 		internal static IntPtr AddPinnedBuffer(ArraySegment<byte> array)
@@ -585,13 +621,7 @@ namespace Epic.OnlineServices
 				return IntPtr.Zero;
 			}
 
-			lock (s_PinnedBuffers)
-			{
-				GCHandle pinnedBuffer = GCHandle.Alloc(array.Array, GCHandleType.Pinned);
-				IntPtr address = Marshal.UnsafeAddrOfPinnedArrayElement(array.Array, array.Offset);
-				s_PinnedBuffers.Add(address, pinnedBuffer);
-				return address;
-			}
+			return AddPinnedBuffer(array.Array, array.Offset);
 		}
 
 		private static void RemovePinnedBuffer(ref IntPtr address)
@@ -603,14 +633,27 @@ namespace Epic.OnlineServices
 
 			lock (s_PinnedBuffers)
 			{
-				GCHandle pinnedBuffer;
+				PinnedBuffer pinnedBuffer;
 				if (s_PinnedBuffers.TryGetValue(address, out pinnedBuffer))
 				{
-					pinnedBuffer.Free();
-					s_PinnedBuffers.Remove(address);
-					address = IntPtr.Zero;
+					// Deref the allocation.
+					pinnedBuffer.Handle.Free();
+					pinnedBuffer.RefCount--;
+
+					// If the reference count is zero, remove the allocation from the list of tracked allocations.
+					if (pinnedBuffer.RefCount == 0)
+					{
+						s_PinnedBuffers.Remove(address);
+					}
+					else
+					{
+						// Copy back the structure with the decreased reference count.
+						s_PinnedBuffers[address] = pinnedBuffer;
+					}
 				}
 			}
+
+			address = IntPtr.Zero;
 		}
 	}
 }

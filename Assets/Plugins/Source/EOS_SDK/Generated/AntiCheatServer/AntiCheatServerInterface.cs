@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 		public const int ReceivemessagefromclientApiLatest = 1;
 
-		public const int RegisterclientApiLatest = 1;
+		public const int RegisterclientApiLatest = 2;
 
 		public const int SetclientnetworkstateApiLatest = 1;
 
@@ -480,6 +480,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the message was processed successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.InvalidRequest" /> - If message contents were corrupt and could not be processed
 		/// </returns>
 		public Result ReceiveMessageFromClient(ref ReceiveMessageFromClientOptions options)
 		{

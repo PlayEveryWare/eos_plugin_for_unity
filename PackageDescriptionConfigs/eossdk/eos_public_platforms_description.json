@@ -1,0 +1,16 @@
+{
+    "source_to_dest": [
+        {"src": "SDK/Source/Generated/", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/", "recursive":true},
+        {"src": "SDK/Source/Core/", "dest": "Assets/Plugins/Source/EOS_SDK/Core/", "recursive":true},
+
+        {"src": "SDK/Bin/EOSSDK-Win32-Shipping.dll", "dest": "Assets/Plugins/Windows/x86/"},
+        {"src": "SDK/Bin/x86/*.dll", "dest": "Assets/Plugins/Windows/x86/"},
+        {"src": "SDK/Bin/EOSSDK-Win64-Shipping.dll", "dest": "Assets/Plugins/Windows/x64/"},
+        {"src": "SDK/Bin/x64/*.dll", "dest":"Assets/Plugins/Windows/x64/"},
+        {"src": "SDK/Bin/libEOSSDK-Linux-Shipping.so", "dest": "Assets/Plugins/Linux/"},
+        {"src": "SDK/Bin/libEOSSDK-Mac-Shipping.dylib", "dest": "Assets/Plugins/macOS/"},
+		{"src": "SDK/Bin/Android/dynamic-stdc++/aar/eos-sdk.aar", "dest": "Assets/Plugins/Android/"},
+		{"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
+		{"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"}
+    ]
+}

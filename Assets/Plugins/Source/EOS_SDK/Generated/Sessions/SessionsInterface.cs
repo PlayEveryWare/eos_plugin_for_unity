@@ -817,6 +817,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
 		/// <see cref="Result.NotFound" /> if a session to be updated does not exist
+		/// <see cref="Result.LimitExceeded" /> if a new session cannot be created because doing so would exceed the maximum allowed concurrent session count
 		/// </returns>
 		public void UpdateSession(ref UpdateSessionOptions options, object clientData, OnUpdateSessionCallback completionDelegate)
 		{

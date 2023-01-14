@@ -93,10 +93,9 @@ public class UnityPackageCreationTool : EditorWindow
     {
         GUILayout.Label("Unity Package Create", EditorStyles.boldLabel);
 
-        GUILayout.Label("JSON Description Path");
-        GUILayout.BeginHorizontal(GUIStyle.none);
-        GUILayout.Label(pathToJSONPackageDescription);
-        if (GUILayout.Button("Select"))
+        GUILayout.BeginHorizontal();
+        EpicOnlineServicesConfigEditor.AssigningTextField("JSON Description Path", ref pathToJSONPackageDescription);
+        if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
         {
             var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
             if (!string.IsNullOrWhiteSpace(jsonFile))
@@ -105,13 +104,11 @@ public class UnityPackageCreationTool : EditorWindow
                 packagingConfigSection.GetCurrentConfig().pathToJSONPackageDescription = pathToJSONPackageDescription;
             }
         }
-
         GUILayout.EndHorizontal();
 
-        GUILayout.Label("Output Path");
-        GUILayout.BeginHorizontal(GUIStyle.none);
-        GUILayout.Label(pathToOutput);
-        if (GUILayout.Button("Select"))
+        GUILayout.BeginHorizontal();
+        EpicOnlineServicesConfigEditor.AssigningTextField("Output Path", ref pathToOutput);
+        if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
         {
             var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
             if (!string.IsNullOrWhiteSpace(outputDir))
@@ -122,10 +119,9 @@ public class UnityPackageCreationTool : EditorWindow
         }
         GUILayout.EndHorizontal();
 
-        GUILayout.Label("Custom Build Directory");
-        GUILayout.BeginHorizontal(GUIStyle.none);
-        GUILayout.Label(customBuildDirectoryPath);
-        if (GUILayout.Button("Select"))
+        GUILayout.BeginHorizontal();
+        EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory", ref customBuildDirectoryPath);
+        if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
         {
             var buildDir = EditorUtility.OpenFolderPanel("Pick Custom Build Directory", "", "");
             if (!string.IsNullOrWhiteSpace(buildDir))
@@ -136,7 +132,9 @@ public class UnityPackageCreationTool : EditorWindow
         }
         GUILayout.EndHorizontal();
 
-        if (GUILayout.Button("Create UPM Package"))
+        GUILayout.Space(20f);
+
+        if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
         {
             if (string.IsNullOrWhiteSpace(pathToOutput))
             {
@@ -146,21 +144,23 @@ public class UnityPackageCreationTool : EditorWindow
             CreateUPMPackage(pathToOutput, pathToJSONPackageDescription);
         }
 
-        if (GUILayout.Button("Create .unitypackage"))
+        if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
         {
             if (string.IsNullOrWhiteSpace(pathToOutput))
             {
                 return;
             }
+            packagingConfigSection.SaveToJSONConfig(true);
             CreateLegacyUnityPackage(pathToOutput, pathToJSONPackageDescription);
         }
 
-        if (GUILayout.Button("Export to Custom Build Directory"))
+        if (GUILayout.Button("Export to Custom Build Directory", GUILayout.MaxWidth(200)))
         {
             if (string.IsNullOrWhiteSpace(customBuildDirectoryPath))
             {
                 return;
             }
+            packagingConfigSection.SaveToJSONConfig(true);
             CopyFilesInPackageDescriptionToBuildDir(pathToJSONPackageDescription);
         }
     }
@@ -205,7 +205,31 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private void CopyFilesToPackageDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
     {
-        PackageFileUtils.CopyFilesToDirectory(packageFolder, fileInfoForFilesToCompress);
+        PackageFileUtils.CopyFilesToDirectory(packageFolder, fileInfoForFilesToCompress, WriteVersionInfo);
+    }
+
+    //-------------------------------------------------------------------------
+    private void WriteVersionInfo(string destPath)
+    {
+        if (Path.GetFileName(destPath) == "EOSPackageInfo.cs")
+        {
+            string version = EOSPackageInfo.GetPackageVersion();
+            string contents = File.ReadAllText(destPath);
+            string start = "//VERSION START";
+            string end = "//VERSION END";
+            var startIndex = contents.IndexOf(start) + start.Length;
+            var endIndex = contents.IndexOf(end);
+            var newFunction =
+@"
+    public static string GetPackageVersion()
+    {
+        return """+ version + @""";
+    }
+    ";
+            string newContents = contents.Substring(0, startIndex) + newFunction + contents.Substring(endIndex);
+
+            File.WriteAllText(destPath, newContents);
+        }
     }
 
     //-------------------------------------------------------------------------

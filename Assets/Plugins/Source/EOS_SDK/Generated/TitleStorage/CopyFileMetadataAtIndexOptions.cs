@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.TitleStorage
 
 		public void Set(ref CopyFileMetadataAtIndexOptions other)
 		{
-			m_ApiVersion = TitleStorageInterface.CopyfilemetadataatindexoptionsApiLatest;
+			m_ApiVersion = TitleStorageInterface.CopyfilemetadataatindexApiLatest;
 			LocalUserId = other.LocalUserId;
 			Index = other.Index;
 		}
@@ -53,7 +53,7 @@ namespace Epic.OnlineServices.TitleStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = TitleStorageInterface.CopyfilemetadataatindexoptionsApiLatest;
+				m_ApiVersion = TitleStorageInterface.CopyfilemetadataatindexApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				Index = other.Value.Index;
 			}

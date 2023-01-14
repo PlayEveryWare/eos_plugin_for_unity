@@ -1,0 +1,12 @@
+#PS5 settings
+PS5Settings.json
+BurstAotSettings_PS5.json
+#XO settings
+XboxOneGame.config
+GameCoreXboxOneSettings.asset
+#XSX settings
+GameCoreScarlettSettings.asset
+ScarlettGame.config
+BurstAotSettings_GameCoreScarlett.json
+#Switch setings
+BurstAotSettings_Switch.json

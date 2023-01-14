@@ -37,11 +37,11 @@ using UnityEngine.Android;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : UIInviteSource, ISampleSceneUI
+    public class UILobbiesMenu : UIFriendInteractionSource, ISampleSceneUI
     {
         [Header("Lobbies UI - Create Options")]
         public GameObject LobbiesUIParent;
-        public ConsoleInputField BucketIdVal;
+        public UIConsoleInputField BucketIdVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
         public Dropdown PermissionVal;
@@ -70,9 +70,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UILobbyEntryPrefab;
         public GameObject SearchContentParent;
 
-        public ConsoleInputField SearchByBucketIdBox;
-        public ConsoleInputField SearchByLevelBox;
-        public ConsoleInputField SearchByLobbyIdBox;
+        public UIConsoleInputField SearchByBucketIdBox;
+        public UIConsoleInputField SearchByLevelBox;
+        public UIConsoleInputField SearchByLobbyIdBox;
 
         [Header("Lobbies UI - Invite PopUp")]
         public GameObject UIInvitePanel;
@@ -93,6 +93,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSLobbyManager LobbyManager;
         private EOSFriendsManager FriendsManager;
         private EOSEACLobbyManager AntiCheatLobbyManager;
+
+        private bool UIDirty = false;
 
 #if UNITY_ANDROID && !UNITY_EDITOR //TODO: this should be in a centralized class to reduce clutter, and like an enum if other platforms are to be included
         const bool ONANDROIDPLATFORM = true;
@@ -476,9 +478,44 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyManager.DeclineLobbyInvite();
         }
 
-        public override void OnInviteButtonClicked(EpicAccountId UserId)
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
         {
-            LobbyInviteButtonOnClick(UserId);
+            LobbyInviteButtonOnClick(friendData.UserId);
+        }
+
+        public override string GetFriendInteractButtonText()
+        {
+            return "Invite";
+        }
+
+        public override bool IsDirty()
+        {
+            return UIDirty;
+        }
+
+        public override void ResetDirtyFlag()
+        {
+            UIDirty = false;
+        }
+
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            if (friendData.IsFriend() && friendData.IsOnline() && IsCurrentLobbyValid())
+            {
+                //hide invite button for users already in the lobby
+                if (LobbyManager.GetCurrentLobby().Members.Find((LobbyMember member) => { return member.ProductId == friendData.UserProductUserId; }) == null)
+                {
+                    return FriendInteractionState.Enabled;
+                }
+                else
+                {
+                    return FriendInteractionState.Hidden;
+                }
+            }
+            else
+            {
+                return FriendInteractionState.Disabled;
+            }
         }
 
         public void LobbyInviteButtonOnClick(EpicAccountId userId)
@@ -502,11 +539,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError("UILobbiesMenu (LobbyInviteButtonOnClick): Friend not found in cached data.");
             }
-        }
-
-        public override bool IsInviteActive()
-        {
-            return IsCurrentLobbyValid();
         }
 
         public bool IsCurrentLobbyValid()
@@ -555,6 +587,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LeaveLobbyButton.gameObject.SetActive(true);
             AddMemberAttributeButton.gameObject.SetActive(true);
+
+            UIDirty = true;
         }
 
         private void UIOnLeaveLobby(Result result)

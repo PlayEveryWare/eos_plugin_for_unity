@@ -118,6 +118,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 MuteButton.interactable = true;
                 MuteButton.gameObject.SetActive(true);
 
+                if (lobbyManager.GetCurrentLobby().Members.Count == 1) 
+                {
+                    IsTalkingText.text = "-------------";
+                    return;
+                }
                 foreach(LobbyMember member in lobbyManager.GetCurrentLobby().Members)
                 {
                     if (member.ProductId == ProductUserId)
@@ -193,15 +198,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-#if EOS_PREVIEW_PLATFORM
-    #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+    #if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM
         [System.Runtime.InteropServices.DllImport("MicrophoneUtility_macos.dylib")]
         public static extern bool MicrophoneUtility_get_mic_permission();
     #elif UNITY_IOS
         [System.Runtime.InteropServices.DllImport("__Internal")]
         public static extern bool MicrophoneUtility_get_mic_permission();
     #endif
-#endif
+    
         private bool HasPlatformMicrophonePermission()
         {
 #if UNITY_IOS || ((UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM)

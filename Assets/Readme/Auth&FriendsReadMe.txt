@@ -1,7 +1,7 @@
 PlayEveryWare Auth & Friends Epic Online Services Demo
 
-This demo is intended to show the auth & friends function of the EOS Plugin for unity through a friends list application,
-a sample of the auth & friends interface can be found in the EOS_FriendsManager script.
+This demo is intended to show the Friends function of the EOS Plugin for unity through a friends list application.
+A sample of the Friends interface can be found in the EOSFriendsManager script.
 
 How to use:
 Select a login type

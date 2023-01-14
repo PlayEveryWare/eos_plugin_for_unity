@@ -1,7 +1,7 @@
 PlayEveryWare ************ Epic Online Services Demo
 
-This demo is intended to show the ******** function of the EOS Plugin for unity through a ********** application,
-a sample of the ********* interface can be found in the EOS_********Manager script.
+This demo is intended to show the ******** function of the EOS Plugin for Unity through a ********** application.
+A sample of the ********* interface can be found in the EOS********Manager script.
 
 How to use:
 Select a login type

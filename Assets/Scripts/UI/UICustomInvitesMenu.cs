@@ -30,7 +30,7 @@ using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UICustomInvitesMenu : UIInviteSource, ISampleSceneUI
+    public class UICustomInvitesMenu : UIFriendInteractionSource, ISampleSceneUI
     {
         [Header("Custom Invites UI")]
         public Transform PendingInvitesParent;
@@ -41,6 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EOSFriendsManager FriendsManager;
         private List<UICustomInviteEntry> PendingInviteEntries;
         private bool PayloadSet = false;
+        private bool UIDirty = false;
 
         private void Awake()
         {
@@ -149,20 +150,45 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnPayloadEndEdit(string payloadText)
         {
-            CustomInvitesManager.SetPayload(payloadText);
-            PayloadSet = true;
+            payloadText = payloadText.Trim();
+            if (string.IsNullOrEmpty(payloadText))
+            {
+                CustomInvitesManager.SetPayload(null);
+                PayloadSet = false;
+            }
+            else
+            {
+                CustomInvitesManager.SetPayload(payloadText);
+                PayloadSet = true;
+            }
+            UIDirty = true;
         }
 
-        public override bool IsInviteActive()
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
-            return PayloadSet;
+            return PayloadSet && friendData.IsFriend() && friendData.IsOnline() ? FriendInteractionState.Enabled : FriendInteractionState.Disabled;
         }
 
-        public override void OnInviteButtonClicked(EpicAccountId UserId)
+        public override string GetFriendInteractButtonText()
+        {
+            return "Invite";
+        }
+
+        public override bool IsDirty()
+        {
+            return UIDirty;
+        }
+
+        public override void ResetDirtyFlag()
+        {
+            UIDirty = false;
+        }
+
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
         {
             FriendsManager.GetCachedFriends(out Dictionary<EpicAccountId, FriendData> friends);
 
-            if (friends.TryGetValue(UserId, out FriendData friend))
+            if (friends.TryGetValue(friendData.UserId, out FriendData friend))
             {
                 if (friend.UserProductUserId == null || !friend.UserProductUserId.IsValid())
                 {

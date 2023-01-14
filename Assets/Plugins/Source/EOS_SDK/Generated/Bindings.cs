@@ -227,6 +227,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetOfferItemCountName = "EOS_Ecom_GetOfferItemCount";
 		private const string EOS_Ecom_GetTransactionCountName = "EOS_Ecom_GetTransactionCount";
 		private const string EOS_Ecom_KeyImageInfo_ReleaseName = "EOS_Ecom_KeyImageInfo_Release";
+		private const string EOS_Ecom_QueryEntitlementTokenName = "EOS_Ecom_QueryEntitlementToken";
 		private const string EOS_Ecom_QueryEntitlementsName = "EOS_Ecom_QueryEntitlements";
 		private const string EOS_Ecom_QueryOffersName = "EOS_Ecom_QueryOffers";
 		private const string EOS_Ecom_QueryOwnershipName = "EOS_Ecom_QueryOwnership";
@@ -775,6 +776,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetOfferItemCountName = "_EOS_Ecom_GetOfferItemCount";
 		private const string EOS_Ecom_GetTransactionCountName = "_EOS_Ecom_GetTransactionCount";
 		private const string EOS_Ecom_KeyImageInfo_ReleaseName = "_EOS_Ecom_KeyImageInfo_Release";
+		private const string EOS_Ecom_QueryEntitlementTokenName = "_EOS_Ecom_QueryEntitlementToken";
 		private const string EOS_Ecom_QueryEntitlementsName = "_EOS_Ecom_QueryEntitlements";
 		private const string EOS_Ecom_QueryOffersName = "_EOS_Ecom_QueryOffers";
 		private const string EOS_Ecom_QueryOwnershipName = "_EOS_Ecom_QueryOwnership";
@@ -1323,6 +1325,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_GetOfferItemCountName = "_EOS_Ecom_GetOfferItemCount@8";
 		private const string EOS_Ecom_GetTransactionCountName = "_EOS_Ecom_GetTransactionCount@8";
 		private const string EOS_Ecom_KeyImageInfo_ReleaseName = "_EOS_Ecom_KeyImageInfo_Release@4";
+		private const string EOS_Ecom_QueryEntitlementTokenName = "_EOS_Ecom_QueryEntitlementToken@16";
 		private const string EOS_Ecom_QueryEntitlementsName = "_EOS_Ecom_QueryEntitlements@16";
 		private const string EOS_Ecom_QueryOffersName = "_EOS_Ecom_QueryOffers@16";
 		private const string EOS_Ecom_QueryOwnershipName = "_EOS_Ecom_QueryOwnership@16";
@@ -2365,6 +2368,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_KeyImageInfo_ReleaseName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_KeyImageInfo_ReleaseName);
 			EOS_Ecom_KeyImageInfo_Release = (EOS_Ecom_KeyImageInfo_ReleaseDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_KeyImageInfo_ReleaseDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_QueryEntitlementTokenName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_QueryEntitlementTokenName);
+			EOS_Ecom_QueryEntitlementToken = (EOS_Ecom_QueryEntitlementTokenDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_QueryEntitlementTokenDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_QueryEntitlementsName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_QueryEntitlementsName);
@@ -4068,6 +4075,7 @@ namespace Epic.OnlineServices
 			EOS_Ecom_GetOfferItemCount = null;
 			EOS_Ecom_GetTransactionCount = null;
 			EOS_Ecom_KeyImageInfo_Release = null;
+			EOS_Ecom_QueryEntitlementToken = null;
 			EOS_Ecom_QueryEntitlements = null;
 			EOS_Ecom_QueryOffers = null;
 			EOS_Ecom_QueryOwnership = null;
@@ -5102,6 +5110,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Ecom_KeyImageInfo_ReleaseDelegate(System.IntPtr keyImageInfo);
 		internal static EOS_Ecom_KeyImageInfo_ReleaseDelegate EOS_Ecom_KeyImageInfo_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Ecom_QueryEntitlementTokenDelegate(System.IntPtr handle, ref Ecom.QueryEntitlementTokenOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryEntitlementTokenCallbackInternal completionDelegate);
+		internal static EOS_Ecom_QueryEntitlementTokenDelegate EOS_Ecom_QueryEntitlementToken;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Ecom_QueryEntitlementsDelegate(System.IntPtr handle, ref Ecom.QueryEntitlementsOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryEntitlementsCallbackInternal completionDelegate);
@@ -7122,6 +7134,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Ecom_KeyImageInfo_Release(System.IntPtr keyImageInfo);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Ecom_QueryEntitlementToken(System.IntPtr handle, ref Ecom.QueryEntitlementTokenOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryEntitlementTokenCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Ecom_QueryEntitlements(System.IntPtr handle, ref Ecom.QueryEntitlementsOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryEntitlementsCallbackInternal completionDelegate);

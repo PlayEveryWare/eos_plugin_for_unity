@@ -1,8 +1,10 @@
 {
     "name": "com.playeveryware.eos-Editor",
+    "rootNamespace": "",
     "references": [
         "com.playeveryware.eos",
-        "Unity.EditorCoroutines.Editor"
+        "Unity.EditorCoroutines.Editor",
+        "com.playeveryware.eos.essential"
     ],
     "includePlatforms": [
         "Editor"

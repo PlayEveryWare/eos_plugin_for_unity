@@ -204,7 +204,7 @@ namespace Playeveryware.Editor
                             {
                                 toolsSection.LoadConfigFromDisk();
                             }
-                            var pathToSignTool = toolsSection.GetCurrentConfig().pathToSignTool;
+                            var pathToSignTool = toolsSection.GetCurrentConfig().pathToEACIntegrityTool;
                             var pathToDefaultCertificate = toolsSection.GetCurrentConfig().pathToDefaultCertificate;
                         }
                         else
@@ -229,6 +229,10 @@ namespace Playeveryware.Editor
                 {
                     FileInfo srcItem = new FileInfo(Path.GetFullPath(entry).Replace('\\', '/').Replace(currentWorkingDir,""));
                     var newItem = new FileInfoMatchingResult();
+                    if (srcToDestKeyValues.recursive && Directory.Exists(Path.Combine(root, srcToDestKeyValues.src)))
+                    {
+                        newItem.relativePath = Path.GetRelativePath(Path.Combine(root, srcToDestKeyValues.src), entry);
+                    }
                     newItem.fileInfo = srcItem;
                     newItem.originalSrcDestPair = srcToDestKeyValues;
 
@@ -254,7 +258,44 @@ namespace Playeveryware.Editor
         }
 
         //-------------------------------------------------------------------------
-        public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
+        const int BYTES_TO_READ = sizeof(Int64); //check 4 bytes at a time
+        static bool FilesAreEqual(FileInfo first, FileInfo second)
+        {
+            if (first.Exists != second.Exists)
+                return false;
+
+            if (!first.Exists && !second.Exists)
+                return true;
+
+            if (first.Length != second.Length)
+                return false;
+
+            if (string.Equals(first.FullName, second.FullName, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            int iterations = (int)Math.Ceiling((double)first.Length / BYTES_TO_READ);
+
+            using (FileStream fs1 = first.OpenRead())
+            using (FileStream fs2 = second.OpenRead())
+            {
+                byte[] one = new byte[BYTES_TO_READ];
+                byte[] two = new byte[BYTES_TO_READ];
+
+                for (int i = 0; i < iterations; i++)
+                {
+                    fs1.Read(one, 0, BYTES_TO_READ);
+                    fs2.Read(two, 0, BYTES_TO_READ);
+
+                    if (BitConverter.ToInt64(one, 0) != BitConverter.ToInt64(two, 0))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        //-------------------------------------------------------------------------
+        public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress, Action<string> postProcessCallback = null)
         {
             Directory.CreateDirectory(packageFolder);
 
@@ -290,7 +331,11 @@ namespace Playeveryware.Editor
                     destPathFileInfo.IsReadOnly = false;
                 }
 
-                File.Copy(src.FullName, destPath, true);
+                if (fileInfo.originalSrcDestPair.copy_identical || !FilesAreEqual(new FileInfo(src.FullName), new FileInfo(destPath)))
+                {
+                    File.Copy(src.FullName, destPath, true);
+                }                
+                postProcessCallback?.Invoke(destPath);
             }
         }
 
