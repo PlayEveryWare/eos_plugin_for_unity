@@ -8,6 +8,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+## [2.1.8] - 2023-01-05
+### Added
+- docs(mac) : Add steps for building on mac
+- docs: egs steam disable
+- (oculus): adding a case for oculus auth to be considered
+- feat: added packaging options to eos preferences editor
+- feat: auth scope flags config
+- feat: eac toggle and bootstrapper name build config
+- feat: automated dll signing
+- feat: editor support with EOS_DISABLE
+- feat: deployment env command line override
+
+### Changed
+- docs: readme typo
+- Update index.md
+- refactor(editor): editor pref path selection
+- chore : Update EOSPlugin Website
+- chore(mac) : Shows an error message if mac build missing libraries
+- (Android) : Logs error when user doesn't have the upm installed while building
+- updated EOS SDK to 1.15.4
+- moved android editor scripts
+- style(editor): config tooltips and platform config grid
+- feat: automatic packaged version string update
+
+### Fixed
+- (log,mac) : logError instead of log when missing libraries
+- (android) : Disable OnPreprocessBuild_Android on other platforms
+- (mac,mic) : Ask for permission only when second user joins lobby
+- (android) : Disable MINIFY_WITH_R_EIGHT for Unity 2022.2 above
+- (android) : Ensure gradleTemplate.properties exists for android building
+- (build) : Copy gradle.properties from the package with the correct source
+- (android): dynamic gradle template
+- updating macOS DLL to function on all mac processors
+- leaderboard menu init
+- (editor): package file utils recursive copy
+- (package) : Supports building with Unity 2019
+- sample editor script assembly
+- unitywebrequest 2019 compatibility
+- EOS_DISABLE fix
+- Add missing networking files to package
+- editor ui cleanup and polish
+- fixes for iphone build errors
+
 ## [2.1.7] - 2022-11-22
 ### Added
 - docs(android): update readme for android to included needed settings
