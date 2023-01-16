@@ -1460,6 +1460,11 @@ namespace PlayEveryWare.EpicOnlineServices
             // (if they even support constraining applications at all).
             private void UpdateApplicationConstrainedState(bool shouldUpdateEOSAppStatus)
             {
+                if (EOSManagerPlatformSpecifics.Instance == null)
+                {
+                    return;
+                }
+
                 bool wasConstrained = s_isConstrained;
                 bool isConstrained = EOSManagerPlatformSpecifics.Instance.IsApplicationConstrainedWhenOutOfFocus();
 
