@@ -788,6 +788,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     }
 
                     // Handle connection closed (user callback, etc.) if appropriate to do so
+                    if (forceClose)
+                    {
+                        //Flag connection as handled opened so it can be handled closed
+                        connection.ConnectionOpenedHandled = true;
+                    }
                     TryHandleConnectionClosed(remoteUserId, socketName, connection);
 
                     // Invalidate connection
