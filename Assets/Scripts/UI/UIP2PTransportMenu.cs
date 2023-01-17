@@ -80,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             P2PTransportPresenceData joinInfo = null;
             try
             {
-                JsonUtility.FromJson<P2PTransportPresenceData>(friendData.Presence.JoinInfo);
+                joinInfo = JsonUtility.FromJson<P2PTransportPresenceData>(friendData.Presence.JoinInfo);
             }
             catch(ArgumentException)
             {
