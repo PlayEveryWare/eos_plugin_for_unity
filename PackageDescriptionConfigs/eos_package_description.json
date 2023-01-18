@@ -298,6 +298,8 @@
         {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp.meta", "dest": "Runtime/"},
 
+        {"src":"PlatformSpecificAssets/EOS/Android/", "dest": "PlatformSpecificAssets~/EOS/Android/"},
+
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib.meta", "dest": "PlatformSpecificAssets~/EOS/Android/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/*", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/"},

@@ -10,7 +10,7 @@ Things this plugin provides:
 * Feature specific manager classes for most common use-cases of EOS SDK API
 * Feature specific samples as Unity scenes
 * Social Overlay support
-* Targets [EOS SDK 1.15.3] (https://dev.epicgames.com/docs/epic-online-services/release-notes#1153---2022-sep-19) *(bundled with plugin)*
+* Targets [EOS SDK 1.15.4] (https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*
 * Targets Unity 2021.3.8f1
 
 This repo contains:

@@ -1,8 +1,9 @@
 # Installing New versions of EOS
 
-This document covers two different scenarios where one might need to upgrade the EOS SDK:
+This document covers three different scenarios where one might need to upgrade the EOS SDK:
  * When the plugin is installed into a Unity Project
  * When one has a clone of this repo
+ * When one is a maintainer
 
 Upgrading the SDK is generally an easy process, mostly involving copying around files.
 However, due to internal changes to how a new version of the SDK will act, it's generally 
@@ -44,3 +45,17 @@ to support dynamic loading of the DLLs in the Editor to ensure seamless
 usage of the EOS SDK in the Unity editor. Sometimes, due to a change in how
 the EOS SDK initializes, native code will need to be updated and recompiled before a
 new plugin can be generated.
+
+
+## Upgrading the EOS SDK as a maintainer of the repo
+These steps are for upgrading the EOS SDK as a maintainer of the repo.
+There is a tool that one can use install new versions of the SDK, located under
+
+'Tools -> Install EOS Zip'
+
+It requires a JSON description file to direct it where to put the files in the zip,
+and a zip file that contains the SDK. The latest version of the SDK can be downloaded from
+the EOS Developer Portal.
+
+After being installed via the Tool, update the repo readme to ensure it lists the correct version
+and that any links on the readme are up to date.
