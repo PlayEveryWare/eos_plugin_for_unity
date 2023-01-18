@@ -74,6 +74,13 @@ namespace PlayEveryWare.EpicOnlineServices
             else
             {
                 var configDataAsJSON = JsonUtility.ToJson(currentEOSConfig, prettyPrint);
+                string configFilenameParentPath = Path.GetDirectoryName(configFilenamePath);
+
+                if (!Directory.Exists(configFilenameParentPath))
+                {
+                    Directory.CreateDirectory(configFilenameParentPath);
+                }
+
 
                 // If this is the first time we are saving the config, we need to create the directory
                 // If the directory already exists this will do nothing
