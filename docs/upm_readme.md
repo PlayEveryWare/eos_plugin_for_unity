@@ -11,8 +11,8 @@ For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issue
 * Easy to use manager classes that handle common EOS API use-cases.
 * Straightforward sample Unity scene templates to get you started.
 * EOS Social Overlay support.
-* Includes [EOS SDK 1.15](https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.15-16june,2022).
-* Targets [Unity 2020.1](https://unity.com/releases/2020-1).
+* Targets [EOS SDK 1.15.4] (https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*
+* Targets Unity 2021.3.8f1
 
 
 ## Supported Platforms
@@ -24,11 +24,11 @@ The follow target platforms are supported in Unity for the current release of th
 | Windows Standalone x64 | Supported |
 | Windows Standalone x86 | Supported |
 | Universal Windows Platform x64 | Supported |
-| Android | Preview |
-| iOS | Preview |
-| Linux | Preview |
-| MacOS | Preview |
-| Console Platforms | Future |
+| Android | Supported |
+| iOS | Supported |
+| Linux | [Preview](docs/linux/linux_supported_versions.md) |
+| MacOS | [Preview](docs/macOS/macOS_supported_versions.md) |
+| Console Platforms | Preview |
 | WebGL | Not Supported |
 | Universal Windows Platform x86 | Not Supported |
 | Unity Web Player | Not Supported |
@@ -39,27 +39,29 @@ To access Preview platforms, enable `EOS_PREVIEW_PLATFORM`
 ## Supported EOS SDK Features
 As the EOS SDK continues releasing new features and functionality, the EOS Unity Plugin will be updated over time to support the new functionality. Here's the current list of EOS SDK features and their level of support in the EOS Unity Plugin:
 
-| EOS SDK Feature | Included in Sample |
+| EOS Feature | Included in Sample |
 | - | - |
-| [Achievements](https://dev.epicgames.com/docs/services/en-US/GameServices/Achievements/index.html) | Achievements Sample |
-| [Authentication](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/AuthInterface/index.html) | - All Samples - |
-| [Ecommerce](https://dev.epicgames.com/docs/services/en-US/EpicGamesStore/TechFeaturesConfig/Ecom/index.html) | Store Sample |
-| [Friends](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/Friends/index.html) | Auth & Friends Sample |
-| [Leaderboards](https://dev.epicgames.com/docs/services/en-US/GameServices/Leaderboards/index.html) | Leaderboards Sample |
-| [Lobby](https://dev.epicgames.com/docs/services/en-US/GameServices/Lobbies/index.html) | Lobbies Sample |
-| [Lobby with Voice](https://dev.epicgames.com/docs/services/en-US/GameServices/Voice/index.html#voicewithlobbies) | Lobbies Sample |
-| [NAT P2P](https://dev.epicgames.com/docs/services/en-US/GameServices/P2P/index.html) | P2P Sample |
-| [Player Data Storage](https://dev.epicgames.com/docs/services/en-US/GameServices/PlayerDataStorage/index.html) | Player Data Storage Sample |
-| [Presence](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/Presence/index.html) | Auth & Friends Sample |
-| [Sessions](https://dev.epicgames.com/docs/services/en-US/GameServices/Sessions/index.html) | Sessions Sample |
-| [Social Overlay](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/SocialOverlayOverview/index.html) | - All Samples - |
-| [Stats](https://dev.epicgames.com/docs/services/en-US/GameServices/Stats/index.html) | Leaderboards Sample |
-| [Title Storage](https://dev.epicgames.com/docs/services/en-US/GameServices/TitleStorage/index.html) | Title Storage Sample |
-| [Reports](https://dev.epicgames.com/docs/services/en-US/GameServices/ReportsInterface/index.html) | Player Reports & Sanctions Sample |
-| [Sanctions](https://dev.epicgames.com/docs/services/en-US/GameServices/SanctionsInterface/index.html) | Player Reports & Sanctions Sample |
-| [Anti-Cheat](https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html) | Not Supported |
-| [EOS Mod SDK](https://dev.epicgames.com/docs/services/en-US/EpicGamesStore/TechFeaturesConfig/Mods/index.html) | Not Supported |
-| [Voice Trusted Server](https://dev.epicgames.com/docs/services/en-US/GameServices/Voice/index.html#voicewithatrustedserverapplication) | Not Supported |
+| [Achievements](https://dev.epicgames.com/docs/game-services/achievements) | Achievements Sample |
+| [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) | - All Samples - |
+| [Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) | Store Sample |
+| [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) | Auth & Friends Sample |
+| [Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) | Leaderboards Sample |
+| [Lobby](https://dev.epicgames.com/docs/game-services/lobbies) | Lobbies Sample |
+| [Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) | Lobbies Sample |
+| [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) | P2P Sample |
+| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | Player Data Storage Sample |
+| [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) | Auth & Friends Sample |
+| [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | Sessions Sample |
+| [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) | - All Samples - |
+| [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) | Leaderboards Sample |
+| [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) | Title Storage Sample |
+| [Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | Player Reports & Sanctions Sample |
+| [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) | Player Reports & Sanctions Sample |
+| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | Lobbies Sample |
+| [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | Custom Invites Sample |
+| [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) | Metrics Sample |
+| [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | Not Supported |
+| [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | Not Supported |
 
 
 ---
