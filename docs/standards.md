@@ -2,11 +2,33 @@
 
 ### Language Style Guides
 
+### For All source files
+Each source code file needs to contain the license which it is licensed under.
+
 #### For C
-Function names are prefixed, and lowercase snake case.
+
+## Variables
+* static variables should start with s_, globals with g_.
+* structs should be PascalCase; initialisms should all be the same case i.e. URL not Url.
+* All other variables should snake_case.
+* Just as [nasa](https://ntrs.nasa.gov/api/citations/19950022400/downloads/19950022400.pdf#page=18) does, use 4 spaces to indent.
+* Constants should done in SCREAMING_SNAKE_CASE.
+
+
+Additionally, here are some common variable suffixes that are recommended:
+`_ptr`  for pointer
+`_f`    for a pointer to a function
+`_ctx`  for context data i.e. data that is passed into a function
+
+## Functions
+Exported function names are prefixed, and lowercase snake case.
+e.g.
+`FUN_EXPORT(bool) DLLH_unload_library_at_path(void *ctx, void *library_handle)`
+
 The Epic Online Services SDK has it's one standards and style [guide](https://docs.unrealengine.com/4.26/en-US/ProductionPipelines/DevelopmentSetup/CodingStandard/).
 
 #### For C++
+
 
 #### For C#
 This follows, more or less, Microsoft's C# style [guide](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
