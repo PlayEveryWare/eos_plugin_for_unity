@@ -272,7 +272,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     EventSystem.current.SetSelectedGameObject(UIFirstSelected);
                 }
-                else if (UIFindSelectable.activeSelf == true)
+                else if (UIFindSelectable && UIFindSelectable.activeSelf == true)
                 {
                     EventSystem.current.SetSelectedGameObject(UIFindSelectable);
                 }
