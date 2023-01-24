@@ -379,10 +379,9 @@
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/Scripts/Networking.meta"},
-        {"src":"Assets/Scripts/Networking/*.cs", "dest": "Samples~/Samples/Scripts/Networking/"},
-        {"src":"Assets/Scripts/Networking/*.cs.meta", "dest": "Samples~/Samples/Scripts/Networking/"},
-        {"src":"Assets/Scripts/Networking/*.asmdef", "dest": "Samples~/Samples/Scripts/Networking/"},
-        {"src":"Assets/Scripts/Networking/*.asmdef.meta", "dest": "Samples~/Samples/Scripts/Networking/"},
+        {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/Scripts/Networking/"},
+		{"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/Scripts/Steam.meta"},
+        {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/Scripts/Steam/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},

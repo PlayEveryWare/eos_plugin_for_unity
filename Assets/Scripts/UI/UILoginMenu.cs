@@ -579,7 +579,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (loginType == LoginCredentialType.ExternalAuth)
             {
-                Debug.LogError("ExternalAuth is not implemented on this platform");
+                var steamManager = Steam.SteamManager.Instance;
+                string steamId = steamManager?.GetSteamID();
+                string steamToken = steamManager?.GetAuthToken();
+                if(steamId == null)
+                {
+                    Debug.LogError("ExternalAuth failed: Steam ID not valid");
+                }
+                else if (steamToken == null)
+                {
+                    Debug.LogError("ExternalAuth failed: Steam auth ticket not valid");
+                }
+                else
+                {
+                    EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+                        LoginCredentialType.ExternalAuth,
+                        ExternalCredentialType.SteamSessionTicket,
+                        steamId,
+                        steamToken,
+                        StartLoginWithLoginTypeAndTokenCallback);
+                }
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
