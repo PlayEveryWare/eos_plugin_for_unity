@@ -315,7 +315,6 @@
         {"src":"Assets/Plugins/Android/gradleTemplate.properties", "dest": "PlatformSpecificAssets~/EOS/Android/"},
         {"src":"Assets/Plugins/Android/gradleTemplate.properties.meta", "dest": "PlatformSpecificAssets~/EOS/Android/"},
 
-        {"src":"Assets/Plugins/Android/eos-sdk.aar.meta", "dest": "Runtime/Android/"},
         {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar", "dest": "Runtime/Android/"},
         {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar.meta", "dest": "Runtime/Android/"},
 
