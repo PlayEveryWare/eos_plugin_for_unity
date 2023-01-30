@@ -399,6 +399,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Are we currently muting this person?
         public bool MuteActionInProgress = false;
+
+        // Has this person enabled press to talk
+        public bool PressToTalkEnabled = false;
     }
 
     /// <summary>
@@ -1410,6 +1413,49 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             DestroyLobbyCallback?.Invoke(Result.Success);
         }
 
+        public void EnablePressToTalk(ProductUserId targetUserId, OnLobbyCallback EnablePressToTalkCompleted)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find the correct lobby member
+                if (lobbyMember.ProductId != targetUserId)
+                {
+                    continue;
+                }
+
+                lobbyMember.RTCState.PressToTalkEnabled = !lobbyMember.RTCState.PressToTalkEnabled;
+
+                if (!lobbyMember.RTCState.PressToTalkEnabled)
+                {
+                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        AudioStatus = lobbyMember.RTCState.IsLocalMuted ? RTCAudioStatus.Disabled : RTCAudioStatus.Enabled
+                    };
+
+                    Debug.LogFormat("Press To Talk Disabled : Current self Audio output status is {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+                    rtcAudioHandle.UpdateSending(ref sendOptions, EnablePressToTalkCompleted, OnRTCRoomUpdateSendingCompleted);
+                }
+                else
+                {
+                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        AudioStatus = Input.GetKey(KeyCode.Space) ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                    };
+
+                    Debug.LogFormat("Press To Talk Enabled : Current self Audio output status is {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+                    rtcAudioHandle.UpdateSending(ref sendOptions, EnablePressToTalkCompleted, OnRTCRoomUpdateSendingCompleted);
+                }
+            }
+        }
         // Member Events
         public void PressToTalk(OnLobbyCallback TogglePressToTalkCompleted)
         {

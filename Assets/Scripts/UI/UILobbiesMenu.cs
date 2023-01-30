@@ -266,6 +266,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                             uiEntry.MuteOnClick = MuteButtonOnClick;
                             uiEntry.KickOnClick = KickButtonOnClick;
                             uiEntry.PromoteOnClick = PromoteButtonOnClick;
+                            uiEntry.EnablePressToTalkOnClick = EnablePressToTalkToggleOnClick;
 
                             UIMemberEntries.Add(uiEntry);
                         }
@@ -484,6 +485,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void PromoteButtonOnClick(ProductUserId productUserId)
         {
             LobbyManager.PromoteMember(productUserId, null);
+        }
+
+        public void EnablePressToTalkToggleOnClick(ProductUserId productUserId)
+        {
+            LobbyManager.EnablePressToTalk(productUserId, null);
         }
 
         public void AcceptInviteButtonOnClick()

@@ -40,13 +40,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button MuteButton;
         public Button KickButton;
         public Button Promotebutton;
-
+        public Toggle EnablePressToTalkToggle;
         public bool PressToTalkEnabled = true;
 
         // Callbacks
         public Action<ProductUserId> MuteOnClick;
         public Action<ProductUserId> KickOnClick;
         public Action<ProductUserId> PromoteOnClick;
+        public Action<ProductUserId> EnablePressToTalkOnClick;
 
         // Metadata
         [HideInInspector]
@@ -138,7 +139,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                                 break;
                             }
 
-                            if (!member.RTCState.IsLocalMuted && PressToTalkEnabled)
+                            EnablePressToTalkToggle.isOn = member.RTCState.PressToTalkEnabled;
+
+                            if (!member.RTCState.IsLocalMuted && EnablePressToTalkToggle.isOn)
                             {
                                 lobbyManager.PressToTalk(null);
                             }
@@ -202,6 +205,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 Debug.LogError("MemberEntryPromoteButtonOnClick: PromoteOnClick action is null!");
+            }
+        }
+        public void MemberEntryEnablePressToTalkToggleOnClick()
+        {
+            if (EnablePressToTalkOnClick != null)
+            {
+                EnablePressToTalkOnClick(ProductUserId);
+            }
+            else
+            {
+                Debug.LogError("MemberEntryEnablePressToTalkToggleOnClick: EnablePressToTalkOnClick action is null!");
             }
         }
 
