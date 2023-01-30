@@ -8,6 +8,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+##[2.1.9] - 2023-01-30
+### Added
+- feat: steam login sample
+- feat(Android, lib): Library static/dynamic linking options
+- feat(rtc): Press to talk functionality. (#199)
+- chore: add android specific assets to eos_package_description
+
+### Changed
+- refactor: moved singletons to prefab
+- docs: add upgrade steps for using the upm tool
+- docs: update upm readme
+- docs: update readme for repo
+- docs: updated standards docs
+- refactor: removed stray arrows
+
+###Fixed
+- fix(android, lib): Check Android toggle on lib metafiles
+- fix(android, lib): Copy metafiles during preprocess
+- fix(pkg_dscrpt, android): Removed leftover meta file from heleting the extra aar file (#212)
+- chore: fixed networking sample asmdef name
+- fix platform specifics domain reload error
+- fix(p2pnetcodeSample) Fixed errors when hosting
+- fix(pkg_descrpt, android): Remove Duplicate aar
+- fix: transport sample timeout
+- fix: eos transport logging
+- fix: transport sample friends ui
+- fix: UpdateApplicationConstrainedState null check
+- fix: add `!EOS_DISABLE_FULL` constraint to Editor asmdef
+
 ## [2.1.8] - 2023-01-05
 ### Added
 - docs(mac) : Add steps for building on mac
