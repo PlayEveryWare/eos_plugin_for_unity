@@ -935,15 +935,10 @@ namespace PlayEveryWare.EpicOnlineServices
                     Type = ExternalCredentialType.Epic
                 };
 
-                StartConnectLoginWithOptions(connectLoginOptions, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) => {
-                    if (onConnectLoginCallback != null)
-                    {
-                        onConnectLoginCallback(connectLoginData);
-                    }
-                });
+                StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
             }
 
-            public void StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType externalCredentialType, string displayname, string token, OnConnectLoginCallback onloginCallback)
+            public void StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType externalCredentialType, string token, string displayname = null, OnConnectLoginCallback onloginCallback = null)
             {
                 var loginOptions = new Epic.OnlineServices.Connect.LoginOptions();
                 loginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
@@ -954,14 +949,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 switch(externalCredentialType)
                 {
-                    case ExternalCredentialType.XblXstsToken:
-                        loginOptions.UserLoginInfo = null;
-                        break;
                     case ExternalCredentialType.NintendoIdToken:
                     case ExternalCredentialType.NintendoNsaIdToken:
                     case ExternalCredentialType.AppleIdToken:
                     case ExternalCredentialType.OculusUseridNonce:
+                    case ExternalCredentialType.GoogleIdToken:
+                    case ExternalCredentialType.AmazonAccessToken:
+                    case ExternalCredentialType.DeviceidAccessToken:
                         loginOptions.UserLoginInfo = new UserLoginInfo { DisplayName = displayname };
+                        break;
+
+                    default:
+                        loginOptions.UserLoginInfo = null;
                         break;
                 }
 
@@ -1276,6 +1275,15 @@ namespace PlayEveryWare.EpicOnlineServices
                         CallOnAuthLogout(data);
                     }
                 });
+            }
+
+            //Clears a local ProductUserId since the Connect interface doesn't have a logout function
+            public void ClearConnectId(ProductUserId userId)
+            {
+                if (GetProductUserId() == userId)
+                {
+                    SetLocalProductUserId(null);
+                }
             }
 
             //-------------------------------------------------------------------------
