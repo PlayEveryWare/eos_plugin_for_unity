@@ -341,7 +341,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         return null;
     }
 
-    public string GetAuthTicket()
+    public string GetSessionTicket()
     {
         return null;
     }
