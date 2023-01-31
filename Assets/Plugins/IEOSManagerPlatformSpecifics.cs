@@ -20,6 +20,7 @@
 * SOFTWARE.
 */
 
+using UnityEngine;
 using Epic.OnlineServices;
 using Epic.OnlineServices.Platform;
 using System;
@@ -81,6 +82,12 @@ namespace PlayEveryWare.EpicOnlineServices
     public class EOSManagerPlatformSpecifics
     {
         static IEOSManagerPlatformSpecifics s_platformSpecifics;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void InitOnPlayMode()
+        {
+            s_platformSpecifics = null;
+        }
 
         //-------------------------------------------------------------------------
         // Should only be called once

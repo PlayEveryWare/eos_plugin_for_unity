@@ -51,6 +51,8 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             InstallEOSDependentLibrary();
             ConfigureGradleTemplateProperties();
             ConfigureEOSDependentLibrary();
+
+            DetermineLibraryLinkingMethod();
         }
     }
 
@@ -344,5 +346,35 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
     }
 
+    private void DetermineLibraryLinkingMethod()
+    {
+        var androidBuildConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorAndroidBuildConfigSection>();
+        androidBuildConfigSection?.Awake();
+        if (androidBuildConfigSection != null)
+        {
+            if (androidBuildConfigSection.GetCurrentConfig() == null)
+            {
+                androidBuildConfigSection.LoadConfigFromDisk();
+            }
+        }
+
+        string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
+        string androidAssetFilepath = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Android/");
+
+        string sourcePath = Path.Combine(
+            Directory.Exists(packagePath) ? packagePath : androidAssetFilepath,   //From Package or From Assets(EOS Plugin Repo)
+            androidBuildConfigSection.GetCurrentConfig().DynamicallyLinkEOSLibrary ? "dynamic-stdc++" : "static-stdc++", //Dynamic or Static
+            "aar");
+        string destPath = "Assets/Plugins/Android";
+
+        CopyFromSourceToPluginFolder_Android(sourcePath, "eos-sdk.aar", destPath);
+        CopyFromSourceToPluginFolder_Android(sourcePath, "eos-sdk.aar.meta", destPath);
+    }
+
+    private void CopyFromSourceToPluginFolder_Android(string sourcePath, string filename, string destPath)
+    {
+        File.Copy(Path.Combine(sourcePath, filename),
+           Path.Combine(destPath, filename), true);
+    }
 }
 #endif

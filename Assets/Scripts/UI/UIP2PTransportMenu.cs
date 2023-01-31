@@ -80,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             P2PTransportPresenceData joinInfo = null;
             try
             {
-                JsonUtility.FromJson<P2PTransportPresenceData>(friendData.Presence.JoinInfo);
+                joinInfo = JsonUtility.FromJson<P2PTransportPresenceData>(friendData.Presence.JoinInfo);
             }
             catch(ArgumentException)
             {
@@ -190,6 +190,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
         }
 
+        private void OnDisconnect(ulong _)
+        {
+            Debug.LogWarning("UIP2PTransportMenu (OnDisconnect): server disconnected");
+            isClient = false;
+            SetSessionUIActive(false);
+            EOSSessionsManager.SetJoinInfo(null);
+            uiDirty = true;
+            NetworkSamplePlayer.UnregisterDisconnectCallback(OnDisconnect);
+        }
+
         private void JoinGame(ProductUserId hostId)
         {
             if (hostId.IsValid())
@@ -197,6 +207,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 NetworkSamplePlayer.SetNetworkHostId(hostId);
                 if (transportManager.StartClient())
                 {
+                    NetworkSamplePlayer.RegisterDisconnectCallback(OnDisconnect);
                     SetSessionUIActive(true);
                     isClient = true;
                     SetJoinInfo(hostId);

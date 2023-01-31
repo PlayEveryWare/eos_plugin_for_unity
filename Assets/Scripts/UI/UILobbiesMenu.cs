@@ -453,7 +453,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void MuteButtonOnClick(ProductUserId productUserId)
         {
-            LobbyManager.ToggleMute(productUserId, null);
+            LobbyManager.ToggleMute(productUserId, (Result result)=> 
+            {
+                if (result != Result.Success)
+                { 
+                    return; 
+                }
+                if (productUserId != EOSManager.Instance.GetProductUserId())
+                {
+                    return; 
+                }
+                foreach (LobbyMember lobbyMember in EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().GetCurrentLobby().Members)
+                {
+                    // Find the correct lobby member
+                    if (lobbyMember.ProductId != productUserId)
+                    {
+                        continue;
+                    }
+
+                    lobbyMember.RTCState.IsLocalMuted = !lobbyMember.RTCState.IsLocalMuted;
+                }
+            });
         }
 
         public void KickButtonOnClick(ProductUserId productUserId)

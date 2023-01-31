@@ -56,6 +56,27 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 #endif
         }
 
+        public static void RegisterDisconnectCallback(System.Action<ulong> callback)
+        {
+#if COM_UNITY_MODULE_NETCODE
+            if (NetworkManager.Singleton != null)
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback -= callback;
+                NetworkManager.Singleton.OnClientDisconnectCallback += callback;
+            }
+#endif
+        }
+
+        public static void UnregisterDisconnectCallback(System.Action<ulong> callback)
+        {
+#if COM_UNITY_MODULE_NETCODE
+            if (NetworkManager.Singleton != null)
+            {
+                NetworkManager.Singleton.OnClientDisconnectCallback -= callback;
+            }
+#endif
+        }
+
         public static void DestoryNetworkManager()
         {
 #if COM_UNITY_MODULE_NETCODE
