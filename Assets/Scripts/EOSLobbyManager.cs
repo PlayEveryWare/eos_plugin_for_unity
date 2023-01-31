@@ -1457,7 +1457,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
         // Member Events
-        public void PressToTalk(OnLobbyCallback TogglePressToTalkCompleted)
+        public void PressToTalk(KeyCode PTTKeyCode, OnLobbyCallback TogglePressToTalkCompleted)
         {
             RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
             RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
@@ -1479,8 +1479,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return;
                 }
 
-                if (Input.GetKey(KeyCode.Space) ^ !lobbyMember.RTCState.IsAudioOutputDisabled)
-                {   
+                if (Input.GetKey(PTTKeyCode) ^ !lobbyMember.RTCState.IsAudioOutputDisabled)
+                {
                     // Set mute action as in progress
                     lobbyMember.RTCState.MuteActionInProgress = true;
 
@@ -1489,11 +1489,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         LocalUserId = EOSManager.Instance.GetProductUserId(),
                         RoomName = CurrentLobby.RTCRoomName,
-                        AudioStatus = Input.GetKey(KeyCode.Space) ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                        AudioStatus = Input.GetKey(PTTKeyCode) ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
                     };
 
                     Debug.LogFormat("Lobbies (TogglePressToTalk): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
-                    
+
                     rtcAudioHandle.UpdateSending(ref sendOptions, TogglePressToTalkCompleted, OnRTCRoomUpdateSendingCompleted);
                 }
             }

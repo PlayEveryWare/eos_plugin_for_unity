@@ -42,6 +42,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button Promotebutton;
         public Toggle EnablePressToTalkToggle;
         public bool PressToTalkEnabled = true;
+        public Button ChangePTTKeyButton;
+        private KeyCode PTTKey = KeyCode.Space;
 
         // Callbacks
         public Action<ProductUserId> MuteOnClick;
@@ -115,18 +117,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Promotebutton.gameObject.SetActive(false);
             }
 
-            if(lobbyManager.GetCurrentLobby().RTCRoomEnabled)
+            if (lobbyManager.GetCurrentLobby().RTCRoomEnabled)
             {
                 MuteButton.enabled = true;
                 MuteButton.interactable = true;
                 MuteButton.gameObject.SetActive(true);
 
-                if (lobbyManager.GetCurrentLobby().Members.Count == 1) 
+                if (lobbyManager.GetCurrentLobby().Members.Count == 1)
                 {
                     IsTalkingText.text = "-------------";
                     return;
                 }
-                foreach(LobbyMember member in lobbyManager.GetCurrentLobby().Members)
+                foreach (LobbyMember member in lobbyManager.GetCurrentLobby().Members)
                 {
                     if (member.ProductId == ProductUserId)
                     {
@@ -143,7 +145,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                             if (!member.RTCState.IsLocalMuted && EnablePressToTalkToggle.isOn)
                             {
-                                lobbyManager.PressToTalk(null);
+                                lobbyManager.PressToTalk(PTTKey, null);
                             }
                         }
                         // Update Talking state
@@ -216,6 +218,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 Debug.LogError("MemberEntryEnablePressToTalkToggleOnClick: EnablePressToTalkOnClick action is null!");
+            }
+        }
+
+        public async void ChangePTTKeyButtonOnClick()
+        {
+            Text PTTtext = ChangePTTKeyButton.GetComponentInChildren<Text>();
+            PTTtext.text = "Press A New Button";
+            PTTtext.color = Color.red;
+
+            while (!Input.anyKeyDown)
+            {
+                await System.Threading.Tasks.Task.Yield();
+            }
+
+            foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKey(key))
+                {
+                    PTTKey = key;
+                    PTTtext.text = "Press " + key.ToString().ToUpper() + " to Talk";
+                    PTTtext.color = Color.black;
+                    break;
+                }
             }
         }
 

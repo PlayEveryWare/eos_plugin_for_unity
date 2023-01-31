@@ -155,7 +155,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press Space to Talk
+  m_Text: Press SPACE to Talk
 --- !u!1 &2593261337935559989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1304,6 +1304,7 @@ MonoBehaviour:
   Promotebutton: {fileID: 6802468847939631681}
   EnablePressToTalkToggle: {fileID: 1071237060561089646}
   PressToTalkEnabled: 0
+  ChangePTTKeyButton: {fileID: 6565524044335790466}
   MemberName: 
 --- !u!114 &363629720329505168
 MonoBehaviour:
@@ -1338,7 +1339,7 @@ GameObject:
   - component: {fileID: 2896989359869246986}
   - component: {fileID: 6565524044335790466}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ChangePTTKeyButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1446,4 +1447,17 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2896989359869246986}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8966261389308912877}
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UIMemberEntry,
+          com.playeveryware.eos.samples
+        m_MethodName: ChangePTTKeyButtonOnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
