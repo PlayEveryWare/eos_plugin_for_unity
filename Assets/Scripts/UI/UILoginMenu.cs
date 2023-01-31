@@ -804,7 +804,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (callbackInfo.ResultCode == Result.Success || callbackInfo.ResultCode == Result.DuplicateNotAllowed)
             {
-#if UNITY_EDITOR_WIN || (!UNITY_EDITOR && UNITY_STANDALONE_WIN)
+#if UNITY_STANDALONE_WIN
                 string displayName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
 #else
                 //TODO: find device appropriate display name for other platforms
