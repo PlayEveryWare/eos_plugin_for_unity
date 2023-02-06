@@ -1097,6 +1097,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 return false;
             }
 
+            // Packet is smaller than expected
+            if (packet.Length < FragmentHeaderSize)
+            {
+                printError($"EOSTransportManager.TryReceivePacket: Received {packet.Length} byte packet. Should be at least {FragmentHeaderSize} bytes.");
+                remoteUserId = null;
+                socketName = null;
+                channel = 0;
+                packet = null;
+                return false;
+            }
+
             // Internal EOS P2P error?
             if (result != Result.Success)
             {
