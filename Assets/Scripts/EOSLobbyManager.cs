@@ -1260,7 +1260,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (!string.IsNullOrEmpty(createLobbyCallbackInfo.LobbyId) && CurrentLobby._BeingCreated)
                 {
                     CurrentLobby.Id = createLobbyCallbackInfo.LobbyId;
-                    ModifyLobby(CurrentLobby, LobbyCreatedCallback);
+                    ModifyLobby(CurrentLobby, null);
 
                     if(CurrentLobby.RTCRoomEnabled)
                     {
