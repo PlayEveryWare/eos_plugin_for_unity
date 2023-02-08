@@ -145,6 +145,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
+            static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
             static private EOSConfig loadedEOSConfig;
 
             // Setting it twice will cause an exception
@@ -978,6 +979,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         SetLocalProductUserId(connectLoginData.LocalUserId);
                         ConfigureConnectStatusCallback();
+                        ConfigureConnectExpirationCallback();
                         CallOnConnectLogin(connectLoginData);
                     }
                     if (onloginCallback != null)
@@ -1120,6 +1122,33 @@ namespace PlayEveryWare.EpicOnlineServices
                     s_notifyConnectLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
                     {
                         GetEOSConnectInterface()?.RemoveNotifyLoginStatusChanged(handle);
+                    });
+                }
+            }
+
+            //-------------------------------------------------------------------------
+            private void ConfigureConnectExpirationCallback()
+            {
+                if (s_notifyConnectAuthExpirationCallbackHandle == null)
+                {
+                    var EOSConnectInterface = GetEOSConnectInterface();
+                    var addNotifyAuthExpirationOptions = new Epic.OnlineServices.Connect.AddNotifyAuthExpirationOptions();
+                    ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(ref addNotifyAuthExpirationOptions, null, (ref Epic.OnlineServices.Connect.AuthExpirationCallbackInfo callbackInfo) =>
+                    {
+                        var accountId = GetLocalUserId();
+                        if (accountId != null)
+                        {
+                            StartConnectLoginWithEpicAccount(accountId, null);
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.LogError("EOSSingleton.ConfigureConnectExpirationCallback: Cannot refresh Connect token, no valid EpicAccountId");
+                        }
+                    });
+
+                    s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
+                    {
+                        GetEOSConnectInterface()?.RemoveNotifyAuthExpiration(handle);
                     });
                 }
             }
