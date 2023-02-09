@@ -2311,7 +2311,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (string.Equals(CurrentLobby.Id, lobbyId, StringComparison.OrdinalIgnoreCase))
                 {
                     Debug.LogError("Lobbies (JoinLobby): Already in the same lobby!");
-                    //return;
+                    return;
                 }
 
                 // TODO Active Join
