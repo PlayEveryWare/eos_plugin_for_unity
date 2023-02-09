@@ -752,6 +752,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 return false;
             }
 
+            if (remoteUserId == null)
+            {
+                printError("EOSTransportManager.CloseConnection: Failed to close remote peer connection - remoteUserId is null.");
+                return false;
+            }
+
             bool success;
 
             // Get remote peer connections
