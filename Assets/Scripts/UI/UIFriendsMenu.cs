@@ -196,7 +196,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                         case UIFriendInteractionSource.FriendInteractionState.Disabled:
                             uiEntry.EnableFriendButtonInteraction(false);
-                            uiEntry.EnableFriendButton(true);                           
+                            uiEntry.EnableFriendButton(true);
                             break;
 
                         case UIFriendInteractionSource.FriendInteractionState.Enabled:
@@ -209,11 +209,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (friend.Status == FriendsStatus.Friends && friend.Presence != null)
                 {
                     uiEntry.Status.text = friend.Presence.Status.ToString();
+                    switch (friend.Presence.Status)
+                    {
+                        case Status.Away:
+                            uiEntry.Status.color = Color.yellow;
+                            break;
+
+                        case Status.Online:
+                            uiEntry.Status.color = Color.green;
+                            break;
+
+                        case Status.Offline:
+                            uiEntry.Status.color = Color.gray;
+                            break;
+
+                        case Status.DoNotDisturb:
+                            uiEntry.Status.color = Color.red;
+                            break;
+
+                        case Status.ExtendedAway:
+                            uiEntry.Status.color = new Vector4(1, .05f, 0, 1); //orange
+                            break;
+
+
+                    }
                 }
                 else
                 {
                     uiEntry.Status.text = friend.Status.ToString();
                 }
+                
             }
         }
 
