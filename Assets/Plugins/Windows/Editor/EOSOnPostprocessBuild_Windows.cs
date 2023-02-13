@@ -194,14 +194,14 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
-    private void InstallFiles(BuildReport report, EOSConfig config)
+    private void InstallFiles(BuildReport report, bool useEAC)
     {
         string destDir = Path.GetDirectoryName(report.summary.outputPath);
         string pathToInstallFrom = GetPathToPlatformSepecificAssetsForWindows();
 
         List<string> filestoInstall = new List<string>(postBuildFiles);
         List<string> directoriesToInstall = new List<string>(postBuildDirectories);
-        if (config.useEAC)
+        if (useEAC)
         {
             filestoInstall.AddRange(postBuildFilesEAC);
             directoriesToInstall.AddRange(postBuildDirectoriesEAC);
@@ -306,34 +306,44 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         // Get the output path, and install the launcher if on a target that supports it
         if (report.summary.platform == BuildTarget.StandaloneWindows || report.summary.platform == BuildTarget.StandaloneWindows64)
         {
-            var mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
-            mainEOSConfigFile.LoadConfigFromDisk();
+            var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+            string bootstrapperName = "";
+            bool useEAC = false;
 
-            string bootstrapperName = mainEOSConfigFile.currentEOSConfig.bootstrapperNameOverride;
+            if (editorToolsConfigSection != null)
+            {
+                editorToolsConfigSection.Awake();
+                editorToolsConfigSection.LoadConfigFromDisk();
+
+                var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
+                bootstrapperName = editorToolConfig.bootstrapperNameOverride;
+                useEAC = editorToolConfig.useEAC;
+            }
+
             if (string.IsNullOrWhiteSpace(bootstrapperName))
             {
                 bootstrapperName = "EOSBootstrapper.exe";
             }
+
             if (!bootstrapperName.EndsWith(".exe"))
             {
                 bootstrapperName += ".exe";
             }
             buildExeName = bootstrapperName;
 
-            InstallFiles(report, mainEOSConfigFile.currentEOSConfig);
+            InstallFiles(report, useEAC);
             
             string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
             
             InstallBootStrapper(report, pathToEOSBootStrapperTool, bootstrapperName);
 
-            var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
 
             if (editorToolsConfigSection != null)
             {
                 editorToolsConfigSection.Awake();
                 editorToolsConfigSection.LoadConfigFromDisk();
                 var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
-                if (mainEOSConfigFile.currentEOSConfig.useEAC &&
+                if (useEAC &&
                     editorToolConfig != null &&
                     editorToolConfig.pathToEACIntegrityTool != null &&
                     editorToolConfig.pathToEACPrivateKey != null &&

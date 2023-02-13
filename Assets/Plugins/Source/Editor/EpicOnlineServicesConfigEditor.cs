@@ -553,11 +553,6 @@ _WIN32 || _WIN64
 
             AssigningBoolField("Always send Input to Overlay", ref mainEOSConfigFile.currentEOSConfig.alwaysSendInputToOverlay, 190,
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
-
-            EditorGUILayout.Separator();
-            GUILayout.Label("Post Build", EditorStyles.boldLabel);
-            AssigningTextField("Bootstrapper Name Override", ref mainEOSConfigFile.currentEOSConfig.bootstrapperNameOverride, 180, "Renames EOSBootstrapper.exe when making Windows build");
-            AssigningBoolField("Use Easy Anti-Cheat", ref mainEOSConfigFile.currentEOSConfig.useEAC, 130, "If true, copy EAC files and run EAC integrity tool after building");
         }
 
         private void OnSteamGUI()
