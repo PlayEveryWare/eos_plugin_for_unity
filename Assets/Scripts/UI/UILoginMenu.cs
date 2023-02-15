@@ -500,12 +500,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             List<ExternalCredentialType> credentialTypes = new List<ExternalCredentialType>
             {
-                ExternalCredentialType.SteamSessionTicket,
-                ExternalCredentialType.SteamAppTicket,
-                //ExternalCredentialType.DiscordAccessToken,
-                //ExternalCredentialType.GogSessionTicket,
-                //ExternalCredentialType.OpenidAccessToken,
                 ExternalCredentialType.DeviceidAccessToken,
+                //ExternalCredentialType.GogSessionTicket,
                 //ExternalCredentialType.AppleIdToken,
                 //ExternalCredentialType.GoogleIdToken,
                 //ExternalCredentialType.OculusUseridNonce,
@@ -513,6 +509,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 //ExternalCredentialType.ItchioKey,
                 //ExternalCredentialType.AmazonAccessToken
             };
+
+#if UNITY_STANDALONE
+            credentialTypes.Add(ExternalCredentialType.SteamSessionTicket);
+            credentialTypes.Add(ExternalCredentialType.SteamAppTicket);
+            
+#endif
+
+#if UNITY_STANDALONE || UNITY_ANDROID || UNITY_IOS
+            credentialTypes.Add(ExternalCredentialType.DiscordAccessToken);
+#endif
 
             foreach (var type in credentialTypes)
             {
@@ -740,6 +746,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ConnectDeviceId();
                     break;
 
+                case ExternalCredentialType.DiscordAccessToken:
+                    ConnectDiscord();
+                    break;
+
                 default:
                     Debug.LogError($"Connect Login for {externalType} not implemented");
                     loginButton.interactable = true;
@@ -816,6 +826,32 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogError("Connect Login failed: Failed to create Device Id");
                 ConfigureUIForLogin();
+            }
+        }
+
+        private void ConnectDiscord()
+        {
+            var discordManager = Discord.DiscordManager.Instance;
+            if (discordManager == null)
+            {
+                Debug.LogError("Connect Login failed: DiscordManager unavailable");
+                ConfigureUIForLogin();
+                return;
+            }
+
+            Discord.DiscordManager.Instance.RequestOAuth2Token(OnDiscordAuthReceived);
+        }
+
+        private void OnDiscordAuthReceived(string token)
+        {
+            if (token == null)
+            {
+                Debug.LogError("Connect Login failed: Unable to get Discord OAuth2 token");
+                ConfigureUIForLogin();
+            }
+            else
+            {
+                StartConnectLoginWithToken(ExternalCredentialType.DiscordAccessToken, token);
             }
         }
 
