@@ -98,6 +98,8 @@ public partial class SystemDynamicLibrary
         "DynamicLibraryLoaderHelper";
 #elif UNITY_ANDROID
         "DynamicLibraryLoaderHelper_Android";
+#elif UNITY_STANDALONE_OSX
+        "libDynamicLibraryLoaderHelper";
 #else
         "__Internal";
 #endif
