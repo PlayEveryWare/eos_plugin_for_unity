@@ -121,7 +121,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// The most recent version of the <see cref="RegisterPlayers" /> API.
 		/// </summary>
-		public const int RegisterplayersApiLatest = 2;
+		public const int RegisterplayersApiLatest = 3;
 
 		/// <summary>
 		/// The most recent version of the <see cref="RejectInvite" /> API.
@@ -650,6 +650,8 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
 		/// <see cref="Result.NotFound" /> if a session to register players does not exist
+		/// <see cref="Result.LimitExceeded" /> if registering the requested players would drive the total number of registered players beyond <see cref="Maxregisteredplayers" /> (API Version <= 2)
+		/// <see cref="Result.SessionsTooManyPlayers" /> if registering the requested players would drive the total number of registered players beyond <see cref="Maxregisteredplayers" /> (API Version > 2)
 		/// </returns>
 		public void RegisterPlayers(ref RegisterPlayersOptions options, object clientData, OnRegisterPlayersCallback completionDelegate)
 		{
