@@ -638,6 +638,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             loginButtonText.text = _OriginalloginButtonText;
         }
 
+        //-------------------------------------------------------------------------
+        private void StartLoginWithSteam()
+        {
+            var steamManager = Steam.SteamManager.Instance;
+            string steamId = steamManager?.GetSteamID();
+            string steamToken = steamManager?.GetSessionTicket();
+            if(steamId == null)
+            {
+                Debug.LogError("ExternalAuth failed: Steam ID not valid");
+            }
+            else if (steamToken == null)
+            {
+                Debug.LogError("ExternalAuth failed: Steam session ticket not valid");
+            }
+            else
+            {
+                EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+                        LoginCredentialType.ExternalAuth,
+                        ExternalCredentialType.SteamSessionTicket,
+                        steamId,
+                        steamToken,
+                        StartLoginWithLoginTypeAndTokenCallback);
+            }
+        }
+
         // Username and password aren't always the username and password
         public void OnLoginButtonClick()
         {
@@ -679,26 +704,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (loginType == LoginCredentialType.ExternalAuth)
             {
-                var steamManager = Steam.SteamManager.Instance;
-                string steamId = steamManager?.GetSteamID();
-                string steamToken = steamManager?.GetSessionTicket();
-                if(steamId == null)
-                {
-                    Debug.LogError("ExternalAuth failed: Steam ID not valid");
-                }
-                else if (steamToken == null)
-                {
-                    Debug.LogError("ExternalAuth failed: Steam session ticket not valid");
-                }
-                else
-                {
-                    EOSManager.Instance.StartLoginWithLoginTypeAndToken(
-                        LoginCredentialType.ExternalAuth,
-                        ExternalCredentialType.SteamSessionTicket,
-                        steamId,
-                        steamToken,
-                        StartLoginWithLoginTypeAndTokenCallback);
-                }
+                StartLoginWithSteam();
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
