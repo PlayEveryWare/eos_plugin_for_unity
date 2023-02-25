@@ -48,7 +48,7 @@ Remember to add them to Assembly Definitions Reference list when they're needed 
 
 * PostProcess Build Settings for Xcode project (macOS)
 
-The automated method is -under construction-.
+The automated method could be found [here](https://github.com/lupidan/apple-signin-unity/blob/master/docs/macOS_NOTES.md). 
 
 Here is an alternative that relys on creating an XCode project for the game, make a couple of configurations, then build from the xproject.
 
@@ -169,5 +169,4 @@ private void ConnectAppleId()
     });
 }
 ```
-
-
+Visit the plugin [website](https://github.com/lupidan/apple-signin-unity) for more information 
