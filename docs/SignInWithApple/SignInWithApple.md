@@ -43,8 +43,27 @@ Remember to add them to Assembly Definitions Reference list when they're needed 
 (EOS-Unity-Plugin project needs these set for example).  
 ![Screen Shot 2023-02-17 at 2 46 47 PM](https://user-images.githubusercontent.com/36757173/219812051-f4482a35-7cac-4a18-bc22-29660fc8d32b.png)
 
+---------------------------------------------------------------------
 
----------------------------------------------------------------------d
+
+* PostProcess Build Settings for Xcode project (macOS)
+
+The automated method is -under construction-.
+
+Here is an alternative that relys on creating an XCode project for the game, make a couple of configurations, then build from the xproject.
+
+1. In Unity Build Settings, toggle on create xproject, then build.
+
+2. In xcdode, navigate to `Your Project -> Signing & Capabilities -> Add capability (The + Button)`, the add the capability `Sign In With Apple`. 
+
+3. Determine the `Team` and `Bundle Identifier`. 
+
+4. Build and Run from XCode.  
+
+![image](https://user-images.githubusercontent.com/36757173/221330764-1df29598-dc3b-4a27-9fba-3a8b27f0f500.png)
+   
+
+---------------------------------------------------------------------
 
 
 * Sample Apple Sign In Scripts
