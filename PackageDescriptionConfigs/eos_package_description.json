@@ -381,13 +381,15 @@
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/Scripts/Networking.meta"},
         {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/Scripts/Networking/"},
-		{"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/Scripts/Steam.meta"},
+        {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/Scripts/Steam.meta"},
         {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/Scripts/Steam/"},
+        {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/Scripts/Discord.meta"},
+        {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/Scripts/Discord/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},
         {"src":"Assets/Scenes/*.unity.meta", "dest": "Samples~/Samples/Scenes/"},
-        
+
         {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},
         {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/Readme/"}
