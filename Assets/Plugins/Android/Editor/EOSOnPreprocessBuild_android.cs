@@ -332,17 +332,18 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         currentEOSValuesConfigAsXML.Load(pathToEOSValuesConfig);
 
         var node = currentEOSValuesConfigAsXML.DocumentElement.SelectSingleNode("/resources");
+        if (node == null) { return; }
 
-        if (node != null)
+        var node2 = node.SelectSingleNode("string[@name=\"eos_login_protocol_scheme\"]");
+        if (node2 == null) { return; }
+
+        string eosProtocolScheme = node2.InnerText;
+        string storedClientID = eosProtocolScheme.Split('.').Last();
+
+        if (storedClientID != clientIDAsLower)
         {
-            string eosProtocolScheme = node.InnerText;
-            string storedClientID = eosProtocolScheme.Split('.').Last();
-
-            if (storedClientID != clientIDAsLower)
-            {
-                node.InnerText = $"eos.{clientIDAsLower}";
-                currentEOSValuesConfigAsXML.Save(pathToEOSValuesConfig);
-            }
+            node2.InnerText = $"eos.{clientIDAsLower}";
+            currentEOSValuesConfigAsXML.Save(pathToEOSValuesConfig);
         }
     }
 

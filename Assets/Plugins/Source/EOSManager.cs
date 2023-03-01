@@ -145,6 +145,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
+            static private NotifyEventHandle s_notifyConnectAuthExpirationCallbackHandle;
             static private EOSConfig loadedEOSConfig;
 
             // Setting it twice will cause an exception
@@ -935,15 +936,10 @@ namespace PlayEveryWare.EpicOnlineServices
                     Type = ExternalCredentialType.Epic
                 };
 
-                StartConnectLoginWithOptions(connectLoginOptions, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) => {
-                    if (onConnectLoginCallback != null)
-                    {
-                        onConnectLoginCallback(connectLoginData);
-                    }
-                });
+                StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
             }
 
-            public void StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType externalCredentialType, string displayname, string token, OnConnectLoginCallback onloginCallback)
+            public void StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType externalCredentialType, string token, string displayname = null, OnConnectLoginCallback onloginCallback = null)
             {
                 var loginOptions = new Epic.OnlineServices.Connect.LoginOptions();
                 loginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
@@ -954,14 +950,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 switch(externalCredentialType)
                 {
-                    case ExternalCredentialType.XblXstsToken:
-                        loginOptions.UserLoginInfo = null;
-                        break;
                     case ExternalCredentialType.NintendoIdToken:
                     case ExternalCredentialType.NintendoNsaIdToken:
                     case ExternalCredentialType.AppleIdToken:
                     case ExternalCredentialType.OculusUseridNonce:
+                    case ExternalCredentialType.GoogleIdToken:
+                    case ExternalCredentialType.AmazonAccessToken:
+                    case ExternalCredentialType.DeviceidAccessToken:
                         loginOptions.UserLoginInfo = new UserLoginInfo { DisplayName = displayname };
+                        break;
+
+                    default:
+                        loginOptions.UserLoginInfo = null;
                         break;
                 }
 
@@ -979,6 +979,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         SetLocalProductUserId(connectLoginData.LocalUserId);
                         ConfigureConnectStatusCallback();
+                        ConfigureConnectExpirationCallback();
                         CallOnConnectLogin(connectLoginData);
                     }
                     if (onloginCallback != null)
@@ -1121,6 +1122,33 @@ namespace PlayEveryWare.EpicOnlineServices
                     s_notifyConnectLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
                     {
                         GetEOSConnectInterface()?.RemoveNotifyLoginStatusChanged(handle);
+                    });
+                }
+            }
+
+            //-------------------------------------------------------------------------
+            private void ConfigureConnectExpirationCallback()
+            {
+                if (s_notifyConnectAuthExpirationCallbackHandle == null)
+                {
+                    var EOSConnectInterface = GetEOSConnectInterface();
+                    var addNotifyAuthExpirationOptions = new Epic.OnlineServices.Connect.AddNotifyAuthExpirationOptions();
+                    ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(ref addNotifyAuthExpirationOptions, null, (ref Epic.OnlineServices.Connect.AuthExpirationCallbackInfo callbackInfo) =>
+                    {
+                        var accountId = GetLocalUserId();
+                        if (accountId != null)
+                        {
+                            StartConnectLoginWithEpicAccount(accountId, null);
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.LogError("EOSSingleton.ConfigureConnectExpirationCallback: Cannot refresh Connect token, no valid EpicAccountId");
+                        }
+                    });
+
+                    s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
+                    {
+                        GetEOSConnectInterface()?.RemoveNotifyAuthExpiration(handle);
                     });
                 }
             }
@@ -1276,6 +1304,15 @@ namespace PlayEveryWare.EpicOnlineServices
                         CallOnAuthLogout(data);
                     }
                 });
+            }
+
+            //Clears a local ProductUserId since the Connect interface doesn't have a logout function
+            public void ClearConnectId(ProductUserId userId)
+            {
+                if (GetProductUserId() == userId)
+                {
+                    SetLocalProductUserId(null);
+                }
             }
 
             //-------------------------------------------------------------------------

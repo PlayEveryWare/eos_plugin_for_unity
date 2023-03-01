@@ -31,6 +31,7 @@
 #define DISABLESTEAMWORKS
 #endif
 
+using System;
 using UnityEngine;
 #if !DISABLESTEAMWORKS
 using System.Collections;
@@ -100,37 +101,97 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             return SteamUser.GetSteamID().GetAccountID().ToString();
         }
 
-        HAuthTicket authTicketHandle = HAuthTicket.Invalid;
-        string authTicketString = null;
-        public string GetAuthToken()
+        HAuthTicket sessionTicketHandle = HAuthTicket.Invalid;
+        string sessionTicketString = null;
+        public string GetSessionTicket()
         {
-            if (authTicketHandle != HAuthTicket.Invalid)
+            if (sessionTicketHandle != HAuthTicket.Invalid)
             {
-                return authTicketString;
+                return sessionTicketString;
             }
 
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
             uint ticketSize = 0;
-            authTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
+            sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
             if ((int)ticketSize > bufferSize)
             {
-                SteamUser.CancelAuthTicket(authTicketHandle);
+                SteamUser.CancelAuthTicket(sessionTicketHandle);
                 bufferSize = (int)ticketSize;
-                authTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
+                sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
             }
-            System.Array.Resize(ref buffer, (int)ticketSize);
-            authTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
-            return authTicketString;
+            Array.Resize(ref buffer, (int)ticketSize);
+            //convert to hex string
+            sessionTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
+            return sessionTicketString;
+        }
+
+        CallResult<EncryptedAppTicketResponse_t> appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
+        private event Action<string> appTicketEvent;
+        private string encryptedAppTicket = null;
+
+        public void RequestAppTicket(Action<string> callback)
+        {
+            if (encryptedAppTicket != null)
+            {
+                callback?.Invoke(encryptedAppTicket);
+                return;
+            }
+
+            if (appTicketEvent != null)
+            {
+                appTicketEvent += callback;
+                return;
+            }
+
+            appTicketEvent += callback;
+            var call = SteamUser.RequestEncryptedAppTicket(null, 0);
+            appTicketCallResult.Set(call, RequestAppTicketResponse);
+        }
+
+        private void RequestAppTicketResponse(EncryptedAppTicketResponse_t response, bool ioFailure)
+        {
+            if (ioFailure || response.m_eResult != EResult.k_EResultOK)
+            {
+                Debug.LogError("Error occured when requesting Encrypted App Ticket");
+                appTicketEvent?.Invoke(null);
+                appTicketEvent = null;
+                return;
+            }
+
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+            uint ticketSize = 0;
+            bool success = SteamUser.GetEncryptedAppTicket(buffer, bufferSize, out ticketSize);
+            if (!success && (int)ticketSize > bufferSize)
+            {
+                SteamUser.CancelAuthTicket(sessionTicketHandle);
+                bufferSize = (int)ticketSize;
+                success = SteamUser.GetEncryptedAppTicket(buffer, bufferSize, out ticketSize);
+            }
+            if (!success)
+            {
+                Debug.LogError("Failed to retrieve Encrypted App Ticket");
+                appTicketEvent?.Invoke(null);
+                appTicketEvent = null;
+                return;
+            }
+
+            Array.Resize(ref buffer, (int)ticketSize);
+            //convert to hex string
+            encryptedAppTicket = System.BitConverter.ToString(buffer).Replace("-", "");
+
+            appTicketEvent?.Invoke(encryptedAppTicket);
+            appTicketEvent = null;
         }
 
         private void OnApplicationQuit()
         {
-            if (authTicketHandle != HAuthTicket.Invalid)
+            if (sessionTicketHandle != HAuthTicket.Invalid)
             {
-                SteamUser.CancelAuthTicket(authTicketHandle);
-                authTicketHandle = HAuthTicket.Invalid;
-                authTicketString = null;
+                SteamUser.CancelAuthTicket(sessionTicketHandle);
+                sessionTicketHandle = HAuthTicket.Invalid;
+                sessionTicketString = null;
             }
         }
 
@@ -280,9 +341,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         return null;
     }
 
-    public string GetAuthToken()
+    public string GetSessionTicket()
     {
         return null;
+    }
+
+    public void RequestAppTicket(Action<string> callback)
+    {
+        callback?.Invoke(null);
     }
 
     public static SteamManager Instance

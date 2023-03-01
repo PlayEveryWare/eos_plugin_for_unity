@@ -47,6 +47,17 @@ EOS_DECLARE_FUNC(void) EOS_Ecom_QueryOwnershipToken(EOS_HEcom Handle, const EOS_
 EOS_DECLARE_FUNC(void) EOS_Ecom_QueryEntitlements(EOS_HEcom Handle, const EOS_Ecom_QueryEntitlementsOptions* Options, void* ClientData, const EOS_Ecom_OnQueryEntitlementsCallback CompletionDelegate);
 
 /**
+ * Query the entitlement verification status defined with Epic Online Services.
+ * An optional set of entitlement names can be provided to filter the set of entitlements associated with the account.
+ * The data is return via the callback in the form of a signed JWT that should be verified by an external backend server using a public key for authenticity.
+ *
+ * @param Options structure containing the account and catalog item IDs to retrieve in token form
+ * @param ClientData arbitrary data that is passed back to you in the CompletionDelegate
+ * @param CompletionDelegate a callback that is fired when the async operation completes, either successfully or in error
+ */
+EOS_DECLARE_FUNC(void) EOS_Ecom_QueryEntitlementToken(EOS_HEcom Handle, const EOS_Ecom_QueryEntitlementTokenOptions* Options, void* ClientData, const EOS_Ecom_OnQueryEntitlementTokenCallback CompletionDelegate);
+
+/**
  * Query for a list of catalog offers defined with Epic Online Services.
  * This data will be cached for a limited time and retrieved again from the backend when necessary.
  *

@@ -151,14 +151,14 @@ public class EOSOnPostprocessBuild_Linux:  IPostprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
-    private void InstallFiles(BuildReport report, EOSConfig config)
+    private void InstallFiles(BuildReport report, bool useEAC)
     {
         string destDir = Path.GetDirectoryName(report.summary.outputPath);
         string pathToInstallFrom = GetPathToPlatformSepecificAssetsForLinux();
 
         List<string> filestoInstall = new List<string>(postBuildFiles);
         List<string> directoriesToInstall = new List<string>(postBuildDirectories);
-        if (config.useEAC)
+        if (useEAC)
         {
             filestoInstall.AddRange(postBuildFilesEAC);
             directoriesToInstall.AddRange(postBuildDirectoriesEAC);
@@ -263,21 +263,27 @@ public class EOSOnPostprocessBuild_Linux:  IPostprocessBuildWithReport
         // Get the output path, and install the launcher if on a target that supports it
         if (report.summary.platform == BuildTarget.StandaloneLinux64)
         {
-            var mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
-            mainEOSConfigFile.LoadConfigFromDisk();
-
-            buildExeName = Path.GetFileName(report.summary.outputPath);
-
-            InstallFiles(report, mainEOSConfigFile.currentEOSConfig);
-
             var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+            bool useEAC = false;
 
             if (editorToolsConfigSection != null)
             {
                 editorToolsConfigSection.Awake();
                 editorToolsConfigSection.LoadConfigFromDisk();
                 var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
-                if (mainEOSConfigFile.currentEOSConfig.useEAC &&
+                useEAC = editorToolConfig.useEAC;
+            }
+
+            buildExeName = Path.GetFileName(report.summary.outputPath);
+
+            InstallFiles(report, useEAC);
+
+            if (editorToolsConfigSection != null)
+            {
+                editorToolsConfigSection.Awake();
+                editorToolsConfigSection.LoadConfigFromDisk();
+                var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
+                if (useEAC &&
                     editorToolConfig != null &&
                     editorToolConfig.pathToEACIntegrityTool != null &&
                     editorToolConfig.pathToEACPrivateKey != null &&

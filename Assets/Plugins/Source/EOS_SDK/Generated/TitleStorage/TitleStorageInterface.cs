@@ -18,6 +18,9 @@ namespace Epic.OnlineServices.TitleStorage
 		/// </summary>
 		public const int CopyfilemetadataatindexApiLatest = 1;
 
+		/// <summary>
+		/// DEPRECATED! Use <see cref="CopyfilemetadataatindexApiLatest" /> instead.
+		/// </summary>
 		public const int CopyfilemetadataatindexoptionsApiLatest = CopyfilemetadataatindexApiLatest;
 
 		/// <summary>
@@ -25,6 +28,9 @@ namespace Epic.OnlineServices.TitleStorage
 		/// </summary>
 		public const int CopyfilemetadatabyfilenameApiLatest = 1;
 
+		/// <summary>
+		/// DEPRECATED! Use <see cref="CopyfilemetadatabyfilenameApiLatest" /> instead.
+		/// </summary>
 		public const int CopyfilemetadatabyfilenameoptionsApiLatest = CopyfilemetadatabyfilenameApiLatest;
 
 		/// <summary>
@@ -32,6 +38,9 @@ namespace Epic.OnlineServices.TitleStorage
 		/// </summary>
 		public const int DeletecacheApiLatest = 1;
 
+		/// <summary>
+		/// DEPRECATED! Use <see cref="DeletecacheApiLatest" /> instead.
+		/// </summary>
 		public const int DeletecacheoptionsApiLatest = DeletecacheApiLatest;
 
 		/// <summary>
@@ -49,6 +58,9 @@ namespace Epic.OnlineServices.TitleStorage
 		/// </summary>
 		public const int GetfilemetadatacountApiLatest = 1;
 
+		/// <summary>
+		/// DEPRECATED! Use <see cref="GetfilemetadatacountApiLatest" /> instead.
+		/// </summary>
 		public const int GetfilemetadatacountoptionsApiLatest = GetfilemetadatacountApiLatest;
 
 		/// <summary>
@@ -61,8 +73,14 @@ namespace Epic.OnlineServices.TitleStorage
 		/// </summary>
 		public const int QueryfilelistApiLatest = 1;
 
+		/// <summary>
+		/// DEPRECATED! Use <see cref="QueryfilelistApiLatest" /> instead.
+		/// </summary>
 		public const int QueryfilelistoptionsApiLatest = QueryfilelistApiLatest;
 
+		/// <summary>
+		/// DEPRECATED! Use <see cref="QueryfileApiLatest" /> instead.
+		/// </summary>
 		public const int QueryfileoptionsApiLatest = QueryfileApiLatest;
 
 		/// <summary>
@@ -70,6 +88,9 @@ namespace Epic.OnlineServices.TitleStorage
 		/// </summary>
 		public const int ReadfileApiLatest = 1;
 
+		/// <summary>
+		/// DEPRECATED! Use <see cref="ReadfileApiLatest" /> instead.
+		/// </summary>
 		public const int ReadfileoptionsApiLatest = ReadfileApiLatest;
 
 		/// <summary>

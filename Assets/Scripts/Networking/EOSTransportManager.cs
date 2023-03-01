@@ -752,6 +752,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 return false;
             }
 
+            if (remoteUserId == null)
+            {
+                printError("EOSTransportManager.CloseConnection: Failed to close remote peer connection - remoteUserId is null.");
+                return false;
+            }
+
             bool success;
 
             // Get remote peer connections
@@ -1090,6 +1096,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // No packets to be received?
             if (result == Result.NotFound)
             {
+                remoteUserId = null;
+                socketName = null;
+                channel = 0;
+                packet = null;
+                return false;
+            }
+
+            // Packet is smaller than expected
+            if (packet.Length < FragmentHeaderSize)
+            {
+                printError($"EOSTransportManager.TryReceivePacket: Received {packet.Length} byte packet. Should be at least {FragmentHeaderSize} bytes.");
                 remoteUserId = null;
                 socketName = null;
                 channel = 0;
