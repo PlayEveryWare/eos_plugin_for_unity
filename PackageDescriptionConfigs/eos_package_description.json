@@ -385,6 +385,9 @@
         {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/Scripts/Steam/"},
         {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/Scripts/Discord.meta"},
         {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/Scripts/Discord/"},
+        {"src":"Assets/Scripts/OpenID.meta", "dest": "Samples~/Samples/Scripts/OpenID.meta"},
+        {"src":"Assets/Scripts/OpenID/*", "dest": "Samples~/Samples/Scripts/OpenID/"},
+        {"src":"Assets/Scripts/OpenID/CloudFunction/*", "dest": "Samples~/Samples/Scripts/OpenID/CloudFunction/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},

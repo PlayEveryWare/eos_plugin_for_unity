@@ -474,9 +474,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void ConfigureUIForConnectLogin()
         {
             idContainer.gameObject.SetActive(false);
+            connectTypeContainer.gameObject.SetActive(true);
+
             tokenInputField.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
-            connectTypeContainer.gameObject.SetActive(true);
+
+            string typeName = connectTypeDropdown.options[connectTypeDropdown.value].text;
+            if (Enum.TryParse(typeName, out ExternalCredentialType externalType))
+            {
+                if (externalType == ExternalCredentialType.OpenidAccessToken)
+                {
+                    tokenInputField.gameObject.SetActive(true);
+                    tokenText.gameObject.SetActive(true);
+                }
+            }
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -518,6 +529,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
 #if UNITY_STANDALONE || UNITY_ANDROID || UNITY_IOS
             credentialTypes.Add(ExternalCredentialType.DiscordAccessToken);
+            credentialTypes.Add(ExternalCredentialType.OpenidAccessToken);
 #endif
 
             foreach (var type in credentialTypes)
@@ -756,6 +768,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ConnectDiscord();
                     break;
 
+                case ExternalCredentialType.OpenidAccessToken:
+                    ConnectOpenId();
+                    break;
+
                 default:
                     Debug.LogError($"Connect Login for {externalType} not implemented");
                     loginButton.interactable = true;
@@ -858,6 +874,37 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else
             {
                 StartConnectLoginWithToken(ExternalCredentialType.DiscordAccessToken, token);
+            }
+        }
+
+        private void ConnectOpenId()
+        {
+            var tokenParts = tokenInputField.InputField.text.Split(':');
+            if (tokenParts.Length >= 2)
+            {
+                string username = tokenParts[0].Trim();
+                string password = tokenParts[1].Trim();
+                if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+                {
+                    OpenId.OpenIdRequestManager.Instance.RequestToken(username, password, OnOpenIdTokenReceived);
+                    return;
+                }
+            }
+
+            Debug.LogError("Connect Login failed: OpenID credentials should be entered as \"username:password\"");
+            ConfigureUIForLogin();
+        }
+
+        private void OnOpenIdTokenReceived(string username, string token)
+        {
+            if (token == null)
+            {
+                Debug.LogError("Connect Login failed: Unable to OpenID token");
+                ConfigureUIForLogin();
+            }
+            else
+            {
+                StartConnectLoginWithToken(ExternalCredentialType.OpenidAccessToken, token);
             }
         }
 
