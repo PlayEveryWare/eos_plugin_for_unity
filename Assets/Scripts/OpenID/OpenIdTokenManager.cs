@@ -193,7 +193,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.OpenId
             int reqIndex = 0;
             foreach (var cred in credentials)
             {
-                request.requests[reqIndex] = new UserRequest()
+                request.requests[reqIndex++] = new UserRequest()
                 {
                     username = cred.Key,
                     password = cred.Value
