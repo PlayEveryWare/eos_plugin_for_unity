@@ -110,7 +110,7 @@ STATIC_EXPORT(void) PrintLibs()
 }
 
 //-------------------------------------------------------------------------
-void * DLLH_macOS_load_library_at_path(DLLHContext *ctx, const char *library_path)
+void * DLLH_linux_load_library_at_path(DLLHContext *ctx, const char *library_path)
 {
     void *to_return = dlopen(library_path, RTLD_NOW);
    
@@ -119,7 +119,7 @@ void * DLLH_macOS_load_library_at_path(DLLHContext *ctx, const char *library_pat
 
 //-------------------------------------------------------------------------
 // TODO: Handle the actual module instead of all symbols
-void * DLLH_macOS_load_function_with_name(DLLHContext *ctx, void *library_handle, const char *function)
+void * DLLH_linux_load_function_with_name(DLLHContext *ctx, void *library_handle, const char *function)
 {
     void *output_ptr = nullptr;
 
@@ -151,7 +151,7 @@ STATIC_EXPORT(void *) DLLH_load_library_at_path(void *ctx, const char *library_p
     DLLHContext *dllh_ctx = static_cast<DLLHContext*>(ctx);
     void *to_return = nullptr;
     
-    to_return = DLLH_macOS_load_library_at_path(dllh_ctx, library_path);
+    to_return = DLLH_linux_load_library_at_path(dllh_ctx, library_path);
 
     return to_return;
 }
@@ -164,14 +164,14 @@ STATIC_EXPORT(void *) DLLH_load_function_with_name(void *ctx, void *library_hand
     void *to_return = nullptr;
     DLLHContext *dllh_ctx = static_cast<DLLHContext*>(ctx);
 
-    to_return = DLLH_macOS_load_function_with_name(dllh_ctx, library_handle, function);
+    to_return = DLLH_linux_load_function_with_name(dllh_ctx, library_handle, function);
 
     return to_return;
 }
 
 //-------------------------------------------------------------------------
 // TODO: unload the library correct? I don't know if that's actually a good
-// idea on macos or not
+// idea on linux or not
 STATIC_EXPORT(void) DLLH_unload_library_at_path(const char *library_path)
 {
 }
