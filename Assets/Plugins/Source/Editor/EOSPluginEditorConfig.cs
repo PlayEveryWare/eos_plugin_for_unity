@@ -411,13 +411,22 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static public bool operator ==(EOSPluginEditorToolsConfig a, EOSPluginEditorToolsConfig b)
         {
-
             return false;
         }
 
         static public bool operator !=(EOSPluginEditorToolsConfig a, EOSPluginEditorToolsConfig b)
         {
             return false;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return false; 
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         public bool IsEmpty()
