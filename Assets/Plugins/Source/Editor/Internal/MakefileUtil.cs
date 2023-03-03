@@ -75,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static void BuildWindows(string platform)
         {
-            if (RunProcess("where", "", "msbuild", printOutput:false, printError:false) != 0)
+            if (RunProcess("where", "msbuild", printOutput:false, printError:false) != 0)
             {
                 //msbuild must be in PATH
                 Debug.LogError("msbuild not found");
