@@ -7,7 +7,7 @@
         {"src": "SDK/Bin/x86/*.dll", "dest": "Assets/Plugins/Windows/x86/"},
         {"src": "SDK/Bin/EOSSDK-Win64-Shipping.dll", "dest": "Assets/Plugins/Windows/x64/"},
         {"src": "SDK/Bin/x64/*.dll", "dest":"Assets/Plugins/Windows/x64/"},
-        {"src": "SDK/Bin/libEOSSDK-Linux-Shipping.so", "dest": "Assets/Plugins/Linux/"},
+        {"src": "SDK/Bin/libEOSSDK-Linux-Shipping.so", "dest": "Assets/Plugins/Linux/EOSSDK-Linux-Shipping.so"},
         {"src": "SDK/Bin/libEOSSDK-Mac-Shipping.dylib", "dest": "Assets/Plugins/macOS/"},
 		{"src": "SDK/Bin/Android/dynamic-stdc++/aar/eos-sdk.aar", "dest": "Assets/Plugins/Android/"},
 		{"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
