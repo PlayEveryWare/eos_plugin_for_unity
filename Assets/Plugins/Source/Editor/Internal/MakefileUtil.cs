@@ -55,20 +55,52 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
+        [MenuItem("Tools/Build Libraries/Linux")]
+        public static void BuildLibrariesLinux()
+        {
+#if UNITY_EDITOR_LINUX
+            BuildLinux();
+#endif
+        }
+
+        [MenuItem("Tools/Build Libraries/Linux", true)]
+        public static bool CanBuildLibrariesLinux()
+        {
+#if UNITY_EDITOR_LINUX
+            return true;
+#else
+            return false;
+#endif
+        }
+
         private static void BuildWindows(string platform)
         {
-            if (RunProcess("where", "msbuild /q") != 0)
+            if (RunProcess("where", "", "msbuild", printOutput:false, printError:false) != 0)
             {
                 //msbuild must be in PATH
                 Debug.LogError("msbuild not found");
             }
             else
             {
-                RunProcess("msbuild", $"DynamicLibraryLoaderHelper.sln /p:Configuration=Release /p:Platform={platform}");
+                RunProcess("msbuild", $"DynamicLibraryLoaderHelper.sln /p:Configuration=Release /p:Platform={platform}",
+                    "NativeCode/DynamicLibraryLoaderHelper");
             }
         }
 
-        private static int RunProcess(string processPath, string arguments)
+        private static void BuildLinux()
+        {
+            if (RunProcess("which", "make", printOutput:false, printError:false) != 0)
+            {
+                //make must be in PATH
+                Debug.LogError("make command not found");
+            }
+            else
+            {
+                RunProcess("make", "install", "NativeCode/DynamicLibraryLoaderHelper_Linux");
+            }
+        }
+
+        private static int RunProcess(string processPath, string arguments, string workingDir = "", bool printOutput = true, bool printError = true)
         {
             var procInfo = new System.Diagnostics.ProcessStartInfo()
             {
@@ -76,24 +108,30 @@ namespace PlayEveryWare.EpicOnlineServices
             };
             procInfo.FileName = processPath;
             procInfo.UseShellExecute = false;
-            procInfo.WorkingDirectory = Path.Join(Application.dataPath, "../NativeCode/DynamicLibraryLoaderHelper");
+            procInfo.WorkingDirectory = Path.Join(Application.dataPath, "..", workingDir);
             procInfo.RedirectStandardOutput = true;
             procInfo.RedirectStandardError = true;
 
             var process = new System.Diagnostics.Process { StartInfo = procInfo };
-            process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-                if (!EmptyPredicates.IsEmptyOrNull(e.Data))
-                {
-                    Debug.Log(e.Data);
-                }
-            });
+            if(printOutput)
+            {
+                process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
+                    if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                    {
+                        Debug.Log(e.Data);
+                    }
+                });
+            }
 
-            process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-                if (!EmptyPredicates.IsEmptyOrNull(e.Data))
-                {
-                    Debug.LogError(e.Data);
-                }
-            });
+            if(printError)
+            {
+                process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
+                    if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                    {
+                        Debug.LogError(e.Data);
+                    }
+                });
+            }
 
             bool didStart = process.Start();
             process.BeginOutputReadLine();
