@@ -55,6 +55,24 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
+        [MenuItem("Tools/Build Libraries/Mac")]
+        public static void BuildLibrariesMac()
+        {
+#if UNITY_EDITOR_OSX
+            BuildMac();
+#endif
+        }
+
+        [MenuItem("Tools/Build Libraries/Mac", true)]
+        public static bool CanBuildLibrariesMac()
+        {
+#if UNITY_EDITOR_OSX
+            return true;
+#else
+            return false;
+#endif
+        }
+
         [MenuItem("Tools/Build Libraries/Linux")]
         public static void BuildLibrariesLinux()
         {
@@ -84,6 +102,19 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 RunProcess("msbuild", $"DynamicLibraryLoaderHelper.sln /p:Configuration=Release /p:Platform={platform}",
                     "NativeCode/DynamicLibraryLoaderHelper");
+            }
+        }
+
+        private static void BuildMac()
+        {
+            if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
+            {
+                //make must be in PATH
+                Debug.LogError("make command not found");
+            }
+            else
+            {
+                RunProcess("make", "install", "NativeCode/DynamicLibraryLoaderHelper_macOS");
             }
         }
 
