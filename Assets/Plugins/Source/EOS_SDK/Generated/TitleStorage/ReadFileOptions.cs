@@ -98,7 +98,7 @@ namespace Epic.OnlineServices.TitleStorage
 
 		public void Set(ref ReadFileOptions other)
 		{
-			m_ApiVersion = TitleStorageInterface.ReadfileoptionsApiLatest;
+			m_ApiVersion = TitleStorageInterface.ReadfileApiLatest;
 			LocalUserId = other.LocalUserId;
 			Filename = other.Filename;
 			ReadChunkLengthBytes = other.ReadChunkLengthBytes;
@@ -110,7 +110,7 @@ namespace Epic.OnlineServices.TitleStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = TitleStorageInterface.ReadfileoptionsApiLatest;
+				m_ApiVersion = TitleStorageInterface.ReadfileApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				Filename = other.Value.Filename;
 				ReadChunkLengthBytes = other.Value.ReadChunkLengthBytes;

@@ -33,7 +33,7 @@ namespace Playeveryware.Editor
         [MenuItem("Tools/Create link.xml")]
         static void CreateLinkXml()
         {
-            var linkSourceFilePath = Path.Combine("Packages", DLLHandle.GetPackageName(), "Editor", "link.xml");
+            var linkSourceFilePath = Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Editor", "link.xml");
             var linkDestPath = Path.Combine("Assets", "EOS");
             var linkDestFilePath = Path.Combine(linkDestPath, "link.xml");
             if (File.Exists(linkSourceFilePath))
@@ -60,7 +60,7 @@ namespace Playeveryware.Editor
         [MenuItem("Tools/Create link.xml", true)]
         static bool ValidateCreateLinkXml()
         {
-            return Directory.Exists(Path.Combine("Packages", DLLHandle.GetPackageName(), "Editor"));
+            return Directory.Exists(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Editor"));
         }
     }
 }

@@ -40,11 +40,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button MuteButton;
         public Button KickButton;
         public Button Promotebutton;
+        public Toggle EnablePressToTalkToggle;
+        public bool PressToTalkEnabled = true;
+        public Button ChangePTTKeyButton;
+        private KeyCode PTTKey = KeyCode.Space;
 
         // Callbacks
         public Action<ProductUserId> MuteOnClick;
         public Action<ProductUserId> KickOnClick;
         public Action<ProductUserId> PromoteOnClick;
+        public Action<ProductUserId> EnablePressToTalkOnClick;
 
         // Metadata
         [HideInInspector]
@@ -112,13 +117,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Promotebutton.gameObject.SetActive(false);
             }
 
-            if(lobbyManager.GetCurrentLobby().RTCRoomEnabled)
+            if (lobbyManager.GetCurrentLobby().RTCRoomEnabled)
             {
                 MuteButton.enabled = true;
                 MuteButton.interactable = true;
                 MuteButton.gameObject.SetActive(true);
 
-                foreach(LobbyMember member in lobbyManager.GetCurrentLobby().Members)
+                if (lobbyManager.GetCurrentLobby().Members.Count == 1)
+                {
+                    IsTalkingText.text = "-------------";
+                    return;
+                }
+                foreach (LobbyMember member in lobbyManager.GetCurrentLobby().Members)
                 {
                     if (member.ProductId == ProductUserId)
                     {
@@ -129,6 +139,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                                 IsTalkingText.text = "Mic not permitted";
                                 MuteButton.interactable = false;
                                 break;
+                            }
+
+                            EnablePressToTalkToggle.isOn = member.RTCState.PressToTalkEnabled;
+
+                            if (!member.RTCState.IsLocalMuted && EnablePressToTalkToggle.isOn)
+                            {
+                                lobbyManager.PressToTalk(PTTKey, null);
                             }
                         }
                         // Update Talking state
@@ -192,16 +209,49 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("MemberEntryPromoteButtonOnClick: PromoteOnClick action is null!");
             }
         }
+        public void MemberEntryEnablePressToTalkToggleOnClick()
+        {
+            if (EnablePressToTalkOnClick != null)
+            {
+                EnablePressToTalkOnClick(ProductUserId);
+            }
+            else
+            {
+                Debug.LogError("MemberEntryEnablePressToTalkToggleOnClick: EnablePressToTalkOnClick action is null!");
+            }
+        }
 
-#if EOS_PREVIEW_PLATFORM
-    #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+        public async void ChangePTTKeyButtonOnClick()
+        {
+            Text PTTtext = ChangePTTKeyButton.GetComponentInChildren<Text>();
+            PTTtext.text = "Press A New Button";
+            PTTtext.color = Color.red;
+
+            while (!Input.anyKeyDown)
+            {
+                await System.Threading.Tasks.Task.Yield();
+            }
+
+            foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode)))
+            {
+                if (Input.GetKey(key))
+                {
+                    PTTKey = key;
+                    PTTtext.text = "Press " + key.ToString().ToUpper() + " to Talk";
+                    PTTtext.color = Color.black;
+                    break;
+                }
+            }
+        }
+
+    #if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM
         [System.Runtime.InteropServices.DllImport("MicrophoneUtility_macos.dylib")]
         public static extern bool MicrophoneUtility_get_mic_permission();
     #elif UNITY_IOS
         [System.Runtime.InteropServices.DllImport("__Internal")]
         public static extern bool MicrophoneUtility_get_mic_permission();
     #endif
-#endif
+    
         private bool HasPlatformMicrophonePermission()
         {
 #if UNITY_IOS || ((UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM)

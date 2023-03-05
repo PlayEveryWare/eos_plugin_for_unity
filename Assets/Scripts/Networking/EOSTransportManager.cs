@@ -29,6 +29,10 @@ using System.Text;
 
 using UnityEngine;
 
+#if COM_UNITY_MODULE_NETCODE
+using Unity.Netcode;
+#endif
+
 using Epic.OnlineServices;
 using Epic.OnlineServices.P2P;
 using System.Text.RegularExpressions;
@@ -249,9 +253,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private const byte ConnectionConfirmationChannel = byte.MaxValue;
 
         [System.Diagnostics.Conditional("EOS_TRANSPORTMANAGER_DEBUG")]
-        private void print(string msg, LogType type = LogType.Log)
+        private void print(string msg)
         {
-            Debug.LogFormat(type, LogOption.None, null, msg);
+            Debug.Log(msg);
+        }
+
+        [System.Diagnostics.Conditional("EOS_TRANSPORTMANAGER_DEBUG")]
+        private void printWarning(string msg)
+        {
+            Debug.LogWarning(msg);
+        }
+
+        [System.Diagnostics.Conditional("EOS_TRANSPORTMANAGER_DEBUG")]
+        private void printError(string msg)
+        {
+            Debug.LogError(msg);
         }
 
         /// <summary>
@@ -267,7 +283,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             else
             {
                 string connectionString = includeConnections ? ConnectionsJSONFormatString() : "";
-                return string.Format("{{\"LocalUserId\": {0}, \"NATType\": {1}{2}}}", LocalUserId.ToString(), NATType, connectionString);
+                return $"{{\"LocalUserId\": {LocalUserId}, \"NATType\": {NATType}{connectionString}}}";
             }
         }
 
@@ -297,7 +313,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public EOSTransportManager()
         {
 #if !COM_UNITY_MODULE_NETCODE
-            Debug.LogError("EOSTransportManager: Network for GameObjects package not ins");
+            Debug.LogError("EOSTransportManager: Netcode for GameObjects package not installed");
 #endif
 
             Clear();
@@ -313,6 +329,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             IsInitialized = false;
         }
 
+#if UNITY_EDITOR
+        void OnPlayModeChanged(UnityEditor.PlayModeStateChange modeChange)
+        {
+            if (modeChange == UnityEditor.PlayModeStateChange.ExitingPlayMode)
+            {
+                //prevent attempts to call native EOS code while exiting play mode, which crashes the editor
+                P2PHandle = null;
+                Shutdown();
+            }
+        }
+#endif
+
         /// <summary>
         /// Initializes the EOS P2P Manager.
         /// </summary>
@@ -321,9 +349,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             if (IsInitialized)
             {
-                print("EOSTransportManager.Initialize: Already initialized - Shutting down EOSTransportManager first before proceeding.", LogType.Warning);
+                printWarning("EOSTransportManager.Initialize: Already initialized - Shutting down EOSTransportManager first before proceeding.");
                 Shutdown();
             }
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            UnityEditor.EditorApplication.playModeStateChanged += OnPlayModeChanged;
+#endif
 
             Debug.Assert(IsInitialized == false);
             print("EOSTransportManager.Initialize: Initializing EOSTransportManager...");
@@ -331,7 +364,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             if (EOSManager.Instance == null)
             {
-                print("EOSTransportManager.Initialize: Failed to initialize EOSTransportManager - Unable to get EOSManager singleton instance.", LogType.Error);
+                printError("EOSTransportManager.Initialize: Failed to initialize EOSTransportManager - Unable to get EOSManager singleton instance.");
                 result = false;
             }
             else
@@ -345,12 +378,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             if (P2PHandle == null)
             {
-                print("EOSTransportManager.Initialize: Failed to initialize EOSTransportManager - Unable to get EOS P2PInterface handle.", LogType.Error);
+                printError("EOSTransportManager.Initialize: Failed to initialize EOSTransportManager - Unable to get EOS P2PInterface handle.");
                 result = false;
             }
             else if (LocalUserId == null || LocalUserId.IsValid() == false)
             {
-                print("EOSTransportManager.Initialize: Failed to initialize EOSTransportManager - Invalid local ProductUserId.", LogType.Error);
+                printError("EOSTransportManager.Initialize: Failed to initialize EOSTransportManager - Invalid local ProductUserId.");
                 result = false;
             }
             else
@@ -380,7 +413,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             if (IsInitialized == false)
             {
-                print("EOSTransportManager.Shutdown: EOSTransportManager is already shutdown or was never initialized.", LogType.Warning);
+                printWarning("EOSTransportManager.Shutdown: EOSTransportManager is already shutdown or was never initialized.");
                 return;
             }
 
@@ -389,6 +422,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             UnsubscribeFromConnectionClosedNotifications();
             UnsubscribeFromConnectionRequestNotifications();
             Clear();
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+#endif
         }
 
         //
@@ -434,7 +471,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 // Don't warn for certain errors if they're common
                 if (data.ResultCode != Result.NoConnection)
                 {
-                    print($"EOSTransportManager.OnQueryNATTypeCompleted: Error result, {data.ResultCode}", LogType.Warning);
+                    printWarning($"EOSTransportManager.OnQueryNATTypeCompleted: Error result, {data.ResultCode}");
                 }
                 return;
             }
@@ -459,7 +496,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             if (result != Result.Success)
             {
-                print($"EOSTransportManager.GetNATType: Error while retrieving NATType, {result}.", LogType.Warning);
+                printWarning($"EOSTransportManager.GetNATType: Error while retrieving NATType, {result}.");
                 return NATType.Unknown;
             }
             print($"EOSTransportManager.GetNATType: Successfully retrieved NATType '{natType}'.");
@@ -550,14 +587,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // EOSTransportManager is not initialized?
             if (IsInitialized == false)
             {
-                print("EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - EOSTransportManager is uninitialized (has OnLoggedIn been called?).", LogType.Error);
+                printError("EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - EOSTransportManager is uninitialized (has OnLoggedIn been called?).");
                 return false;
             }
 
             // Socket name is invalid?
             if (IsValidSocketName(socketName) == false)
             {
-                print($"EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - Socket name '{socketName}' is invalid (EOS socket names may only contain 1-32 alphanumeric characters).", LogType.Error);
+                printError($"EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - Socket name '{socketName}' is invalid (EOS socket names may only contain 1-32 alphanumeric characters).");
                 return false;
             }
 
@@ -572,7 +609,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 // Max number of connections reached for this remote peer?
                 if (connections.Count >= MaxConnections)
                 {
-                    print($"EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - Reached maximum number of open connections ({MaxConnections}) with the specified remote peer.", LogType.Error);
+                    printError($"EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - Reached maximum number of open connections ({MaxConnections}) with the specified remote peer.");
                     return false;
                 }
             }
@@ -602,7 +639,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 if (connection.IsFullyOpened)
                 {
                     // Nothing left to do
-                    print($"EOSTransportManager.Internal_OpenConnection: Already have a fully opened socket connection named '{socketName}' with remote peer '{remoteUserId}'.", LogType.Warning);
+                    printWarning($"EOSTransportManager.Internal_OpenConnection: Already have a fully opened socket connection named '{socketName}' with remote peer '{remoteUserId}'.");
                     return true;
                 }
 
@@ -613,7 +650,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     if (connection.OpenedOutgoing)
                     {
                         // Nothing left to do
-                        print($"EOSTransportManager.Internal_OpenConnection: Already have a locally opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we're just awaiting a response to our connect request.", LogType.Warning);
+                        printWarning($"EOSTransportManager.Internal_OpenConnection: Already have a locally opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we're just awaiting a response to our connect request.");
                         return true;
                     }
 
@@ -627,7 +664,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     if (connection.OpenedIncoming)
                     {
                         // Nothing left to do
-                        print($"EOSTransportManager.Internal_OpenConnection: Already have a remotely opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we just need to respond to their connect request.", LogType.Warning);
+                        printWarning($"EOSTransportManager.Internal_OpenConnection: Already have a remotely opened socket connection named '{socketName}' with remote peer '{remoteUserId}'. Now we just need to respond to their connect request.");
                         return true;
                     }
 
@@ -651,7 +688,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 Result result = P2PHandle.AcceptConnection(ref options);
                 if (result != Result.Success)
                 {
-                    print($"EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - P2PInterface.AcceptConnection error result '{result}'.", LogType.Error);
+                    printError($"EOSTransportManager.Internal_OpenConnection: Failed to open remote peer connection - P2PInterface.AcceptConnection error result '{result}'.");
 
                     // We just added this connection? (it would still be invalid at this point)
                     if (connection.IsValid == false)
@@ -711,7 +748,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // EOSTransportManager is not initialized?
             if (IsInitialized == false)
             {
-                print("EOSTransportManager.CloseConnection: Failed to close remote peer connection - EOSTransportManager is uninitialized (has OnLoggedIn been called?).", LogType.Error);
+                printError("EOSTransportManager.CloseConnection: Failed to close remote peer connection - EOSTransportManager is uninitialized (has OnLoggedIn been called?).");
+                return false;
+            }
+
+            if (remoteUserId == null)
+            {
+                printError("EOSTransportManager.CloseConnection: Failed to close remote peer connection - remoteUserId is null.");
                 return false;
             }
 
@@ -731,10 +774,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                         SocketId = connection.SocketId,
                     };
 
-                    Result result = P2PHandle.CloseConnection(ref options);
+                    Result result = P2PHandle?.CloseConnection(ref options) ?? Result.NetworkDisconnected;
                     if (result != Result.Success)
                     {
-                        print($"EOSTransportManager.CloseConnection: Failed to close remote peer connection - P2PInterface.CloseConnection error result '{result}'.", LogType.Error);
+                        printError($"EOSTransportManager.CloseConnection: Failed to close remote peer connection - P2PInterface.CloseConnection error result '{result}'.");
                         if (forceClose)
                         {
                             // Continue with local connection cleanup even though P2PInterface.CloseConnection failed
@@ -751,6 +794,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     }
 
                     // Handle connection closed (user callback, etc.) if appropriate to do so
+                    if (forceClose)
+                    {
+                        //Flag connection as handled opened so it can be handled closed
+                        connection.ConnectionOpenedHandled = true;
+                    }
                     TryHandleConnectionClosed(remoteUserId, socketName, connection);
 
                     // Invalidate connection
@@ -772,7 +820,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
 
             success = false;
-            print($"EOSTransportManager.CloseConnection: Failed to close remote peer connection - Unable to find a socket connection named '{socketName}' with remote peer '{remoteUserId}'.", LogType.Error);
+            printError($"EOSTransportManager.CloseConnection: Failed to close remote peer connection - Unable to find a socket connection named '{socketName}' with remote peer '{remoteUserId}'.");
             return false;
         }
 
@@ -786,7 +834,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // EOSTransportManager is not initialized?
             if (IsInitialized == false)
             {
-                print($"EOSTransportManager.CloseAllConnections: Failed to close remote peer connections - EOSTransportManager is uninitialized (has OnLoggedIn been called?).", LogType.Error);
+                printError($"EOSTransportManager.CloseAllConnections: Failed to close remote peer connections - EOSTransportManager is uninitialized (has OnLoggedIn been called?).");
                 return false;
             }
 
@@ -813,7 +861,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // EOSTransportManager is not initialized?
             if (IsInitialized == false)
             {
-                print("EOSTransportManager.CloseAllConnectionsWithSocketName: Failed to close remote peer connections - EOSTransportManager is uninitialized (has OnLoggedIn been called?).", LogType.Error);
+                printError("EOSTransportManager.CloseAllConnectionsWithSocketName: Failed to close remote peer connections - EOSTransportManager is uninitialized (has OnLoggedIn been called?).");
                 return false;
             }
 
@@ -844,7 +892,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // EOSTransportManager is not initialized?
             if (IsInitialized == false)
             {
-                print("EOSTransportManager.CloseAllConnectionsWithRemotePeer: Failed to close remote peer connections - EOSTransportManager is uninitialized (has OnLoggedIn been called?).", LogType.Error);
+                printError("EOSTransportManager.CloseAllConnectionsWithRemotePeer: Failed to close remote peer connections - EOSTransportManager is uninitialized (has OnLoggedIn been called?).");
                 return false;
             }
 
@@ -852,7 +900,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             if (Connections.TryGetValue(remoteUserId, out List<Connection> connections))
             {
-                var connectionsCopy = connections;
+                var connectionsCopy = new List<Connection>(connections);
                 foreach (var connection in connectionsCopy)
                 {
                     if (CloseConnection(remoteUserId, connection.SocketName, forceClose) == false)
@@ -910,18 +958,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             if (remoteUserId.IsValid() == false)
             {
-                print($"EOSTransportManager.SendPacket: Invalid parameters, RemoteUserId '{remoteUserId}' is invalid.", LogType.Error);
+                printError($"EOSTransportManager.SendPacket: Invalid parameters, RemoteUserId '{remoteUserId}' is invalid.");
                 return;
             }
 
             if (packet.Length <= 0)
             {
-                print("EOSTransportManager.SendPacket: Invalid parameters, packet is empty.", LogType.Error);
+                printError("EOSTransportManager.SendPacket: Invalid parameters, packet is empty.");
                 return;
             }
             if (packet.Length > (MaxPacketSize - FragmentHeaderSize) * MaxFragments)
             {
-                print($"EOSTransportManager.SendPacket: Fragmenting packet of size {packet.Length} would require more than {MaxFragments} fragments and cannot be sent.", LogType.Error);
+                printError($"EOSTransportManager.SendPacket: Fragmenting packet of size {packet.Length} would require more than {MaxFragments} fragments and cannot be sent.");
                 return;
             }
 
@@ -929,13 +977,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Connection connection = null;
             if (!Connections.TryGetValue(remoteUserId, out List<Connection> userConnections))
             {
-                print($"EOSTransportManager.SendPacket: Connection not found to remote user {remoteUserId}.", LogType.Error);
+                printError($"EOSTransportManager.SendPacket: Connection not found to remote user {remoteUserId}.");
                 return;
             }
             connection = userConnections.Find(x => x.SocketName == socketName);
             if (connection == null)
             {
-                print($"EOSTransportManager.SendPacket: Connection not found on socket {socketName} to remote user {remoteUserId}.", LogType.Error);
+                printError($"EOSTransportManager.SendPacket: Connection not found on socket {socketName} to remote user {remoteUserId}.");
                 return;
             }
 
@@ -990,13 +1038,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     AllowDelayedDelivery = allowDelayedDelivery,
                     Channel = channel,
                     Reliability = reliability,
-                    Data = fragment,
+                    Data = new ArraySegment<byte>(fragment),
                 };
 
                 Result result = P2PHandle.SendPacket(ref options);
                 if (result != Result.Success)
                 {
-                    print($"EOSTransportManager.SendPacket: Unable to send {options.Data.Count} byte packet to RemoteUserId '{options.RemoteUserId}' - Error result, {result}.", LogType.Error);
+                    printError($"EOSTransportManager.SendPacket: Unable to send {options.Data.Count} byte packet to RemoteUserId '{options.RemoteUserId}' - Error result, {result}.");
                     return;
                 }
 
@@ -1016,6 +1064,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <returns><c>true</c> if a packet was recieved, <c>false</c> if not. In the latter case, all parameters will be set to <c>null</c> or <c>0</c></returns>
         public bool TryReceivePacket(out ProductUserId remoteUserId, out string socketName, out byte channel, out byte[] packet)
         {
+            if (P2PHandle == null)
+            {
+                remoteUserId = null;
+                socketName = null;
+                channel = 0;
+                packet = null;
+                return false;
+            }
+
             ReceivePacketOptions receivePacketOptions = new ReceivePacketOptions()
             {
                 LocalUserId = LocalUserId,
@@ -1046,10 +1103,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 return false;
             }
 
+            // Packet is smaller than expected
+            if (packet.Length < FragmentHeaderSize)
+            {
+                printError($"EOSTransportManager.TryReceivePacket: Received {packet.Length} byte packet. Should be at least {FragmentHeaderSize} bytes.");
+                remoteUserId = null;
+                socketName = null;
+                channel = 0;
+                packet = null;
+                return false;
+            }
+
             // Internal EOS P2P error?
             if (result != Result.Success)
             {
-                print($"EOSTransportManager.TryReceivePacket: Error result, {result}.", LogType.Error);
+                printError($"EOSTransportManager.TryReceivePacket: Error result, {result}.");
                 remoteUserId = null;
                 socketName = null;
                 channel = 0;
@@ -1060,7 +1128,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // Invalid user?
             if (remoteUserId.IsValid() == false)
             {
-                print($"EOSTransportManager.TryReceivePacket: Received {packet.Length} byte packet from invalid RemoteUserId '{remoteUserId}'.", LogType.Error);
+                printError($"EOSTransportManager.TryReceivePacket: Received {packet.Length} byte packet from invalid RemoteUserId '{remoteUserId}'.");
                 remoteUserId = null;
                 socketName = null;
                 channel = 0;
@@ -1069,8 +1137,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
 
 
-            ArraySegment<byte> header = new(packet, 0, FragmentHeaderSize);
-            ArraySegment<byte> payload = new(packet, FragmentHeaderSize, packet.Length - FragmentHeaderSize);
+            ArraySegment<byte> header = new ArraySegment<byte>(packet, 0, FragmentHeaderSize);
+            ArraySegment<byte> payload = new ArraySegment<byte>(packet, FragmentHeaderSize, packet.Length - FragmentHeaderSize);
 
             //TODO: verify that this still works
             // Combine the bytes from the header to form 2 shorts, one for the message index, and one for the fragment number/end flag
@@ -1108,12 +1176,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
             else
             {
-                print($"EOSTransportManager.TryReceivePacket: Received a {packet.Length} byte packet from unknown RemoteUserId '{remoteUserId}', discarding packet.", LogType.Warning);
+                printWarning($"EOSTransportManager.TryReceivePacket: Received a {packet.Length} byte packet from unknown RemoteUserId '{remoteUserId}', discarding packet.");
             }
 
             if (connection == null || connection.IsFullyOpened == false)
             {
-                print($"EOSTransportManager.TryReceivePacket: Received a {packet.Length} byte packet from RemoteUserId '{remoteUserId}', discarding packet.", LogType.Warning);
+                printWarning($"EOSTransportManager.TryReceivePacket: Received a {packet.Length} byte packet from RemoteUserId '{remoteUserId}', discarding packet.");
 
                 // Discard this packet, we only return to the user packets from fully open peer connections
                 remoteUserId = null;
@@ -1125,7 +1193,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             if (!InProgressPackets.ContainsKey(index))
             {
-                InProgressPackets[index] = new();
+                InProgressPackets[index] = new SortedList<ushort, byte[]>();
             }
             InProgressPackets[index].Add(fragmentPos,payload.ToArray());
 
@@ -1179,7 +1247,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
         private void UnsubscribeFromConnectionRequestNotifications()
         {
-            P2PHandle.RemoveNotifyPeerConnectionRequest(ConnectionRequestNotificationsId);
+            P2PHandle?.RemoveNotifyPeerConnectionRequest(ConnectionRequestNotificationsId);
         }
         private void OnConnectionRequestNotification(ref OnIncomingConnectionRequestInfo data)
         {
@@ -1204,7 +1272,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
             else
             {
-                print($"EOSTransportManager.OnConnectionRequestNotification: Failed to process connection request notification for socket connection named '{socketName}' with remote peer '{remoteUserId}'...", LogType.Error);
+                printError($"EOSTransportManager.OnConnectionRequestNotification: Failed to process connection request notification for socket connection named '{socketName}' with remote peer '{remoteUserId}'...");
             }
         }
 
@@ -1222,7 +1290,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
         private void UnsubscribeFromConnectionClosedNotifications()
         {
-            P2PHandle.RemoveNotifyPeerConnectionClosed(ConnectionClosedNotificationsId);
+            P2PHandle?.RemoveNotifyPeerConnectionClosed(ConnectionClosedNotificationsId);
         }
         private void OnConnectionClosedNotification(ref OnRemoteConnectionClosedInfo data)
         {
@@ -1234,6 +1302,45 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             // Force close (from incoming direction)
             CloseConnection(remoteUserId, socketName, true);
+        }
+
+        public bool StartHost()
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager (StartHost): Network for GameObjects package not installed");
+            return false;
+#else
+            return NetworkManager.Singleton.StartHost();
+#endif
+        }
+
+        public bool StartServer()
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager (StartServer): Network for GameObjects package not installed");
+            return false;
+#else
+            return NetworkManager.Singleton.StartServer();
+#endif
+        }
+
+        public bool StartClient()
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager (StartHost): Network for GameObjects package not installed");
+            return false;
+#else
+            return NetworkManager.Singleton.StartClient();
+#endif
+        }
+
+        public void Disconnect(bool discardMessageQueue = false)
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager (Shutdown): Network for GameObjects package not installed");
+#else
+            NetworkManager.Singleton?.Shutdown(discardMessageQueue);
+#endif
         }
     }
 }

@@ -414,6 +414,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the message was processed successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.InvalidRequest" /> - If message contents were corrupt and could not be processed
 		/// <see cref="Result.AntiCheatInvalidMode" /> - If the current mode does not support this function
 		/// </returns>
 		public Result ReceiveMessageFromServer(ref ReceiveMessageFromServerOptions options)

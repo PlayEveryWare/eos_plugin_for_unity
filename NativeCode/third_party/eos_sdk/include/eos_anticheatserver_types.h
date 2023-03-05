@@ -79,7 +79,7 @@ EOS_STRUCT(EOS_AntiCheatServer_EndSessionOptions, (
 	int32_t ApiVersion;
 ));
 
-#define EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST 1
+#define EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST 2
 EOS_STRUCT(EOS_AntiCheatServer_RegisterClientOptions, (
 	/** API Version: Set this to EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST. */
 	int32_t ApiVersion;
@@ -90,18 +90,22 @@ EOS_STRUCT(EOS_AntiCheatServer_RegisterClientOptions, (
 	/** Remote user's platform, if known */
 	EOS_EAntiCheatCommonClientPlatform ClientPlatform;
 	/**
+	 * DEPRECATED - New code should set this to null and specify UserId instead.
+	 * 
 	 * Identifier for the remote user. This is typically a string representation of an
 	 * account ID, but it can be any string which is both unique (two different users will never
 	 * have the same string) and consistent (if the same user connects to this game session
 	 * twice, the same string will be used) in the scope of a single protected game session.
 	 */
-	const char* AccountId;
+	const char* AccountId_DEPRECATED;
 	/**
 	 * Optional IP address for the remote user. May be null if not available.
 	 * IPv4 format: "0.0.0.0"
 	 * IPv6 format: "0:0:0:0:0:0:0:0"
 	 */
 	const char* IpAddress;
+	/** The Product User ID for the remote user who is being registered. */
+	EOS_ProductUserId UserId;
 ));
 
 #define EOS_ANTICHEATSERVER_UNREGISTERCLIENT_API_LATEST 1

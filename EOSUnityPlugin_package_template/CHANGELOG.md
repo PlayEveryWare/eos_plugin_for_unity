@@ -8,6 +8,101 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+##[2.2.0] - 2023-02-28
+### Added
+- Discord connect sample
+- Added UI to P2P chat sample to send messages to an arbitrary ProductUserId for testing messaging with non-friends
+- Customize Press to talk button in Lobby sample
+
+### Changed
+- Updated to EOS 1.15.5
+- Moved code for Steam external auth login into its own method
+- Moved EAC config values out of the initialize config file and into editor config
+
+### Fixed
+- (mac): Build with both mono and il2cpp
+- Added horizontal layout to P2P sample text entry UI
+- Changed version UI string format to v-<version>
+- GetPackageVersion() now returns ?.?.? as the unknown version string
+- Added null check to remoteUserId in EOSTransportManager.CloseConnection in response to git issue #213
+- Fixed lobby creation double callback invoke
+- Automatically refresh Connect token if logged in with Auth interface
+- Added error checking for EOSTransport packets that are below minimum expected size
+- (android): Add the missing meta files for eos_sdk.aar
+- Press to talk UI setup in Lobby
+
+##[2.1.9] - 2023-01-30
+### Added
+- feat: steam login sample
+- feat(Android, lib): Library static/dynamic linking options
+- feat(rtc): Press to talk functionality. (#199)
+- chore: add android specific assets to eos_package_description
+
+### Changed
+- refactor: moved singletons to prefab
+- docs: add upgrade steps for using the upm tool
+- docs: update upm readme
+- docs: update readme for repo
+- docs: updated standards docs
+- refactor: removed stray arrows
+
+### Fixed
+- fix(android, lib): Check Android toggle on lib metafiles
+- fix(android, lib): Copy metafiles during preprocess
+- fix(pkg_dscrpt, android): Removed leftover meta file from deleting the extra aar file (#212)
+- chore: fixed networking sample asmdef name
+- fix platform specifics domain reload error
+- fix(p2pnetcodeSample) Fixed errors when hosting
+- fix(pkg_descrpt, android): Remove Duplicate aar
+- fix: transport sample timeout
+- fix: eos transport logging
+- fix: transport sample friends ui
+- fix: UpdateApplicationConstrainedState null check
+- fix: add `!EOS_DISABLE_FULL` constraint to Editor asmdef
+
+## [2.1.8] - 2023-01-05
+### Added
+- docs(mac) : Add steps for building on mac
+- docs: egs steam disable
+- (oculus): adding a case for oculus auth to be considered
+- feat: added packaging options to eos preferences editor
+- feat: auth scope flags config
+- feat: eac toggle and bootstrapper name build config
+- feat: automated dll signing
+- feat: editor support with EOS_DISABLE
+- feat: deployment env command line override
+
+### Changed
+- docs: readme typo
+- Update index.md
+- refactor(editor): editor pref path selection
+- chore : Update EOSPlugin Website
+- chore(mac) : Shows an error message if mac build missing libraries
+- (Android) : Logs error when user doesn't have the upm installed while building
+- updated EOS SDK to 1.15.4
+- moved android editor scripts
+- style(editor): config tooltips and platform config grid
+- feat: automatic packaged version string update
+
+### Fixed
+- (log,mac) : logError instead of log when missing libraries
+- (android) : Disable OnPreprocessBuild_Android on other platforms
+- (mac,mic) : Ask for permission only when second user joins lobby
+- (android) : Disable MINIFY_WITH_R_EIGHT for Unity 2022.2 above
+- (android) : Ensure gradleTemplate.properties exists for android building
+- (build) : Copy gradle.properties from the package with the correct source
+- (android): dynamic gradle template
+- updating macOS DLL to function on all mac processors
+- leaderboard menu init
+- (editor): package file utils recursive copy
+- (package) : Supports building with Unity 2019
+- sample editor script assembly
+- unitywebrequest 2019 compatibility
+- EOS_DISABLE fix
+- Add missing networking files to package
+- editor ui cleanup and polish
+- fixes for iphone build errors
+
 ## [2.1.7] - 2022-11-22
 ### Added
 - docs(android): update readme for android to included needed settings

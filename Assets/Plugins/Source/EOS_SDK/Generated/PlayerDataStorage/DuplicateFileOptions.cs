@@ -58,7 +58,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		public void Set(ref DuplicateFileOptions other)
 		{
-			m_ApiVersion = PlayerDataStorageInterface.DuplicatefileoptionsApiLatest;
+			m_ApiVersion = PlayerDataStorageInterface.DuplicatefileApiLatest;
 			LocalUserId = other.LocalUserId;
 			SourceFilename = other.SourceFilename;
 			DestinationFilename = other.DestinationFilename;
@@ -68,7 +68,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = PlayerDataStorageInterface.DuplicatefileoptionsApiLatest;
+				m_ApiVersion = PlayerDataStorageInterface.DuplicatefileApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				SourceFilename = other.Value.SourceFilename;
 				DestinationFilename = other.Value.DestinationFilename;

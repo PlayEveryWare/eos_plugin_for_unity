@@ -36,7 +36,7 @@ using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPeer2PeerMenu : MonoBehaviour, ISampleSceneUI
+    public class UIPeer2PeerMenu : UIFriendInteractionSource, ISampleSceneUI
     {
         [Header("Peer 2 Peer UI")]
         public GameObject Peer2PeerUIParent;
@@ -50,10 +50,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject ChatEntriesContentParent;
         public GameObject ChatEntryPrefab;
 
-        public ConsoleInputField ChatMessageInput;
-        public Button SendButton;
+        public UIConsoleInputField ChatMessageInput;
 
-        public UIPeer2PeerParticleManager ParticleManager;
+        public UIConsoleInputField ProductUserIdInput;
+
+        public UIPeer2PeerParticleController ParticleManager;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
@@ -70,7 +71,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
-            Peer2PeerManager.ParticleManager = ParticleManager;
+            Peer2PeerManager.ParticleController = ParticleManager;
             Peer2PeerManager.parent = this.transform;
             CloseChatOnClick();
         }
@@ -143,6 +144,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        {
+            return friendData.IsFriend() && friendData.IsOnline() ? FriendInteractionState.Enabled : FriendInteractionState.Hidden;
+        }
+
+        public override void OnFriendInteractButtonClicked(FriendData friendData)
+        {
+            ChatButtonOnClick(friendData.UserId);
+        }
+
+        public override string GetFriendInteractButtonText()
+        {
+            return "Chat";
+        }
+
         public void ChatButtonOnClick(EpicAccountId userId)
         {
             // Set Current chat
@@ -190,9 +206,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         // Found friend
                         ChatButtonOnClick(friend.UserId);
-                        break;
+                        return;
                     }
                 }
+
+                currentChatDisplayName = productUserId.ToString();
+                currentChatProductUserId = productUserId;
+
+                CurrentChatUserText.text = currentChatDisplayName;
+
+                ChatWindow.SetActive(true);
             }
             else
             {
@@ -214,6 +237,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             ChatWindow.SetActive(false);
+        }
+
+        public void SetIdOnClick()
+        {
+            var productUserIdText = ProductUserIdInput.InputField.text;
+            var productUserId = ProductUserId.FromString(productUserIdText);
+            if (!productUserId.IsValid())
+            {
+                Debug.LogError("UIPeer2PeerMenu (SetIdOnClick): Invalid ProductUserId.");
+                return;
+            }
+
+            currentChatDisplayName = productUserIdText;
+            currentChatProductUserId = productUserId;
+
+            CurrentChatUserText.text = productUserIdText;
+
+            ChatWindow.SetActive(true);
         }
 
         public void SendOnClick()

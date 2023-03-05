@@ -1,0 +1,29 @@
+{
+    "name": "com.playeveryware.eos.samples.networking",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2ced8f3cc58f63843bc26c7591a35628",
+        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75",
+        "GUID:3b8ed52f1b5c64994af4c4e0aa4b6c4b",
+        "GUID:1491147abca9d7d4bb7105af628b223e",
+        "GUID:e0cd26848372d4e5c891c569017e11f1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "!EOS_DISABLE",
+        "!EOS_DISABLE_FULL"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.netcode.gameobjects",
+            "expression": "",
+            "define": "COM_UNITY_MODULE_NETCODE"
+        }
+    ],
+    "noEngineReferences": false
+}

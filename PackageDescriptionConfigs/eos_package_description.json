@@ -31,6 +31,10 @@
         {"src":"Assets/Plugins/*.prefab.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Source/*.cs", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Source/*.cs.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Essential.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Essential/*", "dest": "Runtime/Essential/"},
+        {"src":"Assets/Plugins/Source/Essential/*.cs", "dest": "Runtime/Essential/"},
+        {"src":"Assets/Plugins/Source/Essential/*.cs.meta", "dest": "Runtime/Essential/"},
 
         {"comment": "----------------------------Windows---------------------------------------------"},
         {"src":"Assets/Plugins/Windows.meta", "dest": "Runtime/"},
@@ -55,11 +59,11 @@
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
 
 
-        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Runtime/Windows/"},
-        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Runtime/Windows/Editor/"},
-        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Runtime/Windows/Editor/"},
-        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/Windows/Editor/"},
-        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/Windows/Editor/"},
+        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Editor/Windows.meta"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/Windows/"},
 
         {"src":"PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
         {"src":"bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
@@ -79,17 +83,20 @@
         {"ignore_regex":"Assets/Plugins/Windows/.*/steam_api64\\.dll"},
 
         {"comment": "----------------------------End Windows---------------------------------------------"},
-		
-		{"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
-		
-		{"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
+        
+        {"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
+        
+        {"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/license.txt.meta", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Linux/"},
-		{"src":"Assets/Plugins/Linux/*.so", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.so", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/*.so.meta", "dest": "Runtime/Linux/"},
-		{"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/*.cs.meta", "dest": "Runtime/Linux/"},
+        
+        {"src":"Assets/Plugins/Linux/Essential.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/Essential/*", "dest": "Runtime/Linux/Essential/"},
 
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
@@ -98,9 +105,9 @@
 
         {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
-		
-		{"src":"Assets/Plugins/Source/Editor/Linux.meta", "dest": "Editor/"},
-		{"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
+        
+        {"src":"Assets/Plugins/Source/Editor/Linux.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
         {"src":"Assets/Plugins/Source/Editor/Linux/*.cs.meta", "dest": "Editor/Linux/"},
 
         {"comment": "----------------------------macOS---------------------------------------------"},
@@ -115,12 +122,15 @@
 
         {"src":"Assets/Plugins/macOS/*.cs", "dest": "Runtime/macOS/"},
         {"src":"Assets/Plugins/macOS/*.cs.meta", "dest": "Runtime/macOS/"},
+        
+        {"src":"Assets/Plugins/macOS/Essential.meta", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/Essential/*", "dest": "Runtime/macOS/Essential/"},
 
-        {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Runtime/macOS/"},
-        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/macOS/Editor/"},
-        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/macOS/Editor/"},
-        {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Runtime/macOS/Editor/"},
-        {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Runtime/macOS/Editor/"},
+        {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Editor/macOS.meta"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Editor/macOS/"},
 
         {"comment": "----------------------------End macOS---------------------------------------------"},
 
@@ -168,8 +178,8 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
-		
-		{"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
 
@@ -224,8 +234,8 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
-		
-		{"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
 
@@ -290,29 +300,36 @@
         {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp.meta", "dest": "Runtime/"},
 
+        {"src":"PlatformSpecificAssets/EOS/Android/", "dest": "PlatformSpecificAssets~/EOS/Android/"},
+
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib.meta", "dest": "PlatformSpecificAssets~/EOS/Android/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/*", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
+	
+        {"src":"PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
+        {"src":"PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar.meta","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
+        {"src":"PlatformSpecificAssets/EOS/Android/static-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/static-stdc++/aar/"},
+        {"src":"PlatformSpecificAssets/EOS/Android/static-stdc++/aar/eos-sdk.aar.meta","dest": "PlatformSpecificAssets~/EOS/Android/static-stdc++/aar/"},
 
         {"src":"Assets/Plugins/Android/gradleTemplate.properties", "dest": "PlatformSpecificAssets~/EOS/Android/"},
         {"src":"Assets/Plugins/Android/gradleTemplate.properties.meta", "dest": "PlatformSpecificAssets~/EOS/Android/"},
 
-        {"src":"Assets/Plugins/Android/eos-sdk.aar", "dest": "Runtime/Android/"},
-        {"src":"Assets/Plugins/Android/eos-sdk.aar.meta", "dest": "Runtime/Android/"},
         {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar", "dest": "Runtime/Android/"},
         {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar.meta", "dest": "Runtime/Android/"},
 
         {"src":"Assets/Plugins/Android/*.cs", "dest": "Runtime/Android/"},
         {"src":"Assets/Plugins/Android/*.cs.meta", "dest": "Runtime/Android/"},
-        {"src":"Assets/Plugins/AndroidEditor.meta", "dest": "Editor/"},
-        {"src":"Assets/Plugins/AndroidEditor/Editor/*.cs", "dest": "Editor/AndroidEditor/"},
-        {"src":"Assets/Plugins/AndroidEditor/Editor/*.cs.meta", "dest": "Editor/AndroidEditor/"},
-        {"src":"Assets/Plugins/AndroidEditor/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/AndroidEditor/"},
-        {"src":"Assets/Plugins/AndroidEditor/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/AndroidEditor/"},
+        {"src":"Assets/Plugins/Android/Editor.meta", "dest": "Editor/Android.meta"},
+        {"src":"Assets/Plugins/Android/Editor/*.cs", "dest": "Editor/Android/"},
+        {"src":"Assets/Plugins/Android/Editor/*.cs.meta", "dest": "Editor/Android/"},
+        {"src":"Assets/Plugins/Android/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/Android/"},
+        {"src":"Assets/Plugins/Android/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/Android/"},
 
+        {"src":"Assets/Plugins/Android/Essential.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/Essential/*", "dest": "Runtime/Android/Essential/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
@@ -328,21 +345,20 @@
         {"src":"Assets/Plugins/iOS/*.cpp.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/*.mm", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/*.mm.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Essential.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Essential/*", "dest": "Runtime/iOS/Essential/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
-        {"src":"Assets/Plugins/iOS/EOSSDK.framework/Headers.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
-        {"src":"Assets/Plugins/iOS/EOSSDK.framework/Headers/*.h", "dest": "Runtime/iOS/EOSSDK.framework/Headers/"},
-        {"src":"Assets/Plugins/iOS/EOSSDK.framework/Headers/*.h.meta", "dest": "Runtime/iOS/EOSSDK.framework/Headers/"},
-        {"src":"Assets/Plugins/iOS/EOSSDK.framework/Headers/*.inl", "dest": "Runtime/iOS/EOSSDK.framework/Headers/"},
-        {"src":"Assets/Plugins/iOS/EOSSDK.framework/Headers/*.inl.meta", "dest": "Runtime/iOS/EOSSDK.framework/Headers/"},
-        {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Runtime/iOS/"},
-        {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Runtime/iOS/Editor/"},
-        {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Runtime/iOS/Editor/"},
-        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Runtime/iOS/Editor/"},
-        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Runtime/iOS/Editor/"},
+
+        {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Editor/iOS.meta"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/iOS/"},
+
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
 
@@ -355,17 +371,26 @@
         {"src":"EOSUnityPlugin_package_template/Samples.meta", "dest" : "Samples~/"},
         {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/Scripts/"},
+        {"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/Scripts/"},
+        {"src":"Assets/Scripts/*.asmdef", "dest": "Samples~/Samples/Scripts/"},
         {"src":"Assets/Scripts/UI.meta", "dest": "Samples~/Samples/Scripts/UI.meta"},
         {"src":"Assets/Scripts/UI/*.cs", "dest": "Samples~/Samples/Scripts/UI/"},
         {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/Scripts/UI/"},
+        {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/Scripts/Util.meta"},
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
+        {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/Scripts/Networking.meta"},
+        {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/Scripts/Networking/"},
+        {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/Scripts/Steam.meta"},
+        {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/Scripts/Steam/"},
+        {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/Scripts/Discord.meta"},
+        {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/Scripts/Discord/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},
         {"src":"Assets/Scenes/*.unity.meta", "dest": "Samples~/Samples/Scenes/"},
-		
-		{"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
+
+        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},
         {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/Readme/"}
     ],

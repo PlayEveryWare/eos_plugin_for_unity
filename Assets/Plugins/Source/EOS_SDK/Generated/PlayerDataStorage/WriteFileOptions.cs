@@ -98,7 +98,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		public void Set(ref WriteFileOptions other)
 		{
-			m_ApiVersion = PlayerDataStorageInterface.WritefileoptionsApiLatest;
+			m_ApiVersion = PlayerDataStorageInterface.WritefileApiLatest;
 			LocalUserId = other.LocalUserId;
 			Filename = other.Filename;
 			ChunkLengthBytes = other.ChunkLengthBytes;
@@ -110,7 +110,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = PlayerDataStorageInterface.WritefileoptionsApiLatest;
+				m_ApiVersion = PlayerDataStorageInterface.WritefileApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				Filename = other.Value.Filename;
 				ChunkLengthBytes = other.Value.ChunkLengthBytes;

@@ -66,6 +66,10 @@ namespace Playeveryware.Editor
         [SerializeField]
         public string ignore_regex;
 
+        // Do file copy even if dest file already exists and is identical
+        [SerializeField]
+        public bool copy_identical;
+
         // Normalizes file line endings to unix line endings.
         // One probably shouldn't do this for non-text files.
         [SerializeField]
@@ -83,8 +87,13 @@ namespace Playeveryware.Editor
     {
         public SrcDestPair originalSrcDestPair;
         public FileInfo fileInfo;
+        public string relativePath = null;
         public string GetDestination()
         {
+            if (!string.IsNullOrWhiteSpace(relativePath) && (originalSrcDestPair.dest.EndsWith("/") || originalSrcDestPair.dest.Length == 0))
+            {
+                return Path.Combine(originalSrcDestPair.dest, relativePath);
+            }
             return originalSrcDestPair.dest;
         }
     }

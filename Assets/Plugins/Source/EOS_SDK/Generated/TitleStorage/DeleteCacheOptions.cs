@@ -30,7 +30,7 @@ namespace Epic.OnlineServices.TitleStorage
 
 		public void Set(ref DeleteCacheOptions other)
 		{
-			m_ApiVersion = TitleStorageInterface.DeletecacheoptionsApiLatest;
+			m_ApiVersion = TitleStorageInterface.DeletecacheApiLatest;
 			LocalUserId = other.LocalUserId;
 		}
 
@@ -38,7 +38,7 @@ namespace Epic.OnlineServices.TitleStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = TitleStorageInterface.DeletecacheoptionsApiLatest;
+				m_ApiVersion = TitleStorageInterface.DeletecacheApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 			}
 		}

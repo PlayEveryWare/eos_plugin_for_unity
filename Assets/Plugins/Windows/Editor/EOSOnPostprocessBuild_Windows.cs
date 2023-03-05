@@ -33,6 +33,9 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
 {
     public int callbackOrder { get { return 0; } }
     private string[] postBuildFiles = {
+    };
+
+    private string[] postBuildFilesEAC = {
         "EACLauncher.exe",
         //optional override config file for EAC CDN
         "[ExeName].eac",
@@ -42,6 +45,9 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     };
 
     private string[] postBuildDirectories = {
+    };
+
+    private string[] postBuildDirectoriesEAC = {
         "EasyAntiCheat/Licenses",
         "EasyAntiCheat/Localization"
     };
@@ -59,16 +65,10 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     private string buildExeName = null;
 
     //-------------------------------------------------------------------------
-    private static string GetPackageName()
-    {
-        return "com.playeveryware.eos";
-    }
-
-    //-------------------------------------------------------------------------
     private static string GetPathToEOSBin()
     {
         string projectPathToBin = Path.Combine(Application.dataPath, "../bin/");
-        string packagePathToBin = Path.GetFullPath("Packages/" + GetPackageName() + "/bin~/");
+        string packagePathToBin = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/bin~/");
 
         if (Directory.Exists(packagePathToBin))
         {
@@ -84,7 +84,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     //-------------------------------------------------------------------------
     private static string GetPathToPlatformSepecificAssetsForWindows()
     {
-        string packagePathname = Path.GetFullPath("Packages/" + GetPackageName() + "/PlatformSpecificAssets~/EOS/Windows/");
+        string packagePathname = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Windows/");
         string platformSpecificPathname = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Windows/");
         string pathToInstallFrom = "";
         // If the Plugin is installed with StreamAssets, install them
@@ -102,11 +102,11 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
-    private static void InstallBootStrapper(BuildReport report, string pathToEOSBootStrapperTool, string pathToEOSBootStrapper)
+    private static void InstallBootStrapper(BuildReport report, string pathToEOSBootStrapperTool, string bootstrapperFileName)
     {
         string appFilenameExe = Path.GetFileName(report.summary.outputPath);
         string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
-        string installPathForEOSBootStrapper = Path.Combine(installDirectory, "EOSBootStrapper.exe");
+        string installPathForEOSBootStrapper = Path.Combine(installDirectory, bootstrapperFileName);
         string workingDirectory = GetPathToEOSBin();
         string bootStrapperArgs = ""
            + " --output-path " + "\"" + installPathForEOSBootStrapper + "\""
@@ -194,15 +194,21 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
-    private void InstallFiles(BuildReport report)
+    private void InstallFiles(BuildReport report, bool useEAC)
     {
         string destDir = Path.GetDirectoryName(report.summary.outputPath);
         string pathToInstallFrom = GetPathToPlatformSepecificAssetsForWindows();
 
         List<string> filestoInstall = new List<string>(postBuildFiles);
+        List<string> directoriesToInstall = new List<string>(postBuildDirectories);
+        if (useEAC)
+        {
+            filestoInstall.AddRange(postBuildFilesEAC);
+            directoriesToInstall.AddRange(postBuildDirectoriesEAC);
+        }
 
         //add all files in postBuildDirectories to list of files to copy (non-recursive)
-        foreach (string directoryToInstall in postBuildDirectories)
+        foreach (string directoryToInstall in directoriesToInstall)
         {
             string dirToInstallPathName = Path.Combine(pathToInstallFrom, directoryToInstall);
             if (Directory.Exists(dirToInstallPathName))
@@ -261,7 +267,7 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
             return eosConfig;
         }
 
-        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSManager.ConfigFileName);
+        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
         var configDataAsString = File.ReadAllText(configFilePath);
         var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
         eosConfig = configData;
@@ -300,26 +306,50 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         // Get the output path, and install the launcher if on a target that supports it
         if (report.summary.platform == BuildTarget.StandaloneWindows || report.summary.platform == BuildTarget.StandaloneWindows64)
         {
-            buildExeName = Path.GetFileName(report.summary.outputPath);
+            var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+            string bootstrapperName = "";
+            bool useEAC = false;
 
-            InstallFiles(report);
+            if (editorToolsConfigSection != null)
+            {
+                editorToolsConfigSection.Awake();
+                editorToolsConfigSection.LoadConfigFromDisk();
+
+                var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
+                bootstrapperName = editorToolConfig.bootstrapperNameOverride;
+                useEAC = editorToolConfig.useEAC;
+            }
+
+            if (string.IsNullOrWhiteSpace(bootstrapperName))
+            {
+                bootstrapperName = "EOSBootstrapper.exe";
+            }
+
+            if (!bootstrapperName.EndsWith(".exe"))
+            {
+                bootstrapperName += ".exe";
+            }
+            buildExeName = bootstrapperName;
+
+            InstallFiles(report, useEAC);
             
             string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
-            string pathToEOSBootStrapper = Path.Combine(GetPathToEOSBin(), "EOSBootStrapper.exe");
-            string pathToEACIntegrityTool = Path.Combine(GetPathToEOSBin(), "EAC/anticheat_integritytool.exe");
-            InstallBootStrapper(report, pathToEOSBootStrapperTool, pathToEOSBootStrapper);
+            
+            InstallBootStrapper(report, pathToEOSBootStrapperTool, bootstrapperName);
 
-            //TODO: Actually use the editor tool config
-            var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
 
             if (editorToolsConfigSection != null)
             {
                 editorToolsConfigSection.Awake();
                 editorToolsConfigSection.LoadConfigFromDisk();
                 var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
-                if (editorToolConfig != null && editorToolConfig.pathToEACPublicKey != null)
+                if (useEAC &&
+                    editorToolConfig != null &&
+                    editorToolConfig.pathToEACIntegrityTool != null &&
+                    editorToolConfig.pathToEACPrivateKey != null &&
+                    editorToolConfig.pathToEACCertificate != null)
                 {
-                    GenerateIntegrityCert(report, pathToEACIntegrityTool, GetEOSConfig().productID, "base_private.key", "base_public.cer");
+                    GenerateIntegrityCert(report, editorToolConfig.pathToEACIntegrityTool, GetEOSConfig().productID, editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate);
                 }
             }
         }

@@ -11,8 +11,8 @@ For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issue
 * Easy to use manager classes that handle common EOS API use-cases.
 * Straightforward sample Unity scene templates to get you started.
 * EOS Social Overlay support.
-* Includes [EOS SDK 1.14.2-hf-1](https://dev.epicgames.com/docs/services/en-US/WhatsNew/index.html#1.14.2-hf-1_hotfix_-feb.14,2022).
-* Targets [Unity 2020.1](https://unity.com/releases/2020-1).
+* Includes [EOS SDK 1.15.4](https://dev.epicgames.com/docs/epic-online-services/whats-new#1154---2022-nov-16).
+* Targets [Unity 2021.3.8f1](https://unity.com/releases/editor/whats-new/2021.3.8).
 
 
 ## Supported Platforms
@@ -24,10 +24,10 @@ The follow target platforms are supported in Unity for the current release of th
 | Windows Standalone x64 | Supported |
 | Windows Standalone x86 | Supported |
 | Universal Windows Platform x64 | Supported |
-| Android | Future |
-| iOS | Future |
-| Linux | Future |
-| MacOS | Future |
+| Android | Supported (No Social Overlay) |
+| iOS | Supported (No Social Overlay) |
+| Linux | Supported (No Social Overlay) |
+| MacOS | Supported (No Social Overlay) |
 | Console Platforms | Future |
 | WebGL | Not Supported |
 | Universal Windows Platform x86 | Not Supported |
@@ -56,13 +56,13 @@ As the EOS SDK continues releasing new features and functionality, the EOS Unity
 | [Reports](https://dev.epicgames.com/docs/services/en-US/GameServices/ReportsInterface/index.html) | Player Reports & Sanctions Sample |
 | [Sanctions](https://dev.epicgames.com/docs/services/en-US/GameServices/SanctionsInterface/index.html) | Player Reports & Sanctions Sample |
 | [Anti-Cheat](https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html) | Not Supported |
-| [EOS Mod SDK](https://dev.epicgames.com/docs/services/en-US/EpicGamesStore/TechFeaturesConfig/Mods/index.html) | Not Supported |
+| [EOS Mod SDK](https://dev.epicgames.com/docs/services/en-US/EpicGamesStore/TechFeaturesConfig/Mods/index.html) | Future |
 | [Voice Trusted Server](https://dev.epicgames.com/docs/services/en-US/GameServices/Voice/index.html#voicewithatrustedserverapplication) | Not Supported |
 
 
 ---
 # Integration Notes
-For best results, Unity 2020.1 is preferred.
+For best results, Unity 2021.3.8 is preferred.
 
 
 ## Installing from a git URL

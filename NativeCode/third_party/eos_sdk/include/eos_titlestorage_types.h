@@ -35,14 +35,16 @@ EOS_STRUCT(EOS_TitleStorage_FileMetadata, (
  */
 EOS_DECLARE_FUNC(void) EOS_TitleStorage_FileMetadata_Release(EOS_TitleStorage_FileMetadata* FileMetadata);
 
-/** The most recent version of the EOS_TitleStorage_QueryFileOptions API. */
-#define EOS_TITLESTORAGE_QUERYFILEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_TitleStorage_QueryFile API. */
+#define EOS_TITLESTORAGE_QUERYFILE_API_LATEST 1
+/** DEPRECATED! Use EOS_TITLESTORAGE_QUERYFILE_API_LATEST instead. */
+#define EOS_TITLESTORAGE_QUERYFILEOPTIONS_API_LATEST EOS_TITLESTORAGE_QUERYFILE_API_LATEST
 
 /**
  * Input data for the EOS_TitleStorage_QueryFile function
  */
 EOS_STRUCT(EOS_TitleStorage_QueryFileOptions, (
-	/** API Version: Set this to EOS_TITLESTORAGE_QUERYFILEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_TITLESTORAGE_QUERYFILE_API_LATEST. */
 	int32_t ApiVersion;
 	/** Product User ID of the local user requesting file metadata (optional) */
 	EOS_ProductUserId LocalUserId;
@@ -67,14 +69,16 @@ EOS_STRUCT(EOS_TitleStorage_QueryFileCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_TitleStorage_OnQueryFileCompleteCallback, const EOS_TitleStorage_QueryFileCallbackInfo* Data);
 
-/** The most recent version of the EOS_TitleStorage_QueryFileListOptions API. */
-#define EOS_TITLESTORAGE_QUERYFILELISTOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_TitleStorage_QueryFileList API. */
+#define EOS_TITLESTORAGE_QUERYFILELIST_API_LATEST 1
+/** DEPRECATED! Use EOS_TITLESTORAGE_QUERYFILELIST_API_LATEST instead. */
+#define EOS_TITLESTORAGE_QUERYFILELISTOPTIONS_API_LATEST EOS_TITLESTORAGE_QUERYFILELIST_API_LATEST
 
 /**
  * Input data for the EOS_TitleStorage_QueryFileList function
  */
 EOS_STRUCT(EOS_TitleStorage_QueryFileListOptions, (
-	/** API Version: Set this to EOS_TITLESTORAGE_QUERYFILELISTOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_TITLESTORAGE_QUERYFILELIST_API_LATEST. */
 	int32_t ApiVersion;
 	/** Product User ID of the local user who requested file metadata (optional) */
 	EOS_ProductUserId LocalUserId;
@@ -103,27 +107,31 @@ EOS_STRUCT(EOS_TitleStorage_QueryFileListCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_TitleStorage_OnQueryFileListCompleteCallback, const EOS_TitleStorage_QueryFileListCallbackInfo* Data);
 
-/** The most recent version of the EOS_TitleStorage_GetFileMetadataCountOptions API. */
-#define EOS_TITLESTORAGE_GETFILEMETADATACOUNTOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_TitleStorage_GetFileMetadataCount API. */
+#define EOS_TITLESTORAGE_GETFILEMETADATACOUNT_API_LATEST 1
+/** DEPRECATED! Use EOS_TITLESTORAGE_GETFILEMETADATACOUNT_API_LATEST instead. */
+#define EOS_TITLESTORAGE_GETFILEMETADATACOUNTOPTIONS_API_LATEST EOS_TITLESTORAGE_GETFILEMETADATACOUNT_API_LATEST
 
 /**
  * Input data for the EOS_TitleStorage_GetFileMetadataCount function
  */
 EOS_STRUCT(EOS_TitleStorage_GetFileMetadataCountOptions, (
-	/** API Version: Set this to EOS_TITLESTORAGE_GETFILEMETADATACOUNTOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_TITLESTORAGE_GETFILEMETADATACOUNT_API_LATEST. */
 	int32_t ApiVersion;
 	/** Product User ID of the local user who is requesting file metadata (optional) */
 	EOS_ProductUserId LocalUserId;
 ));
 
-/** The most recent version of the EOS_TitleStorage_CopyFileMetadataAtIndexOptions API. */
-#define EOS_TITLESTORAGE_COPYFILEMETADATAATINDEXOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_TitleStorage_CopyFileMetadataAtIndex API. */
+#define EOS_TITLESTORAGE_COPYFILEMETADATAATINDEX_API_LATEST 1
+/** DEPRECATED! Use EOS_TITLESTORAGE_COPYFILEMETADATAATINDEX_API_LATEST instead. */
+#define EOS_TITLESTORAGE_COPYFILEMETADATAATINDEXOPTIONS_API_LATEST EOS_TITLESTORAGE_COPYFILEMETADATAATINDEX_API_LATEST
 
 /**
  * Input data for the CopyFileMetadataAtIndex function
  */
 EOS_STRUCT(EOS_TitleStorage_CopyFileMetadataAtIndexOptions, (
-	/** API Version: Set this to EOS_TITLESTORAGE_COPYFILEMETADATAATINDEXOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_TITLESTORAGE_COPYFILEMETADATAATINDEX_API_LATEST. */
 	int32_t ApiVersion;
 	/** Product User ID of the local user who is requesting file metadata (optional) */
 	EOS_ProductUserId LocalUserId;
@@ -131,14 +139,17 @@ EOS_STRUCT(EOS_TitleStorage_CopyFileMetadataAtIndexOptions, (
 	uint32_t Index;
 ));
 
-/** The most recent version of the EOS_TitleStorage_CopyFileMetadataByFilenameOptions API. */
-#define EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAMEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_TitleStorage_CopyFileMetadataByFilename API. */
+#define EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST 1
+/** DEPRECATED! Use EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST instead. */
+#define EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAMEOPTIONS_API_LATEST EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST
+
 
 /**
  * Input data for the CopyFileMetadataByFilename function
  */
 EOS_STRUCT(EOS_TitleStorage_CopyFileMetadataByFilenameOptions, (
-	/** API Version: Set this to EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAMEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST. */
 	int32_t ApiVersion;
 	/** Product User ID of the local user who is requesting file metadata (optional) */
 	EOS_ProductUserId LocalUserId;
@@ -217,14 +228,16 @@ EOS_STRUCT(EOS_TitleStorage_ReadFileDataCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK_RETVALUE(EOS_TitleStorage_EReadResult, EOS_TitleStorage_OnReadFileDataCallback, const EOS_TitleStorage_ReadFileDataCallbackInfo* Data);
 
-/** The most recent version of the EOS_TitleStorage_ReadFileOptions API. */
-#define EOS_TITLESTORAGE_READFILEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_TitleStorage_ReadFile API. */
+#define EOS_TITLESTORAGE_READFILE_API_LATEST 1
+/** DEPRECATED! Use EOS_TITLESTORAGE_READFILE_API_LATEST instead. */
+#define EOS_TITLESTORAGE_READFILEOPTIONS_API_LATEST EOS_TITLESTORAGE_READFILE_API_LATEST
 
 /**
  * Input data for the EOS_TitleStorage_ReadFile function
  */
 EOS_STRUCT(EOS_TitleStorage_ReadFileOptions, (
-	/** API Version: Set this to EOS_TITLESTORAGE_READFILEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_TITLESTORAGE_READFILE_API_LATEST. */
 	int32_t ApiVersion;
 	/** Product User ID of the local user who is reading the requested file (optional) */
 	EOS_ProductUserId LocalUserId;
@@ -257,14 +270,16 @@ EOS_STRUCT(EOS_TitleStorage_ReadFileCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_TitleStorage_OnReadFileCompleteCallback, const EOS_TitleStorage_ReadFileCallbackInfo* Data);
 
-/** The most recent version of the EOS_TitleStorage_DeleteCacheOptions API. */
-#define EOS_TITLESTORAGE_DELETECACHEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_TitleStorage_DeleteCache API. */
+#define EOS_TITLESTORAGE_DELETECACHE_API_LATEST 1
+/** DEPRECATED! Use EOS_TITLESTORAGE_DELETECACHE_API_LATEST instead. */
+#define EOS_TITLESTORAGE_DELETECACHEOPTIONS_API_LATEST EOS_TITLESTORAGE_DELETECACHE_API_LATEST
 
 /**
  * Input data for the EOS_TitleStorage_DeleteCache function
  */
 EOS_STRUCT(EOS_TitleStorage_DeleteCacheOptions, (
-	/** API Version: Set this to EOS_TITLESTORAGE_DELETECACHEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_TITLESTORAGE_DELETECACHE_API_LATEST. */
 	int32_t ApiVersion;
 	/** Product User ID of the local user who is deleting his cache (optional) */
 	EOS_ProductUserId LocalUserId;

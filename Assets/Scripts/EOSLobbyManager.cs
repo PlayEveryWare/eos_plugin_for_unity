@@ -399,6 +399,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         // Are we currently muting this person?
         public bool MuteActionInProgress = false;
+
+        // Has this person enabled press to talk
+        public bool PressToTalkEnabled = false;
     }
 
     /// <summary>
@@ -1257,7 +1260,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (!string.IsNullOrEmpty(createLobbyCallbackInfo.LobbyId) && CurrentLobby._BeingCreated)
                 {
                     CurrentLobby.Id = createLobbyCallbackInfo.LobbyId;
-                    ModifyLobby(CurrentLobby, LobbyCreatedCallback);
+                    ModifyLobby(CurrentLobby, null);
 
                     if(CurrentLobby.RTCRoomEnabled)
                     {
@@ -1410,7 +1413,91 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             DestroyLobbyCallback?.Invoke(Result.Success);
         }
 
+        public void EnablePressToTalk(ProductUserId targetUserId, OnLobbyCallback EnablePressToTalkCompleted)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find the correct lobby member
+                if (lobbyMember.ProductId != targetUserId)
+                {
+                    continue;
+                }
+
+                lobbyMember.RTCState.PressToTalkEnabled = !lobbyMember.RTCState.PressToTalkEnabled;
+
+                if (!lobbyMember.RTCState.PressToTalkEnabled)
+                {
+                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        AudioStatus = lobbyMember.RTCState.IsLocalMuted ? RTCAudioStatus.Disabled : RTCAudioStatus.Enabled
+                    };
+
+                    Debug.LogFormat("Press To Talk Disabled : Current self Audio output status is {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+                    rtcAudioHandle.UpdateSending(ref sendOptions, EnablePressToTalkCompleted, OnRTCRoomUpdateSendingCompleted);
+                }
+                else
+                {
+                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        AudioStatus = Input.GetKey(KeyCode.Space) ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                    };
+
+                    Debug.LogFormat("Press To Talk Enabled : Current self Audio output status is {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+                    rtcAudioHandle.UpdateSending(ref sendOptions, EnablePressToTalkCompleted, OnRTCRoomUpdateSendingCompleted);
+                }
+            }
+        }
         // Member Events
+        public void PressToTalk(KeyCode PTTKeyCode, OnLobbyCallback TogglePressToTalkCompleted)
+        {
+            RTCInterface rtcHandle = EOSManager.Instance.GetEOSRTCInterface();
+            RTCAudioInterface rtcAudioHandle = rtcHandle.GetAudioInterface();
+            ProductUserId targetUserId = EOSManager.Instance.GetProductUserId();
+
+            foreach (LobbyMember lobbyMember in CurrentLobby.Members)
+            {
+                // Find the correct lobby member
+                if (lobbyMember.ProductId != targetUserId)
+                {
+                    continue;
+                }
+
+                // Do not allow multiple local mute toggles at the same time
+                if (lobbyMember.RTCState.MuteActionInProgress)
+                {
+                    Debug.LogWarningFormat("Lobbies (TogglePressToTalk): 'MuteActionInProgress' for productUserId {0}.", targetUserId);
+                    TogglePressToTalkCompleted?.Invoke(Result.RequestInProgress);
+                    return;
+                }
+
+                if (Input.GetKey(PTTKeyCode) ^ !lobbyMember.RTCState.IsAudioOutputDisabled)
+                {
+                    // Set mute action as in progress
+                    lobbyMember.RTCState.MuteActionInProgress = true;
+
+                    // Toggle our mute status
+                    UpdateSendingOptions sendOptions = new UpdateSendingOptions()
+                    {
+                        LocalUserId = EOSManager.Instance.GetProductUserId(),
+                        RoomName = CurrentLobby.RTCRoomName,
+                        AudioStatus = Input.GetKey(PTTKeyCode) ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                    };
+
+                    Debug.LogFormat("Lobbies (TogglePressToTalk): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
+
+                    rtcAudioHandle.UpdateSending(ref sendOptions, TogglePressToTalkCompleted, OnRTCRoomUpdateSendingCompleted);
+                }
+            }
+        }
 
         /// <summary>
         /// Wrapper for calling [EOS_RTCAudio_UpdateReceiving](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/NoInterface/EOS_RTCAudio_UpdateReceiving/index.html)
@@ -1449,7 +1536,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     {
                         LocalUserId = EOSManager.Instance.GetProductUserId(),
                         RoomName = CurrentLobby.RTCRoomName,
-                        AudioStatus = lobbyMember.RTCState.IsAudioOutputDisabled ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
+                        AudioStatus = lobbyMember.RTCState.IsLocalMuted ? RTCAudioStatus.Enabled : RTCAudioStatus.Disabled
                     };
 
                     Debug.LogFormat("Lobbies (ToggleMute): Setting self audio output status to {0}", sendOptions.AudioStatus == RTCAudioStatus.Enabled ? "Unmuted" : "Muted");
@@ -1526,6 +1613,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 _Dirty = true;
                 break;
             }
+
+            ToggleMuteCallback?.Invoke(data.ResultCode);
         }
 
         private void OnRTCRoomUpdateReceivingCompleted(ref UpdateReceivingCallbackInfo data)

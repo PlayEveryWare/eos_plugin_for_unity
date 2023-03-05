@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject LeaderboardEntriesContentParent;
         public GameObject UILeaderboardEntryPrefab;
 
-        public ConsoleInputField ingestStatValueInput;
+        public UIConsoleInputField ingestStatValueInput;
 
         [Header("Controller")]
         public GameObject UIFirstSelected;
@@ -293,14 +293,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ShowMenu()
         {
-            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
-            PlayerManager.QueryFriends(null);
-            RefreshDefinitionsOnClick();
-
             LeaderboardUIParent.gameObject.SetActive(true);
+
+            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
+            Invoke("InitFriends",0);
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+        }
+
+        private void InitFriends()
+        {
+            PlayerManager.QueryFriends(null);
+            RefreshDefinitionsOnClick();
         }
 
         public void HideMenu()

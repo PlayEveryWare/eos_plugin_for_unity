@@ -490,6 +490,45 @@ EOS_STRUCT(EOS_Ecom_QueryEntitlementsCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_Ecom_OnQueryEntitlementsCallback, const EOS_Ecom_QueryEntitlementsCallbackInfo* Data);
 
+/** The most recent version of the EOS_Ecom_QueryEntitlementToken API. */
+#define EOS_ECOM_QUERYENTITLEMENTTOKEN_API_LATEST 1
+
+/** The maximum number of entitlements that may be queried in a single pass. */
+#define EOS_ECOM_QUERYENTITLEMENTTOKEN_MAX_ENTITLEMENT_IDS 32
+
+ /**
+  * Input parameters for the EOS_Ecom_QueryEntitlementToken function.
+  */
+EOS_STRUCT(EOS_Ecom_QueryEntitlementTokenOptions, (
+	/** API Version: Set this to EOS_ECOM_QUERYENTITLEMENTTOKEN_API_LATEST. */
+	int32_t ApiVersion;
+	/** The Epic Account ID of the local user whose Entitlements you want to retrieve */
+	EOS_EpicAccountId LocalUserId;
+	/** An array of Entitlement Names that you want to check */
+	EOS_Ecom_EntitlementName* EntitlementNames;
+	/** The number of Entitlement Names included in the array, up to EOS_ECOM_QUERYENTITLEMENTTOKEN_MAX_ENTITLEMENT_IDS; use zero to request all Entitlements associated with the user's Epic Online Services account. */
+	uint32_t EntitlementNameCount;
+));
+
+/**
+ * Output parameters for the EOS_Ecom_QueryEntitlementToken Function.
+ */
+EOS_STRUCT(EOS_Ecom_QueryEntitlementTokenCallbackInfo, (
+	/** The EOS_EResult code for the operation. EOS_Success indicates that the operation succeeded; other codes indicate errors. */
+	EOS_EResult ResultCode;
+	/** Context that was passed into EOS_Ecom_QueryEntitlementToken */
+	void* ClientData;
+	/** The Epic Account ID of the local user whose entitlement was queried */
+	EOS_EpicAccountId LocalUserId;
+	/** Entitlements token containing details about the catalog items queried */
+	const char* EntitlementToken;
+));
+
+/**
+ * Function prototype definition for callbacks passed to EOS_Ecom_QueryEntitlementToken.
+ * @param Data A EOS_Ecom_QueryEntitlementTokenCallbackInfo containing the output information and result.
+ */
+EOS_DECLARE_CALLBACK(EOS_Ecom_OnQueryEntitlementTokenCallback, const EOS_Ecom_QueryEntitlementTokenCallbackInfo* Data);
 
 /** The most recent version of the EOS_Ecom_QueryOffers API. */
 #define EOS_ECOM_QUERYOFFERS_API_LATEST 1

@@ -23,10 +23,12 @@
 #if PLATFORM_WINDOWS
 #include "Windows/eos_Windows_base.h"
 #include "Windows/eos_Windows.h"
+#include "processenv.h"
+#include <iterator>
 #endif
 #include "eos_sdk.h"
 #include "eos_logging.h"
-#include "eos_integratedplatform.h""
+#include "eos_integratedplatform.h"
 
 #include "json.h"
 
@@ -181,7 +183,7 @@ static bool create_timestamp_str(char *final_timestamp, size_t final_timestamp_l
     localtime_s(&time_info, &raw_time);
 
     strftime(buffer, buffer_len, "%Y-%m-%dT%H:%M:%S", &time_info);
-    long milliseconds = round(time_spec.tv_nsec / 1.0e6);
+    long milliseconds = (long)round(time_spec.tv_nsec / 1.0e6);
     snprintf(final_timestamp, final_timestamp_len, "%s.%03ld", buffer, milliseconds);
 
     return true;
@@ -209,7 +211,7 @@ static bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_
         return false;
     }
 
-    WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, utf8_str, utf8_str_len, NULL, NULL);
+    WideCharToMultiByte(CP_UTF8, 0, wide_str, wide_str_len, utf8_str, (int)utf8_str_len, NULL, NULL);
 
     return true;
 }
@@ -217,8 +219,8 @@ static bool copy_to_utf8_str_from_wide_str(char* RESTRICT utf8_str, size_t utf8_
 //-------------------------------------------------------------------------
 static char* create_utf8_str_from_wide_str(const wchar_t *wide_str)
 {
-    const int wide_str_len = wcslen(wide_str) + 1;
-    int bytes_required = utf8_str_bytes_required_for_wide_str(wide_str, wide_str_len);
+    const int wide_str_len = (int)wcslen(wide_str) + 1;
+    int bytes_required = (int)utf8_str_bytes_required_for_wide_str(wide_str, wide_str_len);
     char *to_return = (char*)malloc(bytes_required);
 
     if (!copy_to_utf8_str_from_wide_str(to_return, bytes_required, wide_str, wide_str_len))
@@ -235,7 +237,7 @@ static wchar_t* create_wide_str_from_utf8_str(const char* utf8_str)
 {
     int chars_required = MultiByteToWideChar(CP_UTF8, 0, utf8_str, -1, NULL, 0);
     wchar_t *to_return = (wchar_t*)malloc(chars_required * sizeof(wchar_t));
-    int utf8_str_len = strlen(utf8_str);
+    int utf8_str_len = (int)strlen(utf8_str);
 
     MultiByteToWideChar(CP_UTF8, 0, utf8_str, utf8_str_len, to_return, chars_required);
 
@@ -1321,6 +1323,46 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
 
     EOSConfig eos_config = eos_config_from_json_value(eos_config_as_json);
     free(eos_config_as_json);
+
+#if PLATFORM_WINDOWS
+    //support sandbox and deployment id override via command line arguments
+    std::stringstream argStream = std::stringstream(GetCommandLineA());
+    std::istream_iterator<std::string> argsBegin(argStream);
+    std::istream_iterator<std::string> argsEnd;
+    std::vector<std::string> argStrings(argsBegin, argsEnd);
+    const char* hexChars = "0123456789abcdefABCDEF";
+    for (int i = 0; i < argStrings.size() - 1; ++i)
+    {
+        if (argStrings[i] == "-eossandboxid")
+        {
+            std::string sandboxArg = argStrings[i + 1];
+            log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
+            if (sandboxArg.length() == 32 && sandboxArg.find_first_not_of(hexChars) == std::string::npos)
+            {
+                eos_config.sandboxID = sandboxArg;
+                log_inform("Sandbox ID override applied");
+            }
+            else
+            {
+                log_warn("Sandbox ID override is invalid: must be 32 hex characters");
+            }
+        }
+        else if (argStrings[i] == "-eosdeploymentid")
+        {
+            std::string deploymentArg = argStrings[i + 1];
+            log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
+            if (deploymentArg.length() == 32 && deploymentArg.find_first_not_of(hexChars) == std::string::npos)
+            {
+                eos_config.deploymentID = deploymentArg;
+                log_inform("Deployment ID override applied");
+            }
+            else
+            {
+                log_warn("Deployment ID override is invalid: must be 32 hex characters");
+            }
+        }
+    }
+#endif
 
 #if _DEBUG
     global_log_open("gfx_log.txt");

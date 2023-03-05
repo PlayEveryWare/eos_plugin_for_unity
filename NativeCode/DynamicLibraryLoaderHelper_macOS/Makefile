@@ -47,7 +47,7 @@ build/DynamicLibraryLoaderHelper_mac_x86: build $(DLLH_SRC)
 build/DynamicLibraryLoaderHelper_mac_arm: build $(DLLH_SRC)
 	$(CXX) -dynamiclib $(DLLH_SRC) -arch arm64 $(CXXFLAGS) -o $@
 
-libDynamicLibraryLoaderHelper.dylib: build/DynamicLibraryLoaderHelper_mac_arm build/DynamicLibraryLoaderHelper_mac_x86
+build/libDynamicLibraryLoaderHelper.dylib: build/DynamicLibraryLoaderHelper_mac_arm build/DynamicLibraryLoaderHelper_mac_x86
 	lipo -create -output build/libDynamicLibraryLoaderHelper.dylib $?
 
 DynamicLibraryLoaderHelper_clean:

@@ -44,7 +44,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 
 		public void Set(ref QueryFileOptions other)
 		{
-			m_ApiVersion = PlayerDataStorageInterface.QueryfileoptionsApiLatest;
+			m_ApiVersion = PlayerDataStorageInterface.QueryfileApiLatest;
 			LocalUserId = other.LocalUserId;
 			Filename = other.Filename;
 		}
@@ -53,7 +53,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		{
 			if (other.HasValue)
 			{
-				m_ApiVersion = PlayerDataStorageInterface.QueryfileoptionsApiLatest;
+				m_ApiVersion = PlayerDataStorageInterface.QueryfileApiLatest;
 				LocalUserId = other.Value.LocalUserId;
 				Filename = other.Value.Filename;
 			}

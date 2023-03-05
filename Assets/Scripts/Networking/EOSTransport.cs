@@ -91,9 +91,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private Queue<Tuple<ProductUserId, ulong, bool>> ConnectedDisconnectedUserEvents = null;
 
         [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
-        private void print(string msg, LogType type = LogType.Log)
+        private void print(string msg)
         {
-            Debug.LogFormat(type, LogOption.None, null, msg);
+            Debug.Log(msg);
+        }
+
+        [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
+        private void printWarning(string msg)
+        {
+            Debug.LogWarning(msg);
+        }
+
+        [System.Diagnostics.Conditional("EOS_TRANSPORT_DEBUG")]
+        private void printError(string msg)
+        {
+            Debug.LogError(msg);
         }
 
         /// <summary>
@@ -128,7 +140,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 if (reliability != Epic.OnlineServices.P2P.PacketReliability.ReliableOrdered)
                 {
-                    print($"EOSP2PTransport.Send: Unable to send payload - The payload size ({payload.Count} bytes) exceeds the maxmimum packet size supported by EOS P2P ({EOSTransportManager.MaxPacketSize} bytes).", LogType.Error);
+                    printError($"EOSP2PTransport.Send: Unable to send payload - The payload size ({payload.Count} bytes) exceeds the maxmimum packet size supported by EOS P2P ({EOSTransportManager.MaxPacketSize} bytes).");
                     return;
                 }
             }
@@ -224,14 +236,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 }
                 else
                 {
-                    print($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{ServerUserId}'.", LogType.Error);
+                    printError($"EOSP2PTransport.StartClient: Failed Client start up - Unable to initiate a connect request with Server UserId='{ServerUserId}'.");
                 }
             }
             else
             {
-                print("EOSP2PTransport.StartClient: Failed Client start up - 'ServerUserIdToConnectTo' is null or invalid."
+                printError("EOSP2PTransport.StartClient: Failed Client start up - 'ServerUserIdToConnectTo' is null or invalid."
                     + " Please set a valid EOS ProductUserId of the Server host this Client should try connecting to in the 'ServerUserIdToConnectTo' property before calling StartClient"
-                    + $" (ServerUserIdToConnectTo='{ServerUserIdToConnectTo}').", LogType.Error);
+                    + $" (ServerUserIdToConnectTo='{ServerUserIdToConnectTo}').");
             }
 
             return result;
@@ -332,7 +344,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             // EOSManager should already be initialized and exist by this point
             if (EOSManager.Instance == null)
             {
-                print("EOSP2PTransport.Initialize: Unable to initialize - EOSManager singleton is null (has the EOSManager component been added to an object in your initial scene?)", LogType.Error);
+                printError("EOSP2PTransport.Initialize: Unable to initialize - EOSManager singleton is null (has the EOSManager component been added to an object in your initial scene?)");
                 return;
             }
 
@@ -352,7 +364,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             P2PManager.OnConnectionClosedCb = OnConnectionClosedCallback;
             if (P2PManager.Initialize() == false)
             {
-                print("EOSP2PTransport.Initialize: Unable to initialize - EOSP2PManager failed to initialize.", LogType.Error);
+                printError("EOSP2PTransport.Initialize: Unable to initialize - EOSP2PManager failed to initialize.");
                 P2PManager.OnIncomingConnectionRequestedCb = null;
                 P2PManager.OnConnectionOpenedCb = null;
                 P2PManager.OnConnectionClosedCb = null;
