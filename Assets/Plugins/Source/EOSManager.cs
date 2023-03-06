@@ -527,7 +527,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 string configDataAsString = "";
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 
                 configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
 #else
