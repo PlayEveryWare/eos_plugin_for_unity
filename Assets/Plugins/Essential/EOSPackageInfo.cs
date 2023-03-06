@@ -52,10 +52,22 @@ public static class EOSPackageInfo
             }
             else
             {
-                return UnknownVersion;
+                return GetAppVersion();
             }
         }
         catch
+        {
+            return GetAppVersion();
+        }
+    }
+
+    private static string GetAppVersion()
+    {
+        if (UnityEngine.Application.companyName == "PlayEveryWare")
+        {
+            return UnityEngine.Application.version;
+        }
+        else
         {
             return UnknownVersion;
         }
