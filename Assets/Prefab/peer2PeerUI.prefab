@@ -1842,8 +1842,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7443171736650030436}
   m_HandleRect: {fileID: 7443171736650030437}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2822,7 +2822,7 @@ PrefabInstance:
     - target: {fileID: 8911648705614661090, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
       propertyPath: m_Text
-      value: Enter ProductUserId...
+      value: Message user by ProductUserId...
       objectReference: {fileID: 0}
     - target: {fileID: 8911648706222086647, guid: 938b5e90c4f62df45a48e6b0b954e9f2,
         type: 3}
