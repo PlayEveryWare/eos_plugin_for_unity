@@ -270,10 +270,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="InvitePayload"><c>Utf8String</c> payload to send with custom invites</param>
         public void SetPayload(Utf8String InvitePayload)
         {
-            var userId = EOSManager.Instance.GetProductUserId();
-            if (!userId.IsValid())
+            var userId = EOSManager.Instance?.GetProductUserId();
+            if (userId?.IsValid() != true)
             {
                 Debug.LogError("CustomInvites (SetPayload): invalid product user ID");
+                return;
             }
 
             var options = new SetCustomInviteOptions()
@@ -286,12 +287,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if (result == Result.Success)
             {
-                Debug.LogFormat("CustomInvites (SetPayload): custom payload set to \"{0}\"", InvitePayload);
+                if (string.IsNullOrEmpty(InvitePayload))
+                {
+                    Debug.Log("CustomInvites (SetPayload): custom payload cleared");
+                }
+                else
+                {
+                    Debug.LogFormat("CustomInvites (SetPayload): custom payload set to \"{0}\"", InvitePayload);
+                }
             }
             else
             {
                 Debug.LogError("CustomInvites (SetPayload): failed to set custom invite payload");
             }
+        }
+
+        public void ClearPayload()
+        {
+            //payload can be cleared by setting an empty string
+            SetPayload(string.Empty);
         }
 
         /// <summary>

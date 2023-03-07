@@ -33,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     public class UICustomInvitesMenu : UIFriendInteractionSource, ISampleSceneUI
     {
         [Header("Custom Invites UI")]
+        public UIConsoleInputField PayloadInputField;
         public Transform PendingInvitesParent;
         public UICustomInviteEntry PendingInviteEntryPrefab;
         public Text InviteLogText;
@@ -67,10 +68,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void HideMenu()
         {
             gameObject.SetActive(false);
+            if (EOSManager.Instance.GetProductUserId()?.IsValid() == true)
+            {
+                CustomInvitesManager?.ClearPayload();
+            }
         }
 
         public void ShowMenu()
         {
+            PayloadInputField.InputField.text = string.Empty;
+            CustomInvitesManager.ClearPayload();
             gameObject.SetActive(true);
 
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
@@ -148,12 +155,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             RemoveInviteEntry(InviteData);
         }
 
-        public void OnPayloadEndEdit(string payloadText)
+        public void SetPayloadOnClick()
         {
-            payloadText = payloadText.Trim();
+            string payloadText = PayloadInputField.InputField.text.Trim();
             if (string.IsNullOrEmpty(payloadText))
             {
-                CustomInvitesManager.SetPayload(null);
+                CustomInvitesManager.ClearPayload();
                 PayloadSet = false;
             }
             else
