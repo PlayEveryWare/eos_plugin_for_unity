@@ -17,3 +17,6 @@ that you have 2 accounts set up to run the app in parallel, as only one instance
 
 Once you have 2 instances running you should be able to click the chat button on either one to open up the chat window and send a message.
 Sending a message automatically opens the window on the second instance.
+
+A ProductUserId can be set through the sample UI to test sending messages to users who are not friends or who don't have an EpicAccountId,
+such as those logged in with the Connect interface
