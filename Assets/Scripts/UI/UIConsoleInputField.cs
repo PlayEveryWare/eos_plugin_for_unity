@@ -55,7 +55,7 @@ public class UIConsoleInputField : MonoBehaviour
 #if UNITY_ANDROID
     private void Update()
     {
-        bool keyboardActive = InputField.touchScreenKeyboard.active;
+        bool keyboardActive = InputField.touchScreenKeyboard?.active ?? false;
         if (!keyboardActive && wasKeyboardActive)
         {
             keepOldTextInField = true;
