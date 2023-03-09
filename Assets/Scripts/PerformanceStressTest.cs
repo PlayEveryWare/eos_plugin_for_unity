@@ -191,7 +191,7 @@ public class PerformanceStressTest : MonoBehaviour
         threadOverride = !threadOverride;
         if(threadOverride)
         {
-            coreSliderScript.SliderText.SetText(threads.ToString());
+            coreSliderScript.SliderText.text = (threads.ToString());
         }
         else
         {
