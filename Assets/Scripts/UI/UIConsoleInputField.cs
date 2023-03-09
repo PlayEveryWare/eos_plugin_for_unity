@@ -83,9 +83,11 @@ public class UIConsoleInputField : MonoBehaviour
 #if UNITY_ANDROID
         if (keepOldTextInField && !string.IsNullOrEmpty(oldEditText))
         {
-            //IMPORTANT ORDER
-            editText = oldEditText;
-            InputField.text = oldEditText;
+            if (Mathf.Abs(editText.Length - oldEditText.Length) > 1) //prevent correctly added characters from being removed
+            {
+                editText = oldEditText;
+                InputField.text = oldEditText;
+            }
 
             keepOldTextInField = false;
         }
