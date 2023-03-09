@@ -37,10 +37,38 @@ public class UIConsoleInputField : MonoBehaviour
     public Button InputFieldButton;
     public InputField InputField;
 
+#if UNITY_ANDROID
+    private bool keepOldTextInField;
+    private string editText, oldEditText;
+    private bool wasKeyboardActive = false;
+#endif
+
     private void Awake()
     {
         InputField.onEndEdit.AddListener(OnEndEdit);
+
+#if UNITY_ANDROID
+        InputField.onValueChanged.AddListener(OnEdit);
+#endif
     }
+
+#if UNITY_ANDROID
+    private void Update()
+    {
+        bool keyboardActive = InputField.touchScreenKeyboard.active;
+        if (!keyboardActive && wasKeyboardActive)
+        {
+            keepOldTextInField = true;
+        }
+        wasKeyboardActive = keyboardActive;
+    }
+
+    private void OnEdit(string currentText)
+    {
+        oldEditText = editText;
+        editText = currentText;
+    }
+#endif
 
     public void OnEndEdit(string value)
     {
@@ -51,6 +79,17 @@ public class UIConsoleInputField : MonoBehaviour
             // Return focus to button
             EventSystem.current.SetSelectedGameObject(InputFieldButton.gameObject);
         }
+
+#if UNITY_ANDROID
+        if (keepOldTextInField && !string.IsNullOrEmpty(oldEditText))
+        {
+            //IMPORTANT ORDER
+            editText = oldEditText;
+            InputField.text = oldEditText;
+
+            keepOldTextInField = false;
+        }
+#endif
     }
     public void InputFieldOnClick()
     {
