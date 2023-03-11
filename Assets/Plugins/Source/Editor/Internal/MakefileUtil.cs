@@ -26,7 +26,7 @@ using System.IO;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public static class MakefileUtil
+    public static partial class MakefileUtil
     {
         [MenuItem("Tools/Build Libraries/Win32")]
         public static void BuildLibrariesWin32()
