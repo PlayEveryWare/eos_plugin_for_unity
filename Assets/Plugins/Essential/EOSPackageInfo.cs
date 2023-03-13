@@ -35,6 +35,9 @@ public static class EOSPackageInfo
 
     //-------------------------------------------------------------------------
     //VERSION START
+
+    const string buildVersion = UnknownVersion;
+
     private struct VersionReader
     {
         public string version;
@@ -52,24 +55,12 @@ public static class EOSPackageInfo
             }
             else
             {
-                return GetAppVersion();
+                return buildVersion;
             }
         }
         catch
         {
-            return GetAppVersion();
-        }
-    }
-
-    private static string GetAppVersion()
-    {
-        if (UnityEngine.Application.companyName == "PlayEveryWare")
-        {
-            return UnityEngine.Application.version;
-        }
-        else
-        {
-            return UnknownVersion;
+            return buildVersion;
         }
     }
     //VERSION END
