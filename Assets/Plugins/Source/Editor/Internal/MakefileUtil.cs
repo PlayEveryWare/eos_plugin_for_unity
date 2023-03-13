@@ -23,6 +23,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -32,9 +33,14 @@ namespace PlayEveryWare.EpicOnlineServices
         private const string debugToggleMenuName = "Tools/Build Libraries/Target Debug for MSbuild";
         private const string debugTogglePrefName = "EOSMSBuildDebug";
 
+        private static Regex WarningRegex;
+        private static Regex ErrorRegex;
+
         static MakefileUtil()
         {
             Menu.SetChecked(debugToggleMenuName, ShouldBuildDebug());
+            WarningRegex = new Regex(@"warning [a-zA-z0-9]*:", RegexOptions.IgnoreCase);
+            ErrorRegex = new Regex(@"error [a-zA-z0-9]*:", RegexOptions.IgnoreCase);
         }
 
         [MenuItem(debugToggleMenuName)]
@@ -172,7 +178,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
                     if (!EmptyPredicates.IsEmptyOrNull(e.Data))
                     {
-                        Debug.Log(e.Data);
+                        if (ErrorRegex.IsMatch(e.Data))
+                        {
+                            Debug.LogError(e.Data);
+                        }
+                        else if (WarningRegex.IsMatch(e.Data))
+                        {
+                            Debug.LogWarning(e.Data);
+                        }
+                        else
+                        {
+                            Debug.Log(e.Data);
+                        }
                     }
                 });
             }
