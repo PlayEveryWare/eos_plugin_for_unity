@@ -26,8 +26,30 @@ using System.IO;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    [InitializeOnLoad]
     public static partial class MakefileUtil
     {
+        private const string debugToggleMenuName = "Tools/Build Libraries/Target Debug for MSbuild";
+        private const string debugTogglePrefName = "EOSMSBuildDebug";
+
+        static MakefileUtil()
+        {
+            Menu.SetChecked(debugToggleMenuName, ShouldBuildDebug());
+        }
+
+        [MenuItem(debugToggleMenuName)]
+        public static void ToggleDebugBuild()
+        {
+            bool newVal = !ShouldBuildDebug();
+            Menu.SetChecked(debugToggleMenuName, newVal);
+            EditorPrefs.SetBool(debugTogglePrefName, newVal);
+        }
+
+        private static bool ShouldBuildDebug()
+        {
+            return EditorPrefs.GetBool(debugTogglePrefName);
+        }
+
         [MenuItem("Tools/Build Libraries/Win32")]
         public static void BuildLibrariesWin32()
         {
@@ -100,7 +122,8 @@ namespace PlayEveryWare.EpicOnlineServices
             }
             else
             {
-                RunProcess("msbuild", $"DynamicLibraryLoaderHelper.sln /p:Configuration=Release /p:Platform={platform}",
+                string buildConfig = ShouldBuildDebug() ? "Debug" : "Release";
+                RunProcess("msbuild", $"DynamicLibraryLoaderHelper.sln /t:Clean;Rebuild /p:Configuration={buildConfig} /p:Platform={platform}",
                     "NativeCode/DynamicLibraryLoaderHelper");
             }
         }
