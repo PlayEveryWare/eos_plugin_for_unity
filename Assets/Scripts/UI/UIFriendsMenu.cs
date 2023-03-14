@@ -50,6 +50,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject FriendsPanel;
         private bool collapsed = false;
 
+        public GameObject FriendOverlayContent;
+
         public UIConsoleInputField SearchFriendsInput;
 
         public GameObject FriendsListContentParent;
@@ -266,17 +268,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var newPos = panelRT.anchoredPosition;
             newPos.x = 0;
             panelRT.anchoredPosition = newPos;
-
+            FriendOverlayContent.SetActive(false);
+         
             collapsed = true;
         }
 
         public void ExpandFriendsTab()
-        {
+        {  
+            FriendOverlayContent.SetActive(true);
             var panelRT = FriendsPanel.transform as RectTransform;
             var newPos = panelRT.anchoredPosition;
             newPos.x = initialPanelAnchoredPosX;
             panelRT.anchoredPosition = newPos;
-
+         
             collapsed = false;
         }
 
