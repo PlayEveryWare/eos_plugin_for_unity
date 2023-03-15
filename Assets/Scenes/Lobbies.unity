@@ -3075,6 +3075,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
         type: 3}
+      propertyPath: LobbySearchUI
+      value: 
+      objectReference: {fileID: 1160268718}
+    - target: {fileID: 1520068606371974356, guid: 6a62934fd9ee35d49bf4f84f329793d1,
+        type: 3}
       propertyPath: UILobbiesMenu
       value: 
       objectReference: {fileID: 1892345585}
@@ -3364,6 +3369,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b1101f5fb5af794a86a747e61bf9b31, type: 3}
+--- !u!1 &1160268718 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 525090539622149659, guid: aeac9914cf69f3e45971f52404af81a8,
+    type: 3}
+  m_PrefabInstance: {fileID: 805891812}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1185629577
 GameObject:
   m_ObjectHideFlags: 0
