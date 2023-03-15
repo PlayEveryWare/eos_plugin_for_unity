@@ -574,7 +574,7 @@ _WIN32 || _WIN64
         {
             EnsureConfigLoaded();
             string[] toolbarTitlesToUse = CreateToolbarTitles();
-            int xCount = (int)(EditorGUIUtility.currentViewWidth / 120);
+            int xCount = (int)(EditorGUIUtility.currentViewWidth / 200);
             toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitlesToUse, xCount);
             switch (toolbarInt)
             {
