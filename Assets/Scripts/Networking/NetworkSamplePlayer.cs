@@ -201,7 +201,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private void UpdatePosition()
         {
             Vector2 newPos = position.Value;
-            transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
+            transform.position = new Vector3(newPos.x, newPos.y, 0);
 
             if (displayNameUI != null)
             {

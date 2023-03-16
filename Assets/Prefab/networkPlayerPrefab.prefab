@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4237107856228939802}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -129,7 +129,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayNameUIPrefab: {fileID: 4929105305930631026, guid: 8ecc21bc484e87d458c7c0de760200ae,
     type: 3}
-  Speed: {x: 2, y: 2}
   MovementBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 5, y: 5, z: 0}
