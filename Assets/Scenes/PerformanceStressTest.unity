@@ -1990,10 +1990,9 @@ GameObject:
   m_Component:
   - component: {fileID: 649498174}
   - component: {fileID: 649498176}
-  - component: {fileID: 649498175}
   - component: {fileID: 649498177}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: UtilizationText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2019,18 +2018,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.3000183, y: 17}
   m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &649498175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 649498173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &649498176
 CanvasRenderer:
   m_ObjectHideFlags: 0
