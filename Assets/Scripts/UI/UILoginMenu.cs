@@ -206,7 +206,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (next != null)
                     {
                         InputField inputField = next.GetComponent<InputField>();
-                        ConsoleInputField consoleInputField = next.GetComponent<ConsoleInputField>();
+                        UIConsoleInputField consoleInputField = next.GetComponent<UIConsoleInputField>();
                         if (inputField != null)
                         {
                             inputField.OnPointerClick(new PointerEventData(system));
@@ -232,7 +232,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     // Enter pressed in an input field
                     InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
-                    ConsoleInputField consoleInputField = system.currentSelectedGameObject.GetComponent<ConsoleInputField>();
+                    UIConsoleInputField consoleInputField = system.currentSelectedGameObject.GetComponent<UIConsoleInputField>();
                     if (inputField != null || consoleInputField != null)
                     {
                         EnterPressedToLogin();
