@@ -411,17 +411,32 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static public bool operator ==(EOSPluginEditorToolsConfig a, EOSPluginEditorToolsConfig b)
         {
-            return false;
+            if (object.ReferenceEquals(a, null) != object.ReferenceEquals(b, null))
+            {
+                return false;
+            }
+
+            if (object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            return a.pathToEACIntegrityTool == b.pathToEACIntegrityTool &&
+                a.pathToDefaultCertificate == b.pathToDefaultCertificate &&
+                a.pathToEACPrivateKey == b.pathToEACPrivateKey &&
+                a.pathToEACCertificate == b.pathToEACCertificate &&
+                a.bootstrapperNameOverride == b.bootstrapperNameOverride &&
+                a.useEAC == b.useEAC;
         }
 
         static public bool operator !=(EOSPluginEditorToolsConfig a, EOSPluginEditorToolsConfig b)
         {
-            return false;
+            return !(a == b);
         }
 
         public override bool Equals(object obj)
         {
-            return false; 
+            return obj is EOSPluginEditorToolsConfig && this == (EOSPluginEditorToolsConfig)obj; 
         }
 
         public override int GetHashCode()
