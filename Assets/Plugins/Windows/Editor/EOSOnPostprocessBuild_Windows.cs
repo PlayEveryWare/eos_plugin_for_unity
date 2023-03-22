@@ -102,10 +102,8 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
     }
 
     //-------------------------------------------------------------------------
-    private static void InstallBootStrapper(BuildReport report, string pathToEOSBootStrapperTool, string bootstrapperFileName)
+    private static void InstallBootStrapper(string appFilenameExe, string installDirectory, string pathToEOSBootStrapperTool, string bootstrapperFileName)
     {
-        string appFilenameExe = Path.GetFileName(report.summary.outputPath);
-        string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
         string installPathForEOSBootStrapper = Path.Combine(installDirectory, bootstrapperFileName);
         string workingDirectory = GetPathToEOSBin();
         string bootStrapperArgs = ""
@@ -307,7 +305,8 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
         if (report.summary.platform == BuildTarget.StandaloneWindows || report.summary.platform == BuildTarget.StandaloneWindows64)
         {
             var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
-            string bootstrapperName = "";
+            EOSPluginEditorToolsConfig editorToolConfig = null;
+            string bootstrapperName = null;
             bool useEAC = false;
 
             if (editorToolsConfigSection != null)
@@ -315,9 +314,12 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
                 editorToolsConfigSection.Awake();
                 editorToolsConfigSection.LoadConfigFromDisk();
 
-                var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
-                bootstrapperName = editorToolConfig.bootstrapperNameOverride;
-                useEAC = editorToolConfig.useEAC;
+                editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
+                if (editorToolConfig != null)
+                {
+                    bootstrapperName = editorToolConfig.bootstrapperNameOverride;
+                    useEAC = editorToolConfig.useEAC;
+                }
             }
 
             if (string.IsNullOrWhiteSpace(bootstrapperName))
@@ -329,28 +331,25 @@ public class EOSOnPostprocessBuild_Windows:  IPostprocessBuildWithReport
             {
                 bootstrapperName += ".exe";
             }
-            buildExeName = bootstrapperName;
+            buildExeName = Path.GetFileName(report.summary.outputPath);
 
             InstallFiles(report, useEAC);
             
             string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
+
+            string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
+
+            string bootstrapperTarget = useEAC ? "EACLauncher.exe" : buildExeName;
             
-            InstallBootStrapper(report, pathToEOSBootStrapperTool, bootstrapperName);
+            InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool, bootstrapperName);
 
-
-            if (editorToolsConfigSection != null)
+            if (useEAC &&
+                editorToolConfig != null &&
+                !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACIntegrityTool) &&
+                !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
+                !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACCertificate))
             {
-                editorToolsConfigSection.Awake();
-                editorToolsConfigSection.LoadConfigFromDisk();
-                var editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
-                if (useEAC &&
-                    editorToolConfig != null &&
-                    editorToolConfig.pathToEACIntegrityTool != null &&
-                    editorToolConfig.pathToEACPrivateKey != null &&
-                    editorToolConfig.pathToEACCertificate != null)
-                {
-                    GenerateIntegrityCert(report, editorToolConfig.pathToEACIntegrityTool, GetEOSConfig().productID, editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate);
-                }
+                GenerateIntegrityCert(report, editorToolConfig.pathToEACIntegrityTool, GetEOSConfig().productID, editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate);
             }
         }
     }
