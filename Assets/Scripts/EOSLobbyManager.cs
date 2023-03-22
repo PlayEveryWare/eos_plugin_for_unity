@@ -484,9 +484,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSearch = new LobbySearch();
             SearchResults = new Dictionary<Lobby, LobbyDetails>();
 
-            SubscribeToLobbyUpdates();
-            SubscribeToLobbyInvites();
-
             LobbySearchCallback = null;
 
             MemberUpdateCallbacks = new List<OnMemberUpdateCallback>();
@@ -886,6 +883,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             _Dirty = true;
             CurrentInvite = null;
+            CurrentLobby = new Lobby();
+
+            SubscribeToLobbyUpdates();
+            SubscribeToLobbyInvites();
+
+            LobbySearchCallback = null;
 
 #if UNITY_IOS && !UNITY_EDITOR
             (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).SetDefaultAudioSession();
