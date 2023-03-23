@@ -844,12 +844,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (callbackInfo.ResultCode == Result.Success || callbackInfo.ResultCode == Result.DuplicateNotAllowed)
             {
-#if UNITY_STANDALONE_WIN
-                string displayName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-#else
-                //TODO: find device appropriate display name for other platforms
-                string displayName = "Device User";
-#endif
+                //this may return "Unknown" on some platforms
+                string displayName = Environment.UserName;
                 StartConnectLoginWithToken(ExternalCredentialType.DeviceidAccessToken, null, displayName);
             }
             else
