@@ -281,20 +281,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if ((nothingSelected || inactiveButtonSelected)
                 && (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f))
             {
-                if (UIFirstSelected.activeSelf == true)
+                if (UIFirstSelected.activeInHierarchy == true)
                 {
                     EventSystem.current.SetSelectedGameObject(UIFirstSelected);
                 }
-                else if (UIFindSelectable && UIFindSelectable.activeSelf == true)
+                else if (UIFindSelectable && UIFindSelectable.activeInHierarchy == true)
                 {
                     EventSystem.current.SetSelectedGameObject(UIFindSelectable);
                 }
                 else
                 {
-                    var fallbackSelect = GameObject.FindObjectOfType<Selectable>(false);
-                    if (fallbackSelect != null)
+                    var selectables = GameObject.FindObjectsOfType<Selectable>(false);
+                    foreach (var selectable in selectables)
                     {
-                        EventSystem.current.SetSelectedGameObject(fallbackSelect.gameObject);
+                        if (selectable.navigation.mode != Navigation.Mode.None)
+                        {
+                            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+                            break;
+                        }
                     }
                 }
 
