@@ -289,6 +289,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     EventSystem.current.SetSelectedGameObject(UIFindSelectable);
                 }
+                else
+                {
+                    var fallbackSelect = GameObject.FindObjectOfType<Selectable>(false);
+                    if (fallbackSelect != null)
+                    {
+                        EventSystem.current.SetSelectedGameObject(fallbackSelect.gameObject);
+                    }
+                }
 
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
