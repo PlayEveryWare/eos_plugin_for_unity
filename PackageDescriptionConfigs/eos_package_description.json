@@ -66,10 +66,8 @@
         {"src":"PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
         {"src":"bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
         {"src":"bin/EOSBootstrapper.exe", "dest": "bin~/"},
-        {"src":"PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "bin~/"},
 
         {"src":"PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
-        {"src":"bin/EAC/anticheat_integritytool.exe", "dest": "bin~/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Licenses/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Localization/"},
@@ -107,6 +105,12 @@
         {"src":"Assets/Plugins/Source/Editor/Linux.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
         {"src":"Assets/Plugins/Source/Editor/Linux/*.cs.meta", "dest": "Editor/Linux/"},
+        
+        {"src":"PlatformSpecificAssets/EOS/Linux/eac_launcher", "dest": "PlatformSpecificAssets~/EOS/Linux/"},
+        {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Licenses/"},
+        {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Localization/"},
+        {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
+        {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
 
         {"comment": "----------------------------macOS---------------------------------------------"},
         {"src":"Assets/Plugins/macOS.meta", "dest": "Runtime/"},
@@ -129,8 +133,27 @@
         {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/macOS/"},
         {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Editor/macOS/"},
         {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Editor/macOS/"},
+        
+        {"src":"PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Info.plist", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/MacOS/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/MacOS/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Resources/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/Resources/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/Licenses/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/Localization/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/"},
 
         {"comment": "----------------------------End macOS---------------------------------------------"},
+        
+        {"comment": "----------------------------EAC bin---------------------------------------------"},
+        
+        {"src":"bin/EAC/anticheat_integritytool.cfg", "dest": "bin~/EAC/"},
+        {"src":"bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
+        {"src":"bin/EAC/Mac/anticheat_integritytool", "dest": "bin~/EAC/Mac/"},
+        
+        {"comment": "----------------------------End EAC bin---------------------------------------------"},
 
         {"src":"Assets/link.xml", "dest": "Editor/"},
         {"src":"Assets/link.xml.meta", "dest": "Editor/"},
