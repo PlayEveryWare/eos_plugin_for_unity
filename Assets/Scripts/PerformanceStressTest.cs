@@ -128,6 +128,7 @@ public class PerformanceStressTest : MonoBehaviour
         threads = SystemInfo.processorCount;
         UnityEngine.Debug.Log("Working with: " + threads + " threads");
         threadList = new List<Thread>();
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(targetUtilizationSlider.gameObject);
     }
 
     public void CPUTest()
