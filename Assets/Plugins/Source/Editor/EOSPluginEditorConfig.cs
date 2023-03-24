@@ -92,6 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
 
             string pathToIntegrityTool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityTool);
+            string pathToIntegrityConfig = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityConfig);
             string pathToEACCertificate = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACCertificate);
             string pathToEACPrivateKey = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACPrivateKey);
             string bootstrapOverideName = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.bootstrapperNameOverride);
@@ -99,6 +100,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
             EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool", 
                 tooltip: "EOS SDK tool used to generate EAC certificate from file hashes");
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Integrity Tool Config", ref pathToIntegrityConfig, "Select EAC Integrity Tool Config",
+                tooltip: "Config file used by integry tool. Defaults to anticheat_integritytool.cfg in same directory.", extension: "cfg", labelWidth:200);
             EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC private key", ref pathToEACPrivateKey, "Select EAC private key", extension: "key",
                 tooltip: "EAC private key used in integrity tool cert generation. Exposing this to the public will comprimise anti-cheat functionality.");
             EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer",
@@ -108,6 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices
             EpicOnlineServicesConfigEditor.AssigningTextField("Bootstrapper Name Override", ref bootstrapOverideName, labelWidth: 180, tooltip: "Name to use instead of 'Bootstrapper.exe'");
 
             configFile.currentEOSConfig.pathToEACIntegrityTool = pathToIntegrityTool;
+            configFile.currentEOSConfig.pathToEACIntegrityConfig = pathToIntegrityConfig;
             configFile.currentEOSConfig.pathToEACPrivateKey = pathToEACPrivateKey;
             configFile.currentEOSConfig.pathToEACCertificate = pathToEACCertificate;
             configFile.currentEOSConfig.useEAC = useEAC;
@@ -392,8 +396,9 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public class EOSPluginEditorToolsConfig : ICloneableGeneric<EOSPluginEditorToolsConfig>, IEmpty
     {
-        /// <value><c>Path To signtool</c> The path to find the tool used for signing binaries</value>
+        /// <value><c>Path To EAC integrity tool</c> The path to find the tool used for generating EAC certs</value>
         public string pathToEACIntegrityTool;
+        public string pathToEACIntegrityConfig;
         public string pathToDefaultCertificate;
         public string pathToEACPrivateKey;
         public string pathToEACCertificate;

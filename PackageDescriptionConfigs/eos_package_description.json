@@ -35,6 +35,11 @@
         {"src":"Assets/Plugins/Essential/*", "dest": "Runtime/Essential/"},
         {"src":"Assets/Plugins/Source/Essential/*.cs", "dest": "Runtime/Essential/"},
         {"src":"Assets/Plugins/Source/Essential/*.cs.meta", "dest": "Runtime/Essential/"},
+        
+        {"comment": "----------------------------Standalone---------------------------------------------"},
+        {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
+        {"src":"Assets/Plugins/Standalone/Editor/*", "dest": "Editor/Standalone/"},
+        {"comment": "----------------------------End Standalone---------------------------------------------"},
 
         {"comment": "----------------------------Windows---------------------------------------------"},
         {"src":"Assets/Plugins/Windows.meta", "dest": "Runtime/"},
@@ -57,13 +62,6 @@
 
         {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
-
-
-        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Editor/Windows.meta"},
-        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Editor/Windows/"},
-        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Editor/Windows/"},
-        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/Windows/"},
-        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/Windows/"},
 
         {"src":"PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
         {"src":"bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
@@ -308,7 +306,7 @@
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
-	
+    
         {"src":"PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
         {"src":"PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar.meta","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
         {"src":"PlatformSpecificAssets/EOS/Android/static-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/static-stdc++/aar/"},
