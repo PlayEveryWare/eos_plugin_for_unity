@@ -32,6 +32,13 @@ class PreProcessConfigConfirmation : IPreprocessBuildWithReport
     public int callbackOrder { get { return 0; } }
     public void OnPreprocessBuild(BuildReport report)
     {
+        // Ensure that we don't do checks for config files if the current platform group has EOS disabled
+        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(report.summary.platformGroup);
+        if (defineSymbolsForGroup.Contains("EOS_DISABLE"))
+        {
+            return;
+        }
+
         Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + report.summary.platform);
         BuildTarget target = report.summary.platform;
 
