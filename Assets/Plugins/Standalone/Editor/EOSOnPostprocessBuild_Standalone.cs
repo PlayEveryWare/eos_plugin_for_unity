@@ -148,19 +148,16 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         string installDirectory = Path.GetDirectoryName(installPathForExe);
         string toolDirectory = Path.GetDirectoryName(pathToEACIntegrityTool);
 
-        if (report.summary.platform == BuildTarget.StandaloneOSX)
+        string originalCfg = configFile;
+        if (string.IsNullOrWhiteSpace(originalCfg))
         {
-            string originalCfg = configFile;
-            if (string.IsNullOrWhiteSpace(originalCfg))
-            {
-                originalCfg = Path.Join(toolDirectory, "anticheat_integritytool.cfg");
-            }
-
-            string newCfgPath = Path.Join(Application.temporaryCachePath, "eac_integritytool.cfg");
-            File.Copy(originalCfg, newCfgPath);
-            ReplaceFileContentVars(newCfgPath);
-            configFile = newCfgPath;
+            originalCfg = Path.Join(toolDirectory, "anticheat_integritytool.cfg");
         }
+
+        string newCfgPath = Path.Join(Application.temporaryCachePath, "eac_integritytool.cfg");
+        File.Copy(originalCfg, newCfgPath);
+        ReplaceFileContentVars(newCfgPath);
+        configFile = newCfgPath;
 
         string integrityToolArgs = string.Format("-productid {0} -inkey \"{1}\" -incert \"{2}\" -target_game_dir \"{3}\"", productID, keyFileName, certFileName, installDirectory);
         if (!string.IsNullOrWhiteSpace(configFile))
@@ -352,6 +349,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
 
         sb.Replace("<UnityProductName>", Application.productName);
         sb.Replace("<ExeName>", buildExeName);
+        sb.Replace("<ExeNameNoExt>", Path.GetFileNameWithoutExtension(buildExeName));
         sb.Replace("<ProductName>", eosConfig.productName);
         sb.Replace("<ProductID>", eosConfig.productID);
         sb.Replace("<SandboxID>", eosConfig.sandboxID);
