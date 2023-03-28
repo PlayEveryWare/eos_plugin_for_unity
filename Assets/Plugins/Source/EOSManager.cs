@@ -545,7 +545,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 var commandArgs = System.Environment.GetCommandLineArgs();
                 for (int i = 0; i < commandArgs.Length - 1; ++i)
                 {
-                    if (commandArgs[i] == "-eossandboxid")
+                    if (commandArgs[i] == "-eossandboxid" || commandArgs[i] == "-epicsandboxid")
                     {
                         var sandboxArg = commandArgs[i + 1];
                         UnityEngine.Debug.Log("Sandbox ID override specified: " + sandboxArg);
@@ -559,7 +559,34 @@ namespace PlayEveryWare.EpicOnlineServices
                             UnityEngine.Debug.LogWarning("Sandbox ID override is invalid: must be 32 hex characters");
                         }
                     }
-                    else if (commandArgs[i] == "-eosdeploymentid")
+                }
+
+                if (configData.sandboxDeploymentOverrides != null)
+                {
+                    //check if a deployment id override exists for sandbox id
+                    foreach (var deploymentOverride in configData.sandboxDeploymentOverrides)
+                    {
+                        if (configData.sandboxID == deploymentOverride.sandboxID)
+                        {
+                            configData.deploymentID = deploymentOverride.deploymentID;
+                            UnityEngine.Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
+                            if (deploymentOverride.deploymentID.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(deploymentOverride.deploymentID).Success)
+                            {
+                                configData.deploymentID = deploymentOverride.deploymentID;
+                                UnityEngine.Debug.Log("Sandbox Deployment ID override applied");
+                            }
+                            else
+                            {
+                                UnityEngine.Debug.LogWarning("Sandbox Deployment ID override is invalid: must be 32 hex characters");
+                            }
+                        }
+                    }
+                }
+
+                //support sandbox and deployment id override via command line arguments
+                for (int i = 0; i < commandArgs.Length - 1; ++i)
+                {
+                    if (commandArgs[i] == "-eosdeploymentid")
                     {
                         var deploymentArg = commandArgs[i + 1];
                         UnityEngine.Debug.Log("Deployment ID override specified: " + deploymentArg);
