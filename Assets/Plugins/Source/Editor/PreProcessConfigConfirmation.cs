@@ -32,15 +32,7 @@ class PreProcessConfigConfirmation : IPreprocessBuildWithReport
     public int callbackOrder { get { return int.MaxValue; } }
     public void OnPreprocessBuild(BuildReport report)
     {
-
-#if UNITY_2021_2_OR_NEWER
-        var namedBuildTarget = UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(report.summary.platformGroup);
-        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
-#else
-        // Ensure that we don't do checks for config files if the current platform group has EOS disabled
-        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(report.summary.platformGroup);
-#endif
-        if (defineSymbolsForGroup.Contains("EOS_DISABLE"))
+        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
         {
             return;
         }

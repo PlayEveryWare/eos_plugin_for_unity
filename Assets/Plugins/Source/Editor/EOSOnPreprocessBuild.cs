@@ -11,6 +11,10 @@ public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
     public void OnPreprocessBuild(BuildReport report)
     {
         //if (report.summary.platform == BuildTarget.StandaloneWindows || report.summary.platform == BuildTarget.StandaloneWindows64)
+        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
+        {
+            return;
+        }
 
         Debug.Log("MyCustomBuildProcessor.OnPreprocessBuild for target " + report.summary.platform + " at path " + report.summary.outputPath);
 

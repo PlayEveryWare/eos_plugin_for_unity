@@ -46,6 +46,11 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     //-------------------------------------------------------------------------
     public void OnPreprocessBuild(BuildReport report)
     {
+        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
+        {
+            return;
+        }
+
         if (report.summary.platform == BuildTarget.Android)
         {
             InstallEOSDependentLibrary();
