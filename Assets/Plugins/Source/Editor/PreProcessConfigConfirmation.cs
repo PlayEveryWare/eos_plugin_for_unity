@@ -29,7 +29,7 @@ using System.Collections.Generic;
 
 class PreProcessConfigConfirmation : IPreprocessBuildWithReport
 {
-    public int callbackOrder { get { return 0; } }
+    public int callbackOrder { get { return int.MaxValue; } }
     public void OnPreprocessBuild(BuildReport report)
     {
 
