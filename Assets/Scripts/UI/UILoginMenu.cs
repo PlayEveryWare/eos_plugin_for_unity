@@ -662,31 +662,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             loginButtonText.text = _OriginalloginButtonText;
         }
 
-        //-------------------------------------------------------------------------
-        private void StartLoginWithSteam()
-        {
-            var steamManager = Steam.SteamManager.Instance;
-            string steamId = steamManager?.GetSteamID();
-            string steamToken = steamManager?.GetSessionTicket();
-            if(steamId == null)
-            {
-                Debug.LogError("ExternalAuth failed: Steam ID not valid");
-            }
-            else if (steamToken == null)
-            {
-                Debug.LogError("ExternalAuth failed: Steam session ticket not valid");
-            }
-            else
-            {
-                EOSManager.Instance.StartLoginWithLoginTypeAndToken(
-                        LoginCredentialType.ExternalAuth,
-                        ExternalCredentialType.SteamSessionTicket,
-                        steamId,
-                        steamToken,
-                        StartLoginWithLoginTypeAndTokenCallback);
-            }
-        }
-
         // Username and password aren't always the username and password
         public void OnLoginButtonClick()
         {
@@ -728,7 +703,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (loginType == LoginCredentialType.ExternalAuth)
             {
-                StartLoginWithSteam();
+                Steam.SteamManager.Instance.StartLoginWithSteam(StartLoginWithLoginTypeAndTokenCallback);
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
@@ -793,44 +768,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void ConnectSteamSessionTicket()
         {
-            var steamManager = Steam.SteamManager.Instance;
-            string steamToken = steamManager?.GetSessionTicket();
-            if (steamToken == null)
-            {
-                Debug.LogError("Connect Login failed: Steam session ticket not valid");
-                ConfigureUIForLogin();
-            }
-            else
-            {
-                StartConnectLoginWithToken(ExternalCredentialType.SteamSessionTicket, steamToken);
-            }
+            Steam.SteamManager.Instance.StartConnectLoginWithSteamSessionTicket(ConnectLoginTokenCallback);
         }
 
         private void ConnectSteamAppTicket()
         {
-            var steamManager = Steam.SteamManager.Instance;
-            if (steamManager == null)
-            {
-                Debug.LogError("Connect Login failed: Steam module unavailable");
-                ConfigureUIForLogin();
-            }
-            else
-            {
-                steamManager.RequestAppTicket(OnSteamAppTicketReceived);
-            }
-        }
-
-        private void OnSteamAppTicketReceived(string token)
-        {
-            if (token == null)
-            {
-                Debug.LogError("Connect Login failed: Unable to get Steam app ticket");
-                ConfigureUIForLogin();
-            }
-            else
-            {
-                StartConnectLoginWithToken(ExternalCredentialType.SteamAppTicket, token);
-            }
+            Steam.SteamManager.Instance.StartConnectLoginWithSteamAppTicket(ConnectLoginTokenCallback);
         }
 
         private void ConnectDeviceId()
@@ -850,7 +793,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 //this may return "Unknown" on some platforms
                 string displayName = Environment.UserName;
-                StartConnectLoginWithToken(ExternalCredentialType.DeviceidAccessToken, null, displayName);
+                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DeviceidAccessToken, null, displayName, ConnectLoginTokenCallback);
             }
             else
             {
@@ -881,7 +824,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                StartConnectLoginWithToken(ExternalCredentialType.DiscordAccessToken, token);
+                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.DiscordAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
             }
         }
 
@@ -912,40 +855,42 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                StartConnectLoginWithToken(ExternalCredentialType.OpenidAccessToken, token);
+                EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.OpenidAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
             }
         }
 
         private void StartConnectLoginWithToken(ExternalCredentialType externalType, string token, string displayName = null)
         {
-            EOSManager.Instance.StartConnectLoginWithOptions(externalType, token, displayName, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
+            EOSManager.Instance.StartConnectLoginWithOptions(externalType, token, displayName, ConnectLoginTokenCallback);
+        }
+
+        private void ConnectLoginTokenCallback(Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo)
+        {
+            if (connectLoginCallbackInfo.ResultCode == Result.Success)
             {
-                if (connectLoginCallbackInfo.ResultCode == Result.Success)
+                print("Connect Login Successful. [" + connectLoginCallbackInfo.ResultCode + "]");
+                ConfigureUIForLogout();
+            }
+            else if (connectLoginCallbackInfo.ResultCode == Result.InvalidUser)
+            {
+                // ask user if they want to connect; sample assumes they do
+                EOSManager.Instance.CreateConnectUserWithContinuanceToken(connectLoginCallbackInfo.ContinuanceToken, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
                 {
-                    print("Connect Login Successful. [" + connectLoginCallbackInfo.ResultCode + "]");
-                    ConfigureUIForLogout();
-                }
-                else if (connectLoginCallbackInfo.ResultCode == Result.InvalidUser)
-                {
-                    // ask user if they want to connect; sample assumes they do
-                    EOSManager.Instance.CreateConnectUserWithContinuanceToken(connectLoginCallbackInfo.ContinuanceToken, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
+                    print("Creating new connect user");
+                    if (createUserCallbackInfo.ResultCode == Result.Success)
                     {
-                        print("Creating new connect user");
-                        if (createUserCallbackInfo.ResultCode == Result.Success)
-                        {
-                            ConfigureUIForLogout();
-                        }
-                        else
-                        {
-                            ConfigureUIForLogin();
-                        }
-                    });
-                }
-                else
-                {
-                    ConfigureUIForLogin();
-                }
-            });
+                        ConfigureUIForLogout();
+                    }
+                    else
+                    {
+                        ConfigureUIForLogin();
+                    }
+                });
+            }
+            else
+            {
+                ConfigureUIForLogin();
+            }
         }
 
         //-------------------------------------------------------------------------
