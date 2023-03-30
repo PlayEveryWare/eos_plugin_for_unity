@@ -29,9 +29,14 @@ using System.Collections.Generic;
 
 class PreProcessConfigConfirmation : IPreprocessBuildWithReport
 {
-    public int callbackOrder { get { return 0; } }
+    public int callbackOrder { get { return int.MaxValue; } }
     public void OnPreprocessBuild(BuildReport report)
     {
+        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
+        {
+            return;
+        }
+
         Debug.Log("PreProcessConfigConfirmation.OnPreprocessBuild for target: " + report.summary.platform);
         BuildTarget target = report.summary.platform;
 
