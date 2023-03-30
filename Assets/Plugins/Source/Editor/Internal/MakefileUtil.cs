@@ -27,6 +27,76 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    public class EOSLibraryBuildConfig : ICloneableGeneric<EOSLibraryBuildConfig>, IEmpty
+    {
+        public string msbuildPath;
+        public string makePath;
+        public bool msbuildDebug;
+
+        public EOSLibraryBuildConfig Clone()
+        {
+            return (EOSLibraryBuildConfig)this.MemberwiseClone();
+        }
+
+        public bool IsEmpty()
+        {
+            return string.IsNullOrEmpty(msbuildPath)
+                && string.IsNullOrEmpty(msbuildPath)
+                && !msbuildDebug;
+        }
+    }
+
+    public class LibraryBuildConfigEditor : IEOSPluginEditorConfigurationSection
+    {
+        [InitializeOnLoadMethod]
+        static void Register()
+        {
+            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new LibraryBuildConfigEditor());
+        }
+
+        public static string ConfigName = "eos_plugin_library_build_config.json";
+        private EOSConfigFile<EOSLibraryBuildConfig> configFile;
+
+        public void Awake()
+        {
+            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
+            configFile = new EOSConfigFile<EOSLibraryBuildConfig>(configFilenamePath);
+        }
+
+        public bool DoesHaveUnsavedChanges()
+        {
+            return false;
+        }
+
+        public string GetNameForMenu()
+        {
+            return "Platform Library Build Settings";
+        }
+
+        public void LoadConfigFromDisk()
+        {
+            configFile.LoadConfigFromDisk();
+        }
+
+        public void OnGUI()
+        {
+            string msbuildPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.msbuildPath);
+            string makePath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.makePath);
+            bool msbuildDebug = configFile.currentEOSConfig.msbuildDebug;
+            EpicOnlineServicesConfigEditor.AssigningPath("MSBuild path", ref msbuildPath, "Select MSBuild", labelWidth: 80);
+            EpicOnlineServicesConfigEditor.AssigningPath("Make path", ref makePath, "Select make", labelWidth: 80);
+            EpicOnlineServicesConfigEditor.AssigningBoolField("Use debug config for MSBuild", ref msbuildDebug, labelWidth: 180);
+            configFile.currentEOSConfig.msbuildPath = msbuildPath;
+            configFile.currentEOSConfig.makePath = makePath;
+            configFile.currentEOSConfig.msbuildDebug = msbuildDebug;
+        }
+
+        public void SaveToJSONConfig(bool prettyPrint)
+        {
+            configFile.SaveToJSONConfig(prettyPrint);
+        }
+    }
+
     [InitializeOnLoad]
     public static partial class MakefileUtil
     {
@@ -38,22 +108,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static MakefileUtil()
         {
-            Menu.SetChecked(debugToggleMenuName, ShouldBuildDebug());
             WarningRegex = new Regex(@"warning [a-zA-z0-9]*:", RegexOptions.IgnoreCase);
             ErrorRegex = new Regex(@"error [a-zA-z0-9]*:", RegexOptions.IgnoreCase);
-        }
-
-        [MenuItem(debugToggleMenuName)]
-        public static void ToggleDebugBuild()
-        {
-            bool newVal = !ShouldBuildDebug();
-            Menu.SetChecked(debugToggleMenuName, newVal);
-            EditorPrefs.SetBool(debugTogglePrefName, newVal);
-        }
-
-        private static bool ShouldBuildDebug()
-        {
-            return EditorPrefs.GetBool(debugTogglePrefName);
         }
 
         [MenuItem("Tools/Build Libraries/Win32")]
@@ -119,45 +175,102 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        private static void BuildWindows(string platform)
+        private static string GetMSBuildPath()
         {
-            if (RunProcess("where", "msbuild", printOutput:false, printError:false) != 0)
+            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
+            var libraryConfig = new EOSConfigFile<EOSLibraryBuildConfig>(configFilenamePath);
+            libraryConfig.LoadConfigFromDisk();
+
+            if (libraryConfig.currentEOSConfig != null && !string.IsNullOrWhiteSpace(libraryConfig.currentEOSConfig.msbuildPath))
             {
-                //msbuild must be in PATH
+                return libraryConfig.currentEOSConfig.msbuildPath;
+            }
+            else if (RunProcess("where", "msbuild", printOutput: false, printError: false) != 0)
+            {
+                return "msbuild";
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static string GetMakePath()
+        {
+            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
+            var libraryConfig = new EOSConfigFile<EOSLibraryBuildConfig>(configFilenamePath);
+            libraryConfig.LoadConfigFromDisk();
+
+            if (libraryConfig.currentEOSConfig != null && !string.IsNullOrWhiteSpace(libraryConfig.currentEOSConfig.makePath))
+            {
+                return libraryConfig.currentEOSConfig.makePath;
+            }
+            else if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
+            {
+                return "make";
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static bool IsMSBuildDebugEnabled()
+        {
+            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
+            var libraryConfig = new EOSConfigFile<EOSLibraryBuildConfig>(configFilenamePath);
+            libraryConfig.LoadConfigFromDisk();
+
+            if (libraryConfig.currentEOSConfig != null && !string.IsNullOrWhiteSpace(libraryConfig.currentEOSConfig.msbuildPath))
+            {
+                return libraryConfig.currentEOSConfig.msbuildDebug;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void RunMSBuild(string solutionName, string platform, string workingDir = "")
+        {
+            string msbuildPath = GetMSBuildPath();
+            if (string.IsNullOrWhiteSpace(msbuildPath))
+            {
                 Debug.LogError("msbuild not found");
             }
             else
             {
-                string buildConfig = ShouldBuildDebug() ? "Debug" : "Release";
-                RunProcess("msbuild", $"DynamicLibraryLoaderHelper.sln /t:Clean;Rebuild /p:Configuration={buildConfig} /p:Platform={platform}",
-                    "NativeCode/DynamicLibraryLoaderHelper");
+                string buildConfig = IsMSBuildDebugEnabled() ? "Debug" : "Release";
+                RunProcess(msbuildPath, $"{solutionName} /t:Clean;Rebuild /p:Configuration={buildConfig} /p:Platform={platform}", workingDir);
+            }
+        }
+
+        private static void BuildWindows(string platform)
+        {
+            RunMSBuild("DynamicLibraryLoaderHelper.sln", platform, "NativeCode/DynamicLibraryLoaderHelper");
+        }
+
+        private static void RunMake(string makefileDir)
+        {
+            string makePath = GetMakePath();
+            if (string.IsNullOrWhiteSpace(makePath))
+            {
+                Debug.LogError("make command not found");
+            }
+            else
+            {
+                RunProcess(makePath, "install", makefileDir);
             }
         }
 
         private static void BuildMac()
         {
-            if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
-            {
-                //make must be in PATH
-                Debug.LogError("make command not found");
-            }
-            else
-            {
-                RunProcess("make", "install", "NativeCode/DynamicLibraryLoaderHelper_macOS");
-            }
+            RunMake("NativeCode/DynamicLibraryLoaderHelper_macOS");
         }
 
         private static void BuildLinux()
         {
-            if (RunProcess("which", "make", printOutput:false, printError:false) != 0)
-            {
-                //make must be in PATH
-                Debug.LogError("make command not found");
-            }
-            else
-            {
-                RunProcess("make", "install", "NativeCode/DynamicLibraryLoaderHelper_Linux");
-            }
+            RunMake("NativeCode/DynamicLibraryLoaderHelper_Linux");
         }
 
         private static int RunProcess(string processPath, string arguments, string workingDir = "", bool printOutput = true, bool printError = true)
