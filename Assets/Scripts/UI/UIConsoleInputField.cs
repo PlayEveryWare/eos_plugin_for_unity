@@ -40,7 +40,7 @@ public class UIConsoleInputField : MonoBehaviour
 #if UNITY_ANDROID
     private bool keepOldTextInField;
     private string editText, oldEditText;
-    private bool wasKeyboardActive = false;
+    private TouchScreenKeyboard.Status prevKeyboardStatus = TouchScreenKeyboard.Status.Done;
 #endif
 
     private void Awake()
@@ -55,12 +55,17 @@ public class UIConsoleInputField : MonoBehaviour
 #if UNITY_ANDROID
     private void Update()
     {
-        bool keyboardActive = InputField.touchScreenKeyboard?.active ?? false;
-        if (!keyboardActive && wasKeyboardActive)
+        if(InputField.touchScreenKeyboard == null)
+        {
+            return;
+        }
+
+        var kbStatus = InputField.touchScreenKeyboard.status;
+        if (kbStatus != prevKeyboardStatus && kbStatus == TouchScreenKeyboard.Status.Canceled)
         {
             keepOldTextInField = true;
         }
-        wasKeyboardActive = keyboardActive;
+        prevKeyboardStatus = kbStatus;
     }
 
     private void OnEdit(string currentText)
@@ -83,12 +88,8 @@ public class UIConsoleInputField : MonoBehaviour
 #if UNITY_ANDROID
         if (keepOldTextInField && !string.IsNullOrEmpty(oldEditText))
         {
-            if (Mathf.Abs(editText.Length - oldEditText.Length) > 1) //prevent correctly added characters from being removed
-            {
-                editText = oldEditText;
-                InputField.text = oldEditText;
-            }
-
+            editText = oldEditText;
+            InputField.text = oldEditText;
             keepOldTextInField = false;
         }
 #endif
