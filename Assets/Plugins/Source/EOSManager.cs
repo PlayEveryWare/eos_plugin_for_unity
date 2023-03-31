@@ -141,7 +141,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             static private EpicAccountId s_localUserId;
             static private ProductUserId s_localProductUserId = null;
-            static private AuthScopeFlags s_authScopeFlags;
 
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
@@ -496,8 +495,34 @@ namespace PlayEveryWare.EpicOnlineServices
                 Init(coroutineOwner, EOSPackageInfo.ConfigFileName);
             }
 
+            //-------------------------------------------------------------------------
+            private EOSConfig LoadEOSConfigFileFromPath(string eosFinalConfigPath)
+            {
+                string configDataAsString = "";
+#if UNITY_ANDROID && !UNITY_EDITOR
+
+                configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
+#else
+                if (!File.Exists(eosFinalConfigPath))
+                {
+                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists and is a valid config");
+                }
+                configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
+#endif
+                var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
+
+                print("Loaded config file: " + configDataAsString);
+                return configData;
+            }
+
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
+                string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
+                if (loadedEOSConfig == null)
+                {
+                    loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
+                }
+
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -522,25 +547,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 LoadEOSLibraries();
                 NativeCallToUnloadEOS();
 
-                //TODO: provide different way to load the config file?
-                string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
-
-                string configDataAsString = "";
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-
-                configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
-#else
-                if (!File.Exists(eosFinalConfigPath))
-                {
-                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists and is a valid config");
-                } 
-                configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
-#endif
-                var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
-
-                print("Loaded config file: " + configDataAsString);
-
                 //support sandbox and deployment id override via command line arguments
                 var commandArgs = System.Environment.GetCommandLineArgs();
                 for (int i = 0; i < commandArgs.Length - 1; ++i)
@@ -551,7 +557,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         UnityEngine.Debug.Log("Sandbox ID override specified: " + sandboxArg);
                         if (sandboxArg.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(sandboxArg).Success)
                         {
-                            configData.sandboxID = sandboxArg;
+                            loadedEOSConfig.sandboxID = sandboxArg;
                             UnityEngine.Debug.Log("Sandbox ID override applied");
                         }
                         else
@@ -561,18 +567,18 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 
-                if (configData.sandboxDeploymentOverrides != null)
+                if (loadedEOSConfig.sandboxDeploymentOverrides != null)
                 {
                     //check if a deployment id override exists for sandbox id
-                    foreach (var deploymentOverride in configData.sandboxDeploymentOverrides)
+                    foreach (var deploymentOverride in loadedEOSConfig.sandboxDeploymentOverrides)
                     {
-                        if (configData.sandboxID == deploymentOverride.sandboxID)
+                        if (loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
                         {
-                            configData.deploymentID = deploymentOverride.deploymentID;
+                            loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
                             UnityEngine.Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
                             if (deploymentOverride.deploymentID.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(deploymentOverride.deploymentID).Success)
                             {
-                                configData.deploymentID = deploymentOverride.deploymentID;
+                                loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
                                 UnityEngine.Debug.Log("Sandbox Deployment ID override applied");
                             }
                             else
@@ -592,7 +598,7 @@ namespace PlayEveryWare.EpicOnlineServices
                         UnityEngine.Debug.Log("Deployment ID override specified: " + deploymentArg);
                         if (deploymentArg.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(deploymentArg).Success)
                         {
-                            configData.deploymentID = deploymentArg;
+                            loadedEOSConfig.deploymentID = deploymentArg;
                             UnityEngine.Debug.Log("Deployment ID override applied");
                         }
                         else
@@ -602,7 +608,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                 }
 
-                Epic.OnlineServices.Result initResult = InitializePlatformInterface(configData);
+                Epic.OnlineServices.Result initResult = InitializePlatformInterface(loadedEOSConfig);
                 UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
                 
                 if (initResult != Epic.OnlineServices.Result.Success)
@@ -612,7 +618,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     UnloadAllLibraries();
                     ForceUnloadEOSLibrary();
                     LoadEOSLibraries();
-                    var secondTryResult = InitializePlatformInterface(configData);
+                    var secondTryResult = InitializePlatformInterface(loadedEOSConfig);
                     UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
 #endif
@@ -630,7 +636,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 
 
-                var eosPlatformInterface = CreatePlatformInterface(configData);
+                var eosPlatformInterface = CreatePlatformInterface(loadedEOSConfig);
 
                 if (eosPlatformInterface == null)
                 {
@@ -640,9 +646,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 SetEOSPlatformInterface(eosPlatformInterface);
                 UpdateEOSApplicationStatus();
 
-                s_authScopeFlags = configData.authScopeOptionsFlagsAsAuthScopeFlags();
-
-                loadedEOSConfig = configData;
 
                 InitializeOverlay(coroutineOwner);
 
@@ -788,7 +791,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 return new Epic.OnlineServices.Auth.LoginOptions {
                     Credentials = loginCredentials,
-                    ScopeFlags = s_authScopeFlags
+                    ScopeFlags = loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags()
                 };
             }
 
