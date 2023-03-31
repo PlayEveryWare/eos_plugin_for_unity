@@ -30,6 +30,8 @@ public class iOS_BuildPostProcess
 
 
             AppleAuthEditorHelper appleAuthEditorHelper = new AppleAuthEditorHelper();
+            if (appleAuthEditorHelper.IsAppleAuthModuleInstalled())
+            {
 #if UNITY_2019_3_OR_NEWER
             proj.ReadFromString(System.IO.File.ReadAllText(projPath));
             var manager = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", null, proj.GetUnityMainTargetGuid());
@@ -41,6 +43,7 @@ public class iOS_BuildPostProcess
             manager.WriteToFile();
 #endif
 
+            }
             proj.ReadFromString(File.ReadAllText(projPath));
 
             string targetGUID = proj.GetUnityMainTargetGuid();

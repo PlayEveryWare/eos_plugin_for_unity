@@ -831,8 +831,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void ConnectAppleId()
         {
-            Debug.Log("Start Connect Login with Apple Id");
             appleLoginHelper = new AppleExampleScript();
+
+            if (!appleLoginHelper.IsAppleAuthModuleInstalled())
+            {
+                Debug.Log("[Sign In With Apple] package not installed.");
+                return;
+            }
+
+            Debug.Log("Start Connect Login with Apple Id");
             appleLoginHelper.LoginToApple(()=>
             {
                 Debug.Log("Login Success AppleID");

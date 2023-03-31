@@ -13,6 +13,14 @@ public class AppleExampleScript : MonoBehaviour
     public string User { get; private set; }
     public string Error { get; private set; }
 
+    public bool IsAppleAuthModuleInstalled()
+    {
+#if APPLEAUTH_MODULE
+        return true;
+#endif
+        return false;
+    }
+
     public void Initialize()
     {
         Debug.Log("AppleAuthInit");
