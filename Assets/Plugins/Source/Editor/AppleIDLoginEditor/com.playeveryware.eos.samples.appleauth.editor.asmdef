@@ -1,11 +1,8 @@
 {
-    "name": "com.playeveryware.eos-Editor",
+    "name": "com.playeveryware.eos.samples.appleauth.editor",
     "rootNamespace": "",
     "references": [
-        "com.playeveryware.eos",
-        "Unity.EditorCoroutines.Editor",
-        "com.playeveryware.eos.essential",
-        "com.playeveryware.eos.samples.appleauth.editor"
+        "GUID:09ef5922e2d77498aa246abd9073d05f"
     ],
     "includePlatforms": [
         "Editor"
@@ -16,6 +13,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
+        "!EOS_DISABLE",
         "!EOS_DISABLE_FULL"
     ],
     "versionDefines": [],

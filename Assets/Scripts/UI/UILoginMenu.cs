@@ -80,6 +80,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         LoginCredentialType loginType = LoginCredentialType.Developer;
         bool useConnectLogin = false;
 
+        AppleExampleScript appleLoginHelper = null;
+
         // Retain Id/Token inputs across scenes
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
@@ -317,6 +319,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     system.SetSelectedGameObject(next.gameObject);
                 }
             }
+
+            appleLoginHelper?.Update();
         }
 #endif
 
@@ -506,7 +510,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 //ExternalCredentialType.GogSessionTicket,
                 //ExternalCredentialType.OpenidAccessToken,
                 ExternalCredentialType.DeviceidAccessToken,
-                //ExternalCredentialType.AppleIdToken,
+#if UNITY_IOS || UNITY_STANDALONE_OSX
+                ExternalCredentialType.AppleIdToken,
+#endif
                 //ExternalCredentialType.GoogleIdToken,
                 //ExternalCredentialType.OculusUseridNonce,
                 //ExternalCredentialType.ItchioJwt,
@@ -740,6 +746,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ConnectDeviceId();
                     break;
 
+                case ExternalCredentialType.AppleIdToken:
+                    ConnectAppleId();
+                    break;
+
                 default:
                     Debug.LogError($"Connect Login for {externalType} not implemented");
                     loginButton.interactable = true;
@@ -817,6 +827,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("Connect Login failed: Failed to create Device Id");
                 ConfigureUIForLogin();
             }
+        }
+
+        private void ConnectAppleId()
+        {
+            Debug.Log("Start Connect Login with Apple Id");
+            appleLoginHelper = new AppleExampleScript();
+            appleLoginHelper.LoginToApple(()=>
+            {
+                Debug.Log("Login Success AppleID");
+                StartConnectLoginWithToken(ExternalCredentialType.AppleIdToken, appleLoginHelper.Token, appleLoginHelper.User.Remove(31));
+            });
         }
 
         private void StartConnectLoginWithToken(ExternalCredentialType externalType, string token, string displayName = null)

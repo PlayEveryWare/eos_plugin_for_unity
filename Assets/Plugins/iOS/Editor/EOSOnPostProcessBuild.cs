@@ -6,6 +6,7 @@ using System.IO;
 
 #if UNITY_IOS
 using UnityEditor.iOS.Xcode;
+
 public class iOS_BuildPostProcess
 {
     //-----------------------------------------------------------------------------
@@ -26,9 +27,23 @@ public class iOS_BuildPostProcess
             string projPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";
 
             PBXProject proj = new PBXProject();
+
+
+            AppleAuthEditorHelper appleAuthEditorHelper = new AppleAuthEditorHelper();
+#if UNITY_2019_3_OR_NEWER
+            proj.ReadFromString(System.IO.File.ReadAllText(projPath));
+            var manager = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", null, proj.GetUnityMainTargetGuid());
+            appleAuthEditorHelper.AddSignInWithAppleWithCompatibilityHelper(manager, proj.GetUnityFrameworkTargetGuid());
+            manager.WriteToFile();
+#else
+            var manager = new ProjectCapabilityManager(projectPath, "Entitlements.entitlements", PBXProject.GetUnityTargetName());
+            appleAuthEditorHelper.AddSignInWithAppleWithCompatibilityHelper(manager);
+            manager.WriteToFile();
+#endif
+
             proj.ReadFromString(File.ReadAllText(projPath));
 
-	    string targetGUID = proj.GetUnityMainTargetGuid();
+            string targetGUID = proj.GetUnityMainTargetGuid();
             string unityTargetGUID = proj.GetUnityFrameworkTargetGuid();
 
             proj.SetBuildProperty(targetGUID, "ENABLE_BITCODE", "false");
