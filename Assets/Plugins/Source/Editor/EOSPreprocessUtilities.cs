@@ -25,17 +25,9 @@ using UnityEditor.Build.Reporting;
 
 public class EOSPreprocessUtilities
 {
-    //-------------------------------------------------------------------------
-    public static bool isScriptingDefineEnabled(BuildReport report, string defineAsString)
+    private static bool isScriptingDefineEnabled(string scriptingDefineSymbols, string defineAsString)
     {
-#if UNITY_2021_2_OR_NEWER
-        var namedBuildTarget = UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(report.summary.platformGroup);
-        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
-#else
-        // Ensure that we don't do checks for config files if the current platform group has EOS disabled
-        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(report.summary.platformGroup);
-#endif
-        foreach(string define in defineSymbolsForGroup.Split(';'))
+        foreach (string define in scriptingDefineSymbols.Split(';'))
         {
             if (define == defineAsString)
             {
@@ -46,8 +38,44 @@ public class EOSPreprocessUtilities
     }
 
     //-------------------------------------------------------------------------
+    public static bool isScriptingDefineEnabled(BuildReport report, string defineAsString)
+    {
+#if UNITY_2021_2_OR_NEWER
+        var namedBuildTarget = UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(report.summary.platformGroup);
+        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
+#else
+        // Ensure that we don't do checks for config files if the current platform group has EOS disabled
+        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(report.summary.platformGroup);
+#endif
+        return isScriptingDefineEnabled(defineSymbolsForGroup, defineAsString);
+    }
+
+    //-------------------------------------------------------------------------
+    public static bool isScriptingDefineEnabled(BuildTarget buildTarget, string defineAsString)
+    {
+#if UNITY_2021_2_OR_NEWER
+        var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
+        UnityEditor.Build.NamedBuildTarget namedBuildTarget = UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
+        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
+#else
+        var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
+        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
+#endif
+
+
+        return isScriptingDefineEnabled(defineSymbolsForGroup, defineAsString);
+    }
+
+    //-------------------------------------------------------------------------
     public static bool isEOSDisableScriptingDefineEnabled(BuildReport report)
     {
         return EOSPreprocessUtilities.isScriptingDefineEnabled(report, "EOS_DISABLE");
     }
+
+    //-------------------------------------------------------------------------
+    public static bool isEOSDisableScriptingDefineEnabled(BuildTarget buildTarget)
+    {
+        return EOSPreprocessUtilities.isScriptingDefineEnabled(buildTarget, "EOS_DISABLE");
+    }
+
 }

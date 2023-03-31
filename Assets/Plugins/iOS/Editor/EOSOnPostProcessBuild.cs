@@ -21,7 +21,7 @@ public class iOS_BuildPostProcess
     public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
     {
 
-        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
+        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(buildTarget))
         {
             return;
         }
