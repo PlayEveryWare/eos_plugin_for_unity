@@ -33,23 +33,6 @@ public class iOS_BuildPostProcess
 
             PBXProject proj = new PBXProject();
 
-
-            AppleAuthEditorHelper appleAuthEditorHelper = new AppleAuthEditorHelper();
-
-            if (appleAuthEditorHelper.IsAppleAuthModuleInstalled())
-            {
-#if UNITY_2019_3_OR_NEWER
-                proj.ReadFromString(System.IO.File.ReadAllText(projPath));
-                var manager = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", null, proj.GetUnityMainTargetGuid());
-                appleAuthEditorHelper.AddSignInWithAppleWithCompatibilityHelper(manager, proj.GetUnityFrameworkTargetGuid());
-                manager.WriteToFile();
-#else
-                var manager = new ProjectCapabilityManager(projectPath, "Entitlements.entitlements", PBXProject.GetUnityTargetName());
-                appleAuthEditorHelper.AddSignInWithAppleWithCompatibilityHelper(manager);
-                manager.WriteToFile();
-#endif
-            }
-
             proj.ReadFromString(File.ReadAllText(projPath));
 
             string targetGUID = proj.GetUnityMainTargetGuid();

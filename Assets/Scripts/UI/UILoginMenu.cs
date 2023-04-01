@@ -80,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         LoginCredentialType loginType = LoginCredentialType.Developer;
         bool useConnectLogin = false;
 
-        AppleExampleScript appleLoginHelper = null;
+        Apple.EOSSignInWithAppleManager signInWithAppleManager = null;
 
         // Retain Id/Token inputs across scenes
         public static string IdGlobalCache = string.Empty;
@@ -265,6 +265,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
+            signInWithAppleManager?.Update();
         }
 #else
 
@@ -336,7 +337,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
 
-            appleLoginHelper?.Update();
+            signInWithAppleManager?.Update();
         }
 #endif
 
@@ -764,6 +765,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 case ExternalCredentialType.AppleIdToken:
                     ConnectAppleId();
+                    break;
 
                 case ExternalCredentialType.DiscordAccessToken:
                     ConnectDiscord();
@@ -819,21 +821,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void ConnectAppleId()
         {
-            appleLoginHelper = new AppleExampleScript();
-
-            if (!appleLoginHelper.IsAppleAuthModuleInstalled())
-            {
-                Debug.Log("[Sign In With Apple] package not installed.");
-                return;
-            }
-
+            signInWithAppleManager = new Apple.EOSSignInWithAppleManager();
             Debug.Log("Start Connect Login with Apple Id");
-            appleLoginHelper.LoginToApple(()=>
+            
+            signInWithAppleManager.RequestTokenAndUsername((string token,string username) =>
             {
-                Debug.Log("Login Success AppleID");
-                StartConnectLoginWithToken(ExternalCredentialType.AppleIdToken, appleLoginHelper.Token, appleLoginHelper.User.Remove(31));
+                StartConnectLoginWithToken(ExternalCredentialType.AppleIdToken, token, username.Remove(31));
             });
-
+        }
+        
         private void ConnectDiscord()
         {
             var discordManager = Discord.DiscordManager.Instance;

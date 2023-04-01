@@ -2,7 +2,8 @@
     "name": "com.playeveryware.eos.samples.appleauth.editor",
     "rootNamespace": "",
     "references": [
-        "GUID:09ef5922e2d77498aa246abd9073d05f"
+        "GUID:09ef5922e2d77498aa246abd9073d05f",
+        "GUID:cc11d9857b82d9b458fca637d5cb33fb"
     ],
     "includePlatforms": [
         "Editor"
