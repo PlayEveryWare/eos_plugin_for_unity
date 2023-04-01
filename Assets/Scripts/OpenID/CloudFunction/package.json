@@ -1,0 +1,7 @@
+{
+  "name": "eos-openid-sample",
+  "version": "1.0.0",
+  "dependencies": {
+      "@google-cloud/firestore": "^6.4.3"
+  }
+}

@@ -56,6 +56,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 #endif
         }
 
+        public static Vector3? GetOwnerPlayerPosition()
+        {
+#if COM_UNITY_MODULE_NETCODE
+            return NetworkManager.Singleton?.LocalClient?.PlayerObject?.transform.position;
+#else
+            return null;
+#endif
+        }
+
+        public static Bounds? GetPlayerMovementBounds()
+        {
+#if COM_UNITY_MODULE_NETCODE
+            return NetworkManager.Singleton?.LocalClient?.PlayerObject?.GetComponent<NetworkSamplePlayer>()?.MovementBounds;
+#else
+            return null;
+#endif
+        }
+
         public static void RegisterDisconnectCallback(System.Action<ulong> callback)
         {
 #if COM_UNITY_MODULE_NETCODE
@@ -201,7 +219,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private void UpdatePosition()
         {
             Vector2 newPos = position.Value;
-            transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
+            transform.position = new Vector3(newPos.x, newPos.y, 0);
 
             if (displayNameUI != null)
             {

@@ -484,9 +484,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CurrentSearch = new LobbySearch();
             SearchResults = new Dictionary<Lobby, LobbyDetails>();
 
-            SubscribeToLobbyUpdates();
-            SubscribeToLobbyInvites();
-
             LobbySearchCallback = null;
 
             MemberUpdateCallbacks = new List<OnMemberUpdateCallback>();
@@ -886,6 +883,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             _Dirty = true;
             CurrentInvite = null;
+            CurrentLobby = new Lobby();
+
+            SubscribeToLobbyUpdates();
+            SubscribeToLobbyInvites();
+
+            LobbySearchCallback = null;
 
 #if UNITY_IOS && !UNITY_EDITOR
             (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).SetDefaultAudioSession();
@@ -2118,25 +2121,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             newLobbyInvite.FriendId = senderUserId;
             //newLobbyInvite.FriendEpicId = new EpicAccountId(); // TODO!!!!
 
-            Invites.TryGetValue(senderUserId, out LobbyInvite invite);
-
-            if (invite == null)
-            {
-                Invites.Add(senderUserId, newLobbyInvite);
-            }
-            else
-            {
-                //Add new invite
-                Invites[senderUserId] = newLobbyInvite;
-            }
-
-            if (CurrentInvite != null)
-            {
-                PopLobbyInvite();
-            }
-            else
+            // If there's already an invite, check to see if the sender is the same as the current.
+            // If it is, then update the current invite with the new invite.
+            // If not, then add/update the new invite for the new sender.
+            if (CurrentInvite == null ||
+                (CurrentInvite != null && senderUserId == CurrentInvite.FriendId))
             {
                 CurrentInvite = newLobbyInvite;
+            }
+            else
+            {
+                // This is not the current invite by the invite sender. Add it to the dictionary
+                // if it doesn't exist, or update it if there's already an invite from this sender.
+                Invites.TryGetValue(senderUserId, out LobbyInvite invite);
+
+                if (invite == null)
+                {
+                    Invites.Add(senderUserId, newLobbyInvite);
+                }
+                else
+                {
+                    Invites[senderUserId] = newLobbyInvite;
+                }
             }
 
             _Dirty = true;
@@ -2166,7 +2172,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             newLobby.InitFromLobbyDetails(outLobbyDetailsHandle);
 
             JoinLobby(newLobby.Id, outLobbyDetailsHandle, true, null);
-            CurrentInvite = null;
+            PopLobbyInvite();
         }
 
         private void OnLobbyInviteReceived(ref LobbyInviteReceivedCallbackInfo data)
@@ -2230,22 +2236,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             lobby.InitFromLobbyDetails(outLobbyDetailsHandle);
 
             JoinLobby(lobby.Id, outLobbyDetailsHandle, true, null);
-            CurrentInvite = null;
         }
 
         private void PopLobbyInvite()
         {
-            if (CurrentInvite != null)
-            {
-                Invites.Remove(CurrentInvite.FriendId);
-                CurrentInvite = null;
-            }
-
             if (Invites.Count > 0)
             {
                 var nextInvite = Invites.GetEnumerator();
                 nextInvite.MoveNext();
                 CurrentInvite = nextInvite.Current.Value;
+                Invites.Remove(nextInvite.Current.Key);
+            }
+            else
+            {
+                CurrentInvite = null;
             }
         }
 
@@ -2289,7 +2293,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
-
             HackWorkaroundRTCInitIssues();
 
             if (string.IsNullOrEmpty(lobbyId))
@@ -2311,7 +2314,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if (string.Equals(CurrentLobby.Id, lobbyId, StringComparison.OrdinalIgnoreCase))
                 {
                     Debug.LogError("Lobbies (JoinLobby): Already in the same lobby!");
-                    //return;
+                    return;
                 }
 
                 // TODO Active Join
@@ -2443,7 +2446,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             Debug.Log("Lobbies (OnDeclineInviteCompleted): Invite rejected");
 
-            CurrentInvite = null;
+            PopLobbyInvite();
         }
 
         /// <summary>
@@ -2458,7 +2461,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.Log("Lobbies (AcceptCurrentLobbyInvite): Accepted invite, joining lobby.");
 
                 JoinLobby(CurrentInvite.Lobby.Id, CurrentInvite.LobbyInfo, enablePresence, AcceptLobbyInviteCompleted);
-                CurrentInvite = null;
             }
             else
             {

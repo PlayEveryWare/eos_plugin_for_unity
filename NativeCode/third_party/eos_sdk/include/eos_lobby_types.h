@@ -64,9 +64,9 @@ EOS_ENUM(EOS_ELobbyPermissionLevel,
 
 /** Advertisement properties for a single attribute associated with a lobby */
 EOS_ENUM(EOS_ELobbyAttributeVisibility,
-	/** Data is visible outside the lobby */
+	/** Data is visible to lobby members, searchable and visible in search results. */
 	EOS_LAT_PUBLIC = 0,
-	/** Only members in the lobby can see this data */
+	/** Data is only visible to the user setting the data. Data is not visible to lobby members, not searchable, and not visible in search results. */
 	EOS_LAT_PRIVATE = 1
 );
 

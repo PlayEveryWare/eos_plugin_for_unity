@@ -16,7 +16,7 @@ For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issue
 
 
 ## Supported Platforms
-The follow target platforms are supported in Unity for the current release of the EOS Unity Plugin.
+The follow target platforms are supported in Unity for the current release of the plugin.
 
 | Unity Target Platform | Current Plugin Release |
 | - | - |
@@ -66,7 +66,7 @@ As the EOS SDK continues releasing new features and functionality, the EOS Unity
 
 ---
 # Integration Notes
-For best results, Unity 2020.1 is preferred.
+For best results, Unity 2021 is preferred.
 
 
 ## Installing from a git URL
@@ -86,21 +86,24 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 
 ## Installing from a tarball
 Download the latest release tarball from https://github.com/PlayEveryWare/eos_plugin_for_unity/releases
-1. From the Unity Editor, open the Package Manager.
-    * It's listed under ```Window -> Package Manager```.
-2. Click the ```+``` button.
-3. Select '```Add package from tarball```'.
+The tarball is a tgz file, not the source download. If one uses the source download it will be missing all 
+the git-lfs files i.e. the binaries/dynamic libraries. 
 
-    ![Unity Add Tarball Package](images/unity_package_tarball.gif)
+1. From the Unity Editor, open the Package Manager
+    * It's listed under ```Window -> Package Manager```
+2. Click the ```+``` button
+3. Select '```Add package from tarball```'
 
-4. Go to directory containing the EOS Unity Plugin tarball, and select it.
-5. Click ```Open```.
+    ![Unity Add Tarball Package](docs/images/unity_package_tarball.gif)
+
+4. Go to directory containing the PEW Unity plugin tarball, and select it
+5. Click ```Open```
 
 
 ---
 # Configuring the Plugin
 
-In order for your Unity project to use EOS, the plugin must first know a few things about it...
+To get the EOS working, the plugin needs to know some specific things about your EOS project.
 
 ## Prerequisites
 * A Unity project to integrate the EOS Unity Plugin into.
@@ -187,9 +190,37 @@ https://github.com/PlayEveryWare/eos_plugin_for_unity
 
 EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com
 
-For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab of the [main repo](https://github.com/PlayEveryWare/eos_plugin_for_unity).
+For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab.
 
-For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
+For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/)
 
 Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Developer Documentation: Game Services](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
 
+
+---
+# Source Code Contributor Notes
+
+The following are guidlines for helping contribute to this open source project.
+
+## Prerequisites
+* Ensure At least Visual Studio 2017 is installed.
+* Ensure At least Unity 2020.1.11f1 is installed
+* Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles)
+
+## Build steps For Native Libraries
+* Build the Visual Studio solutions for the native DLLs
+    * Build the <code>DynamicLibraryLoaderHelper</code> sln in DynamicLibraryLoaderHelper/ for all platforms
+    * (Currently needed) Build the UnityEditorSharedDictionary sln in UnityEditorSharedDictionary/ for all platforms
+        * Only the NativeSharedDictionary project is needed.  
+
+A successful build will mean the correct binaries have been placed in the proper locations for Unity to successfully initialize EOS SDK.
+
+## Standards
+See [standards.md](docs/standards.md)
+
+## Class description
+See [docs/class_description.md](docs/class_description.md)
+
+## Additional Documentation
+Additional documentation can be found in the [docs/ directory](docs/).  
+Android documentation can be found [here](docs/android/).

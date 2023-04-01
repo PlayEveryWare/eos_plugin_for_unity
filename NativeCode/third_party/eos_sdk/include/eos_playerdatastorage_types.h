@@ -39,14 +39,16 @@ EOS_STRUCT(EOS_PlayerDataStorage_FileMetadata, (
  */
 EOS_DECLARE_FUNC(void) EOS_PlayerDataStorage_FileMetadata_Release(EOS_PlayerDataStorage_FileMetadata* FileMetadata);
 
-
-#define EOS_PLAYERDATASTORAGE_QUERYFILEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_QueryFile API. */
+#define EOS_PLAYERDATASTORAGE_QUERYFILE_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_QUERYFILE_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_QUERYFILEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_QUERYFILE_API_LATEST
 
 /**
  * Input data for the EOS_PlayerDataStorage_QueryFile function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_QueryFileOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_QUERYFILEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_QUERYFILE_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user requesting file metadata */
 	EOS_ProductUserId LocalUserId;
@@ -70,14 +72,16 @@ EOS_STRUCT(EOS_PlayerDataStorage_QueryFileCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_PlayerDataStorage_OnQueryFileCompleteCallback, const EOS_PlayerDataStorage_QueryFileCallbackInfo* Data);
 
-
-#define EOS_PLAYERDATASTORAGE_QUERYFILELISTOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_QueryFileList API. */
+#define EOS_PLAYERDATASTORAGE_QUERYFILELIST_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_QUERYFILELIST_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_QUERYFILELISTOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_QUERYFILELIST_API_LATEST
 
 /**
  * Input data for the EOS_PlayerDataStorage_QueryFileList function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_QueryFileListOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_QUERYFILELISTOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_QUERYFILELIST_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who requested file metadata */
 	EOS_ProductUserId LocalUserId;
@@ -101,27 +105,31 @@ EOS_STRUCT(EOS_PlayerDataStorage_QueryFileListCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_PlayerDataStorage_OnQueryFileListCompleteCallback, const EOS_PlayerDataStorage_QueryFileListCallbackInfo* Data);
 
-
-#define EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNTOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_GetFileMetadataCount API. */
+#define EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNT_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNT_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNTOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNT_API_LATEST
 
 /**
  * Input data for the EOS_PlayerDataStorage_GetFileMetadataCount function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_GetFileMetadataCountOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNTOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNT_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who is requesting file metadata */
 	EOS_ProductUserId LocalUserId;
 ));
 
-
-#define EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEXOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_CopyFileMetadataAtIndex API. */
+#define EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEX_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEX_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEXOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEX_API_LATEST
 
 /**
  * Input data for the CopyFileMetadataAtIndex function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_CopyFileMetadataAtIndexOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEXOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEX_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who is requesting file metadata */
 	EOS_ProductUserId LocalUserId;
@@ -129,14 +137,16 @@ EOS_STRUCT(EOS_PlayerDataStorage_CopyFileMetadataAtIndexOptions, (
 	uint32_t Index;
 ));
 
-
-#define EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAMEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_CopyFileMetadataByFilename API. */
+#define EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAMEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST
 
 /**
  * Input data for the CopyFileMetadataByFilename function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_CopyFileMetadataByFilenameOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAMEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who is requesting file metadata */
 	EOS_ProductUserId LocalUserId;
@@ -144,14 +154,16 @@ EOS_STRUCT(EOS_PlayerDataStorage_CopyFileMetadataByFilenameOptions, (
 	const char* Filename;
 ));
 
-
-#define EOS_PLAYERDATASTORAGE_DUPLICATEFILEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_DuplicateFile API. */
+#define EOS_PLAYERDATASTORAGE_DUPLICATEFILE_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_DUPLICATEFILE_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_DUPLICATEFILEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_DUPLICATEFILE_API_LATEST
 
 /**
  * Input data for the EOS_PlayerDataStorage_DuplicateFile function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_DuplicateFileOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_DUPLICATEFILEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_DUPLICATEFILE_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who authorized the duplication of the requested file; must be the original file's owner */
 	EOS_ProductUserId LocalUserId;
@@ -178,14 +190,16 @@ EOS_STRUCT(EOS_PlayerDataStorage_DuplicateFileCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_PlayerDataStorage_OnDuplicateFileCompleteCallback, const EOS_PlayerDataStorage_DuplicateFileCallbackInfo* Data);
 
-
-#define EOS_PLAYERDATASTORAGE_DELETEFILEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_DeleteFile API. */
+#define EOS_PLAYERDATASTORAGE_DELETEFILE_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_DELETEFILE_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_DELETEFILEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_DELETEFILE_API_LATEST
 
 /**
  * Input data for the EOS_PlayerDataStorage_DeleteFile function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_DeleteFileOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_DELETEFILEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_DELETEFILE_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who authorizes deletion of the file; must be the file's owner */
 	EOS_ProductUserId LocalUserId;
@@ -283,13 +297,16 @@ EOS_STRUCT(EOS_PlayerDataStorage_ReadFileDataCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK_RETVALUE(EOS_PlayerDataStorage_EReadResult, EOS_PlayerDataStorage_OnReadFileDataCallback, const EOS_PlayerDataStorage_ReadFileDataCallbackInfo* Data);
 
-#define EOS_PLAYERDATASTORAGE_READFILEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_ReadFile API. */
+#define EOS_PLAYERDATASTORAGE_READFILE_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_READFILE_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_READFILEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_READFILE_API_LATEST
 
 /**
  * Input data for the EOS_PlayerDataStorage_ReadFile function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_ReadFileOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_READFILEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_READFILE_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who is reading the requested file */
 	EOS_ProductUserId LocalUserId;
@@ -374,13 +391,16 @@ EOS_STRUCT(EOS_PlayerDataStorage_WriteFileDataCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK_RETVALUE(EOS_PlayerDataStorage_EWriteResult, EOS_PlayerDataStorage_OnWriteFileDataCallback, const EOS_PlayerDataStorage_WriteFileDataCallbackInfo* Data, void* OutDataBuffer, uint32_t* OutDataWritten);
 
-#define EOS_PLAYERDATASTORAGE_WRITEFILEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_WriteFile API. */
+#define EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_WRITEFILEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST
 
 /**
  * Input data for the EOS_PlayerDataStorage_WriteFile function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_WriteFileOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_WRITEFILEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who is writing the requested file to the cloud */
 	EOS_ProductUserId LocalUserId;
@@ -424,14 +444,16 @@ EOS_STRUCT(EOS_PlayerDataStorage_WriteFileCallbackInfo, (
  */
 EOS_DECLARE_CALLBACK(EOS_PlayerDataStorage_OnWriteFileCompleteCallback, const EOS_PlayerDataStorage_WriteFileCallbackInfo* Data);
 
-/** The most recent version of the EOS_PlayerDataStorage_DeleteCacheOptions API. */
-#define EOS_PLAYERDATASTORAGE_DELETECACHEOPTIONS_API_LATEST 1
+/** The most recent version of the EOS_PlayerDataStorage_DeleteCache API. */
+#define EOS_PLAYERDATASTORAGE_DELETECACHE_API_LATEST 1
+/** DEPRECATED! Use EOS_PLAYERDATASTORAGE_DELETECACHE_API_LATEST instead. */
+#define EOS_PLAYERDATASTORAGE_DELETECACHEOPTIONS_API_LATEST EOS_PLAYERDATASTORAGE_DELETECACHE_API_LATEST
 
 /**
  * Input data for the EOS_TitleStorage_DeleteCache function
  */
 EOS_STRUCT(EOS_PlayerDataStorage_DeleteCacheOptions, (
-	/** API Version: Set this to EOS_PLAYERDATASTORAGE_DELETECACHEOPTIONS_API_LATEST. */
+	/** API Version: Set this to EOS_PLAYERDATASTORAGE_DELETECACHE_API_LATEST. */
 	int32_t ApiVersion;
 	/** Product User ID of the local user who is deleting his cache */
 	EOS_ProductUserId LocalUserId;

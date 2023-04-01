@@ -27,6 +27,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Peer2Peer.unity
     guid: f0e74d05ae7114d4ba6ea2d6fcd2be54
   - enabled: 1
+    path: Assets/Scenes/PerformanceStressTest.unity
+    guid: eb75281e17752b049969469115315f2b
+  - enabled: 1
     path: Assets/Scenes/PlayerDataStorage.unity
     guid: cee2d33d119393e438845c3059a76a86
   - enabled: 1

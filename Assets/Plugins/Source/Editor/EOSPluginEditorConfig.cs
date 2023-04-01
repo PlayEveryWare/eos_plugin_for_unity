@@ -90,17 +90,32 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
+
             string pathToIntegrityTool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityTool);
+            string pathToIntegrityConfig = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityConfig);
             string pathToEACCertificate = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACCertificate);
             string pathToEACPrivateKey = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACPrivateKey);
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool", tooltip: "EOS SDK tool used to generate EAC certificate from file hashes");
+            string bootstrapOverideName = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.bootstrapperNameOverride);
+            bool useEAC = configFile.currentEOSConfig.useEAC;
+
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool", 
+                tooltip: "EOS SDK tool used to generate EAC certificate from file hashes");
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Integrity Tool Config", ref pathToIntegrityConfig, "Select EAC Integrity Tool Config",
+                tooltip: "Config file used by integry tool. Defaults to anticheat_integritytool.cfg in same directory.", extension: "cfg", labelWidth:200);
             EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC private key", ref pathToEACPrivateKey, "Select EAC private key", extension: "key",
                 tooltip: "EAC private key used in integrity tool cert generation. Exposing this to the public will comprimise anti-cheat functionality.");
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer", tooltip: "EAC public key used in integrity tool cert generation");
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer",
+                tooltip: "EAC public key used in integrity tool cert generation");
+
+            EpicOnlineServicesConfigEditor.AssigningBoolField("Use EAC", ref useEAC, tooltip: "If set to true, uses the EAC");
+            EpicOnlineServicesConfigEditor.AssigningTextField("Bootstrapper Name Override", ref bootstrapOverideName, labelWidth: 180, tooltip: "Name to use instead of 'Bootstrapper.exe'");
 
             configFile.currentEOSConfig.pathToEACIntegrityTool = pathToIntegrityTool;
+            configFile.currentEOSConfig.pathToEACIntegrityConfig = pathToIntegrityConfig;
             configFile.currentEOSConfig.pathToEACPrivateKey = pathToEACPrivateKey;
             configFile.currentEOSConfig.pathToEACCertificate = pathToEACCertificate;
+            configFile.currentEOSConfig.useEAC = useEAC;
+            configFile.currentEOSConfig.bootstrapperNameOverride = bootstrapOverideName;
         }
 
         //-------------------------------------------------------------------------
@@ -310,6 +325,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     GUILayout.Label(configurationSectionEditor.GetNameForMenu(), EditorStyles.boldLabel);
                     EpicOnlineServicesConfigEditor.HorizontalLine(Color.white);
                     configurationSectionEditor.OnGUI();
+                    EditorGUILayout.Space();
                 }
             }
 
@@ -380,21 +396,67 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public class EOSPluginEditorToolsConfig : ICloneableGeneric<EOSPluginEditorToolsConfig>, IEmpty
     {
-        /// <value><c>Path To signtool</c> The path to find the tool used for signing binaries</value>
+        /// <value><c>Path To EAC integrity tool</c> The path to find the tool used for generating EAC certs</value>
         public string pathToEACIntegrityTool;
+        public string pathToEACIntegrityConfig;
         public string pathToDefaultCertificate;
         public string pathToEACPrivateKey;
         public string pathToEACCertificate;
+
+        /// <value><c>Bootstrapper override name</c>Optional override name for EOSBootstrapper.exe</value>
+        public string bootstrapperNameOverride;
+
+        /// <value><c>Use EAC</c>If enabled, making a build will run the Easy Anti-Cheat integrity tool and copy EAC files to the build directory</value>
+        public bool useEAC;
 
         public EOSPluginEditorToolsConfig Clone()
         {
             return (EOSPluginEditorToolsConfig)this.MemberwiseClone();
         }
 
+        static public bool operator ==(EOSPluginEditorToolsConfig a, EOSPluginEditorToolsConfig b)
+        {
+            if (object.ReferenceEquals(a, null) != object.ReferenceEquals(b, null))
+            {
+                return false;
+            }
+
+            if (object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            return a.pathToEACIntegrityTool == b.pathToEACIntegrityTool &&
+                a.pathToDefaultCertificate == b.pathToDefaultCertificate &&
+                a.pathToEACPrivateKey == b.pathToEACPrivateKey &&
+                a.pathToEACCertificate == b.pathToEACCertificate &&
+                a.bootstrapperNameOverride == b.bootstrapperNameOverride &&
+                a.useEAC == b.useEAC;
+        }
+
+        static public bool operator !=(EOSPluginEditorToolsConfig a, EOSPluginEditorToolsConfig b)
+        {
+            return !(a == b);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is EOSPluginEditorToolsConfig && this == (EOSPluginEditorToolsConfig)obj; 
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public bool IsEmpty()
         {
             return String.IsNullOrEmpty(pathToEACIntegrityTool)
                 && String.IsNullOrEmpty(pathToDefaultCertificate)
+                && String.IsNullOrEmpty(pathToEACPrivateKey)
+                && String.IsNullOrEmpty(pathToEACCertificate)
+                && String.IsNullOrEmpty(bootstrapperNameOverride)
+                && !useEAC
             ;
         }
     }

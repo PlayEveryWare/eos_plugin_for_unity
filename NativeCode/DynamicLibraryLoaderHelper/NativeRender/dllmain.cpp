@@ -104,6 +104,11 @@ static void *s_eos_sdk_lib_handle;
 static EOS_HPlatform eos_platform_handle;
 static GetConfigAsJSONString_t GetConfigAsJSONString;
 
+struct SandboxDeploymentOverride
+{
+    std::string sandboxID;
+    std::string deploymentID;
+};
 
 struct EOSConfig
 {
@@ -113,6 +118,7 @@ struct EOSConfig
     std::string productID;
     std::string sandboxID;
     std::string deploymentID;
+    std::vector<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
     std::string clientSecret;
     std::string clientID;
@@ -749,6 +755,30 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
         {
             eos_config.deploymentID = json_value_as_string(iter->value)->string;
         }
+        else if (!strcmp("sandboxDeploymentOverrides", iter->name->string))
+        {
+            json_array_s* overrides = json_value_as_array(iter->value);
+            eos_config.sandboxDeploymentOverrides = std::vector<SandboxDeploymentOverride>();
+            for (auto e = overrides->start; e != nullptr; e = e->next)
+            {
+                struct json_object_s* override_json_object = json_value_as_object(e->value);
+                struct json_object_element_s* ov_iter = override_json_object->start;
+                struct SandboxDeploymentOverride override_item = SandboxDeploymentOverride();
+                while (ov_iter != nullptr)
+                {
+                    if (!strcmp("sandboxID", ov_iter->name->string))
+                    {
+                        override_item.sandboxID = json_value_as_string(ov_iter->value)->string;
+                    }
+                    else if (!strcmp("deploymentID", ov_iter->name->string))
+                    {
+                        override_item.deploymentID = json_value_as_string(ov_iter->value)->string;
+                    }
+                    ov_iter = ov_iter->next;
+                }
+                eos_config.sandboxDeploymentOverrides.push_back(override_item);
+            }
+        }
         else if (!strcmp("clientID", iter->name->string))
         {
             eos_config.clientID = json_value_as_string(iter->value)->string;
@@ -1333,7 +1363,7 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     const char* hexChars = "0123456789abcdefABCDEF";
     for (int i = 0; i < argStrings.size() - 1; ++i)
     {
-        if (argStrings[i] == "-eossandboxid")
+        if (argStrings[i] == "-eossandboxid" || argStrings[i] == "-epicsandboxid")
         {
             std::string sandboxArg = argStrings[i + 1];
             log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
@@ -1347,7 +1377,31 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
                 log_warn("Sandbox ID override is invalid: must be 32 hex characters");
             }
         }
-        else if (argStrings[i] == "-eosdeploymentid")
+    }
+#endif
+
+    //check if a deployment id override exists for sandbox id
+    for (int i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
+    {
+        if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
+        {
+            log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
+            if (eos_config.sandboxDeploymentOverrides[i].deploymentID.length() == 32 && eos_config.sandboxDeploymentOverrides[i].deploymentID.find_first_not_of(hexChars) == std::string::npos)
+            {
+                log_inform("Sandbox Deployment ID override applied");
+                eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
+            }
+            else
+            {
+                log_warn("Sandbox Deployment ID override is invalid: must be 32 hex characters");
+            }
+        }
+    }
+
+#if PLATFORM_WINDOWS
+    for (int i = 0; i < argStrings.size() - 1; ++i)
+    {
+        if (argStrings[i] == "-eosdeploymentid")
         {
             std::string deploymentArg = argStrings[i + 1];
             log_inform(("Deployment ID override specified: " + deploymentArg).c_str());

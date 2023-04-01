@@ -34,6 +34,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UILeaderboardMenu : MonoBehaviour, ISampleSceneUI
     {
+        private enum LeaderboardGroup
+        {
+            Global,
+            Friends
+        }
+
         [Header("Leaderboard UI")]
         public GameObject LeaderboardUIParent;
 
@@ -52,6 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private string currentSelectedDefinitionLeaderboardId = string.Empty;
         private string currentSelectedDefinitionStatName = string.Empty;
+        private LeaderboardGroup currentGroup = LeaderboardGroup.Global;
 
         private EOSLeaderboardManager LeaderboardManager;
         private EOSFriendsManager PlayerManager;
@@ -78,8 +85,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             if(leaderboard != null)
             {
-                CurrentSelectedLeaderboardTxt.text = leaderboard?.StatName;
                 currentSelectedDefinitionStatName = leaderboard?.StatName;
+                SetCurrentLeaderboardDescription();
             }
             else
             {
@@ -87,7 +94,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            LeaderboardManager.QueryRanks(leaderboardId, QueryRanksCompleted);
+            ShowGlobalOnClick();
         }
 
         private void QueryRanksCompleted(Result result)
@@ -157,8 +164,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     if (kvp.Key.Equals(currentSelectedDefinitionLeaderboardId, StringComparison.OrdinalIgnoreCase))
                     {
-                        uiEntry.ShowSelectedColor();
-
                         // TODO: Update Ranks/UserScores
                     }
                 }
@@ -169,6 +174,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!string.IsNullOrEmpty(currentSelectedDefinitionLeaderboardId))
             {
+                currentGroup = LeaderboardGroup.Friends;
+                SetCurrentLeaderboardDescription();
+
                 List<ProductUserId> friends = new List<ProductUserId>();
 
                 PlayerManager.GetCachedFriends(out Dictionary<EpicAccountId, FriendData> cachedFriends);
@@ -181,7 +189,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 if(friends.Count == 0)
                 {
                     Debug.LogWarning("UILeaderboardMenu (ShowFriendsOnClick): No friends found.");
-
 
                     // Destroy current entries
                     foreach (Transform child in LeaderboardEntriesContentParent.transform)
@@ -225,6 +232,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     Debug.Log($"  Display LeaderboardId={kvp.Key}, UserScores: Count={kvp.Value.Count}");
 
+                    // Check to make sure to only add entries from the correct leaderboard if available.
+                    if (!string.IsNullOrEmpty(currentSelectedDefinitionLeaderboardId) && kvp.Key != currentSelectedDefinitionLeaderboardId)
+                    {
+                        continue;
+                    }
+
                     foreach (LeaderboardUserScore userScore in kvp.Value)
                     {
                         Debug.Log($"    UserScore: UserId={userScore.UserId}, Score={userScore.Score}");
@@ -260,6 +273,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (!string.IsNullOrEmpty(currentSelectedDefinitionLeaderboardId))
             {
+                currentGroup = LeaderboardGroup.Global;
+                SetCurrentLeaderboardDescription();
                 LeaderboardManager.QueryRanks(currentSelectedDefinitionLeaderboardId, QueryRanksCompleted);
             }
             else
@@ -313,6 +328,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LeaderboardManager?.OnLoggedOut();
 
             LeaderboardUIParent.gameObject.SetActive(false);
+        }
+
+        private void SetCurrentLeaderboardDescription()
+        {
+            CurrentSelectedLeaderboardTxt.text = $"{currentSelectedDefinitionLeaderboardId} - " +
+                $"{currentSelectedDefinitionStatName} - {Enum.GetName(typeof(LeaderboardGroup), currentGroup)}";
         }
     }
 }

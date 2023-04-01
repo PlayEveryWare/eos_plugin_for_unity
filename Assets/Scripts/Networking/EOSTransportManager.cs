@@ -240,6 +240,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// </summary>
         public ProductUserId LocalUserId;
 
+        /// <summary>
+        /// The product id for the local user override.
+        /// </summary>
+        private ProductUserId LocalUserIdOverride = null;
+
         // Maps remote users to a list of all open connections with that user
         private Dictionary<ProductUserId, List<Connection>> Connections;
 
@@ -319,6 +324,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             Clear();
         }
 
+        /// <summary>
+        /// Creates a new, uninitialized instance of EOSTransportManager with an override user ID.
+        /// </summary>
+        public EOSTransportManager(ProductUserId overrideId)
+        {
+#if !COM_UNITY_MODULE_NETCODE
+            Debug.LogError("EOSTransportManager: Netcode for GameObjects package not installed");
+#endif
+
+            Clear();
+            LocalUserIdOverride = overrideId;
+        }
+
         private void Clear()
         {
             P2PHandle = null;
@@ -371,7 +389,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 P2PHandle = EOSManager.Instance.GetEOSP2PInterface();
                 NATType = NATType.Unknown;
-                LocalUserId = EOSManager.Instance.GetProductUserId();
+                if (LocalUserIdOverride?.IsValid() == true)
+                {
+                    LocalUserId = LocalUserIdOverride;
+                }
+                else
+                {
+                    LocalUserId = EOSManager.Instance.GetProductUserId();
+                }
                 Connections = new Dictionary<ProductUserId, List<Connection>>();
                 InProgressPackets = new Dictionary<ushort, SortedList<ushort, byte[]>>();
             }

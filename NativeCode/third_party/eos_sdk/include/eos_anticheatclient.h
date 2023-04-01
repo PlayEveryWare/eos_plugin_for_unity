@@ -178,6 +178,7 @@ EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_AddExternalIntegrityCatalog(EO
  *
  * @return EOS_Success - If the message was processed successfully
  *         EOS_InvalidParameters - If input data was invalid
+ *         EOS_InvalidRequest - If message contents were corrupt and could not be processed
  *         EOS_AntiCheat_InvalidMode - If the current mode does not support this function
  */
 EOS_DECLARE_FUNC(EOS_EResult) EOS_AntiCheatClient_ReceiveMessageFromServer(EOS_HAntiCheatClient Handle, const EOS_AntiCheatClient_ReceiveMessageFromServerOptions* Options);

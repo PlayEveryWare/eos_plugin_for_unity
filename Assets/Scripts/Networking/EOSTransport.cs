@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         private bool IsInitialized = false;
 
         // Our local EOS UserId (should always be valid after successful initialization)
-        private ProductUserId OurUserId { get => EOSManager.Instance?.GetProductUserId(); }
+        private ProductUserId OurUserId { get => LocalUserIdOverride ?? EOSManager.Instance?.GetProductUserId(); }
 
         /// <summary>
         /// Invalid ClientId
@@ -72,6 +72,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
         // Locked in after calling StartClient to avoid changing unexpectedly
         private ProductUserId ServerUserId = null;          
+
+        // Override local user id for testing multiple clients at once
+        public ProductUserId LocalUserIdOverride = null;
 
         /// <summary>
         /// A constant `clientId` that represents the server.
@@ -358,7 +361,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 
             // Initialize EOS Peer-2-Peer Manager
             Debug.Assert(P2PManager == null);
-            P2PManager = EOSManager.Instance.GetOrCreateManager<EOSTransportManager>();
+
+            if (LocalUserIdOverride?.IsValid() == true)
+            {
+                P2PManager = new EOSTransportManager(LocalUserIdOverride);
+            }
+            else
+            {
+                P2PManager = EOSManager.Instance.GetOrCreateManager<EOSTransportManager>();
+            }
+            
             P2PManager.OnIncomingConnectionRequestedCb = OnIncomingConnectionRequestedCallback;
             P2PManager.OnConnectionOpenedCb = OnConnectionOpenedCallback;
             P2PManager.OnConnectionClosedCb = OnConnectionClosedCallback;

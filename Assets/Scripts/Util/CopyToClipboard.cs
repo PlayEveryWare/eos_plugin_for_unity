@@ -31,7 +31,7 @@ public class CopyToClipboard : MonoBehaviour
 
     public void CopyOnClick()
     {
-        Debug.LogFormat("Copy to clipboard: {0}", Source.text);
+        Debug.Log("Copy to clipboard");
         GUIUtility.systemCopyBuffer = Source.text;
     }
 }

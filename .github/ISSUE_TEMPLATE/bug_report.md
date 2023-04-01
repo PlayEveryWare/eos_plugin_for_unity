@@ -25,6 +25,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows x86, Windows x64, macOS Intel, macOS ARM]
+ - Editor, or standalone build
  - Unity Version
  - Plugin Version
 

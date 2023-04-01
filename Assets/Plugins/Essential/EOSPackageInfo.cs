@@ -24,6 +24,7 @@ public static class EOSPackageInfo
 {
     /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
     public static readonly string ConfigFileName = "EpicOnlineServicesConfig.json";
+    public const string UnknownVersion = "?.?.?";
 
     //-------------------------------------------------------------------------
 
@@ -34,6 +35,9 @@ public static class EOSPackageInfo
 
     //-------------------------------------------------------------------------
     //VERSION START
+
+    const string buildVersion = UnknownVersion;
+
     private struct VersionReader
     {
         public string version;
@@ -51,12 +55,12 @@ public static class EOSPackageInfo
             }
             else
             {
-                return "unknown";
+                return buildVersion;
             }
         }
         catch
         {
-            return "unknown";
+            return buildVersion;
         }
     }
     //VERSION END

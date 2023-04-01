@@ -31,6 +31,15 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    /// <summary>
+    /// Represents the default deployment ID to use when a given sandbox ID is active.
+    /// </summary>
+    [Serializable]
+    public class SandboxDeploymentOverride
+    {
+        public string sandboxID;
+        public string deploymentID;
+    }
 
     /// <summary>
     /// Represents the EOS Configuration used for initializing EOS SDK.
@@ -52,6 +61,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <value><c>Deployment Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string deploymentID;
+
+        /// <value><c>SandboxDeploymentOverride</c> pairs used to override Deployment ID when a given Sandbox ID is used</value>
+        public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
         /// <value><c>Client Secret</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string clientSecret;
@@ -97,11 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value><c>HACK: send force send input without delay</c>If true, the native plugin will always send input received directly to the SDK. If set to false, the plugin will attempt to delay the input to mitigate CPU spikes caused by spamming the SDK </value>
         public bool hackForceSendInputDirectlyToSDK;
 
-        /// <value><c>Bootstrapper override name</c>Optional override name for EOSBootstrapper.exe</value>
-        public string bootstrapperNameOverride;
 
-        /// <value><c>Use EAC</c>If enabled, making a build will run the Easy Anti-Cheat integrity tool and copy EAC files to the build directory</value>
-        public bool useEAC;
 
         public static Regex InvalidEncryptionKeyRegex;
         static EOSConfig()

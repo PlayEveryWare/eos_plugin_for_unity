@@ -34,7 +34,7 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPlayerReportMenu : UIFriendInteractionSource
+    public class UIPlayerReportMenu : UIFriendInteractionSource, ISampleSceneUI
     {
         [Header("Reports")]
         public GameObject CrashReportUIParent;
@@ -56,7 +56,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Awake()
         {
-            resetPopUp();
+            ResetPopUp();
         }
 
         private void Start()
@@ -164,16 +164,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (ReportsManager != null)
             {
                 ReportsManager.SendPlayerBehaviorReport(currentProdcutUserId, category, Message.text);
-                resetPopUp();
+                ResetPopUp();
             }
         }
 
         public void CancelButtonOnClick()
         {
-            resetPopUp();
+            ResetPopUp();
         }
 
-        private void resetPopUp()
+        private void ResetPopUp()
         {
             PlayerName.text = string.Empty;
             CategoryList.value = 0;
@@ -196,6 +196,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public override void OnFriendInteractButtonClicked(FriendData friendData)
         {
             ReportButtonOnClick(friendData.UserProductUserId, friendData.Name);
+        }
+
+        public void ShowMenu()
+        {
+            ResetPopUp();
+        }
+
+        public void HideMenu()
+        {
+            ResetPopUp();
         }
     }
 }

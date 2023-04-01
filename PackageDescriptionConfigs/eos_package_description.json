@@ -35,6 +35,11 @@
         {"src":"Assets/Plugins/Essential/*", "dest": "Runtime/Essential/"},
         {"src":"Assets/Plugins/Source/Essential/*.cs", "dest": "Runtime/Essential/"},
         {"src":"Assets/Plugins/Source/Essential/*.cs.meta", "dest": "Runtime/Essential/"},
+        
+        {"comment": "----------------------------Standalone---------------------------------------------"},
+        {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
+        {"src":"Assets/Plugins/Standalone/Editor/*", "dest": "Editor/Standalone/"},
+        {"comment": "----------------------------End Standalone---------------------------------------------"},
 
         {"comment": "----------------------------Windows---------------------------------------------"},
         {"src":"Assets/Plugins/Windows.meta", "dest": "Runtime/"},
@@ -58,20 +63,11 @@
         {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
 
-
-        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Editor/Windows.meta"},
-        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Editor/Windows/"},
-        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Editor/Windows/"},
-        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/Windows/"},
-        {"src":"Assets/Plugins/Windows/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/Windows/"},
-
         {"src":"PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
         {"src":"bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
         {"src":"bin/EOSBootstrapper.exe", "dest": "bin~/"},
-        {"src":"PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "bin~/"},
 
         {"src":"PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
-        {"src":"bin/EAC/anticheat_integritytool.exe", "dest": "bin~/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Licenses/"},
         {"src":"PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Localization/"},
@@ -109,6 +105,12 @@
         {"src":"Assets/Plugins/Source/Editor/Linux.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
         {"src":"Assets/Plugins/Source/Editor/Linux/*.cs.meta", "dest": "Editor/Linux/"},
+        
+        {"src":"PlatformSpecificAssets/EOS/Linux/eac_launcher", "dest": "PlatformSpecificAssets~/EOS/Linux/"},
+        {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Licenses/"},
+        {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Localization/"},
+        {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
+        {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
 
         {"comment": "----------------------------macOS---------------------------------------------"},
         {"src":"Assets/Plugins/macOS.meta", "dest": "Runtime/"},
@@ -131,8 +133,27 @@
         {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/macOS/"},
         {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Editor/macOS/"},
         {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Editor/macOS/"},
+        
+        {"src":"PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Info.plist", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/MacOS/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/MacOS/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Resources/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/Resources/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/Licenses/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/Localization/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/"},
+        {"src":"PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/"},
 
         {"comment": "----------------------------End macOS---------------------------------------------"},
+        
+        {"comment": "----------------------------EAC bin---------------------------------------------"},
+        
+        {"src":"bin/EAC/anticheat_integritytool.cfg", "dest": "bin~/EAC/"},
+        {"src":"bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
+        {"src":"bin/EAC/Mac/anticheat_integritytool", "dest": "bin~/EAC/Mac/"},
+        
+        {"comment": "----------------------------End EAC bin---------------------------------------------"},
 
         {"src":"Assets/link.xml", "dest": "Editor/"},
         {"src":"Assets/link.xml.meta", "dest": "Editor/"},
@@ -308,7 +329,7 @@
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
         {"src":"PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
-	
+    
         {"src":"PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
         {"src":"PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar.meta","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
         {"src":"PlatformSpecificAssets/EOS/Android/static-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/static-stdc++/aar/"},
@@ -381,13 +402,18 @@
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/Scripts/Networking.meta"},
         {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/Scripts/Networking/"},
-		{"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/Scripts/Steam.meta"},
+        {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/Scripts/Steam.meta"},
         {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/Scripts/Steam/"},
+        {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/Scripts/Discord.meta"},
+        {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/Scripts/Discord/"},
+        {"src":"Assets/Scripts/OpenID.meta", "dest": "Samples~/Samples/Scripts/OpenID.meta"},
+        {"src":"Assets/Scripts/OpenID/*", "dest": "Samples~/Samples/Scripts/OpenID/"},
+        {"src":"Assets/Scripts/OpenID/CloudFunction/*", "dest": "Samples~/Samples/Scripts/OpenID/CloudFunction/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},
         {"src":"Assets/Scenes/*.unity.meta", "dest": "Samples~/Samples/Scenes/"},
-        
+
         {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},
         {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/Readme/"}

@@ -1,10 +1,10 @@
 {
     "name": "com.playeveryware.eos",
-    "version": "2.1.9",
+    "version": "2.2.0",
     "unity": "2020.1",
     "unityRelease": "11f1",
     "displayName": "Epic Online Services Plugin for Unity",
-    "description": "Friendly Plugin for Epic Online Services\n Unity 2020.1.11f1\n EOS SDK 1.15.4\n",
+    "description": "Friendly Plugin for Epic Online Services\n Unity 2020.1.11f1\n EOS SDK 1.15.5\n",
     "documentationUrl": "https://eospluginforunity.playeveryware.com",
     "dependencies": {
         "com.unity.modules.jsonserialize": "1.0.0",
@@ -21,6 +21,6 @@
         }
     ],
     "com_playeveryware": {
-        "git_build_sha": "c81c6ce4a62947a03ee2bd0eb21da2d6e5f8ba1d"
+        "git_build_sha": "49f7076d0923b9860c6b26a15456499c90fbe4ed"
     }
 }

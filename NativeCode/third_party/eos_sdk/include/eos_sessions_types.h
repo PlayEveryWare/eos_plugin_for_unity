@@ -470,7 +470,7 @@ EOS_STRUCT(EOS_Sessions_EndSessionCallbackInfo, (
 EOS_DECLARE_CALLBACK(EOS_Sessions_OnEndSessionCallback, const EOS_Sessions_EndSessionCallbackInfo* Data);
 
 /** The most recent version of the EOS_Sessions_RegisterPlayers API. */
-#define EOS_SESSIONS_REGISTERPLAYERS_API_LATEST 2
+#define EOS_SESSIONS_REGISTERPLAYERS_API_LATEST 3
 
 /**
  * Input parameters for the EOS_Sessions_RegisterPlayers function.
@@ -786,7 +786,7 @@ EOS_STRUCT(EOS_SessionSearch_SetMaxResultsOptions, (
  * Input parameters for the EOS_SessionSearch_Find function.
  */
 EOS_STRUCT(EOS_SessionSearch_FindOptions, (
-	/** API Version: Set this to EOS_SESSIONDETAILS_SETTINGS_API_LATEST. */
+	/** API Version: Set this to EOS_SESSIONSEARCH_FIND_API_LATEST. */
 	int32_t ApiVersion;
 	/** The Product User ID of the local user who is searching */
 	EOS_ProductUserId LocalUserId;

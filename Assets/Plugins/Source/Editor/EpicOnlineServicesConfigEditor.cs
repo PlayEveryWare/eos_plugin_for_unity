@@ -478,7 +478,25 @@ _WIN32 || _WIN64
             AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxID, tooltip: "Sandbox ID defined in the EOS Development Portal");
             AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.deploymentID, tooltip: "Deployment ID defined in the EOS Development Portal");
 
-            
+            EditorGUILayout.LabelField("Sandbox Deployment Overrides");
+            for (int i = 0; i < mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides.Count; ++i)
+            {
+                EditorGUILayout.BeginHorizontal();
+                AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].sandboxID, tooltip: "Deployment ID will be overridden when Sandbox ID is set to this", labelWidth:70);
+                mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].sandboxID = mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].sandboxID.Trim();
+                AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].deploymentID, tooltip: "Deployment ID to use for override", labelWidth: 90);
+                mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].deploymentID = mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].deploymentID.Trim();
+                if (GUILayout.Button("Remove", GUILayout.MaxWidth(70)))
+                {
+                    mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides.RemoveAt(i);
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+            if (GUILayout.Button("Add", GUILayout.MaxWidth(100)))
+            {
+                mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides.Add(new SandboxDeploymentOverride());
+            }
+
             AssigningULongToStringField("Thread Affinity: networkWork", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_networkWork,
                 tooltip: "(Optional) Specifies thread affinity for network management that is not IO");
             AssigningULongToStringField("Thread Affinity: storageIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_storageIO,
@@ -553,11 +571,6 @@ _WIN32 || _WIN64
 
             AssigningBoolField("Always send Input to Overlay", ref mainEOSConfigFile.currentEOSConfig.alwaysSendInputToOverlay, 190,
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
-
-            EditorGUILayout.Separator();
-            GUILayout.Label("Post Build", EditorStyles.boldLabel);
-            AssigningTextField("Bootstrapper Name Override", ref mainEOSConfigFile.currentEOSConfig.bootstrapperNameOverride, 180, "Renames EOSBootstrapper.exe when making Windows build");
-            AssigningBoolField("Use Easy Anti-Cheat", ref mainEOSConfigFile.currentEOSConfig.useEAC, 130, "If true, copy EAC files and run EAC integrity tool after building");
         }
 
         private void OnSteamGUI()
@@ -579,7 +592,7 @@ _WIN32 || _WIN64
         {
             EnsureConfigLoaded();
             string[] toolbarTitlesToUse = CreateToolbarTitles();
-            int xCount = (int)(EditorGUIUtility.currentViewWidth / 120);
+            int xCount = (int)(EditorGUIUtility.currentViewWidth / 200);
             toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitlesToUse, xCount);
             switch (toolbarInt)
             {

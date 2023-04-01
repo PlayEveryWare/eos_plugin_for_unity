@@ -20,7 +20,6 @@
 * SOFTWARE.
 */
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -67,6 +66,16 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 SignDLL(signConfig.currentEOSConfig, dllPath);
             }
+        }
+
+        [MenuItem("Tools/Sign DLLs", true)]
+        static bool CanSignDLLs()
+        {
+#if UNITY_EDITOR_WIN
+            return true;
+#else
+            return false;
+#endif
         }
 
         static void SignDLL(EOSPluginEditorSigningConfig config, string dllPath)

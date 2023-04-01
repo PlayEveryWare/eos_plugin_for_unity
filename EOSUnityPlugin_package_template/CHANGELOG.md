@@ -8,6 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+##[2.2.0] - 2023-02-28
+### Added
+- Discord connect sample
+- Added UI to P2P chat sample to send messages to an arbitrary ProductUserId for testing messaging with non-friends
+- Customize Press to talk button in Lobby sample
+
+### Changed
+- Updated to EOS 1.15.5
+- Moved code for Steam external auth login into its own method
+- Moved EAC config values out of the initialize config file and into editor config
+
+### Fixed
+- (mac): Build with both mono and il2cpp
+- Added horizontal layout to P2P sample text entry UI
+- Changed version UI string format to v-<version>
+- GetPackageVersion() now returns ?.?.? as the unknown version string
+- Added null check to remoteUserId in EOSTransportManager.CloseConnection in response to git issue #213
+- Fixed lobby creation double callback invoke
+- Automatically refresh Connect token if logged in with Auth interface
+- Added error checking for EOSTransport packets that are below minimum expected size
+- (android): Add the missing meta files for eos_sdk.aar
+- Press to talk UI setup in Lobby
+
 ##[2.1.9] - 2023-01-30
 ### Added
 - feat: steam login sample
@@ -23,10 +46,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - docs: updated standards docs
 - refactor: removed stray arrows
 
-###Fixed
+### Fixed
 - fix(android, lib): Check Android toggle on lib metafiles
 - fix(android, lib): Copy metafiles during preprocess
-- fix(pkg_dscrpt, android): Removed leftover meta file from heleting the extra aar file (#212)
+- fix(pkg_dscrpt, android): Removed leftover meta file from deleting the extra aar file (#212)
 - chore: fixed networking sample asmdef name
 - fix platform specifics domain reload error
 - fix(p2pnetcodeSample) Fixed errors when hosting
