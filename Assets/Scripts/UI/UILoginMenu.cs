@@ -98,6 +98,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #if UNITY_EDITOR || (UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM) || UNITY_STANDALONE_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM)
             idInputField.InputField.text = "localhost:7777"; //default on pc
 #endif
+
+#if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH)
+            Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
+#endif
         }
 
         private void CacheIdInputField(string value)
