@@ -80,6 +80,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         LoginCredentialType loginType = LoginCredentialType.Developer;
         bool useConnectLogin = false;
 
+        Apple.EOSSignInWithAppleManager signInWithAppleManager = null;
+
         // Retain Id/Token inputs across scenes
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
@@ -268,6 +270,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
+            signInWithAppleManager?.Update();
         }
 #else
 
@@ -338,6 +341,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     system.SetSelectedGameObject(next.gameObject);
                 }
             }
+
+            signInWithAppleManager?.Update();
         }
 #endif
 
@@ -533,8 +538,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             List<ExternalCredentialType> credentialTypes = new List<ExternalCredentialType>
             {
                 ExternalCredentialType.DeviceidAccessToken,
+
+#if UNITY_IOS || UNITY_STANDALONE_OSX
+                ExternalCredentialType.AppleIdToken,
+#endif
                 //ExternalCredentialType.GogSessionTicket,
-                //ExternalCredentialType.AppleIdToken,
                 //ExternalCredentialType.GoogleIdToken,
                 //ExternalCredentialType.OculusUseridNonce,
                 //ExternalCredentialType.ItchioJwt,
@@ -766,12 +774,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ConnectDeviceId();
                     break;
 
+                case ExternalCredentialType.AppleIdToken:
+                    ConnectAppleId();
+                    break;
+
                 case ExternalCredentialType.DiscordAccessToken:
                     ConnectDiscord();
                     break;
 
                 case ExternalCredentialType.OpenidAccessToken:
                     ConnectOpenId();
+
                     break;
 
                 default:
@@ -817,6 +830,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        private void ConnectAppleId()
+        {
+            signInWithAppleManager = new Apple.EOSSignInWithAppleManager();
+            Debug.Log("Start Connect Login with Apple Id");
+            
+            signInWithAppleManager.RequestTokenAndUsername((string token,string username) =>
+            {
+                StartConnectLoginWithToken(ExternalCredentialType.AppleIdToken, token, username.Remove(31));
+            });
+        }
+        
         private void ConnectDiscord()
         {
             var discordManager = Discord.DiscordManager.Instance;
@@ -872,6 +896,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.OpenidAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
             }
+
         }
 
         private void StartConnectLoginWithToken(ExternalCredentialType externalType, string token, string displayName = null)
