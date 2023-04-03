@@ -149,6 +149,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ConfigureUIForLogin();
         }
 
+        public void OnConnectDropdownChange()
+        {
+            ConfigureUIForLogin();
+        }
+
         public void Start()
         {
             _OriginalloginButtonText = loginButtonText.text;
@@ -854,7 +859,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (token == null)
             {
-                Debug.LogError("Connect Login failed: Unable to OpenID token");
+                Debug.LogError("Connect Login failed: Unable to acquire OpenID token");
                 ConfigureUIForLogin();
             }
             else
