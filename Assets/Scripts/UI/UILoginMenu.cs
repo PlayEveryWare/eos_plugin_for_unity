@@ -674,6 +674,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Username and password aren't always the username and password
         public void OnLoginButtonClick()
         {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                Debug.LogError("Internet not reachable.");
+                return;
+            }
+
             string usernameAsString = idInputField.InputField.text.Trim();
             string passwordAsString = tokenInputField.InputField.text.Trim();
 
