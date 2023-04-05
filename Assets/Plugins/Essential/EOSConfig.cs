@@ -242,11 +242,9 @@ namespace PlayEveryWare.EpicOnlineServices
         public static AuthScopeFlags authScopeOptionsFlagsAsAuthScopeFlags(List<string> authScopeOptionsFlags)
         {
             AuthScopeFlags toReturn = AuthScopeFlags.NoFlags;
-            bool flagSet = false;
 
             foreach (var flagAsString in authScopeOptionsFlags)
             {
-                bool validFlag = true;
                 if (flagAsString == "NoFlags" || flagAsString == "EOS_AS_NoFlags")
                 {
                 }
@@ -274,17 +272,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     toReturn |= AuthScopeFlags.Country;
                 }
-                else
-                {
-                    validFlag = false;
-                }
-
-                flagSet &= validFlag;
-            }
-
-            if (!flagSet)
-            {
-                toReturn = AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
             }
 
             return toReturn;
