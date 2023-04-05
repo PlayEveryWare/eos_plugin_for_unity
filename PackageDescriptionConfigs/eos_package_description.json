@@ -383,8 +383,11 @@
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
 
-
         {"src":"EOSUnityPlugin_package_template/.sample.json", "dest" : ""},
+
+        {"src":"Assets/Materials/NetcodePlayField.mat", "dest": "Samples~/Samples/Materials/"},
+        {"src":"Assets/Materials/NetcodePlayField.mat.meta", "dest": "Samples~/Samples/Materials/"},
+
         {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/Prefab/"},
         {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/Prefab/"},
