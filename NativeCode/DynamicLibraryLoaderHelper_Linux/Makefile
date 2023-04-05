@@ -29,7 +29,8 @@ build/libDynamicLibraryLoaderHelper.so: build $(DLLH_SRC)
 #	lipo -create -output build/libDynamicLibraryLoaderHelper.so $?
 
 DynamicLibraryLoaderHelper_clean:
+	test -d build && rm -r build || true
 	test -f libDynamicLibraryLoaderHelper.so && rm libDynamicLibraryLoaderHelper.so || true
-	test -f DynamicLibraryLoaderHelper_Linux_x86 && rm DynamicLibraryLoaderHelper_Linux_x86 || true
+#	test -f DynamicLibraryLoaderHelper_Linux_x86 && rm DynamicLibraryLoaderHelper_Linux_x86 || true
 #-----------------------------------------------------------------------
 

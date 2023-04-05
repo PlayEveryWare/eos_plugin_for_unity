@@ -123,8 +123,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             string platformTag = "PLATFORM_ANDROID";
 #elif UNITY_PS4
             string platformTag = "PLATFORM_PS4";
-#elif UNITY_XBOXONE
+#elif UNITY_PS5
+            string platformTag = "PLATFORM_PS5";
+#elif UNITY_SWITCH
+            string platformTag = "PLATFORM_SWITCH";
+#elif UNITY_GAMECORE_XBOXONE
             string platformTag = "PLATFORM_XBOXONE";
+#elif UNITY_GAMECORE_SCARLETT
+            string platformTag = "PLATFORM_XBOXSERIES";
 #else
             string platformTag = "PLATFORM_UNKNOWN";
 #endif

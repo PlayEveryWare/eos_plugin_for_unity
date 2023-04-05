@@ -21,6 +21,11 @@ public class iOS_BuildPostProcess
     public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
     {
 
+        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(buildTarget))
+        {
+            return;
+        }
+
         if (buildTarget == BuildTarget.iOS)
         {
             string projPath = path + "/Unity-iPhone.xcodeproj/project.pbxproj";

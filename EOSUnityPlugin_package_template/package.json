@@ -1,6 +1,6 @@
 {
     "name": "com.playeveryware.eos",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "unity": "2020.1",
     "unityRelease": "11f1",
     "displayName": "Epic Online Services Plugin for Unity",
@@ -21,6 +21,6 @@
         }
     ],
     "com_playeveryware": {
-        "git_build_sha": "49f7076d0923b9860c6b26a15456499c90fbe4ed"
+        "git_build_sha": "a01064d6f3bf85410c387e6c33f49903aefc502a"
     }
 }

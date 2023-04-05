@@ -196,7 +196,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             uint achievementDefCount = achievementManager.GetAchievementDefinitionCount();
 
-            if (achievementDefCount > 1)
+            if (achievementDefCount > 0)
             {
                 foreach (var achievementDef in achievementManager.EnumerateCachedAchievementDefinitions())
                 {

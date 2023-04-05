@@ -35,6 +35,9 @@ public static class EOSPackageInfo
 
     //-------------------------------------------------------------------------
     //VERSION START
+
+    const string buildVersion = UnknownVersion;
+
     private struct VersionReader
     {
         public string version;
@@ -52,12 +55,12 @@ public static class EOSPackageInfo
             }
             else
             {
-                return UnknownVersion;
+                return buildVersion;
             }
         }
         catch
         {
-            return UnknownVersion;
+            return buildVersion;
         }
     }
     //VERSION END

@@ -31,6 +31,15 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    /// <summary>
+    /// Represents the default deployment ID to use when a given sandbox ID is active.
+    /// </summary>
+    [Serializable]
+    public class SandboxDeploymentOverride
+    {
+        public string sandboxID;
+        public string deploymentID;
+    }
 
     /// <summary>
     /// Represents the EOS Configuration used for initializing EOS SDK.
@@ -52,6 +61,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <value><c>Deployment Id</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string deploymentID;
+
+        /// <value><c>SandboxDeploymentOverride</c> pairs used to override Deployment ID when a given Sandbox ID is used</value>
+        public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
 
         /// <value><c>Client Secret</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string clientSecret;
@@ -230,11 +242,9 @@ namespace PlayEveryWare.EpicOnlineServices
         public static AuthScopeFlags authScopeOptionsFlagsAsAuthScopeFlags(List<string> authScopeOptionsFlags)
         {
             AuthScopeFlags toReturn = AuthScopeFlags.NoFlags;
-            bool flagSet = false;
 
             foreach (var flagAsString in authScopeOptionsFlags)
             {
-                bool validFlag = true;
                 if (flagAsString == "NoFlags" || flagAsString == "EOS_AS_NoFlags")
                 {
                 }
@@ -262,17 +272,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     toReturn |= AuthScopeFlags.Country;
                 }
-                else
-                {
-                    validFlag = false;
-                }
-
-                flagSet &= validFlag;
-            }
-
-            if (!flagSet)
-            {
-                toReturn = AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
             }
 
             return toReturn;

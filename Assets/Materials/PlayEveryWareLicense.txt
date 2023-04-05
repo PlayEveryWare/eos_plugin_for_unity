@@ -1,0 +1,5 @@
+PLAYEVERYWARE, PlayEveryWare-normalmap.png, and PlayEveryWare-logo.png are trademarks of PlayEveryWare, Inc. 
+Subject to the term and conditions of [these Terms of Use; this Agreement] [Developers] may 
+place such Marks on [projects] for the sole purpose of identifying PlayEveryWare as the 
+owner and copyright holder of the [PlugIn] and for no other business or non-business 
+purposes whatsoever and no other goods or services whatsoever. 

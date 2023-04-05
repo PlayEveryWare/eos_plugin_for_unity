@@ -29,6 +29,9 @@
 # Visual Studio cache directory
 .vs/
 
+# Visual Studio Code cache directory
+.vscode/
+
 #Rider cache directory
 .idea/
 
@@ -145,3 +148,4 @@ test-results/
 *IL2CPPCache/*
 *IL2CPPStats/*
 EOSPluginEditorConfiguration/
+[Aa]ssets/TextMesh*Pro/

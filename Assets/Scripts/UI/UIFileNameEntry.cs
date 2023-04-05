@@ -30,18 +30,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     public class UIFileNameEntry : MonoBehaviour
     {
-        public Button FileNameButton;
         public Text FileNameTxt;
-
-        public Color SelectedColor;
 
         // Callbacks
         public Action<string> FileNameOnClick;
-
-        public void ShowSelectedColor()
-        {
-            FileNameButton.GetComponent<Image>().color = SelectedColor;
-        }
 
         public void FileNameOnClickHandler()
         {

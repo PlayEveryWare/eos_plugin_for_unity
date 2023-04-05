@@ -478,7 +478,25 @@ _WIN32 || _WIN64
             AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxID, tooltip: "Sandbox ID defined in the EOS Development Portal");
             AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.deploymentID, tooltip: "Deployment ID defined in the EOS Development Portal");
 
-            
+            EditorGUILayout.LabelField("Sandbox Deployment Overrides");
+            for (int i = 0; i < mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides.Count; ++i)
+            {
+                EditorGUILayout.BeginHorizontal();
+                AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].sandboxID, tooltip: "Deployment ID will be overridden when Sandbox ID is set to this", labelWidth:70);
+                mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].sandboxID = mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].sandboxID.Trim();
+                AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].deploymentID, tooltip: "Deployment ID to use for override", labelWidth: 90);
+                mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].deploymentID = mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides[i].deploymentID.Trim();
+                if (GUILayout.Button("Remove", GUILayout.MaxWidth(70)))
+                {
+                    mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides.RemoveAt(i);
+                }
+                EditorGUILayout.EndHorizontal();
+            }
+            if (GUILayout.Button("Add", GUILayout.MaxWidth(100)))
+            {
+                mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides.Add(new SandboxDeploymentOverride());
+            }
+
             AssigningULongToStringField("Thread Affinity: networkWork", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_networkWork,
                 tooltip: "(Optional) Specifies thread affinity for network management that is not IO");
             AssigningULongToStringField("Thread Affinity: storageIO", ref mainEOSConfigFile.currentEOSConfig.ThreadAffinity_storageIO,
@@ -574,7 +592,7 @@ _WIN32 || _WIN64
         {
             EnsureConfigLoaded();
             string[] toolbarTitlesToUse = CreateToolbarTitles();
-            int xCount = (int)(EditorGUIUtility.currentViewWidth / 120);
+            int xCount = (int)(EditorGUIUtility.currentViewWidth / 200);
             toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitlesToUse, xCount);
             switch (toolbarInt)
             {

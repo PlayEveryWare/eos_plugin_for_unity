@@ -1,0 +1,9 @@
+{
+	"title"											: "<ProductName>",
+	"executable"									: "<ExeName>/Contents/MacOS/<UnityProductName>",
+	"productid"										: "<ProductID>",
+	"sandboxid"										: "<SandboxID>",
+	"deploymentid"									: "<DeploymentID>",
+	"requested_splash"								: "EasyAntiCheat/SplashScreen.png",
+	"wait_for_game_process_exit"					: "false"
+}

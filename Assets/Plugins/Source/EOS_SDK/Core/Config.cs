@@ -65,9 +65,9 @@ namespace Epic.OnlineServices
 			"libEOSSDK-Mac-Shipping.dylib"
 
 		#elif EOS_PLATFORM_LINUX && EOS_UNITY
-			"EOSSDK-Linux-Shipping"
+			"libEOSSDK-Linux-Shipping"
 		#elif EOS_PLATFORM_LINUX
-			"EOSSDK-Linux-Shipping.so"
+			"libEOSSDK-Linux-Shipping.so"
 
 		#elif EOS_PLATFORM_IOS && EOS_UNITY && EOS_EDITOR
 			"EOSSDK"

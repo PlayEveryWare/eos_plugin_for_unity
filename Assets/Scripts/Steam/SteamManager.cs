@@ -34,7 +34,6 @@
 using System;
 using UnityEngine;
 #if !DISABLESTEAMWORKS
-using System.Collections;
 using Steamworks;
 #endif
 
@@ -48,33 +47,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
     public class SteamManager : MonoBehaviour
     {
 #if !DISABLESTEAMWORKS
-        protected static bool s_EverInitialized = false;
-
-        protected static SteamManager s_instance;
-        public static SteamManager Instance
-        {
-            get
-            {
-                if (s_instance == null)
-                {
-                    return new GameObject("SteamManager").AddComponent<SteamManager>();
-                }
-                else
-                {
-                    return s_instance;
-                }
-            }
-        }
-
-        protected bool m_bInitialized = false;
-        public static bool Initialized
-        {
-            get
-            {
-                return Instance.m_bInitialized;
-            }
-        }
-
         protected SteamAPIWarningMessageHook_t m_SteamAPIWarningMessageHook;
 
         [AOT.MonoPInvokeCallback(typeof(SteamAPIWarningMessageHook_t))]
@@ -83,71 +55,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             Debug.LogWarning(pchDebugText);
         }
 
-#if UNITY_2019_3_OR_NEWER
-        // In case of disabled Domain Reload, reset static members before entering Play Mode.
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void InitOnPlayMode()
-        {
-            s_EverInitialized = false;
-            s_instance = null;
-        }
-#endif
-
         //Enter Steam App ID here when available
         public const uint STEAM_APPID = 0;
 
-        public string GetSteamID()
-        {
-            return SteamUser.GetSteamID().GetAccountID().ToString();
-        }
-
         HAuthTicket sessionTicketHandle = HAuthTicket.Invalid;
         string sessionTicketString = null;
-        public string GetSessionTicket()
-        {
-            if (sessionTicketHandle != HAuthTicket.Invalid)
-            {
-                return sessionTicketString;
-            }
-
-            int bufferSize = 1024;
-            byte[] buffer = new byte[bufferSize];
-            uint ticketSize = 0;
-            sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
-            if ((int)ticketSize > bufferSize)
-            {
-                SteamUser.CancelAuthTicket(sessionTicketHandle);
-                bufferSize = (int)ticketSize;
-                sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
-            }
-            Array.Resize(ref buffer, (int)ticketSize);
-            //convert to hex string
-            sessionTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
-            return sessionTicketString;
-        }
 
         CallResult<EncryptedAppTicketResponse_t> appTicketCallResult = new CallResult<EncryptedAppTicketResponse_t>();
         private event Action<string> appTicketEvent;
         private string encryptedAppTicket = null;
-
-        public void RequestAppTicket(Action<string> callback)
-        {
-            if (encryptedAppTicket != null)
-            {
-                callback?.Invoke(encryptedAppTicket);
-                return;
-            }
-
-            if (appTicketEvent != null)
-            {
-                appTicketEvent += callback;
-                return;
-            }
-
-            appTicketEvent += callback;
-            var call = SteamUser.RequestEncryptedAppTicket(null, 0);
-            appTicketCallResult.Set(call, RequestAppTicketResponse);
-        }
 
         private void RequestAppTicketResponse(EncryptedAppTicketResponse_t response, bool ioFailure)
         {
@@ -195,8 +111,110 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             }
         }
 
+
+
+        // This should only ever get called on first load and after an Assembly reload, You should never Disable the Steamworks Manager yourself.
+        protected virtual void OnEnable()
+        {
+            if (s_instance == null)
+            {
+                s_instance = this;
+            }
+
+            if (!m_bInitialized)
+            {
+                return;
+            }
+
+            if (m_SteamAPIWarningMessageHook == null)
+            {
+                // Set up our callback to receive warning messages from Steam.
+                // You must launch with "-debug_steamapi" in the launch args to receive warnings.
+                m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
+                SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
+            }
+        }
+
+        // OnApplicationQuit gets called too early to shutdown the SteamAPI.
+        // Because the SteamManager should be persistent and never disabled or destroyed we can shutdown the SteamAPI here.
+        // Thus it is not recommended to perform any Steamworks work in other OnDestroy functions as the order of execution can not be garenteed upon Shutdown. Prefer OnDisable().
+        protected virtual void OnDestroy()
+        {
+            if (s_instance != this)
+            {
+                return;
+            }
+
+            s_instance = null;
+
+            if (!m_bInitialized)
+            {
+                return;
+            }
+
+            SteamAPI.Shutdown();
+        }
+
+        protected virtual void Update()
+        {
+            if (!m_bInitialized)
+            {
+                return;
+            }
+
+            // Run Steam client callbacks
+            SteamAPI.RunCallbacks();
+        }
+#endif
+        protected static bool s_EverInitialized = false;
+
+        protected static SteamManager s_instance;
+
+
+        protected bool m_bInitialized = false;
+        public static bool Initialized
+        {
+            get
+            {
+                return Instance.m_bInitialized;
+            }
+        }
+
+#if UNITY_2019_3_OR_NEWER
+        // In case of disabled Domain Reload, reset static members before entering Play Mode.
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void InitOnPlayMode()
+        {
+            s_EverInitialized = false;
+            s_instance = null;
+        }
+#endif
+
+        public static SteamManager Instance
+        {
+            get
+            {
+#if !STEAMWORKS_MODULE
+                Debug.LogError("Steamworks.NET plugin not installed. Install through the package manager from the git URL https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net");
+#endif
+                if (s_instance == null)
+                {
+                    return new GameObject("SteamManager").AddComponent<SteamManager>();
+                }
+                else
+                {
+                    return s_instance;
+                }
+            }
+        }
+
         protected virtual void Awake()
         {
+#if DISABLESTEAMWORKS
+            s_instance = this;
+            m_bInitialized = true;
+            s_EverInitialized = true;
+#else
             // Only one instance of SteamManager at a time!
             if (s_instance != null)
             {
@@ -268,99 +286,124 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             }
 
             s_EverInitialized = true;
-        }
-
-        // This should only ever get called on first load and after an Assembly reload, You should never Disable the Steamworks Manager yourself.
-        protected virtual void OnEnable()
-        {
-            if (s_instance == null)
-            {
-                s_instance = this;
-            }
-
-            if (!m_bInitialized)
-            {
-                return;
-            }
-
-            if (m_SteamAPIWarningMessageHook == null)
-            {
-                // Set up our callback to receive warning messages from Steam.
-                // You must launch with "-debug_steamapi" in the launch args to receive warnings.
-                m_SteamAPIWarningMessageHook = new SteamAPIWarningMessageHook_t(SteamAPIDebugTextHook);
-                SteamClient.SetWarningMessageHook(m_SteamAPIWarningMessageHook);
-            }
-        }
-
-        // OnApplicationQuit gets called too early to shutdown the SteamAPI.
-        // Because the SteamManager should be persistent and never disabled or destroyed we can shutdown the SteamAPI here.
-        // Thus it is not recommended to perform any Steamworks work in other OnDestroy functions as the order of execution can not be garenteed upon Shutdown. Prefer OnDisable().
-        protected virtual void OnDestroy()
-        {
-            if (s_instance != this)
-            {
-                return;
-            }
-
-            s_instance = null;
-
-            if (!m_bInitialized)
-            {
-                return;
-            }
-
-            SteamAPI.Shutdown();
-        }
-
-        protected virtual void Update()
-        {
-            if (!m_bInitialized)
-            {
-                return;
-            }
-
-            // Run Steam client callbacks
-            SteamAPI.RunCallbacks();
-        }
-#else
-	public static bool Initialized
-    {
-		get
-        {
-			return false;
-		}
-	}
-
-    protected virtual void Awake()
-    {
-        Destroy(gameObject);
-    }
-
-    public string GetSteamID()
-    {
-        return null;
-    }
-
-    public string GetSessionTicket()
-    {
-        return null;
-    }
-
-    public void RequestAppTicket(Action<string> callback)
-    {
-        callback?.Invoke(null);
-    }
-
-    public static SteamManager Instance
-    {
-        get
-        {
-#if !STEAMWORKS_MODULE
-            Debug.LogError("Steamworks.NET plugin not installed. Install through the package manager from the git URL https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net");
 #endif
-            return null;
         }
-    }
-#endif // !DISABLESTEAMWORKS
+
+        public string GetSteamID()
+        {
+#if DISABLESTEAMWORKS
+            return null;
+#else
+            return SteamUser.GetSteamID().GetAccountID().ToString();
+#endif
+        }
+
+        public string GetSessionTicket()
+        {
+#if DISABLESTEAMWORKS
+            return null;
+#else
+            if (sessionTicketHandle != HAuthTicket.Invalid)
+            {
+                return sessionTicketString;
+            }
+
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+            uint ticketSize = 0;
+            sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
+            if ((int)ticketSize > bufferSize)
+            {
+                SteamUser.CancelAuthTicket(sessionTicketHandle);
+                bufferSize = (int)ticketSize;
+                sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
+            }
+            Array.Resize(ref buffer, (int)ticketSize);
+            //convert to hex string
+            sessionTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
+            return sessionTicketString;
+#endif
+
+        }
+
+        public void RequestAppTicket(Action<string> callback)
+        {
+#if DISABLESTEAMWORKS
+            callback?.Invoke(null);
+#else
+            if (encryptedAppTicket != null)
+            {
+                callback?.Invoke(encryptedAppTicket);
+                return;
+            }
+
+            if (appTicketEvent != null)
+            {
+                appTicketEvent += callback;
+                return;
+            }
+
+            appTicketEvent += callback;
+            var call = SteamUser.RequestEncryptedAppTicket(null, 0);
+            appTicketCallResult.Set(call, RequestAppTicketResponse);
+#endif
+        }
+
+        public void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
+        {
+#if DISABLESTEAMWORKS
+            onLoginCallback?.Invoke(new Epic.OnlineServices.Auth.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
+#else
+
+            string steamId = GetSteamID();
+            string steamToken = GetSessionTicket();
+            if (steamId == null)
+            {
+                Debug.LogError("ExternalAuth failed: Steam ID not valid");
+            }
+            else if (steamToken == null)
+            {
+                Debug.LogError("ExternalAuth failed: Steam session ticket not valid");
+            }
+            else
+            {
+                EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+                        Epic.OnlineServices.Auth.LoginCredentialType.ExternalAuth,
+                        Epic.OnlineServices.ExternalCredentialType.SteamSessionTicket,
+                        steamId,
+                        steamToken,
+                        onLoginCallback);
+            }
+#endif
+        }
+
+        public void StartConnectLoginWithSteamSessionTicket(EOSManager.OnConnectLoginCallback onLoginCallback)
+        {
+#if DISABLESTEAMWORKS
+            onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
+#else
+            string steamToken = GetSessionTicket();
+            EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamSessionTicket, steamToken, onloginCallback: onLoginCallback);
+#endif
+        }
+
+        public void StartConnectLoginWithSteamAppTicket(EOSManager.OnConnectLoginCallback onLoginCallback)
+        {
+#if DISABLESTEAMWORKS
+            onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
+#else
+            RequestAppTicket((string token) => {
+                if (token == null)
+                {
+                    Debug.LogError("Connect Login failed: Unable to get Steam app ticket");
+                    onLoginCallback?.Invoke(new Epic.OnlineServices.Connect.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
+                }
+                else
+                {
+                    EOSManager.Instance.StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType.SteamAppTicket, token, onloginCallback: onLoginCallback);
+                }
+            });
+#endif
+        }
     }
 }
