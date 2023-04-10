@@ -789,9 +789,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     Token = token
                 };
 
+                var defaultScopeFlags = AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
+
                 return new Epic.OnlineServices.Auth.LoginOptions {
                     Credentials = loginCredentials,
-                    ScopeFlags = loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags()
+                    ScopeFlags = loadedEOSConfig.authScopeOptionsFlags.Count > 0 ? loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags() : defaultScopeFlags
                 };
             }
 

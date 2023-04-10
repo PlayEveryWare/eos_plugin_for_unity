@@ -8,6 +8,80 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+##[2.2.1] - 2023-02-28
+### Added
+feat: openid connect login sample
+feat: linux makefile automation
+doc: Add quick doc about how to enable voice chat
+feat: windows library build automation
+feat: eostransport test functionality
+feat: mac makefile automation
+docs: p2p sample readme
+style: changed placeholder text in p2p sample productuserid ui for clarity
+chore: Add description json for installing the EOS SDK from a zip
+fix: android text input disappearing
+fix: android text input keyboard null check
+fix: android text input handling
+fix: check against 0 instead of 1 to ensure games with only 1 achievement show correctly
+feat: debug toggle for msbuild library automation
+feat: msbuild log levels
+feat: sandbox deployment id overrides
+feat: platform library build config
+
+### Changed
+refactor: made MakefileUtil class partial for extensibility
+fix: windows exe launch order change to fix EAC 
+refactor: isolated steam functionality
+
+### Removed
+refactor(stress test) Removed TMP dependency
+
+### Fixed
+fix: overrode EOSPluginEditorToolsConfig.Equals and GetHashCode to suppress warnings
+fix: openid sample token acquision
+fix: linux sdk library name
+fix: debug log mesh error
+fix: unknown version value shown to users
+fix: add missing ref to text mesh pro
+fix: Use MacOS code paths when running in editor on mac, even when Unity platform is set to Android
+fix: custom invites payload init and clear
+fix: player report ui persists after logout
+fix: plugin build version
+fix(UI,Lobby) : UI Navigation and Layout change
+fix(UI) : Member Entry highlight
+fix(UI,friends) : UI Layout and Navigation fix
+fix: build version string
+fix(UI) : Hide lobby search when FriendTab on to allow invite navigation
+fix: extended section tabs in eos config editor
+fix: netcode sample object spawning
+fix: removed missing script from stress test scene
+fix(UI, leaderboard): Removed yellow highlight and other adjustments
+fix: old input system dpad support
+fix:(UI, lobby): Updating invite checking/popup
+fix: input system asmdef ref
+feat: netcode sample controller and touch input
+fix: added remaining platforms to title storage platform tag list
+fix: EOSPluginEditorToolsConfig comparison functions
+fix(lobby): Logging in/out correctly enables callbacks
+fix: custom invite entry interaction
+fix: player data dropdown selection highlight
+fix: log menu ui highlighting
+fix(UI, controller: sanction sample ui navigation
+fix(UI, controller): ui selection loss
+fix: device display name .net compatibility
+fix: ui selection fallback
+fix: stress test ui navigation
+feat: mac eac support/standalone build consolidation
+fix: added missing mac eac files
+fix: mac eac support
+fix: linux eac support
+fix: Don't check for valid EOS config files when the build target has EOS disabled.
+fix controller scroll navigation
+fix: login ui connect dropdown
+fix: use newer method for checking platform defines on Unity versions that have it.
+fix: ensure the eos config file is loaded so product id can always be accessed    
+    
+
 ##[2.2.0] - 2023-02-28
 ### Added
 - Discord connect sample
