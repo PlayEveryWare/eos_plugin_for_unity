@@ -32,6 +32,9 @@ namespace PlayEveryWare.EpicOnlineServices
         public List<string> flags;
         public string overrideLibraryPath;
 
+        public uint steamSDKMajorVersion;
+        public uint steamSDKMinorVersion;
+
         public EOSSteamConfig Clone()
         {
             return (EOSSteamConfig)this.MemberwiseClone();
@@ -41,6 +44,8 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags)
                 && EmptyPredicates.IsEmptyOrNull(overrideLibraryPath)
+                && steamSDKMajorVersion == 0
+                && steamSDKMinorVersion == 0
             ;
         }
     }

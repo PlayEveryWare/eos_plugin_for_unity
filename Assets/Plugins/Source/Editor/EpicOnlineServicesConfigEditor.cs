@@ -341,6 +341,36 @@ _WIN32 || _WIN64
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
 
+        public static void AssigningUintField(string label, ref uint value, float labelWidth = -1, string tooltip = null)
+        {
+            float originalLabelWidth = EditorGUIUtility.labelWidth;
+            if (labelWidth >= 0)
+            {
+                EditorGUIUtility.labelWidth = labelWidth;
+            }
+
+            uint newValue = value;
+            var newValueAsString = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value.ToString(), GUILayout.ExpandWidth(true));
+            if (string.IsNullOrWhiteSpace(newValueAsString))
+            {
+                newValueAsString = "0";
+            }
+
+            try
+            {
+                newValue = uint.Parse(newValueAsString);
+                value = newValue;
+            }
+            catch (FormatException)
+            {
+            }
+            catch (OverflowException)
+            {
+            }
+
+            EditorGUIUtility.labelWidth = originalLabelWidth;
+        }
+
         public static void AssigningULongToStringField(string label, ref string value, float labelWidth = -1, string tooltip = null)
         {
             float originalLabelWidth = EditorGUIUtility.labelWidth;
@@ -578,6 +608,8 @@ _WIN32 || _WIN64
             GUILayout.Label("Steam Configuration Values", EditorStyles.boldLabel);
             AssigningFlagTextField("Steam Flags (Seperated by '|')", ref steamEOSConfigFile.currentEOSConfig.flags, 190);
             AssigningTextField("Override Library path", ref steamEOSConfigFile.currentEOSConfig.overrideLibraryPath);
+            AssigningUintField("Steamworks SDK major version", ref steamEOSConfigFile.currentEOSConfig.steamSDKMajorVersion, 190);
+            AssigningUintField("Steamworks SDK minor version", ref steamEOSConfigFile.currentEOSConfig.steamSDKMinorVersion, 190);
         }
 
         // TODO: create way to hook up new platforms dynamically 
