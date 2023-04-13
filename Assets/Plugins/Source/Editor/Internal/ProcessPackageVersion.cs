@@ -20,39 +20,28 @@
 * SOFTWARE.
 */
 
+using UnityEngine;
+using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
-using System.IO;
-using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
     public class PreprocessPackageVersion : IPreprocessBuildWithReport
     {
-        public const string packageInfoPath = "Assets/Plugins/Essential/EOSPackageInfo.cs";
-        public const string versionRegexString = @"const string buildVersion = [^\s;]*;";
+        public const string packageVersionPath = "Assets/Resources/eosPluginVersion.asset";
 
         public int callbackOrder { get { return 0; } }
         public void OnPreprocessBuild(BuildReport report)
         {
             string packageVersion = EOSPackageInfo.GetPackageVersion();
-            var versionRegex = new Regex(versionRegexString);
-            var packageInfoContents = File.ReadAllText(packageInfoPath);
-            packageInfoContents = versionRegex.Replace(packageInfoContents, $"const string buildVersion = \"{packageVersion}\";");
-            File.WriteAllText(packageInfoPath, packageInfoContents);
-        }
-    }
-
-    public class PostprocessPackageVersion : IPostprocessBuildWithReport
-    {
-        public int callbackOrder { get { return 0; } }
-
-        public void OnPostprocessBuild(BuildReport report)
-        {
-            var versionRegex = new Regex(PreprocessPackageVersion.versionRegexString);
-            var packageInfoContents = File.ReadAllText(PreprocessPackageVersion.packageInfoPath);
-            packageInfoContents = versionRegex.Replace(packageInfoContents, "const string buildVersion = UnknownVersion;");
-            File.WriteAllText(PreprocessPackageVersion.packageInfoPath, packageInfoContents);
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Resources");
+            }
+            TextAsset versionAsset = new TextAsset(packageVersion);
+            AssetDatabase.CreateAsset(versionAsset, packageVersionPath);
+            AssetDatabase.SaveAssets();
         }
     }
 }

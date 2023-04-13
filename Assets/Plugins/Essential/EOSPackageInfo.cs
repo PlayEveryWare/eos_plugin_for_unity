@@ -35,9 +35,6 @@ public static class EOSPackageInfo
 
     //-------------------------------------------------------------------------
     //VERSION START
-
-    const string buildVersion = UnknownVersion;
-
     private struct VersionReader
     {
         public string version;
@@ -49,18 +46,19 @@ public static class EOSPackageInfo
             var pathToManifest = System.IO.Path.Combine(UnityEngine.Application.dataPath, "..", "EOSUnityPlugin_package_template", "package.json");
             var contents = System.IO.File.ReadAllText(pathToManifest);
             var versionData = UnityEngine.JsonUtility.FromJson<VersionReader>(contents);
-            if (versionData.version != null)
-            {
-                return versionData.version;
-            }
-            else
-            {
-                return buildVersion;
-            }
+            return versionData.version;
         }
         catch
         {
-            return buildVersion;
+            var versionAsset = UnityEngine.Resources.Load<UnityEngine.TextAsset>("eosPluginVersion");
+            if (versionAsset != null)
+            {
+                return versionAsset.text;
+            }
+            else
+            {
+                return UnknownVersion;
+            }
         }
     }
     //VERSION END
