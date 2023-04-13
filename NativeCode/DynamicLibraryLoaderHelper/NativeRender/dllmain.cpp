@@ -1360,59 +1360,52 @@ DLL_EXPORT(void) UnityPluginLoad(void*)
     std::istream_iterator<std::string> argsBegin(argStream);
     std::istream_iterator<std::string> argsEnd;
     std::vector<std::string> argStrings(argsBegin, argsEnd);
-    const char* hexChars = "0123456789abcdefABCDEF";
-    for (int i = 0; i < argStrings.size() - 1; ++i)
+    std::string egsArgName = "-epicsandboxid=";
+    std::string sandboxArgName = "-eossandboxid=";
+    for (unsigned i = 0; i < argStrings.size(); ++i)
     {
-        if (argStrings[i] == "-eossandboxid" || argStrings[i] == "-epicsandboxid")
+        std::string* match = nullptr;
+        if (argStrings[i]._Starts_with(sandboxArgName))
         {
-            std::string sandboxArg = argStrings[i + 1];
-            log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
-            if (sandboxArg.length() == 32 && sandboxArg.find_first_not_of(hexChars) == std::string::npos)
+            match = &sandboxArgName;
+        }
+        else if(argStrings[i]._Starts_with(egsArgName))
+        {
+            match = &egsArgName;
+        }
+        if (match != nullptr)
+        {
+            std::string sandboxArg = argStrings[i].substr(match->length());
+            if (!sandboxArg.empty())
             {
+                log_inform(("Sandbox ID override specified: " + sandboxArg).c_str());
                 eos_config.sandboxID = sandboxArg;
-                log_inform("Sandbox ID override applied");
-            }
-            else
-            {
-                log_warn("Sandbox ID override is invalid: must be 32 hex characters");
             }
         }
     }
 #endif
 
     //check if a deployment id override exists for sandbox id
-    for (int i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
+    for (unsigned i = 0; i < eos_config.sandboxDeploymentOverrides.size(); ++i)
     {
         if (eos_config.sandboxID == eos_config.sandboxDeploymentOverrides[i].sandboxID)
         {
             log_inform(("Sandbox Deployment ID override specified: " + eos_config.sandboxDeploymentOverrides[i].deploymentID).c_str());
-            if (eos_config.sandboxDeploymentOverrides[i].deploymentID.length() == 32 && eos_config.sandboxDeploymentOverrides[i].deploymentID.find_first_not_of(hexChars) == std::string::npos)
-            {
-                log_inform("Sandbox Deployment ID override applied");
-                eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
-            }
-            else
-            {
-                log_warn("Sandbox Deployment ID override is invalid: must be 32 hex characters");
-            }
+            eos_config.deploymentID = eos_config.sandboxDeploymentOverrides[i].deploymentID;
         }
     }
 
 #if PLATFORM_WINDOWS
-    for (int i = 0; i < argStrings.size() - 1; ++i)
+    std::string deploymentArgName = "-eosdeploymentid=";
+    for (unsigned i = 0; i < argStrings.size(); ++i)
     {
-        if (argStrings[i] == "-eosdeploymentid")
+        if (argStrings[i]._Starts_with(deploymentArgName))
         {
-            std::string deploymentArg = argStrings[i + 1];
-            log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
-            if (deploymentArg.length() == 32 && deploymentArg.find_first_not_of(hexChars) == std::string::npos)
+            std::string deploymentArg = argStrings[i].substr(deploymentArgName.length());
+            if (!deploymentArg.empty())
             {
+                log_inform(("Deployment ID override specified: " + deploymentArg).c_str());
                 eos_config.deploymentID = deploymentArg;
-                log_inform("Deployment ID override applied");
-            }
-            else
-            {
-                log_warn("Deployment ID override is invalid: must be 32 hex characters");
             }
         }
     }

@@ -547,24 +547,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 LoadEOSLibraries();
                 NativeCallToUnloadEOS();
 
-                //support sandbox and deployment id override via command line arguments
-                var commandArgs = System.Environment.GetCommandLineArgs();
-                for (int i = 0; i < commandArgs.Length - 1; ++i)
+                var epicArgs = GetCommandLineArgsFromEpicLauncher();
+
+                if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    if (commandArgs[i] == "-eossandboxid" || commandArgs[i] == "-epicsandboxid")
-                    {
-                        var sandboxArg = commandArgs[i + 1];
-                        UnityEngine.Debug.Log("Sandbox ID override specified: " + sandboxArg);
-                        if (sandboxArg.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(sandboxArg).Success)
-                        {
-                            loadedEOSConfig.sandboxID = sandboxArg;
-                            UnityEngine.Debug.Log("Sandbox ID override applied");
-                        }
-                        else
-                        {
-                            UnityEngine.Debug.LogWarning("Sandbox ID override is invalid: must be 32 hex characters");
-                        }
-                    }
+                    UnityEngine.Debug.Log("Sandbox ID override specified: " + epicArgs.epicSandboxID);
+                    loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
                 }
 
                 if (loadedEOSConfig.sandboxDeploymentOverrides != null)
@@ -574,38 +562,16 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         if (loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
                         {
-                            loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
                             UnityEngine.Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
-                            if (deploymentOverride.deploymentID.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(deploymentOverride.deploymentID).Success)
-                            {
-                                loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
-                                UnityEngine.Debug.Log("Sandbox Deployment ID override applied");
-                            }
-                            else
-                            {
-                                UnityEngine.Debug.LogWarning("Sandbox Deployment ID override is invalid: must be 32 hex characters");
-                            }
+                            loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
                         }
                     }
                 }
 
-                //support sandbox and deployment id override via command line arguments
-                for (int i = 0; i < commandArgs.Length - 1; ++i)
+                if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
                 {
-                    if (commandArgs[i] == "-eosdeploymentid")
-                    {
-                        var deploymentArg = commandArgs[i + 1];
-                        UnityEngine.Debug.Log("Deployment ID override specified: " + deploymentArg);
-                        if (deploymentArg.Length == 32 && !EOSConfig.InvalidEncryptionKeyRegex.Match(deploymentArg).Success)
-                        {
-                            loadedEOSConfig.deploymentID = deploymentArg;
-                            UnityEngine.Debug.Log("Deployment ID override applied");
-                        }
-                        else
-                        {
-                            UnityEngine.Debug.LogWarning("Deployment ID override is invalid: must be 32 hex characters");
-                        }
-                    }
+                    UnityEngine.Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
+                    loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
                 }
 
                 Epic.OnlineServices.Result initResult = InitializePlatformInterface(loadedEOSConfig);
@@ -826,6 +792,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 public string epicUsername;
                 public string epicUserID;
                 public string epicLocale;
+                public string epicSandboxID;
+                public string epicDeploymentID;
             }
 
             /// <summary>
@@ -879,6 +847,19 @@ namespace PlayEveryWare.EpicOnlineServices
                     else if (argument.StartsWith("-epiclocale="))
                     {
                         ConfigureEpicArgument(argument, ref epicLauncherArgs.epicLocale);
+                    }
+                    else if (argument.StartsWith("-epicsandboxid="))
+                    {
+                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicSandboxID);
+                    }
+                    //support custom args for overriding sandbox or deployment
+                    else if (argument.StartsWith("-eossandboxid="))
+                    {
+                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicSandboxID);
+                    }
+                    else if (argument.StartsWith("-eosdeploymentid="))
+                    {
+                        ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
                     }
                 }
                 return epicLauncherArgs;
