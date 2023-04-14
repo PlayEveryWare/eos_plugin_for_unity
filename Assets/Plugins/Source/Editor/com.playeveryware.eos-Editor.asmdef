@@ -4,7 +4,8 @@
     "references": [
         "com.playeveryware.eos",
         "Unity.EditorCoroutines.Editor",
-        "com.playeveryware.eos.essential"
+        "com.playeveryware.eos.essential",
+        "com.rlabrecque.steamworks.net"
     ],
     "includePlatforms": [
         "Editor"
@@ -17,6 +18,12 @@
     "defineConstraints": [
         "!EOS_DISABLE_FULL"
     ],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.rlabrecque.steamworks.net",
+            "expression": "",
+            "define": "STEAMWORKS_MODULE"
+        }
+    ],
     "noEngineReferences": false
 }

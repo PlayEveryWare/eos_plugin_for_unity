@@ -610,6 +610,28 @@ _WIN32 || _WIN64
             AssigningTextField("Override Library path", ref steamEOSConfigFile.currentEOSConfig.overrideLibraryPath);
             AssigningUintField("Steamworks SDK major version", ref steamEOSConfigFile.currentEOSConfig.steamSDKMajorVersion, 190);
             AssigningUintField("Steamworks SDK minor version", ref steamEOSConfigFile.currentEOSConfig.steamSDKMinorVersion, 190);
+#if STEAMWORKS_MODULE
+            if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
+            {
+                var steamworksVersion = Steamworks.Version.SteamworksSDKVersion;
+                var versionParts = steamworksVersion.Split(".");
+                bool success = false;
+                if (versionParts.Length >= 2)
+                {
+                    success = uint.TryParse(versionParts[0], out uint major);
+                    success &= uint.TryParse(versionParts[1], out uint minor);
+                    if (success)
+                    {
+                        steamEOSConfigFile.currentEOSConfig.steamSDKMajorVersion = major;
+                        steamEOSConfigFile.currentEOSConfig.steamSDKMinorVersion = minor;
+                    }
+                }
+                if (!success)
+                {
+                    Debug.LogError("Failed to retrive Steamworks SDK version from Steamworks.NET");
+                }
+            }
+#endif
         }
 
         // TODO: create way to hook up new platforms dynamically 
