@@ -36,6 +36,14 @@
         {"src":"Assets/Plugins/Source/Essential/*.cs", "dest": "Runtime/Essential/"},
         {"src":"Assets/Plugins/Source/Essential/*.cs.meta", "dest": "Runtime/Essential/"},
         
+        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/csc.rsp.meta", "dest": "Editor/"},
+
+        {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
+        
         {"comment": "----------------------------Standalone---------------------------------------------"},
         {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
         {"src":"Assets/Plugins/Standalone/Editor/*", "dest": "Editor/Standalone/"},
@@ -80,6 +88,8 @@
 
         {"comment": "----------------------------End Windows---------------------------------------------"},
         
+        {"comment": "----------------------------Linux---------------------------------------------"},
+        
         {"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
         
         {"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
@@ -93,24 +103,20 @@
         
         {"src":"Assets/Plugins/Linux/Essential.meta", "dest": "Runtime/Linux/"},
         {"src":"Assets/Plugins/Linux/Essential/*", "dest": "Runtime/Linux/Essential/"},
-
-        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/csc.rsp.meta", "dest": "Editor/"},
-
-        {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
         
-        {"src":"Assets/Plugins/Source/Editor/Linux.meta", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/Linux/*.cs", "dest": "Editor/Linux/"},
-        {"src":"Assets/Plugins/Source/Editor/Linux/*.cs.meta", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor.meta", "dest": "Editor/Linux.meta"},
+        {"src":"Assets/Plugins/Linux/Editor/*.cs", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.cs.meta", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.asmref", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.asmref.meta", "dest": "Editor/Linux/"},
         
         {"src":"PlatformSpecificAssets/EOS/Linux/eac_launcher", "dest": "PlatformSpecificAssets~/EOS/Linux/"},
         {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Licenses/"},
         {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Localization/"},
         {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
         {"src":"PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
+        
+        {"comment": "----------------------------End Linux---------------------------------------------"},
 
         {"comment": "----------------------------macOS---------------------------------------------"},
         {"src":"Assets/Plugins/macOS.meta", "dest": "Runtime/"},
