@@ -26,11 +26,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+#if !EOS_DISABLE
 using Epic.OnlineServices.Platform;
 using Epic.OnlineServices;
 using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
+#endif
 
 #if !UNITY_STANDALONE_WIN || !UNITY_EDITOR_WIN || !UNITY_WSA_10_0 || !UNITY_SWITCH || !UNITY_PS4 || !UNITY_PS5 || !UNITY_ANDROID
 

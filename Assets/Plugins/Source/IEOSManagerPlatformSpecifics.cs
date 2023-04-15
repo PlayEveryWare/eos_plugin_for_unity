@@ -20,12 +20,15 @@
 * SOFTWARE.
 */
 
-using UnityEngine;
-using Epic.OnlineServices;
-using Epic.OnlineServices.Platform;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+
+#if !EOS_DISABLE
+using Epic.OnlineServices;
+using Epic.OnlineServices.Platform;
+#endif
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -38,6 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public interface IEOSInitializeOptions
     {
+#if !EOS_DISABLE
         System.IntPtr AllocateMemoryFunction { get; set; }
 
         System.IntPtr ReallocateMemoryFunction { get; set; }
@@ -49,6 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices
         Utf8String ProductVersion { get; set; }
 
         InitializeThreadAffinity? OverrideThreadAffinity { get; set; }
+#endif
     }
 
     //-------------------------------------------------------------------------
@@ -60,6 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public interface IEOSCreateOptions
     {
+#if !EOS_DISABLE
         System.IntPtr Reserved { get; set; }
         Utf8String ProductId { get; set; }
         Utf8String SandboxId { get; set; }
@@ -75,6 +81,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM) || (UNITY_EDITOR_LINUX && EOS_PREVIEW_PLATFORM))
         Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get; set; }
+#endif
+
 #endif
     }
 
@@ -128,6 +136,7 @@ namespace PlayEveryWare.EpicOnlineServices
     //-------------------------------------------------------------------------
     public interface IEOSManagerPlatformSpecifics
     {
+#if !EOS_DISABLE
         string GetTempDir();
 
         void AddPluginSearchPaths(ref List<string> pluginPaths);
@@ -155,5 +164,6 @@ namespace PlayEveryWare.EpicOnlineServices
         void RegisterForPlatformNotifications();
 
         bool IsApplicationConstrainedWhenOutOfFocus();
+#endif
     }
 }

@@ -54,17 +54,19 @@ using System;
 using System.IO;
 using AOT;
 
-using UnityEngine;
+#if !EOS_DISABLE
 using Epic.OnlineServices.Platform;
 using Epic.OnlineServices;
 using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Logging;
 using Epic.OnlineServices.Connect;
+using Epic.OnlineServices.UI;
+#endif
 
+using UnityEngine;
 using UnityEngine.Assertions;
 using System.Diagnostics;
 using System.Collections;
-using Epic.OnlineServices.UI;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -80,6 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices
         // <value>If true, EOSManager initialized itself at startup.</value>
         public bool InitializeOnAwake = true;
 
+#if !EOS_DISABLE
         public delegate void OnAuthLoginCallback(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
         public delegate void OnAuthLogoutCallback(LogoutCallbackInfo data);
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
@@ -1535,6 +1538,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
         }
+#endif
 
         /// <value>Private static instance of <c>EOSSingleton</c></value>
         static EOSSingleton s_instance;
@@ -1553,7 +1557,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-
+#if !EOS_DISABLE
         //-------------------------------------------------------------------------
         /// <summary>Unity [Awake](https://docs.unity3d.com/ScriptReference/MonoBehaviour.Awake.html) is called when script instance is being loaded.
         /// <list type="bullet">
@@ -1611,6 +1615,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             EOSManager.Instance.OnApplicationPause(pauseStatus);
         }
+#endif
 
         //-------------------------------------------------------------------------
         void IEOSCoroutineOwner.StartCoroutine(IEnumerator routine)

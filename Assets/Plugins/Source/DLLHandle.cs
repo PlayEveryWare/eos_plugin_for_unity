@@ -32,6 +32,8 @@ using UnityEngine;
 
 using PlayEveryWare.EpicOnlineServices;
 
+#if !EOS_DISABLE
+
 public class DLLHandle : SafeHandle
 {
     public override bool IsInvalid => handle == IntPtr.Zero;
@@ -267,3 +269,5 @@ public class DLLHandle : SafeHandle
         return Marshal.GetDelegateForFunctionPointer(functionPointer, functionType);
     }
 }
+
+#endif

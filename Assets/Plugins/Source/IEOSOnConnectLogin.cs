@@ -20,7 +20,6 @@
 * SOFTWARE.
 */
 
-
 namespace PlayEveryWare.EpicOnlineServices
 {
     /// <summary>
@@ -28,7 +27,8 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public interface IEOSOnConnectLogin
     {
+#if !EOS_DISABLE
         void OnConnectLogin(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
+#endif
     }
 }
-

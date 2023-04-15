@@ -21,19 +21,18 @@
 */
 
 using System;
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
+#if !EOS_DISABLE
 using Epic.OnlineServices;
 using Epic.OnlineServices.Connect;
 using Epic.OnlineServices.Friends;
 using Epic.OnlineServices.Presence;
 using Epic.OnlineServices.UserInfo;
-
-using System.Collections.Generic;
-
 using Epic.OnlineServices.UI;
-using System.Collections;
+#endif
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -41,11 +40,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     {
         void Awake()
         {
+#if !EOS_DISABLE
+
 #if UNITY_PS5 && !UNITY_EDITOR
             EOSPSNManager.EnsurePS5Initialized();
 #endif
 
             EOSManager.Instance.Init(this);
+#endif
         }
 
         void IEOSCoroutineOwner.StartCoroutine(IEnumerator routine)

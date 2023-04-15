@@ -22,6 +22,8 @@
 
 using UnityEngine;
 
+#if !EOS_DISABLE
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     public partial class EOSManager : MonoBehaviour
@@ -217,3 +219,5 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+
+#endif
