@@ -2208,6 +2208,7 @@ GameObject:
   - component: {fileID: 5557305858795951441}
   - component: {fileID: 5557305858795951438}
   - component: {fileID: 1128939736724247952}
+  - component: {fileID: 1423676585686635654}
   m_Layer: 5
   m_Name: LoginButton
   m_TagString: Untagged
@@ -2350,6 +2351,21 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1423676585686635654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557305858795951436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3e086d92861a8428faf740c1f97e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Log in to EOS using specified parameters
+  position: 0
+  PreferredWidth: -1
 --- !u!1 &5557305858822341315
 GameObject:
   m_ObjectHideFlags: 0

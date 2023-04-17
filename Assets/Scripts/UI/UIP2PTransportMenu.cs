@@ -80,9 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             return Keyboard.current?.escapeKey.wasPressedThisFrame == true ||
                 Gamepad.current?.aButton.wasPressedThisFrame == true ||
-                Gamepad.current?.bButton.wasPressedThisFrame == true ||
-                Gamepad.current?.xButton.wasPressedThisFrame == true ||
-                Gamepad.current?.yButton.wasPressedThisFrame == true;
+                Gamepad.current?.bButton.wasPressedThisFrame == true;
         }
 
         public void Update()
