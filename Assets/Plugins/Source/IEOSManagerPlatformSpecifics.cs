@@ -91,7 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         static IEOSManagerPlatformSpecifics s_platformSpecifics;
 
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void InitOnPlayMode()
         {
             s_platformSpecifics = null;
