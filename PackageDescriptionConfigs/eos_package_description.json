@@ -15,6 +15,7 @@
         {"src":"docs/standards.md", "dest" : "Documentation~/"},
         {"src":"docs/configuring_the_eos_plugin.md", "dest" : "Documentation~/"},
         {"src":"docs/custom_eos_config_location.md", "dest" : "Documentation~/"},
+        {"src":"docs/frequently_asked_questions.md", "dest" : "Documentation~/"},
 
         {"src":"docs/images/*", "dest" : "Documentation~/images/"},
 
