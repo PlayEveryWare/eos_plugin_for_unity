@@ -267,6 +267,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     EventSystem.current.SetSelectedGameObject(UIFindSelectable);
                 }
+                else
+                {
+                    var selectables = GameObject.FindObjectsOfType<Selectable>(false);
+                    foreach (var selectable in selectables)
+                    {
+                        if (selectable.navigation.mode != Navigation.Mode.None)
+                        {
+                            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+                            break;
+                        }
+                    }
+                }
 
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
