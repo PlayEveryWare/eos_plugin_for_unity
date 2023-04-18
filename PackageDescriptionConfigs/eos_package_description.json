@@ -30,10 +30,10 @@
         {"src":"Assets/Plugins/*.cs.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/*.prefab", "dest": "Runtime/"},
         {"src":"Assets/Plugins/*.prefab.meta", "dest": "Runtime/"},
-        {"src":"Assets/Plugins/Source/*.cs", "dest": "Runtime/"},
-        {"src":"Assets/Plugins/Source/*.cs.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Essential.meta", "dest": "Runtime/"},
         {"src":"Assets/Plugins/Essential/*", "dest": "Runtime/Essential/"},
+        {"src":"Assets/Plugins/Source/*.cs", "dest": "Runtime/Essential/"},
+        {"src":"Assets/Plugins/Source/*.cs.meta", "dest": "Runtime/Essential/"},
         {"src":"Assets/Plugins/Source/Essential/*.cs", "dest": "Runtime/Essential/"},
         {"src":"Assets/Plugins/Source/Essential/*.cs.meta", "dest": "Runtime/Essential/"},
         
@@ -325,8 +325,8 @@
 
         {"src":"Assets/Plugins/Android.meta", "dest": "Runtime/"},
 
-        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp", "dest": "Runtime/"},
-        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp.meta", "dest": "Runtime/Android/"},
 
         {"src":"PlatformSpecificAssets/EOS/Android/", "dest": "PlatformSpecificAssets~/EOS/Android/"},
 
@@ -386,6 +386,8 @@
         {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Editor/iOS/"},
         {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/iOS/"},
         {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/SignInWithApple.meta", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/SignInWithApple/*", "dest": "Editor/iOS/SignInWithApple/"},
 
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
@@ -419,6 +421,8 @@
         {"src":"Assets/Scripts/OpenID.meta", "dest": "Samples~/Samples/Scripts/OpenID.meta"},
         {"src":"Assets/Scripts/OpenID/*", "dest": "Samples~/Samples/Scripts/OpenID/"},
         {"src":"Assets/Scripts/OpenID/CloudFunction/*", "dest": "Samples~/Samples/Scripts/OpenID/CloudFunction/"},
+        {"src":"Assets/Scripts/SignInWithApple.meta", "dest": "Samples~/Samples/Scripts/SignInWithApple.meta"},
+        {"src":"Assets/Scripts/SignInWithApple/*", "dest": "Samples~/Samples/Scripts/SignInWithApple/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},
