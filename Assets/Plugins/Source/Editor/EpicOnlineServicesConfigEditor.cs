@@ -509,6 +509,10 @@ _WIN32 || _WIN64
             AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.deploymentID, tooltip: "Deployment ID defined in the EOS Development Portal");
 
             EditorGUILayout.LabelField("Sandbox Deployment Overrides");
+            if(mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides == null)
+            {
+                mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides = new List<SandboxDeploymentOverride>();
+            }
             for (int i = 0; i < mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides.Count; ++i)
             {
                 EditorGUILayout.BeginHorizontal();

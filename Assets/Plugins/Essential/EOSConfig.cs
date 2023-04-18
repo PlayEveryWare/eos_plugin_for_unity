@@ -302,6 +302,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 && EmptyPredicates.IsEmptyOrNull(productID)
                 && EmptyPredicates.IsEmptyOrNull(sandboxID)
                 && EmptyPredicates.IsEmptyOrNull(deploymentID)
+                && (sandboxDeploymentOverrides == null || sandboxDeploymentOverrides.Count == 0)
                 && EmptyPredicates.IsEmptyOrNull(clientSecret)
                 && EmptyPredicates.IsEmptyOrNull(clientID)
                 && EmptyPredicates.IsEmptyOrNull(encryptionKey)
