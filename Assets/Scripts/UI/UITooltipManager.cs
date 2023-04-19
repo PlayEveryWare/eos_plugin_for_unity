@@ -97,7 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #else
         public void Update()
         {
-            if (Input.GetButtonDown("Tooltip") && EventSystem.current.currentSelectedGameObject != null)
+            if ((Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown(KeyCode.Joystick1Button3)) && EventSystem.current.currentSelectedGameObject != null)
             {
                 ToggleTooltip(EventSystem.current.currentSelectedGameObject);
             }
