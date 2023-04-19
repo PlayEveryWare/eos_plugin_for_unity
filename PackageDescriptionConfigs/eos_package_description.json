@@ -412,6 +412,8 @@
         {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/Scripts/Util.meta"},
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
+        {"src":"Assets/Scripts/Essential.meta", "dest": "Samples~/Samples/Scripts/Essential.meta"},
+        {"src":"Assets/Scripts/Essential/*", "dest": "Samples~/Samples/Scripts/Essential/"},
         {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/Scripts/Networking.meta"},
         {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/Scripts/Networking/"},
         {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/Scripts/Steam.meta"},
