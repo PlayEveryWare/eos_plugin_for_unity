@@ -19,6 +19,15 @@ This repo contains:
 * Native Source for <code>GfxPluginNativeRender</code>
 * Tool to build a Unity Package Manager compatible UPM
 
+## Quick Install
+1. [Download the UPM](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases/download/v2.2.1/com.playeveryware.eos-2.2.1.tgz)
+2. Move UPM download to the repo, but not under Assets/
+2. [Install package in the Unity Package Manager](https://docs.unity3d.com/Manual/upm-ui-tarball.html)
+3. [Configure the plugin] (https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/stable#configuring-the-plugin)
+
+## FAQ
+See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md)
+
 ## Supported Platforms
 
 The follow target platforms are supported in Unity for the current release of the plugin.
