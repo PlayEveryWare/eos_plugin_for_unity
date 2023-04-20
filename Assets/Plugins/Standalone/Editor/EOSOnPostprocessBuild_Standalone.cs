@@ -141,6 +141,21 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
     }
 #endif
 
+    private string GetDefaultIntegrityToolPath()
+    {
+        string toolPath = Path.Join(GetPathToEOSBin(), "EAC");
+#if UNITY_EDITOR_WIN
+        toolPath = Path.Combine(toolPath, "Windows", "anticheat_integritytool64.exe");
+#elif UNITY_EDITOR_OSX
+        toolPath = Path.Combine(toolPath, "Mac", "anticheat_integritytool");
+#elif UNITY_EDITOR_LINUX
+        toolPath = Path.Combine(toolPath, "Linux", "anticheat_integritytool");
+#else
+        toolPath = null;
+#endif
+        return toolPath;
+    }
+
     //use anticheat_integritytool to hash protected files and generate certificate for EAC
     private void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID, string keyFileName, string certFileName, string configFile = null)
     {
@@ -421,11 +436,18 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
 
             if (useEAC &&
                 editorToolConfig != null &&
-                !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACIntegrityTool) &&
                 !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
                 !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACCertificate))
             {
-                GenerateIntegrityCert(report, editorToolConfig.pathToEACIntegrityTool, GetEOSConfig().productID, editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate, editorToolConfig.pathToEACIntegrityConfig);
+                string toolPath = editorToolConfig.pathToEACIntegrityTool;
+                if (string.IsNullOrWhiteSpace(toolPath))
+                {
+                    toolPath = GetDefaultIntegrityToolPath();
+                }
+                if (!string.IsNullOrWhiteSpace(toolPath))
+                {
+                    GenerateIntegrityCert(report, toolPath, GetEOSConfig().productID, editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate, editorToolConfig.pathToEACIntegrityConfig);
+                }
             }
         }
     }
