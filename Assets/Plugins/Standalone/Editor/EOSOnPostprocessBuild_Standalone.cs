@@ -156,7 +156,12 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         return toolPath;
     }
 
-    //use anticheat_integritytool to hash protected files and generate certificate for EAC
+    private string GetDefaultIntegrityConfigPath()
+    {
+        return Path.Join(GetPathToEOSBin(), "EAC", "anticheat_integritytool.cfg");
+    }
+
+        //use anticheat_integritytool to hash protected files and generate certificate for EAC
     private void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID, string keyFileName, string certFileName, string configFile = null)
     {
         string installPathForExe = report.summary.outputPath;
@@ -170,7 +175,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         }
 
         string newCfgPath = Path.Join(Application.temporaryCachePath, "eac_integritytool.cfg");
-        File.Copy(originalCfg, newCfgPath);
+        File.Copy(originalCfg, newCfgPath, true);
         ReplaceFileContentVars(newCfgPath);
         configFile = newCfgPath;
 
@@ -439,14 +444,22 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
                 !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
                 !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACCertificate))
             {
+                bool defaultTool = false;
                 string toolPath = editorToolConfig.pathToEACIntegrityTool;
                 if (string.IsNullOrWhiteSpace(toolPath))
                 {
                     toolPath = GetDefaultIntegrityToolPath();
+                    defaultTool = true;
+                }
+                string cfgPath = editorToolConfig.pathToEACIntegrityConfig;
+                if (string.IsNullOrWhiteSpace(cfgPath) && defaultTool)
+                {
+                    //use default cfg if no cfg is specified and default tool path is used
+                    cfgPath = GetDefaultIntegrityConfigPath();
                 }
                 if (!string.IsNullOrWhiteSpace(toolPath))
                 {
-                    GenerateIntegrityCert(report, toolPath, GetEOSConfig().productID, editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate, editorToolConfig.pathToEACIntegrityConfig);
+                    GenerateIntegrityCert(report, toolPath, GetEOSConfig().productID, editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate, cfgPath);
                 }
             }
         }

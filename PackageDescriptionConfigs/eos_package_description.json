@@ -154,13 +154,11 @@
         
         {"comment": "----------------------------EAC bin---------------------------------------------"},
         
+        {"src":"bin/EAC/anticheat_integritytool.cfg", "dest": "bin~/EAC/"},
         {"src":"bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
         {"src":"bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
-        {"src":"bin/EAC/Windows/anticheat_integritytool.cfg", "dest": "bin~/EAC/Windows/"},
         {"src":"bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
-        {"src":"bin/EAC/Linux/anticheat_integritytool.cfg", "dest": "bin~/EAC/Linux/"},
         {"src":"bin/EAC/Mac/anticheat_integritytool", "dest": "bin~/EAC/Mac/"},
-        {"src":"bin/EAC/Mac/anticheat_integritytool.cfg", "dest": "bin~/EAC/Mac/"},
         
         {"comment": "----------------------------End EAC bin---------------------------------------------"},
 
