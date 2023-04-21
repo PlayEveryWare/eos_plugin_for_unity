@@ -161,7 +161,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         return Path.Join(GetPathToEOSBin(), "EAC", "anticheat_integritytool.cfg");
     }
 
-        //use anticheat_integritytool to hash protected files and generate certificate for EAC
+    //use anticheat_integritytool to hash protected files and generate certificate for EAC
     private void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID, string keyFileName, string certFileName, string configFile = null)
     {
         string installPathForExe = report.summary.outputPath;
@@ -174,45 +174,65 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             originalCfg = Path.Join(toolDirectory, "anticheat_integritytool.cfg");
         }
 
-        string newCfgPath = Path.Join(Application.temporaryCachePath, "eac_integritytool.cfg");
+        string newCfgPath = Path.Join(Application.temporaryCachePath, $"eac_integritytool_{Guid.NewGuid()}.cfg");
         File.Copy(originalCfg, newCfgPath, true);
-        ReplaceFileContentVars(newCfgPath);
-        configFile = newCfgPath;
-
-        string integrityToolArgs = string.Format("-productid {0} -inkey \"{1}\" -incert \"{2}\" -target_game_dir \"{3}\"", productID, keyFileName, certFileName, installDirectory);
-        if (!string.IsNullOrWhiteSpace(configFile))
+        try
         {
-            integrityToolArgs += string.Format(" \"{0}\"", configFile);
+            ReplaceFileContentVars(newCfgPath);
+            configFile = newCfgPath;
+
+            string integrityToolArgs = string.Format("-productid {0} -inkey \"{1}\" -incert \"{2}\" -target_game_dir \"{3}\"", productID, keyFileName, certFileName, installDirectory);
+            if (!string.IsNullOrWhiteSpace(configFile))
+            {
+                integrityToolArgs += string.Format(" \"{0}\"", configFile);
+            }
+
+            var procInfo = new System.Diagnostics.ProcessStartInfo();
+            procInfo.FileName = pathToEACIntegrityTool;
+            procInfo.Arguments = integrityToolArgs;
+            procInfo.UseShellExecute = false;
+            procInfo.WorkingDirectory = toolDirectory;
+            procInfo.RedirectStandardOutput = true;
+            procInfo.RedirectStandardError = true;
+
+            var process = new System.Diagnostics.Process { StartInfo = procInfo };
+            process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
+            {
+                if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                {
+                    if (e.Data.StartsWith("[Err!]"))
+                    {
+                        Debug.LogError(e.Data);
+                    }
+                    else if (e.Data.StartsWith("[Warn]"))
+                    {
+                        Debug.LogWarning(e.Data);
+                    }
+                    else
+                    {
+                        Debug.Log(e.Data);
+                    }
+                }
+            });
+
+            process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
+            {
+                if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                {
+                    Debug.LogError(e.Data);
+                }
+            });
+
+            bool didStart = process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            process.Close();
         }
-
-        var procInfo = new System.Diagnostics.ProcessStartInfo();
-        procInfo.FileName = pathToEACIntegrityTool;
-        procInfo.Arguments = integrityToolArgs;
-        procInfo.UseShellExecute = false;
-        procInfo.WorkingDirectory = toolDirectory;
-        procInfo.RedirectStandardOutput = true;
-        procInfo.RedirectStandardError = true;
-
-        var process = new System.Diagnostics.Process { StartInfo = procInfo };
-        process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-            if (!EmptyPredicates.IsEmptyOrNull(e.Data))
-            {
-                Debug.Log(e.Data);
-            }
-        });
-
-        process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-            if (!EmptyPredicates.IsEmptyOrNull(e.Data))
-            {
-                Debug.LogError(e.Data);
-            }
-        });
-
-        bool didStart = process.Start();
-        process.BeginOutputReadLine();
-        process.BeginErrorReadLine();
-        process.WaitForExit();
-        process.Close();
+        finally
+        {
+            File.Delete(newCfgPath);
+        }
     }
 
     public static string GetRelativePath(string relativeTo, string path)
