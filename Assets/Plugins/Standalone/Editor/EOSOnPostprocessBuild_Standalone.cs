@@ -158,7 +158,18 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
 
     private string GetDefaultIntegrityConfigPath()
     {
-        return Path.Join(GetPathToEOSBin(), "EAC", "anticheat_integritytool.cfg");
+        string projectPathToCfg = Path.Combine(Application.dataPath, "Plugins/Standalone/Editor/anticheat_integritytool.cfg");
+        string packagePathToCfg = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Editor/Standalone/anticheat_integritytool.cfg"));
+
+        if (File.Exists(packagePathToCfg))
+        {
+            return packagePathToCfg;
+        }
+        else if (File.Exists(projectPathToCfg))
+        {
+            return projectPathToCfg;
+        }
+        return null;
     }
 
     //use anticheat_integritytool to hash protected files and generate certificate for EAC

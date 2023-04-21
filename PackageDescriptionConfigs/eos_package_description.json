@@ -154,7 +154,8 @@
         
         {"comment": "----------------------------EAC bin---------------------------------------------"},
         
-        {"src":"bin/EAC/anticheat_integritytool.cfg", "dest": "bin~/EAC/"},
+        {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg", "dest": "Editor/Standalone/"},
+        {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg.meta", "dest": "Editor/Standalone/"},
         {"src":"bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
         {"src":"bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
         {"src":"bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
