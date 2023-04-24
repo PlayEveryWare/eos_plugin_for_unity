@@ -35,6 +35,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
 
     private HashSet<string> postBuildFilesOptional = new HashSet<string>(){
         "[ExeName].eac",
+        "EasyAntiCheat/SplashScreen.png"
     };
 
     //files with contents that need string vars replaced
@@ -370,6 +371,22 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         }
     }
 
+    private void CopySplashImage(BuildReport report, string imagePath)
+    {
+        if (!File.Exists(imagePath))
+        {
+            Debug.LogError("Specified EAC splash image not found");
+            return;
+        }
+
+        string destPath = Path.Combine(Path.GetDirectoryName(report.summary.outputPath), "EasyAntiCheat/SplashScreen.png");
+        if (File.Exists(destPath))
+        {
+            File.SetAttributes(destPath, File.GetAttributes(destPath) & ~FileAttributes.ReadOnly);
+        }
+        File.Copy(imagePath, destPath, true);
+    }
+
     private EOSConfig GetEOSConfig()
     {
         if (eosConfig != null)
@@ -440,6 +457,11 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             buildExeName = Path.GetFileName(report.summary.outputPath);
 
             InstallFiles(report, useEAC);
+
+            if (useEAC && !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACSplashImage))
+            {
+                CopySplashImage(report, editorToolConfig.pathToEACSplashImage);
+            }
 
 #if UNITY_EDITOR_WIN
             if (report.summary.platform == BuildTarget.StandaloneWindows || report.summary.platform == BuildTarget.StandaloneWindows64)

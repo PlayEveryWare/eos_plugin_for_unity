@@ -10,9 +10,10 @@ The EOS plugin provides a method of automating EAC installation as part of the b
 # Steps
 1) Open your Unity project, with the plugin
 2) Open the editor preferences settings for the plugin, which is avaiable in Preferences->EOS Plugin. All EAC options are located under the Tools subheader.
-3) Enable EAC build steps by checking the ``Use EAC`` toggle.
-4) Set ``Path to EAC private key`` and ``Path to EAC Certificate`` to the private and public keys you previosuly downloaded, respectively.
-5) (Optional)
+3) Enable EAC build steps by checking the `Use EAC` toggle.
+4) Set `Path to EAC private key` and `Path to EAC Certificate` to the private and public keys you previosuly downloaded, respectively.
+5) (Recommended) Set `Path to EAC splash image` to a 800x450 PNG that will display in the EAC launcher.
+6) (Optional)
     1) If you want to customize the config for EAC integrity tool, you can copy the default config from `Packages/Epic Online Services Plugin for Unity/Editor/Standalone/anticheat_integritytool.cfg` to your desired location, customize it, and set `Path to EAC Integrity Tool Config` to the new file.
     2) If you've downloaded the integrity tool yourself and want to use that, the path can be set via `Path to EAC Integrity Tool`.
 
