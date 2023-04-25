@@ -68,6 +68,10 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Ecom.EcomInterface GetEOSEcomInterface()
             {
+#if UNITY_EDITOR
+                UnityEngine.Debug.LogError("Attempting to grab the EComInterface in the Editor: Won't work because the overlay isn't supported in the Unity Editor");
+#endif
+
                 return GetEOSPlatformInterface().GetEcomInterface();
             }
 
