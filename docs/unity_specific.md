@@ -39,7 +39,9 @@ Similarly we can feed the `IntPtr` received from `LoadLibrary(string)` into `Fre
 Hence allowing the sdk to modify its configurations.
 
 
-### Reference to other documents on how and why we need a GFX plugin on windows
+### Why do we need a GFX plugin on Windows
+
+GFX plugin is required so that the EOS Overlay can render properly on Windows
 
 
 
