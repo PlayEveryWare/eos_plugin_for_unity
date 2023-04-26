@@ -11,8 +11,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "!EOS_DISABLE",
-        "!EOS_DISABLE_FULL"
+        "!EOS_DISABLE"
     ],
     "versionDefines": [
         {

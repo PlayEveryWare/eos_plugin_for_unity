@@ -431,6 +431,11 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
     //-------------------------------------------------------------------------
     public void OnPostprocessBuild(BuildReport report)
     {
+        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report.summary.platform))
+        {
+            return;
+        }
+
         // Get the output path, and install the launcher if on a target that supports it
         if (report.summary.platform == BuildTarget.StandaloneWindows ||
             report.summary.platform == BuildTarget.StandaloneWindows64 ||
