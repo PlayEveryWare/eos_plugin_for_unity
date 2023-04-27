@@ -5,7 +5,7 @@
   Table of Contents
   <ol>
     <li>
-      <a href="#centeroverviewcenter">Overview</a>
+      <a href="#overview">Overview</a>
       <ul>
         <li><a href="#supported-platforms">Supported Platforms</a></li>
         <li><a href="#supported-eos-sdk-features">Supported EOS SDK Features</a></li>
@@ -27,7 +27,7 @@
 
 
 
-# Overview
+# <p style="text-align:center;color:DeepPink">Overview</p> <a name="overview" />
 ---
 
 The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugin_for_unity) contains the source code for development, samples and support for the [Epic Online Services Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
@@ -55,7 +55,7 @@ The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugi
 
 <br />
 
-## Supported Platforms
+### Supported Platforms <a name="centergetting-startedcenter" />
 
 The support level of each target platform in Unity as of the current release of the plugin.
 
