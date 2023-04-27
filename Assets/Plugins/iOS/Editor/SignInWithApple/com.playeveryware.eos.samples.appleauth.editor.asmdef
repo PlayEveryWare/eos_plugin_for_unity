@@ -13,9 +13,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "!EOS_DISABLE"
-    ],
+    "defineConstraints": [],
     "versionDefines": [
         {
             "name": "com.lupidan.apple-signin-unity",
