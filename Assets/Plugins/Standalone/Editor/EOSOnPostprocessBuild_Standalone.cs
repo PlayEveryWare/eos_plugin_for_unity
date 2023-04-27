@@ -144,7 +144,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
 
     private string GetDefaultIntegrityToolPath()
     {
-        string toolPath = Path.Join(GetPathToEOSBin(), "EAC");
+        string toolPath = Path.Combine(GetPathToEOSBin(), "EAC");
 #if UNITY_EDITOR_WIN
         toolPath = Path.Combine(toolPath, "Windows", "anticheat_integritytool64.exe");
 #elif UNITY_EDITOR_OSX
@@ -183,10 +183,10 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         string originalCfg = configFile;
         if (string.IsNullOrWhiteSpace(originalCfg))
         {
-            originalCfg = Path.Join(toolDirectory, "anticheat_integritytool.cfg");
+            originalCfg = Path.Combine(toolDirectory, "anticheat_integritytool.cfg");
         }
 
-        string newCfgPath = Path.Join(Application.temporaryCachePath, $"eac_integritytool_{Guid.NewGuid()}.cfg");
+        string newCfgPath = Path.Combine(Application.temporaryCachePath, $"eac_integritytool_{Guid.NewGuid()}.cfg");
         File.Copy(originalCfg, newCfgPath, true);
         try
         {
