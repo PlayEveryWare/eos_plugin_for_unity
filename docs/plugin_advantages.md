@@ -3,9 +3,9 @@
 ## Handles Windows Init
 One of the core features of the Unity Plugin for EOS, is that it handles
 doing the init code in such a way that the Overlay will work correctly in 
-standalone builds on Windows. Due to how the EOS SDK does it's graphics initialization 
-for the overlay, the code that call's into the EOS SDK for init needs to happen _before_
-the Unity finishes doing it's graphics init code. The only place to do this, is in native
+standalone builds on Windows. Due to how the EOS SDK does its graphics initialization 
+for the overlay, the code that calls into the EOS SDK for init needs to happen _before_
+the Unity finishes doing its graphics init code. The only place to do this, is in native
 code, in a specially named DLL that gets called before the engine finishes running. 
 If one is using this Plugin, one doesn't have to worry about any of that, as it's handled 
 automatically.
@@ -22,8 +22,8 @@ This both ensures that new configuration changes can be made without restarting 
 that any callbacks from previous play sessions aren't called, and that all EOS objects are destroyed between 
 runs in the Editor.
 
-## Provides Samples
-The Plugin provides added value with it's Unity specific samples that showcase both how to use the EOS SDK, 
+## Provides Samples and Manager Scripts
+The Plugin provides added value with its Unity specific samples that showcase both how to use the EOS SDK, 
 and provide copyable code that can be used in projects to give one a head-start on integrating the EOS SDK. 
 Because they're provided as UPM samples, they can be imported, deleted, and modified as needed to 
 allow users of the Plugin maximum flexibility.
