@@ -13,6 +13,8 @@ Things this plugin provides:
 * Targets [EOS SDK 1.15.4] (https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*
 * Targets Unity 2021.3.8f1
 
+For information on the advantages of the plugin, checkout [this document](docs/plugin_advantages.md).
+
 This repo contains:
 * A Unity Project for development of feature managers and samples
 * Native Source for <code>DynamicLibraryLoaderHelper</code>
