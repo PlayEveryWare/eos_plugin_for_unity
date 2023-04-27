@@ -1,6 +1,5 @@
-<br />
-<img src="docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="25%"/>
-<br /><br />
+<img src="docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/>
+<br /><br /><br /><br /><br />
 
 # <div align="center">$\textcolor{magenta}{\textsf{Epic Online Services}}$ <br /> $\textcolor{magenta}{\textsf{Plugin for Unity}}$</div>
 
@@ -122,9 +121,6 @@ The support level of each EOS SDK features as of the current release of the plug
 # <div align="center">$\textcolor{magenta}{\textsf{Getting Started}}$</div> <a name="getting-started" />
 ---
 
-<img src="docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/>
-<img src="docs/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
-
 ## Prerequisites
 
 
@@ -196,6 +192,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 ## Samples
 
+<img src="docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="docs/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
 
 The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implemenation</a> to validate client and dev portal configuration aswell as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
 
