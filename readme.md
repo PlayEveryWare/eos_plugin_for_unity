@@ -1,8 +1,8 @@
 <br /><br /><br />
 
-# <center>Epic Online Services<br /> Plugin for Unity<center/>
+# Epic Online Services<br /> Plugin for Unity
 
-  <summary>Table of Contents</summary>
+  Table of Contents
   <ol>
     <li>
       <a href="#centeroverviewcenter">Overview</a>
@@ -27,7 +27,8 @@
 
 
 
-# <center>Overview<center/>
+# Overview
+---
 
 The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugin_for_unity) contains the source code for development, samples and support for the [Epic Online Services Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
 
@@ -38,7 +39,7 @@ The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugi
 * A Tool to build a Unity Package Manager compatible UPM
 
 
-#### Plugin Features:
+#### Plugin Features: [(Indepth Details)](docs/plugin_advantages.md)
 
 * Social Overlay support across platforms
 * Feature specific sample scenes, that include manager classes for common uses of EOS SDK API
@@ -55,7 +56,6 @@ The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugi
 <br />
 
 ## Supported Platforms
-___
 
 The support level of each target platform in Unity as of the current release of the plugin.
 
@@ -72,7 +72,7 @@ The support level of each target platform in Unity as of the current release of 
 <br />
 
 ## Supported EOS SDK Features
----
+
   The EOS Plugin for Unity will be updated over time to support the new content as the EOS SDK continues to release new features and functionality. 
 
 The support level of each EOS SDK features as of the current release of the plugin.
@@ -86,9 +86,9 @@ The support level of each EOS SDK features as of the current release of the plug
 | [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) | |
 
 
-| Unsupported at Present | | | |
-| - | - | - | - |
-|  [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) |  [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | | |
+| Unsupported at Present | |
+| - | - |
+|  [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) |  [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) |
 
 <br />
 
@@ -118,11 +118,11 @@ The support level of each EOS SDK features as of the current release of the plug
 
 <br />
 
-# <center>Getting Started<center/>
+# Getting Started
+---
 
 ## Prerequisites
 
----
 
 * An Epic Games Account, you can sign up for [here](https://dev.epicgames.com/portal/)
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/)
@@ -133,7 +133,6 @@ The support level of each EOS SDK features as of the current release of the plug
 
 ## Importing the Plugin
 
----
 
 There are two options to install the package, from a <a href="#adding-the-package-from-a-tarball">tarball</a> [Quickest to start], or from a <a href="#adding-the-package-from-a-git-url">GIT URL</a> [Quickest for updates] 
 
@@ -193,9 +192,9 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 ## Samples
 
----
 
 The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implemenation</a> to validate client and dev portal configuration aswell as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
+
 
   > ❗ The generalized managers are a great starting point for feture integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```
 
@@ -244,6 +243,9 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 ## Running the samples
 
 > ❗ The plugin must be configured for samples to be functional
+
+Sample walkthroughs can be found [here](docs/Walkthrough.md).
+
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
 
@@ -281,7 +283,6 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 ## Configuring the Plugin
 
----
 
 To function, the plugin needs some information from your EOS project.
 
@@ -322,7 +323,8 @@ See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md)
 
 <br />
 
-# <center>Plugin Support<center/>
+# Plugin Support
+---
 
 Epic Online Services Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com
 
@@ -334,19 +336,19 @@ Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Dev
 
 <br />
 
-# <center>Source Code Contributor Notes<center/>
+# Source Code Contributor Notes
+---
 
 The following are guidlines for helping contribute to this open source project.
 
 ## Contributor Prerequisites
----
 
 * Ensure At least Visual Studio 2017 is installed.
 * Ensure At least Unity 2020.1.11f1 is installed
 * Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles)
 
 ## Build steps For Native Libraries
----
+
  Build the Visual Studio solutions for the native DLLs, extra platform specifc instructions may be located in the docs for that platform.
 
   1. In your local repository, navigate to the ```DynamicLibraryLoaderHelper``` folder of your platform choice in [NativeCode](NativeCode)
@@ -358,13 +360,16 @@ The following are guidlines for helping contribute to this open source project.
   > ❗ A successful build will place the correct binaries in the proper locations for Unity to initialize EOS SDK.
 
 ## Coding Standards
----
+
 See [standards.md](docs/standards.md)
 
 ## Class description
----
+
 See [docs/class_description.md](docs/class_description.md)
 
-# <center>FAQ<center/>
+<br />
+
+# FAQ
+---
 
 See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md)
