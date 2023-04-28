@@ -9,7 +9,7 @@
   1) Open the Player menu in Project Settings:<br><img width="117" alt="player_settings" src="https://user-images.githubusercontent.com/106182927/234998641-b10ea417-aa27-4c64-943f-884d308c53d9.png">
   2) Select the desired platform and expand the Other Settings submenu:<br><img width="361" alt="platform_settings" src="https://user-images.githubusercontent.com/106182927/234995437-59cf73e6-ae20-4d54-9c06-f9db2e6db9c2.png">
   3) Find the Scripting Define Symbols configuration:<br><img width="341" alt="scripting_defines" src="https://user-images.githubusercontent.com/106182927/234995813-89ecdef6-a7e5-49d6-962c-796d7d196ba7.png">
-  4) Use the + button to add the `EOS_DISABLE` define to the list and Apply:<br><img width="342" alt="eos_disable" src="https://user-images.githubusercontent.com/106182927/234995924-489636df-c118-4a28-81f4-5417b45c1fa0.png">
+  4) Use the `+` button to add the `EOS_DISABLE` define to the list and click `Apply`:<br><img width="342" alt="eos_disable" src="https://user-images.githubusercontent.com/106182927/234995924-489636df-c118-4a28-81f4-5417b45c1fa0.png">
 
 ## Effects of EOS_DISABLE
 
