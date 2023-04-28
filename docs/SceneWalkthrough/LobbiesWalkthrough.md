@@ -28,6 +28,10 @@ This demo showcases the lobby and includes a voice chat interface in a combined 
     - ``LobbyId`` Searches by the lobby id as found at the top of the lobby.
     - ``Level`` Searches by level, as chosen by the host when creating the lobby.
     - ``BucketId`` Searches by Bucket ID, as chosen by the host when creating the lobby.
+    - Invites sent from other players will also appear here, with the user who sent the invite's ID and ``Accept`` and ``Decline`` option
+
+-The ``Friends`` tab on the upper right corner opens the friends list.
+    - The ``Invite`` button next to each entry sends an invite to that player.
 
 
 ❗ More documentation on the lobby interface can be found [here](https://dev.epicgames.com/docs/game-services/lobbies).

@@ -7,7 +7,7 @@ Each scene has a few things in common: the login page, side bar, scene selection
 The sidebar shows the current version, logged in account, framerate, readme, log copy button and exit button.
  - The ``README`` button will display the readme for the current scene
  - The ``Copy Log`` button copies the log from the log window
- - The ``Exit11    button closes the application
+ - The ``Exit``    button closes the application
 
 
 ## Debug Log
