@@ -81,7 +81,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (UITooltipManager.Instance != null)
             {
-                UITooltipManager.Instance.HideTooltip(gameObject);
+                UITooltipManager.Instance.HideTooltip(this);
             }
         }
 
@@ -106,11 +106,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         IEnumerator ShowTooltipWithDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
-            UITooltipManager.Instance.ShowTooltip(gameObject);
+            UITooltipManager.Instance.ShowTooltip(this);
             tooltipTimer = null;
         }
 
         public void OnDeselect(BaseEventData eventData)
+        {
+            Hide();
+        }
+
+        public void OnDisable()
+        {
+            Hide();
+        }
+
+        public void OnDestroy()
         {
             Hide();
         }

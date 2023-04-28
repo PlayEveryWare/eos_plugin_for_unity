@@ -169,6 +169,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             var tooltipComp = tooltipObject.GetComponent<UITooltip>();
+            ShowTooltip(tooltipComp);
+        }
+
+        public void ShowTooltip(UITooltip tooltipComp)
+        {
             if (tooltipComp == null || tooltipComp == currentTooltip || string.IsNullOrWhiteSpace(tooltipComp.Text))
             {
                 return;
@@ -285,6 +290,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             var tooltipComp = tooltipObject.GetComponent<UITooltip>();
+            HideTooltip(tooltipComp);
+        }
+
+        public void HideTooltip(UITooltip tooltipComp)
+        {
             if (tooltipComp == currentTooltip)
             {
                 TooltipContainer.gameObject.SetActive(false);
