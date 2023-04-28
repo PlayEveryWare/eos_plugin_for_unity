@@ -130,6 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             var newItem = Instantiate(LogLevelTemplate, LogLevelContentContainer);
             newItem.SetCategory(Category);
+            newItem.name = $"{Category}LogLevel";
             LogLevel catLevel = EOSManager.Instance.GetLogLevel(Category);
             newItem.SetLevel(catLevel);
             newItem.gameObject.SetActive(true);
@@ -165,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ignoreLogLevelChange = false;
         }
 
-        public void OnLogLevelItemSelected(UIDebugLogLevelMenuItem item)
+        public void ScrollToLogLevelItem(UIDebugLogLevelMenuItem item)
         {
             float itemIndex = logLevelMenuItems.IndexOf(item);
             if (itemIndex > -1)
