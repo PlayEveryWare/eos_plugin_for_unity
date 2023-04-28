@@ -1,16 +1,16 @@
 {
-    "name": "com.Epic.OnlineServices",
+    "name": "com.playeveryware.eos.core",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "!EOS_DISABLE"
-    ],
+    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
 }

@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             queryOfferOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
             queryOfferOptions.OverrideCatalogNamespace = null;
 
-            EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().QueryOffers(ref queryOfferOptions, null, OnQueryOffers);
+            EOSManager.Instance.GetEOSEcomInterface().QueryOffers(ref queryOfferOptions, null, OnQueryOffers);
         }
 
         private void OnQueryOffers(ref QueryOffersCallbackInfo queryOffersCallbackInfo)
@@ -91,7 +91,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 var getOfferCountOptions = new GetOfferCountOptions();
                 getOfferCountOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
 
-                var offerCount = EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().GetOfferCount(ref getOfferCountOptions);
+                var offerCount = EOSManager.Instance.GetEOSEcomInterface().GetOfferCount(ref getOfferCountOptions);
 
                 Debug.Log(string.Format("QueryOffers found {0} offers.", offerCount));
 
@@ -101,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     copyOfferByIndexOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
                     copyOfferByIndexOptions.OfferIndex = (uint)offerIndex;
 
-                    var copyOfferByIndexResult = EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().CopyOfferByIndex(ref copyOfferByIndexOptions, out var catalogOffer);
+                    var copyOfferByIndexResult = EOSManager.Instance.GetEOSEcomInterface().CopyOfferByIndex(ref copyOfferByIndexOptions, out var catalogOffer);
                     switch (copyOfferByIndexResult)
                     {
                         case Result.Success:
@@ -134,7 +134,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             checkoutOptions.LocalUserId = EOSManager.Instance.GetLocalUserId();
             checkoutOptions.Entries = new CheckoutEntry[] { checkoutEntry };
 
-            EOSManager.Instance.GetEOSPlatformInterface().GetEcomInterface().Checkout(ref checkoutOptions, null, OnCheckout);
+            EOSManager.Instance.GetEOSEcomInterface().Checkout(ref checkoutOptions, null, OnCheckout);
         }
 
         public void OnCheckout(ref CheckoutCallbackInfo checkoutCallbackInfo)

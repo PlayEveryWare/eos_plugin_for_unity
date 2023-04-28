@@ -21,6 +21,8 @@
 */
 
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
 
 public static class UIUGFitAnchors
@@ -62,3 +64,4 @@ public static class UIUGFitAnchors
         }
     }
 }
+#endif

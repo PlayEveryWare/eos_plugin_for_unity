@@ -281,7 +281,7 @@ namespace PlayEveryWare.EpicOnlineServices
             };
             procInfo.FileName = processPath;
             procInfo.UseShellExecute = false;
-            procInfo.WorkingDirectory = Path.Join(Application.dataPath, "..", workingDir);
+            procInfo.WorkingDirectory = Path.Combine(Application.dataPath, "..", workingDir);
             procInfo.RedirectStandardOutput = true;
             procInfo.RedirectStandardError = true;
 

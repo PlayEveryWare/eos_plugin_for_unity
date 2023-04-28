@@ -118,9 +118,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnDemoSceneChange(int value)
         {
-            value = value - 1;
-            Debug.LogFormat("UILoginMenu (OnDemoSceneChanged): value = {0}", value);
-            SceneManager.LoadScene(value);
+            string sceneName = SceneSwitcherDropDown.options[value]?.text;
+            if (string.IsNullOrWhiteSpace(sceneName) || value == 0)
+            {
+                return;
+            }
+            sceneName = sceneName.Replace(" ", "").Replace("&", "And");
+            Debug.LogFormat("UILoginMenu (OnDemoSceneChanged): value = {0}", sceneName);
+            SceneManager.LoadScene(sceneName);
         }
 
         public void OnDropdownChange(int value)

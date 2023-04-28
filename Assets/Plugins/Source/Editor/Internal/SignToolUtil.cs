@@ -95,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices
             };
             procInfo.FileName = config.pathToSignTool;
             procInfo.UseShellExecute = false;
-            procInfo.WorkingDirectory = Path.Join(Application.dataPath, "..");
+            procInfo.WorkingDirectory = Path.Combine(Application.dataPath, "..");
             procInfo.RedirectStandardOutput = true;
             procInfo.RedirectStandardError = true;
 
