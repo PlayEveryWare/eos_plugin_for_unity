@@ -1,7 +1,9 @@
 <img src="docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/>
-<br /><br /><br /><br /><br />
 
-# <div align="center">$\textcolor{magenta}{\textsf{Epic Online Services}}$ <br /> $\textcolor{magenta}{\textsf{Plugin for Unity}}$</div>
+<div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
+
+
+# <div align="center">$\textcolor{deeppink}{\textsf{Epic Online Services}}$ <br /> $\textcolor{deeppink}{\textsf{Plugin for Unity}}$</div>
 
   Table of Contents
   <ol>
@@ -27,7 +29,7 @@
   </ol>
 
 
-# <div align="center">$\textcolor{magenta}{\textsf{Overview}}$</div> <a name="overview" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 
 The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugin_for_unity) contains the source code for development, samples and support for the [Epic Online Services Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
@@ -118,7 +120,7 @@ The support level of each EOS SDK features as of the current release of the plug
 
 <br />
 
-# <div align="center">$\textcolor{magenta}{\textsf{Getting Started}}$</div> <a name="getting-started" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$</div> <a name="getting-started" />
 ---
 
 ## Prerequisites
@@ -324,7 +326,7 @@ See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md)
 
 <br />
 
-# <div align="center">$\textcolor{magenta}{\textsf{Plugin Support}}$</div> <a name="plugin-support" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Plugin Support}}$</div> <a name="plugin-support" />
 ---
 
 Epic Online Services Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com
@@ -337,7 +339,7 @@ Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Dev
 
 <br />
 
-# <div align="center">$\textcolor{magenta}{\textsf{Source Code Contributor Notes}}$</div> <a name="source-code-contributor-notes" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$</div> <a name="source-code-contributor-notes" />
 ---
 
 The following are guidlines for helping contribute to this open source project.
@@ -370,7 +372,7 @@ See [docs/class_description.md](docs/class_description.md)
 
 <br />
 
-# <div align="center">$\textcolor{magenta}{\textsf{FAQ}}$</div> <a name="faq" />
+# <div align="center">$\textcolor{deeppink}{\textsf{FAQ}}$</div> <a name="faq" />
 ---
 
 See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md)
