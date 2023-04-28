@@ -1,9 +1,12 @@
 <img src="docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/>
 
 <div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
+<br /><br /><br />
+
+---
 
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Epic Online Services}}$ <br /> $\textcolor{deeppink}{\textsf{Plugin for Unity}}$</div>
+
 
   Table of Contents
   <ol>
