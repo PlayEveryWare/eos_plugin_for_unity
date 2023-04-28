@@ -21,7 +21,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -95,6 +94,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void OnValueChanged(int newValue)
         {
             DebugLog.OnLogLevelChanged(logCategory, GetLevel(newValue));
+        }
+
+        public void OnSelect()
+        {
+            DebugLog.OnLogLevelItemSelected(this);
         }
     }
 }
