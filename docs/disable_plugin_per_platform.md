@@ -2,7 +2,7 @@
 
 ## Why disable the plugin?
 
-  The plugin provides a certain amount of automatic functionality to support the operation of the EOS SDK, such as DLL loading and post-processing of builds to include the requisite files. Since some of this functionality it not under the user's direct control, the plugin supports a per-platform method of disabling all significant EOS runtime functionality.
+  The plugin provides a certain amount of automatic functionality to support the operation of the EOS SDK, such as DLL loading and post-processing of builds to include the requisite files. Since some of this functionality is not under the user's direct control, the plugin supports a per-platform method of disabling all significant EOS runtime functionality.
   
 ## How to disable
 
