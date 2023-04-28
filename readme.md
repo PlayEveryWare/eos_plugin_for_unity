@@ -35,26 +35,30 @@
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 
+The Epic Online Services (EOS) Plugin for Unity is a software development kit (SDK) used for integrating EOS into a Unity project. Bringing the access free services that connect players across all platforms and all stores, to Unity in an easy to use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and Epic docs [here](https://dev.epicgames.com/docs/epic-online-services).
+
 The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugin_for_unity) contains the source code for development, samples and support for the [Epic Online Services Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
 
+#### Plugin Features: [(In Depth Details)](docs/plugin_advantages.md)
+
+* Social Overlay support across platforms.
+* Feature specific sample scenes, that include manager classes for common uses of EOS SDK API.
+* Custom Unity Tool for configuring EOS settings and saving to a JSON file.
+* Unity editor playback support, handled by reloading EOS SDK.
+
+
 #### Repo Contents:
-* Additional plugin Documentation can be found in the [docs/ directory](docs/)
-* A Unity Project for development of feature managers and samples
-* Native Source for ```DynamicLibraryLoaderHelper``` and ```GfxPluginNativeRender```
-* A Tool to build a Unity Package Manager compatible UPM
 
+* Additional plugin Documentation can be found in the [docs/ directory](docs/).
+* A Unity Project for development of feature managers and samples.
+* Native Source for ```DynamicLibraryLoaderHelper``` and ```GfxPluginNativeRender```.
+* A Tool to build a Unity Package Manager compatible UPM.
 
-#### Plugin Features: [(Indepth Details)](docs/plugin_advantages.md)
-
-* Social Overlay support across platforms
-* Feature specific sample scenes, that include manager classes for common uses of EOS SDK API
-* Custom Unity Tool for configuring EOS settings and saving to a JSON file
-* Unity editor playback support, handled by reloading EOS SDK
 
 #### Plugin Details:
 
-* Targets [Unity 2021.3.8f1](https://unity.com/releases/editor/whats-new/2021.3.8), for best results a version of Unity 2021 is prefered
-* Targets [EOS SDK 1.15.4](https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*
+* Targets [Unity 2021.3.8f1](https://unity.com/releases/editor/whats-new/2021.3.8), for best results a version of Unity 2021 is preferred.
+* Targets [EOS SDK 1.15.4](https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*.
 
 
 
@@ -129,9 +133,9 @@ The support level of each EOS SDK features as of the current release of the plug
 ## Prerequisites
 
 
-* An Epic Games Account, you can sign up for [here](https://dev.epicgames.com/portal/)
-* A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/)
-* A Unity project to integrate the plugin into, it can be a blank project
+* An Epic Games Account, you can sign up for [here](https://dev.epicgames.com/portal/).
+* A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
+* A Unity project to integrate the plugin into, it can be a blank project.
     > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>
 
 <br />
@@ -139,7 +143,7 @@ The support level of each EOS SDK features as of the current release of the plug
 ## Importing the Plugin
 
 
-There are two options to install the package, from a <a href="#adding-the-package-from-a-tarball">tarball</a> [Quickest to start], or from a <a href="#adding-the-package-from-a-git-url">GIT URL</a> [Quickest for updates] 
+There are two options to install the package, from a <a href="#adding-the-package-from-a-tarball">tarball</a> [Quickest to start], or from a <a href="#adding-the-package-from-a-git-url">GIT URL</a> [Quickest for updates].
 
 ## Adding the package from a tarball
 <br />
@@ -149,17 +153,17 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 2. Move the downloaded tarball into your project folder, but outside of the ```Assets``` folder.
 
-3. From the Unity Editor, open the Package Manager
+3. From the Unity Editor, open the Package Manager.
     * ```Window -> Package Manager```
 
       ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
 
-4. Click the ```+``` button in the top left of the window
+4. Click the ```+``` button in the top left of the window.
 
     ![Unity Add Tarball Package](docs/images/unity_package_tarball.gif)
 
-5. Select '```Add package from tarball```'
-6. Navigate to the directory containing the tarball, select and ```Open``` the tarball
+5. Select ```Add package from tarball```.
+6. Navigate to the directory containing the tarball, select and ```Open``` the tarball.
 7. After the package has finished installing, <a href="#samples">import the samples</a>.
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
@@ -173,19 +177,19 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 1. Setup Unity for [Git Dependency](https://docs.unity3d.com/Manual/upm-git.html).
 2. Install [git and git-lfs](https://docs.unity3d.com/Manual/upm-git.html#req)
-3.  From the Unity Editor, open the Package Manager
-    * ```Window -> Package Manager```
+3.  From the Unity Editor, open the Package Manager.
+    * ```Window -> Package Manager```.
 
       ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
 
-3. Click the ```+``` button in the top left of the window
+3. Click the ```+``` button in the top left of the window.
 
     ![Unity Add Git Package](docs/images/unity_package_git.gif)
 
-4. Select '```Add Package from Git URL```'  
+4. Select ```Add Package from Git URL```.
 
 6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```
-   or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```
+   or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```.
 
 7. After the package has finished installing, <a href="#samples">import the samples</a>.
 
@@ -199,9 +203,9 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 <img src="docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="docs/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
 
-The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implemenation</a> to validate client and dev portal configuration aswell as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
+The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implementation</a> to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
 
-   > :heavy_exclamation_mark: The generalized managers are a great starting point for feture integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```
+   > :heavy_exclamation_mark: The generalized managers are a great starting point for feature integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```
 
 <br />
 
@@ -212,13 +216,13 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
     ![Unity Install Samples](docs/images/unity_install_samples.gif)
 
-2. Open the ```Samples``` dropdown
+2. Open the ```Samples``` dropdown.
 
-3. Select ```Import``` to bring in the Sample scenes
+3. Select ```Import``` to bring in the Sample scenes.
 
     > :heavy_exclamation_mark: The samples are placed in ```Assets/Samples``` for personal modification
 
-4. In the Unity editor menu bar, open ```File->Build Settings```
+4. In the Unity editor menu bar, open ```File->Build Settings```.
 
 5. In the ```Project``` window, navigate to the scenes folder containing all the sample scenes.
 
@@ -239,9 +243,9 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
 > :heavy_exclamation_mark: The Social Overlay Feature is not supported in editor
 
-1. In the Unity editor, open the desired sample scene from the imported Scenes folder
+1. In the Unity editor, open the desired sample scene from the imported Scenes folder.
 
-2. Press the play button at the top of the editor
+2. Press the play button at the top of the editor.
 
 3. Login with a selected authentication type, ```Account Portal``` is recommended for the first time.
 
@@ -252,7 +256,7 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 <details>
   <summary><b>Steps to run a sample from a build</b></summary>
 
-1. In the Unity editor menu bar, open ```File->Build Settings```
+1. In the Unity editor menu bar, open ```File->Build Settings```.
   
     > :heavy_exclamation_mark: If you have non-sample scenes, drag a sample scene to be the 0th scene in Build Settings before you build.
 
@@ -274,11 +278,11 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 ## Configuring the Plugin
 
 
-To function, the plugin needs some information from your EOS project.
+To function, the plugin needs some information from your EOS project. Epic Docs on how to set up your project can be found [here](https://dev.epicgames.com/docs/epic-account-services/getting-started?sessionInvalidated=true).
 
 ## Configuration Steps
 
-1. In the Unity editor menu bar, open ```Tools -> EpicOnlineServicesConfigEditor```
+1. In the Unity editor menu bar, open ```Tools -> EpicOnlineServicesConfigEditor```.
 
     ![EOS Config Menu](docs/images/unity_tools_eosconfig.gif)
 
@@ -291,17 +295,17 @@ To function, the plugin needs some information from your EOS project.
     * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientSecret)
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientId)
     * Encryption Key
-      > :heavy_exclamation_mark: Click the Generate button to create a random key, if you haven't already configured an encryption key in the EOS portal
+      > :heavy_exclamation_mark: Click the Generate button to create a random key, if you haven't already configured an encryption key in the EOS portal.
 
     ![EOS Config UI](docs/images/eosconfig_ui.gif)
 
-3. Press ```Save All Changes```
+3. Press ```Save All Changes```.
 
 4. Navigate to ```Packages/Epic Online Services for Unity/Runtime``` via the ```Project``` window.
 
-5. Add the ```EOSManager.prefab```, to each of youre game's scenes.
+5. Add the ```EOSManager.prefab```, to each of you're game's scenes.
 
-6. Simply attach ```EOSManager.cs (Script)``` to a Unity object and it will intialize the plugin with the specified configuration in ```OnAwake()```.
+6. Simply attach ```EOSManager.cs (Script)``` to a Unity object and it will initialize the plugin with the specified configuration in ```OnAwake()```.
       > :heavy_exclamation_mark: The <a href="#samples">samples</a> already have this done!
 
 <br />
@@ -320,7 +324,7 @@ Epic Online Services Plugin for Unity API Documentation can be found at https://
 
 For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab in the github repo.
 
-For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/)
+For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
 
 Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Developer Documentation: Game Services](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
 
@@ -329,37 +333,37 @@ Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Dev
 # <div align="center">$\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$</div> <a name="source-code-contributor-notes" />
 ---
 
-The following are guidlines for helping contribute to this open source project.
+The following are guidelines for helping contribute to this open source project.
 
 ## Contributor Prerequisites
 
 * Ensure At least Visual Studio 2017 is installed.
-* Ensure At least Unity 2020.1.11f1 is installed
-* Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles)
+* Ensure At least Unity 2020.1.11f1 is installed.
+* Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles).
 
 ## Build steps For Native Libraries
 
- Build the Visual Studio solutions for the native DLLs, extra platform specifc instructions may be located in the docs for that platform.
+ Build the Visual Studio solutions for the native DLLs, extra platform specific instructions may be located in the docs for that platform.
 
-1. In your local repository, navigate to the ```DynamicLibraryLoaderHelper``` folder of your platform choice in [NativeCode](NativeCode)
+1. In your local repository, navigate to the ```DynamicLibraryLoaderHelper``` folder of your platform choice in [NativeCode](NativeCode).
 
    > :heavy_exclamation_mark: These files are not included with the package imported via tarball or git url.
 
-2. Open and build the ```DynamicLibraryLoaderHelper``` sln in Visual Studio.
+2. Open and build the ```DynamicLibraryLoaderHelper.sln``` in Visual Studio.
 
    > :heavy_exclamation_mark: A successful build will place the correct binaries in the proper locations for Unity to initialize EOS SDK.
 
 ## Coding Standards
 
-See [standards.md](docs/standards.md)
+See [standards.md](docs/standards.md).
 
 ## Class description
 
-See [docs/class_description.md](docs/class_description.md)
+See [docs/class_description.md](docs/class_description.md).
 
 <br />
 
 # <div align="center">$\textcolor{deeppink}{\textsf{FAQ}}$</div> <a name="faq" />
 ---
 
-See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md)
+See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md).
