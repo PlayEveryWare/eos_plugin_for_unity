@@ -69,7 +69,7 @@ The support level of each target platform in Unity as of the current release of 
 | Universal Windows Platform x64 | | |
 | Android | | |
 | iOS | | |
-> ❗ Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms
+> :heavy_exclamation_mark: Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms
 
 <br />
 
@@ -129,7 +129,7 @@ The support level of each EOS SDK features as of the current release of the plug
 * An Epic Games Account, you can sign up for [here](https://dev.epicgames.com/portal/)
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/)
 * A Unity project to integrate the plugin into, it can be a blank project
-> ❗ Find the plugin's targeted Unity version <a href="#plugin-details">here</a>
+    > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>
 
 <br />
 
@@ -142,7 +142,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 <br />
 
 1. Download the latest release tarball, ```"com.playeveryware.eos-[version].tgz"``` [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
-    > ❗ If one uses the source download it will be missing all the git-lfs files (i.e. binaries, dynamic libraries). 
+    > :heavy_exclamation_mark: If one uses the source download it will be missing all the git-lfs files (i.e. binaries, dynamic libraries). 
 
 2. Move the downloaded tarball into your project folder, but outside of the ```Assets``` folder.
 
@@ -161,7 +161,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> ❗ The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/Manual/upm-ui-tarball.html)
+> :heavy_exclamation_mark: The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/Manual/upm-ui-tarball.html)
 
 <br />
 
@@ -188,7 +188,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> ❗ The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
+> :heavy_exclamation_mark: The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
 
 <br />
 
@@ -198,8 +198,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implemenation</a> to validate client and dev portal configuration aswell as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
 
-
-  > ❗ The generalized managers are a great starting point for feture integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```
+   > :heavy_exclamation_mark: The generalized managers are a great starting point for feture integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```
 
 <br />
 
@@ -214,7 +213,7 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 3. Select ```Import``` to bring in the Sample scenes
 
-  > ❗ The samples are placed in ```Assets/Samples``` for personal modification
+    > :heavy_exclamation_mark: The samples are placed in ```Assets/Samples``` for personal modification
 
 4. In the Unity editor menu bar, open ```File->Build Settings```
 
@@ -222,37 +221,20 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 6. Add the scenes to the ```Scenes In Build``` section of the ```Build Settings``` window. This can be done quickly by using the ```Shift``` key to select each scene at the same time, then dragging them into the proper area.
 
-7. Drag around each scene in the ```Scenes In Build``` section of the ```Build Settings``` window, to rearange them so that they are indexed in the folowing order.
-
-| Scene Name | Index |
-| - | - |
-| Achievements | 0 |
-| AuthAndFriends | 1 |
-| CustomInvites | 2 |
-| Leaderboards | 3 |
-| Lobbies | 4 |
-| Metrics | 5 |
-| Peer2Peer | 6 |
-| PerformanceStressTest | 7 |
-| PlayerDataStorage | 8 |
-| PlayerReportsAndSanctions | 9 |
-| SessionsMatchmaking | 10 |
-| Store | 11 |
-| TitleStorage | 12 |
-| TransportLayer | 13 |
+    > :heavy_exclamation_mark: If you have other scenes already, and plan to look at the samples in a build, drag a sample scene to be the 0th scene in Build Settings before you build.
 
 <br />
 
 ## Running the samples
 
-> ❗ The plugin must be configured for samples to be functional
+> :heavy_exclamation_mark: The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional
 
 Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
 
-> ❗ The Social Overlay Feature is not supported in editor
+> :heavy_exclamation_mark: The Social Overlay Feature is not supported in editor
 
 1. In the Unity editor, open the desired sample scene from the imported Scenes folder
 
@@ -268,12 +250,14 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
   <summary><b>Steps to run a sample from a build</b></summary>
 
 1. In the Unity editor menu bar, open ```File->Build Settings```
+  
+    > :heavy_exclamation_mark: If you have non-sample scenes, drag a sample scene to be the 0th scene in Build Settings before you build.
 
 2. Choose your desired platform, and settings, hitting ```Build``` as you normally would.
 
 3. Run your build.
 
-> ❗ A Windows build, is started by running the ```EOSBootstrapper``` application in the resulting build, and not the game application itself. it is for this and similar reasons that the ```Build And Run``` button may not always function as it usually would.
+    > :heavy_exclamation_mark: A Windows build, is started by running the ```EOSBootstrapper``` application in the resulting build, and not the game application itself. it is for this and similar reasons that the ```Build And Run``` button may not always function as it usually would.
 
 4.  Login with a selected authentication type, ```Account Portal``` is recommended for the first time.
 
@@ -304,7 +288,7 @@ To function, the plugin needs some information from your EOS project.
     * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientSecret)
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientId)
     * Encryption Key
-      > ❗ Click the Generate button to create a random key, if you haven't already configured an encryption key in the EOS portal
+      > :heavy_exclamation_mark: Click the Generate button to create a random key, if you haven't already configured an encryption key in the EOS portal
 
     ![EOS Config UI](docs/images/eosconfig_ui.gif)
 
@@ -315,13 +299,13 @@ To function, the plugin needs some information from your EOS project.
 5. Add the ```EOSManager.prefab```, to each of youre game's scenes.
 
 6. Simply attach ```EOSManager.cs (Script)``` to a Unity object and it will intialize the plugin with the specified configuration in ```OnAwake()```.
-      > ❗ The <a href="#samples">samples</a> did this last step for you!
+      > :heavy_exclamation_mark: The <a href="#samples">samples</a> already have this done!
 
 <br />
 
 ## Disable on selected platforms
 
-See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md)
+See [docs/disable_plugin_per_platform.md](docs/disable_plugin_per_platform.md) for this feature.
 
 
 <br />
@@ -354,13 +338,13 @@ The following are guidlines for helping contribute to this open source project.
 
  Build the Visual Studio solutions for the native DLLs, extra platform specifc instructions may be located in the docs for that platform.
 
-  1. In your local repository, navigate to the ```DynamicLibraryLoaderHelper``` folder of your platform choice in [NativeCode](NativeCode)
+1. In your local repository, navigate to the ```DynamicLibraryLoaderHelper``` folder of your platform choice in [NativeCode](NativeCode)
 
-  > ❗ These files are not included with the package imported via tarball or git url.
+   > :heavy_exclamation_mark: These files are not included with the package imported via tarball or git url.
 
-  2. Open and build the ```DynamicLibraryLoaderHelper``` sln in Visual Studio.
+2. Open and build the ```DynamicLibraryLoaderHelper``` sln in Visual Studio.
 
-  > ❗ A successful build will place the correct binaries in the proper locations for Unity to initialize EOS SDK.
+   > :heavy_exclamation_mark: A successful build will place the correct binaries in the proper locations for Unity to initialize EOS SDK.
 
 ## Coding Standards
 
