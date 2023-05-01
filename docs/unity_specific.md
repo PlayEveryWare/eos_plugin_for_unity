@@ -13,7 +13,7 @@ This document lists some Unity related plugin behavior and how we support the EO
 The EOS Unity Plugin is a collective effort between multiple sources, each source also has to be compatible with each other.  
 
 * Every version of Unity has its targeted build tools for Platform APIs.  
-* Every Platform has their minimum supporting API version for EOS SDK.  
+* Every EOS SDK version is built against specific platform SDKs.
 * Every EOS SDK version has updated C# scripts for Unity to call.  
 
 We take multiple factors into account, and decide on the versions that are most stable and expandable.  
