@@ -69,3 +69,5 @@ The login options are as follows:
 - [Sessions and Matchmaking](SceneWalkthrough\SessionsAndMatchmakingWaklthrough.md)
 - [Store](SceneWalkthrough\StoreWalkthrough.md)
 - [P2PNetcode](SceneWalkthrough\P2PNetcodeWalkthrough.md)
+
+❗ More information on the EOS interfaces can be found [here](https://dev.epicgames.com/docs)
