@@ -270,7 +270,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             panelRT.anchoredPosition = newPos;
 
             FriendOverlayContent.SetActive(false);
-            UIActions.OnCollapseFriendsTab();
+            UIActions.OnCollapseFriendsTab?.Invoke();
 
             collapsed = true;
         }
@@ -278,7 +278,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ExpandFriendsTab()
         {  
             FriendOverlayContent.SetActive(true);
-            UIActions.OnExpandFriendsTab();
+            UIActions.OnExpandFriendsTab?.Invoke();
 
             var panelRT = FriendsPanel.transform as RectTransform;
             var newPos = panelRT.anchoredPosition;
