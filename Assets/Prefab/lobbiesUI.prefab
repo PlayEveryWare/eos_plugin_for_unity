@@ -7782,7 +7782,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 525090539064381204}
   m_HandleRect: {fileID: 525090539064381203}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7989,7 +7989,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 525090538516055375}
   m_HandleRect: {fileID: 525090538516055374}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8844,6 +8844,7 @@ MonoBehaviour:
   UILobbyEntryPrefab: {fileID: 2996915572802775067, guid: a2cc8d442e8007948984750a87714b9f,
     type: 3}
   SearchContentParent: {fileID: 525090539702470279}
+  LobbySearchUI: {fileID: 525090539622149659}
   SearchByBucketIdBox: {fileID: 354679782887814981}
   SearchByLevelBox: {fileID: 6450995699414716851}
   SearchByLobbyIdBox: {fileID: 4488037078067826202}
@@ -9142,7 +9143,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 525090538867331271}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

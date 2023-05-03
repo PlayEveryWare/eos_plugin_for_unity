@@ -1559,6 +1559,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 562367960}
     m_Modifications:
+    - target: {fileID: 126780952, guid: aeac9914cf69f3e45971f52404af81a8, type: 3}
+      propertyPath: LobbySearchUI
+      value: 
+      objectReference: {fileID: 1160268718}
     - target: {fileID: 179358919160521715, guid: aeac9914cf69f3e45971f52404af81a8,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1667,6 +1671,11 @@ PrefabInstance:
     - target: {fileID: 525090538867331271, guid: aeac9914cf69f3e45971f52404af81a8,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 525090538867331271, guid: aeac9914cf69f3e45971f52404af81a8,
+        type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 525090538920696663, guid: aeac9914cf69f3e45971f52404af81a8,
