@@ -7,6 +7,7 @@
 This file documents how Login works in the PEW EOS Plugin for the following platforms
 * Windows
 * Mac 
+* Linux
 * iOS
 * Android
 
@@ -16,7 +17,8 @@ This file documents how Login works in the PEW EOS Plugin for the following plat
 
 ### Prerequisites
 
-* EOS Platform Interface must be initilaized before performing a login
+* EOS Platform Interface must be initilaized before performing a login.
+  *  Could be done by attaching `EOSManager.cs` to an object in the scene.
 
 ----------------------------------------------------------------------------------------
 ## Login Interfaces
@@ -32,8 +34,10 @@ More information about the distinction could be found [here](https://dev.epicgam
 * Auth Login functions are declared in EOS Auth Interface
 * **Account Portal** (`EOS_LCT_AccountPortal`) and **Persistent Auth** (`EOS_LCT_PersistentAuth`) are the primary Auth Types (`LoginCredentialType`) to login  
   * **Persistent Auth** will login with credentials of the previous successful **Account Portal** login
-* **Dev Auth**(`EOS_LCT_Developer`) is for quick iteration for developers, which could be done by using the Dev-Auth tool provided with the EOS SDK. Find [this](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/Walkthrough.md) for details
+* **Dev Auth**(`EOS_LCT_Developer`) is for quick iteration for developers, which could be done by using the Dev-Auth tool provided with the EOS SDK. Read [this](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/Walkthrough.md) for details
 * **External Auth** is currently only for Steam session ticket login on these platforms
+
+A list of which `LoginCredentialType` to use on which platform could be found [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/login_type_by_platform.md)
 
 ### Connect Login
 
@@ -245,9 +249,8 @@ When Auth Login Completed with any `LoginCredentialType`, `StartLoginWithLoginTy
         });
     }
 ```      
-❗*What happens after login should be tailored to fit the game's flows, such as configure UI, open main scene, etc*   
-*For some fail cases we pass an empty callbackinfo `LoginCallbackInfo blankCallbackInfo = new LoginCallbackInfo()` into callbacks to get better debug visibilty*    
-*They are omitted here to keep the file concise, more details could be found in plugin scripts* 
+❗*What happens after login should be tailored to fit the game's flow, such as configure UI, open main scene, log information, etc*  
+*They are omitted to keep this file concise. The full version of the functions could be found in plugin scripts `EOSManager.cs` and `UILoginMenu.cs`*   
             
 ### Intermediate functions that `StartLoginWithLoginTypeAndToken` contains
 
