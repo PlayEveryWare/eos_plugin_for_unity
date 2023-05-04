@@ -54,6 +54,8 @@ The login options are as follows:
     - Discord Access Token  
     - Openid Access Token
 
+❗ More information on when to use each login type during development can be found [here](LoginTypeByPlatform.md)
+
 
 ## **Individual Scene Walkthroughs**
 - [Achievements](SceneWalkthrough\AchievementsWalkthrough.md)
