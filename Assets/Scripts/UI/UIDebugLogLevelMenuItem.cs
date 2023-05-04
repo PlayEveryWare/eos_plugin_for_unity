@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Epic.OnlineServices.Logging;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
@@ -35,10 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Dropdown LogLevelDropdown;
         private LogCategory logCategory;
 
-        void Start()
-        {
-
-        }
+        private static LogCategory selectedCategory = (LogCategory)(-1);
 
         public void SetCategory(LogCategory Category)
         {
@@ -96,9 +94,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             DebugLog.OnLogLevelChanged(logCategory, GetLevel(newValue));
         }
 
+        public void OnPointerDown()
+        {
+            CancelInvoke("ScrollToItem");
+        }
+
         public void OnSelect()
         {
-            DebugLog.OnLogLevelItemSelected(this);
+            if (selectedCategory == logCategory)
+            {
+                return;
+            }
+
+            selectedCategory = logCategory;
+            Invoke("ScrollToItem", 0);
+        }
+
+        private void ScrollToItem()
+        {
+            DebugLog.ScrollToLogLevelItem(this);
         }
     }
 }
