@@ -75,8 +75,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override repeat button delay for overlay", ref overrideValues.repeatButtonDelayForOverlay, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningBoolField("HACK: force send input without delay", ref overrideValues.hackForceSendInputDirectlyToSDK, 250);
-
             EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: networkWork", ref overrideValues.ThreadAffinity_networkWork);
             EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: storageIO", ref overrideValues.ThreadAffinity_storageIO);
             EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: webSocketIO", ref overrideValues.ThreadAffinity_webSocketIO);
