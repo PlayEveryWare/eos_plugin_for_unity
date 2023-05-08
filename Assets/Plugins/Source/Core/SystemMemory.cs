@@ -24,6 +24,14 @@
 #define ENABLE_GET_ALLOCATOR_FUNCTION
 #endif
 
+#if UNITY_IOS && UNITY_STANDALONE
+#define DLLHELPER_HAS_INTERNAL_LINKAGE
+#endif
+
+#if UNITY_STANDALONE || UNITY_EDITOR_WIN
+#define DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
+#endif
+
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System;
@@ -31,10 +39,10 @@ using PlayEveryWare.EpicOnlineServices;
 
 using size_t = System.UIntPtr;
 
+//-------------------------------------------------------------------------
+// Generic interface for allocating native memory that conforms to the EOS SDK
 public partial class SystemMemory
 {
-#if !(UNITY_ANDROID || UNITY_EDITOR || UNITY_STANDALONE_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM) || UNITY_WSA_10_0) || UNITY_SWITCH || UNITY_GAMECORE || UNITY_PS5 || UNITY_PS4
-
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
     public struct MemCounters 
     {
@@ -45,43 +53,35 @@ public partial class SystemMemory
     public delegate IntPtr EOS_GenericAlignRealloc(IntPtr ptr, size_t sizeInBytes, size_t alignmentInBytes);
     public delegate void EOS_GenericFree(IntPtr ptr);
 
-    static private EOS_GenericAlignAlloc GenericAlignAllocDelegate;
-    static private EOS_GenericAlignRealloc GenericAlignReallocDelegate;
-    static private EOS_GenericFree GenericFreeDelegate;
-
-    static public readonly IntPtr GenericAlignAllocFunctionPointer;
-    static public readonly IntPtr GenericAlignReallocFunctionPointer;
-    static public readonly IntPtr GenericFreeFunctionPointer;
-
-    static SystemMemory()
-    {
-        GenericAlignAllocDelegate = new EOS_GenericAlignAlloc(GenericAlignAlloc);
-        GenericAlignReallocDelegate = new EOS_GenericAlignRealloc(GenericAlignRealloc);
-        GenericFreeDelegate = new EOS_GenericFree(GenericFree);
-
-        GenericAlignAllocFunctionPointer = Marshal.GetFunctionPointerForDelegate(GenericAlignAllocDelegate);
-        GenericAlignReallocFunctionPointer = Marshal.GetFunctionPointerForDelegate(GenericAlignReallocDelegate);
-        GenericFreeFunctionPointer = Marshal.GetFunctionPointerForDelegate(GenericFreeDelegate);
-    }
 
     [AOT.MonoPInvokeCallback(typeof(EOS_GenericAlignAlloc))]
     static public IntPtr GenericAlignAlloc(size_t sizeInBytes, size_t alignmentInBytes)
     {
+#if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
         return Mem_generic_align_alloc(sizeInBytes, alignmentInBytes);
+#else
+        return IntPtr.Zero;
+#endif
     }
 
     //-------------------------------------------------------------------------
     [AOT.MonoPInvokeCallback(typeof(EOS_GenericAlignRealloc))]
     static public IntPtr GenericAlignRealloc(IntPtr ptr, size_t sizeInBytes, size_t alignmentInBytes)
     {
+#if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
         return Mem_generic_align_realloc(ptr, sizeInBytes, alignmentInBytes);
+#else
+        return IntPtr.Zero;
+#endif
     }
 
     //-------------------------------------------------------------------------
     [AOT.MonoPInvokeCallback(typeof(EOS_GenericFree))]
     static public void GenericFree(IntPtr ptr)
     {
+#if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
         Mem_generic_free(ptr);
+#endif
     }
 
     //-------------------------------------------------------------------------
@@ -90,19 +90,21 @@ public partial class SystemMemory
 #if ENABLE_GET_ALLOCATOR_FUNCTION
         Mem_GetAllocatorFunctions(out alloc, out realloc, out free);
 #else
-        alloc = GenericAlignAllocFunctionPointer;
-        realloc = GenericAlignReallocFunctionPointer;
-        free = GenericFreeFunctionPointer;
+        alloc = IntPtr.Zero;
+        realloc = IntPtr.Zero;
+        free = IntPtr.Zero;
 #endif
     }
 
     private const string DLLHBinaryName =
-#if UNITY_GAMECORE || UNITY_STANDALONE_OSX
-        "DynamicLibraryLoaderHelper";
-#else
+#if DLLHELPER_HAS_INTERNAL_LINKAGE
         "__Internal";
+#else
+        "DynamicLibraryLoaderHelper";
+
 #endif
 
+#if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE
     [DllImport(DLLHBinaryName)]
     static public extern IntPtr Mem_generic_align_alloc(size_t size_in_bytes, size_t alignment_in_bytes);
 
@@ -112,7 +114,8 @@ public partial class SystemMemory
     [DllImport(DLLHBinaryName)]
     static public extern void Mem_generic_free(IntPtr ptr);
 
-#if !UNITY_IOS && !UNITY_STANDALONE_OSX
+    // This is currently not implemented
+#if ENABLE_GET_ALLOCATION_COUNTERS
     [DllImport(DLLHBinaryName)]
     static public extern void Mem_GetAllocationCounters(out MemCounters data);
 #endif
@@ -121,6 +124,6 @@ public partial class SystemMemory
     [DllImport(DLLHBinaryName)]
     private static extern void Mem_GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free);
 #endif
-
 #endif
+
 }
