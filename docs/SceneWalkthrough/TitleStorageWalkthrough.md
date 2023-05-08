@@ -1,5 +1,5 @@
 ## **Title Storage Demo**
-This demo showcases the title storage interface. This functions similar to the player data storage interface, although the data accessed is game/platform specific instead of player specific. This demo allows users to search files by tag and name and then view their contents. The demo is broken up into three parts, Tags search, File Search and the File viewer
+This demo showcases the title storage interface. This functions similar to the player data storage interface, although the data accessed is game/platform specific instead of player specific. This demo allows users to search files by tag and name and then view their contents. The demo is broken up into three parts, Tags search, File Search and the File viewer:
 
 - Tag Search
     - ``Add Tag`` Adds the tag entered into the ``Enter tag name`` field to the list of current tags.
