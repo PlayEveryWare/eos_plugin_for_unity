@@ -10,6 +10,13 @@ code, in a specially named DLL that gets called before the engine finishes runni
 If one is using this Plugin, one doesn't have to worry about any of that, as it's handled 
 automatically.
 
+## Handles native code
+Besides the Windows platform, the plugin also handles other requirements that the 
+Epic Online Services SDK needs, such as memory management, application life-cycle events,
+and input. These features are particularly beneficial for games that target
+console platforms, and frees users of the plugin to focus on their title instead of spending time
+handling native code implementations.
+
 
 ## Handles the Unity Editor
 The Unity Editor has unique behavior that makes integrating the EOS SDK a challenge.
