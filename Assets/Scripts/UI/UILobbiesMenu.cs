@@ -69,6 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Lobbies UI - Search")]
         public GameObject UILobbyEntryPrefab;
         public GameObject SearchContentParent;
+        public GameObject LobbySearchUI;
 
         public UIConsoleInputField SearchByBucketIdBox;
         public UIConsoleInputField SearchByLevelBox;
@@ -104,6 +105,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Awake()
         {
+            UIActions.OnCollapseFriendsTab += EnableInterferingUIForFriendsTab;
+            UIActions.OnExpandFriendsTab += DisableInterferingUIForFriendsTab;
             // Hide Invite Pop-up (Default)
             UIInvitePanel.SetActive(false);
 
@@ -143,8 +146,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ClearSearchResults();
         }
 
+        private void DisableInterferingUIForFriendsTab()
+        {
+            LobbySearchUI.SetActive(false);
+        }
+
+        private void EnableInterferingUIForFriendsTab()
+        {
+            LobbySearchUI.SetActive(true);
+        }
+
         private void OnDestroy()
         {
+            UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
+            UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
+
             LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
 
             EOSManager.Instance.RemoveManager<EOSLobbyManager>();
@@ -782,7 +798,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
         }
-
+     
         public void ShowMenu()
         {
             EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
