@@ -63,7 +63,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public string deploymentID;
 
         /// <value><c>SandboxDeploymentOverride</c> pairs used to override Deployment ID when a given Sandbox ID is used</value>
-        public List<SandboxDeploymentOverride> sandboxDeploymentOverrides;
+        public List<SandboxDeploymentOverride> sandboxDeploymentOverrides = new();
 
         /// <value><c>Client Secret</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string clientSecret;
