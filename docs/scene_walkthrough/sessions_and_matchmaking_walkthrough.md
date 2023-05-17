@@ -13,6 +13,9 @@ This demo showcases the sessions interface, users can create, manage and join se
         - ``Invites Allowed?`` toggles whether or not players in a session can invite others to join
         - ``Presence`` toggles whether or not to use the [presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) system.
         - ``Create New Session`` creates and joins a new session with the set configuration.
+
+        ![Settings](../images/eos_sdk_sessions_settings.png)
+
     - The ``Current Sessions`` Window shows current sessions with their relevant information.
         - ``Name`` the the session's name.
         - ``Status`` the status of the session, ``Pending``, ``In Progress``, or ``Ended``.
@@ -27,5 +30,6 @@ This demo showcases the sessions interface, users can create, manage and join se
         - The ``Leave`` button leaves the session.
     - The ``Search Level`` field allows users to search current sessions by level.
 
+![Current Sessions](../images/eos_sdk_sessions_current_sessions.png)
 
 ❗ More documentation on the sessions interface can be found [here](https://dev.epicgames.com/docs/game-services/sessions).

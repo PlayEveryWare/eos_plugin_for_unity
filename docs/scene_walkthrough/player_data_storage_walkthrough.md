@@ -8,5 +8,6 @@ This demo showcases the Player Data Storage interface. This allows games to stor
 - The ``Add Item`` add the item from the dropdown to the current local inventory.
 - The ``Upload`` button uploads the current local inventory file to the cloud, overwriting the old version.
 
+![Player Data Storage](../images/eos_sdk_player_data_storage.png)
 
 ❗ More documentation on the Player Data Storage interface can be found [here](https://dev.epicgames.com/docs/game-services/player-data-storage).

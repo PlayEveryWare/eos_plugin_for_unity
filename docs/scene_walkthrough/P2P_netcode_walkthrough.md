@@ -6,6 +6,7 @@ This demo showcases the Peer 2 Peer interface working with Unity's netcode. This
 - The ``Release Control`` button releases control of the square allowing input to be directed elsewhere.
 - The ``Join`` button in the friends tab allows the user to join a friend who is hosting a game.
 
+![P2P Netcode](../images/eos_sdk_p2p_netcode.png)
 
 ❗ More documentation on the P2P interface can be found [here](https://dev.epicgames.com/docs/game-services/p-2-p).
 

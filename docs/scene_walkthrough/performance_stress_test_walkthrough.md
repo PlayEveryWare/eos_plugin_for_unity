@@ -10,3 +10,5 @@ This scene was created to test the performance of the overlay under different sy
 - Memory Test
     - The ``Start Memory Test`` and ``Stop Memory Test`` start and stop the memory usage tests respectively.
     - The ```Memory Allocation``` Slider determines how much memory to allocate for the test (Due to how Unity handles memory, this memory is not returned to the system until the program is closed, however ending the test returns it to Unity's memory manager).
+
+    ![Stress Test](../images/stress_test.png)

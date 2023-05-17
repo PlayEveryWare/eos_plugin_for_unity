@@ -4,4 +4,6 @@ This demo showcases an implementation of the friends list into a game UI. The pa
 - The ``Friends Overlay`` button opens the EOS overlay.
 - The Friends tab, on the top left of the friends list, opens and closes the friends list. **In other samples it may start closed or may not be present where appropriate**
 
+![Friends Tab](../images/eos_sdk_friends_panel.png)
+
 ❗ More documentation on the Auth and Friends interface can be found [here](https://dev.epicgames.com/docs/epic-account-services/auth), with more specific information on the friends interface [here](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface).

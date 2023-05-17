@@ -6,5 +6,6 @@ This demo showcases the leaderboard functionality to track scores across the pla
 - The ``Global`` and `` Friends`` button in the top right toggle between showing global statistics and only friend statistics respectively.
 - The ``Enter stat value`` box is used to add a stat from the currently logged in account to the currently selected leaderboard through the ``Ingest Stat`` button.
 
+![Leaderboards](../images/eos_sdk_leaderboards.png)
 
 ❗ More documentation on the Leaderboard interface can be found [here](https://dev.epicgames.com/docs/game-services/leaderboards).
