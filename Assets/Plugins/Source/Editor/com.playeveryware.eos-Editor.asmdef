@@ -2,9 +2,10 @@
     "name": "com.playeveryware.eos-Editor",
     "rootNamespace": "",
     "references": [
-        "com.playeveryware.eos",
-        "Unity.EditorCoroutines.Editor",
-        "com.playeveryware.eos.essential"
+        "GUID:2ced8f3cc58f63843bc26c7591a35628",
+        "GUID:478a2357cc57436488a56e564b08d223",
+        "GUID:3a63500f0eef43a438c0553491f7c5da",
+        "GUID:68bd7fdb68ef2684e982e8a9825b18a5"
     ],
     "includePlatforms": [
         "Editor"
@@ -14,9 +15,13 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [
-        "!EOS_DISABLE_FULL"
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.rlabrecque.steamworks.net",
+            "expression": "",
+            "define": "STEAMWORKS_MODULE"
+        }
     ],
-    "versionDefines": [],
     "noEngineReferences": false
 }

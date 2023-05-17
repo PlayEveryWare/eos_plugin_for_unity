@@ -1057,6 +1057,7 @@ GameObject:
   - component: {fileID: 5701093076407785553}
   - component: {fileID: 1946843572763748204}
   - component: {fileID: 2214076866020279227}
+  - component: {fileID: 4496475331848641397}
   m_Layer: 5
   m_Name: ConnectType
   m_TagString: Untagged
@@ -1176,7 +1177,20 @@ MonoBehaviour:
     m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1158252006}
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UILoginMenu,
+          com.playeveryware.eos.samples
+        m_MethodName: OnConnectDropdownChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &2214076866020279227
 MonoBehaviour:
@@ -1198,6 +1212,21 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &4496475331848641397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3782912172713420542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3e086d92861a8428faf740c1f97e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Credential type used for Connect login
+  position: 0
+  PreferredWidth: -1
 --- !u!1 &3978559120992119166
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,6 +1841,7 @@ GameObject:
   - component: {fileID: 5557305858590710654}
   - component: {fileID: 5557305858590710655}
   - component: {fileID: 4148415265470645573}
+  - component: {fileID: 1901959309240326453}
   m_Layer: 5
   m_Name: LoginType
   m_TagString: Untagged
@@ -1975,6 +2005,21 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1901959309240326453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557305858590710653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3e086d92861a8428faf740c1f97e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Method of EOS authentication
+  position: 0
+  PreferredWidth: -1
 --- !u!1 &5557305858702103580
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,6 +2240,7 @@ GameObject:
   - component: {fileID: 5557305858795951441}
   - component: {fileID: 5557305858795951438}
   - component: {fileID: 1128939736724247952}
+  - component: {fileID: 1423676585686635654}
   m_Layer: 5
   m_Name: LoginButton
   m_TagString: Untagged
@@ -2337,6 +2383,21 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1423676585686635654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557305858795951436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3e086d92861a8428faf740c1f97e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Log in to EOS using specified parameters
+  position: 0
+  PreferredWidth: -1
 --- !u!1 &5557305858822341315
 GameObject:
   m_ObjectHideFlags: 0
@@ -2818,6 +2879,7 @@ MonoBehaviour:
   idInputField: {fileID: 649806418139123822}
   tokenText: {fileID: 5557305859178432502}
   tokenInputField: {fileID: 6047561500282386758}
+  tokenTooltip: {fileID: 3400658308500162431}
   connectTypeContainer: {fileID: 3557271381531690892}
   connectTypeDropdown: {fileID: 1946843572763748204}
   loginButtonText: {fileID: 5557305860001481239}
@@ -4975,6 +5037,21 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &3400658308500162431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6047561500282386813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3e086d92861a8428faf740c1f97e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: 
+  position: 0
+  PreferredWidth: -1
 --- !u!1001 &8261882339662273523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5223,6 +5300,21 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &6339131286105253441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 649806418139123797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3e086d92861a8428faf740c1f97e6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: Host IP and port of EOS Dev Auth Tool
+  position: 0
+  PreferredWidth: -1
 --- !u!114 &649806418139123822 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8911648707042544541, guid: 938b5e90c4f62df45a48e6b0b954e9f2,

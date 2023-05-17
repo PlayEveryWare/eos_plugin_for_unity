@@ -79,6 +79,11 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# Generated file for storing plugin version for project builds
+/[Aa]ssets/[Rr]esources.meta
+/[Aa]ssets/[Rr]esources/eosPluginVersion.asset
+/[Aa]ssets/[Rr]esources/eosPluginVersion.asset.meta
+
 
 #-------------------------------------------------------------------------
 # macOS

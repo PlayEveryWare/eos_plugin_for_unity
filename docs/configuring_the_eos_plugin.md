@@ -16,11 +16,11 @@ To get the EOS working, the plugin needs to know some specific things about your
 3) From the developer portal, copy the configuration values listed below, and paste them into the similarly named fields in the editor tool:
     * ProductName
     * ProductVersion
-    * [ProductID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ProductId)
-    * [SandboxID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=SandboxId)
+    * [ProductID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#P?term=ProductId)
+    * [SandboxID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#S?term=SandboxId)
     * [DeploymentID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=DeploymentId)
-    * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientSecret)
-    * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientId)
+    * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientSecret)
+    * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientId)
     * EncryptionKey
    
 

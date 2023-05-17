@@ -645,7 +645,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Search UI
         public void SearchByLevelAttributeEndEdit(string searchAttributeValue)
         {
-            LobbyManager.SearchByAttribute("LEVEL", searchAttributeValue, UIUpateSearchResults);
+            LobbyManager.SearchByAttribute("LEVEL", searchAttributeValue.ToUpper(), UIUpateSearchResults);
         }
 
         public void SearchByBucketAttributeEndEdit(string searchAttributeValue)

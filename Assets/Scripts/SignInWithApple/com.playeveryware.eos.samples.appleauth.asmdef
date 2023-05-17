@@ -1,0 +1,24 @@
+{
+    "name": "com.playeveryware.eos.samples.appleauth",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e2146bdc04d424169b039613a1b62bdf"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "!EOS_DISABLE"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.lupidan.apple-signin-unity",
+            "expression": "",
+            "define": "APPLEAUTH_MODULE"
+        }
+    ],
+    "noEngineReferences": false
+}

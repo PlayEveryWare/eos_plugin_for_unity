@@ -8,6 +8,7 @@
         "GUID:073a697712d497849830fad10877c9bf",
         "GUID:1491147abca9d7d4bb7105af628b223e",
         "GUID:575987b8fe219a04c8864880f8ca646b",
+        "GUID:a095d5f0621c943d19ea12b9bd6fc47a",
         "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
@@ -18,8 +19,7 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [
-        "!EOS_DISABLE",
-        "!EOS_DISABLE_FULL"
+        "!EOS_DISABLE"
     ],
     "versionDefines": [],
     "noEngineReferences": false

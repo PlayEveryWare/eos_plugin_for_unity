@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Epic.OnlineServices.Logging;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
@@ -52,6 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public UISampleSceneUIContainer DemoSceneContainer;
 
         public GameObject[] OptionElements;
+        public Button LogLevelMenuButton;
         private bool optionsVisible;
 
         private float initialFlexHeight;
@@ -59,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private bool expanded;
 
         [Header("Log Level Menu")]
-        public GameObject LogLevelMenu;
+        public ScrollRect LogLevelScrollView;
         public Transform LogLevelContentContainer;
         public UIDebugLogLevelMenuItem LogLevelTemplate;
         private UIDebugLogLevelMenuItem allCategoriesMenuItem;
@@ -75,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             logLevelMenuItems = new List<UIDebugLogLevelMenuItem>();
             BuildLogLevelMenu();
             ignoreLogLevelChange = false;
-            LogLevelMenu.SetActive(false);
+            LogLevelScrollView.gameObject.SetActive(false);
         }
 
         public void OnScollDragBegin()
@@ -111,12 +113,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     logLevelMenuItems.Add(CreateLogCategoryItem(cat));
                 }
             }
+
+            for (int i = 0; i < logLevelMenuItems.Count; ++i)
+            {
+                logLevelMenuItems[i].LogLevelDropdown.navigation = new Navigation()
+                {
+                    mode = Navigation.Mode.Explicit,
+                    selectOnRight = LogLevelMenuButton,
+                    selectOnUp = logLevelMenuItems[i == 0 ? logLevelMenuItems.Count - 1 : i - 1].LogLevelDropdown,
+                    selectOnDown = logLevelMenuItems[i == logLevelMenuItems.Count - 1 ? 0 : i + 1].LogLevelDropdown,
+                };
+            }
         }
 
         private UIDebugLogLevelMenuItem CreateLogCategoryItem(LogCategory Category)
         {
             var newItem = Instantiate(LogLevelTemplate, LogLevelContentContainer);
             newItem.SetCategory(Category);
+            newItem.name = $"{Category}LogLevel";
             LogLevel catLevel = EOSManager.Instance.GetLogLevel(Category);
             newItem.SetLevel(catLevel);
             newItem.gameObject.SetActive(true);
@@ -152,17 +166,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ignoreLogLevelChange = false;
         }
 
+        public void ScrollToLogLevelItem(UIDebugLogLevelMenuItem item)
+        {
+            float itemIndex = logLevelMenuItems.IndexOf(item);
+            if (itemIndex > -1)
+            {
+                float position = 1.0f - ((float)itemIndex / (logLevelMenuItems.Count - 1));
+                LogLevelScrollView.verticalNormalizedPosition = position;
+            }
+        }
+
         public void ToggleLogLevelMenu()
         {
-            LogLevelMenu.SetActive(!LogLevelMenu.activeSelf);
+            if (!LogLevelScrollView.gameObject.activeSelf && logLevelMenuItems.Count == 0)
+            {
+                return;
+            }
 
-            if (LogLevelMenu.activeSelf)
+            LogLevelScrollView.gameObject.SetActive(!LogLevelScrollView.gameObject.activeSelf);
+
+            if (LogLevelScrollView.gameObject.activeSelf)
             {
                 foreach (var item in logLevelMenuItems)
                 {
                     var cat = item.GetCategory();
                     item.SetLevel(EOSManager.Instance.GetLogLevel(cat));
                 }
+
+                EventSystem.current.SetSelectedGameObject(logLevelMenuItems[0].LogLevelDropdown.gameObject);
             }
         }
 

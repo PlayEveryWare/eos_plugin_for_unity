@@ -1,0 +1,16 @@
+{
+    "name": "com.playeveryware.eos.core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

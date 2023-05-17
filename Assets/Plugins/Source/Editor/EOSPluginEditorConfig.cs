@@ -95,6 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToIntegrityConfig = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityConfig);
             string pathToEACCertificate = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACCertificate);
             string pathToEACPrivateKey = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACPrivateKey);
+            string pathToEACSplashImage = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACSplashImage);
             string bootstrapOverideName = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.bootstrapperNameOverride);
             bool useEAC = configFile.currentEOSConfig.useEAC;
 
@@ -106,6 +107,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 tooltip: "EAC private key used in integrity tool cert generation. Exposing this to the public will comprimise anti-cheat functionality.");
             EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer",
                 tooltip: "EAC public key used in integrity tool cert generation");
+            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC splash image", ref pathToEACSplashImage, "Select 800x450 EAC splash image PNG", extension: "png",
+                tooltip: "EAC splash screen used by launcher. Must be a PNG of size 800x450.");
 
             EpicOnlineServicesConfigEditor.AssigningBoolField("Use EAC", ref useEAC, tooltip: "If set to true, uses the EAC");
             EpicOnlineServicesConfigEditor.AssigningTextField("Bootstrapper Name Override", ref bootstrapOverideName, labelWidth: 180, tooltip: "Name to use instead of 'Bootstrapper.exe'");
@@ -114,6 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile.currentEOSConfig.pathToEACIntegrityConfig = pathToIntegrityConfig;
             configFile.currentEOSConfig.pathToEACPrivateKey = pathToEACPrivateKey;
             configFile.currentEOSConfig.pathToEACCertificate = pathToEACCertificate;
+            configFile.currentEOSConfig.pathToEACSplashImage = pathToEACSplashImage;
             configFile.currentEOSConfig.useEAC = useEAC;
             configFile.currentEOSConfig.bootstrapperNameOverride = bootstrapOverideName;
         }
@@ -402,6 +406,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public string pathToDefaultCertificate;
         public string pathToEACPrivateKey;
         public string pathToEACCertificate;
+        public string pathToEACSplashImage;
 
         /// <value><c>Bootstrapper override name</c>Optional override name for EOSBootstrapper.exe</value>
         public string bootstrapperNameOverride;
@@ -430,6 +435,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 a.pathToDefaultCertificate == b.pathToDefaultCertificate &&
                 a.pathToEACPrivateKey == b.pathToEACPrivateKey &&
                 a.pathToEACCertificate == b.pathToEACCertificate &&
+                a.pathToEACSplashImage == b.pathToEACSplashImage &&
                 a.bootstrapperNameOverride == b.bootstrapperNameOverride &&
                 a.useEAC == b.useEAC;
         }
@@ -455,6 +461,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 && String.IsNullOrEmpty(pathToDefaultCertificate)
                 && String.IsNullOrEmpty(pathToEACPrivateKey)
                 && String.IsNullOrEmpty(pathToEACCertificate)
+                && String.IsNullOrEmpty(pathToEACSplashImage)
                 && String.IsNullOrEmpty(bootstrapperNameOverride)
                 && !useEAC
             ;

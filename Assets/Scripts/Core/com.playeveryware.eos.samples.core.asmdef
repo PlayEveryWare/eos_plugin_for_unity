@@ -1,0 +1,18 @@
+{
+    "name": "com.playeveryware.eos.samples.core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3a63500f0eef43a438c0553491f7c5da",
+        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75",
+        "GUID:09d5421c5a3c3c543b743a4368aa43b9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

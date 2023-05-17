@@ -57,6 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Text tokenText;
         public UIConsoleInputField tokenInputField;
+        public UITooltip tokenTooltip;
 
         public RectTransform connectTypeContainer;
         public Dropdown connectTypeDropdown;
@@ -77,8 +78,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private EventSystem system;
         private GameObject selectedGameObject;
 
-        LoginCredentialType loginType = LoginCredentialType.Developer;
-        bool useConnectLogin = false;
+        //use to indicate Connect login instead of Auth
+        private const LoginCredentialType invalidAuthType = (LoginCredentialType)(-1);
+        private LoginCredentialType loginType = LoginCredentialType.Developer;
+        //default to invalid value
+        private const ExternalCredentialType invalidConnectType = (ExternalCredentialType)(-1);
+        private ExternalCredentialType connectType = invalidConnectType;
+
+        Apple.EOSSignInWithAppleManager signInWithAppleManager = null;
 
         // Retain Id/Token inputs across scenes
         public static string IdGlobalCache = string.Empty;
@@ -93,10 +100,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #else
             loginType = LoginCredentialType.AccountPortal; // Default on other platforms
 #endif
-            useConnectLogin = false;
 
 #if UNITY_EDITOR || (UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM) || UNITY_STANDALONE_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM)
             idInputField.InputField.text = "localhost:7777"; //default on pc
+#endif
+
+#if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH)
+            Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
 #endif
         }
 
@@ -112,14 +122,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnDemoSceneChange(int value)
         {
-            value = value - 1;
-            Debug.LogFormat("UILoginMenu (OnDemoSceneChanged): value = {0}", value);
-            SceneManager.LoadScene(value);
+            string sceneName = SceneSwitcherDropDown.options[value]?.text;
+            if (string.IsNullOrWhiteSpace(sceneName) || value == 0)
+            {
+                return;
+            }
+            sceneName = sceneName.Replace(" ", "").Replace("&", "And");
+            Debug.LogFormat("UILoginMenu (OnDemoSceneChanged): value = {0}", sceneName);
+            SceneManager.LoadScene(sceneName);
         }
 
         public void OnDropdownChange(int value)
         {
-            useConnectLogin = false;
             switch (value)
             {
                 case 1:
@@ -132,9 +146,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     loginType = LoginCredentialType.ExternalAuth;
                     break;
                 case 4:
-                    //select unused type to avoid having to modify all loginType checks
-                    loginType = LoginCredentialType.Password;
-                    useConnectLogin = true;
+                    loginType = invalidAuthType;
                     break;
                 case 0:
                 default:
@@ -142,7 +154,40 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     break;
             }
 
+            if (loginType == invalidAuthType)
+            {
+                connectType = GetConnectType();
+            }
+            else
+            {
+                connectType = invalidConnectType;
+            }
+
             ConfigureUIForLogin();
+        }
+
+        public void OnConnectDropdownChange()
+        {
+            if (loginType != invalidAuthType)
+            {
+                return;
+            }
+
+            connectType = GetConnectType();
+            ConfigureUIForLogin();
+        }
+
+        private ExternalCredentialType GetConnectType()
+        {
+            string typeName = connectTypeDropdown.options[connectTypeDropdown.value].text;
+            if (Enum.TryParse(typeName, out ExternalCredentialType externalType))
+            {
+                return externalType;
+            }
+            else
+            {
+                return invalidConnectType;
+            }
         }
 
         public void Start()
@@ -256,9 +301,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     EventSystem.current.SetSelectedGameObject(UIFindSelectable);
                 }
+                else
+                {
+                    var selectables = GameObject.FindObjectsOfType<Selectable>(false);
+                    foreach (var selectable in selectables)
+                    {
+                        if (selectable.navigation.mode != Navigation.Mode.None)
+                        {
+                            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+                            break;
+                        }
+                    }
+                }
 
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
             }
+            signInWithAppleManager?.Update();
         }
 #else
 
@@ -329,6 +387,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     system.SetSelectedGameObject(next.gameObject);
                 }
             }
+
+            signInWithAppleManager?.Update();
         }
 #endif
 
@@ -369,7 +429,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             idInputField.gameObject.SetActive(true);
             tokenInputField.gameObject.SetActive(true);
             idText.gameObject.SetActive(true);
+            tokenText.text = "Username";
+            tokenTooltip.Text = "Username configured in EOS Dev Auth Tool";
             tokenText.gameObject.SetActive(true);
+
+            tokenInputField.InputFieldButton.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = idInputField.InputFieldButton,
+                selectOnDown = loginButton
+            };
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -491,14 +560,53 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
 
-            string typeName = connectTypeDropdown.options[connectTypeDropdown.value].text;
-            if (Enum.TryParse(typeName, out ExternalCredentialType externalType))
+            if (connectType == ExternalCredentialType.OpenidAccessToken)
             {
-                if (externalType == ExternalCredentialType.OpenidAccessToken)
+                tokenText.text = "Credentials";
+                tokenTooltip.Text = "Credentials for OpenID login sample in the form of username:password";
+                tokenInputField.gameObject.SetActive(true);
+                tokenText.gameObject.SetActive(true);
+
+                connectTypeDropdown.navigation = new Navigation()
                 {
-                    tokenInputField.gameObject.SetActive(true);
-                    tokenText.gameObject.SetActive(true);
-                }
+                    mode = Navigation.Mode.Explicit,
+                    selectOnUp = loginTypeDropdown,
+                    selectOnDown = tokenInputField.InputFieldButton,
+                    selectOnLeft = logoutButton
+                };
+
+                loginButton.navigation = new Navigation()
+                {
+                    mode = Navigation.Mode.Explicit,
+                    selectOnUp = tokenInputField.InputFieldButton,
+                    selectOnDown = logoutButton,
+                    selectOnLeft = logoutButton
+                };
+
+                tokenInputField.InputFieldButton.navigation = new Navigation()
+                {
+                    mode = Navigation.Mode.Explicit,
+                    selectOnUp = connectTypeDropdown,
+                    selectOnDown = loginButton
+                };
+            }
+            else
+            {
+                connectTypeDropdown.navigation = new Navigation()
+                {
+                    mode = Navigation.Mode.Explicit,
+                    selectOnUp = loginTypeDropdown,
+                    selectOnDown = loginButton,
+                    selectOnLeft = logoutButton
+                };
+
+                loginButton.navigation = new Navigation()
+                {
+                    mode = Navigation.Mode.Explicit,
+                    selectOnUp = connectTypeDropdown,
+                    selectOnDown = logoutButton,
+                    selectOnLeft = logoutButton
+                };
             }
 
             loginTypeDropdown.navigation = new Navigation()
@@ -508,13 +616,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 selectOnDown = connectTypeDropdown
             };
 
-            connectTypeDropdown.navigation = new Navigation()
-            {
-                mode = Navigation.Mode.Explicit,
-                selectOnUp = loginTypeDropdown,
-                selectOnDown = logoutButton,
-                selectOnLeft = logoutButton
-            };
+            
         }
 
         private void InitConnectDropdown()
@@ -524,8 +626,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             List<ExternalCredentialType> credentialTypes = new List<ExternalCredentialType>
             {
                 ExternalCredentialType.DeviceidAccessToken,
+
+#if UNITY_IOS || UNITY_STANDALONE_OSX
+                ExternalCredentialType.AppleIdToken,
+#endif
                 //ExternalCredentialType.GogSessionTicket,
-                //ExternalCredentialType.AppleIdToken,
                 //ExternalCredentialType.GoogleIdToken,
                 //ExternalCredentialType.OculusUseridNonce,
                 //ExternalCredentialType.ItchioJwt,
@@ -570,28 +675,24 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             loginButton.gameObject.SetActive(true);
             logoutButton.gameObject.SetActive(false);
 
-            if (useConnectLogin)
+            switch (loginType)
             {
-                ConfigureUIForConnectLogin();
-            }
-            else
-            {
-                switch (loginType)
-                {
-                    case LoginCredentialType.AccountPortal:
-                        ConfigureUIForAccountPortalLogin();
-                        break;
-                    case LoginCredentialType.PersistentAuth:
-                        ConfigureUIForPersistentLogin();
-                        break;
-                    case LoginCredentialType.ExternalAuth:
-                        ConfigureUIForExternalAuth();
-                        break;
-                    case LoginCredentialType.Developer:
-                    default:
-                        ConfigureUIForDevAuthLogin();
-                        break;
-                }
+                case LoginCredentialType.AccountPortal:
+                    ConfigureUIForAccountPortalLogin();
+                    break;
+                case LoginCredentialType.PersistentAuth:
+                    ConfigureUIForPersistentLogin();
+                    break;
+                case LoginCredentialType.ExternalAuth:
+                    ConfigureUIForExternalAuth();
+                    break;
+                case invalidAuthType:
+                    ConfigureUIForConnectLogin();
+                    break;
+                case LoginCredentialType.Developer:
+                default:
+                    ConfigureUIForDevAuthLogin();
+                    break;
             }
 
             // Controller
@@ -665,6 +766,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Username and password aren't always the username and password
         public void OnLoginButtonClick()
         {
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+            {
+                Debug.LogError("Internet not reachable.");
+                return;
+            }
+
             string usernameAsString = idInputField.InputField.text.Trim();
             string passwordAsString = tokenInputField.InputField.text.Trim();
 
@@ -693,13 +800,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    print(logMessage.Message);
             //});
 
-            if (useConnectLogin)
+            if (loginType == invalidAuthType)
             {
-                string typeName = connectTypeDropdown.options[connectTypeDropdown.value].text;
-                if (Enum.TryParse(typeName, out ExternalCredentialType externalType))
-                {
-                    AcquireTokenForConnectLogin(externalType);
-                }
+                AcquireTokenForConnectLogin(connectType);
             }
             else if (loginType == LoginCredentialType.ExternalAuth)
             {
@@ -751,16 +854,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     ConnectDeviceId();
                     break;
 
+                case ExternalCredentialType.AppleIdToken:
+                    ConnectAppleId();
+                    break;
+
                 case ExternalCredentialType.DiscordAccessToken:
                     ConnectDiscord();
                     break;
 
                 case ExternalCredentialType.OpenidAccessToken:
                     ConnectOpenId();
+
                     break;
 
                 default:
-                    Debug.LogError($"Connect Login for {externalType} not implemented");
+                    if (externalType == invalidConnectType)
+                    {
+                        Debug.LogError($"Connect type not valid");
+                    }
+                    else
+                    {
+                        Debug.LogError($"Connect Login for {externalType} not implemented");
+                    }
                     loginButton.interactable = true;
                     break;
             }
@@ -802,6 +917,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        private void ConnectAppleId()
+        {
+            signInWithAppleManager = new Apple.EOSSignInWithAppleManager();
+            Debug.Log("Start Connect Login with Apple Id");
+            
+            signInWithAppleManager.RequestTokenAndUsername((string token,string username) =>
+            {
+                StartConnectLoginWithToken(ExternalCredentialType.AppleIdToken, token, username.Remove(31));
+            });
+        }
+        
         private void ConnectDiscord()
         {
             var discordManager = Discord.DiscordManager.Instance;
@@ -850,13 +976,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             if (token == null)
             {
-                Debug.LogError("Connect Login failed: Unable to OpenID token");
+                Debug.LogError("Connect Login failed: Unable to acquire OpenID token");
                 ConfigureUIForLogin();
             }
             else
             {
                 EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.OpenidAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
             }
+
         }
 
         private void StartConnectLoginWithToken(ExternalCredentialType externalType, string token, string displayName = null)
