@@ -2,11 +2,67 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### Inprogress
 ### Unreleased
 ### Added
 ### Changed
 ### Removed
 ### Fixed
+
+##[2.3.0] - 2023-05-18
+### Inprogress
+Android login issues
+missing script references in the performance test and p2p netcode scene
+
+### Added
+doc: many new docs added and updated for multiple new areas
+feat: debug log tooltips
+feat: login tooltip examples
+
+### Changed
+chore: Files moved into core
+refactor: moved apple signin sample editor script to samples subdirectory
+refactor: use Path.Combine instead of Path.Join to make it easier for
+refactor: renamed essential assembly to core
+feat: load sample scenes by name
+refactor: change EOSStoreManager to use EOSManager method to get ecom
+feat: moved eac integrity tool config to editor directory for easier access
+fix: use unique name and do cleanup for eac temp build files
+fix: consolidated eac integrity config
+chore: moved linux config editor script
+refactor: changed version string retrieval method to avoid recompile
+
+### Removed
+chore: unneeded SystemMemory code
+chore: unneeded .aar
+
+### Fixed
+fix:layout fix for mobile and mac
+fix: log level menu selection behavior
+fix: removed EOS_DISABLE constraint from apple signin editor assembly
+feat: add error log when trying to grab ecom interface in editor.
+feat: eac splash image selection
+feat: eac integrity tool path default
+fix: hardcoded tooltip button
+fix(package) : Add EOSHostManager (samples essential) into UPM
+fix: config editor deployment overrides init
+chore: updated package description for essential asm changes and apple signin
+feat: sample ui tooltips
+fix: ui navigation fallback for input package
+fix: network sample asmdef references
+fix: EOS_DISABLE no longer breaks builds
+feat: update steamworks api from plugin
+feat: Add config value for specifying Steam API version.
+fix: egs sandboxid handling
+fix: case sensitive lobby search
+feat: Apple ID connect for iOS
+fix: login error when no internet
+fix: enable correct ui when changing connect login type
+fix(connect,iOS) : add ifdef for when SignInWithApple not installed
+feat(AppleID,iOS) : Added Check Define for whether AppleAuth is installed
+feat(connect) : AppleID login option for iOS
+fix(macOS) : build with both mono and il2cpp
+
 
 ##[2.2.1] - 2023-02-28
 ### Added

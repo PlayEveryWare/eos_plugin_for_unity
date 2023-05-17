@@ -20,7 +20,7 @@ public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
 
         if (report.summary.platform == BuildTarget.StandaloneOSX)
         {
-            string macOSPluginFolder = Path.Combine(Application.dataPath, "Plugins", "macOS");
+            string macOSPluginFolder = Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Runtime", "macOS");
             if (!File.Exists(Path.Combine(macOSPluginFolder, "libDynamicLibraryLoaderHelper.dylib"))||!File.Exists(Path.Combine(macOSPluginFolder, "MicrophoneUtility_macos.dylib")))
             {
                 Debug.LogError("Custom native libraries missing for mac build, use the makefile in NativeCode/DynamicLibraryLoaderHelper_macOS to install the libraries");
