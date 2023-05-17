@@ -440,7 +440,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 else
                 {
-                    UnityEngine.Debug.LogError("EOS config data does not contain valid encryption key");
+                    UnityEngine.Debug.LogWarning("EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
                 }
 
                 platformOptions.OverrideCountryCode = null;

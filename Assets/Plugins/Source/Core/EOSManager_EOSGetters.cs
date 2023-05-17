@@ -146,7 +146,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (playerDataStorageInterface == null)
                 {
-                    throw new System.Exception("Could not get PlayerDataStorage interface, EncryptionKey maybe empty or null");
+                    throw new System.Exception("Could not get PlayerDataStorage interface, EncryptionKey may be empty or null");
                 }
                 return playerDataStorageInterface;
             }
