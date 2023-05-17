@@ -13,7 +13,7 @@ This demo showcases the lobby and includes a voice chat interface in a combined 
     - ``RTC Voice Room`` determines whether or not the lobby will have voice chat.
     - ``Anti-Cheat Enabled`` toggles Easy-Anti Cheat on and off. This will kick cheating players or leave the lobby if the owner is cheating.
     - ``Create New Lobby`` Creates and joins a new lobby with the selected settings (Note: With default settings, only a bucket id is needed to create a new lobby).
-
+![SettingsWindow](../images/eos_sdk_lobbies_settings.png)
 
 - Once a lobby is created it will display the ``Lobby ID`` and the count id of the owner. The lobby also lists the current user and information.
     - ``Member Name`` Displays each user's account name.
@@ -23,12 +23,16 @@ This demo showcases the lobby and includes a voice chat interface in a combined 
     - ``Promote`` Allows the owner to transfer ownership of the lobby to another user.
     - ``Press to Talk`` toggles between having push to talk on, and what key to use as the push to talk trigger.
 
+    ![Roster](../images/eos_sdk_lobbies_roster.png)
+
 
 - The right window is where users can search for lobbies through an id, level or bucket id.
     - ``LobbyId`` Searches by the lobby id as found at the top of the lobby.
     - ``Level`` Searches by level, as chosen by the host when creating the lobby.
     - ``BucketId`` Searches by Bucket ID, as chosen by the host when creating the lobby.
     - Invites sent from other players will also appear here, with the user who sent the invite's ID and ``Accept`` and ``Decline`` option
+
+![Search](../images/eos_sdk_lobbies_search.png)
 
 -The ``Friends`` tab on the upper right corner opens the friends list.
     - The ``Invite`` button next to each entry sends an invite to that player.
