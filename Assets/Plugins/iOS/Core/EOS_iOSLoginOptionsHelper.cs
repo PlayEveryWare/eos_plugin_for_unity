@@ -3,10 +3,8 @@ using Epic.OnlineServices.Auth;
 using System.Runtime.InteropServices;
 
 #if UNITY_IOS && !UNITY_EDITOR
-public class EOS_iOSLoginOptionsHelper
+public static class EOS_iOSLoginOptionsHelper
 {
-    public EOS_iOSLoginOptionsHelper() { }
-
     //-------------------------------------------------------------------------
     /// <summary>
     /// Create App Controller necessary for iOS login options
@@ -18,7 +16,7 @@ public class EOS_iOSLoginOptionsHelper
     /// <summary>
     /// Make Login Options for iOS Specific
     /// </summary>
-    public IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
+    public static IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
     {
         IOSLoginOptions modifiedLoginOptions = new IOSLoginOptions();
         modifiedLoginOptions.ScopeFlags = loginOptions.ScopeFlags;
