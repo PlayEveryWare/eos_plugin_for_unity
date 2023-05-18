@@ -146,6 +146,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     loginType = LoginCredentialType.ExternalAuth;
                     break;
                 case 4:
+                    loginType = LoginCredentialType.ExchangeCode;
+                    break;
+                case 5:
                     loginType = invalidAuthType;
                     break;
                 case 0:
@@ -552,6 +555,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             };
         }
 
+        private void ConfigureUIForExchangeCode()
+        {
+            loginTypeDropdown.value = loginTypeDropdown.options.FindIndex(option => option.text == "ExchangeCode");
+
+            idContainer.gameObject.SetActive(true);
+            connectTypeContainer.gameObject.SetActive(false);
+            idInputField.gameObject.SetActive(false);
+            tokenInputField.gameObject.SetActive(false);
+            idText.gameObject.SetActive(false);
+            tokenText.gameObject.SetActive(false);
+
+            loginTypeDropdown.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = SceneSwitcherDropDown,
+                selectOnDown = loginButton
+            };
+
+            loginButton.navigation = new Navigation()
+            {
+                mode = Navigation.Mode.Explicit,
+                selectOnUp = loginTypeDropdown,
+                selectOnDown = logoutButton,
+                selectOnLeft = logoutButton
+            };
+        }
+
         private void ConfigureUIForConnectLogin()
         {
             idContainer.gameObject.SetActive(false);
@@ -685,6 +715,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     break;
                 case LoginCredentialType.ExternalAuth:
                     ConfigureUIForExternalAuth();
+                    break;
+                case LoginCredentialType.ExchangeCode:
+                    ConfigureUIForExchangeCode();
                     break;
                 case invalidAuthType:
                     ConfigureUIForConnectLogin();
@@ -825,6 +858,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         StartLoginWithLoginTypeAndTokenCallback(callbackInfo);
                     }
                 });
+            }
+            else if (loginType == LoginCredentialType.ExchangeCode) 
+            {
+                EOSManager.Instance.StartLoginWithLoginTypeAndToken(loginType,
+                                                                       null,
+                                                                       EOSManager.Instance.GetCommandLineArgsFromEpicLauncher().authPassword,
+                                                                       StartLoginWithLoginTypeAndTokenCallback);
             }
             else
             {

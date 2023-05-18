@@ -73,20 +73,30 @@ flowchart
       A(Click Login Button);
       B{Attempt External Auth Login};
       C{Attempt Persistent Login};
+      D(Attempt Exchange Code Login);
       E{Attempt Account Portal/Dev Auth Login};
       F(Delete Local Refresh Token);
       G{Steam token & session ticket};
-  
-      Y(Auth Login Succeeded);
+      H{Epic Launcher Args : Exchange Code};
+      
+      S(Auth Login Succeeded);
+      T(Auth Login Succeeded); 
+      U(Auth Login Succeeded);
+      V(Auth Login Succeeded);
+      W(Auth Login Failed);
+      X(Auth Login Failed);
+      Y(Auth Login Failed);
       Z(Auth Login Failed);
+      
 
-
-      A-->G-->|Retrieved|B-->|Success|Y;
-                         B-->|  Fail |Z;
-          G-->|  Null |Z;
-      A-->C-->|Success|Y;
-          C-->|  Fail |F-->Z;
-      A-->E-->|Success|Y;
+      A-->G-->|Retrieved|B-->|Success|S;
+                         B-->|  Fail |W;
+          G-->|  Null |W;
+      A-->C-->|Success|T;
+          C-->|  Fail |F-->X;
+      A-->D-->H-->|Retrieved|U;
+              H-->|  Null |Y;
+      A-->E-->|Success|V;
           E-->|  Fail |Z;
     end;
   
@@ -154,6 +164,18 @@ Unlike `Persistent Auth`, these two `LoginCredentialTypes` do not need to worry 
     EOSManager.Instance.StartLoginWithLoginTypeAndToken(loginType,
                                                         usernameAsString, // 🔵 could be null for Account Portal
                                                         passwordAsString, // 🔵 could be null for Account Portal
+                                                        StartLoginWithLoginTypeAndTokenCallback);
+``` 
+
+### Exchange Code
+
+Exchange code login could used when launching the game through Epic Games Launcher on desktop platforms (Windows, Mac, Linux)  
+The required exchange code could be retrieved with `GetCommandLineArgsFromEpicLauncher()`
+
+```cs
+    EOSManager.Instance.StartLoginWithLoginTypeAndToken(loginType,
+                                                        null, // 🔵 Intended for UserID, but is unused for Exchange Code login
+                                                        EOSManager.Instance.GetCommandLineArgsFromEpicLauncher().authPassword, // 🔵 The exchange code itself, passed as login token
                                                         StartLoginWithLoginTypeAndTokenCallback);
 ``` 
 
