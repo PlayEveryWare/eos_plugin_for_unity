@@ -1030,7 +1030,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             ushort OutgoingFragmentedIndex = connection.GetNextMessageIndex();
             for (ushort i = 0; i < numFragments; ++i)
             {
-                byte[] fragment = new byte[Mathf.Min(packet.Length + FragmentHeaderSize, MaxPacketSize)];
+                byte[] fragment = new byte[Mathf.Min(packet.Length - currentOffset, MaxPacketSize)];
                 // 4 Packet header: Bytes 1 and 2 hold the packed id, while 3 and 4 hold the fragment number, with the last bit used as a flag to mark the final fragment.
                 fragment[0] = (byte)(OutgoingFragmentedIndex >> 8);
                 fragment[1] = (byte)OutgoingFragmentedIndex;
