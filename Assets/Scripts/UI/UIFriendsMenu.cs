@@ -88,7 +88,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Start()
         {
-            Debug.Log("UIFriendsMenu::Start");
             initialPanelAnchoredPosX = (FriendsPanel.transform as RectTransform).anchoredPosition.x;
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
 

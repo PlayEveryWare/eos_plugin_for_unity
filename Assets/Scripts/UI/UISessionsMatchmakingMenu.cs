@@ -67,6 +67,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Controller")]
         public GameObject UIFirstSelected;
 
+        private EOSSessionsManager GetEOSSessionsManager
+        {
+            get { return GetEOSSessionsManager; }
+        }
+
         public void Awake()
         {
             // Hide Invite Pop-up (Default)
@@ -92,7 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Update()
         {
-            EOSSessionsManager sessionsManager = EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>();
+            EOSSessionsManager sessionsManager = GetEOSSessionsManager;
             bool stateUpdates = sessionsManager.Update();
 
 
@@ -297,7 +302,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             session.Attributes.Add(attribute);
 
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().CreateSession(session, PresenceVal.isOn, UIOnSessionCreated);
+            GetEOSSessionsManager.CreateSession(session, PresenceVal.isOn, UIOnSessionCreated);
         }
 
         private void UIOnSessionCreated()
@@ -308,7 +313,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         //Search Result
         private void JoinButtonOnClick(SessionDetails sessionHandle)
         {
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().JoinSession(sessionHandle, true, OnJoinSessionFinished); // Default Presence True
+            GetEOSSessionsManager.JoinSession(sessionHandle, true, OnJoinSessionFinished); // Default Presence True
         }
 
         private void OnJoinSessionFinished(Result result)
@@ -326,18 +331,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Session Member
         public void StartButtonOnClick(string sessionName)
         {
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().StartSession(sessionName);
+            GetEOSSessionsManager.StartSession(sessionName);
         }
 
         public void EndButtonOnClick(string sessionName)
         {
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().EndSession(sessionName);
+            GetEOSSessionsManager.EndSession(sessionName);
         }
 
         public void ModifyButtonOnClick(string sessionName)
         {
             // Only modify Max Players and Level
-            Session session = new Session(); //EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().GetSession(sessionName);
+            Session session = new Session(); //GetEOSSessionsManager.GetSession(sessionName);
             session.Name = sessionName;
             session.MaxPlayers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
             session.AllowJoinInProgress = JoinInProgressVal.isOn;
@@ -351,7 +356,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             attr.Advertisement = SessionAttributeAdvertisementType.Advertise;
             session.Attributes.Add(attr);
 
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().ModifySession(session, OnModifySessionCompleted);
+            GetEOSSessionsManager.ModifySession(session, OnModifySessionCompleted);
         }
 
         private void OnModifySessionCompleted()
@@ -361,7 +366,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void LeaveButtonOnClick(string sessionName)
         {
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().DestroySession(sessionName);
+            GetEOSSessionsManager.DestroySession(sessionName);
         }
 
         public void RefreshSearch()
@@ -386,7 +391,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             List<SessionAttribute> attributes = new List<SessionAttribute>() { levelAttribute };
 
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().Search(attributes);
+            GetEOSSessionsManager.Search(attributes);
 
             previousFrameResultCount = 0;
             ShowSearchResults = true;
@@ -397,7 +402,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             bool invitePresenceToggled = InvitePresence.isOn;
 
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().AcceptLobbyInvite(invitePresenceToggled);
+            GetEOSSessionsManager.AcceptLobbyInvite(invitePresenceToggled);
 
             // Make sure UI is showing current sessions
             ShowSearchResults = false;
@@ -405,12 +410,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void DeclineInviteButtonOnClick()
         {
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().DeclineLobbyInvite();
+            GetEOSSessionsManager.DeclineLobbyInvite();
         }
 
         public void ShowMenu()
         {
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>().OnLoggedIn();
+            GetEOSSessionsManager.OnLoggedIn();
 
             SessionsMatchmakingUIParent.gameObject.SetActive(true);
 
@@ -420,7 +425,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void HideMenu()
         {
-            EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>()?.OnLoggedOut();
+            if (GetEOSSessionsManager.IsUserLoggedIn)//check to prevent warnings when done unnecessarily during Sessions & Matchmaking startup
+            {
+                GetEOSSessionsManager.OnLoggedOut();
+            }
 
             SessionsMatchmakingUIParent.gameObject.SetActive(false);
         }

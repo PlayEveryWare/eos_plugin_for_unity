@@ -406,8 +406,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void UnsubscribeFromConnectionRequests()
         {
-            P2PHandle.RemoveNotifyPeerConnectionRequest(ConnectionNotificationId);
-            ConnectionNotificationId = 0;
+            if (ConnectionNotificationId != 0)//check to prevent warnings when done unnecessarily during p2p startup
+            {
+                P2PHandle.RemoveNotifyPeerConnectionRequest(ConnectionNotificationId);
+                ConnectionNotificationId = 0;
+            }
         }
 
         private void OnIncomingConnectionRequest(ref OnIncomingConnectionRequestInfo data)
