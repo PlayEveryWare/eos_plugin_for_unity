@@ -41,7 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public bool IsEmpty()
         {
             return string.IsNullOrEmpty(msbuildPath)
-                && string.IsNullOrEmpty(msbuildPath)
+                && string.IsNullOrEmpty(makePath)
                 && !msbuildDebug;
         }
     }
