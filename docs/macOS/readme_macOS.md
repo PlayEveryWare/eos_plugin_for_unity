@@ -27,6 +27,9 @@ To access Preview platforms, apply `EOS_PREVIEW_PLATFORM` in
 * Alternatively, manually use the makefile in `NativeCode/DynamicLibraryLoaderHelper_macOS/` by opening the terminal at the folder and run the command `make install`
 
 
-***If running the plugin in UnityEditor, after modifying the configuration settings,
-a UnityEditor reboot is needed for the changes to take place.***
+## Mac Specific Caveats
 
+* If running the plugin in UnityEditor, after modifying the configuration settings,
+a UnityEditor reboot is needed for the changes to take place.  
+
+* With Unity `2021.3.8f1` on Mac, building while overwriting the old build causes some weird behavior. Delete the old build before compiling a new build to avoid this problem
