@@ -9,9 +9,7 @@ Select a login type
     Account Portal uses the popup Epic window
     Persistent uses the most recent logged in information
 
-If you are getting a error logging in pertaining to the EOS Overlay, this is caused by the overlay not being installed yet. 
-To install it create a build of the demo and run the bootstrapper included in the build folder, this will install the overlay.
-You may receive an additional error on launch if the Netcode for GameObjects plugin is not installed.
+You may receive an error on launch if the Netcode for GameObjects plugin is not installed.
 
 Once logged in you can start using the demo, and the Start Hosting button can be used to begin hosting a game session. Testing this will require at least 2 clients running, with at least two accounts that have friended each other.
 On the second client, join the first client's session using the Join button either in the friends side bar or through the EOS overlay.
