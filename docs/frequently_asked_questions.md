@@ -65,3 +65,24 @@ all of Unity has been bootstrapped so that the Plugin can hook all the appropria
 See [eos_config_security.md](eos_config_security.md) for more information. 
 
 
+## What is this error 
+
+### DllNotFoundException
+
+This might be caused by libraries/binaries not being fetched from git lfs.  
+Which mainly happens when adding the UPM `via git url`   
+
+This could be fix by one of the following:   
+
+A. Initialize git lfs on the package folder  
+B. Add the UPM `via tarball` downloaded [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases) instead
+
+### Missing Native Libraries
+
+Some native functionality are required for platform specific needs.  
+
+To get these dependent libraries, use the platform library build tool in the plugin at `Tools > Build Library > [Target Platform]`
+
+Or to install the libraries manually,  
+go to the `NativeCode` folder, find the target platform, and *build the `.sln`* or *`run the makefile`* in the folder.
+
