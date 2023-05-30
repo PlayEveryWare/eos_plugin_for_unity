@@ -69,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSSessionsManager GetEOSSessionsManager
         {
-            get { return GetEOSSessionsManager; }
+            get { return EOSManager.Instance.GetOrCreateManager<EOSSessionsManager>(); }
         }
 
         public void Awake()
