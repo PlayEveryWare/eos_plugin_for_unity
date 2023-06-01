@@ -490,7 +490,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // those cases, this code will early out.
             public void Init(IEOSCoroutineOwner coroutineOwner)
             {
-#if !UNITY_EDITOR && !(UNITY_STANDALONE_WIN)
+#if !UNITY_EDITOR && !(UNITY_STANDALONE_WIN) && !UNITY_ANDROID && !UNITY_IPHONE && !UNITY_WSA
 #warning Platform not supported
                 UnityEngine.Debug.LogError("Platform not supported");    
 #endif
