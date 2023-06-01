@@ -147,6 +147,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            if (!tooltipObject.activeInHierarchy) 
+            {
+                HideTooltip(tooltipObject);
+            }
+
             var tooltipComp = tooltipObject.GetComponent<UITooltip>();
             if (tooltipComp != null)
             {
