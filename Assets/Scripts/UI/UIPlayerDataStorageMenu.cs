@@ -137,10 +137,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void RefreshButtonOnClick()
         {
             PlayerDataStorageManager.GetCachedStorageData().Clear();
-                
+
             PlayerDataStorageManager.QueryFileList();
 
-            PlayerDataStorageManager.StartFileDataDownload(currentSelectedFile, () => UpdateRemoteView(currentSelectedFile));
+            if (currentSelectedFile != string.Empty)
+            {
+                PlayerDataStorageManager.StartFileDataDownload(currentSelectedFile, () => UpdateRemoteView(currentSelectedFile));
+            }
         }
 
         public void NewFileButtonOnClick()
