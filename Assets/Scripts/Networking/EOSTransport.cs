@@ -76,6 +76,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         // Override local user id for testing multiple clients at once
         public ProductUserId LocalUserIdOverride = null;
 
+        //editor field to input a PUID to connect to(ease of access when using editor buttons in the network manager
+        public String ServerUserIdToConnectToInput = null;
+
+        //String of the current server PUID for copying purposes
+        public string ServerUserIDForCopying = null;
+
         /// <summary>
         /// A constant `clientId` that represents the server.
         /// When this value is found in methods such as `Send`, it should be treated as a placeholder that means "the server".
@@ -211,6 +217,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// </summary>
         public override bool StartClient()
         {
+            if(ServerUserIdToConnectToInput != null)
+            {
+                ServerUserIdToConnectTo = ProductUserId.FromString(ServerUserIdToConnectToInput);
+            }
 
             if (ServerUserIdToConnectTo == null)
             {
@@ -259,7 +269,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
             print($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{OurUserId}'.");
-
+            ServerUserIDForCopying = OurUserId.ToString();
             // Set server mode
             IsServer = true;
 
