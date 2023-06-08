@@ -14,6 +14,11 @@
             "name": "com.unity.postprocessing",
             "expression": "",
             "define": "COM_UNITY_MODULE_POSTPROCESSING"
+        },
+        {
+            "name": "com.unity.shadergraph",
+            "expression": "",
+            "define": "COM_UNITY_MODULE_SHADERGRAPH"
         }
     ],
     "noEngineReferences": false

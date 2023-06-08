@@ -42,6 +42,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             if (request.Result != null) { Debug.Log("[com.unity.postprocessing@3.2.2] successfully installed"); }
             else { Debug.Log("[com.unity.postprocessing@3.2.2] Request Failed : " + request.Error.ToString()); }
 #endif
+
+#if !COM_UNITY_MODULE_SHADERGRAPH
+            Debug.LogWarning("Package : [com.unity.shadergraph] required, attempting to install...");
+
+            AddRequest request;
+            request = Client.Add("com.unity.shadergraph@12.1.7");
+            while (request.Status == StatusCode.InProgress) { }
+            if (request.Result != null) { Debug.Log("[com.unity.shadergraph@12.1.7] successfully installed"); }
+            else { Debug.Log("[com.unity.shadergraph@12.1.7] Request Failed : " + request.Error.ToString()); }
+#endif
         }
     }
 }
