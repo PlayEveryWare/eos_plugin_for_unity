@@ -33,10 +33,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
     {
         static PackageInstallHelper_PostProcessing()
         {
+            AddRequest request;
 #if !COM_UNITY_MODULE_POSTPROCESSING
             Debug.LogWarning("Package : [com.unity.postprocessing] required, attempting to install...");
 
-            AddRequest request;
             request = Client.Add("com.unity.postprocessing@3.2.2");
             while (request.Status == StatusCode.InProgress) { }
             if (request.Result != null) { Debug.Log("[com.unity.postprocessing@3.2.2] successfully installed"); }
@@ -46,7 +46,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 #if !COM_UNITY_MODULE_SHADERGRAPH
             Debug.LogWarning("Package : [com.unity.shadergraph] required, attempting to install...");
 
-            AddRequest request;
             request = Client.Add("com.unity.shadergraph@12.1.7");
             while (request.Status == StatusCode.InProgress) { }
             if (request.Result != null) { Debug.Log("[com.unity.shadergraph@12.1.7] successfully installed"); }
