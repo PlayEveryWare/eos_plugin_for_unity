@@ -21,6 +21,8 @@
 */
 using UnityEngine;
 using UnityEditor;
+
+#if UNITY_EDITOR
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 
@@ -43,4 +45,5 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         }
     }
 }
+#endif
 
