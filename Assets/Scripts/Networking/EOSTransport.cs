@@ -217,11 +217,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// </summary>
         public override bool StartClient()
         {
+#if UNITY_EDITOR
             if(ServerUserIdToConnectToInput != null)
             {
                 ServerUserIdToConnectTo = ProductUserId.FromString(ServerUserIdToConnectToInput);
             }
-
+#endif
             if (ServerUserIdToConnectTo == null)
             {
                 print("EOSP2PTransport.StartClient: No ServerUserIDToConnectTo set!");
