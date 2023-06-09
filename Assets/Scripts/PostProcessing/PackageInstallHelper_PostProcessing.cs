@@ -48,10 +48,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             AddRequest request2;
             Debug.LogWarning("Package : [com.unity.shadergraph] required, attempting to install...");
 
-            request = Client.Add("com.unity.shadergraph@12.1.7");
-            while (request.Status == StatusCode.InProgress) { }
-            if (request.Result != null) { Debug.Log("[com.unity.shadergraph@12.1.7] successfully installed"); }
-            else { Debug.Log("[com.unity.shadergraph@12.1.7] Request Failed : " + request.Error.ToString()); }
+            request2 = Client.Add("com.unity.shadergraph@12.1.7");
+            while (request2.Status == StatusCode.InProgress) { }
+            if (request2.Result != null) { Debug.Log("[com.unity.shadergraph@12.1.7] successfully installed"); }
+            else { Debug.Log("[com.unity.shadergraph@12.1.7] Request Failed : " + request2.Error.ToString()); }
 #endif
         }
     }
