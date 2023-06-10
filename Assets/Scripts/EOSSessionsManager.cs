@@ -359,6 +359,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private bool subscribtedToGameInvites = false;
         private bool userLoggedIn = false;
+        public bool IsUserLoggedIn
+        {
+            get { return userLoggedIn; }
+        }
 
         public EOSSessionsManager()
         {

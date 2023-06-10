@@ -9,6 +9,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+##[2.3.1] - 2023-06-09
+### Inprogress
+Android login scheme protocal fix (pending on eossdk-ver1.16)
+
+### Added
+feat(package) : package auto installer - Netcode
+feat(package) : package auto installer - PostProcessing
+doc(mac) : second build failing on mac information
+doc(mac) : mac getting started
+doc(faq): Add sections about Getting Username, Setting Custom Device ID, and Summary about the EOS Config security.
+feat : exchange code login functionality (#287) 
+chore(log) : log if mac dylibs aren't in repo plugin folder 
+Docs: Additional images 
+Docs: Updated overlay info
+Docs: Updated file names and added images 
+
+### Changed
+chore : adjust package description for moved assets
+chore : categorize materials by which sample pack they belong
+chore : move post process profile to a better folder
+feat(package) : adjust package json to have multi samples
+feat(tarball) : Update package description for multi sample 
+chore : move netcode specific scripts ready for packaging
+chore : rearrange scenes for package sample split 
+making the error a bit more clear
+Update frequently_asked_questions.md (#295)
+
+### Removed
+remove platfom unsupported logs from supported platforms
+removing a log and some warnings called when hidemenu is called before the user logs in
+
+### Fixed
+fix : upm repo lfs support
+fix : avoid duplicate declaration in auto package loader
+fix : auto shadergraph install for stress test scene
+fix(build) : build fix for package installer script 
+fix: index out of range error in p2pnetcode
+fix(Title Storage) : handle if target filename doesn't exist in storage locally
+fix(dataStorage) : clear error from refresh button
+fix(tooltip) : quick tooltip disable fix
+fixing sessions error  
+fix(config) : config empty check 
+fix(storage) : Refresh reacts to changes uploaded from other devices 
+fix(transoprt) : correct fragmented packet size
+fix(regression): Add back code to show how to disable host migration
+fix(iOS) : IOS Login Options Refactor (#289) 
+
+ 
 ##[2.3.0] - 2023-05-18
 ### Inprogress
 Android login issues

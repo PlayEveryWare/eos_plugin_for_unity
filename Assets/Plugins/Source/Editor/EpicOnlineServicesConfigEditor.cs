@@ -595,7 +595,7 @@ _WIN32 || _WIN64
             if (!mainEOSConfigFile.currentEOSConfig.IsEncryptionKeyValid())
             {
                 int keyLength = mainEOSConfigFile.currentEOSConfig.encryptionKey?.Length ?? 0;
-                EditorGUILayout.HelpBox("Encryption key must be 64 hex characters (0-9,A-F). Current length is " + keyLength + ".", MessageType.Error);
+                EditorGUILayout.HelpBox("Used for Player Data Storage and Title Storage. Must be left blank if unused. Encryption key must be 64 hex characters (0-9,A-F). Current length is " + keyLength + ".", MessageType.Warning);
             }
 
             AssigningFlagTextField("Platform Flags (Seperated by '|')", ref mainEOSConfigFile.currentEOSConfig.platformOptionsFlags, 190,

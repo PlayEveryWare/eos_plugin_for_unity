@@ -95,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else
             {
-                Debug.LogErrorFormat("CustomInvites (FinalizeInvite): failed to finalize invite {0}", InviteId);
+                Debug.LogErrorFormat("CustomInvites (FinalizeInvite): failed to finalize invite {0} with result {1}", InviteId, result.ToString());
             }
 
             PendingInvites.Remove(inviteData.InviteId);

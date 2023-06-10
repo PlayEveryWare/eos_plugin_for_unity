@@ -226,6 +226,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            if (!TitleStorageManager.GetCachedCurrentFileNames().Contains(FileNameTextBox.InputField.text))
+            {
+                Debug.LogError("UITitleStorageMenu - FileName doesn't exist, cannot be downloaded!");
+                return;
+            }
+
             // Check if it's already been downloaded
             string cachedData = GetLocalData(FileNameTextBox.InputField.text);
             if (!string.IsNullOrEmpty(cachedData))

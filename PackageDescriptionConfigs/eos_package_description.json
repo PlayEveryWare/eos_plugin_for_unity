@@ -392,43 +392,78 @@
 
         {"src":"EOSUnityPlugin_package_template/.sample.json", "dest" : ""},
 
-        {"src":"Assets/Materials/NetcodePlayField.mat", "dest": "Samples~/Samples/Materials/"},
-        {"src":"Assets/Materials/NetcodePlayField.mat.meta", "dest": "Samples~/Samples/Materials/"},
-
-        {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/"},
-        {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/Prefab/"},
-        {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/Prefab/"},
+        {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/StandardSamples/"},
+        {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
+        {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
 
         {"src":"EOSUnityPlugin_package_template/Samples.meta", "dest" : "Samples~/"},
-        {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/Scripts/"},
-        {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/Scripts/"},
-        {"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/Scripts/"},
-        {"src":"Assets/Scripts/*.asmdef", "dest": "Samples~/Samples/Scripts/"},
-        {"src":"Assets/Scripts/UI.meta", "dest": "Samples~/Samples/Scripts/UI.meta"},
-        {"src":"Assets/Scripts/UI/*.cs", "dest": "Samples~/Samples/Scripts/UI/"},
-        {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/Scripts/UI/"},
-        {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/Scripts/Util.meta"},
-        {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/Scripts/Util/"},
-        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/Scripts/Util/"},
-        {"src":"Assets/Scripts/Core.meta", "dest": "Samples~/Samples/Scripts/Core.meta"},
-        {"src":"Assets/Scripts/Core/*", "dest": "Samples~/Samples/Scripts/Core/"},
-        {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/Scripts/Networking.meta"},
-        {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/Scripts/Networking/"},
-        {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/Scripts/Steam.meta"},
-        {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/Scripts/Steam/"},
-        {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/Scripts/Discord.meta"},
-        {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/Scripts/Discord/"},
-        {"src":"Assets/Scripts/OpenID.meta", "dest": "Samples~/Samples/Scripts/OpenID.meta"},
-        {"src":"Assets/Scripts/OpenID/*", "dest": "Samples~/Samples/Scripts/OpenID/"},
-        {"src":"Assets/Scripts/OpenID/CloudFunction/*", "dest": "Samples~/Samples/Scripts/OpenID/CloudFunction/"},
-        {"src":"Assets/Scripts/SignInWithApple.meta", "dest": "Samples~/Samples/Scripts/SignInWithApple.meta"},
-        {"src":"Assets/Scripts/SignInWithApple/*", "dest": "Samples~/Samples/Scripts/SignInWithApple/"},
-        {"src":"Assets/Scripts/SignInWithApple/Editor.meta", "dest": "Samples~/Samples/Scripts/SignInWithApple/"},
-        {"src":"Assets/Scripts/SignInWithApple/Editor/*", "dest": "Samples~/Samples/Scripts/SignInWithApple/Editor/"},
+        {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/*.asmdef", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/UI.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI.meta"},
+        {"src":"Assets/Scripts/UI/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
+        {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
+        {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util.meta"},
+        {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
+        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
+        {"src":"Assets/Scripts/Core.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Core.meta"},
+        {"src":"Assets/Scripts/Core/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Core/"},
+        {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam.meta"},
+        {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam/"},
+        {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord.meta"},
+        {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord/"},
+        {"src":"Assets/Scripts/OpenID.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID.meta"},
+        {"src":"Assets/Scripts/OpenID/*", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID/"},
+        {"src":"Assets/Scripts/OpenID/CloudFunction/*", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID/CloudFunction/"},
+        {"src":"Assets/Scripts/SignInWithApple.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple.meta"},
+        {"src":"Assets/Scripts/SignInWithApple/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"},
+        {"src":"Assets/Scripts/SignInWithApple/Editor.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"},
+        {"src":"Assets/Scripts/SignInWithApple/Editor/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/Editor/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
-        {"src":"Assets/Scenes/*.unity", "dest": "Samples~/Samples/Scenes/"},
-        {"src":"Assets/Scenes/*.unity.meta", "dest": "Samples~/Samples/Scenes/"},
+        {"src":"Assets/Scenes/StandardSamples.meta", "dest": "Samples~/Samples/"},
+        {"src":"Assets/Scenes/StandardSamples/*.unity", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
+        {"src":"Assets/Scenes/StandardSamples/*.unity.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
+            
+        {"src":"Assets/Materials/StandardSamplesMaterials.meta", "dest": "Samples~/Samples/StandardSamples/Materials.meta"},
+        {"src":"Assets/Materials/StandardSamplesMaterials/*", "dest": "Samples~/Samples/StandardSamples/Materials/"},
+
+
+        {"comment": "-------------------------------P2P NetCode Sample-----------------------------------------"},
+ 
+        {"src":"Assets/Scenes/P2PNetcodeSample.meta", "dest": "Samples~/Samples/"},
+        {"src":"Assets/Scenes/P2PNetcodeSample/*.unity", "dest": "Samples~/Samples/P2PNetcodeSample/Scenes/"},
+        {"src":"Assets/Scenes/P2PNetcodeSample/*.unity.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scenes/"},
+
+        {"src":"Assets/Materials/NetcodeMaterials.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Materials.meta"},
+        {"src":"Assets/Materials/NetcodeMaterials/*", "dest": "Samples~/Samples/P2PNetcodeSample/Materials/"},
+
+        {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/Networking.meta"},
+        {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/Networking/"},
+        {"src":"Assets/Scripts/UI/P2PNetcode.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/UI.meta"},
+        {"src":"Assets/Scripts/UI/P2PNetcode/*", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/UI/"},
+
+        {"comment": "-------------------------------End P2P NetCode Sample-----------------------------------------"},
+
+
+
+	{"comment": "-------------------------------Performance Stress Test Sample-----------------------------------------"},
+
+        {"src":"Assets/Scenes/PerformanceStressTestSample.meta", "dest": "Samples~/Samples/"},
+        {"src":"Assets/Scenes/PerformanceStressTestSample/*.unity", "dest": "Samples~/Samples/PerformanceStressTestSample/Scenes/"},
+        {"src":"Assets/Scenes/PerformanceStressTestSample/*.unity.meta", "dest": "Samples~/Samples/PerformanceStressTestSample/Scenes/"},
+
+        {"src":"Assets/Materials/PerformanceStressTestMaterials.meta", "dest": "Samples~/Samples/PerformanceStressTestSample/Materials.meta"},
+        {"src":"Assets/Materials/PerformanceStressTestMaterials/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Materials/"},
+
+        {"src":"Assets/Scripts/PostProcessing.meta", "dest": "Samples~/Samples/PerformanceStressTestSample/Scripts/PostProcessing.meta"},
+        {"src":"Assets/Scripts/PostProcessing/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Scripts/PostProcessing/"},
+        {"src":"Assets/Resources/PerformanceStressTest_Profiles.meta", "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles.meta"},
+        {"src":"Assets/Resources/PerformanceStressTest_Profiles/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles/"},
+
+	{"comment": "-------------------------------End Performance Stress Test Sample-----------------------------------------"},
+
 
         {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},

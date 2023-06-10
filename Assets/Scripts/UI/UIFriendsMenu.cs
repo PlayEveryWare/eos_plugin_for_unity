@@ -51,7 +51,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private bool collapsed = false;
 
         public GameObject FriendOverlayContent;
-        public GameObject LobbySearchUI;
 
         public UIConsoleInputField SearchFriendsInput;
 
@@ -89,7 +88,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void Start()
         {
-            Debug.Log("UIFriendsMenu::Start");
             initialPanelAnchoredPosX = (FriendsPanel.transform as RectTransform).anchoredPosition.x;
             FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
 
@@ -271,7 +269,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             panelRT.anchoredPosition = newPos;
 
             FriendOverlayContent.SetActive(false);
-            LobbySearchUI.SetActive(true);
+            UIActions.OnCollapseFriendsTab?.Invoke();
 
             collapsed = true;
         }
@@ -279,7 +277,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public void ExpandFriendsTab()
         {  
             FriendOverlayContent.SetActive(true);
-            LobbySearchUI.SetActive(false);
+            UIActions.OnExpandFriendsTab?.Invoke();
 
             var panelRT = FriendsPanel.transform as RectTransform;
             var newPos = panelRT.anchoredPosition;

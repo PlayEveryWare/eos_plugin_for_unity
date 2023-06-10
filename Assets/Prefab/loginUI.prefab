@@ -1967,6 +1967,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: ExternalAuth
       m_Image: {fileID: 0}
+    - m_Text: ExchangeCode
+      m_Image: {fileID: 0}
     - m_Text: Connect
       m_Image: {fileID: 0}
   m_OnValueChanged:

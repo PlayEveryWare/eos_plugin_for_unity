@@ -440,7 +440,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 else
                 {
-                    UnityEngine.Debug.LogError("EOS config data does not contain valid encryption key");
+                    UnityEngine.Debug.LogWarning("EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
                 }
 
                 platformOptions.OverrideCountryCode = null;
@@ -490,7 +490,7 @@ namespace PlayEveryWare.EpicOnlineServices
             // those cases, this code will early out.
             public void Init(IEOSCoroutineOwner coroutineOwner)
             {
-#if !UNITY_EDITOR && !(UNITY_STANDALONE_WIN)
+#if !UNITY_EDITOR && !(UNITY_STANDALONE_WIN) && !UNITY_ANDROID && !UNITY_IPHONE && !UNITY_WSA
 #warning Platform not supported
                 UnityEngine.Debug.LogError("Platform not supported");    
 #endif
@@ -1228,7 +1228,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 print("StartLoginWithLoginTypeAndToken");
 
 #if UNITY_IOS && !UNITY_EDITOR
-                IOSLoginOptions modifiedLoginOptions = (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).MakeIOSLoginOptionsFromDefualt(loginOptions);
+                IOSLoginOptions modifiedLoginOptions = EOS_iOSLoginOptionsHelper.MakeIOSLoginOptionsFromDefualt(loginOptions);
                 EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 #else
                 EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {

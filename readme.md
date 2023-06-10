@@ -45,6 +45,7 @@ The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugi
 * Feature specific sample scenes, that include manager classes for common uses of EOS SDK API.
 * Custom Unity Tool for configuring EOS settings and saving to a JSON file.
 * Unity editor playback support, handled by reloading EOS SDK.
+* Most EOS features are accessible by players without an Epic Games Account.
 
 
 #### Repo Contents:
@@ -76,7 +77,7 @@ The support level of each target platform in Unity as of the current release of 
 | Universal Windows Platform x64 | | |
 | Android | | |
 | iOS | | |
-> :heavy_exclamation_mark: Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms
+> :heavy_exclamation_mark: Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms.
 
 <br />
 
@@ -92,7 +93,8 @@ The support level of each EOS SDK features as of the current release of the plug
 | [Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) | [Lobby](https://dev.epicgames.com/docs/game-services/lobbies) | [Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) | [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) | |
 | [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) | [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) (Not Supported in Editor) | |
 | [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) | [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) | [Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) |
-| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) | |
+| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) | [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) |
+| [Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true) | [Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) | [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |  |
 
 
 | Unsupported at Present | |
@@ -102,11 +104,11 @@ The support level of each EOS SDK features as of the current release of the plug
 <br />
 
 <details>
-  <summary><b>The List EOS Features Shown by Sample</b></summary>
+  <summary><b>The EOS Features Shown by Sample</b></summary>
 
 | Sample Name | EOS Features |
 | - | - |
-| - All Samples - | [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface), [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) |
+| - All Samples - | [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface), [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview),  [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface), <br />[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true), [Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface), [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |
 | Achievements | [Achievements](https://dev.epicgames.com/docs/game-services/achievements) |
 | Auth & Friends | [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface), [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |
 | Custom Invites | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) |
@@ -125,6 +127,34 @@ The support level of each EOS SDK features as of the current release of the plug
 | None (Not Supported) | [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods), [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) |
 </details>
 
+<details>
+  <summary><b>The EOS Features Shown by Requirement of a Player Needing an Epic Games Account</b></summary>
+<br />
+  
+  [EOS Game Services](https://dev.epicgames.com/docs/game-services) can be set up in your game without any requirement for your players to have an Epic Games account. As opposed to [EOS Epic Account Services](https://dev.epicgames.com/docs/epic-account-services), Which will require your players to have an Epic Games account.
+  
+| Not Required | Required  |
+| - | - |
+| [Achievements](https://dev.epicgames.com/docs/game-services/achievements) | [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) |
+| [Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) | [Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) |
+| [Lobby](https://dev.epicgames.com/docs/game-services/lobbies) | [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) |
+| [Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) | [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |
+| [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) | [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) |
+| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) |
+| [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) (Unsupported) |
+| [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) |  |
+| [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |  |
+| [Reports](https://dev.epicgames.com/docs/game-services/reports-interface) |  |
+| [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) |  |
+| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) |  |
+| [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) |  |
+| [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) |  |
+| [Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true) |  |
+| [Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) |  |
+| [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |  |
+| [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) (Unsupported) |  |
+</details>
+
 <br />
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$</div> <a name="getting-started" />
@@ -133,10 +163,11 @@ The support level of each EOS SDK features as of the current release of the plug
 ## Prerequisites
 
 
-* An Epic Games Account, you can sign up for [here](https://dev.epicgames.com/portal/).
+* An Epic Games Account, you can sign up for [here](https://www.epicgames.com/id/register).
+    > :heavy_exclamation_mark: An Epic Games Account is not required by players for [most](#supported-eos-sdk-features) EOS features.
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into, it can be a blank project.
-    > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>
+    > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>.
 
 <br />
 
@@ -168,7 +199,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> :heavy_exclamation_mark: The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/Manual/upm-ui-tarball.html)
+> :heavy_exclamation_mark: The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/Manual/upm-ui-tarball.html).
 
 <br />
 
@@ -176,7 +207,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 <br />
 
 1. Setup Unity for [Git Dependency](https://docs.unity3d.com/Manual/upm-git.html).
-2. Install [git and git-lfs](https://docs.unity3d.com/Manual/upm-git.html#req)
+2. Install [git and git-lfs](https://docs.unity3d.com/Manual/upm-git.html#req).
 3.  From the Unity Editor, open the Package Manager.
     * ```Window -> Package Manager```.
 
@@ -195,7 +226,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> :heavy_exclamation_mark: The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html)
+> :heavy_exclamation_mark: The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
 
 <br />
 
@@ -205,7 +236,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implementation</a> to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
 
-   > :heavy_exclamation_mark: The generalized managers are a great starting point for feature integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```
+   > :heavy_exclamation_mark: The generalized managers are a great starting point for feature integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```.
 
 <br />
 
@@ -220,7 +251,7 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 3. Select ```Import``` to bring in the Sample scenes.
 
-    > :heavy_exclamation_mark: The samples are placed in ```Assets/Samples``` for personal modification
+    > :heavy_exclamation_mark: The samples are placed in ```Assets/Samples``` for personal modification.
 
 4. In the Unity editor menu bar, open ```File->Build Settings```.
 
@@ -234,20 +265,20 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 ## Running the samples
 
-> :heavy_exclamation_mark: The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional
+> :heavy_exclamation_mark: The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional.
 
 Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
 
-> :heavy_exclamation_mark: The Social Overlay Feature is not supported in editor
+> :heavy_exclamation_mark: The Social Overlay Feature is not supported in editor.
 
 1. In the Unity editor, open the desired sample scene from the imported Scenes folder.
 
 2. Press the play button at the top of the editor.
 
-3. Login with a selected authentication type, ```Account Portal``` is recommended for the first time.
+3. Login with a selected authentication type. <br />```Account Portal``` and then ```PersistentAuth``` is easiest for the first time. ```Dev Auth``` can be used for quicker iteration, among other options described [here](docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
 
     ![Auth and Friends Screenshot](docs/images/sample_screen_account_login.gif)
 
@@ -266,10 +297,13 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
     > :heavy_exclamation_mark: A Windows build, is started by running the ```EOSBootstrapper``` application in the resulting build, and not the game application itself. it is for this and similar reasons that the ```Build And Run``` button may not always function as it usually would.
 
-4.  Login with a selected authentication type, ```Account Portal``` is recommended for the first time.
+4.  Login with a selected authentication type. <br />```Account Portal``` and then ```PersistentAuth``` is easiest for the first time. ```Dev Auth``` can be used for quicker iteration, among other options described [here](docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
 
+     ![Auth and Friends Screenshot](docs/images/sample_screen_account_login.gif)
 
 </details>
+
+> :heavy_exclamation_mark: Additional info on login type options, implementation, and use cases can be found [here](docs/readme_login.md).
 
 <br />
 
@@ -294,16 +328,16 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
     * [DeploymentID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=DeploymentId)
     * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientSecret)
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientId)
-    * Encryption Key
-      > :heavy_exclamation_mark: Click the Generate button to create a random key, if you haven't already configured an encryption key in the EOS portal.
-
+    * [Encryption Key](https://dev.epicgames.com/docs/en-US/api-ref/structs/eos-platform-options)
+      > :heavy_exclamation_mark: Click the Generate button to create a random key, if you haven't already configured an encryption key in the EOS portal. <br />The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples, and don't want to create an Encryption Key, then the field must be left blank.
+      
     ![EOS Config UI](docs/images/eosconfig_ui.gif)
 
 3. Press ```Save All Changes```.
 
 4. Navigate to ```Packages/Epic Online Services for Unity/Runtime``` via the ```Project``` window.
 
-5. Add the ```EOSManager.prefab```, to each of you're game's scenes.
+5. Add the ```EOSManager.prefab```, to each of your game's scenes.
 
 6. Simply attach ```EOSManager.cs (Script)``` to a Unity object and it will initialize the plugin with the specified configuration in ```OnAwake()```.
       > :heavy_exclamation_mark: The <a href="#samples">samples</a> already have this done!
@@ -320,7 +354,7 @@ See [docs/disable_plugin_per_platform.md](docs/disable_plugin_per_platform.md) f
 # <div align="center">$\textcolor{deeppink}{\textsf{Plugin Support}}$</div> <a name="plugin-support" />
 ---
 
-Epic Online Services Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com
+Epic Online Services Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
 
 For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab in the github repo.
 
@@ -340,7 +374,7 @@ The following are guidelines for helping contribute to this open source project.
 * Ensure At least Visual Studio 2017 is installed.
 * Ensure At least Unity 2020.1.11f1 is installed.
 * Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles).
-* The repository cloned locally [https://github.com/PlayEveryWare/eos_plugin_for_unity](https://github.com/PlayEveryWare/eos_plugin_for_unity)
+* The repository cloned locally [https://github.com/PlayEveryWare/eos_plugin_for_unity](https://github.com/PlayEveryWare/eos_plugin_for_unity).
 
 ## Build steps For Native Libraries
 
