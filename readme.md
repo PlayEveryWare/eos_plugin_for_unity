@@ -249,15 +249,15 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 2. Open the ```Samples``` dropdown.
 
-3. Select ```Import``` to bring in the Sample scenes.
+3. Select ```Import``` for each of the sample packs, to bring in the Sample scenes.
 
     > :heavy_exclamation_mark: The samples are placed in ```Assets/Samples``` for personal modification.
 
 4. In the Unity editor menu bar, open ```File->Build Settings```.
 
-5. In the ```Project``` window, navigate to the scenes folder containing all the sample scenes.
+5. In the ```Project``` window, navigate to the scenes folders containing their respective sample scenes. ```\Assets\Samples\Epic Online Services Plugin for Unity\[Version #]\[Pack Name]\Scenes```.
 
-6. Add the scenes to the ```Scenes In Build``` section of the ```Build Settings``` window. This can be done quickly by using the ```Shift``` key to select each scene at the same time, then dragging them into the proper area.
+6. Add the scenes to the ```Scenes In Build``` section of the ```Build Settings``` window. This can be done quickly by using the ```Shift``` key to select each scene at the same time, then dragging them into the proper area. Repeating for each sample pack folder.
 
     > :heavy_exclamation_mark: If you have other scenes already, and plan to look at the samples in a build, drag a sample scene to be the 0th scene in Build Settings before you build.
 
@@ -266,6 +266,7 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 ## Running the samples
 
 > :heavy_exclamation_mark: The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional.
+> :heavy_exclamation_mark: Some Samples may not be accessible if the extra packs were not <a href="#importing-the-samples">imported</a>, or the scenes weren't added in the build settings. 
 
 Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
