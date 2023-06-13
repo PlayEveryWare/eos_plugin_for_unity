@@ -36,6 +36,7 @@ More information about the distinction could be found [here](https://dev.epicgam
   * **Persistent Auth** will login with credentials of the previous successful **Account Portal** login
 * **Dev Auth**(`EOS_LCT_Developer`) is for quick iteration for developers, which could be done by using the Dev-Auth tool provided with the EOS SDK. Read [this](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/Walkthrough.md) for details
 * **External Auth** is currently only for Steam session ticket login on these platforms
+* **Exchange Code** is for logging in on Epic Game Store deployments
 
 A list of which `LoginCredentialType` to use on which platform could be found [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/login_type_by_platform.md)
 
@@ -73,11 +74,12 @@ flowchart
       A(Click Login Button);
       B{Attempt External Auth Login};
       C{Attempt Persistent Login};
-      D(Attempt Exchange Code Login);
+      D{Attempt Exchange Code Login};
       E{Attempt Account Portal/Dev Auth Login};
       F(Delete Local Refresh Token);
       G{Steam token & session ticket};
       H{Epic Launcher Args : Exchange Code};
+      P{Link Epic Account to External Account};
       
       S(Auth Login Succeeded);
       T(Auth Login Succeeded); 
@@ -90,6 +92,8 @@ flowchart
       
 
       A-->G-->|Retrieved|B-->|Success|S;
+                         B-->|InvalidUser|P-->|Success|S;
+                                          P-->|  Fail |W;
                          B-->|  Fail |W;
           G-->|  Null |W;
       A-->C-->|Success|T;
@@ -169,7 +173,7 @@ Unlike `Persistent Auth`, these two `LoginCredentialTypes` do not need to worry 
 
 ### Exchange Code
 
-Exchange code login could used when launching the game through Epic Games Launcher on desktop platforms (Windows, Mac, Linux)  
+`Exchange Code` login could used when launching the game through Epic Games Launcher on desktop platforms (Windows, Mac, Linux)  
 The required exchange code could be retrieved with `GetCommandLineArgsFromEpicLauncher()`
 
 ```cs
@@ -202,10 +206,11 @@ Currently `External Auth` is for Steam session ticket login
                     onLoginCallback);
         }
 ```           
-### Auth Login Completed -> Attempt Connect Login
+### Handling Auth Login Results
 
-When Auth Login Completed with any `LoginCredentialType`, `StartLoginWithLoginTypeAndTokenCallback` gets called.  
-* At this point, for External Auth, Steam logged in successfully but Epic Account might not be linked yet, this function verifies that and starts the Connect Login flow if it is.
+When an Auth Login attempt finishes, `StartLoginWithLoginTypeAndTokenCallback` gets called and handles the login flow according to the result from Auth Login.  
+* Auth Login returned `Success`: Login flow proceeds to perform a Connect Login attempt
+* Auth Login returned `InvalidUser`: Implies that Steam(`External Auth`) logged in successfully but Epic Account wasn't linked yet, login flow prompts the user to link one.
 
 ```cs
     public void StartLoginWithLoginTypeAndTokenCallback(LoginCallbackInfo loginCallbackInfo)
@@ -238,6 +243,11 @@ When Auth Login Completed with any `LoginCredentialType`, `StartLoginWithLoginTy
         else return; 🔴 Other fail cases of the external login attempt
     }
 ```
+
+### Connect Login
+
+When Auth Login Succeeds, Connect login gets called next 
+
 ```cs    
     private void StartConnectLoginWithLoginCallbackInfo(LoginCallbackInfo loginCallbackInfo)
     {
