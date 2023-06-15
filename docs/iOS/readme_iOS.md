@@ -38,7 +38,7 @@ You can follow the standard <a href="/readme.md#samples">Samples</a> process.
 You can follow the standard <a href="/readme.md#configuring-the-plugin">Configuring the Plugin</a> process. With the additional steps between ```3.``` and ```4.```.
 
 
-## Configuration Steps
+## Additional Configuration Steps <a name="configuration-steps" />
 
 1. Select the ```iOS``` button.
 
