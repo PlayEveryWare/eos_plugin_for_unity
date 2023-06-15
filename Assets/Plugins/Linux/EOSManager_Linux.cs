@@ -36,6 +36,7 @@ using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting;
 using System;
 
 using Epic.OnlineServices.Platform;
