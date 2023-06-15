@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+##[2.3.2] - 2023-06-15
+### Fixed
+Added back the missing assemblies for MacOS build in UPM repo
+
 ##[2.3.1] - 2023-06-09
 ### Inprogress
 Android login scheme protocal fix (pending on eossdk-ver1.16)
