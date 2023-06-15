@@ -266,6 +266,7 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 ## Running the samples
 
 > :heavy_exclamation_mark: The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional.
+
 > :heavy_exclamation_mark: Some Samples may not be accessible if the extra packs were not <a href="#importing-the-samples">imported</a>, or the scenes weren't added in the build settings. 
 
 Sample walkthroughs can be found [here](docs/Walkthrough.md).
