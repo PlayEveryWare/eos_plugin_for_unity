@@ -1,4 +1,4 @@
-<img src="docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/>
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 <div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
 <br /><br /><br />
