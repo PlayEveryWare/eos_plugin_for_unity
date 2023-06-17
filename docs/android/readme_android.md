@@ -1,28 +1,67 @@
-## Prereqs
-Unity _must_ have 'Custom Gradle Properties Template' set to true for the plugin to work.
-This setting can be found in the 'Publishing Settings' in the Player Settings.
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-## What is the Android Helper Library?
-It's a dynamically linked library and AAR that brings in the C++ dependencies that the
-EOS SO needs on Android, and provides a place for any native Android code to live.
+<div align="center"> <img src="/docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
+<br /><br /><br />
 
-## Building the Android Helper library.
-Prerequisites:
-* Android NDK installed
-* Android SDK installed
-* Cmake installed (Installed with NDK)
-* Java
-* Android Studio or Gradle configured to work with the Android SDK
+---
 
-To get it to compile, you'll need to have the android NDK, and android SDK setup.
-The process to setup the SDK and NDK is mostly automated by either Android Studio or Unity.
 
-Otherwise, you can just use gradle, and build it by modifying where it searches for 
-the NDK and the SDK. While it should be possible to use the version installed for Unity to
-compile the library, it isn't required.
 
-Building should just be as simple as running ```gradle build``` if one's environment is setup correctly for 
-gradle, or as easy as hitting 'build' in Android Studio.
+# <div align="center">$\textcolor{deeppink}{\textsf{Android Getting Started}}$</div> <a name="getting-started" />
+---
 
-After it's built, you'll need to copy the aar from the build directory into the Assets/Plugins/Android/ directory.
-One can find the aar in UnityHelpers_Android/build/outputs/aar/ .
+## Prerequisites
+
+
+* The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
+* Windows Build Support (IL2CPP)
+* The Android Build Support <a href="https://docs.unity3d.com/2020.1/Documentation/Manual/GettingStartedAddingEditorComponents.html">module</a>.
+  * Android SDK & NDK
+  * OpenJDK
+  
+*Find compatible module versions and installation tips [here](/docs/android/android_supported_versions.md)*
+<br />
+
+## Importing the Plugin
+
+
+You can follow the standard <a href="/readme.md#importing-the-plugin">Importing the Plugin</a> process. With a few changes here when <a href="/readme.md#samples">running the samples</a> and <a href="/readme.md#configuring-the-plugin">configuring the plugin</a>.
+> :heavy_exclamation_mark: If you choose the tarball method, when downloading the release it may convert the ```.tgz``` into a ```.tar``` which is not compatible with unity. Changing the file extension back to a ```.tgz``` should fix this.
+
+<br />
+
+## Samples
+
+You can follow the standard <a href="/readme.md#samples">Samples</a> process.
+> :heavy_exclamation_mark: Due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
+
+<br />
+
+## Configuring the Plugin
+
+You can follow the standard <a href="/readme.md#configuring-the-plugin">Configuring the Plugin</a> process. With the additional steps between ```3.``` and ```4.```.
+
+
+## Additional Configuration Steps <a name="configuration-steps" />
+
+1. Select the ```Android``` label.
+
+
+2. Press ```Save All Changes```.
+
+      > :heavy_exclamation_mark: This is required, even if you leave every field blank.
+
+<br />
+
+## Build Settings
+
+1. Remember to set the `Minimum API Level` in Android build settings, as the minimum Android SDK version defined in the `eos-sdk` is `Android 6.0 'Marshmallow' (API Level 23)`.  
+
+2. In `Preferences > EOS Plugin > Android Build Settings`, users could determine either to link the EOS Library dynamically or statically  
+   *  `eos-sdk.aar` would be overwritten from `PlatformSpecificAssets\EOS\Android\[static or dynamic]-stdc++\aar` to `Asset\Plugin\Android` when making an Android build
+
+
+# <div align="center">$\textcolor{deeppink}{\textsf{FAQ}}$</div> <a name="faq" />
+---
+
+See [docs/frequently_asked_questions.md](/docs/frequently_asked_questions.md).
