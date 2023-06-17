@@ -75,8 +75,8 @@ The support level of each target platform in Unity as of the current release of 
 | Windows Standalone x64 | [MacOS](docs/macOS/macOS_supported_versions.md) | Universal Windows Platform x86 |
 | Windows Standalone x86 | Console Platforms | Unity Web Player |
 | Universal Windows Platform x64 | | |
-| Android (No Social Overlay Yet) | | |
-| iOS (No Social Overlay Yet) | | |
+| [Android](/docs/android/readme_android.md) (No Social Overlay Yet) | | |
+| [iOS](/docs/iOS/readme_iOS.md) (No Social Overlay Yet) | | |
 > :heavy_exclamation_mark: Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms.
 
 <br />
@@ -167,7 +167,7 @@ The support level of each EOS SDK features as of the current release of the plug
     > :heavy_exclamation_mark: An Epic Games Account is not required by players for [most](#supported-eos-sdk-features) EOS features.
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into, it can be a blank project.
-    > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>.
+    > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>, and system requirements for that version <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html">here</a>.
 
 <br />
 
