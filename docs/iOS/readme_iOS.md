@@ -15,6 +15,7 @@
 
 * The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
 * The iOS unity <a href="https://docs.unity3d.com/2020.1/Documentation/Manual/GettingStartedAddingEditorComponents.html">module</a>.
+* Xcode 10.2.x.
 
 <br />
 
@@ -29,7 +30,8 @@ You can follow the standard <a href="/readme.md#importing-the-plugin">Importing 
 ## Samples
 
 You can follow the standard <a href="/readme.md#samples">Samples</a> process.
-> :heavy_exclamation_mark: Due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
+> :heavy_exclamation_mark: The EOS Overlay is not implemented yet. But when it is due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
+
 
 <br />
 
