@@ -29,9 +29,23 @@ You can follow the standard <a href="/readme.md#importing-the-plugin">Importing 
 
 ## Samples
 
-You can follow the standard <a href="/readme.md#samples">Samples</a> process.
+You can follow the standard <a href="/readme.md#samples">Samples</a> process.  With the additional steps between ```3.``` and ```4.``` when running from a build.
 > :heavy_exclamation_mark: The EOS Overlay is not implemented yet. But when it is due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
 
+<br />
+
+## Running the samples
+
+<b> Additional steps to run a sample from a build between ```3.``` and ```4.```.</b>
+
+1. Open the ```.xcodeproj``` in xcode.
+
+2. Follow the Apple Developer instructions to build and run the app <a href="https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device">here</a>.
+
+    > :heavy_exclamation_mark: If running on a device you may need to <a href="https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device">enable developer mode</a> on the device.
+
+
+<br />
 
 <br />
 
