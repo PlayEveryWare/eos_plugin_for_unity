@@ -14,9 +14,9 @@
 
 
 * The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
+* <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/ios-environment-setup.html">iOS environment setup</a> for Unity.
 * The iOS Unity <a href="https://docs.unity3d.com/hub/manual/AddModules.html">module</a>.
 * Xcode 10.2.x.
-* <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/ios-environment-setup.html">iOS environment setup</a> for Unity
 
 <br />
 
