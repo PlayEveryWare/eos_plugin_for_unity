@@ -271,7 +271,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             Debug.Assert(IsInitialized);
             print($"EOSP2PTransport.StartServer: Entering Server mode with EOS UserId='{OurUserId}'.");
+#if UNITY_EDITOR
             ServerUserIDForCopying = OurUserId.ToString();
+#endif
             // Set server mode
             IsServer = true;
 
