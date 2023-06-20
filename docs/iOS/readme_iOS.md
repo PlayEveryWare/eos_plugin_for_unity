@@ -48,7 +48,7 @@ Find directions to log in with an Apple ID <a href="/docs/iOS/AppleIDLogin.md">h
 
 ## Configuring the Plugin
 
-You can follow the standard <a href="/readme.md#configuring-the-plugin">Configuring the Plugin</a> process. With the additional steps between ```3.``` and ```4.```.
+You can follow the standard <a href="/readme.md#configuring-the-plugin">Configuring the Plugin</a> process. With the additional steps after saving the Main EOS Config.
 
 
 ## Additional Configuration Steps <a name="configuration-steps" />
