@@ -18,7 +18,7 @@
     "versionDefines": [
         {
             "name": "com.rlabrecque.steamworks.net",
-            "expression": "",
+            "expression": "[20.2.0]",
             "define": "STEAMWORKS_MODULE"
         }
     ],

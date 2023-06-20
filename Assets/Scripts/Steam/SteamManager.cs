@@ -195,7 +195,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             get
             {
 #if !STEAMWORKS_MODULE
-                Debug.LogError("Steamworks.NET plugin not installed. Install through the package manager from the git URL https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net");
+                Debug.LogError("Steamworks.NET plugin (version 20.2.0) not installed. Install through the package manager from the git URL https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net");
 #endif
                 if (s_instance == null)
                 {
@@ -311,12 +311,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
             uint ticketSize = 0;
-            sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
+            SteamNetworkingIdentity authId = new SteamNetworkingIdentity();
+            authId.m_eType = ESteamNetworkingIdentityType.k_ESteamNetworkingIdentityType_GenericString;
+            authId.SetSteamID(SteamUser.GetSteamID());
+            authId.SetGenericString("epiconlineservices");
+            sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize, ref authId);
             if ((int)ticketSize > bufferSize)
             {
                 SteamUser.CancelAuthTicket(sessionTicketHandle);
                 bufferSize = (int)ticketSize;
-                sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize);
+                sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize, ref authId);
             }
             Array.Resize(ref buffer, (int)ticketSize);
             //convert to hex string
