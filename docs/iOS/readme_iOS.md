@@ -23,7 +23,7 @@
 ## Importing the Plugin
 
 
-You can follow the standard <a href="/readme.md#importing-the-plugin">Importing the Plugin</a> process. With a few changes here when <a href="/readme.md#running-the-samples">running the samples</a> and <a href="/readme.md#configuring-the-plugin">configuring the plugin</a>.
+You can follow the standard <a href="/readme.md#importing-the-plugin">Importing the Plugin</a> process. With a few changes here when <a href="#running-the-samples">running the samples</a> and <a href="#configuring-the-plugin">configuring the plugin</a>.
 > :heavy_exclamation_mark: If you choose the tarball method, when downloading the release on mac it may convert the ```.tgz``` into a ```.tar``` which is not compatible with unity. Changing the file extension back to a ```.tgz``` should fix this.
 
 <br />
