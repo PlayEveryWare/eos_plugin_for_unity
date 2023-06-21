@@ -167,7 +167,9 @@ The support level of each EOS SDK features as of the current release of the plug
     > :heavy_exclamation_mark: An Epic Games Account is not required by players for [most](#supported-eos-sdk-features) EOS features.
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into, it can be a blank project.
-    > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>, and system requirements for that version <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html">here</a>.
+    > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>.
+* Minimum <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html">Unity system requirements</a>.
+* Minimum <a href="https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements">EOS system requirements</a>.
 
 <br />
 
