@@ -14,13 +14,14 @@
 
 
 * The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
-* Windows Build Support (IL2CPP)
+* Windows Build Support (IL2CPP).
 * <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/android-sdksetup.html">Android environment setup</a> for Unity.
 * The Android Build Support <a href="https://docs.unity3d.com/hub/manual/AddModules.html">module</a>.
-  * Android SDK & NDK
-  * OpenJDK
-  
-> :heavy_exclamation_mark: Find compatible module versions and installation tips <a href="/docs/android/android_supported_versions.md">here</a>.
+
+    > :heavy_exclamation_mark: You can <a href="https://www.openlogic.com/openjdk-downloads">install OpenJDK</a> externally so it is easier to set environment variables. Remember have unity point to that version ```Edit -> Preferences -> External Tools```.
+
+    > :heavy_exclamation_mark: ```Android Studio``` or other official sites can be used to get the ```SDK```,```NDK```, or ```Gradle``` as needed.
+
 
 <br />
 
