@@ -21,7 +21,7 @@
 */
 
 
-
+#if !EOS_DISABLE
 using System;
 using System.Runtime.InteropServices;
 
@@ -39,7 +39,7 @@ public static class EOS_iOSLoginOptionsHelper
     /// <summary>
     /// Make Login Options for iOS Specific
     /// </summary>
-#if !EOS_DISABLE
+
     public static Epic.OnlineServices.Auth.IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
     {
         Epic.OnlineServices.Auth.IOSLoginOptions modifiedLoginOptions = new Epic.OnlineServices.Auth.IOSLoginOptions();
@@ -61,6 +61,7 @@ public static class EOS_iOSLoginOptionsHelper
 
         return modifiedLoginOptions;
     }
-#endif
+
 }
+#endif
 #endif
