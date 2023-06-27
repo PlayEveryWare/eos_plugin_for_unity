@@ -35,7 +35,7 @@ You can follow the standard <a href="/readme.md#importing-the-plugin">Importing 
 
 ## Samples
 
-You can follow the standard <a href="/readme.md#samples">Samples</a> process.  With the additional clarification when running from a build.
+You can follow the standard <a href="/readme.md#samples">Samples</a> process. Please note the details in the <a href="#running-the-samples">Running the samples</a> section when running the samples from a build for iOS.
 > :heavy_exclamation_mark: The EOS Overlay is not implemented yet. But when it is due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
 
 <br />
