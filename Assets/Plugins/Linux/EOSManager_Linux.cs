@@ -36,6 +36,7 @@ using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting;
 using System;
 
 using Epic.OnlineServices.Platform;
@@ -138,6 +139,7 @@ static string SteamDllName = "steam_api.dll";
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [Preserve]
         static public void Register()
         {
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsLinux());
