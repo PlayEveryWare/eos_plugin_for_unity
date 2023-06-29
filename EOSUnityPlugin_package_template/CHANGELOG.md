@@ -36,8 +36,8 @@ chore : Removing unused code warning in PackageInstaller
 fix : Removed Shadergraph dependency 
 
 ### Fixed
-Fix: Moved new code to conditional 
-Fix: added variables to #if 
+Fix(transport) : Moved new code to conditional 
+Fix(transport) : added variables to #if 
 Fix Added Preserve tags to platform specific code 
 Fix Added Linux 
 fix Added correct header 
