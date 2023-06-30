@@ -201,15 +201,15 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> :heavy_exclamation_mark: The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/Manual/upm-ui-tarball.html).
+> :heavy_exclamation_mark: The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
 
 <br />
 
 ## Adding the package from a git URL
 <br />
 
-1. Setup Unity for [Git Dependency](https://docs.unity3d.com/Manual/upm-git.html).
-2. Install [git and git-lfs](https://docs.unity3d.com/Manual/upm-git.html#req).
+1. Setup Unity for [Git Dependency](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html).
+2. Install [git](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req) and [git-lfs](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req).
 3.  From the Unity Editor, open the Package Manager.
     * ```Window -> Package Manager```.
 
@@ -228,7 +228,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> :heavy_exclamation_mark: The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
+> :heavy_exclamation_mark: The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
 
 <br />
 
