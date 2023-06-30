@@ -9,6 +9,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+##[2.3.3] - 2023-06-30
+
+### Inprogress
+Android login scheme protocal fix (pending on eossdk-ver1.16)
+
+### Unreleased
+Android getting started documentation updates
+Virtual cursor
+
+### Added
+Feat(Transport Layer) Added functionality to Start Client 
+image for ios getting started docs
+doc(login) : add supported login type picture into login docs
+doc(samples) : adds information about mutli sample packs
+doc(samples) : adding additional troubleshooting line
+
+### Changed
+Updated readme.md (Getting started)
+Update readme_iOS.md (Getting started on iOS)
+doc(login) : Feedback ingestion updates
+updated doc image for sample packs
+
+### Removed
+chore : Removing unused code warning in PackageInstaller
+fix : Removed Shadergraph dependency 
+
+### Fixed
+Fix(transport) : Moved new code to conditional 
+Fix(transport) : added variables to #if 
+Fix Added Preserve tags to platform specific code 
+Fix Added Linux 
+fix Added correct header 
+fix(transport) : add scope for editor specific code
+fix(steam) : set steamworks.net version to work with steamworks SDK 1.57
+fix : remove unknown namespace errors when EOS_DISABLE
+fix(iOS) : Move EOS_DISABLE scope to make more sense
+
 ##[2.3.2] - 2023-06-15
 ### Fixed
 Added back the missing assemblies for MacOS build in UPM repo
