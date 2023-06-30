@@ -21,9 +21,8 @@
 */
 
 
-
+#if !EOS_DISABLE
 using System;
-using Epic.OnlineServices.Auth;
 using System.Runtime.InteropServices;
 
 #if UNITY_IOS && !UNITY_EDITOR
@@ -40,19 +39,20 @@ public static class EOS_iOSLoginOptionsHelper
     /// <summary>
     /// Make Login Options for iOS Specific
     /// </summary>
-    public static IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
+
+    public static Epic.OnlineServices.Auth.IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
     {
-        IOSLoginOptions modifiedLoginOptions = new IOSLoginOptions();
+        Epic.OnlineServices.Auth.IOSLoginOptions modifiedLoginOptions = new Epic.OnlineServices.Auth.IOSLoginOptions();
         modifiedLoginOptions.ScopeFlags = loginOptions.ScopeFlags;
 
-        var credentials = new IOSCredentials();
+        var credentials = new Epic.OnlineServices.Auth.IOSCredentials();
 
         credentials.Token = loginOptions.Credentials.Value.Token;
         credentials.Id = loginOptions.Credentials.Value.Id;
         credentials.Type = loginOptions.Credentials.Value.Type;
         credentials.ExternalType = loginOptions.Credentials.Value.ExternalType;
 
-        var systemAuthCredentialsOptions = new IOSCredentialsSystemAuthCredentialsOptions();
+        var systemAuthCredentialsOptions = new Epic.OnlineServices.Auth.IOSCredentialsSystemAuthCredentialsOptions();
 
         systemAuthCredentialsOptions.PresentationContextProviding = LoginUtility_get_app_controller();
         credentials.SystemAuthCredentialsOptions = systemAuthCredentialsOptions;
@@ -61,5 +61,7 @@ public static class EOS_iOSLoginOptionsHelper
 
         return modifiedLoginOptions;
     }
+
 }
+#endif
 #endif

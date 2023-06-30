@@ -25,6 +25,7 @@ using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting;
 using System;
 
 using Epic.OnlineServices.Platform;
@@ -75,6 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices
         EOS_macOSConfig macOSConfig;
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        [Preserve]
         static public void Register()
         {
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsmacOS());

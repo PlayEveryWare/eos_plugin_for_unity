@@ -64,6 +64,10 @@ The config file has to be in StreamingAssets so that the GfxPluginNativeRender c
 all of Unity has been bootstrapped so that the Plugin can hook all the appropriate things before the first graphics call by the Unity engine.
 See [eos_config_security.md](eos_config_security.md) for more information. 
 
+## Why does the Demo Scene fail to load
+
+There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack.
+Additionally make sure all wanted sample scenes are included in the build settings as shown in steps 4.-6. of <a href="/readme.md#importing-the-samples">Importing the samples</a>.
 
 ## What is this error 
 

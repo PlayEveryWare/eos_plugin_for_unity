@@ -1,4 +1,4 @@
-<img src="docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/>
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 <div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
 <br /><br /><br />
@@ -75,8 +75,8 @@ The support level of each target platform in Unity as of the current release of 
 | Windows Standalone x64 | [MacOS](docs/macOS/macOS_supported_versions.md) | Universal Windows Platform x86 |
 | Windows Standalone x86 | Console Platforms | Unity Web Player |
 | Universal Windows Platform x64 | | |
-| Android | | |
-| iOS | | |
+| [Android](/docs/android/readme_android.md) (No Social Overlay Yet) | | |
+| [iOS](/docs/iOS/readme_iOS.md) (No Social Overlay Yet) | | |
 > :heavy_exclamation_mark: Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms.
 
 <br />
@@ -91,15 +91,15 @@ The support level of each EOS SDK features as of the current release of the plug
 | - | - | - | - |
 | [Achievements](https://dev.epicgames.com/docs/game-services/achievements) | [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) | [Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) | [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) |
 | [Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) | [Lobby](https://dev.epicgames.com/docs/game-services/lobbies) | [Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) | [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) | |
-| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) | [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) (Not Supported in Editor) | |
+| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) | [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) (Not Supported in Editor or Mobile) | |
 | [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) | [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) | [Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) |
-| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) | [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) |
+| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) | [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) |
 | [Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true) | [Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) | [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |  |
 
 
-| Unsupported at Present | |
-| - | - |
-|  [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) |  [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) |
+| Unsupported at Present | | |
+| - | - | - |
+|  [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) |  [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | [Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) |
 
 <br />
 
@@ -108,7 +108,7 @@ The support level of each EOS SDK features as of the current release of the plug
 
 | Sample Name | EOS Features |
 | - | - |
-| - All Samples - | [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface), [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview),  [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface), <br />[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true), [Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface), [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |
+| - All Samples - | [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface), [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview),  [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface), <br />[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true), [Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface), [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |
 | Achievements | [Achievements](https://dev.epicgames.com/docs/game-services/achievements) |
 | Auth & Friends | [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface), [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |
 | Custom Invites | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) |
@@ -124,7 +124,7 @@ The support level of each EOS SDK features as of the current release of the plug
 | Title Storage | [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |
 | P2P Netcode | [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) |
 | - | - |
-| None (Not Supported) | [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods), [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) |
+| None (Not Supported) | [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods), [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication), [Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) |
 </details>
 
 <details>
@@ -140,9 +140,9 @@ The support level of each EOS SDK features as of the current release of the plug
 | [Lobby](https://dev.epicgames.com/docs/game-services/lobbies) | [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) |
 | [Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) | [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |
 | [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) | [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) |
-| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) |
+| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) |
 | [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) (Unsupported) |
-| [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) |  |
+| [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) | [Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) (Unsupported) |
 | [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |  |
 | [Reports](https://dev.epicgames.com/docs/game-services/reports-interface) |  |
 | [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) |  |
@@ -168,6 +168,8 @@ The support level of each EOS SDK features as of the current release of the plug
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into, it can be a blank project.
     > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>.
+* Minimum <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html">Unity system requirements</a>.
+* Minimum <a href="https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements">EOS system requirements</a>.
 
 <br />
 
@@ -199,15 +201,15 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> :heavy_exclamation_mark: The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/Manual/upm-ui-tarball.html).
+> :heavy_exclamation_mark: The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
 
 <br />
 
 ## Adding the package from a git URL
 <br />
 
-1. Setup Unity for [Git Dependency](https://docs.unity3d.com/Manual/upm-git.html).
-2. Install [git and git-lfs](https://docs.unity3d.com/Manual/upm-git.html#req).
+1. Setup Unity for [Git Dependency](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html).
+2. Install [git](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req) and [git-lfs](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req).
 3.  From the Unity Editor, open the Package Manager.
     * ```Window -> Package Manager```.
 
@@ -226,7 +228,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> :heavy_exclamation_mark: The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
+> :heavy_exclamation_mark: The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
 
 <br />
 
@@ -249,15 +251,15 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 2. Open the ```Samples``` dropdown.
 
-3. Select ```Import``` to bring in the Sample scenes.
+3. Select ```Import``` for each of the sample packs, to bring in the Sample scenes.
 
     > :heavy_exclamation_mark: The samples are placed in ```Assets/Samples``` for personal modification.
 
 4. In the Unity editor menu bar, open ```File->Build Settings```.
 
-5. In the ```Project``` window, navigate to the scenes folder containing all the sample scenes.
+5. In the ```Project``` window, navigate to the scenes folders containing their respective sample scenes. ```\Assets\Samples\Epic Online Services Plugin for Unity\[Version #]\[Pack Name]\Scenes```.
 
-6. Add the scenes to the ```Scenes In Build``` section of the ```Build Settings``` window. This can be done quickly by using the ```Shift``` key to select each scene at the same time, then dragging them into the proper area.
+6. Add the scenes to the ```Scenes In Build``` section of the ```Build Settings``` window. This can be done quickly by using the ```Shift``` key to select each scene at the same time, then dragging them into the proper area. Repeating for each sample pack folder.
 
     > :heavy_exclamation_mark: If you have other scenes already, and plan to look at the samples in a build, drag a sample scene to be the 0th scene in Build Settings before you build.
 
@@ -266,6 +268,8 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 ## Running the samples
 
 > :heavy_exclamation_mark: The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional.
+
+> :heavy_exclamation_mark: Some Samples may not be accessible if the extra packs were not <a href="#importing-the-samples">imported</a>, or the scenes weren't added in the build settings. 
 
 Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
