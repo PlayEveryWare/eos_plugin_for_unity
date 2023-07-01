@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1526980366}
-  m_IndirectSpecularColor: {r: 1.1309578, g: 1.0293171, b: 1.0696843, a: 1}
+  m_IndirectSpecularColor: {r: 1.1308117, g: 1.0295794, b: 1.0695393, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3091,6 +3091,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3382706329924629812, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3452669596842358296, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3313,41 +3318,6 @@ PrefabInstance:
       propertyPath: ReadmeTextSource
       value: 
       objectReference: {fileID: 4900000, guid: c155d49c37aeab349a5a482166f82662, type: 3}
-    - target: {fileID: 4102991555955435622, guid: 11e4648022445f041b4c867ff8f3fd94,
-        type: 3}
-      propertyPath: m_Options.m_Options.Array.size
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4102991555955435622, guid: 11e4648022445f041b4c867ff8f3fd94,
-        type: 3}
-      propertyPath: m_Options.m_Options.Array.data[8].m_Text
-      value: Performance Stress Test
-      objectReference: {fileID: 0}
-    - target: {fileID: 4102991555955435622, guid: 11e4648022445f041b4c867ff8f3fd94,
-        type: 3}
-      propertyPath: m_Options.m_Options.Array.data[9].m_Text
-      value: Player Data Storage
-      objectReference: {fileID: 0}
-    - target: {fileID: 4102991555955435622, guid: 11e4648022445f041b4c867ff8f3fd94,
-        type: 3}
-      propertyPath: m_Options.m_Options.Array.data[10].m_Text
-      value: Player Reports & Sanctions
-      objectReference: {fileID: 0}
-    - target: {fileID: 4102991555955435622, guid: 11e4648022445f041b4c867ff8f3fd94,
-        type: 3}
-      propertyPath: m_Options.m_Options.Array.data[11].m_Text
-      value: Sessions & Matchmaking
-      objectReference: {fileID: 0}
-    - target: {fileID: 4102991555955435622, guid: 11e4648022445f041b4c867ff8f3fd94,
-        type: 3}
-      propertyPath: m_Options.m_Options.Array.data[12].m_Text
-      value: Store
-      objectReference: {fileID: 0}
-    - target: {fileID: 4102991555955435622, guid: 11e4648022445f041b4c867ff8f3fd94,
-        type: 3}
-      propertyPath: m_Options.m_Options.Array.data[13].m_Text
-      value: Title Storage
-      objectReference: {fileID: 0}
     - target: {fileID: 4289020540593131842, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -3696,12 +3666,12 @@ PrefabInstance:
     - target: {fileID: 6385380291453459038, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: -395.34497
       objectReference: {fileID: 0}
     - target: {fileID: 6385380291453459038, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000076293945
+      value: 0.000015258789
       objectReference: {fileID: 0}
     - target: {fileID: 6385380291460701031, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
@@ -3721,7 +3691,7 @@ PrefabInstance:
     - target: {fileID: 6385380291613137608, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6385380291613137608, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
@@ -3737,6 +3707,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6385380291694964809, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6385380291750483794, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
@@ -3787,6 +3762,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6440864997652558017, guid: 11e4648022445f041b4c867ff8f3fd94,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -400.34497
       objectReference: {fileID: 0}
     - target: {fileID: 6440864997652558017, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
