@@ -41,7 +41,7 @@ You can follow the standard <a href="/readme.md#samples">Samples</a> process. Pl
 
 ## Running the samples
 
-When following the steps to <a href="/readme.md#running-the-samples">run a sample</a> from a build for Android, follow the Unity doc for <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/android-sdksetup.html">Debugging on an Android device</a>, to connect your device to the engine. This will allow the smoother ```Build And Run``` option to work instead of just using the ```Build``` button. When running on a device you may need to <a href="https://developer.android.com/studio/debug/dev-options#enable">enable developer mode</a> on the device, then <a href="https://developer.android.com/studio/debug/dev-options#Enable-debugging">Enable USB debugging on your device</a>.
+When following the steps to <a href="/readme.md#running-the-samples">run a sample</a> from a build for Android, follow the Unity doc for <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/android-sdksetup.html">Debugging on an Android device</a>, to connect your device to the engine. This will allow the smoother ```Build And Run``` option to work instead of just using the ```Build``` button. When running on a device you may need to <a href="https://developer.android.com/studio/debug/dev-options#enable">enable developer mode</a> on the device, then <a href="https://developer.android.com/studio/debug/dev-options#Enable-debugging">Enable USB debugging on your device</a>, as well as accepting any popups that appear on the phone during the process.
 
 <br />
 
