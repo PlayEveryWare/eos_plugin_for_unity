@@ -394,10 +394,20 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         currentEOSValuesConfigAsXML.Load(pathToEOSValuesConfig);
 
         var node = currentEOSValuesConfigAsXML.DocumentElement.SelectSingleNode("/resources");
-        if (node == null) { return; }
+        if (node == null) 
+        {
+            Directory.Delete("../Temp/", true); 
+            Debug.LogError("aar fix failed"); 
+            return; 
+        }
 
         var node2 = node.SelectSingleNode("string[@name=\"eos_login_protocol_scheme\"]");
-        if (node2 == null) { return; }
+        if (node2 == null) 
+        { 
+            Directory.Delete("../Temp/", true); 
+            Debug.LogError("aar fix failed"); 
+            return; 
+        }
 
         string eosProtocolScheme = node2.InnerText;
         string storedClientID = eosProtocolScheme.Split('.').Last();
@@ -410,7 +420,6 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 
         ZipFile.CreateFromDirectory("../Temp/Android/eos-sdk", "../eos-sdk.aar", System.IO.Compression.CompressionLevel.Optimal, false);
         File.Copy("../eos-sdk.aar", "Assets/Plugins/Android/eos-sdk.aar", true);
-
 
         Directory.Delete("../Temp/", true);
         File.Delete("../eos-sdk.aar");
