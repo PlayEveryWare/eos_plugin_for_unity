@@ -23,6 +23,11 @@
             "name": "com.unity.netcode.gameobjects",
             "expression": "",
             "define": "COM_UNITY_MODULE_NETCODE"
+        },
+        {
+            "name": "com.unity.netcode.gameobjects",
+            "expression": "",
+            "define": "COM_UNITY_MODULE_UPDATEDTESTFRAMEWORK"
         }
     ],
     "noEngineReferences": false
