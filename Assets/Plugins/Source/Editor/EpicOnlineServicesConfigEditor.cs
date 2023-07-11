@@ -614,7 +614,7 @@ _WIN32 || _WIN64
             AssigningTextField("Override Library path", ref steamEOSConfigFile.currentEOSConfig.overrideLibraryPath);
             AssigningUintField("Steamworks SDK major version", ref steamEOSConfigFile.currentEOSConfig.steamSDKMajorVersion, 190);
             AssigningUintField("Steamworks SDK minor version", ref steamEOSConfigFile.currentEOSConfig.steamSDKMinorVersion, 190);
-#if STEAMWORKS_MODULE
+#if STEAMWORKS_MODULE && !DISABLESTEAMWORKS
             if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
             {
                 var steamworksVersion = Steamworks.Version.SteamworksSDKVersion;
