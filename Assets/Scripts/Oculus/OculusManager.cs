@@ -32,7 +32,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
+#if !DISABLEOCULUS
 using OculusWrapper = Oculus;
+#endif
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.Oculus
 {
