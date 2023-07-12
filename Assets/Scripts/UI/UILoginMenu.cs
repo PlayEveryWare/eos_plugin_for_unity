@@ -662,7 +662,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #endif
                 //ExternalCredentialType.GogSessionTicket,
                 //ExternalCredentialType.GoogleIdToken,
-                //ExternalCredentialType.OculusUseridNonce,
+#if OCULUS_MODULE
+                ExternalCredentialType.OculusUseridNonce,
+#endif
                 //ExternalCredentialType.ItchioJwt,
                 //ExternalCredentialType.ItchioKey,
                 //ExternalCredentialType.AmazonAccessToken
@@ -679,7 +681,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             credentialTypes.Add(ExternalCredentialType.OpenidAccessToken);
 #endif
 
-            foreach (var type in credentialTypes)
+            foreach (ExternalCredentialType type in credentialTypes)
             {
                 connectOptions.Add(new Dropdown.OptionData() { text = type.ToString() });
             }
@@ -970,8 +972,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         
         private void ConnectDiscord()
         {
-            var discordManager = Discord.DiscordManager.Instance;
-            if (discordManager == null)
+            if (Discord.DiscordManager.Instance == null)
             {
                 Debug.LogError("Connect Login failed: DiscordManager unavailable");
                 ConfigureUIForLogin();
@@ -1024,6 +1025,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.OpenidAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
             }
 
+        }
+
+        private void ConnectOculus()
+        {
+            if (Oculus.OculusManager.Instance == null)
+            {
+                Debug.LogError("Connect Login failed: oculusManager unavailable");
+                ConfigureUIForLogin();
+                return;
+            }
+
+            Oculus.OculusManager.Instance.GetUserProof(OnOculusProofReceived);
+        }
+
+        private void OnOculusProofReceived(string idAndNonce, string OculusID)
+        {
+            if (string.IsNullOrEmpty(idAndNonce) || string.IsNullOrEmpty(OculusID))
+            {
+                Debug.LogError("Connect Login failed: Unable to get Oculus Proof");
+                ConfigureUIForLogin();
+            }
+            else
+            {
+                StartConnectLoginWithToken(ExternalCredentialType.OculusUseridNonce, idAndNonce, OculusID);
+            }
         }
 
         private void StartConnectLoginWithToken(ExternalCredentialType externalType, string token, string displayName = null)
