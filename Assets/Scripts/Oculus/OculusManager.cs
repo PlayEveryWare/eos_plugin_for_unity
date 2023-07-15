@@ -33,7 +33,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 #if !DISABLEOCULUS
-using OculusWrapper = Oculus;
+using OculusWrapper = Oculus; //if erroring Dont forget to import Oculus' .unitypackage
 #endif
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.Oculus
@@ -140,7 +140,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Oculus
         
         private void userProofCallback(OculusWrapper.Platform.Message<OculusWrapper.Platform.Models.UserProof> msg, Action<string,string> callback)
         {
-            if (!msg.IsError)
+            if (msg!=null && !msg.IsError)
             {
                 OculusWrapper.Platform.Models.UserProof userNonce = msg.Data;
                 print("Received user nonce generation success. Nonce: " + userNonce.Value); print("id: " + u.ID); print("ocuid: " + u.OculusID);
@@ -149,8 +149,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Oculus
             }
             else
             {
-                OculusWrapper.Platform.Models.Error error = msg.GetError();
-                print("Received user nonce generation error. Error: " + error.Message);
+                if(msg!=null){
+                    OculusWrapper.Platform.Models.Error error = msg.GetError();
+                    print("Received user nonce generation error. Error: " + error.Message);
+                }
                 callback?.Invoke(null,null);
             }
 
