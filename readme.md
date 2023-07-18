@@ -290,6 +290,10 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
 <details>
   <summary><b>Steps to run a sample from a build</b></summary>
+<br />
+
+  > :heavy_exclamation_mark: Check the [Prerequisites](#prerequisites) as there may be specific requirements for a player's computer.
+  >  Windows, for instance, requires the players to have ```The latest Microsoft Visual C++ Redistributable``` installed on their computer in order to play any distributed builds.
 
 1. In the Unity editor menu bar, open ```File->Build Settings```.
   
