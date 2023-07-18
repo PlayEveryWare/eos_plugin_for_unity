@@ -422,8 +422,6 @@
         {"src":"Assets/Scripts/SignInWithApple/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"},
         {"src":"Assets/Scripts/SignInWithApple/Editor.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"},
         {"src":"Assets/Scripts/SignInWithApple/Editor/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/Editor/"},
-        {"src":"Assets/Scripts/Oculus.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Oculus.meta"},
-        {"src":"Assets/Scripts/Oculus/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Oculus/"},
 
         {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/StandardSamples.meta", "dest": "Samples~/Samples/"},
