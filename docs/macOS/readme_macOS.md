@@ -10,6 +10,7 @@ To access Preview platforms, apply `EOS_PREVIEW_PLATFORM` in
 
 **Prerequisites:**
 
+* The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
 * macOS Device
 * Unity macOS build module
 * XCode
