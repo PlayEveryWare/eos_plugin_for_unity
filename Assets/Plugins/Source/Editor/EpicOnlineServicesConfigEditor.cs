@@ -508,6 +508,8 @@ _WIN32 || _WIN64
             AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxID, tooltip: "Sandbox ID defined in the EOS Development Portal");
             AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.deploymentID, tooltip: "Deployment ID defined in the EOS Development Portal");
 
+            AssigningBoolField("Is Server", ref mainEOSConfigFile.currentEOSConfig.isServer, tooltip: "Set to 'true' if the application is a dedicated game serve");
+
             EditorGUILayout.LabelField("Sandbox Deployment Overrides");
             if(mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides == null)
             {
