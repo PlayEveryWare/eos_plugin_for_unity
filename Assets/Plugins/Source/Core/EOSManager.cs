@@ -427,7 +427,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var platformOptions = platformSpecifics.CreateSystemPlatformOption();
                 platformOptions.CacheDirectory = platformSpecifics.GetTempDir();
-                platformOptions.IsServer = false;
+                platformOptions.IsServer = configData.isServer;
                 platformOptions.Flags =
 #if UNITY_EDITOR
                 PlatformFlags.LoadingInEditor;
