@@ -547,6 +547,8 @@ namespace PlayEveryWare.EpicOnlineServices
                     return;
                 }
 
+                // Set logging to VeryVerbose on EOS SDK bootstrap so we get the most logging information
+                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
                 s_state = EOSState.Starting;
 
                 LoadEOSLibraries();
@@ -604,7 +606,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_hasInitializedPlatform = true;
 
                 Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
-                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 
 
                 var eosPlatformInterface = CreatePlatformInterface(loadedEOSConfig);
@@ -619,6 +620,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
 
                 InitializeOverlay(coroutineOwner);
+
+               // Default back to quiet logs
+#if UNITY_EDITOR
+                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#else
+                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
+#endif
 
                 print("EOS loaded");
             }
