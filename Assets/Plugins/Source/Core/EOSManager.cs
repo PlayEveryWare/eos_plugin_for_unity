@@ -508,7 +508,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                 if (!File.Exists(eosFinalConfigPath))
                 {
-                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists and is a valid config");
+                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists.");
                 }
                 configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
 #endif
