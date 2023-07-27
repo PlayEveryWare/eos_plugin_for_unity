@@ -65,9 +65,7 @@ You can follow the standard <a href="/readme.md#configuring-the-plugin">Configur
 
 2. Press ```Save All Changes```.
 
-      > :heavy_exclamation_mark: This is required, even if you leave every field blank.
-
-    * More information about configuration settings could be found at [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface).   
+      > :heavy_exclamation_mark: This is required, even if you leave every field blank.  
 
 3. Update the <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/class-PlayerSettingsAndroid.html">Minimum API Level</a> to be at least ```Android 6.0 'Marshmallow' (API Level 23)```.
 
