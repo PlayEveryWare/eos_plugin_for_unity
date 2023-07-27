@@ -329,6 +329,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
     ![EOS Config Menu](docs/images/unity_tools_eosconfig.gif)
 
 2. From the [developer portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the ```EOS Config Editor``` window, under the ```Main``` portion of the config:
+     > :heavy_exclamation_mark: Addtional information about configuration settings can be found [here](https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface).
     * ProductName
     * ProductVersion
     * [ProductID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#P?term=ProductId)
@@ -341,13 +342,13 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
       
     ![EOS Config UI](docs/images/eosconfig_ui.gif)
 
-3. Press ```Save All Changes```.
+4. Press ```Save All Changes```.
 
-4. Navigate to ```Packages/Epic Online Services for Unity/Runtime``` via the ```Project``` window.
+5. Navigate to ```Packages/Epic Online Services for Unity/Runtime``` via the ```Project``` window.
 
-5. Add the ```EOSManager.prefab```, to each of your game's scenes.
+6. Add the ```EOSManager.prefab```, to each of your game's scenes.
 
-6. Simply attach ```EOSManager.cs (Script)``` to a Unity object and it will initialize the plugin with the specified configuration in ```OnAwake()```.
+7. Simply attach ```EOSManager.cs (Script)``` to a Unity object and it will initialize the plugin with the specified configuration in ```OnAwake()```.
       > :heavy_exclamation_mark: The <a href="#samples">samples</a> already have this done!
 
 <br />

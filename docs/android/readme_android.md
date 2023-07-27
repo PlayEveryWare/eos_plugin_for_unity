@@ -34,14 +34,19 @@ You can follow the standard <a href="/readme.md#importing-the-plugin">Importing 
 
 ## Samples
 
-You can follow the standard <a href="/readme.md#samples">Samples</a> process. Please note the details in the <a href="#running-the-samples">Running the samples</a> section when running the samples from a build for iOS.
-> :heavy_exclamation_mark: The EOS Overlay is not implemented yet. But when it is due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
+You can follow the standard <a href="/readme.md#samples">Samples</a> process.   
+Please note the details in the <a href="#running-the-samples">Running the samples</a> section when running the samples from a build for Android.  
+> :heavy_exclamation_mark: The EOS Overlay is not implemented yet.   
+>  When it is, due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
 
 <br />
 
 ## Running the samples
 
-When following the steps to <a href="/readme.md#running-the-samples">run a sample</a> from a build for Android, follow the Unity doc for <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/android-sdksetup.html">Debugging on an Android device</a>, to connect your device to the engine. This will allow the smoother ```Build And Run``` option to work instead of just using the ```Build``` button. When running on a device you may need to <a href="https://developer.android.com/studio/debug/dev-options#enable">enable developer mode</a> on the device, then <a href="https://developer.android.com/studio/debug/dev-options#Enable-debugging">Enable USB debugging on your device</a>, as well as accepting any popups that appear on the phone during the process.
+When following the steps to <a href="/readme.md#running-the-samples">run a sample</a> from a build for Android, follow the Unity doc for <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/android-sdksetup.html">Debugging on an Android device</a>, to connect your device to the engine.  
+This will allow the smoother ```Build And Run``` option to work instead of just using the ```Build``` button.  
+
+When running on a device you may need to <a href="https://developer.android.com/studio/debug/dev-options#enable">enable developer mode</a> on the device, then <a href="https://developer.android.com/studio/debug/dev-options#Enable-debugging">Enable USB debugging on your device</a>, as well as accepting any popups that appear on the phone during the process.
 
 <br />
 
@@ -60,7 +65,7 @@ You can follow the standard <a href="/readme.md#configuring-the-plugin">Configur
 
 2. Press ```Save All Changes```.
 
-      > :heavy_exclamation_mark: This is required, even if you leave every field blank.
+      > :heavy_exclamation_mark: This is required, even if you leave every field blank.  
 
 3. Update the <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/class-PlayerSettingsAndroid.html">Minimum API Level</a> to be at least ```Android 6.0 'Marshmallow' (API Level 23)```.
 
