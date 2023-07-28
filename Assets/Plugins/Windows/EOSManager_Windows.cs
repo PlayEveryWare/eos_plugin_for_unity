@@ -47,6 +47,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_WSA_10_0)
+[assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
@@ -140,7 +141,6 @@ static string SteamDllName = "steam_api.dll";
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [Preserve]
         static public void Register()
         {
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsWindows());

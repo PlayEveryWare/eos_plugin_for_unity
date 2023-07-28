@@ -48,6 +48,7 @@ using System.Text;
 using Epic.OnlineServices.IntegratedPlatform;
 
 #if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM
+[assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
@@ -139,7 +140,6 @@ static string SteamDllName = "steam_api.dll";
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [Preserve]
         static public void Register()
         {
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsLinux());

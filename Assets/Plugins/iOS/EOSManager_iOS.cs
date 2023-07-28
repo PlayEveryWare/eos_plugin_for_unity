@@ -35,6 +35,7 @@ using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
 
 #if UNITY_IOS && !UNITY_EDITOR
+[assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
@@ -76,7 +77,6 @@ namespace PlayEveryWare.EpicOnlineServices
         EOS_iOSConfig iOSConfig;
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [Preserve]
         static public void Register()
         {
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsiOS());
