@@ -1583,8 +1583,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 #endif
 
-                /// <value>Private static instance of <c>EOSSingleton</c></value>
-                static EOSSingleton s_instance;
+        /// <value>Private static instance of <c>EOSSingleton</c></value>
+        static EOSSingleton s_instance;
 
         /// <value>Public static instance of <c>EOSSingleton</c></value>
         //-------------------------------------------------------------------------
