@@ -35,6 +35,7 @@ using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
 
 #if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM
+[assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices 
 {
     //-------------------------------------------------------------------------
@@ -76,7 +77,6 @@ namespace PlayEveryWare.EpicOnlineServices
         EOS_macOSConfig macOSConfig;
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [Preserve]
         static public void Register()
         {
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsmacOS());

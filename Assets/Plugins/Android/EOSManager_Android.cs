@@ -41,6 +41,7 @@ using System.Diagnostics;
 
 
 #if UNITY_ANDROID && !UNITY_EDITOR
+[assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
@@ -89,7 +90,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        [Preserve]
         static public void Register()
         {
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
