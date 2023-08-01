@@ -779,6 +779,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             loginButton.gameObject.SetActive(false);
             logoutButton.gameObject.SetActive(true);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
@@ -1201,6 +1202,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 ConfigureUIForLogin();
             }
+        }
+
+        public void OnRemovePersistentTokenButtonClick()
+        {
+            EOSManager.Instance.RemovePersistentToken();
         }
 
         public void OnExitButtonClick()

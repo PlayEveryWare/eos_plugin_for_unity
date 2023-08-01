@@ -1373,6 +1373,28 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            /// <summary>
+            /// Clears the stored token for persistent login
+            /// </summary>
+            public void RemovePersistentToken()
+            {
+                var authInterface = EOSManager.Instance.GetEOSPlatformInterface().GetAuthInterface();
+                var options = new Epic.OnlineServices.Auth.DeletePersistentAuthOptions();
+
+                authInterface.DeletePersistentAuth(ref options, null, (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
+                {
+                    if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
+                    {
+                        UnityEngine.Debug.LogError("Unable to delete persistent token, Result : " + deletePersistentAuthCallbackInfo.ResultCode.ToString());
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.Log("Successfully deleted persistent token");
+                    }
+                });
+            }
+
+            //-------------------------------------------------------------------------
             public void Tick()
             {
                 if (GetEOSPlatformInterface() != null)
