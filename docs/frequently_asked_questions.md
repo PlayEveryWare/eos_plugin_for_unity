@@ -2,7 +2,7 @@
 
 --------------------------------------------------
 
-## Why does the plugin fail to work after changing configuration
+## Why does the plugin fail to work after changing configuration?
 
 To rerun in UnityEditor without rebooting, we must reload the EOS SDK dll between runs.  
 To find out why and how to do so look [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/docs/unity_specific.md)
@@ -64,12 +64,36 @@ The config file has to be in StreamingAssets so that the GfxPluginNativeRender c
 all of Unity has been bootstrapped so that the Plugin can hook all the appropriate things before the first graphics call by the Unity engine.
 See [eos_config_security.md](eos_config_security.md) for more information. 
 
-## Why does the Demo Scene fail to load
+## Why does the Demo Scene fail to load?
 
 There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack.
 Additionally make sure all wanted sample scenes are included in the build settings as shown in steps 4.-6. of <a href="/readme.md#importing-the-samples">Importing the samples</a>.
 
-## What is this error 
+## What is the correct way to log into the Epic Games Store
+The correct way to connect to the Epic Games Store through your application would be to use the exchange code login method:
+
+### Exchange Code
+
+`Exchange Code` login could used when launching the game through Epic Games Launcher on desktop platforms (Windows, Mac, Linux)  
+The required exchange code could be retrieved with `GetCommandLineArgsFromEpicLauncher()`
+
+```cs
+    EOSManager.Instance.StartLoginWithLoginTypeAndToken(loginType,
+                                                        null, // 🔵 Intended for UserID, but is unused for Exchange Code login
+                                                        EOSManager.Instance.GetCommandLineArgsFromEpicLauncher().authPassword, // 🔵 The exchange code itself, passed as login token
+                                                        StartLoginWithLoginTypeAndTokenCallback);
+``` 
+
+## Do I or my players need and Epic Games Account?
+
+### As a developer
+As a developer you will need to make/have an Epic Games account in order to interact with the [EOS Developer Portal](dev.epicgames/portal) and manage your product.
+
+### As a player
+Players are given multiple login options, this changes from platform to platform, and different login methods provide different levels of functionality. Details of which login methods are supported by each platform are as follows, players can also link a number of different account types such as Google, Apple or Facebook accounts to createa an Epic Games account:
+![LoginByType](images/login_type_by_platform.png)
+
+## What is this error? 
 
 ### DllNotFoundException
 
@@ -80,6 +104,11 @@ This could be fix by one of the following:
 
 A. Initialize git lfs on the package folder  
 B. Add the UPM `via tarball` downloaded [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases) instead
+
+### Why am I getting Overlay Errors?
+Overlay errors are most likley due to not having the overlay installed, this is done in two steps:
+ - The first is to simply have the [Epic Games Store](https://store.epicgames.com/) application installed.
+ - The second is to run the ```EOSBootstrapper.exe``` that is generated with a build before running the application.
 
 ### Missing Native Libraries
 
