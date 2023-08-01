@@ -710,7 +710,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6780851622536235274}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1158252006}
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UILoginMenu,
+          com.playeveryware.eos.samples
+        m_MethodName: OnRemovePersistentTokenButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3172511288774993318
 MonoBehaviour:
   m_ObjectHideFlags: 0
