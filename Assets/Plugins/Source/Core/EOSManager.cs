@@ -82,6 +82,9 @@ namespace PlayEveryWare.EpicOnlineServices
         // <value>If true, EOSManager initialized itself at startup.</value>
         public bool InitializeOnAwake = true;
 
+        /// <value>If true, EOSManager will shutdown the EOS SDK when Unity dispatches OnApplicationQuit. </value>
+        public bool ShouldShutdownOnApplicationQuit = true;
+
 #if !EOS_DISABLE
         public delegate void OnAuthLoginCallback(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
         public delegate void OnAuthLogoutCallback(LogoutCallbackInfo data);
@@ -1634,7 +1637,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         private void OnApplicationQuit()
         {
-            EOSManager.Instance.OnShutdown();
+            if (ShouldShutdownOnApplicationQuit)
+            {
+                EOSManager.Instance.OnShutdown();
+            }
         }
 
         //-------------------------------------------------------------------------
