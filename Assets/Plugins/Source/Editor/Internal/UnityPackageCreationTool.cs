@@ -149,7 +149,7 @@ public class UnityPackageCreationTool : EditorWindow
                 return;
             }
             UnityPackageCreationUtility.packagingConfigSection.SaveToJSONConfig(true);
-            CreateUPMPackage(UnityPackageCreationUtility.pathToOutput, pathToJSONPackageDescription);
+            UnityPackageCreationUtility.CreateUPMPackage(UnityPackageCreationUtility.pathToOutput, pathToJSONPackageDescription);
         }
 
         if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
@@ -243,7 +243,7 @@ public class UnityPackageCreationTool : EditorWindow
             File.WriteAllText(destPath, newContents);
         }
     }
-*/
+
     //-------------------------------------------------------------------------
     private void CreateUPMPackage(string outputPath, string pathToJSONPackageDescription)
     {
@@ -261,7 +261,7 @@ public class UnityPackageCreationTool : EditorWindow
 
         this.StartCoroutine(ClientMakePackage(packageFolder, outputPath));
     }
-
+*/
     //-------------------------------------------------------------------------
     private void CreateLegacyUnityPackage(string outputPath, string pathToJSONPackageDescription, string packageName = "pew_eos_plugin.unitypackage")
     {
@@ -282,17 +282,9 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private void CopyFilesInPackageDescriptionToBuildDir(string pathToJSONPackageDescription)
     {
-        var packageDescription = UnityPackageCreationUtility.ReadPackageDescription(
-            pathToJSONPackageDescription
-        );
-        var fileInfoForFilesToCopy = UnityPackageCreationUtility.GetFileInfoMatchingPackageDescription(packageDescription);
-
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.5f);
         
-        UnityPackageCreationUtility.CopyFilesToPackageDirectory(
-            UnityPackageCreationUtility.customBuildDirectoryPath, 
-            fileInfoForFilesToCopy
-        );
+        UnityPackageCreationUtility.CopyFilesInPackageDescriptionToBuildDir(pathToJSONPackageDescription);
 
         EditorUtility.ClearProgressBar();
     }
@@ -326,12 +318,16 @@ public class UnityPackageCreationTool : EditorWindow
 */
     //-------------------------------------------------------------------------
     // Helper coroutine for making the client package.
-    private IEnumerator ClientMakePackage(string packageFolder, string outputPath)
+    private void ClientMakePackage(string packageFolder, string outputPath)
     {
-        UnityPackageCreationUtility.packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
+        //UnityPackageCreationUtility.packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
 
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Packaging...", 0.5f);
 
+        // NOTE: It's possible that because this function is making use of the yield to wait for the package to be created, moving it to a static class caused some broken behavior.
+        UnityPackageCreationUtility.ClientMakePackage(packageFolder, outputPath);
+        
+        /*
         while (!UnityPackageCreationUtility.packRequest.IsCompleted)
         {
             yield return null;
@@ -344,7 +340,7 @@ public class UnityPackageCreationTool : EditorWindow
                 throw new Exception("Error making package " + UnityPackageCreationUtility.packRequest.Error.message);
             }
         }
-
+*/
         EditorUtility.ClearProgressBar();
     }
 }

@@ -35,6 +35,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Playeveryware.Editor;
 
+// Helper to allow for StartCoroutine to be used from a static context
+public class CoroutineExecutor : MonoBehaviour { }
+
 //-------------------------------------------------------------------------
 public static class UnityPackageCreationUtility
 {
@@ -255,9 +258,11 @@ public static class UnityPackageCreationUtility
             File.WriteAllText(destPath, newContents);
         }
     }
-/*
+
+    private static CoroutineExecutor ExecutorInstance;
+
     //-------------------------------------------------------------------------
-    private void CreateUPMPackage(string outputPath, string pathToJSONPackageDescription)
+    public static void CreateUPMPackage(string outputPath, string pathToJSONPackageDescription)
     {
         UnityEngine.Debug.Log("DEBUG " + pathToJSONPackageDescription);
         var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
@@ -268,9 +273,19 @@ public static class UnityPackageCreationUtility
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.3f);
         CopyFilesToPackageDirectory(packageFolder, fileInfoForFilesToCompress);
 
-        this.StartCoroutine(ClientMakePackage(packageFolder, outputPath));
-    }
+        if (!ExecutorInstance)
+        {
+            ExecutorInstance = UnityEngine.Object.FindObjectOfType<CoroutineExecutor>();
 
+            if (!ExecutorInstance)
+            {
+                ExecutorInstance = new GameObject ("CoroutineExecutor").AddComponent<CoroutineExecutor>();
+            }
+        }
+
+        ExecutorInstance.StartCoroutine(ClientMakePackage(packageFolder, outputPath));
+    }
+/*
     //-------------------------------------------------------------------------
     private void CreateLegacyUnityPackage(string outputPath, string pathToJSONPackageDescription, string packageName = "pew_eos_plugin.unitypackage")
     {
@@ -287,18 +302,18 @@ public static class UnityPackageCreationUtility
         AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);
         EditorUtility.ClearProgressBar();
     }
-
+*/
     //-------------------------------------------------------------------------
-    private void CopyFilesInPackageDescriptionToBuildDir(string pathToJSONPackageDescription)
+    public static void CopyFilesInPackageDescriptionToBuildDir(string pathToJSONPackageDescription)
     {
         var packageDescription = ReadPackageDescription(pathToJSONPackageDescription);
         var fileInfoForFilesToCopy = GetFileInfoMatchingPackageDescription(packageDescription);
 
-        EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.5f);
+        //EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.5f);
         CopyFilesToPackageDirectory(customBuildDirectoryPath, fileInfoForFilesToCopy);
-        EditorUtility.ClearProgressBar();
+        //EditorUtility.ClearProgressBar();
     }
-*/
+
     //-------------------------------------------------------------------------
     // This can't work without a way to write to tar files
     // Grab all the files as described in the text
@@ -325,14 +340,14 @@ public static class UnityPackageCreationUtility
             }
         }
     }
-/*
+
     //-------------------------------------------------------------------------
     // Helper coroutine for making the client package.
-    private IEnumerator ClientMakePackage(string packageFolder, string outputPath)
+    public static IEnumerator ClientMakePackage(string packageFolder, string outputPath)
     {
         packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
 
-        EditorUtility.DisplayProgressBar("PEW Package Tool", "Packaging...", 0.5f);
+        //EditorUtility.DisplayProgressBar("PEW Package Tool", "Packaging...", 0.5f);
 
         while (!packRequest.IsCompleted)
         {
@@ -347,7 +362,6 @@ public static class UnityPackageCreationUtility
             }
         }
 
-        EditorUtility.ClearProgressBar();
+        //EditorUtility.ClearProgressBar();
     }
-    */
 }
