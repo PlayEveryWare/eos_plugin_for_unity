@@ -38,11 +38,11 @@ using Playeveryware.Editor;
 //-------------------------------------------------------------------------
 public class UnityPackageCreationTool : EditorWindow
 {
-    UnityEditor.PackageManager.Requests.PackRequest packRequest;
+    //UnityEditor.PackageManager.Requests.packRequest packRequest;
     string pathToJSONPackageDescription = "";
-    string pathToOutput = "";
-    string customBuildDirectoryPath = "";
-    EOSPluginEditorPackagingConfigSection packagingConfigSection;
+    //string pathToOutput = "";
+    //string customBuildDirectoryPath = "";
+    //EOSPluginEditor.packagingConfigSection .packagingConfigSection;
 
     //-------------------------------------------------------------------------
     [MenuItem("Tools/Create Package")]
@@ -51,6 +51,7 @@ public class UnityPackageCreationTool : EditorWindow
         GetWindow(typeof(UnityPackageCreationTool), false, "Create Package", true);
     }
 
+/*
     //-------------------------------------------------------------------------
     public string GetRepositoryRoot()
     {
@@ -60,34 +61,41 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     public string GetPackageConfigDirectory()
     {
-        return Path.Combine(GetRepositoryRoot(), "PackageDescriptionConfigs");
+        return Path.Combine(
+            UnityPackageCreationUtility.GetRepositoryRoot(), 
+            "PackageDescriptionConfigs"
+        );
     }
+
 
     //-------------------------------------------------------------------------
     private void Awake()
     {
-        packagingConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorPackagingConfigSection>();
-        packagingConfigSection.Awake();
-        packagingConfigSection.LoadConfigFromDisk();
+        UnityPackageCreationUtility.packagingConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorUnityPackageCreationUtility.packagingConfigSection>();
+        UnityPackageCreationUtility.packagingConfigSection.Awake();
+        UnityPackageCreationUtility.packagingConfigSection.LoadConfigFromDisk();
 
         // Configure UI defaults
-        pathToJSONPackageDescription = Path.Combine(GetPackageConfigDirectory(), "eos_package_description.json");
+        pathToJSONPackageDescription = Path.Combine(
+            UnityPackageCreationUtility.GetPackageConfigDirectory(), 
+            "eos_package_description.json"
+        );
 
-        var currentConfig = packagingConfigSection.GetCurrentConfig();
+        var currentConfig = UnityPackageCreationUtility.packagingConfigSection.GetCurrentConfig();
         if (!string.IsNullOrEmpty(currentConfig.pathToJSONPackageDescription))
         {
             pathToJSONPackageDescription = currentConfig.pathToJSONPackageDescription;
         }
-        if (!string.IsNullOrEmpty(currentConfig.pathToOutput))
+        if (!string.IsNullOrEmpty(currentConfig.UnityPackageCreationUtility.pathToOutput))
         {
-            pathToOutput = currentConfig.pathToOutput;
+            UnityPackageCreationUtility.pathToOutput = currentConfig.UnityPackageCreationUtility.pathToOutput;
         }
-        if(!string.IsNullOrEmpty(currentConfig.customBuildDirectoryPath))
+        if(!string.IsNullOrEmpty(currentConfig.UnityPackageCreationUtility.customBuildDirectoryPath))
         {
-            customBuildDirectoryPath = currentConfig.customBuildDirectoryPath;
+            UnityPackageCreationUtility.customBuildDirectoryPath = currentConfig.UnityPackageCreationUtility.customBuildDirectoryPath;
         }
     }
-
+*/
     //-------------------------------------------------------------------------
     private void OnGUI()
     {
@@ -101,33 +109,33 @@ public class UnityPackageCreationTool : EditorWindow
             if (!string.IsNullOrWhiteSpace(jsonFile))
             {
                 pathToJSONPackageDescription = jsonFile;
-                packagingConfigSection.GetCurrentConfig().pathToJSONPackageDescription = pathToJSONPackageDescription;
+                UnityPackageCreationUtility.packagingConfigSection.GetCurrentConfig().pathToJSONPackageDescription = pathToJSONPackageDescription;
             }
         }
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        EpicOnlineServicesConfigEditor.AssigningTextField("Output Path", ref pathToOutput);
+        EpicOnlineServicesConfigEditor.AssigningTextField("Output Path", ref UnityPackageCreationUtility.pathToOutput);
         if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
         {
             var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
             if (!string.IsNullOrWhiteSpace(outputDir))
             {
-                pathToOutput = outputDir;
-                packagingConfigSection.GetCurrentConfig().pathToOutput = pathToOutput;
+                UnityPackageCreationUtility.pathToOutput = outputDir;
+                UnityPackageCreationUtility.packagingConfigSection.GetCurrentConfig().pathToOutput = UnityPackageCreationUtility.pathToOutput;
             }
         }
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory", ref customBuildDirectoryPath);
+        EpicOnlineServicesConfigEditor.AssigningTextField("Custom Build Directory", ref UnityPackageCreationUtility.customBuildDirectoryPath);
         if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
         {
             var buildDir = EditorUtility.OpenFolderPanel("Pick Custom Build Directory", "", "");
             if (!string.IsNullOrWhiteSpace(buildDir))
             {
-                customBuildDirectoryPath = buildDir;
-                packagingConfigSection.GetCurrentConfig().customBuildDirectoryPath = buildDir;
+                UnityPackageCreationUtility.customBuildDirectoryPath = buildDir;
+                UnityPackageCreationUtility.packagingConfigSection.GetCurrentConfig().customBuildDirectoryPath = buildDir;
             }
         }
         GUILayout.EndHorizontal();
@@ -136,35 +144,35 @@ public class UnityPackageCreationTool : EditorWindow
 
         if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(pathToOutput))
+            if (string.IsNullOrWhiteSpace(UnityPackageCreationUtility.pathToOutput))
             {
                 return;
             }
-            packagingConfigSection.SaveToJSONConfig(true);
-            CreateUPMPackage(pathToOutput, pathToJSONPackageDescription);
+            UnityPackageCreationUtility.packagingConfigSection.SaveToJSONConfig(true);
+            CreateUPMPackage(UnityPackageCreationUtility.pathToOutput, pathToJSONPackageDescription);
         }
 
         if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(pathToOutput))
+            if (string.IsNullOrWhiteSpace(UnityPackageCreationUtility.pathToOutput))
             {
                 return;
             }
-            packagingConfigSection.SaveToJSONConfig(true);
-            CreateLegacyUnityPackage(pathToOutput, pathToJSONPackageDescription);
+            UnityPackageCreationUtility.packagingConfigSection.SaveToJSONConfig(true);
+            CreateLegacyUnityPackage(UnityPackageCreationUtility.pathToOutput, pathToJSONPackageDescription);
         }
 
         if (GUILayout.Button("Export to Custom Build Directory", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(customBuildDirectoryPath))
+            if (string.IsNullOrWhiteSpace(UnityPackageCreationUtility.customBuildDirectoryPath))
             {
                 return;
             }
-            packagingConfigSection.SaveToJSONConfig(true);
+            UnityPackageCreationUtility.packagingConfigSection.SaveToJSONConfig(true);
             CopyFilesInPackageDescriptionToBuildDir(pathToJSONPackageDescription);
         }
     }
-
+/*
     //-------------------------------------------------------------------------
     private PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
     {
@@ -181,9 +189,9 @@ public class UnityPackageCreationTool : EditorWindow
     }
 
     //-------------------------------------------------------------------------
-    private List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(PackageDescription packageDescription)
+    private List<FileInfoMatchingResult> UnityPackageCreationUtility.GetFileInfoMatchingPackageDescription(PackageDescription packageDescription)
     {
-        return PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
+        return PackageFileUtils.UnityPackageCreationUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
     }
 
     //-------------------------------------------------------------------------
@@ -195,19 +203,23 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private string GetPackageOutputFolder()
     {
-        if (customBuildDirectoryPath != null && customBuildDirectoryPath.Length > 0)
+        if (UnityPackageCreationUtility.customBuildDirectoryPath != null && UnityPackageCreationUtility.customBuildDirectoryPath.Length > 0)
         {
-            return customBuildDirectoryPath;
+            return UnityPackageCreationUtility.customBuildDirectoryPath;
         }
-        return GenerateTemporaryBuildPath();
+        return UnityPackageCreationUtility.GenerateTemporaryBuildPath();
     }
 
     //-------------------------------------------------------------------------
     private void CopyFilesToPackageDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
     {
-        PackageFileUtils.CopyFilesToDirectory(packageFolder, fileInfoForFilesToCompress, WriteVersionInfo);
+        PackageFileUtils.CopyFilesToDirectory(
+            packageFolder, 
+            fileInfoForFilesToCompress,
+            UnityPackageCreationUtility.WriteVersionInfo
+        );
     }
-
+6a
     //-------------------------------------------------------------------------
     private void WriteVersionInfo(string destPath)
     {
@@ -231,18 +243,21 @@ public class UnityPackageCreationTool : EditorWindow
             File.WriteAllText(destPath, newContents);
         }
     }
-
+*/
     //-------------------------------------------------------------------------
     private void CreateUPMPackage(string outputPath, string pathToJSONPackageDescription)
     {
         UnityEngine.Debug.Log("DEBUG " + pathToJSONPackageDescription);
         var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
         var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-        string packageFolder = GetPackageOutputFolder();
-        var fileInfoForFilesToCompress = GetFileInfoMatchingPackageDescription(packageDescription);
+        string packageFolder = UnityPackageCreationUtility.GetPackageOutputFolder();
+        var fileInfoForFilesToCompress = UnityPackageCreationUtility.GetFileInfoMatchingPackageDescription(packageDescription);
 
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.3f);
-        CopyFilesToPackageDirectory(packageFolder, fileInfoForFilesToCompress);
+        UnityPackageCreationUtility.CopyFilesToPackageDirectory(
+            packageFolder, 
+            fileInfoForFilesToCompress
+        );
 
         this.StartCoroutine(ClientMakePackage(packageFolder, outputPath));
     }
@@ -255,7 +270,7 @@ public class UnityPackageCreationTool : EditorWindow
 
         // Transform PackageDescription into a list of actual files that can be copied to a directory that can be zipped 
         string gzipFilePathName = Path.Combine(outputPath, packageName);
-        List<string> fileInfoForFilesToCompress = GetFilePathsMatchingPackageDescription(packageDescription);
+        List<string> fileInfoForFilesToCompress = UnityPackageCreationUtility.GetFilePathsMatchingPackageDescription(packageDescription);
         var toExport = fileInfoForFilesToCompress.Where((path) => { return !path.Contains(".meta"); }).ToArray();
         var options = ExportPackageOptions.Interactive;
 
@@ -267,14 +282,21 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private void CopyFilesInPackageDescriptionToBuildDir(string pathToJSONPackageDescription)
     {
-        var packageDescription = ReadPackageDescription(pathToJSONPackageDescription);
-        var fileInfoForFilesToCopy = GetFileInfoMatchingPackageDescription(packageDescription);
+        var packageDescription = UnityPackageCreationUtility.ReadPackageDescription(
+            pathToJSONPackageDescription
+        );
+        var fileInfoForFilesToCopy = UnityPackageCreationUtility.GetFileInfoMatchingPackageDescription(packageDescription);
 
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.5f);
-        CopyFilesToPackageDirectory(customBuildDirectoryPath, fileInfoForFilesToCopy);
+        
+        UnityPackageCreationUtility.CopyFilesToPackageDirectory(
+            UnityPackageCreationUtility.customBuildDirectoryPath, 
+            fileInfoForFilesToCopy
+        );
+
         EditorUtility.ClearProgressBar();
     }
-
+/*
     //-------------------------------------------------------------------------
     // This can't work without a way to write to tar files
     // Grab all the files as described in the text
@@ -285,7 +307,7 @@ public class UnityPackageCreationTool : EditorWindow
 
         // Transform PackageDescription into a list of actual files that can be copied to a directory that can be zipped 
         string gzipFilePathName = outputPath;
-        var fileInfoForFilesToCompress = GetFileInfoMatchingPackageDescription(packageDescription);
+        var fileInfoForFilesToCompress = UnityPackageCreationUtility.GetFileInfoMatchingPackageDescription(packageDescription);
 
         using (FileStream fileStream = File.Create(gzipFilePathName))
         {
@@ -301,25 +323,25 @@ public class UnityPackageCreationTool : EditorWindow
             }
         }
     }
-
+*/
     //-------------------------------------------------------------------------
     // Helper coroutine for making the client package.
     private IEnumerator ClientMakePackage(string packageFolder, string outputPath)
     {
-        packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
+        UnityPackageCreationUtility.packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
 
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Packaging...", 0.5f);
 
-        while (!packRequest.IsCompleted)
+        while (!UnityPackageCreationUtility.packRequest.IsCompleted)
         {
             yield return null;
         }
 
-        if (packRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
+        if (UnityPackageCreationUtility.packRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
         {
-            if (packRequest.Error != null)
+            if (UnityPackageCreationUtility.packRequest.Error != null)
             {
-                throw new Exception("Error making package " + packRequest.Error.message);
+                throw new Exception("Error making package " + UnityPackageCreationUtility.packRequest.Error.message);
             }
         }
 
