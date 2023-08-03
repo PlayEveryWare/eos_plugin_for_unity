@@ -104,16 +104,11 @@ public static class UnityPackageCreationUtility
     }
 
     //-------------------------------------------------------------------------
-    private static PackageDescription ReadPackageDescription(
-        string pathToJSONPackageDescription)
+    private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
     {
-         var JSONPackageDescription = File.ReadAllText(
-             pathToJSONPackageDescription
-         );
+         var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
 
-         var packageDescription = JsonUtility.FromJson<PackageDescription>(
-             JSONPackageDescription
-         );
+         var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
 
          return packageDescription;
     }
@@ -130,9 +125,7 @@ public static class UnityPackageCreationUtility
     }
 
     //-------------------------------------------------------------------------
-    private static void CopyFilesToPackageDirectory(
-        string packageFolder, 
-        List<FileInfoMatchingResult> fileInfoForFilesToCompress)
+    private static void CopyFilesToPackageDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
     {
         PackageFileUtils.CopyFilesToDirectory(
             packageFolder, 
@@ -169,20 +162,13 @@ public static class UnityPackageCreationUtility
     
 
     //-------------------------------------------------------------------------
-    public static void CreateUPMPackage(
-        string outputPath, 
-        string pathToJSONPackageDescription)
+    public static void CreateUPMPackage(string outputPath, string pathToJSONPackageDescription)
     {
         UnityEngine.Debug.Log("DEBUG " + pathToJSONPackageDescription);
-        var JSONPackageDescription = File.ReadAllText(
-            pathToJSONPackageDescription
-            );
-        var packageDescription = JsonUtility.FromJson<PackageDescription>(
-            JSONPackageDescription);
+        var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
+        var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
         string packageFolder = GetPackageOutputFolder();
-        var filesToCompress = PackageFileUtils.GetFileInfoMatchingPackageDescription(
-            "./",
-            packageDescription);
+        var filesToCompress = PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
         EditorUtility.DisplayProgressBar(
             "PEW Package Tool", 
@@ -216,29 +202,21 @@ public static class UnityPackageCreationUtility
     }
 
     //-------------------------------------------------------------------------
-    public static void CreateLegacyUnityPackage(
-        string outputPath, 
-        string pathToJSONPackageDescription, 
-        string packageName = "pew_eos_plugin.unitypackage")
+    public static void CreateLegacyUnityPackage(string outputPath, string pathToJSONPackageDescription, string packageName = "pew_eos_plugin.unitypackage")
     {
-        var JSONPackageDescription = File.ReadAllText(
-            pathToJSONPackageDescription);
+        var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
 
-        var packageDescription = JsonUtility.FromJson<PackageDescription>(
-            JSONPackageDescription);
+        var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
 
         // Transform PackageDescription into a list of actual files that can be
         // copied to a directory that can be zipped 
         string gzipFilePathName = Path.Combine(outputPath, packageName);
 
-        List<string> filesToCompress = PackageFileUtils.GetFilePathsMatchingPackageDescription(
-            "./",
-            packageDescription
-        );
+        List<string> filesToCompress = PackageFileUtils.GetFilePathsMatchingPackageDescription("./", packageDescription);
 
         var toExport = filesToCompress.Where(
             (path) => { return !path.Contains(".meta"); }
-            ).ToArray();
+        ).ToArray();
 
         var options = ExportPackageOptions.Interactive;
 
@@ -248,25 +226,18 @@ public static class UnityPackageCreationUtility
     public static void CopyFilesInPackageDescriptionToBuildDir(
         string pathToJSONPackageDescription)
     {
-        var packageDescription = ReadPackageDescription(
-            pathToJSONPackageDescription);
+        var packageDescription = ReadPackageDescription(pathToJSONPackageDescription);
 
-        var filesToCopy = PackageFileUtils.GetFileInfoMatchingPackageDescription(
-            "./",
-            packageDescription);
+        var filesToCopy = PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
-        CopyFilesToPackageDirectory(
-            pathToJSONPackageDescription, filesToCopy);
+        CopyFilesToPackageDirectory(pathToJSONPackageDescription, filesToCopy);
     }
 
     //-------------------------------------------------------------------------
     // Helper coroutine for making the client package.
-    private static IEnumerator ClientMakePackage(
-        string packageFolder, 
-        string outputPath)
+    private static IEnumerator ClientMakePackage(string packageFolder, string outputPath)
     {   
-        packRequest = UnityEditor.PackageManager.Client.Pack(
-            packageFolder, outputPath);
+        packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
 
         while (!packRequest.IsCompleted)
         {
