@@ -20,21 +20,20 @@
 * SOFTWARE.
 */
 
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using System;
 using System.Linq;
-using PlayEveryWare.EpicOnlineServices;
 using Playeveryware.Editor;
 using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
 
 // help make lines shorter
 using PackagingConfigSection = PlayEveryWare.EpicOnlineServices.EOSPluginEditorPackagingConfigSection;
 using ConfigEditor = PlayEveryWare.EpicOnlineServices.EOSPluginEditorConfigEditor;
+
 
 // Helper to allow for StartCoroutine to be used from a static context
 public class CoroutineExecutor : MonoBehaviour { }
@@ -42,36 +41,57 @@ public class CoroutineExecutor : MonoBehaviour { }
 //-------------------------------------------------------------------------
 public static class UnityPackageCreationUtility
 {
+    /// <summary>
+    /// This is where we will store the request we sent to Unity to make the
+    /// package.
+    /// </summary>
     public static UnityEditor.PackageManager.Requests.PackRequest packRequest;
-    public static string pathToJSONPackageDescription = "";
+
+    /// <summary>
+    /// This is the path to the package.json file.
+    /// </summary>
+    public static string jsonPackageFile = "";
+
+    /// <summary>
+    /// The path to output to
+    /// </summary>
     public static string pathToOutput = "";
-    public static string customBuildDirectoryPath = "";
-    public static PackagingConfigSection packagingConfigSection;
+
+    /// <summary>
+    /// If there is a specific directory to build to, it's stored here
+    /// </summary>
+    public static string customOutputDirectory = "";
+
+    /// <summary>
+    /// Contains section of package.json file pertaining to configuration
+    /// </summary>
+    public static PackagingConfigSection packageConfig;
 
     /// <summary>
     /// This is used in order to use StartCoroutine from a static context.
     /// </summary>
-    private static CoroutineExecutor ExecutorInstance;
+    public static CoroutineExecutor ExecutorInstance;
 
     /// <summary>
     /// Static constructor
     /// </summary>
     static UnityPackageCreationUtility() 
     {
-        packagingConfigSection = ConfigEditor.GetConfigurationSectionEditor<PackagingConfigSection>();
-        packagingConfigSection.Awake();
-        packagingConfigSection.LoadConfigFromDisk();
+        packageConfig = ConfigEditor.GetConfigurationSectionEditor<PackagingConfigSection>();
+        packageConfig.Awake();
+        packageConfig.LoadConfigFromDisk();
 
         // Configure UI defaults
-        pathToJSONPackageDescription = Path.Combine(
-            UnityPackageCreationUtility.GetPackageConfigDirectory(), 
-            "eos_package_description.json"
-        );
+        jsonPackageFile = Path.Combine(
+            Application.dataPath, 
+            "..", 
+            "PackageDescriptionConfigs",
+            "eos_package_description.json");
 
-        var currentConfig = packagingConfigSection.GetCurrentConfig();
+        var currentConfig = packageConfig.GetCurrentConfig();
         if (!string.IsNullOrEmpty(currentConfig.pathToJSONPackageDescription))
         {
-            pathToJSONPackageDescription = currentConfig.pathToJSONPackageDescription;
+            jsonPackageFile = currentConfig.pathToJSONPackageDescription;
         }
         if (!string.IsNullOrEmpty(currentConfig.pathToOutput))
         {
@@ -79,20 +99,8 @@ public static class UnityPackageCreationUtility
         }
         if(!string.IsNullOrEmpty(currentConfig.customBuildDirectoryPath))
         {
-            customBuildDirectoryPath = currentConfig.customBuildDirectoryPath;
+            customOutputDirectory = currentConfig.customBuildDirectoryPath;
         }
-    }
-
-    //-------------------------------------------------------------------------
-    private static string GetRepositoryRoot()
-    {
-        return Path.Combine(Application.dataPath, "..");
-    }
-
-    //-------------------------------------------------------------------------
-    private static string GetPackageConfigDirectory()
-    {
-        return Path.Combine(GetRepositoryRoot(), "PackageDescriptionConfigs");
     }
 
     //-------------------------------------------------------------------------
@@ -111,42 +119,14 @@ public static class UnityPackageCreationUtility
     }
 
     //-------------------------------------------------------------------------
-    private static List<string> GetFilePathsMatchingPackageDescription(
-        PackageDescription packageDescription)
-    {
-        const string root = "./";
-        return PackageFileUtils.GetFilePathsMatchingPackageDescription(
-            root, 
-            packageDescription
-        );
-    }
-
-    //-------------------------------------------------------------------------
-    private static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(
-        PackageDescription packageDescription
-        )
-    {
-        return PackageFileUtils.GetFileInfoMatchingPackageDescription(
-            "./", 
-            packageDescription
-            );
-    }
-
-    //-------------------------------------------------------------------------
-    private static string GenerateTemporaryBuildPath()
-    {
-        return PackageFileUtils.GenerateTemporaryBuildPath();
-    }
-
-    //-------------------------------------------------------------------------
     private static string GetPackageOutputFolder()
     {
-        if (customBuildDirectoryPath != null && 
-            customBuildDirectoryPath.Length > 0)
+        if (customOutputDirectory != null && 
+            customOutputDirectory.Length > 0)
         {
-            return customBuildDirectoryPath;
+            return customOutputDirectory;
         }
-        return GenerateTemporaryBuildPath();
+        return PackageFileUtils.GenerateTemporaryBuildPath();
     }
 
     //-------------------------------------------------------------------------
@@ -200,7 +180,8 @@ public static class UnityPackageCreationUtility
         var packageDescription = JsonUtility.FromJson<PackageDescription>(
             JSONPackageDescription);
         string packageFolder = GetPackageOutputFolder();
-        var fileInfoForFilesToCompress = GetFileInfoMatchingPackageDescription(
+        var filesToCompress = PackageFileUtils.GetFileInfoMatchingPackageDescription(
+            "./",
             packageDescription);
 
         EditorUtility.DisplayProgressBar(
@@ -211,7 +192,7 @@ public static class UnityPackageCreationUtility
 
         CopyFilesToPackageDirectory(
             packageFolder, 
-            fileInfoForFilesToCompress
+            filesToCompress
             );
 
         if (!ExecutorInstance)
@@ -250,8 +231,10 @@ public static class UnityPackageCreationUtility
         // copied to a directory that can be zipped 
         string gzipFilePathName = Path.Combine(outputPath, packageName);
 
-        List<string> filesToCompress = GetFilePathsMatchingPackageDescription(
-            packageDescription);
+        List<string> filesToCompress = PackageFileUtils.GetFilePathsMatchingPackageDescription(
+            "./",
+            packageDescription
+        );
 
         var toExport = filesToCompress.Where(
             (path) => { return !path.Contains(".meta"); }
@@ -268,11 +251,12 @@ public static class UnityPackageCreationUtility
         var packageDescription = ReadPackageDescription(
             pathToJSONPackageDescription);
 
-        var fileInfoForFilesToCopy = GetFileInfoMatchingPackageDescription(
+        var filesToCopy = PackageFileUtils.GetFileInfoMatchingPackageDescription(
+            "./",
             packageDescription);
 
         CopyFilesToPackageDirectory(
-            pathToJSONPackageDescription, fileInfoForFilesToCopy);
+            pathToJSONPackageDescription, filesToCopy);
     }
 
     //-------------------------------------------------------------------------
@@ -296,6 +280,6 @@ public static class UnityPackageCreationUtility
                 throw new BuildFailedException(
                     "Error making package " + packRequest.Error.message);
             }
-        }
+        } 
     }
 }
