@@ -29,6 +29,12 @@ using System;
 using System.Linq;
 using PlayEveryWare.EpicOnlineServices;
 using Playeveryware.Editor;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
+
+// help make lines shorter
+using PackagingConfigSection = PlayEveryWare.EpicOnlineServices.EOSPluginEditorPackagingConfigSection;
+using ConfigEditor = PlayEveryWare.EpicOnlineServices.EOSPluginEditorConfigEditor;
 
 // Helper to allow for StartCoroutine to be used from a static context
 public class CoroutineExecutor : MonoBehaviour { }
@@ -40,11 +46,19 @@ public static class UnityPackageCreationUtility
     public static string pathToJSONPackageDescription = "";
     public static string pathToOutput = "";
     public static string customBuildDirectoryPath = "";
-    public static EOSPluginEditorPackagingConfigSection packagingConfigSection;
+    public static PackagingConfigSection packagingConfigSection;
 
+    /// <summary>
+    /// This is used in order to use StartCoroutine from a static context.
+    /// </summary>
+    private static CoroutineExecutor ExecutorInstance;
+
+    /// <summary>
+    /// Static constructor
+    /// </summary>
     static UnityPackageCreationUtility() 
     {
-        packagingConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorPackagingConfigSection>();
+        packagingConfigSection = ConfigEditor.GetConfigurationSectionEditor<PackagingConfigSection>();
         packagingConfigSection.Awake();
         packagingConfigSection.LoadConfigFromDisk();
 
@@ -70,48 +84,65 @@ public static class UnityPackageCreationUtility
     }
 
     //-------------------------------------------------------------------------
-    public static string GetRepositoryRoot()
+    private static string GetRepositoryRoot()
     {
         return Path.Combine(Application.dataPath, "..");
     }
 
     //-------------------------------------------------------------------------
-    public static string GetPackageConfigDirectory()
+    private static string GetPackageConfigDirectory()
     {
         return Path.Combine(GetRepositoryRoot(), "PackageDescriptionConfigs");
     }
 
     //-------------------------------------------------------------------------
-    public static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
+    private static PackageDescription ReadPackageDescription(
+        string pathToJSONPackageDescription)
     {
-         var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
-         var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+         var JSONPackageDescription = File.ReadAllText(
+             pathToJSONPackageDescription
+         );
+
+         var packageDescription = JsonUtility.FromJson<PackageDescription>(
+             JSONPackageDescription
+         );
+
          return packageDescription;
     }
 
     //-------------------------------------------------------------------------
-    public static List<string> GetFilePathsMatchingPackageDescription(PackageDescription packageDescription)
+    private static List<string> GetFilePathsMatchingPackageDescription(
+        PackageDescription packageDescription)
     {
-        string root = "./";
-        return PackageFileUtils.GetFilePathsMatchingPackageDescription(root, packageDescription);
+        const string root = "./";
+        return PackageFileUtils.GetFilePathsMatchingPackageDescription(
+            root, 
+            packageDescription
+        );
     }
 
     //-------------------------------------------------------------------------
-    public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(PackageDescription packageDescription)
+    private static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(
+        PackageDescription packageDescription
+        )
     {
-        return PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
+        return PackageFileUtils.GetFileInfoMatchingPackageDescription(
+            "./", 
+            packageDescription
+            );
     }
 
     //-------------------------------------------------------------------------
-    public static string GenerateTemporaryBuildPath()
+    private static string GenerateTemporaryBuildPath()
     {
         return PackageFileUtils.GenerateTemporaryBuildPath();
     }
 
     //-------------------------------------------------------------------------
-    public static string GetPackageOutputFolder()
+    private static string GetPackageOutputFolder()
     {
-        if (customBuildDirectoryPath != null && customBuildDirectoryPath.Length > 0)
+        if (customBuildDirectoryPath != null && 
+            customBuildDirectoryPath.Length > 0)
         {
             return customBuildDirectoryPath;
         }
@@ -119,13 +150,18 @@ public static class UnityPackageCreationUtility
     }
 
     //-------------------------------------------------------------------------
-    public static void CopyFilesToPackageDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
+    private static void CopyFilesToPackageDirectory(
+        string packageFolder, 
+        List<FileInfoMatchingResult> fileInfoForFilesToCompress)
     {
-        PackageFileUtils.CopyFilesToDirectory(packageFolder, fileInfoForFilesToCompress, WriteVersionInfo);
+        PackageFileUtils.CopyFilesToDirectory(
+            packageFolder, 
+            fileInfoForFilesToCompress, 
+            WriteVersionInfo);
     }
 
     //-------------------------------------------------------------------------
-    public static void WriteVersionInfo(string destPath)
+    private static void WriteVersionInfo(string destPath)
     {
         if (Path.GetFileName(destPath) == "EOSPackageInfo.cs")
         {
@@ -142,77 +178,123 @@ public static class UnityPackageCreationUtility
         return """+ version + @""";
     }
     ";
-            string newContents = contents.Substring(0, startIndex) + newFunction + contents.Substring(endIndex);
+            string newContents = contents.Substring(0, startIndex) 
+                + newFunction 
+                + contents.Substring(endIndex);
 
             File.WriteAllText(destPath, newContents);
         }
     }
 
-    private static CoroutineExecutor ExecutorInstance;
+    
 
     //-------------------------------------------------------------------------
-    public static void CreateUPMPackage(string outputPath, string pathToJSONPackageDescription)
+    public static void CreateUPMPackage(
+        string outputPath, 
+        string pathToJSONPackageDescription)
     {
         UnityEngine.Debug.Log("DEBUG " + pathToJSONPackageDescription);
-        var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
-        var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+        var JSONPackageDescription = File.ReadAllText(
+            pathToJSONPackageDescription
+            );
+        var packageDescription = JsonUtility.FromJson<PackageDescription>(
+            JSONPackageDescription);
         string packageFolder = GetPackageOutputFolder();
-        var fileInfoForFilesToCompress = GetFileInfoMatchingPackageDescription(packageDescription);
+        var fileInfoForFilesToCompress = GetFileInfoMatchingPackageDescription(
+            packageDescription);
 
-        EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.3f);
-        CopyFilesToPackageDirectory(packageFolder, fileInfoForFilesToCompress);
+        EditorUtility.DisplayProgressBar(
+            "PEW Package Tool", 
+            "Copying files...",
+            0.3f
+            );
+
+        CopyFilesToPackageDirectory(
+            packageFolder, 
+            fileInfoForFilesToCompress
+            );
 
         if (!ExecutorInstance)
         {
-            ExecutorInstance = UnityEngine.Object.FindObjectOfType<CoroutineExecutor>();
+            ExecutorInstance = UnityEngine.Object.FindObjectOfType<
+                CoroutineExecutor>();
 
             if (!ExecutorInstance)
             {
-                ExecutorInstance = new GameObject ("CoroutineExecutor").AddComponent<CoroutineExecutor>();
+                ExecutorInstance = new GameObject(
+                    "CoroutineExecutor").AddComponent<CoroutineExecutor>();
             }
         }
 
-        ExecutorInstance.StartCoroutine(ClientMakePackage(packageFolder, outputPath));
+        ExecutorInstance.StartCoroutine(
+            ClientMakePackage(
+                packageFolder, 
+                outputPath
+                )
+            );
     }
 
     //-------------------------------------------------------------------------
-    public static void CreateLegacyUnityPackage(string outputPath, string pathToJSONPackageDescription, string packageName = "pew_eos_plugin.unitypackage")
+    public static void CreateLegacyUnityPackage(
+        string outputPath, 
+        string pathToJSONPackageDescription, 
+        string packageName = "pew_eos_plugin.unitypackage")
     {
-        var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
-        var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+        var JSONPackageDescription = File.ReadAllText(
+            pathToJSONPackageDescription);
 
-        // Transform PackageDescription into a list of actual files that can be copied to a directory that can be zipped 
+        var packageDescription = JsonUtility.FromJson<PackageDescription>(
+            JSONPackageDescription);
+
+        // Transform PackageDescription into a list of actual files that can be
+        // copied to a directory that can be zipped 
         string gzipFilePathName = Path.Combine(outputPath, packageName);
-        List<string> fileInfoForFilesToCompress = GetFilePathsMatchingPackageDescription(packageDescription);
-        var toExport = fileInfoForFilesToCompress.Where((path) => { return !path.Contains(".meta"); }).ToArray();
+
+        List<string> filesToCompress = GetFilePathsMatchingPackageDescription(
+            packageDescription);
+
+        var toExport = filesToCompress.Where(
+            (path) => { return !path.Contains(".meta"); }
+            ).ToArray();
+
         var options = ExportPackageOptions.Interactive;
 
         AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);        
     }
 
-    public static void CopyFilesInPackageDescriptionToBuildDir(string pathToJSONPackageDescription)
+    public static void CopyFilesInPackageDescriptionToBuildDir(
+        string pathToJSONPackageDescription)
     {
-        var packageDescription = UnityPackageCreationUtility.ReadPackageDescription(pathToJSONPackageDescription);
-        var fileInfoForFilesToCopy = UnityPackageCreationUtility.GetFileInfoMatchingPackageDescription(packageDescription);
+        var packageDescription = ReadPackageDescription(
+            pathToJSONPackageDescription);
 
-        UnityPackageCreationUtility.CopyFilesToPackageDirectory(pathToJSONPackageDescription, fileInfoForFilesToCopy);
+        var fileInfoForFilesToCopy = GetFileInfoMatchingPackageDescription(
+            packageDescription);
+
+        CopyFilesToPackageDirectory(
+            pathToJSONPackageDescription, fileInfoForFilesToCopy);
     }
 
-        //-------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     // Helper coroutine for making the client package.
-    public static IEnumerator ClientMakePackage(string packageFolder, string outputPath)
+    private static IEnumerator ClientMakePackage(
+        string packageFolder, 
+        string outputPath)
     {   
-        UnityPackageCreationUtility.packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
-        while (!UnityPackageCreationUtility.packRequest.IsCompleted)
+        packRequest = UnityEditor.PackageManager.Client.Pack(
+            packageFolder, outputPath);
+
+        while (!packRequest.IsCompleted)
         {
             yield return null;
         }
 
-        if (UnityPackageCreationUtility.packRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
+        if (packRequest.Status == UnityEditor.PackageManager.StatusCode.Failure)
         {
-            if (UnityPackageCreationUtility.packRequest.Error != null)
+            if (packRequest.Error != null)
             {
-                throw new Exception("Error making package " + UnityPackageCreationUtility.packRequest.Error.message);
+                throw new BuildFailedException(
+                    "Error making package " + packRequest.Error.message);
             }
         }
     }
