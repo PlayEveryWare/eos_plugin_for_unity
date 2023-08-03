@@ -74,10 +74,6 @@ public static class UnityPackageCreationUtility
         }
     }
 
-    public static void Burp(string message) {
-        Debug.Log(message);
-    }
-
     //-------------------------------------------------------------------------
     public static string GetRepositoryRoot()
     {

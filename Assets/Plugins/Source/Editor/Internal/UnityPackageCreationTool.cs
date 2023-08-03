@@ -123,7 +123,7 @@ public class UnityPackageCreationTool : EditorWindow
     }
 
     //-------------------------------------------------------------------------
-    private void CreateLegacyUnityPackage(string outputPath, string pathToJSONPackageDescription, string packageName = "pew_eos_plugin.unitypackage")
+/*     private void CreateLegacyUnityPackage(string outputPath, string pathToJSONPackageDescription, string packageName = "pew_eos_plugin.unitypackage")
     {
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Packaging...", 0.5f);
         
@@ -134,7 +134,7 @@ public class UnityPackageCreationTool : EditorWindow
         );
 
         EditorUtility.ClearProgressBar();
-    }
+    } */
 
     //-------------------------------------------------------------------------
     private void CopyFilesInPackageDescriptionToBuildDir(string pathToJSONPackageDescription)

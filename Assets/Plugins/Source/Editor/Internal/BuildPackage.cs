@@ -40,7 +40,5 @@ public static class BuildPackage
 
     public static void ExportPlugin() 
     {
-        Debug.Log("Inside BuildPackage!!!!! :D");
-        UnityPackageCreationUtility.Burp("brap");
     }
 }
