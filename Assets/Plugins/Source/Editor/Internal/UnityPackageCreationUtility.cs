@@ -22,17 +22,12 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Unity.EditorCoroutines.Editor;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using System.IO.Compression;
 using System;
 using System.Linq;
 using PlayEveryWare.EpicOnlineServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
 using Playeveryware.Editor;
 
 // Helper to allow for StartCoroutine to be used from a static context
