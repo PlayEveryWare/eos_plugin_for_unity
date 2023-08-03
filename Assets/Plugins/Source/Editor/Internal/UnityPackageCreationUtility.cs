@@ -70,7 +70,7 @@ public static class UnityPackageCreationUtility
     /// <summary>
     /// This is used in order to use StartCoroutine from a static context.
     /// </summary>
-    public static CoroutineExecutor ExecutorInstance;
+    public static CoroutineExecutor executorInstance;
 
     /// <summary>
     /// Static constructor
@@ -195,19 +195,19 @@ public static class UnityPackageCreationUtility
             filesToCompress
             );
 
-        if (!ExecutorInstance)
+        if (!executorInstance)
         {
-            ExecutorInstance = UnityEngine.Object.FindObjectOfType<
+            executorInstance = UnityEngine.Object.FindObjectOfType<
                 CoroutineExecutor>();
 
-            if (!ExecutorInstance)
+            if (!executorInstance)
             {
-                ExecutorInstance = new GameObject(
+                executorInstance = new GameObject(
                     "CoroutineExecutor").AddComponent<CoroutineExecutor>();
             }
         }
 
-        ExecutorInstance.StartCoroutine(
+        executorInstance.StartCoroutine(
             ClientMakePackage(
                 packageFolder, 
                 outputPath
