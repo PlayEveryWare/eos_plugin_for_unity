@@ -67,6 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button loginButton;
         private Coroutine PreventLogIn = null;
         public Button logoutButton;
+        public Button removePersistentTokenButton;
 
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
@@ -435,6 +436,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenText.text = "Username";
             tokenTooltip.Text = "Username configured in EOS Dev Auth Tool";
             tokenText.gameObject.SetActive(true);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             tokenInputField.InputFieldButton.navigation = new Navigation()
             {
@@ -469,6 +471,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -510,6 +513,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(true);
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -538,6 +542,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -565,6 +570,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -589,6 +595,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             tokenInputField.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             switch (connectType)// might need to check this better, use ifdefs to turn on platform specific cases that switch off the login button
             {
@@ -772,6 +779,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             loginButton.gameObject.SetActive(false);
             logoutButton.gameObject.SetActive(true);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
@@ -1194,6 +1202,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 ConfigureUIForLogin();
             }
+        }
+
+        public void OnRemovePersistentTokenButtonClick()
+        {
+            EOSManager.Instance.RemovePersistentToken();
         }
 
         public void OnExitButtonClick()
