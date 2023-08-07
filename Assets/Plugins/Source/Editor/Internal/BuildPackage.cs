@@ -140,7 +140,7 @@ public static class BuildPackage
 
             foreach (string dirpath in Directory.EnumerateDirectories(output_path))
             {
-                Directory.Delete(dirpath);
+                Directory.Delete(dirpath, true);
             }
         }
     }
