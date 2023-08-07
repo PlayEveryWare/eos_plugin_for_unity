@@ -26,20 +26,29 @@ using UnityEditor.Build;
 
 public static class BuildPackage
 {
+    private enum PackageType
+    {
+        /// <summary>
+        /// Un-compressed directory of UPM contents.
+        /// </summary>
+        UPMDirectory,
+
+        /// <summary>
+        /// Legacy package type.
+        /// </summary>
+        DotUnity,
+
+        /// <summary>
+        /// Compressed directory of UPM contents
+        /// </summary>
+        TarBall,
+    }
+
     /// <summary>
     /// Unless another path is explicitly provided, default to writing the output to a
     /// directory in the root of the project folder named "Build"
     /// </summary>
     private const string OUTPUT_DIRECTORY = "Build";
-
-    /// <summary>
-    /// This is the JSON file that defines which files to put into the UPM directory.
-    /// @TODO: Handle the scenario where whomever is developing the UPM wants to 
-    /// introduce a new file. Is there a way that we could intelligently include that
-    /// and add it to this JSON without things getting really messy?
-    /// </summary>
-    private const string RELATIVE_JSON_DESC_PATH = 
-        "PackageDescriptionConfigs/eos_package_description.json";
 
     /// <summary>
     /// Note that this is a Non-Unity defined command line argument.
@@ -70,7 +79,36 @@ public static class BuildPackage
                 Application.dataPath,
                 "..",
                 OUTPUT_DIRECTORY));
-    } 
+    }
+
+    /// <summary>
+    /// This is the JSON file that defines which files to put into the UPM directory.
+    /// @TODO: Handle the scenario where whomever is developing the UPM wants to 
+    /// introduce a new file. Is there a way that we could intelligently include that
+    /// and add it to this JSON without things getting really messy?
+    /// </summary>
+    /// <param name="type">The type of the package</param>
+    /// <returns>Filepath to the appropriate package.json file to use.</returns>
+    private static string GetDefaultJSONPackageFile(PackageType type)
+    {
+        string path = string.Empty;
+
+        switch(type)
+        {
+            case PackageType.DotUnity:
+                path = "PackageDescriptionConfigs/eos_dotunitypackage_package_desc.json";
+                break;
+            case PackageType.TarBall:
+                path = "PackageDescriptionConfigs/eos_package_description.json";
+                break;
+            case PackageType.UPMDirectory:
+            default:
+                path = "PackageDescriptionConfigs/eos_export_assets_package_desc.json";
+                break;
+        }
+
+        return path;
+    }
 
     /// <summary>
     ///Does the exporting of the plugin to a UPM directory 
@@ -94,12 +132,12 @@ public static class BuildPackage
         string jsonFile = Path.Combine(
             Application.dataPath,
             "..",
-            RELATIVE_JSON_DESC_PATH);
+            GetDefaultJSONPackageFile(PackageType.UPMDirectory));
 
         // Validate file paths
         if (!File.Exists(jsonFile))
         {
-            ExportError("JSON file \"" + jsonFile + "\"");
+            ExportError("JSON file \"" + jsonFile + "\" does not appear to exist.");
         }
 
         // If the output directory does not exist, try and create it.
