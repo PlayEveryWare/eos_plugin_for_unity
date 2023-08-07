@@ -128,6 +128,22 @@ public static class BuildPackage
     {
         return PackageType.UPMDirectory;
     }
+    private static void Clean()
+    {
+        string output_path = GetOutputPath();
+        if (Directory.Exists(output_path))
+        {
+            foreach (string filepath in Directory.EnumerateFiles(output_path))
+            {
+                File.Delete(filepath);
+            }
+
+            foreach (string dirpath in Directory.EnumerateDirectories(output_path))
+            {
+                Directory.Delete(dirpath);
+            }
+        }
+    }
 
     /// <summary>
     ///Does the exporting of the plugin to a UPM directory 
@@ -169,9 +185,7 @@ public static class BuildPackage
         }
         else
         {
-            // TODO: If exporting a tar-ball, it will overwrite, but in the future
-            // when other types of output are implemented, we may need to clear the
-            // contents of the output directory.
+            Clean();
         }
 
         // Create package
