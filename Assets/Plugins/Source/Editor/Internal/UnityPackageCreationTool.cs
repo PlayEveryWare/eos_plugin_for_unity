@@ -90,7 +90,7 @@ public class UnityPackageCreationTool : EditorWindow
                 return;
             }
             UPCUtil.packageConfig.SaveToJSONConfig(true);
-            UPCUtil.CreateUPMPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+            UPCUtil.CreateUPMTarball(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
         }
 
         if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
@@ -100,7 +100,7 @@ public class UnityPackageCreationTool : EditorWindow
                 return;
             }
             UPCUtil.packageConfig.SaveToJSONConfig(true);
-            UPCUtil.CreateLegacyUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+            UPCUtil.CreateDotUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
         }
 
         if (GUILayout.Button("Export to Custom Build Directory", GUILayout.MaxWidth(200)))
@@ -119,7 +119,7 @@ public class UnityPackageCreationTool : EditorWindow
     {
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.5f);
 
-        UPCUtil.CopyFilesInPackageDescriptionToBuildDir(UPCUtil.jsonPackageFile);
+        UPCUtil.CreateUPM(UPCUtil.jsonPackageFile);
 
         EditorUtility.ClearProgressBar();
     }

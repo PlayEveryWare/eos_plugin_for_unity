@@ -41,19 +41,21 @@ public static class BuildPackage
         /// <summary>
         /// Compressed directory of UPM contents
         /// </summary>
-        TarBall,
+        UPMTarBall,
     }
 
     /// <summary>
     /// Unless another path is explicitly provided, default to writing the output to a
     /// directory in the root of the project folder named "Build"
     /// </summary>
-    private const string OUTPUT_DIRECTORY = "Build";
+    private const string DEFAULT_OUTPUT_DIRECTORY = "Build";
 
     /// <summary>
     /// Note that this is a Non-Unity defined command line argument.
     /// </summary>
     private const string ARG_FLAG_OUTPUT = "-EOSPluginOutput";
+
+    private const string ARG_FLAG_PACKAGE_TYPE = "-PackageType";
 
     /// <summary>
     /// Returns a path to output the plugin to.
@@ -61,24 +63,36 @@ public static class BuildPackage
     /// <returns>Path to output the plugin to</returns>
     private static string GetOutputPath()
     {
+        string output_path = GetCLIArgument(ARG_FLAG_OUTPUT);
+        
+        if (string.Empty == output_path)
+        {
+            // In this case we want the absolute path, because we don't
+            // want any code down-stream to try and use it as a relative path.
+            // Note that it's resolved using the project's root directory.
+            output_path = Path.GetFullPath(
+                Path.Combine(
+                    Application.dataPath,
+                    "..",
+                    DEFAULT_OUTPUT_DIRECTORY));
+        }
+
+        return output_path;
+    }
+
+    private static string GetCLIArgument(string flag)
+    {
+        string value = string.Empty;
         string[] args = System.Environment.GetCommandLineArgs();
         for (int i = 0; i < args.Length; ++i)
         {
             if (ARG_FLAG_OUTPUT == args[i] && i + 1 < args.Length)
             {
-                // We return the argument provided as-is. 
-                return args[i + 1];
+                value = args[i + 1];
             }
         }
-        
-        // In this case we want the absolute path, because we don't
-        // want any code down-stream to try and use it as a relative path.
-        // Note that it's resolved using the project's root directory.
-        return Path.GetFullPath(
-            Path.Combine(
-                Application.dataPath,
-                "..",
-                OUTPUT_DIRECTORY));
+
+        return value;
     }
 
     /// <summary>
@@ -98,7 +112,7 @@ public static class BuildPackage
             case PackageType.DotUnity:
                 path = "PackageDescriptionConfigs/eos_dotunitypackage_package_desc.json";
                 break;
-            case PackageType.TarBall:
+            case PackageType.UPMTarBall:
                 path = "PackageDescriptionConfigs/eos_package_description.json";
                 break;
             case PackageType.UPMDirectory:
@@ -110,6 +124,11 @@ public static class BuildPackage
         return path;
     }
 
+    private static PackageType GetPackageType()
+    {
+        return PackageType.UPMDirectory;
+    }
+
     /// <summary>
     ///Does the exporting of the plugin to a UPM directory 
     /// </summary>
@@ -117,6 +136,8 @@ public static class BuildPackage
     {
         // Get output directory
         string OutputDirectory = GetOutputPath();
+
+        PackageType packageType = GetPackageType();
 
         // if the output directory is not already fully qualified,
         // then we will assume it's relative to the place the "Unity.exe" 
@@ -132,7 +153,7 @@ public static class BuildPackage
         string jsonFile = Path.Combine(
             Application.dataPath,
             "..",
-            GetDefaultJSONPackageFile(PackageType.UPMDirectory));
+            GetDefaultJSONPackageFile(PackageType.UPMTarBall));
 
         // Validate file paths
         if (!File.Exists(jsonFile))
@@ -154,14 +175,29 @@ public static class BuildPackage
         }
 
         // Create package
-        UnityPackageCreationUtility.CreateUPMPackage(
-            OutputDirectory,
-            jsonFile
-        );
+        
 
+        switch(packageType)
+        {
+            case PackageType.UPMTarBall:
+                UnityPackageCreationUtility.CreateUPMTarball(OutputDirectory, jsonFile);
+                break;
+            case PackageType.DotUnity:
+                UnityPackageCreationUtility.CreateDotUnityPackage(OutputDirectory, jsonFile);
+                break;
+            case PackageType.UPMDirectory:
+            default:
+                UnityPackageCreationUtility.customOutputDirectory = OutputDirectory;
+                UnityPackageCreationUtility.CreateUPM(jsonFile);
+                break;
+
+        }
+
+        /*
         Debug.Log(
             "EOS Plugin Exported to \"" + 
             UnityPackageCreationUtility.packRequest.Result.tarballPath);
+        */
     }
 
     /// <summary>

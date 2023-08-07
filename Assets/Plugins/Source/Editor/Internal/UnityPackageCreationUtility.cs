@@ -162,19 +162,13 @@ public static class UnityPackageCreationUtility
     
 
     //-------------------------------------------------------------------------
-    public static void CreateUPMPackage(string outputPath, string pathToJSONPackageDescription)
+    public static void CreateUPMTarball(string outputPath, string json_file)
     {
-        UnityEngine.Debug.Log("DEBUG " + pathToJSONPackageDescription);
-        var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
+        UnityEngine.Debug.Log("DEBUG " + json_file);
+        var JSONPackageDescription = File.ReadAllText(json_file);
         var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
         string packageFolder = GetPackageOutputFolder();
         var filesToCompress = PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
-
-        EditorUtility.DisplayProgressBar(
-            "PEW Package Tool", 
-            "Copying files...",
-            0.3f
-            );
 
         CopyFilesToPackageDirectory(
             packageFolder, 
@@ -194,7 +188,7 @@ public static class UnityPackageCreationUtility
         }
 
         executorInstance.StartCoroutine(
-            ClientMakePackage(
+            StartMakingTarball(
                 packageFolder, 
                 outputPath
                 )
@@ -202,9 +196,9 @@ public static class UnityPackageCreationUtility
     }
 
     //-------------------------------------------------------------------------
-    public static void CreateLegacyUnityPackage(string outputPath, string pathToJSONPackageDescription, string packageName = "pew_eos_plugin.unitypackage")
+    public static void CreateDotUnityPackage(string outputPath, string json_file, string packageName = "pew_eos_plugin.unitypackage")
     {
-        var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
+        var JSONPackageDescription = File.ReadAllText(json_file);
 
         var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
 
@@ -223,19 +217,18 @@ public static class UnityPackageCreationUtility
         AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);        
     }
 
-    public static void CopyFilesInPackageDescriptionToBuildDir(
-        string pathToJSONPackageDescription)
+    public static void CreateUPM(string json_file)
     {
-        var packageDescription = ReadPackageDescription(pathToJSONPackageDescription);
+        var packageDescription = ReadPackageDescription(json_file);
 
         var filesToCopy = PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
-        CopyFilesToPackageDirectory(pathToJSONPackageDescription, filesToCopy);
+        CopyFilesToPackageDirectory(UnityPackageCreationUtility.customOutputDirectory, filesToCopy);
     }
 
     //-------------------------------------------------------------------------
     // Helper coroutine for making the client package.
-    private static IEnumerator ClientMakePackage(string packageFolder, string outputPath)
+    private static IEnumerator StartMakingTarball(string packageFolder, string outputPath)
     {   
         packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
 
