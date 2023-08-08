@@ -128,6 +128,7 @@ public static class BuildPackage
     {
         return PackageType.UPMDirectory;
     }
+    
     private static void Clean()
     {
         string output_path = GetOutputPath();
