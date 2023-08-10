@@ -87,7 +87,7 @@ public partial class SystemMemory
     //-------------------------------------------------------------------------
     static public void GetAllocatorFunctions(out IntPtr alloc, out IntPtr realloc, out IntPtr free)
     {
-#if ENABLE_GET_ALLOCATOR_FUNCTION
+#if DYNAMIC_MEMORY_ALLOCATION_AVAILABLE && ENABLE_GET_ALLOCATOR_FUNCTION
         Mem_GetAllocatorFunctions(out alloc, out realloc, out free);
 #else
         alloc = IntPtr.Zero;
