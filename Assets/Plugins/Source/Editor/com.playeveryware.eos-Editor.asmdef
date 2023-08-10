@@ -5,7 +5,7 @@
         "GUID:2ced8f3cc58f63843bc26c7591a35628",
         "GUID:478a2357cc57436488a56e564b08d223",
         "GUID:3a63500f0eef43a438c0553491f7c5da",
-        "GUID:68bd7fdb68ef2684e982e8a9825b18a5"
+        "GUID:4a3cd13b0378c984c9688988d6a41c57"
     ],
     "includePlatforms": [
         "Editor"
@@ -16,12 +16,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.rlabrecque.steamworks.net",
-            "expression": "",
-            "define": "STEAMWORKS_MODULE"
-        }
-    ],
+    "versionDefines": [],
     "noEngineReferences": false
 }
