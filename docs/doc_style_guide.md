@@ -4,11 +4,12 @@
 
 
 Table of Contents
-  1. [Overview](#overview)
-  2. [Getting Started](#getting-started)
-      * [Prerequisites](#prerequisites)
- 3. Templates
- 4. Source Code Contributor Notes
+1. [Overview](#overview)
+2. [Getting Started](#getting-started)
+    * [Prerequisites](#prerequisites)
+3. Templates
+4. cookbook
+5. Source Code Contributor Notes
 
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
@@ -64,18 +65,18 @@ if it isnt a readme, it should be the doc header in magenta and centered, with t
 if apropriate, a table of contents should follow here. a link within the same doc to a header is created by putting a # in front of the name of the header, if onw wasnt set, the name is the header in lowercase with '-' replacing ' '. not every header needs to be included here, just the common ones work.
 
 Table of Contents
-  1. [First](#first)
-  2. [Second](#second)
-      * [Sub Second](#sub-second)
- 3. [Third Thing](#third-thing)
+1. [First](#first)
+2. [Second](#second)
+    * [Sub Second](#sub-second)
+3. [Third Thing](#third-thing)
 >  :heavy_exclamation_mark: The links wont appear here as they arent linked to real headers.
 
 ```
 Table of Contents
-  1. [First](#first)
-  2. [Second](#second)
-      * [Sub Second](#sub-second)
- 3. [Third Thing](#third-thing)
+1. [First](#first)
+2. [Second](#second)
+    * [Sub Second](#sub-second)
+3. [Third Thing](#third-thing)
 ```
 
 Then we go into the main parts of the doc, starting with an overview of the doc, basically that describes what the doc is and why/how the doc is useful. this section should be marked with the magenta header named 'Overview' followed by an underline. images can be used through out to halp make things more clear.
@@ -246,16 +247,45 @@ Surprise!
 </details>
 ```
 
-mermaid
+mermaid is the formatting we use for displaying flowcharts about the plugin. these will likely be used similarly to regular images. you can find info and examples [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
-notes
+notes are ocasionally desired to include in a doc, they should be used for important edge cases, or reminder information, that would otherwise overbulk a doc, but is still key info for the many people outside of the core usage path. it is denoted by the '>' character followed by the :heavy_exclamation_mark: emoji, the emoji should be spelled out, and not coped in as a caracter, for better rendering across markdown viewers. additionally the note should be indented to be in line with the line that the note is related to, to have quicker readability when a note is applicable to things like the last instruction of the set, or at the end of the set of instructions.
 
-grid note
+> :heavy_exclamation_mark: there is another doc for code style
+
+```
+> :heavy_exclamation_mark: there is another doc for code style
+```
+
+grid notes are currently unused and need to be figured out how to use the effectively. they are a combination of notes and grids to make a more standout notice.
+
+| :heavy_exclamation_mark: We love doc contributions. |
+|-|
+
+```
+| :heavy_exclamation_mark: We love doc contributions. |
+|-|
+```
 
 <br />
 
-## Importing the Plugin
+# <div align="center">$\textcolor{deeppink}{\textsf{Templates}}$</div> <a name="templates" />
+---
 
-| :exclamation:  This is very important   |
-|-|
+link here
+
+<br />
+
+# <div align="center">$\textcolor{deeppink}{\textsf{Cookbook}}$</div> <a name="cookbook" />
+---
+
+link here
+
+<br />
+
+# <div align="center">$\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$</div> <a name="source-code-contributor-notes" />
+---
+
+link here
+
   
