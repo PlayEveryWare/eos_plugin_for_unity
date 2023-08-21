@@ -5,16 +5,16 @@
 
 Table of Contents
 1. [Overview](#overview)
-2. [First Section](#[first-section])
-    * [Prerequisites](#prerequisites)
-    * [Section 1 part 1](#[section-1-part-1])
-    * [Section 1 part 2](#[section-1-part-2])
-    * [Section 1 part 3](#[section-1-part-3])
-3. [Second Section](#[second-section])
+2. [[First Section]](#[first-section])
+    * [[Prerequisites]](#prerequisites)
+    * [[Section 1 part 1]](#[section-1-part-1])
+    * [[Section 1 part 2]](#[section-1-part-2])
+    * [[Section 1 part 3]](#[section-1-part-3])
+3. [[Second Section]](#[second-section])
     * [[Second section] Prerequisites](#[second-section]-prerequisites)
-    * [Section 2 part 1](#[section-2-part-1])
-    * [Section 2 part 2](#[section-2-part-2])
-4. [Third Section](#[third-section])
+    * [[Section 2 part 1]](#[section-2-part-1])
+    * [[Section 2 part 2]](#[section-2-part-2])
+4. [[Third Section]](#[third-section])
 
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
