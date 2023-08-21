@@ -7,9 +7,9 @@ Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
     * [Prerequisites](#prerequisites)
-3. Templates
+3. [Templates](#templates)
 4. cookbook
-5. Source Code Contributor Notes
+5. [Source Code Contributor Notes](source-code-contributor-notes)
 
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
@@ -267,7 +267,7 @@ grid notes are currently unused and need to be figured out how to use the effect
 |-|
 ```
 
-prereqs
+prereqs as a concept should be used to list all the needed info before starting the project. include plenty of links, for instance to getting started docs for an engine, or to the download of the engine version.
 
 <br />
 
