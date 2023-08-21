@@ -15,8 +15,6 @@ Table of Contents
     * [Importing the Plugin](#importing-the-plugin)
     * [Samples](#samples)
     * [Configuring the Plugin](#configuring-the-plugin)
-3. [Plugin Support](#plugin-support)
-4. [Source Code Contributor Notes](#source-code-contributor-notes)
 5. [FAQ](#faq)
 
 
@@ -61,74 +59,62 @@ Table of Contents
 [main text of this section, or description if subsections are needed]
 
 ## Prerequisites
-* [what is required for the content of this section]
-* [and another]
+* [changes to existing readme prereqs]
+* [new additioinal prereqs for this platform]
 
 <br />
 
-## [Section 1 part 1]
+## Importing the Plugin
 
-[Section 1 part 1 text]
+[platform specific changes, not covered in main readme for this subsection, and/or how to use this section with the main readme]
 
-## [Section 1 part 1 subsection 1]
+## Adding the package from a tarball
 <br />
 
-[Section 1 part 1  subsection 1 text]
-
-<br />
-
-## [Section 1 part 1 subsection 2]
-<br />
-
-[Section 1 part 1  subsection 2 text]
+[changes, or updates to this section here. when changing steps, if more readable, rewrite all the steps and change the steps aas needed]
 
 <br />
 
+## Adding the package from a git URL
 <br />
 
-## [Section 1 part 2]
-
-[Section 1 part 2 text]
-
-## [Section 1 part 2 subsection 1]
-<br />
-
-[Section 1 part 2  subsection 1 text]
+[changes, or updates to this section here. when changing steps, if more readable, rewrite all the steps and change the steps aas needed]
 
 <br />
-
 <br />
 
-## [Section 1 part 3]
+## Samples
 
-[Section 1 part 3 text]
+[platform specific changes, not covered in main readme for this subsection, and/or how to use this section with the main readme]
+
+## Importing the samples
+<br />
+
+[changes, or updates to this section here. when changing steps, if more readable, rewrite all the steps and change the steps aas needed]
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{[Second Section]}}$</div> <a name="[second-section]" />
+## Running the samples
+
+[while the main readme put these in a dropdown, there is no need for that here as any of these suplementary readmes will be shorter, additionally running the samples will likely have some of the more significant changes. otherwise this is for changes, or updates to this section here. when changing steps, if more readable, rewrite all the steps and change the steps aas needed]
+
+<br />
+
+<br />
+
+## Configuring the Plugin
+
+[platform specific changes, not covered in main readme for this subsection, and/or how to use this section with the main readme]
+
+## Configuration Steps
+<br />
+
+[changes, or updates to this section here. when changing steps, if more readable, rewrite all the steps and change the steps aas needed]
+
+<br />
+<br />
+
+# <div align="center">$\textcolor{deeppink}{\textsf{FAQ}}$</div> <a name="faq" />
 ---
 
-[main text of this section, or description if subsections are needed]
-
-## [Second section] Prerequisites
-* [what is required for the content of this section]
-* [and another]
-
-<br />
-
-## [Section 2 part 1]
-
-[section 2 part 1 text]
-
-<br />
-
-## [Section 2 part 2]
-
-[section 2 part 2 text]
-
-<br />
-
-# <div align="center">$\textcolor{deeppink}{\textsf{[Third Section]}}$</div> <a name="[third-section]" />
----
-
-[main text of this section, or description if subsections are needed]
+See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md).
