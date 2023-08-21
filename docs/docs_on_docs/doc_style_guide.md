@@ -267,12 +267,20 @@ grid notes are currently unused and need to be figured out how to use the effect
 |-|
 ```
 
+prereqs
+
 <br />
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Templates}}$</div> <a name="templates" />
 ---
 
-link here
+you can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. they are mainly blank space holders, so you can decide whats needed, be it a list, a ! notice, an image, or whatever. make sure to update the pink headers and table of contests if used as well. you can add and remove sections as needed, in the case of the readmes more reduction of sections than additions is expected, while the basic one is meant to  added to and removed from to whatever custom needs the particular doc will have.
+With the readmes, since the main one holds most of the info, it is cuurently our prefernce to write additional readmes with changes and heavy link refences to the  original, as it cuts down on the amount of time and changes needed during updates.
+that prefernce includes external docs as well, which should heavily link to first party docs related to our prefernces, to keep that information as up to date as possible. such as having a link to unity's android setup steps, which we shouldnt need to rewrite, but also the link would be for the unity doc with our specific unity version, not just the newest doc, as that may also be different for our targeted enviornment.
+
+[Basic Template](/docs/docs_on_docs/template_basic.md)
+
+[ReadMe Template](/docs/docs_on_docs/template_readme.md)
 
 <br />
 
@@ -286,6 +294,6 @@ link here
 # <div align="center">$\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$</div> <a name="source-code-contributor-notes" />
 ---
 
-link here
+Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
 
   
