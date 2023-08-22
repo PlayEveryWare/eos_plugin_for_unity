@@ -8,8 +8,8 @@ Table of Contents
 2. [Getting Started](#getting-started)
     * [Prerequisites](#prerequisites)
 3. [Templates](#templates)
-4. cookbook
-5. [Source Code Contributor Notes](source-code-contributor-notes)
+4. [Internal Markdown Reference](#internal-markdown-reference)
+5. [Source Code Contributor Notes](#source-code-contributor-notes)
 
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
@@ -157,7 +157,7 @@ and
 ```
 
 <!---
-html format needed to be used to display the codeblack format, this should realistically never be used.
+html format needed to be used to display the codeblack format, this HTML should realistically never be used.
 -->
 <pre class="highlight"><code>
 ```cs
@@ -175,10 +175,12 @@ to create a new c# script in unity navigate the menus through ```Assets -> Creat
 
 bullet points can be used when listing important information that has no particular order and created by adding '*' at the front of the line. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
 
+#### Things:
 * something
 * something else
 
 ```
+#### Things:
 * something
 * something else
 ```
@@ -247,7 +249,7 @@ Surprise!
 </details>
 ```
 
-mermaid is the formatting we use for displaying flowcharts about the plugin. these will likely be used similarly to regular images. you can find info and examples [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+mermaid is the formatting we use for displaying flowcharts about the plugin. these will likely be used similarly to regular images. You can find info and examples [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
 notes are ocasionally desired to include in a doc, they should be used for important edge cases, or reminder information, that would otherwise overbulk a doc, but is still key info for the many people outside of the core usage path. it is denoted by the '>' character followed by the :heavy_exclamation_mark: emoji, the emoji should be spelled out, and not coped in as a caracter, for better rendering across markdown viewers. additionally the note should be indented to be in line with the line that the note is related to, to have quicker readability when a note is applicable to things like the last instruction of the set, or at the end of the set of instructions.
 
@@ -284,10 +286,10 @@ that prefernce includes external docs as well, which should heavily link to firs
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Cookbook}}$</div> <a name="cookbook" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$</div> <a name="internal-markdown-reference" />
 ---
 
-link here
+You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
 
 <br />
 
