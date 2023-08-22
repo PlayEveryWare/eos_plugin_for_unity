@@ -1,6 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-# <div align="center">$\textcolor{deeppink}{\textsf{MD Reference}}$</div> <a name="md-reference" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Markdown Reference}}$</div> <a name="markdown-reference" />
 
 
 Table of Contents
@@ -10,9 +10,9 @@ Table of Contents
     * [Code, Block](#code-block)
     * [Code, Inline](#code-inline)
     * [Collapsed Sections](#collapsed-sections)
-    * [Doc Header](#doc-header)
     * [Grids](#grids)
     * [Header](#header)
+    * [Header, Document](#header-document)
     * [Header, Reference](#header-reference)
     * [Header, Section](#header-section)
     * [Header, Subsection](#header-subsection)
@@ -31,22 +31,26 @@ Table of Contents
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 
+It is expected that you use these features as they fit winthin the style guide.
 You can use this doc as a quick copy and paste reference for many of our markdown usages.
 These are intended to be used with GitHub as the main way to read them, if you need to confirm how it looks visually.
-It is expected that you use these features as they fit winthin the style guide, linked via the usage links.
+
+The style guide can be found [here](/docs/docs_on_docs/doc_style_guide.md), or via the usage links.
+
+More info on Markdown can be found [here](https://www.markdownguide.org/).
 
 <br />
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Cookbook}}$</div> <a name="cookbook" />
 ---
 
-An alphabetical list of our md lines
+An alphabetical list of our prefered Markdown syntax.
 
 <br />
 
 ## Bullet Points
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#bullet-points)
 ```
 #### Things:
 * something
@@ -57,7 +61,7 @@ An alphabetical list of our md lines
 
 ## Code, Block
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#code-block)
 <!---
 html format needed to be used to display the codeblack format, this HTML should realistically never be used.
 -->
@@ -71,7 +75,7 @@ html format needed to be used to display the codeblack format, this HTML should 
 
 ## Code, Inline
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#code-inline)
 ```
 ```i++;```
 ```
@@ -80,7 +84,7 @@ html format needed to be used to display the codeblack format, this HTML should 
 
 ## Collapsed Sections
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#collapsed-sections)
 ```
 #### Colapsed stuff:
 <details>
@@ -92,19 +96,9 @@ Surprise!
 
 <br />
 
-## Doc Header
-
-[usage]()
-```
-# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
----
-```
-
-<br />
-
 ## Grids
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#grids)
 ```
 | First | Second | Add mmore boxes to the right for more columns |
 | - | - | - |
@@ -117,7 +111,7 @@ Surprise!
 
 ## Header
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#header)
 ```
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
@@ -125,9 +119,19 @@ Surprise!
 
 <br />
 
+## Header, Document
+
+[usage](/docs/docs_on_docs/doc_style_guide.md#header-document)
+```
+# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
+---
+```
+
+<br />
+
 ## Header, Reference
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#header-reference)
 ```
 #### Important Content in a Text Portion:
 ```
@@ -136,7 +140,7 @@ Surprise!
 
 ## Header, Section
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#header-section)
 ```
 ## Section Header
 ```
@@ -145,7 +149,7 @@ Surprise!
 
 ## Header, Subsection
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#header-subsection)
 ```
 ## Subsection Header
 <br />
@@ -155,14 +159,16 @@ Surprise!
 
 ## Home Button
 
-[usage]()
-```<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>```
+[usage](/docs/docs_on_docs/doc_style_guide.md#home-button)
+```
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+```
 
 <br />
 
 ## Image
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#image)
   ```
   ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
   ```
@@ -171,7 +177,7 @@ Surprise!
 
 ## Instructions
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#instructions)
 ```
 To create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
 ```
@@ -180,14 +186,14 @@ To create a new c# script in unity navigate the menus through ```Assets -> Creat
 
 ## Mermaid
 
-look at the [usage]() for more info.
+look at the [usage](/docs/docs_on_docs/doc_style_guide.md#mermaid) for more info.
 
 
 <br />
 
 ## Notices
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#notices)
 ```
 > :heavy_exclamation_mark: there is another doc for code style
 ```
@@ -196,7 +202,7 @@ look at the [usage]() for more info.
 
 ## Notices, Grid
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#notices-grid)
 ```
 | :heavy_exclamation_mark: We love doc contributions. |
 |-|
@@ -206,7 +212,7 @@ look at the [usage]() for more info.
 
 ## Numbered Points
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#numbered-points)
 ```
 #### Leaderboard:
 1. BurntPotato
@@ -218,7 +224,7 @@ look at the [usage]() for more info.
 
 ## Plugin Logo
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#plugin-logo)
 ```
 <div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
 <br /><br /><br />
@@ -230,7 +236,7 @@ look at the [usage]() for more info.
 
 ## Table of Contents
 
-[usage]()
+[usage](/docs/docs_on_docs/doc_style_guide.md#table-of-contents)
 ```
 Table of Contents
 1. [First](#first)
@@ -243,7 +249,9 @@ Table of Contents
 
 ## Web Links
 
-[usage]()
-  ```[android prerequisites](/docs/android/readme_android.md#prerequisites)```
+[usage](/docs/docs_on_docs/doc_style_guide.md#web-links)
+```
+[android prerequisites](/docs/android/readme_android.md#prerequisites)
+```
 
 <br />
