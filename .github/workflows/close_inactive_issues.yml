@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      pull-requests: write
     env:
       # Number of days before an issue with no activity gets marked as stale.
       DAYS_TO_STALE: 14
