@@ -39,28 +39,9 @@ Markdown:
 ```
 
 What it looks like:
+
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
 
-## Document Header for a README file
-
-If the document is a README document (which should rarely be the case) then the PlayEveryWare, Inc. logo should be followed by the project logo.
-
-Markdown:
-```markdown
-<div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
-<br /><br /><br />
-
----
-```
-
-What it looks like:
-<div align="center"> <img src="/docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
-
-<br /><br /><br />
-
----
-
-README documents have other qualifications, such that they should provide prereqs for the platform, as well as getting started instructions to create foe that platform, frequently, modification steps for the getting started on the main readme is fine. and more.
 
 If it isnt a readme, it should be the doc header in magenta and centered, with the relative accesable name. names should be the title in lower case with '-' replacing ' ', then followed by a line '---'.
 
