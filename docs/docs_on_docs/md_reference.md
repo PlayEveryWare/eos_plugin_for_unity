@@ -51,7 +51,7 @@ An alphabetical list of our prefered Markdown syntax.
 ## Bullet Points
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#bullet-points)
-```
+```markdown
 #### Things:
 * something
 * something else
@@ -76,7 +76,7 @@ html format needed to be used to display the codeblack format, this HTML should 
 ## Code, Inline
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#code-inline)
-```
+```markdown
 ```i++;```
 ```
 
@@ -85,7 +85,7 @@ html format needed to be used to display the codeblack format, this HTML should 
 ## Collapsed Sections
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#collapsed-sections)
-```
+```markdown
 #### Colapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
@@ -99,7 +99,7 @@ Surprise!
 ## Grids
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#grids)
-```
+```markdown
 | First | Second | Add mmore boxes to the right for more columns |
 | - | - | - |
 | stuff | | <- left blank |
@@ -112,7 +112,7 @@ Surprise!
 ## Header
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#header)
-```
+```markdown
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 ```
@@ -122,7 +122,7 @@ Surprise!
 ## Header, Document
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#header-document)
-```
+```markdown
 # <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
 ---
 ```
@@ -132,7 +132,7 @@ Surprise!
 ## Header, Reference
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#header-reference)
-```
+```markdown
 #### Important Content in a Text Portion:
 ```
 
@@ -141,7 +141,7 @@ Surprise!
 ## Header, Section
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#header-section)
-```
+```markdown
 ## Section Header
 ```
 
@@ -150,7 +150,7 @@ Surprise!
 ## Header, Subsection
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#header-subsection)
-```
+```markdown
 ## Subsection Header
 <br />
 ```
@@ -160,7 +160,7 @@ Surprise!
 ## Home Button
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#home-button)
-```
+```markdown
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 ```
 
@@ -169,7 +169,7 @@ Surprise!
 ## Image
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#image)
-  ```
+  ```markdown
   ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
   ```
 
@@ -178,7 +178,7 @@ Surprise!
 ## Instructions
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#instructions)
-```
+```markdown
 To create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
 ```
 
@@ -194,7 +194,7 @@ look at the [usage](/docs/docs_on_docs/doc_style_guide.md#mermaid) for more info
 ## Notices
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#notices)
-```
+```markdown
 > :heavy_exclamation_mark: there is another doc for code style
 ```
 
@@ -203,7 +203,7 @@ look at the [usage](/docs/docs_on_docs/doc_style_guide.md#mermaid) for more info
 ## Notices, Grid
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#notices-grid)
-```
+```markdown
 | :heavy_exclamation_mark: We love doc contributions. |
 |-|
 ```
@@ -213,7 +213,7 @@ look at the [usage](/docs/docs_on_docs/doc_style_guide.md#mermaid) for more info
 ## Numbered Points
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#numbered-points)
-```
+```markdown
 #### Leaderboard:
 1. BurntPotato
 2. xxx_wyld_xxx
@@ -225,7 +225,7 @@ look at the [usage](/docs/docs_on_docs/doc_style_guide.md#mermaid) for more info
 ## Plugin Logo
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#plugin-logo)
-```
+```markdown
 <div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
 <br /><br /><br />
 
@@ -237,7 +237,7 @@ look at the [usage](/docs/docs_on_docs/doc_style_guide.md#mermaid) for more info
 ## Table of Contents
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#table-of-contents)
-```
+```markdown
 Table of Contents
 1. [First](#first)
 2. [Second](#second)
@@ -250,7 +250,7 @@ Table of Contents
 ## Web Links
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#web-links)
-```
+```markdown
 [android prerequisites](/docs/android/readme_android.md#prerequisites)
 ```
 

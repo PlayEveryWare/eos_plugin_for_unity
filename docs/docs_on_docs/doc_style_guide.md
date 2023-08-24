@@ -24,7 +24,9 @@ The purpose of this document is to describe a standard by which all other docume
 
 ## Prerequisites
 
-GitHub is the primary place where documentation for this project will be consumed. In order to contribute to documentation you must have access to GitHub, and (optionally) an offline markdown editor so you can see a visual representation of the document that you are writing. Please be aware that not all Markdown engines work the same, and the one that this guide considers to be "golden" is the GitHub markdown renderer, so before submitting documentation, please make sure it conforms to the style guide _as viewed through GitHub_.
+GitHub is the primary place where documentation for this project will be consumed. In order to contribute to documentation you must have access to GitHub, and (optionally) an offline markdown editor so you can see a visual representation of the document that you are writing. 
+
+Please be aware that not all Markdown engines work the same, and the one that this guide considers to be the golden standard is the GitHub markdown renderer, so before submitting documentation, please make sure it conforms to the style guide _as viewed through GitHub_.
 
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
@@ -40,21 +42,21 @@ then if its a readme file it should be followed by the project logo image, three
 
 ---
 
-```
+```markdown
 <div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
 <br /><br /><br />
 
 ---
 ```
 
-read mes have other qualifications, such that they should provide prereqs for the platform, as well as getting started instructions to create foe that platform, frequently, modification steps for the getting started on the main readme is fine. and more.
+README documents have other qualifications, such that they should provide prereqs for the platform, as well as getting started instructions to create foe that platform, frequently, modification steps for the getting started on the main readme is fine. and more.
 
-if it isnt a readme, it should be the doc header in magenta and centered, with the relative accesable name. names should be the title in lower case with '-' replacing ' ', then followed by a line '---'.
+If it isnt a readme, it should be the doc header in magenta and centered, with the relative accesable name. names should be the title in lower case with '-' replacing ' ', then followed by a line '---'.
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
 ---
 
-```
+```markdown
 # <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
 ---
 ```
@@ -68,7 +70,7 @@ Table of Contents
 3. [Third Thing](#third-thing)
 >  :heavy_exclamation_mark: The links wont appear here as they arent linked to real headers.
 
-```
+```markdown
 Table of Contents
 1. [First](#first)
 2. [Second](#second)
@@ -81,34 +83,34 @@ Then we go into the main parts of the doc, starting with an overview of the doc,
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 
-```
+```markdown
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 ```
 
-major sections should have headers to break up the important pieces of it, as an example, in the main readme, the getting started section includes sub headers Prerequisites, Importing the Plugin, Samples, Configuring the Plugin, and Disable on selected platforms, these are denoted by using a header with two pound signs, ##, and notably goes right into the text with no following break. these should be important enough to be linked in the table of contents under their main header, if a table of contents exists
+Major sections should have headers to break up the important pieces of it, as an example, in the main readme, the getting started section includes sub headers Prerequisites, Importing the Plugin, Samples, Configuring the Plugin, and Disable on selected platforms, these are denoted by using a header with two pound signs, ##, and notably goes right into the text with no following break. these should be important enough to be linked in the table of contents under their main header, if a table of contents exists
 
 ## Subheader
 
-```
+```markdown
 ## Subheader
 ```
 
-for sections within the subheader that needed to be broken up in to major parts, such as how the samples section in the main readme includes the two major points Importing the samples, and Running the samples. these also use the double pound, ##, so that the stand out as important infor when skimming the doc, but include a line break after the emphasize the importance and differentuate from the sub header.
+For sections within the subheader that needed to be broken up in to major parts, such as how the samples section in the main readme includes the two major points Importing the samples, and Running the samples. these also use the double pound, ##, so that the stand out as important infor when skimming the doc, but include a line break after the emphasize the importance and differentuate from the sub header.
 
 ## Major Part of SubHeader
 <br />
 
-```
+```markdown
 ## Major Part of Subheader
 <br />
 ```
 
-if you need to ephasize a portion of text, without needing a whole subsection or part of one, such as how the readme in the overview has parts for the plugin features, repo contents and plugin detalis, these arent substantial enough that we need to grab the attention of anyone skimming past the overview, but the are substantial enough for people skimming through the overview, and important enough that other places in docs may need to link to them, but not important enough to need a link from a table of contents. these areas are marked with four pound signs, ####, and the name ending with a collon, :.
+If you need to ephasize a portion of text, without needing a whole subsection or part of one, such as how the readme in the overview has parts for the plugin features, repo contents and plugin detalis, these arent substantial enough that we need to grab the attention of anyone skimming past the overview, but the are substantial enough for people skimming through the overview, and important enough that other places in docs may need to link to them, but not important enough to need a link from a table of contents. these areas are marked with four pound signs, ####, and the name ending with a collon, :.
 
 #### Important Content in a Text Portion:
 
-```
+```markdown
 #### Important Content in a Text Portion:
 ```
 Images are used in a few different ways,
@@ -121,31 +123,39 @@ Images are used in a few different ways,
 
   ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
-  ```
+  ```markdown
   ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
   ```
 
-  if an image needs to be formated in the doc, such as the logo on readme pages, then the html format is acceptable, but preferably avoided.
+  If an image needs to be formated in the doc, such as the logo on readme pages, then the html format is acceptable, but preferably avoided.
 
-  web links can be written but surroding the text you want to link in brackets, followed by the link in parentasies. when linking to a header within the same doc, the link can consist of just the poundsign followed by the header name, which is either specifically writtern, or just the header in lower case with '-' in place of ' '. when linking to another internal doc, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another doc by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and isnt linked.
+  Web links can be written but surroding the text you want to link in brackets, followed by the link in parentasies. when linking to a header within the same doc, the link can consist of just the poundsign followed by the header name, which is either specifically writtern, or just the header in lower case with '-' in place of ' '. when linking to another internal doc, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another doc by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and isnt linked.
 
 [readme_android](/docs/android/readme_android.md)
 
-  ```[readme_android](/docs/android/readme_android.md)```
+  ```markdown
+  [readme_android](/docs/android/readme_android.md)
+  ```
   
 [readme prerequisites](/readme.md#prerequisites)
 
-  ```[readme prerequisites](/readme.md#prerequisites)```
+  ```markdown
+  [readme prerequisites](/readme.md#prerequisites)
+  ```
   
 [android prerequisites](/docs/android/readme_android.md#prerequisites)
 
-  ```[android prerequisites](/docs/android/readme_android.md#prerequisites)```
+  ```markdown
+  [android prerequisites](/docs/android/readme_android.md#prerequisites)
+  ```
 
-codeblocks and other factual information is display by being surrounded on both sides with three accent characters, '```', this is used for same line code. sometimes it is required for the accents to be on seperate lines for it to readpropperly, this will also expland it to a full code block, instead of inline. when writing a full code black, you can add 'cs' to the end of the accents to higlight and format the block to c#.
+Codeblocks and other factual information is display by being surrounded on both sides with three accent characters, '```', this is used for same line code. sometimes it is required for the accents to be on seperate lines for it to readpropperly, this will also expland it to a full code block, instead of inline. when writing a full code black, you can add 'cs' to the end of the accents to higlight and format the block to c#.
 
-```i++;```
-
+```markdown
+i++;
 ```
+
+```markdown
 ```i++;```
 ```
 and
@@ -166,7 +176,7 @@ when writing inline instructions, such as menu navigation, it should use the inl
 
 to create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
 
-```
+```markdown
 to create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
 ```
 
@@ -176,7 +186,7 @@ bullet points can be used when listing important information that has no particu
 * something
 * something else
 
-```
+```markdown
 #### Things:
 * something
 * something else
@@ -195,7 +205,7 @@ or
 2. xxx_wyld_xxx
 3. Grant
 
-```
+```markdown
 #### How to Use EOS:
 1. try the samples
 2. integrate into your own game
@@ -220,7 +230,7 @@ grids can be used to organise large groups of related data in multiple groups. w
 | alternates color | auto fills empty boxes -> |
 
 
-```
+```markdown
 | First | Second | Add mmore boxes to the right for more columns |
 | - | - | - |
 | stuff | | <- left blank |
@@ -237,7 +247,7 @@ collapsed sections can be used to to hold relevant information that may otherwis
 Surprise!
 </details>
 
-```
+```markdown
 #### Colapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
