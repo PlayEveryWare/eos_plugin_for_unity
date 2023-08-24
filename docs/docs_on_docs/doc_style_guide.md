@@ -15,7 +15,7 @@ Table of Contents
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 
-The purpose of this document is to describe a standard by which all other documents should follow. Use and follow this guide when creating new documentation for the project.
+The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
 <br />
 
@@ -26,22 +26,26 @@ The purpose of this document is to describe a standard by which all other docume
 
 GitHub is the primary place where documentation for this project will be consumed. In order to contribute to documentation you must have access to GitHub, and (optionally) an offline markdown editor so you can see a visual representation of the document that you are writing. 
 
-Please be aware that not all Markdown engines work the same, and the one that this guide considers to be the golden standard is the GitHub markdown renderer, so before submitting documentation, please make sure it conforms to the style guide _as viewed through GitHub_.
+Please be aware that *not all Markdown engines work the same*. This style guide considers the rendering of the GitHub markdown renderer to be the standard, so before submitting documentation please make sure it conforms to the style guide _as viewed through GitHub_.
 
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+# <div align="center">$\textcolor{deeppink}{\textsf{Doc Header}}$</div> <a name="doc-header" />
+---
+## Standard Document Header
+Each document should start (before the document title) with the PlayEveryWare, Inc. logo, doubling as a link to the main README file for the project.
 
-```html
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+Markdown:
+```markdown
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
 ```
 
-then if its a readme file it should be followed by the project logo image, three new lines, and a line.
+What it looks like:
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
 
-<div align="center"> <img src="/docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
+## Document Header for a README file
 
-<br /><br /><br />
+If the document is a README document (which should rarely be the case) then the PlayEveryWare, Inc. logo should be followed by the project logo.
 
----
-
+Markdown:
 ```markdown
 <div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
 <br /><br /><br />
@@ -49,26 +53,34 @@ then if its a readme file it should be followed by the project logo image, three
 ---
 ```
 
+What it looks like:
+<div align="center"> <img src="/docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
+
+<br /><br /><br />
+
+---
+
 README documents have other qualifications, such that they should provide prereqs for the platform, as well as getting started instructions to create foe that platform, frequently, modification steps for the getting started on the main readme is fine. and more.
 
 If it isnt a readme, it should be the doc header in magenta and centered, with the relative accesable name. names should be the title in lower case with '-' replacing ' ', then followed by a line '---'.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
----
-
+Markdown:
 ```markdown
 # <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
 ---
 ```
 
-if apropriate, a table of contents should follow here. a link within the same doc to a header is created by putting a # in front of the name of the header, if onw wasnt set, the name is the header in lowercase with '-' replacing ' '. not every header needs to be included here, just the common ones work.
+What it looks like:
+# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
+---
+
+If apropriate, a table of contents should follow here. A link within the same doc to a header is created by putting a # in front of the name of the header, if onw wasnt set, the name is the header in lowercase with '-' replacing ' '. not every header needs to be included here, just the common ones work.
 
 Table of Contents
 1. [First](#first)
 2. [Second](#second)
     * [Sub Second](#sub-second)
 3. [Third Thing](#third-thing)
->  :heavy_exclamation_mark: The links wont appear here as they arent linked to real headers.
 
 ```markdown
 Table of Contents
