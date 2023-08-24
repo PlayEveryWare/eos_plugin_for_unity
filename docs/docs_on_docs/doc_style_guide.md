@@ -44,16 +44,11 @@ What it looks like:
 
 Following the PlayEveryWare, Inc. logo should be the title of the document, centered in pink text. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to.
 
+As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Document Title}}$</div> <a name="doc-title" />
----
+# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div> <a name="documentation-style-guide" />
 ```
-
-What it looks like:
-
-# <div align="center">$\textcolor{deeppink}{\textsf{Document Title}}$</div> <a name="doc-title" />
----
 
 If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title. To create a table of contents link that points to a location internal to the document, use the value illustrated above in the header (in this case `doc-title`), prefaced with a pound symbol. 
 
