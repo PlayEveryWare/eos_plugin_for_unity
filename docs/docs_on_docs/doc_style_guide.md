@@ -15,7 +15,7 @@ Table of Contents
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 
-This doc goes into detail and reasoning for how to set up docs within this project. to be used so you can copy things into other docs and standardize all docs for an easier read.
+The purpose of this document is to describe a standard by which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
 <br />
 
@@ -24,16 +24,11 @@ This doc goes into detail and reasoning for how to set up docs within this proje
 
 ## Prerequisites
 
-
-* Have a Markdown viewer.
-* Have access to GitHub in browser
-    > :heavy_exclamation_mark: The GitHub browser is the final say for viewed formatting.
-
-Docs should start with the home button.
+GitHub is the primary place where documentation for this project will be consumed. In order to contribute to documentation you must have access to GitHub, and (optionally) an offline markdown editor so you can see a visual representation of the document that you are writing. Please be aware that not all Markdown engines work the same, and the one that this guide considers to be "golden" is the GitHub markdown renderer, so before submitting documentation, please make sure it conforms to the style guide _as viewed through GitHub_.
 
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-```<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>```
+```<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>```{:.html}
 
 then if its a readme file it should be followed by the project logo image, three new lines, and a line.
 
