@@ -28,7 +28,7 @@ GitHub is the primary place where documentation for this project will be consume
 
 Please be aware that *not all Markdown engines work the same*. This style guide considers the rendering of the GitHub markdown renderer to be the standard, so before submitting documentation please make sure it conforms to the style guide _as viewed through GitHub_.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Doc Header}}$</div> <a name="doc-header" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$</div> <a name="doc-header" />
 ---
 
 Each document should start (before the document title) with the PlayEveryWare, Inc. logo, doubling as a link to the main README file for the project.
@@ -42,16 +42,17 @@ What it looks like:
 
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
 
-Following the PlayEveryWare, Inc. logo should be the title of the document, centered in pink text. The link name should be the document title, all lowercase, with spaces replaced with dashes.
+Following the PlayEveryWare, Inc. logo should be the title of the document, centered in pink text. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to.
 
 Markdown:
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Document Title}}$</div> <a name="doc-title" />
 ---
 ```
 
 What it looks like:
-# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
+
+# <div align="center">$\textcolor{deeppink}{\textsf{Document Title}}$</div> <a name="doc-title" />
 ---
 
 If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title. To create a table of contents link that points to a location internal to the document, use the value illustrated above in the header (in this case `doc-title`), prefaced with a pound symbol. 
@@ -78,7 +79,7 @@ Table of Contents
 4. [Internal Markdown Reference](#internal-markdown-reference)
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 
-Then we go into the main parts of the document, starting with an overview of the document, basically that describes what the doc is and why/how the doc is useful. this section should be marked with the magenta header named 'Overview' followed by an underline. images can be used through out to halp make things more clear.
+Then we go into the main parts of the document, starting with an overview of the document, basically that describes what the document is and why/how the document is useful. this section should be marked with the magenta header named 'Overview' followed by an underline. images can be used through out to halp make things more clear.
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
@@ -129,7 +130,7 @@ Images are used in a few different ways,
 
   If an image needs to be formated in the document, such as the logo on readme pages, then the html format is acceptable, but preferably avoided.
 
-  Web links can be written but surroding the text you want to link in brackets, followed by the link in parentasies. when linking to a header within the same document, the link can consist of just the poundsign followed by the header name, which is either specifically writtern, or just the header in lower case with '-' in place of ' '. when linking to another internal document, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another doc by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and isnt linked.
+  Web links can be written but surroding the text you want to link in brackets, followed by the link in parentasies. when linking to a header within the same document, the link can consist of just the poundsign followed by the header name, which is either specifically writtern, or just the header in lower case with '-' in place of ' '. when linking to another internal document, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another document by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and isnt linked.
 
 [readme_android](/docs/android/readme_android.md)
 
@@ -238,7 +239,7 @@ grids can be used to organise large groups of related data in multiple groups. w
 | alternates color | auto fills empty boxes -> |
 ```
 
-collapsed sections can be used to to hold relevant information that may otherwise be optional, similar inofrmation presented differnetly, conditoinally important information that might otherwise make the doc too long for for the average reader. notably, while a header can be put within a colapsed section, the results of linking to it wont open the section so visually fails for a reader. its recomended that a header be made before sections witha colapseable place. html formating is used to achieve this feature. its best to have a newline immedietly after the colapsing text.
+collapsed sections can be used to to hold relevant information that may otherwise be optional, similar inofrmation presented differnetly, conditoinally important information that might otherwise make the document too long for for the average reader. notably, while a header can be put within a colapsed section, the results of linking to it wont open the section so visually fails for a reader. its recomended that a header be made before sections witha colapseable place. html formating is used to achieve this feature. its best to have a newline immedietly after the colapsing text.
 
 #### Colapsed stuff:
 <details>
@@ -260,19 +261,19 @@ mermaid is the formatting we use for displaying flowcharts about the plugin. the
 
 notes are ocasionally desired to include in a document, they should be used for important edge cases, or reminder information, that would otherwise overbulk a document, but is still key info for the many people outside of the core usage path. it is denoted by the '>' character followed by the :heavy_exclamation_mark: emoji, the emoji should be spelled out, and not coped in as a caracter, for better rendering across markdown viewers. additionally the note should be indented to be in line with the line that the note is related to, to have quicker readability when a note is applicable to things like the last instruction of the set, or at the end of the set of instructions.
 
-> :heavy_exclamation_mark: there is another doc for code style
+> :heavy_exclamation_mark: there is another document for code style
 
 ```
-> :heavy_exclamation_mark: there is another doc for code style
+> :heavy_exclamation_mark: there is another document for code style
 ```
 
 grid notes are currently unused and need to be figured out how to use the effectively. they are a combination of notes and grids to make a more standout notice.
 
-| :heavy_exclamation_mark: We love doc contributions. |
+| :heavy_exclamation_mark: We love document contributions. |
 |-|
 
 ```
-| :heavy_exclamation_mark: We love doc contributions. |
+| :heavy_exclamation_mark: We love document contributions. |
 |-|
 ```
 
@@ -283,9 +284,9 @@ prereqs as a concept should be used to list all the needed info before starting 
 # <div align="center">$\textcolor{deeppink}{\textsf{Templates}}$</div> <a name="templates" />
 ---
 
-you can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. they are mainly blank space holders, so you can decide whats needed, be it a list, a ! notice, an image, or whatever. make sure to update the pink headers and table of contests if used as well. you can add and remove sections as needed, in the case of the readmes more reduction of sections than additions is expected, while the basic one is meant to  added to and removed from to whatever custom needs the particular doc will have.
+you can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. they are mainly blank space holders, so you can decide whats needed, be it a list, a ! notice, an image, or whatever. make sure to update the pink headers and table of contests if used as well. you can add and remove sections as needed, in the case of the readmes more reduction of sections than additions is expected, while the basic one is meant to  added to and removed from to whatever custom needs the particular document will have.
 With the readmes, since the main one holds most of the info, it is cuurently our prefernce to write additional readmes with changes and heavy link refences to the  original, as it cuts down on the amount of time and changes needed during updates.
-that prefernce includes external docs as well, which should heavily link to first party docs related to our prefernces, to keep that information as up to date as possible. such as having a link to unity's android setup steps, which we shouldnt need to rewrite, but also the link would be for the unity doc with our specific unity version, not just the newest document, as that may also be different for our targeted enviornment.
+that prefernce includes external docs as well, which should heavily link to first party docs related to our prefernces, to keep that information as up to date as possible. such as having a link to unity's android setup steps, which we shouldnt need to rewrite, but also the link would be for the unity document with our specific unity version, not just the newest document, as that may also be different for our targeted enviornment.
 
 [Basic Template](/docs/docs_on_docs/template_basic.md)
 
