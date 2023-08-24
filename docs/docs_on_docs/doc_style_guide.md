@@ -31,6 +31,8 @@ Please be aware that *not all Markdown engines work the same*. This style guide 
 # <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$</div> <a name="doc-header" />
 ---
 
+## Logo:
+
 Each document should start (before the document title) with the PlayEveryWare, Inc. logo, doubling as a link to the main README file for the project.
 
 Markdown:
@@ -42,6 +44,8 @@ What it looks like:
 
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
 
+## Document Title:
+
 Following the PlayEveryWare, Inc. logo should be the title of the document, centered in pink text. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to.
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
@@ -50,9 +54,11 @@ Markdown:
 # <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div> <a name="documentation-style-guide" />
 ```
 
+## Table of Contents:
+
 If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title. To create a table of contents link that points to a location internal to the document, use the value illustrated above in the header (in this case `doc-title`), prefaced with a pound symbol. 
 
-As an example, the following is the table of contents as it exists at the top of *this* document:
+As an example, the following is the markdown to create the table of contents as it exists at the top of *this* document:
 
 Markdown:
 ```markdown
@@ -65,40 +71,36 @@ Table of Contents
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 ```
 
-What it looks like:
-Table of Contents
-1. [Overview](#overview)
-2. [Getting Started](#getting-started)
-    * [Prerequisites](#prerequisites)
-3. [Templates](#templates)
-4. [Internal Markdown Reference](#internal-markdown-reference)
-5. [Source Code Contributor Notes](#source-code-contributor-notes)
+## Document Sections:
 
-Then we go into the main parts of the document, starting with an overview of the document, basically that describes what the document is and why/how the document is useful. this section should be marked with the magenta header named 'Overview' followed by an underline. images can be used through out to halp make things more clear.
+Each main section of the document should be denoted by the following markdown. Please note that it is important to have your first main section after the table of contents be an "Overview" section that gives the reader a summary of the purpose of the document.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
----
+Example markdown for creating a document section:
 
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Section Title}}$</div> <a name="section-title" />
 ---
 ```
+
+Note that the markdown used for the main sections of the document is the same as the markdown for the main document title, with the addition of a line beneath the text.
 
 Major sections should have headers to break up the important pieces of it, as an example, in the main readme, the getting started section includes sub headers Prerequisites, Importing the Plugin, Samples, Configuring the Plugin, and Disable on selected platforms, these are denoted by using a header with two pound signs, ##, and notably goes right into the text with no following break. these should be important enough to be linked in the table of contents under their main header, if a table of contents exists
 
-## Subheader
+## Document Subsections
+
+As it becomes appropriate, break down the document sections into subsections to break up the components of the section. Note for instance that this is itself a subsection. As an example, the mardown for the subsection title above this text is as follows:
 
 ```markdown
-## Subheader
+## Document Subsections
 ```
 
-For sections within the subheader that needed to be broken up in to major parts, such as how the samples section in the main readme includes the two major points Importing the samples, and Running the samples. these also use the double pound, ##, so that the stand out as important infor when skimming the document, but include a line break after the emphasize the importance and differentuate from the sub header.
-
-## Major Part of SubHeader
+## Document Sub Subsections:
 <br />
 
+Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header identical to the Subsection header (using two pound signs), with the addition of a line beneath it. As an example this text is beneath a sub-subsection, and the markdown for it is as follows:
+
 ```markdown
-## Major Part of Subheader
+## Document Sub Subsection:
 <br />
 ```
 
