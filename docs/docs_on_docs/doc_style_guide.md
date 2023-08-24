@@ -28,7 +28,9 @@ GitHub is the primary place where documentation for this project will be consume
 
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-```<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>```{:.html}
+```html
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+```
 
 then if its a readme file it should be followed by the project logo image, three new lines, and a line.
 
