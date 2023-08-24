@@ -86,7 +86,7 @@ Note that the markdown used for the main sections of the document is the same as
 
 Major sections should have headers to break up the important pieces of it, as an example, in the main readme, the getting started section includes sub headers Prerequisites, Importing the Plugin, Samples, Configuring the Plugin, and Disable on selected platforms, these are denoted by using a header with two pound signs, ##, and notably goes right into the text with no following break. these should be important enough to be linked in the table of contents under their main header, if a table of contents exists
 
-## Document Subsections
+## Document Subsections:
 
 As it becomes appropriate, break down the document sections into subsections to break up the components of the section. Note for instance that this is itself a subsection. As an example, the mardown for the subsection title above this text is as follows:
 
@@ -94,89 +94,86 @@ As it becomes appropriate, break down the document sections into subsections to 
 ## Document Subsections
 ```
 
-## Document Sub Subsections:
+### Document Sub Subsections:
 <br />
 
-Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header identical to the Subsection header (using two pound signs), with the addition of a line beneath it. As an example this text is beneath a sub-subsection, and the markdown for it is as follows:
+Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with three pound signs, and followed by a line-break. As an example, the markdown for _this_ sub subsection is as follows:
 
 ```markdown
-## Document Sub Subsection:
+### Document Sub Subsection:
 <br />
 ```
+
+In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. **Ideally most documents should have a maximum depth of 2**
 
 If you need to ephasize a portion of text, without needing a whole subsection or part of one, such as how the readme in the overview has parts for the plugin features, repo contents and plugin detalis, these arent substantial enough that we need to grab the attention of anyone skimming past the overview, but the are substantial enough for people skimming through the overview, and important enough that other places in docs may need to link to them, but not important enough to need a link from a table of contents. these areas are marked with four pound signs, ####, and the name ending with a collon, :.
 
-#### Important Content in a Text Portion:
-
 ```markdown
 #### Important Content in a Text Portion:
 ```
+
+## Images:
+
 Images are used in a few different ways,
-* projecting branding, such as the readme logo inclusion above
-* instructional refferences, like images of dropdown menus or hilighted parts of windows
-* introductory images, to make it clear or preview what what is being referenced in a section
-* centralized shared info across docs, in some case we dont want to link a bunch of docs to a common reference point that wont change offten, but when it does would be extra hassle to change in multiple docs. in these cases displaying an image and changing the image may be prefered.
+* Instructional references, like images of dropdown menus or hilighted parts of windows
+* Introductory images, to make it clear or preview what what is being referenced in a section
 
-  an image can be displayed with the web link format, prefacing with an exclimation mark. while the text is generally hidden we want it to be informative incasew the image doesnt load.
+An image can be displayed with the web link format, prefacing with an exclamation mark. While the text is generally hidden we want it to be informative incasew the image doesnt load.
 
-  ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
+Markdown example:
 
-  ```markdown
-  ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
-  ```
+```markdown
+![unity tools package manager](docs/images/unity_tools_package_manager.gif)
+```
 
-  If an image needs to be formated in the document, such as the logo on readme pages, then the html format is acceptable, but preferably avoided.
+What it looks like:
 
-  Web links can be written but surroding the text you want to link in brackets, followed by the link in parentasies. when linking to a header within the same document, the link can consist of just the poundsign followed by the header name, which is either specifically writtern, or just the header in lower case with '-' in place of ' '. when linking to another internal document, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another document by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and isnt linked.
+![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
+
+
+If an image needs to be formated in the document, such as the logo on readme pages, then the html format is acceptable, but preferably avoided.
+
+## Links:
+
+Web links can be written but surroding the text you want to link in brackets, followed by the link in parentasies. when linking to a header within the same document, the link can consist of just the poundsign followed by the header name, which is either specifically writtern, or just the header in lower case with '-' in place of ' '. when linking to another internal document, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another document by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and isnt linked.
 
 [readme_android](/docs/android/readme_android.md)
 
-  ```markdown
-  [readme_android](/docs/android/readme_android.md)
-  ```
+```markdown
+[readme_android](/docs/android/readme_android.md)
+```
   
 [readme prerequisites](/readme.md#prerequisites)
 
-  ```markdown
-  [readme prerequisites](/readme.md#prerequisites)
-  ```
+```markdown
+[readme prerequisites](/readme.md#prerequisites)
+```
   
 [android prerequisites](/docs/android/readme_android.md#prerequisites)
 
-  ```markdown
-  [android prerequisites](/docs/android/readme_android.md#prerequisites)
-  ```
-
-Codeblocks and other factual information is display by being surrounded on both sides with three accent characters, '```', this is used for same line code. sometimes it is required for the accents to be on seperate lines for it to readpropperly, this will also expland it to a full code block, instead of inline. when writing a full code black, you can add 'cs' to the end of the accents to higlight and format the block to c#.
-
 ```markdown
-i++;
+[android prerequisites](/docs/android/readme_android.md#prerequisites)
 ```
 
-```markdown
-```i++;```
-```
-and
-```cs
-++i;
-```
+## Codeblocks:
 
-<!---
-html format needed to be used to display the codeblack format, this HTML should realistically never be used.
--->
-<pre class="highlight"><code>
-```cs
-++i;
-```
-</code></pre>
+For inline code formatting, use single ticks (`\```). This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
-when writing inline instructions, such as menu navigation, it should use the inline code block, and consist of the action names seperated by a ' -> ' using the spaces.
+In order to display code blocks, put the code you wish to display between two lines containing only three ticks ('```'). For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown).
 
-to create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
+When writing inline instructions, such as menu navigation, it should use the inline code block, and consist of the action names seperated by a ' -> ' (spaces included).
+
+Example markdown:
 
 ```markdown
 to create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
 ```
+
+What it looks like:
+
+To create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
+
+## Lists:
 
 bullet points can be used when listing important information that has no particular order and created by adding '*' at the front of the line. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
 
@@ -184,36 +181,26 @@ bullet points can be used when listing important information that has no particu
 * something
 * something else
 
+
+
+Ordered lists (such as a set of steps to perform in a particular order) should always be numbered, whereas lists that merely enumerate a set of options or items should be bulletted. 
+While numbers should be used when for an ordered list, such as instructions, using numbers for a regular list or a list that does not specifically attach each line to a specific number. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
+
+Markdown for creating an unordered list:
+
 ```markdown
 #### Things:
 * something
 * something else
 ```
 
-while numbers should be used when for an ordered list, such as instructions, using numbers for a regular list or a list that does not specifically attach each line to a specific number. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
-
-#### How to Use EOS:
-1. try the samples
-2. integrate into your own game
-3. let even more people play your game.
-
-or
-#### Leaderboard:
-1. BurntPotato
-2. xxx_wyld_xxx
-3. Grant
+Markdown for creating an ordered list:
 
 ```markdown
 #### How to Use EOS:
 1. try the samples
 2. integrate into your own game
 3. let even more people play your game.
-
-or
-#### Leaderboard:
-1. BurntPotato
-2. xxx_wyld_xxx
-3. Grant
 ```
 
 it is okay to have sections and subsections that entierly point to another document sometimes information is so big it needs its own document, while still being important enough thatwe should point out its existence explicitly in a more important document, such as many docs having an FAQ header.
