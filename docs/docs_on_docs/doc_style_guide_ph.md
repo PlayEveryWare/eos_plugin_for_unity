@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="15%"/></a>
+<a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
 
 # $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</p> <a name="documentation-style-guide" />
 
@@ -16,11 +16,18 @@ The purpose of this document is to describe a standard which all other documents
 
 While this document does give examples for some of the most frequently utilized components of markdown, the intent is to describe *how* those components should be utilized in this project, not necessarily how to *implement* them.
 
+As with most things in life, this document serves as a guide, not a rulebook. For the most part it should be strictly followed, but a reasonable amount of deviation is permissable so long as the goal of proper communication is accomplished.
+
 # $\textcolor{deeppink}{\textsf{Quick Documentation Rules}}$ <a name="quick-documentation-rules" />
 
-* No document section should have within it only one subsection. This is a waste of space and time. Instead, rewrite the section title.
-* No document should have a section depth of greater than 2. If a document requires a depth of 3 or more, it should be broken into discrete markdown files.
-* Peer review. Just like all other changes to a code base, documentation changes should be peer-reviewed to ensure clarity and catch any grammatical or spelling errors.
+**No document section should have within it only one subsection.**
+This is a waste of space and time. Instead, rewrite the section title.
+
+**No document should have a section depth of greater than 3.**
+If a document requires a depth of 4 or more, it should be broken into discrete markdown files.
+
+**Peer review.**
+Peer review. Just like all other changes to a code base, documentation changes should be peer-reviewed to ensure clarity and catch any grammatical or spelling errors.
 
 # $\textcolor{deeppink}{\textsf{Getting Started}}$ <a name="getting-started" />
 
@@ -40,16 +47,16 @@ Each document should start (before the document title) with the PlayEveryWare, I
 
 Markdown:
 ```markdown
-<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="15%"/></a>
+<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 ```
 
 What it looks like:
 
-<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="15%"/></a>
+<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
 ## Document Title:
 
-Following the PlayEveryWare, Inc. logo should be the title of the document, centered in pink text. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to.
+Following the PlayEveryWare, Inc. logo should be the title of the document in pink text. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
@@ -59,7 +66,7 @@ Markdown:
 
 ## Table of Contents:
 
-If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title. To create a table of contents link that points to a location internal to the document, use the value illustrated above in the header (in this case `doc-title`), prefaced with a pound symbol. 
+If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title. To create a table of contents link that points to a location internal to the document, make use of the link that should be added to each section as described in the preceding section ["Document Title"](#documentation-style-guide).
 
 As an example, the following is the markdown to create the table of contents as it exists at the top of *this* document:
 
@@ -74,6 +81,8 @@ Table of Contents
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 ```
 
+To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
+
 # $\textcolor{deeppink}{\textsf{Document Body}}$ <a name="document-body" />
 
 ## Document Sections:
@@ -83,7 +92,7 @@ Each main section of the document should be denoted by the following markdown. P
 Example markdown for creating a document section:
 
 ```markdown
-# $\textcolor{deeppink}{\textsf{Section Title}}$ <a name="section-title" />
+## $\textcolor{deeppink}{\textsf{Section Title}}$ <a name="section-title" />
 ```
 
 Note that the markdown used for the main sections of the document is the same as the markdown for the main document title, with the addition of a line beneath the text.
