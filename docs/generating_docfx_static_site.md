@@ -10,7 +10,7 @@
 ## Installing docfx
 
 One way to install it is with Chocolatey:
-```
+```powershell
 choco install docfx
 ```
 

@@ -5,4 +5,5 @@ This demo showcases the store interface through a faux store.
 - ``Query Offers`` refreshes the available items in the shop.
 
 
-❗ More documentation on the store can be found [here](https://dev.epicgames.com/docs/epic-games-store/services/ecom/ecom-overview).
+> [!INFO]
+> More documentation on the store can be found [here](https://dev.epicgames.com/docs/epic-games-store/services/ecom/ecom-overview).

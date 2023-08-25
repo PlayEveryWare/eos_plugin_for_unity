@@ -8,8 +8,12 @@ This demo showcases the Peer 2 Peer interface working with Unity's netcode. This
 
 ![P2P Netcode](../images/eos_sdk_p2p_netcode.png)
 
-❗ The P2P Netcode Sample Scene is included in the `Extra Pack 1` sample pack.  
-❗ Upon import, the `com.unity.netcode.gameobjects` package that this scene requires will be automatically installed. You will still need to <a href="/readme.md#importing-the-samples">add it in the build settings</a>.  
+> [!INFO]
+> The P2P Netcode Sample Scene is included in the `Extra Pack 1` sample pack.  
 
-❗ More documentation on the P2P interface can be found [here](https://dev.epicgames.com/docs/game-services/p-2-p).
+> [!IMPORTANT] 
+> Upon import, the `com.unity.netcode.gameobjects` package that this scene requires will be automatically installed. You will still need to <a href="/readme.md#importing-the-samples">add it in the build settings</a>.  
+
+> [!INFO]
+> More documentation on the P2P interface can be found [here](https://dev.epicgames.com/docs/game-services/p-2-p).
 

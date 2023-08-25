@@ -9,4 +9,5 @@ This demo showcases the custom invite functionality allowing for messaging with 
 ![Custom Invite](../images/eos_sdk_custom_invites.png)
 
 
-❗ More documentation on the Custom Invites interface can be found [here](https://dev.epicgames.com/docs/game-services/custom-invites-interface).
+> [!INFO]
+> More documentation on the Custom Invites interface can be found [here](https://dev.epicgames.com/docs/game-services/custom-invites-interface).

@@ -28,4 +28,5 @@ To make testing easier, one could manually unlock or reset an user's achievement
 *Go to `[Targeted Game] > Game Services > Stats` instead, the remaining steps are similar*
 
 
-❗ More information on the Achievement interface can be found [here](https://dev.epicgames.com/docs/game-services/achievements).
+> [!INFO]
+> More information on the Achievement interface can be found [here](https://dev.epicgames.com/docs/game-services/achievements).

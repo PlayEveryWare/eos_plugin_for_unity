@@ -21,7 +21,6 @@ Table of Contents
     * [Instructions](#instructions)
     * [Mermaid](#mermaid)
     * [Notices](#notices)
-    * [Notices, Grid](#notices-grid)
     * [Numbered Points](#numbered-points)
     * [Plugin Logo](#plugin-logo)
     * [Table of Contents](#table-of-contents)
@@ -31,7 +30,7 @@ Table of Contents
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 
-It is expected that you use these features as they fit winthin the style guide.
+It is expected that you use these features as they fit within the style guide.
 You can use this doc as a quick copy and paste reference for many of our markdown usages.
 These are intended to be used with GitHub as the main way to read them, if you need to confirm how it looks visually.
 
@@ -44,7 +43,7 @@ More info on Markdown can be found [here](https://www.markdownguide.org/).
 # <div align="center">$\textcolor{deeppink}{\textsf{Cookbook}}$</div> <a name="cookbook" />
 ---
 
-An alphabetical list of our prefered Markdown syntax.
+An alphabetical list of our preferred Markdown syntax.
 
 <br />
 
@@ -62,15 +61,6 @@ An alphabetical list of our prefered Markdown syntax.
 ## Code, Block
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#code-block)
-<!---
-html format needed to be used to display the codeblack format, this HTML should realistically never be used.
--->
-<pre class="highlight"><code>
-```cs
-++i;
-```
-</code></pre>
-
 <br />
 
 ## Code, Inline
@@ -86,7 +76,7 @@ html format needed to be used to display the codeblack format, this HTML should 
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#collapsed-sections)
 ```markdown
-#### Colapsed stuff:
+#### Collapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
 <br />
@@ -100,7 +90,7 @@ Surprise!
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#grids)
 ```markdown
-| First | Second | Add mmore boxes to the right for more columns |
+| First | Second | Add more boxes to the right for more columns |
 | - | - | - |
 | stuff | | <- left blank |
 | another | something | add more boxes bellow for more rows |
@@ -188,25 +178,34 @@ To create a new c# script in unity navigate the menus through ```Assets -> Creat
 
 look at the [usage](/docs/docs_on_docs/doc_style_guide.md#mermaid) for more info.
 
-
 <br />
 
 ## Notices
 
-[usage](/docs/docs_on_docs/doc_style_guide.md#notices)
+Notices (or alerts) are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content.
+
+**An example of all three types:**
 ```markdown
-> :heavy_exclamation_mark: there is another doc for code style
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
+
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
 ```
 
-<br />
+*Here is how they are displayed:*
 
-## Notices, Grid
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
 
-[usage](/docs/docs_on_docs/doc_style_guide.md#notices-grid)
-```markdown
-| :heavy_exclamation_mark: We love doc contributions. |
-|-|
-```
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
 
 <br />
 

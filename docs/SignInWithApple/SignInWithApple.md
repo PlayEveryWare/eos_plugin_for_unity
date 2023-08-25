@@ -22,7 +22,7 @@ Adding the 'Sign in with Apple' capability into the Xcode project is needed.
 
 One way to do so is to mark the needed entitlements after the Xcode project is created, inside a function using the `[PostProcessBuild]` attribute.  
 
-Take EOS-Unity-Plugin as example, add this code block in `EOSOnPostProcessBuild.cs -> OnPostprocessBuild()`, and the `using AppleAuth.Editor`[^1] up front.
+Take EOS-Unity-Plugin as example, add this code block in `EOSOnPostProcessBuild.cs -> OnPostProcessBuild()`, and the `using AppleAuth.Editor`[^1] up front.
 
 ```
 #if UNITY_2019_3_OR_NEWER
@@ -38,7 +38,7 @@ Take EOS-Unity-Plugin as example, add this code block in `EOSOnPostProcessBuild.
 ```
 
 
-[^1]: The plugin includes assembly definition files AppleAuth.asmdef and AppleAuth.Editor.asmdef.  
+[^1]: The plugin includes assembly definition files `AppleAuth.asmdef` and `AppleAuth.Editor.asmdef`.  
 Remember to add them to Assembly Definitions Reference list when they're needed for the corresponding namespace to be recognized by C#. 
 (EOS-Unity-Plugin project needs these set for example).  
 ![Screen Shot 2023-02-17 at 2 46 47 PM](https://user-images.githubusercontent.com/36757173/219812051-f4482a35-7cac-4a18-bc22-29660fc8d32b.png)
@@ -50,7 +50,7 @@ Remember to add them to Assembly Definitions Reference list when they're needed 
 
 The automated method could be found [here](https://github.com/lupidan/apple-signin-unity/blob/master/docs/macOS_NOTES.md). 
 
-Here is an alternative that relys on creating an XCode project for the game, make a couple of configurations, then build from the xproject.
+Here is an alternative that relies on creating an XCode project for the game, make a couple of configurations, then build from the xproject.
 
 1. In Unity Build Settings, toggle on create xproject, then build.
 
@@ -71,7 +71,7 @@ Here is an alternative that relys on creating an XCode project for the game, mak
 Here is a sample script tested in EOS-Unity-Plugin, which is modified from the example Unity's Documents [here](https://docs.unity.com/authentication/en/manual/SettingupAppleSignin)
 
 
-```
+```CS
 using UnityEngine;
 using System.Text;
 
@@ -148,7 +148,7 @@ public class AppleExampleScript : MonoBehaviour
 
 Users can modify `LoginToApple()` and the parameter passed into it according individual project needs, such as what data gets passed along during callback.  
 
-Then simply call `LoginToApple()` to get the Apple ID login promt showing.  
+Then simply call `LoginToApple()` to get the Apple ID login prompt showing.  
 
 Remember to put `m_AppleAuthManager.Update()` in the game code's `Update()` for `m_AppleAuthManager.LoginWithAppleId()` to register its callback.  
 
@@ -158,7 +158,7 @@ Remember to put `m_AppleAuthManager.Update()` in the game code's `Update()` for 
  
 Here is an example test code in EOS-Unity-Plugin's `UILoginMenu.cs`, `ConnectAppleId()` gets called when pressing the login button with `Connect`, `AppleIDToken`.   
 
-```
+```CS
 private void ConnectAppleId()
 {
     appleLoginHelper = new AppleExampleScript();
@@ -169,4 +169,6 @@ private void ConnectAppleId()
     });
 }
 ```
-Visit the plugin [website](https://github.com/lupidan/apple-signin-unity) for more information 
+
+> [!INFO]
+> Visit the plugin [website](https://github.com/lupidan/apple-signin-unity) for more information. 

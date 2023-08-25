@@ -21,13 +21,13 @@ is used for making chages to the EOS JSON config file.
 
 ### UnityEditorSharedDictionary (Soft Deprecated)
 This is a visual studio solution that contains two projects, only one which is being used. The project being used,
-the NativeSharedDictonary, was created to work around a curious behaviour and design choice in Unity.
+the NativeSharedDictonary, was created to work around a curious behavior and design choice in Unity.
 
 When a DLL is loaded in the Unity editor, it is never unloaded. This is problematic for the EOS SDK because it assumes
 that SDK will only be initialized once, and will in-fact return an error if one tries to do so.
 
 To work around this behavior, I (Andrew Hirata) messed around with a few ways of holding on to an EOS handle that could 
-survive multiple play in editor, till I realised I could abuse the same system that was causing this issue. Namely, I could
+survive multiple play in editor, till I realized I could abuse the same system that was causing this issue. Namely, I could
 create another native DLL, unwrap the handle from a given EOS C# object, and store it in the aforementioned DLL, fetch it on
 next 'play', and recreate the C# Object. It's not the best solution, but it allows for mitigating the issue.
 

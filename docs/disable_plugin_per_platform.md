@@ -13,8 +13,8 @@
 
 ## Effects of EOS_DISABLE
 
-  - All scripts from the C# EOS SDK included in the EOS_SDK subdirectory of the plugin are disabled
-  - All scripts included in the EOS plugin samples are disabled except for `EOSHostManager`
-  - Build script functionality (any classes implementing `IPreprocessBuildWithReport` or the like) are disabled
-  - `EOSManager` remains a valid component but all of its functionality is disabled
-  - DLL loading still occurs for the time being
+  - All scripts from the C# EOS SDK included in the EOS_SDK subdirectory of the plugin are disabled.
+  - All scripts included in the EOS plugin samples are disabled except for `EOSHostManager`.
+  - Build script functionality (any classes implementing `IPreprocessBuildWithReport` or the like) are disabled.
+  - `EOSManager` remains a valid component but all of its functionality is disabled.
+  - DLL loading still occurs for the time being.
