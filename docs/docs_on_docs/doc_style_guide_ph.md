@@ -11,7 +11,7 @@ Table of Contents
 4. [Internal Markdown Reference](#internal-markdown-reference)
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name=="overview" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
 
 There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. Read more about that [here](readme-style.md)
 
@@ -21,7 +21,7 @@ While this document does give examples for some of the most frequently utilized 
 
 As with most things in life, this document serves as a guide, not a rulebook. For the most part it should be strictly followed, but a reasonable amount of deviation is permissable so long as the goal of proper communication is accomplished.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$ </div><a name=="getting-started" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$ </div><a name="getting-started" />
 
 GitHub is the primary place where documentation for this project will be consumed. Therefore be sure to write your documentation using [GFM (GitHub Flavored Markdown)](https://github.github.com/gfm/).  
 
@@ -31,7 +31,7 @@ You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b3
 
 Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$ </div><a name=="doc-header" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$ </div><a name="doc-header" />
 
 ## Logo:
 
@@ -78,7 +78,7 @@ Note that the `url` for an internal link is the value of the `name` attribute of
 
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Document Body}}$ </div><a name=="document-body" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Document Body}}$ </div><a name="document-body" />
 
 ## Document Sections:
 
@@ -91,7 +91,7 @@ The document section headers share the same format as the document title, but wi
 Example markdown for creating a document section:
 
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Section Title}}$ </div><a name=="section-title" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Section Title}}$ </div><a name="section-title" />
 ```
 
 > [!NOTE]
@@ -125,12 +125,12 @@ In most cases, if you are dividing a document into sub-subsections, it is a sign
 
 The difference between the different section depths is below, followed by the markdown that generates it:
 
-# $\textcolor{deeppink}{\textsf{Section}}$ </div><a name=="section" />
+# $\textcolor{deeppink}{\textsf{Section}}$ </div><a name="section" />
 ## Subsection
 ### Sub-Subsection
 
 ```markdown
-# $\textcolor{deeppink}{\textsf{Section}}$ </div><a name=="section" />
+# $\textcolor{deeppink}{\textsf{Section}}$ </div><a name="section" />
 ## Subsection
 ### Sub-Subsection
 ```
@@ -312,7 +312,7 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 > Critical content demanding immediate user attention due to potential risks.
 
 
-# $\textcolor{deeppink}{\textsf{Templates}}$ </div><a name=="templates" />
+# $\textcolor{deeppink}{\textsf{Templates}}$ </div><a name="templates" />
 
 You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
 
@@ -322,10 +322,10 @@ They are mainly blank space holders, so you can decide whats needed, be it a lis
 
 [ReadMe Template](/docs/docs_on_docs/template_readme.md)
 
-# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ </div><a name=="internal-markdown-reference" />
+# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ </div><a name="internal-markdown-reference" />
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
 
-# $\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$ </div><a name=="source-code-contributor-notes" />
+# $\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$ </div><a name="source-code-contributor-notes" />
 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
