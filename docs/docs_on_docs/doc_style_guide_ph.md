@@ -9,7 +9,7 @@
 <table>
 <thead>
 <tr>
-<th>foo</th>
+<th><div style="width:100%">foo</div></th>
 <th>bar</th>
 </tr>
 </thead>
