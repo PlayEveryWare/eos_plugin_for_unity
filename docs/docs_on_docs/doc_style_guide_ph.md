@@ -110,22 +110,22 @@ Example markdown for creating a document section:
 
 Document sections should be important enough to include in a table of contents, if one exists for the document.
 
-## Document Subsections:
+## Subsections:
 
 Subsections of a document allow for clear organization of thought within a section. As an example, in this document (yes, the one you are reading right now) the section "Document Body" has subsections "Document Sections", "Document Subsections", "Document Sub-Subsections", and "Section Summary".
 
 As it becomes appropriate, break down the document sections into subsections to break up the components of the section. Note for instance that this is itself a subsection. As an example, the markdown for the subsection title above this text is as follows:
 
 ```markdown
-## Document Subsections
+## Subsections
 ```
 
-## Document Sub-Subsections:
+## Sub-Subsections:
 
 Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with three pound signs, and followed by a line-break. As an example, the markdown for _this_ sub subsection is as follows:
 
 ```markdown
-### Document Sub Subsection:
+### Sub Subsection:
 ```
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
 
