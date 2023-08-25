@@ -10,5 +10,4 @@ This demo showcases the Player Data Storage interface. This allows games to stor
 
 ![Player Data Storage](../images/eos_sdk_player_data_storage.png)
 
-> [!INFO]
-> More documentation on the Player Data Storage interface can be found [here](https://dev.epicgames.com/docs/game-services/player-data-storage).
+❗ More documentation on the Player Data Storage interface can be found [here](https://dev.epicgames.com/docs/game-services/player-data-storage).

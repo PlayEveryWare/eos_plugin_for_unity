@@ -18,7 +18,7 @@ It depends on what one means by "Username".
 If one means a name that's displayable to the user, a.k.a. a display name, then the following 
 code should suffice, assuming one has already logged in:
 
-```cs
+```
     var userInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
     var userInfo = userInfoManager.GetLocalUserInfo();
 
@@ -43,7 +43,7 @@ A title can pass a custom device ID, but must be sure that the ID is unique to t
 For example, assuming `CoolMethodThatCreatesAUniqueDeviceID` is method that the title has written to generate
 a unique string that can identify the device:
 
-```cs
+```
     private void CreateCustomDeviceID()
     {
         var connectInterface = EOSManager.Instance.GetEOSConnectInterface();
@@ -90,7 +90,7 @@ The required exchange code could be retrieved with `GetCommandLineArgsFromEpicLa
 As a developer you will need to make/have an Epic Games account in order to interact with the [EOS Developer Portal](dev.epicgames/portal) and manage your product.
 
 ### As a player
-Players are given multiple login options, this changes from platform to platform, and different login methods provide different levels of functionality. Details of which login methods are supported by each platform are as follows, players can also link a number of different account types such as Google, Apple or Facebook accounts to create an Epic Games account:
+Players are given multiple login options, this changes from platform to platform, and different login methods provide different levels of functionality. Details of which login methods are supported by each platform are as follows, players can also link a number of different account types such as Google, Apple or Facebook accounts to createa an Epic Games account:
 ![LoginByType](images/login_type_by_platform.png)
 
 ## What is this error? 
@@ -102,19 +102,20 @@ Which mainly happens when adding the UPM `via git url`
 
 This could be fix by one of the following:   
 
-* Initialize git lfs on the package folder.
-* Add the UPM `via tarball` downloaded [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
+A. Initialize git lfs on the package folder  
+B. Add the UPM `via tarball` downloaded [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases) instead
 
 ### Why am I getting Overlay Errors?
-Overlay errors are most likely due to not having the overlay installed, this is done in two steps:
+Overlay errors are most likley due to not having the overlay installed, this is done in two steps:
  - The first is to simply have the [Epic Games Store](https://store.epicgames.com/) application installed.
- - The second is to run the `EOSBootstrapper.exe` that is generated with a build before running the application.
+ - The second is to run the ```EOSBootstrapper.exe``` that is generated with a build before running the application.
 
 ### Missing Native Libraries
 
 Some native functionality are required for platform specific needs.  
 
-To get these dependent libraries, use the platform library build tool in the plugin at `Tools -> Build Library -> [Target Platform]`
+To get these dependent libraries, use the platform library build tool in the plugin at `Tools > Build Library > [Target Platform]`
 
 Or to install the libraries manually,  
 go to the `NativeCode` folder, find the target platform, and *build the `.sln`* or *`run the makefile`* in the folder.
+

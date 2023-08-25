@@ -14,7 +14,7 @@
 
 Static linking packs libraries into the executable, whereas dynamic linking links the function symbols to the corresponding entry point in the dynamic libraries at runtime.
 
-The full expression of this setting is to determine how the EOS Library links *against the C++ Library*.  
+The full expression of this setting is to determine how the EOS Library links `against the C++ Library`.  
 
 If the game is using other libraries that also links to the C++ Library, the EOS Library should use the version that matches the linking type of the others, or else duplicate symbols would occur.  
 

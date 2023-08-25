@@ -22,8 +22,7 @@ The Debug log provides a filterable on screen debug output
 ## Scene selection
 The yellow dropdown in the top of the window allows the user to select which demo scene they would like to log into
 
-> [!WARNING]
-> There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and <a href="/readme.md#importing-the-samples">add them in the build settings</a>.
+❗ There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and <a href="/readme.md#importing-the-samples">add them in the build settings</a>.
 
 
 ## Login Page
@@ -75,5 +74,4 @@ The login options are as follows:
 - [Store](SceneWalkthrough\StoreWalkthrough.md)
 - [P2PNetcode](SceneWalkthrough\P2PNetcodeWalkthrough.md)
 
-> [!INFO]
-> More information on the EOS interfaces can be found [here](https://dev.epicgames.com/docs)
+❗ More information on the EOS interfaces can be found [here](https://dev.epicgames.com/docs)

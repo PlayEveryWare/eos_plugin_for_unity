@@ -16,14 +16,11 @@
 * The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
 * <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/android-sdksetup.html">Android environment setup</a> for Unity.
 * The Android Build Support <a href="https://docs.unity3d.com/hub/manual/AddModules.html">module</a>.
-    > [!INFO]
-    > You can <a href="https://www.openlogic.com/openjdk-downloads">install OpenJDK</a> externally so it is easier to set environment variables.
+    > :heavy_exclamation_mark: You can <a href="https://www.openlogic.com/openjdk-downloads">install OpenJDK</a> externally so it is easier to set environment variables.
     
-    > [!INFO]
-    > `Android Studio` or other official sites can be used to get the `SDK`,`NDK`, or `Gradle` as needed.
+    > :heavy_exclamation_mark: ```Android Studio``` or other official sites can be used to get the ```SDK```,```NDK```, or ```Gradle``` as needed.
     
-    > [!INFO]
-    > Remember have unity point to these changes `Edit -> Preferences -> External Tools`.
+    > :heavy_exclamation_mark: Remember have unity point to these changes ```Edit -> Preferences -> External Tools```.
 
 <br />
 
@@ -31,8 +28,7 @@
 
 
 You can follow the standard <a href="/readme.md#importing-the-plugin">Importing the Plugin</a> process. With a few changes here when <a href="#running-the-samples">running the samples</a> and <a href="#configuring-the-plugin">configuring the plugin</a>.
-> [!WARNING]
-> If you choose the tarball method, when downloading the release on mac it may convert the ```.tgz``` into a ```.tar``` which is not compatible with unity. Changing the file extension back to a ```.tgz``` should fix this.
+> :heavy_exclamation_mark: If you choose the tarball method, when downloading the release on mac it may convert the ```.tgz``` into a ```.tar``` which is not compatible with unity. Changing the file extension back to a ```.tgz``` should fix this.
 
 <br />
 
@@ -40,9 +36,8 @@ You can follow the standard <a href="/readme.md#importing-the-plugin">Importing 
 
 You can follow the standard <a href="/readme.md#samples">Samples</a> process.   
 Please note the details in the <a href="#running-the-samples">Running the samples</a> section when running the samples from a build for Android.  
-> [!WARNING]
-> The EOS Overlay is not implemented yet.   
-> When it is, due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
+> :heavy_exclamation_mark: The EOS Overlay is not implemented yet.   
+>  When it is, due to the limitations of phones, the EOS Overlay is not set to be openable by a physical button.
 
 <br />
 
@@ -70,8 +65,7 @@ You can follow the standard <a href="/readme.md#configuring-the-plugin">Configur
 
 2. Press ```Save All Changes```.
 
-      > [!IMPORTANT]
-      > This is required, even if you leave every field blank.  
+      > :heavy_exclamation_mark: This is required, even if you leave every field blank.  
 
 3. Update the <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/class-PlayerSettingsAndroid.html">Minimum API Level</a> to be at least ```Android 6.0 'Marshmallow' (API Level 23)```.
 

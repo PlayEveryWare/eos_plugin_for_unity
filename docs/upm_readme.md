@@ -90,12 +90,14 @@ The tarball is a tgz file, not the source download. If one uses the source downl
 the git-lfs files i.e. the binaries/dynamic libraries. 
 
 1. From the Unity Editor, open the Package Manager
-> [!NOTE]
-> It's listed under `Window -> Package Manager`.
-2. Click the `+` button.
-3. Select `Add package from tarball`.
-4. Go to directory containing the PEW Unity plugin tarball, and select it.
-5. Click `Open`.
+    * It's listed under ```Window -> Package Manager```
+2. Click the ```+``` button
+3. Select '```Add package from tarball```'
+
+    ![Unity Add Tarball Package](docs/images/unity_package_tarball.gif)
+
+4. Go to directory containing the PEW Unity plugin tarball, and select it
+5. Click ```Open```
 
 
 ---
