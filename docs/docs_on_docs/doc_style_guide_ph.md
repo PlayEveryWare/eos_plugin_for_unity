@@ -1,3 +1,9 @@
+<style>
+  table {
+    width: 100%;
+  }
+</style>
+
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 <table>
