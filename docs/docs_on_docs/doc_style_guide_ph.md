@@ -1,6 +1,6 @@
 <a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
 
-# $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$
+# <center>$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</center>
 ---
 
 Table of Contents
