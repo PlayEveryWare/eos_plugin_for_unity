@@ -104,13 +104,10 @@ Should a subsection of the document need to be further broken up into discrete s
 <br />
 ```
 
-In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. **Ideally most documents should have a maximum depth of 2**
+In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
 
-If you need to ephasize a portion of text, without needing a whole subsection or part of one, such as how the readme in the overview has parts for the plugin features, repo contents and plugin detalis, these arent substantial enough that we need to grab the attention of anyone skimming past the overview, but the are substantial enough for people skimming through the overview, and important enough that other places in docs may need to link to them, but not important enough to need a link from a table of contents. these areas are marked with four pound signs, ####, and the name ending with a collon, :.
-
-```markdown
-#### Important Content in a Text Portion:
-```
+**Warning**
+**Ideally most documents should have a maximum depth of 2**
 
 ## Images:
 
