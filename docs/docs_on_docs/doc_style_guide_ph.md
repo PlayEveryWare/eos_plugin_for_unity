@@ -13,10 +13,7 @@ Table of Contents
 
 # $\textcolor{deeppink}{\textsf{Overview}}$ <a name="overview" />
 
-
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
-
-<br />
 
 # $\textcolor{deeppink}{\textsf{Getting Started}}$ <a name="getting-started" />
 
@@ -212,7 +209,6 @@ Markdown for collapsing content:
 #### Collapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
-<br />
 Surprise!
 </details>
 ```
@@ -222,7 +218,6 @@ What it looks like:
 #### Collapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
-<br />
 Surprise!
 </details>
 
@@ -257,7 +252,6 @@ Banners (or alerts) are an extension of Markdown used to emphasize critical info
 > [!WARNING]
 > Critical content demanding immediate user attention due to potential risks.
 
-<br />
 
 # $\textcolor{deeppink}{\textsf{Templates}}$ <a name="templates" />
 
@@ -274,13 +268,9 @@ That preference includes external docs as well, which should heavily link to fir
 
 [ReadMe Template](/docs/docs_on_docs/template_readme.md)
 
-<br />
-
 # $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ <a name="internal-markdown-reference" />
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
-
-<br />
 
 # $\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$ <a name="source-code-contributor-notes" />
 
