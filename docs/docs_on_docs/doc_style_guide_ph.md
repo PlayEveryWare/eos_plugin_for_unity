@@ -1,12 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-<style type="text/css">
-# {color:deeppink}
-</style>
-
-# Test
-
-# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</p> <a name="documentation-style-guide" />
+# $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</p> <a name="documentation-style-guide" />
 
 
 Table of Contents
@@ -17,15 +11,14 @@ Table of Contents
 4. [Internal Markdown Reference](#internal-markdown-reference)
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 
-k
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+# $\textcolor{deeppink}{\textsf{Overview}}$ <a name="overview" />
 ---
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$</div> <a name="getting-started" />
+# $\textcolor{deeppink}{\textsf{Getting Started}}$ <a name="getting-started" />
 ---
 
 ## Prerequisites
@@ -36,7 +29,7 @@ Please be aware that *not all Markdown engines work the same*. This style guide 
 
 See [here](https://github.github.com/gfm/) for documentation on GitHub flavored markdown.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$</div> <a name="doc-header" />
+# $\textcolor{deeppink}{\textsf{Document Header}}$ <a name="doc-header" />
 ---
 
 ## Logo:
@@ -59,7 +52,7 @@ Following the PlayEveryWare, Inc. logo should be the title of the document, cent
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div> <a name="documentation-style-guide" />
+# $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$ <a name="documentation-style-guide" />
 ```
 
 ## Table of Contents:
@@ -86,7 +79,7 @@ Each main section of the document should be denoted by the following markdown. P
 Example markdown for creating a document section:
 
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Section Title}}$</div> <a name="section-title" />
+# $\textcolor{deeppink}{\textsf{Section Title}}$ <a name="section-title" />
 ---
 ```
 
@@ -271,7 +264,7 @@ Banners (or alerts) are an extension of Markdown used to emphasize critical info
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Templates}}$</div> <a name="templates" />
+# $\textcolor{deeppink}{\textsf{Templates}}$ <a name="templates" />
 ---
 
 You can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. 
@@ -289,14 +282,14 @@ That preference includes external docs as well, which should heavily link to fir
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$</div> <a name="internal-markdown-reference" />
+# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ <a name="internal-markdown-reference" />
 ---
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$</div> <a name="source-code-contributor-notes" />
+# $\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$ <a name="source-code-contributor-notes" />
 ---
 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
