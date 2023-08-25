@@ -88,7 +88,7 @@ Major sections should have headers to break up the important pieces of it, as an
 
 ## Document Subsections:
 
-As it becomes appropriate, break down the document sections into subsections to break up the components of the section. Note for instance that this is itself a subsection. As an example, the mardown for the subsection title above this text is as follows:
+As it becomes appropriate, break down the document sections into subsections to break up the components of the section. Note for instance that this is itself a subsection. As an example, the markdown for the subsection title above this text is as follows:
 
 ```markdown
 ## Document Subsections
@@ -112,10 +112,10 @@ In most cases, if you are dividing a document into sub-subsections, it is a sign
 ## Images:
 
 Images are used in a few different ways,
-* Instructional references, like images of dropdown menus or hilighted parts of windows.
+* Instructional references, like images of dropdown menus or highlighted parts of windows.
 * Introductory images, to make it clear or preview what what is being referenced in a section.
 
-An image can be displayed with the web link format, prefacing with an exclamation mark. While the text is generally hidden we want it to be informative incasew the image doesnt load.
+An image can be displayed with the web link format, prefacing with an exclamation mark. While the text is generally hidden we want it to be informative in case the image doesn't load.
 
 Markdown example:
 
@@ -127,19 +127,15 @@ What it looks like:
 
 ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
-
-If an image needs to be formated in the document, such as the logo on readme pages, then the html format is acceptable, but preferably avoided.
-
 ## Links:
 
-Web links can be written by surrounding the text you want to link in brackets, followed by the link in parenthesis. 
+Web links can be written by surrounding the text you want as the link text in brackets, followed by the URL in parentheses. 
+
 When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
 
-When linking to another document, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another document by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and is not part of the link.
+When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and is not part of the link.
 
 Example of linking to another document:
-
-[readme_android](/docs/android/readme_android.md)
 
 ```markdown
 [readme_android](/docs/android/readme_android.md)
@@ -157,7 +153,7 @@ For inline code formatting, use single ticks (\`\`\`). This is useful to highlig
 
 In order to display code blocks, put the code you wish to display between two lines containing only three ticks ('```'). For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown).
 
-When writing inline instructions, such as menu navigation, it should use the inline code block, and consist of the action names seperated by a ' -> ' (spaces included).
+When writing inline instructions, such as menu navigation, it should use the inline code block, and consist of the action names separated by a ' -> ' (spaces included).
 
 Example markdown:
 
@@ -171,8 +167,7 @@ To create a new c# script in unity navigate the menus through ```Assets -> Creat
 
 ## Lists:
 
-Ordered lists (such as a set of steps to perform in a particular order) should always be numbered, whereas lists that merely enumerate a set of options or items should be bulletted. 
-While numbers should be used when for an ordered list, such as instructions, using numbers for a regular list or a list that does not specifically attach each line to a specific number. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
+Ordered lists (such as a set of steps to perform in a particular order) should always be numbered, whereas lists that merely enumerate a set of options or items should be bulleted.
 
 Markdown for creating an unordered list:
 
@@ -196,7 +191,7 @@ Markdown for creating an ordered list:
 Often larger amounts of information need to be illustrated in the documentation. Information like this might be well suited to a table format. See the below example of markdown for an example of how to create a grid in markdown:
 
 ```markdown
-| First | Second | Add mmore boxes to the right for more columns |
+| First | Second | Add more boxes to the right for more columns |
 | - | - | - |
 | stuff | | <- left blank |
 | another | something | add more boxes bellow for more rows |
@@ -205,7 +200,7 @@ Often larger amounts of information need to be illustrated in the documentation.
 
 What it looks like:
 
-| First | Second | Add mmore boxes to the right for more columns |
+| First | Second | Add more boxes to the right for more columns |
 | - | - | - |
 | stuff | | <- left blank |
 | another | something | add more boxes bellow for more rows |
@@ -213,12 +208,12 @@ What it looks like:
 
 ## Collapsed Sections:
 
-collapsed sections can be used to to hold relevant information that may otherwise be optional, similar inofrmation presented differnetly, conditoinally important information that might otherwise make the document too long for for the average reader. notably, while a header can be put within a colapsed section, the results of linking to it wont open the section so visually fails for a reader. its recomended that a header be made before sections witha colapseable place. html formating is used to achieve this feature. its best to have a newline immedietly after the colapsing text.
+When there is a large amount of information that may or may not be immediately pertinent to the documentation, it is wise to include it in a collapsed section of the document, making it clear that the information exists, albeit in a collapsed manner. This helps avoid a situation where too much information of variable utility is displayed on the screen, while still making the information accessible if needed.
 
 Markdown for collapsing content:
 
 ```markdown
-#### Colapsed stuff:
+#### Collapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
 <br />
@@ -228,7 +223,7 @@ Surprise!
 
 What it looks like:
 
-#### Colapsed stuff:
+#### Collapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
 <br />
@@ -237,36 +232,48 @@ Surprise!
 
 ## Mermaid:
 
-mermaid is the formatting we use for displaying flowcharts about the plugin. these will likely be used similarly to regular images. You can find info and examples [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+Mermaid is the formatting we use for displaying flowcharts about the plugin. From the perspective of style guidelines, these flowcharts can be thought of as images, with the added functionality that they are interactive. [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
-notes are ocasionally desired to include in a document, they should be used for important edge cases, or reminder information, that would otherwise overbulk a document, but is still key info for the many people outside of the core usage path. it is denoted by the '>' character followed by the :heavy_exclamation_mark: emoji, the emoji should be spelled out, and not coped in as a caracter, for better rendering across markdown viewers. additionally the note should be indented to be in line with the line that the note is related to, to have quicker readability when a note is applicable to things like the last instruction of the set, or at the end of the set of instructions.
+## Banners:
 
-> :heavy_exclamation_mark: there is another document for code style
+Banners (or alerts) are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content.
 
-```
-> :heavy_exclamation_mark: there is another document for code style
-```
+**An example of all three types:**
+```markdown
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
 
-grid notes are currently unused and need to be figured out how to use the effectively. they are a combination of notes and grids to make a more standout notice.
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
 
-| :heavy_exclamation_mark: We love document contributions. |
-|-|
-
-```
-| :heavy_exclamation_mark: We love document contributions. |
-|-|
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
 ```
 
-prereqs as a concept should be used to list all the needed info before starting the project. include plenty of links, for instance to getting started docs for an engine, or to the download of the engine version.
+*Here is how they are displayed:*
+
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
+
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
 
 <br />
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Templates}}$</div> <a name="templates" />
 ---
 
-you can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. they are mainly blank space holders, so you can decide whats needed, be it a list, a ! notice, an image, or whatever. make sure to update the pink headers and table of contests if used as well. you can add and remove sections as needed, in the case of the readmes more reduction of sections than additions is expected, while the basic one is meant to  added to and removed from to whatever custom needs the particular document will have.
-With the readmes, since the main one holds most of the info, it is cuurently our prefernce to write additional readmes with changes and heavy link refences to the  original, as it cuts down on the amount of time and changes needed during updates.
-that prefernce includes external docs as well, which should heavily link to first party docs related to our prefernces, to keep that information as up to date as possible. such as having a link to unity's android setup steps, which we shouldnt need to rewrite, but also the link would be for the unity document with our specific unity version, not just the newest document, as that may also be different for our targeted enviornment.
+You can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. 
+
+They are mainly blank space holders, so you can decide whats needed, be it a list, a ! notice, an image, or whatever. 
+
+Make sure to update the pink headers and table of contests if used as well. you can add and remove sections as needed, in the case of the readmes more reduction of sections than additions is expected, while the basic one is meant to  added to and removed from to whatever custom needs the particular document will have.
+With the readmes, since the main one holds most of the info, it is currently our preference to write additional readmes with changes and heavy link references to the  original, as it cuts down on the amount of time and changes needed during updates.
+
+That preference includes external docs as well, which should heavily link to first party docs related to our preferences, to keep that information as up to date as possible. such as having a link to unity's android setup steps, which we shouldn't need to rewrite, but also the link would be for the unity document with our specific unity version, not just the newest document, as that may also be different for our targeted environment.
 
 [Basic Template](/docs/docs_on_docs/template_basic.md)
 
@@ -285,5 +292,3 @@ You can find our internal Markdown reference [here](/docs/docs_on_docs/md_refere
 ---
 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
-
-  
