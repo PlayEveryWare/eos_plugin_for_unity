@@ -282,7 +282,7 @@ That preference includes external docs as well, which should heavily link to fir
 
 <br />
 
-# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ <a name="internal-markdown-reference" />
+# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ 
 ---
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
