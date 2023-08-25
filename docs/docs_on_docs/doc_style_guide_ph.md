@@ -1,22 +1,10 @@
-<style>
-  table {
-    width: 100%;
-  }
-</style>
-
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 <table>
-<thead>
-<tr>
-<th><div style="width:100%">foo</div></th>
-<th>bar</th>
-</tr>
-</thead>
 <tbody>
 <tr>
-<td>baz</td>
-<td>bim</td>
+<td align="left">baz</td>
+<td alight="right">bim</td>
 </tr>
 </tbody>
 </table>
