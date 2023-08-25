@@ -90,7 +90,7 @@ The tarball is a tgz file, not the source download. If one uses the source downl
 the git-lfs files i.e. the binaries/dynamic libraries. 
 
 1. From the Unity Editor, open the Package Manager
-> [!INFO]
+> [!NOTE]
 > It's listed under `Window -> Package Manager`.
 2. Click the `+` button.
 3. Select `Add package from tarball`.
