@@ -23,15 +23,15 @@ As with most things in life, this document serves as a guide, not a rulebook. Fo
 
 * No document section should have within it only one subsection.
 
-   This is a waste of space and time. Instead, rewrite the section title.
+   _This is a waste of space and time. Instead, rewrite the section title._
 
 * No document should have a section depth of greater than 3
 
-   If a document requires a depth of 4 or more, it should be broken into discrete markdown files.
+   _If a document requires a depth of 4 or more, it should be broken into discrete markdown files._
 
 * Peer review.
 
-   Peer review. Just like all other changes to a code base, documentation changes should be peer-reviewed to ensure clarity and catch any grammatical or spelling errors.
+   _Just like all other changes to a code base, documentation changes should be peer-reviewed to ensure clarity and catch any grammatical or spelling errors._
 
 # $\textcolor{deeppink}{\textsf{Getting Started}}$ <a name="getting-started" />
 
