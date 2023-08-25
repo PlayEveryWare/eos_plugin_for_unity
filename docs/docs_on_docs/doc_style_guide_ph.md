@@ -11,7 +11,7 @@ Table of Contents
 4. [Internal Markdown Reference](#internal-markdown-reference)
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name=="overview" />
 
 There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. Read more about that [here](readme-style.md)
 
@@ -21,21 +21,7 @@ While this document does give examples for some of the most frequently utilized 
 
 As with most things in life, this document serves as a guide, not a rulebook. For the most part it should be strictly followed, but a reasonable amount of deviation is permissable so long as the goal of proper communication is accomplished.
 
-# $\textcolor{deeppink}{\textsf{Quick Documentation Rules}}$ <a name="quick-documentation-rules" />
-
-* No document section should have within it only one subsection.
-
-   _This is a waste of space and time. Instead, rewrite the section title._
-
-* No document should have a section depth of greater than 3
-
-   _If a document requires a depth of 4 or more, it should be broken into discrete markdown files._
-
-* Peer review.
-
-   _Just like all other changes to a code base, documentation changes should be peer-reviewed to ensure clarity and catch any grammatical or spelling errors._
-
-# $\textcolor{deeppink}{\textsf{Getting Started}}$ <a name="getting-started" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$ </div><a name=="getting-started" />
 
 GitHub is the primary place where documentation for this project will be consumed. Therefore be sure to write your documentation using [GFM (GitHub Flavored Markdown)](https://github.github.com/gfm/).  
 
@@ -45,7 +31,7 @@ You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b3
 
 Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
-# $\textcolor{deeppink}{\textsf{Document Header}}$ <a name="doc-header" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$ </div><a name=="doc-header" />
 
 ## Logo:
 
@@ -67,7 +53,7 @@ Following the PlayEveryWare, Inc. logo should be the title of the document in pi
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
 ```markdown
-# $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$
+# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$
 ---
 ```
 
@@ -92,7 +78,7 @@ Note that the `url` for an internal link is the value of the `name` attribute of
 
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
-# $\textcolor{deeppink}{\textsf{Document Body}}$ <a name="document-body" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Document Body}}$ </div><a name=="document-body" />
 
 ## Document Sections:
 
@@ -105,7 +91,7 @@ The document section headers share the same format as the document title, but wi
 Example markdown for creating a document section:
 
 ```markdown
-# $\textcolor{deeppink}{\textsf{Section Title}}$ <a name="section-title" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Section Title}}$ </div><a name=="section-title" />
 ```
 
 > [!NOTE]
@@ -129,20 +115,22 @@ Should a subsection of the document need to be further broken up into discrete s
 ### Sub Subsection:
 ```
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
+> [!IMPORTANT]
+> No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
 
 > [!IMPORTANT] 
-> Ideally documents should only ever have a maximum depth of 2.
+> Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
 
 ## Section Summary:
 
 The difference between the different section depths is below, followed by the markdown that generates it:
 
-# $\textcolor{deeppink}{\textsf{Section}}$ <a name="section" />
+# $\textcolor{deeppink}{\textsf{Section}}$ </div><a name=="section" />
 ## Subsection
 ### Sub-Subsection
 
 ```markdown
-# $\textcolor{deeppink}{\textsf{Section}}$ <a name="section" />
+# $\textcolor{deeppink}{\textsf{Section}}$ </div><a name=="section" />
 ## Subsection
 ### Sub-Subsection
 ```
@@ -324,7 +312,7 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 > Critical content demanding immediate user attention due to potential risks.
 
 
-# $\textcolor{deeppink}{\textsf{Templates}}$ <a name="templates" />
+# $\textcolor{deeppink}{\textsf{Templates}}$ </div><a name=="templates" />
 
 You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
 
@@ -334,10 +322,10 @@ They are mainly blank space holders, so you can decide whats needed, be it a lis
 
 [ReadMe Template](/docs/docs_on_docs/template_readme.md)
 
-# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ <a name="internal-markdown-reference" />
+# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ </div><a name=="internal-markdown-reference" />
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
 
-# $\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$ <a name="source-code-contributor-notes" />
+# $\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$ </div><a name=="source-code-contributor-notes" />
 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
