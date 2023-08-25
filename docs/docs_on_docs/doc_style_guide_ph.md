@@ -13,6 +13,8 @@ Table of Contents
 
 # $\textcolor{deeppink}{\textsf{Overview}}$ <a name="overview" />
 
+There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. Read more about that [here](readme-style.md)
+
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
 While this document does give examples for some of the most frequently utilized components of markdown, the intent is to describe *how* those components should be utilized in this project, not necessarily how to *implement* them.
@@ -127,7 +129,8 @@ Should a subsection of the document need to be further broken up into discrete s
 ```
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
 
->[!WARNING] Ideally documents should only ever have a maximum depth of 2.
+> [!IMPORTANT] 
+> Ideally documents should only ever have a maximum depth of 2.
 
 ## Section Summary:
 
@@ -161,7 +164,8 @@ What it looks like:
 
 ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
-> [!WARNING] Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other.
+> [!IMPORTANT] 
+> Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other.
 
 ## Links:
 
@@ -183,25 +187,38 @@ Example of linking to a specific section of another document:
 [android prerequisites](/docs/android/readme_android.md#prerequisites)
 ```
 
-Periodically, a script should be run against all the documentation to check that all of the links are still valid. It's important to make sure links do not become stale or broken. Because of this, external links should be used sparingly.
+> [!IMPORTANT]
+> Periodically, a script should be run against all the documentation to check that all of the links are still valid. It's important to make sure links do not become stale or broken. Because of this, external links should be used sparingly.
 
-## Codeblocks:
+## Code:
 
+### Block
 For inline code formatting, use single ticks `\``. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
 In order to display code blocks, put the code you wish to display between two lines containing only three ticks ('```'). For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown). See [here](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) for a list of all the languages that GitHub Flavored Markdown supports.
 
-When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ' -> ' (spaces included for increased legibility).
+> [!IMPORTANT]
+> When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would require horizontal scrolling. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
+
+### Inline
+
+When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ' -> ' (spaces included for increased legibility). Inline code blocks are also appropriate to use when in normal text you are referencing a variable.
 
 Example markdown:
 
 ```markdown
-to create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
+To create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
+```
+
+```markdown
+The variable `foo` is much better than the variable `bar`.
 ```
 
 What it looks like:
 
 To create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
+
+The variable `foo` is much better than the variable `bar`.
 
 ## Lists:
 
@@ -244,7 +261,8 @@ What it looks like:
 | another | something | add more boxes bellow for more rows |
 | alternates color | auto fills empty boxes -> |
 
-> [!WARNING] Use tables only when the values within the table are linear, that is, each row of the table should pertain to one item, and all other rows should pertain to items of the same type.
+> [!WARNING] 
+> Use tables only when the values within the table are linear, that is, each row of the table should pertain to one item, and all other rows should pertain to items of the same type.
 
 ## Collapsed Sections:
 
@@ -268,7 +286,8 @@ What it looks like:
 Surprise!
 </details>
 
-> [!WARNING] Because collapsed sections are easy to overlook, use them sparingly. Instead of collapsing some amount of the document, it may be more wise to break up the content into discrete files.
+> [!WARNING] 
+> Because collapsed sections are easy to overlook, use them sparingly. Instead of collapsing some amount of the document, it may be more wise to break up the content into discrete files.
 
 ## Mermaid:
 
