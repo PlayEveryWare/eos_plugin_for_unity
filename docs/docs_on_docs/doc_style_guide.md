@@ -106,7 +106,7 @@ Should a subsection of the document need to be further broken up into discrete s
 
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
 
-**Warning**
+[!WARNING]
 **Ideally most documents should have a maximum depth of 2**
 
 ## Images:
