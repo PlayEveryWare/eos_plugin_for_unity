@@ -12,14 +12,13 @@ Table of Contents
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 
 # $\textcolor{deeppink}{\textsf{Overview}}$ <a name="overview" />
----
+
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
 <br />
 
 # $\textcolor{deeppink}{\textsf{Getting Started}}$ <a name="getting-started" />
----
 
 ## Prerequisites
 
@@ -30,7 +29,6 @@ Please be aware that *not all Markdown engines work the same*. This style guide 
 See [here](https://github.github.com/gfm/) for documentation on GitHub flavored markdown.
 
 # $\textcolor{deeppink}{\textsf{Document Header}}$ <a name="doc-header" />
----
 
 ## Logo:
 
@@ -80,7 +78,6 @@ Example markdown for creating a document section:
 
 ```markdown
 # $\textcolor{deeppink}{\textsf{Section Title}}$ <a name="section-title" />
----
 ```
 
 Note that the markdown used for the main sections of the document is the same as the markdown for the main document title, with the addition of a line beneath the text.
@@ -96,13 +93,11 @@ As it becomes appropriate, break down the document sections into subsections to 
 ```
 
 ### Document Sub Subsections:
-<br />
 
 Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with three pound signs, and followed by a line-break. As an example, the markdown for _this_ sub subsection is as follows:
 
 ```markdown
 ### Document Sub Subsection:
-<br />
 ```
 
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
@@ -265,7 +260,6 @@ Banners (or alerts) are an extension of Markdown used to emphasize critical info
 <br />
 
 # $\textcolor{deeppink}{\textsf{Templates}}$ <a name="templates" />
----
 
 You can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. 
 
@@ -282,14 +276,12 @@ That preference includes external docs as well, which should heavily link to fir
 
 <br />
 
-# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ 
----
+# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ <a name="internal-markdown-reference" />
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
 
 <br />
 
 # $\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$ <a name="source-code-contributor-notes" />
----
 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
