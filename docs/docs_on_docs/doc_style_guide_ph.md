@@ -1,6 +1,22 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
+<table>
+<thead>
+<tr>
+<th>foo</th>
+<th>bar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>baz</td>
+<td>bim</td>
+</tr>
+</tbody>
+</table>
+
 # $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</p> <a name="documentation-style-guide" />
+
 
 
 Table of Contents
