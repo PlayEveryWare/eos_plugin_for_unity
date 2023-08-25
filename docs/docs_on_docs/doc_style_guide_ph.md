@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="15%"/></a>
 
 # $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</p> <a name="documentation-style-guide" />
 
@@ -14,7 +14,7 @@ Table of Contents
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
-While this document does give example to some of the most frequently utilized components of markdown, the intent is to describe *how* those components should be utilized in this project, not necessarily how to *implement* them.
+While this document does give examples for some of the most frequently utilized components of markdown, the intent is to describe *how* those components should be utilized in this project, not necessarily how to *implement* them.
 
 # $\textcolor{deeppink}{\textsf{Quick Documentation Rules}}$ <a name="quick-documentation-rules" />
 
@@ -24,13 +24,13 @@ While this document does give example to some of the most frequently utilized co
 
 # $\textcolor{deeppink}{\textsf{Getting Started}}$ <a name="getting-started" />
 
-## Prerequisites
-
 GitHub is the primary place where documentation for this project will be consumed. Therefore be sure to write your documentation using [GFM (GitHub Flavored Markdown)](https://github.github.com/gfm/).  
 
 Please be aware that *not all Markdown engines work the same*. This style guide considers the rendering of the GitHub markdown renderer to be the standard, so before submitting documentation please make sure it conforms to the style guide _as viewed through GitHub_.
 
 You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b32f8f7d900c34a7dc00766bcfb9c) to be helpful.
+
+Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
 # $\textcolor{deeppink}{\textsf{Document Header}}$ <a name="doc-header" />
 
@@ -40,12 +40,12 @@ Each document should start (before the document title) with the PlayEveryWare, I
 
 Markdown:
 ```markdown
-<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
+<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="15%"/></a>
 ```
 
 What it looks like:
 
-<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="50%"/></a>
+<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="15%"/></a>
 
 ## Document Title:
 
