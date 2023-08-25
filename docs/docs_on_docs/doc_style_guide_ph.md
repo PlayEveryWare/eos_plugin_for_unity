@@ -11,7 +11,7 @@ Table of Contents
 4. [Internal Markdown Reference](#internal-markdown-reference)
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 
-# $\textcolor{deeppink}{\textsf{Overview}}$ <a name="overview" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 
 There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. Read more about that [here](readme-style.md)
 
@@ -108,7 +108,8 @@ Example markdown for creating a document section:
 # $\textcolor{deeppink}{\textsf{Section Title}}$ <a name="section-title" />
 ```
 
-Document sections should be important enough to include in a table of contents, if one exists for the document.
+> [!NOTE]
+> Document sections should be important enough to include in a table of contents, if one exists for the document.
 
 ## Subsections:
 
@@ -175,13 +176,13 @@ When linking to a header within the same document, the link can consist of just 
 
 When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and is not part of the link.
 
-Example of linking to another document:
+Example markdown linking to another document:
 
 ```markdown
 [readme_android](/docs/android/readme_android.md)
 ```
 
-Example of linking to a specific section of another document:
+Example markdown linking to a specific section of another document:
 
 ```markdown
 [android prerequisites](/docs/android/readme_android.md#prerequisites)
@@ -193,16 +194,16 @@ Example of linking to a specific section of another document:
 ## Code:
 
 ### Block
-For inline code formatting, use single ticks `\``. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
+For inline code formatting, use single ticks. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
-In order to display code blocks, put the code you wish to display between two lines containing only three ticks ('```'). For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown). See [here](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) for a list of all the languages that GitHub Flavored Markdown supports.
+In order to display code blocks, put the code you wish to display between two lines containing only three ticks. For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown). See [here](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) for a list of all the languages that GitHub Flavored Markdown supports.
 
 > [!IMPORTANT]
-> When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would require horizontal scrolling. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
+> When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would normally require horizontal scrolling to fully view. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
 
 ### Inline
 
-When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ' -> ' (spaces included for increased legibility). Inline code blocks are also appropriate to use when in normal text you are referencing a variable.
+When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ` -> ` (spaces included for increased legibility). Inline code blocks are also appropriate to use when (in normal a normal sentence) you are referencing a variable.
 
 Example markdown:
 
