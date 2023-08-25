@@ -1,6 +1,7 @@
 <a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
 
-# $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</p> <a name="documentation-style-guide" />
+# $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$
+---
 
 Table of Contents
 1. [Overview](#overview)
@@ -56,17 +57,18 @@ What it looks like:
 
 ## Document Title:
 
-Following the PlayEveryWare, Inc. logo should be the title of the document in pink text. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
+Following the PlayEveryWare, Inc. logo should be the title of the document in pink text, followed immediately by a horizontal rule. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
 ```markdown
-# $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$ <a name="documentation-style-guide" />
+# $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$
+---
 ```
 
 ## Table of Contents:
 
-If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title. To create a table of contents link that points to a location internal to the document, make use of the link that should be added to each section as described in the preceding section ["Document Title"](#documentation-style-guide).
+If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title, and *precede* the overview section.
 
 As an example, the following is the markdown to create the table of contents as it exists at the top of *this* document:
 
@@ -81,25 +83,31 @@ Table of Contents
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 ```
 
+Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a pound sign.
+
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
-## $\textcolor{deeppink}{\textsf{Document Body}}$ <a name="document-body" />
+# $\textcolor{deeppink}{\textsf{Document Body}}$ <a name="document-body" />
 
 ## Document Sections:
 
-Each main section of the document should be denoted by the following markdown. Please note that it is important to have your first main section after the table of contents be an "Overview" section that gives the reader a summary of the purpose of the document.
+Document sections allow for clear organization of thought within a document.
+
+Each main section of the document should be denoted by the following markdown. Please note that it is important to have your first main section after the table of contents be an "Overview" section that gives the reader a summary of the purpose of the document. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to. 
+
+The document section headers share the same format as the document title, but without the horizontal bar.
 
 Example markdown for creating a document section:
 
 ```markdown
-## $\textcolor{deeppink}{\textsf{Section Title}}$ <a name="section-title" />
+# $\textcolor{deeppink}{\textsf{Section Title}}$ <a name="section-title" />
 ```
 
-Note that the markdown used for the main sections of the document is the same as the markdown for the main document title, with the addition of a line beneath the text.
-
-Major sections should have headers to break up the important pieces of it, as an example, in the main readme, the getting started section includes sub headers Prerequisites, Importing the Plugin, Samples, Configuring the Plugin, and Disable on selected platforms, these are denoted by using a header with two pound signs, ##, and notably goes right into the text with no following break. these should be important enough to be linked in the table of contents under their main header, if a table of contents exists
+Document sections should be important enough to include in a table of contents, if one exists for the document.
 
 ## Document Subsections:
+
+Subsections of a document allow for clear organization of thought within a section. As an example, in this document (yes, the one you are reading right now) the section "Document Body" has subsections "Document Sections", "Document Subsections", "Document Sub-Subsections", and "Section Summary".
 
 As it becomes appropriate, break down the document sections into subsections to break up the components of the section. Note for instance that this is itself a subsection. As an example, the markdown for the subsection title above this text is as follows:
 
@@ -107,22 +115,34 @@ As it becomes appropriate, break down the document sections into subsections to 
 ## Document Subsections
 ```
 
-### Document Sub Subsections:
+## Document Sub-Subsections:
 
 Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with three pound signs, and followed by a line-break. As an example, the markdown for _this_ sub subsection is as follows:
 
 ```markdown
 ### Document Sub Subsection:
 ```
-
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
 
->[!WARNING]
->**Ideally most documents should have a maximum depth of 2**
+>[!WARNING] Ideally documents should only ever have a maximum depth of 2.
+
+## Section Summary:
+
+The difference between the different section depths is below, followed by the markdown that generates it:
+
+# $\textcolor{deeppink}{\textsf{Section}}$ <a name="section" />
+## Subsection
+### Sub-Subsection
+
+```markdown
+# $\textcolor{deeppink}{\textsf{Section}}$ <a name="section" />
+## Subsection
+### Sub-Subsection
+```
 
 ## Images:
 
-Images are used in a few different ways,
+Images are to be utilized in specific circumstances:
 * Instructional references, like images of dropdown menus or highlighted parts of windows.
 * Introductory images, to make it clear or preview what what is being referenced in a section.
 
@@ -137,6 +157,8 @@ Markdown example:
 What it looks like:
 
 ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
+
+> [!WARNING] Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other.
 
 ## Links:
 
@@ -158,23 +180,25 @@ Example of linking to a specific section of another document:
 [android prerequisites](/docs/android/readme_android.md#prerequisites)
 ```
 
+Periodically, a script should be run against all the documentation to check that all of the links are still valid. It's important to make sure links do not become stale or broken. Because of this, external links should be used sparingly.
+
 ## Codeblocks:
 
-For inline code formatting, use single ticks (\`\`\`). This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
+For inline code formatting, use single ticks `\``. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
-In order to display code blocks, put the code you wish to display between two lines containing only three ticks ('```'). For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown).
+In order to display code blocks, put the code you wish to display between two lines containing only three ticks ('```'). For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown). See [here](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) for a list of all the languages that GitHub Flavored Markdown supports.
 
-When writing inline instructions, such as menu navigation, it should use the inline code block, and consist of the action names separated by a ' -> ' (spaces included).
+When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ' -> ' (spaces included for increased legibility).
 
 Example markdown:
 
 ```markdown
-to create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
+to create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
 ```
 
 What it looks like:
 
-To create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
+To create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
 
 ## Lists:
 
@@ -217,9 +241,11 @@ What it looks like:
 | another | something | add more boxes bellow for more rows |
 | alternates color | auto fills empty boxes -> |
 
+> [!WARNING] Use tables only when the values within the table are linear, that is, each row of the table should pertain to one item, and all other rows should pertain to items of the same type.
+
 ## Collapsed Sections:
 
-When there is a large amount of information that may or may not be immediately pertinent to the documentation, it is wise to include it in a collapsed section of the document, making it clear that the information exists, albeit in a collapsed manner. This helps avoid a situation where too much information of variable utility is displayed on the screen, while still making the information accessible if needed.
+When there is a large amount of information that may or may not be immediately pertinent to the documentation, it may be wise to include it in a collapsed section of the document, making it clear that the information exists, albeit in a collapsed manner. This helps avoid a situation where too much information of variable utility is displayed on the screen, while still making the information accessible if needed.
 
 Markdown for collapsing content:
 
@@ -239,13 +265,17 @@ What it looks like:
 Surprise!
 </details>
 
+> [!WARNING] Because collapsed sections are easy to overlook, use them sparingly. Instead of collapsing some amount of the document, it may be more wise to break up the content into discrete files.
+
 ## Mermaid:
 
 Mermaid is the formatting we use for displaying flowcharts about the plugin. From the perspective of style guidelines, these flowcharts can be thought of as images, with the added functionality that they are interactive. [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
-## Banners:
+## Alerts:
 
-Banners (or alerts) are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content.
+This section is a copy of [discussion](https://github.com/orgs/community/discussions/16925) of these features when they were first introduced to GFM.
+
+Alerts are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content. 
 
 **An example of all three types:**
 ```markdown
@@ -273,14 +303,9 @@ Banners (or alerts) are an extension of Markdown used to emphasize critical info
 
 # $\textcolor{deeppink}{\textsf{Templates}}$ <a name="templates" />
 
-You can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. 
+You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
 
-They are mainly blank space holders, so you can decide whats needed, be it a list, a ! notice, an image, or whatever. 
-
-Make sure to update the pink headers and table of contests if used as well. you can add and remove sections as needed, in the case of the readmes more reduction of sections than additions is expected, while the basic one is meant to  added to and removed from to whatever custom needs the particular document will have.
-With the readmes, since the main one holds most of the info, it is currently our preference to write additional readmes with changes and heavy link references to the  original, as it cuts down on the amount of time and changes needed during updates.
-
-That preference includes external docs as well, which should heavily link to first party docs related to our preferences, to keep that information as up to date as possible. such as having a link to unity's android setup steps, which we shouldn't need to rewrite, but also the link would be for the unity document with our specific unity version, not just the newest document, as that may also be different for our targeted environment.
+They are mainly blank space holders, so you can decide whats needed, be it a list, an alart, an image, or whatever. 
 
 [Basic Template](/docs/docs_on_docs/template_basic.md)
 
