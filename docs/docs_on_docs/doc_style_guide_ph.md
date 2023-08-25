@@ -83,7 +83,7 @@ Table of Contents
 
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
-# $\textcolor{deeppink}{\textsf{Document Body}}$ <a name="document-body" />
+## $\textcolor{deeppink}{\textsf{Document Body}}$ <a name="document-body" />
 
 ## Document Sections:
 
