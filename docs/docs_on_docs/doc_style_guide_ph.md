@@ -1,15 +1,16 @@
 <a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
 
-# <center>$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</center>
+# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div>
 ---
 
 Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
-    * [Prerequisites](#prerequisites)
-3. [Templates](#templates)
-4. [Internal Markdown Reference](#internal-markdown-reference)
-5. [Source Code Contributor Notes](#source-code-contributor-notes)
+3. [Document Header](#document-header)
+4. [Document Body](#document-body)
+5. [Templates](#templates)
+6. [Internal Markdown Reference](#internal-markdown-reference)
+7. [Source Code Contributor Notes](#source-code-contributor-notes)
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
 
@@ -31,7 +32,7 @@ You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b3
 
 Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$ </div><a name="doc-header" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$ </div><a name="document-header" />
 
 ## Logo:
 
@@ -310,7 +311,6 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 
 > [!WARNING]
 > Critical content demanding immediate user attention due to potential risks.
-
 
 # $\textcolor{deeppink}{\textsf{Templates}}$ </div><a name="templates" />
 
