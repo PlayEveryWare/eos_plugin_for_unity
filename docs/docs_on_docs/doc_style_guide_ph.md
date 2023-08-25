@@ -1,17 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-<table>
-<tbody>
-<tr>
-<td align="left">baz</td>
-<td alight="right">bim</td>
-</tr>
-</tbody>
-</table>
-
 # $\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</p> <a name="documentation-style-guide" />
-
-
 
 Table of Contents
 1. [Overview](#overview)
@@ -25,30 +14,38 @@ Table of Contents
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
+While this document does give example to some of the most frequently utilized components of markdown, the intent is to describe *how* those components should be utilized in this project, not necessarily how to *implement* them.
+
+# $\textcolor{deeppink}{\textsf{Quick Documentation Rules}}$ <a name="quick-documentation-rules" />
+
+* No document section should have within it only one subsection. This is a waste of space and time. Instead, rewrite the section title.
+* No document should have a section depth of greater than 2. If a document requires a depth of 3 or more, it should be broken into discrete markdown files.
+* Peer review. Just like all other changes to a code base, documentation changes should be peer-reviewed to ensure clarity and catch any grammatical or spelling errors.
+
 # $\textcolor{deeppink}{\textsf{Getting Started}}$ <a name="getting-started" />
 
 ## Prerequisites
 
-GitHub is the primary place where documentation for this project will be consumed. In order to contribute to documentation you must have access to GitHub, and (optionally) an offline markdown editor so you can see a visual representation of the document that you are writing. 
+GitHub is the primary place where documentation for this project will be consumed. Therefore be sure to write your documentation using [GFM (GitHub Flavored Markdown)](https://github.github.com/gfm/).  
 
 Please be aware that *not all Markdown engines work the same*. This style guide considers the rendering of the GitHub markdown renderer to be the standard, so before submitting documentation please make sure it conforms to the style guide _as viewed through GitHub_.
 
-See [here](https://github.github.com/gfm/) for documentation on GitHub flavored markdown.
+You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b32f8f7d900c34a7dc00766bcfb9c) to be helpful.
 
 # $\textcolor{deeppink}{\textsf{Document Header}}$ <a name="doc-header" />
 
 ## Logo:
 
-Each document should start (before the document title) with the PlayEveryWare, Inc. logo, doubling as a link to the main README file for the project.
+Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to [http://playeveryware.com](http://playeveryware.com).
 
 Markdown:
 ```markdown
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
+<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
 ```
 
 What it looks like:
 
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="5%"/></a>
+<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="50%"/></a>
 
 ## Document Title:
 
@@ -76,6 +73,8 @@ Table of Contents
 4. [Internal Markdown Reference](#internal-markdown-reference)
 5. [Source Code Contributor Notes](#source-code-contributor-notes)
 ```
+
+# $\textcolor{deeppink}{\textsf{Document Body}}$ <a name="document-body" />
 
 ## Document Sections:
 
@@ -251,7 +250,7 @@ Banners (or alerts) are an extension of Markdown used to emphasize critical info
 > Critical content demanding immediate user attention due to potential risks.
 ```
 
-*Here is how they are displayed:*
+**Here is how they are displayed:**
 
 > [!NOTE]
 > Highlights information that users should take into account, even when skimming.
