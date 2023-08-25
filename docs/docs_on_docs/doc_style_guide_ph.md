@@ -21,15 +21,15 @@ As with most things in life, this document serves as a guide, not a rulebook. Fo
 
 # $\textcolor{deeppink}{\textsf{Quick Documentation Rules}}$ <a name="quick-documentation-rules" />
 
-_No document section should have within it only one subsection._
+* _No document section should have within it only one subsection._
 
  This is a waste of space and time. Instead, rewrite the section title.
 
-_No document should have a section depth of greater than 3_
+* _No document should have a section depth of greater than 3_
 
  If a document requires a depth of 4 or more, it should be broken into discrete markdown files.
 
-_Peer review._
+* _Peer review._
 
  Peer review. Just like all other changes to a code base, documentation changes should be peer-reviewed to ensure clarity and catch any grammatical or spelling errors.
 
