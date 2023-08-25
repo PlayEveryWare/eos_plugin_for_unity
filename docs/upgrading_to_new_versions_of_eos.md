@@ -37,7 +37,7 @@ ${PROJECT_ROOT}/Assets/Plugins/${PLATFORM}/${ARCH}/
 Where:
 * `PROJECT_ROOT` is the location of the cloned project on Disk
 * `PLATFORM` is the Unity Platform (Windows, Linux, macOS, Consoles)
-* `ARCH` is the architecture (x64, x86, ETC.)
+* `ARCH` is the architecture (x64, x86, etc.)
 
 Additionally, the C# will have to be changed. Currently they are modified to support dynamic loading of the DLLs in the Editor to ensure seamless usage of the EOS SDK in the Unity editor. Sometimes, due to a change in how the EOS SDK initializes, native code will need to be updated and recompiled before a new plugin can be generated.
 
@@ -45,7 +45,7 @@ Additionally, the C# will have to be changed. Currently they are modified to sup
 These steps are for upgrading the EOS SDK as a maintainer of the repo.
 There is a tool that one can use install new versions of the SDK, located under
 
-'Tools -> Install EOS Zip'
+`Tools -> Install EOS Zip`
 
 It requires a JSON description file to direct it where to put the files in the zip,
 and a zip file that contains the SDK. The latest version of the SDK can be downloaded from
