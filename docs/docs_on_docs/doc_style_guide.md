@@ -112,8 +112,8 @@ In most cases, if you are dividing a document into sub-subsections, it is a sign
 ## Images:
 
 Images are used in a few different ways,
-* Instructional references, like images of dropdown menus or hilighted parts of windows
-* Introductory images, to make it clear or preview what what is being referenced in a section
+* Instructional references, like images of dropdown menus or hilighted parts of windows.
+* Introductory images, to make it clear or preview what what is being referenced in a section.
 
 An image can be displayed with the web link format, prefacing with an exclamation mark. While the text is generally hidden we want it to be informative incasew the image doesnt load.
 
@@ -132,21 +132,20 @@ If an image needs to be formated in the document, such as the logo on readme pag
 
 ## Links:
 
-Web links can be written but surroding the text you want to link in brackets, followed by the link in parentasies. when linking to a header within the same document, the link can consist of just the poundsign followed by the header name, which is either specifically writtern, or just the header in lower case with '-' in place of ' '. when linking to another internal document, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another document by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and isnt linked.
+Web links can be written by surrounding the text you want to link in brackets, followed by the link in parenthesis. 
+When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
+
+When linking to another document, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another document by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and is not part of the link.
+
+Example of linking to another document:
 
 [readme_android](/docs/android/readme_android.md)
 
 ```markdown
 [readme_android](/docs/android/readme_android.md)
 ```
-  
-[readme prerequisites](/readme.md#prerequisites)
 
-```markdown
-[readme prerequisites](/readme.md#prerequisites)
-```
-  
-[android prerequisites](/docs/android/readme_android.md#prerequisites)
+Example of linking to a specific section of another document:
 
 ```markdown
 [android prerequisites](/docs/android/readme_android.md#prerequisites)
@@ -154,7 +153,7 @@ Web links can be written but surroding the text you want to link in brackets, fo
 
 ## Codeblocks:
 
-For inline code formatting, use single ticks (`\```). This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
+For inline code formatting, use single ticks (\`\`\`). This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
 In order to display code blocks, put the code you wish to display between two lines containing only three ticks ('```'). For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown).
 
@@ -171,14 +170,6 @@ What it looks like:
 To create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
 
 ## Lists:
-
-bullet points can be used when listing important information that has no particular order and created by adding '*' at the front of the line. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
-
-#### Things:
-* something
-* something else
-
-
 
 Ordered lists (such as a set of steps to perform in a particular order) should always be numbered, whereas lists that merely enumerate a set of options or items should be bulletted. 
 While numbers should be used when for an ordered list, such as instructions, using numbers for a regular list or a list that does not specifically attach each line to a specific number. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
@@ -200,17 +191,9 @@ Markdown for creating an ordered list:
 3. let even more people play your game.
 ```
 
-it is okay to have sections and subsections that entierly point to another document sometimes information is so big it needs its own document, while still being important enough thatwe should point out its existence explicitly in a more important document, such as many docs having an FAQ header.
+## Grids:
 
-grids can be used to organise large groups of related data in multiple groups. whileoccasionally being used to display a large amount of data in a smaller space to reduce the length of a document. created using '|' and '-' across multiple lines, with the headers being the first line, '-' in the second, and the data in the following ones. youll want to use spaces between the bars for better formatting.
-
-
-| First | Second | Add mmore boxes to the right for more columns |
-| - | - | - |
-| stuff | | <- left blank |
-| another | something | add more boxes bellow for more rows |
-| alternates color | auto fills empty boxes -> |
-
+Often larger amounts of information need to be illustrated in the documentation. Information like this might be well suited to a table format. See the below example of markdown for an example of how to create a grid in markdown:
 
 ```markdown
 | First | Second | Add mmore boxes to the right for more columns |
@@ -219,15 +202,20 @@ grids can be used to organise large groups of related data in multiple groups. w
 | another | something | add more boxes bellow for more rows |
 | alternates color | auto fills empty boxes -> |
 ```
+
+What it looks like:
+
+| First | Second | Add mmore boxes to the right for more columns |
+| - | - | - |
+| stuff | | <- left blank |
+| another | something | add more boxes bellow for more rows |
+| alternates color | auto fills empty boxes -> |
+
+## Collapsed Sections:
 
 collapsed sections can be used to to hold relevant information that may otherwise be optional, similar inofrmation presented differnetly, conditoinally important information that might otherwise make the document too long for for the average reader. notably, while a header can be put within a colapsed section, the results of linking to it wont open the section so visually fails for a reader. its recomended that a header be made before sections witha colapseable place. html formating is used to achieve this feature. its best to have a newline immedietly after the colapsing text.
 
-#### Colapsed stuff:
-<details>
-  <summary><b>Find a surprise hidden here</b></summary>
-<br />
-Surprise!
-</details>
+Markdown for collapsing content:
 
 ```markdown
 #### Colapsed stuff:
@@ -237,6 +225,17 @@ Surprise!
 Surprise!
 </details>
 ```
+
+What it looks like:
+
+#### Colapsed stuff:
+<details>
+  <summary><b>Find a surprise hidden here</b></summary>
+<br />
+Surprise!
+</details>
+
+## Mermaid:
 
 mermaid is the formatting we use for displaying flowcharts about the plugin. these will likely be used similarly to regular images. You can find info and examples [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
