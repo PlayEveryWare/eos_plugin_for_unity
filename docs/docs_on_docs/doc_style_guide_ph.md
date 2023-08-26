@@ -117,11 +117,20 @@ Should a subsection of the document need to be further broken up into discrete s
 ### Sub Subsection:
 ```
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
-> &nbsp;&nbsp;&nbsp;&nbsp;[!IMPORTANT]
-> &nbsp;&nbsp;&nbsp;&nbsp;No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
+> [!IMPORTANT]
+> No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
 
-    > [!IMPORTANT] 
-    > Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
+> [!IMPORTANT] 
+> Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
+
+   > [!IMPORTANT]
+   > This is a test
+
+    > [!IMPORTANT]
+    > This is a test
+
+&nbsp;&nbsp;&nbsp;&nbsp;> [!IMPORTANT]
+&nbsp;&nbsp;&nbsp;&nbsp;> This is a test
 
 ## Section Summary:
 
