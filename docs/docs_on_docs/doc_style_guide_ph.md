@@ -14,7 +14,7 @@ Table of Contents
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
 
-There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. Read more about that [here](readme-style.md)
+There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. Read more about that [here](readme-style.md).
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
@@ -69,10 +69,11 @@ Markdown:
 Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
-    * [Prerequisites](#prerequisites)
-3. [Templates](#templates)
-4. [Internal Markdown Reference](#internal-markdown-reference)
-5. [Source Code Contributor Notes](#source-code-contributor-notes)
+3. [Document Header](#document-header)
+4. [Document Body](#document-body)
+5. [Templates](#templates)
+6. [Internal Markdown Reference](#internal-markdown-reference)
+7. [Source Code Contributor Notes](#source-code-contributor-notes)
 ```
 
 Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a pound sign.
