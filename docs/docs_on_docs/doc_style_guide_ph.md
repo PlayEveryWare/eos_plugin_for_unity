@@ -123,7 +123,7 @@ In most cases, if you are dividing a document into sub-subsections, it is a sign
 > [!IMPORTANT] 
 > Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
 
-This is a numbered thing
+> This is a numbered thing
 
    > [!IMPORTANT]
    > This is a test
