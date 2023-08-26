@@ -120,8 +120,8 @@ In most cases, if you are dividing a document into sub-subsections, it is a sign
 > &nbsp;&nbsp;&nbsp;&nbsp;[!IMPORTANT]
 > &nbsp;&nbsp;&nbsp;&nbsp;No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
 
-> [!IMPORTANT] 
-> Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
+    > [!IMPORTANT] 
+    > Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
 
 ## Section Summary:
 
