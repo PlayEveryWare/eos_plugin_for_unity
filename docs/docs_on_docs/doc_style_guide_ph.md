@@ -46,7 +46,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 | -: | :- |
 | Header | _Title, logo, table of contents, and overview (table of contents only as needed)_ |
 | Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
-|(Optional) "See also" | _This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
+| "See also" | _(Optional). This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
@@ -93,9 +93,10 @@ Table of Contents
     * [Sections](#sections)
     * [Subsections](#subsections)
     * [Sub-Subsections](#sub-subsections)
-5. [Templates](#templates)
-6. [Internal Markdown Reference](#internal-markdown-reference)
-7. [Source Code Contributor Notes](#source-code-contributor-notes)
+5. [See also]
+    * [Templates](#templates)
+    * [Internal Markdown Reference](#internal-markdown-reference)
+    * [Source Code Contributor Notes](#source-code-contributor-notes)
 ```
 
 Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a pound sign.
