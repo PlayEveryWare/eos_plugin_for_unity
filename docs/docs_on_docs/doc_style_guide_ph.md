@@ -6,11 +6,11 @@
 Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
-3. [Document Header](#header)
+3. [Header](#header)
     * [Logo](#logo)
     * [Title](#title)
     * [Table of Contents](#table-of-contents)
-4. [Document Body](#body)
+4. [Body](#body)
     * [Sections](#sections)
     * [Subsections](#subsections)
     * [Sub-Subsections](#sub-subsections)
@@ -37,6 +37,14 @@ Please be aware that *not all Markdown engines work the same*. This style guide 
 You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b32f8f7d900c34a7dc00766bcfb9c) to be helpful.
 
 Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
+
+# <div align="center">$\textcolor{deeppink}{\textsf{Structure}}$ </div><a name="structure" />
+
+Fundamentally (and very broadly speaking) every document should contain two or optionally three components:
+
+1. The document header _- Title, logo, table of contents, and overview (table of contents only as needed)
+2. The document body _- This should contain the meat of the document wherein each concept is appropriately boxed into sections._
+3. (Optional) A "see also" section. _- This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
