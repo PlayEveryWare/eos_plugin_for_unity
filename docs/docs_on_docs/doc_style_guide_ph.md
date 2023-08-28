@@ -43,6 +43,7 @@ Understanding how to use GFM should be considered a prerequisite to contributing
 Fundamentally (and very broadly speaking) every document should contain two or optionally three components:
 
 | Component | Description |
+| - | - |
 | Header | _Title, logo, table of contents, and overview (table of contents only as needed)_ |
 1. The document header 
 | Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
