@@ -17,7 +17,7 @@ Table of Contents
 5. [See also](#see-also)
     * [Templates](#templates)
     * [Internal Markdown Reference](#internal-markdown-reference)
-    * [Source Code Contributor Notes](#contributor-notes)
+    * [Contributor Notes](#contributor-notes)
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
 
@@ -51,7 +51,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
-## Logo:
+## $\textcolor{1b3663}{\textsf{Logo:}}$
 
 Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md), and with the width of the image set to 10%.
 
@@ -99,7 +99,7 @@ Table of Contents
 5. [See also](#see-also)
     * [Templates](#templates)
     * [Internal Markdown Reference](#internal-markdown-reference)
-    * [Source Code Contributor Notes](#contributor-notes)
+    * [Contributor Notes](#contributor-notes)
 ```
 
 Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a pound sign.
@@ -196,10 +196,12 @@ When linking to a header within the same document, the link can consist of just 
 When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and is not part of the link.
 
 Example markdown linking to a specific section within a document:
-
+  
 [Getting Started](#getting-started)
 
+```markdown
 Example markdown linking to another document:
+```
 
 ```markdown
 [readme_android](/docs/android/readme_android.md)
