@@ -3,7 +3,7 @@
 # <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div>
 ---
 
-Table of Contents
+## Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
 3. [Document Header](#header)
@@ -51,7 +51,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
-## $\textcolor{#2f5faf}{\textsf{Logo:}}$ <a name="logo">
+## Logo:
 
 Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md), and with the width of the image set to 10%.
 
@@ -66,7 +66,7 @@ What it looks like:
 
 <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
-## $\textcolor{#2f5faf}{\textsf{Title:}}$ <a name="title">
+## Title:
 
 Following the PlayEveryWare, Inc. logo should be the title of the document in pink text, followed immediately by a horizontal rule. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
 
@@ -77,7 +77,7 @@ Markdown:
 ---
 ```
 
-## $\textcolor{#2f5faf}{\textsf{Table of Contents:}}$ <a name="table-of-contents">
+## Table of Contents:
 
 If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title, and *precede* the "Overview" section.
 
@@ -85,7 +85,7 @@ As an example, the following is the markdown to create the table of contents as 
 
 Markdown:
 ```markdown
-Table of Contents
+## Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
 3. [Document Header](#header)
@@ -108,7 +108,7 @@ To see this in action, [this](#source-code-contributor-notes) is a link to the l
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Body}}$ </div><a name="body" />
 
-## $\textcolor{#2f5faf}{\textsf{Sections:}}$ <a name="sections">
+## Sections:
 
 Document sections allow for clear organization of thought within a document.
 
@@ -125,28 +125,28 @@ Example markdown for creating a document section:
 > [!NOTE]
 > Document sections should be important enough to include in a table of contents, if one exists for the document.
 
-## $\textcolor{#2f5faf}{\textsf{Subsections:}}$ <a name="subsections">
+## Subsections:
 
-Subsections of a document allow for clear organization of thought within a section. As an example, in this document (yes, the one you are reading right now) the section "Document Body" has subsections "Document Sections", "Document Subsections", "Document Sub-Subsections", and "Section Summary".
+Subsections of a document allow for clear organization of thought within a section. As an example, in this document (yes, the one you are reading right now) the section "Body" has subsections "Document Sections", "Document Subsections", "Document Sub-Subsections", and "Section Summary".
 
-As it becomes appropriate, break down the document sections into subsections to break up the components of the section. Note for instance that this is itself a subsection. As an example, the markdown for the subsection title above this text is as follows:
+As it becomes appropriate, further break down the document sections into subsections. Note for instance that this is itself a subsection. As an example, the markdown for the subsection title above this text is as follows:
 
 ```markdown
 ## Subsections
 ```
 
-## $\textcolor{#2f5faf}{\textsf{Sub-Subsections:}}$ <a name="sub-subsections">
+## Sub-Subsections:
 
-Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs (the distinction between subsection and sub-subsection is that the subsection is blue, and because of internal document linking requires the use of the `a` tag after it.)
+Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs, colored `#2f5faf` using the aforementioned LaTeX syntax, and with an `a` link added at the end to facilitate internal document linkages.
 
 For example:
 
 ```markdown
-## Sub Subsection:
+## $\textcolor{#2f5faf}{\textsf{Sub Subsection:}}}$ <a name="sub-subsection">
 ```
 
 > [!NOTE]
-> Just to be clear as possible - note that the "Sub-Subsection" is itself a _section_, **not** a _sub subsection_.
+> Just to be as clear as possible: note that the "Sub-Subsection" is itself a _sub section_, **not** a _**sub** subsection_.
 
 > [!IMPORTANT] 
 > Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
