@@ -185,7 +185,7 @@ What it looks like:
 > [!IMPORTANT] 
 > Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other. 
 > 
-> _One notable exception is a circumstance where a small amount of text is utilized as a frequently referenced item, and in that circumstance it's important to have the first occurrence of the information be in text format so it can be easily maintained.
+> _One notable exception is a circumstance where a small amount of text is utilized as a frequently referenced item, and in that circumstance it's important to have the first occurrence of the information be in text format so it can be easily maintained._
 
 ## Links:
 
@@ -194,6 +194,10 @@ Web links can be written by surrounding the text you want as the link text in br
 When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
 
 When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and is not part of the link.
+
+Example markdown linking to a specific section within a document:
+
+[Getting Started](#getting-started)
 
 Example markdown linking to another document:
 
