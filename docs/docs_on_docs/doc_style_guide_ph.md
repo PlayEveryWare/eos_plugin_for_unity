@@ -145,7 +145,7 @@ For example:
 ## Sub Subsection:
 ```
 
-> ![NOTE]
+> [!NOTE]
 > Just to be clear as possible - note that the "Sub-Subsection" is itself a _section_, **not** a _sub subsection_.
 
 > [!IMPORTANT] 
