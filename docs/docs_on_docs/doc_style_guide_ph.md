@@ -51,7 +51,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
-## $\textcolor{#1b3663}{\textsf{Logo:}}$
+## $\textcolor{#2f5faf}{\textsf{Logo:}}$
 
 Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md), and with the width of the image set to 10%.
 
