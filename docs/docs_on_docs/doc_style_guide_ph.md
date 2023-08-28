@@ -14,10 +14,10 @@ Table of Contents
     * [Sections](#sections)
     * [Subsections](#subsections)
     * [Sub-Subsections](#sub-subsections)
-5. [See also]
+5. [See also](#see-also)
     * [Templates](#templates)
     * [Internal Markdown Reference](#internal-markdown-reference)
-    * [Source Code Contributor Notes](#source-code-contributor-notes)
+    * [Source Code Contributor Notes](#contributor-notes)
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
 
@@ -96,10 +96,10 @@ Table of Contents
     * [Sections](#sections)
     * [Subsections](#subsections)
     * [Sub-Subsections](#sub-subsections)
-5. [See also]
+5. [See also](#see-also)
     * [Templates](#templates)
     * [Internal Markdown Reference](#internal-markdown-reference)
-    * [Source Code Contributor Notes](#source-code-contributor-notes)
+    * [Source Code Contributor Notes](#contributor-notes)
 ```
 
 Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a pound sign.
@@ -340,20 +340,22 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 > [!WARNING]
 > Critical content demanding immediate user attention due to potential risks.
 
-# $\textcolor{deeppink}{\textsf{Templates}}$ </div><a name="templates" />
+# <div align="center">$\textcolor{deeppink}{\textsf{See also}}$ </div><a name="see-also" />
+
+## Templates
 
 You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
 
-They are mainly blank space holders, so you can decide whats needed, be it a list, an alart, an image, or whatever. 
+They are mainly blank space holders, so you can decide whats needed, be it a list, an alert, an image, or whatever. 
 
 [Basic Template](/docs/docs_on_docs/template_basic.md)
 
 [ReadMe Template](/docs/docs_on_docs/template_readme.md)
 
-# $\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$ </div><a name="internal-markdown-reference" />
+## Internal Markdown reference
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
 
-# $\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$ </div><a name="source-code-contributor-notes" />
+## Contributor Notes
 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
