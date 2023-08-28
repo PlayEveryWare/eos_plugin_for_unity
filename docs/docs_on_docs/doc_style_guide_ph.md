@@ -6,17 +6,18 @@
 Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
-3. [Header](#header)
+3. [Document Header](#header)
     * [Logo](#logo)
     * [Title](#title)
     * [Table of Contents](#table-of-contents)
-4. [Body](#body)
+4. [Document Body](#body)
     * [Sections](#sections)
     * [Subsections](#subsections)
     * [Sub-Subsections](#sub-subsections)
-5. [Templates](#templates)
-6. [Internal Markdown Reference](#internal-markdown-reference)
-7. [Source Code Contributor Notes](#source-code-contributor-notes)
+5. [See also]
+    * [Templates](#templates)
+    * [Internal Markdown Reference](#internal-markdown-reference)
+    * [Source Code Contributor Notes](#source-code-contributor-notes)
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
 
@@ -56,7 +57,9 @@ Each document should start (before the document title) with the PlayEveryWare, I
 
 Markdown:
 ```markdown
-<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
+<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md">
+    <img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
+</a>
 ```
 
 What it looks like:
