@@ -38,13 +38,15 @@ You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b3
 
 Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Structure}}$ </div><a name="structure" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Organizational Structure}}$ </div><a name="structure" />
 
 Fundamentally (and very broadly speaking) every document should contain two or optionally three components:
 
-1. The document header _- Title, logo, table of contents, and overview (table of contents only as needed)
-2. The document body _- This should contain the meat of the document wherein each concept is appropriately boxed into sections._
-3. (Optional) A "see also" section. _- This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._
+| Component | Description |
+| Header | _Title, logo, table of contents, and overview (table of contents only as needed)_ |
+1. The document header 
+| Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
+|(Optional) "See also" | _This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
