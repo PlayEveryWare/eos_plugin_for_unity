@@ -183,7 +183,9 @@ What it looks like:
 ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
 > [!IMPORTANT] 
-> Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other.
+> Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other. 
+> 
+> _One notable exception is a circumstance where a small amount of text is utilized as a frequently referenced item, and in that circumstance it's important to have the first occurrence of the information be in text format so it can be easily maintained.
 
 ## Links:
 
@@ -305,7 +307,7 @@ Surprise!
 </details>
 
 > [!WARNING] 
-> Because collapsed sections are easy to overlook, use them sparingly. Instead of collapsing some amount of the document, it may be more wise to break up the content into discrete files.
+> Collapsed sections have a tendency to be overlooked by readers, so be cautions about what you choose to put within them, and in many cases it might be more effective to break up your documentation into more than one file.
 
 ## Mermaid:
 
@@ -313,9 +315,9 @@ Mermaid is the formatting we use for displaying flowcharts about the plugin. Fro
 
 ## Alerts:
 
-This section is a copy of [discussion](https://github.com/orgs/community/discussions/16925) of these features when they were first introduced to GFM.
+This section is a copy of [a discussion](https://github.com/orgs/community/discussions/16925) of these features when they were first introduced to GFM.
 
-Alerts are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content. 
+Alerts are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content. Use the "note" alert for important details that might escape observation if someone is skimming the document, use the "important" alert to describe things that _must_ or must _not_ be done in order to succeed in the documented task, and use the "warning" alert to highlight potential risks.
 
 **An example of all three types:**
 ```markdown
