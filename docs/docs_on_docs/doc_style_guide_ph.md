@@ -51,7 +51,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
-## $\textcolor{#2f5faf}{\textsf{Logo:}}$
+## $\textcolor{#2f5faf}{\textsf{Logo:}}$ <a name="logo">
 
 Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md), and with the width of the image set to 10%.
 
@@ -66,18 +66,18 @@ What it looks like:
 
 <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
-## Title:
+## $\textcolor{#2f5faf}{\textsf{Title:}}$ <a name="title">
 
 Following the PlayEveryWare, Inc. logo should be the title of the document in pink text, followed immediately by a horizontal rule. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$ </div> <a name="documentation-style-guide">
+# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$ </div> <a name="documentation-style-guide" >
 ---
 ```
 
-## Table of Contents:
+## $\textcolor{#2f5faf}{\textsf{Table of Contents:}}$ <a name="table-of-contents">
 
 If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title, and *precede* the "Overview" section.
 
