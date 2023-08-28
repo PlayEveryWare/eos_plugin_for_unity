@@ -80,8 +80,7 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 
     ![Unity Add Git Package](images/unity_package_git.gif)
 
-6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```
-   or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```.
+6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```.
 
 
 ## Installing from a tarball
