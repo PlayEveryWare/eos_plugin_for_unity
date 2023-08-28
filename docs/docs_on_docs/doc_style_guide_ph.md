@@ -45,7 +45,6 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 | Component | Description |
 | - | - |
 | Header | _Title, logo, table of contents, and overview (table of contents only as needed)_ |
-1. The document header 
 | Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
 |(Optional) "See also" | _This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
 
