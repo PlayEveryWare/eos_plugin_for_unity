@@ -6,8 +6,14 @@
 Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
-3. [Document Header](#document-header)
-4. [Document Body](#document-body)
+3. [Document Header](#header)
+    * [Logo](#logo)
+    * [Title](#title)
+    * [Table of Contents](#table-of-contents)
+4. [Document Body](#body)
+    * [Sections](#sections)
+    * [Subsections](#subsections)
+    * [Sub-Subsections](#sub-subsections)
 5. [Templates](#templates)
 6. [Internal Markdown Reference](#internal-markdown-reference)
 7. [Source Code Contributor Notes](#source-code-contributor-notes)
@@ -20,7 +26,7 @@ The purpose of this document is to describe a standard which all other documents
 
 While this document does give examples for some of the most frequently utilized components of markdown, the intent is to describe *how* those components should be utilized in this project, not necessarily how to *implement* them.
 
-As with most things in life, this document serves as a guide, not a rulebook. For the most part it should be strictly followed, but a reasonable amount of deviation is permissable so long as the goal of proper communication is accomplished.
+As with most things in life, this document serves as a guide, not a rule book. For the most part it should be strictly followed, but a reasonable amount of deviation is permissable so long as the goal of proper communication is accomplished.
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$ </div><a name="getting-started" />
 
@@ -32,35 +38,35 @@ You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b3
 
 Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Document Header}}$ </div><a name="document-header" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
 ## Logo:
 
-Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to [http://playeveryware.com](http://playeveryware.com).
+Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md), and with the width of the image set to 10%.
 
 Markdown:
 ```markdown
-<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
+<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 ```
 
 What it looks like:
 
-<a href="http://playeveryware"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
+<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
-## Document Title:
+## Title:
 
 Following the PlayEveryWare, Inc. logo should be the title of the document in pink text, followed immediately by a horizontal rule. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$
+# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$ </div> <a name="documentation-style-guide">
 ---
 ```
 
 ## Table of Contents:
 
-If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title, and *precede* the overview section.
+If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title, and *precede* the "Overview" section.
 
 As an example, the following is the markdown to create the table of contents as it exists at the top of *this* document:
 
@@ -69,8 +75,14 @@ Markdown:
 Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
-3. [Document Header](#document-header)
-4. [Document Body](#document-body)
+3. [Document Header](#header)
+    * [Logo](#logo)
+    * [Title](#title)
+    * [Table of Contents](#table-of-contents)
+4. [Document Body](#body)
+    * [Sections](#sections)
+    * [Subsections](#subsections)
+    * [Sub-Subsections](#sub-subsections)
 5. [Templates](#templates)
 6. [Internal Markdown Reference](#internal-markdown-reference)
 7. [Source Code Contributor Notes](#source-code-contributor-notes)
@@ -80,9 +92,9 @@ Note that the `url` for an internal link is the value of the `name` attribute of
 
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Document Body}}$ </div><a name="document-body" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Body}}$ </div><a name="body" />
 
-## Document Sections:
+## Sections:
 
 Document sections allow for clear organization of thought within a document.
 
@@ -117,36 +129,26 @@ Should a subsection of the document need to be further broken up into discrete s
 ### Sub Subsection:
 ```
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
-> [!IMPORTANT]
-> No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
 
 > [!IMPORTANT] 
 > Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
-
-* This is a numbered thing
-
-   > [!IMPORTANT]
-   > This is a test
-
-    > [!IMPORTANT]
-    > This is a test
-
-&nbsp;&nbsp;&nbsp;&nbsp;> [!IMPORTANT]
-&nbsp;&nbsp;&nbsp;&nbsp;> This is a test
 
 ## Section Summary:
 
 The difference between the different section depths is below, followed by the markdown that generates it:
 
-# $\textcolor{deeppink}{\textsf{Section}}$ </div><a name="section" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Section}}$ </div><a name="section" />
 ## Subsection
 ### Sub-Subsection
 
 ```markdown
-# $\textcolor{deeppink}{\textsf{Section}}$ </div><a name="section" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Section}}$ </div><a name="section" />
 ## Subsection
 ### Sub-Subsection
 ```
+
+> [!IMPORTANT]
+> No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
 
 ## Images:
 
@@ -229,7 +231,7 @@ Ordered lists (such as a set of steps to perform in a particular order) should a
 Markdown for creating an unordered list:
 
 ```markdown
-#### Things:
+__Things:__
 * something
 * something else
 ```
@@ -237,7 +239,7 @@ Markdown for creating an unordered list:
 Markdown for creating an ordered list:
 
 ```markdown
-#### How to Use EOS:
+__How to Use EOS:__
 1. try the samples
 2. integrate into your own game
 3. let even more people play your game.
