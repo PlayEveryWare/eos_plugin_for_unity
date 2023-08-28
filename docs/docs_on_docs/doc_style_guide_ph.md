@@ -108,7 +108,7 @@ To see this in action, [this](#source-code-contributor-notes) is a link to the l
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Body}}$ </div><a name="body" />
 
-## $\textcolor{#2f5faf}{\textsf{Sections:}} <a name="sections">
+## $\textcolor{#2f5faf}{\textsf{Sections:}}$ <a name="sections">
 
 Document sections allow for clear organization of thought within a document.
 
@@ -135,7 +135,7 @@ As it becomes appropriate, break down the document sections into subsections to 
 ## Subsections
 ```
 
-## $\textcolor{#2f5faf}{\textsf{Sub-Subsections:}}$ <a name="sub-subsections>
+## $\textcolor{#2f5faf}{\textsf{Sub-Subsections:}}$ <a name="sub-subsections">
 
 Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs (the distinction between subsection and sub-subsection is that the subsection is blue, and because of internal document linking requires the use of the `a` tag after it.)
 
@@ -144,10 +144,12 @@ For example:
 ```markdown
 ## Sub Subsection:
 ```
-In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
+
+> ![NOTE]
+> Just to be clear as possible - note that the "Sub-Subsection" is itself a _section_, **not** a _sub subsection_.
 
 > [!IMPORTANT] 
-> Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
+> Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
 
 ## $\textcolor{#2f5faf}{\textsf{Section Summary:}}$ <a name="section-summary">
 
