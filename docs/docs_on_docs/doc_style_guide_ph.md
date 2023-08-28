@@ -108,7 +108,7 @@ To see this in action, [this](#source-code-contributor-notes) is a link to the l
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Body}}$ </div><a name="body" />
 
-## Sections:
+## $\textcolor{#2f5faf}{\textsf{Sections:}} <a name="sections">
 
 Document sections allow for clear organization of thought within a document.
 
@@ -125,7 +125,7 @@ Example markdown for creating a document section:
 > [!NOTE]
 > Document sections should be important enough to include in a table of contents, if one exists for the document.
 
-## Subsections:
+## $\textcolor{#2f5faf}{\textsf{Subsections:}}$ <a name="subsections">
 
 Subsections of a document allow for clear organization of thought within a section. As an example, in this document (yes, the one you are reading right now) the section "Document Body" has subsections "Document Sections", "Document Subsections", "Document Sub-Subsections", and "Section Summary".
 
@@ -135,36 +135,38 @@ As it becomes appropriate, break down the document sections into subsections to 
 ## Subsections
 ```
 
-## Sub-Subsections:
+## $\textcolor{#2f5faf}{\textsf{Sub-Subsections:}}$ <a name="sub-subsections>
 
-Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with three pound signs, and followed by a line-break. As an example, the markdown for _this_ sub subsection is as follows:
+Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs (the distinction between subsection and sub-subsection is that the subsection is blue, and because of internal document linking requires the use of the `a` tag after it.)
+
+For example:
 
 ```markdown
-### Sub Subsection:
+## Sub Subsection:
 ```
 In most cases, if you are dividing a document into sub-subsections, it is a sign that you need to rethink the structure of your document to make it more linear. 
 
 > [!IMPORTANT] 
 > Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, consider breaking up your document into separate files, so that each area of documentation uses the least amount of space.
 
-## Section Summary:
+## $\textcolor{#2f5faf}{\textsf{Section Summary:}}$ <a name="section-summary">
 
 The difference between the different section depths is below, followed by the markdown that generates it:
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Section}}$ </div><a name="section" />
-## Subsection
-### Sub-Subsection
+# <div align="center">$\textcolor{deeppink}{\textsf{Section Example}}$ </div><a name="section-example" />
+## $\textcolor{#2f5faf}{\textsf{Subsection Example}}$ <a name="subsection-example">
+## Sub-Subsection Example
 
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Section}}$ </div><a name="section" />
-## Subsection
-### Sub-Subsection
+# <div align="center">$\textcolor{deeppink}{\textsf{Section Example}}$ </div><a name="section-example" />
+## $\textcolor{#2f5faf}{\textsf{Subsection Example}}$ <a name="subsection-example">
+## Sub-Subsection Example
 ```
 
 > [!IMPORTANT]
 > No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
 
-## Images:
+## $\textcolor{#2f5faf}{\textsf{Images:}}$ <a name="images">
 
 Images are to be utilized in specific circumstances:
 * Instructional references, like images of dropdown menus or highlighted parts of windows.
@@ -187,7 +189,7 @@ What it looks like:
 > 
 > _One notable exception is a circumstance where a small amount of text is utilized as a frequently referenced item, and in that circumstance it's important to have the first occurrence of the information be in text format so it can be easily maintained._
 
-## Links:
+## $\textcolor{#2f5faf}{\textsf{Links:}}$ <a name="links">
 
 Web links can be written by surrounding the text you want as the link text in brackets, followed by the URL in parentheses. 
 
@@ -216,9 +218,9 @@ Example markdown linking to a specific section of another document:
 > [!IMPORTANT]
 > Periodically, a script should be run against all the documentation to check that all of the links are still valid. It's important to make sure links do not become stale or broken. Because of this, external links should be used sparingly.
 
-## Code:
+## $\textcolor{#2f5faf}{\textsf{Code:}}$ <a name="code">
 
-### Block
+## Block
 For inline code formatting, use single ticks. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
 In order to display code blocks, put the code you wish to display between two lines containing only three ticks. For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown). See [here](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) for a list of all the languages that GitHub Flavored Markdown supports.
@@ -226,7 +228,7 @@ In order to display code blocks, put the code you wish to display between two li
 > [!IMPORTANT]
 > When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would normally require horizontal scrolling to fully view. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
 
-### Inline
+## Inline
 
 When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ` -> ` (spaces included for increased legibility). Inline code blocks are also appropriate to use when (in normal a normal sentence) you are referencing a variable.
 
@@ -246,7 +248,7 @@ To create a new c# script in unity navigate the menus through `Assets -> Create 
 
 The variable `foo` is much better than the variable `bar`.
 
-## Lists:
+## $\textcolor{#2f5faf}{\textsf{Lists:}}$ <a name="list">
 
 Ordered lists (such as a set of steps to perform in a particular order) should always be numbered, whereas lists that merely enumerate a set of options or items should be bulleted.
 
@@ -267,7 +269,7 @@ __How to Use EOS:__
 3. let even more people play your game.
 ```
 
-## Grids:
+## $\textcolor{#2f5faf}{\textsf{Grids:}}$ <a name="grids">
 
 Often larger amounts of information need to be illustrated in the documentation. Information like this might be well suited to a table format. See the below example of markdown for an example of how to create a grid in markdown:
 
@@ -290,7 +292,7 @@ What it looks like:
 > [!WARNING] 
 > Use tables only when the values within the table are linear, that is, each row of the table should pertain to one item, and all other rows should pertain to items of the same type.
 
-## Collapsed Sections:
+## $\textcolor{#2f5faf}{\textsf{Collapsed Sections:}}$ <a name="collapsed-sections">
 
 When there is a large amount of information that may or may not be immediately pertinent to the documentation, it may be wise to include it in a collapsed section of the document, making it clear that the information exists, albeit in a collapsed manner. This helps avoid a situation where too much information of variable utility is displayed on the screen, while still making the information accessible if needed.
 
@@ -315,17 +317,18 @@ Surprise!
 > [!WARNING] 
 > Collapsed sections have a tendency to be overlooked by readers, so be cautions about what you choose to put within them, and in many cases it might be more effective to break up your documentation into more than one file.
 
-## Mermaid:
+## $\textcolor{#2f5faf}{\textsf{Mermaid:}}$ <a name="mermaid">
 
 Mermaid is the formatting we use for displaying flowcharts about the plugin. From the perspective of style guidelines, these flowcharts can be thought of as images, with the added functionality that they are interactive. [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
-## Alerts:
+## $\textcolor{#2f5faf}{\textsf{Alerts:}}$ <a name="alerts">
 
 This section is a copy of [a discussion](https://github.com/orgs/community/discussions/16925) of these features when they were first introduced to GFM.
 
 Alerts are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content. Use the "note" alert for important details that might escape observation if someone is skimming the document, use the "important" alert to describe things that _must_ or must _not_ be done in order to succeed in the documented task, and use the "warning" alert to highlight potential risks.
 
 **An example of all three types:**
+
 ```markdown
 > [!NOTE]
 > Highlights information that users should take into account, even when skimming.
@@ -350,7 +353,7 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 
 # <div align="center">$\textcolor{deeppink}{\textsf{See also}}$ </div><a name="see-also" />
 
-## Templates
+## $\textcolor{#2f5faf}{\textsf{Templates}}$ <a name="templates">
 
 You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
 
@@ -360,10 +363,10 @@ They are mainly blank space holders, so you can decide whats needed, be it a lis
 
 [ReadMe Template](/docs/docs_on_docs/template_readme.md)
 
-## Internal Markdown reference
+## $\textcolor{#2f5faf}{\textsf{Internal Markdown reference}}$ <a name="internal-markdown-reference">
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
 
-## Contributor Notes
+## $\textcolor{#2f5faf}{\textsf{Contributor Notes}}$ <a name="contributor-notes">
 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
