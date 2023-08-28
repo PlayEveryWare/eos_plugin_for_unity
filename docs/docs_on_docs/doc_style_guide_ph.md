@@ -146,7 +146,7 @@ For example:
 ```
 
 > [!NOTE]
-> Just to be as clear as possible: note that the "Sub-Subsection" is itself a _sub section_, **not** a _**sub** subsection_.
+> Just to be as clear as possible: note that the "Sub-Subsections" title above is itself a _sub section_, **not** a _**sub** subsection_.
 
 > [!IMPORTANT] 
 > Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
@@ -197,15 +197,15 @@ Web links can be written by surrounding the text you want as the link text in br
 
 When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
 
-When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and is not part of the link.
+When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
 
 Example markdown linking to a specific section within a document:
-  
-[Getting Started](#getting-started)
 
-```markdown
-Example markdown linking to another document:
+```markdown  
+[Getting Started](#getting-started)
 ```
+
+Example markdown linking to another document:
 
 ```markdown
 [readme_android](/docs/android/readme_android.md)
