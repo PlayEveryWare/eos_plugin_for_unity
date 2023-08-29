@@ -159,6 +159,8 @@ namespace PlayEveryWare.EpicOnlineServices
             // Need to keep track for shutting down EOS after a successful platform initialization
             static private bool s_hasInitializedPlatform = false;
 
+            static private IEOSCreateOptions s_platformOptions;
+
             //-------------------------------------------------------------------------
             /// <summary>
             /// 
@@ -428,10 +430,10 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
 
-                var platformOptions = platformSpecifics.CreateSystemPlatformOption();
-                platformOptions.CacheDirectory = platformSpecifics.GetTempDir();
-                platformOptions.IsServer = configData.isServer;
-                platformOptions.Flags =
+                s_platformOptions = platformSpecifics.CreateSystemPlatformOption();
+                s_platformOptions.CacheDirectory = platformSpecifics.GetTempDir();
+                s_platformOptions.IsServer = configData.isServer;
+                s_platformOptions.Flags =
 #if UNITY_EDITOR
                 PlatformFlags.LoadingInEditor;
 #else
@@ -439,27 +441,27 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {
-                    platformOptions.EncryptionKey = configData.encryptionKey;
+                    s_platformOptions.EncryptionKey = configData.encryptionKey;
                 }
                 else
                 {
                     UnityEngine.Debug.LogWarning("EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
                 }
 
-                platformOptions.OverrideCountryCode = null;
-                platformOptions.OverrideLocaleCode = null;
-                platformOptions.ProductId = configData.productID;
-                platformOptions.SandboxId = configData.sandboxID;
-                platformOptions.DeploymentId = configData.deploymentID;
+                s_platformOptions.OverrideCountryCode = null;
+                s_platformOptions.OverrideLocaleCode = null;
+                s_platformOptions.ProductId = configData.productID;
+                s_platformOptions.SandboxId = configData.sandboxID;
+                s_platformOptions.DeploymentId = configData.deploymentID;
 
-                platformOptions.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
+                s_platformOptions.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
 
                 var clientCredentials = new Epic.OnlineServices.Platform.ClientCredentials
                 {
                     ClientId = configData.clientID,
                     ClientSecret = configData.clientSecret
                 };
-                platformOptions.ClientCredentials = clientCredentials;
+                s_platformOptions.ClientCredentials = clientCredentials;
 
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM) || (UNITY_EDITOR_LINUX && EOS_PREVIEW_PLATFORM))
@@ -467,11 +469,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 //TODO: handle errors
                 var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
                 Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformInterface.CreateIntegratedPlatformOptionsContainer(ref createIntegratedPlatformOptionsContainerOptions, out integratedPlatformOptionsContainer);
-                platformOptions.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
+                s_platformOptions.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
 #endif
-                platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
+                platformSpecifics.ConfigureSystemPlatformCreateOptions(ref s_platformOptions);
 
-                return platformSpecifics.CreatePlatformInterface(platformOptions);
+                return platformSpecifics.CreatePlatformInterface(s_platformOptions);
             }
 
             //-------------------------------------------------------------------------
