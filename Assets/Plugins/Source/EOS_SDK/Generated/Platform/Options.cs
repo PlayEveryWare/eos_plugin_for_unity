@@ -14,12 +14,12 @@ namespace Epic.OnlineServices.Platform
 		public System.IntPtr Reserved { get; set; }
 
 		/// <summary>
-		/// The product ID for the running application, found on the dev portal
+		/// The product ID for the running application, found on the dev portal. Max length is <see cref="PlatformInterface.OptionsProductidMaxLength" />.
 		/// </summary>
 		public Utf8String ProductId { get; set; }
 
 		/// <summary>
-		/// The sandbox ID for the running application, found on the dev portal
+		/// The sandbox ID for the running application, found on the dev portal. Max length is <see cref="PlatformInterface.OptionsSandboxidMaxLength" />.
 		/// </summary>
 		public Utf8String SandboxId { get; set; }
 
@@ -34,7 +34,7 @@ namespace Epic.OnlineServices.Platform
 		public bool IsServer { get; set; }
 
 		/// <summary>
-		/// Used by Player Data Storage and Title Storage. Must be null initialized if unused. 256-bit Encryption Key for file encryption in hexadecimal format (64 hex chars)
+		/// Used by Player Data Storage and Title Storage. Must be null initialized if unused. 256-bit Encryption Key for file encryption in hexadecimal format; <see cref="PlatformInterface.OptionsEncryptionkeyLength" /> hex chars.
 		/// </summary>
 		public Utf8String EncryptionKey { get; set; }
 
@@ -49,7 +49,7 @@ namespace Epic.OnlineServices.Platform
 		public Utf8String OverrideLocaleCode { get; set; }
 
 		/// <summary>
-		/// The deployment ID for the running application, found on the dev portal
+		/// The deployment ID for the running application, found on the dev portal. Max length is <see cref="PlatformInterface.OptionsDeploymentidMaxLength" />.
 		/// </summary>
 		public Utf8String DeploymentId { get; set; }
 
@@ -77,9 +77,14 @@ namespace Epic.OnlineServices.Platform
 
 		/// <summary>
 		/// A handle that contains all the options for setting up integrated platforms.
-		/// When set to <see langword="null" />, the default integrated platform behavior for the host platform will be used.
+		/// When set to <see langword="null" />, the EOS Integrated Platform behavior for the host platform will be disabled.
 		/// </summary>
 		public IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get; set; }
+
+		/// <summary>
+		/// Pointer to EOS_<Platform>_SystemSpecificOptions. This structure will be located in <Platform>/eos_<Platform>.h
+		/// </summary>
+		public System.IntPtr SystemSpecificOptions { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -100,6 +105,7 @@ namespace Epic.OnlineServices.Platform
 		private uint m_TickBudgetInMilliseconds;
 		private System.IntPtr m_RTCOptions;
 		private System.IntPtr m_IntegratedPlatformOptionsContainerHandle;
+		private System.IntPtr m_SystemSpecificOptions;
 
 		public System.IntPtr Reserved
 		{
@@ -213,6 +219,14 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
+		public System.IntPtr SystemSpecificOptions
+		{
+			set
+			{
+				m_SystemSpecificOptions = value;
+			}
+		}
+
 		public void Set(ref Options other)
 		{
 			m_ApiVersion = PlatformInterface.OptionsApiLatest;
@@ -230,6 +244,7 @@ namespace Epic.OnlineServices.Platform
 			TickBudgetInMilliseconds = other.TickBudgetInMilliseconds;
 			RTCOptions = other.RTCOptions;
 			IntegratedPlatformOptionsContainerHandle = other.IntegratedPlatformOptionsContainerHandle;
+			SystemSpecificOptions = other.SystemSpecificOptions;
 		}
 
 		public void Set(ref Options? other)
@@ -251,6 +266,7 @@ namespace Epic.OnlineServices.Platform
 				TickBudgetInMilliseconds = other.Value.TickBudgetInMilliseconds;
 				RTCOptions = other.Value.RTCOptions;
 				IntegratedPlatformOptionsContainerHandle = other.Value.IntegratedPlatformOptionsContainerHandle;
+				SystemSpecificOptions = other.Value.SystemSpecificOptions;
 			}
 		}
 
@@ -267,6 +283,7 @@ namespace Epic.OnlineServices.Platform
 			Helper.Dispose(ref m_CacheDirectory);
 			Helper.Dispose(ref m_RTCOptions);
 			Helper.Dispose(ref m_IntegratedPlatformOptionsContainerHandle);
+			Helper.Dispose(ref m_SystemSpecificOptions);
 		}
 	}
 }

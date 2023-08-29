@@ -95,7 +95,8 @@ namespace Epic.OnlineServices.Platform
 			if (other.HasValue)
 			{
 				m_ApiVersion = PlatformInterface.AndroidInitializeoptionssysteminitializeoptionsApiLatest;
-				Reserved = other.Value.Reserved;
+				m_Reserved = other.Value.Reserved;
+				if (m_Reserved == System.IntPtr.Zero) Helper.Set(new int[] { 1, 1 }, ref m_Reserved);
 				OptionalInternalDirectory = other.Value.OptionalInternalDirectory;
 				OptionalExternalDirectory = other.Value.OptionalExternalDirectory;
 			}

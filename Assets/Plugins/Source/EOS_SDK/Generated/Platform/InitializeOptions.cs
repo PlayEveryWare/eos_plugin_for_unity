@@ -26,7 +26,7 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// The name of the product using the Epic Online Services SDK.
 		/// 
-		/// The name string is required to be non-empty and at maximum of 64 characters long.
+		/// The name string is required to be non-empty and at maximum of <see cref="PlatformInterface.InitializeoptionsProductnameMaxLength" /> bytes long.
 		/// The string buffer can consist of the following characters:
 		/// A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, and sign, hyphen, parenthesis, plus, minus, colon.
 		/// </summary>
@@ -35,9 +35,16 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// Product version of the running application.
 		/// 
-		/// The name string has same requirements as the ProductName string.
+		/// The version string is required to be non-empty and at maximum of <see cref="PlatformInterface.InitializeoptionsProductversionMaxLength" /> bytes long.
+		/// The string buffer can consist of the following characters:
+		/// A-Z, a-z, 0-9, dot, underscore, space, exclamation mark, question mark, and sign, hyphen, parenthesis, plus, minus, colon.
 		/// </summary>
 		public Utf8String ProductVersion { get; set; }
+
+		/// <summary>
+		/// A reserved field that should always be nulled.
+		/// </summary>
+		public System.IntPtr Reserved { get; set; }
 
 		/// <summary>
 		/// This field is for system specific initialization if any.
@@ -106,6 +113,14 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
+		public System.IntPtr Reserved
+		{
+			set
+			{
+				m_Reserved = value;
+			}
+		}
+
 		public System.IntPtr SystemInitializeOptions
 		{
 			set
@@ -130,10 +145,7 @@ namespace Epic.OnlineServices.Platform
 			ReleaseMemoryFunction = other.ReleaseMemoryFunction;
 			ProductName = other.ProductName;
 			ProductVersion = other.ProductVersion;
-			int[] reservedData = new int[] { 1, 1 };
-			System.IntPtr reservedDataAddress = System.IntPtr.Zero;
-			Helper.Set(reservedData, ref reservedDataAddress);
-			m_Reserved = reservedDataAddress;
+			Reserved = other.Reserved;
 			SystemInitializeOptions = other.SystemInitializeOptions;
 			OverrideThreadAffinity = other.OverrideThreadAffinity;
 		}
@@ -148,10 +160,8 @@ namespace Epic.OnlineServices.Platform
 				ReleaseMemoryFunction = other.Value.ReleaseMemoryFunction;
 				ProductName = other.Value.ProductName;
 				ProductVersion = other.Value.ProductVersion;
-				int[] reservedData = new int[] { 1, 1 };
-				System.IntPtr reservedDataAddress = System.IntPtr.Zero;
-				Helper.Set(reservedData, ref reservedDataAddress);
-				m_Reserved = reservedDataAddress;
+				m_Reserved = other.Value.Reserved;
+				if (m_Reserved == System.IntPtr.Zero) Helper.Set(new int[] { 1, 1 }, ref m_Reserved);
 				SystemInitializeOptions = other.Value.SystemInitializeOptions;
 				OverrideThreadAffinity = other.Value.OverrideThreadAffinity;
 			}

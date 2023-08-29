@@ -100,7 +100,7 @@ namespace Epic.OnlineServices.Ecom
 		}
 
 		/// <summary>
-		/// Release the memory associated with an <see cref="Transaction" />. Is is expected to be called after
+		/// Release the memory associated with an <see cref="Transaction" />. Is expected to be called after
 		/// being received from a <see cref="CheckoutCallbackInfo" />.
 		/// <seealso cref="CheckoutCallbackInfo" />
 		/// <seealso cref="EcomInterface.GetTransactionCount" />

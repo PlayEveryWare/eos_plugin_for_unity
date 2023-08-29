@@ -60,6 +60,15 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// For further explanation see <see cref="PreferEOSIdentity" />.
 		/// <seealso cref="PreferEOSIdentity" />
 		/// </summary>
-		PreferIntegratedIdentity = 0x0040
+		PreferIntegratedIdentity = 0x0040,
+		/// <summary>
+		/// By default the EOS SDK will attempt to detect the login/logout events of local users and update local states accordingly. Setting this flag will disable this functionality,
+		/// relying on the application to process login/logout events and notify EOS SDK. It is not possible for the EOS SDK to do this on all platforms, making this flag not always
+		/// optional.
+		/// 
+		/// This flag must be set to use the manual platform user login/logout functions, even on platforms where it is not possible for the EOS SDK to detect login/logout events,
+		/// making this a required flag for correct Integrated Platform behavior on those platforms.
+		/// </summary>
+		ApplicationManagedIdentityLogin = 0x0080
 	}
 }

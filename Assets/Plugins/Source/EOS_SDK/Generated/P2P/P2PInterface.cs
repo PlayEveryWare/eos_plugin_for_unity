@@ -733,7 +733,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			OnIncomingConnectionRequestCallback callback;
 			OnIncomingConnectionRequestInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -744,7 +744,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			OnIncomingPacketQueueFullCallback callback;
 			OnIncomingPacketQueueFullInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -755,7 +755,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			OnPeerConnectionEstablishedCallback callback;
 			OnPeerConnectionEstablishedInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -766,7 +766,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			OnPeerConnectionInterruptedCallback callback;
 			OnPeerConnectionInterruptedInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -788,7 +788,7 @@ namespace Epic.OnlineServices.P2P
 		{
 			OnRemoteConnectionClosedCallback callback;
 			OnRemoteConnectionClosedInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

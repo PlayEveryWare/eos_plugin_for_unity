@@ -156,7 +156,7 @@ namespace Epic.OnlineServices.Connect
 		/// <summary>
 		/// The most recent version of the <see cref="UserLoginInfo" /> struct.
 		/// </summary>
-		public const int UserlogininfoApiLatest = 1;
+		public const int UserlogininfoApiLatest = 2;
 
 		/// <summary>
 		/// Max length of a display name, not including the terminating null.
@@ -871,7 +871,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			OnAuthExpirationCallback callback;
 			AuthExpirationCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -937,7 +937,7 @@ namespace Epic.OnlineServices.Connect
 		{
 			OnLoginStatusChangedCallback callback;
 			LoginStatusChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

@@ -19,6 +19,11 @@ namespace Epic.OnlineServices.Lobby
 		public const int AddnotifyjoinlobbyacceptedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyLeaveLobbyRequested" /> API.
+		/// </summary>
+		public const int AddnotifyleavelobbyrequestedApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="AddNotifyLobbyInviteAccepted" /> API.
 		/// </summary>
 		public const int AddnotifylobbyinviteacceptedApiLatest = 1;
@@ -86,7 +91,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// The most recent version of the <see cref="CreateLobby" /> API.
 		/// </summary>
-		public const int CreatelobbyApiLatest = 8;
+		public const int CreatelobbyApiLatest = 9;
 
 		/// <summary>
 		/// The most recent version of the <see cref="CreateLobbySearch" /> API.
@@ -97,6 +102,16 @@ namespace Epic.OnlineServices.Lobby
 		/// The most recent version of the <see cref="DestroyLobby" /> API.
 		/// </summary>
 		public const int DestroylobbyApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="GetConnectString" /> API.
+		/// </summary>
+		public const int GetconnectstringApiLatest = 1;
+
+		/// <summary>
+		/// The buffer size to provide to the <see cref="GetConnectString" /> API.
+		/// </summary>
+		public const int GetconnectstringBufferSize = 256;
 
 		/// <summary>
 		/// The most recent version of the <see cref="GetInviteCount" /> API.
@@ -131,12 +146,12 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// The most recent version of the <see cref="JoinLobby" /> API.
 		/// </summary>
-		public const int JoinlobbyApiLatest = 3;
+		public const int JoinlobbyApiLatest = 4;
 
 		/// <summary>
 		/// The most recent version of the <see cref="JoinLobbyById" /> API.
 		/// </summary>
-		public const int JoinlobbybyidApiLatest = 1;
+		public const int JoinlobbybyidApiLatest = 2;
 
 		/// <summary>
 		/// The most recent version of the <see cref="KickMember" /> API.
@@ -171,6 +186,16 @@ namespace Epic.OnlineServices.Lobby
 		/// Minimum number of characters allowed in the lobby id override
 		/// </summary>
 		public const int MinLobbyidoverrideLength = 4;
+
+		/// <summary>
+		/// The most recent version of the <see cref="ParseConnectString" /> API.
+		/// </summary>
+		public const int ParseconnectstringApiLatest = 1;
+
+		/// <summary>
+		/// The buffer size to provide to the <see cref="ParseConnectString" /> API.
+		/// </summary>
+		public const int ParseconnectstringBufferSize = 256;
 
 		/// <summary>
 		/// The most recent version of the <see cref="PromoteMember" /> API.
@@ -247,6 +272,36 @@ namespace Epic.OnlineServices.Lobby
 		}
 
 		/// <summary>
+		/// Register to receive notifications about leave lobby requests performed by the local user via the overlay.
+		/// When user requests to leave the lobby in the social overlay, the SDK does not automatically leave the lobby, it is up to the game to perform any necessary cleanup and call the <see cref="LeaveLobby" /> method using the lobbyId sent in the notification function.
+		/// must call EOS_Lobby_RemoveNotifyLeaveLobbyRequested to remove the notification.
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a notification is received.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifyLeaveLobbyRequested(ref AddNotifyLeaveLobbyRequestedOptions options, object clientData, OnLeaveLobbyRequestedCallback notificationFn)
+		{
+			AddNotifyLeaveLobbyRequestedOptionsInternal optionsInternal = new AddNotifyLeaveLobbyRequestedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnLeaveLobbyRequestedCallbackInternal(OnLeaveLobbyRequestedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_Lobby_AddNotifyLeaveLobbyRequested(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
 		/// Register to receive notifications about lobby invites accepted by local user via the overlay.
 		/// must call RemoveNotifyLobbyInviteAccepted to remove the notification
 		/// </summary>
@@ -305,7 +360,7 @@ namespace Epic.OnlineServices.Lobby
 		}
 
 		/// <summary>
-		/// Register to receive notifications about lobby invites rejected by local user via the overlay.
+		/// Register to receive notifications about lobby invites rejected by local user.
 		/// must call RemoveNotifyLobbyInviteRejected to remove the notification
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
@@ -620,7 +675,7 @@ namespace Epic.OnlineServices.Lobby
 		/// Searching is possible in three methods, all mutually exclusive
 		/// - set the lobby ID to find a specific lobby
 		/// - set the target user ID to find a specific user
-		/// - set lobby parameters to find an array of lobbies that match the search criteria (not available yet)
+		/// - set lobby parameters to find an array of lobbies that match the search criteria
 		/// </summary>
 		/// <param name="options">Structure containing required parameters such as the maximum number of search results</param>
 		/// <param name="outLobbySearchHandle">The new search handle or null if there was an error creating the search handle</param>
@@ -669,6 +724,39 @@ namespace Epic.OnlineServices.Lobby
 			Bindings.EOS_Lobby_DestroyLobby(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
 			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
+		/// Get the Connection string for an EOS lobby. The connection string describes the presence of a player in terms of game state.
+		/// Xbox platforms expect titles to embed this into their MultiplayerActivity at creation.
+		/// When present, the SDK will use this value to populate session presence in the social overlay and facilitate platform invitations.
+		/// </summary>
+		/// <param name="options">Structure containing the input parameters. API version, the LobbyID of the lobby to generate the string from and the PUID of the requesting user.</param>
+		/// <param name="outBuffer">The buffer to store the null-terminated ConnectString within</param>
+		/// <param name="inOutBufferLength">In: The maximum amount of writable chars in OutBuffer see <see cref="GetconnectstringBufferSize" />, Out: The minimum amount of chars needed in OutBuffer to store the ConnectString (including the null-terminator). May be set to zero depending on the error result.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if retrieving the string was successful.
+		/// <see cref="Result.InvalidParameters" /> if the OutBuffer or InOutBufferLength are null.
+		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// <see cref="Result.NotFound" /> if no lobby is found matching the LobbyID and PUID provided.
+		/// <see cref="Result.LimitExceeded" /> if the provided InOutBufferLength is too small to contain the resulting string.
+		/// </returns>
+		public Result GetConnectString(ref GetConnectStringOptions options, out Utf8String outBuffer)
+		{
+			GetConnectStringOptionsInternal optionsInternal = new GetConnectStringOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			uint inOutBufferLength = GetconnectstringBufferSize;
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
+
+			var funcResult = Bindings.EOS_Lobby_GetConnectString(InnerHandle, ref optionsInternal, outBufferAddress, ref inOutBufferLength);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get(outBufferAddress, out outBuffer);
+			Helper.Dispose(ref outBufferAddress);
+
+			return funcResult;
 		}
 
 		/// <summary>
@@ -937,6 +1025,37 @@ namespace Epic.OnlineServices.Lobby
 		}
 
 		/// <summary>
+		/// Parse the ConnectString for an EOS lobby invitation to extract just the lobby ID.
+		/// Used for joining a lobby from a connection string (as generated by GetConnectString) found in a platform invitation or presence.
+		/// </summary>
+		/// <param name="options">Structure containing the input parameters. API version and ConnectString.</param>
+		/// <param name="outBuffer">The buffer to store the null-terminated lobby ID within</param>
+		/// <param name="inOutBufferLength">In: The maximum amount of writable chars in OutBuffer see <see cref="ParseconnectstringBufferSize" />, Out: The minimum amount of chars needed in OutBuffer to store the LobbyID (including the null-terminator). May be set to zero depending on the error result.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if retrieving the string was successful.
+		/// <see cref="Result.InvalidParameters" /> if the OutBuffer or InOutBufferLength are null.
+		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect.
+		/// <see cref="Result.LimitExceeded" /> if the provided InOutBufferLength is too small to contain the resulting string.
+		/// </returns>
+		public Result ParseConnectString(ref ParseConnectStringOptions options, out Utf8String outBuffer)
+		{
+			ParseConnectStringOptionsInternal optionsInternal = new ParseConnectStringOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			uint inOutBufferLength = ParseconnectstringBufferSize;
+			System.IntPtr outBufferAddress = Helper.AddAllocation(inOutBufferLength);
+
+			var funcResult = Bindings.EOS_Lobby_ParseConnectString(InnerHandle, ref optionsInternal, outBufferAddress, ref inOutBufferLength);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get(outBufferAddress, out outBuffer);
+			Helper.Dispose(ref outBufferAddress);
+
+			return funcResult;
+		}
+
+		/// <summary>
 		/// Promote an existing member of the lobby to owner, allowing them to make lobby data modifications
 		/// </summary>
 		/// <param name="options">Structure containing information about the lobby and member to be promoted</param>
@@ -1017,6 +1136,17 @@ namespace Epic.OnlineServices.Lobby
 		public void RemoveNotifyJoinLobbyAccepted(ulong inId)
 		{
 			Bindings.EOS_Lobby_RemoveNotifyJoinLobbyAccepted(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when a user performs a leave lobby action via the overlay.
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifyLeaveLobbyRequested(ulong inId)
+		{
+			Bindings.EOS_Lobby_RemoveNotifyLeaveLobbyRequested(InnerHandle, inId);
 
 			Helper.RemoveCallbackByNotificationId(inId);
 		}
@@ -1232,7 +1362,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			OnJoinLobbyAcceptedCallback callback;
 			JoinLobbyAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -1282,12 +1412,23 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		[MonoPInvokeCallback(typeof(OnLeaveLobbyRequestedCallbackInternal))]
+		internal static void OnLeaveLobbyRequestedCallbackInternalImplementation(ref LeaveLobbyRequestedCallbackInfoInternal data)
+		{
+			OnLeaveLobbyRequestedCallback callback;
+			LeaveLobbyRequestedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
 		[MonoPInvokeCallback(typeof(OnLobbyInviteAcceptedCallbackInternal))]
 		internal static void OnLobbyInviteAcceptedCallbackInternalImplementation(ref LobbyInviteAcceptedCallbackInfoInternal data)
 		{
 			OnLobbyInviteAcceptedCallback callback;
 			LobbyInviteAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -1298,7 +1439,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			OnLobbyInviteReceivedCallback callback;
 			LobbyInviteReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -1309,7 +1450,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			OnLobbyInviteRejectedCallback callback;
 			LobbyInviteRejectedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -1320,7 +1461,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			OnLobbyMemberStatusReceivedCallback callback;
 			LobbyMemberStatusReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -1331,7 +1472,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			OnLobbyMemberUpdateReceivedCallback callback;
 			LobbyMemberUpdateReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -1342,7 +1483,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			OnLobbyUpdateReceivedCallback callback;
 			LobbyUpdateReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -1375,7 +1516,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			OnRTCRoomConnectionChangedCallback callback;
 			RTCRoomConnectionChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -1408,7 +1549,7 @@ namespace Epic.OnlineServices.Lobby
 		{
 			OnSendLobbyNativeInviteRequestedCallback callback;
 			SendLobbyNativeInviteRequestedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

@@ -40,6 +40,12 @@ namespace Epic.OnlineServices.Lobby
 		/// the specified lobby does not have an RTC Room enabled and will not cause errors.
 		/// </summary>
 		public LocalRTCOptions? LocalRTCOptions { get; set; }
+
+		/// <summary>
+		/// This value indicates whether or not the local user allows crossplay interactions. If it is false, the local user
+		/// will be treated as allowing crossplay.
+		/// </summary>
+		public bool CrossplayOptOut { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -50,6 +56,7 @@ namespace Epic.OnlineServices.Lobby
 		private System.IntPtr m_LocalUserId;
 		private int m_PresenceEnabled;
 		private System.IntPtr m_LocalRTCOptions;
+		private int m_CrossplayOptOut;
 
 		public Utf8String LobbyId
 		{
@@ -83,6 +90,14 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		public bool CrossplayOptOut
+		{
+			set
+			{
+				Helper.Set(value, ref m_CrossplayOptOut);
+			}
+		}
+
 		public void Set(ref JoinLobbyByIdOptions other)
 		{
 			m_ApiVersion = LobbyInterface.JoinlobbybyidApiLatest;
@@ -90,6 +105,7 @@ namespace Epic.OnlineServices.Lobby
 			LocalUserId = other.LocalUserId;
 			PresenceEnabled = other.PresenceEnabled;
 			LocalRTCOptions = other.LocalRTCOptions;
+			CrossplayOptOut = other.CrossplayOptOut;
 		}
 
 		public void Set(ref JoinLobbyByIdOptions? other)
@@ -101,6 +117,7 @@ namespace Epic.OnlineServices.Lobby
 				LocalUserId = other.Value.LocalUserId;
 				PresenceEnabled = other.Value.PresenceEnabled;
 				LocalRTCOptions = other.Value.LocalRTCOptions;
+				CrossplayOptOut = other.Value.CrossplayOptOut;
 			}
 		}
 

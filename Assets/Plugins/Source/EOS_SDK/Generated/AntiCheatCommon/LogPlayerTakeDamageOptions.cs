@@ -21,17 +21,17 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public Quat? VictimPlayerViewRotation { get; set; }
 
 		/// <summary>
-		/// Locally unique value used in RegisterClient/RegisterPeer
+		/// Locally unique value used in RegisterClient/RegisterPeer if applicable, otherwise 0.
 		/// </summary>
 		public System.IntPtr AttackerPlayerHandle { get; set; }
 
 		/// <summary>
-		/// Attacker player's current world position as a 3D vector
+		/// Attacker player's current world position as a 3D vector if applicable, otherwise <see langword="null" />.
 		/// </summary>
 		public Vec3f? AttackerPlayerPosition { get; set; }
 
 		/// <summary>
-		/// Attacker player's view rotation as a quaternion
+		/// Attacker player's view rotation as a quaternion if applicable, otherwise <see langword="null" />.
 		/// </summary>
 		public Quat? AttackerPlayerViewRotation { get; set; }
 
