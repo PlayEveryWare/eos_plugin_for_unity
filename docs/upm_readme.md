@@ -11,8 +11,8 @@ For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issue
 * Easy to use manager classes that handle common EOS API use-cases.
 * Straightforward sample Unity scene templates to get you started.
 * EOS Social Overlay support.
-* Targets [EOS SDK 1.15.4] (https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*
-* Targets Unity 2021.3.8f1
+* Targets [EOS SDK 1.15.4] (https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*.
+* Targets Unity 2021.3.8f1.
 
 
 ## Supported Platforms
@@ -33,7 +33,7 @@ The follow target platforms are supported in Unity for the current release of th
 | Universal Windows Platform x86 | Not Supported |
 | Unity Web Player | Not Supported |
 
-To access Preview platforms, enable `EOS_PREVIEW_PLATFORM`
+To access Preview platforms, enable `EOS_PREVIEW_PLATFORM`.
 
 
 ## Supported EOS SDK Features
@@ -80,8 +80,7 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 
     ![Unity Add Git Package](images/unity_package_git.gif)
 
-6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```
-   or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```.
+6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```.
 
 
 ## Installing from a tarball
@@ -89,15 +88,15 @@ Download the latest release tarball from https://github.com/PlayEveryWare/eos_pl
 The tarball is a tgz file, not the source download. If one uses the source download it will be missing all 
 the git-lfs files i.e. the binaries/dynamic libraries. 
 
-1. From the Unity Editor, open the Package Manager
-    * It's listed under ```Window -> Package Manager```
-2. Click the ```+``` button
-3. Select '```Add package from tarball```'
+1. From the Unity Editor, open the Package Manager.
+    * It's listed under ```Window -> Package Manager```.
+2. Click the ```+``` button.
+3. Select '```Add package from tarball```'.
 
     ![Unity Add Tarball Package](docs/images/unity_package_tarball.gif)
 
-4. Go to directory containing the PEW Unity plugin tarball, and select it
-5. Click ```Open```
+4. Go to directory containing the PEW Unity plugin tarball, and select it.
+5. Click ```Open```.
 
 
 ---
@@ -131,7 +130,7 @@ To get the EOS working, the plugin needs to know some specific things about your
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientId)
     * EncryptionKey
    
-At this point, you are ready to start developing using the Epic Online Services Plugin for Unity! Simply attach <code>EOSManager.cs (Script)</code> to a Unity object and it will intialize the plugin with the specified configuration in <code>OnAwake()</code>.
+At this point, you are ready to start developing using the Epic Online Services Plugin for Unity! Simply attach <code>EOSManager.cs (Script)</code> to a Unity object and it will initialize the plugin with the specified configuration in <code>OnAwake()</code>.
 
 If you would like to see specific examples of various EOS features in action, import the sample Unity scenes below.
 
@@ -139,7 +138,7 @@ If you would like to see specific examples of various EOS features in action, im
 ---
 # Samples
 
-The included samples show fully functional feature implemenation that will both help with EOS integration as well as validate client to dev portal configuration. After installing the samples from the UPM package, you will find scenes for each major feature.
+The included samples show fully functional feature implementation that will both help with EOS integration as well as validate client to dev portal configuration. After installing the samples from the UPM package, you will find scenes for each major feature.
 
 <img src="images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/>
 <img src="images/sample_screen_titlestorage.gif" alt="Title Storage Screenshot" width="48%"/>
@@ -151,7 +150,7 @@ To use the samples, install them from the UPM manager.
 
 ![Unity Install Samples](images/unity_install_samples.gif)
 
-The samples include both usage of the EOS SDK, and convience wrappers to make using the SDK more ergonomic in the Unity game engine. By being samples in the UPM sense, they are placed under Assets which allows modification.
+The samples include both usage of the EOS SDK, and convenience wrappers to make using the SDK more ergonomic in the Unity game engine. By being samples in the UPM sense, they are placed under Assets which allows modification.
 
 ## Running the samples
 * Launch Unity project with the samples installed.
@@ -182,17 +181,17 @@ More specific and up-to-date instructions can also be found on Epic's [website](
 # Open Source: Contribute
 
 This is an Open Source project. If you would like to view and contribute to the development of the EOS Unity Plugin, you can enlist in the development repo located at
-https://github.com/PlayEveryWare/eos_plugin_for_unity
+https://github.com/PlayEveryWare/eos_plugin_for_unity.
 
 
 ---
 # Plugin Support
 
-EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com
+EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
 
 For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab.
 
-For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/)
+For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
 
 Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Developer Documentation: Game Services](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
 
@@ -200,12 +199,12 @@ Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Dev
 ---
 # Source Code Contributor Notes
 
-The following are guidlines for helping contribute to this open source project.
+The following are guidelines for helping contribute to this open source project.
 
 ## Prerequisites
 * Ensure At least Visual Studio 2017 is installed.
-* Ensure At least Unity 2020.1.11f1 is installed
-* Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles)
+* Ensure At least Unity 2020.1.11f1 is installed.
+* Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles).
 
 ## Build steps For Native Libraries
 * Build the Visual Studio solutions for the native DLLs
@@ -216,10 +215,10 @@ The following are guidlines for helping contribute to this open source project.
 A successful build will mean the correct binaries have been placed in the proper locations for Unity to successfully initialize EOS SDK.
 
 ## Standards
-See [standards.md](docs/standards.md)
+See [standards.md](docs/standards.md).
 
 ## Class description
-See [docs/class_description.md](docs/class_description.md)
+See [docs/class_description.md](docs/class_description.md).
 
 ## Additional Documentation
 Additional documentation can be found in the [docs/ directory](docs/).  
