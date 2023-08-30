@@ -1,11 +1,10 @@
 # How to update the DocFX static site
 *Overview*
-1) install docfx
-2) go to the docfx_project/ dir in the repository
-3) run docfx
-4) Run a test server to see the results: docfx serve \_site 
-5) copy the files to the github static site
-
+1) Install docfx.
+2) Go to the `docfx_project/` dir in the repository.
+3) Run docfx.
+4) Run a test server to see the results: `docfx serve \_site`.
+5) Copy the files to the github static site.
 
 ## Installing docfx
 
@@ -35,10 +34,10 @@ In that same directory, run
 ```
 docfx serve _site
 ```
-This should cause a server to run and server the static site on port 8080.
-One may access this by going to [localhost:8080](http://localhost:8080)
+This should cause a server to run the static site on port 8080.
+One may access this by going to [localhost:8080](http://localhost:8080).
 
 ## Copy the files to correct location
 
-If everything looks good, copy the results of the static site generation process from \_site to the repo that houses 
-the static site. Make a commit and push it then.
+If everything looks good, copy the results of the static site generation process from `\_site` to the repo that houses 
+the static site, then commit / push.

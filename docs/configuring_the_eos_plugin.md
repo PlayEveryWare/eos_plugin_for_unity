@@ -11,7 +11,7 @@ To get the EOS working, the plugin needs to know some specific things about your
 ## Steps
 1) Open your Unity project, with the plugin 
 2) Open the Epic Online Service Configuration Editor
-    * This is done via Tools -> EpicOnlineServiceConfigEditor
+    * This is done via `Tools -> EpicOnlineServiceConfigEditor`
 
 3) From the developer portal, copy the configuration values listed below, and paste them into the similarly named fields in the editor tool:
     * ProductName
