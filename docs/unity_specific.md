@@ -4,7 +4,7 @@
 
 ## Overview
 
-This document lists some Unity related plugin behavior and how we support the EOS SDK in EOS plugin for Unity
+This document lists some Unity related plugin behavior and how we support the EOS SDK in EOS plugin for Unity.
 
 ----------------------------------------------------------------------------------------
 
@@ -19,22 +19,21 @@ The EOS Unity Plugin is a collective effort between multiple sources, each sourc
 We take multiple factors into account, and decide on the versions that are most stable and expandable.  
 
 The current release is using :  
-* Unity 2021.3.8f1  
-* EOS SDK 1.15.4   
+* Unity 2021.3.8f1.  
+* EOS SDK 1.15.4.   
 * SDK versions of the target platform that supports the given Unity and EOS SDK versions above could be found in their platform forums.
 
-### Why do we reload the EOS SDK dll in the editor?
+### Why do we reload the EOS SDK DLL in the editor?
 
-EOS SDK requires an initialization at the start on every run.  
-It does not allow changes to its configuration while the dll is loaded, however.  
-Therefore we unload and reload the dll for our users to rerun the plugin without needing to reboot the Unity Editor. 
+EOS SDK requires an initialization at the start of every run. 
+
+While the DLL is loaded, Unity does not allow changes to the configuration.  
+
+Therefore, we unload and reload the DLL for our users to rerun the plugin without needing to reboot the Unity Editor. 
 
 ### Why do we need a GFX plugin on Windows
 
 GFX plugin is required so that the EOS Overlay can render properly on Windows.   
-Due to how the EOS SDK does its graphics initialization for the overlay,  
-the code that calls into the EOS SDK for init needs to happen _before_
-Unity finishes doing its graphics init code. The only place to do this, is in native
-code, in a specially named dll that gets called before the engine finishes running. 
+Due to how the EOS SDK implements the graphics system for the overlay feature, initialization of the SDK needs to happen _before_ the Unity Editor finishes _it's_ graphics system. The solution is in a GFX plugin because accomplishing this is done in native code.
 
 

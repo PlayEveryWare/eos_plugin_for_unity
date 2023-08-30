@@ -24,7 +24,7 @@ One way to do so is to mark the needed entitlements after the Xcode project is c
 
 Take EOS-Unity-Plugin as example, add this code block in `EOSOnPostProcessBuild.cs -> OnPostprocessBuild()`, and the `using AppleAuth.Editor`[^1] up front.
 
-```
+```cs
 #if UNITY_2019_3_OR_NEWER
             proj.ReadFromString(System.IO.File.ReadAllText(projPath));
             var manager = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", null, proj.GetUnityMainTargetGuid());
@@ -38,7 +38,7 @@ Take EOS-Unity-Plugin as example, add this code block in `EOSOnPostProcessBuild.
 ```
 
 
-[^1]: The plugin includes assembly definition files AppleAuth.asmdef and AppleAuth.Editor.asmdef.  
+[^1]: The plugin includes assembly definition files `AppleAuth.asmdef` and `AppleAuth.Editor.asmdef`.  
 Remember to add them to Assembly Definitions Reference list when they're needed for the corresponding namespace to be recognized by C#. 
 (EOS-Unity-Plugin project needs these set for example).  
 ![Screen Shot 2023-02-17 at 2 46 47 PM](https://user-images.githubusercontent.com/36757173/219812051-f4482a35-7cac-4a18-bc22-29660fc8d32b.png)
