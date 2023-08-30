@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Auth.AuthInterface GetEOSAuthInterface()
             {
-                return GetEOSPlatformInterface().GetAuthInterface();
+                return GetEOSPlatformInterface()?.GetAuthInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Achievements.AchievementsInterface GetEOSAchievementInterface()
             {
-                return GetEOSPlatformInterface().GetAchievementsInterface();
+                return GetEOSPlatformInterface()?.GetAchievementsInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -58,7 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Connect.ConnectInterface GetEOSConnectInterface()
             {
-                return GetEOSPlatformInterface().GetConnectInterface();
+                return GetEOSPlatformInterface()?.GetConnectInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 UnityEngine.Debug.LogError("Attempting to grab the EComInterface in the Editor: Won't work because the overlay isn't supported in the Unity Editor");
 #endif
 
-                return GetEOSPlatformInterface().GetEcomInterface();
+                return GetEOSPlatformInterface()?.GetEcomInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -82,7 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Friends.FriendsInterface GetEOSFriendsInterface()
             {
-                return GetEOSPlatformInterface().GetFriendsInterface();
+                return GetEOSPlatformInterface()?.GetFriendsInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -92,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Leaderboards.LeaderboardsInterface GetEOSLeaderboardsInterface()
             {
-                return GetEOSPlatformInterface().GetLeaderboardsInterface();
+                return GetEOSPlatformInterface()?.GetLeaderboardsInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -102,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Lobby.LobbyInterface GetEOSLobbyInterface()
             {
-                return GetEOSPlatformInterface().GetLobbyInterface();
+                return GetEOSPlatformInterface()?.GetLobbyInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -112,7 +112,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Metrics.MetricsInterface GetEOSMetricsInterface()
             {
-                return GetEOSPlatformInterface().GetMetricsInterface();
+                return GetEOSPlatformInterface()?.GetMetricsInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -122,7 +122,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Mods.ModsInterface GetEOSModsInterface()
             {
-                return GetEOSPlatformInterface().GetModsInterface();
+                return GetEOSPlatformInterface()?.GetModsInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -132,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.P2P.P2PInterface GetEOSP2PInterface()
             {
-                return GetEOSPlatformInterface().GetP2PInterface();
+                return GetEOSPlatformInterface()?.GetP2PInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -158,7 +158,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Presence.PresenceInterface GetEOSPresenceInterface()
             {
-                return GetEOSPlatformInterface().GetPresenceInterface();
+                return GetEOSPlatformInterface()?.GetPresenceInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -168,7 +168,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.RTC.RTCInterface GetEOSRTCInterface()
             {
-                return GetEOSPlatformInterface().GetRTCInterface();
+                return GetEOSPlatformInterface()?.GetRTCInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -178,7 +178,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Sessions.SessionsInterface GetEOSSessionsInterface()
             {
-                return GetEOSPlatformInterface().GetSessionsInterface();
+                return GetEOSPlatformInterface()?.GetSessionsInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -188,7 +188,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.Stats.StatsInterface GetEOSStatsInterface()
             {
-                return GetEOSPlatformInterface().GetStatsInterface();
+                return GetEOSPlatformInterface()?.GetStatsInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -198,7 +198,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.TitleStorage.TitleStorageInterface GetEOSTitleStorageInterface()
             {
-                return GetEOSPlatformInterface().GetTitleStorageInterface();
+                return GetEOSPlatformInterface()?.GetTitleStorageInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -208,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.UI.UIInterface GetEOSUIInterface()
             {
-                return GetEOSPlatformInterface().GetUIInterface();
+                return GetEOSPlatformInterface()?.GetUIInterface();
             }
 
             //-------------------------------------------------------------------------
@@ -218,7 +218,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <returns></returns>
             public Epic.OnlineServices.UserInfo.UserInfoInterface GetEOSUserInfoInterface()
             {
-                return GetEOSPlatformInterface().GetUserInfoInterface();
+                return GetEOSPlatformInterface()?.GetUserInfoInterface();
             }
         }
     }
