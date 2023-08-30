@@ -31,6 +31,8 @@ using PlayEveryWare.EpicOnlineServices;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using System.IO.Compression;
+
 #if UNITY_ANDROID
 public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 {
@@ -375,6 +377,56 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 
         CopyFromSourceToPluginFolder_Android(sourcePath, "eos-sdk.aar", destPath);
         CopyFromSourceToPluginFolder_Android(sourcePath, "eos-sdk.aar.meta", destPath);
+
+        //////////////////////////////
+        // Temp fix pre EOS SDK 1.16//
+        ////////////////////////////// 
+
+        ZipFile.ExtractToDirectory("Assets/Plugins/Android/eos-sdk.aar", "../Temp/Android/eos-sdk", true);
+
+        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
+        var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
+        eosConfigFile.LoadConfigFromDisk();
+        string clientIDAsLower = eosConfigFile.currentEOSConfig.clientID.ToLower();
+
+        var pathToEOSValuesConfig = "../Temp/Android/eos-sdk/res/values/values.xml";
+        var currentEOSValuesConfigAsXML = new System.Xml.XmlDocument();
+        currentEOSValuesConfigAsXML.Load(pathToEOSValuesConfig);
+
+        var node = currentEOSValuesConfigAsXML.DocumentElement.SelectSingleNode("/resources");
+        if (node == null) 
+        {
+            Directory.Delete("../Temp/", true); 
+            Debug.LogError("aar fix failed"); 
+            return; 
+        }
+
+        var node2 = node.SelectSingleNode("string[@name=\"eos_login_protocol_scheme\"]");
+        if (node2 == null) 
+        { 
+            Directory.Delete("../Temp/", true); 
+            Debug.LogError("aar fix failed"); 
+            return; 
+        }
+
+        string eosProtocolScheme = node2.InnerText;
+        string storedClientID = eosProtocolScheme.Split('.').Last();
+
+        if (storedClientID != clientIDAsLower)
+        {
+            node2.InnerText = $"eos.{clientIDAsLower}";
+            currentEOSValuesConfigAsXML.Save(pathToEOSValuesConfig);
+        }
+
+        ZipFile.CreateFromDirectory("../Temp/Android/eos-sdk", "../eos-sdk.aar", System.IO.Compression.CompressionLevel.Optimal, false);
+        File.Copy("../eos-sdk.aar", "Assets/Plugins/Android/eos-sdk.aar", true);
+
+        Directory.Delete("../Temp/", true);
+        File.Delete("../eos-sdk.aar");
+
+        //////////////////////////////////
+        ///        End temp fix        ///
+        //////////////////////////////////
     }
 
     private void CopyFromSourceToPluginFolder_Android(string sourcePath, string filename, string destPath)

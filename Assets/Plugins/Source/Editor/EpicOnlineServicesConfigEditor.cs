@@ -27,7 +27,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
-using PlayEveryWare.EpicOnlineServices;
 using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
@@ -508,6 +507,8 @@ _WIN32 || _WIN64
             AssigningTextField("Sandbox ID", ref mainEOSConfigFile.currentEOSConfig.sandboxID, tooltip: "Sandbox ID defined in the EOS Development Portal");
             AssigningTextField("Deployment ID", ref mainEOSConfigFile.currentEOSConfig.deploymentID, tooltip: "Deployment ID defined in the EOS Development Portal");
 
+            AssigningBoolField("Is Server", ref mainEOSConfigFile.currentEOSConfig.isServer, tooltip: "Set to 'true' if the application is a dedicated game serve");
+
             EditorGUILayout.LabelField("Sandbox Deployment Overrides");
             if(mainEOSConfigFile.currentEOSConfig.sandboxDeploymentOverrides == null)
             {
@@ -614,10 +615,10 @@ _WIN32 || _WIN64
             AssigningTextField("Override Library path", ref steamEOSConfigFile.currentEOSConfig.overrideLibraryPath);
             AssigningUintField("Steamworks SDK major version", ref steamEOSConfigFile.currentEOSConfig.steamSDKMajorVersion, 190);
             AssigningUintField("Steamworks SDK minor version", ref steamEOSConfigFile.currentEOSConfig.steamSDKMinorVersion, 190);
-#if STEAMWORKS_MODULE
+
             if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
             {
-                var steamworksVersion = Steamworks.Version.SteamworksSDKVersion;
+                var steamworksVersion = Steamworks_Utility.GetSteamworksVersion();
                 var versionParts = steamworksVersion.Split(".");
                 bool success = false;
                 if (versionParts.Length >= 2)
@@ -635,7 +636,6 @@ _WIN32 || _WIN64
                     Debug.LogError("Failed to retrive Steamworks SDK version from Steamworks.NET");
                 }
             }
-#endif
         }
 
         // TODO: create way to hook up new platforms dynamically 

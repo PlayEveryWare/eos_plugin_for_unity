@@ -139,6 +139,8 @@ struct EOSConfig
     uint64_t ThreadAffinity_HTTPRequestIO = 0;
     uint64_t ThreadAffinity_RTCIO = 0;
 
+    bool isServer = false;
+
 };
 
 struct EOSSteamConfig
@@ -875,6 +877,18 @@ static EOSConfig eos_config_from_json_value(json_value_s* config_json)
         {
             eos_config.ThreadAffinity_RTCIO = json_value_as_uint64(iter->value);
         }
+        else if (!strcmp("isServer", iter->name->string))
+        {
+            // In this JSON library, true and false are _technically_ different types. 
+            if (json_value_is_true(iter->value))
+            {
+                eos_config.isServer = true;
+            }
+            else if (json_value_is_false(iter->value))
+            {
+                eos_config.isServer = false;
+            }
+        }
 
         iter = iter->next;
     }
@@ -1136,7 +1150,7 @@ void eos_create(EOSConfig& eosConfig)
 {
     EOS_Platform_Options platform_options = {0};
     platform_options.ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST;
-    platform_options.bIsServer = EOS_FALSE;
+    platform_options.bIsServer = eosConfig.isServer;
     platform_options.Flags = eosConfig.flags;
     platform_options.CacheDirectory = GetCacheDirectory();
 

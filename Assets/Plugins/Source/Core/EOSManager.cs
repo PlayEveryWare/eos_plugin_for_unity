@@ -82,6 +82,9 @@ namespace PlayEveryWare.EpicOnlineServices
         // <value>If true, EOSManager initialized itself at startup.</value>
         public bool InitializeOnAwake = true;
 
+        /// <value>If true, EOSManager will shutdown the EOS SDK when Unity dispatches OnApplicationQuit. </value>
+        public bool ShouldShutdownOnApplicationQuit = true;
+
 #if !EOS_DISABLE
         public delegate void OnAuthLoginCallback(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
         public delegate void OnAuthLogoutCallback(LogoutCallbackInfo data);
@@ -427,7 +430,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var platformOptions = platformSpecifics.CreateSystemPlatformOption();
                 platformOptions.CacheDirectory = platformSpecifics.GetTempDir();
-                platformOptions.IsServer = false;
+                platformOptions.IsServer = configData.isServer;
                 platformOptions.Flags =
 #if UNITY_EDITOR
                 PlatformFlags.LoadingInEditor;
@@ -471,6 +474,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return platformSpecifics.CreatePlatformInterface(platformOptions);
             }
 
+            //-------------------------------------------------------------------------
             private void InitializeOverlay(IEOSCoroutineOwner coroutineOwner)
             {
                 EOSManagerPlatformSpecifics.Instance.InitializeOverlay(coroutineOwner);
@@ -518,6 +522,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return configData;
             }
 
+            //-------------------------------------------------------------------------
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
                 string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
@@ -545,6 +550,10 @@ namespace PlayEveryWare.EpicOnlineServices
                     return;
                 }
 
+#if !UNITY_EDITOR
+                // Set logging to VeryVerbose on EOS SDK bootstrap so we get the most logging information
+                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#endif
                 s_state = EOSState.Starting;
 
                 LoadEOSLibraries();
@@ -602,7 +611,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_hasInitializedPlatform = true;
 
                 Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
-                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 
 
                 var eosPlatformInterface = CreatePlatformInterface(loadedEOSConfig);
@@ -617,6 +625,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
 
                 InitializeOverlay(coroutineOwner);
+
+               // Default back to quiet logs
+#if UNITY_EDITOR
+                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#else
+                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
+#endif
 
                 print("EOS loaded");
             }
@@ -937,22 +952,60 @@ namespace PlayEveryWare.EpicOnlineServices
                 });
             }
 
+            //-------------------------------------------------------------------------
             /// <summary>
             /// 
             /// </summary>
             /// <param name="epicAccountId"></param>
             /// <param name="onConnectLoginCallback"></param>
             public void StartConnectLoginWithEpicAccount(Epic.OnlineServices.EpicAccountId epicAccountId, OnConnectLoginCallback onConnectLoginCallback)
-            { 
-                Token? authToken = EOSManager.Instance.GetUserAuthTokenForAccountId(epicAccountId);
+            {
+                var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
+                var copyUserTokenOptions = new Epic.OnlineServices.Auth.CopyUserAuthTokenOptions();
+                var result = EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, epicAccountId, out Token? authToken);
                 var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions();
-                connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
-                {
-                    Token = authToken.Value.AccessToken,
-                    Type = ExternalCredentialType.Epic
-                };
 
-                StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
+                if (result == Result.NotFound)
+                {
+                    print("No User Auth tokens found to login");
+                    if (onConnectLoginCallback != null)
+                    {
+                        var dummyLoginCallbackInfo = new Epic.OnlineServices.Connect.LoginCallbackInfo();
+                        dummyLoginCallbackInfo.ResultCode = Result.ConnectAuthExpired;
+                        onConnectLoginCallback(dummyLoginCallbackInfo);
+                    }
+                    return;
+                }
+                else if (authToken.HasValue && authToken.Value.RefreshToken != null)
+                {
+                    print("Attempting to use refresh token to login with connect");
+                    // need to refresh the epicaccount id
+                    // LoginCredentialType.RefreshToken
+                    EOSManager.Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.RefreshToken, null, authToken.Value.RefreshToken, (callbackInfo) =>
+                    {
+                        var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
+                        var copyUserTokenOptions = new Epic.OnlineServices.Auth.CopyUserAuthTokenOptions();
+                        var result = EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, callbackInfo.LocalUserId, out Token? userAuthToken);
+
+                        connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
+                        {
+                            Token = userAuthToken.Value.AccessToken,
+                            Type = ExternalCredentialType.Epic
+                        };
+
+                        StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
+                    });
+                }
+                else
+                {
+                    connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
+                    {
+                        Token = authToken.Value.AccessToken,
+                        Type = ExternalCredentialType.Epic
+                    };
+
+                    StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
+                }
             }
 
             public void StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType externalCredentialType, string token, string displayname = null, OnConnectLoginCallback onloginCallback = null)
@@ -1151,15 +1204,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     var addNotifyAuthExpirationOptions = new Epic.OnlineServices.Connect.AddNotifyAuthExpirationOptions();
                     ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(ref addNotifyAuthExpirationOptions, null, (ref Epic.OnlineServices.Connect.AuthExpirationCallbackInfo callbackInfo) =>
                     {
-                        var accountId = GetLocalUserId();
-                        if (accountId != null)
-                        {
-                            StartConnectLoginWithEpicAccount(accountId, null);
-                        }
-                        else
-                        {
-                            UnityEngine.Debug.LogError("EOSSingleton.ConfigureConnectExpirationCallback: Cannot refresh Connect token, no valid EpicAccountId");
-                        }
                     });
 
                     s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
@@ -1332,6 +1376,28 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
+            /// <summary>
+            /// Clears the stored token for persistent login
+            /// </summary>
+            public void RemovePersistentToken()
+            {
+                var authInterface = EOSManager.Instance.GetEOSPlatformInterface().GetAuthInterface();
+                var options = new Epic.OnlineServices.Auth.DeletePersistentAuthOptions();
+
+                authInterface.DeletePersistentAuth(ref options, null, (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
+                {
+                    if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
+                    {
+                        UnityEngine.Debug.LogError("Unable to delete persistent token, Result : " + deletePersistentAuthCallbackInfo.ResultCode.ToString());
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.Log("Successfully deleted persistent token");
+                    }
+                });
+            }
+
+            //-------------------------------------------------------------------------
             public void Tick()
             {
                 if (GetEOSPlatformInterface() != null)
@@ -1459,6 +1525,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                     else // NOT Focused
                     {
+#if UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT
                         if (s_isConstrained)
                         {
                             // Application is in the background but running with reduced CPU/GPU resouces (it's constrained)
@@ -1469,6 +1536,7 @@ namespace PlayEveryWare.EpicOnlineServices
                             // Application is in the background but running normally (should be non-interactable since it's in the background)
                             SetEOSApplicationStatus(ApplicationStatus.BackgroundUnconstrained);
                         }
+#endif
                     }
                 }
             }
@@ -1591,7 +1659,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         private void OnApplicationQuit()
         {
-            EOSManager.Instance.OnShutdown();
+            if (ShouldShutdownOnApplicationQuit)
+            {
+                EOSManager.Instance.OnShutdown();
+            }
         }
 
         //-------------------------------------------------------------------------

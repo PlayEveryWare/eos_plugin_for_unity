@@ -1,0 +1,24 @@
+{
+    "name": "com.playeveryware.eos.samples.oculus",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8be792bc795f6734c9b03442335cf985"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "!EOS_DISABLE"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.oculus",
+            "expression": "",
+            "define": "OCULUS_MODULE"
+        }
+    ],
+    "noEngineReferences": false
+}

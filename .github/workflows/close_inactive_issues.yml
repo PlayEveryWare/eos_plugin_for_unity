@@ -1,6 +1,7 @@
 name: Close inactive issues
 on:
   schedule:
+    # Everyday at 1:30PM
     - cron: "30 1 * * *"
 
 jobs:
@@ -8,19 +9,41 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      pull-requests: write
+    env:
+      # Number of days before an issue with no activity gets marked as stale.
+      DAYS_TO_STALE: 14
+      # Number of days after being marked stale the issue is closed 
+      # automatically.
+      DAYS_AFTER_STALE_TO_CLOSE: 7
     steps:
       - uses: actions/stale@v5
         with:
-          # Mark stale if not resonse after 7 days, and close after 14
-          days-before-issue-stale: 7
-          days-before-issue-close: 7
+          # Any issues marked "pending" or "bug" are exempt from the close 
+          # inactive issues logic.
+          #
+          # NOTE: This will require some oversight - if something isn't
+          # really a bug, then the label should be removed so it can be later
+          # marked stale by this workflow.
+          exempt-issue-labels: "pending, bug"
 
+          # Mark stale if there is no activity after DAYS_TO_STALE days.
+          days-before-issue-stale: $DAYS_TO_STALE
+
+          # *After* issue has been stale for DAYS_AFTER_STALE_TO_CLOSE days.
+          days-before-issue-close: $DAYS_AFTER_STALE_TO_CLOSE
+
+          # Define the name of the label to use for marking issues as "stale".
           stale-issue-label: "stale"
-          stale-issue-message: "This issue is stale because it has been open for 7 days with no activity."
-          close-issue-message: "This issue was closed because it has been inactive for 7 days since being marked as stale."
 
-          # Never close a PR
+          # Messages for each action.
+          stale-issue-message: "This issue is stale because it has been open for $DAYS_TO_STALE days with no activity."
+          close-issue-message: "This issue was closed because it has been inactive for $DAYS_AFTER_STALE_TO_CLOSE days since being marked as stale."
+
+          # When an issue is closed via this workflow, add a label so auto-
+          # closed issues can be searched.
+          close-issue-label: "auto-closed"
+          
+          # Never mark a PR as either stale or closed
           days-before-pr-stale: -1
           days-before-pr-close: -1
 

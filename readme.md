@@ -221,8 +221,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 4. Select ```Add Package from Git URL```.
 
-6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```
-   or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```.
+6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```.
 
 7. After the package has finished installing, <a href="#samples">import the samples</a>.
 

@@ -67,6 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Button loginButton;
         private Coroutine PreventLogIn = null;
         public Button logoutButton;
+        public Button removePersistentTokenButton;
 
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
@@ -435,6 +436,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenText.text = "Username";
             tokenTooltip.Text = "Username configured in EOS Dev Auth Tool";
             tokenText.gameObject.SetActive(true);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             tokenInputField.InputFieldButton.navigation = new Navigation()
             {
@@ -469,6 +471,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -510,6 +513,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(true);
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -538,6 +542,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -565,6 +570,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             tokenInputField.gameObject.SetActive(false);
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             loginTypeDropdown.navigation = new Navigation()
             {
@@ -589,6 +595,47 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             tokenInputField.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
+            removePersistentTokenButton.gameObject.SetActive(false);
+
+            switch (connectType)// might need to check this better, use ifdefs to turn on platform specific cases that switch off the login button
+            {
+
+                //case ExternalCredentialType.GogSessionTicket:
+                //case ExternalCredentialType.GoogleIdToken:
+                //case ExternalCredentialType.ItchioJwt:
+                //case ExternalCredentialType.ItchioKey:
+                //case ExternalCredentialType.AmazonAccessToken:
+
+#if !(UNITY_STANDALONE)
+                case ExternalCredentialType.SteamSessionTicket:
+                case ExternalCredentialType.SteamAppTicket:
+                    loginButton.interactable = false;
+                    loginButtonText.text = "Platform not set up.";
+                    break;
+#endif
+#if !(UNITY_STANDALONE || UNITY_ANDROID)
+                case ExternalCredentialType.OculusUseridNonce:
+                    loginButton.interactable = false;
+                    loginButtonText.text = "Platform not set up.";
+                    break;
+#endif
+#if !(UNITY_STANDALONE || UNITY_ANDROID || UNITY_IOS)
+                case ExternalCredentialType.DiscordAccessToken:
+                case ExternalCredentialType.OpenidAccessToken:
+                    loginButton.interactable = false;
+                    loginButtonText.text = "Platform not set up.";
+                    break;
+#endif
+#if !(UNITY_IOS || UNITY_STANDALONE_OSX)
+                case ExternalCredentialType.AppleIdToken:
+                    loginButton.interactable = false;
+                    loginButtonText.text = "Platform not supported.";
+                    break;
+#endif
+                case ExternalCredentialType.DeviceidAccessToken:
+                default:
+                    break;
+            }
 
             if (connectType == ExternalCredentialType.OpenidAccessToken)
             {
@@ -654,32 +701,22 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             List<Dropdown.OptionData> connectOptions = new List<Dropdown.OptionData>();
 
             List<ExternalCredentialType> credentialTypes = new List<ExternalCredentialType>
-            {
+            {//include all implemented ones here, so users can see all options across platforms (use the configure connect method to turn off access in bad cases)
                 ExternalCredentialType.DeviceidAccessToken,
-
-#if UNITY_IOS || UNITY_STANDALONE_OSX
                 ExternalCredentialType.AppleIdToken,
-#endif
                 //ExternalCredentialType.GogSessionTicket,
                 //ExternalCredentialType.GoogleIdToken,
-                //ExternalCredentialType.OculusUseridNonce,
+                ExternalCredentialType.OculusUseridNonce,
                 //ExternalCredentialType.ItchioJwt,
                 //ExternalCredentialType.ItchioKey,
                 //ExternalCredentialType.AmazonAccessToken
+                ExternalCredentialType.SteamSessionTicket,
+                ExternalCredentialType.SteamAppTicket,
+                ExternalCredentialType.DiscordAccessToken,
+                ExternalCredentialType.OpenidAccessToken,
             };
 
-#if UNITY_STANDALONE
-            credentialTypes.Add(ExternalCredentialType.SteamSessionTicket);
-            credentialTypes.Add(ExternalCredentialType.SteamAppTicket);
-            
-#endif
-
-#if UNITY_STANDALONE || UNITY_ANDROID || UNITY_IOS
-            credentialTypes.Add(ExternalCredentialType.DiscordAccessToken);
-            credentialTypes.Add(ExternalCredentialType.OpenidAccessToken);
-#endif
-
-            foreach (var type in credentialTypes)
+            foreach (ExternalCredentialType type in credentialTypes)
             {
                 connectOptions.Add(new Dropdown.OptionData() { text = type.ToString() });
             }
@@ -702,6 +739,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (PreventLogIn != null)
                 StopCoroutine(PreventLogIn);
             loginButton.enabled = true;
+            loginButton.interactable = true;
             loginButton.gameObject.SetActive(true);
             logoutButton.gameObject.SetActive(false);
 
@@ -741,6 +779,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             loginButton.gameObject.SetActive(false);
             logoutButton.gameObject.SetActive(true);
+            removePersistentTokenButton.gameObject.SetActive(false);
 
             idText.gameObject.SetActive(false);
             tokenText.gameObject.SetActive(false);
@@ -904,7 +943,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 case ExternalCredentialType.OpenidAccessToken:
                     ConnectOpenId();
+                    break;
 
+                case ExternalCredentialType.OculusUseridNonce:
+                    ConnectOculus();
                     break;
 
                 default:
@@ -970,8 +1012,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         
         private void ConnectDiscord()
         {
-            var discordManager = Discord.DiscordManager.Instance;
-            if (discordManager == null)
+            if (Discord.DiscordManager.Instance == null)
             {
                 Debug.LogError("Connect Login failed: DiscordManager unavailable");
                 ConfigureUIForLogin();
@@ -1024,6 +1065,31 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 EOSManager.Instance.StartConnectLoginWithOptions(ExternalCredentialType.OpenidAccessToken, token, onloginCallback: ConnectLoginTokenCallback);
             }
 
+        }
+
+        private void ConnectOculus()
+        {
+            if (Oculus.OculusManager.Instance == null)
+            {
+                Debug.LogError("Connect Login failed: oculusManager unavailable. Is Oculus setup and available for this platform?");
+                ConfigureUIForLogin();
+                return;
+            }
+
+            Oculus.OculusManager.Instance.GetUserProof(OnOculusProofReceived);
+        }
+
+        private void OnOculusProofReceived(string idAndNonce, string OculusID)
+        {
+            if (string.IsNullOrEmpty(idAndNonce) || string.IsNullOrEmpty(OculusID))
+            {
+                Debug.LogError("Connect Login failed: Unable to get Oculus Proof. Is Oculus setup and available for this platform?");
+                ConfigureUIForLogin();
+            }
+            else
+            {
+                StartConnectLoginWithToken(ExternalCredentialType.OculusUseridNonce, idAndNonce, OculusID);
+            }
         }
 
         private void StartConnectLoginWithToken(ExternalCredentialType externalType, string token, string displayName = null)
@@ -1136,6 +1202,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 ConfigureUIForLogin();
             }
+        }
+
+        public void OnRemovePersistentTokenButtonClick()
+        {
+            EOSManager.Instance.RemovePersistentToken();
         }
 
         public void OnExitButtonClick()

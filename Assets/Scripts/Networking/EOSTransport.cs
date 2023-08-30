@@ -219,7 +219,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override bool StartClient()
         {
 #if UNITY_EDITOR
-            if(ServerUserIdToConnectToInput != null)
+            if (!string.IsNullOrEmpty(ServerUserIdToConnectToInput))
             {
                 ServerUserIdToConnectTo = ProductUserId.FromString(ServerUserIdToConnectToInput);
             }

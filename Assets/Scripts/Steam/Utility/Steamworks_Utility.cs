@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2023 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -19,39 +19,25 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-using UnityEngine;
-using UnityEditor;
 
-#if UNITY_EDITOR
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
-
-namespace PlayEveryWare.EpicOnlineServices.Samples.Network
-{
-    [InitializeOnLoad]
-    public class PackageInstallHelper_Netcode
-    {
-        static PackageInstallHelper_Netcode()
-        {
-#if !COM_UNITY_MODULE_NETCODE
-            Debug.LogWarning("Package : [com.unity.netcode.gameobjects] required, attempting to install...");
-
-            AddRequest request;
-            request = Client.Add("com.unity.netcode.gameobjects@1.0.2");
-            while (request.Status == StatusCode.InProgress)
-            {
-            }
-            if (request.Result != null)
-            { 
-                Debug.Log("[com.unity.netcode.gameobjects@1.0.2] successfully installed"); 
-            }
-            else
-            {
-                Debug.Log("[com.unity.netcode.gameobjects@1.0.2] Request Failed : " + request.Error.ToString());
-            }
+#if !STEAMWORKS_MODULE || !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLESTEAMWORKS
 #endif
-        }
+
+using UnityEngine;
+
+#if !DISABLESTEAMWORKS
+using Steamworks;
+#endif
+
+public class Steamworks_Utility : MonoBehaviour
+{
+    public static string GetSteamworksVersion()
+    {
+#if DISABLESTEAMWORKS
+        return "Steamworks not imported or not supported on platform";
+#else
+        return Steamworks.Version.SteamworksSDKVersion;
+#endif
     }
 }
-#endif
-

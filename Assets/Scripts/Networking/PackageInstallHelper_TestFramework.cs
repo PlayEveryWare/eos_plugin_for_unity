@@ -26,28 +26,28 @@ using UnityEditor;
 using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.Requests;
 
-namespace PlayEveryWare.EpicOnlineServices.Samples.Network
+namespace PlayEveryWare.EpicOnlineServices.Samples.TestFramework
 {
     [InitializeOnLoad]
-    public class PackageInstallHelper_Netcode
+    public class PackageInstallHelper_TestFramework
     {
-        static PackageInstallHelper_Netcode()
+        static PackageInstallHelper_TestFramework()
         {
-#if !COM_UNITY_MODULE_NETCODE
-            Debug.LogWarning("Package : [com.unity.netcode.gameobjects] required, attempting to install...");
+#if !COM_UNITY_MODULE_UPDATEDTESTFRAMEWORK
 
-            AddRequest request;
-            request = Client.Add("com.unity.netcode.gameobjects@1.0.2");
+            Debug.LogWarning("Package : [com.unity.test-framework] required, attempting to install...");
+
+            AddRequest request = Client.Add("com.unity.test-framework@1.3.7");
             while (request.Status == StatusCode.InProgress)
             {
             }
             if (request.Result != null)
             { 
-                Debug.Log("[com.unity.netcode.gameobjects@1.0.2] successfully installed"); 
+                Debug.Log("[com.unity.test-framework@1.3.7] successfully installed"); 
             }
             else
             {
-                Debug.Log("[com.unity.netcode.gameobjects@1.0.2] Request Failed : " + request.Error.ToString());
+                Debug.Log("[com.unity.test-framework@1.3.7] Request Failed : " + request.Error.ToString()); 
             }
 #endif
         }
