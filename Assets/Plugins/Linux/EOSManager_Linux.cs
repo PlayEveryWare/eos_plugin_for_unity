@@ -142,6 +142,7 @@ static string SteamDllName = "steam_api.dll";
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
+            UnityEngine.Log.Warning("Linux platform is currently in preview.");
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsLinux());
         }
 
