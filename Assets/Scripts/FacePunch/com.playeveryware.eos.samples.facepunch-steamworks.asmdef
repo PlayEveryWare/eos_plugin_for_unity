@@ -1,5 +1,5 @@
 {
-    "name": "com.facepunch.steamworks.net",
+    "name": "com.playeveryware.eos.samples.facepunch-steamworks",
     "rootNamespace": "",
     "references": [
         "GUID:3a63500f0eef43a438c0553491f7c5da",

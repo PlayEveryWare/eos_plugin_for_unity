@@ -69,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 #endif
         protected virtual void Awake()
         {
-            // Only one instance of DiscordManager at a time!
+            // Only one instance of SteamManager at a time!
             if (s_instance != null)
             {
                 Destroy(gameObject);
@@ -77,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             }
             s_instance = this;
 
-            // We want our DiscordManager Instance to persist across scenes.
+            // We want our SteamManager Instance to persist across scenes.
             DontDestroyOnLoad(gameObject);
 
             try
@@ -90,14 +90,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             {
                 Debug.LogError(e.Message);
                 Debug.LogError("[Facepunch Steamworks] SteamAPI_Init() failed. Refer to Valve's documentation or the comment above this line for more information.", this);
-               
-                return;
+
                 // Something went wrong - it's one of these:
                 //
                 //     Steam is closed?
                 //     Can't find steam_api dll?
                 //     Don't have permission to play app?
                 //
+
+                return;
+
             }
             m_bInitialized = true;
         }
