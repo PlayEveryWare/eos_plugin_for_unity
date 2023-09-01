@@ -30,7 +30,7 @@ namespace Playeveryware.Editor
 {
     public static class LinkXmlCreatorTool
     {
-        [MenuItem("Tools/Create link.xml")]
+        [MenuItem("Tools/EOS Plugin/Create link.xml")]
         static void CreateLinkXml()
         {
             var linkSourceFilePath = Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Editor", "link.xml");
@@ -57,7 +57,7 @@ namespace Playeveryware.Editor
         }
 
         //disable menu item if not running within a UPM package
-        [MenuItem("Tools/Create link.xml", true)]
+        [MenuItem("Tools/EOS Plugin/Create link.xml", true)]
         static bool ValidateCreateLinkXml()
         {
             return Directory.Exists(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Editor"));
