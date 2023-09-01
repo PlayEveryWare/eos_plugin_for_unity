@@ -67,34 +67,30 @@ namespace PlayEveryWare.EpicOnlineServices
 
             public const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
 
+
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
-//#if UNITY_WSA
-                        //delegate void UnloadEOS_delegate();
-                        //delegate IntPtr EOS_GetPlatformInterface_delegate();
-                        //static UnloadEOS_delegate UnloadEOS;
-                        //static EOS_GetPlatformInterface_delegate EOS_GetPlatformInterface;
-                        public const string GfxPluginNativeRenderPath =
-#if UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM
-                            "GfxPluginNativeRender-macOS";
+            public const string GfxPluginNativeRenderPath =
+#if UNITY_STANDALONE_OSX 
+                "GfxPluginNativeRender-macOS";
 #elif (UNITY_STANDALONE_WIN || UNITY_WSA) && PLATFORM_64BITS
-                        "GfxPluginNativeRender-x64";
+                "GfxPluginNativeRender-x64";
 #elif (UNITY_STANDALONE_WIN) && PLATFORM_32BITS
-                        "GfxPluginNativeRender-x86";
+                "GfxPluginNativeRender-x86";
 #else
 #error Unknown platform
-                        "GfxPluginNativeRender-unknown";
+                "GfxPluginNativeRender-unknown";
 #endif
 
-                        [DllImport(GfxPluginNativeRenderPath)]
-                        static extern void UnloadEOS();
+            [DllImport(GfxPluginNativeRenderPath)]
+            static extern void UnloadEOS();
 
-                        [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
-                        static extern IntPtr EOS_GetPlatformInterface();
+            [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
+            static extern IntPtr EOS_GetPlatformInterface();
 
-                        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-                        delegate void PrintDelegateType(string str);
-                        [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
-                        static extern void global_log_flush_with_function(IntPtr ptr);
+            [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+            delegate void PrintDelegateType(string str);
+            [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
+            static extern void global_log_flush_with_function(IntPtr ptr);
 #endif
 
             static void NativeCallToUnloadEOS()
@@ -220,7 +216,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 var eosLibraryHandle = LoadDynamicLibrary(EOSBinaryName);
 
                 Epic.OnlineServices.Bindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
-#if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
+                // TODO: Add conditions for all flags (unless OSX is the only one that's weird?)
+#if UNITY_EDITOR_OSX
                     return handle.LoadFunctionAsIntPtr(functionName.Trim('_'));
 #else
                     return handle.LoadFunctionAsIntPtr(functionName);

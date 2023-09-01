@@ -244,7 +244,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-    #if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM
+    // TODO: Add conditions for all flags
+    #if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
         [System.Runtime.InteropServices.DllImport("MicrophoneUtility_macos.dylib")]
         public static extern bool MicrophoneUtility_get_mic_permission();
     #elif UNITY_IOS
@@ -254,7 +255,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     
         private bool HasPlatformMicrophonePermission()
         {
-#if UNITY_IOS || ((UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM)
+            // TODO: Add conditions for all flags
+#if UNITY_IOS || (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
             return MicrophoneUtility_get_mic_permission();
 #elif UNITY_ANDROID
             return UnityEngine.Android.Permission.HasUserAuthorizedPermission(UnityEngine.Android.Permission.Microphone);
