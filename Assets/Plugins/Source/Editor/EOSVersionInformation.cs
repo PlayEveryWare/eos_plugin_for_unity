@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        [MenuItem("Tools/Epic Online Services Version")]
+        [MenuItem("Tools/EOS Plugin/Version")]
         public static void ShowWindow()
         {
             GetWindow(typeof(EOSVersionInformation), false, "EOS Version", true);

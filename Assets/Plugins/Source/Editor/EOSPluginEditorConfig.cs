@@ -221,7 +221,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        [MenuItem("Edit/EOS Plugin Editor Configuration...")]
+        [MenuItem("Tools/EOS Plugin/Configuration")]
         public static void ShowWindow()
         {
             GetWindow(typeof(EOSPluginEditorConfigEditor));
