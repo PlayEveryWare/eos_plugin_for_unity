@@ -40,7 +40,7 @@ public class DeploymentChecker : EditorWindow
     Vector2 scrollPosition;
 
     //-------------------------------------------------------------------------
-    [MenuItem("Tools/EOS/Check Deployment")]
+    [MenuItem("Tools/EOS Plugin/Check Deployment")]
     public static void ShowWindow()
     {
         GetWindow(typeof(DeploymentChecker), false, "Deployment Checker", true);
