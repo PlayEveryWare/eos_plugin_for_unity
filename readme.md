@@ -323,7 +323,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
 ## Configuration Steps
 
-1. In the Unity editor menu bar, open ```Tools -> EpicOnlineServicesConfigEditor```.
+1. In the Unity editor menu bar, open ```Tools -> EOS Plugin -> Dev Portal Configuration```.
 
     ![EOS Config Menu](docs/images/unity_tools_eosconfig.gif)
 
