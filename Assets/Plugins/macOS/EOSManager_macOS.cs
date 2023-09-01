@@ -79,7 +79,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
-            UnityEngine.Log.Warning("macOS platform is currently in preview.");
+            UnityEngine.Debug.LogWarning("macOS platform is currently in preview.");
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsmacOS());
         }
 
