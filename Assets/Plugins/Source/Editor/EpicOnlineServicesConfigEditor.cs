@@ -67,7 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         EOSConfigFile<EOSSteamConfig> steamEOSConfigFile;
 
-        [MenuItem("Tools/EpicOnlineServicesConfigEditor")]
+        [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
         public static void ShowWindow()
         {
             GetWindow(typeof(EpicOnlineServicesConfigEditor), false, "EOS Config Editor", true);

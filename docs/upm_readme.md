@@ -110,7 +110,7 @@ To get the EOS working, the plugin needs to know some specific things about your
 
 ## Steps
 1) Open your Unity project with the integrated EOS Unity Plugin. 
-2) In the Unity editor, Open ```Tools -> EpicOnlineServicesConfigEditor```.
+2) In the Unity editor, Open ```Tools -> EOS Plugin -> Dev Portal Configuration```.
 
     ![EOS Config Menu](images/unity_tools_eosconfig.gif)
 
