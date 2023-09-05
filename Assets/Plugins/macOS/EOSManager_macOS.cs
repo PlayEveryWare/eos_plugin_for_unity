@@ -34,7 +34,7 @@ using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
 
-#if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && EOS_PREVIEW_PLATFORM
+#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
 [assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices 
 {
@@ -79,6 +79,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
+            UnityEngine.Debug.LogWarning("macOS platform is currently in preview.");
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsmacOS());
         }
 

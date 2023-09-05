@@ -77,7 +77,6 @@ The support level of each target platform in Unity as of the current release of 
 | Universal Windows Platform x64 | | |
 | [Android](/docs/android/readme_android.md) (No Social Overlay Yet) | | |
 | [iOS](/docs/iOS/readme_iOS.md) (No Social Overlay Yet) | | |
-> :heavy_exclamation_mark: Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms.
 
 <br />
 

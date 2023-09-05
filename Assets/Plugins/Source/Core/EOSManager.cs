@@ -462,7 +462,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.ClientCredentials = clientCredentials;
 
 
-#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || (UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM) || (UNITY_EDITOR_LINUX && EOS_PREVIEW_PLATFORM))
+#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
                 var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
                 //TODO: handle errors
                 var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
@@ -600,7 +600,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
 #endif
-#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM
+#if (UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX)
                     if (secondTryResult != Result.AlreadyConfigured)
 #endif
                     {

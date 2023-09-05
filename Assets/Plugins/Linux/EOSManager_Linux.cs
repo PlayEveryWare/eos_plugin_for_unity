@@ -22,7 +22,7 @@
 
 #if UNITY_64 || UNITY_EDITOR_64
 #define PLATFORM_64BITS
-#elif (UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX) && EOS_PREVIEW_PLATFORM
+#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
 #define PLATFORM_32BITS
 #endif
 
@@ -47,7 +47,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Epic.OnlineServices.IntegratedPlatform;
 
-#if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && EOS_PREVIEW_PLATFORM
+#if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
 [assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -142,6 +142,7 @@ static string SteamDllName = "steam_api.dll";
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
+            UnityEngine.Debug.LogWarning("Linux platform is currently in preview.");
             EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsLinux());
         }
 

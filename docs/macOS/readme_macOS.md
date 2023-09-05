@@ -1,10 +1,5 @@
 # macOS 
 
-## Preview Platform
-
-To access Preview platforms, apply `EOS_PREVIEW_PLATFORM` in   
-`Player Settings -> Other Settings -> Scripting Define Symbols`
-
 ---------------------------------------
 ## Building Standalone with Unity.
 
