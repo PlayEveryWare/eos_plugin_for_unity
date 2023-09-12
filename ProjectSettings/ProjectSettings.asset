@@ -539,7 +539,7 @@ PlayerSettings:
   switchSmallIcons_13: {fileID: 0}
   switchSmallIcons_14: {fileID: 0}
   switchManualHTML: 
-  switchAccessibleURLs: accessible-urls.txt
+  switchAccessibleURLs: config/accessible-urls.txt
   switchLegalInformation: 
   switchMainThreadStackSize: 1048576
   switchPresenceGroupId: 
