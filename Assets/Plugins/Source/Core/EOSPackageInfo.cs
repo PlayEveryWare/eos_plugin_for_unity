@@ -43,7 +43,7 @@ public static class EOSPackageInfo
     {
         try
         {
-            var pathToManifest = System.IO.Path.Combine(UnityEngine.Application.dataPath, "..", "EOSUnityPlugin_package_template", "package.json");
+            var pathToManifest = System.IO.Path.Combine(UnityEngine.Application.dataPath, "..", "config", "EOSUnityPlugin_package_template", "package.json");
             var contents = System.IO.File.ReadAllText(pathToManifest);
             var versionData = UnityEngine.JsonUtility.FromJson<VersionReader>(contents);
             return versionData.version;
