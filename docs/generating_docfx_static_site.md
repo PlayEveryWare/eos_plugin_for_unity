@@ -1,7 +1,7 @@
 # How to update the DocFX static site
 *Overview*
 1) Install docfx.
-2) Go to the `docfx_project/` dir in the repository.
+2) Go to the `docs/docfx/` dir in the repository.
 3) Run docfx.
 4) Run a test server to see the results: `docfx serve \_site`.
 5) Copy the files to the github static site.
@@ -18,7 +18,7 @@ In a terminal of your choice that has docfx in the PATH, go the the repo, and th
 docfx_project. One may do so via something like this:
 ```
 cd ${THE_PATH_OF_YOUR_CHECKOUT_OF_THE_PLUGIN}
-cd docfx_project
+cd docfx
 ```
 
 ## Run docfx
