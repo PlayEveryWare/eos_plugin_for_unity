@@ -6,4 +6,6 @@
 /**/packages/
 /**/bin/
 /**/obj/
+api
+obj
 _site
