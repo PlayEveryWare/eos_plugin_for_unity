@@ -11,7 +11,7 @@ generate versions of the package which include "Restricted" parts as well.
 2) Go to `Tools -> EOS Plugin -> Create Package`
 
 3) Fill out "JSON Description Path".
-This should by default be defined as `${WHATEVER_THE_GIT_REPO_IS_CALLED}/Assets/../PackageDescriptionConfigs/eos_package_description.json`.
+This should by default be defined as `${WHATEVER_THE_GIT_REPO_IS_CALLED}/Assets/../config/PackageDescriptions/eos_package_description.json`.
 This file defines what will be exported into the final UPM package, the documentation of which currently reside in the same directory as the package files.
 
 4) Fill out "Output path".
