@@ -21,6 +21,10 @@
 */
 
 using System;
+
+using UnityEngine;
+using Epic.OnlineServices;
+using Epic.OnlineServices.Platform;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -138,6 +142,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
 #if !EOS_DISABLE
         string GetTempDir();
+       // Int32 IsReadyForNetworkActivity();
 
         void AddPluginSearchPaths(ref List<string> pluginPaths);
 

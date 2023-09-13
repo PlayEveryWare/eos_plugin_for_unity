@@ -398,6 +398,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             lobbyProperties.RTCRoomEnabled = RTCVoiceRoomEnabledVal.isOn;
 
             LobbyManager.CreateLobby(lobbyProperties, UIOnLobbyUpdated);
+
+            EventSystem.current.SetSelectedGameObject(ModifyLobbyButton.gameObject);
         }
 
         public void ModifyLobbyButtonOnClick()
@@ -410,11 +412,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            // Create a new lobby property based on the settings on the UI
+            Lobby lobbyProperties = new Lobby();
+
             // Bucket Id
-            currentLobby.BucketId = BucketIdVal.InputField.text;
+            lobbyProperties.BucketId = BucketIdVal.InputField.text;
 
             // Max Players
-            currentLobby.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
+            lobbyProperties.MaxNumLobbyMembers = (uint)Int32.Parse(MaxPlayersVal.options[MaxPlayersVal.value].text);
 
             // Level Attribute
             LobbyAttribute attribute = new LobbyAttribute();
@@ -422,32 +427,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             attribute.AsString = LevelVal.options[LevelVal.value].text;
             attribute.ValueType = AttributeType.String;
             attribute.Visibility = LobbyAttributeVisibility.Public;
-            currentLobby.Attributes.Add(attribute);
+            lobbyProperties.Attributes.Add(attribute);
 
             // Permission Level
             string permissionStr = PermissionVal.options[PermissionVal.value].text;
-            currentLobby.LobbyPermissionLevel = LobbyPermissionLevel.Publicadvertised; // Default
+            lobbyProperties.LobbyPermissionLevel = LobbyPermissionLevel.Publicadvertised; // Default
             if (permissionStr.Equals("Presence", StringComparison.OrdinalIgnoreCase))
             {
-                currentLobby.LobbyPermissionLevel = LobbyPermissionLevel.Joinviapresence;
+                lobbyProperties.LobbyPermissionLevel = LobbyPermissionLevel.Joinviapresence;
             }
             else if (permissionStr.Equals("Invite Only", StringComparison.OrdinalIgnoreCase))
             {
-                currentLobby.LobbyPermissionLevel = LobbyPermissionLevel.Inviteonly;
+                lobbyProperties.LobbyPermissionLevel = LobbyPermissionLevel.Inviteonly;
             }
 
             // Allow Invites
-            currentLobby.AllowInvites = AllowInvitesVal.isOn;
+            lobbyProperties.AllowInvites = AllowInvitesVal.isOn;
 
             // Presence Enabled (cannot be modified)
-            //currentLobby.PresenceEnabled = PresenceEnabledVal.isOn;
+            //lobbyProperties.PresenceEnabled = PresenceEnabledVal.isOn;
 
-            LobbyManager.ModifyLobby(currentLobby, UIOnLobbyUpdated);
+            LobbyManager.ModifyLobby(lobbyProperties, UIOnLobbyUpdated);
         }
 
         public void LeaveLobbyButtonOnClick()
         {
             LobbyManager.LeaveLobby(UIOnLeaveLobby);
+            
         }
 
         public void AddMemberAttributeOnClick()
@@ -650,7 +656,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ModifyLobbyButton.gameObject.SetActive(false);
             LeaveLobbyButton.gameObject.SetActive(false);
             AddMemberAttributeButton.gameObject.SetActive(false);
-
+            EventSystem.current.SetSelectedGameObject(CreateLobbyButton.gameObject);
             // Destroy current UI member list
             foreach (Transform child in MemberContentParent.transform)
             {

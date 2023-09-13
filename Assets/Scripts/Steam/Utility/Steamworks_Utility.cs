@@ -20,39 +20,24 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
+#if !STEAMWORKS_MODULE || !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
+#define DISABLESTEAMWORKS
+#endif
+
 using UnityEngine;
 
-#if !EOS_DISABLE
-using Epic.OnlineServices;
-using Epic.OnlineServices.Connect;
-using Epic.OnlineServices.Friends;
-using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.UserInfo;
-using Epic.OnlineServices.UI;
+#if !DISABLESTEAMWORKS
+using Steamworks;
 #endif
 
-namespace PlayEveryWare.EpicOnlineServices.Samples
+public class Steamworks_Utility : MonoBehaviour
 {
-    public class EOSHostManager : MonoBehaviour, IEOSCoroutineOwner
+    public static string GetSteamworksVersion()
     {
-        void Awake()
-        {
-#if !EOS_DISABLE
-
-#if UNITY_PS5 && !UNITY_EDITOR
-            EOSPSNManagerPS5.EnsurePS5Initialized();
+#if DISABLESTEAMWORKS
+        return "Steamworks not imported or not supported on platform";
+#else
+        return Steamworks.Version.SteamworksSDKVersion;
 #endif
-
-            EOSManager.Instance.Init(this);
-#endif
-        }
-
-        void IEOSCoroutineOwner.StartCoroutine(IEnumerator routine)
-        {
-            base.StartCoroutine(routine);
-        }
     }
 }

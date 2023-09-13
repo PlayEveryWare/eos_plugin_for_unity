@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2023 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -19,40 +19,32 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-#if !EOS_DISABLE
-using Epic.OnlineServices;
-using Epic.OnlineServices.Connect;
-using Epic.OnlineServices.Friends;
-using Epic.OnlineServices.Presence;
-using Epic.OnlineServices.UserInfo;
-using Epic.OnlineServices.UI;
-#endif
+#if UNITY_EDITOR
+using UnityEditor.PackageManager;
+using UnityEditor.PackageManager.Requests;
 
-namespace PlayEveryWare.EpicOnlineServices.Samples
+namespace PlayEveryWare.Editor.InputSystem
 {
-    public class EOSHostManager : MonoBehaviour, IEOSCoroutineOwner
+    [InitializeOnLoad]
+    public class PackageInstallHelper_InputSystem
     {
-        void Awake()
+        static PackageInstallHelper_InputSystem()
         {
-#if !EOS_DISABLE
 
-#if UNITY_PS5 && !UNITY_EDITOR
-            EOSPSNManagerPS5.EnsurePS5Initialized();
+#if !COM_UNITY_MODULE_INPUTSYSTEM
+            AddRequest request;
+            Debug.LogWarning("Package : [com.unity.inputsystem] required, attempting to install...");
+
+            request = Client.Add("com.unity.inputsystem@1.4.4");
+            while (request.Status == StatusCode.InProgress) { }
+            if (request.Result != null) { Debug.Log("[com.unity.inputsystem@1.4.4] successfully installed"); }
+            else { Debug.Log("[com.unity.inputsystem@1.4.4] Request Failed : " + request.Error.ToString()); }
 #endif
-
-            EOSManager.Instance.Init(this);
-#endif
-        }
-
-        void IEOSCoroutineOwner.StartCoroutine(IEnumerator routine)
-        {
-            base.StartCoroutine(routine);
         }
     }
 }
+#endif
+

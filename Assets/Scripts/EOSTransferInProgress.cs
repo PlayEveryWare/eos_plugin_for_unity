@@ -32,6 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     public class EOSTransferInProgress
     {
+        public const int FileMaxSizeBytes = (64 * 1024 * 1024);
+
         public bool Download = true;
         public uint CurrentIndex = 0;
         public byte[] Data;
@@ -47,10 +49,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 transferSize = value;
 
-                if (transferSize > PlayerDataStorageInterface.FileMaxSizeBytes)
+                if (transferSize > FileMaxSizeBytes)
                 {
                     Debug.LogError("[EOS SDK] Player data storage: data transfer size exceeds max file size.");
-                    transferSize = PlayerDataStorageInterface.FileMaxSizeBytes;
+                    transferSize = FileMaxSizeBytes;
                 }
             }
         }

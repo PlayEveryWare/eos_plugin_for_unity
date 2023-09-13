@@ -40,42 +40,47 @@ using System.Runtime.InteropServices;
 // Default impl for new platforms.
 // Most platforms will have their actual init code in natie code, and thus won't need
 // to do this.
-//namespace PlayEveryWare.EpicOnlineServices
-//{
-//    public partial class EOSManager
-//    {
-//        //-------------------------------------------------------------------------
-//        static string GetTempDir()
-//        {
-//            return Application.temporaryCachePath;
-//        }
+namespace PlayEveryWare.EpicOnlineServices
+{
+    public partial class EOSManager
+    {
+        //-------------------------------------------------------------------------
+        static string GetTempDir()
+        {
+            return Application.temporaryCachePath;
+        }
 
 
-//        //-------------------------------------------------------------------------
-//        static private void ConfigureSystemInitOptions(ref InitializeOptions initializeOptions)
-//        {
-//        }
+        static private Int32 IsReadyForNetworkActivity()
+        {
+            return 1;
+        }
 
-//        //-------------------------------------------------------------------------
-//        static private InitializeOptions CreateSystemInitOptions()
-//        {
-//            return new InitializeOptions();
-//        }
+        //-------------------------------------------------------------------------
+        static private void ConfigureSystemInitOptions(ref InitializeOptions initializeOptions)
+        {
+        }
 
-//        //-------------------------------------------------------------------------
-//        // TODO merge this with the ConfigureSystemPlatformCreateOptions?
-//        static private Options CreateSystemPlatformOption()
-//        {
-//            var createOptions = new Options();
+        //-------------------------------------------------------------------------
+        static private InitializeOptions CreateSystemInitOptions()
+        {
+            return new InitializeOptions();
+        }
 
-//            return createOptions;
-//        }
+        //-------------------------------------------------------------------------
+        // TODO merge this with the ConfigureSystemPlatformCreateOptions?
+        static private Options CreateSystemPlatformOption()
+        {
+            var createOptions = new Options();
 
-//        //-------------------------------------------------------------------------
-//        static private void ConfigureSystemPlatformCreateOptions(ref Options createOptions)
-//        {
-//        }
-//    }
-//}
+            return createOptions;
+        }
+
+        //-------------------------------------------------------------------------
+        static private void ConfigureSystemPlatformCreateOptions(ref Options createOptions)
+        {
+        }
+    }
+}
 #endif
 
