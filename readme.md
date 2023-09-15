@@ -1,6 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-<div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
+<div align="center"> <img src="docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
 <br /><br /><br />
 
 ---
@@ -35,9 +35,9 @@
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
 ---
 
-The Epic Online Services (EOS) Plugin for Unity is a software development kit (SDK) used for integrating EOS into a Unity project. Bringing the free services that connect players across all platforms and all stores, to Unity in an easy to use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and Epic docs [here](https://dev.epicgames.com/docs/epic-online-services).
+The PlayEveryWare EOS Plugin for Unity is a software development kit (SDK) used for integrating EOS into a Unity project. Bringing the free services that connect players across all platforms and all stores, to Unity in an easy to use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and Epic docs [here](https://dev.epicgames.com/docs/epic-online-services).
 
-The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugin_for_unity) contains the source code for development, samples and support for the [Epic Online Services Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
+The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugin_for_unity) contains the source code for development, samples and support for the [PlayEveryWare EOS Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
 
 #### Plugin Features: [(In Depth Details)](docs/plugin_advantages.md)
 
@@ -77,6 +77,7 @@ The support level of each target platform in Unity as of the current release of 
 | Universal Windows Platform x64 | | |
 | [Android](/docs/android/readme_android.md) (No Social Overlay Yet) | | |
 | [iOS](/docs/iOS/readme_iOS.md) (No Social Overlay Yet) | | |
+> :heavy_exclamation_mark: Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms.
 
 <br />
 
@@ -220,7 +221,8 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 4. Select ```Add Package from Git URL```.
 
-6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```.
+6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```
+   or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```.
 
 7. After the package has finished installing, <a href="#samples">import the samples</a>.
 
@@ -243,7 +245,7 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 ## Importing the samples
 <br />
 
-1. Select the ```Epic Online Services Plugin for Unity``` in the Package Manager window.
+1. Select the ```PlayEveryWare EOS Plugin for Unity``` in the Package Manager window.
 
     ![Unity Install Samples](docs/images/unity_install_samples.gif)
 
@@ -255,7 +257,7 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 4. In the Unity editor menu bar, open ```File->Build Settings```.
 
-5. In the ```Project``` window, navigate to the scenes folders containing their respective sample scenes. ```\Assets\Samples\Epic Online Services Plugin for Unity\[Version #]\[Pack Name]\Scenes```.
+5. In the ```Project``` window, navigate to the scenes folders containing their respective sample scenes. ```\Assets\Samples\PlayEveryWare EOS Plugin for Unity\[Version #]\[Pack Name]\Scenes```.
 
 6. Add the scenes to the ```Scenes In Build``` section of the ```Build Settings``` window. This can be done quickly by using the ```Shift``` key to select each scene at the same time, then dragging them into the proper area. Repeating for each sample pack folder.
 
@@ -322,7 +324,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
 ## Configuration Steps
 
-1. In the Unity editor menu bar, open ```Tools -> EOS Plugin -> Dev Portal Configuration```.
+1. In the Unity editor menu bar, open ```Tools -> EpicOnlineServicesConfigEditor```.
 
     ![EOS Config Menu](docs/images/unity_tools_eosconfig.gif)
 
@@ -361,7 +363,7 @@ See [docs/disable_plugin_per_platform.md](docs/disable_plugin_per_platform.md) f
 # <div align="center">$\textcolor{deeppink}{\textsf{Plugin Support}}$</div> <a name="plugin-support" />
 ---
 
-Epic Online Services Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
+PlayEveryWare EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
 
 For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab in the github repo.
 
