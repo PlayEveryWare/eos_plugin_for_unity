@@ -356,7 +356,7 @@ namespace Epic.OnlineServices.KWS
 		{
 			OnPermissionsUpdateReceivedCallback callback;
 			PermissionsUpdateReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

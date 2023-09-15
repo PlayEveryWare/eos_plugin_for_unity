@@ -14,17 +14,18 @@ namespace Epic.OnlineServices.Auth
 		public Result ResultCode { get; set; }
 
 		/// <summary>
-		/// Context that was passed into <see cref="AuthInterface.Login" />
+		/// Context that was passed into <see cref="AuthInterface.Login" />.
 		/// </summary>
 		public object ClientData { get; set; }
 
 		/// <summary>
-		/// The Epic Account ID of the local user who has logged in
+		/// The Epic Account ID of the local user who has logged in.
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// Optional data returned in the middle of a <see cref="LoginCredentialType.DeviceCode" /> request
+		/// Optional data that may be returned in the middle of the login flow, when neither the in-game overlay or a platform browser is used.
+		/// This data is present when the ResultCode is <see cref="Result.AuthPinGrantCode" />.
 		/// </summary>
 		public PinGrantInfo? PinGrantInfo { get; set; }
 
@@ -34,9 +35,9 @@ namespace Epic.OnlineServices.Auth
 		public ContinuanceToken ContinuanceToken { get; set; }
 
 		/// <summary>
-		/// If the user trying to login is restricted from doing so, the ResultCode of this structure will be <see cref="Result.AuthAccountFeatureRestricted" />, and AccountFeatureRestrictedInfo will be populated with the data needed to get past the restriction
+		/// Deprecated field that is no longer used.
 		/// </summary>
-		public AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo { get; set; }
+		public AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID that has been previously selected to be used for the current application.
@@ -59,7 +60,7 @@ namespace Epic.OnlineServices.Auth
 			LocalUserId = other.LocalUserId;
 			PinGrantInfo = other.PinGrantInfo;
 			ContinuanceToken = other.ContinuanceToken;
-			AccountFeatureRestrictedInfo = other.AccountFeatureRestrictedInfo;
+			AccountFeatureRestrictedInfo_DEPRECATED = other.AccountFeatureRestrictedInfo_DEPRECATED;
 			SelectedAccountId = other.SelectedAccountId;
 		}
 	}
@@ -72,7 +73,7 @@ namespace Epic.OnlineServices.Auth
 		private System.IntPtr m_LocalUserId;
 		private System.IntPtr m_PinGrantInfo;
 		private System.IntPtr m_ContinuanceToken;
-		private System.IntPtr m_AccountFeatureRestrictedInfo;
+		private System.IntPtr m_AccountFeatureRestrictedInfo_DEPRECATED;
 		private System.IntPtr m_SelectedAccountId;
 
 		public Result ResultCode
@@ -156,18 +157,18 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
-		public AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo
+		public AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo_DEPRECATED
 		{
 			get
 			{
 				AccountFeatureRestrictedInfo? value;
-				Helper.Get<AccountFeatureRestrictedInfoInternal, AccountFeatureRestrictedInfo>(m_AccountFeatureRestrictedInfo, out value);
+				Helper.Get<AccountFeatureRestrictedInfoInternal, AccountFeatureRestrictedInfo>(m_AccountFeatureRestrictedInfo_DEPRECATED, out value);
 				return value;
 			}
 
 			set
 			{
-				Helper.Set<AccountFeatureRestrictedInfo, AccountFeatureRestrictedInfoInternal>(ref value, ref m_AccountFeatureRestrictedInfo);
+				Helper.Set<AccountFeatureRestrictedInfo, AccountFeatureRestrictedInfoInternal>(ref value, ref m_AccountFeatureRestrictedInfo_DEPRECATED);
 			}
 		}
 
@@ -193,7 +194,7 @@ namespace Epic.OnlineServices.Auth
 			LocalUserId = other.LocalUserId;
 			PinGrantInfo = other.PinGrantInfo;
 			ContinuanceToken = other.ContinuanceToken;
-			AccountFeatureRestrictedInfo = other.AccountFeatureRestrictedInfo;
+			AccountFeatureRestrictedInfo_DEPRECATED = other.AccountFeatureRestrictedInfo_DEPRECATED;
 			SelectedAccountId = other.SelectedAccountId;
 		}
 
@@ -206,7 +207,7 @@ namespace Epic.OnlineServices.Auth
 				LocalUserId = other.Value.LocalUserId;
 				PinGrantInfo = other.Value.PinGrantInfo;
 				ContinuanceToken = other.Value.ContinuanceToken;
-				AccountFeatureRestrictedInfo = other.Value.AccountFeatureRestrictedInfo;
+				AccountFeatureRestrictedInfo_DEPRECATED = other.Value.AccountFeatureRestrictedInfo_DEPRECATED;
 				SelectedAccountId = other.Value.SelectedAccountId;
 			}
 		}
@@ -217,7 +218,7 @@ namespace Epic.OnlineServices.Auth
 			Helper.Dispose(ref m_LocalUserId);
 			Helper.Dispose(ref m_PinGrantInfo);
 			Helper.Dispose(ref m_ContinuanceToken);
-			Helper.Dispose(ref m_AccountFeatureRestrictedInfo);
+			Helper.Dispose(ref m_AccountFeatureRestrictedInfo_DEPRECATED);
 			Helper.Dispose(ref m_SelectedAccountId);
 		}
 

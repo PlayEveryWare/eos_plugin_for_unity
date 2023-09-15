@@ -66,7 +66,7 @@ namespace Epic.OnlineServices.Sessions
 		}
 
 		/// <summary>
-		/// Stored as a null terminated UTF8 string
+		/// Stored as a null terminated UTF8 string. Should not be nullptr
 		/// </summary>
 		public Utf8String AsUtf8
 		{

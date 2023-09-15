@@ -773,6 +773,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ShowFriendsOverlayCallback?.Invoke(Result.Success);
         }
 
+        //-------------------------------------------------------------------------
         /// <summary>Hides Social Overlay</summary>
         public void HideFriendsOverlay(OnFriendsCallback HideFriendsOverlayCompleted)
         {
@@ -781,6 +782,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().HideFriends(ref hideFriendsOptions, null, OnHideFriendsCallback);
         }
 
+        //-------------------------------------------------------------------------
         private void OnHideFriendsCallback(ref HideFriendsCallbackInfo data)
         {
             //if (data == null)

@@ -6,12 +6,12 @@ namespace Epic.OnlineServices.Platform
 	/// <summary>
 	/// Output parameters for the <see cref="PlatformInterface.GetDesktopCrossplayStatus" /> function.
 	/// </summary>
-	public struct GetDesktopCrossplayStatusInfo
+	public struct DesktopCrossplayStatusInfo
 	{
 		/// <summary>
 		/// Status for the availability of desktop crossplay functionality.
 		/// 
-		/// It is recommended to include this value in application logs, and as as part of
+		/// It is recommended to include this value in application logs, and as part of
 		/// any player-facing error screens to help troubleshooting possible issues.
 		/// </summary>
 		public DesktopCrossplayStatus Status { get; set; }
@@ -25,7 +25,7 @@ namespace Epic.OnlineServices.Platform
 		/// </summary>
 		public int ServiceInitResult { get; set; }
 
-		internal void Set(ref GetDesktopCrossplayStatusInfoInternal other)
+		internal void Set(ref DesktopCrossplayStatusInfoInternal other)
 		{
 			Status = other.Status;
 			ServiceInitResult = other.ServiceInitResult;
@@ -33,7 +33,7 @@ namespace Epic.OnlineServices.Platform
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
-	internal struct GetDesktopCrossplayStatusInfoInternal : IGettable<GetDesktopCrossplayStatusInfo>, ISettable<GetDesktopCrossplayStatusInfo>, System.IDisposable
+	internal struct DesktopCrossplayStatusInfoInternal : IGettable<DesktopCrossplayStatusInfo>, ISettable<DesktopCrossplayStatusInfo>, System.IDisposable
 	{
 		private DesktopCrossplayStatus m_Status;
 		private int m_ServiceInitResult;
@@ -64,13 +64,13 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
-		public void Set(ref GetDesktopCrossplayStatusInfo other)
+		public void Set(ref DesktopCrossplayStatusInfo other)
 		{
 			Status = other.Status;
 			ServiceInitResult = other.ServiceInitResult;
 		}
 
-		public void Set(ref GetDesktopCrossplayStatusInfo? other)
+		public void Set(ref DesktopCrossplayStatusInfo? other)
 		{
 			if (other.HasValue)
 			{
@@ -83,9 +83,9 @@ namespace Epic.OnlineServices.Platform
 		{
 		}
 
-		public void Get(out GetDesktopCrossplayStatusInfo output)
+		public void Get(out DesktopCrossplayStatusInfo output)
 		{
-			output = new GetDesktopCrossplayStatusInfo();
+			output = new DesktopCrossplayStatusInfo();
 			output.Set(ref this);
 		}
 	}

@@ -4,14 +4,15 @@
 namespace Epic.OnlineServices.Auth
 {
 	/// <summary>
-	/// Intermediate data needed to complete the <see cref="LoginCredentialType.DeviceCode" /> and <see cref="LoginCredentialType.ExternalAuth" /> login flows, returned by <see cref="LoginCallbackInfo" />.
+	/// Intermediate data for completing Epic account login, when neither the in-game overlay or a platform browser is used.
+	/// The <see cref="PinGrantInfo" /> struct is returned as part of the <see cref="LoginCallbackInfo" /> and <see cref="LinkAccountCallbackInfo" /> structs.
 	/// The data inside should be exposed to the user for entry on a secondary device.
 	/// All data must be copied out before the completion of this callback.
 	/// </summary>
 	public struct PinGrantInfo
 	{
 		/// <summary>
-		/// Code the user must input on an external device to activate the login
+		/// Code the user must input on an external device to activate the login.
 		/// </summary>
 		public Utf8String UserCode { get; set; }
 
@@ -21,7 +22,7 @@ namespace Epic.OnlineServices.Auth
 		public Utf8String VerificationURI { get; set; }
 
 		/// <summary>
-		/// Time the user has, in seconds, to complete the process or else timeout
+		/// Time the user has, in seconds, to complete the process or else timeout.
 		/// </summary>
 		public int ExpiresIn { get; set; }
 

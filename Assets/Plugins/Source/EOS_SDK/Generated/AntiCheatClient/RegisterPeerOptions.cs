@@ -22,7 +22,6 @@ namespace Epic.OnlineServices.AntiCheatClient
 
 		/// <summary>
 		/// Time in seconds to allow newly registered peers to send the initial message containing their token.
-		/// Recommended value: 60
 		/// </summary>
 		public uint AuthenticationTimeout { get; set; }
 

@@ -34,6 +34,10 @@ namespace Epic.OnlineServices.Platform
 		/// <summary>
 		/// A bit that indicates your game would like to opt-in to experimental OpenGL support for the overlay. This flag is only relevant on Windows
 		/// </summary>
-		WindowsEnableOverlayOpengl = 0x00040
+		WindowsEnableOverlayOpengl = 0x00040,
+		/// <summary>
+		/// A bit that indicates your game would like to opt-in to automatic unloading of the overlay module when possible. This flag is only relevant on Consoles
+		/// </summary>
+		ConsoleEnableOverlayAutomaticUnloading = 0x00080
 	}
 }

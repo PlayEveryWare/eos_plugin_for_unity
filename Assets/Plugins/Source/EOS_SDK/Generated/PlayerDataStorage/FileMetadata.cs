@@ -24,7 +24,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		public Utf8String Filename { get; set; }
 
 		/// <summary>
-		/// The POSIX timestamp when the file was saved last time.
+		/// The POSIX timestamp when the file was saved last time or <see cref="PlayerDataStorageInterface.TimeUndefined" /> if the time is undefined.
+		/// It will be undefined after a file is written and uploaded at first before a query operation is completed.
 		/// </summary>
 		public System.DateTimeOffset? LastModifiedTime { get; set; }
 

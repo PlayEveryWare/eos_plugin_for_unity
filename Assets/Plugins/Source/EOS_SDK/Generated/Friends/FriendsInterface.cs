@@ -19,9 +19,24 @@ namespace Epic.OnlineServices.Friends
 		public const int AcceptinviteApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyBlockedUsersUpdate" /> API.
+		/// </summary>
+		public const int AddnotifyblockedusersupdateApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="AddNotifyFriendsUpdate" /> API.
 		/// </summary>
 		public const int AddnotifyfriendsupdateApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="GetBlockedUserAtIndex" /> API.
+		/// </summary>
+		public const int GetblockeduseratindexApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="GetBlockedUsersCount" /> API.
+		/// </summary>
+		public const int GetblockeduserscountApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="GetFriendAtIndex" /> API.
@@ -75,6 +90,34 @@ namespace Epic.OnlineServices.Friends
 		}
 
 		/// <summary>
+		/// Listen for changes to blocklist for a particular account.
+		/// </summary>
+		/// <param name="options">Information about the API version which is being used.</param>
+		/// <param name="clientData">This value is returned to the caller when BlockedUsersUpdateHandler is invoked.</param>
+		/// <param name="blockedUsersUpdateHandler">The callback to be invoked when a blocklist changes.</param>
+		/// <returns>
+		/// A valid notification ID if successfully bound, or <see cref="Common.InvalidNotificationid" /> otherwise.
+		/// </returns>
+		public ulong AddNotifyBlockedUsersUpdate(ref AddNotifyBlockedUsersUpdateOptions options, object clientData, OnBlockedUsersUpdateCallback blockedUsersUpdateHandler)
+		{
+			AddNotifyBlockedUsersUpdateOptionsInternal optionsInternal = new AddNotifyBlockedUsersUpdateOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var blockedUsersUpdateHandlerInternal = new OnBlockedUsersUpdateCallbackInternal(OnBlockedUsersUpdateCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, blockedUsersUpdateHandler, blockedUsersUpdateHandlerInternal);
+
+			var funcResult = Bindings.EOS_Friends_AddNotifyBlockedUsersUpdate(InnerHandle, ref optionsInternal, clientDataAddress, blockedUsersUpdateHandlerInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
 		/// Listen for changes to friends for a particular account.
 		/// </summary>
 		/// <param name="options">Information about who would like notifications.</param>
@@ -98,6 +141,49 @@ namespace Epic.OnlineServices.Friends
 			Helper.Dispose(ref optionsInternal);
 
 			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Retrieves the Epic Account ID of an entry from the blocklist that has already been retrieved by the <see cref="QueryFriends" /> API.
+		/// <seealso cref="QueryFriends" />
+		/// <seealso cref="GetBlockedUsersCount" />
+		/// </summary>
+		/// <param name="options">structure containing the Epic Account ID of the owner of the blocklist and the index into the list.</param>
+		/// <returns>
+		/// the Epic Account ID of the blocked user. Note that if the index provided is out of bounds, the returned Epic Account ID will be a "null" account ID.
+		/// </returns>
+		public EpicAccountId GetBlockedUserAtIndex(ref GetBlockedUserAtIndexOptions options)
+		{
+			GetBlockedUserAtIndexOptionsInternal optionsInternal = new GetBlockedUserAtIndexOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var funcResult = Bindings.EOS_Friends_GetBlockedUserAtIndex(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			EpicAccountId funcResultReturn;
+			Helper.Get(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
+		/// Retrieves the number of blocked users on the blocklist that has already been retrieved by the <see cref="QueryFriends" /> API.
+		/// <seealso cref="QueryFriends" />
+		/// </summary>
+		/// <param name="options">structure containing the Epic Account ID of user who owns the blocklist.</param>
+		/// <returns>
+		/// the number of users on the blocklist.
+		/// </returns>
+		public int GetBlockedUsersCount(ref GetBlockedUsersCountOptions options)
+		{
+			GetBlockedUsersCountOptionsInternal optionsInternal = new GetBlockedUsersCountOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var funcResult = Bindings.EOS_Friends_GetBlockedUsersCount(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
 		}
@@ -172,7 +258,7 @@ namespace Epic.OnlineServices.Friends
 		}
 
 		/// <summary>
-		/// Starts an asynchronous task that reads the user's friends list from the backend service, caching it for future use.
+		/// Starts an asynchronous task that reads the user's friends list and blocklist from the backend service, caching it for future use.
 		/// When the Social Overlay is enabled then this will be called automatically. The Social Overlay is enabled by default (see EOS_PF_DISABLE_SOCIAL_OVERLAY).
 		/// </summary>
 		/// <param name="options">structure containing the account for which to retrieve the friends list</param>
@@ -212,6 +298,17 @@ namespace Epic.OnlineServices.Friends
 			Bindings.EOS_Friends_RejectInvite(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
 			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
+		/// Stop listening for blocklist changes on a previously bound handler.
+		/// </summary>
+		/// <param name="notificationId">The previously bound notification ID.</param>
+		public void RemoveNotifyBlockedUsersUpdate(ulong notificationId)
+		{
+			Bindings.EOS_Friends_RemoveNotifyBlockedUsersUpdate(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
 		}
 
 		/// <summary>
@@ -258,12 +355,23 @@ namespace Epic.OnlineServices.Friends
 			}
 		}
 
+		[MonoPInvokeCallback(typeof(OnBlockedUsersUpdateCallbackInternal))]
+		internal static void OnBlockedUsersUpdateCallbackInternalImplementation(ref OnBlockedUsersUpdateInfoInternal data)
+		{
+			OnBlockedUsersUpdateCallback callback;
+			OnBlockedUsersUpdateInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
 		[MonoPInvokeCallback(typeof(OnFriendsUpdateCallbackInternal))]
 		internal static void OnFriendsUpdateCallbackInternalImplementation(ref OnFriendsUpdateInfoInternal data)
 		{
 			OnFriendsUpdateCallback callback;
 			OnFriendsUpdateInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

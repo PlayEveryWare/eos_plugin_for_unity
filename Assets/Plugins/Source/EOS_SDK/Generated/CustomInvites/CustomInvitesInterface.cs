@@ -14,6 +14,11 @@ namespace Epic.OnlineServices.CustomInvites
 		}
 
 		/// <summary>
+		/// The most recent version of the <see cref="AcceptRequestToJoin" /> API.
+		/// </summary>
+		public const int AcceptrequesttojoinApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="AddNotifyCustomInviteAccepted" /> API.
 		/// </summary>
 		public const int AddnotifycustominviteacceptedApiLatest = 1;
@@ -29,6 +34,31 @@ namespace Epic.OnlineServices.CustomInvites
 		public const int AddnotifycustominviterejectedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyCustomInviteAccepted" /> API.
+		/// </summary>
+		public const int AddnotifyrequesttojoinacceptedApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the AddNotifyRequestToJoinReceived API.
+		/// </summary>
+		public const int AddnotifyrequesttojoinreceivedApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyRequestToJoinRejected" /> API.
+		/// </summary>
+		public const int AddnotifyrequesttojoinrejectedApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyRequestToJoinResponseReceived" /> API.
+		/// </summary>
+		public const int AddnotifyrequesttojoinresponsereceivedApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifySendCustomNativeInviteRequested" /> API.
+		/// </summary>
+		public const int AddnotifysendcustomnativeinviterequestedApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="FinalizeInvite" /> API.
 		/// </summary>
 		public const int FinalizeinviteApiLatest = 1;
@@ -39,14 +69,49 @@ namespace Epic.OnlineServices.CustomInvites
 		public const int MaxPayloadLength = 500;
 
 		/// <summary>
+		/// The most recent version of the <see cref="RejectRequestToJoin" /> API.
+		/// </summary>
+		public const int RejectrequesttojoinApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="SendCustomInvite" /> API.
 		/// </summary>
 		public const int SendcustominviteApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="SendRequestToJoinOptions" /> API.
+		/// </summary>
+		public const int SendrequesttojoinApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="SetCustomInvite" /> API.
 		/// </summary>
 		public const int SetcustominviteApiLatest = 1;
+
+		/// <summary>
+		/// Accept a request to join from another user
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
+		/// <param name="completionDelegate">A callback that is fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the query completes successfully
+		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// </returns>
+		public void AcceptRequestToJoin(ref AcceptRequestToJoinOptions options, object clientData, OnAcceptRequestToJoinCallback completionDelegate)
+		{
+			AcceptRequestToJoinOptionsInternal optionsInternal = new AcceptRequestToJoinOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnAcceptRequestToJoinCallbackInternal(OnAcceptRequestToJoinCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_CustomInvites_AcceptRequestToJoin(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
 
 		/// <summary>
 		/// Register to receive notifications when a Custom Invite for any logged in local user is accepted via the Social Overlay
@@ -138,6 +203,158 @@ namespace Epic.OnlineServices.CustomInvites
 		}
 
 		/// <summary>
+		/// Register to receive notifications when a Request to Join for any logged in local user is accepted via the Social Overlay
+		/// must call EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted to remove the notification
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a Request to Join is accepted via the Social Overlay.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifyRequestToJoinAccepted(ref AddNotifyRequestToJoinAcceptedOptions options, object clientData, OnRequestToJoinAcceptedCallback notificationFn)
+		{
+			AddNotifyRequestToJoinAcceptedOptionsInternal optionsInternal = new AddNotifyRequestToJoinAcceptedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnRequestToJoinAcceptedCallbackInternal(OnRequestToJoinAcceptedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_CustomInvites_AddNotifyRequestToJoinAccepted(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications when a request to join is received for a local user
+		/// must call EOS_CustomInvites_RemoveNotifyRequestToJoinReceived to remove the notification
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a response is received for an invite request.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifyRequestToJoinReceived(ref AddNotifyRequestToJoinReceivedOptions options, object clientData, OnRequestToJoinReceivedCallback notificationFn)
+		{
+			AddNotifyRequestToJoinReceivedOptionsInternal optionsInternal = new AddNotifyRequestToJoinReceivedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnRequestToJoinReceivedCallbackInternal(OnRequestToJoinReceivedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_CustomInvites_AddNotifyRequestToJoinReceived(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications when a Request to Join for any logged in local user is rejected via the Social Overlay
+		/// must call EOS_CustomInvites_RemoveNotifyRequestToJoinRejected to remove the notification
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a Request to Join is accepted via the Social Overlay.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifyRequestToJoinRejected(ref AddNotifyRequestToJoinRejectedOptions options, object clientData, OnRequestToJoinRejectedCallback notificationFn)
+		{
+			AddNotifyRequestToJoinRejectedOptionsInternal optionsInternal = new AddNotifyRequestToJoinRejectedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnRequestToJoinRejectedCallbackInternal(OnRequestToJoinRejectedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_CustomInvites_AddNotifyRequestToJoinRejected(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications when a request to join is responded to by a target user. Note that there is no guarantee a response will be received for every request to join.
+		/// A player is free to ignore a Request to Join until it expires at which point it will be deleted without sending a response.
+		/// must call EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived to remove the notification
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a response is received for an invite request.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifyRequestToJoinResponseReceived(ref AddNotifyRequestToJoinResponseReceivedOptions options, object clientData, OnRequestToJoinResponseReceivedCallback notificationFn)
+		{
+			AddNotifyRequestToJoinResponseReceivedOptionsInternal optionsInternal = new AddNotifyRequestToJoinResponseReceivedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnRequestToJoinResponseReceivedCallbackInternal(OnRequestToJoinResponseReceivedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications about a custom invite "INVITE" performed by a local user via the overlay.
+		/// This is only needed when a configured integrated platform has <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" /> set. The EOS SDK will
+		/// then use the state of <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" /> and <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" /> to determine when the NotificationFn is
+		/// called.
+		/// must call EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested to remove the notification.
+		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" />
+		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" />
+		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" />
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a notification is received.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifySendCustomNativeInviteRequested(ref AddNotifySendCustomNativeInviteRequestedOptions options, object clientData, OnSendCustomNativeInviteRequestedCallback notificationFn)
+		{
+			AddNotifySendCustomNativeInviteRequestedOptionsInternal optionsInternal = new AddNotifySendCustomNativeInviteRequestedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnSendCustomNativeInviteRequestedCallbackInternal(OnSendCustomNativeInviteRequestedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
 		/// Signal that the title has completed processing a received Custom Invite, and that it should be cleaned up internally and in the Overlay
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
@@ -155,6 +372,31 @@ namespace Epic.OnlineServices.CustomInvites
 			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
+		}
+
+		/// <summary>
+		/// Reject a request to join from another user
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
+		/// <param name="completionDelegate">A callback that is fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the query completes successfully
+		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// </returns>
+		public void RejectRequestToJoin(ref RejectRequestToJoinOptions options, object clientData, OnRejectRequestToJoinCallback completionDelegate)
+		{
+			RejectRequestToJoinOptionsInternal optionsInternal = new RejectRequestToJoinOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnRejectRequestToJoinCallbackInternal(OnRejectRequestToJoinCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_CustomInvites_RejectRequestToJoin(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -191,6 +433,61 @@ namespace Epic.OnlineServices.CustomInvites
 		}
 
 		/// <summary>
+		/// Unregister from receiving notifications when a Request to Join for any logged in local user is accepted via the Social Overlay
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifyRequestToJoinAccepted(ulong inId)
+		{
+			Bindings.EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when a request to join for any logged in local user is received
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifyRequestToJoinReceived(ulong inId)
+		{
+			Bindings.EOS_CustomInvites_RemoveNotifyRequestToJoinReceived(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when a Request to Join for any logged in local user is rejected via the Social Overlay
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifyRequestToJoinRejected(ulong inId)
+		{
+			Bindings.EOS_CustomInvites_RemoveNotifyRequestToJoinRejected(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when a request to join for any logged in local user is received
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifyRequestToJoinResponseReceived(ulong inId)
+		{
+			Bindings.EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when a user requests a send invite via the overlay.
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifySendCustomNativeInviteRequested(ulong inId)
+		{
+			Bindings.EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
 		/// Sends a Custom Invite that has previously been initialized via SetCustomInvite to a group of users.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
@@ -218,6 +515,31 @@ namespace Epic.OnlineServices.CustomInvites
 		}
 
 		/// <summary>
+		/// Request that another user send an invitation.
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate</param>
+		/// <param name="completionDelegate">A callback that is fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the query completes successfully
+		/// <see cref="Result.InvalidParameters" /> if any of the options values are incorrect
+		/// </returns>
+		public void SendRequestToJoin(ref SendRequestToJoinOptions options, object clientData, OnSendRequestToJoinCallback completionDelegate)
+		{
+			SendRequestToJoinOptionsInternal optionsInternal = new SendRequestToJoinOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnSendRequestToJoinCallbackInternal(OnSendRequestToJoinCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_CustomInvites_SendRequestToJoin(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
 		/// Initializes a Custom Invite with a specified payload in preparation for it to be sent to another user or users.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
@@ -237,12 +559,23 @@ namespace Epic.OnlineServices.CustomInvites
 			return funcResult;
 		}
 
+		[MonoPInvokeCallback(typeof(OnAcceptRequestToJoinCallbackInternal))]
+		internal static void OnAcceptRequestToJoinCallbackInternalImplementation(ref AcceptRequestToJoinCallbackInfoInternal data)
+		{
+			OnAcceptRequestToJoinCallback callback;
+			AcceptRequestToJoinCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
 		[MonoPInvokeCallback(typeof(OnCustomInviteAcceptedCallbackInternal))]
 		internal static void OnCustomInviteAcceptedCallbackInternalImplementation(ref OnCustomInviteAcceptedCallbackInfoInternal data)
 		{
 			OnCustomInviteAcceptedCallback callback;
 			OnCustomInviteAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -253,7 +586,7 @@ namespace Epic.OnlineServices.CustomInvites
 		{
 			OnCustomInviteReceivedCallback callback;
 			OnCustomInviteReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -264,7 +597,62 @@ namespace Epic.OnlineServices.CustomInvites
 		{
 			OnCustomInviteRejectedCallback callback;
 			CustomInviteRejectedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnRejectRequestToJoinCallbackInternal))]
+		internal static void OnRejectRequestToJoinCallbackInternalImplementation(ref RejectRequestToJoinCallbackInfoInternal data)
+		{
+			OnRejectRequestToJoinCallback callback;
+			RejectRequestToJoinCallbackInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnRequestToJoinAcceptedCallbackInternal))]
+		internal static void OnRequestToJoinAcceptedCallbackInternalImplementation(ref OnRequestToJoinAcceptedCallbackInfoInternal data)
+		{
+			OnRequestToJoinAcceptedCallback callback;
+			OnRequestToJoinAcceptedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnRequestToJoinReceivedCallbackInternal))]
+		internal static void OnRequestToJoinReceivedCallbackInternalImplementation(ref RequestToJoinReceivedCallbackInfoInternal data)
+		{
+			OnRequestToJoinReceivedCallback callback;
+			RequestToJoinReceivedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnRequestToJoinRejectedCallbackInternal))]
+		internal static void OnRequestToJoinRejectedCallbackInternalImplementation(ref OnRequestToJoinRejectedCallbackInfoInternal data)
+		{
+			OnRequestToJoinRejectedCallback callback;
+			OnRequestToJoinRejectedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnRequestToJoinResponseReceivedCallbackInternal))]
+		internal static void OnRequestToJoinResponseReceivedCallbackInternalImplementation(ref RequestToJoinResponseReceivedCallbackInfoInternal data)
+		{
+			OnRequestToJoinResponseReceivedCallback callback;
+			RequestToJoinResponseReceivedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -275,6 +663,28 @@ namespace Epic.OnlineServices.CustomInvites
 		{
 			OnSendCustomInviteCallback callback;
 			SendCustomInviteCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnSendCustomNativeInviteRequestedCallbackInternal))]
+		internal static void OnSendCustomNativeInviteRequestedCallbackInternalImplementation(ref SendCustomNativeInviteRequestedCallbackInfoInternal data)
+		{
+			OnSendCustomNativeInviteRequestedCallback callback;
+			SendCustomNativeInviteRequestedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnSendRequestToJoinCallbackInternal))]
+		internal static void OnSendRequestToJoinCallbackInternalImplementation(ref SendRequestToJoinCallbackInfoInternal data)
+		{
+			OnSendRequestToJoinCallback callback;
+			SendRequestToJoinCallbackInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
