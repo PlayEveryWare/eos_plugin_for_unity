@@ -9,14 +9,19 @@ namespace Epic.OnlineServices.Auth
 	public struct IOSLoginOptions
 	{
 		/// <summary>
-		/// Credentials specified for a given login method
+		/// Credentials specified for a given login method.
 		/// </summary>
 		public IOSCredentials? Credentials { get; set; }
 
 		/// <summary>
-		/// Auth scope flags are permissions to request from the user while they are logging in. This is a bitwise-or union of <see cref="AuthScopeFlags" /> flags defined above
+		/// Auth scope flags are permissions to request from the user while they are logging in. This is a bitwise-or union of <see cref="AuthScopeFlags" /> flags defined above.
 		/// </summary>
 		public AuthScopeFlags ScopeFlags { get; set; }
+
+		/// <summary>
+		/// Optional flags for the desired login behavior, e.g. <see cref="LoginFlags.NoUserInterface" />. This is a bitwise-or union of the defined flags.
+		/// </summary>
+		public LoginFlags LoginFlags { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -25,6 +30,7 @@ namespace Epic.OnlineServices.Auth
 		private int m_ApiVersion;
 		private System.IntPtr m_Credentials;
 		private AuthScopeFlags m_ScopeFlags;
+		private LoginFlags m_LoginFlags;
 
 		public IOSCredentials? Credentials
 		{
@@ -42,11 +48,20 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
+		public LoginFlags LoginFlags
+		{
+			set
+			{
+				m_LoginFlags = value;
+			}
+		}
+
 		public void Set(ref IOSLoginOptions other)
 		{
 			m_ApiVersion = AuthInterface.LoginApiLatest;
 			Credentials = other.Credentials;
 			ScopeFlags = other.ScopeFlags;
+			LoginFlags = other.LoginFlags;
 		}
 
 		public void Set(ref IOSLoginOptions? other)
@@ -56,6 +71,7 @@ namespace Epic.OnlineServices.Auth
 				m_ApiVersion = AuthInterface.LoginApiLatest;
 				Credentials = other.Value.Credentials;
 				ScopeFlags = other.Value.ScopeFlags;
+				LoginFlags = other.Value.LoginFlags;
 			}
 		}
 

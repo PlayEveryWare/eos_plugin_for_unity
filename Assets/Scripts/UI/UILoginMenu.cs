@@ -92,12 +92,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
 
+#if UNITY_PS4
+        //private bool socialOverlayActivated = false;
+#endif
+
         private void Awake()
         {
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
 #if UNITY_EDITOR
             loginType = LoginCredentialType.AccountPortal; // Default in editor
+#elif UNITY_SWITCH
+            loginType = LoginCredentialType.PersistentAuth; // Default on switch
+#elif UNITY_PS4 || UNITY_PS5 || UNITY_GAMECORE
+            loginType = LoginCredentialType.ExternalAuth; // Default on other consoles
 #else
             loginType = LoginCredentialType.AccountPortal; // Default on other platforms
 #endif
@@ -140,12 +148,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 case 1:
                     loginType = LoginCredentialType.AccountPortal;
+                    ConfigureUIForAccountPortalLogin();
                     break;
                 case 2:
                     loginType = LoginCredentialType.PersistentAuth;
+                    ConfigureUIForPersistentLogin();
                     break;
                 case 3:
                     loginType = LoginCredentialType.ExternalAuth;
+                    ConfigureUIForExternalAuth();
                     break;
                 case 4:
                     loginType = LoginCredentialType.ExchangeCode;
@@ -156,6 +167,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 case 0:
                 default:
                     loginType = LoginCredentialType.Developer;
+                    ConfigureUIForDevAuthLogin();
                     break;
             }
 
@@ -217,8 +229,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             var keyboard = Keyboard.current;
 
+            if (system.currentSelectedGameObject != null && system.currentSelectedGameObject != selectedGameObject)
+            {
+                selectedGameObject = system.currentSelectedGameObject;
+            }
+
+            // Prevent deselection by either reselecting the previously selected or the first selected in EventSystem
+            if (system.currentSelectedGameObject == null || system.currentSelectedGameObject?.activeInHierarchy == false)
+            {
+                // Make sure the selected object is still visible. If it's hidden, then don't select an invisible object.
+                if (selectedGameObject == null || selectedGameObject?.activeInHierarchy == false)
+                {
+                    selectedGameObject = system.firstSelectedGameObject;
+                }
+
+                system.SetSelectedGameObject(selectedGameObject);
+            }
+
             // Disable game input if Overlay is visible and has exclusive input
-            if (EventSystem.current != null && EventSystem.current.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+            if (system != null && system.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
             {
                 if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
                 {
@@ -291,8 +320,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Controller: Detect if nothing is selected and controller input detected, and set default
-            bool nothingSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null;
-            bool inactiveButtonSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null && !EventSystem.current.currentSelectedGameObject.activeInHierarchy;
+            bool nothingSelected = system != null && system.currentSelectedGameObject == null;
+            bool inactiveButtonSelected = system != null && system.currentSelectedGameObject != null && !system.currentSelectedGameObject.activeInHierarchy;
 
             var gamepad = Gamepad.current;
             if ((nothingSelected || inactiveButtonSelected)
@@ -300,11 +329,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 if (UIFirstSelected.activeSelf == true)
                 {
-                    EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                    system.SetSelectedGameObject(UIFirstSelected);
                 }
-                else if (UIFindSelectable.activeSelf == true)
+                else if (UIFindSelectable?.activeSelf == true)
                 {
-                    EventSystem.current.SetSelectedGameObject(UIFindSelectable);
+                    system.SetSelectedGameObject(UIFindSelectable);
                 }
                 else
                 {
@@ -319,7 +348,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
 
-                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+                Debug.Log("Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = " + system.currentSelectedGameObject);
             }
             signInWithAppleManager?.Update();
         }
@@ -332,25 +361,67 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 selectedGameObject = system.currentSelectedGameObject;
             }
-            else if (selectedGameObject != null && system.currentSelectedGameObject == null)
+            else if (system.currentSelectedGameObject == null || system.currentSelectedGameObject?.activeInHierarchy == false)
             {
+                // Make sure the selected object is still visible. If it's hidden, then don't select an invisible object.
+                if (selectedGameObject == null || selectedGameObject?.activeInHierarchy == false)
+                {
+                    selectedGameObject = system.firstSelectedGameObject;
+                }
+
                 system.SetSelectedGameObject(selectedGameObject);
             }
 
+#if UNITY_PS4 || UNITY_PS5
+            /* // Overlay handles 'R3', input is always sent
+            if (Input.GetButtonDown("R3"))
+            {
+                Debug.Log("UILoginMenu (Update): R3 pressed, socialOverlayActivated=" + socialOverlayActivated);
+                if(socialOverlayActivated)
+                {
+                    // Show overlay
+                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().ShowFriendsOverlay(null);
+                }
+                else
+                {
+                    // Hide Overlay
+                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().HideFriendsOverlay(null);
+                }
+                socialOverlayActivated = !socialOverlayActivated;
+            }
+            */
+
+            // Disable game input if Overlay is visible and has exclusive input
+            if (system != null && system.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+            {
+                if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+                {
+                    Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
+                    system.sendNavigationEvents = false;
+                    return;
+                }
+                else
+                {
+                    Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
+                    system.sendNavigationEvents = true;
+                }
+            }
+#endif
+
             // Controller: Detect if nothing is selected and controller input detected, and set default
-            bool nothingSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null;
-            bool inactiveButtonSelected = EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null && !EventSystem.current.currentSelectedGameObject.activeInHierarchy;
+            bool nothingSelected = system != null && system.currentSelectedGameObject == null;
+            bool inactiveButtonSelected = system != null && system.currentSelectedGameObject != null && !system.currentSelectedGameObject.activeInHierarchy;
 
             if ((nothingSelected || inactiveButtonSelected)
                 && (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f))
             {
                 if (UIFirstSelected.activeInHierarchy == true)
                 {
-                    EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                    system.SetSelectedGameObject(UIFirstSelected);
                 }
-                else if (UIFindSelectable && UIFindSelectable.activeInHierarchy == true)
+                else if (UIFindSelectable?.activeSelf == true)
                 {
-                    EventSystem.current.SetSelectedGameObject(UIFindSelectable);
+                    system.SetSelectedGameObject(UIFindSelectable);
                 }
                 else
                 {
@@ -365,7 +436,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
 
-                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+                Debug.Log("Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = " + system.currentSelectedGameObject);
             }
 
             // Tab between input fields
@@ -806,6 +877,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.StartLogout(EOSManager.Instance.GetLocalUserId(), (ref LogoutCallbackInfo data) => {
                 if (data.ResultCode == Result.Success)
                 {
+#if (UNITY_PS4 || UNITY_PS5) && !UNITY_EDITOR
+#if UNITY_PS4
+                    var psnManager = EOSManager.Instance.GetOrCreateManager<EOSPSNManagerPS4>();
+#elif UNITY_PS5
+                    var psnManager = EOSManager.Instance.GetOrCreateManager<EOSPSNManagerPS5>();
+#endif
+
+                    ///TODO: Use activating controller index here
+                    psnManager.StartLogoutWithPSN(0);
+#endif
                     print("Logout Successful. [" + data.ResultCode + "]");
                     ConfigureUIForLogin();
                 }
@@ -836,6 +917,33 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             loginButtonText.text = _OriginalloginButtonText;
         }
 
+        //-------------------------------------------------------------------------
+        private void StartLoginWithSteam()
+        {
+            var steamManager = Steam.SteamManager.Instance;
+            string steamId = steamManager?.GetSteamID();
+            string steamToken = steamManager?.GetSessionTicket();
+            if(steamId == null)
+            {
+                Debug.LogError("ExternalAuth failed: Steam ID not valid");
+            }
+            else if (steamToken == null)
+            {
+                Debug.LogError("ExternalAuth failed: Steam session ticket not valid");
+            }
+            else
+            {
+                EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+                        LoginCredentialType.ExternalAuth,
+                        ExternalCredentialType.SteamSessionTicket,
+                        steamId,
+                        steamToken,
+                        StartLoginWithLoginTypeAndTokenCallback);
+            }
+        }
+
+
+        //-------------------------------------------------------------------------
         // Username and password aren't always the username and password
         public void OnLoginButtonClick()
         {
@@ -879,10 +987,41 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (loginType == LoginCredentialType.ExternalAuth)
             {
+#if (UNITY_PS4 || UNITY_PS5) && !UNITY_EDITOR
+#if UNITY_PS4
+                    var psnManager = EOSManager.Instance.GetOrCreateManager<EOSPSNManagerPS4>();
+#elif UNITY_PS5
+                    var psnManager = EOSManager.Instance.GetOrCreateManager<EOSPSNManagerPS5>();
+#endif
+
+                ///TOO(mendsley): Use activating controller index here
+                psnManager.StartLoginWithPSN(0, StartLoginWithLoginTypeAndTokenCallback);
+#elif UNITY_SWITCH && !UNITY_EDITOR
+                var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
+                nintendoManager.StartLoginWithNSAPreselectedUser(StartLoginWithLoginTypeAndTokenCallback);
+#elif UNITY_GAMECORE && !UNITY_EDITOR
+                EOSXBLManager xblManager = EOSManager.Instance.GetOrCreateManager<EOSXBLManager>();
+                xblManager.StartLoginWithXbl(StartLoginWithLoginTypeAndTokenCallback);
+#else
                 Steam.SteamManager.Instance.StartLoginWithSteam(StartLoginWithLoginTypeAndTokenCallback);
+#endif
             }
             else if (loginType == LoginCredentialType.PersistentAuth)
             {
+#if UNITY_SWITCH && !UNITY_EDITOR
+                var nintendoManager = EOSManager.Instance.GetOrCreateManager<EOSNintendoManager>();
+                nintendoManager.StartLoginWithPersistantAuthPreselectedUser((LoginCallbackInfo callbackInfo) =>
+            {
+                    if (callbackInfo.ResultCode == Result.Success)
+                    {
+                        ConfigureUIForLogout();
+                    }
+                    else
+                    {
+                        ConfigureUIForLogin();
+                    }
+                });
+#else
                 EOSManager.Instance.StartPersistentLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
                 {
                     // In this state, it means one needs to login in again with the previous login type, or a new one, as the
@@ -890,14 +1029,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success)
                     {
                         print("Failed to login with Persistent token [" + callbackInfo.ResultCode + "]");
+                        // Other platforms: Fallback to DevAuth login flow
                         loginType = LoginCredentialType.Developer;
-                        ConfigureUIForLogin();
+                        ConfigureUIForDevAuthLogin();
                     }
                     else
                     {
                         StartLoginWithLoginTypeAndTokenCallback(callbackInfo);
                     }
                 });
+#endif
             }
             else if (loginType == LoginCredentialType.ExchangeCode) 
             {
@@ -1186,10 +1327,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 print("Trying Auth link with external account: " + loginCallbackInfo.ContinuanceToken);
                 EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, 
+#if UNITY_SWITCH
+                                                                                LinkAccountFlags.NintendoNsaId,
+#else
                                                                                 LinkAccountFlags.NoFlags,
+#endif
                                                                                 (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                 {
-                    StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+                    if (linkAccountCallbackInfo.ResultCode == Result.Success)
+                    {
+                        StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+                    }
+                    else
+                    {
+                        print("Error Doing AuthLink with continuance token in. [" + linkAccountCallbackInfo.ResultCode + "]");
+                    }
                 });
             }
 

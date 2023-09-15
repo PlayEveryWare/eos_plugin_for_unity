@@ -19,6 +19,16 @@ namespace Epic.OnlineServices.Sessions
 		public const int AddnotifyjoinsessionacceptedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyLeaveSessionRequested" /> API.
+		/// </summary>
+		public const int AddnotifyleavesessionrequestedApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifySendSessionNativeInviteRequested" /> API.
+		/// </summary>
+		public const int AddnotifysendsessionnativeinviterequestedApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="AddNotifySessionInviteAccepted" /> API.
 		/// </summary>
 		public const int AddnotifysessioninviteacceptedApiLatest = 1;
@@ -27,6 +37,11 @@ namespace Epic.OnlineServices.Sessions
 		/// The most recent version of the <see cref="AddNotifySessionInviteReceived" /> API.
 		/// </summary>
 		public const int AddnotifysessioninvitereceivedApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="AddNotifySessionInviteAccepted" /> API.
+		/// </summary>
+		public const int AddnotifysessioninviterejectedApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="AttributeData" /> struct.
@@ -56,7 +71,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// The most recent version of the <see cref="CreateSessionModification" /> API.
 		/// </summary>
-		public const int CreatesessionmodificationApiLatest = 4;
+		public const int CreatesessionmodificationApiLatest = 5;
 
 		/// <summary>
 		/// The most recent version of the <see cref="CreateSessionSearch" /> API.
@@ -189,7 +204,7 @@ namespace Epic.OnlineServices.Sessions
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
-		/// <param name="notificationFn">A callback that is fired when a a notification is received.</param>
+		/// <param name="notificationFn">A callback that is fired when a notification is received.</param>
 		/// <returns>
 		/// handle representing the registered callback
 		/// </returns>
@@ -204,6 +219,71 @@ namespace Epic.OnlineServices.Sessions
 			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
 			var funcResult = Bindings.EOS_Sessions_AddNotifyJoinSessionAccepted(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications about leave session requests performed by local user via the overlay.
+		/// When user requests to leave the session in the social overlay, the SDK does not automatically leave the session, it is up to the game to perform any necessary cleanup and call the <see cref="DestroySession" /> method using the SessionName sent in the notification function.
+		/// must call EOS_Sessions_RemoveNotifyLeaveSessionRequested to remove the notification.
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a notification is received.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifyLeaveSessionRequested(ref AddNotifyLeaveSessionRequestedOptions options, object clientData, OnLeaveSessionRequestedCallback notificationFn)
+		{
+			AddNotifyLeaveSessionRequestedOptionsInternal optionsInternal = new AddNotifyLeaveSessionRequestedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnLeaveSessionRequestedCallbackInternal(OnLeaveSessionRequestedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_Sessions_AddNotifyLeaveSessionRequested(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications about a session "INVITE" performed by a local user via the overlay.
+		/// This is only needed when a configured integrated platform has <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" /> set. The EOS SDK will
+		/// then use the state of <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" /> and <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" /> to determine when the NotificationFn is
+		/// called.
+		/// must call EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested to remove the notification.
+		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" />
+		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" />
+		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" />
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a notification is received.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifySendSessionNativeInviteRequested(ref AddNotifySendSessionNativeInviteRequestedOptions options, object clientData, OnSendSessionNativeInviteRequestedCallback notificationFn)
+		{
+			AddNotifySendSessionNativeInviteRequestedOptionsInternal optionsInternal = new AddNotifySendSessionNativeInviteRequestedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnSendSessionNativeInviteRequestedCallbackInternal(OnSendSessionNativeInviteRequestedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_Sessions_AddNotifySendSessionNativeInviteRequested(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
 			Helper.Dispose(ref optionsInternal);
 
@@ -262,6 +342,35 @@ namespace Epic.OnlineServices.Sessions
 			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
 
 			var funcResult = Bindings.EOS_Sessions_AddNotifySessionInviteReceived(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications when a user rejects a session invite.
+		/// must call RemoveNotifySessionInviteRejected to remove the notification
+		/// </summary>
+		/// <param name="options">Structure containing information about the request.</param>
+		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="notificationFn">A callback that is fired when a notification is received.</param>
+		/// <returns>
+		/// handle representing the registered callback
+		/// </returns>
+		public ulong AddNotifySessionInviteRejected(ref AddNotifySessionInviteRejectedOptions options, object clientData, OnSessionInviteRejectedCallback notificationFn)
+		{
+			AddNotifySessionInviteRejectedOptionsInternal optionsInternal = new AddNotifySessionInviteRejectedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var notificationFnInternal = new OnSessionInviteRejectedCallbackInternal(OnSessionInviteRejectedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, notificationFn, notificationFnInternal);
+
+			var funcResult = Bindings.EOS_Sessions_AddNotifySessionInviteRejected(InnerHandle, ref optionsInternal, clientDataAddress, notificationFnInternal);
 
 			Helper.Dispose(ref optionsInternal);
 
@@ -601,6 +710,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.Success" /> if the join completes successfully
 		/// <see cref="Result.InvalidParameters" /> if any of the options are incorrect
 		/// <see cref="Result.SessionsSessionAlreadyExists" /> if the session is already exists or is in the process of being joined
+		/// <see cref="Result.InvalidUser" /> if the local user associated with the local session to be created does not exist or is not authenticated
 		/// </returns>
 		public void JoinSession(ref JoinSessionOptions options, object clientData, OnJoinSessionCallback completionDelegate)
 		{
@@ -706,6 +816,28 @@ namespace Epic.OnlineServices.Sessions
 		}
 
 		/// <summary>
+		/// Unregister from receiving notifications when a user performs a leave lobby action via the overlay.
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifyLeaveSessionRequested(ulong inId)
+		{
+			Bindings.EOS_Sessions_RemoveNotifyLeaveSessionRequested(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when a user requests a send invite via the overlay.
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifySendSessionNativeInviteRequested(ulong inId)
+		{
+			Bindings.EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
 		/// Unregister from receiving notifications when a user accepts a session invite via the social overlay.
 		/// </summary>
 		/// <param name="inId">Handle representing the registered callback</param>
@@ -723,6 +855,17 @@ namespace Epic.OnlineServices.Sessions
 		public void RemoveNotifySessionInviteReceived(ulong inId)
 		{
 			Bindings.EOS_Sessions_RemoveNotifySessionInviteReceived(InnerHandle, inId);
+
+			Helper.RemoveCallbackByNotificationId(inId);
+		}
+
+		/// <summary>
+		/// Unregister from receiving notifications when a user rejects a session invite via the social overlay.
+		/// </summary>
+		/// <param name="inId">Handle representing the registered callback</param>
+		public void RemoveNotifySessionInviteRejected(ulong inId)
+		{
+			Bindings.EOS_Sessions_RemoveNotifySessionInviteRejected(InnerHandle, inId);
 
 			Helper.RemoveCallbackByNotificationId(inId);
 		}
@@ -820,6 +963,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <see cref="Result.SessionsOutOfSync" /> if the session is out of sync and will be updated on the next connection with the backend
 		/// <see cref="Result.NotFound" /> if a session to be updated does not exist
 		/// <see cref="Result.LimitExceeded" /> if a new session cannot be created because doing so would exceed the maximum allowed concurrent session count
+		/// <see cref="Result.InvalidUser" /> if the local user associated with the session to update does not exist or is not authenticated
 		/// </returns>
 		public void UpdateSession(ref UpdateSessionOptions options, object clientData, OnUpdateSessionCallback completionDelegate)
 		{
@@ -891,7 +1035,7 @@ namespace Epic.OnlineServices.Sessions
 		{
 			OnJoinSessionAcceptedCallback callback;
 			JoinSessionAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -903,6 +1047,17 @@ namespace Epic.OnlineServices.Sessions
 			OnJoinSessionCallback callback;
 			JoinSessionCallbackInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnLeaveSessionRequestedCallbackInternal))]
+		internal static void OnLeaveSessionRequestedCallbackInternalImplementation(ref LeaveSessionRequestedCallbackInfoInternal data)
+		{
+			OnLeaveSessionRequestedCallback callback;
+			LeaveSessionRequestedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -952,12 +1107,23 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
+		[MonoPInvokeCallback(typeof(OnSendSessionNativeInviteRequestedCallbackInternal))]
+		internal static void OnSendSessionNativeInviteRequestedCallbackInternalImplementation(ref SendSessionNativeInviteRequestedCallbackInfoInternal data)
+		{
+			OnSendSessionNativeInviteRequestedCallback callback;
+			SendSessionNativeInviteRequestedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
 		[MonoPInvokeCallback(typeof(OnSessionInviteAcceptedCallbackInternal))]
 		internal static void OnSessionInviteAcceptedCallbackInternalImplementation(ref SessionInviteAcceptedCallbackInfoInternal data)
 		{
 			OnSessionInviteAcceptedCallback callback;
 			SessionInviteAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -968,7 +1134,18 @@ namespace Epic.OnlineServices.Sessions
 		{
 			OnSessionInviteReceivedCallback callback;
 			SessionInviteReceivedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnSessionInviteRejectedCallbackInternal))]
+		internal static void OnSessionInviteRejectedCallbackInternalImplementation(ref SessionInviteRejectedCallbackInfoInternal data)
+		{
+			OnSessionInviteRejectedCallback callback;
+			SessionInviteRejectedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

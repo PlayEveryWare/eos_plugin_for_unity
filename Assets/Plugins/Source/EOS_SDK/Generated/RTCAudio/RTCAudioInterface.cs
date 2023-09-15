@@ -59,6 +59,16 @@ namespace Epic.OnlineServices.RTCAudio
 		public const int AudiooutputdeviceinfoApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="CopyInputDeviceInformationByIndex" /> API.
+		/// </summary>
+		public const int CopyinputdeviceinformationbyindexApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="CopyOutputDeviceInformationByIndex" /> API.
+		/// </summary>
+		public const int CopyoutputdeviceinformationbyindexApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="GetAudioInputDeviceByIndex" /> API.
 		/// </summary>
 		public const int GetaudioinputdevicebyindexApiLatest = 1;
@@ -79,9 +89,44 @@ namespace Epic.OnlineServices.RTCAudio
 		public const int GetaudiooutputdevicescountApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="GetInputDevicesCount" /> API.
+		/// </summary>
+		public const int GetinputdevicescountApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="GetOutputDevicesCount" /> API.
+		/// </summary>
+		public const int GetoutputdevicescountApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="InputDeviceInformation" /> struct.
+		/// </summary>
+		public const int InputdeviceinformationApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="OutputDeviceInformation" /> struct.
+		/// </summary>
+		public const int OutputdeviceinformationApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="QueryInputDevicesInformation" /> API.
+		/// </summary>
+		public const int QueryinputdevicesinformationApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="QueryOutputDevicesInformation" /> API.
+		/// </summary>
+		public const int QueryoutputdevicesinformationApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="RegisterPlatformAudioUser" /> API.
 		/// </summary>
 		public const int RegisterplatformaudiouserApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="RegisterPlatformUser" /> API.
+		/// </summary>
+		public const int RegisterplatformuserApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="SendAudio" /> API.
@@ -99,9 +144,24 @@ namespace Epic.OnlineServices.RTCAudio
 		public const int SetaudiooutputsettingsApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="SetInputDeviceSettings" /> API.
+		/// </summary>
+		public const int SetinputdevicesettingsApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="SetOutputDeviceSettings" /> API.
+		/// </summary>
+		public const int SetoutputdevicesettingsApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="UnregisterPlatformAudioUser" /> API.
 		/// </summary>
 		public const int UnregisterplatformaudiouserApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="UnregisterPlatformUser" /> API.
+		/// </summary>
+		public const int UnregisterplatformuserApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="UpdateParticipantVolume" /> API.
@@ -335,6 +395,74 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
+		/// Fetches an audio input device's information from then given index that are cached locally.
+		/// <seealso cref="Release" />
+		/// <seealso cref="GetAudioInputDevicesCount" />
+		/// <seealso cref="AddNotifyAudioDevicesChanged" />
+		/// </summary>
+		/// <param name="options">structure containing the index being accessed</param>
+		/// <param name="outInputDeviceInformation">The audio input device's information for the given index, if it exists and is valid, use <see cref="Release" /> when finished</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the information is available and passed out in OutInputDeviceInformation
+		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
+		/// <see cref="Result.NotFound" /> if the audio input device's information is not found
+		/// </returns>
+		public Result CopyInputDeviceInformationByIndex(ref CopyInputDeviceInformationByIndexOptions options, out InputDeviceInformation? outInputDeviceInformation)
+		{
+			CopyInputDeviceInformationByIndexOptionsInternal optionsInternal = new CopyInputDeviceInformationByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var outInputDeviceInformationAddress = System.IntPtr.Zero;
+
+			var funcResult = Bindings.EOS_RTCAudio_CopyInputDeviceInformationByIndex(InnerHandle, ref optionsInternal, ref outInputDeviceInformationAddress);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get<InputDeviceInformationInternal, InputDeviceInformation>(outInputDeviceInformationAddress, out outInputDeviceInformation);
+			if (outInputDeviceInformation != null)
+			{
+				Bindings.EOS_RTCAudio_InputDeviceInformation_Release(outInputDeviceInformationAddress);
+			}
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Fetches an audio output device's information from then given index that are cached locally.
+		/// <seealso cref="Release" />
+		/// <seealso cref="GetAudioOutputDevicesCount" />
+		/// <seealso cref="AddNotifyAudioDevicesChanged" />
+		/// </summary>
+		/// <param name="options">structure containing the index being accessed</param>
+		/// <param name="outOutputDeviceInformation">The audio output device's information for the given index, if it exists and is valid, use <see cref="Release" /> when finished</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the information is available and passed out in OutOutputDeviceInformation
+		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
+		/// <see cref="Result.NotFound" /> if the audio output device's information is not found
+		/// </returns>
+		public Result CopyOutputDeviceInformationByIndex(ref CopyOutputDeviceInformationByIndexOptions options, out OutputDeviceInformation? outOutputDeviceInformation)
+		{
+			CopyOutputDeviceInformationByIndexOptionsInternal optionsInternal = new CopyOutputDeviceInformationByIndexOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var outOutputDeviceInformationAddress = System.IntPtr.Zero;
+
+			var funcResult = Bindings.EOS_RTCAudio_CopyOutputDeviceInformationByIndex(InnerHandle, ref optionsInternal, ref outOutputDeviceInformationAddress);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get<OutputDeviceInformationInternal, OutputDeviceInformation>(outOutputDeviceInformationAddress, out outOutputDeviceInformation);
+			if (outOutputDeviceInformation != null)
+			{
+				Bindings.EOS_RTCAudio_OutputDeviceInformation_Release(outOutputDeviceInformationAddress);
+			}
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// DEPRECATED! Use <see cref="QueryInputDevicesInformation" />, <see cref="CopyInputDeviceInformationByIndex" /> instead.
+		/// 
 		/// Fetches an audio input device's info from then given index. The returned value should not be cached and important
 		/// information should be copied off of the result object immediately.
 		/// <seealso cref="GetAudioInputDevicesCount" />
@@ -359,6 +487,8 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
+		/// DEPRECATED! Use <see cref="QueryInputDevicesInformation" />, <see cref="GetInputDevicesCount" /> instead.
+		/// 
 		/// Returns the number of audio input devices available in the system.
 		/// 
 		/// The returned value should not be cached and should instead be used immediately with the <see cref="GetAudioInputDeviceByIndex" />
@@ -383,6 +513,8 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
+		/// DEPRECATED! Use <see cref="QueryOutputDevicesInformation" />, <see cref="CopyOutputDeviceInformationByIndex" /> instead.
+		/// 
 		/// Fetches an audio output device's info from then given index.
 		/// 
 		/// The returned value should not be cached and important information should be copied off of the result object immediately.
@@ -408,6 +540,8 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
+		/// DEPRECATED! Use <see cref="QueryOutputDevicesInformation" />, <see cref="GetOutputDevicesCount" /> instead.
+		/// 
 		/// Returns the number of audio output devices available in the system.
 		/// 
 		/// The returned value should not be cached and should instead be used immediately with the <see cref="GetAudioOutputDeviceByIndex" />
@@ -432,6 +566,106 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
+		/// Fetch the number of audio input devices available in the system that are cached locally.
+		/// 
+		/// The returned value should not be cached and should instead be used immediately with
+		/// the <see cref="CopyInputDeviceInformationByIndex" /> function.
+		/// <seealso cref="CopyInputDeviceInformationByIndex" />
+		/// <seealso cref="AddNotifyAudioDevicesChanged" />
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <returns>
+		/// The number of audio input devices available in the system or 0 if there is an error
+		/// </returns>
+		public uint GetInputDevicesCount(ref GetInputDevicesCountOptions options)
+		{
+			GetInputDevicesCountOptionsInternal optionsInternal = new GetInputDevicesCountOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var funcResult = Bindings.EOS_RTCAudio_GetInputDevicesCount(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Fetch the number of audio output devices available in the system that are cached locally.
+		/// 
+		/// The returned value should not be cached and should instead be used immediately with
+		/// the <see cref="CopyOutputDeviceInformationByIndex" /> function.
+		/// <seealso cref="CopyOutputDeviceInformationByIndex" />
+		/// <seealso cref="AddNotifyAudioDevicesChanged" />
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <returns>
+		/// The number of audio output devices available in the system or 0 if there is an error
+		/// </returns>
+		public uint GetOutputDevicesCount(ref GetOutputDevicesCountOptions options)
+		{
+			GetOutputDevicesCountOptionsInternal optionsInternal = new GetOutputDevicesCountOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var funcResult = Bindings.EOS_RTCAudio_GetOutputDevicesCount(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Query for a list of audio input devices available in the system together with their specifications.
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
+		/// <param name="completionDelegate">The callback to be fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the operation succeeded
+		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// </returns>
+		public void QueryInputDevicesInformation(ref QueryInputDevicesInformationOptions options, object clientData, OnQueryInputDevicesInformationCallback completionDelegate)
+		{
+			QueryInputDevicesInformationOptionsInternal optionsInternal = new QueryInputDevicesInformationOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnQueryInputDevicesInformationCallbackInternal(OnQueryInputDevicesInformationCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_RTCAudio_QueryInputDevicesInformation(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
+		/// Query for a list of audio output devices available in the system together with their specifications.
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
+		/// <param name="completionDelegate">The callback to be fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the operation succeeded
+		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// </returns>
+		public void QueryOutputDevicesInformation(ref QueryOutputDevicesInformationOptions options, object clientData, OnQueryOutputDevicesInformationCallback completionDelegate)
+		{
+			QueryOutputDevicesInformationOptionsInternal optionsInternal = new QueryOutputDevicesInformationOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnQueryOutputDevicesInformationCallbackInternal(OnQueryOutputDevicesInformationCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_RTCAudio_QueryOutputDevicesInformation(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
+		/// DEPRECATED! Use <see cref="RegisterPlatformUser" /> instead.
+		/// 
 		/// Use this function to inform the audio system of a user.
 		/// 
 		/// This function is only necessary for some platforms.
@@ -450,6 +684,35 @@ namespace Epic.OnlineServices.RTCAudio
 			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
+		}
+
+		/// <summary>
+		/// Use this function to inform the audio system of a user.
+		/// 
+		/// This function is only necessary for some platforms.
+		/// <seealso cref="UnregisterPlatformUser" />
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
+		/// <param name="completionDelegate">The callback to be fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the user was successfully registered
+		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// <see cref="Result.UnexpectedError" /> otherwise
+		/// </returns>
+		public void RegisterPlatformUser(ref RegisterPlatformUserOptions options, object clientData, OnRegisterPlatformUserCallback completionDelegate)
+		{
+			RegisterPlatformUserOptionsInternal optionsInternal = new RegisterPlatformUserOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnRegisterPlatformUserCallbackInternal(OnRegisterPlatformUserCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_RTCAudio_RegisterPlatformUser(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -545,6 +808,8 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
+		/// DEPRECATED! Use <see cref="SetInputDeviceSettings" /> instead.
+		/// 
 		/// Use this function to set audio input settings, such as the active input device, volume, or platform AEC.
 		/// </summary>
 		/// <param name="options">structure containing the parameters for the operation.</param>
@@ -565,6 +830,8 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
+		/// DEPRECATED! Use <see cref="SetOutputDeviceSettings" /> instead.
+		/// 
 		/// Use this function to set audio output settings, such as the active output device or volume.
 		/// </summary>
 		/// <param name="options">structure containing the parameters for the operation.</param>
@@ -585,6 +852,58 @@ namespace Epic.OnlineServices.RTCAudio
 		}
 
 		/// <summary>
+		/// Use this function to set audio input device settings, such as the active input device, or platform AEC.
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
+		/// <param name="completionDelegate">The callback to be fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the setting was successful
+		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// </returns>
+		public void SetInputDeviceSettings(ref SetInputDeviceSettingsOptions options, object clientData, OnSetInputDeviceSettingsCallback completionDelegate)
+		{
+			SetInputDeviceSettingsOptionsInternal optionsInternal = new SetInputDeviceSettingsOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnSetInputDeviceSettingsCallbackInternal(OnSetInputDeviceSettingsCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_RTCAudio_SetInputDeviceSettings(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
+		/// Use this function to set audio output device settings, such as the active output device.
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
+		/// <param name="completionDelegate">The callback to be fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the setting was successful
+		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// </returns>
+		public void SetOutputDeviceSettings(ref SetOutputDeviceSettingsOptions options, object clientData, OnSetOutputDeviceSettingsCallback completionDelegate)
+		{
+			SetOutputDeviceSettingsOptionsInternal optionsInternal = new SetOutputDeviceSettingsOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnSetOutputDeviceSettingsCallbackInternal(OnSetOutputDeviceSettingsCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_RTCAudio_SetOutputDeviceSettings(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
+		/// DEPRECATED! Use <see cref="UnregisterPlatformUser" /> instead.
+		/// 
 		/// Use this function to remove a user that was added with <see cref="RegisterPlatformAudioUser" />.
 		/// </summary>
 		/// <param name="options">structure containing the parameters for the operation.</param>
@@ -601,6 +920,34 @@ namespace Epic.OnlineServices.RTCAudio
 			Helper.Dispose(ref optionsInternal);
 
 			return funcResult;
+		}
+
+		/// <summary>
+		/// Use this function to remove a user that was added with <see cref="RegisterPlatformUser" />.
+		/// 
+		/// This function is only necessary for some platforms.
+		/// </summary>
+		/// <param name="options">structure containing the parameters for the operation</param>
+		/// <param name="clientData">Arbitrary data that is passed back in the CompletionDelegate</param>
+		/// <param name="completionDelegate">The callback to be fired when the operation completes, either successfully or in error</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the user was successfully unregistered
+		/// <see cref="Result.InvalidParameters" /> if any of the parameters are incorrect
+		/// <see cref="Result.UnexpectedError" /> otherwise
+		/// </returns>
+		public void UnregisterPlatformUser(ref UnregisterPlatformUserOptions options, object clientData, OnUnregisterPlatformUserCallback completionDelegate)
+		{
+			UnregisterPlatformUserOptionsInternal optionsInternal = new UnregisterPlatformUserOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnUnregisterPlatformUserCallbackInternal(OnUnregisterPlatformUserCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_RTCAudio_UnregisterPlatformUser(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
 		}
 
 		/// <summary>
@@ -743,7 +1090,7 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			OnAudioBeforeRenderCallback callback;
 			AudioBeforeRenderCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -754,7 +1101,7 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			OnAudioBeforeSendCallback callback;
 			AudioBeforeSendCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -765,7 +1112,7 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			OnAudioDevicesChangedCallback callback;
 			AudioDevicesChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -776,7 +1123,7 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			OnAudioInputStateCallback callback;
 			AudioInputStateCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -787,7 +1134,7 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			OnAudioOutputStateCallback callback;
 			AudioOutputStateCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -798,6 +1145,72 @@ namespace Epic.OnlineServices.RTCAudio
 		{
 			OnParticipantUpdatedCallback callback;
 			ParticipantUpdatedCallbackInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnQueryInputDevicesInformationCallbackInternal))]
+		internal static void OnQueryInputDevicesInformationCallbackInternalImplementation(ref OnQueryInputDevicesInformationCallbackInfoInternal data)
+		{
+			OnQueryInputDevicesInformationCallback callback;
+			OnQueryInputDevicesInformationCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnQueryOutputDevicesInformationCallbackInternal))]
+		internal static void OnQueryOutputDevicesInformationCallbackInternalImplementation(ref OnQueryOutputDevicesInformationCallbackInfoInternal data)
+		{
+			OnQueryOutputDevicesInformationCallback callback;
+			OnQueryOutputDevicesInformationCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnRegisterPlatformUserCallbackInternal))]
+		internal static void OnRegisterPlatformUserCallbackInternalImplementation(ref OnRegisterPlatformUserCallbackInfoInternal data)
+		{
+			OnRegisterPlatformUserCallback callback;
+			OnRegisterPlatformUserCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnSetInputDeviceSettingsCallbackInternal))]
+		internal static void OnSetInputDeviceSettingsCallbackInternalImplementation(ref OnSetInputDeviceSettingsCallbackInfoInternal data)
+		{
+			OnSetInputDeviceSettingsCallback callback;
+			OnSetInputDeviceSettingsCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnSetOutputDeviceSettingsCallbackInternal))]
+		internal static void OnSetOutputDeviceSettingsCallbackInternalImplementation(ref OnSetOutputDeviceSettingsCallbackInfoInternal data)
+		{
+			OnSetOutputDeviceSettingsCallback callback;
+			OnSetOutputDeviceSettingsCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnUnregisterPlatformUserCallbackInternal))]
+		internal static void OnUnregisterPlatformUserCallbackInternalImplementation(ref OnUnregisterPlatformUserCallbackInfoInternal data)
+		{
+			OnUnregisterPlatformUserCallback callback;
+			OnUnregisterPlatformUserCallbackInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);

@@ -188,15 +188,30 @@ namespace Epic.OnlineServices
 		private const string EOS_Connect_UnlinkAccountName = "EOS_Connect_UnlinkAccount";
 		private const string EOS_Connect_VerifyIdTokenName = "EOS_Connect_VerifyIdToken";
 		private const string EOS_ContinuanceToken_ToStringName = "EOS_ContinuanceToken_ToString";
+		private const string EOS_CustomInvites_AcceptRequestToJoinName = "EOS_CustomInvites_AcceptRequestToJoin";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteAcceptedName = "EOS_CustomInvites_AddNotifyCustomInviteAccepted";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteReceivedName = "EOS_CustomInvites_AddNotifyCustomInviteReceived";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteRejectedName = "EOS_CustomInvites_AddNotifyCustomInviteRejected";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinAcceptedName = "EOS_CustomInvites_AddNotifyRequestToJoinAccepted";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinReceivedName = "EOS_CustomInvites_AddNotifyRequestToJoinReceived";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinRejectedName = "EOS_CustomInvites_AddNotifyRequestToJoinRejected";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedName = "EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived";
+		private const string EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName = "EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested";
 		private const string EOS_CustomInvites_FinalizeInviteName = "EOS_CustomInvites_FinalizeInvite";
+		private const string EOS_CustomInvites_RejectRequestToJoinName = "EOS_CustomInvites_RejectRequestToJoin";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedName = "EOS_CustomInvites_RemoveNotifyCustomInviteAccepted";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteReceivedName = "EOS_CustomInvites_RemoveNotifyCustomInviteReceived";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteRejectedName = "EOS_CustomInvites_RemoveNotifyCustomInviteRejected";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedName = "EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedName = "EOS_CustomInvites_RemoveNotifyRequestToJoinReceived";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedName = "EOS_CustomInvites_RemoveNotifyRequestToJoinRejected";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedName = "EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived";
+		private const string EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedName = "EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested";
 		private const string EOS_CustomInvites_SendCustomInviteName = "EOS_CustomInvites_SendCustomInvite";
+		private const string EOS_CustomInvites_SendRequestToJoinName = "EOS_CustomInvites_SendRequestToJoin";
 		private const string EOS_CustomInvites_SetCustomInviteName = "EOS_CustomInvites_SetCustomInvite";
+		private const string EOS_EApplicationStatus_ToStringName = "EOS_EApplicationStatus_ToString";
+		private const string EOS_ENetworkStatus_ToStringName = "EOS_ENetworkStatus_ToString";
 		private const string EOS_EResult_IsOperationCompleteName = "EOS_EResult_IsOperationComplete";
 		private const string EOS_EResult_ToStringName = "EOS_EResult_ToString";
 		private const string EOS_Ecom_CatalogItem_ReleaseName = "EOS_Ecom_CatalogItem_Release";
@@ -231,6 +246,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_QueryEntitlementsName = "EOS_Ecom_QueryEntitlements";
 		private const string EOS_Ecom_QueryOffersName = "EOS_Ecom_QueryOffers";
 		private const string EOS_Ecom_QueryOwnershipName = "EOS_Ecom_QueryOwnership";
+		private const string EOS_Ecom_QueryOwnershipBySandboxIdsName = "EOS_Ecom_QueryOwnershipBySandboxIds";
 		private const string EOS_Ecom_QueryOwnershipTokenName = "EOS_Ecom_QueryOwnershipToken";
 		private const string EOS_Ecom_RedeemEntitlementsName = "EOS_Ecom_RedeemEntitlements";
 		private const string EOS_Ecom_Transaction_CopyEntitlementByIndexName = "EOS_Ecom_Transaction_CopyEntitlementByIndex";
@@ -241,19 +257,29 @@ namespace Epic.OnlineServices
 		private const string EOS_EpicAccountId_IsValidName = "EOS_EpicAccountId_IsValid";
 		private const string EOS_EpicAccountId_ToStringName = "EOS_EpicAccountId_ToString";
 		private const string EOS_Friends_AcceptInviteName = "EOS_Friends_AcceptInvite";
+		private const string EOS_Friends_AddNotifyBlockedUsersUpdateName = "EOS_Friends_AddNotifyBlockedUsersUpdate";
 		private const string EOS_Friends_AddNotifyFriendsUpdateName = "EOS_Friends_AddNotifyFriendsUpdate";
+		private const string EOS_Friends_GetBlockedUserAtIndexName = "EOS_Friends_GetBlockedUserAtIndex";
+		private const string EOS_Friends_GetBlockedUsersCountName = "EOS_Friends_GetBlockedUsersCount";
 		private const string EOS_Friends_GetFriendAtIndexName = "EOS_Friends_GetFriendAtIndex";
 		private const string EOS_Friends_GetFriendsCountName = "EOS_Friends_GetFriendsCount";
 		private const string EOS_Friends_GetStatusName = "EOS_Friends_GetStatus";
 		private const string EOS_Friends_QueryFriendsName = "EOS_Friends_QueryFriends";
 		private const string EOS_Friends_RejectInviteName = "EOS_Friends_RejectInvite";
+		private const string EOS_Friends_RemoveNotifyBlockedUsersUpdateName = "EOS_Friends_RemoveNotifyBlockedUsersUpdate";
 		private const string EOS_Friends_RemoveNotifyFriendsUpdateName = "EOS_Friends_RemoveNotifyFriendsUpdate";
 		private const string EOS_Friends_SendInviteName = "EOS_Friends_SendInvite";
 		private const string EOS_GetVersionName = "EOS_GetVersion";
 		private const string EOS_InitializeName = "EOS_Initialize";
 		private const string EOS_IntegratedPlatformOptionsContainer_AddName = "EOS_IntegratedPlatformOptionsContainer_Add";
 		private const string EOS_IntegratedPlatformOptionsContainer_ReleaseName = "EOS_IntegratedPlatformOptionsContainer_Release";
+		private const string EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedName = "EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged";
+		private const string EOS_IntegratedPlatform_ClearUserPreLogoutCallbackName = "EOS_IntegratedPlatform_ClearUserPreLogoutCallback";
 		private const string EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerName = "EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer";
+		private const string EOS_IntegratedPlatform_FinalizeDeferredUserLogoutName = "EOS_IntegratedPlatform_FinalizeDeferredUserLogout";
+		private const string EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedName = "EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged";
+		private const string EOS_IntegratedPlatform_SetUserLoginStatusName = "EOS_IntegratedPlatform_SetUserLoginStatus";
+		private const string EOS_IntegratedPlatform_SetUserPreLogoutCallbackName = "EOS_IntegratedPlatform_SetUserPreLogoutCallback";
 		private const string EOS_KWS_AddNotifyPermissionsUpdateReceivedName = "EOS_KWS_AddNotifyPermissionsUpdateReceived";
 		private const string EOS_KWS_CopyPermissionByIndexName = "EOS_KWS_CopyPermissionByIndex";
 		private const string EOS_KWS_CreateUserName = "EOS_KWS_CreateUser";
@@ -286,18 +312,21 @@ namespace Epic.OnlineServices
 		private const string EOS_LobbyDetails_CopyInfoName = "EOS_LobbyDetails_CopyInfo";
 		private const string EOS_LobbyDetails_CopyMemberAttributeByIndexName = "EOS_LobbyDetails_CopyMemberAttributeByIndex";
 		private const string EOS_LobbyDetails_CopyMemberAttributeByKeyName = "EOS_LobbyDetails_CopyMemberAttributeByKey";
+		private const string EOS_LobbyDetails_CopyMemberInfoName = "EOS_LobbyDetails_CopyMemberInfo";
 		private const string EOS_LobbyDetails_GetAttributeCountName = "EOS_LobbyDetails_GetAttributeCount";
 		private const string EOS_LobbyDetails_GetLobbyOwnerName = "EOS_LobbyDetails_GetLobbyOwner";
 		private const string EOS_LobbyDetails_GetMemberAttributeCountName = "EOS_LobbyDetails_GetMemberAttributeCount";
 		private const string EOS_LobbyDetails_GetMemberByIndexName = "EOS_LobbyDetails_GetMemberByIndex";
 		private const string EOS_LobbyDetails_GetMemberCountName = "EOS_LobbyDetails_GetMemberCount";
 		private const string EOS_LobbyDetails_Info_ReleaseName = "EOS_LobbyDetails_Info_Release";
+		private const string EOS_LobbyDetails_MemberInfo_ReleaseName = "EOS_LobbyDetails_MemberInfo_Release";
 		private const string EOS_LobbyDetails_ReleaseName = "EOS_LobbyDetails_Release";
 		private const string EOS_LobbyModification_AddAttributeName = "EOS_LobbyModification_AddAttribute";
 		private const string EOS_LobbyModification_AddMemberAttributeName = "EOS_LobbyModification_AddMemberAttribute";
 		private const string EOS_LobbyModification_ReleaseName = "EOS_LobbyModification_Release";
 		private const string EOS_LobbyModification_RemoveAttributeName = "EOS_LobbyModification_RemoveAttribute";
 		private const string EOS_LobbyModification_RemoveMemberAttributeName = "EOS_LobbyModification_RemoveMemberAttribute";
+		private const string EOS_LobbyModification_SetAllowedPlatformIdsName = "EOS_LobbyModification_SetAllowedPlatformIds";
 		private const string EOS_LobbyModification_SetBucketIdName = "EOS_LobbyModification_SetBucketId";
 		private const string EOS_LobbyModification_SetInvitesAllowedName = "EOS_LobbyModification_SetInvitesAllowed";
 		private const string EOS_LobbyModification_SetMaxMembersName = "EOS_LobbyModification_SetMaxMembers";
@@ -312,6 +341,7 @@ namespace Epic.OnlineServices
 		private const string EOS_LobbySearch_SetParameterName = "EOS_LobbySearch_SetParameter";
 		private const string EOS_LobbySearch_SetTargetUserIdName = "EOS_LobbySearch_SetTargetUserId";
 		private const string EOS_Lobby_AddNotifyJoinLobbyAcceptedName = "EOS_Lobby_AddNotifyJoinLobbyAccepted";
+		private const string EOS_Lobby_AddNotifyLeaveLobbyRequestedName = "EOS_Lobby_AddNotifyLeaveLobbyRequested";
 		private const string EOS_Lobby_AddNotifyLobbyInviteAcceptedName = "EOS_Lobby_AddNotifyLobbyInviteAccepted";
 		private const string EOS_Lobby_AddNotifyLobbyInviteReceivedName = "EOS_Lobby_AddNotifyLobbyInviteReceived";
 		private const string EOS_Lobby_AddNotifyLobbyInviteRejectedName = "EOS_Lobby_AddNotifyLobbyInviteRejected";
@@ -327,6 +357,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_CreateLobbyName = "EOS_Lobby_CreateLobby";
 		private const string EOS_Lobby_CreateLobbySearchName = "EOS_Lobby_CreateLobbySearch";
 		private const string EOS_Lobby_DestroyLobbyName = "EOS_Lobby_DestroyLobby";
+		private const string EOS_Lobby_GetConnectStringName = "EOS_Lobby_GetConnectString";
 		private const string EOS_Lobby_GetInviteCountName = "EOS_Lobby_GetInviteCount";
 		private const string EOS_Lobby_GetInviteIdByIndexName = "EOS_Lobby_GetInviteIdByIndex";
 		private const string EOS_Lobby_GetRTCRoomNameName = "EOS_Lobby_GetRTCRoomName";
@@ -336,10 +367,12 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_JoinLobbyByIdName = "EOS_Lobby_JoinLobbyById";
 		private const string EOS_Lobby_KickMemberName = "EOS_Lobby_KickMember";
 		private const string EOS_Lobby_LeaveLobbyName = "EOS_Lobby_LeaveLobby";
+		private const string EOS_Lobby_ParseConnectStringName = "EOS_Lobby_ParseConnectString";
 		private const string EOS_Lobby_PromoteMemberName = "EOS_Lobby_PromoteMember";
 		private const string EOS_Lobby_QueryInvitesName = "EOS_Lobby_QueryInvites";
 		private const string EOS_Lobby_RejectInviteName = "EOS_Lobby_RejectInvite";
 		private const string EOS_Lobby_RemoveNotifyJoinLobbyAcceptedName = "EOS_Lobby_RemoveNotifyJoinLobbyAccepted";
+		private const string EOS_Lobby_RemoveNotifyLeaveLobbyRequestedName = "EOS_Lobby_RemoveNotifyLeaveLobbyRequested";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteAcceptedName = "EOS_Lobby_RemoveNotifyLobbyInviteAccepted";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteReceivedName = "EOS_Lobby_RemoveNotifyLobbyInviteReceived";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteRejectedName = "EOS_Lobby_RemoveNotifyLobbyInviteRejected";
@@ -400,6 +433,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Platform_GetDesktopCrossplayStatusName = "EOS_Platform_GetDesktopCrossplayStatus";
 		private const string EOS_Platform_GetEcomInterfaceName = "EOS_Platform_GetEcomInterface";
 		private const string EOS_Platform_GetFriendsInterfaceName = "EOS_Platform_GetFriendsInterface";
+		private const string EOS_Platform_GetIntegratedPlatformInterfaceName = "EOS_Platform_GetIntegratedPlatformInterface";
 		private const string EOS_Platform_GetKWSInterfaceName = "EOS_Platform_GetKWSInterface";
 		private const string EOS_Platform_GetLeaderboardsInterfaceName = "EOS_Platform_GetLeaderboardsInterface";
 		private const string EOS_Platform_GetLobbyInterfaceName = "EOS_Platform_GetLobbyInterface";
@@ -479,11 +513,20 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_AddNotifyAudioInputStateName = "EOS_RTCAudio_AddNotifyAudioInputState";
 		private const string EOS_RTCAudio_AddNotifyAudioOutputStateName = "EOS_RTCAudio_AddNotifyAudioOutputState";
 		private const string EOS_RTCAudio_AddNotifyParticipantUpdatedName = "EOS_RTCAudio_AddNotifyParticipantUpdated";
+		private const string EOS_RTCAudio_CopyInputDeviceInformationByIndexName = "EOS_RTCAudio_CopyInputDeviceInformationByIndex";
+		private const string EOS_RTCAudio_CopyOutputDeviceInformationByIndexName = "EOS_RTCAudio_CopyOutputDeviceInformationByIndex";
 		private const string EOS_RTCAudio_GetAudioInputDeviceByIndexName = "EOS_RTCAudio_GetAudioInputDeviceByIndex";
 		private const string EOS_RTCAudio_GetAudioInputDevicesCountName = "EOS_RTCAudio_GetAudioInputDevicesCount";
 		private const string EOS_RTCAudio_GetAudioOutputDeviceByIndexName = "EOS_RTCAudio_GetAudioOutputDeviceByIndex";
 		private const string EOS_RTCAudio_GetAudioOutputDevicesCountName = "EOS_RTCAudio_GetAudioOutputDevicesCount";
+		private const string EOS_RTCAudio_GetInputDevicesCountName = "EOS_RTCAudio_GetInputDevicesCount";
+		private const string EOS_RTCAudio_GetOutputDevicesCountName = "EOS_RTCAudio_GetOutputDevicesCount";
+		private const string EOS_RTCAudio_InputDeviceInformation_ReleaseName = "EOS_RTCAudio_InputDeviceInformation_Release";
+		private const string EOS_RTCAudio_OutputDeviceInformation_ReleaseName = "EOS_RTCAudio_OutputDeviceInformation_Release";
+		private const string EOS_RTCAudio_QueryInputDevicesInformationName = "EOS_RTCAudio_QueryInputDevicesInformation";
+		private const string EOS_RTCAudio_QueryOutputDevicesInformationName = "EOS_RTCAudio_QueryOutputDevicesInformation";
 		private const string EOS_RTCAudio_RegisterPlatformAudioUserName = "EOS_RTCAudio_RegisterPlatformAudioUser";
+		private const string EOS_RTCAudio_RegisterPlatformUserName = "EOS_RTCAudio_RegisterPlatformUser";
 		private const string EOS_RTCAudio_RemoveNotifyAudioBeforeRenderName = "EOS_RTCAudio_RemoveNotifyAudioBeforeRender";
 		private const string EOS_RTCAudio_RemoveNotifyAudioBeforeSendName = "EOS_RTCAudio_RemoveNotifyAudioBeforeSend";
 		private const string EOS_RTCAudio_RemoveNotifyAudioDevicesChangedName = "EOS_RTCAudio_RemoveNotifyAudioDevicesChanged";
@@ -493,7 +536,10 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_SendAudioName = "EOS_RTCAudio_SendAudio";
 		private const string EOS_RTCAudio_SetAudioInputSettingsName = "EOS_RTCAudio_SetAudioInputSettings";
 		private const string EOS_RTCAudio_SetAudioOutputSettingsName = "EOS_RTCAudio_SetAudioOutputSettings";
+		private const string EOS_RTCAudio_SetInputDeviceSettingsName = "EOS_RTCAudio_SetInputDeviceSettings";
+		private const string EOS_RTCAudio_SetOutputDeviceSettingsName = "EOS_RTCAudio_SetOutputDeviceSettings";
 		private const string EOS_RTCAudio_UnregisterPlatformAudioUserName = "EOS_RTCAudio_UnregisterPlatformAudioUser";
+		private const string EOS_RTCAudio_UnregisterPlatformUserName = "EOS_RTCAudio_UnregisterPlatformUser";
 		private const string EOS_RTCAudio_UpdateParticipantVolumeName = "EOS_RTCAudio_UpdateParticipantVolume";
 		private const string EOS_RTCAudio_UpdateReceivingName = "EOS_RTCAudio_UpdateReceiving";
 		private const string EOS_RTCAudio_UpdateReceivingVolumeName = "EOS_RTCAudio_UpdateReceivingVolume";
@@ -501,12 +547,14 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_UpdateSendingVolumeName = "EOS_RTCAudio_UpdateSendingVolume";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "EOS_RTC_AddNotifyDisconnected";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "EOS_RTC_AddNotifyParticipantStatusChanged";
+		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "EOS_RTC_AddNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_BlockParticipantName = "EOS_RTC_BlockParticipant";
 		private const string EOS_RTC_GetAudioInterfaceName = "EOS_RTC_GetAudioInterface";
 		private const string EOS_RTC_JoinRoomName = "EOS_RTC_JoinRoom";
 		private const string EOS_RTC_LeaveRoomName = "EOS_RTC_LeaveRoom";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "EOS_RTC_RemoveNotifyDisconnected";
 		private const string EOS_RTC_RemoveNotifyParticipantStatusChangedName = "EOS_RTC_RemoveNotifyParticipantStatusChanged";
+		private const string EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName = "EOS_RTC_RemoveNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_SetRoomSettingName = "EOS_RTC_SetRoomSetting";
 		private const string EOS_RTC_SetSettingName = "EOS_RTC_SetSetting";
 		private const string EOS_Reports_SendPlayerBehaviorReportName = "EOS_Reports_SendPlayerBehaviorReport";
@@ -524,6 +572,7 @@ namespace Epic.OnlineServices
 		private const string EOS_SessionModification_AddAttributeName = "EOS_SessionModification_AddAttribute";
 		private const string EOS_SessionModification_ReleaseName = "EOS_SessionModification_Release";
 		private const string EOS_SessionModification_RemoveAttributeName = "EOS_SessionModification_RemoveAttribute";
+		private const string EOS_SessionModification_SetAllowedPlatformIdsName = "EOS_SessionModification_SetAllowedPlatformIds";
 		private const string EOS_SessionModification_SetBucketIdName = "EOS_SessionModification_SetBucketId";
 		private const string EOS_SessionModification_SetHostAddressName = "EOS_SessionModification_SetHostAddress";
 		private const string EOS_SessionModification_SetInvitesAllowedName = "EOS_SessionModification_SetInvitesAllowed";
@@ -540,8 +589,11 @@ namespace Epic.OnlineServices
 		private const string EOS_SessionSearch_SetSessionIdName = "EOS_SessionSearch_SetSessionId";
 		private const string EOS_SessionSearch_SetTargetUserIdName = "EOS_SessionSearch_SetTargetUserId";
 		private const string EOS_Sessions_AddNotifyJoinSessionAcceptedName = "EOS_Sessions_AddNotifyJoinSessionAccepted";
+		private const string EOS_Sessions_AddNotifyLeaveSessionRequestedName = "EOS_Sessions_AddNotifyLeaveSessionRequested";
+		private const string EOS_Sessions_AddNotifySendSessionNativeInviteRequestedName = "EOS_Sessions_AddNotifySendSessionNativeInviteRequested";
 		private const string EOS_Sessions_AddNotifySessionInviteAcceptedName = "EOS_Sessions_AddNotifySessionInviteAccepted";
 		private const string EOS_Sessions_AddNotifySessionInviteReceivedName = "EOS_Sessions_AddNotifySessionInviteReceived";
+		private const string EOS_Sessions_AddNotifySessionInviteRejectedName = "EOS_Sessions_AddNotifySessionInviteRejected";
 		private const string EOS_Sessions_CopyActiveSessionHandleName = "EOS_Sessions_CopyActiveSessionHandle";
 		private const string EOS_Sessions_CopySessionHandleByInviteIdName = "EOS_Sessions_CopySessionHandleByInviteId";
 		private const string EOS_Sessions_CopySessionHandleByUiEventIdName = "EOS_Sessions_CopySessionHandleByUiEventId";
@@ -559,8 +611,11 @@ namespace Epic.OnlineServices
 		private const string EOS_Sessions_RegisterPlayersName = "EOS_Sessions_RegisterPlayers";
 		private const string EOS_Sessions_RejectInviteName = "EOS_Sessions_RejectInvite";
 		private const string EOS_Sessions_RemoveNotifyJoinSessionAcceptedName = "EOS_Sessions_RemoveNotifyJoinSessionAccepted";
+		private const string EOS_Sessions_RemoveNotifyLeaveSessionRequestedName = "EOS_Sessions_RemoveNotifyLeaveSessionRequested";
+		private const string EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedName = "EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested";
 		private const string EOS_Sessions_RemoveNotifySessionInviteAcceptedName = "EOS_Sessions_RemoveNotifySessionInviteAccepted";
 		private const string EOS_Sessions_RemoveNotifySessionInviteReceivedName = "EOS_Sessions_RemoveNotifySessionInviteReceived";
+		private const string EOS_Sessions_RemoveNotifySessionInviteRejectedName = "EOS_Sessions_RemoveNotifySessionInviteRejected";
 		private const string EOS_Sessions_SendInviteName = "EOS_Sessions_SendInvite";
 		private const string EOS_Sessions_StartSessionName = "EOS_Sessions_StartSession";
 		private const string EOS_Sessions_UnregisterPlayersName = "EOS_Sessions_UnregisterPlayers";
@@ -587,26 +642,38 @@ namespace Epic.OnlineServices
 		private const string EOS_TitleStorage_ReadFileName = "EOS_TitleStorage_ReadFile";
 		private const string EOS_UI_AcknowledgeEventIdName = "EOS_UI_AcknowledgeEventId";
 		private const string EOS_UI_AddNotifyDisplaySettingsUpdatedName = "EOS_UI_AddNotifyDisplaySettingsUpdated";
+		private const string EOS_UI_AddNotifyMemoryMonitorName = "EOS_UI_AddNotifyMemoryMonitor";
 		private const string EOS_UI_GetFriendsExclusiveInputName = "EOS_UI_GetFriendsExclusiveInput";
 		private const string EOS_UI_GetFriendsVisibleName = "EOS_UI_GetFriendsVisible";
 		private const string EOS_UI_GetNotificationLocationPreferenceName = "EOS_UI_GetNotificationLocationPreference";
+		private const string EOS_UI_GetToggleFriendsButtonName = "EOS_UI_GetToggleFriendsButton";
 		private const string EOS_UI_GetToggleFriendsKeyName = "EOS_UI_GetToggleFriendsKey";
 		private const string EOS_UI_HideFriendsName = "EOS_UI_HideFriends";
 		private const string EOS_UI_IsSocialOverlayPausedName = "EOS_UI_IsSocialOverlayPaused";
+		private const string EOS_UI_IsValidButtonCombinationName = "EOS_UI_IsValidButtonCombination";
 		private const string EOS_UI_IsValidKeyCombinationName = "EOS_UI_IsValidKeyCombination";
 		private const string EOS_UI_PauseSocialOverlayName = "EOS_UI_PauseSocialOverlay";
+		private const string EOS_UI_PrePresentName = "EOS_UI_PrePresent";
 		private const string EOS_UI_RemoveNotifyDisplaySettingsUpdatedName = "EOS_UI_RemoveNotifyDisplaySettingsUpdated";
+		private const string EOS_UI_RemoveNotifyMemoryMonitorName = "EOS_UI_RemoveNotifyMemoryMonitor";
+		private const string EOS_UI_ReportInputStateName = "EOS_UI_ReportInputState";
 		private const string EOS_UI_SetDisplayPreferenceName = "EOS_UI_SetDisplayPreference";
+		private const string EOS_UI_SetToggleFriendsButtonName = "EOS_UI_SetToggleFriendsButton";
 		private const string EOS_UI_SetToggleFriendsKeyName = "EOS_UI_SetToggleFriendsKey";
 		private const string EOS_UI_ShowBlockPlayerName = "EOS_UI_ShowBlockPlayer";
 		private const string EOS_UI_ShowFriendsName = "EOS_UI_ShowFriends";
+		private const string EOS_UI_ShowNativeProfileName = "EOS_UI_ShowNativeProfile";
 		private const string EOS_UI_ShowReportPlayerName = "EOS_UI_ShowReportPlayer";
+		private const string EOS_UserInfo_BestDisplayName_ReleaseName = "EOS_UserInfo_BestDisplayName_Release";
+		private const string EOS_UserInfo_CopyBestDisplayNameName = "EOS_UserInfo_CopyBestDisplayName";
+		private const string EOS_UserInfo_CopyBestDisplayNameWithPlatformName = "EOS_UserInfo_CopyBestDisplayNameWithPlatform";
 		private const string EOS_UserInfo_CopyExternalUserInfoByAccountIdName = "EOS_UserInfo_CopyExternalUserInfoByAccountId";
 		private const string EOS_UserInfo_CopyExternalUserInfoByAccountTypeName = "EOS_UserInfo_CopyExternalUserInfoByAccountType";
 		private const string EOS_UserInfo_CopyExternalUserInfoByIndexName = "EOS_UserInfo_CopyExternalUserInfoByIndex";
 		private const string EOS_UserInfo_CopyUserInfoName = "EOS_UserInfo_CopyUserInfo";
 		private const string EOS_UserInfo_ExternalUserInfo_ReleaseName = "EOS_UserInfo_ExternalUserInfo_Release";
 		private const string EOS_UserInfo_GetExternalUserInfoCountName = "EOS_UserInfo_GetExternalUserInfoCount";
+		private const string EOS_UserInfo_GetLocalPlatformTypeName = "EOS_UserInfo_GetLocalPlatformType";
 		private const string EOS_UserInfo_QueryUserInfoName = "EOS_UserInfo_QueryUserInfo";
 		private const string EOS_UserInfo_QueryUserInfoByDisplayNameName = "EOS_UserInfo_QueryUserInfoByDisplayName";
 		private const string EOS_UserInfo_QueryUserInfoByExternalAccountName = "EOS_UserInfo_QueryUserInfoByExternalAccount";
@@ -737,15 +804,30 @@ namespace Epic.OnlineServices
 		private const string EOS_Connect_UnlinkAccountName = "_EOS_Connect_UnlinkAccount";
 		private const string EOS_Connect_VerifyIdTokenName = "_EOS_Connect_VerifyIdToken";
 		private const string EOS_ContinuanceToken_ToStringName = "_EOS_ContinuanceToken_ToString";
+		private const string EOS_CustomInvites_AcceptRequestToJoinName = "_EOS_CustomInvites_AcceptRequestToJoin";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteAcceptedName = "_EOS_CustomInvites_AddNotifyCustomInviteAccepted";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteReceivedName = "_EOS_CustomInvites_AddNotifyCustomInviteReceived";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteRejectedName = "_EOS_CustomInvites_AddNotifyCustomInviteRejected";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinAcceptedName = "_EOS_CustomInvites_AddNotifyRequestToJoinAccepted";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinReceivedName = "_EOS_CustomInvites_AddNotifyRequestToJoinReceived";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinRejectedName = "_EOS_CustomInvites_AddNotifyRequestToJoinRejected";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedName = "_EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived";
+		private const string EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName = "_EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested";
 		private const string EOS_CustomInvites_FinalizeInviteName = "_EOS_CustomInvites_FinalizeInvite";
+		private const string EOS_CustomInvites_RejectRequestToJoinName = "_EOS_CustomInvites_RejectRequestToJoin";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedName = "_EOS_CustomInvites_RemoveNotifyCustomInviteAccepted";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteReceivedName = "_EOS_CustomInvites_RemoveNotifyCustomInviteReceived";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteRejectedName = "_EOS_CustomInvites_RemoveNotifyCustomInviteRejected";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedName = "_EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedName = "_EOS_CustomInvites_RemoveNotifyRequestToJoinReceived";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedName = "_EOS_CustomInvites_RemoveNotifyRequestToJoinRejected";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedName = "_EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived";
+		private const string EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedName = "_EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested";
 		private const string EOS_CustomInvites_SendCustomInviteName = "_EOS_CustomInvites_SendCustomInvite";
+		private const string EOS_CustomInvites_SendRequestToJoinName = "_EOS_CustomInvites_SendRequestToJoin";
 		private const string EOS_CustomInvites_SetCustomInviteName = "_EOS_CustomInvites_SetCustomInvite";
+		private const string EOS_EApplicationStatus_ToStringName = "_EOS_EApplicationStatus_ToString";
+		private const string EOS_ENetworkStatus_ToStringName = "_EOS_ENetworkStatus_ToString";
 		private const string EOS_EResult_IsOperationCompleteName = "_EOS_EResult_IsOperationComplete";
 		private const string EOS_EResult_ToStringName = "_EOS_EResult_ToString";
 		private const string EOS_Ecom_CatalogItem_ReleaseName = "_EOS_Ecom_CatalogItem_Release";
@@ -780,6 +862,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_QueryEntitlementsName = "_EOS_Ecom_QueryEntitlements";
 		private const string EOS_Ecom_QueryOffersName = "_EOS_Ecom_QueryOffers";
 		private const string EOS_Ecom_QueryOwnershipName = "_EOS_Ecom_QueryOwnership";
+		private const string EOS_Ecom_QueryOwnershipBySandboxIdsName = "_EOS_Ecom_QueryOwnershipBySandboxIds";
 		private const string EOS_Ecom_QueryOwnershipTokenName = "_EOS_Ecom_QueryOwnershipToken";
 		private const string EOS_Ecom_RedeemEntitlementsName = "_EOS_Ecom_RedeemEntitlements";
 		private const string EOS_Ecom_Transaction_CopyEntitlementByIndexName = "_EOS_Ecom_Transaction_CopyEntitlementByIndex";
@@ -790,19 +873,29 @@ namespace Epic.OnlineServices
 		private const string EOS_EpicAccountId_IsValidName = "_EOS_EpicAccountId_IsValid";
 		private const string EOS_EpicAccountId_ToStringName = "_EOS_EpicAccountId_ToString";
 		private const string EOS_Friends_AcceptInviteName = "_EOS_Friends_AcceptInvite";
+		private const string EOS_Friends_AddNotifyBlockedUsersUpdateName = "_EOS_Friends_AddNotifyBlockedUsersUpdate";
 		private const string EOS_Friends_AddNotifyFriendsUpdateName = "_EOS_Friends_AddNotifyFriendsUpdate";
+		private const string EOS_Friends_GetBlockedUserAtIndexName = "_EOS_Friends_GetBlockedUserAtIndex";
+		private const string EOS_Friends_GetBlockedUsersCountName = "_EOS_Friends_GetBlockedUsersCount";
 		private const string EOS_Friends_GetFriendAtIndexName = "_EOS_Friends_GetFriendAtIndex";
 		private const string EOS_Friends_GetFriendsCountName = "_EOS_Friends_GetFriendsCount";
 		private const string EOS_Friends_GetStatusName = "_EOS_Friends_GetStatus";
 		private const string EOS_Friends_QueryFriendsName = "_EOS_Friends_QueryFriends";
 		private const string EOS_Friends_RejectInviteName = "_EOS_Friends_RejectInvite";
+		private const string EOS_Friends_RemoveNotifyBlockedUsersUpdateName = "_EOS_Friends_RemoveNotifyBlockedUsersUpdate";
 		private const string EOS_Friends_RemoveNotifyFriendsUpdateName = "_EOS_Friends_RemoveNotifyFriendsUpdate";
 		private const string EOS_Friends_SendInviteName = "_EOS_Friends_SendInvite";
 		private const string EOS_GetVersionName = "_EOS_GetVersion";
 		private const string EOS_InitializeName = "_EOS_Initialize";
 		private const string EOS_IntegratedPlatformOptionsContainer_AddName = "_EOS_IntegratedPlatformOptionsContainer_Add";
 		private const string EOS_IntegratedPlatformOptionsContainer_ReleaseName = "_EOS_IntegratedPlatformOptionsContainer_Release";
+		private const string EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedName = "_EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged";
+		private const string EOS_IntegratedPlatform_ClearUserPreLogoutCallbackName = "_EOS_IntegratedPlatform_ClearUserPreLogoutCallback";
 		private const string EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerName = "_EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer";
+		private const string EOS_IntegratedPlatform_FinalizeDeferredUserLogoutName = "_EOS_IntegratedPlatform_FinalizeDeferredUserLogout";
+		private const string EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedName = "_EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged";
+		private const string EOS_IntegratedPlatform_SetUserLoginStatusName = "_EOS_IntegratedPlatform_SetUserLoginStatus";
+		private const string EOS_IntegratedPlatform_SetUserPreLogoutCallbackName = "_EOS_IntegratedPlatform_SetUserPreLogoutCallback";
 		private const string EOS_KWS_AddNotifyPermissionsUpdateReceivedName = "_EOS_KWS_AddNotifyPermissionsUpdateReceived";
 		private const string EOS_KWS_CopyPermissionByIndexName = "_EOS_KWS_CopyPermissionByIndex";
 		private const string EOS_KWS_CreateUserName = "_EOS_KWS_CreateUser";
@@ -835,18 +928,21 @@ namespace Epic.OnlineServices
 		private const string EOS_LobbyDetails_CopyInfoName = "_EOS_LobbyDetails_CopyInfo";
 		private const string EOS_LobbyDetails_CopyMemberAttributeByIndexName = "_EOS_LobbyDetails_CopyMemberAttributeByIndex";
 		private const string EOS_LobbyDetails_CopyMemberAttributeByKeyName = "_EOS_LobbyDetails_CopyMemberAttributeByKey";
+		private const string EOS_LobbyDetails_CopyMemberInfoName = "_EOS_LobbyDetails_CopyMemberInfo";
 		private const string EOS_LobbyDetails_GetAttributeCountName = "_EOS_LobbyDetails_GetAttributeCount";
 		private const string EOS_LobbyDetails_GetLobbyOwnerName = "_EOS_LobbyDetails_GetLobbyOwner";
 		private const string EOS_LobbyDetails_GetMemberAttributeCountName = "_EOS_LobbyDetails_GetMemberAttributeCount";
 		private const string EOS_LobbyDetails_GetMemberByIndexName = "_EOS_LobbyDetails_GetMemberByIndex";
 		private const string EOS_LobbyDetails_GetMemberCountName = "_EOS_LobbyDetails_GetMemberCount";
 		private const string EOS_LobbyDetails_Info_ReleaseName = "_EOS_LobbyDetails_Info_Release";
+		private const string EOS_LobbyDetails_MemberInfo_ReleaseName = "_EOS_LobbyDetails_MemberInfo_Release";
 		private const string EOS_LobbyDetails_ReleaseName = "_EOS_LobbyDetails_Release";
 		private const string EOS_LobbyModification_AddAttributeName = "_EOS_LobbyModification_AddAttribute";
 		private const string EOS_LobbyModification_AddMemberAttributeName = "_EOS_LobbyModification_AddMemberAttribute";
 		private const string EOS_LobbyModification_ReleaseName = "_EOS_LobbyModification_Release";
 		private const string EOS_LobbyModification_RemoveAttributeName = "_EOS_LobbyModification_RemoveAttribute";
 		private const string EOS_LobbyModification_RemoveMemberAttributeName = "_EOS_LobbyModification_RemoveMemberAttribute";
+		private const string EOS_LobbyModification_SetAllowedPlatformIdsName = "_EOS_LobbyModification_SetAllowedPlatformIds";
 		private const string EOS_LobbyModification_SetBucketIdName = "_EOS_LobbyModification_SetBucketId";
 		private const string EOS_LobbyModification_SetInvitesAllowedName = "_EOS_LobbyModification_SetInvitesAllowed";
 		private const string EOS_LobbyModification_SetMaxMembersName = "_EOS_LobbyModification_SetMaxMembers";
@@ -861,6 +957,7 @@ namespace Epic.OnlineServices
 		private const string EOS_LobbySearch_SetParameterName = "_EOS_LobbySearch_SetParameter";
 		private const string EOS_LobbySearch_SetTargetUserIdName = "_EOS_LobbySearch_SetTargetUserId";
 		private const string EOS_Lobby_AddNotifyJoinLobbyAcceptedName = "_EOS_Lobby_AddNotifyJoinLobbyAccepted";
+		private const string EOS_Lobby_AddNotifyLeaveLobbyRequestedName = "_EOS_Lobby_AddNotifyLeaveLobbyRequested";
 		private const string EOS_Lobby_AddNotifyLobbyInviteAcceptedName = "_EOS_Lobby_AddNotifyLobbyInviteAccepted";
 		private const string EOS_Lobby_AddNotifyLobbyInviteReceivedName = "_EOS_Lobby_AddNotifyLobbyInviteReceived";
 		private const string EOS_Lobby_AddNotifyLobbyInviteRejectedName = "_EOS_Lobby_AddNotifyLobbyInviteRejected";
@@ -876,6 +973,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_CreateLobbyName = "_EOS_Lobby_CreateLobby";
 		private const string EOS_Lobby_CreateLobbySearchName = "_EOS_Lobby_CreateLobbySearch";
 		private const string EOS_Lobby_DestroyLobbyName = "_EOS_Lobby_DestroyLobby";
+		private const string EOS_Lobby_GetConnectStringName = "_EOS_Lobby_GetConnectString";
 		private const string EOS_Lobby_GetInviteCountName = "_EOS_Lobby_GetInviteCount";
 		private const string EOS_Lobby_GetInviteIdByIndexName = "_EOS_Lobby_GetInviteIdByIndex";
 		private const string EOS_Lobby_GetRTCRoomNameName = "_EOS_Lobby_GetRTCRoomName";
@@ -885,10 +983,12 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_JoinLobbyByIdName = "_EOS_Lobby_JoinLobbyById";
 		private const string EOS_Lobby_KickMemberName = "_EOS_Lobby_KickMember";
 		private const string EOS_Lobby_LeaveLobbyName = "_EOS_Lobby_LeaveLobby";
+		private const string EOS_Lobby_ParseConnectStringName = "_EOS_Lobby_ParseConnectString";
 		private const string EOS_Lobby_PromoteMemberName = "_EOS_Lobby_PromoteMember";
 		private const string EOS_Lobby_QueryInvitesName = "_EOS_Lobby_QueryInvites";
 		private const string EOS_Lobby_RejectInviteName = "_EOS_Lobby_RejectInvite";
 		private const string EOS_Lobby_RemoveNotifyJoinLobbyAcceptedName = "_EOS_Lobby_RemoveNotifyJoinLobbyAccepted";
+		private const string EOS_Lobby_RemoveNotifyLeaveLobbyRequestedName = "_EOS_Lobby_RemoveNotifyLeaveLobbyRequested";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteAcceptedName = "_EOS_Lobby_RemoveNotifyLobbyInviteAccepted";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteReceivedName = "_EOS_Lobby_RemoveNotifyLobbyInviteReceived";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteRejectedName = "_EOS_Lobby_RemoveNotifyLobbyInviteRejected";
@@ -949,6 +1049,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Platform_GetDesktopCrossplayStatusName = "_EOS_Platform_GetDesktopCrossplayStatus";
 		private const string EOS_Platform_GetEcomInterfaceName = "_EOS_Platform_GetEcomInterface";
 		private const string EOS_Platform_GetFriendsInterfaceName = "_EOS_Platform_GetFriendsInterface";
+		private const string EOS_Platform_GetIntegratedPlatformInterfaceName = "_EOS_Platform_GetIntegratedPlatformInterface";
 		private const string EOS_Platform_GetKWSInterfaceName = "_EOS_Platform_GetKWSInterface";
 		private const string EOS_Platform_GetLeaderboardsInterfaceName = "_EOS_Platform_GetLeaderboardsInterface";
 		private const string EOS_Platform_GetLobbyInterfaceName = "_EOS_Platform_GetLobbyInterface";
@@ -1028,11 +1129,20 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_AddNotifyAudioInputStateName = "_EOS_RTCAudio_AddNotifyAudioInputState";
 		private const string EOS_RTCAudio_AddNotifyAudioOutputStateName = "_EOS_RTCAudio_AddNotifyAudioOutputState";
 		private const string EOS_RTCAudio_AddNotifyParticipantUpdatedName = "_EOS_RTCAudio_AddNotifyParticipantUpdated";
+		private const string EOS_RTCAudio_CopyInputDeviceInformationByIndexName = "_EOS_RTCAudio_CopyInputDeviceInformationByIndex";
+		private const string EOS_RTCAudio_CopyOutputDeviceInformationByIndexName = "_EOS_RTCAudio_CopyOutputDeviceInformationByIndex";
 		private const string EOS_RTCAudio_GetAudioInputDeviceByIndexName = "_EOS_RTCAudio_GetAudioInputDeviceByIndex";
 		private const string EOS_RTCAudio_GetAudioInputDevicesCountName = "_EOS_RTCAudio_GetAudioInputDevicesCount";
 		private const string EOS_RTCAudio_GetAudioOutputDeviceByIndexName = "_EOS_RTCAudio_GetAudioOutputDeviceByIndex";
 		private const string EOS_RTCAudio_GetAudioOutputDevicesCountName = "_EOS_RTCAudio_GetAudioOutputDevicesCount";
+		private const string EOS_RTCAudio_GetInputDevicesCountName = "_EOS_RTCAudio_GetInputDevicesCount";
+		private const string EOS_RTCAudio_GetOutputDevicesCountName = "_EOS_RTCAudio_GetOutputDevicesCount";
+		private const string EOS_RTCAudio_InputDeviceInformation_ReleaseName = "_EOS_RTCAudio_InputDeviceInformation_Release";
+		private const string EOS_RTCAudio_OutputDeviceInformation_ReleaseName = "_EOS_RTCAudio_OutputDeviceInformation_Release";
+		private const string EOS_RTCAudio_QueryInputDevicesInformationName = "_EOS_RTCAudio_QueryInputDevicesInformation";
+		private const string EOS_RTCAudio_QueryOutputDevicesInformationName = "_EOS_RTCAudio_QueryOutputDevicesInformation";
 		private const string EOS_RTCAudio_RegisterPlatformAudioUserName = "_EOS_RTCAudio_RegisterPlatformAudioUser";
+		private const string EOS_RTCAudio_RegisterPlatformUserName = "_EOS_RTCAudio_RegisterPlatformUser";
 		private const string EOS_RTCAudio_RemoveNotifyAudioBeforeRenderName = "_EOS_RTCAudio_RemoveNotifyAudioBeforeRender";
 		private const string EOS_RTCAudio_RemoveNotifyAudioBeforeSendName = "_EOS_RTCAudio_RemoveNotifyAudioBeforeSend";
 		private const string EOS_RTCAudio_RemoveNotifyAudioDevicesChangedName = "_EOS_RTCAudio_RemoveNotifyAudioDevicesChanged";
@@ -1042,7 +1152,10 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_SendAudioName = "_EOS_RTCAudio_SendAudio";
 		private const string EOS_RTCAudio_SetAudioInputSettingsName = "_EOS_RTCAudio_SetAudioInputSettings";
 		private const string EOS_RTCAudio_SetAudioOutputSettingsName = "_EOS_RTCAudio_SetAudioOutputSettings";
+		private const string EOS_RTCAudio_SetInputDeviceSettingsName = "_EOS_RTCAudio_SetInputDeviceSettings";
+		private const string EOS_RTCAudio_SetOutputDeviceSettingsName = "_EOS_RTCAudio_SetOutputDeviceSettings";
 		private const string EOS_RTCAudio_UnregisterPlatformAudioUserName = "_EOS_RTCAudio_UnregisterPlatformAudioUser";
+		private const string EOS_RTCAudio_UnregisterPlatformUserName = "_EOS_RTCAudio_UnregisterPlatformUser";
 		private const string EOS_RTCAudio_UpdateParticipantVolumeName = "_EOS_RTCAudio_UpdateParticipantVolume";
 		private const string EOS_RTCAudio_UpdateReceivingName = "_EOS_RTCAudio_UpdateReceiving";
 		private const string EOS_RTCAudio_UpdateReceivingVolumeName = "_EOS_RTCAudio_UpdateReceivingVolume";
@@ -1050,12 +1163,14 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_UpdateSendingVolumeName = "_EOS_RTCAudio_UpdateSendingVolume";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "_EOS_RTC_AddNotifyDisconnected";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "_EOS_RTC_AddNotifyParticipantStatusChanged";
+		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "_EOS_RTC_AddNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_BlockParticipantName = "_EOS_RTC_BlockParticipant";
 		private const string EOS_RTC_GetAudioInterfaceName = "_EOS_RTC_GetAudioInterface";
 		private const string EOS_RTC_JoinRoomName = "_EOS_RTC_JoinRoom";
 		private const string EOS_RTC_LeaveRoomName = "_EOS_RTC_LeaveRoom";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "_EOS_RTC_RemoveNotifyDisconnected";
 		private const string EOS_RTC_RemoveNotifyParticipantStatusChangedName = "_EOS_RTC_RemoveNotifyParticipantStatusChanged";
+		private const string EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName = "_EOS_RTC_RemoveNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_SetRoomSettingName = "_EOS_RTC_SetRoomSetting";
 		private const string EOS_RTC_SetSettingName = "_EOS_RTC_SetSetting";
 		private const string EOS_Reports_SendPlayerBehaviorReportName = "_EOS_Reports_SendPlayerBehaviorReport";
@@ -1073,6 +1188,7 @@ namespace Epic.OnlineServices
 		private const string EOS_SessionModification_AddAttributeName = "_EOS_SessionModification_AddAttribute";
 		private const string EOS_SessionModification_ReleaseName = "_EOS_SessionModification_Release";
 		private const string EOS_SessionModification_RemoveAttributeName = "_EOS_SessionModification_RemoveAttribute";
+		private const string EOS_SessionModification_SetAllowedPlatformIdsName = "_EOS_SessionModification_SetAllowedPlatformIds";
 		private const string EOS_SessionModification_SetBucketIdName = "_EOS_SessionModification_SetBucketId";
 		private const string EOS_SessionModification_SetHostAddressName = "_EOS_SessionModification_SetHostAddress";
 		private const string EOS_SessionModification_SetInvitesAllowedName = "_EOS_SessionModification_SetInvitesAllowed";
@@ -1089,8 +1205,11 @@ namespace Epic.OnlineServices
 		private const string EOS_SessionSearch_SetSessionIdName = "_EOS_SessionSearch_SetSessionId";
 		private const string EOS_SessionSearch_SetTargetUserIdName = "_EOS_SessionSearch_SetTargetUserId";
 		private const string EOS_Sessions_AddNotifyJoinSessionAcceptedName = "_EOS_Sessions_AddNotifyJoinSessionAccepted";
+		private const string EOS_Sessions_AddNotifyLeaveSessionRequestedName = "_EOS_Sessions_AddNotifyLeaveSessionRequested";
+		private const string EOS_Sessions_AddNotifySendSessionNativeInviteRequestedName = "_EOS_Sessions_AddNotifySendSessionNativeInviteRequested";
 		private const string EOS_Sessions_AddNotifySessionInviteAcceptedName = "_EOS_Sessions_AddNotifySessionInviteAccepted";
 		private const string EOS_Sessions_AddNotifySessionInviteReceivedName = "_EOS_Sessions_AddNotifySessionInviteReceived";
+		private const string EOS_Sessions_AddNotifySessionInviteRejectedName = "_EOS_Sessions_AddNotifySessionInviteRejected";
 		private const string EOS_Sessions_CopyActiveSessionHandleName = "_EOS_Sessions_CopyActiveSessionHandle";
 		private const string EOS_Sessions_CopySessionHandleByInviteIdName = "_EOS_Sessions_CopySessionHandleByInviteId";
 		private const string EOS_Sessions_CopySessionHandleByUiEventIdName = "_EOS_Sessions_CopySessionHandleByUiEventId";
@@ -1108,8 +1227,11 @@ namespace Epic.OnlineServices
 		private const string EOS_Sessions_RegisterPlayersName = "_EOS_Sessions_RegisterPlayers";
 		private const string EOS_Sessions_RejectInviteName = "_EOS_Sessions_RejectInvite";
 		private const string EOS_Sessions_RemoveNotifyJoinSessionAcceptedName = "_EOS_Sessions_RemoveNotifyJoinSessionAccepted";
+		private const string EOS_Sessions_RemoveNotifyLeaveSessionRequestedName = "_EOS_Sessions_RemoveNotifyLeaveSessionRequested";
+		private const string EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedName = "_EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested";
 		private const string EOS_Sessions_RemoveNotifySessionInviteAcceptedName = "_EOS_Sessions_RemoveNotifySessionInviteAccepted";
 		private const string EOS_Sessions_RemoveNotifySessionInviteReceivedName = "_EOS_Sessions_RemoveNotifySessionInviteReceived";
+		private const string EOS_Sessions_RemoveNotifySessionInviteRejectedName = "_EOS_Sessions_RemoveNotifySessionInviteRejected";
 		private const string EOS_Sessions_SendInviteName = "_EOS_Sessions_SendInvite";
 		private const string EOS_Sessions_StartSessionName = "_EOS_Sessions_StartSession";
 		private const string EOS_Sessions_UnregisterPlayersName = "_EOS_Sessions_UnregisterPlayers";
@@ -1136,26 +1258,38 @@ namespace Epic.OnlineServices
 		private const string EOS_TitleStorage_ReadFileName = "_EOS_TitleStorage_ReadFile";
 		private const string EOS_UI_AcknowledgeEventIdName = "_EOS_UI_AcknowledgeEventId";
 		private const string EOS_UI_AddNotifyDisplaySettingsUpdatedName = "_EOS_UI_AddNotifyDisplaySettingsUpdated";
+		private const string EOS_UI_AddNotifyMemoryMonitorName = "_EOS_UI_AddNotifyMemoryMonitor";
 		private const string EOS_UI_GetFriendsExclusiveInputName = "_EOS_UI_GetFriendsExclusiveInput";
 		private const string EOS_UI_GetFriendsVisibleName = "_EOS_UI_GetFriendsVisible";
 		private const string EOS_UI_GetNotificationLocationPreferenceName = "_EOS_UI_GetNotificationLocationPreference";
+		private const string EOS_UI_GetToggleFriendsButtonName = "_EOS_UI_GetToggleFriendsButton";
 		private const string EOS_UI_GetToggleFriendsKeyName = "_EOS_UI_GetToggleFriendsKey";
 		private const string EOS_UI_HideFriendsName = "_EOS_UI_HideFriends";
 		private const string EOS_UI_IsSocialOverlayPausedName = "_EOS_UI_IsSocialOverlayPaused";
+		private const string EOS_UI_IsValidButtonCombinationName = "_EOS_UI_IsValidButtonCombination";
 		private const string EOS_UI_IsValidKeyCombinationName = "_EOS_UI_IsValidKeyCombination";
 		private const string EOS_UI_PauseSocialOverlayName = "_EOS_UI_PauseSocialOverlay";
+		private const string EOS_UI_PrePresentName = "_EOS_UI_PrePresent";
 		private const string EOS_UI_RemoveNotifyDisplaySettingsUpdatedName = "_EOS_UI_RemoveNotifyDisplaySettingsUpdated";
+		private const string EOS_UI_RemoveNotifyMemoryMonitorName = "_EOS_UI_RemoveNotifyMemoryMonitor";
+		private const string EOS_UI_ReportInputStateName = "_EOS_UI_ReportInputState";
 		private const string EOS_UI_SetDisplayPreferenceName = "_EOS_UI_SetDisplayPreference";
+		private const string EOS_UI_SetToggleFriendsButtonName = "_EOS_UI_SetToggleFriendsButton";
 		private const string EOS_UI_SetToggleFriendsKeyName = "_EOS_UI_SetToggleFriendsKey";
 		private const string EOS_UI_ShowBlockPlayerName = "_EOS_UI_ShowBlockPlayer";
 		private const string EOS_UI_ShowFriendsName = "_EOS_UI_ShowFriends";
+		private const string EOS_UI_ShowNativeProfileName = "_EOS_UI_ShowNativeProfile";
 		private const string EOS_UI_ShowReportPlayerName = "_EOS_UI_ShowReportPlayer";
+		private const string EOS_UserInfo_BestDisplayName_ReleaseName = "_EOS_UserInfo_BestDisplayName_Release";
+		private const string EOS_UserInfo_CopyBestDisplayNameName = "_EOS_UserInfo_CopyBestDisplayName";
+		private const string EOS_UserInfo_CopyBestDisplayNameWithPlatformName = "_EOS_UserInfo_CopyBestDisplayNameWithPlatform";
 		private const string EOS_UserInfo_CopyExternalUserInfoByAccountIdName = "_EOS_UserInfo_CopyExternalUserInfoByAccountId";
 		private const string EOS_UserInfo_CopyExternalUserInfoByAccountTypeName = "_EOS_UserInfo_CopyExternalUserInfoByAccountType";
 		private const string EOS_UserInfo_CopyExternalUserInfoByIndexName = "_EOS_UserInfo_CopyExternalUserInfoByIndex";
 		private const string EOS_UserInfo_CopyUserInfoName = "_EOS_UserInfo_CopyUserInfo";
 		private const string EOS_UserInfo_ExternalUserInfo_ReleaseName = "_EOS_UserInfo_ExternalUserInfo_Release";
 		private const string EOS_UserInfo_GetExternalUserInfoCountName = "_EOS_UserInfo_GetExternalUserInfoCount";
+		private const string EOS_UserInfo_GetLocalPlatformTypeName = "_EOS_UserInfo_GetLocalPlatformType";
 		private const string EOS_UserInfo_QueryUserInfoName = "_EOS_UserInfo_QueryUserInfo";
 		private const string EOS_UserInfo_QueryUserInfoByDisplayNameName = "_EOS_UserInfo_QueryUserInfoByDisplayName";
 		private const string EOS_UserInfo_QueryUserInfoByExternalAccountName = "_EOS_UserInfo_QueryUserInfoByExternalAccount";
@@ -1286,15 +1420,30 @@ namespace Epic.OnlineServices
 		private const string EOS_Connect_UnlinkAccountName = "_EOS_Connect_UnlinkAccount@16";
 		private const string EOS_Connect_VerifyIdTokenName = "_EOS_Connect_VerifyIdToken@16";
 		private const string EOS_ContinuanceToken_ToStringName = "_EOS_ContinuanceToken_ToString@12";
+		private const string EOS_CustomInvites_AcceptRequestToJoinName = "_EOS_CustomInvites_AcceptRequestToJoin@16";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteAcceptedName = "_EOS_CustomInvites_AddNotifyCustomInviteAccepted@16";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteReceivedName = "_EOS_CustomInvites_AddNotifyCustomInviteReceived@16";
 		private const string EOS_CustomInvites_AddNotifyCustomInviteRejectedName = "_EOS_CustomInvites_AddNotifyCustomInviteRejected@16";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinAcceptedName = "_EOS_CustomInvites_AddNotifyRequestToJoinAccepted@16";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinReceivedName = "_EOS_CustomInvites_AddNotifyRequestToJoinReceived@16";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinRejectedName = "_EOS_CustomInvites_AddNotifyRequestToJoinRejected@16";
+		private const string EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedName = "_EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived@16";
+		private const string EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName = "_EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested@16";
 		private const string EOS_CustomInvites_FinalizeInviteName = "_EOS_CustomInvites_FinalizeInvite@8";
+		private const string EOS_CustomInvites_RejectRequestToJoinName = "_EOS_CustomInvites_RejectRequestToJoin@16";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedName = "_EOS_CustomInvites_RemoveNotifyCustomInviteAccepted@12";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteReceivedName = "_EOS_CustomInvites_RemoveNotifyCustomInviteReceived@12";
 		private const string EOS_CustomInvites_RemoveNotifyCustomInviteRejectedName = "_EOS_CustomInvites_RemoveNotifyCustomInviteRejected@12";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedName = "_EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted@12";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedName = "_EOS_CustomInvites_RemoveNotifyRequestToJoinReceived@12";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedName = "_EOS_CustomInvites_RemoveNotifyRequestToJoinRejected@12";
+		private const string EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedName = "_EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived@12";
+		private const string EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedName = "_EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested@12";
 		private const string EOS_CustomInvites_SendCustomInviteName = "_EOS_CustomInvites_SendCustomInvite@16";
+		private const string EOS_CustomInvites_SendRequestToJoinName = "_EOS_CustomInvites_SendRequestToJoin@16";
 		private const string EOS_CustomInvites_SetCustomInviteName = "_EOS_CustomInvites_SetCustomInvite@8";
+		private const string EOS_EApplicationStatus_ToStringName = "_EOS_EApplicationStatus_ToString@4";
+		private const string EOS_ENetworkStatus_ToStringName = "_EOS_ENetworkStatus_ToString@4";
 		private const string EOS_EResult_IsOperationCompleteName = "_EOS_EResult_IsOperationComplete@4";
 		private const string EOS_EResult_ToStringName = "_EOS_EResult_ToString@4";
 		private const string EOS_Ecom_CatalogItem_ReleaseName = "_EOS_Ecom_CatalogItem_Release@4";
@@ -1329,6 +1478,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Ecom_QueryEntitlementsName = "_EOS_Ecom_QueryEntitlements@16";
 		private const string EOS_Ecom_QueryOffersName = "_EOS_Ecom_QueryOffers@16";
 		private const string EOS_Ecom_QueryOwnershipName = "_EOS_Ecom_QueryOwnership@16";
+		private const string EOS_Ecom_QueryOwnershipBySandboxIdsName = "_EOS_Ecom_QueryOwnershipBySandboxIds@16";
 		private const string EOS_Ecom_QueryOwnershipTokenName = "_EOS_Ecom_QueryOwnershipToken@16";
 		private const string EOS_Ecom_RedeemEntitlementsName = "_EOS_Ecom_RedeemEntitlements@16";
 		private const string EOS_Ecom_Transaction_CopyEntitlementByIndexName = "_EOS_Ecom_Transaction_CopyEntitlementByIndex@12";
@@ -1339,19 +1489,29 @@ namespace Epic.OnlineServices
 		private const string EOS_EpicAccountId_IsValidName = "_EOS_EpicAccountId_IsValid@4";
 		private const string EOS_EpicAccountId_ToStringName = "_EOS_EpicAccountId_ToString@12";
 		private const string EOS_Friends_AcceptInviteName = "_EOS_Friends_AcceptInvite@16";
+		private const string EOS_Friends_AddNotifyBlockedUsersUpdateName = "_EOS_Friends_AddNotifyBlockedUsersUpdate@16";
 		private const string EOS_Friends_AddNotifyFriendsUpdateName = "_EOS_Friends_AddNotifyFriendsUpdate@16";
+		private const string EOS_Friends_GetBlockedUserAtIndexName = "_EOS_Friends_GetBlockedUserAtIndex@8";
+		private const string EOS_Friends_GetBlockedUsersCountName = "_EOS_Friends_GetBlockedUsersCount@8";
 		private const string EOS_Friends_GetFriendAtIndexName = "_EOS_Friends_GetFriendAtIndex@8";
 		private const string EOS_Friends_GetFriendsCountName = "_EOS_Friends_GetFriendsCount@8";
 		private const string EOS_Friends_GetStatusName = "_EOS_Friends_GetStatus@8";
 		private const string EOS_Friends_QueryFriendsName = "_EOS_Friends_QueryFriends@16";
 		private const string EOS_Friends_RejectInviteName = "_EOS_Friends_RejectInvite@16";
+		private const string EOS_Friends_RemoveNotifyBlockedUsersUpdateName = "_EOS_Friends_RemoveNotifyBlockedUsersUpdate@12";
 		private const string EOS_Friends_RemoveNotifyFriendsUpdateName = "_EOS_Friends_RemoveNotifyFriendsUpdate@12";
 		private const string EOS_Friends_SendInviteName = "_EOS_Friends_SendInvite@16";
 		private const string EOS_GetVersionName = "_EOS_GetVersion@0";
 		private const string EOS_InitializeName = "_EOS_Initialize@4";
 		private const string EOS_IntegratedPlatformOptionsContainer_AddName = "_EOS_IntegratedPlatformOptionsContainer_Add@8";
 		private const string EOS_IntegratedPlatformOptionsContainer_ReleaseName = "_EOS_IntegratedPlatformOptionsContainer_Release@4";
+		private const string EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedName = "_EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged@16";
+		private const string EOS_IntegratedPlatform_ClearUserPreLogoutCallbackName = "_EOS_IntegratedPlatform_ClearUserPreLogoutCallback@8";
 		private const string EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerName = "_EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer@8";
+		private const string EOS_IntegratedPlatform_FinalizeDeferredUserLogoutName = "_EOS_IntegratedPlatform_FinalizeDeferredUserLogout@8";
+		private const string EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedName = "_EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged@12";
+		private const string EOS_IntegratedPlatform_SetUserLoginStatusName = "_EOS_IntegratedPlatform_SetUserLoginStatus@8";
+		private const string EOS_IntegratedPlatform_SetUserPreLogoutCallbackName = "_EOS_IntegratedPlatform_SetUserPreLogoutCallback@16";
 		private const string EOS_KWS_AddNotifyPermissionsUpdateReceivedName = "_EOS_KWS_AddNotifyPermissionsUpdateReceived@16";
 		private const string EOS_KWS_CopyPermissionByIndexName = "_EOS_KWS_CopyPermissionByIndex@12";
 		private const string EOS_KWS_CreateUserName = "_EOS_KWS_CreateUser@16";
@@ -1384,18 +1544,21 @@ namespace Epic.OnlineServices
 		private const string EOS_LobbyDetails_CopyInfoName = "_EOS_LobbyDetails_CopyInfo@12";
 		private const string EOS_LobbyDetails_CopyMemberAttributeByIndexName = "_EOS_LobbyDetails_CopyMemberAttributeByIndex@12";
 		private const string EOS_LobbyDetails_CopyMemberAttributeByKeyName = "_EOS_LobbyDetails_CopyMemberAttributeByKey@12";
+		private const string EOS_LobbyDetails_CopyMemberInfoName = "_EOS_LobbyDetails_CopyMemberInfo@12";
 		private const string EOS_LobbyDetails_GetAttributeCountName = "_EOS_LobbyDetails_GetAttributeCount@8";
 		private const string EOS_LobbyDetails_GetLobbyOwnerName = "_EOS_LobbyDetails_GetLobbyOwner@8";
 		private const string EOS_LobbyDetails_GetMemberAttributeCountName = "_EOS_LobbyDetails_GetMemberAttributeCount@8";
 		private const string EOS_LobbyDetails_GetMemberByIndexName = "_EOS_LobbyDetails_GetMemberByIndex@8";
 		private const string EOS_LobbyDetails_GetMemberCountName = "_EOS_LobbyDetails_GetMemberCount@8";
 		private const string EOS_LobbyDetails_Info_ReleaseName = "_EOS_LobbyDetails_Info_Release@4";
+		private const string EOS_LobbyDetails_MemberInfo_ReleaseName = "_EOS_LobbyDetails_MemberInfo_Release@4";
 		private const string EOS_LobbyDetails_ReleaseName = "_EOS_LobbyDetails_Release@4";
 		private const string EOS_LobbyModification_AddAttributeName = "_EOS_LobbyModification_AddAttribute@8";
 		private const string EOS_LobbyModification_AddMemberAttributeName = "_EOS_LobbyModification_AddMemberAttribute@8";
 		private const string EOS_LobbyModification_ReleaseName = "_EOS_LobbyModification_Release@4";
 		private const string EOS_LobbyModification_RemoveAttributeName = "_EOS_LobbyModification_RemoveAttribute@8";
 		private const string EOS_LobbyModification_RemoveMemberAttributeName = "_EOS_LobbyModification_RemoveMemberAttribute@8";
+		private const string EOS_LobbyModification_SetAllowedPlatformIdsName = "_EOS_LobbyModification_SetAllowedPlatformIds@8";
 		private const string EOS_LobbyModification_SetBucketIdName = "_EOS_LobbyModification_SetBucketId@8";
 		private const string EOS_LobbyModification_SetInvitesAllowedName = "_EOS_LobbyModification_SetInvitesAllowed@8";
 		private const string EOS_LobbyModification_SetMaxMembersName = "_EOS_LobbyModification_SetMaxMembers@8";
@@ -1410,6 +1573,7 @@ namespace Epic.OnlineServices
 		private const string EOS_LobbySearch_SetParameterName = "_EOS_LobbySearch_SetParameter@8";
 		private const string EOS_LobbySearch_SetTargetUserIdName = "_EOS_LobbySearch_SetTargetUserId@8";
 		private const string EOS_Lobby_AddNotifyJoinLobbyAcceptedName = "_EOS_Lobby_AddNotifyJoinLobbyAccepted@16";
+		private const string EOS_Lobby_AddNotifyLeaveLobbyRequestedName = "_EOS_Lobby_AddNotifyLeaveLobbyRequested@16";
 		private const string EOS_Lobby_AddNotifyLobbyInviteAcceptedName = "_EOS_Lobby_AddNotifyLobbyInviteAccepted@16";
 		private const string EOS_Lobby_AddNotifyLobbyInviteReceivedName = "_EOS_Lobby_AddNotifyLobbyInviteReceived@16";
 		private const string EOS_Lobby_AddNotifyLobbyInviteRejectedName = "_EOS_Lobby_AddNotifyLobbyInviteRejected@16";
@@ -1425,6 +1589,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_CreateLobbyName = "_EOS_Lobby_CreateLobby@16";
 		private const string EOS_Lobby_CreateLobbySearchName = "_EOS_Lobby_CreateLobbySearch@12";
 		private const string EOS_Lobby_DestroyLobbyName = "_EOS_Lobby_DestroyLobby@16";
+		private const string EOS_Lobby_GetConnectStringName = "_EOS_Lobby_GetConnectString@16";
 		private const string EOS_Lobby_GetInviteCountName = "_EOS_Lobby_GetInviteCount@8";
 		private const string EOS_Lobby_GetInviteIdByIndexName = "_EOS_Lobby_GetInviteIdByIndex@16";
 		private const string EOS_Lobby_GetRTCRoomNameName = "_EOS_Lobby_GetRTCRoomName@16";
@@ -1434,10 +1599,12 @@ namespace Epic.OnlineServices
 		private const string EOS_Lobby_JoinLobbyByIdName = "_EOS_Lobby_JoinLobbyById@16";
 		private const string EOS_Lobby_KickMemberName = "_EOS_Lobby_KickMember@16";
 		private const string EOS_Lobby_LeaveLobbyName = "_EOS_Lobby_LeaveLobby@16";
+		private const string EOS_Lobby_ParseConnectStringName = "_EOS_Lobby_ParseConnectString@16";
 		private const string EOS_Lobby_PromoteMemberName = "_EOS_Lobby_PromoteMember@16";
 		private const string EOS_Lobby_QueryInvitesName = "_EOS_Lobby_QueryInvites@16";
 		private const string EOS_Lobby_RejectInviteName = "_EOS_Lobby_RejectInvite@16";
 		private const string EOS_Lobby_RemoveNotifyJoinLobbyAcceptedName = "_EOS_Lobby_RemoveNotifyJoinLobbyAccepted@12";
+		private const string EOS_Lobby_RemoveNotifyLeaveLobbyRequestedName = "_EOS_Lobby_RemoveNotifyLeaveLobbyRequested@12";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteAcceptedName = "_EOS_Lobby_RemoveNotifyLobbyInviteAccepted@12";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteReceivedName = "_EOS_Lobby_RemoveNotifyLobbyInviteReceived@12";
 		private const string EOS_Lobby_RemoveNotifyLobbyInviteRejectedName = "_EOS_Lobby_RemoveNotifyLobbyInviteRejected@12";
@@ -1498,6 +1665,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Platform_GetDesktopCrossplayStatusName = "_EOS_Platform_GetDesktopCrossplayStatus@12";
 		private const string EOS_Platform_GetEcomInterfaceName = "_EOS_Platform_GetEcomInterface@4";
 		private const string EOS_Platform_GetFriendsInterfaceName = "_EOS_Platform_GetFriendsInterface@4";
+		private const string EOS_Platform_GetIntegratedPlatformInterfaceName = "_EOS_Platform_GetIntegratedPlatformInterface@4";
 		private const string EOS_Platform_GetKWSInterfaceName = "_EOS_Platform_GetKWSInterface@4";
 		private const string EOS_Platform_GetLeaderboardsInterfaceName = "_EOS_Platform_GetLeaderboardsInterface@4";
 		private const string EOS_Platform_GetLobbyInterfaceName = "_EOS_Platform_GetLobbyInterface@4";
@@ -1577,11 +1745,20 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_AddNotifyAudioInputStateName = "_EOS_RTCAudio_AddNotifyAudioInputState@16";
 		private const string EOS_RTCAudio_AddNotifyAudioOutputStateName = "_EOS_RTCAudio_AddNotifyAudioOutputState@16";
 		private const string EOS_RTCAudio_AddNotifyParticipantUpdatedName = "_EOS_RTCAudio_AddNotifyParticipantUpdated@16";
+		private const string EOS_RTCAudio_CopyInputDeviceInformationByIndexName = "_EOS_RTCAudio_CopyInputDeviceInformationByIndex@12";
+		private const string EOS_RTCAudio_CopyOutputDeviceInformationByIndexName = "_EOS_RTCAudio_CopyOutputDeviceInformationByIndex@12";
 		private const string EOS_RTCAudio_GetAudioInputDeviceByIndexName = "_EOS_RTCAudio_GetAudioInputDeviceByIndex@8";
 		private const string EOS_RTCAudio_GetAudioInputDevicesCountName = "_EOS_RTCAudio_GetAudioInputDevicesCount@8";
 		private const string EOS_RTCAudio_GetAudioOutputDeviceByIndexName = "_EOS_RTCAudio_GetAudioOutputDeviceByIndex@8";
 		private const string EOS_RTCAudio_GetAudioOutputDevicesCountName = "_EOS_RTCAudio_GetAudioOutputDevicesCount@8";
+		private const string EOS_RTCAudio_GetInputDevicesCountName = "_EOS_RTCAudio_GetInputDevicesCount@8";
+		private const string EOS_RTCAudio_GetOutputDevicesCountName = "_EOS_RTCAudio_GetOutputDevicesCount@8";
+		private const string EOS_RTCAudio_InputDeviceInformation_ReleaseName = "_EOS_RTCAudio_InputDeviceInformation_Release@4";
+		private const string EOS_RTCAudio_OutputDeviceInformation_ReleaseName = "_EOS_RTCAudio_OutputDeviceInformation_Release@4";
+		private const string EOS_RTCAudio_QueryInputDevicesInformationName = "_EOS_RTCAudio_QueryInputDevicesInformation@16";
+		private const string EOS_RTCAudio_QueryOutputDevicesInformationName = "_EOS_RTCAudio_QueryOutputDevicesInformation@16";
 		private const string EOS_RTCAudio_RegisterPlatformAudioUserName = "_EOS_RTCAudio_RegisterPlatformAudioUser@8";
+		private const string EOS_RTCAudio_RegisterPlatformUserName = "_EOS_RTCAudio_RegisterPlatformUser@16";
 		private const string EOS_RTCAudio_RemoveNotifyAudioBeforeRenderName = "_EOS_RTCAudio_RemoveNotifyAudioBeforeRender@12";
 		private const string EOS_RTCAudio_RemoveNotifyAudioBeforeSendName = "_EOS_RTCAudio_RemoveNotifyAudioBeforeSend@12";
 		private const string EOS_RTCAudio_RemoveNotifyAudioDevicesChangedName = "_EOS_RTCAudio_RemoveNotifyAudioDevicesChanged@12";
@@ -1591,7 +1768,10 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_SendAudioName = "_EOS_RTCAudio_SendAudio@8";
 		private const string EOS_RTCAudio_SetAudioInputSettingsName = "_EOS_RTCAudio_SetAudioInputSettings@8";
 		private const string EOS_RTCAudio_SetAudioOutputSettingsName = "_EOS_RTCAudio_SetAudioOutputSettings@8";
+		private const string EOS_RTCAudio_SetInputDeviceSettingsName = "_EOS_RTCAudio_SetInputDeviceSettings@16";
+		private const string EOS_RTCAudio_SetOutputDeviceSettingsName = "_EOS_RTCAudio_SetOutputDeviceSettings@16";
 		private const string EOS_RTCAudio_UnregisterPlatformAudioUserName = "_EOS_RTCAudio_UnregisterPlatformAudioUser@8";
+		private const string EOS_RTCAudio_UnregisterPlatformUserName = "_EOS_RTCAudio_UnregisterPlatformUser@16";
 		private const string EOS_RTCAudio_UpdateParticipantVolumeName = "_EOS_RTCAudio_UpdateParticipantVolume@16";
 		private const string EOS_RTCAudio_UpdateReceivingName = "_EOS_RTCAudio_UpdateReceiving@16";
 		private const string EOS_RTCAudio_UpdateReceivingVolumeName = "_EOS_RTCAudio_UpdateReceivingVolume@16";
@@ -1599,12 +1779,14 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_UpdateSendingVolumeName = "_EOS_RTCAudio_UpdateSendingVolume@16";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "_EOS_RTC_AddNotifyDisconnected@16";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "_EOS_RTC_AddNotifyParticipantStatusChanged@16";
+		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "_EOS_RTC_AddNotifyRoomStatisticsUpdated@16";
 		private const string EOS_RTC_BlockParticipantName = "_EOS_RTC_BlockParticipant@16";
 		private const string EOS_RTC_GetAudioInterfaceName = "_EOS_RTC_GetAudioInterface@4";
 		private const string EOS_RTC_JoinRoomName = "_EOS_RTC_JoinRoom@16";
 		private const string EOS_RTC_LeaveRoomName = "_EOS_RTC_LeaveRoom@16";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "_EOS_RTC_RemoveNotifyDisconnected@12";
 		private const string EOS_RTC_RemoveNotifyParticipantStatusChangedName = "_EOS_RTC_RemoveNotifyParticipantStatusChanged@12";
+		private const string EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName = "_EOS_RTC_RemoveNotifyRoomStatisticsUpdated@12";
 		private const string EOS_RTC_SetRoomSettingName = "_EOS_RTC_SetRoomSetting@8";
 		private const string EOS_RTC_SetSettingName = "_EOS_RTC_SetSetting@8";
 		private const string EOS_Reports_SendPlayerBehaviorReportName = "_EOS_Reports_SendPlayerBehaviorReport@16";
@@ -1622,6 +1804,7 @@ namespace Epic.OnlineServices
 		private const string EOS_SessionModification_AddAttributeName = "_EOS_SessionModification_AddAttribute@8";
 		private const string EOS_SessionModification_ReleaseName = "_EOS_SessionModification_Release@4";
 		private const string EOS_SessionModification_RemoveAttributeName = "_EOS_SessionModification_RemoveAttribute@8";
+		private const string EOS_SessionModification_SetAllowedPlatformIdsName = "_EOS_SessionModification_SetAllowedPlatformIds@8";
 		private const string EOS_SessionModification_SetBucketIdName = "_EOS_SessionModification_SetBucketId@8";
 		private const string EOS_SessionModification_SetHostAddressName = "_EOS_SessionModification_SetHostAddress@8";
 		private const string EOS_SessionModification_SetInvitesAllowedName = "_EOS_SessionModification_SetInvitesAllowed@8";
@@ -1638,8 +1821,11 @@ namespace Epic.OnlineServices
 		private const string EOS_SessionSearch_SetSessionIdName = "_EOS_SessionSearch_SetSessionId@8";
 		private const string EOS_SessionSearch_SetTargetUserIdName = "_EOS_SessionSearch_SetTargetUserId@8";
 		private const string EOS_Sessions_AddNotifyJoinSessionAcceptedName = "_EOS_Sessions_AddNotifyJoinSessionAccepted@16";
+		private const string EOS_Sessions_AddNotifyLeaveSessionRequestedName = "_EOS_Sessions_AddNotifyLeaveSessionRequested@16";
+		private const string EOS_Sessions_AddNotifySendSessionNativeInviteRequestedName = "_EOS_Sessions_AddNotifySendSessionNativeInviteRequested@16";
 		private const string EOS_Sessions_AddNotifySessionInviteAcceptedName = "_EOS_Sessions_AddNotifySessionInviteAccepted@16";
 		private const string EOS_Sessions_AddNotifySessionInviteReceivedName = "_EOS_Sessions_AddNotifySessionInviteReceived@16";
+		private const string EOS_Sessions_AddNotifySessionInviteRejectedName = "_EOS_Sessions_AddNotifySessionInviteRejected@16";
 		private const string EOS_Sessions_CopyActiveSessionHandleName = "_EOS_Sessions_CopyActiveSessionHandle@12";
 		private const string EOS_Sessions_CopySessionHandleByInviteIdName = "_EOS_Sessions_CopySessionHandleByInviteId@12";
 		private const string EOS_Sessions_CopySessionHandleByUiEventIdName = "_EOS_Sessions_CopySessionHandleByUiEventId@12";
@@ -1657,8 +1843,11 @@ namespace Epic.OnlineServices
 		private const string EOS_Sessions_RegisterPlayersName = "_EOS_Sessions_RegisterPlayers@16";
 		private const string EOS_Sessions_RejectInviteName = "_EOS_Sessions_RejectInvite@16";
 		private const string EOS_Sessions_RemoveNotifyJoinSessionAcceptedName = "_EOS_Sessions_RemoveNotifyJoinSessionAccepted@12";
+		private const string EOS_Sessions_RemoveNotifyLeaveSessionRequestedName = "_EOS_Sessions_RemoveNotifyLeaveSessionRequested@12";
+		private const string EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedName = "_EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested@12";
 		private const string EOS_Sessions_RemoveNotifySessionInviteAcceptedName = "_EOS_Sessions_RemoveNotifySessionInviteAccepted@12";
 		private const string EOS_Sessions_RemoveNotifySessionInviteReceivedName = "_EOS_Sessions_RemoveNotifySessionInviteReceived@12";
+		private const string EOS_Sessions_RemoveNotifySessionInviteRejectedName = "_EOS_Sessions_RemoveNotifySessionInviteRejected@12";
 		private const string EOS_Sessions_SendInviteName = "_EOS_Sessions_SendInvite@16";
 		private const string EOS_Sessions_StartSessionName = "_EOS_Sessions_StartSession@16";
 		private const string EOS_Sessions_UnregisterPlayersName = "_EOS_Sessions_UnregisterPlayers@16";
@@ -1685,26 +1874,38 @@ namespace Epic.OnlineServices
 		private const string EOS_TitleStorage_ReadFileName = "_EOS_TitleStorage_ReadFile@16";
 		private const string EOS_UI_AcknowledgeEventIdName = "_EOS_UI_AcknowledgeEventId@8";
 		private const string EOS_UI_AddNotifyDisplaySettingsUpdatedName = "_EOS_UI_AddNotifyDisplaySettingsUpdated@16";
+		private const string EOS_UI_AddNotifyMemoryMonitorName = "_EOS_UI_AddNotifyMemoryMonitor@16";
 		private const string EOS_UI_GetFriendsExclusiveInputName = "_EOS_UI_GetFriendsExclusiveInput@8";
 		private const string EOS_UI_GetFriendsVisibleName = "_EOS_UI_GetFriendsVisible@8";
 		private const string EOS_UI_GetNotificationLocationPreferenceName = "_EOS_UI_GetNotificationLocationPreference@4";
+		private const string EOS_UI_GetToggleFriendsButtonName = "_EOS_UI_GetToggleFriendsButton@8";
 		private const string EOS_UI_GetToggleFriendsKeyName = "_EOS_UI_GetToggleFriendsKey@8";
 		private const string EOS_UI_HideFriendsName = "_EOS_UI_HideFriends@16";
 		private const string EOS_UI_IsSocialOverlayPausedName = "_EOS_UI_IsSocialOverlayPaused@8";
+		private const string EOS_UI_IsValidButtonCombinationName = "_EOS_UI_IsValidButtonCombination@8";
 		private const string EOS_UI_IsValidKeyCombinationName = "_EOS_UI_IsValidKeyCombination@8";
 		private const string EOS_UI_PauseSocialOverlayName = "_EOS_UI_PauseSocialOverlay@8";
+		private const string EOS_UI_PrePresentName = "_EOS_UI_PrePresent@8";
 		private const string EOS_UI_RemoveNotifyDisplaySettingsUpdatedName = "_EOS_UI_RemoveNotifyDisplaySettingsUpdated@12";
+		private const string EOS_UI_RemoveNotifyMemoryMonitorName = "_EOS_UI_RemoveNotifyMemoryMonitor@12";
+		private const string EOS_UI_ReportInputStateName = "_EOS_UI_ReportInputState@8";
 		private const string EOS_UI_SetDisplayPreferenceName = "_EOS_UI_SetDisplayPreference@8";
+		private const string EOS_UI_SetToggleFriendsButtonName = "_EOS_UI_SetToggleFriendsButton@8";
 		private const string EOS_UI_SetToggleFriendsKeyName = "_EOS_UI_SetToggleFriendsKey@8";
 		private const string EOS_UI_ShowBlockPlayerName = "_EOS_UI_ShowBlockPlayer@16";
 		private const string EOS_UI_ShowFriendsName = "_EOS_UI_ShowFriends@16";
+		private const string EOS_UI_ShowNativeProfileName = "_EOS_UI_ShowNativeProfile@16";
 		private const string EOS_UI_ShowReportPlayerName = "_EOS_UI_ShowReportPlayer@16";
+		private const string EOS_UserInfo_BestDisplayName_ReleaseName = "_EOS_UserInfo_BestDisplayName_Release@4";
+		private const string EOS_UserInfo_CopyBestDisplayNameName = "_EOS_UserInfo_CopyBestDisplayName@12";
+		private const string EOS_UserInfo_CopyBestDisplayNameWithPlatformName = "_EOS_UserInfo_CopyBestDisplayNameWithPlatform@12";
 		private const string EOS_UserInfo_CopyExternalUserInfoByAccountIdName = "_EOS_UserInfo_CopyExternalUserInfoByAccountId@12";
 		private const string EOS_UserInfo_CopyExternalUserInfoByAccountTypeName = "_EOS_UserInfo_CopyExternalUserInfoByAccountType@12";
 		private const string EOS_UserInfo_CopyExternalUserInfoByIndexName = "_EOS_UserInfo_CopyExternalUserInfoByIndex@12";
 		private const string EOS_UserInfo_CopyUserInfoName = "_EOS_UserInfo_CopyUserInfo@12";
 		private const string EOS_UserInfo_ExternalUserInfo_ReleaseName = "_EOS_UserInfo_ExternalUserInfo_Release@4";
 		private const string EOS_UserInfo_GetExternalUserInfoCountName = "_EOS_UserInfo_GetExternalUserInfoCount@8";
+		private const string EOS_UserInfo_GetLocalPlatformTypeName = "_EOS_UserInfo_GetLocalPlatformType@8";
 		private const string EOS_UserInfo_QueryUserInfoName = "_EOS_UserInfo_QueryUserInfo@16";
 		private const string EOS_UserInfo_QueryUserInfoByDisplayNameName = "_EOS_UserInfo_QueryUserInfoByDisplayName@16";
 		private const string EOS_UserInfo_QueryUserInfoByExternalAccountName = "_EOS_UserInfo_QueryUserInfoByExternalAccount@16";
@@ -2213,6 +2414,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_ContinuanceToken_ToStringName);
 			EOS_ContinuanceToken_ToString = (EOS_ContinuanceToken_ToStringDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ContinuanceToken_ToStringDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_AcceptRequestToJoinName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AcceptRequestToJoinName);
+			EOS_CustomInvites_AcceptRequestToJoin = (EOS_CustomInvites_AcceptRequestToJoinDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AcceptRequestToJoinDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_AddNotifyCustomInviteAcceptedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AddNotifyCustomInviteAcceptedName);
 			EOS_CustomInvites_AddNotifyCustomInviteAccepted = (EOS_CustomInvites_AddNotifyCustomInviteAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyCustomInviteAcceptedDelegate));
@@ -2225,9 +2430,33 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AddNotifyCustomInviteRejectedName);
 			EOS_CustomInvites_AddNotifyCustomInviteRejected = (EOS_CustomInvites_AddNotifyCustomInviteRejectedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyCustomInviteRejectedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_AddNotifyRequestToJoinAcceptedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AddNotifyRequestToJoinAcceptedName);
+			EOS_CustomInvites_AddNotifyRequestToJoinAccepted = (EOS_CustomInvites_AddNotifyRequestToJoinAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyRequestToJoinAcceptedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_AddNotifyRequestToJoinReceivedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AddNotifyRequestToJoinReceivedName);
+			EOS_CustomInvites_AddNotifyRequestToJoinReceived = (EOS_CustomInvites_AddNotifyRequestToJoinReceivedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyRequestToJoinReceivedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_AddNotifyRequestToJoinRejectedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AddNotifyRequestToJoinRejectedName);
+			EOS_CustomInvites_AddNotifyRequestToJoinRejected = (EOS_CustomInvites_AddNotifyRequestToJoinRejectedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyRequestToJoinRejectedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedName);
+			EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived = (EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedName);
+			EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested = (EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_FinalizeInviteName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_FinalizeInviteName);
 			EOS_CustomInvites_FinalizeInvite = (EOS_CustomInvites_FinalizeInviteDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_FinalizeInviteDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_RejectRequestToJoinName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_RejectRequestToJoinName);
+			EOS_CustomInvites_RejectRequestToJoin = (EOS_CustomInvites_RejectRequestToJoinDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RejectRequestToJoinDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedName);
@@ -2241,13 +2470,45 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_RemoveNotifyCustomInviteRejectedName);
 			EOS_CustomInvites_RemoveNotifyCustomInviteRejected = (EOS_CustomInvites_RemoveNotifyCustomInviteRejectedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyCustomInviteRejectedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedName);
+			EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted = (EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedName);
+			EOS_CustomInvites_RemoveNotifyRequestToJoinReceived = (EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedName);
+			EOS_CustomInvites_RemoveNotifyRequestToJoinRejected = (EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedName);
+			EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived = (EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedName);
+			EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested = (EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_SendCustomInviteName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_SendCustomInviteName);
 			EOS_CustomInvites_SendCustomInvite = (EOS_CustomInvites_SendCustomInviteDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_SendCustomInviteDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_SendRequestToJoinName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_SendRequestToJoinName);
+			EOS_CustomInvites_SendRequestToJoin = (EOS_CustomInvites_SendRequestToJoinDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_SendRequestToJoinDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_CustomInvites_SetCustomInviteName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_CustomInvites_SetCustomInviteName);
 			EOS_CustomInvites_SetCustomInvite = (EOS_CustomInvites_SetCustomInviteDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_CustomInvites_SetCustomInviteDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_EApplicationStatus_ToStringName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_EApplicationStatus_ToStringName);
+			EOS_EApplicationStatus_ToString = (EOS_EApplicationStatus_ToStringDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_EApplicationStatus_ToStringDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_ENetworkStatus_ToStringName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_ENetworkStatus_ToStringName);
+			EOS_ENetworkStatus_ToString = (EOS_ENetworkStatus_ToStringDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_ENetworkStatus_ToStringDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_EResult_IsOperationCompleteName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_EResult_IsOperationCompleteName);
@@ -2385,6 +2646,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_QueryOwnershipName);
 			EOS_Ecom_QueryOwnership = (EOS_Ecom_QueryOwnershipDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_QueryOwnershipDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_QueryOwnershipBySandboxIdsName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_QueryOwnershipBySandboxIdsName);
+			EOS_Ecom_QueryOwnershipBySandboxIds = (EOS_Ecom_QueryOwnershipBySandboxIdsDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_QueryOwnershipBySandboxIdsDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Ecom_QueryOwnershipTokenName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Ecom_QueryOwnershipTokenName);
 			EOS_Ecom_QueryOwnershipToken = (EOS_Ecom_QueryOwnershipTokenDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Ecom_QueryOwnershipTokenDelegate));
@@ -2425,9 +2690,21 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_AcceptInviteName);
 			EOS_Friends_AcceptInvite = (EOS_Friends_AcceptInviteDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_AcceptInviteDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Friends_AddNotifyBlockedUsersUpdateName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_AddNotifyBlockedUsersUpdateName);
+			EOS_Friends_AddNotifyBlockedUsersUpdate = (EOS_Friends_AddNotifyBlockedUsersUpdateDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_AddNotifyBlockedUsersUpdateDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Friends_AddNotifyFriendsUpdateName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_AddNotifyFriendsUpdateName);
 			EOS_Friends_AddNotifyFriendsUpdate = (EOS_Friends_AddNotifyFriendsUpdateDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_AddNotifyFriendsUpdateDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Friends_GetBlockedUserAtIndexName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_GetBlockedUserAtIndexName);
+			EOS_Friends_GetBlockedUserAtIndex = (EOS_Friends_GetBlockedUserAtIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_GetBlockedUserAtIndexDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Friends_GetBlockedUsersCountName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_GetBlockedUsersCountName);
+			EOS_Friends_GetBlockedUsersCount = (EOS_Friends_GetBlockedUsersCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_GetBlockedUsersCountDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Friends_GetFriendAtIndexName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_GetFriendAtIndexName);
@@ -2448,6 +2725,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Friends_RejectInviteName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_RejectInviteName);
 			EOS_Friends_RejectInvite = (EOS_Friends_RejectInviteDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_RejectInviteDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Friends_RemoveNotifyBlockedUsersUpdateName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_RemoveNotifyBlockedUsersUpdateName);
+			EOS_Friends_RemoveNotifyBlockedUsersUpdate = (EOS_Friends_RemoveNotifyBlockedUsersUpdateDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Friends_RemoveNotifyBlockedUsersUpdateDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Friends_RemoveNotifyFriendsUpdateName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Friends_RemoveNotifyFriendsUpdateName);
@@ -2473,9 +2754,33 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_IntegratedPlatformOptionsContainer_ReleaseName);
 			EOS_IntegratedPlatformOptionsContainer_Release = (EOS_IntegratedPlatformOptionsContainer_ReleaseDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IntegratedPlatformOptionsContainer_ReleaseDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedName);
+			EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged = (EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_IntegratedPlatform_ClearUserPreLogoutCallbackName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_IntegratedPlatform_ClearUserPreLogoutCallbackName);
+			EOS_IntegratedPlatform_ClearUserPreLogoutCallback = (EOS_IntegratedPlatform_ClearUserPreLogoutCallbackDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IntegratedPlatform_ClearUserPreLogoutCallbackDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerName);
 			EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer = (EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_IntegratedPlatform_FinalizeDeferredUserLogoutName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_IntegratedPlatform_FinalizeDeferredUserLogoutName);
+			EOS_IntegratedPlatform_FinalizeDeferredUserLogout = (EOS_IntegratedPlatform_FinalizeDeferredUserLogoutDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IntegratedPlatform_FinalizeDeferredUserLogoutDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedName);
+			EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged = (EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_IntegratedPlatform_SetUserLoginStatusName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_IntegratedPlatform_SetUserLoginStatusName);
+			EOS_IntegratedPlatform_SetUserLoginStatus = (EOS_IntegratedPlatform_SetUserLoginStatusDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IntegratedPlatform_SetUserLoginStatusDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_IntegratedPlatform_SetUserPreLogoutCallbackName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_IntegratedPlatform_SetUserPreLogoutCallbackName);
+			EOS_IntegratedPlatform_SetUserPreLogoutCallback = (EOS_IntegratedPlatform_SetUserPreLogoutCallbackDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_IntegratedPlatform_SetUserPreLogoutCallbackDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_KWS_AddNotifyPermissionsUpdateReceivedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_KWS_AddNotifyPermissionsUpdateReceivedName);
@@ -2605,6 +2910,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyDetails_CopyMemberAttributeByKeyName);
 			EOS_LobbyDetails_CopyMemberAttributeByKey = (EOS_LobbyDetails_CopyMemberAttributeByKeyDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_CopyMemberAttributeByKeyDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_LobbyDetails_CopyMemberInfoName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyDetails_CopyMemberInfoName);
+			EOS_LobbyDetails_CopyMemberInfo = (EOS_LobbyDetails_CopyMemberInfoDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_CopyMemberInfoDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_LobbyDetails_GetAttributeCountName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyDetails_GetAttributeCountName);
 			EOS_LobbyDetails_GetAttributeCount = (EOS_LobbyDetails_GetAttributeCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_GetAttributeCountDelegate));
@@ -2629,6 +2938,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyDetails_Info_ReleaseName);
 			EOS_LobbyDetails_Info_Release = (EOS_LobbyDetails_Info_ReleaseDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_Info_ReleaseDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_LobbyDetails_MemberInfo_ReleaseName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyDetails_MemberInfo_ReleaseName);
+			EOS_LobbyDetails_MemberInfo_Release = (EOS_LobbyDetails_MemberInfo_ReleaseDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_MemberInfo_ReleaseDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_LobbyDetails_ReleaseName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyDetails_ReleaseName);
 			EOS_LobbyDetails_Release = (EOS_LobbyDetails_ReleaseDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyDetails_ReleaseDelegate));
@@ -2652,6 +2965,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_LobbyModification_RemoveMemberAttributeName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyModification_RemoveMemberAttributeName);
 			EOS_LobbyModification_RemoveMemberAttribute = (EOS_LobbyModification_RemoveMemberAttributeDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_RemoveMemberAttributeDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_LobbyModification_SetAllowedPlatformIdsName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyModification_SetAllowedPlatformIdsName);
+			EOS_LobbyModification_SetAllowedPlatformIds = (EOS_LobbyModification_SetAllowedPlatformIdsDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_LobbyModification_SetAllowedPlatformIdsDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_LobbyModification_SetBucketIdName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_LobbyModification_SetBucketIdName);
@@ -2708,6 +3025,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_AddNotifyJoinLobbyAcceptedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_AddNotifyJoinLobbyAcceptedName);
 			EOS_Lobby_AddNotifyJoinLobbyAccepted = (EOS_Lobby_AddNotifyJoinLobbyAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyJoinLobbyAcceptedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_AddNotifyLeaveLobbyRequestedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_AddNotifyLeaveLobbyRequestedName);
+			EOS_Lobby_AddNotifyLeaveLobbyRequested = (EOS_Lobby_AddNotifyLeaveLobbyRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_AddNotifyLeaveLobbyRequestedDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_AddNotifyLobbyInviteAcceptedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_AddNotifyLobbyInviteAcceptedName);
@@ -2769,6 +3090,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_DestroyLobbyName);
 			EOS_Lobby_DestroyLobby = (EOS_Lobby_DestroyLobbyDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_DestroyLobbyDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_GetConnectStringName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_GetConnectStringName);
+			EOS_Lobby_GetConnectString = (EOS_Lobby_GetConnectStringDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_GetConnectStringDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_GetInviteCountName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_GetInviteCountName);
 			EOS_Lobby_GetInviteCount = (EOS_Lobby_GetInviteCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_GetInviteCountDelegate));
@@ -2805,6 +3130,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_LeaveLobbyName);
 			EOS_Lobby_LeaveLobby = (EOS_Lobby_LeaveLobbyDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_LeaveLobbyDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_ParseConnectStringName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_ParseConnectStringName);
+			EOS_Lobby_ParseConnectString = (EOS_Lobby_ParseConnectStringDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_ParseConnectStringDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_PromoteMemberName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_PromoteMemberName);
 			EOS_Lobby_PromoteMember = (EOS_Lobby_PromoteMemberDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_PromoteMemberDelegate));
@@ -2820,6 +3149,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_RemoveNotifyJoinLobbyAcceptedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_RemoveNotifyJoinLobbyAcceptedName);
 			EOS_Lobby_RemoveNotifyJoinLobbyAccepted = (EOS_Lobby_RemoveNotifyJoinLobbyAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyJoinLobbyAcceptedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_RemoveNotifyLeaveLobbyRequestedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_RemoveNotifyLeaveLobbyRequestedName);
+			EOS_Lobby_RemoveNotifyLeaveLobbyRequested = (EOS_Lobby_RemoveNotifyLeaveLobbyRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Lobby_RemoveNotifyLeaveLobbyRequestedDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Lobby_RemoveNotifyLobbyInviteAcceptedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Lobby_RemoveNotifyLobbyInviteAcceptedName);
@@ -3060,6 +3393,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Platform_GetFriendsInterfaceName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Platform_GetFriendsInterfaceName);
 			EOS_Platform_GetFriendsInterface = (EOS_Platform_GetFriendsInterfaceDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetFriendsInterfaceDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Platform_GetIntegratedPlatformInterfaceName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Platform_GetIntegratedPlatformInterfaceName);
+			EOS_Platform_GetIntegratedPlatformInterface = (EOS_Platform_GetIntegratedPlatformInterfaceDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Platform_GetIntegratedPlatformInterfaceDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Platform_GetKWSInterfaceName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Platform_GetKWSInterfaceName);
@@ -3377,6 +3714,14 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_AddNotifyParticipantUpdatedName);
 			EOS_RTCAudio_AddNotifyParticipantUpdated = (EOS_RTCAudio_AddNotifyParticipantUpdatedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_AddNotifyParticipantUpdatedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_CopyInputDeviceInformationByIndexName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_CopyInputDeviceInformationByIndexName);
+			EOS_RTCAudio_CopyInputDeviceInformationByIndex = (EOS_RTCAudio_CopyInputDeviceInformationByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_CopyInputDeviceInformationByIndexDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_CopyOutputDeviceInformationByIndexName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_CopyOutputDeviceInformationByIndexName);
+			EOS_RTCAudio_CopyOutputDeviceInformationByIndex = (EOS_RTCAudio_CopyOutputDeviceInformationByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_CopyOutputDeviceInformationByIndexDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_GetAudioInputDeviceByIndexName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_GetAudioInputDeviceByIndexName);
 			EOS_RTCAudio_GetAudioInputDeviceByIndex = (EOS_RTCAudio_GetAudioInputDeviceByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioInputDeviceByIndexDelegate));
@@ -3393,9 +3738,37 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_GetAudioOutputDevicesCountName);
 			EOS_RTCAudio_GetAudioOutputDevicesCount = (EOS_RTCAudio_GetAudioOutputDevicesCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetAudioOutputDevicesCountDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_GetInputDevicesCountName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_GetInputDevicesCountName);
+			EOS_RTCAudio_GetInputDevicesCount = (EOS_RTCAudio_GetInputDevicesCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetInputDevicesCountDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_GetOutputDevicesCountName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_GetOutputDevicesCountName);
+			EOS_RTCAudio_GetOutputDevicesCount = (EOS_RTCAudio_GetOutputDevicesCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_GetOutputDevicesCountDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_InputDeviceInformation_ReleaseName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_InputDeviceInformation_ReleaseName);
+			EOS_RTCAudio_InputDeviceInformation_Release = (EOS_RTCAudio_InputDeviceInformation_ReleaseDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_InputDeviceInformation_ReleaseDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_OutputDeviceInformation_ReleaseName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_OutputDeviceInformation_ReleaseName);
+			EOS_RTCAudio_OutputDeviceInformation_Release = (EOS_RTCAudio_OutputDeviceInformation_ReleaseDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_OutputDeviceInformation_ReleaseDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_QueryInputDevicesInformationName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_QueryInputDevicesInformationName);
+			EOS_RTCAudio_QueryInputDevicesInformation = (EOS_RTCAudio_QueryInputDevicesInformationDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_QueryInputDevicesInformationDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_QueryOutputDevicesInformationName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_QueryOutputDevicesInformationName);
+			EOS_RTCAudio_QueryOutputDevicesInformation = (EOS_RTCAudio_QueryOutputDevicesInformationDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_QueryOutputDevicesInformationDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_RegisterPlatformAudioUserName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_RegisterPlatformAudioUserName);
 			EOS_RTCAudio_RegisterPlatformAudioUser = (EOS_RTCAudio_RegisterPlatformAudioUserDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RegisterPlatformAudioUserDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_RegisterPlatformUserName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_RegisterPlatformUserName);
+			EOS_RTCAudio_RegisterPlatformUser = (EOS_RTCAudio_RegisterPlatformUserDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_RegisterPlatformUserDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_RemoveNotifyAudioBeforeRenderName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_RemoveNotifyAudioBeforeRenderName);
@@ -3433,9 +3806,21 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_SetAudioOutputSettingsName);
 			EOS_RTCAudio_SetAudioOutputSettings = (EOS_RTCAudio_SetAudioOutputSettingsDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SetAudioOutputSettingsDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_SetInputDeviceSettingsName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_SetInputDeviceSettingsName);
+			EOS_RTCAudio_SetInputDeviceSettings = (EOS_RTCAudio_SetInputDeviceSettingsDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SetInputDeviceSettingsDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_SetOutputDeviceSettingsName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_SetOutputDeviceSettingsName);
+			EOS_RTCAudio_SetOutputDeviceSettings = (EOS_RTCAudio_SetOutputDeviceSettingsDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_SetOutputDeviceSettingsDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_UnregisterPlatformAudioUserName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_UnregisterPlatformAudioUserName);
 			EOS_RTCAudio_UnregisterPlatformAudioUser = (EOS_RTCAudio_UnregisterPlatformAudioUserDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UnregisterPlatformAudioUserDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_UnregisterPlatformUserName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_UnregisterPlatformUserName);
+			EOS_RTCAudio_UnregisterPlatformUser = (EOS_RTCAudio_UnregisterPlatformUserDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UnregisterPlatformUserDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCAudio_UpdateParticipantVolumeName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_UpdateParticipantVolumeName);
@@ -3465,6 +3850,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_AddNotifyParticipantStatusChangedName);
 			EOS_RTC_AddNotifyParticipantStatusChanged = (EOS_RTC_AddNotifyParticipantStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyParticipantStatusChangedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_AddNotifyRoomStatisticsUpdatedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_AddNotifyRoomStatisticsUpdatedName);
+			EOS_RTC_AddNotifyRoomStatisticsUpdated = (EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_BlockParticipantName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_BlockParticipantName);
 			EOS_RTC_BlockParticipant = (EOS_RTC_BlockParticipantDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_BlockParticipantDelegate));
@@ -3488,6 +3877,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_RemoveNotifyParticipantStatusChangedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_RemoveNotifyParticipantStatusChangedName);
 			EOS_RTC_RemoveNotifyParticipantStatusChanged = (EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_RemoveNotifyRoomStatisticsUpdatedName);
+			EOS_RTC_RemoveNotifyRoomStatisticsUpdated = (EOS_RTC_RemoveNotifyRoomStatisticsUpdatedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_RemoveNotifyRoomStatisticsUpdatedDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_SetRoomSettingName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_SetRoomSettingName);
@@ -3557,6 +3950,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_SessionModification_RemoveAttributeName);
 			EOS_SessionModification_RemoveAttribute = (EOS_SessionModification_RemoveAttributeDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_RemoveAttributeDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_SessionModification_SetAllowedPlatformIdsName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_SessionModification_SetAllowedPlatformIdsName);
+			EOS_SessionModification_SetAllowedPlatformIds = (EOS_SessionModification_SetAllowedPlatformIdsDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_SetAllowedPlatformIdsDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_SessionModification_SetBucketIdName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_SessionModification_SetBucketIdName);
 			EOS_SessionModification_SetBucketId = (EOS_SessionModification_SetBucketIdDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_SessionModification_SetBucketIdDelegate));
@@ -3621,6 +4018,14 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_AddNotifyJoinSessionAcceptedName);
 			EOS_Sessions_AddNotifyJoinSessionAccepted = (EOS_Sessions_AddNotifyJoinSessionAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifyJoinSessionAcceptedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_AddNotifyLeaveSessionRequestedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_AddNotifyLeaveSessionRequestedName);
+			EOS_Sessions_AddNotifyLeaveSessionRequested = (EOS_Sessions_AddNotifyLeaveSessionRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifyLeaveSessionRequestedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_AddNotifySendSessionNativeInviteRequestedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_AddNotifySendSessionNativeInviteRequestedName);
+			EOS_Sessions_AddNotifySendSessionNativeInviteRequested = (EOS_Sessions_AddNotifySendSessionNativeInviteRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifySendSessionNativeInviteRequestedDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_AddNotifySessionInviteAcceptedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_AddNotifySessionInviteAcceptedName);
 			EOS_Sessions_AddNotifySessionInviteAccepted = (EOS_Sessions_AddNotifySessionInviteAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifySessionInviteAcceptedDelegate));
@@ -3628,6 +4033,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_AddNotifySessionInviteReceivedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_AddNotifySessionInviteReceivedName);
 			EOS_Sessions_AddNotifySessionInviteReceived = (EOS_Sessions_AddNotifySessionInviteReceivedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifySessionInviteReceivedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_AddNotifySessionInviteRejectedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_AddNotifySessionInviteRejectedName);
+			EOS_Sessions_AddNotifySessionInviteRejected = (EOS_Sessions_AddNotifySessionInviteRejectedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_AddNotifySessionInviteRejectedDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_CopyActiveSessionHandleName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_CopyActiveSessionHandleName);
@@ -3697,6 +4106,14 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_RemoveNotifyJoinSessionAcceptedName);
 			EOS_Sessions_RemoveNotifyJoinSessionAccepted = (EOS_Sessions_RemoveNotifyJoinSessionAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifyJoinSessionAcceptedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_RemoveNotifyLeaveSessionRequestedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_RemoveNotifyLeaveSessionRequestedName);
+			EOS_Sessions_RemoveNotifyLeaveSessionRequested = (EOS_Sessions_RemoveNotifyLeaveSessionRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifyLeaveSessionRequestedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedName);
+			EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested = (EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_RemoveNotifySessionInviteAcceptedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_RemoveNotifySessionInviteAcceptedName);
 			EOS_Sessions_RemoveNotifySessionInviteAccepted = (EOS_Sessions_RemoveNotifySessionInviteAcceptedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifySessionInviteAcceptedDelegate));
@@ -3704,6 +4121,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_RemoveNotifySessionInviteReceivedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_RemoveNotifySessionInviteReceivedName);
 			EOS_Sessions_RemoveNotifySessionInviteReceived = (EOS_Sessions_RemoveNotifySessionInviteReceivedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifySessionInviteReceivedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_RemoveNotifySessionInviteRejectedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_RemoveNotifySessionInviteRejectedName);
+			EOS_Sessions_RemoveNotifySessionInviteRejected = (EOS_Sessions_RemoveNotifySessionInviteRejectedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sessions_RemoveNotifySessionInviteRejectedDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Sessions_SendInviteName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sessions_SendInviteName);
@@ -3809,6 +4230,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_AddNotifyDisplaySettingsUpdatedName);
 			EOS_UI_AddNotifyDisplaySettingsUpdated = (EOS_UI_AddNotifyDisplaySettingsUpdatedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_AddNotifyDisplaySettingsUpdatedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_AddNotifyMemoryMonitorName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_AddNotifyMemoryMonitorName);
+			EOS_UI_AddNotifyMemoryMonitor = (EOS_UI_AddNotifyMemoryMonitorDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_AddNotifyMemoryMonitorDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_GetFriendsExclusiveInputName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_GetFriendsExclusiveInputName);
 			EOS_UI_GetFriendsExclusiveInput = (EOS_UI_GetFriendsExclusiveInputDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_GetFriendsExclusiveInputDelegate));
@@ -3820,6 +4245,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_GetNotificationLocationPreferenceName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_GetNotificationLocationPreferenceName);
 			EOS_UI_GetNotificationLocationPreference = (EOS_UI_GetNotificationLocationPreferenceDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_GetNotificationLocationPreferenceDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_GetToggleFriendsButtonName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_GetToggleFriendsButtonName);
+			EOS_UI_GetToggleFriendsButton = (EOS_UI_GetToggleFriendsButtonDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_GetToggleFriendsButtonDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_GetToggleFriendsKeyName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_GetToggleFriendsKeyName);
@@ -3833,6 +4262,10 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_IsSocialOverlayPausedName);
 			EOS_UI_IsSocialOverlayPaused = (EOS_UI_IsSocialOverlayPausedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_IsSocialOverlayPausedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_IsValidButtonCombinationName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_IsValidButtonCombinationName);
+			EOS_UI_IsValidButtonCombination = (EOS_UI_IsValidButtonCombinationDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_IsValidButtonCombinationDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_IsValidKeyCombinationName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_IsValidKeyCombinationName);
 			EOS_UI_IsValidKeyCombination = (EOS_UI_IsValidKeyCombinationDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_IsValidKeyCombinationDelegate));
@@ -3841,13 +4274,29 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_PauseSocialOverlayName);
 			EOS_UI_PauseSocialOverlay = (EOS_UI_PauseSocialOverlayDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_PauseSocialOverlayDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_PrePresentName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_PrePresentName);
+			EOS_UI_PrePresent = (EOS_UI_PrePresentDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_PrePresentDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_RemoveNotifyDisplaySettingsUpdatedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_RemoveNotifyDisplaySettingsUpdatedName);
 			EOS_UI_RemoveNotifyDisplaySettingsUpdated = (EOS_UI_RemoveNotifyDisplaySettingsUpdatedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_RemoveNotifyDisplaySettingsUpdatedDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_RemoveNotifyMemoryMonitorName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_RemoveNotifyMemoryMonitorName);
+			EOS_UI_RemoveNotifyMemoryMonitor = (EOS_UI_RemoveNotifyMemoryMonitorDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_RemoveNotifyMemoryMonitorDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_ReportInputStateName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_ReportInputStateName);
+			EOS_UI_ReportInputState = (EOS_UI_ReportInputStateDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_ReportInputStateDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_SetDisplayPreferenceName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_SetDisplayPreferenceName);
 			EOS_UI_SetDisplayPreference = (EOS_UI_SetDisplayPreferenceDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_SetDisplayPreferenceDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_SetToggleFriendsButtonName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_SetToggleFriendsButtonName);
+			EOS_UI_SetToggleFriendsButton = (EOS_UI_SetToggleFriendsButtonDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_SetToggleFriendsButtonDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_SetToggleFriendsKeyName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_SetToggleFriendsKeyName);
@@ -3861,9 +4310,25 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_ShowFriendsName);
 			EOS_UI_ShowFriends = (EOS_UI_ShowFriendsDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_ShowFriendsDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_ShowNativeProfileName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_ShowNativeProfileName);
+			EOS_UI_ShowNativeProfile = (EOS_UI_ShowNativeProfileDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_ShowNativeProfileDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UI_ShowReportPlayerName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UI_ShowReportPlayerName);
 			EOS_UI_ShowReportPlayer = (EOS_UI_ShowReportPlayerDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UI_ShowReportPlayerDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UserInfo_BestDisplayName_ReleaseName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UserInfo_BestDisplayName_ReleaseName);
+			EOS_UserInfo_BestDisplayName_Release = (EOS_UserInfo_BestDisplayName_ReleaseDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_BestDisplayName_ReleaseDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UserInfo_CopyBestDisplayNameName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UserInfo_CopyBestDisplayNameName);
+			EOS_UserInfo_CopyBestDisplayName = (EOS_UserInfo_CopyBestDisplayNameDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_CopyBestDisplayNameDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UserInfo_CopyBestDisplayNameWithPlatformName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UserInfo_CopyBestDisplayNameWithPlatformName);
+			EOS_UserInfo_CopyBestDisplayNameWithPlatform = (EOS_UserInfo_CopyBestDisplayNameWithPlatformDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_CopyBestDisplayNameWithPlatformDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UserInfo_CopyExternalUserInfoByAccountIdName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UserInfo_CopyExternalUserInfoByAccountIdName);
@@ -3888,6 +4353,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UserInfo_GetExternalUserInfoCountName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UserInfo_GetExternalUserInfoCountName);
 			EOS_UserInfo_GetExternalUserInfoCount = (EOS_UserInfo_GetExternalUserInfoCountDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_GetExternalUserInfoCountDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_UserInfo_GetLocalPlatformTypeName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UserInfo_GetLocalPlatformTypeName);
+			EOS_UserInfo_GetLocalPlatformType = (EOS_UserInfo_GetLocalPlatformTypeDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_UserInfo_GetLocalPlatformTypeDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_UserInfo_QueryUserInfoName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_UserInfo_QueryUserInfoName);
@@ -4036,15 +4505,30 @@ namespace Epic.OnlineServices
 			EOS_Connect_UnlinkAccount = null;
 			EOS_Connect_VerifyIdToken = null;
 			EOS_ContinuanceToken_ToString = null;
+			EOS_CustomInvites_AcceptRequestToJoin = null;
 			EOS_CustomInvites_AddNotifyCustomInviteAccepted = null;
 			EOS_CustomInvites_AddNotifyCustomInviteReceived = null;
 			EOS_CustomInvites_AddNotifyCustomInviteRejected = null;
+			EOS_CustomInvites_AddNotifyRequestToJoinAccepted = null;
+			EOS_CustomInvites_AddNotifyRequestToJoinReceived = null;
+			EOS_CustomInvites_AddNotifyRequestToJoinRejected = null;
+			EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived = null;
+			EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested = null;
 			EOS_CustomInvites_FinalizeInvite = null;
+			EOS_CustomInvites_RejectRequestToJoin = null;
 			EOS_CustomInvites_RemoveNotifyCustomInviteAccepted = null;
 			EOS_CustomInvites_RemoveNotifyCustomInviteReceived = null;
 			EOS_CustomInvites_RemoveNotifyCustomInviteRejected = null;
+			EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted = null;
+			EOS_CustomInvites_RemoveNotifyRequestToJoinReceived = null;
+			EOS_CustomInvites_RemoveNotifyRequestToJoinRejected = null;
+			EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived = null;
+			EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested = null;
 			EOS_CustomInvites_SendCustomInvite = null;
+			EOS_CustomInvites_SendRequestToJoin = null;
 			EOS_CustomInvites_SetCustomInvite = null;
+			EOS_EApplicationStatus_ToString = null;
+			EOS_ENetworkStatus_ToString = null;
 			EOS_EResult_IsOperationComplete = null;
 			EOS_EResult_ToString = null;
 			EOS_Ecom_CatalogItem_Release = null;
@@ -4079,6 +4563,7 @@ namespace Epic.OnlineServices
 			EOS_Ecom_QueryEntitlements = null;
 			EOS_Ecom_QueryOffers = null;
 			EOS_Ecom_QueryOwnership = null;
+			EOS_Ecom_QueryOwnershipBySandboxIds = null;
 			EOS_Ecom_QueryOwnershipToken = null;
 			EOS_Ecom_RedeemEntitlements = null;
 			EOS_Ecom_Transaction_CopyEntitlementByIndex = null;
@@ -4089,19 +4574,29 @@ namespace Epic.OnlineServices
 			EOS_EpicAccountId_IsValid = null;
 			EOS_EpicAccountId_ToString = null;
 			EOS_Friends_AcceptInvite = null;
+			EOS_Friends_AddNotifyBlockedUsersUpdate = null;
 			EOS_Friends_AddNotifyFriendsUpdate = null;
+			EOS_Friends_GetBlockedUserAtIndex = null;
+			EOS_Friends_GetBlockedUsersCount = null;
 			EOS_Friends_GetFriendAtIndex = null;
 			EOS_Friends_GetFriendsCount = null;
 			EOS_Friends_GetStatus = null;
 			EOS_Friends_QueryFriends = null;
 			EOS_Friends_RejectInvite = null;
+			EOS_Friends_RemoveNotifyBlockedUsersUpdate = null;
 			EOS_Friends_RemoveNotifyFriendsUpdate = null;
 			EOS_Friends_SendInvite = null;
 			EOS_GetVersion = null;
 			EOS_Initialize = null;
 			EOS_IntegratedPlatformOptionsContainer_Add = null;
 			EOS_IntegratedPlatformOptionsContainer_Release = null;
+			EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged = null;
+			EOS_IntegratedPlatform_ClearUserPreLogoutCallback = null;
 			EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer = null;
+			EOS_IntegratedPlatform_FinalizeDeferredUserLogout = null;
+			EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged = null;
+			EOS_IntegratedPlatform_SetUserLoginStatus = null;
+			EOS_IntegratedPlatform_SetUserPreLogoutCallback = null;
 			EOS_KWS_AddNotifyPermissionsUpdateReceived = null;
 			EOS_KWS_CopyPermissionByIndex = null;
 			EOS_KWS_CreateUser = null;
@@ -4134,18 +4629,21 @@ namespace Epic.OnlineServices
 			EOS_LobbyDetails_CopyInfo = null;
 			EOS_LobbyDetails_CopyMemberAttributeByIndex = null;
 			EOS_LobbyDetails_CopyMemberAttributeByKey = null;
+			EOS_LobbyDetails_CopyMemberInfo = null;
 			EOS_LobbyDetails_GetAttributeCount = null;
 			EOS_LobbyDetails_GetLobbyOwner = null;
 			EOS_LobbyDetails_GetMemberAttributeCount = null;
 			EOS_LobbyDetails_GetMemberByIndex = null;
 			EOS_LobbyDetails_GetMemberCount = null;
 			EOS_LobbyDetails_Info_Release = null;
+			EOS_LobbyDetails_MemberInfo_Release = null;
 			EOS_LobbyDetails_Release = null;
 			EOS_LobbyModification_AddAttribute = null;
 			EOS_LobbyModification_AddMemberAttribute = null;
 			EOS_LobbyModification_Release = null;
 			EOS_LobbyModification_RemoveAttribute = null;
 			EOS_LobbyModification_RemoveMemberAttribute = null;
+			EOS_LobbyModification_SetAllowedPlatformIds = null;
 			EOS_LobbyModification_SetBucketId = null;
 			EOS_LobbyModification_SetInvitesAllowed = null;
 			EOS_LobbyModification_SetMaxMembers = null;
@@ -4160,6 +4658,7 @@ namespace Epic.OnlineServices
 			EOS_LobbySearch_SetParameter = null;
 			EOS_LobbySearch_SetTargetUserId = null;
 			EOS_Lobby_AddNotifyJoinLobbyAccepted = null;
+			EOS_Lobby_AddNotifyLeaveLobbyRequested = null;
 			EOS_Lobby_AddNotifyLobbyInviteAccepted = null;
 			EOS_Lobby_AddNotifyLobbyInviteReceived = null;
 			EOS_Lobby_AddNotifyLobbyInviteRejected = null;
@@ -4175,6 +4674,7 @@ namespace Epic.OnlineServices
 			EOS_Lobby_CreateLobby = null;
 			EOS_Lobby_CreateLobbySearch = null;
 			EOS_Lobby_DestroyLobby = null;
+			EOS_Lobby_GetConnectString = null;
 			EOS_Lobby_GetInviteCount = null;
 			EOS_Lobby_GetInviteIdByIndex = null;
 			EOS_Lobby_GetRTCRoomName = null;
@@ -4184,10 +4684,12 @@ namespace Epic.OnlineServices
 			EOS_Lobby_JoinLobbyById = null;
 			EOS_Lobby_KickMember = null;
 			EOS_Lobby_LeaveLobby = null;
+			EOS_Lobby_ParseConnectString = null;
 			EOS_Lobby_PromoteMember = null;
 			EOS_Lobby_QueryInvites = null;
 			EOS_Lobby_RejectInvite = null;
 			EOS_Lobby_RemoveNotifyJoinLobbyAccepted = null;
+			EOS_Lobby_RemoveNotifyLeaveLobbyRequested = null;
 			EOS_Lobby_RemoveNotifyLobbyInviteAccepted = null;
 			EOS_Lobby_RemoveNotifyLobbyInviteReceived = null;
 			EOS_Lobby_RemoveNotifyLobbyInviteRejected = null;
@@ -4248,6 +4750,7 @@ namespace Epic.OnlineServices
 			EOS_Platform_GetDesktopCrossplayStatus = null;
 			EOS_Platform_GetEcomInterface = null;
 			EOS_Platform_GetFriendsInterface = null;
+			EOS_Platform_GetIntegratedPlatformInterface = null;
 			EOS_Platform_GetKWSInterface = null;
 			EOS_Platform_GetLeaderboardsInterface = null;
 			EOS_Platform_GetLobbyInterface = null;
@@ -4327,11 +4830,20 @@ namespace Epic.OnlineServices
 			EOS_RTCAudio_AddNotifyAudioInputState = null;
 			EOS_RTCAudio_AddNotifyAudioOutputState = null;
 			EOS_RTCAudio_AddNotifyParticipantUpdated = null;
+			EOS_RTCAudio_CopyInputDeviceInformationByIndex = null;
+			EOS_RTCAudio_CopyOutputDeviceInformationByIndex = null;
 			EOS_RTCAudio_GetAudioInputDeviceByIndex = null;
 			EOS_RTCAudio_GetAudioInputDevicesCount = null;
 			EOS_RTCAudio_GetAudioOutputDeviceByIndex = null;
 			EOS_RTCAudio_GetAudioOutputDevicesCount = null;
+			EOS_RTCAudio_GetInputDevicesCount = null;
+			EOS_RTCAudio_GetOutputDevicesCount = null;
+			EOS_RTCAudio_InputDeviceInformation_Release = null;
+			EOS_RTCAudio_OutputDeviceInformation_Release = null;
+			EOS_RTCAudio_QueryInputDevicesInformation = null;
+			EOS_RTCAudio_QueryOutputDevicesInformation = null;
 			EOS_RTCAudio_RegisterPlatformAudioUser = null;
+			EOS_RTCAudio_RegisterPlatformUser = null;
 			EOS_RTCAudio_RemoveNotifyAudioBeforeRender = null;
 			EOS_RTCAudio_RemoveNotifyAudioBeforeSend = null;
 			EOS_RTCAudio_RemoveNotifyAudioDevicesChanged = null;
@@ -4341,7 +4853,10 @@ namespace Epic.OnlineServices
 			EOS_RTCAudio_SendAudio = null;
 			EOS_RTCAudio_SetAudioInputSettings = null;
 			EOS_RTCAudio_SetAudioOutputSettings = null;
+			EOS_RTCAudio_SetInputDeviceSettings = null;
+			EOS_RTCAudio_SetOutputDeviceSettings = null;
 			EOS_RTCAudio_UnregisterPlatformAudioUser = null;
+			EOS_RTCAudio_UnregisterPlatformUser = null;
 			EOS_RTCAudio_UpdateParticipantVolume = null;
 			EOS_RTCAudio_UpdateReceiving = null;
 			EOS_RTCAudio_UpdateReceivingVolume = null;
@@ -4349,12 +4864,14 @@ namespace Epic.OnlineServices
 			EOS_RTCAudio_UpdateSendingVolume = null;
 			EOS_RTC_AddNotifyDisconnected = null;
 			EOS_RTC_AddNotifyParticipantStatusChanged = null;
+			EOS_RTC_AddNotifyRoomStatisticsUpdated = null;
 			EOS_RTC_BlockParticipant = null;
 			EOS_RTC_GetAudioInterface = null;
 			EOS_RTC_JoinRoom = null;
 			EOS_RTC_LeaveRoom = null;
 			EOS_RTC_RemoveNotifyDisconnected = null;
 			EOS_RTC_RemoveNotifyParticipantStatusChanged = null;
+			EOS_RTC_RemoveNotifyRoomStatisticsUpdated = null;
 			EOS_RTC_SetRoomSetting = null;
 			EOS_RTC_SetSetting = null;
 			EOS_Reports_SendPlayerBehaviorReport = null;
@@ -4372,6 +4889,7 @@ namespace Epic.OnlineServices
 			EOS_SessionModification_AddAttribute = null;
 			EOS_SessionModification_Release = null;
 			EOS_SessionModification_RemoveAttribute = null;
+			EOS_SessionModification_SetAllowedPlatformIds = null;
 			EOS_SessionModification_SetBucketId = null;
 			EOS_SessionModification_SetHostAddress = null;
 			EOS_SessionModification_SetInvitesAllowed = null;
@@ -4388,8 +4906,11 @@ namespace Epic.OnlineServices
 			EOS_SessionSearch_SetSessionId = null;
 			EOS_SessionSearch_SetTargetUserId = null;
 			EOS_Sessions_AddNotifyJoinSessionAccepted = null;
+			EOS_Sessions_AddNotifyLeaveSessionRequested = null;
+			EOS_Sessions_AddNotifySendSessionNativeInviteRequested = null;
 			EOS_Sessions_AddNotifySessionInviteAccepted = null;
 			EOS_Sessions_AddNotifySessionInviteReceived = null;
+			EOS_Sessions_AddNotifySessionInviteRejected = null;
 			EOS_Sessions_CopyActiveSessionHandle = null;
 			EOS_Sessions_CopySessionHandleByInviteId = null;
 			EOS_Sessions_CopySessionHandleByUiEventId = null;
@@ -4407,8 +4928,11 @@ namespace Epic.OnlineServices
 			EOS_Sessions_RegisterPlayers = null;
 			EOS_Sessions_RejectInvite = null;
 			EOS_Sessions_RemoveNotifyJoinSessionAccepted = null;
+			EOS_Sessions_RemoveNotifyLeaveSessionRequested = null;
+			EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested = null;
 			EOS_Sessions_RemoveNotifySessionInviteAccepted = null;
 			EOS_Sessions_RemoveNotifySessionInviteReceived = null;
+			EOS_Sessions_RemoveNotifySessionInviteRejected = null;
 			EOS_Sessions_SendInvite = null;
 			EOS_Sessions_StartSession = null;
 			EOS_Sessions_UnregisterPlayers = null;
@@ -4435,26 +4959,38 @@ namespace Epic.OnlineServices
 			EOS_TitleStorage_ReadFile = null;
 			EOS_UI_AcknowledgeEventId = null;
 			EOS_UI_AddNotifyDisplaySettingsUpdated = null;
+			EOS_UI_AddNotifyMemoryMonitor = null;
 			EOS_UI_GetFriendsExclusiveInput = null;
 			EOS_UI_GetFriendsVisible = null;
 			EOS_UI_GetNotificationLocationPreference = null;
+			EOS_UI_GetToggleFriendsButton = null;
 			EOS_UI_GetToggleFriendsKey = null;
 			EOS_UI_HideFriends = null;
 			EOS_UI_IsSocialOverlayPaused = null;
+			EOS_UI_IsValidButtonCombination = null;
 			EOS_UI_IsValidKeyCombination = null;
 			EOS_UI_PauseSocialOverlay = null;
+			EOS_UI_PrePresent = null;
 			EOS_UI_RemoveNotifyDisplaySettingsUpdated = null;
+			EOS_UI_RemoveNotifyMemoryMonitor = null;
+			EOS_UI_ReportInputState = null;
 			EOS_UI_SetDisplayPreference = null;
+			EOS_UI_SetToggleFriendsButton = null;
 			EOS_UI_SetToggleFriendsKey = null;
 			EOS_UI_ShowBlockPlayer = null;
 			EOS_UI_ShowFriends = null;
+			EOS_UI_ShowNativeProfile = null;
 			EOS_UI_ShowReportPlayer = null;
+			EOS_UserInfo_BestDisplayName_Release = null;
+			EOS_UserInfo_CopyBestDisplayName = null;
+			EOS_UserInfo_CopyBestDisplayNameWithPlatform = null;
 			EOS_UserInfo_CopyExternalUserInfoByAccountId = null;
 			EOS_UserInfo_CopyExternalUserInfoByAccountType = null;
 			EOS_UserInfo_CopyExternalUserInfoByIndex = null;
 			EOS_UserInfo_CopyUserInfo = null;
 			EOS_UserInfo_ExternalUserInfo_Release = null;
 			EOS_UserInfo_GetExternalUserInfoCount = null;
+			EOS_UserInfo_GetLocalPlatformType = null;
 			EOS_UserInfo_QueryUserInfo = null;
 			EOS_UserInfo_QueryUserInfoByDisplayName = null;
 			EOS_UserInfo_QueryUserInfoByExternalAccount = null;
@@ -4956,6 +5492,10 @@ namespace Epic.OnlineServices
 		internal static EOS_ContinuanceToken_ToStringDelegate EOS_ContinuanceToken_ToString;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_AcceptRequestToJoinDelegate(System.IntPtr handle, ref CustomInvites.AcceptRequestToJoinOptionsInternal options, System.IntPtr clientData, CustomInvites.OnAcceptRequestToJoinCallbackInternal completionDelegate);
+		internal static EOS_CustomInvites_AcceptRequestToJoinDelegate EOS_CustomInvites_AcceptRequestToJoin;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_CustomInvites_AddNotifyCustomInviteAcceptedDelegate(System.IntPtr handle, ref CustomInvites.AddNotifyCustomInviteAcceptedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnCustomInviteAcceptedCallbackInternal notificationFn);
 		internal static EOS_CustomInvites_AddNotifyCustomInviteAcceptedDelegate EOS_CustomInvites_AddNotifyCustomInviteAccepted;
 
@@ -4968,8 +5508,32 @@ namespace Epic.OnlineServices
 		internal static EOS_CustomInvites_AddNotifyCustomInviteRejectedDelegate EOS_CustomInvites_AddNotifyCustomInviteRejected;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifyRequestToJoinAcceptedDelegate(System.IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinAcceptedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRequestToJoinAcceptedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifyRequestToJoinAcceptedDelegate EOS_CustomInvites_AddNotifyRequestToJoinAccepted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifyRequestToJoinReceivedDelegate(System.IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinReceivedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRequestToJoinReceivedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifyRequestToJoinReceivedDelegate EOS_CustomInvites_AddNotifyRequestToJoinReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifyRequestToJoinRejectedDelegate(System.IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinRejectedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRequestToJoinRejectedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifyRequestToJoinRejectedDelegate EOS_CustomInvites_AddNotifyRequestToJoinRejected;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedDelegate(System.IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinResponseReceivedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRequestToJoinResponseReceivedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedDelegate EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate(System.IntPtr handle, ref CustomInvites.AddNotifySendCustomNativeInviteRequestedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnSendCustomNativeInviteRequestedCallbackInternal notificationFn);
+		internal static EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedDelegate EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_CustomInvites_FinalizeInviteDelegate(System.IntPtr handle, ref CustomInvites.FinalizeInviteOptionsInternal options);
 		internal static EOS_CustomInvites_FinalizeInviteDelegate EOS_CustomInvites_FinalizeInvite;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RejectRequestToJoinDelegate(System.IntPtr handle, ref CustomInvites.RejectRequestToJoinOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRejectRequestToJoinCallbackInternal completionDelegate);
+		internal static EOS_CustomInvites_RejectRequestToJoinDelegate EOS_CustomInvites_RejectRequestToJoin;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_CustomInvites_RemoveNotifyCustomInviteAcceptedDelegate(System.IntPtr handle, ulong inId);
@@ -4984,12 +5548,44 @@ namespace Epic.OnlineServices
 		internal static EOS_CustomInvites_RemoveNotifyCustomInviteRejectedDelegate EOS_CustomInvites_RemoveNotifyCustomInviteRejected;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifyRequestToJoinAcceptedDelegate EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifyRequestToJoinReceivedDelegate EOS_CustomInvites_RemoveNotifyRequestToJoinReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifyRequestToJoinRejectedDelegate EOS_CustomInvites_RemoveNotifyRequestToJoinRejected;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceivedDelegate EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequestedDelegate EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_CustomInvites_SendCustomInviteDelegate(System.IntPtr handle, ref CustomInvites.SendCustomInviteOptionsInternal options, System.IntPtr clientData, CustomInvites.OnSendCustomInviteCallbackInternal completionDelegate);
 		internal static EOS_CustomInvites_SendCustomInviteDelegate EOS_CustomInvites_SendCustomInvite;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_CustomInvites_SendRequestToJoinDelegate(System.IntPtr handle, ref CustomInvites.SendRequestToJoinOptionsInternal options, System.IntPtr clientData, CustomInvites.OnSendRequestToJoinCallbackInternal completionDelegate);
+		internal static EOS_CustomInvites_SendRequestToJoinDelegate EOS_CustomInvites_SendRequestToJoin;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_CustomInvites_SetCustomInviteDelegate(System.IntPtr handle, ref CustomInvites.SetCustomInviteOptionsInternal options);
 		internal static EOS_CustomInvites_SetCustomInviteDelegate EOS_CustomInvites_SetCustomInvite;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_EApplicationStatus_ToStringDelegate(Platform.ApplicationStatus applicationStatus);
+		internal static EOS_EApplicationStatus_ToStringDelegate EOS_EApplicationStatus_ToString;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_ENetworkStatus_ToStringDelegate(Platform.NetworkStatus networkStatus);
+		internal static EOS_ENetworkStatus_ToStringDelegate EOS_ENetworkStatus_ToString;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate int EOS_EResult_IsOperationCompleteDelegate(Result result);
@@ -5128,6 +5724,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Ecom_QueryOwnershipDelegate EOS_Ecom_QueryOwnership;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Ecom_QueryOwnershipBySandboxIdsDelegate(System.IntPtr handle, ref Ecom.QueryOwnershipBySandboxIdsOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryOwnershipBySandboxIdsCallbackInternal completionDelegate);
+		internal static EOS_Ecom_QueryOwnershipBySandboxIdsDelegate EOS_Ecom_QueryOwnershipBySandboxIds;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Ecom_QueryOwnershipTokenDelegate(System.IntPtr handle, ref Ecom.QueryOwnershipTokenOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryOwnershipTokenCallbackInternal completionDelegate);
 		internal static EOS_Ecom_QueryOwnershipTokenDelegate EOS_Ecom_QueryOwnershipToken;
 
@@ -5168,8 +5768,20 @@ namespace Epic.OnlineServices
 		internal static EOS_Friends_AcceptInviteDelegate EOS_Friends_AcceptInvite;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_Friends_AddNotifyBlockedUsersUpdateDelegate(System.IntPtr handle, ref Friends.AddNotifyBlockedUsersUpdateOptionsInternal options, System.IntPtr clientData, Friends.OnBlockedUsersUpdateCallbackInternal blockedUsersUpdateHandler);
+		internal static EOS_Friends_AddNotifyBlockedUsersUpdateDelegate EOS_Friends_AddNotifyBlockedUsersUpdate;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_Friends_AddNotifyFriendsUpdateDelegate(System.IntPtr handle, ref Friends.AddNotifyFriendsUpdateOptionsInternal options, System.IntPtr clientData, Friends.OnFriendsUpdateCallbackInternal friendsUpdateHandler);
 		internal static EOS_Friends_AddNotifyFriendsUpdateDelegate EOS_Friends_AddNotifyFriendsUpdate;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Friends_GetBlockedUserAtIndexDelegate(System.IntPtr handle, ref Friends.GetBlockedUserAtIndexOptionsInternal options);
+		internal static EOS_Friends_GetBlockedUserAtIndexDelegate EOS_Friends_GetBlockedUserAtIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate int EOS_Friends_GetBlockedUsersCountDelegate(System.IntPtr handle, ref Friends.GetBlockedUsersCountOptionsInternal options);
+		internal static EOS_Friends_GetBlockedUsersCountDelegate EOS_Friends_GetBlockedUsersCount;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Friends_GetFriendAtIndexDelegate(System.IntPtr handle, ref Friends.GetFriendAtIndexOptionsInternal options);
@@ -5190,6 +5802,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Friends_RejectInviteDelegate(System.IntPtr handle, ref Friends.RejectInviteOptionsInternal options, System.IntPtr clientData, Friends.OnRejectInviteCallbackInternal completionDelegate);
 		internal static EOS_Friends_RejectInviteDelegate EOS_Friends_RejectInvite;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Friends_RemoveNotifyBlockedUsersUpdateDelegate(System.IntPtr handle, ulong notificationId);
+		internal static EOS_Friends_RemoveNotifyBlockedUsersUpdateDelegate EOS_Friends_RemoveNotifyBlockedUsersUpdate;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Friends_RemoveNotifyFriendsUpdateDelegate(System.IntPtr handle, ulong notificationId);
@@ -5216,8 +5832,32 @@ namespace Epic.OnlineServices
 		internal static EOS_IntegratedPlatformOptionsContainer_ReleaseDelegate EOS_IntegratedPlatformOptionsContainer_Release;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedDelegate(System.IntPtr handle, ref IntegratedPlatform.AddNotifyUserLoginStatusChangedOptionsInternal options, System.IntPtr clientData, IntegratedPlatform.OnUserLoginStatusChangedCallbackInternal callbackFunction);
+		internal static EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedDelegate EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_IntegratedPlatform_ClearUserPreLogoutCallbackDelegate(System.IntPtr handle, ref IntegratedPlatform.ClearUserPreLogoutCallbackOptionsInternal options);
+		internal static EOS_IntegratedPlatform_ClearUserPreLogoutCallbackDelegate EOS_IntegratedPlatform_ClearUserPreLogoutCallback;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerDelegate(ref IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptionsInternal options, ref System.IntPtr outIntegratedPlatformOptionsContainerHandle);
 		internal static EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerDelegate EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_IntegratedPlatform_FinalizeDeferredUserLogoutDelegate(System.IntPtr handle, ref IntegratedPlatform.FinalizeDeferredUserLogoutOptionsInternal options);
+		internal static EOS_IntegratedPlatform_FinalizeDeferredUserLogoutDelegate EOS_IntegratedPlatform_FinalizeDeferredUserLogout;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedDelegate(System.IntPtr handle, ulong notificationId);
+		internal static EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChangedDelegate EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_IntegratedPlatform_SetUserLoginStatusDelegate(System.IntPtr handle, ref IntegratedPlatform.SetUserLoginStatusOptionsInternal options);
+		internal static EOS_IntegratedPlatform_SetUserLoginStatusDelegate EOS_IntegratedPlatform_SetUserLoginStatus;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_IntegratedPlatform_SetUserPreLogoutCallbackDelegate(System.IntPtr handle, ref IntegratedPlatform.SetUserPreLogoutCallbackOptionsInternal options, System.IntPtr clientData, IntegratedPlatform.OnUserPreLogoutCallbackInternal callbackFunction);
+		internal static EOS_IntegratedPlatform_SetUserPreLogoutCallbackDelegate EOS_IntegratedPlatform_SetUserPreLogoutCallback;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_KWS_AddNotifyPermissionsUpdateReceivedDelegate(System.IntPtr handle, ref KWS.AddNotifyPermissionsUpdateReceivedOptionsInternal options, System.IntPtr clientData, KWS.OnPermissionsUpdateReceivedCallbackInternal notificationFn);
@@ -5348,6 +5988,10 @@ namespace Epic.OnlineServices
 		internal static EOS_LobbyDetails_CopyMemberAttributeByKeyDelegate EOS_LobbyDetails_CopyMemberAttributeByKey;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_LobbyDetails_CopyMemberInfoDelegate(System.IntPtr handle, ref Lobby.LobbyDetailsCopyMemberInfoOptionsInternal options, ref System.IntPtr outLobbyDetailsMemberInfo);
+		internal static EOS_LobbyDetails_CopyMemberInfoDelegate EOS_LobbyDetails_CopyMemberInfo;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate uint EOS_LobbyDetails_GetAttributeCountDelegate(System.IntPtr handle, ref Lobby.LobbyDetailsGetAttributeCountOptionsInternal options);
 		internal static EOS_LobbyDetails_GetAttributeCountDelegate EOS_LobbyDetails_GetAttributeCount;
 
@@ -5372,6 +6016,10 @@ namespace Epic.OnlineServices
 		internal static EOS_LobbyDetails_Info_ReleaseDelegate EOS_LobbyDetails_Info_Release;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_LobbyDetails_MemberInfo_ReleaseDelegate(System.IntPtr lobbyDetailsMemberInfo);
+		internal static EOS_LobbyDetails_MemberInfo_ReleaseDelegate EOS_LobbyDetails_MemberInfo_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_LobbyDetails_ReleaseDelegate(System.IntPtr lobbyHandle);
 		internal static EOS_LobbyDetails_ReleaseDelegate EOS_LobbyDetails_Release;
 
@@ -5394,6 +6042,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_LobbyModification_RemoveMemberAttributeDelegate(System.IntPtr handle, ref Lobby.LobbyModificationRemoveMemberAttributeOptionsInternal options);
 		internal static EOS_LobbyModification_RemoveMemberAttributeDelegate EOS_LobbyModification_RemoveMemberAttribute;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_LobbyModification_SetAllowedPlatformIdsDelegate(System.IntPtr handle, ref Lobby.LobbyModificationSetAllowedPlatformIdsOptionsInternal options);
+		internal static EOS_LobbyModification_SetAllowedPlatformIdsDelegate EOS_LobbyModification_SetAllowedPlatformIds;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_LobbyModification_SetBucketIdDelegate(System.IntPtr handle, ref Lobby.LobbyModificationSetBucketIdOptionsInternal options);
@@ -5450,6 +6102,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_Lobby_AddNotifyJoinLobbyAcceptedDelegate(System.IntPtr handle, ref Lobby.AddNotifyJoinLobbyAcceptedOptionsInternal options, System.IntPtr clientData, Lobby.OnJoinLobbyAcceptedCallbackInternal notificationFn);
 		internal static EOS_Lobby_AddNotifyJoinLobbyAcceptedDelegate EOS_Lobby_AddNotifyJoinLobbyAccepted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_Lobby_AddNotifyLeaveLobbyRequestedDelegate(System.IntPtr handle, ref Lobby.AddNotifyLeaveLobbyRequestedOptionsInternal options, System.IntPtr clientData, Lobby.OnLeaveLobbyRequestedCallbackInternal notificationFn);
+		internal static EOS_Lobby_AddNotifyLeaveLobbyRequestedDelegate EOS_Lobby_AddNotifyLeaveLobbyRequested;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_Lobby_AddNotifyLobbyInviteAcceptedDelegate(System.IntPtr handle, ref Lobby.AddNotifyLobbyInviteAcceptedOptionsInternal options, System.IntPtr clientData, Lobby.OnLobbyInviteAcceptedCallbackInternal notificationFn);
@@ -5512,6 +6168,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Lobby_DestroyLobbyDelegate EOS_Lobby_DestroyLobby;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Lobby_GetConnectStringDelegate(System.IntPtr handle, ref Lobby.GetConnectStringOptionsInternal options, System.IntPtr outBuffer, ref uint inOutBufferLength);
+		internal static EOS_Lobby_GetConnectStringDelegate EOS_Lobby_GetConnectString;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate uint EOS_Lobby_GetInviteCountDelegate(System.IntPtr handle, ref Lobby.GetInviteCountOptionsInternal options);
 		internal static EOS_Lobby_GetInviteCountDelegate EOS_Lobby_GetInviteCount;
 
@@ -5548,6 +6208,10 @@ namespace Epic.OnlineServices
 		internal static EOS_Lobby_LeaveLobbyDelegate EOS_Lobby_LeaveLobby;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_Lobby_ParseConnectStringDelegate(System.IntPtr handle, ref Lobby.ParseConnectStringOptionsInternal options, System.IntPtr outBuffer, ref uint inOutBufferLength);
+		internal static EOS_Lobby_ParseConnectStringDelegate EOS_Lobby_ParseConnectString;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_PromoteMemberDelegate(System.IntPtr handle, ref Lobby.PromoteMemberOptionsInternal options, System.IntPtr clientData, Lobby.OnPromoteMemberCallbackInternal completionDelegate);
 		internal static EOS_Lobby_PromoteMemberDelegate EOS_Lobby_PromoteMember;
 
@@ -5562,6 +6226,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_RemoveNotifyJoinLobbyAcceptedDelegate(System.IntPtr handle, ulong inId);
 		internal static EOS_Lobby_RemoveNotifyJoinLobbyAcceptedDelegate EOS_Lobby_RemoveNotifyJoinLobbyAccepted;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Lobby_RemoveNotifyLeaveLobbyRequestedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_Lobby_RemoveNotifyLeaveLobbyRequestedDelegate EOS_Lobby_RemoveNotifyLeaveLobbyRequested;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Lobby_RemoveNotifyLobbyInviteAcceptedDelegate(System.IntPtr handle, ulong inId);
@@ -5792,7 +6460,7 @@ namespace Epic.OnlineServices
 		internal static EOS_Platform_GetCustomInvitesInterfaceDelegate EOS_Platform_GetCustomInvitesInterface;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_Platform_GetDesktopCrossplayStatusDelegate(System.IntPtr handle, ref Platform.GetDesktopCrossplayStatusOptionsInternal options, ref Platform.GetDesktopCrossplayStatusInfoInternal outDesktopCrossplayStatusInfo);
+		internal delegate Result EOS_Platform_GetDesktopCrossplayStatusDelegate(System.IntPtr handle, ref Platform.GetDesktopCrossplayStatusOptionsInternal options, ref Platform.DesktopCrossplayStatusInfoInternal outDesktopCrossplayStatusInfo);
 		internal static EOS_Platform_GetDesktopCrossplayStatusDelegate EOS_Platform_GetDesktopCrossplayStatus;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
@@ -5802,6 +6470,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetFriendsInterfaceDelegate(System.IntPtr handle);
 		internal static EOS_Platform_GetFriendsInterfaceDelegate EOS_Platform_GetFriendsInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_Platform_GetIntegratedPlatformInterfaceDelegate(System.IntPtr handle);
+		internal static EOS_Platform_GetIntegratedPlatformInterfaceDelegate EOS_Platform_GetIntegratedPlatformInterface;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_Platform_GetKWSInterfaceDelegate(System.IntPtr handle);
@@ -6120,6 +6792,14 @@ namespace Epic.OnlineServices
 		internal static EOS_RTCAudio_AddNotifyParticipantUpdatedDelegate EOS_RTCAudio_AddNotifyParticipantUpdated;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_CopyInputDeviceInformationByIndexDelegate(System.IntPtr handle, ref RTCAudio.CopyInputDeviceInformationByIndexOptionsInternal options, ref System.IntPtr outInputDeviceInformation);
+		internal static EOS_RTCAudio_CopyInputDeviceInformationByIndexDelegate EOS_RTCAudio_CopyInputDeviceInformationByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCAudio_CopyOutputDeviceInformationByIndexDelegate(System.IntPtr handle, ref RTCAudio.CopyOutputDeviceInformationByIndexOptionsInternal options, ref System.IntPtr outOutputDeviceInformation);
+		internal static EOS_RTCAudio_CopyOutputDeviceInformationByIndexDelegate EOS_RTCAudio_CopyOutputDeviceInformationByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_RTCAudio_GetAudioInputDeviceByIndexDelegate(System.IntPtr handle, ref RTCAudio.GetAudioInputDeviceByIndexOptionsInternal options);
 		internal static EOS_RTCAudio_GetAudioInputDeviceByIndexDelegate EOS_RTCAudio_GetAudioInputDeviceByIndex;
 
@@ -6136,8 +6816,36 @@ namespace Epic.OnlineServices
 		internal static EOS_RTCAudio_GetAudioOutputDevicesCountDelegate EOS_RTCAudio_GetAudioOutputDevicesCount;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_RTCAudio_GetInputDevicesCountDelegate(System.IntPtr handle, ref RTCAudio.GetInputDevicesCountOptionsInternal options);
+		internal static EOS_RTCAudio_GetInputDevicesCountDelegate EOS_RTCAudio_GetInputDevicesCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_RTCAudio_GetOutputDevicesCountDelegate(System.IntPtr handle, ref RTCAudio.GetOutputDevicesCountOptionsInternal options);
+		internal static EOS_RTCAudio_GetOutputDevicesCountDelegate EOS_RTCAudio_GetOutputDevicesCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_InputDeviceInformation_ReleaseDelegate(System.IntPtr deviceInformation);
+		internal static EOS_RTCAudio_InputDeviceInformation_ReleaseDelegate EOS_RTCAudio_InputDeviceInformation_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_OutputDeviceInformation_ReleaseDelegate(System.IntPtr deviceInformation);
+		internal static EOS_RTCAudio_OutputDeviceInformation_ReleaseDelegate EOS_RTCAudio_OutputDeviceInformation_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_QueryInputDevicesInformationDelegate(System.IntPtr handle, ref RTCAudio.QueryInputDevicesInformationOptionsInternal options, System.IntPtr clientData, RTCAudio.OnQueryInputDevicesInformationCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_QueryInputDevicesInformationDelegate EOS_RTCAudio_QueryInputDevicesInformation;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_QueryOutputDevicesInformationDelegate(System.IntPtr handle, ref RTCAudio.QueryOutputDevicesInformationOptionsInternal options, System.IntPtr clientData, RTCAudio.OnQueryOutputDevicesInformationCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_QueryOutputDevicesInformationDelegate EOS_RTCAudio_QueryOutputDevicesInformation;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_RTCAudio_RegisterPlatformAudioUserDelegate(System.IntPtr handle, ref RTCAudio.RegisterPlatformAudioUserOptionsInternal options);
 		internal static EOS_RTCAudio_RegisterPlatformAudioUserDelegate EOS_RTCAudio_RegisterPlatformAudioUser;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_RegisterPlatformUserDelegate(System.IntPtr handle, ref RTCAudio.RegisterPlatformUserOptionsInternal options, System.IntPtr clientData, RTCAudio.OnRegisterPlatformUserCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_RegisterPlatformUserDelegate EOS_RTCAudio_RegisterPlatformUser;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_RTCAudio_RemoveNotifyAudioBeforeRenderDelegate(System.IntPtr handle, ulong notificationId);
@@ -6176,8 +6884,20 @@ namespace Epic.OnlineServices
 		internal static EOS_RTCAudio_SetAudioOutputSettingsDelegate EOS_RTCAudio_SetAudioOutputSettings;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_SetInputDeviceSettingsDelegate(System.IntPtr handle, ref RTCAudio.SetInputDeviceSettingsOptionsInternal options, System.IntPtr clientData, RTCAudio.OnSetInputDeviceSettingsCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_SetInputDeviceSettingsDelegate EOS_RTCAudio_SetInputDeviceSettings;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_SetOutputDeviceSettingsDelegate(System.IntPtr handle, ref RTCAudio.SetOutputDeviceSettingsOptionsInternal options, System.IntPtr clientData, RTCAudio.OnSetOutputDeviceSettingsCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_SetOutputDeviceSettingsDelegate EOS_RTCAudio_SetOutputDeviceSettings;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_RTCAudio_UnregisterPlatformAudioUserDelegate(System.IntPtr handle, ref RTCAudio.UnregisterPlatformAudioUserOptionsInternal options);
 		internal static EOS_RTCAudio_UnregisterPlatformAudioUserDelegate EOS_RTCAudio_UnregisterPlatformAudioUser;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCAudio_UnregisterPlatformUserDelegate(System.IntPtr handle, ref RTCAudio.UnregisterPlatformUserOptionsInternal options, System.IntPtr clientData, RTCAudio.OnUnregisterPlatformUserCallbackInternal completionDelegate);
+		internal static EOS_RTCAudio_UnregisterPlatformUserDelegate EOS_RTCAudio_UnregisterPlatformUser;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_RTCAudio_UpdateParticipantVolumeDelegate(System.IntPtr handle, ref RTCAudio.UpdateParticipantVolumeOptionsInternal options, System.IntPtr clientData, RTCAudio.OnUpdateParticipantVolumeCallbackInternal completionDelegate);
@@ -6208,6 +6928,10 @@ namespace Epic.OnlineServices
 		internal static EOS_RTC_AddNotifyParticipantStatusChangedDelegate EOS_RTC_AddNotifyParticipantStatusChanged;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate(System.IntPtr handle, ref RTC.AddNotifyRoomStatisticsUpdatedOptionsInternal options, System.IntPtr clientData, RTC.OnRoomStatisticsUpdatedCallbackInternal statisticsUpdateHandler);
+		internal static EOS_RTC_AddNotifyRoomStatisticsUpdatedDelegate EOS_RTC_AddNotifyRoomStatisticsUpdated;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_RTC_BlockParticipantDelegate(System.IntPtr handle, ref RTC.BlockParticipantOptionsInternal options, System.IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
 		internal static EOS_RTC_BlockParticipantDelegate EOS_RTC_BlockParticipant;
 
@@ -6230,6 +6954,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate(System.IntPtr handle, ulong notificationId);
 		internal static EOS_RTC_RemoveNotifyParticipantStatusChangedDelegate EOS_RTC_RemoveNotifyParticipantStatusChanged;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTC_RemoveNotifyRoomStatisticsUpdatedDelegate(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTC_RemoveNotifyRoomStatisticsUpdatedDelegate EOS_RTC_RemoveNotifyRoomStatisticsUpdated;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_RTC_SetRoomSettingDelegate(System.IntPtr handle, ref RTC.SetRoomSettingOptionsInternal options);
@@ -6300,6 +7028,10 @@ namespace Epic.OnlineServices
 		internal static EOS_SessionModification_RemoveAttributeDelegate EOS_SessionModification_RemoveAttribute;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_SessionModification_SetAllowedPlatformIdsDelegate(System.IntPtr handle, ref Sessions.SessionModificationSetAllowedPlatformIdsOptionsInternal options);
+		internal static EOS_SessionModification_SetAllowedPlatformIdsDelegate EOS_SessionModification_SetAllowedPlatformIds;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_SessionModification_SetBucketIdDelegate(System.IntPtr handle, ref Sessions.SessionModificationSetBucketIdOptionsInternal options);
 		internal static EOS_SessionModification_SetBucketIdDelegate EOS_SessionModification_SetBucketId;
 
@@ -6364,12 +7096,24 @@ namespace Epic.OnlineServices
 		internal static EOS_Sessions_AddNotifyJoinSessionAcceptedDelegate EOS_Sessions_AddNotifyJoinSessionAccepted;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_Sessions_AddNotifyLeaveSessionRequestedDelegate(System.IntPtr handle, ref Sessions.AddNotifyLeaveSessionRequestedOptionsInternal options, System.IntPtr clientData, Sessions.OnLeaveSessionRequestedCallbackInternal notificationFn);
+		internal static EOS_Sessions_AddNotifyLeaveSessionRequestedDelegate EOS_Sessions_AddNotifyLeaveSessionRequested;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_Sessions_AddNotifySendSessionNativeInviteRequestedDelegate(System.IntPtr handle, ref Sessions.AddNotifySendSessionNativeInviteRequestedOptionsInternal options, System.IntPtr clientData, Sessions.OnSendSessionNativeInviteRequestedCallbackInternal notificationFn);
+		internal static EOS_Sessions_AddNotifySendSessionNativeInviteRequestedDelegate EOS_Sessions_AddNotifySendSessionNativeInviteRequested;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_Sessions_AddNotifySessionInviteAcceptedDelegate(System.IntPtr handle, ref Sessions.AddNotifySessionInviteAcceptedOptionsInternal options, System.IntPtr clientData, Sessions.OnSessionInviteAcceptedCallbackInternal notificationFn);
 		internal static EOS_Sessions_AddNotifySessionInviteAcceptedDelegate EOS_Sessions_AddNotifySessionInviteAccepted;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_Sessions_AddNotifySessionInviteReceivedDelegate(System.IntPtr handle, ref Sessions.AddNotifySessionInviteReceivedOptionsInternal options, System.IntPtr clientData, Sessions.OnSessionInviteReceivedCallbackInternal notificationFn);
 		internal static EOS_Sessions_AddNotifySessionInviteReceivedDelegate EOS_Sessions_AddNotifySessionInviteReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_Sessions_AddNotifySessionInviteRejectedDelegate(System.IntPtr handle, ref Sessions.AddNotifySessionInviteRejectedOptionsInternal options, System.IntPtr clientData, Sessions.OnSessionInviteRejectedCallbackInternal notificationFn);
+		internal static EOS_Sessions_AddNotifySessionInviteRejectedDelegate EOS_Sessions_AddNotifySessionInviteRejected;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_Sessions_CopyActiveSessionHandleDelegate(System.IntPtr handle, ref Sessions.CopyActiveSessionHandleOptionsInternal options, ref System.IntPtr outSessionHandle);
@@ -6440,12 +7184,24 @@ namespace Epic.OnlineServices
 		internal static EOS_Sessions_RemoveNotifyJoinSessionAcceptedDelegate EOS_Sessions_RemoveNotifyJoinSessionAccepted;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Sessions_RemoveNotifyLeaveSessionRequestedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_Sessions_RemoveNotifyLeaveSessionRequestedDelegate EOS_Sessions_RemoveNotifyLeaveSessionRequested;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_Sessions_RemoveNotifySendSessionNativeInviteRequestedDelegate EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Sessions_RemoveNotifySessionInviteAcceptedDelegate(System.IntPtr handle, ulong inId);
 		internal static EOS_Sessions_RemoveNotifySessionInviteAcceptedDelegate EOS_Sessions_RemoveNotifySessionInviteAccepted;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Sessions_RemoveNotifySessionInviteReceivedDelegate(System.IntPtr handle, ulong inId);
 		internal static EOS_Sessions_RemoveNotifySessionInviteReceivedDelegate EOS_Sessions_RemoveNotifySessionInviteReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Sessions_RemoveNotifySessionInviteRejectedDelegate(System.IntPtr handle, ulong inId);
+		internal static EOS_Sessions_RemoveNotifySessionInviteRejectedDelegate EOS_Sessions_RemoveNotifySessionInviteRejected;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Sessions_SendInviteDelegate(System.IntPtr handle, ref Sessions.SendInviteOptionsInternal options, System.IntPtr clientData, Sessions.OnSendInviteCallbackInternal completionDelegate);
@@ -6552,6 +7308,10 @@ namespace Epic.OnlineServices
 		internal static EOS_UI_AddNotifyDisplaySettingsUpdatedDelegate EOS_UI_AddNotifyDisplaySettingsUpdated;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_UI_AddNotifyMemoryMonitorDelegate(System.IntPtr handle, ref UI.AddNotifyMemoryMonitorOptionsInternal options, System.IntPtr clientData, UI.OnMemoryMonitorCallbackInternal notificationFn);
+		internal static EOS_UI_AddNotifyMemoryMonitorDelegate EOS_UI_AddNotifyMemoryMonitor;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate int EOS_UI_GetFriendsExclusiveInputDelegate(System.IntPtr handle, ref UI.GetFriendsExclusiveInputOptionsInternal options);
 		internal static EOS_UI_GetFriendsExclusiveInputDelegate EOS_UI_GetFriendsExclusiveInput;
 
@@ -6562,6 +7322,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate UI.NotificationLocation EOS_UI_GetNotificationLocationPreferenceDelegate(System.IntPtr handle);
 		internal static EOS_UI_GetNotificationLocationPreferenceDelegate EOS_UI_GetNotificationLocationPreference;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate UI.InputStateButtonFlags EOS_UI_GetToggleFriendsButtonDelegate(System.IntPtr handle, ref UI.GetToggleFriendsButtonOptionsInternal options);
+		internal static EOS_UI_GetToggleFriendsButtonDelegate EOS_UI_GetToggleFriendsButton;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate UI.KeyCombination EOS_UI_GetToggleFriendsKeyDelegate(System.IntPtr handle, ref UI.GetToggleFriendsKeyOptionsInternal options);
@@ -6576,6 +7340,10 @@ namespace Epic.OnlineServices
 		internal static EOS_UI_IsSocialOverlayPausedDelegate EOS_UI_IsSocialOverlayPaused;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate int EOS_UI_IsValidButtonCombinationDelegate(System.IntPtr handle, UI.InputStateButtonFlags buttonCombination);
+		internal static EOS_UI_IsValidButtonCombinationDelegate EOS_UI_IsValidButtonCombination;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate int EOS_UI_IsValidKeyCombinationDelegate(System.IntPtr handle, UI.KeyCombination keyCombination);
 		internal static EOS_UI_IsValidKeyCombinationDelegate EOS_UI_IsValidKeyCombination;
 
@@ -6584,12 +7352,28 @@ namespace Epic.OnlineServices
 		internal static EOS_UI_PauseSocialOverlayDelegate EOS_UI_PauseSocialOverlay;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_UI_PrePresentDelegate(System.IntPtr handle, ref UI.PrePresentOptionsInternal options);
+		internal static EOS_UI_PrePresentDelegate EOS_UI_PrePresent;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_UI_RemoveNotifyDisplaySettingsUpdatedDelegate(System.IntPtr handle, ulong id);
 		internal static EOS_UI_RemoveNotifyDisplaySettingsUpdatedDelegate EOS_UI_RemoveNotifyDisplaySettingsUpdated;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_UI_RemoveNotifyMemoryMonitorDelegate(System.IntPtr handle, ulong id);
+		internal static EOS_UI_RemoveNotifyMemoryMonitorDelegate EOS_UI_RemoveNotifyMemoryMonitor;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_UI_ReportInputStateDelegate(System.IntPtr handle, ref UI.ReportInputStateOptionsInternal options);
+		internal static EOS_UI_ReportInputStateDelegate EOS_UI_ReportInputState;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_UI_SetDisplayPreferenceDelegate(System.IntPtr handle, ref UI.SetDisplayPreferenceOptionsInternal options);
 		internal static EOS_UI_SetDisplayPreferenceDelegate EOS_UI_SetDisplayPreference;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_UI_SetToggleFriendsButtonDelegate(System.IntPtr handle, ref UI.SetToggleFriendsButtonOptionsInternal options);
+		internal static EOS_UI_SetToggleFriendsButtonDelegate EOS_UI_SetToggleFriendsButton;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_UI_SetToggleFriendsKeyDelegate(System.IntPtr handle, ref UI.SetToggleFriendsKeyOptionsInternal options);
@@ -6604,8 +7388,24 @@ namespace Epic.OnlineServices
 		internal static EOS_UI_ShowFriendsDelegate EOS_UI_ShowFriends;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_UI_ShowNativeProfileDelegate(System.IntPtr handle, ref UI.ShowNativeProfileOptionsInternal options, System.IntPtr clientData, UI.OnShowNativeProfileCallbackInternal completionDelegate);
+		internal static EOS_UI_ShowNativeProfileDelegate EOS_UI_ShowNativeProfile;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_UI_ShowReportPlayerDelegate(System.IntPtr handle, ref UI.ShowReportPlayerOptionsInternal options, System.IntPtr clientData, UI.OnShowReportPlayerCallbackInternal completionDelegate);
 		internal static EOS_UI_ShowReportPlayerDelegate EOS_UI_ShowReportPlayer;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_UserInfo_BestDisplayName_ReleaseDelegate(System.IntPtr bestDisplayName);
+		internal static EOS_UserInfo_BestDisplayName_ReleaseDelegate EOS_UserInfo_BestDisplayName_Release;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_UserInfo_CopyBestDisplayNameDelegate(System.IntPtr handle, ref UserInfo.CopyBestDisplayNameOptionsInternal options, ref System.IntPtr outBestDisplayName);
+		internal static EOS_UserInfo_CopyBestDisplayNameDelegate EOS_UserInfo_CopyBestDisplayName;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_UserInfo_CopyBestDisplayNameWithPlatformDelegate(System.IntPtr handle, ref UserInfo.CopyBestDisplayNameWithPlatformOptionsInternal options, ref System.IntPtr outBestDisplayName);
+		internal static EOS_UserInfo_CopyBestDisplayNameWithPlatformDelegate EOS_UserInfo_CopyBestDisplayNameWithPlatform;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_UserInfo_CopyExternalUserInfoByAccountIdDelegate(System.IntPtr handle, ref UserInfo.CopyExternalUserInfoByAccountIdOptionsInternal options, ref System.IntPtr outExternalUserInfo);
@@ -6630,6 +7430,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate uint EOS_UserInfo_GetExternalUserInfoCountDelegate(System.IntPtr handle, ref UserInfo.GetExternalUserInfoCountOptionsInternal options);
 		internal static EOS_UserInfo_GetExternalUserInfoCountDelegate EOS_UserInfo_GetExternalUserInfoCount;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate uint EOS_UserInfo_GetLocalPlatformTypeDelegate(System.IntPtr handle, ref UserInfo.GetLocalPlatformTypeOptionsInternal options);
+		internal static EOS_UserInfo_GetLocalPlatformTypeDelegate EOS_UserInfo_GetLocalPlatformType;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_UserInfo_QueryUserInfoDelegate(System.IntPtr handle, ref UserInfo.QueryUserInfoOptionsInternal options, System.IntPtr clientData, UserInfo.OnQueryUserInfoCallbackInternal completionDelegate);
@@ -7019,6 +7823,9 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_ContinuanceToken_ToString(System.IntPtr continuanceToken, System.IntPtr outBuffer, ref int inOutBufferLength);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_AcceptRequestToJoin(System.IntPtr handle, ref CustomInvites.AcceptRequestToJoinOptionsInternal options, System.IntPtr clientData, CustomInvites.OnAcceptRequestToJoinCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteAccepted(System.IntPtr handle, ref CustomInvites.AddNotifyCustomInviteAcceptedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnCustomInviteAcceptedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
@@ -7028,7 +7835,25 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_CustomInvites_AddNotifyCustomInviteRejected(System.IntPtr handle, ref CustomInvites.AddNotifyCustomInviteRejectedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnCustomInviteRejectedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifyRequestToJoinAccepted(System.IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinAcceptedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRequestToJoinAcceptedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifyRequestToJoinReceived(System.IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinReceivedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRequestToJoinReceivedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifyRequestToJoinRejected(System.IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinRejectedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRequestToJoinRejectedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived(System.IntPtr handle, ref CustomInvites.AddNotifyRequestToJoinResponseReceivedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRequestToJoinResponseReceivedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested(System.IntPtr handle, ref CustomInvites.AddNotifySendCustomNativeInviteRequestedOptionsInternal options, System.IntPtr clientData, CustomInvites.OnSendCustomNativeInviteRequestedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_CustomInvites_FinalizeInvite(System.IntPtr handle, ref CustomInvites.FinalizeInviteOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RejectRequestToJoin(System.IntPtr handle, ref CustomInvites.RejectRequestToJoinOptionsInternal options, System.IntPtr clientData, CustomInvites.OnRejectRequestToJoinCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteAccepted(System.IntPtr handle, ulong inId);
@@ -7040,10 +7865,34 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_CustomInvites_RemoveNotifyCustomInviteRejected(System.IntPtr handle, ulong inId);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifyRequestToJoinReceived(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifyRequestToJoinRejected(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_CustomInvites_SendCustomInvite(System.IntPtr handle, ref CustomInvites.SendCustomInviteOptionsInternal options, System.IntPtr clientData, CustomInvites.OnSendCustomInviteCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_CustomInvites_SendRequestToJoin(System.IntPtr handle, ref CustomInvites.SendRequestToJoinOptionsInternal options, System.IntPtr clientData, CustomInvites.OnSendRequestToJoinCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_CustomInvites_SetCustomInvite(System.IntPtr handle, ref CustomInvites.SetCustomInviteOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_EApplicationStatus_ToString(Platform.ApplicationStatus applicationStatus);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_ENetworkStatus_ToString(Platform.NetworkStatus networkStatus);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern int EOS_EResult_IsOperationComplete(Result result);
@@ -7148,6 +7997,9 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Ecom_QueryOwnership(System.IntPtr handle, ref Ecom.QueryOwnershipOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryOwnershipCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Ecom_QueryOwnershipBySandboxIds(System.IntPtr handle, ref Ecom.QueryOwnershipBySandboxIdsOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryOwnershipBySandboxIdsCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Ecom_QueryOwnershipToken(System.IntPtr handle, ref Ecom.QueryOwnershipTokenOptionsInternal options, System.IntPtr clientData, Ecom.OnQueryOwnershipTokenCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
@@ -7178,7 +8030,16 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Friends_AcceptInvite(System.IntPtr handle, ref Friends.AcceptInviteOptionsInternal options, System.IntPtr clientData, Friends.OnAcceptInviteCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_Friends_AddNotifyBlockedUsersUpdate(System.IntPtr handle, ref Friends.AddNotifyBlockedUsersUpdateOptionsInternal options, System.IntPtr clientData, Friends.OnBlockedUsersUpdateCallbackInternal blockedUsersUpdateHandler);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_Friends_AddNotifyFriendsUpdate(System.IntPtr handle, ref Friends.AddNotifyFriendsUpdateOptionsInternal options, System.IntPtr clientData, Friends.OnFriendsUpdateCallbackInternal friendsUpdateHandler);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Friends_GetBlockedUserAtIndex(System.IntPtr handle, ref Friends.GetBlockedUserAtIndexOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern int EOS_Friends_GetBlockedUsersCount(System.IntPtr handle, ref Friends.GetBlockedUsersCountOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Friends_GetFriendAtIndex(System.IntPtr handle, ref Friends.GetFriendAtIndexOptionsInternal options);
@@ -7194,6 +8055,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Friends_RejectInvite(System.IntPtr handle, ref Friends.RejectInviteOptionsInternal options, System.IntPtr clientData, Friends.OnRejectInviteCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Friends_RemoveNotifyBlockedUsersUpdate(System.IntPtr handle, ulong notificationId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Friends_RemoveNotifyFriendsUpdate(System.IntPtr handle, ulong notificationId);
@@ -7214,7 +8078,25 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_IntegratedPlatformOptionsContainer_Release(System.IntPtr integratedPlatformOptionsContainerHandle);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged(System.IntPtr handle, ref IntegratedPlatform.AddNotifyUserLoginStatusChangedOptionsInternal options, System.IntPtr clientData, IntegratedPlatform.OnUserLoginStatusChangedCallbackInternal callbackFunction);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_IntegratedPlatform_ClearUserPreLogoutCallback(System.IntPtr handle, ref IntegratedPlatform.ClearUserPreLogoutCallbackOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer(ref IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptionsInternal options, ref System.IntPtr outIntegratedPlatformOptionsContainerHandle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_IntegratedPlatform_FinalizeDeferredUserLogout(System.IntPtr handle, ref IntegratedPlatform.FinalizeDeferredUserLogoutOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_IntegratedPlatform_SetUserLoginStatus(System.IntPtr handle, ref IntegratedPlatform.SetUserLoginStatusOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_IntegratedPlatform_SetUserPreLogoutCallback(System.IntPtr handle, ref IntegratedPlatform.SetUserPreLogoutCallbackOptionsInternal options, System.IntPtr clientData, IntegratedPlatform.OnUserPreLogoutCallbackInternal callbackFunction);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_KWS_AddNotifyPermissionsUpdateReceived(System.IntPtr handle, ref KWS.AddNotifyPermissionsUpdateReceivedOptionsInternal options, System.IntPtr clientData, KWS.OnPermissionsUpdateReceivedCallbackInternal notificationFn);
@@ -7313,6 +8195,9 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_LobbyDetails_CopyMemberAttributeByKey(System.IntPtr handle, ref Lobby.LobbyDetailsCopyMemberAttributeByKeyOptionsInternal options, ref System.IntPtr outAttribute);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_LobbyDetails_CopyMemberInfo(System.IntPtr handle, ref Lobby.LobbyDetailsCopyMemberInfoOptionsInternal options, ref System.IntPtr outLobbyDetailsMemberInfo);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern uint EOS_LobbyDetails_GetAttributeCount(System.IntPtr handle, ref Lobby.LobbyDetailsGetAttributeCountOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
@@ -7331,6 +8216,9 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_LobbyDetails_Info_Release(System.IntPtr lobbyDetailsInfo);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_LobbyDetails_MemberInfo_Release(System.IntPtr lobbyDetailsMemberInfo);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_LobbyDetails_Release(System.IntPtr lobbyHandle);
 
 		[DllImport(Config.LibraryName)]
@@ -7347,6 +8235,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_LobbyModification_RemoveMemberAttribute(System.IntPtr handle, ref Lobby.LobbyModificationRemoveMemberAttributeOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_LobbyModification_SetAllowedPlatformIds(System.IntPtr handle, ref Lobby.LobbyModificationSetAllowedPlatformIdsOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_LobbyModification_SetBucketId(System.IntPtr handle, ref Lobby.LobbyModificationSetBucketIdOptionsInternal options);
@@ -7389,6 +8280,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_Lobby_AddNotifyJoinLobbyAccepted(System.IntPtr handle, ref Lobby.AddNotifyJoinLobbyAcceptedOptionsInternal options, System.IntPtr clientData, Lobby.OnJoinLobbyAcceptedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_Lobby_AddNotifyLeaveLobbyRequested(System.IntPtr handle, ref Lobby.AddNotifyLeaveLobbyRequestedOptionsInternal options, System.IntPtr clientData, Lobby.OnLeaveLobbyRequestedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_Lobby_AddNotifyLobbyInviteAccepted(System.IntPtr handle, ref Lobby.AddNotifyLobbyInviteAcceptedOptionsInternal options, System.IntPtr clientData, Lobby.OnLobbyInviteAcceptedCallbackInternal notificationFn);
@@ -7436,6 +8330,9 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Lobby_DestroyLobby(System.IntPtr handle, ref Lobby.DestroyLobbyOptionsInternal options, System.IntPtr clientData, Lobby.OnDestroyLobbyCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Lobby_GetConnectString(System.IntPtr handle, ref Lobby.GetConnectStringOptionsInternal options, System.IntPtr outBuffer, ref uint inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern uint EOS_Lobby_GetInviteCount(System.IntPtr handle, ref Lobby.GetInviteCountOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
@@ -7463,6 +8360,9 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Lobby_LeaveLobby(System.IntPtr handle, ref Lobby.LeaveLobbyOptionsInternal options, System.IntPtr clientData, Lobby.OnLeaveLobbyCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_Lobby_ParseConnectString(System.IntPtr handle, ref Lobby.ParseConnectStringOptionsInternal options, System.IntPtr outBuffer, ref uint inOutBufferLength);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_PromoteMember(System.IntPtr handle, ref Lobby.PromoteMemberOptionsInternal options, System.IntPtr clientData, Lobby.OnPromoteMemberCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
@@ -7473,6 +8373,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_RemoveNotifyJoinLobbyAccepted(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Lobby_RemoveNotifyLeaveLobbyRequested(System.IntPtr handle, ulong inId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Lobby_RemoveNotifyLobbyInviteAccepted(System.IntPtr handle, ulong inId);
@@ -7646,13 +8549,16 @@ namespace Epic.OnlineServices
 		internal static extern System.IntPtr EOS_Platform_GetCustomInvitesInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_Platform_GetDesktopCrossplayStatus(System.IntPtr handle, ref Platform.GetDesktopCrossplayStatusOptionsInternal options, ref Platform.GetDesktopCrossplayStatusInfoInternal outDesktopCrossplayStatusInfo);
+		internal static extern Result EOS_Platform_GetDesktopCrossplayStatus(System.IntPtr handle, ref Platform.GetDesktopCrossplayStatusOptionsInternal options, ref Platform.DesktopCrossplayStatusInfoInternal outDesktopCrossplayStatusInfo);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetEcomInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetFriendsInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_Platform_GetIntegratedPlatformInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_Platform_GetKWSInterface(System.IntPtr handle);
@@ -7892,6 +8798,12 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_RTCAudio_AddNotifyParticipantUpdated(System.IntPtr handle, ref RTCAudio.AddNotifyParticipantUpdatedOptionsInternal options, System.IntPtr clientData, RTCAudio.OnParticipantUpdatedCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_CopyInputDeviceInformationByIndex(System.IntPtr handle, ref RTCAudio.CopyInputDeviceInformationByIndexOptionsInternal options, ref System.IntPtr outInputDeviceInformation);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCAudio_CopyOutputDeviceInformationByIndex(System.IntPtr handle, ref RTCAudio.CopyOutputDeviceInformationByIndexOptionsInternal options, ref System.IntPtr outOutputDeviceInformation);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_RTCAudio_GetAudioInputDeviceByIndex(System.IntPtr handle, ref RTCAudio.GetAudioInputDeviceByIndexOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
@@ -7904,7 +8816,28 @@ namespace Epic.OnlineServices
 		internal static extern uint EOS_RTCAudio_GetAudioOutputDevicesCount(System.IntPtr handle, ref RTCAudio.GetAudioOutputDevicesCountOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_RTCAudio_GetInputDevicesCount(System.IntPtr handle, ref RTCAudio.GetInputDevicesCountOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_RTCAudio_GetOutputDevicesCount(System.IntPtr handle, ref RTCAudio.GetOutputDevicesCountOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_InputDeviceInformation_Release(System.IntPtr deviceInformation);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_OutputDeviceInformation_Release(System.IntPtr deviceInformation);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_QueryInputDevicesInformation(System.IntPtr handle, ref RTCAudio.QueryInputDevicesInformationOptionsInternal options, System.IntPtr clientData, RTCAudio.OnQueryInputDevicesInformationCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_QueryOutputDevicesInformation(System.IntPtr handle, ref RTCAudio.QueryOutputDevicesInformationOptionsInternal options, System.IntPtr clientData, RTCAudio.OnQueryOutputDevicesInformationCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_RTCAudio_RegisterPlatformAudioUser(System.IntPtr handle, ref RTCAudio.RegisterPlatformAudioUserOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_RegisterPlatformUser(System.IntPtr handle, ref RTCAudio.RegisterPlatformUserOptionsInternal options, System.IntPtr clientData, RTCAudio.OnRegisterPlatformUserCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_RTCAudio_RemoveNotifyAudioBeforeRender(System.IntPtr handle, ulong notificationId);
@@ -7934,7 +8867,16 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_RTCAudio_SetAudioOutputSettings(System.IntPtr handle, ref RTCAudio.SetAudioOutputSettingsOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_SetInputDeviceSettings(System.IntPtr handle, ref RTCAudio.SetInputDeviceSettingsOptionsInternal options, System.IntPtr clientData, RTCAudio.OnSetInputDeviceSettingsCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_SetOutputDeviceSettings(System.IntPtr handle, ref RTCAudio.SetOutputDeviceSettingsOptionsInternal options, System.IntPtr clientData, RTCAudio.OnSetOutputDeviceSettingsCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_RTCAudio_UnregisterPlatformAudioUser(System.IntPtr handle, ref RTCAudio.UnregisterPlatformAudioUserOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCAudio_UnregisterPlatformUser(System.IntPtr handle, ref RTCAudio.UnregisterPlatformUserOptionsInternal options, System.IntPtr clientData, RTCAudio.OnUnregisterPlatformUserCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_RTCAudio_UpdateParticipantVolume(System.IntPtr handle, ref RTCAudio.UpdateParticipantVolumeOptionsInternal options, System.IntPtr clientData, RTCAudio.OnUpdateParticipantVolumeCallbackInternal completionDelegate);
@@ -7958,6 +8900,9 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_RTC_AddNotifyParticipantStatusChanged(System.IntPtr handle, ref RTC.AddNotifyParticipantStatusChangedOptionsInternal options, System.IntPtr clientData, RTC.OnParticipantStatusChangedCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTC_AddNotifyRoomStatisticsUpdated(System.IntPtr handle, ref RTC.AddNotifyRoomStatisticsUpdatedOptionsInternal options, System.IntPtr clientData, RTC.OnRoomStatisticsUpdatedCallbackInternal statisticsUpdateHandler);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_RTC_BlockParticipant(System.IntPtr handle, ref RTC.BlockParticipantOptionsInternal options, System.IntPtr clientData, RTC.OnBlockParticipantCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
@@ -7974,6 +8919,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_RTC_RemoveNotifyParticipantStatusChanged(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTC_RemoveNotifyRoomStatisticsUpdated(System.IntPtr handle, ulong notificationId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_RTC_SetRoomSetting(System.IntPtr handle, ref RTC.SetRoomSettingOptionsInternal options);
@@ -8027,6 +8975,9 @@ namespace Epic.OnlineServices
 		internal static extern Result EOS_SessionModification_RemoveAttribute(System.IntPtr handle, ref Sessions.SessionModificationRemoveAttributeOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_SessionModification_SetAllowedPlatformIds(System.IntPtr handle, ref Sessions.SessionModificationSetAllowedPlatformIdsOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_SessionModification_SetBucketId(System.IntPtr handle, ref Sessions.SessionModificationSetBucketIdOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
@@ -8075,10 +9026,19 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_Sessions_AddNotifyJoinSessionAccepted(System.IntPtr handle, ref Sessions.AddNotifyJoinSessionAcceptedOptionsInternal options, System.IntPtr clientData, Sessions.OnJoinSessionAcceptedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_Sessions_AddNotifyLeaveSessionRequested(System.IntPtr handle, ref Sessions.AddNotifyLeaveSessionRequestedOptionsInternal options, System.IntPtr clientData, Sessions.OnLeaveSessionRequestedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_Sessions_AddNotifySendSessionNativeInviteRequested(System.IntPtr handle, ref Sessions.AddNotifySendSessionNativeInviteRequestedOptionsInternal options, System.IntPtr clientData, Sessions.OnSendSessionNativeInviteRequestedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_Sessions_AddNotifySessionInviteAccepted(System.IntPtr handle, ref Sessions.AddNotifySessionInviteAcceptedOptionsInternal options, System.IntPtr clientData, Sessions.OnSessionInviteAcceptedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_Sessions_AddNotifySessionInviteReceived(System.IntPtr handle, ref Sessions.AddNotifySessionInviteReceivedOptionsInternal options, System.IntPtr clientData, Sessions.OnSessionInviteReceivedCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_Sessions_AddNotifySessionInviteRejected(System.IntPtr handle, ref Sessions.AddNotifySessionInviteRejectedOptionsInternal options, System.IntPtr clientData, Sessions.OnSessionInviteRejectedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_Sessions_CopyActiveSessionHandle(System.IntPtr handle, ref Sessions.CopyActiveSessionHandleOptionsInternal options, ref System.IntPtr outSessionHandle);
@@ -8132,10 +9092,19 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Sessions_RemoveNotifyJoinSessionAccepted(System.IntPtr handle, ulong inId);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Sessions_RemoveNotifyLeaveSessionRequested(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Sessions_RemoveNotifySessionInviteAccepted(System.IntPtr handle, ulong inId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Sessions_RemoveNotifySessionInviteReceived(System.IntPtr handle, ulong inId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Sessions_RemoveNotifySessionInviteRejected(System.IntPtr handle, ulong inId);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Sessions_SendInvite(System.IntPtr handle, ref Sessions.SendInviteOptionsInternal options, System.IntPtr clientData, Sessions.OnSendInviteCallbackInternal completionDelegate);
@@ -8216,6 +9185,9 @@ namespace Epic.OnlineServices
 		internal static extern ulong EOS_UI_AddNotifyDisplaySettingsUpdated(System.IntPtr handle, ref UI.AddNotifyDisplaySettingsUpdatedOptionsInternal options, System.IntPtr clientData, UI.OnDisplaySettingsUpdatedCallbackInternal notificationFn);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_UI_AddNotifyMemoryMonitor(System.IntPtr handle, ref UI.AddNotifyMemoryMonitorOptionsInternal options, System.IntPtr clientData, UI.OnMemoryMonitorCallbackInternal notificationFn);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern int EOS_UI_GetFriendsExclusiveInput(System.IntPtr handle, ref UI.GetFriendsExclusiveInputOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
@@ -8223,6 +9195,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern UI.NotificationLocation EOS_UI_GetNotificationLocationPreference(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern UI.InputStateButtonFlags EOS_UI_GetToggleFriendsButton(System.IntPtr handle, ref UI.GetToggleFriendsButtonOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern UI.KeyCombination EOS_UI_GetToggleFriendsKey(System.IntPtr handle, ref UI.GetToggleFriendsKeyOptionsInternal options);
@@ -8234,16 +9209,31 @@ namespace Epic.OnlineServices
 		internal static extern int EOS_UI_IsSocialOverlayPaused(System.IntPtr handle, ref UI.IsSocialOverlayPausedOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern int EOS_UI_IsValidButtonCombination(System.IntPtr handle, UI.InputStateButtonFlags buttonCombination);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern int EOS_UI_IsValidKeyCombination(System.IntPtr handle, UI.KeyCombination keyCombination);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_UI_PauseSocialOverlay(System.IntPtr handle, ref UI.PauseSocialOverlayOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_UI_PrePresent(System.IntPtr handle, ref UI.PrePresentOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_UI_RemoveNotifyDisplaySettingsUpdated(System.IntPtr handle, ulong id);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_UI_RemoveNotifyMemoryMonitor(System.IntPtr handle, ulong id);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_UI_ReportInputState(System.IntPtr handle, ref UI.ReportInputStateOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_UI_SetDisplayPreference(System.IntPtr handle, ref UI.SetDisplayPreferenceOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_UI_SetToggleFriendsButton(System.IntPtr handle, ref UI.SetToggleFriendsButtonOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_UI_SetToggleFriendsKey(System.IntPtr handle, ref UI.SetToggleFriendsKeyOptionsInternal options);
@@ -8255,7 +9245,19 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_UI_ShowFriends(System.IntPtr handle, ref UI.ShowFriendsOptionsInternal options, System.IntPtr clientData, UI.OnShowFriendsCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_UI_ShowNativeProfile(System.IntPtr handle, ref UI.ShowNativeProfileOptionsInternal options, System.IntPtr clientData, UI.OnShowNativeProfileCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_UI_ShowReportPlayer(System.IntPtr handle, ref UI.ShowReportPlayerOptionsInternal options, System.IntPtr clientData, UI.OnShowReportPlayerCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_UserInfo_BestDisplayName_Release(System.IntPtr bestDisplayName);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_UserInfo_CopyBestDisplayName(System.IntPtr handle, ref UserInfo.CopyBestDisplayNameOptionsInternal options, ref System.IntPtr outBestDisplayName);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_UserInfo_CopyBestDisplayNameWithPlatform(System.IntPtr handle, ref UserInfo.CopyBestDisplayNameWithPlatformOptionsInternal options, ref System.IntPtr outBestDisplayName);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_UserInfo_CopyExternalUserInfoByAccountId(System.IntPtr handle, ref UserInfo.CopyExternalUserInfoByAccountIdOptionsInternal options, ref System.IntPtr outExternalUserInfo);
@@ -8274,6 +9276,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern uint EOS_UserInfo_GetExternalUserInfoCount(System.IntPtr handle, ref UserInfo.GetExternalUserInfoCountOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern uint EOS_UserInfo_GetLocalPlatformType(System.IntPtr handle, ref UserInfo.GetLocalPlatformTypeOptionsInternal options);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_UserInfo_QueryUserInfo(System.IntPtr handle, ref UserInfo.QueryUserInfoOptionsInternal options, System.IntPtr clientData, UserInfo.OnQueryUserInfoCallbackInternal completionDelegate);

@@ -351,7 +351,16 @@ namespace Epic.OnlineServices
 				}
 
 				T item;
-				GetAllocation(itemAddress, out item);
+				if (typeof(T) == typeof(Utf8String))
+				{
+					Utf8String str;
+					GetAllocation(itemAddress, out str);
+					item = (T)(object)(str);
+				}
+				else
+                {
+					GetAllocation(itemAddress, out item);
+				}
 				items.Add(item);
 			}
 
@@ -637,13 +646,16 @@ namespace Epic.OnlineServices
 				if (s_PinnedBuffers.TryGetValue(address, out pinnedBuffer))
 				{
 					// Deref the allocation.
-					pinnedBuffer.Handle.Free();
 					pinnedBuffer.RefCount--;
 
 					// If the reference count is zero, remove the allocation from the list of tracked allocations.
 					if (pinnedBuffer.RefCount == 0)
 					{
 						s_PinnedBuffers.Remove(address);
+
+						// We only call free on the handle when the last reference has been dropped.
+						// Otherwise, the buffer is immediately unpinned despite the fact that there are still references to it.
+						pinnedBuffer.Handle.Free();
 					}
 					else
 					{

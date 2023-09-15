@@ -13,6 +13,27 @@ namespace Epic.OnlineServices.Platform
 		{
 		}
 
+		/// <summary>
+		/// The name of the env var used to determine if the game was launched by the Epic Games Launcher.
+		/// 
+		/// During the call to <see cref="Create" />, the command line that was used to launch the app is inspected, and if it is
+		/// recognized as coming from the Epic Games Launcher, this environment variable is set to 1.
+		/// 
+		/// NOTE: You can force the <see cref="CheckForLauncherAndRestart" /> API to relaunch the title by
+		/// explicitly unsetting this environment variable before calling <see cref="CheckForLauncherAndRestart" />.
+		/// </summary>
+		public static readonly Utf8String CheckforlauncherandrestartEnvVar = "EOS_LAUNCHED_BY_EPIC";
+
+		/// <summary>
+		/// Max length of a client id, not including the terminating null.
+		/// </summary>
+		public const int ClientcredentialsClientidMaxLength = 64;
+
+		/// <summary>
+		/// Max length of a client secret, not including the terminating null.
+		/// </summary>
+		public const int ClientcredentialsClientsecretMaxLength = 64;
+
 		public const int CountrycodeMaxBufferLen = (CountrycodeMaxLength + 1);
 
 		public const int CountrycodeMaxLength = 4;
@@ -32,19 +53,56 @@ namespace Epic.OnlineServices.Platform
 		/// </summary>
 		public const int InitializeThreadaffinityApiLatest = 2;
 
+		/// <summary>
+		/// Max length of a product name, not including the terminating null.
+		/// </summary>
+		public const int InitializeoptionsProductnameMaxLength = 64;
+
+		/// <summary>
+		/// Max length of a product version, not including the terminating null.
+		/// </summary>
+		public const int InitializeoptionsProductversionMaxLength = 64;
+
 		public const int LocalecodeMaxBufferLen = (LocalecodeMaxLength + 1);
 
 		public const int LocalecodeMaxLength = 9;
 
-		public const int OptionsApiLatest = 12;
+		public const int OptionsApiLatest = 13;
+
+		/// <summary>
+		/// Max length of a deployment id, not including the terminating null.
+		/// </summary>
+		public const int OptionsDeploymentidMaxLength = 64;
+
+		/// <summary>
+		/// Length of an encryption key, not including the terminating null.
+		/// </summary>
+		public const int OptionsEncryptionkeyLength = 64;
+
+		/// <summary>
+		/// Max length of a product id, not including the terminating null.
+		/// </summary>
+		public const int OptionsProductidMaxLength = 64;
+
+		/// <summary>
+		/// Max length of a sandbox id, not including the terminating null.
+		/// </summary>
+		public const int OptionsSandboxidMaxLength = 64;
 
 		/// <summary>
 		/// The most recent version of the <see cref="RTCOptions" /> API.
 		/// </summary>
-		public const int RtcoptionsApiLatest = 1;
+		public const int RtcoptionsApiLatest = 2;
 
 		/// <summary>
-		/// Checks if the app was launched through the Epic Launcher, and relaunches it through the Epic Launcher if it wasn't.
+		/// Checks if the app was launched through the Epic Games Launcher, and relaunches it through the Epic Games Launcher if it wasn't.
+		/// 
+		/// NOTE: During the call to <see cref="Create" />, the command line that was used to launch the app is inspected, and if it is
+		/// recognized as coming from the Epic Games Launcher, an environment variable is set to 1. The name of the environment variable
+		/// is defined by <see cref="CheckforlauncherandrestartEnvVar" />.
+		/// 
+		/// You can force the <see cref="CheckForLauncherAndRestart" /> API to relaunch the title by
+		/// explicitly unsetting this environment variable before calling <see cref="CheckForLauncherAndRestart" />.
 		/// </summary>
 		/// <returns>
 		/// An <see cref="Result" /> is returned to indicate success or an error.
@@ -288,12 +346,12 @@ namespace Epic.OnlineServices.Platform
 		/// An <see cref="Result" /> is returned to indicate success or an error.
 		/// <see cref="Result.NotImplemented" /> is returned on non-Windows platforms.
 		/// </returns>
-		public Result GetDesktopCrossplayStatus(ref GetDesktopCrossplayStatusOptions options, out GetDesktopCrossplayStatusInfo outDesktopCrossplayStatusInfo)
+		public Result GetDesktopCrossplayStatus(ref GetDesktopCrossplayStatusOptions options, out DesktopCrossplayStatusInfo outDesktopCrossplayStatusInfo)
 		{
 			GetDesktopCrossplayStatusOptionsInternal optionsInternal = new GetDesktopCrossplayStatusOptionsInternal();
 			optionsInternal.Set(ref options);
 
-			var outDesktopCrossplayStatusInfoInternal = Helper.GetDefault<GetDesktopCrossplayStatusInfoInternal>();
+			var outDesktopCrossplayStatusInfoInternal = Helper.GetDefault<DesktopCrossplayStatusInfoInternal>();
 
 			var funcResult = Bindings.EOS_Platform_GetDesktopCrossplayStatus(InnerHandle, ref optionsInternal, ref outDesktopCrossplayStatusInfoInternal);
 
@@ -334,6 +392,23 @@ namespace Epic.OnlineServices.Platform
 			var funcResult = Bindings.EOS_Platform_GetFriendsInterface(InnerHandle);
 
 			Friends.FriendsInterface funcResultReturn;
+			Helper.Get(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
+		/// Get a handle to the Integrated Platform Interface.
+		/// eos_integratedplatform.h
+		/// eos_integratedplatform_types.h
+		/// </summary>
+		/// <returns>
+		/// <see cref="IntegratedPlatform.IntegratedPlatformInterface" /> handle
+		/// </returns>
+		public IntegratedPlatform.IntegratedPlatformInterface GetIntegratedPlatformInterface()
+		{
+			var funcResult = Bindings.EOS_Platform_GetIntegratedPlatformInterface(InnerHandle);
+
+			IntegratedPlatform.IntegratedPlatformInterface funcResultReturn;
 			Helper.Get(funcResult, out funcResultReturn);
 			return funcResultReturn;
 		}
@@ -771,6 +846,7 @@ namespace Epic.OnlineServices.Platform
 		/// An <see cref="Result" /> that indicates whether we changed the application status successfully.
 		/// <see cref="Result.Success" /> if the application was changed successfully.
 		/// <see cref="Result.InvalidParameters" /> if the value of NewStatus is invalid.
+		/// <see cref="Result.NotImplemented" /> if <see cref="ApplicationStatus.BackgroundConstrained" /> or <see cref="ApplicationStatus.BackgroundUnconstrained" /> are attempted to be set on platforms that do not have such application states.
 		/// </returns>
 		public Result SetApplicationStatus(ApplicationStatus newStatus)
 		{
@@ -866,6 +942,44 @@ namespace Epic.OnlineServices.Platform
 		public void Tick()
 		{
 			Bindings.EOS_Platform_Tick(InnerHandle);
+		}
+
+		/// <summary>
+		/// Gets the string representation of an <see cref="ApplicationStatus" /> value.
+		/// 
+		/// Example: <see cref="ToString" />(<see cref="ApplicationStatus.Foreground" />) returns "EOS_AS_Foreground".
+		/// </summary>
+		/// <param name="applicationStatus"><see cref="ApplicationStatus" /> value to get as string.</param>
+		/// <returns>
+		/// Pointer to a static string representing the input enum value.
+		/// The returned string is guaranteed to be non-null, and must not be freed by the application.
+		/// </returns>
+		public static Utf8String ToString(ApplicationStatus applicationStatus)
+		{
+			var funcResult = Bindings.EOS_EApplicationStatus_ToString(applicationStatus);
+
+			Utf8String funcResultReturn;
+			Helper.Get(funcResult, out funcResultReturn);
+			return funcResultReturn;
+		}
+
+		/// <summary>
+		/// Gets the string representation of an <see cref="NetworkStatus" /> value.
+		/// 
+		/// Example: <see cref="ToString" />(<see cref="NetworkStatus.Online" />) returns "EOS_NS_Online".
+		/// </summary>
+		/// <param name="networkStatus"><see cref="NetworkStatus" /> value to get as string.</param>
+		/// <returns>
+		/// Pointer to a static string representing the input enum value.
+		/// The returned string is guaranteed to be non-null, and must not be freed by the application.
+		/// </returns>
+		public static Utf8String ToString(NetworkStatus networkStatus)
+		{
+			var funcResult = Bindings.EOS_ENetworkStatus_ToString(networkStatus);
+
+			Utf8String funcResultReturn;
+			Helper.Get(funcResult, out funcResultReturn);
+			return funcResultReturn;
 		}
 	}
 }

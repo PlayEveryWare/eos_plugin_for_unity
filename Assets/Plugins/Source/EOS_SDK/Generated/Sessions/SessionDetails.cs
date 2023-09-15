@@ -41,12 +41,12 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// The most recent version of the <see cref="SessionDetailsInfo" /> struct.
 		/// </summary>
-		public const int SessiondetailsInfoApiLatest = 1;
+		public const int SessiondetailsInfoApiLatest = 2;
 
 		/// <summary>
 		/// The most recent version of the <see cref="SessionDetailsSettings" /> struct.
 		/// </summary>
-		public const int SessiondetailsSettingsApiLatest = 3;
+		public const int SessiondetailsSettingsApiLatest = 4;
 
 		/// <summary>
 		/// <see cref="CopyInfo" /> is used to immediately retrieve a copy of session information from a given source such as a active session or a search result.

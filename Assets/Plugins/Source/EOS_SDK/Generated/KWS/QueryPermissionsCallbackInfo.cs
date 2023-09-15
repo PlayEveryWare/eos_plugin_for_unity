@@ -38,6 +38,11 @@ namespace Epic.OnlineServices.KWS
 		/// </summary>
 		public bool IsMinor { get; set; }
 
+		/// <summary>
+		/// Parent email. This value may be set to an empty string if the originally registered email recipient declined to be the right person to give consent.
+		/// </summary>
+		public Utf8String ParentEmail { get; set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -51,6 +56,7 @@ namespace Epic.OnlineServices.KWS
 			KWSUserId = other.KWSUserId;
 			DateOfBirth = other.DateOfBirth;
 			IsMinor = other.IsMinor;
+			ParentEmail = other.ParentEmail;
 		}
 	}
 
@@ -63,6 +69,7 @@ namespace Epic.OnlineServices.KWS
 		private System.IntPtr m_KWSUserId;
 		private System.IntPtr m_DateOfBirth;
 		private int m_IsMinor;
+		private System.IntPtr m_ParentEmail;
 
 		public Result ResultCode
 		{
@@ -160,6 +167,21 @@ namespace Epic.OnlineServices.KWS
 			}
 		}
 
+		public Utf8String ParentEmail
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_ParentEmail, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ParentEmail);
+			}
+		}
+
 		public void Set(ref QueryPermissionsCallbackInfo other)
 		{
 			ResultCode = other.ResultCode;
@@ -168,6 +190,7 @@ namespace Epic.OnlineServices.KWS
 			KWSUserId = other.KWSUserId;
 			DateOfBirth = other.DateOfBirth;
 			IsMinor = other.IsMinor;
+			ParentEmail = other.ParentEmail;
 		}
 
 		public void Set(ref QueryPermissionsCallbackInfo? other)
@@ -180,6 +203,7 @@ namespace Epic.OnlineServices.KWS
 				KWSUserId = other.Value.KWSUserId;
 				DateOfBirth = other.Value.DateOfBirth;
 				IsMinor = other.Value.IsMinor;
+				ParentEmail = other.Value.ParentEmail;
 			}
 		}
 
@@ -189,6 +213,7 @@ namespace Epic.OnlineServices.KWS
 			Helper.Dispose(ref m_LocalUserId);
 			Helper.Dispose(ref m_KWSUserId);
 			Helper.Dispose(ref m_DateOfBirth);
+			Helper.Dispose(ref m_ParentEmail);
 		}
 
 		public void Get(out QueryPermissionsCallbackInfo output)

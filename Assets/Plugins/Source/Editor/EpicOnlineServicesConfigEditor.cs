@@ -162,7 +162,6 @@ _WIN32 || _WIN64
         // TODO: Handle different versions of the file?
         private void LoadConfigFromDisk()
         {
-
             if (!Directory.Exists(GetConfigDirectory()))
             {
                 Directory.CreateDirectory(GetConfigDirectory());
@@ -680,6 +679,11 @@ _WIN32 || _WIN64
             if (GUILayout.Button("Save All Changes"))
             {
                 SaveToJSONConfig(prettyPrint);
+            }
+
+            if (GUILayout.Button("Show in Explorer"))
+            {
+                EditorUtility.RevealInFinder(GetConfigDirectory());
             }
         }
 

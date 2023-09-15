@@ -9,12 +9,12 @@ namespace Epic.OnlineServices.Platform
 	public struct ClientCredentials
 	{
 		/// <summary>
-		/// Client ID of the service permissions entry. Set to <see langword="null" /> if no service permissions are used.
+		/// Client ID of the service permissions entry. Set to <see langword="null" /> if no service permissions are used. Max length is <see cref="PlatformInterface.ClientcredentialsClientidMaxLength" />.
 		/// </summary>
 		public Utf8String ClientId { get; set; }
 
 		/// <summary>
-		/// Client secret for accessing the set of permissions. Set to <see langword="null" /> if no service permissions are used.
+		/// Client secret for accessing the set of permissions. Set to <see langword="null" /> if no service permissions are used. Max length is <see cref="PlatformInterface.ClientcredentialsClientsecretMaxLength" />.
 		/// </summary>
 		public Utf8String ClientSecret { get; set; }
 

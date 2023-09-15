@@ -24,7 +24,7 @@ namespace Epic.OnlineServices.Lobby
 		public LobbyPermissionLevel PermissionLevel { get; set; }
 
 		/// <summary>
-		/// If true, this lobby will be associated with presence information. A user's presence can only be associated with one lobby at a time.
+		/// If true, this lobby will be associated with the local user's presence information. A user's presence can only be associated with one lobby at a time.
 		/// This affects the ability of the Social Overlay to show game related actions to take in the user's social graph.
 		/// The Social Overlay can handle only one of the following three options at a time:
 		/// using the bPresenceEnabled flags within the Sessions interface
@@ -92,6 +92,20 @@ namespace Epic.OnlineServices.Lobby
 		/// allow the kicked player to return to the session.
 		/// </summary>
 		public bool RejoinAfterKickRequiresInvite { get; set; }
+
+		/// <summary>
+		/// Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
+		/// found in the EOS header file, e.g. <see cref="Common.OptEpic" />. For some platforms, the value will be in the EOS Platform specific
+		/// header file. If null, the lobby will be unrestricted.
+		/// </summary>
+		public uint[] AllowedPlatformIds { get; set; }
+
+		/// <summary>
+		/// This value indicates whether or not the lobby owner allows crossplay interactions. If false, the lobby owner
+		/// will be treated as allowing crossplay. If it is set to true, AllowedPlatformIds must have a single entry that matches
+		/// the platform of the lobby owner.
+		/// </summary>
+		public bool CrossplayOptOut { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -110,6 +124,9 @@ namespace Epic.OnlineServices.Lobby
 		private System.IntPtr m_LobbyId;
 		private int m_EnableJoinById;
 		private int m_RejoinAfterKickRequiresInvite;
+		private System.IntPtr m_AllowedPlatformIds;
+		private uint m_AllowedPlatformIdsCount;
+		private int m_CrossplayOptOut;
 
 		public ProductUserId LocalUserId
 		{
@@ -207,6 +224,22 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		public uint[] AllowedPlatformIds
+		{
+			set
+			{
+				Helper.Set(value, ref m_AllowedPlatformIds, out m_AllowedPlatformIdsCount);
+			}
+		}
+
+		public bool CrossplayOptOut
+		{
+			set
+			{
+				Helper.Set(value, ref m_CrossplayOptOut);
+			}
+		}
+
 		public void Set(ref CreateLobbyOptions other)
 		{
 			m_ApiVersion = LobbyInterface.CreatelobbyApiLatest;
@@ -222,6 +255,8 @@ namespace Epic.OnlineServices.Lobby
 			LobbyId = other.LobbyId;
 			EnableJoinById = other.EnableJoinById;
 			RejoinAfterKickRequiresInvite = other.RejoinAfterKickRequiresInvite;
+			AllowedPlatformIds = other.AllowedPlatformIds;
+			CrossplayOptOut = other.CrossplayOptOut;
 		}
 
 		public void Set(ref CreateLobbyOptions? other)
@@ -241,6 +276,8 @@ namespace Epic.OnlineServices.Lobby
 				LobbyId = other.Value.LobbyId;
 				EnableJoinById = other.Value.EnableJoinById;
 				RejoinAfterKickRequiresInvite = other.Value.RejoinAfterKickRequiresInvite;
+				AllowedPlatformIds = other.Value.AllowedPlatformIds;
+				CrossplayOptOut = other.Value.CrossplayOptOut;
 			}
 		}
 
@@ -250,6 +287,7 @@ namespace Epic.OnlineServices.Lobby
 			Helper.Dispose(ref m_BucketId);
 			Helper.Dispose(ref m_LocalRTCOptions);
 			Helper.Dispose(ref m_LobbyId);
+			Helper.Dispose(ref m_AllowedPlatformIds);
 		}
 	}
 }

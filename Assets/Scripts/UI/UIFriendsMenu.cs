@@ -62,6 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         [Header("Controller")]
         public GameObject UIFirstSelected;
         public GameObject[] ControllerUIObjects;
+        public GameObject SelectedButtonOnClose;
 
         private EOSFriendsManager FriendsManager;
 
@@ -74,12 +75,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private float initialPanelAnchoredPosX;
 
-
 #if !ENABLE_INPUT_SYSTEM
         private void Awake()
         {
             // Ensure Disable Controller UI
-            foreach (GameObject o in ControllerUIObjects)
+            foreach(GameObject o in ControllerUIObjects)
             {
                 o.SetActive(false);
             }
@@ -270,7 +270,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             FriendOverlayContent.SetActive(false);
             UIActions.OnCollapseFriendsTab?.Invoke();
-
+            EventSystem.current.SetSelectedGameObject(SelectedButtonOnClose);
             collapsed = true;
         }
 

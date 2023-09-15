@@ -36,7 +36,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// The most recent version of the <see cref="Credentials" /> struct.
 		/// </summary>
-		public const int CredentialsApiLatest = 3;
+		public const int CredentialsApiLatest = 4;
 
 		/// <summary>
 		/// The most recent version of the <see cref="DeletePersistentAuth" /> API.
@@ -56,7 +56,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// The most recent version of the <see cref="Login" /> API.
 		/// </summary>
-		public const int LoginApiLatest = 2;
+		public const int LoginApiLatest = 3;
 
 		/// <summary>
 		/// The most recent version of the <see cref="Logout" /> API.
@@ -331,10 +331,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Link external account by continuing previous login attempt with a continuance token.
 		/// 
-		/// On Desktop and Mobile platforms, the user will be presented the Epic Account Portal to resolve their identity.
-		/// 
-		/// On Console, the user will login to their Epic Account using an external device, e.g. a mobile device or a desktop PC,
-		/// by browsing to the presented authentication URL and entering the device code presented by the game on the console.
+		/// The user will be presented with Epic Accounts onboarding flow managed by the SDK.
 		/// 
 		/// On success, the user will be logged in at the completion of this action.
 		/// This will commit this external account to the Epic Account and cannot be undone in the SDK.
@@ -517,7 +514,7 @@ namespace Epic.OnlineServices.Auth
 		{
 			OnLoginStatusChangedCallback callback;
 			LoginStatusChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

@@ -5,7 +5,8 @@ namespace Epic.OnlineServices.IntegratedPlatform
 {
 	/// <summary>
 	/// Required initialization options to use with <see cref="Options" /> for Steam.
-	/// Steamworks API needs to be at least v1.48
+	/// Steamworks API needs to be at least v1.13
+	/// Steam Sanitization requires at least v1.45
 	/// <seealso cref="Options" />
 	/// </summary>
 	public struct SteamOptions
@@ -36,7 +37,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// <summary>
 		/// Used to specify the minor version of the Steam SDK your game is compiled against, e.g.:
 		/// 
-		/// Options.SteamMinorVersion = 48;
+		/// Options.SteamMinorVersion = 57;
 		/// </summary>
 		public uint SteamMinorVersion { get; set; }
 

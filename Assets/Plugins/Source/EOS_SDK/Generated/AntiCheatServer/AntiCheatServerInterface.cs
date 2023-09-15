@@ -208,6 +208,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogEvent(ref AntiCheatCommon.LogEventOptions options)
 		{
@@ -232,6 +233,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogGameRoundEnd(ref AntiCheatCommon.LogGameRoundEndOptions options)
 		{
@@ -256,6 +258,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogGameRoundStart(ref AntiCheatCommon.LogGameRoundStartOptions options)
 		{
@@ -281,6 +284,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerDespawn(ref AntiCheatCommon.LogPlayerDespawnOptions options)
 		{
@@ -305,6 +309,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerRevive(ref AntiCheatCommon.LogPlayerReviveOptions options)
 		{
@@ -329,6 +334,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerSpawn(ref AntiCheatCommon.LogPlayerSpawnOptions options)
 		{
@@ -353,6 +359,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerTakeDamage(ref AntiCheatCommon.LogPlayerTakeDamageOptions options)
 		{
@@ -377,6 +384,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerTick(ref AntiCheatCommon.LogPlayerTickOptions options)
 		{
@@ -402,6 +410,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerUseAbility(ref AntiCheatCommon.LogPlayerUseAbilityOptions options)
 		{
@@ -426,6 +435,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		/// <returns>
 		/// <see cref="Result.Success" /> - If the event was logged successfully
 		/// <see cref="Result.InvalidParameters" /> - If input data was invalid
+		/// <see cref="Result.NotConfigured" /> - If called outside of BeginSession/EndSession boundaries
 		/// </returns>
 		public Result LogPlayerUseWeapon(ref AntiCheatCommon.LogPlayerUseWeaponOptions options)
 		{
@@ -706,7 +716,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		{
 			OnClientActionRequiredCallback callback;
 			AntiCheatCommon.OnClientActionRequiredCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -717,7 +727,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		{
 			OnClientAuthStatusChangedCallback callback;
 			AntiCheatCommon.OnClientAuthStatusChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -728,7 +738,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 		{
 			OnMessageToClientCallback callback;
 			AntiCheatCommon.OnMessageToClientCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

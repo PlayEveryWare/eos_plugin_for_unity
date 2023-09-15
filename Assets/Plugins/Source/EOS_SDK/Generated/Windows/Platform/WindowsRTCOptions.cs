@@ -16,9 +16,15 @@ namespace Epic.OnlineServices.Platform
 		/// </summary>
 		public WindowsRTCOptionsPlatformSpecificOptions? PlatformSpecificOptions { get; set; }
 
+		/// <summary>
+		/// Configures RTC behavior upon entering to any background application statuses
+		/// </summary>
+		public RTCBackgroundMode BackgroundMode { get; set; }
+
 		internal void Set(ref WindowsRTCOptionsInternal other)
 		{
 			PlatformSpecificOptions = other.PlatformSpecificOptions;
+			BackgroundMode = other.BackgroundMode;
 		}
 	}
 
@@ -27,6 +33,7 @@ namespace Epic.OnlineServices.Platform
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PlatformSpecificOptions;
+		private RTCBackgroundMode m_BackgroundMode;
 
 		public WindowsRTCOptionsPlatformSpecificOptions? PlatformSpecificOptions
 		{
@@ -43,10 +50,24 @@ namespace Epic.OnlineServices.Platform
 			}
 		}
 
+		public RTCBackgroundMode BackgroundMode
+		{
+			get
+			{
+				return m_BackgroundMode;
+			}
+
+			set
+			{
+				m_BackgroundMode = value;
+			}
+		}
+
 		public void Set(ref WindowsRTCOptions other)
 		{
 			m_ApiVersion = PlatformInterface.RtcoptionsApiLatest;
 			PlatformSpecificOptions = other.PlatformSpecificOptions;
+			BackgroundMode = other.BackgroundMode;
 		}
 
 		public void Set(ref WindowsRTCOptions? other)
@@ -55,6 +76,7 @@ namespace Epic.OnlineServices.Platform
 			{
 				m_ApiVersion = PlatformInterface.RtcoptionsApiLatest;
 				PlatformSpecificOptions = other.Value.PlatformSpecificOptions;
+				BackgroundMode = other.Value.BackgroundMode;
 			}
 		}
 

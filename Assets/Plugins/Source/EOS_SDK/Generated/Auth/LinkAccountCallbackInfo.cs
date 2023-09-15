@@ -14,20 +14,18 @@ namespace Epic.OnlineServices.Auth
 		public Result ResultCode { get; set; }
 
 		/// <summary>
-		/// Context that was passed into <see cref="AuthInterface.LinkAccount" />
+		/// Context that was passed into <see cref="AuthInterface.LinkAccount" />.
 		/// </summary>
 		public object ClientData { get; set; }
 
 		/// <summary>
-		/// The Epic Account ID of the local user whose account has been linked during login
+		/// The Epic Account ID of the local user whose account has been linked during login.
 		/// </summary>
 		public EpicAccountId LocalUserId { get; set; }
 
 		/// <summary>
-		/// Optional data returned when ResultCode is <see cref="Result.AuthPinGrantCode" />.
-		/// 
-		/// Once the user has logged in with their Epic Online Services account, the account will be linked with the external account supplied when <see cref="AuthInterface.Login" /> was called.
-		/// <see cref="OnLinkAccountCallback" /> will be fired again with ResultCode in <see cref="LinkAccountCallbackInfo" /> set to <see cref="Result.Success" />.
+		/// Optional data that may be returned in the middle of the login flow, when neither the in-game overlay or a platform browser is used.
+		/// This data is present when the ResultCode is <see cref="Result.AuthPinGrantCode" />.
 		/// </summary>
 		public PinGrantInfo? PinGrantInfo { get; set; }
 

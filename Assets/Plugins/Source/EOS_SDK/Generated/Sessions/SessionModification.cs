@@ -16,7 +16,7 @@ namespace Epic.OnlineServices.Sessions
 		/// <summary>
 		/// The most recent version of the <see cref="AddAttribute" /> API.
 		/// </summary>
-		public const int SessionmodificationAddattributeApiLatest = 1;
+		public const int SessionmodificationAddattributeApiLatest = 2;
 
 		/// <summary>
 		/// Maximum length of the name of the attribute associated with the session
@@ -42,6 +42,11 @@ namespace Epic.OnlineServices.Sessions
 		/// The most recent version of the <see cref="RemoveAttribute" /> API.
 		/// </summary>
 		public const int SessionmodificationRemoveattributeApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="SetAllowedPlatformIds" /> API.
+		/// </summary>
+		public const int SessionmodificationSetallowedplatformidsApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="SetBucketId" /> API.
@@ -123,6 +128,27 @@ namespace Epic.OnlineServices.Sessions
 			optionsInternal.Set(ref options);
 
 			var funcResult = Bindings.EOS_SessionModification_RemoveAttribute(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Set the Allowed Platform IDs for the session.
+		/// </summary>
+		/// <param name="options">Options associated with allowed Platform IDs for this session.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if setting this parameter was successful
+		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result.InvalidParameters" /> if the attribution is missing information or otherwise invalid
+		/// </returns>
+		public Result SetAllowedPlatformIds(ref SessionModificationSetAllowedPlatformIdsOptions options)
+		{
+			SessionModificationSetAllowedPlatformIdsOptionsInternal optionsInternal = new SessionModificationSetAllowedPlatformIdsOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var funcResult = Bindings.EOS_SessionModification_SetAllowedPlatformIds(InnerHandle, ref optionsInternal);
 
 			Helper.Dispose(ref optionsInternal);
 

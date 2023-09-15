@@ -29,6 +29,7 @@ namespace Epic.OnlineServices.Sessions
 		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
+		/// Determines whether or not this session should be the one associated with the local user's presence information.
 		/// If true, this session will be associated with presence. Only one session at a time can have this flag true.
 		/// This affects the ability of the Social Overlay to show game related actions to take in the user's social graph.
 		/// The Social Overlay can handle only one of the following three options at a time:
@@ -54,6 +55,13 @@ namespace Epic.OnlineServices.Sessions
 		/// will return <see cref="Result" /> code <see cref="Result.SessionsPlayerSanctioned" />
 		/// </summary>
 		public bool SanctionsEnabled { get; set; }
+
+		/// <summary>
+		/// Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
+		/// found in the EOS header file, e.g. <see cref="Common.OptEpic" />. For some platforms, the value will be in the EOS Platform specific
+		/// header file. If null, the session will be unrestricted.
+		/// </summary>
+		public uint[] AllowedPlatformIds { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -67,6 +75,8 @@ namespace Epic.OnlineServices.Sessions
 		private int m_PresenceEnabled;
 		private System.IntPtr m_SessionId;
 		private int m_SanctionsEnabled;
+		private System.IntPtr m_AllowedPlatformIds;
+		private uint m_AllowedPlatformIdsCount;
 
 		public Utf8String SessionName
 		{
@@ -124,6 +134,14 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
+		public uint[] AllowedPlatformIds
+		{
+			set
+			{
+				Helper.Set(value, ref m_AllowedPlatformIds, out m_AllowedPlatformIdsCount);
+			}
+		}
+
 		public void Set(ref CreateSessionModificationOptions other)
 		{
 			m_ApiVersion = SessionsInterface.CreatesessionmodificationApiLatest;
@@ -134,6 +152,7 @@ namespace Epic.OnlineServices.Sessions
 			PresenceEnabled = other.PresenceEnabled;
 			SessionId = other.SessionId;
 			SanctionsEnabled = other.SanctionsEnabled;
+			AllowedPlatformIds = other.AllowedPlatformIds;
 		}
 
 		public void Set(ref CreateSessionModificationOptions? other)
@@ -148,6 +167,7 @@ namespace Epic.OnlineServices.Sessions
 				PresenceEnabled = other.Value.PresenceEnabled;
 				SessionId = other.Value.SessionId;
 				SanctionsEnabled = other.Value.SanctionsEnabled;
+				AllowedPlatformIds = other.Value.AllowedPlatformIds;
 			}
 		}
 
@@ -157,6 +177,7 @@ namespace Epic.OnlineServices.Sessions
 			Helper.Dispose(ref m_BucketId);
 			Helper.Dispose(ref m_LocalUserId);
 			Helper.Dispose(ref m_SessionId);
+			Helper.Dispose(ref m_AllowedPlatformIds);
 		}
 	}
 }

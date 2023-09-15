@@ -63,11 +63,6 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// </summary>
 		public const int DuplicatefileoptionsApiLatest = DuplicatefileApiLatest;
 
-		/// <summary>
-		/// Maximum File size in bytes
-		/// </summary>
-		public const int FileMaxSizeBytes = (64 * 1024 * 1024);
-
 		public const int FilemetadataApiLatest = 3;
 
 		/// <summary>
@@ -93,7 +88,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <summary>
 		/// The most recent version of the <see cref="QueryFileList" /> API.
 		/// </summary>
-		public const int QueryfilelistApiLatest = 1;
+		public const int QueryfilelistApiLatest = 2;
 
 		/// <summary>
 		/// DEPRECATED! Use <see cref="QueryfilelistApiLatest" /> instead.
@@ -114,6 +109,11 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// DEPRECATED! Use <see cref="ReadfileApiLatest" /> instead.
 		/// </summary>
 		public const int ReadfileoptionsApiLatest = ReadfileApiLatest;
+
+		/// <summary>
+		/// Timestamp value representing an undefined time for Player Data Storage.
+		/// </summary>
+		public const int TimeUndefined = -1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="WriteFile" /> API.
@@ -288,6 +288,10 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="queryFileOptions">Object containing properties related to which user is querying files, and what file is being queried</param>
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in the completion callback</param>
 		/// <param name="completionCallback">This function is called when the query operation completes</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the query completes successfully and a file is found
+		/// <see cref="Result.NotFound" /> if no file is found
+		/// </returns>
 		public void QueryFile(ref QueryFileOptions queryFileOptions, object clientData, OnQueryFileCompleteCallback completionCallback)
 		{
 			QueryFileOptionsInternal queryFileOptionsInternal = new QueryFileOptionsInternal();
@@ -313,6 +317,9 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="queryFileListOptions">Object containing properties related to which user is querying files</param>
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in the completion callback</param>
 		/// <param name="completionCallback">This function is called when the query operation completes</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the query completes successfully (whether any files are found or not)
+		/// </returns>
 		public void QueryFileList(ref QueryFileListOptions queryFileListOptions, object clientData, OnQueryFileListCompleteCallback completionCallback)
 		{
 			QueryFileListOptionsInternal queryFileListOptionsInternal = new QueryFileListOptionsInternal();
@@ -339,6 +346,8 @@ namespace Epic.OnlineServices.PlayerDataStorage
 		/// <param name="completionCallback">This function is called when the read operation completes</param>
 		/// <returns>
 		/// A valid Player Data Storage File Request handle if successful, or <see langword="null" /> otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
+		/// <see cref="Result.Success" /> if the file is exists and the read operation completes successfully
+		/// <see cref="Result.NotFound" /> if no file is found
 		/// </returns>
 		public PlayerDataStorageFileTransferRequest ReadFile(ref ReadFileOptions readOptions, object clientData, OnReadFileCompleteCallback completionCallback)
 		{
@@ -430,10 +439,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			FileTransferProgressCallbackInfo callbackInfo;
 			if (Helper.TryGetStructCallback(ref data, out callback, out callbackInfo))
 			{
-				FileTransferProgressCallbackInfo dataObj;
-				Helper.Get(ref data, out dataObj);
-
-				callback(ref dataObj);
+				callback(ref callbackInfo);
 			}
 		}
 
@@ -477,10 +483,7 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			ReadFileDataCallbackInfo callbackInfo;
 			if (Helper.TryGetStructCallback(ref data, out callback, out callbackInfo))
 			{
-				ReadFileDataCallbackInfo dataObj;
-				Helper.Get(ref data, out dataObj);
-
-				var funcResult = callback(ref dataObj);
+				var funcResult = callback(ref callbackInfo);
 
 				return funcResult;
 			}
@@ -506,12 +509,9 @@ namespace Epic.OnlineServices.PlayerDataStorage
 			WriteFileDataCallbackInfo callbackInfo;
 			if (Helper.TryGetStructCallback(ref data, out callback, out callbackInfo))
 			{
-				WriteFileDataCallbackInfo dataObj;
-				Helper.Get(ref data, out dataObj);
-
 				System.ArraySegment<byte> outDataBufferArray;
 
-				var funcResult = callback(ref dataObj, out outDataBufferArray);
+				var funcResult = callback(ref callbackInfo, out outDataBufferArray);
 
 				Helper.Get(outDataBufferArray, out outDataWritten);
 				Helper.Copy(outDataBufferArray, outDataBuffer);
