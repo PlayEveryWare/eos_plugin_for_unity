@@ -1,5 +1,5 @@
 {
-    "name": "com.playeveryware.eos.samples.steam.utility",
+    "name": "com.playeveryware.eos-Editor.steam.utility",
     "rootNamespace": "",
     "references": [
         "GUID:68bd7fdb68ef2684e982e8a9825b18a5"
