@@ -21,13 +21,9 @@
 */
 
 using System;
-
 using UnityEngine;
-using Epic.OnlineServices;
-using Epic.OnlineServices.Platform;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 #if !EOS_DISABLE
 using Epic.OnlineServices;

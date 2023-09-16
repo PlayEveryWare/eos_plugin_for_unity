@@ -44,6 +44,12 @@
         {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
         
+        {"src":"Assets/Plugins/Source/Editor/Utility.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.steam.utility.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs.meta", "dest": "Editor/Utility/"},
+        
         {"comment": "----------------------------Standalone---------------------------------------------"},
         {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
         {"src":"Assets/Plugins/Standalone/Editor/*", "dest": "Editor/Standalone/"},
@@ -412,7 +418,7 @@
         {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam.meta"},
         {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam/"},
         {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord.meta"},
-        {"src": "Assets/Scripts/Discord/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord/"},
+        {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord/"},
         {"src":"Assets/Scripts/Oculus.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Oculus.meta"},
         {"src":"Assets/Scripts/Oculus/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Oculus/"},
         {"src":"Assets/Scripts/OpenID.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID.meta"},
