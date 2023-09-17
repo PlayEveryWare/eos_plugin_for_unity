@@ -14,7 +14,7 @@ namespace PlayEveryWare.EpicOnlineServices
         private string pathToJSONPackageDescription;
         private string pathToZipFile;
 
-        [UnityEditor.MenuItem("Tools/Install EOS zip")]
+        [MenuItem("Tools/EOS Plugin/Install EOS zip")]
         public static void ShowWindow()
         {
             GetWindow(typeof(InstallEpicOnlineServiceZip), false, "Install EOS Zip", true);

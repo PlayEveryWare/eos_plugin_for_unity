@@ -14,10 +14,11 @@ namespace Epic.OnlineServices.Connect
 		public Credentials? Credentials { get; set; }
 
 		/// <summary>
-		/// Additional non-authoritative information about the local user.
+		/// Additional information about the local user.
 		/// 
-		/// This field is required to be set and only used when authenticating the user using Amazon, Apple, Google, Nintendo Account, Nintendo Service Account, Oculus or the Device ID feature login.
-		/// When using other identity providers, set to <see langword="null" />.
+		/// This field is required to be set and used when authenticating the user using Amazon, Apple, Google, Nintendo Account, Nintendo Service Account, Oculus or the Device ID feature login.
+		/// It is also required for using the Lobbies and Sessions interfaces when running on the Nintendo Switch device, and using any other credential type than <see cref="ExternalCredentialType.NintendoNsaIdToken" />.
+		/// In all other cases, set this field to <see langword="null" />.
 		/// </summary>
 		public UserLoginInfo? UserLoginInfo { get; set; }
 	}

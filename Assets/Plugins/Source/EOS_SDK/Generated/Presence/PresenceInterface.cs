@@ -337,7 +337,7 @@ namespace Epic.OnlineServices.Presence
 		{
 			OnJoinGameAcceptedCallback callback;
 			JoinGameAcceptedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -348,7 +348,7 @@ namespace Epic.OnlineServices.Presence
 		{
 			OnPresenceChangedCallback callback;
 			PresenceChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

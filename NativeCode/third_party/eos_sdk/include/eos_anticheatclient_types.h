@@ -242,7 +242,6 @@ EOS_STRUCT(EOS_AntiCheatClient_RegisterPeerOptions, (
 	EOS_EAntiCheatCommonClientPlatform ClientPlatform;
 	/**
 	 * Time in seconds to allow newly registered peers to send the initial message containing their token.
-	 * Recommended value: 60
 	 */
 	uint32_t AuthenticationTimeout;
 	/** Deprecated - use PeerProductUserId instead */

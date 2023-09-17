@@ -14,6 +14,21 @@ namespace Epic.OnlineServices.UserInfo
 		}
 
 		/// <summary>
+		/// The most recent version of the <see cref="BestDisplayName" /> API.
+		/// </summary>
+		public const int BestdisplaynameApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="CopyBestDisplayName" /> API.
+		/// </summary>
+		public const int CopybestdisplaynameApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="CopyBestDisplayNameWithPlatform" /> API.
+		/// </summary>
+		public const int CopybestdisplaynamewithplatformApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="CopyExternalUserInfoByAccountIdOptions" /> struct.
 		/// </summary>
 		public const int CopyexternaluserinfobyaccountidApiLatest = 1;
@@ -44,6 +59,11 @@ namespace Epic.OnlineServices.UserInfo
 		public const int GetexternaluserinfocountApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="GetLocalPlatformType" /> API.
+		/// </summary>
+		public const int GetlocalplatformtypeApiLatest = 1;
+
+		/// <summary>
 		/// The maximum length of display names, in displayable characters
 		/// </summary>
 		public const int MaxDisplaynameCharacters = 16;
@@ -67,6 +87,98 @@ namespace Epic.OnlineServices.UserInfo
 		/// The most recent version of the <see cref="QueryUserInfoByExternalAccount" /> API.
 		/// </summary>
 		public const int QueryuserinfobyexternalaccountApiLatest = 1;
+
+		/// <summary>
+		/// <see cref="CopyBestDisplayName" /> is used to immediately retrieve a copy of user's best display name based on an Epic Account ID.
+		/// This uses data cached by a previous call to <see cref="QueryUserInfo" />, <see cref="QueryUserInfoByDisplayName" /> or <see cref="QueryUserInfoByExternalAccount" /> as well as <see cref="Connect.ConnectInterface.QueryExternalAccountMappings" />.
+		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutBestDisplayName, must be passed to <see cref="Release" /> to release the memory associated with it.
+		/// 
+		/// @details The current priority for picking display name is as follows:
+		/// 1. Target is online and friends with user, then use presence platform to determine display name
+		/// 2. Target is in same lobby or is the owner of a lobby search result, then use lobby platform to determine display name (this requires the target's product user id to be cached)
+		/// 3. Target is in same rtc room, then use rtc room platform to determine display name (this requires the target's product user id to be cached)
+		/// <seealso cref="QueryUserInfo" />
+		/// <seealso cref="QueryUserInfoByDisplayName" />
+		/// <seealso cref="QueryUserInfoByExternalAccount" />
+		/// <seealso cref="Connect.ConnectInterface.QueryExternalAccountMappings" />
+		/// <seealso cref="CopyBestDisplayNameWithPlatform" />
+		/// <seealso cref="CopyBestDisplayNameOptions" />
+		/// <seealso cref="BestDisplayName" />
+		/// <seealso cref="Release" />
+		/// </summary>
+		/// <param name="options">structure containing the input parameters</param>
+		/// <param name="outBestDisplayName">out parameter used to receive the <see cref="BestDisplayName" /> structure.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the information is available and passed out in OutBestDisplayName
+		/// <see cref="Result.UserInfoBestDisplayNameIndeterminate" /> unable to determine a cert friendly display name for user, one potential solution would be to call <see cref="CopyBestDisplayNameWithPlatform" /> with <see cref="Common.OptEpic" /> for the platform, see doc for more details
+		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
+		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result.NotFound" /> if the user info or product user id is not locally cached
+		/// </returns>
+		public Result CopyBestDisplayName(ref CopyBestDisplayNameOptions options, out BestDisplayName? outBestDisplayName)
+		{
+			CopyBestDisplayNameOptionsInternal optionsInternal = new CopyBestDisplayNameOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var outBestDisplayNameAddress = System.IntPtr.Zero;
+
+			var funcResult = Bindings.EOS_UserInfo_CopyBestDisplayName(InnerHandle, ref optionsInternal, ref outBestDisplayNameAddress);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get<BestDisplayNameInternal, BestDisplayName>(outBestDisplayNameAddress, out outBestDisplayName);
+			if (outBestDisplayName != null)
+			{
+				Bindings.EOS_UserInfo_BestDisplayName_Release(outBestDisplayNameAddress);
+			}
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// <see cref="CopyBestDisplayNameWithPlatform" /> is used to immediately retrieve a copy of user's best display name based on an Epic Account ID.
+		/// This uses data cached by a previous call to <see cref="QueryUserInfo" />, <see cref="QueryUserInfoByDisplayName" /> or <see cref="QueryUserInfoByExternalAccount" />.
+		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutBestDisplayName, must be passed to <see cref="Release" /> to release the memory associated with it.
+		/// 
+		/// @details The current priority for picking display name is as follows:
+		/// 1. If platform is non-epic, then use platform display name (if the platform is linked to the account)
+		/// 2. If platform is epic and user has epic display name, then use epic display name
+		/// 3. If platform is epic and user has no epic display name, then use linked external account display name
+		/// <seealso cref="QueryUserInfo" />
+		/// <seealso cref="QueryUserInfoByDisplayName" />
+		/// <seealso cref="QueryUserInfoByExternalAccount" />
+		/// <seealso cref="CopyBestDisplayNameWithPlatformOptions" />
+		/// <seealso cref="BestDisplayName" />
+		/// <seealso cref="Release" />
+		/// </summary>
+		/// <param name="options">structure containing the input parameters</param>
+		/// <param name="outBestDisplayName">out parameter used to receive the <see cref="BestDisplayName" /> structure.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the information is available and passed out in OutBestDisplayName
+		/// <see cref="Result.UserInfoBestDisplayNameIndeterminate" /> unable to determine a cert friendly display name for user
+		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
+		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result.NotFound" /> if the user info is not locally cached
+		/// </returns>
+		public Result CopyBestDisplayNameWithPlatform(ref CopyBestDisplayNameWithPlatformOptions options, out BestDisplayName? outBestDisplayName)
+		{
+			CopyBestDisplayNameWithPlatformOptionsInternal optionsInternal = new CopyBestDisplayNameWithPlatformOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var outBestDisplayNameAddress = System.IntPtr.Zero;
+
+			var funcResult = Bindings.EOS_UserInfo_CopyBestDisplayNameWithPlatform(InnerHandle, ref optionsInternal, ref outBestDisplayNameAddress);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get<BestDisplayNameInternal, BestDisplayName>(outBestDisplayNameAddress, out outBestDisplayName);
+			if (outBestDisplayName != null)
+			{
+				Bindings.EOS_UserInfo_BestDisplayName_Release(outBestDisplayNameAddress);
+			}
+
+			return funcResult;
+		}
 
 		/// <summary>
 		/// Fetches an external user info for a given external account ID.
@@ -210,6 +322,26 @@ namespace Epic.OnlineServices.UserInfo
 			optionsInternal.Set(ref options);
 
 			var funcResult = Bindings.EOS_UserInfo_GetExternalUserInfoCount(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// <see cref="GetLocalPlatformType" /> is used to retrieve the online platform type of the current running instance of the game.
+		/// <seealso cref="GetLocalPlatformTypeOptions" />
+		/// </summary>
+		/// <param name="options">structure containing the input parameters</param>
+		/// <returns>
+		/// the online platform type of the current running instance of the game
+		/// </returns>
+		public uint GetLocalPlatformType(ref GetLocalPlatformTypeOptions options)
+		{
+			GetLocalPlatformTypeOptionsInternal optionsInternal = new GetLocalPlatformTypeOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var funcResult = Bindings.EOS_UserInfo_GetLocalPlatformType(InnerHandle, ref optionsInternal);
 
 			Helper.Dispose(ref optionsInternal);
 

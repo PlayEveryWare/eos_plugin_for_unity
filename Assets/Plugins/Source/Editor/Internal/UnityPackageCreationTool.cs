@@ -31,7 +31,7 @@ using ConfigEditor = PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEd
 public class UnityPackageCreationTool : EditorWindow
 {
     //-------------------------------------------------------------------------
-    [MenuItem("Tools/Create Package")]
+    [MenuItem("Tools/EOS Plugin/Create Package")]
     public static void ShowWindow()
     {
         GetWindow(typeof(UnityPackageCreationTool), false, "Create Package", true);

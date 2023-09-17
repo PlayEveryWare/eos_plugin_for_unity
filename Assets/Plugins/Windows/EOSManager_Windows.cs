@@ -325,6 +325,11 @@ static string SteamDllName = "steam_api.dll";
         {
             return false;
         }
+
+        public int IsReadyForNetworkActivity()
+        {
+            return 1;
+        }
     }
 }
 #endif

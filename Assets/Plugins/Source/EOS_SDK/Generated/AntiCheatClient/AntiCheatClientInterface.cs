@@ -39,6 +39,9 @@ namespace Epic.OnlineServices.AntiCheatClient
 		/// </summary>
 		public System.IntPtr PeerSelf = (System.IntPtr)(-1);
 
+		/// <summary>
+		/// This file contains the deprecated types for EOS AntiCheat Client. In a future version, these types will be removed.
+		/// </summary>
 		public const int PollstatusApiLatest = 1;
 
 		public const int ProtectmessageApiLatest = 1;
@@ -575,7 +578,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		{
 			OnClientIntegrityViolatedCallback callback;
 			OnClientIntegrityViolatedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -586,7 +589,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		{
 			OnMessageToPeerCallback callback;
 			AntiCheatCommon.OnMessageToClientCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -597,7 +600,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		{
 			OnMessageToServerCallback callback;
 			OnMessageToServerCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -608,7 +611,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		{
 			OnPeerActionRequiredCallback callback;
 			AntiCheatCommon.OnClientActionRequiredCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -619,7 +622,7 @@ namespace Epic.OnlineServices.AntiCheatClient
 		{
 			OnPeerAuthStatusChangedCallback callback;
 			AntiCheatCommon.OnClientAuthStatusChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

@@ -209,6 +209,10 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <param name="options">Object containing properties related to which user is querying files, and what file is being queried</param>
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in the completion callback</param>
 		/// <param name="completionCallback">This function is called when the query operation completes</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the query completes successfully and a file is found
+		/// <see cref="Result.NotFound" /> if no file is found
+		/// </returns>
 		public void QueryFile(ref QueryFileOptions options, object clientData, OnQueryFileCompleteCallback completionCallback)
 		{
 			QueryFileOptionsInternal optionsInternal = new QueryFileOptionsInternal();
@@ -227,10 +231,16 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <summary>
 		/// Query the file metadata, such as file names, size, and a MD5 hash of the data, for all files available for current user based on their settings (such as game role) and tags provided.
 		/// This is not required before a file can be downloaded by name.
+		/// <seealso cref="GetFileMetadataCount" />
+		/// <seealso cref="CopyFileMetadataAtIndex" />
+		/// <seealso cref="CopyFileMetadataByFilename" />
 		/// </summary>
 		/// <param name="options">Object containing properties related to which user is querying files and the list of tags</param>
 		/// <param name="clientData">Optional pointer to help clients track this request, that is returned in the completion callback</param>
 		/// <param name="completionCallback">This function is called when the query operation completes</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the query completes successfully (whether any files are found or not)
+		/// </returns>
 		public void QueryFileList(ref QueryFileListOptions options, object clientData, OnQueryFileListCompleteCallback completionCallback)
 		{
 			QueryFileListOptionsInternal optionsInternal = new QueryFileListOptionsInternal();
@@ -257,6 +267,8 @@ namespace Epic.OnlineServices.TitleStorage
 		/// <param name="completionCallback">This function is called when the read operation completes</param>
 		/// <returns>
 		/// A valid Title Storage File Request handle if successful, or <see langword="null" /> otherwise. Data contained in the completion callback will have more detailed information about issues with the request in failure cases. This handle must be released when it is no longer needed
+		/// <see cref="Result.Success" /> if the file is exists and the read operation completes successfully
+		/// <see cref="Result.NotFound" /> if no file is found
 		/// </returns>
 		public TitleStorageFileTransferRequest ReadFile(ref ReadFileOptions options, object clientData, OnReadFileCompleteCallback completionCallback)
 		{
@@ -295,10 +307,7 @@ namespace Epic.OnlineServices.TitleStorage
 			FileTransferProgressCallbackInfo callbackInfo;
 			if (Helper.TryGetStructCallback(ref data, out callback, out callbackInfo))
 			{
-				FileTransferProgressCallbackInfo dataObj;
-				Helper.Get(ref data, out dataObj);
-
-				callback(ref dataObj);
+				callback(ref callbackInfo);
 			}
 		}
 
@@ -342,10 +351,7 @@ namespace Epic.OnlineServices.TitleStorage
 			ReadFileDataCallbackInfo callbackInfo;
 			if (Helper.TryGetStructCallback(ref data, out callback, out callbackInfo))
 			{
-				ReadFileDataCallbackInfo dataObj;
-				Helper.Get(ref data, out dataObj);
-
-				var funcResult = callback(ref dataObj);
+				var funcResult = callback(ref callbackInfo);
 
 				return funcResult;
 			}

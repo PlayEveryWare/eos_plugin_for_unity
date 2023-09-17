@@ -186,6 +186,10 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity;
                 }
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_ApplicationManagedIdentityLogin", "ApplicationManagedIdentityLogin"))
+                {
+                    toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.ApplicationManagedIdentityLogin;
+                }
             }
 
             return EnumCast<Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags, int>(toReturn);

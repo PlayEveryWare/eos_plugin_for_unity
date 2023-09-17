@@ -124,15 +124,14 @@ namespace PlayEveryWare.EpicOnlineServices
             UnityEngine.Debug.Log("EOSAndroid: Getting activity context...");
             AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
 
-            if(context != null)
+            if(activity != null)
             {
                 UnityEngine.Debug.Log("EOSAndroid: activity context found!");
                 AndroidJavaClass pluginClass = new AndroidJavaClass("com.epicgames.mobile.eossdk.EOSSDK");
 
                 UnityEngine.Debug.Log("EOSAndroid: call EOS SDK init.");
-                pluginClass.CallStatic("init", context);
+                pluginClass.CallStatic("init", activity);
             }
             else
             {

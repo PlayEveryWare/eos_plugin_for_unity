@@ -4,19 +4,18 @@
 namespace Epic.OnlineServices.Auth
 {
 	/// <summary>
-	/// A structure that contains login credentials. What is required is dependent on the type of login being initiated.
+	/// Login credentials filled as part of the <see cref="LoginOptions" /> struct for <see cref="AuthInterface.Login" /> API.
 	/// 
-	/// This is part of the input structure <see cref="LoginOptions" /> and related to device auth.
+	/// Required input parameters to be set depend on the login credential type.
+	/// Any parameters not being used must be set to <see langword="null" />. Otherwise, <see cref="Result.InvalidParameters" /> error is returned.
 	/// 
-	/// Use of the ID and Token fields differs based on the Type. They should be null, unless specified:
-	/// <see cref="LoginCredentialType.Password" /> - ID is the email address, and Token is the password.
-	/// <see cref="LoginCredentialType.ExchangeCode" /> - Token is the exchange code.
-	/// <see cref="LoginCredentialType.PersistentAuth" /> - If targeting console platforms, Token is the long lived refresh token. Otherwise N/A.
-	/// <see cref="LoginCredentialType.DeviceCode" /> - N/A.
-	/// <see cref="LoginCredentialType.Developer" /> - ID is the host (e.g. localhost:6547), and Token is the credential name registered in the EOS Developer Authentication Tool.
-	/// <see cref="LoginCredentialType.RefreshToken" /> - Token is the refresh token.
-	/// <see cref="LoginCredentialType.AccountPortal" /> - SystemAuthCredentialsOptions may be required if targeting mobile platforms. Otherwise N/A.
-	/// <see cref="LoginCredentialType.ExternalAuth" /> - Token is the external auth token specified by ExternalType.
+	/// <see cref="LoginCredentialType.Password" /> | ID is the email address, and Token is the password.
+	/// <see cref="LoginCredentialType.ExchangeCode" /> | Set ID to <see langword="null" />. Token is the exchange code.
+	/// <see cref="LoginCredentialType.PersistentAuth" /> | Set ID to <see langword="null" />. On console platforms, Token is the long-lived refresh token. Otherwise, set to <see langword="null" />.
+	/// <see cref="LoginCredentialType.Developer" /> | Set ID as the host (e.g. localhost:6547). Token is the credential name registered in the EOS Developer Authentication Tool.
+	/// <see cref="LoginCredentialType.RefreshToken" /> | Set ID to <see langword="null" />. Token is the refresh token.
+	/// <see cref="LoginCredentialType.AccountPortal" /> | Set ID and Token to <see langword="null" />. SystemAuthCredentialsOptions may be required on mobile platforms.
+	/// <see cref="LoginCredentialType.ExternalAuth" /> | Set ID to <see langword="null" /> or the External Account ID that belongs to the external auth token. Token is the external auth token specified by ExternalType. External Account IDs set to the ID are expected as either base-10 numeric strings for integer-based external Account IDs, or the actual string for everything else. If ID is provided, login will automatically be cancelled if the EOS SDK is able to and does detect the external account signing-out. If ID is provided, it must match the external account ID belonging to the auth-token, or login will fail.
 	/// <seealso cref="LoginCredentialType" />
 	/// <seealso cref="AuthInterface.Login" />
 	/// <seealso cref="DeletePersistentAuthOptions" />
@@ -24,17 +23,19 @@ namespace Epic.OnlineServices.Auth
 	public struct Credentials
 	{
 		/// <summary>
-		/// ID of the user logging in, based on <see cref="LoginCredentialType" />
+		/// Authentication ID value based on the used <see cref="LoginCredentialType" />.
+		/// If not used, must be set to <see langword="null" />.
 		/// </summary>
 		public Utf8String Id { get; set; }
 
 		/// <summary>
-		/// Credentials or token related to the user logging in
+		/// Authentication Token value based on the used <see cref="LoginCredentialType" />.
+		/// If not used, must be set to <see langword="null" />.
 		/// </summary>
 		public Utf8String Token { get; set; }
 
 		/// <summary>
-		/// Type of login. Needed to identify the auth method to use
+		/// Login credentials type based on the authentication method used.
 		/// </summary>
 		public LoginCredentialType Type { get; set; }
 

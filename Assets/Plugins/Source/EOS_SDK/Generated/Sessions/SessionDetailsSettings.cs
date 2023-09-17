@@ -38,6 +38,13 @@ namespace Epic.OnlineServices.Sessions
 		/// </summary>
 		public bool SanctionsEnabled { get; set; }
 
+		/// <summary>
+		/// Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
+		/// found in the EOS header file, e.g. <see cref="Common.OptEpic" />. For some platforms, the value will be in the EOS Platform specific
+		/// header file. If null, the session will be unrestricted.
+		/// </summary>
+		public uint[] AllowedPlatformIds { get; set; }
+
 		internal void Set(ref SessionDetailsSettingsInternal other)
 		{
 			BucketId = other.BucketId;
@@ -46,6 +53,7 @@ namespace Epic.OnlineServices.Sessions
 			PermissionLevel = other.PermissionLevel;
 			InvitesAllowed = other.InvitesAllowed;
 			SanctionsEnabled = other.SanctionsEnabled;
+			AllowedPlatformIds = other.AllowedPlatformIds;
 		}
 	}
 
@@ -59,6 +67,8 @@ namespace Epic.OnlineServices.Sessions
 		private OnlineSessionPermissionLevel m_PermissionLevel;
 		private int m_InvitesAllowed;
 		private int m_SanctionsEnabled;
+		private System.IntPtr m_AllowedPlatformIds;
+		private uint m_AllowedPlatformIdsCount;
 
 		public Utf8String BucketId
 		{
@@ -146,6 +156,21 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
+		public uint[] AllowedPlatformIds
+		{
+			get
+			{
+				uint[] value;
+				Helper.Get(m_AllowedPlatformIds, out value, m_AllowedPlatformIdsCount);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_AllowedPlatformIds, out m_AllowedPlatformIdsCount);
+			}
+		}
+
 		public void Set(ref SessionDetailsSettings other)
 		{
 			m_ApiVersion = SessionDetails.SessiondetailsSettingsApiLatest;
@@ -155,6 +180,7 @@ namespace Epic.OnlineServices.Sessions
 			PermissionLevel = other.PermissionLevel;
 			InvitesAllowed = other.InvitesAllowed;
 			SanctionsEnabled = other.SanctionsEnabled;
+			AllowedPlatformIds = other.AllowedPlatformIds;
 		}
 
 		public void Set(ref SessionDetailsSettings? other)
@@ -168,12 +194,14 @@ namespace Epic.OnlineServices.Sessions
 				PermissionLevel = other.Value.PermissionLevel;
 				InvitesAllowed = other.Value.InvitesAllowed;
 				SanctionsEnabled = other.Value.SanctionsEnabled;
+				AllowedPlatformIds = other.Value.AllowedPlatformIds;
 			}
 		}
 
 		public void Dispose()
 		{
 			Helper.Dispose(ref m_BucketId);
+			Helper.Dispose(ref m_AllowedPlatformIds);
 		}
 
 		public void Get(out SessionDetailsSettings output)

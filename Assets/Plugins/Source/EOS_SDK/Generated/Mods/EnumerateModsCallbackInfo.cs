@@ -9,7 +9,7 @@ namespace Epic.OnlineServices.Mods
 	public struct EnumerateModsCallbackInfo : ICallbackInfo
 	{
 		/// <summary>
-		/// Result code for the operation. <see cref="Result.Success" /> is returned if the enumeration was successfull, otherwise one of the error codes is returned.
+		/// Result code for the operation. <see cref="Result.Success" /> is returned if the enumeration was successful, otherwise one of the error codes is returned.
 		/// </summary>
 		public Result ResultCode { get; set; }
 

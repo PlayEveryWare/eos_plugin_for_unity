@@ -34,6 +34,11 @@ namespace Epic.OnlineServices.RTC
 		/// </summary>
 		public Utf8String RoomName { get; set; }
 
+		/// <summary>
+		/// The room option items.
+		/// </summary>
+		public Option[] RoomOptions { get; set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -45,6 +50,7 @@ namespace Epic.OnlineServices.RTC
 			ClientData = other.ClientData;
 			LocalUserId = other.LocalUserId;
 			RoomName = other.RoomName;
+			RoomOptions = other.RoomOptions;
 		}
 	}
 
@@ -55,6 +61,8 @@ namespace Epic.OnlineServices.RTC
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
 		private System.IntPtr m_RoomName;
+		private uint m_RoomOptionsCount;
+		private System.IntPtr m_RoomOptions;
 
 		public Result ResultCode
 		{
@@ -122,12 +130,28 @@ namespace Epic.OnlineServices.RTC
 			}
 		}
 
+		public Option[] RoomOptions
+		{
+			get
+			{
+				Option[] value;
+				Helper.Get<OptionInternal, Option>(m_RoomOptions, out value, m_RoomOptionsCount);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set<Option, OptionInternal>(ref value, ref m_RoomOptions, out m_RoomOptionsCount);
+			}
+		}
+
 		public void Set(ref JoinRoomCallbackInfo other)
 		{
 			ResultCode = other.ResultCode;
 			ClientData = other.ClientData;
 			LocalUserId = other.LocalUserId;
 			RoomName = other.RoomName;
+			RoomOptions = other.RoomOptions;
 		}
 
 		public void Set(ref JoinRoomCallbackInfo? other)
@@ -138,6 +162,7 @@ namespace Epic.OnlineServices.RTC
 				ClientData = other.Value.ClientData;
 				LocalUserId = other.Value.LocalUserId;
 				RoomName = other.Value.RoomName;
+				RoomOptions = other.Value.RoomOptions;
 			}
 		}
 
@@ -146,6 +171,7 @@ namespace Epic.OnlineServices.RTC
 			Helper.Dispose(ref m_ClientData);
 			Helper.Dispose(ref m_LocalUserId);
 			Helper.Dispose(ref m_RoomName);
+			Helper.Dispose(ref m_RoomOptions);
 		}
 
 		public void Get(out JoinRoomCallbackInfo output)

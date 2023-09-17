@@ -100,9 +100,6 @@ namespace PlayEveryWare.EpicOnlineServices
     [InitializeOnLoad]
     public static partial class MakefileUtil
     {
-        private const string debugToggleMenuName = "Tools/Build Libraries/Target Debug for MSbuild";
-        private const string debugTogglePrefName = "EOSMSBuildDebug";
-
         private static Regex WarningRegex;
         private static Regex ErrorRegex;
 
@@ -112,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices
             ErrorRegex = new Regex(@"error [a-zA-z0-9]*:", RegexOptions.IgnoreCase);
         }
 
-        [MenuItem("Tools/Build Libraries/Win32")]
+        [MenuItem("Tools/EOS Plugin/Build Libraries/Win32")]
         public static void BuildLibrariesWin32()
         {
 #if UNITY_EDITOR_WIN
@@ -120,7 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        [MenuItem("Tools/Build Libraries/Win64")]
+        [MenuItem("Tools/EOS Plugin/Build Libraries/Win64")]
         public static void BuildLibrariesWin64()
         {
 #if UNITY_EDITOR_WIN
@@ -128,8 +125,8 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        [MenuItem("Tools/Build Libraries/Win32", true)]
-        [MenuItem("Tools/Build Libraries/Win64", true)]
+        [MenuItem("Tools/EOS Plugin/Build Libraries/Win32", true)]
+        [MenuItem("Tools/EOS Plugin/Build Libraries/Win64", true)]
         public static bool CanBuildLibrariesWindows()
         {
 #if UNITY_EDITOR_WIN
@@ -139,7 +136,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        [MenuItem("Tools/Build Libraries/Mac")]
+        [MenuItem("Tools/EOS Plugin/Build Libraries/Mac")]
         public static void BuildLibrariesMac()
         {
 #if UNITY_EDITOR_OSX
@@ -147,7 +144,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        [MenuItem("Tools/Build Libraries/Mac", true)]
+        [MenuItem("Tools/EOS Plugin/Build Libraries/Mac", true)]
         public static bool CanBuildLibrariesMac()
         {
 #if UNITY_EDITOR_OSX
@@ -157,7 +154,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        [MenuItem("Tools/Build Libraries/Linux")]
+        [MenuItem("Tools/EOS Plugin/Build Libraries/Linux")]
         public static void BuildLibrariesLinux()
         {
 #if UNITY_EDITOR_LINUX
@@ -165,7 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        [MenuItem("Tools/Build Libraries/Linux", true)]
+        [MenuItem("Tools/EOS Plugin/Build Libraries/Linux", true)]
         public static bool CanBuildLibrariesLinux()
         {
 #if UNITY_EDITOR_LINUX

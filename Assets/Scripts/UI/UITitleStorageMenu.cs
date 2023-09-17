@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -113,9 +113,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
 #if UNITY_STANDALONE_WIN
             string platformTag = "PLATFORM_WINDOWS";
-#elif UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM
+#elif UNITY_STANDALONE_OSX
             string platformTag = "PLATFORM_MAC";
-#elif UNITY_STANDALONE_LINUX && EOS_PREVIEW_PLATFORM
+#elif UNITY_STANDALONE_LINUX
             string platformTag = "PLATFORM_LINUX";
 #elif UNITY_IOS
             string platformTag = "PLATFORM_IOS";

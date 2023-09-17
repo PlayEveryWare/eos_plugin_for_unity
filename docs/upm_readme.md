@@ -33,8 +33,6 @@ The follow target platforms are supported in Unity for the current release of th
 | Universal Windows Platform x86 | Not Supported |
 | Unity Web Player | Not Supported |
 
-To access Preview platforms, enable `EOS_PREVIEW_PLATFORM`.
-
 
 ## Supported EOS SDK Features
 As the EOS SDK continues releasing new features and functionality, the EOS Unity Plugin will be updated over time to support the new functionality. Here's the current list of EOS SDK features and their level of support in the EOS Unity Plugin:
@@ -112,7 +110,7 @@ To get the EOS working, the plugin needs to know some specific things about your
 
 ## Steps
 1) Open your Unity project with the integrated EOS Unity Plugin. 
-2) In the Unity editor, Open ```Tools -> EpicOnlineServicesConfigEditor```.
+2) In the Unity editor, Open ```Tools -> EOS Plugin -> Dev Portal Configuration```.
 
     ![EOS Config Menu](images/unity_tools_eosconfig.gif)
 

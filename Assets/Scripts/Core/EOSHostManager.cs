@@ -43,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #if !EOS_DISABLE
 
 #if UNITY_PS5 && !UNITY_EDITOR
-            EOSPSNManager.EnsurePS5Initialized();
+            EOSPSNManagerPS5.EnsurePS5Initialized();
 #endif
 
             EOSManager.Instance.Init(this);
