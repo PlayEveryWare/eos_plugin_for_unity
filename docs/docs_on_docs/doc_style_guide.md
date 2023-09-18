@@ -1,296 +1,375 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+<a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div> <a name="documentation-style-guide" />
+# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div>
+---
 
-
-Table of Contents
+## Table of Contents
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
-    * [Prerequisites](#prerequisites)
-3. [Templates](#templates)
-4. [Internal Markdown Reference](#internal-markdown-reference)
-5. [Source Code Contributor Notes](#source-code-contributor-notes)
+3. [Document Header](#header)
+    * [Logo](#logo)
+    * [Title](#title)
+    * [Table of Contents](#table-of-contents)
+4. [Document Body](#body)
+    * [Sections](#sections)
+    * [Subsections](#subsections)
+    * [Sub-Subsections](#sub-subsections)
+5. [See also](#see-also)
+    * [Templates](#templates)
+    * [Internal Markdown Reference](#internal-markdown-reference)
+    * [Contributor Notes](#contributor-notes)
 
+# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
----
+There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. Read more about that [here](readme-style.md).
 
-The purpose of this document is to describe a standard by which all other documents should follow. Use and follow this guide when creating new documentation for the project.
+The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
-<br />
+While this document does give examples for some of the most frequently utilized components of markdown, the intent is to describe *how* those components should be utilized in this project, not necessarily how to *implement* them.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$</div> <a name="getting-started" />
----
+As with most things in life, this document serves as a guide, not a rule book. For the most part it should be strictly followed, but a reasonable amount of deviation is permissable so long as the goal of proper communication is accomplished.
 
-## Prerequisites
+# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$ </div><a name="getting-started" />
 
-GitHub is the primary place where documentation for this project will be consumed. In order to contribute to documentation you must have access to GitHub, and (optionally) an offline markdown editor so you can see a visual representation of the document that you are writing. Please be aware that not all Markdown engines work the same, and the one that this guide considers to be "golden" is the GitHub markdown renderer, so before submitting documentation, please make sure it conforms to the style guide _as viewed through GitHub_.
+GitHub is the primary place where documentation for this project will be consumed. Therefore be sure to write your documentation using [GFM (GitHub Flavored Markdown)](https://github.github.com/gfm/).  
 
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+Please be aware that *not all Markdown engines work the same*. This style guide considers the rendering of the GitHub markdown renderer to be the standard, so before submitting documentation please make sure it conforms to the style guide _as viewed through GitHub_.
 
-```<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>```{:.html}
+You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b32f8f7d900c34a7dc00766bcfb9c) to be helpful.
 
-then if its a readme file it should be followed by the project logo image, three new lines, and a line.
+Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
-<div align="center"> <img src="/docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
+# <div align="center">$\textcolor{deeppink}{\textsf{Organizational Structure}}$ </div><a name="structure" />
 
-<br /><br /><br />
+Fundamentally (and very broadly speaking) every document should contain two or optionally three components:
 
----
+| Component | Purpose |
+| -: | :- |
+| Header | _Title, logo, table of contents, and overview (table of contents only as needed)_ |
+| Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
+| "See also" | _(Optional). This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
 
-```
-<div align="center"> <img src="docs/images/EOSPluginImage.gif" alt="Epic Online Services Plugin for Unity" /> </div>
-<br /><br /><br />
+# <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
 
----
-```
+## Logo:
 
-read mes have other qualifications, such that they should provide prereqs for the platform, as well as getting started instructions to create foe that platform, frequently, modification steps for the getting started on the main readme is fine. and more.
+Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md), and with the width of the image set to 10%.
 
-if it isnt a readme, it should be the doc header in magenta and centered, with the relative accesable name. names should be the title in lower case with '-' replacing ' ', then followed by a line '---'.
-
-# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
----
-
-```
-# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
----
-```
-
-if apropriate, a table of contents should follow here. a link within the same doc to a header is created by putting a # in front of the name of the header, if onw wasnt set, the name is the header in lowercase with '-' replacing ' '. not every header needs to be included here, just the common ones work.
-
-Table of Contents
-1. [First](#first)
-2. [Second](#second)
-    * [Sub Second](#sub-second)
-3. [Third Thing](#third-thing)
->  :heavy_exclamation_mark: The links wont appear here as they arent linked to real headers.
-
-```
-Table of Contents
-1. [First](#first)
-2. [Second](#second)
-    * [Sub Second](#sub-second)
-3. [Third Thing](#third-thing)
+Markdown:
+```markdown
+<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md">
+    <img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
+</a>
 ```
 
-Then we go into the main parts of the doc, starting with an overview of the doc, basically that describes what the doc is and why/how the doc is useful. this section should be marked with the magenta header named 'Overview' followed by an underline. images can be used through out to halp make things more clear.
+What it looks like:
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
----
+<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
-```
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+## Title:
+
+Following the PlayEveryWare, Inc. logo should be the title of the document in pink text, followed immediately by a horizontal rule. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
+
+As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
+Markdown:
+```markdown
+# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$ </div> <a name="documentation-style-guide" >
 ---
 ```
 
-major sections should have headers to break up the important pieces of it, as an example, in the main readme, the getting started section includes sub headers Prerequisites, Importing the Plugin, Samples, Configuring the Plugin, and Disable on selected platforms, these are denoted by using a header with two pound signs, ##, and notably goes right into the text with no following break. these should be important enough to be linked in the table of contents under their main header, if a table of contents exists
+## Table of Contents:
 
-## Subheader
+If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title, and *precede* the "Overview" section.
 
+As an example, the following is the markdown to create the table of contents as it exists at the top of *this* document:
+
+Markdown:
+```markdown
+## Table of Contents
+1. [Overview](#overview)
+2. [Getting Started](#getting-started)
+3. [Document Header](#header)
+    * [Logo](#logo)
+    * [Title](#title)
+    * [Table of Contents](#table-of-contents)
+4. [Document Body](#body)
+    * [Sections](#sections)
+    * [Subsections](#subsections)
+    * [Sub-Subsections](#sub-subsections)
+5. [See also](#see-also)
+    * [Templates](#templates)
+    * [Internal Markdown Reference](#internal-markdown-reference)
+    * [Contributor Notes](#contributor-notes)
 ```
-## Subheader
+
+Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a pound sign.
+
+To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
+
+# <div align="center">$\textcolor{deeppink}{\textsf{Body}}$ </div><a name="body" />
+
+## Sections:
+
+Document sections allow for clear organization of thought within a document.
+
+Each main section of the document should be denoted by the following markdown. Please note that it is important to have your first main section after the table of contents be an "Overview" section that gives the reader a summary of the purpose of the document. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to. 
+
+The document section headers share the same format as the document title, but without the horizontal bar.
+
+Example markdown for creating a document section:
+
+```markdown
+# <div align="center">$\textcolor{deeppink}{\textsf{Section Title}}$ </div><a name="section-title" />
 ```
 
-for sections within the subheader that needed to be broken up in to major parts, such as how the samples section in the main readme includes the two major points Importing the samples, and Running the samples. these also use the double pound, ##, so that the stand out as important infor when skimming the doc, but include a line break after the emphasize the importance and differentuate from the sub header.
+> [!NOTE]
+> Document sections should be important enough to include in a table of contents, if one exists for the document.
 
-## Major Part of SubHeader
-<br />
+## Subsections:
 
+Subsections of a document allow for clear organization of thought within a section. As an example, in this document (yes, the one you are reading right now) the section "Body" has subsections "Document Sections", "Document Subsections", "Document Sub-Subsections", and "Section Summary".
+
+As it becomes appropriate, further break down the document sections into subsections. Note for instance that this is itself a subsection. As an example, the markdown for the subsection title above this text is as follows:
+
+```markdown
+## Subsections
 ```
-## Major Part of Subheader
-<br />
+
+## Sub-Subsections:
+
+Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs, colored `#2f5faf` using the aforementioned LaTeX syntax, and with an `a` link added at the end to facilitate internal document linkages.
+
+For example:
+
+```markdown
+## $\textcolor{#2f5faf}{\textsf{Sub Subsection:}}}$ <a name="sub-subsection">
 ```
 
-if you need to ephasize a portion of text, without needing a whole subsection or part of one, such as how the readme in the overview has parts for the plugin features, repo contents and plugin detalis, these arent substantial enough that we need to grab the attention of anyone skimming past the overview, but the are substantial enough for people skimming through the overview, and important enough that other places in docs may need to link to them, but not important enough to need a link from a table of contents. these areas are marked with four pound signs, ####, and the name ending with a collon, :.
+> [!NOTE]
+> Just to be as clear as possible: note that the "Sub-Subsections" title above is itself a _sub section_, **not** a _**sub** subsection_.
 
-#### Important Content in a Text Portion:
+> [!IMPORTANT] 
+> Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
 
+## Section Summary:
+
+The difference between the different section depths is below, followed by the markdown that generates it:
+
+# <div align="center">$\textcolor{deeppink}{\textsf{Section Example}}$ </div><a name="section-example" />
+## Subsection Example
+## $\textcolor{#2f5faf}{\textsf{Sub-Subsection Example}}$ <a name="sub-subsection-example">
+
+```markdown
+# <div align="center">$\textcolor{deeppink}{\textsf{Section Example}}$ </div><a name="section-example" />
+## Subsection Example
+## $\textcolor{#2f5faf}{\textsf{Sub-Subsection Example}}$ <a name="sub-subsection-example">
 ```
-#### Important Content in a Text Portion:
+
+> [!IMPORTANT]
+> No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
+
+## Images:
+
+Images are to be utilized in specific circumstances:
+* Instructional references, like images of dropdown menus or highlighted parts of windows.
+* Introductory images, to make it clear or preview what what is being referenced in a section.
+
+An image can be displayed with the web link format, prefacing with an exclamation mark. While the text is generally hidden we want it to be informative in case the image doesn't load.
+
+Markdown example:
+
+```markdown
+![unity tools package manager](docs/images/unity_tools_package_manager.gif)
 ```
-Images are used in a few different ways,
-* projecting branding, such as the readme logo inclusion above
-* instructional refferences, like images of dropdown menus or hilighted parts of windows
-* introductory images, to make it clear or preview what what is being referenced in a section
-* centralized shared info across docs, in some case we dont want to link a bunch of docs to a common reference point that wont change offten, but when it does would be extra hassle to change in multiple docs. in these cases displaying an image and changing the image may be prefered.
 
-  an image can be displayed with the web link format, prefacing with an exclimation mark. while the text is generally hidden we want it to be informative incasew the image doesnt load.
+What it looks like:
 
-  ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
+![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
-  ```
-  ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
-  ```
+> [!IMPORTANT] 
+> Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other. 
+> 
+> _One notable exception is a circumstance where a small amount of text is utilized as a frequently referenced item, and in that circumstance it's important to have the first occurrence of the information be in text format so it can be easily maintained._
 
-  if an image needs to be formated in the doc, such as the logo on readme pages, then the html format is acceptable, but preferably avoided.
+## Links:
 
-  web links can be written but surroding the text you want to link in brackets, followed by the link in parentasies. when linking to a header within the same doc, the link can consist of just the poundsign followed by the header name, which is either specifically writtern, or just the header in lower case with '-' in place of ' '. when linking to another internal doc, the base folder can be the start of the link, so '/docs/android/readme_android.md' would be an acceptable link, a noteable exception is that the readme is located at just '/readme.me' from other docs. additionally you can link to a specifc area in another doc by adding the pundsign and name at the end of the link, '/readme.md#prerequisites'. when ending a sentance with a link, make sure the period is not included in the link, as this will help prevent confusion about what is and isnt linked.
+Web links can be written by surrounding the text you want as the link text in brackets, followed by the URL in parentheses. 
 
+When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
+
+When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
+
+Example markdown linking to a specific section within a document:
+
+```markdown  
+[Getting Started](#getting-started)
+```
+
+Example markdown linking to another document:
+
+```markdown
 [readme_android](/docs/android/readme_android.md)
+```
 
-  ```[readme_android](/docs/android/readme_android.md)```
-  
-[readme prerequisites](/readme.md#prerequisites)
+Example markdown linking to a specific section of another document:
 
-  ```[readme prerequisites](/readme.md#prerequisites)```
-  
+```markdown
 [android prerequisites](/docs/android/readme_android.md#prerequisites)
-
-  ```[android prerequisites](/docs/android/readme_android.md#prerequisites)```
-
-codeblocks and other factual information is display by being surrounded on both sides with three accent characters, '```', this is used for same line code. sometimes it is required for the accents to be on seperate lines for it to readpropperly, this will also expland it to a full code block, instead of inline. when writing a full code black, you can add 'cs' to the end of the accents to higlight and format the block to c#.
-
-```i++;```
-
-```
-```i++;```
-```
-and
-```cs
-++i;
 ```
 
-<!---
-html format needed to be used to display the codeblack format, this HTML should realistically never be used.
--->
-<pre class="highlight"><code>
-```cs
-++i;
+> [!IMPORTANT]
+> Periodically, a script should be run against all the documentation to check that all of the links are still valid. It's important to make sure links do not become stale or broken. Because of this, external links should be used sparingly.
+
+## Code:
+
+## $\textcolor{#2f5faf}{\textsf{Block}}$ <a name="block">
+
+For inline code formatting, use single ticks. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
+
+In order to display code blocks, put the code you wish to display between two lines containing only three ticks. For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown). See [here](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) for a list of all the languages that GitHub Flavored Markdown supports.
+
+> [!IMPORTANT]
+> When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would normally require horizontal scrolling to fully view. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
+
+## $\textcolor{#2f5faf}{\textsf{Inline}}$ <a name="inline">
+
+When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ` -> ` (spaces included for increased legibility). Inline code blocks are also appropriate to use when (in normal a normal sentence) you are referencing a variable.
+
+Example markdown:
+
+```markdown
+To create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
 ```
-</code></pre>
 
-when writing inline instructions, such as menu navigation, it should use the inline code block, and consist of the action names seperated by a ' -> ' using the spaces.
-
-to create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
-
-```
-to create a new c# script in unity navigate the menus through ```Assets -> Create -> C# Script```.
+```markdown
+The variable `foo` is much better than the variable `bar`.
 ```
 
-bullet points can be used when listing important information that has no particular order and created by adding '*' at the front of the line. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
+What it looks like:
 
-#### Things:
+To create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
+
+The variable `foo` is much better than the variable `bar`.
+
+## Lists:
+
+Ordered lists (such as a set of steps to perform in a particular order) should always be numbered, whereas lists that merely enumerate a set of options or items should be bulleted.
+
+Markdown for creating an unordered list:
+
+```markdown
+__Things:__
 * something
 * something else
-
-```
-#### Things:
-* something
-* something else
 ```
 
-while numbers should be used when for an ordered list, such as instructions, using numbers for a regular list or a list that does not specifically attach each line to a specific number. these should be prefaced with either the important content, or major portion of a sub header headers depending on location and importance of list.
+Markdown for creating an ordered list:
 
-#### How to Use EOS:
+```markdown
+__How to Use EOS:__
 1. try the samples
 2. integrate into your own game
 3. let even more people play your game.
-
-or
-#### Leaderboard:
-1. BurntPotato
-2. xxx_wyld_xxx
-3. Grant
-
-```
-#### How to Use EOS:
-1. try the samples
-2. integrate into your own game
-3. let even more people play your game.
-
-or
-#### Leaderboard:
-1. BurntPotato
-2. xxx_wyld_xxx
-3. Grant
 ```
 
-it is okay to have sections and subsections that entierly point to another doc. sometimes information is so big it needs its own doc, while still being important enough thatwe should point out its existence explicitly in a more important doc, such as many docs having an FAQ header.
+## Grids:
 
-grids can be used to organise large groups of related data in multiple groups. whileoccasionally being used to display a large amount of data in a smaller space to reduce the length of a document. created using '|' and '-' across multiple lines, with the headers being the first line, '-' in the second, and the data in the following ones. youll want to use spaces between the bars for better formatting.
+Often larger amounts of information need to be illustrated in the documentation. Information like this might be well suited to a table format. See the below example of markdown for an example of how to create a grid in markdown:
 
-
-| First | Second | Add mmore boxes to the right for more columns |
-| - | - | - |
-| stuff | | <- left blank |
-| another | something | add more boxes bellow for more rows |
-| alternates color | auto fills empty boxes -> |
-
-
-```
-| First | Second | Add mmore boxes to the right for more columns |
+```markdown
+| First | Second | Add more boxes to the right for more columns |
 | - | - | - |
 | stuff | | <- left blank |
 | another | something | add more boxes bellow for more rows |
 | alternates color | auto fills empty boxes -> |
 ```
 
-collapsed sections can be used to to hold relevant information that may otherwise be optional, similar inofrmation presented differnetly, conditoinally important information that might otherwise make the doc too long for for the average reader. notably, while a header can be put within a colapsed section, the results of linking to it wont open the section so visually fails for a reader. its recomended that a header be made before sections witha colapseable place. html formating is used to achieve this feature. its best to have a newline immedietly after the colapsing text.
+What it looks like:
 
-#### Colapsed stuff:
+| First | Second | Add more boxes to the right for more columns |
+| - | - | - |
+| stuff | | <- left blank |
+| another | something | add more boxes bellow for more rows |
+| alternates color | auto fills empty boxes -> |
+
+> [!WARNING] 
+> Use tables only when the values within the table are linear, that is, each row of the table should pertain to one item, and all other rows should pertain to items of the same type.
+
+## Collapsed Sections:
+
+When there is a large amount of information that may or may not be immediately pertinent to the documentation, it may be wise to include it in a collapsed section of the document, making it clear that the information exists, albeit in a collapsed manner. This helps avoid a situation where too much information of variable utility is displayed on the screen, while still making the information accessible if needed.
+
+Markdown for collapsing content:
+
+```markdown
+#### Collapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
-<br />
+Surprise!
+</details>
+```
+
+What it looks like:
+
+#### Collapsed stuff:
+<details>
+  <summary><b>Find a surprise hidden here</b></summary>
 Surprise!
 </details>
 
-```
-#### Colapsed stuff:
-<details>
-  <summary><b>Find a surprise hidden here</b></summary>
-<br />
-Surprise!
-</details>
-```
+> [!WARNING] 
+> Collapsed sections have a tendency to be overlooked by readers, so be cautions about what you choose to put within them, and in many cases it might be more effective to break up your documentation into more than one file.
 
-mermaid is the formatting we use for displaying flowcharts about the plugin. these will likely be used similarly to regular images. You can find info and examples [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+## Mermaid:
 
-notes are ocasionally desired to include in a doc, they should be used for important edge cases, or reminder information, that would otherwise overbulk a doc, but is still key info for the many people outside of the core usage path. it is denoted by the '>' character followed by the :heavy_exclamation_mark: emoji, the emoji should be spelled out, and not coped in as a caracter, for better rendering across markdown viewers. additionally the note should be indented to be in line with the line that the note is related to, to have quicker readability when a note is applicable to things like the last instruction of the set, or at the end of the set of instructions.
+Mermaid is the formatting we use for displaying flowcharts about the plugin. From the perspective of style guidelines, these flowcharts can be thought of as images, with the added functionality that they are interactive. [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
-> :heavy_exclamation_mark: there is another doc for code style
+## Alerts:
 
-```
-> :heavy_exclamation_mark: there is another doc for code style
-```
+This section is a copy of [a discussion](https://github.com/orgs/community/discussions/16925) of these features when they were first introduced to GFM.
 
-grid notes are currently unused and need to be figured out how to use the effectively. they are a combination of notes and grids to make a more standout notice.
+Alerts are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content. Use the "note" alert for important details that might escape observation if someone is skimming the document, use the "important" alert to describe things that _must_ or must _not_ be done in order to succeed in the documented task, and use the "warning" alert to highlight potential risks.
 
-| :heavy_exclamation_mark: We love doc contributions. |
-|-|
+**An example of all three types:**
 
-```
-| :heavy_exclamation_mark: We love doc contributions. |
-|-|
+```markdown
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
+
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
 ```
 
-prereqs as a concept should be used to list all the needed info before starting the project. include plenty of links, for instance to getting started docs for an engine, or to the download of the engine version.
+**Here is how they are displayed:**
 
-<br />
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Templates}}$</div> <a name="templates" />
----
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
 
-you can use the templates here by copying them and replacing the content within the ```[ ]``` including the brackets themselves, with the the appropriate content. they are mainly blank space holders, so you can decide whats needed, be it a list, a ! notice, an image, or whatever. make sure to update the pink headers and table of contests if used as well. you can add and remove sections as needed, in the case of the readmes more reduction of sections than additions is expected, while the basic one is meant to  added to and removed from to whatever custom needs the particular doc will have.
-With the readmes, since the main one holds most of the info, it is cuurently our prefernce to write additional readmes with changes and heavy link refences to the  original, as it cuts down on the amount of time and changes needed during updates.
-that prefernce includes external docs as well, which should heavily link to first party docs related to our prefernces, to keep that information as up to date as possible. such as having a link to unity's android setup steps, which we shouldnt need to rewrite, but also the link would be for the unity doc with our specific unity version, not just the newest doc, as that may also be different for our targeted enviornment.
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
+
+# <div align="center">$\textcolor{deeppink}{\textsf{See also}}$ </div><a name="see-also" />
+
+## Templates
+
+You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
+
+They are mainly blank space holders, so you can decide whats needed, be it a list, an alert, an image, or whatever. 
 
 [Basic Template](/docs/docs_on_docs/template_basic.md)
 
 [ReadMe Template](/docs/docs_on_docs/template_readme.md)
 
-<br />
-
-# <div align="center">$\textcolor{deeppink}{\textsf{Internal Markdown Reference}}$</div> <a name="internal-markdown-reference" />
----
+## Internal Markdown reference
 
 You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
 
-<br />
-
-# <div align="center">$\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$</div> <a name="source-code-contributor-notes" />
----
+## Contributor Notes
 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
-
-  
