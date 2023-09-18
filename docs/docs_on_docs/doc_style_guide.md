@@ -137,12 +137,12 @@ As it becomes appropriate, further break down the document sections into subsect
 
 ## Sub-Subsections:
 
-Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs, colored `#2f5faf` using the aforementioned LaTeX syntax, and with an `a` link added at the end to facilitate internal document linkages.
+Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs, colored `deeppink` using the aforementioned LaTeX syntax, and with an `a` link added at the end to facilitate internal document linkages.
 
 For example:
 
 ```markdown
-## $\textcolor{#2f5faf}{\textsf{Sub Subsection:}}}$ <a name="sub-subsection">
+## $\textcolor{deeppink}{\textsf{Sub Subsection:}}}$ <a name="sub-subsection">
 ```
 
 > [!NOTE]
@@ -157,12 +157,12 @@ The difference between the different section depths is below, followed by the ma
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Section Example}}$ </div><a name="section-example" />
 ## Subsection Example
-## $\textcolor{#2f5faf}{\textsf{Sub-Subsection Example}}$ <a name="sub-subsection-example">
+## $\textcolor{deeppink}{\textsf{Sub-Subsection Example}}$ <a name="sub-subsection-example">
 
 ```markdown
 # <div align="center">$\textcolor{deeppink}{\textsf{Section Example}}$ </div><a name="section-example" />
 ## Subsection Example
-## $\textcolor{#2f5faf}{\textsf{Sub-Subsection Example}}$ <a name="sub-subsection-example">
+## $\textcolor{deeppink}{\textsf{Sub-Subsection Example}}$ <a name="sub-subsection-example">
 ```
 
 > [!IMPORTANT]
