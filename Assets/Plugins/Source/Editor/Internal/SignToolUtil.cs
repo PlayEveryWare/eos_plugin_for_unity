@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string ConfigName = "eos_plugin_signing_config.json";
         private EOSConfigFile<EOSPluginEditorSigningConfig> configFile;
 
-        [MenuItem("Tools/Sign DLLs")]
+        [MenuItem("Tools/EOS Plugin/Sign DLLs")]
         static void SignAllDLLs()
         {
             var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
@@ -68,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        [MenuItem("Tools/Sign DLLs", true)]
+        [MenuItem("Tools/EOS Plugin/Sign DLLs", true)]
         static bool CanSignDLLs()
         {
 #if UNITY_EDITOR_WIN

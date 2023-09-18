@@ -8,7 +8,7 @@
  * You can use stats to determine when to unlock achievements and how to use rank users in leaderboards.
  * All Stats Interface calls take a handle of type EOS_HStats as the first parameter.
  * This handle can be retrieved from an EOS_HPlatform handle by using the EOS_Platform_GetStatsInterface function.
- * 
+ *
  * @see EOS_Platform_GetStatsInterface
  */
 

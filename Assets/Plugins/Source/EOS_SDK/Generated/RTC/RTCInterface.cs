@@ -24,6 +24,11 @@ namespace Epic.OnlineServices.RTC
 		public const int AddnotifyparticipantstatuschangedApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="AddNotifyRoomStatisticsUpdated" /> API.
+		/// </summary>
+		public const int AddnotifyroomstatisticsupdatedApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="BlockParticipant" /> API.
 		/// </summary>
 		public const int BlockparticipantApiLatest = 1;
@@ -37,6 +42,15 @@ namespace Epic.OnlineServices.RTC
 		/// The most recent version of the <see cref="LeaveRoom" /> API.
 		/// </summary>
 		public const int LeaveroomApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="Option" /> struct.
+		/// </summary>
+		public const int OptionApiLatest = 1;
+
+		public const int OptionKeyMaxcharcount = 256;
+
+		public const int OptionValueMaxcharcount = 256;
 
 		/// <summary>
 		/// The most recent version of the <see cref="ParticipantMetadata" /> struct.
@@ -105,7 +119,7 @@ namespace Epic.OnlineServices.RTC
 		/// You can use this notification to detect internal automatic RTC blocks due to block lists.
 		/// When a participant joins a room and while the system resolves the block list status of said participant, the participant is set to blocked and you'll receive
 		/// a notification with ParticipantStatus set to <see cref="RTCParticipantStatus.Joined" /> and bParticipantInBlocklist set to true.
-		/// Once the block list status is resolved, if the player is not in any applicable block list(s), it is then unblocked a new notification is sent with
+		/// Once the block list status is resolved, if the player is not in any applicable block list(s), it is then unblocked and a new notification is sent with
 		/// ParticipantStatus set to <see cref="RTCParticipantStatus.Joined" /> and bParticipantInBlocklist set to false.
 		/// This notification is also raised when the local user joins the room, but NOT when the local user leaves the room.
 		/// <seealso cref="Common.InvalidNotificationid" />
@@ -127,6 +141,36 @@ namespace Epic.OnlineServices.RTC
 			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
 			var funcResult = Bindings.EOS_RTC_AddNotifyParticipantStatusChanged(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.AssignNotificationIdToCallback(clientDataAddress, funcResult);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Register to receive notifications to receiving periodical statistics update. If the returned NotificationId is valid, you must call
+		/// <see cref="RemoveNotifyRoomStatisticsUpdated" /> when you no longer wish to have your StatisticsUpdateHandler called.
+		/// <seealso cref="Common.InvalidNotificationid" />
+		/// <seealso cref="RemoveNotifyRoomStatisticsUpdated" />
+		/// </summary>
+		/// <param name="clientData">Arbitrary data that is passed back in the StatisticsUpdateHandler</param>
+		/// <param name="completionDelegate">The callback to be fired when a statistics updated.</param>
+		/// <returns>
+		/// Notification ID representing the registered callback if successful, an invalid NotificationId if not
+		/// </returns>
+		public ulong AddNotifyRoomStatisticsUpdated(ref AddNotifyRoomStatisticsUpdatedOptions options, object clientData, OnRoomStatisticsUpdatedCallback statisticsUpdateHandler)
+		{
+			AddNotifyRoomStatisticsUpdatedOptionsInternal optionsInternal = new AddNotifyRoomStatisticsUpdatedOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var statisticsUpdateHandlerInternal = new OnRoomStatisticsUpdatedCallbackInternal(OnRoomStatisticsUpdatedCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, statisticsUpdateHandler, statisticsUpdateHandlerInternal);
+
+			var funcResult = Bindings.EOS_RTC_AddNotifyRoomStatisticsUpdated(InnerHandle, ref optionsInternal, clientDataAddress, statisticsUpdateHandlerInternal);
 
 			Helper.Dispose(ref optionsInternal);
 
@@ -257,6 +301,17 @@ namespace Epic.OnlineServices.RTC
 		}
 
 		/// <summary>
+		/// Unregister a previously bound notification handler from receiving periodical statistics update notifications
+		/// </summary>
+		/// <param name="notificationId">The Notification ID representing the registered callback</param>
+		public void RemoveNotifyRoomStatisticsUpdated(ulong notificationId)
+		{
+			Bindings.EOS_RTC_RemoveNotifyRoomStatisticsUpdated(InnerHandle, notificationId);
+
+			Helper.RemoveCallbackByNotificationId(notificationId);
+		}
+
+		/// <summary>
 		/// Use this function to control settings for the specific room.
 		/// 
 		/// The available settings are documented as part of <see cref="SetRoomSettingOptions" />.
@@ -314,7 +369,7 @@ namespace Epic.OnlineServices.RTC
 		{
 			OnDisconnectedCallback callback;
 			DisconnectedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -347,7 +402,18 @@ namespace Epic.OnlineServices.RTC
 		{
 			OnParticipantStatusChangedCallback callback;
 			ParticipantStatusChangedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnRoomStatisticsUpdatedCallbackInternal))]
+		internal static void OnRoomStatisticsUpdatedCallbackInternalImplementation(ref RoomStatisticsUpdatedInfoInternal data)
+		{
+			OnRoomStatisticsUpdatedCallback callback;
+			RoomStatisticsUpdatedInfo callbackInfo;
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

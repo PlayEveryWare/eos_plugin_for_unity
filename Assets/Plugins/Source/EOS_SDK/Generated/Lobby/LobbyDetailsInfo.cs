@@ -60,6 +60,18 @@ namespace Epic.OnlineServices.Lobby
 		/// </summary>
 		public bool RejoinAfterKickRequiresInvite { get; set; }
 
+		/// <summary>
+		/// If true, this lobby will be associated with the local user's presence information.
+		/// </summary>
+		public bool PresenceEnabled { get; set; }
+
+		/// <summary>
+		/// Array of platform IDs indicating the player platforms allowed to register with the session. Platform IDs are
+		/// found in the EOS header file, e.g. <see cref="Common.OptEpic" />. For some platforms, the value will be in the EOS Platform specific
+		/// header file. If null, the lobby will be unrestricted.
+		/// </summary>
+		public uint[] AllowedPlatformIds { get; set; }
+
 		internal void Set(ref LobbyDetailsInfoInternal other)
 		{
 			LobbyId = other.LobbyId;
@@ -73,6 +85,8 @@ namespace Epic.OnlineServices.Lobby
 			RTCRoomEnabled = other.RTCRoomEnabled;
 			AllowJoinById = other.AllowJoinById;
 			RejoinAfterKickRequiresInvite = other.RejoinAfterKickRequiresInvite;
+			PresenceEnabled = other.PresenceEnabled;
+			AllowedPlatformIds = other.AllowedPlatformIds;
 		}
 	}
 
@@ -91,6 +105,9 @@ namespace Epic.OnlineServices.Lobby
 		private int m_RTCRoomEnabled;
 		private int m_AllowJoinById;
 		private int m_RejoinAfterKickRequiresInvite;
+		private int m_PresenceEnabled;
+		private System.IntPtr m_AllowedPlatformIds;
+		private uint m_AllowedPlatformIdsCount;
 
 		public Utf8String LobbyId
 		{
@@ -251,6 +268,36 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		public bool PresenceEnabled
+		{
+			get
+			{
+				bool value;
+				Helper.Get(m_PresenceEnabled, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_PresenceEnabled);
+			}
+		}
+
+		public uint[] AllowedPlatformIds
+		{
+			get
+			{
+				uint[] value;
+				Helper.Get(m_AllowedPlatformIds, out value, m_AllowedPlatformIdsCount);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_AllowedPlatformIds, out m_AllowedPlatformIdsCount);
+			}
+		}
+
 		public void Set(ref LobbyDetailsInfo other)
 		{
 			m_ApiVersion = LobbyDetails.LobbydetailsInfoApiLatest;
@@ -265,6 +312,8 @@ namespace Epic.OnlineServices.Lobby
 			RTCRoomEnabled = other.RTCRoomEnabled;
 			AllowJoinById = other.AllowJoinById;
 			RejoinAfterKickRequiresInvite = other.RejoinAfterKickRequiresInvite;
+			PresenceEnabled = other.PresenceEnabled;
+			AllowedPlatformIds = other.AllowedPlatformIds;
 		}
 
 		public void Set(ref LobbyDetailsInfo? other)
@@ -283,6 +332,8 @@ namespace Epic.OnlineServices.Lobby
 				RTCRoomEnabled = other.Value.RTCRoomEnabled;
 				AllowJoinById = other.Value.AllowJoinById;
 				RejoinAfterKickRequiresInvite = other.Value.RejoinAfterKickRequiresInvite;
+				PresenceEnabled = other.Value.PresenceEnabled;
+				AllowedPlatformIds = other.Value.AllowedPlatformIds;
 			}
 		}
 
@@ -291,6 +342,7 @@ namespace Epic.OnlineServices.Lobby
 			Helper.Dispose(ref m_LobbyId);
 			Helper.Dispose(ref m_LobbyOwnerUserId);
 			Helper.Dispose(ref m_BucketId);
+			Helper.Dispose(ref m_AllowedPlatformIds);
 		}
 
 		public void Get(out LobbyDetailsInfo output)

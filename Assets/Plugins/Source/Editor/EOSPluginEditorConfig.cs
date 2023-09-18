@@ -136,6 +136,11 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string ConfigName = "eos_plugin_version_config.json";
         private EOSConfigFile<EOSPluginEditorPrebuildConfig> configFile;
 
+        /// <summary>
+        /// It's possible for the config file to not load in certain cases (like making test builds).
+        /// </summary>
+        public bool IsValid => configFile != null;
+
         [InitializeOnLoadMethod]
         static void Register()
         {
@@ -221,7 +226,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        [MenuItem("Edit/EOS Plugin Editor Configuration...")]
+        [MenuItem("Tools/EOS Plugin/Configuration")]
         public static void ShowWindow()
         {
             GetWindow(typeof(EOSPluginEditorConfigEditor));

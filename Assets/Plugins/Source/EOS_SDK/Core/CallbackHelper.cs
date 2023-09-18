@@ -38,6 +38,39 @@ namespace Epic.OnlineServices
 		}
 
 		/// <summary>
+		/// Tries to get the callback associated with the given internal callback info.
+		/// </summary>
+		/// <typeparam name="TCallbackInfoInternal">The internal callback info type.</typeparam>
+		/// <typeparam name="TCallback">The callback type.</typeparam>
+		/// <typeparam name="TCallbackInfo">The callback info type.</typeparam>
+		/// <param name="callbackInfoInternal">The internal callback info.</param>
+		/// <param name="callback">The callback associated with the internal callback info.</param>
+		/// <param name="callbackInfo">The callback info.</param>
+		/// <returns>Whether the callback was successfully retrieved.</returns>
+		internal static bool TryGetCallback<TCallbackInfoInternal, TCallback, TCallbackInfo>(ref TCallbackInfoInternal callbackInfoInternal, out TCallback callback, out TCallbackInfo callbackInfo)
+			where TCallbackInfoInternal : struct, ICallbackInfoInternal, IGettable<TCallbackInfo>
+			where TCallback : class
+			where TCallbackInfo : struct, ICallbackInfo
+		{
+			IntPtr clientDataAddress;
+			Get(ref callbackInfoInternal, out callbackInfo, out clientDataAddress);
+
+			callback = null;
+
+			lock (s_Callbacks)
+			{
+				DelegateHolder delegateHolder;
+				if (s_Callbacks.TryGetValue(clientDataAddress, out delegateHolder))
+				{
+					callback = delegateHolder.Public as TCallback;
+					return callback != null;
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
 		/// Tries to get the callback associated with the given internal callback info, and then removes it from the wrapper if applicable.
 		/// Single-use callbacks will be cleaned up by this function.
 		/// </summary>

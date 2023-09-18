@@ -621,7 +621,7 @@ namespace Epic.OnlineServices.Achievements
 		{
 			OnAchievementsUnlockedCallback callback;
 			OnAchievementsUnlockedCallbackInfo callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}
@@ -632,7 +632,7 @@ namespace Epic.OnlineServices.Achievements
 		{
 			OnAchievementsUnlockedCallbackV2 callback;
 			OnAchievementsUnlockedCallbackV2Info callbackInfo;
-			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			if (Helper.TryGetCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);
 			}

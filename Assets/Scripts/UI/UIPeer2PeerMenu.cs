@@ -259,7 +259,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SendOnClick()
         {
-            if (string.IsNullOrEmpty(currentChatDisplayName))
+            if (string.IsNullOrEmpty(currentChatDisplayName) && currentChatProductUserId == null)
             {
                 Debug.LogError("UIPeer2PeerMenu (SendOnClick): No chat window open.");
                 return;

@@ -204,9 +204,9 @@ namespace Epic.OnlineServices.Ecom
 		public const int QueryentitlementsApiLatest = 2;
 
 		/// <summary>
-		/// The maximum number of entitlements that may be queried in a single pass
+		/// The maximum number of entitlements that may be queried in a single QueryEntitlements API call.
 		/// </summary>
-		public const int QueryentitlementsMaxEntitlementIds = 32;
+		public const int QueryentitlementsMaxEntitlementIds = 256;
 
 		/// <summary>
 		/// The most recent version of the <see cref="QueryEntitlementToken" /> API.
@@ -231,7 +231,17 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// The maximum number of catalog items that may be queried in a single pass
 		/// </summary>
-		public const int QueryownershipMaxCatalogIds = 50;
+		public const int QueryownershipMaxCatalogIds = 400;
+
+		/// <summary>
+		/// The maximum number of Sandbox Ids that may be queried in a single pass.
+		/// </summary>
+		public const int QueryownershipMaxSandboxIds = 10;
+
+		/// <summary>
+		/// The most recent version of the <see cref="QueryOwnershipBySandboxIds" /> API.
+		/// </summary>
+		public const int QueryownershipbysandboxidsoptionsApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="QueryOwnershipToken" /> API.
@@ -902,6 +912,8 @@ namespace Epic.OnlineServices.Ecom
 		/// Query the entitlement information defined with Epic Online Services.
 		/// A set of entitlement names can be provided to filter the set of entitlements associated with the account.
 		/// This data will be cached for a limited time and retrieved again from the backend when necessary.
+		/// Depending on the number of entitlements passed, the SDK splits the query into smaller batch requests to the backend and aggregates the result.
+		/// Note: If one of the request batches fails, no data is cached and the entire query is marked as failed.
 		/// Use <see cref="CopyEntitlementByIndex" />, <see cref="CopyEntitlementByNameAndIndex" />, and <see cref="CopyEntitlementById" /> to get the entitlement details.
 		/// Use <see cref="GetEntitlementsByNameCount" /> to retrieve the number of entitlements with a specific entitlement name.
 		/// </summary>
@@ -948,6 +960,8 @@ namespace Epic.OnlineServices.Ecom
 		/// <summary>
 		/// Query the ownership status for a given list of catalog item IDs defined with Epic Online Services.
 		/// This data will be cached for a limited time and retrieved again from the backend when necessary
+		/// Depending on the number of catalog item ids passed, the SDK splits the query into smaller batch requests to the backend and aggregates the result.
+		/// Note: If one of the request batches fails, no data is cached and the entire query is marked as failed.
 		/// </summary>
 		/// <param name="options">structure containing the account and catalog item IDs to retrieve</param>
 		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate</param>
@@ -963,6 +977,28 @@ namespace Epic.OnlineServices.Ecom
 			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
 
 			Bindings.EOS_Ecom_QueryOwnership(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
+
+			Helper.Dispose(ref optionsInternal);
+		}
+
+		/// <summary>
+		/// Query the ownership status of all catalog item IDs under the given list of Sandbox IDs defined with Epic Online Services.
+		/// This data will be cached for a limited time and retrieved again from the backend when necessary.
+		/// </summary>
+		/// <param name="options">structure containing the account and Sandbox IDs to retrieve.</param>
+		/// <param name="clientData">arbitrary data that is passed back to you in the CompletionDelegate.</param>
+		/// <param name="completionDelegate">a callback that is fired when the async operation completes, either successfully or in error.</param>
+		public void QueryOwnershipBySandboxIds(ref QueryOwnershipBySandboxIdsOptions options, object clientData, OnQueryOwnershipBySandboxIdsCallback completionDelegate)
+		{
+			QueryOwnershipBySandboxIdsOptionsInternal optionsInternal = new QueryOwnershipBySandboxIdsOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var clientDataAddress = System.IntPtr.Zero;
+
+			var completionDelegateInternal = new OnQueryOwnershipBySandboxIdsCallbackInternal(OnQueryOwnershipBySandboxIdsCallbackInternalImplementation);
+			Helper.AddCallback(out clientDataAddress, clientData, completionDelegate, completionDelegateInternal);
+
+			Bindings.EOS_Ecom_QueryOwnershipBySandboxIds(InnerHandle, ref optionsInternal, clientDataAddress, completionDelegateInternal);
 
 			Helper.Dispose(ref optionsInternal);
 		}
@@ -1049,6 +1085,17 @@ namespace Epic.OnlineServices.Ecom
 		{
 			OnQueryOffersCallback callback;
 			QueryOffersCallbackInfo callbackInfo;
+			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
+			{
+				callback(ref callbackInfo);
+			}
+		}
+
+		[MonoPInvokeCallback(typeof(OnQueryOwnershipBySandboxIdsCallbackInternal))]
+		internal static void OnQueryOwnershipBySandboxIdsCallbackInternalImplementation(ref QueryOwnershipBySandboxIdsCallbackInfoInternal data)
+		{
+			OnQueryOwnershipBySandboxIdsCallback callback;
+			QueryOwnershipBySandboxIdsCallbackInfo callbackInfo;
 			if (Helper.TryGetAndRemoveCallback(ref data, out callback, out callbackInfo))
 			{
 				callback(ref callbackInfo);

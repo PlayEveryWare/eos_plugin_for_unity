@@ -24,6 +24,7 @@ namespace Epic.OnlineServices.Sessions
 		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
+		/// Determines whether or not this session should be the one associated with the local user's presence information.
 		/// If true, this session will be associated with presence. Only one session at a time can have this flag true.
 		/// This affects the ability of the Social Overlay to show game related actions to take in the user's social graph.
 		/// The Social Overlay can handle only one of the following three options at a time:

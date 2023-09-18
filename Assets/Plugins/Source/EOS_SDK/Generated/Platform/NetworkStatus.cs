@@ -4,20 +4,20 @@
 namespace Epic.OnlineServices.Platform
 {
 	/// <summary>
-	/// All possible states of the network
+	/// All possible states of the network.
 	/// </summary>
 	public enum NetworkStatus : int
 	{
 		/// <summary>
-		/// Network cannot be used.
+		/// Networking unavailable.
 		/// </summary>
 		Disabled = 0,
 		/// <summary>
-		/// We may not be connected to the internet. The network can still be used, but is expected to probably fail.
+		/// Not connected to the internet. Only local area networking (LAN) may be available.
 		/// </summary>
 		Offline = 1,
 		/// <summary>
-		/// We think we're connected to the internet.
+		/// Connected to the internet.
 		/// </summary>
 		Online = 2
 	}

@@ -19,7 +19,7 @@ namespace Epic.OnlineServices.Lobby
 		public ProductUserId LocalUserId { get; set; }
 
 		/// <summary>
-		/// If true, this lobby will be associated with the user's presence information. A user can only associate one lobby at a time with their presence information.
+		/// If true, this lobby will be associated with the local user's presence information. A user can only associate one lobby at a time with their presence information.
 		/// This affects the ability of the Social Overlay to show game related actions to take in the user's social graph.
 		/// The Social Overlay can handle only one of the following three options at a time:
 		/// using the bPresenceEnabled flags within the Sessions interface
@@ -39,6 +39,12 @@ namespace Epic.OnlineServices.Lobby
 		/// the specified lobby does not have an RTC Room enabled and will not cause errors.
 		/// </summary>
 		public LocalRTCOptions? LocalRTCOptions { get; set; }
+
+		/// <summary>
+		/// This value indicates whether or not the local user allows crossplay interactions. If it is false, the local user
+		/// will be treated as allowing crossplay.
+		/// </summary>
+		public bool CrossplayOptOut { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -49,6 +55,7 @@ namespace Epic.OnlineServices.Lobby
 		private System.IntPtr m_LocalUserId;
 		private int m_PresenceEnabled;
 		private System.IntPtr m_LocalRTCOptions;
+		private int m_CrossplayOptOut;
 
 		public LobbyDetails LobbyDetailsHandle
 		{
@@ -82,6 +89,14 @@ namespace Epic.OnlineServices.Lobby
 			}
 		}
 
+		public bool CrossplayOptOut
+		{
+			set
+			{
+				Helper.Set(value, ref m_CrossplayOptOut);
+			}
+		}
+
 		public void Set(ref JoinLobbyOptions other)
 		{
 			m_ApiVersion = LobbyInterface.JoinlobbyApiLatest;
@@ -89,6 +104,7 @@ namespace Epic.OnlineServices.Lobby
 			LocalUserId = other.LocalUserId;
 			PresenceEnabled = other.PresenceEnabled;
 			LocalRTCOptions = other.LocalRTCOptions;
+			CrossplayOptOut = other.CrossplayOptOut;
 		}
 
 		public void Set(ref JoinLobbyOptions? other)
@@ -100,6 +116,7 @@ namespace Epic.OnlineServices.Lobby
 				LocalUserId = other.Value.LocalUserId;
 				PresenceEnabled = other.Value.PresenceEnabled;
 				LocalRTCOptions = other.Value.LocalRTCOptions;
+				CrossplayOptOut = other.Value.CrossplayOptOut;
 			}
 		}
 

@@ -18,6 +18,26 @@ namespace Epic.OnlineServices.KWS
 		/// </summary>
 		public ProductUserId LocalUserId { get; set; }
 
+		/// <summary>
+		/// Recipient's associated KWS UserId
+		/// </summary>
+		public Utf8String KWSUserId { get; set; }
+
+		/// <summary>
+		/// Date of birth in ISO8601 form (YYYY-MM-DD)
+		/// </summary>
+		public Utf8String DateOfBirth { get; set; }
+
+		/// <summary>
+		/// Is this user a minor
+		/// </summary>
+		public bool IsMinor { get; set; }
+
+		/// <summary>
+		/// Parent email. This value may be set to an empty string if the originally registered email recipient declined to be the right person to give consent.
+		/// </summary>
+		public Utf8String ParentEmail { get; set; }
+
 		public Result? GetResultCode()
 		{
 			return null;
@@ -27,6 +47,10 @@ namespace Epic.OnlineServices.KWS
 		{
 			ClientData = other.ClientData;
 			LocalUserId = other.LocalUserId;
+			KWSUserId = other.KWSUserId;
+			DateOfBirth = other.DateOfBirth;
+			IsMinor = other.IsMinor;
+			ParentEmail = other.ParentEmail;
 		}
 	}
 
@@ -35,6 +59,10 @@ namespace Epic.OnlineServices.KWS
 	{
 		private System.IntPtr m_ClientData;
 		private System.IntPtr m_LocalUserId;
+		private System.IntPtr m_KWSUserId;
+		private System.IntPtr m_DateOfBirth;
+		private int m_IsMinor;
+		private System.IntPtr m_ParentEmail;
 
 		public object ClientData
 		{
@@ -74,10 +102,74 @@ namespace Epic.OnlineServices.KWS
 			}
 		}
 
+		public Utf8String KWSUserId
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_KWSUserId, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_KWSUserId);
+			}
+		}
+
+		public Utf8String DateOfBirth
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_DateOfBirth, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_DateOfBirth);
+			}
+		}
+
+		public bool IsMinor
+		{
+			get
+			{
+				bool value;
+				Helper.Get(m_IsMinor, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_IsMinor);
+			}
+		}
+
+		public Utf8String ParentEmail
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_ParentEmail, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_ParentEmail);
+			}
+		}
+
 		public void Set(ref PermissionsUpdateReceivedCallbackInfo other)
 		{
 			ClientData = other.ClientData;
 			LocalUserId = other.LocalUserId;
+			KWSUserId = other.KWSUserId;
+			DateOfBirth = other.DateOfBirth;
+			IsMinor = other.IsMinor;
+			ParentEmail = other.ParentEmail;
 		}
 
 		public void Set(ref PermissionsUpdateReceivedCallbackInfo? other)
@@ -86,6 +178,10 @@ namespace Epic.OnlineServices.KWS
 			{
 				ClientData = other.Value.ClientData;
 				LocalUserId = other.Value.LocalUserId;
+				KWSUserId = other.Value.KWSUserId;
+				DateOfBirth = other.Value.DateOfBirth;
+				IsMinor = other.Value.IsMinor;
+				ParentEmail = other.Value.ParentEmail;
 			}
 		}
 
@@ -93,6 +189,9 @@ namespace Epic.OnlineServices.KWS
 		{
 			Helper.Dispose(ref m_ClientData);
 			Helper.Dispose(ref m_LocalUserId);
+			Helper.Dispose(ref m_KWSUserId);
+			Helper.Dispose(ref m_DateOfBirth);
+			Helper.Dispose(ref m_ParentEmail);
 		}
 
 		public void Get(out PermissionsUpdateReceivedCallbackInfo output)

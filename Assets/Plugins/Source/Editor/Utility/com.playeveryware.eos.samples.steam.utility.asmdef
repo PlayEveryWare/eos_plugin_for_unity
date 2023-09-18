@@ -1,0 +1,22 @@
+{
+    "name": "com.playeveryware.eos-Editor.steam.utility",
+    "rootNamespace": "",
+    "references": [
+        "GUID:68bd7fdb68ef2684e982e8a9825b18a5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.rlabrecque.steamworks.net",
+            "expression": "",
+            "define": "STEAMWORKS_MODULE"
+        }
+    ],
+    "noEngineReferences": false
+}

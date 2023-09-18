@@ -4,13 +4,13 @@
 namespace Epic.OnlineServices.Auth
 {
 	/// <summary>
-	/// Intermediate data needed to complete account restriction verification during login flow, returned by <see cref="LoginCallbackInfo" /> when the ResultCode is <see cref="Result.AuthAccountFeatureRestricted" />
+	/// Intermediate data needed to complete account restriction verification during login flow, returned by <see cref="LoginCallbackInfo" /> when the ResultCode is <see cref="Result.AuthAccountFeatureRestricted" />.
 	/// The URI inside should be exposed to the user for entry in a web browser. The URI must be copied out of this struct before completion of the callback.
 	/// </summary>
 	public struct AccountFeatureRestrictedInfo
 	{
 		/// <summary>
-		/// The end-user verification URI. Users must be asked to open the page in a browser to address the restrictions
+		/// The end-user verification URI. Users must be asked to open the page in a browser to address the restrictions.
 		/// </summary>
 		public Utf8String VerificationURI { get; set; }
 

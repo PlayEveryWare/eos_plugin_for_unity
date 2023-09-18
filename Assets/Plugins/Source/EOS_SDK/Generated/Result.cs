@@ -314,6 +314,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		AuthNoRealId = 1080,
 		/// <summary>
+		/// Silent login failed when <see cref="Auth.LoginFlags.NoUserInterface" /> was specified, and user interaction is needed before the user can be logged in.
+		/// </summary>
+		AuthUserInterfaceRequired = 1090,
+		/// <summary>
 		/// An outgoing friend invitation is awaiting acceptance; sending another invite to the same user is erroneous
 		/// </summary>
 		FriendsInviteAwaitingAcceptance = 2000,
@@ -401,6 +405,10 @@ namespace Epic.OnlineServices
 		/// The checkout page failed to load
 		/// </summary>
 		EcomCheckoutLoadError = 4004,
+		/// <summary>
+		/// The player closed the purchase flow overlay after clicking the purchase button. The purchase may still go through, and the game needs to query unredeemed entitlements for a short time.
+		/// </summary>
+		EcomPurchaseProcessing = 4005,
 		/// <summary>
 		/// Session is already in progress
 		/// </summary>
@@ -662,6 +670,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		LobbyVoiceNotEnabled = 9019,
 		/// <summary>
+		/// The client platform does not match the allowed platform list for the lobby.
+		/// </summary>
+		LobbyPlatformNotAllowed = 9020,
+		/// <summary>
 		/// User callback that receives data from storage returned error.
 		/// </summary>
 		TitleStorageUserErrorFromDataCallback = 10000,
@@ -885,6 +897,14 @@ namespace Epic.OnlineServices
 		/// The desktop crossplay service is no longer running for an unknown reason.
 		/// </summary>
 		DesktopCrossplayServiceNotRunning = 19003,
+		/// <summary>
+		/// When sending the custom invite failed.
+		/// </summary>
+		CustomInvitesInviteFailed = 20000,
+		/// <summary>
+		/// The best display name could not be safely determined.
+		/// </summary>
+		UserInfoBestDisplayNameIndeterminate = 22000,
 		/// <summary>
 		/// An unexpected error that we cannot identify has occurred.
 		/// </summary>

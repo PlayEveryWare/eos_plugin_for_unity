@@ -28,12 +28,24 @@ namespace Epic.OnlineServices.Sessions
 		/// </summary>
 		public SessionDetailsSettings? Settings { get; set; }
 
+		/// <summary>
+		/// The Product User ID of the session owner. Null if the session is not owned by a user.
+		/// </summary>
+		public ProductUserId OwnerUserId { get; set; }
+
+		/// <summary>
+		/// The client id of the session owner. Null if the session is not owned by a server. The session is owned by a server if <see cref="Platform.Options.IsServer" /> is <see langword="true" />.
+		/// </summary>
+		public Utf8String OwnerServerClientId { get; set; }
+
 		internal void Set(ref SessionDetailsInfoInternal other)
 		{
 			SessionId = other.SessionId;
 			HostAddress = other.HostAddress;
 			NumOpenPublicConnections = other.NumOpenPublicConnections;
 			Settings = other.Settings;
+			OwnerUserId = other.OwnerUserId;
+			OwnerServerClientId = other.OwnerServerClientId;
 		}
 	}
 
@@ -45,6 +57,8 @@ namespace Epic.OnlineServices.Sessions
 		private System.IntPtr m_HostAddress;
 		private uint m_NumOpenPublicConnections;
 		private System.IntPtr m_Settings;
+		private System.IntPtr m_OwnerUserId;
+		private System.IntPtr m_OwnerServerClientId;
 
 		public Utf8String SessionId
 		{
@@ -104,6 +118,36 @@ namespace Epic.OnlineServices.Sessions
 			}
 		}
 
+		public ProductUserId OwnerUserId
+		{
+			get
+			{
+				ProductUserId value;
+				Helper.Get(m_OwnerUserId, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_OwnerUserId);
+			}
+		}
+
+		public Utf8String OwnerServerClientId
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_OwnerServerClientId, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_OwnerServerClientId);
+			}
+		}
+
 		public void Set(ref SessionDetailsInfo other)
 		{
 			m_ApiVersion = SessionDetails.SessiondetailsInfoApiLatest;
@@ -111,6 +155,8 @@ namespace Epic.OnlineServices.Sessions
 			HostAddress = other.HostAddress;
 			NumOpenPublicConnections = other.NumOpenPublicConnections;
 			Settings = other.Settings;
+			OwnerUserId = other.OwnerUserId;
+			OwnerServerClientId = other.OwnerServerClientId;
 		}
 
 		public void Set(ref SessionDetailsInfo? other)
@@ -122,6 +168,8 @@ namespace Epic.OnlineServices.Sessions
 				HostAddress = other.Value.HostAddress;
 				NumOpenPublicConnections = other.Value.NumOpenPublicConnections;
 				Settings = other.Value.Settings;
+				OwnerUserId = other.Value.OwnerUserId;
+				OwnerServerClientId = other.Value.OwnerServerClientId;
 			}
 		}
 
@@ -130,6 +178,8 @@ namespace Epic.OnlineServices.Sessions
 			Helper.Dispose(ref m_SessionId);
 			Helper.Dispose(ref m_HostAddress);
 			Helper.Dispose(ref m_Settings);
+			Helper.Dispose(ref m_OwnerUserId);
+			Helper.Dispose(ref m_OwnerServerClientId);
 		}
 
 		public void Get(out SessionDetailsInfo output)

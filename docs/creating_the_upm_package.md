@@ -8,7 +8,7 @@ generate versions of the package which include "Restricted" parts as well.
 ## Steps to generate a UPM package
 1) Open up Unity project in this repo.
 
-2) Go to `Tools -> Create Package`
+2) Go to `Tools -> EOS Plugin -> Create Package`
 
 3) Fill out "JSON Description Path".
 This should by default be defined as `${WHATEVER_THE_GIT_REPO_IS_CALLED}/Assets/../PackageDescriptionConfigs/eos_package_description.json`.

@@ -16,12 +16,12 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// The most recent version of the <see cref="AddAttribute" /> API.
 		/// </summary>
-		public const int LobbymodificationAddattributeApiLatest = 1;
+		public const int LobbymodificationAddattributeApiLatest = 2;
 
 		/// <summary>
 		/// The most recent version of the <see cref="AddMemberAttribute" /> API.
 		/// </summary>
-		public const int LobbymodificationAddmemberattributeApiLatest = 1;
+		public const int LobbymodificationAddmemberattributeApiLatest = 2;
 
 		/// <summary>
 		/// Maximum length of the name of the attribute associated with the lobby
@@ -42,6 +42,11 @@ namespace Epic.OnlineServices.Lobby
 		/// The most recent version of the <see cref="RemoveMemberAttribute" /> API.
 		/// </summary>
 		public const int LobbymodificationRemovememberattributeApiLatest = 1;
+
+		/// <summary>
+		/// The most recent version of the <see cref="SetAllowedPlatformIds" /> API.
+		/// </summary>
+		public const int LobbymodificationSetallowedplatformidsApiLatest = 1;
 
 		/// <summary>
 		/// The most recent version of the <see cref="SetBucketId" /> API.
@@ -149,6 +154,27 @@ namespace Epic.OnlineServices.Lobby
 			optionsInternal.Set(ref options);
 
 			var funcResult = Bindings.EOS_LobbyModification_RemoveMemberAttribute(InnerHandle, ref optionsInternal);
+
+			Helper.Dispose(ref optionsInternal);
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// Set the Allowed Platform IDs for the lobby
+		/// </summary>
+		/// <param name="options">Options associated with allowed Platform IDs for this lobby</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if setting this parameter was successful
+		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result.InvalidParameters" /> if the AllowedPlatformIds array is null but the count is 0 or if the count is greater than 0 and the array is null.
+		/// </returns>
+		public Result SetAllowedPlatformIds(ref LobbyModificationSetAllowedPlatformIdsOptions options)
+		{
+			LobbyModificationSetAllowedPlatformIdsOptionsInternal optionsInternal = new LobbyModificationSetAllowedPlatformIdsOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var funcResult = Bindings.EOS_LobbyModification_SetAllowedPlatformIds(InnerHandle, ref optionsInternal);
 
 			Helper.Dispose(ref optionsInternal);
 

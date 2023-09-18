@@ -4,7 +4,7 @@
 
 #include "eos_common.h"
 
-/*
+/**
  * This file contains the deprecated types for EOS Achievements. In a future version, these types will be removed.
  */
 

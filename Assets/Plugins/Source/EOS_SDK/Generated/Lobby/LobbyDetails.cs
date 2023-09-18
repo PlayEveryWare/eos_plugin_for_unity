@@ -39,6 +39,11 @@ namespace Epic.OnlineServices.Lobby
 		public const int LobbydetailsCopymemberattributebykeyApiLatest = 1;
 
 		/// <summary>
+		/// The most recent version of the <see cref="CopyMemberInfo" /> API.
+		/// </summary>
+		public const int LobbydetailsCopymemberinfoApiLatest = 1;
+
+		/// <summary>
 		/// The most recent version of the <see cref="GetAttributeCount" /> API.
 		/// </summary>
 		public const int LobbydetailsGetattributecountApiLatest = 1;
@@ -63,7 +68,12 @@ namespace Epic.OnlineServices.Lobby
 		/// </summary>
 		public const int LobbydetailsGetmembercountApiLatest = 1;
 
-		public const int LobbydetailsInfoApiLatest = 2;
+		public const int LobbydetailsInfoApiLatest = 3;
+
+		/// <summary>
+		/// The most recent version of the <see cref="LobbyDetailsMemberInfo" /> API.
+		/// </summary>
+		public const int LobbydetailsMemberinfoApiLatest = 1;
 
 		/// <summary>
 		/// <see cref="CopyAttributeByIndex" /> is used to immediately retrieve a copy of a lobby attribute from a given source such as a existing lobby or a search result.
@@ -170,6 +180,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// <see cref="CopyMemberAttributeByIndex" /> is used to immediately retrieve a copy of a lobby member attribute from an existing lobby.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutAttribute, must be passed to <see cref="LobbyInterface.Release" /> to release the memory associated with it.
+		/// Note: this information is only available if you are actively in the lobby. It is not available for search results.
 		/// <seealso cref="Attribute" />
 		/// <seealso cref="LobbyDetailsCopyMemberAttributeByIndexOptions" />
 		/// <seealso cref="LobbyInterface.Release" />
@@ -204,6 +215,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// <see cref="CopyMemberAttributeByKey" /> is used to immediately retrieve a copy of a lobby member attribute from an existing lobby.
 		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutAttribute, must be passed to <see cref="LobbyInterface.Release" /> to release the memory associated with it.
+		/// Note: this information is only available if you are actively in the lobby. It is not available for search results.
 		/// <seealso cref="Attribute" />
 		/// <seealso cref="LobbyDetailsCopyMemberAttributeByKeyOptions" />
 		/// <seealso cref="LobbyInterface.Release" />
@@ -230,6 +242,42 @@ namespace Epic.OnlineServices.Lobby
 			if (outAttribute != null)
 			{
 				Bindings.EOS_Lobby_Attribute_Release(outAttributeAddress);
+			}
+
+			return funcResult;
+		}
+
+		/// <summary>
+		/// <see cref="CopyMemberInfo" /> is used to immediately retrieve a copy of lobby member information from an existing lobby.
+		/// If the call returns an <see cref="Result.Success" /> result, the out parameter, OutLobbyDetailsMemberInfo, must be passed to <see cref="Release" /> to release the memory associated with it.
+		/// Note: this information is only available if you are actively in the lobby. It is not available for search results.
+		/// <seealso cref="LobbyDetailsMemberInfo" />
+		/// <seealso cref="LobbyDetailsCopyMemberInfoOptions" />
+		/// <seealso cref="Release" />
+		/// </summary>
+		/// <param name="options">Structure containing the input parameters</param>
+		/// <param name="outLobbyDetailsMemberInfo">Out parameter used to receive the <see cref="LobbyDetailsInfo" /> structure.</param>
+		/// <returns>
+		/// <see cref="Result.Success" /> if the information is available and passed out in OutLobbyMemberDetailsInfo
+		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
+		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
+		/// <see cref="Result.NotFound" /> if searching for a target user ID returns no results
+		/// </returns>
+		public Result CopyMemberInfo(ref LobbyDetailsCopyMemberInfoOptions options, out LobbyDetailsMemberInfo? outLobbyDetailsMemberInfo)
+		{
+			LobbyDetailsCopyMemberInfoOptionsInternal optionsInternal = new LobbyDetailsCopyMemberInfoOptionsInternal();
+			optionsInternal.Set(ref options);
+
+			var outLobbyDetailsMemberInfoAddress = System.IntPtr.Zero;
+
+			var funcResult = Bindings.EOS_LobbyDetails_CopyMemberInfo(InnerHandle, ref optionsInternal, ref outLobbyDetailsMemberInfoAddress);
+
+			Helper.Dispose(ref optionsInternal);
+
+			Helper.Get<LobbyDetailsMemberInfoInternal, LobbyDetailsMemberInfo>(outLobbyDetailsMemberInfoAddress, out outLobbyDetailsMemberInfo);
+			if (outLobbyDetailsMemberInfo != null)
+			{
+				Bindings.EOS_LobbyDetails_MemberInfo_Release(outLobbyDetailsMemberInfoAddress);
 			}
 
 			return funcResult;
@@ -277,6 +325,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// <see cref="GetMemberAttributeCount" /> is used to immediately retrieve the attribute count for members in a lobby.
+		/// Note: this information is only available if you are actively in the lobby. It is not available for search results.
 		/// <seealso cref="GetMemberCount" />
 		/// <seealso cref="LobbyDetailsGetMemberAttributeCountOptions" />
 		/// </summary>
@@ -298,6 +347,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// <see cref="GetMemberByIndex" /> is used to immediately retrieve individual members registered with a lobby.
+		/// Note: this information is only available if you are actively in the lobby. It is not available for search results.
 		/// <seealso cref="GetMemberCount" />
 		/// <seealso cref="LobbyDetailsGetMemberByIndexOptions" />
 		/// </summary>
