@@ -1,0 +1,17 @@
+{
+    "name": "com.playeveryware.eos.samples.facepunch-steamworks",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3a63500f0eef43a438c0553491f7c5da",
+        "GUID:be1f6e9efffcfce41aeb5c2f4c27cf75"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
