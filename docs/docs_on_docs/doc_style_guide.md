@@ -21,7 +21,7 @@
 
 # <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
 
-There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. Read more about that [here](readme-style.md).
+There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. ~~Read more about that [here].~~ (README-speciic documentation guide is coming soon).
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
@@ -225,7 +225,7 @@ Example markdown linking to a specific section of another document:
 
 ## Code:
 
-## $\textcolor{#2f5faf}{\textsf{Block}}$ <a name="block">
+## $\textcolor{deeppink}{\textsf{Block}}$ <a name="block">
 
 For inline code formatting, use single ticks. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
@@ -234,7 +234,7 @@ In order to display code blocks, put the code you wish to display between two li
 > [!IMPORTANT]
 > When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would normally require horizontal scrolling to fully view. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
 
-## $\textcolor{#2f5faf}{\textsf{Inline}}$ <a name="inline">
+## $\textcolor{deeppink}{\textsf{Inline}}$ <a name="inline">
 
 When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ` -> ` (spaces included for increased legibility). Inline code blocks are also appropriate to use when (in normal a normal sentence) you are referencing a variable.
 
