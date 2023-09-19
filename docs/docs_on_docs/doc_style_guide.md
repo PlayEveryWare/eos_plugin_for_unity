@@ -218,7 +218,10 @@ Example markdown linking to a specific section of another document:
 ```
 
 > [!IMPORTANT]
-> Periodically, a script should be run against all the documentation to check that all of the links are still valid. It's important to make sure links do not become stale or broken. Because of this, external links should be used sparingly.
+> Periodically, a script should be run against all the documentation to check that all of the links (internal and external) are still valid. It's important to make sure links do not become stale or broken. Because of this, external links should be used sparingly.
+
+> [!IMPORTANT]
+> When renaming a document or any of the sections, make sure to search for and update any references to that document from others.
 
 ## Code:
 
