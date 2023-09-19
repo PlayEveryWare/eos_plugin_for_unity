@@ -275,6 +275,9 @@ __How to Use EOS:__
 3. let even more people play your game.
 ```
 
+> [!IMPORTANT]
+> If the list *can* be unordered, then it *should* be unordered.
+
 ## Grids:
 
 Often larger amounts of information need to be illustrated in the documentation. Information like this might be well suited to a table format. See the below example of markdown for an example of how to create a grid in markdown:
