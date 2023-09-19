@@ -3,7 +3,7 @@
 # <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div><a name="documentation-style-guide" />
 ---
 
-## Table of Contents
+**Table of Contents**
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
 3. [Document Header](#header)
@@ -85,7 +85,7 @@ As an example, the following is the markdown to create the table of contents as 
 
 Markdown:
 ```markdown
-## Table of Contents
+**Table of Contents**
 1. [Overview](#overview)
 2. [Getting Started](#getting-started)
 3. [Document Header](#header)
