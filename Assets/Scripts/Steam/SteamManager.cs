@@ -27,6 +27,8 @@
 //
 // Version: 1.0.12
 
+#if !ENABLE_FACEPUNCH_STEAM
+
 #if !STEAMWORKS_MODULE || !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
 #define DISABLESTEAMWORKS
 #endif
@@ -411,3 +413,5 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
         }
     }
 }
+
+#endif

@@ -32,7 +32,6 @@ using Epic.OnlineServices;
 using Epic.OnlineServices.Auth;
 using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
-#endif
 
 #if !UNITY_STANDALONE_WIN || !UNITY_EDITOR_WIN || !UNITY_WSA_10_0 || !UNITY_SWITCH || !UNITY_PS4 || !UNITY_PS5 || !UNITY_ANDROID
 
@@ -82,5 +81,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+#endif
 #endif
 

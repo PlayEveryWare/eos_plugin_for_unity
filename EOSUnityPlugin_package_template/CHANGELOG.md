@@ -9,6 +9,68 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
+##[4.0.0] - 2023-09-15
+
+### Inprogress
+### Unreleased
+### Added
+- Introduced warnings for when platforms in preview are being used (this is instead of requiring a flag to enable them in build settings)
+- feat: introduce options for different build types from the command line.
+- feature : Manual remove persistent auth token
+- feat: Add config value to EOSConfig to allow setting the isServer flag.
+- initial Oculus connect code
+### Changed
+- feat: modifications and additions to get EOS SDK 1.16 working.
+- update(windows, android, linux, iOS, macOS): update to EOS SDK 1.16
+- Updated documentation to use new logo and title.
+- UI Menu Consolidation
+- Moved Version to the end of the menu.
+- Moved Install EOS Zip into Tools / EOS Plugin
+- Updated readme_macOS.md to reflect the correct position for EOS Plugin preferences, and deleted the remaining meta file for UIUGFitAnchors.cs.meta.
+- Moved the various 'Build Libraries' menu items to Tools / EOS Plugin
+- Moved Sign DLLS to Tools / EOS Plugin
+- Moved 'Create Package' menu item to 'Tools -> EOS Plugin'
+- Fixed menu from 'EOS' to 'EOS Plugin'
+- Moved 'Create link.xml' menu item to Tools/EOS Plugin
+- Move Deployment Checker to Tools/EOS Plugin
+- Moved EpicOnlineServicesConfigEditor to Tools/EOS Plugin.
+- Moved Edit/EOS Plugin Editor Configuration... from edit to Tools/EOS Plugin/Configuration
+- Spelling & punctuation fixes for documentation
+- Update macOS_supported_versions.md
+- spelling and rewording changes to documents
+- fix missing punctuation
+- Omitted option to add package using https from git because doing so is no longer supported by github.
+- Build: Added support for command-line package creation
+- Docs: Updated FAQ
+- feat: add bool to control if the Plugin shuts down the SDK on App quit.
+- feat(UI,Login) : Attach OnClick for Removing persistent token
+- feat(UI,Login) : Remove Persistent Functionality
+- docs: adding additional warning to build steps for windows machine requirements
+### Removed
+- Removed EOS_PREVIEW_PLATFORM flag from the docs and the implementation.
+- Removed unreferenced UIUGFitAnchors.cs file.
+### Fixed
+- fix: Moved Steam/Utility to Source/Editor
+- Fixed usings to prevent warnings.
+- fix: Changed normal to correct texture
+- Dev/flag fix
+- fix(config,steam): compile errors on platforms that don't support steamworks
+- fix/ensure eos platform interface is not null
+- fix: console build with EOS_DISABLED
+- fix(config, steam): compile errors on platforms that don't support steamworks
+- fix: Clean function deletes recursively.
+- fix: change EOSManager getters to use null-conditional operators.
+- fix IL2CPP stripping platform-specific initialization code
+- fix : SetLogLevel error in editor
+- Add AlwaysLinkAssembly attributes.
+- fix: change logging in C# code to be verbose longer to match native code
+- fix: resolve crash that can occur after suspend for over 2 hours
+- fix(pacakge) : add oculus folder to fix missing assembly
+- fix(transport) : string null or empty check
+- fix(android,login) : fix for login not returning to the application
+- fix(android) : log if aar fix failed
+
+
 ##[2.3.3] - 2023-06-30
 
 ### Inprogress
