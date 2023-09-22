@@ -81,6 +81,7 @@ public class UnityPackageCreationTool : EditorWindow
             if (SaveConfiguration())
             {
                 UPCUtil.CreateUPMTarball(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+                OnPackageCreated(UPCUtil.pathToOutput);
             }
         }
 
@@ -88,7 +89,10 @@ public class UnityPackageCreationTool : EditorWindow
         {
             if (SaveConfiguration())
             {
+                // Creating the dot unity package file is asynchronous, so don't display a popup
                 UPCUtil.CreateDotUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+
+                //OnPackageCreated(UPCUtil.pathToOutput);
             }
         }
 
@@ -96,9 +100,18 @@ public class UnityPackageCreationTool : EditorWindow
         {
             if (SaveConfiguration())
             {
-                CopyFilesInPackageDescriptionToBuildDir(UPCUtil.jsonPackageFile);
+                UPCUtil.CreateUPM(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+                OnPackageCreated(UPCUtil.pathToOutput);
             }
         }
+    }
+
+    private void OnPackageCreated(string outputPath)
+    {
+        EditorUtility.DisplayDialog(
+            "Package created",
+            $"Package was successfully created at \"{outputPath}\"",
+            "Ok");
     }
 
     private bool SaveConfiguration()
@@ -125,15 +138,5 @@ public class UnityPackageCreationTool : EditorWindow
         }
 
         return false;
-    }
-
-    //-------------------------------------------------------------------------
-    private void CopyFilesInPackageDescriptionToBuildDir(string pathToJSONPackageDescription)
-    {
-        EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.5f);
-
-        UPCUtil.CreateUPM(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
-
-        EditorUtility.ClearProgressBar();
     }
 }
