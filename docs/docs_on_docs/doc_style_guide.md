@@ -1,6 +1,6 @@
 <a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$</div><a name="documentation-style-guide" />
+# <div align="center">Documentation Style Guide</div><a name="documentation-style-guide" />
 ---
 
 **Table of Contents**
@@ -19,7 +19,7 @@
     * [Internal Markdown Reference](#internal-markdown-reference)
     * [Contributor Notes](#contributor-notes)
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> </div><a name="overview" />
+# <div align="center">Overview</div> </div><a name="overview" />
 
 There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. ~~Read more about that [here].~~ (README-speciic documentation guide is coming soon).
 
@@ -29,7 +29,7 @@ While this document does give examples for some of the most frequently utilized 
 
 As with most things in life, this document serves as a guide, not a rule book. For the most part it should be strictly followed, but a reasonable amount of deviation is permissable so long as the goal of proper communication is accomplished.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$ </div><a name="getting-started" />
+# <div align="center">Getting Started </div><a name="getting-started" />
 
 GitHub is the primary place where documentation for this project will be consumed. Therefore be sure to write your documentation using [GFM (GitHub Flavored Markdown)](https://github.github.com/gfm/).  
 
@@ -39,7 +39,7 @@ You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b3
 
 Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Organizational Structure}}$ </div><a name="structure" />
+# <div align="center">Organizational Structure </div><a name="structure" />
 
 Fundamentally (and very broadly speaking) every document should contain two or optionally three components:
 
@@ -49,7 +49,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 | Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
 | "See also" | _(Optional). This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Header}}$ </div><a name="header" />
+# <div align="center">Header </div><a name="header" />
 
 ## Logo:
 
@@ -73,7 +73,7 @@ Following the PlayEveryWare, Inc. logo should be the title of the document in pi
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Documentation Style Guide}}$ </div> <a name="documentation-style-guide" >
+# <div align="center">Documentation Style Guide </div> <a name="documentation-style-guide" >
 ---
 ```
 
@@ -106,7 +106,7 @@ Note that the `url` for an internal link is the value of the `name` attribute of
 
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Body}}$ </div><a name="body" />
+# <div align="center">Body </div><a name="body" />
 
 ## Sections:
 
@@ -119,7 +119,7 @@ The document section headers share the same format as the document title, but wi
 Example markdown for creating a document section:
 
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Section Title}}$ </div><a name="section-title" />
+# <div align="center">Section Title </div><a name="section-title" />
 ```
 
 > [!NOTE]
@@ -142,7 +142,7 @@ Should a subsection of the document need to be further broken up into discrete s
 For example:
 
 ```markdown
-## $\textcolor{deeppink}{\textsf{Sub Subsection:}}}$ <a name="sub-subsection">
+## Sub Subsection:} <a name="sub-subsection">
 ```
 
 > [!NOTE]
@@ -155,14 +155,14 @@ For example:
 
 The difference between the different section depths is below, followed by the markdown that generates it:
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Section Example}}$ </div><a name="section-example" />
+# <div align="center">Section Example </div><a name="section-example" />
 ## Subsection Example
-## $\textcolor{deeppink}{\textsf{Sub-Subsection Example}}$ <a name="sub-subsection-example">
+## Sub-Subsection Example <a name="sub-subsection-example">
 
 ```markdown
-# <div align="center">$\textcolor{deeppink}{\textsf{Section Example}}$ </div><a name="section-example" />
+# <div align="center">Section Example </div><a name="section-example" />
 ## Subsection Example
-## $\textcolor{deeppink}{\textsf{Sub-Subsection Example}}$ <a name="sub-subsection-example">
+## Sub-Subsection Example <a name="sub-subsection-example">
 ```
 
 > [!IMPORTANT]
@@ -225,7 +225,7 @@ Example markdown linking to a specific section of another document:
 
 ## Code:
 
-## $\textcolor{deeppink}{\textsf{Block}}$ <a name="block">
+## Block <a name="block">
 
 For inline code formatting, use single ticks. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
@@ -234,7 +234,7 @@ In order to display code blocks, put the code you wish to display between two li
 > [!IMPORTANT]
 > When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would normally require horizontal scrolling to fully view. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
 
-## $\textcolor{deeppink}{\textsf{Inline}}$ <a name="inline">
+## Inline <a name="inline">
 
 When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ` -> ` (spaces included for increased legibility). Inline code blocks are also appropriate to use when (in normal a normal sentence) you are referencing a variable.
 
@@ -360,7 +360,7 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 > [!WARNING]
 > Critical content demanding immediate user attention due to potential risks.
 
-# <div align="center">$\textcolor{deeppink}{\textsf{See also}}$ </div><a name="see-also" />
+# <div align="center">See also </div><a name="see-also" />
 
 ## Templates
 

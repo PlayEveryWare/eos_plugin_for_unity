@@ -18,7 +18,7 @@ Table of Contents
 5. [FAQ](#faq)
 
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+# <div align="center">Overview</div> <a name="overview" />
 ---
 
 [add alterations and exceptions to the readme.md version here] 
@@ -53,7 +53,7 @@ Table of Contents
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{[Platform] Getting Started}$</div> <a name="[Platform]-getting-started" />
+# <div align="center">[Platform] Getting Started}$</div> <a name="[Platform]-getting-started" />
 ---
 
 [main text of this section, or description if subsections are needed]
@@ -114,7 +114,7 @@ Table of Contents
 <br />
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{FAQ}}$</div> <a name="faq" />
+# <div align="center">FAQ</div> <a name="faq" />
 ---
 
 See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md).

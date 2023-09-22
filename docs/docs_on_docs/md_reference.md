@@ -1,6 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Markdown Reference}}$</div> <a name="markdown-reference" />
+# <div align="center">Markdown Reference</div> <a name="markdown-reference" />
 
 
 Table of Contents
@@ -28,7 +28,7 @@ Table of Contents
     * [Web Links](#web-links)
 
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+# <div align="center">Overview</div> <a name="overview" />
 ---
 
 It is expected that you use these features as they fit winthin the style guide.
@@ -41,7 +41,7 @@ More info on Markdown can be found [here](https://www.markdownguide.org/).
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Cookbook}}$</div> <a name="cookbook" />
+# <div align="center">Cookbook</div> <a name="cookbook" />
 ---
 
 An alphabetical list of our prefered Markdown syntax.
@@ -113,7 +113,7 @@ Surprise!
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#header)
 ```
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+# <div align="center">Overview</div> <a name="overview" />
 ---
 ```
 
@@ -123,7 +123,7 @@ Surprise!
 
 [usage](/docs/docs_on_docs/doc_style_guide.md#header-document)
 ```
-# <div align="center">$\textcolor{deeppink}{\textsf{Doc Title}}$</div> <a name="doc-title" />
+# <div align="center">Doc Title</div> <a name="doc-title" />
 ---
 ```
 

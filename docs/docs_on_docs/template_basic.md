@@ -1,6 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-# <div align="center">$\textcolor{deeppink}{\textsf{[Template]}}$</div> <a name="[template]" />
+# <div align="center">[Template]</div> <a name="[template]" />
 
 
 Table of Contents
@@ -17,7 +17,7 @@ Table of Contents
 4. [[Third Section]](#[third-section])
 
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+# <div align="center">Overview</div> <a name="overview" />
 ---
 
 [describe how and what this doc is used for] 
@@ -28,7 +28,7 @@ Table of Contents
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{[First Section]}}$</div> <a name="[first-section]" />
+# <div align="center">[First Section]</div> <a name="[first-section]" />
 ---
 
 [main text of this section, or description if subsections are needed]
@@ -78,7 +78,7 @@ Table of Contents
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{[Second Section]}}$</div> <a name="[second-section]" />
+# <div align="center">[Second Section]</div> <a name="[second-section]" />
 ---
 
 [main text of this section, or description if subsections are needed]
@@ -101,7 +101,7 @@ Table of Contents
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{[Third Section]}}$</div> <a name="[third-section]" />
+# <div align="center">[Third Section]</div> <a name="[third-section]" />
 ---
 
 [main text of this section, or description if subsections are needed]
