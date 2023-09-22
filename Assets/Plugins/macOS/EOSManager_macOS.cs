@@ -35,7 +35,11 @@ using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
 
 #if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+
+#if !UNITY_EDITOR_OSX
 [assembly: AlwaysLinkAssembly]
+#endif
+
 namespace PlayEveryWare.EpicOnlineServices 
 {
     //-------------------------------------------------------------------------

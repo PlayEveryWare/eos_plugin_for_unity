@@ -47,7 +47,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_WSA_10_0)
+
+#if !UNITY_EDITOR_WIN
 [assembly: AlwaysLinkAssembly]
+#endif
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
