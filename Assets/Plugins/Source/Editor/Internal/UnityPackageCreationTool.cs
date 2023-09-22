@@ -32,6 +32,8 @@ public class UnityPackageCreationTool : EditorWindow
 {
     const string DEFAULT_OUTPUT_DIRECTORY = "Build";
 
+    bool showJSON = false;
+
     //-------------------------------------------------------------------------
     [MenuItem("Tools/EOS Plugin/Create Package")]
     public static void ShowWindow()
@@ -42,21 +44,6 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private void OnGUI()
     {
-        GUILayout.Label("Unity Package Create", EditorStyles.boldLabel);
-
-        GUILayout.BeginHorizontal();
-        ConfigEditor.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
-        if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
-        {
-            var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
-            if (!string.IsNullOrWhiteSpace(jsonFile))
-            {
-                UPCUtil.jsonPackageFile = jsonFile;
-                UPCUtil.packageConfig.GetCurrentConfig().pathToJSONPackageDescription = UPCUtil.jsonPackageFile;
-            }
-        }
-        GUILayout.EndHorizontal();
-
         GUILayout.BeginHorizontal();
         ConfigEditor.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
         if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
@@ -70,40 +57,59 @@ public class UnityPackageCreationTool : EditorWindow
         }
         GUILayout.EndHorizontal();
 
+        showJSON = EditorGUILayout.Foldout(showJSON, "Advanced");
+        if (showJSON)
+        {
+            GUILayout.BeginHorizontal();
+            ConfigEditor.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
+            {
+                var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
+                if (!string.IsNullOrWhiteSpace(jsonFile))
+                {
+                    UPCUtil.jsonPackageFile = jsonFile;
+                    UPCUtil.packageConfig.GetCurrentConfig().pathToJSONPackageDescription = UPCUtil.jsonPackageFile;
+                }
+            }
+            GUILayout.EndHorizontal();
+        }
+        
         GUILayout.Space(20f);
 
         if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) &&
-                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
+            if (SaveConfiguration())
             {
-                return;
+                UPCUtil.CreateUPMTarball(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
             }
-            UPCUtil.packageConfig.SaveToJSONConfig(true);
-            UPCUtil.CreateUPMTarball(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
         }
 
         if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) &&
-                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
+            if (SaveConfiguration())
             {
-                return;
+                UPCUtil.CreateDotUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
             }
-            UPCUtil.packageConfig.SaveToJSONConfig(true);
-            UPCUtil.CreateDotUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
         }
 
         if (GUILayout.Button("Export to Custom Build Directory", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) && 
-                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
+            if (SaveConfiguration())
             {
-                return;
+                CopyFilesInPackageDescriptionToBuildDir(UPCUtil.jsonPackageFile);
             }
-            UPCUtil.packageConfig.SaveToJSONConfig(true);
-            CopyFilesInPackageDescriptionToBuildDir(UPCUtil.jsonPackageFile);
         }
+    }
+
+    private bool SaveConfiguration()
+    {
+        if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) &&
+                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
+        {
+            return false;
+        }
+        UPCUtil.packageConfig.SaveToJSONConfig(true);
+        return true;
     }
 
     private bool OnEmptyOutputPath(ref string output)
@@ -126,7 +132,7 @@ public class UnityPackageCreationTool : EditorWindow
     {
         EditorUtility.DisplayProgressBar("PEW Package Tool", "Copying files...", 0.5f);
 
-        UPCUtil.CreateUPM(UPCUtil.jsonPackageFile);
+        UPCUtil.CreateUPM(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
 
         EditorUtility.ClearProgressBar();
     }
