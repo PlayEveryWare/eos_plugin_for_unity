@@ -30,6 +30,8 @@ using ConfigEditor = PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEd
 //-------------------------------------------------------------------------
 public class UnityPackageCreationTool : EditorWindow
 {
+    const string DEFAULT_OUTPUT_DIRECTORY = "Build";
+
     //-------------------------------------------------------------------------
     [MenuItem("Tools/EOS Plugin/Create Package")]
     public static void ShowWindow()
@@ -68,24 +70,12 @@ public class UnityPackageCreationTool : EditorWindow
         }
         GUILayout.EndHorizontal();
 
-        GUILayout.BeginHorizontal();
-        ConfigEditor.AssigningTextField("Custom Build Directory", ref UPCUtil.customOutputDirectory);
-        if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
-        {
-            var buildDir = EditorUtility.OpenFolderPanel("Pick Custom Build Directory", "", "");
-            if (!string.IsNullOrWhiteSpace(buildDir))
-            {
-                UPCUtil.customOutputDirectory = buildDir;
-                UPCUtil.packageConfig.GetCurrentConfig().customBuildDirectoryPath = buildDir;
-            }
-        }
-        GUILayout.EndHorizontal();
-
         GUILayout.Space(20f);
 
         if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput))
+            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) &&
+                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
             {
                 return;
             }
@@ -95,7 +85,8 @@ public class UnityPackageCreationTool : EditorWindow
 
         if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput))
+            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) &&
+                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
             {
                 return;
             }
@@ -105,13 +96,29 @@ public class UnityPackageCreationTool : EditorWindow
 
         if (GUILayout.Button("Export to Custom Build Directory", GUILayout.MaxWidth(200)))
         {
-            if (string.IsNullOrWhiteSpace(UPCUtil.customOutputDirectory))
+            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) && 
+                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
             {
                 return;
             }
             UPCUtil.packageConfig.SaveToJSONConfig(true);
             CopyFilesInPackageDescriptionToBuildDir(UPCUtil.jsonPackageFile);
         }
+    }
+
+    private bool OnEmptyOutputPath(ref string output)
+    {
+        // Display dialog saying no output path was provided, and offering to default to the 'Build' directory.
+        if (EditorUtility.DisplayDialog(
+            "Empty output path",
+            $"No output path was provided, do you want to use {DEFAULT_OUTPUT_DIRECTORY}?",
+            "Yes", "Cancel"))
+        {
+            output = DEFAULT_OUTPUT_DIRECTORY;
+            return true;
+        }
+
+        return false;
     }
 
     //-------------------------------------------------------------------------
