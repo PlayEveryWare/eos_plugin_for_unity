@@ -44,7 +44,10 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private void OnGUI()
     {
+        GUILayout.Space(10f);
+
         GUILayout.BeginHorizontal();
+        GUILayout.Space(10f);
         ConfigEditor.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
         if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
         {
@@ -55,12 +58,14 @@ public class UnityPackageCreationTool : EditorWindow
                 UPCUtil.packageConfig.GetCurrentConfig().pathToOutput = UPCUtil.pathToOutput;
             }
         }
+        GUILayout.Space(10f);
         GUILayout.EndHorizontal();
 
         showJSON = EditorGUILayout.Foldout(showJSON, "Advanced");
         if (showJSON)
         {
             GUILayout.BeginHorizontal();
+            GUILayout.Space(10f);
             ConfigEditor.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
             if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
             {
@@ -71,11 +76,15 @@ public class UnityPackageCreationTool : EditorWindow
                     UPCUtil.packageConfig.GetCurrentConfig().pathToJSONPackageDescription = UPCUtil.jsonPackageFile;
                 }
             }
+            GUILayout.Space(10f);
             GUILayout.EndHorizontal();
         }
         
         GUILayout.Space(20f);
 
+        GUILayout.BeginHorizontal();
+        GUILayout.Space(20f);
+        GUILayout.FlexibleSpace();
         if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
         {
             if (SaveConfiguration())
@@ -96,7 +105,7 @@ public class UnityPackageCreationTool : EditorWindow
             }
         }
 
-        if (GUILayout.Button("Export to Custom Build Directory", GUILayout.MaxWidth(200)))
+        if (GUILayout.Button("Export Directory", GUILayout.MaxWidth(200)))
         {
             if (SaveConfiguration())
             {
@@ -104,6 +113,9 @@ public class UnityPackageCreationTool : EditorWindow
                 OnPackageCreated(UPCUtil.pathToOutput);
             }
         }
+        GUILayout.FlexibleSpace();
+        GUILayout.Space(20f);
+        GUILayout.EndHorizontal();
     }
 
     private void OnPackageCreated(string outputPath)
