@@ -1,7 +1,7 @@
 # How to update the DocFX static site
 *Overview*
 1) Install docfx.
-2) Go to the `docs/docfx/` dir in the repository.
+2) Go to the `config/docfx/` dir in the repository.
 3) Run docfx.
 4) Run a test server to see the results: `docfx serve \_site`.
 5) Copy the files to the github static site.
