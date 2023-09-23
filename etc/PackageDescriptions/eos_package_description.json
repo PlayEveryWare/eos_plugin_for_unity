@@ -1,16 +1,16 @@
 {
     "source_to_dest": [
-        {"src":"config/EOSUnityPlugin_package_template/CHANGELOG.md", "dest" : "CHANGELOG.md"},
-        {"src":"config/EOSUnityPlugin_package_template/CHANGELOG.md.meta", "dest" : ""},
+        {"src":"etc/EOSUnityPlugin_package_template/CHANGELOG.md", "dest" : "CHANGELOG.md"},
+        {"src":"etc/EOSUnityPlugin_package_template/CHANGELOG.md.meta", "dest" : ""},
         {"src":"license.md", "dest" : "LICENSE.md"},
-        {"src":"config/EOSUnityPlugin_package_template/LICENSE.md.meta", "dest" : ""},
-        {"src":"config/EOSUnityPlugin_package_template/package.json", "dest" : ""},
-        {"src":"config/EOSUnityPlugin_package_template/package.json.meta", "dest" : ""},
+        {"src":"etc/EOSUnityPlugin_package_template/LICENSE.md.meta", "dest" : ""},
+        {"src":"etc/EOSUnityPlugin_package_template/package.json", "dest" : ""},
+        {"src":"etc/EOSUnityPlugin_package_template/package.json.meta", "dest" : ""},
 
         {"src":"docs/upm_readme.md", "dest" : "README.md"},
-        {"src":"config/EOSUnityPlugin_package_template/README.md.meta", "dest" : ""},
-        {"src":"config/EOSUnityPlugin_package_template/Editor.meta", "dest" : ""},
-        {"src":"config/EOSUnityPlugin_package_template/Runtime.meta", "dest" : ""},
+        {"src":"etc/EOSUnityPlugin_package_template/README.md.meta", "dest" : ""},
+        {"src":"etc/EOSUnityPlugin_package_template/Editor.meta", "dest" : ""},
+        {"src":"etc/EOSUnityPlugin_package_template/Runtime.meta", "dest" : ""},
         {"src":"docs/class_description.md", "dest" : "Documentation~/"},
         {"src":"docs/standards.md", "dest" : "Documentation~/"},
         {"src":"docs/configuring_the_eos_plugin.md", "dest" : "Documentation~/"},
@@ -396,13 +396,13 @@
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
 
-        {"src":"config/EOSUnityPlugin_package_template/.sample.json", "dest" : ""},
+        {"src":"etc/EOSUnityPlugin_package_template/.sample.json", "dest" : ""},
 
         {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/StandardSamples/"},
         {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
         {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
 
-        {"src":"config/EOSUnityPlugin_package_template/Samples.meta", "dest" : "Samples~/"},
+        {"src":"etc/EOSUnityPlugin_package_template/Samples.meta", "dest" : "Samples~/"},
         {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
         {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
         {"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
