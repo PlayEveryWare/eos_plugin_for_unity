@@ -9,7 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 ### Fixed
 
-##[4.0.0] - 2023-09-15
+##[3.0.1] - 2023-09-22
+### Inprogress
+### Unreleased
+### Added
+- Facepunch steamworks login support - squashed
+### Changed
+### Removed
+### Fixed
+- fix : compile error when EOS_DISABLE
+- fix : remove duplicate asmrefs
+
+
+
+##[3.0.0] - 2023-09-15
 
 ### Inprogress
 ### Unreleased

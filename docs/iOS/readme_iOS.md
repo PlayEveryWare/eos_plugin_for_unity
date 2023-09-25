@@ -7,7 +7,7 @@
 
 
 
-# <div align="center">$\textcolor{deeppink}{\textsf{iOS Getting Started}}$</div> <a name="getting-started" />
+# <div align="center">iOS Getting Started</div> <a name="getting-started" />
 ---
 
 ## Prerequisites
@@ -65,7 +65,7 @@ You can follow the standard <a href="/readme.md#configuring-the-plugin">Configur
 
 
 
-# <div align="center">$\textcolor{deeppink}{\textsf{FAQ}}$</div> <a name="faq" />
+# <div align="center">FAQ</div> <a name="faq" />
 ---
 
 See [docs/frequently_asked_questions.md](/docs/frequently_asked_questions.md).
