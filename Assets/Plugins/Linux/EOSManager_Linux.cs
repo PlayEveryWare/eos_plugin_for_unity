@@ -48,7 +48,11 @@ using System.Text;
 using Epic.OnlineServices.IntegratedPlatform;
 
 #if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
+
+#if !UNITY_EDITOR_LINUX
 [assembly: AlwaysLinkAssembly]
+#endif
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
