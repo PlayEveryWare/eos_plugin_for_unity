@@ -1,5 +1,7 @@
-# Before running this script, you will need to enter the following command:
+# Before running this script, run the following command in an elevated prompt:
+#
 # Set-RemoteExecutionPolicy RemoteSigned -Force
+#
 
 # Install winget
 . $PSScriptRoot/etc/install-winget.ps1
