@@ -13,8 +13,6 @@ Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
 Write-Host " - installing module wingettools"
 Install-Module -Name WingetTools -Scope CurrentUser
 
-https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.5
-
 Write-Host " - running `"Install-Winget`"."
 Install-WinGet
 
