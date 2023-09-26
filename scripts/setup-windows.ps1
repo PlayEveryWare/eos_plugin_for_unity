@@ -10,7 +10,7 @@ winget install --id Git.Git -e --source winget
 
 # Install unity hub
 Write-Host "Installing UnityHub"
-winget install -e Unity.UnityHub
+winget install -e Unity.UnityHub --accept-source-agreements
 
 # Get the version of the unity editor to install
 $unityEditorVersion = (Get-Content $PSScriptRoot/../ProjectSettings/ProjectVersion.txt | 
@@ -20,7 +20,7 @@ $unityEditorVersion = (Get-Content $PSScriptRoot/../ProjectSettings/ProjectVersi
 
 # Install unity editor version supported by the plugin
 write-Host "Installing Unity Editor"
-winget install ("Unity.Unity.{0}" -f $unityEditorVersion.Substring(0, 4)) -v $unityEditorVersion
+winget install ("Unity.Unity.{0}" -f $unityEditorVersion.Substring(0, 4)) -v $unityEditorVersion --accept-source-agreements
 
 Read-Host;
 
