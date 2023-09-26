@@ -10,7 +10,7 @@ sudo apt-get update
 sudo dnf install openssl1.1 openssl-libs
 
 # Install packages needed for development
-sudo apt install build-essential git unityhub xvfb -y
+sudo apt install build-essential git -y
 
 # Install Unity 2021.3 (for some reason cannot specify 2021.3.8f1)
 # NOTE: The string below will need to be updated when the project is upgraded
@@ -20,7 +20,9 @@ sudo apt install build-essential git unityhub xvfb -y
 sudo sh -c 'echo "deb https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list'
 wget -qO - https://hub.unity3d.com/linux/keys/public | sudo apt-key add -
 sudo apt update
+sudo apt install unityhub -y
 sudo apt install libgbm-dev libasound2 libgconf-2-4 -y
+sudo apt install xvfb -y
 
 UNITY_VERSION=2021.3.30f1
 
