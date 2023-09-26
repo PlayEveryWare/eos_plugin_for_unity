@@ -11,20 +11,13 @@ winget install --id Git.Git -e --source winget
 winget install -e Unity.UnityHub
 
 # Get the version of the unity editor to install
-$unityEditorVersion = Get-Content $PSScriptRoot/../ProjectSettings/ProjectVersion.txt | 
+$unityEditorVersion = (Get-Content $PSScriptRoot/../ProjectSettings/ProjectVersion.txt | 
     Where-Object { $_ -imatch 'm_EditorVersion' } |
     ForEach-Object { $_ -ireplace 'm_EditorVersion:\ '} |
-    Select -First 1
-
-winget install ("Unity.Unity.{0}" -f $unityEditorVersion.Substring(4)) -v $unityEditorVersion
-
-Read-Host
+    Select -First 1).Trim()
 
 # Install unity editor version supported by the plugin
-#winget install Unity.Unity.2021 -v 2021.3.8f1
-
-
-
+winget install ("Unity.Unity.{0}" -f $unityEditorVersion.Substring(0, 4)) -v $unityEditorVersion
 
 
 # TODO: Determine remaining pre-requisites for windows development
