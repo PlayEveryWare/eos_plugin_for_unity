@@ -12,7 +12,7 @@ winget install --id Git.Git -e --source winget
 Write-Host "Installing UnityHub"
 winget install -e Unity.UnityHub --accept-source-agreements
 
-# Get the version of the unity editor to install
+# Get the version of the unity editor to install from the project version
 $unityEditorVersion = (Get-Content $PSScriptRoot/../ProjectSettings/ProjectVersion.txt | 
     Where-Object { $_ -imatch 'm_EditorVersion' } |
     ForEach-Object { $_ -ireplace 'm_EditorVersion:\ '} |
@@ -22,12 +22,5 @@ $unityEditorVersion = (Get-Content $PSScriptRoot/../ProjectSettings/ProjectVersi
 write-Host "Installing Unity Editor"
 winget install ("Unity.Unity.{0}" -f $unityEditorVersion.Substring(0, 4)) -v $unityEditorVersion --accept-source-agreements
 
-Read-Host;
-
-# TODO: Determine remaining pre-requisites for windows development
-#  - What version of VS?
-#  - Can we install unity editor via winget?
-#  - Windows SDK?
-#  - .NET SDK?
-#  - .NET Runtime
-
+# Install visual studio community edition 2019
+winget install "Visual Studio Community 2019" --accept-source-agreements
