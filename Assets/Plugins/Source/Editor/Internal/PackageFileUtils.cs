@@ -98,7 +98,7 @@ namespace Playeveryware.Editor
             var filepaths = new List<string>();
             foreach(var srcToDestKeyValues in packageDescription.source_to_dest)
             {
-                if (srcToDestKeyValues.IsCommentOnly() || srcToDestKeyValues.comment.StartsWith("//"))
+                if (srcToDestKeyValues.IsCommentOnly() || null == srcToDestKeyValues.src)
                 {
                     continue;
                 }
