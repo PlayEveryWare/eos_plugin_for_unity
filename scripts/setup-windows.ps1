@@ -1,5 +1,9 @@
-# Install prerequisite packages
+# Install git
+winget install --id Git.Git -e --source winget
+# Install unity hub
 winget install -e Unity.UnityHub
+
+
 
 # TODO: Determine remaining pre-requisites for windows development
 #  - What version of VS?
