@@ -7,7 +7,7 @@
 
 
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Linking EOS Library on Android Settings}}$</div> <a name="linking-eos-library-on-android-settings" />
+# <div align="center">Linking EOS Library on Android Settings</div> <a name="linking-eos-library-on-android-settings" />
 ---
 
 ## What is the Difference Between Linking the EOS Library Dynamically and Statically?

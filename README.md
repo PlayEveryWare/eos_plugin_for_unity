@@ -32,7 +32,7 @@
   </ol>
 
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Overview}}$</div> <a name="overview" />
+# <div align="center">Overview</div> <a name="overview" />
 ---
 
 The PlayEveryWare EOS Plugin for Unity is a software development kit (SDK) used for integrating EOS into a Unity project. Bringing the free services that connect players across all platforms and all stores, to Unity in an easy to use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and Epic docs [here](https://dev.epicgames.com/docs/epic-online-services).
@@ -157,7 +157,7 @@ The support level of each EOS SDK features as of the current release of the plug
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Getting Started}}$</div> <a name="getting-started" />
+# <div align="center">Getting Started</div> <a name="getting-started" />
 ---
 
 ## Prerequisites
@@ -360,7 +360,7 @@ See [docs/disable_plugin_per_platform.md](docs/disable_plugin_per_platform.md) f
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Plugin Support}}$</div> <a name="plugin-support" />
+# <div align="center">Plugin Support</div> <a name="plugin-support" />
 ---
 
 PlayEveryWare EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
@@ -373,7 +373,7 @@ Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Dev
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{Source Code Contributor Notes}}$</div> <a name="source-code-contributor-notes" />
+# <div align="center">Source Code Contributor Notes</div> <a name="source-code-contributor-notes" />
 ---
 
 The following are guidelines for helping contribute to this open source project.
@@ -407,7 +407,7 @@ See [docs/class_description.md](docs/class_description.md).
 
 <br />
 
-# <div align="center">$\textcolor{deeppink}{\textsf{FAQ}}$</div> <a name="faq" />
+# <div align="center">FAQ</div> <a name="faq" />
 ---
 
 See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md).
