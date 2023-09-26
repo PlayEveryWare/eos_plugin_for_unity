@@ -23,4 +23,4 @@ write-Host "Installing Unity Editor"
 winget install ("Unity.Unity.{0}" -f $unityEditorVersion.Substring(0, 4)) -v $unityEditorVersion --accept-source-agreements
 
 # Install visual studio community edition 2019
-winget install "Visual Studio Community 2019" --accept-source-agreements
+winget install --id Microsoft.VisualStudio.2019.Community --accept-source-agreements --override "--quiet"
