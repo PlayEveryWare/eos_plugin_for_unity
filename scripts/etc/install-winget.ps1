@@ -1,3 +1,5 @@
+. $PSScriptRoot/install-xaml.ps1
+
 Write-Host "Installing latest version of winget."
 
 # Install the NuGet package provider
@@ -10,6 +12,8 @@ Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
 # Install the winget tools stuff.
 Write-Host " - installing module wingettools"
 Install-Module -Name WingetTools -Scope CurrentUser
+
+https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.5
 
 Write-Host " - running `"Install-Winget`"."
 Install-WinGet
