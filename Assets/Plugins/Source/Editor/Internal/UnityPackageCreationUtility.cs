@@ -217,13 +217,13 @@ public static class UnityPackageCreationUtility
         AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);        
     }
 
-    public static void CreateUPM(string json_file)
+    public static void CreateUPM(string outputPath, string json_file)
     {
         var packageDescription = ReadPackageDescription(json_file);
 
         var filesToCopy = PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
-        CopyFilesToPackageDirectory(UnityPackageCreationUtility.customOutputDirectory, filesToCopy);
+        CopyFilesToPackageDirectory(outputPath, filesToCopy);
     }
 
     //-------------------------------------------------------------------------

@@ -26,7 +26,7 @@ using UnityEditor.Build;
 
 public static class BuildPackage
 {
-    private enum PackageType
+    public enum PackageType
     {
         /// <summary>
         /// Un-compressed directory of UPM contents.
@@ -202,8 +202,7 @@ public static class BuildPackage
                 break;
             case PackageType.UPMDirectory:
             default:
-                UnityPackageCreationUtility.customOutputDirectory = OutputDirectory;
-                UnityPackageCreationUtility.CreateUPM(jsonFile);
+                UnityPackageCreationUtility.CreateUPM(OutputDirectory, jsonFile);
                 break;
 
         }
