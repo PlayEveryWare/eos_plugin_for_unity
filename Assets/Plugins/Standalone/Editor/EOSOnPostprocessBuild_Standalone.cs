@@ -49,7 +49,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
     //-------------------------------------------------------------------------
     private static string GetPathToEOSBin()
     {
-        string projectPathToBin = Path.Combine(Application.dataPath, "../bin/");
+        string projectPathToBin = Path.Combine(Application.dataPath, "../tools/bin/");
         string packagePathToBin = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/bin~/");
 
         if (Directory.Exists(packagePathToBin))
