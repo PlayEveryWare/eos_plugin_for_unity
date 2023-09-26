@@ -16,10 +16,10 @@ sudo apt-get update
 sudo apt install build-essential -y
 
 # Install the latest version of Git (needed for things like git lfs)
-sudo apt install git
+sudo apt install git -y
 
 # Install unity hub
-sudo apt-get install unityhub
+sudo apt-get install unityhub -y
 
 
 
