@@ -2,12 +2,13 @@ Write-Information "Downloading WinGet and its dependencies..."
 
 function Add-RemotePackage() {
     param($uri)
+    $ErrorActionPreference = "silentlycontinue"
     # temp file to store the package in
     $temp = New-TemporaryFile
     # download to temp file
     Invoke-WebRequest -Uri $uri -OutFile $temp -UseBasicParsing
     # add package
-    Add-AppxPackage $temp
+    Add-AppxPackage $temp -
     # remove package file
     Remove-Item $temp
 }
