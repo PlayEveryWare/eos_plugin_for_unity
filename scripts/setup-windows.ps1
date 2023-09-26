@@ -4,6 +4,9 @@
 # Install winget
 . $PSScriptRoot/etc/install-winget.ps1
 
+# Install visual studio community edition 2019
+winget install --id Microsoft.VisualStudio.2019.Community --accept-source-agreements --override "--quiet"
+
 # Install git
 Write-Host "Installing git (latest version)"
 winget install --id Git.Git -e --source winget
