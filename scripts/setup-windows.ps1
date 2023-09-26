@@ -5,7 +5,7 @@
 . $PSScriptRoot/etc/install-winget.ps1
 
 # Install visual studio community edition 2019
-winget install --id XP8CDJNZKFM06W --accept-source-agreements --override "--quiet"
+winget install --id XP8CDJNZKFM06W --accept-source-agreements --accept-package-agreements --override "--quiet"
 
 # Install git
 Write-Host "Installing git (latest version)"
