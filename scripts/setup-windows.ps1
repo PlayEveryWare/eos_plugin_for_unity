@@ -4,9 +4,6 @@
 # Install winget
 . $PSScriptRoot/etc/install-winget.ps1
 
-# Install visual studio community edition 2019
-winget install --id XP8CDJNZKFM06W --accept-source-agreements --accept-package-agreements --override "--quiet"
-
 # Install git
 Write-Host "Installing git (latest version)"
 winget install --id Git.Git -e --source winget
@@ -22,8 +19,9 @@ $unityEditorVersion = (Get-Content $PSScriptRoot/../ProjectSettings/ProjectVersi
     Select -First 1).Trim()
 
 # Install unity editor version supported by the plugin
-write-Host "Installing Unity Editor"
+Write-Host "Installing Unity Editor"
 winget install ("Unity.Unity.{0}" -f $unityEditorVersion.Substring(0, 4)) -v $unityEditorVersion --accept-source-agreements
 
 # Install visual studio community edition 2019
-winget install --id XP8CDJNZKFM06W --accept-source-agreements --override "--quiet"
+Write-Host "Installing Visual Studio 2019 Community Edition"
+winget install --id XP8CDJNZKFM06W --accept-source-agreements --accept-package-agreements --override "--quiet"
