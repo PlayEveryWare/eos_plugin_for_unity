@@ -869,7 +869,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             // if the readme is open, then close it.
             UIReadme readme = UIReadme.FindObjectOfType<UIReadme>();
-            readme.CloseReadme();
+            readme?.CloseReadme();
 
             if (EOSManager.Instance.GetLocalUserId() == null)
             {
