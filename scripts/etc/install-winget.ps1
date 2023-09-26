@@ -1,7 +1,5 @@
 Write-Information "Downloading WinGet and its dependencies..."
 
-Invoke-WebRequest -Uri https://aka.ms/getwinget -OutFile $PSScriptRoot/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle
-
 function Add-RemotePackage() {
     param($uri)
     # temp file to store the package in
