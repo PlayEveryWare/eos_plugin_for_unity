@@ -5,9 +5,11 @@
 . $PSScriptRoot/etc/install-winget.ps1
 
 # Install git
+Write-Host "Installing git (latest version)"
 winget install --id Git.Git -e --source winget
 
 # Install unity hub
+Write-Host "Installing UnityHub"
 winget install -e Unity.UnityHub
 
 # Get the version of the unity editor to install
@@ -17,8 +19,10 @@ $unityEditorVersion = (Get-Content $PSScriptRoot/../ProjectSettings/ProjectVersi
     Select -First 1).Trim()
 
 # Install unity editor version supported by the plugin
+write-Host "Installing Unity Editor"
 winget install ("Unity.Unity.{0}" -f $unityEditorVersion.Substring(0, 4)) -v $unityEditorVersion
 
+Read-Host;
 
 # TODO: Determine remaining pre-requisites for windows development
 #  - What version of VS?
