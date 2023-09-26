@@ -19,4 +19,4 @@ sudo apt install build-essential git unityhub xvfb -y
 # Install Unity 2021.3 (for some reason cannot specify 2021.3.8f1)
 # NOTE: The string below will need to be updated when the project is upgraded
 # to support newer versions of the editor
-sudo unityhub --headless install --version 2021.3
+sudo unityhub --headless install --version 2021.3 --no-sandbox
