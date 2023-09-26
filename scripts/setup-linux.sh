@@ -3,10 +3,6 @@
 # Add source for git 
 sudo add-apt-repository ppa:git-core/ppa -y
 
-# Add source for unity hub
-wget -qO - https://hub.unity3d.com/linux/keys/public | gpg --dearmor | sudo tee /usr/share/keyrings/Unity_Technologies_ApS.gpg > /dev/null
-sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/Unity_Technologies_ApS.gpg] https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list'
-
 # Update apt-get 
 sudo apt-get update
 
@@ -24,8 +20,7 @@ sudo apt install build-essential git unityhub xvfb -y
 sudo sh -c 'echo "deb https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list'
 wget -qO - https://hub.unity3d.com/linux/keys/public | sudo apt-key add -
 sudo apt update
-sudo apt install unityhub
-sudo apt install libgbm-dev libasound2 libgconf-2-4 xvfb
+sudo apt install libgbm-dev libasound2 libgconf-2-4 -y
 
 UNITY_VERSION=2021.3.30f1
 
