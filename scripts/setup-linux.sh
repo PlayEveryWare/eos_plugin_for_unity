@@ -18,6 +18,9 @@ sudo apt install build-essential -y
 # Install the latest version of Git (needed for things like git lfs)
 sudo apt install git -y
 
+# Install prereqs
+sudo dnf install openssl1.1 openssl-libs
+
 # Install unity hub
 sudo apt-get install unityhub -y
 
