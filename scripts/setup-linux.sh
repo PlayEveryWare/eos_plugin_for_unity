@@ -18,13 +18,13 @@ sudo apt install build-essential git unityhub -y
 sudo apt install libgbm-dev libasound2 libgconf-2-4 -y
 sudo apt install xvfb -y
 
+# TODO: The following commands cause problems and need further experimentation
 # Install Unity 2021.3 (for some reason cannot specify 2021.3.8f1)
-sudo xvfb-run unityhub --headless install --version $UNITY_VERSION --no-sandbox
+#sudo xvfb-run unityhub --headless install --version $UNITY_VERSION --no-sandbox
 
 # Generate a license activation file (.alf)
-sudo xvfb-run ~/Unity/Hub/Editor/$UNITY_VERSION/Editor/Unity -quit -batchmode -nographics -createManualActivationFile
+#sudo xvfb-run ~/Unity/Hub/Editor/$UNITY_VERSION/Editor/Unity -quit -batchmode -nographics -createManualActivationFile
 # Get the license
-sudo xvfb-run ~/Unity/Hub/Editor/$UNITY_VERSION/Editor/Unity -quit -batchmode -nographics -manualLicenseFile yourLicenseFile.ulf
-
+#sudo xvfb-run ~/Unity/Hub/Editor/$UNITY_VERSION/Editor/Unity -quit -batchmode -nographics -manualLicenseFile yourLicenseFile.ulf
 # Try building the project
-sudo xvfb-run ~/Unity/Hub/Editor/$UNITY_VERSION/Editor/Unity -quit -batchmode -nographics -logFile - -projectPath ../ -buildTarget Linux64 -buildLinux64Player "Build.x86_64"
+#sudo xvfb-run ~/Unity/Hub/Editor/$UNITY_VERSION/Editor/Unity -quit -batchmode -nographics -logFile - -projectPath ../ -buildTarget Linux64 -buildLinux64Player "Build.x86_64"
