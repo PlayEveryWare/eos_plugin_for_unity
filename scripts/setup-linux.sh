@@ -10,9 +10,6 @@ sudo add-apt-repository ppa:git-core/ppa -y
 # Update apt-get 
 sudo apt-get update
 
-# Install prereqs
-sudo dnf install openssl1.1 openssl-libs 
-
 # Download and install the unity hub
 sudo sh -c 'echo "deb https://hub.unity3d.com/linux/repos/deb stable main" > /etc/apt/sources.list.d/unityhub.list'
 wget -qO - https://hub.unity3d.com/linux/keys/public | sudo apt-key add -
