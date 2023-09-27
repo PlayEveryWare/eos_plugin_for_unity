@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Make certain that we are running on a mac
 if [[ "$(uname)" != "Darwin" ]]; then
