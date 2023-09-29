@@ -83,7 +83,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         }
 
         string packagePathname = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/"+ platformDirectoryName + "/");
-        string platformSpecificPathname = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/"+ platformDirectoryName + "/");
+        string platformSpecificPathname = Path.Combine(Application.dataPath, "../etc/PlatformSpecificAssets/EOS/"+ platformDirectoryName + "/");
         string pathToInstallFrom = "";
         // If the Plugin is installed with StreamAssets, install them
         if (Directory.Exists(packagePathname))

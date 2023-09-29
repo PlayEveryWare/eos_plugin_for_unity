@@ -41,8 +41,8 @@
         {"src":"SDK/Source/Generated/Windows/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/"},
         {"src":"SDK/Source/Generated/Windows/Platform/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/"},
 
-        {"src": "SDK/Bin/Android/dynamic-stdc++/aar/*.aar", "dest": "PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/"},
-        {"src": "SDK/Bin/Android/static-stdc++/aar/*.aar", "dest": "PlatformSpecificAssets/EOS/Android/static-stdc++/aar/"},
+        {"src": "SDK/Bin/Android/dynamic-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/"},
+        {"src": "SDK/Bin/Android/static-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/static-stdc++/aar/"},
         {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
         {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
 
