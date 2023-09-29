@@ -85,7 +85,8 @@ public static class UnityPackageCreationUtility
         jsonPackageFile = Path.Combine(
             Application.dataPath, 
             "..", 
-            "PackageDescriptionConfigs",
+            "etc",
+            "PackageConfigurations",
             "eos_package_description.json");
 
         var currentConfig = packageConfig.GetCurrentConfig();
