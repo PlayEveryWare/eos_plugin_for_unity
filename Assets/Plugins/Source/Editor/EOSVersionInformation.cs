@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public string GetTemplateDirectory()
         {
-            return Path.Combine(GetRepositoryRoot(), "EOSUnityPlugin_package_template");
+            return Path.Combine(GetRepositoryRoot(), "etc/PackageTemplate");
         }
 
         private static string GetPackageName()
