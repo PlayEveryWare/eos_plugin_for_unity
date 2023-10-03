@@ -108,7 +108,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     private string GetPlatformSpecificAssetsPath(string subpath)
     {
         string packagePathname = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "PlatformSpecificAssets~", subpath));
-        string streamingAssetsSamplesPathname = Path.Combine(Application.dataPath, "..", "PlatformSpecificAssets", subpath);
+        string streamingAssetsSamplesPathname = Path.Combine(Application.dataPath, "..", "etc", "PlatformSpecificAssets", subpath);
         string pathToInstallFrom = "";
 
         if (Directory.Exists(packagePathname))
@@ -367,7 +367,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
 
         string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
-        string androidAssetFilepath = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Android/");
+        string androidAssetFilepath = Path.Combine(Application.dataPath, "../etc/PlatformSpecificAssets/EOS/Android/");
 
         string sourcePath = Path.Combine(
             Directory.Exists(packagePath) ? packagePath : androidAssetFilepath,   //From Package or From Assets(EOS Plugin Repo)

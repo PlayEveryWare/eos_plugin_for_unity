@@ -3,25 +3,25 @@
     {
       "src": [
         {
-          "src": "../Assets/Plugins/",
+          "src": "../../Assets/Plugins/",
           "files": [
               "EOSConfig.cs"
           ]
         },
         {
-          "src": "../Assets/Plugins/Source/",
+          "src": "../../Assets/Plugins/Source/",
           "files": [
               "*.cs"
           ]
         },
         {
-          "src": "../Assets/Plugins/Source/Editor/",
+          "src": "../../Assets/Plugins/Source/Editor/",
           "files": [
               "*.cs"
           ]
         },
         {
-          "src": "../Assets/Scripts/",
+          "src": "../../Assets/Scripts/",
           "files": [
               "*.cs"
           ]
