@@ -161,10 +161,10 @@
         
         {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg", "dest": "Editor/Standalone/"},
         {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg.meta", "dest": "Editor/Standalone/"},
-        {"src":"bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
-        {"src":"bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
-        {"src":"bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
-        {"src":"bin/EAC/Mac/anticheat_integritytool", "dest": "bin~/EAC/Mac/"},
+        {"src":"tools/bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"tools/bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"tools/bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
+        {"src":"tools/bin/EAC/Mac/anticheat_integritytool", "dest": "bin~/EAC/Mac/"},
         
         {"comment": "----------------------------End EAC bin---------------------------------------------"},
 
