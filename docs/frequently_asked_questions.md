@@ -116,5 +116,5 @@ Some native functionality are required for platform specific needs.
 To get these dependent libraries, use the platform library build tool in the plugin at `Tools > Build Library > [Target Platform]`
 
 Or to install the libraries manually,  
-go to the `NativeCode` folder, find the target platform, and *build the `.sln`* or *`run the makefile`* in the folder.
+go to the `lib/NativeCode` folder, find the target platform, and *build the `.sln`* or *`run the makefile`* in the folder.
 
