@@ -19,7 +19,7 @@ With that all being said, there are a few options one may pursue if one still wi
 # General instructions on how to obscure the config file
 
 ## Option One: build a custom DLL
-This involves pulling the repo, then going into the `NativeCode/` directory, and building the code for `GfxPluginNativeRender`.
+This involves pulling the repo, then going into the `lib/NativeCode/` directory, and building the code for `GfxPluginNativeRender`.
 After being sure one is able to do that, one needs to go into the `dllmain.cpp` file, and modify the code so that the config values 
 are _in the code_ instead of being read from the config file. This can be done by modifying the function `UnityPluginLoad`, near where it calls 
 `eos_config_from_json_value`.
