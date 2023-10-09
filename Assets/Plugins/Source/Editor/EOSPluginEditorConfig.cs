@@ -197,7 +197,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// </summary>
     public class EOSPluginEditorConfigEditor : EditorWindow
     {
-        private static string ConfigDirectory = "EOSPluginEditorConfiguration";
+        private static string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 
         static List<IEOSPluginEditorConfigurationSection> configurationSectionEditors;
 

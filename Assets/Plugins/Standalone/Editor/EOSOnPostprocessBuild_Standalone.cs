@@ -487,7 +487,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
                     bootstrapperName += ".exe";
                 }
 
-                string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
+                string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "tools/bin/EOSBootstrapperTool.exe");
 
                 string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
 
