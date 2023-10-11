@@ -11,15 +11,16 @@ generate versions of the package which include "Restricted" parts as well.
 2) Go to `Tools -> EOS Plugin -> Create Package`
 
 3) Fill out "JSON Description Path".
-This should by default be defined as `${WHATEVER_THE_GIT_REPO_IS_CALLED}/Assets/../PackageDescriptionConfigs/eos_package_description.json`.
+This should by default be defined as `${WHATEVER_THE_GIT_REPO_IS_CALLED}/etc/PackageConfigurations/eos_package_description.json`.
 This file defines what will be exported into the final UPM package, the documentation of which currently reside in the same directory as the package files.
 
-4) Fill out "Output path".
+3) Fill out "Output path".
 This is where the generated UPM package will be saved to. 
 
-5) Custom Build Directory.
-This lets one define where the files will be copied to before the final UPM is created. If left blank, a temp directory will be used.
-This setting is useful, allowing the user to export the project to another directory, using the same filtering specification as
-the package itself. In fact, this is how the GitHub project for the UPM package is setup. 
+4) Select button for the package you want to create:
+  - "Create UPM Package" will create a tarball `.tgz` file in the output directory indicated that contains the plugin.
+  - "Create .unitypackage" will create a `.unitypackage` file containing the plugin.
+  - "Export to Directory" will do the same as "Create UPM Package," but will not compress the output, so you'll get a directory of the exported files.
 
-6) Hit the "Create UPM package" to create a UPM package.
+*Advanced:*
+If you are familiar with the structure of the package `.json` file format, you can expand the advanced carrot and use a different `.json` for the package creation.

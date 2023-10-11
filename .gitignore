@@ -154,3 +154,4 @@ test-results/
 *IL2CPPStats/*
 EOSPluginEditorConfiguration/
 [Aa]ssets/TextMesh*Pro/
+Assets/Plugins/Source/Editor/obj/

@@ -27,7 +27,7 @@ using UnityEngine;
 
 public class DeploymentChecker : EditorWindow
 {
-    private const string PackageDirectory = "EOSUnityPlugin_package_template";
+    private const string PackageDirectory = "etc/PackageTemplate";
     private const string ChangelogFile = "CHANGELOG.md";
     private const string PackageJsonFile = "package.json";
 
