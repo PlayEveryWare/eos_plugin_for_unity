@@ -65,8 +65,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 P2PHandle = null;
             }
         }
+#endif
 
-        
         public EOSHighFrequencyPeer2PeerManager()
         {
 #if UNITY_EDITOR
@@ -90,8 +90,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
         }
-#endif
-
 #endif
 
         public void P2PUpdate()
