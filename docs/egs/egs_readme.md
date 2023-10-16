@@ -1,7 +1,11 @@
-# Epic Games Store
+<a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
 
-## Disabling Steam integration
-If one is making a EGS build without wanting to integrate Steam functionality, the config file Assets/StreamingAssets/EOS/eos_steam_config.json should be deleted before making a build.
+# <div align="center">Epic Games Store</div> <a name="epic-games-store">
 
-## Overriding Sandbox and/or Deployment ID
-At runtime, the sandbox ID can be overridden with the launch argument `-eossandboxid=<id>` and the deployment ID with `-eosdeploymentid=<id>`. When launching with EGS, the argument `-epicsandboxid=<id>` will be used to specifically the sandbox for the given launch configuration. To specify deployment IDs in this case, Sandbox Deployment Overrides can be added in the plugin config editor to define sandbox-deployment pairs, which will override the deployment ID when a given sandbox ID is used.
+## <div align="center">Disabling Steam integration</div> <a name="disabling-steam-integration">
+To disable Steam integration functionality, delete the configuration `Assets/StreamingAssets/EOS/eos_steam_config.json`` before building.
+
+## <div align="center">Overriding Sandbox and Deployment IDs</div><a name="overriding-sandbox-and-deployment-ids">
+At runtime, the sandbox ID can be overridden with the launch argument `-eossandboxid=<id>` and the deployment ID with `-eosdeploymentid=<id>`. 
+
+To specify deployment IDs in this case, Sandbox Deployment Overrides can be added in the plugin config editor to define sandbox-deployment pairs, which will override the deployment ID when a given sandbox ID is used.
