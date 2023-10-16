@@ -21,8 +21,6 @@
 
 # <div align="center">Overview</div> </div><a name="overview" />
 
-There are two main types of documentation for this project: normal documentation (like this document) and README documentation. README documentation style guide is a sub-set of the documentation style guide. ~~Read more about that [here].~~ (README-speciic documentation guide is coming soon).
-
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
 While this document does give examples for some of the most frequently utilized components of markdown, the intent is to describe *how* those components should be utilized in this project, not necessarily how to *implement* them.
@@ -362,20 +360,18 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 
 # <div align="center">See also </div><a name="see-also" />
 
-## Templates
-
-You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
-
-They are mainly blank space holders, so you can decide whats needed, be it a list, an alert, an image, or whatever. 
-
-[Basic Template](/docs/docs_on_docs/template_basic.md)
-
-[ReadMe Template](/docs/docs_on_docs/template_readme.md)
-
-## Internal Markdown reference
-
-You can find our internal Markdown reference [here](/docs/docs_on_docs/md_reference.md) for quick access, though it is still expected you use these syntax examples inline with this style guide.
-
+[comment]: <> The following section will be completed once all documentation has been made to conform to this style guide - as making that change may inform changes to this document style guide, which may in turn alter the structure of the templates.
+[comment]: <> ## Templates
+[comment]: <> 
+[comment]: <> You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
+[comment]: <> 
+[comment]: <> They are mainly blank space holders, so you can decide whats needed, be it a list, an alert, an image, or whatever. 
+[comment]: <> 
+[comment]: <> [Basic Template](/docs/docs_on_docs/template_basic.md)
+[comment]: <> 
+[comment]: <> [ReadMe Template](/docs/docs_on_docs/template_readme.md)
+[comment]: <> 
+[comment]: <> 
 ## Contributor Notes
-
+ 
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).
