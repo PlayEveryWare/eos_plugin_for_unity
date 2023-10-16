@@ -26,13 +26,14 @@ The follow target platforms are supported in Unity for the current release of th
 | Universal Windows Platform x64 | Supported |
 | Android | Supported |
 | iOS | Supported |
-| Linux | [Preview](docs/linux/linux_supported_versions.md) |
-| MacOS | [Preview](docs/macOS/macOS_supported_versions.md) |
+| Linux | Ubuntu 18.04<sup>(#linux-support)</sup> |
+| MacOS | macOS > 10.13 |
 | Console Platforms | Preview |
 | WebGL | Not Supported |
 | Universal Windows Platform x86 | Not Supported |
 | Unity Web Player | Not Supported |
 
+<a name="linux-support">1</a>: Known issue: The EOS overlay is not currently supported on native Linux builds.
 
 ## Supported EOS SDK Features
 As the EOS SDK continues releasing new features and functionality, the EOS Unity Plugin will be updated over time to support the new functionality. Here's the current list of EOS SDK features and their level of support in the EOS Unity Plugin:
