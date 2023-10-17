@@ -98,7 +98,11 @@ namespace Playeveryware.Editor
             var filepaths = new List<string>();
             foreach(var srcToDestKeyValues in packageDescription.source_to_dest)
             {
-                if (srcToDestKeyValues.IsCommentOnly() || null == srcToDestKeyValues.src)
+                if (srcToDestKeyValues.IsCommentOnly() || (srcToDestKeyValues.comment != null && srcToDestKeyValues.comment.StartsWith("//")))
+                {
+                    continue;
+                }
+                if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.ignore_regex))
                 {
                     continue;
                 }
