@@ -16,9 +16,8 @@ This document is a guide to connect the dots between EOS SDK and Steam SDK.
 ## Prerequisites
 
 - Install Steam SDK version `1.57` minimum.  
-- Have Steam added as an `Indentity Provider` for the game in the [Developer Portal](https://dev.epicgames.com/en-US/home) at `Product Settings -> Identity Providers`.
-  
-_For more information : [Identity Provider Management](https://dev.epicgames.com/docs/dev-portal/identity-provider-management) :: [Steam](https://dev.epicgames.com/docs/dev-portal/identity-provider-management#steam)_
+- Have Steam added as an `Indentity Provider` for the game.  
+    - [Identity Provider Management](https://dev.epicgames.com/docs/dev-portal/identity-provider-management) :: [Steam](https://dev.epicgames.com/docs/dev-portal/identity-provider-management#steam)  
 
 <br /> 
 
@@ -28,4 +27,10 @@ The Steam SDK includes C++ libraries which needs C# wrappers to work in Unity.
 There are several open source C# wrappers available.  
 Make sure that the minimum Steam SDK version `1.57` is supported by the wrappers if you are using one.
 
+## Samples
+
+The plugin includes samples for the following Steam SDK wrappers.
+- [Steamworks.NET](https://github.com/rlabrecque/Steamworks.NET)
+- [Facepunch.Steamworks](https://github.com/Facepunch/Facepunch.Steamworks)
+  
 <br /> 
