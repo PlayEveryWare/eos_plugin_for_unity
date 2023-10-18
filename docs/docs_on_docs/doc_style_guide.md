@@ -66,7 +66,7 @@ What it looks like:
 
 ## Title:
 
-Following the PlayEveryWare, Inc. logo should be the title of the document in pink text, followed immediately by a horizontal rule. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
+Following the PlayEveryWare, Inc. logo should be the title of the document centered, followed immediately by a horizontal rule. 
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
@@ -100,7 +100,7 @@ Markdown:
     * [Contributor Notes](#contributor-notes)
 ```
 
-Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a pound sign.
+Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a hash symbol (`#`).
 
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
