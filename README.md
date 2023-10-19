@@ -158,23 +158,20 @@ The support level of each EOS SDK features as of the current release of the plug
 
 ## Prerequisites
 
-* An Epic Games Account, you can sign up for [here](https://www.epicgames.com/id/register)<sup>[1](#getting-started-footnote-1)</sup>.
+* An Epic Games Account, you can sign up for [here](https://www.epicgames.com/id/register) (_although, most [features](#supported-eos-sdk-features) do not require an Epic Games Account_).
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into.
 
 > [!NOTE]
 > Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
 
-<a name="getting-started-footnote-1">1</a>: Most [features](#supported-eos-sdk-features) do not actually require an Epic Games Account.
 <br />
 
 ## Importing the Plugin
 
 There are two options to install the package from:
-* A [tarball](#adding-the-package-from-a-tarball) (easiest to get started quickly).
-* A [git url](#adding-the-package-from-a-git-url)<sup>[1](#importing-the-plugin-footnote-1)</sup>
-
- <a name="importing-the-plugin-footnote-1">1</a>: Do this if you want to be able to easily upgrade to newer versions of the plugin as they are released.
+* A [tarball](#adding-the-package-from-a-tarball) _(easiest to get started quickly)_.
+* A [git url](#adding-the-package-from-a-git-url) _(this method has the possible advantage of keeping the plugin up-to-date, if that's something that you would prefer)_.
 
 ## Adding the package from a tarball
 
@@ -197,8 +194,8 @@ There are two options to install the package from:
 6. Navigate to the directory containing the tarball, select and `Open` the tarball.
 7. After the package has finished installing, [import the samples](#samples).
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
-  > [!NOTE]
-  > The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
+    > [!NOTE]
+    > The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
 
 <br />
 
