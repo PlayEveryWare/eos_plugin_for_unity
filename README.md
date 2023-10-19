@@ -389,13 +389,7 @@ The following two guides can help you set up your development environment on Win
 
 ### Windows
 
-> [!NOTE]
-> You can execute the following PowerShell command in an elevated window to run the setup script which should do everything for you:
-> ```powershell
-> cd [root of repository]
-> Set-ExecutionPolicy RemoteSigned -Force
-> .\tools\scripts\setup-windows.ps1
-> ```
+To setup your environment on windows, follow these steps (or you can run the script indicated at the end of this section):
 
 1. Install the following:
     - [git](https://git-scm.com/downloads)
@@ -407,6 +401,14 @@ The following two guides can help you set up your development environment on Win
 3. Sign in to Unity Hub, and locate a project on disk by navigating to your local copy of the repository.
 
 4. After adding the plugin project to Unity Hub, you will see a little caution sign next to the project if you do not currently have the proper version of the Unity Editor installed. This is expected. Click on the caution symbol and follow the prompts to install the appropriate version of the Unity Editor.
+
+> [!NOTE]
+> You can execute the following PowerShell command in an elevated window to run the setup script which should do everything for you:
+> ```powershell
+> cd [root of repository]
+> Set-ExecutionPolicy RemoteSigned -Force
+> .\tools\scripts\setup-windows.ps1
+> ```
 
 ### macOS
 
