@@ -390,23 +390,23 @@ The following two guides can help you set up your development environment on Win
 ### Windows
 
   > [!NOTE]
-  > You can execute the following PowerShell command in an elevated window to run the setup script:
+  > You can execute the following PowerShell command in an elevated window to run the setup script which should do everything for you:
   > ```powershell
   > cd [root of repository]
   > Set-ExecutionPolicy RemoteSigned -Force
   > .\tools\scripts\setup-windows.ps1
   > ```
 
-  1. Install or have installed the following:
-   - [git](https://git-scm.com/downloads)
-   - [Unity Hub](https://unity.com/download)
-   - [Visual Studio 2019 Community Edition](https://visualstudio.microsoft.com/vs/older-downloads/)
+1. Install the following:
+  - [git](https://git-scm.com/downloads)
+  - [Unity Hub](https://unity.com/download)
+  - [Visual Studio 2019 Community Edition](https://visualstudio.microsoft.com/vs/older-downloads/)
 
-  2. Clone this repository and be sure to also run `git lfs pull` from the root of the repository.
+2. Clone this repository and be sure to also run `git lfs pull` from the root of the repository.
 
-  3. Sign in to Unity Hub, and locate a project on disk by navigating to your local copy of the repository.
+3. Sign in to Unity Hub, and locate a project on disk by navigating to your local copy of the repository.
 
-  4. After adding the plugin project to Unity Hub, you will see a little caution sign next to the project if you do not currently have the proper version of the Unity Editor installed. This is expected. Click on the caution symbol and follow the prompts to install the appropriate version of the Unity Editor.
+4. After adding the plugin project to Unity Hub, you will see a little caution sign next to the project if you do not currently have the proper version of the Unity Editor installed. This is expected. Click on the caution symbol and follow the prompts to install the appropriate version of the Unity Editor.
 
 ### macOS
 
