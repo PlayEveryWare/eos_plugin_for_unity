@@ -161,7 +161,8 @@ The support level of each EOS SDK features as of the current release of the plug
 
 
 * An Epic Games Account, you can sign up for [here](https://www.epicgames.com/id/register).
-    > :heavy_exclamation_mark: An Epic Games Account is not required by players for [most](#supported-eos-sdk-features) EOS features.
+    > [!NOTE]
+    > An Epic Games Account is not required by players for [most](#supported-eos-sdk-features) EOS features.
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into, it can be a blank project.
     > :heavy_exclamation_mark: Find the plugin's targeted Unity version <a href="#plugin-details">here</a>.
