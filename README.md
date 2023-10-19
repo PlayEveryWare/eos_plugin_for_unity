@@ -274,8 +274,8 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
 
-> [!NOTE]
-> The Social Overlay Feature is not supported in editor.
+  > [!NOTE]
+  > The Social Overlay Feature is not supported in editor.
 
 1. In the Unity editor, open the desired sample scene from the imported Scenes folder.
 
