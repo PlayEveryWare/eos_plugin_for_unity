@@ -52,7 +52,7 @@ The [eos_plugin_for_unity repository](https://github.com/PlayEveryWare/eos_plugi
 
 * Additional plugin Documentation can be found in the [docs/ directory](docs/).
 * A Unity Project for development of feature managers and samples.
-* Native Source for ```DynamicLibraryLoaderHelper``` and ```GfxPluginNativeRender```.
+* Native Source for `DynamicLibraryLoaderHelper` and `GfxPluginNativeRender`.
 * A Tool to build a Unity Package Manager compatible UPM.
 
 
@@ -178,23 +178,23 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 ## Adding the package from a tarball
 
-1. Download the latest release tarball, ```"com.playeveryware.eos-[version].tgz"``` [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
+1. Download the latest release tarball, `"com.playeveryware.eos-[version].tgz"` [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
     > [!WARNING]
     > If one uses the source download it will be missing all the git-lfs files (i.e. binaries, dynamic libraries). 
 
-2. Move the downloaded tarball into your project folder, but outside of the ```Assets``` folder.
+2. Move the downloaded tarball into your project folder, but outside of the `Assets` folder.
 
 3. From the Unity Editor, open the Package Manager.
-    * ```Window -> Package Manager```
+    * `Window -> Package Manager`
 
       ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
 
-4. Click the ```+``` button in the top left of the window.
+4. Click the `+` button in the top left of the window.
 
     ![Unity Add Tarball Package](docs/images/unity_package_tarball.gif)
 
-5. Select ```Add package from tarball```.
-6. Navigate to the directory containing the tarball, select and ```Open``` the tarball.
+5. Select `Add package from tarball`.
+6. Navigate to the directory containing the tarball, select and `Open` the tarball.
 7. After the package has finished installing, <a href="#samples">import the samples</a>.
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
@@ -208,18 +208,17 @@ There are two options to install the package, from a <a href="#adding-the-packag
 1. Setup Unity for [Git Dependency](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html).
 2. Install [git](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req) and [git-lfs](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req).
 3.  From the Unity Editor, open the Package Manager.
-    * ```Window -> Package Manager```.
+    * `Window -> Package Manager`.
 
       ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
 
-3. Click the ```+``` button in the top left of the window.
+3. Click the `+` button in the top left of the window.
 
     ![Unity Add Git Package](docs/images/unity_package_git.gif)
 
-4. Select ```Add Package from Git URL```.
+4. Select `Add Package from Git URL`.
 
-6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```
-   or ```https://github.com/PlayEveryWare/eos_plugin_for_unity_upm.git```.
+6. Paste in `git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git`.
 
 7. After the package has finished installing, <a href="#samples">import the samples</a>.
 
@@ -235,26 +234,26 @@ There are two options to install the package, from a <a href="#adding-the-packag
 The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implementation</a> to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
 
 > [!NOTE]
-> The generalized managers are a great starting point for feature integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```.
+> The generalized managers are a great starting point for feature integration into your own project. They are named as `EOS[Feature/Platform name]Manager.cs`.
 
 ## Importing the samples
 
-1. Select the ```PlayEveryWare EOS Plugin for Unity``` in the Package Manager window.
+1. Select the `PlayEveryWare EOS Plugin for Unity` in the Package Manager window.
 
     ![Unity Install Samples](docs/images/unity_install_samples.gif)
 
-2. Open the ```Samples``` dropdown.
+2. Open the `Samples` dropdown.
 
-3. Select ```Import``` for each of the sample packs, to bring in the Sample scenes.
+3. Select `Import` for each of the sample packs, to bring in the Sample scenes.
 
     > [!NOTE]
-    > The samples are placed in ```Assets/Samples``` for personal modification.
+    > The samples are placed in `Assets/Samples` for personal modification.
 
-4. In the Unity editor menu bar, open ```File->Build Settings```.
+4. In the Unity editor menu bar, open `File->Build Settings`.
 
-5. In the ```Project``` window, navigate to the scenes folders containing their respective sample scenes. ```\Assets\Samples\PlayEveryWare EOS Plugin for Unity\[Version #]\[Pack Name]\Scenes```.
+5. In the `Project` window, navigate to the scenes folders containing their respective sample scenes. `\Assets\Samples\PlayEveryWare EOS Plugin for Unity\[Version #]\[Pack Name]\Scenes`.
 
-6. Add the scenes to the ```Scenes In Build``` section of the ```Build Settings``` window. This can be done quickly by using the ```Shift``` key to select each scene at the same time, then dragging them into the proper area. Repeating for each sample pack folder.
+6. Add the scenes to the `Scenes In Build` section of the `Build Settings` window. This can be done quickly by using the `Shift` key to select each scene at the same time, then dragging them into the proper area. Repeating for each sample pack folder.
 
     > [!WARNING]
     > If you have other scenes already, and plan to look at the samples in a build, drag a sample scene to be the 0th scene in Build Settings before you build.
@@ -276,7 +275,7 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
 2. Press the play button at the top of the editor.
 
-3. Login with a selected authentication type. <br />```Account Portal``` and then ```PersistentAuth``` is easiest for the first time. ```Dev Auth``` can be used for quicker iteration, among other options described [here](docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
+3. Login with a selected authentication type. <br />`Account Portal` and then `PersistentAuth` is easiest for the first time. `Dev Auth` can be used for quicker iteration, among other options described [here](docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
 
     ![Auth and Friends Screenshot](docs/images/sample_screen_account_login.gif)
 
@@ -288,21 +287,21 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
   > [!NOTE] 
   > Check the [Prerequisites](#prerequisites) as there may be specific requirements for a player's computer.
-  > For instance, Windows requires the players to have ```The latest Microsoft Visual C++ Redistributable``` installed on their computer in order to play any distributed builds.
+  > For instance, Windows requires the players to have `The latest Microsoft Visual C++ Redistributable` installed on their computer in order to play any distributed builds.
 
-1. In the Unity editor menu bar, open ```File->Build Settings```.
+1. In the Unity editor menu bar, open `File->Build Settings`.
   
     > [!NOTE]
     > If you have non-sample scenes, drag a sample scene to be the 0th scene in Build Settings before you build.
 
-2. Choose your desired platform, and settings, hitting ```Build``` as you normally would.
+2. Choose your desired platform, and settings, hitting `Build` as you normally would.
 
 3. Run your build.
 
     > [!WARNING] 
-    > A Windows build, is started by running the ```EOSBootstrapper``` application in the resulting build, and not the game application itself. it is for this (and similar) reasons that the ```Build And Run``` button may not always function as it usually would.
+    > A Windows build, is started by running the `EOSBootstrapper` application in the resulting build, and not the game application itself. it is for this (and similar) reasons that the `Build And Run` button may not always function as it usually would.
 
-4.  Login with a selected authentication type. <br />```Account Portal``` and then ```PersistentAuth``` is easiest for the first time. ```Dev Auth``` can be used for quicker iteration, among other options described [here](docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
+4.  Login with a selected authentication type. <br />`Account Portal` and then `PersistentAuth` is easiest for the first time. `Dev Auth` can be used for quicker iteration, among other options described [here](docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
 
      ![Auth and Friends Screenshot](docs/images/sample_screen_account_login.gif)
 
@@ -318,11 +317,11 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
 ## Configuration Steps
 
-1. In the Unity editor menu bar, open ```Tools -> EpicOnlineServicesConfigEditor```.
+1. In the Unity editor menu bar, open `Tools -> EpicOnlineServicesConfigEditor`.
 
     ![EOS Config Menu](docs/images/unity_tools_eosconfig.gif)
 
-2. From the [developer portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the ```EOS Config Editor``` window, under the ```Main``` portion of the config:
+2. From the [developer portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the `EOS Config Editor` window, under the `Main` portion of the config:
      > [!NOTE]
      > Addtional information about configuration settings can be found [here](https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface).
     * ProductName
@@ -338,13 +337,13 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
       
     ![EOS Config UI](docs/images/eosconfig_ui.gif)
 
-4. Press ```Save All Changes```.
+4. Press `Save All Changes`.
 
-5. Navigate to ```Packages/Epic Online Services for Unity/Runtime``` via the ```Project``` window.
+5. Navigate to `Packages/Epic Online Services for Unity/Runtime` via the `Project` window.
 
-6. Add the ```EOSManager.prefab```, to each of your game's scenes.
+6. Add the `EOSManager.prefab`, to each of your game's scenes.
 
-7. Simply attach ```EOSManager.cs (Script)``` to a Unity object and it will initialize the plugin with the specified configuration in ```OnAwake()```.
+7. Simply attach `EOSManager.cs (Script)` to a Unity object and it will initialize the plugin with the specified configuration in `OnAwake()`.
       > [!NOTE]
       > The <a href="#samples">samples</a> already have this done!
 
@@ -358,7 +357,7 @@ See [docs/disable_plugin_per_platform.md](docs/disable_plugin_per_platform.md) f
 
 PlayEveryWare EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
 
-For issues related to integration or usage of the Unity plugin, please create a ```New Issue``` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab in the github repo.
+For issues related to integration or usage of the Unity plugin, please create a `New Issue` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab in the github repo.
 
 For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
 
@@ -381,12 +380,12 @@ The following are guidelines for helping contribute to this open source project.
 
  Build the Visual Studio solutions for the native DLLs, extra platform specific instructions may be located in the docs for that platform.
 
-1. In your local repository, navigate to the ```DynamicLibraryLoaderHelper``` folder of your platform choice in [NativeCode](lib/NativeCode).
+1. In your local repository, navigate to the `DynamicLibraryLoaderHelper` folder of your platform choice in [NativeCode](lib/NativeCode).
 
    > [!WARNING]
    > These files are not included with the package imported via tarball or git url.
 
-2. Open and build the ```DynamicLibraryLoaderHelper.sln``` in Visual Studio.
+2. Open and build the `DynamicLibraryLoaderHelper.sln` in Visual Studio.
 
 A successful build will place the correct binaries in the proper locations for Unity to initialize EOS SDK.
 
