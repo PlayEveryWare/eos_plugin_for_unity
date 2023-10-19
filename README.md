@@ -384,15 +384,33 @@ The following are guidelines for helping contribute to this open source project,
 
 The following two guides can help you set up your development environment on Windows using Hyper-V. If you are not using Hyper-V, the second guide can still be used to configure your environment.
 
-#### [Hyper-V Linux Guest VM](/docs/dev_env/HyperV_Linux_Guest_VM.md)
-#### [Configuring Ubuntu 18.04](/docs/dev_env/Ubuntu_Development_Environment.md)
+  #### [Hyper-V Linux Guest VM](/docs/dev_env/HyperV_Linux_Guest_VM.md)
+  #### [Configuring Ubuntu 18.04](/docs/dev_env/Ubuntu_Development_Environment.md)
 
-## Contributor Prerequisites
+### Windows
 
-* Ensure At least Visual Studio 2017 is installed.
-* Ensure At least Unity 2020.1.11f1 is installed.
-* Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles).
-* The repository cloned locally [https://github.com/PlayEveryWare/eos_plugin_for_unity](https://github.com/PlayEveryWare/eos_plugin_for_unity).
+  > [!NOTE]
+  > You can execute the following PowerShell command in an elevated window to run the setup script:
+  > ```powershell
+  > cd [root of repository]
+  > Set-ExecutionPolicy RemoteSigned -Force
+  > .\tools\scripts\setup-windows.ps1
+  > ```
+
+  1. Install or have installed the following:
+   - [git](https://git-scm.com/downloads)
+   - [Unity Hub](https://unity.com/download)
+   - [Visual Studio 2019 Community Edition](https://visualstudio.microsoft.com/vs/older-downloads/)
+
+  2. Clone this repository and be sure to also run `git lfs pull` from the root of the repository.
+
+  3. Sign in to Unity Hub, and locate a project on disk by navigating to your local copy of the repository.
+
+  4. After adding the plugin project to Unity Hub, you will see a little caution sign next to the project if you do not currently have the proper version of the Unity Editor installed. This is expected. Click on the caution symbol and follow the prompts to install the appropriate version of the Unity Editor.
+
+### macOS
+
+Instructions coming soon.
 
 ## Build steps For Native Libraries
 
