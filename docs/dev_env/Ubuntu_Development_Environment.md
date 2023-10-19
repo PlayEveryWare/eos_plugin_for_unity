@@ -1,16 +1,60 @@
-# Configuring Ubuntu 18.04
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
+# <div align="center">Configuring Ubuntu 18.04 for development</div>
 
 # Setting up your environment:
 
-This is the second part of the guide for using Hyper-V to set up a Linux environment on your Windows PC that can be utilized for testing and developing the EOS Plugin. This guide can however be used on its own as a guide to setting up a new Ubuntu 18.04 operating system.
+This is the second part of the guide for using Hyper-V to set up a Linux environment on your Windows PC that can be utilized for testing and developing the EOS Plugin. This guide _can_ however be used on its own as a guide to setting up a new Ubuntu 18.04 operating system for making contributions to the EOS Plugin.
 
 ## Setup your Linux Guest VM in Hyper-V
 
-*   Hyper-V Linux Guest VM ([https://doc.clickup.com/d/h/15yn8-1036/fc00a7ef1268280/15yn8-40524](https://doc.clickup.com/d/h/15yn8-1036/fc00a7ef1268280/15yn8-40524))
+If you want to set up your linux environment inside a virtual machine, and have not yet done so, follow [this](/docs/dev_env/HyperV_Linux_Guest_VM.md) guide first.
+
+## How to expand Hyper-V disk space for Ubuntu (if using Hyper-V)
+
+This is for after you have Ubuntu installed. It is recommended to set your disk space to an appropriate size before you install the OS.
+
+1. In Hyper-V, edit the virtual machine and navigate to "Hard Drive"![](/docs/images/ubuntu_dev_env/vm-settings.png)
+2. Select "Edit"
+
+![](/docs/images/ubuntu_dev_env/edit-disk.png)
+
+1. If "Edit" is greyed out, you will need to disable Checkpoints. Navigate to Checkpoints and unselect the checkbox that says "Enable checkpoints"
+
+![](/docs/images/ubuntu_dev_env/disable-checkpoints.png)
+
+3. The edit window will ask you to locate the disk. This should already be filled out. Select "Next"
+4. Choose "Expand"
+5. Enter in the desired size. 40 GB is a recommended minimum for this project. Select "Next"
+6. Verify the information is correct in the Summary and select "Finish"
+7. Run the VM and open the Terminal. 
+8. Run the following command to find the name of your partition, the right one will be the biggest partition. Mine is `/dev/sda1`, replace that in the commands with yours.
+
+```bash
+sudo fdisk -l
+```
+
+9. To expand the partition and the file system to use the new space, run the following commands:
+
+```bash
+sudo apt install cloud-guest-utils
+
+sudo growpart /dev/sda 1
+# Note the space between `sda` and `1` that is important
+
+sudo resize2fs /dev/sda1
+# Note no space this time!
+```
+
+10. Now you should have the extra space available to you. If this doesn't work, you can find some other suggestions [here](https://superuser.com/questions/1716141/how-to-expand-ubuntu-20-04-lts-filesystem-volume-on-hyper-v).
+
 
 ## Setting up your Linux Environment:
 
-After setting up the Linux Virtual Machine (outlined in the section above), there are some standard things that you can do right out of the gate that will cover a lot of the bases we will need, so take the following preliminary steps:
+> [!NOTE]
+> If you would like to take care of many of the following steps by simply running a script, feel free to make use of the provided [setup-linux.sh](/tools/scripts/setup-linux.sh) script. After running it, you will need to return to this guide and skip to [this](#configure-ssh-access-to-github-required) section.
+
+After setting up the Linux Virtual Machine (outlined in the link provided in the preceding section) or (if you're not using Hyper-V) you've just set up your linux machine, there are some standard things that you can do right out of the gate that will cover a lot of the bases we will need, so take the following preliminary steps:
 
 Change the `sudo` password:
 
@@ -18,20 +62,20 @@ Change the `sudo` password:
 sudo passwd sudo
 ```
 
-Next, update and upgrade the packages already installed:
+Next, update and _upgrade_ the packages already installed:
 
 ```bash
 sudo apt-get update
 sudo apt-get upgrade -y
 ```
 
-Then install the `build-essential` package - it's a collection of tools that are commonly used in software development. It includes `git`, but does not install `git-lfs`, which is why that is included:
+Then, install the `build-essential` package - it's a collection of tools that are commonly used in software development. It includes `git`, but does not install `git-lfs`, which is why that is included:
 
 ```bash
 sudo apt-get install build-essential -y
 ```
 
-#### Optional:
+### Optional:
 
 Set up a shared folder between Linux and Windows. Follow these instructions: [https://linuxhint.com/shared\_folders\_hypver-v\_ubuntu\_guest/](https://linuxhint.com/shared_folders_hypver-v_ubuntu_guest/)
 
@@ -39,7 +83,7 @@ If you would like to increase the Hyper-V display resolution, see [here](https:/
 
 ### Install the Unity Hub:
 
-Follow [these instructions](https://docs.unity3d.com/hub/manual/InstallHub.html#install-hub-linux) for how to install the Unity Hub on Ubuntu. For convenience the instructions are replicated below:
+Follow [these instructions](https://docs.unity3d.com/hub/manual/InstallHub.html#install-hub-linux) for how to install the Unity Hub on Ubuntu. For convenience, these instructions are replicated below:
 
 ```bash
 wget -qO - https://hub.unity3d.com/linux/keys/public | gpg --dearmor | sudo tee /usr/share/keyrings/Unity_Technologies_ApS.gpg > /dev/null
@@ -85,7 +129,7 @@ git lfs pull
 
 Create a directory in the root of the project called `Builds`, and inside that directory create two directories: `Server` and `Normal`. These will be utilized later.
 
-## Configuring Unity Project for Linux
+### Configuring Unity Project for Linux
 
 Once Unity is open:
 
@@ -97,41 +141,3 @@ Click on the button labeled "Player Settings..." at the bottom left.
 
 Go to Tools ➝ EOS Automated Test Settings
 Select the previously created `Builds/Server` directory for the "Test Server Directory" field.
-
-## How to expand Hyper-V disk space for Ubuntu
-
-This is for after you have Ubuntu installed. It is recommended to set your disk space to an appropriate size before you install the OS.
-
-1. In Hyper-V, edit the virtual machine and navigate to "Hard Drive"![](https://t1243816.p.clickup-attachments.com/t1243816/85c20f15-b004-430f-91d0-ff246f9d783d/image.png)
-2. Select "Edit"
-
-![](https://t1243816.p.clickup-attachments.com/t1243816/3ff2332d-5b0d-4b6a-8761-3b458d549472/image.png)
-
-1. If "Edit" is greyed out, you will need to disable Checkpoints. Navigate to Checkpoints and unselect the checkbox that says "Enable checkpoints"
-
-![](https://t1243816.p.clickup-attachments.com/t1243816/585bc3d7-b2fd-4ce6-9b4b-b5bb28cf8912/image.png)
-
-3. The edit window will ask you to locate the disk. This should already be filled out. Select "Next"
-4. Choose "Expand"
-5. Enter in the desired size. 40 GB is a recommended minimum for this project. Select "Next"
-6. Verify the information is correct in the Summary and select "Finish"
-7. Run the VM and open the Terminal. 
-8. Run the following command to find the name of your partition, the right one will be the biggest partition. Mine is `/dev/sda1`, replace that in the commands with yours.
-
-```bash
-sudo fdisk -l
-```
-
-9. To expand the partition and the file system to use the new space, run the following commands:
-
-```bash
-sudo apt install cloud-guest-utils
-
-sudo growpart /dev/sda 1
-# Note the space between `sda` and `1` that is important
-
-sudo resize2fs /dev/sda1
-# Note no space this time!
-```
-
-10. Now you should have the extra space available to you. If this doesn't work, you can find some other suggestions [here](https://superuser.com/questions/1716141/how-to-expand-ubuntu-20-04-lts-filesystem-volume-on-hyper-v).
