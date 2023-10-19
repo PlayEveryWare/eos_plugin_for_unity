@@ -78,8 +78,8 @@
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
 
         {"src":"etc/PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
-        {"src":"bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
-        {"src":"bin/EOSBootstrapper.exe", "dest": "bin~/"},
+        {"src":"tools/bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
+        {"src":"tools/bin/EOSBootstrapper.exe", "dest": "bin~/"},
 
         {"src":"etc/PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
         {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
@@ -161,10 +161,10 @@
         
         {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg", "dest": "Editor/Standalone/"},
         {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg.meta", "dest": "Editor/Standalone/"},
-        {"src":"bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
-        {"src":"bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
-        {"src":"bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
-        {"src":"bin/EAC/Mac/anticheat_integritytool", "dest": "bin~/EAC/Mac/"},
+        {"src":"tools/bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"tools/bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"tools/bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
+        {"src":"tools/bin/EAC/Mac/anticheat_integritytool", "dest": "bin~/EAC/Mac/"},
         
         {"comment": "----------------------------End EAC bin---------------------------------------------"},
 

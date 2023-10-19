@@ -244,7 +244,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static void BuildWindows(string platform)
         {
-            RunMSBuild("DynamicLibraryLoaderHelper.sln", platform, "NativeCode/DynamicLibraryLoaderHelper");
+            RunMSBuild("DynamicLibraryLoaderHelper.sln", platform, "lib/NativeCode/DynamicLibraryLoaderHelper");
         }
 
         private static void RunMake(string makefileDir)
@@ -262,12 +262,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static void BuildMac()
         {
-            RunMake("NativeCode/DynamicLibraryLoaderHelper_macOS");
+            RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_macOS");
         }
 
         private static void BuildLinux()
         {
-            RunMake("NativeCode/DynamicLibraryLoaderHelper_Linux");
+            RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_Linux");
         }
 
         private static int RunProcess(string processPath, string arguments, string workingDir = "", bool printOutput = true, bool printError = true)
