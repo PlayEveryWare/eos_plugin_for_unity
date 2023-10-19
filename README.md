@@ -389,18 +389,18 @@ The following two guides can help you set up your development environment on Win
 
 ### Windows
 
-  > [!NOTE]
-  > You can execute the following PowerShell command in an elevated window to run the setup script which should do everything for you:
-  > ```powershell
-  > cd [root of repository]
-  > Set-ExecutionPolicy RemoteSigned -Force
-  > .\tools\scripts\setup-windows.ps1
-  > ```
+> [!NOTE]
+> You can execute the following PowerShell command in an elevated window to run the setup script which should do everything for you:
+> ```powershell
+> cd [root of repository]
+> Set-ExecutionPolicy RemoteSigned -Force
+> .\tools\scripts\setup-windows.ps1
+> ```
 
 1. Install the following:
-  - [git](https://git-scm.com/downloads)
-  - [Unity Hub](https://unity.com/download)
-  - [Visual Studio 2019 Community Edition](https://visualstudio.microsoft.com/vs/older-downloads/)
+    - [git](https://git-scm.com/downloads)
+    - [Unity Hub](https://unity.com/download)
+    - [Visual Studio 2019 Community Edition](https://visualstudio.microsoft.com/vs/older-downloads/)
 
 2. Clone this repository and be sure to also run `git lfs pull` from the root of the repository.
 
