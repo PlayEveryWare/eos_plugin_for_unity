@@ -14,14 +14,17 @@ If you want to set up your linux environment inside a virtual machine, and have 
 
 This is for after you have Ubuntu installed. It is recommended to set your disk space to an appropriate size before you install the OS.
 
-1. In Hyper-V, edit the virtual machine and navigate to "Hard Drive"![](/docs/images/ubuntu_dev_env/vm-settings.png)
+1. In Hyper-V, edit the virtual machine and navigate to "Hard Drive"
+    
+    ![](/docs/images/ubuntu_dev_env/vm-settings.png)
+
 2. Select "Edit"
 
-![](/docs/images/ubuntu_dev_env/edit-disk.png)
+    ![](/docs/images/ubuntu_dev_env/edit-disk.png)
 
 1. If "Edit" is greyed out, you will need to disable Checkpoints. Navigate to Checkpoints and unselect the checkbox that says "Enable checkpoints"
 
-![](/docs/images/ubuntu_dev_env/disable-checkpoints.png)
+    ![](/docs/images/ubuntu_dev_env/disable-checkpoints.png)
 
 3. The edit window will ask you to locate the disk. This should already be filled out. Select "Next"
 4. Choose "Expand"
@@ -36,15 +39,15 @@ sudo fdisk -l
 
 9. To expand the partition and the file system to use the new space, run the following commands:
 
-```bash
-sudo apt install cloud-guest-utils
+    ```bash
+    sudo apt install cloud-guest-utils
 
-sudo growpart /dev/sda 1
-# Note the space between `sda` and `1` that is important
+    sudo growpart /dev/sda 1
+    # Note the space between `sda` and `1` that is important
 
-sudo resize2fs /dev/sda1
-# Note no space this time!
-```
+    sudo resize2fs /dev/sda1
+    # Note no space this time!
+    ```
 
 10. Now you should have the extra space available to you. If this doesn't work, you can find some other suggestions [here](https://superuser.com/questions/1716141/how-to-expand-ubuntu-20-04-lts-filesystem-volume-on-hyper-v).
 
