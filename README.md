@@ -158,34 +158,34 @@ The support level of each EOS SDK features as of the current release of the plug
 
 ## Prerequisites
 
-
-* An Epic Games Account, you can sign up for [here](https://www.epicgames.com/id/register).
-    
-    > [!NOTE]
-    > An Epic Games Account is not required by players for [most](#supported-eos-sdk-features) EOS features.
+* An Epic Games Account, you can sign up for [here](https://www.epicgames.com/id/register)<sup>[1](#getting-started-footnote-1)</sup>.
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
-* A Unity project to integrate the plugin into, it can be a blank project.
-    > [!NOTE]
-    > Find the plugin's targeted Unity version <a href="#plugin-details">here</a>.
-* Minimum <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html">Unity system requirements</a>.
-* Minimum <a href="https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements">EOS system requirements</a>.
+* A Unity project to integrate the plugin into.
 
+> [!NOTE]
+> Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
+
+<a name="getting-started-footnote-1">1</a>: Most [features](#supported-eos-sdk-features) do not actually require an Epic Games Account.
 <br />
 
 ## Importing the Plugin
 
-There are two options to install the package, from a <a href="#adding-the-package-from-a-tarball">tarball</a> [Quickest to start], or from a <a href="#adding-the-package-from-a-git-url">GIT URL</a> [Quickest for updates].
+There are two options to install the package from:
+* A [tarball](#adding-the-package-from-a-tarball) (easiest to get started quickly).
+* A [git url](#adding-the-package-from-a-git-url)<sup>[1](#importing-the-plugin-footnote-1)</sup>
+
+ <a name="importing-the-plugin-footnote-1">1</a>: Do this if you want to be able to easily upgrade to newer versions of the plugin as they are released.
 
 ## Adding the package from a tarball
 
 1. Download the latest release tarball, `"com.playeveryware.eos-[version].tgz"` [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
+
     > [!WARNING]
-    > If one uses the source download it will be missing all the git-lfs files (i.e. binaries, dynamic libraries). 
+    > Do *not* attempt to create a tarball yourself from the source, unless you know what you are doing with `git lfs`. 
 
 2. Move the downloaded tarball into your project folder, but outside of the `Assets` folder.
 
-3. From the Unity Editor, open the Package Manager.
-    * `Window -> Package Manager`
+3. From the Unity Editor, open the Package Manager via `Window -> Package Manager`.
 
       ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
 
@@ -195,8 +195,7 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 5. Select `Add package from tarball`.
 6. Navigate to the directory containing the tarball, select and `Open` the tarball.
-7. After the package has finished installing, <a href="#samples">import the samples</a>.
-
+7. After the package has finished installing, [import the samples](#samples).
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
   > [!NOTE]
   > The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
@@ -217,11 +216,8 @@ There are two options to install the package, from a <a href="#adding-the-packag
     ![Unity Add Git Package](docs/images/unity_package_git.gif)
 
 4. Select `Add Package from Git URL`.
-
 6. Paste in `git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git`.
-
 7. After the package has finished installing, <a href="#samples">import the samples</a>.
-
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
 > [!NOTE]
