@@ -373,7 +373,7 @@ The following are guidelines for helping contribute to this open source project.
 
  Build the Visual Studio solutions for the native DLLs, extra platform specific instructions may be located in the docs for that platform.
 
-1. In your local repository, navigate to the `DynamicLibraryLoaderHelper` folder of your platform choice in [NativeCode](lib/NativeCode).
+1. In your local repository, navigate to the `lib/NativeCode/DynamicLibraryLoaderHelper_[PLATFORM]` folder of your platform choice in [NativeCode](lib/NativeCode).
 
    > [!WARNING]
    > These files are not included with the package imported via tarball or git url.
