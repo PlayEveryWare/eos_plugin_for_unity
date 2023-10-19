@@ -17,11 +17,11 @@
 
     If these options are greyed out, you may need to enter your bios settings to enable virtualization. See [here](https://www.bleepingcomputer.com/tutorials/how-to-enable-cpu-virtualization-in-your-computer-bios/) for general instructions on how to accomplish this.
 
-    You can also tell if Virtualization is enabled in your BIOS by looking at the CPU Performance tab in Task Manager
+    You can also tell if Virtualization is enabled in your BIOS by looking at the CPU Performance tab in Task Manager.
 
     <img src="/docs/images/hyperv_linux_guest_vm/task-manager-virtualization-check.png" width="500" />
 
-    If it says "Disabled" like it does here, you will need to enable it in your BIOS
+    If it says "Disabled" instead of "Enabled," (like it does here) you will need to enable it in your BIOS.
 
 3. You will be prompted to restart your computer, go ahead and do so.
 
