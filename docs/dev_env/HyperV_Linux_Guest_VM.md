@@ -66,20 +66,15 @@ Ubuntu 18.04 is the official version of Linux that is supported by both EOS, the
 
 3. Click "Create Virtual Machine" and wait for the process to complete.
 
-<img src="/docs/images/hyperv_linux_guest_vm/edit-settings.png" width="300" />
+
 
 > [!IMPORTANT]
 > Before you turn on the virtual machine, navigate to the virtual machine's settings, and increase the size of the disk:
 > 1. Click `Edit Settings`
->
->    
->
-> 2. Select the hard drive in the left panel, and click `Edit`
->
+> 2. <img src="/docs/images/hyperv_linux_guest_vm/edit-settings.png" width="300" />
+> 3. Select the hard drive in the left panel, and click `Edit`
 >    <img src="/docs/images/hyperv_linux_guest_vm/vm-settings.png" width="300" />
->
-> 3. Expand the drive to _at least_ 40GB
->
+> 4. Expand the drive to _at least_ 40GB
 >    <img src="/docs/images/hyperv_linux_guest_vm/expand.png" width />
 
 4. Once the Virtual Machine is created, connect to the virtual machine to complete the installation of Ubuntu.
