@@ -140,7 +140,7 @@ Should a subsection of the document need to be further broken up into discrete s
 For example:
 
 ```markdown
-## Sub Subsection:} <a name="sub-subsection">
+## Sub Subsection: <a name="sub-subsection">
 ```
 
 > [!NOTE]
