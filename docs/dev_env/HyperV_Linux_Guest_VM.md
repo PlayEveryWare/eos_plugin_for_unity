@@ -2,7 +2,7 @@
 
 # <div align="center">Setting up a Hyper-V Linux Guest VM</div>
 
-## Enabling Virtualization:
+## Step 1: Enabling Virtualization
 
 1. Turn on Hyper-V. Hit the windows key and type in "Turn windows features on or off."
 
@@ -24,7 +24,7 @@
 
 3. You will be prompted to restart your computer, go ahead and do so.
 
-## Set up Hyper-V Network Switch:
+## Step 2: Set up Hyper-V Network Switch
 
 Setting up network configuration can be a little bit confusing if you're doing it for the first time. From a high-level view, consider that a virtual machine needs a way to connect to the internet, and this is the process that facilitates that capability. It does so by taking your default internet connection and pretending that it's actually two connections - one that your host computer gets to use, and one that your virtual machine gets to use.
 
@@ -43,14 +43,14 @@ Setting up network configuration can be a little bit confusing if you're doing i
 
     ![](/docs/images/hyperv_linux_guest_vm/finished-virtual-switch.png)
 
-## Disable Enhanced Session
+## Step 3: Disable Enhanced Session
 
 The "Enhanced Session" feature of Hyper-V doesn't play very nicely with Ubuntu, you will want to disable it:
 
 Go to Hyper-V Manager Actions bar and select "Hyper-V Settings..." and disable the "Use enhanced session mode."
 <img src="/docs/images/hyperv_linux_guest_vm/enhanced-session.png" width="520" />
 
-## Creating a virtual machine to run Ubuntu 18.04:
+## Step 4: Creating a virtual machine to run Ubuntu 18.04
 
 Ubuntu 18.04 is the official version of Linux that is supported by both EOS, the EOS Plugin, and the versions of unity the plugin supports. It might not be limited to this version, but it is certainly the most widely used, so it is best to perform testing on at least this platform.
 

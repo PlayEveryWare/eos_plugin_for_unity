@@ -59,6 +59,8 @@ This is for after you have Ubuntu installed. It is recommended to set your disk 
 
 After setting up the Linux Virtual Machine (outlined in the link provided in the preceding section) or (if you're not using Hyper-V) you've just set up your linux machine, there are some standard things that you can do right out of the gate that will cover a lot of the bases we will need, so take the following preliminary steps:
 
+### Step 1: Preliminaries
+
 1. Change the `sudo` password:
 
     ```bash
@@ -78,7 +80,7 @@ After setting up the Linux Virtual Machine (outlined in the link provided in the
     sudo apt-get install build-essential -y
     ```
 
-### Install the Unity Hub:
+### Step 2: Install the Unity Hub:
 
 Follow [these instructions](https://docs.unity3d.com/hub/manual/InstallHub.html#install-hub-linux) for how to install the Unity Hub on Ubuntu. For convenience, these instructions are replicated below:
 
@@ -91,7 +93,7 @@ sudo apt update
 sudo apt-get install unityhub
 ```
 
-### Configure SSH Access to GitHub (Required):
+### Step 3: Configure SSH Access to GitHub (Required):
 
 1. Follow [this](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) guide for creating a new SSH key.
 
@@ -106,7 +108,7 @@ sudo apt-get install unityhub
 
 You'll be prompted to trust the key (type yes and hit enter). This command should congratulate you on successfully connecting, list your username, and tell you that command-line access is not enabled.
 
-### Clone the EOS Plugin Repository
+### Step 4: Clone the EOS Plugin Repository
 
 It is important that you have the latest version of `git` installed, so that you can use `git lfs`. See [here](https://itsfoss.com/install-git-ubuntu/) for an excellent guide an installing the latest version of `git`
 
@@ -127,7 +129,7 @@ git lfs pull
 
 Create a directory in the root of the project called `Builds`, and inside that directory create two directories: `Server` and `Normal`. These will be utilized later.
 
-### Configuring Unity Project for Linux
+### Step 5: Configuring Unity Project for Linux
 
 Once Unity is open:
 
