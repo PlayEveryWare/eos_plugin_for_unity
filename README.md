@@ -169,9 +169,9 @@ The support level of each EOS SDK features as of the current release of the plug
 
 ## Importing the Plugin
 
-There are two options to install the package from:
-* A [tarball](#adding-the-package-from-a-tarball) _(easiest to get started quickly)_.
-* A [git url](#adding-the-package-from-a-git-url) _(this method has the possible advantage of keeping the plugin up-to-date, if that's something that you would prefer)_.
+There are two options to install the package:
+* Via a [tarball](#adding-the-package-from-a-tarball) _(easiest to get started quickly)_.
+* From a [git url](#adding-the-package-from-a-git-url) _(this method has the possible advantage of keeping the plugin up-to-date, if that's something that you would prefer)_.
 
 ## Adding the package from a tarball
 
