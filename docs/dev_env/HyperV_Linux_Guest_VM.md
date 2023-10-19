@@ -68,15 +68,15 @@ Ubuntu 18.04 is the official version of Linux that is supported by both EOS, the
    
 4.  Click `Edit Settings`
 
-    <img src="/docs/images/hyperv_linux_guest_vm/edit-settings.png" width="330" />
+    <img src="/docs/images/hyperv_linux_guest_vm/edit-settings.png" width="450" />
 
 5. Select the hard drive in the left panel, and click `Edit`
 
-    <img src="/docs/images/hyperv_linux_guest_vm/vm-settings.png" width="330" />
+    <img src="/docs/images/hyperv_linux_guest_vm/vm-settings.png" width="450" />
     
 6. Expand the drive to _at least_ 40GB
 
-    <img src="/docs/images/hyperv_linux_guest_vm/expand.png" width="330" />
+    <img src="/docs/images/hyperv_linux_guest_vm/expand.png" width="450" />
 
 7. Once the Virtual Machine is created, connect to the virtual machine to complete the installation of Ubuntu.
     * When you get to the user creation portion of installation, make sure you do NOT enable "Log in automatically," as this will disable some of the capabilities that make using Hyper-V nice.
