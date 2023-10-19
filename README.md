@@ -77,9 +77,6 @@ The support level of each target platform in Unity as of the current release of 
 | Universal Windows Platform x64 | | |
 | [Android](/docs/android/readme_android.md) (No Social Overlay Yet) | | |
 | [iOS](/docs/iOS/readme_iOS.md) (No Social Overlay Yet) | | |
-> :heavy_exclamation_mark: Enable `EOS_PREVIEW_PLATFORM` to access Preview platforms.
-
-<br />
 
 ## Supported EOS SDK Features
 
@@ -228,9 +225,8 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
-> :heavy_exclamation_mark: The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
-
-<br />
+> [!NOTE]
+> The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
 
 ## Samples
 
@@ -238,12 +234,10 @@ There are two options to install the package, from a <a href="#adding-the-packag
 
 The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implementation</a> to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
 
-   > :heavy_exclamation_mark: The generalized managers are a great starting point for feature integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```.
-
-<br />
+> [!NOTE]
+> The generalized managers are a great starting point for feature integration into your own project. They are named as ```EOS[Feature/Platform name]Manager.cs```.
 
 ## Importing the samples
-<br />
 
 1. Select the ```PlayEveryWare EOS Plugin for Unity``` in the Package Manager window.
 
@@ -263,20 +257,18 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
     > :heavy_exclamation_mark: If you have other scenes already, and plan to look at the samples in a build, drag a sample scene to be the 0th scene in Build Settings before you build.
 
-<br />
-
 ## Running the samples
 
-> :heavy_exclamation_mark: The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional.
-
-> :heavy_exclamation_mark: Some Samples may not be accessible if the extra packs were not <a href="#importing-the-samples">imported</a>, or the scenes weren't added in the build settings. 
+> [!IMPORTANT]
+> The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="#importing-the-samples">imported</a>, or the scenes weren't added in the build settings. 
 
 Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
 
-> :heavy_exclamation_mark: The Social Overlay Feature is not supported in editor.
+> [!NOTE]
+> The Social Overlay Feature is not supported in editor.
 
 1. In the Unity editor, open the desired sample scene from the imported Scenes folder.
 
@@ -292,8 +284,9 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
   <summary><b>Steps to run a sample from a build</b></summary>
 <br />
 
-  > :heavy_exclamation_mark: Check the [Prerequisites](#prerequisites) as there may be specific requirements for a player's computer.
-  >  Windows, for instance, requires the players to have ```The latest Microsoft Visual C++ Redistributable``` installed on their computer in order to play any distributed builds.
+  > [!NOTE] 
+  > Check the [Prerequisites](#prerequisites) as there may be specific requirements for a player's computer.
+  > For instance, Windows requires the players to have ```The latest Microsoft Visual C++ Redistributable``` installed on their computer in order to play any distributed builds.
 
 1. In the Unity editor menu bar, open ```File->Build Settings```.
   

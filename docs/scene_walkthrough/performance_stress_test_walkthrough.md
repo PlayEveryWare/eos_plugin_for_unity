@@ -13,5 +13,7 @@ This scene was created to test the performance of the overlay under different sy
 
     ![Stress Test](../images/stress_test.png)
 
-❗ The Perfomance Stress Test Sample Scene is included in the `Extra Pack 2` sample pack.  
-❗ Upon import, the `com.unity.postprocessing` package that this scene requires will be automatically installed.  You will still need to <a href="/readme.md#importing-the-samples">add it in the build settings</a>.  
+The Perfomance Stress Test Sample Scene is included in the `Extra Pack 2` sample pack.  
+
+> [!NOTE] 
+> Upon import, the `com.unity.postprocessing` package that this scene requires will be automatically installed.  You will still need to <a href="/readme.md#importing-the-samples">add it in the build settings</a>.  

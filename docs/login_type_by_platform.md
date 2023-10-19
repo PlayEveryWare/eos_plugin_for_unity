@@ -13,4 +13,5 @@
 | [PS5](ps5/readme_ps5_login.md)            | Dont Use       | Dont Use        | Use it              | Dont Use       | Dont Use   |
 | [Switch](switch/readme_switch_login.md)   | Use it         | Use it          | Use for First Party | Dont Use       | Dont Use   |
 
-❗Note: Console specifics require access to their respective restricted repositories
+> [!NOTE]
+> Console specifics require access to their respective restricted repositories.

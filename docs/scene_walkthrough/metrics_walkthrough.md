@@ -6,4 +6,5 @@ The Metrics demo showcases the player metrics interface, allowing for game use a
 - ``Game Session ID`` can be used to attach a specific match identifiers to the metric session.
 
 
-❗ More documentation on the metrics interface can be found [here](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).
+> [!NOTE]
+> More documentation on the metrics interface can be found [here](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).

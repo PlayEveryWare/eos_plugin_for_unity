@@ -282,8 +282,9 @@ When Auth Login Succeeds, Connect login gets called next
         });
     }
 ```      
-❗*What happens after login should be tailored to fit the game's flow, such as configure UI, open main scene, log information, etc*  
-*They are omitted to keep this file concise. The full version of the functions could be found in plugin scripts `EOSManager.cs` and `UILoginMenu.cs`*   
+> [!WARNING]
+> What happens after login should be tailored to fit the game's flow, such as configure UI, open main scene, log information, etc.
+> They are omitted to keep this file concise. The full version of the functions could be found in plugin scripts `EOSManager.cs` and `UILoginMenu.cs`.
             
 ### Intermediate functions that `StartLoginWithLoginTypeAndToken` contains
 

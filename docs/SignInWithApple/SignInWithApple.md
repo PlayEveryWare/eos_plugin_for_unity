@@ -169,4 +169,6 @@ private void ConnectAppleId()
     });
 }
 ```
-Visit the plugin [website](https://github.com/lupidan/apple-signin-unity) for more information 
+
+> [!NOTE]
+> Visit the plugin [website](https://github.com/lupidan/apple-signin-unity) for more information 
