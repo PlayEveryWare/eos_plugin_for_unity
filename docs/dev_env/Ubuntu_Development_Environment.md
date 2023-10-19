@@ -33,9 +33,9 @@ This is for after you have Ubuntu installed. It is recommended to set your disk 
 7. Run the VM and open the Terminal. 
 8. Run the following command to find the name of your partition, the right one will be the biggest partition. Mine is `/dev/sda1`, replace that in the commands with yours.
 
-```bash
-sudo fdisk -l
-```
+    ```bash
+    sudo fdisk -l
+    ```
 
 9. To expand the partition and the file system to use the new space, run the following commands:
 
@@ -59,30 +59,24 @@ sudo fdisk -l
 
 After setting up the Linux Virtual Machine (outlined in the link provided in the preceding section) or (if you're not using Hyper-V) you've just set up your linux machine, there are some standard things that you can do right out of the gate that will cover a lot of the bases we will need, so take the following preliminary steps:
 
-Change the `sudo` password:
+1. Change the `sudo` password:
 
-```bash
-sudo passwd sudo
-```
+    ```bash
+    sudo passwd sudo
+    ```
 
-Next, update and _upgrade_ the packages already installed:
+2. Next, update and _upgrade_ the packages already installed:
 
-```bash
-sudo apt-get update
-sudo apt-get upgrade -y
-```
+    ```bash
+    sudo apt-get update
+    sudo apt-get upgrade -y
+    ```
 
-Then, install the `build-essential` package - it's a collection of tools that are commonly used in software development. It includes `git`, but does not install `git-lfs`, which is why that is included:
+3. Install the `build-essential` package - it's a collection of tools that are commonly used in software development. It includes `git`, but does not install `git-lfs`, which is why that is included:
 
-```bash
-sudo apt-get install build-essential -y
-```
-
-### Optional:
-
-Set up a shared folder between Linux and Windows. Follow these instructions: [https://linuxhint.com/shared\_folders\_hypver-v\_ubuntu\_guest/](https://linuxhint.com/shared_folders_hypver-v_ubuntu_guest/)
-
-If you would like to increase the Hyper-V display resolution, see [here](https://superuser.com/questions/518484/how-can-i-increase-the-hyper-v-display-resolution#:~:text=1%20Install%20linux-image-extras%20%28hyperv-drivers%29%3A%20sudo%20apt-get%20install%20linux-image-extra-virtual,%28restarting%20Ubuntu%20%28Linux%29%20might%20be%20enough%29%20More%20).
+    ```bash
+    sudo apt-get install build-essential -y
+    ```
 
 ### Install the Unity Hub:
 
@@ -99,15 +93,16 @@ sudo apt-get install unityhub
 
 ### Configure SSH Access to GitHub (Required):
 
-First follow [this](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) guide for creating a new SSH key.
+1. Follow [this](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent) guide for creating a new SSH key.
 
-Then, follow [this](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) guide for adding that SSH key to GitHub.
+2. Follow [this](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) guide for adding that SSH key to GitHub.
 
-Test that the connection works by running the following command:
-
-```bash
-sudo ssh -T git@github.com 
-```
+    > [!NOTE]
+    > Test that the connection works by running the following command:
+    >
+    > ```bash
+    > sudo ssh -T git@github.com 
+    > ```
 
 You'll be prompted to trust the key (type yes and hit enter). This command should congratulate you on successfully connecting, list your username, and tell you that command-line access is not enabled.
 
@@ -136,11 +131,14 @@ Create a directory in the root of the project called `Builds`, and inside that d
 
 Once Unity is open:
 
-Go to File ➝ Build Settings
+1. Go to File ➝ Build Settings
+2. Switch the platform to "Dedicated Server."
+3. Click on the button labeled "Player Settings..." at the bottom left.
+4. Go to Tools ➝ EOS Automated Test Settings
+5. Select the previously created `Builds/Server` directory for the "Test Server Directory" field.
 
-Switch the platform to "Dedicated Server."
+## Optional:
 
-Click on the button labeled "Player Settings..." at the bottom left.
+Set up a shared folder between Linux and Windows. Follow these instructions: [https://linuxhint.com/shared\_folders\_hypver-v\_ubuntu\_guest/](https://linuxhint.com/shared_folders_hypver-v_ubuntu_guest/)
 
-Go to Tools ➝ EOS Automated Test Settings
-Select the previously created `Builds/Server` directory for the "Test Server Directory" field.
+If you would like to increase the Hyper-V display resolution, see [here](https://superuser.com/questions/518484/how-can-i-increase-the-hyper-v-display-resolution#:~:text=1%20Install%20linux-image-extras%20%28hyperv-drivers%29%3A%20sudo%20apt-get%20install%20linux-image-extra-virtual,%28restarting%20Ubuntu%20%28Linux%29%20might%20be%20enough%29%20More%20).
