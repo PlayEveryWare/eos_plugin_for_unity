@@ -65,8 +65,29 @@ Ubuntu 18.04 is the official version of Linux that is supported by both EOS, the
     <img src="/docs/images/hyperv_linux_guest_vm/ubuntu-18.04%20LTS.png" width="600" />
 
 3. Click "Create Virtual Machine" and wait for the process to complete.
+
+> [!IMPORTANT]
+> Before you turn on the virtual machine, navigate to the virtual machine's settings, and increase the size of the disk:
+> 1. Click `Edit Settings`
+>
+>    <img src="/docs/images/hyperv_linux_guest_vm/edit-settings.png" width="300" />
+>
+> 2. Select the hard drive in the left panel, and click `Edit`
+>
+>    <img src="/docs/images/hyperv_linux_guest_vm/vm-settings.png" width="300" />
+>
+> 3. Expand the drive to _at least_ 40GB
+>
+>    <img src="/docs/images/hyperv_linux_guest_vm/expand.png" width />
+
 4. Once the Virtual Machine is created, connect to the virtual machine to complete the installation of Ubuntu.
     * When you get to the user creation portion of installation, make sure you do NOT enable "Log in automatically," as this will disable some of the capabilities that make using Hyper-V nice.
+
+## Optional:
+
+Set up a shared folder between Linux and Windows. Follow these instructions: [https://linuxhint.com/shared\_folders\_hypver-v\_ubuntu\_guest/](https://linuxhint.com/shared_folders_hypver-v_ubuntu_guest/)
+
+If you would like to increase the Hyper-V display resolution, see [here](https://superuser.com/questions/518484/how-can-i-increase-the-hyper-v-display-resolution#:~:text=1%20Install%20linux-image-extras%20%28hyperv-drivers%29%3A%20sudo%20apt-get%20install%20linux-image-extra-virtual,%28restarting%20Ubuntu%20%28Linux%29%20might%20be%20enough%29%20More%20).
 
 ## Next Steps
 

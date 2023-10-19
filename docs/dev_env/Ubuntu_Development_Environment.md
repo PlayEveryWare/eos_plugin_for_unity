@@ -10,48 +10,6 @@ This is the second part of the guide for using Hyper-V to set up a Linux environ
 
 If you want to set up your linux environment inside a virtual machine, and have not yet done so, follow [this](/docs/dev_env/HyperV_Linux_Guest_VM.md) guide first.
 
-## How to expand Hyper-V disk space for Ubuntu (if using Hyper-V)
-
-This is for after you have Ubuntu installed. It is recommended to set your disk space to an appropriate size before you install the OS.
-
-1. In Hyper-V, edit the virtual machine and navigate to "Hard Drive"
-    
-    ![](/docs/images/ubuntu_dev_env/vm-settings.png)
-
-2. Select "Edit"
-
-    ![](/docs/images/ubuntu_dev_env/edit-disk.png)
-
-1. If "Edit" is greyed out, you will need to disable Checkpoints. Navigate to Checkpoints and unselect the checkbox that says "Enable checkpoints"
-
-    ![](/docs/images/ubuntu_dev_env/disable-checkpoints.png)
-
-3. The edit window will ask you to locate the disk. This should already be filled out. Select "Next"
-4. Choose "Expand"
-5. Enter in the desired size. 40 GB is a recommended minimum for this project. Select "Next"
-6. Verify the information is correct in the Summary and select "Finish"
-7. Run the VM and open the Terminal. 
-8. Run the following command to find the name of your partition, the right one will be the biggest partition. Mine is `/dev/sda1`, replace that in the commands with yours.
-
-    ```bash
-    sudo fdisk -l
-    ```
-
-9. To expand the partition and the file system to use the new space, run the following commands:
-
-    ```bash
-    sudo apt install cloud-guest-utils
-
-    sudo growpart /dev/sda 1
-    # Note the space between `sda` and `1` that is important
-
-    sudo resize2fs /dev/sda1
-    # Note no space this time!
-    ```
-
-10. Now you should have the extra space available to you. If this doesn't work, you can find some other suggestions [here](https://superuser.com/questions/1716141/how-to-expand-ubuntu-20-04-lts-filesystem-volume-on-hyper-v).
-
-
 ## Setting up your Linux Environment:
 
 > [!NOTE]
@@ -139,8 +97,43 @@ Once Unity is open:
 4. Go to Tools ➝ EOS Automated Test Settings
 5. Select the previously created `Builds/Server` directory for the "Test Server Directory" field.
 
-## Optional:
+## Help! I ran out of disk space!
 
-Set up a shared folder between Linux and Windows. Follow these instructions: [https://linuxhint.com/shared\_folders\_hypver-v\_ubuntu\_guest/](https://linuxhint.com/shared_folders_hypver-v_ubuntu_guest/)
+If you are using Hyper-V, and failed to increase the size of the disk before installing Ubuntu, follow these steps to increase the size of the virtual disk:
 
-If you would like to increase the Hyper-V display resolution, see [here](https://superuser.com/questions/518484/how-can-i-increase-the-hyper-v-display-resolution#:~:text=1%20Install%20linux-image-extras%20%28hyperv-drivers%29%3A%20sudo%20apt-get%20install%20linux-image-extra-virtual,%28restarting%20Ubuntu%20%28Linux%29%20might%20be%20enough%29%20More%20).
+1. In Hyper-V, edit the virtual machine and navigate to "Hard Drive"
+    
+    ![](/docs/images/ubuntu_dev_env/vm-settings.png)
+
+2. Select "Edit"
+
+    ![](/docs/images/ubuntu_dev_env/edit-disk.png)
+
+1. If "Edit" is greyed out, you will need to disable Checkpoints. Navigate to Checkpoints and unselect the checkbox that says "Enable checkpoints"
+
+    ![](/docs/images/ubuntu_dev_env/disable-checkpoints.png)
+
+3. The edit window will ask you to locate the disk. This should already be filled out. Select "Next"
+4. Choose "Expand"
+5. Enter in the desired size. 40 GB is a recommended minimum for this project. Select "Next"
+6. Verify the information is correct in the Summary and select "Finish"
+7. Run the VM and open the Terminal. 
+8. Run the following command to find the name of your partition, the right one will be the biggest partition. Mine is `/dev/sda1`, replace that in the commands with yours.
+
+    ```bash
+    sudo fdisk -l
+    ```
+
+9. To expand the partition and the file system to use the new space, run the following commands:
+
+    ```bash
+    sudo apt install cloud-guest-utils
+
+    sudo growpart /dev/sda 1
+    # Note the space between `sda` and `1` that is important
+
+    sudo resize2fs /dev/sda1
+    # Note no space this time!
+    ```
+
+10. Now you should have the extra space available to you. If this doesn't work, you can find some other suggestions [here](https://superuser.com/questions/1716141/how-to-expand-ubuntu-20-04-lts-filesystem-volume-on-hyper-v).
