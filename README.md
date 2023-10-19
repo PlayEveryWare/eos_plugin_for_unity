@@ -381,7 +381,7 @@ The following are guidelines for helping contribute to this open source project.
 ## Contributor Prerequisites
 
 * Ensure At least Visual Studio 2017 is installed.
-* Ensure At least Unity 2020.1.11f1 is installed.
+* Ensure At least Unity 2021.3.8 is installed.
 * Ensure required Platform SDKs are installed (Windows, Linux, macOS, Android, iOS, Consoles).
 * The repository cloned locally [https://github.com/PlayEveryWare/eos_plugin_for_unity](https://github.com/PlayEveryWare/eos_plugin_for_unity).
 
