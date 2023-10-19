@@ -376,7 +376,16 @@ Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Dev
 # <div align="center">Source Code Contributor Notes</div> <a name="source-code-contributor-notes" />
 ---
 
-The following are guidelines for helping contribute to this open source project.
+The following are guidelines for helping contribute to this open source project, as well as guidance on setting up your development environment.
+
+## Environment Setup
+
+### Linux
+
+The following two guides can help you set up your development environment on Windows using Hyper-V. If you are not using Hyper-V, the second guide can still be used to configure your environment.
+
+#### [Hyper-V Linux Guest VM](/docs/dev_env/HyperV_Linux_Guest_VM.md)
+#### [Configuring Ubuntu 18.04](/docs/dev_env/Ubuntu_Development_Environment.md)
 
 ## Contributor Prerequisites
 
