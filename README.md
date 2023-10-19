@@ -155,7 +155,6 @@ The support level of each EOS SDK features as of the current release of the plug
 <br />
 
 # <div align="center">Getting Started</div> <a name="getting-started" />
----
 
 ## Prerequisites
 
@@ -175,11 +174,9 @@ The support level of each EOS SDK features as of the current release of the plug
 
 ## Importing the Plugin
 
-
 There are two options to install the package, from a <a href="#adding-the-package-from-a-tarball">tarball</a> [Quickest to start], or from a <a href="#adding-the-package-from-a-git-url">GIT URL</a> [Quickest for updates].
 
 ## Adding the package from a tarball
-<br />
 
 1. Download the latest release tarball, ```"com.playeveryware.eos-[version].tgz"``` [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
     > [!WARNING]
@@ -201,14 +198,12 @@ There are two options to install the package, from a <a href="#adding-the-packag
 7. After the package has finished installing, <a href="#samples">import the samples</a>.
 
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
-
-> [!NOTE]
-> The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
+  > [!NOTE]
+  > The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
 
 <br />
 
 ## Adding the package from a git URL
-<br />
 
 1. Setup Unity for [Git Dependency](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html).
 2. Install [git](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req) and [git-lfs](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req).
@@ -311,17 +306,13 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
      ![Auth and Friends Screenshot](docs/images/sample_screen_account_login.gif)
 
+    > [!NOTE]
+    > Additional info on login type options, implementation, and use cases can be found [here](docs/readme_login.md).
+
+
 </details>
 
-> [!INFO]
-> Additional info on login type options, implementation, and use cases can be found [here](docs/readme_login.md).
-
-<br />
-
-<br />
-
 ## Configuring the Plugin
-
 
 To function, the plugin needs some information from your EOS project. Epic Docs on how to set up your project can be found [here](https://dev.epicgames.com/docs/epic-account-services/getting-started?sessionInvalidated=true).
 
@@ -363,11 +354,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
 See [docs/disable_plugin_per_platform.md](docs/disable_plugin_per_platform.md) for this feature.
 
-
-<br />
-
 # <div align="center">Plugin Support</div> <a name="plugin-support" />
----
 
 PlayEveryWare EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
 
@@ -380,7 +367,6 @@ Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Dev
 <br />
 
 # <div align="center">Source Code Contributor Notes</div> <a name="source-code-contributor-notes" />
----
 
 The following are guidelines for helping contribute to this open source project.
 
@@ -415,6 +401,5 @@ See [docs/class_description.md](docs/class_description.md).
 <br />
 
 # <div align="center">FAQ</div> <a name="faq" />
----
 
 See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md).
