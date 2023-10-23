@@ -26,6 +26,8 @@ To get the EOS Plugin for Unity working, the plugin needs to know some specific 
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientId)
     * EncryptionKey
 
-    <img src="images/dev-portal-configuration-window.png" width="400" />
+    <br />
+
+    <img src="images/dev-portal-configuration-window.png" width="500" />
     
 
