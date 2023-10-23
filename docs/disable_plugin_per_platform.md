@@ -32,4 +32,4 @@ The plugin provides a certain amount of automatic functionality to support the o
   - `EOSManager` remains a valid component, but all of its functionality is disabled.
 
   > [!NOTE]
-  > Currently, while it doing the above _does_ disable functionality, the Dll may still be loaded, just never used.
+  > Currently, while doing the above _does_ disable functionality, the Dll may still be loaded.
