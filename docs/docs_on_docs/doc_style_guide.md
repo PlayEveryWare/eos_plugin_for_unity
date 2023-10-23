@@ -135,19 +135,18 @@ As it becomes appropriate, further break down the document sections into subsect
 
 ## Sub-Subsections:
 
-Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs, colored `deeppink` using the aforementioned LaTeX syntax, and with an `a` link added at the end to facilitate internal document linkages.
-
+Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs.
 For example:
 
 ```markdown
-## Sub Subsection:} <a name="sub-subsection">
+## Sub Subsection:
 ```
 
 > [!NOTE]
 > Just to be as clear as possible: note that the "Sub-Subsections" title above is itself a _sub section_, **not** a _**sub** subsection_.
 
 > [!IMPORTANT] 
-> Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
+> Ideally, documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
 
 ## Section Summary:
 
