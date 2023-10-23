@@ -3,17 +3,17 @@
 # <div align="center"> Frequently Asked Questions (FAQ)</div>
 
 ## Questions
-[Why does the plugin fail to work after changing configuration?](#why-does-the-plugin-fail-to-work-after-changing-configuration)
-[How do I override sandbox or deployment IDs when publishing on the Epic Games Store?](#how-do-i-override-sandbox-or-deployment-ids-when-publishing-on-the-epic-games-store)
-[How do I get the Epic Username?](#how-do-i-get-the-epic-username)
-[Can a title pass a custom device ID? How does one do that?](#can-a-title-pass-a-custom-device-id-how-does-one-do-that)
-[Are there alternatives to storing the config files in the StreamingAssets directory? Why is the file there?](#are-there-alternatives-to-storing-the-config-files-in-streaming-assets-why-is-the-file-there)
-[Why does the Demo Scene fail to load?](#why-does-the-demo-scene-fail-to-load)
-[What is the correct way to log into the Epic Games Store?](#what-is-the-correct-way-to-log-into-the-epic-games-store)
-[Do I or my players need an Epic Games Account?](#do-i-or-my-players-need-an-epic-games-account)
-[What does the "DllNotFoundException" error mean?](#what-does-the-dllnotfoundexception-error-mean)
-[Why am I getting overlay errors?](#why-am-i-getting-overlay-errors)
-[Missing native libraries?](#missing-native-libraries)
+- [Why does the plugin fail to work after changing configuration?](#why-does-the-plugin-fail-to-work-after-changing-configuration)
+- [How do I override sandbox or deployment IDs when publishing on the Epic Games Store?](#how-do-i-override-sandbox-or-deployment-ids-when-publishing-on-the-epic-games-store)
+- [How do I get the Epic Username?](#how-do-i-get-the-epic-username)
+- [Can a title pass a custom device ID? How does one do that?](#can-a-title-pass-a-custom-device-id-how-does-one-do-that)
+- [Are there alternatives to storing the config files in the StreamingAssets directory? Why is the file there?](#are-there-alternatives-to-storing-the-config-files-in-streaming-assets-why-is-the-file-there)
+- [Why does the Demo Scene fail to load?](#why-does-the-demo-scene-fail-to-load)
+- [What is the correct way to log into the Epic Games Store?](#what-is-the-correct-way-to-log-into-the-epic-games-store)
+- [Do I or my players need an Epic Games Account?](#do-i-or-my-players-need-an-epic-games-account)
+- [What does the "DllNotFoundException" error mean?](#what-does-the-dllnotfoundexception-error-mean)
+- [Why am I getting overlay errors?](#why-am-i-getting-overlay-errors)
+- [Missing native libraries?](#missing-native-libraries)
 
 ## Why does the plugin fail to work after changing configuration?
 
