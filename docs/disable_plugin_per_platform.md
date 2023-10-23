@@ -10,19 +10,19 @@ The plugin provides a certain amount of automatic functionality to support the o
 
 1) Open the Player menu in Project Settings:
   
-  <img width="117" alt="player_settings" src="images/player-settings.png">
+      <img width="117" alt="player_settings" src="images/player-settings.png">
 
 2) Select the desired platform and expand the Other Settings submenu:
   
-  <img width="361" alt="platform_settings" src="images/other-settings.png">
+      <img width="361" alt="platform_settings" src="images/other-settings.png">
 
 3) Find the Scripting Define Symbols configuration:
   
-  <img width="341" alt="scripting_defines" src="images/scripting-define-symbols.png">
+      <img width="341" alt="scripting_defines" src="images/scripting-define-symbols.png">
 
 4) Use the `+` button to add the `EOS_DISABLE` define to the list and click `Apply`:
 
-  <img width="342" alt="eos_disable" src="images/scripting-define-symbols-eos-disable.png">
+      <img width="342" alt="eos_disable" src="images/scripting-define-symbols-eos-disable.png">
 
 ## Effects of EOS_DISABLE
 
