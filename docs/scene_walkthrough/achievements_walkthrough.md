@@ -29,5 +29,5 @@ To make testing easier, one could manually unlock or reset an user's achievement
 *If one wants to modify the stat that unlocks the achievement (ex. Login Count)*  
 *Go to `[Targeted Game] > Game Services > Stats` instead, the remaining steps are similar*
 
-
-❗ More information on the Achievement interface can be found [here](https://dev.epicgames.com/docs/game-services/achievements).
+> [!NOTE]
+> More information on the Achievement interface can be found [here](https://dev.epicgames.com/docs/game-services/achievements).

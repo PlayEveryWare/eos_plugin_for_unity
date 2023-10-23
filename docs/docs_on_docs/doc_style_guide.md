@@ -19,7 +19,7 @@
     * [Internal Markdown Reference](#internal-markdown-reference)
     * [Contributor Notes](#contributor-notes)
 
-# <div align="center">Overview</div> </div><a name="overview" />
+# <div align="center">Overview</div> <a name="overview" />
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 

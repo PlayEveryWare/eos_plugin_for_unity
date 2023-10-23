@@ -2,7 +2,7 @@
 
 # <div align="center">Configuring Ubuntu 18.04 for development</div>
 
-# Setting up your environment:
+# Overview:
 
 This is the second part of the guide for using Hyper-V to set up a Linux environment on your Windows PC that can be utilized for testing and developing the EOS Plugin. This guide _can_ however be used on its own as a guide to setting up a new Ubuntu 18.04 operating system for making contributions to the EOS Plugin.
 
