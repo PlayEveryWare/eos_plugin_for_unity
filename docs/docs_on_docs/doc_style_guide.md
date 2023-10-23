@@ -66,7 +66,7 @@ What it looks like:
 
 ## Title:
 
-Following the PlayEveryWare, Inc. logo should be the title of the document in pink text, followed immediately by a horizontal rule. To accomplish the pink text color, the typesetting system [LaTeX](http://www.latex-project.org) is used. 
+Following the PlayEveryWare, Inc. logo should be the title of the document centered, followed immediately by a horizontal rule. 
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
@@ -100,7 +100,7 @@ Markdown:
     * [Contributor Notes](#contributor-notes)
 ```
 
-Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a pound sign.
+Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a hash symbol (`#`).
 
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
@@ -135,19 +135,18 @@ As it becomes appropriate, further break down the document sections into subsect
 
 ## Sub-Subsections:
 
-Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs, colored `deeppink` using the aforementioned LaTeX syntax, and with an `a` link added at the end to facilitate internal document linkages.
-
+Should a subsection of the document need to be further broken up into discrete sections, it can be so divided by putting the components beneath a header prefaced with two pound signs.
 For example:
 
 ```markdown
-## Sub Subsection: <a name="sub-subsection">
+## Sub Subsection:
 ```
 
 > [!NOTE]
 > Just to be as clear as possible: note that the "Sub-Subsections" title above is itself a _sub section_, **not** a _**sub** subsection_.
 
 > [!IMPORTANT] 
-> Ideally documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
+> Ideally, documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
 
 ## Section Summary:
 
