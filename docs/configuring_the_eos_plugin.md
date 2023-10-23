@@ -1,6 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-# How to configure the plugin
+# <div align="center">How to configure the plugin</div>
 
 To get the EOS Plugin for Unity working, the plugin needs to know some specific things about your EOS project.
 
@@ -13,7 +13,7 @@ To get the EOS Plugin for Unity working, the plugin needs to know some specific 
 
 1. Open the Dev Portal Configuration window for the EOS Plugin (`Tools -> EOS Plugin -> Dev Portal Configuration`)
     
-    ![](images/dev-portal-configuration-editor-menu.png)
+    <img src="images/dev-portal-configuration-editor-menu.png" width="300" />
 
 2. To configure the plugin, use the EOS Plugin Dev Portal Configuration tool to copy the following properties from the developer portal for your game:
 
@@ -26,6 +26,6 @@ To get the EOS Plugin for Unity working, the plugin needs to know some specific 
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientId)
     * EncryptionKey
 
-    ![](images/dev-portal-configuration-window.png)
-
+    <img src="images/dev-portal-configuration-window.png" width="400" />
+    
 
