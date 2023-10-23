@@ -28,6 +28,6 @@ To get the EOS Plugin for Unity working, the plugin needs to know some specific 
 
     <br />
 
-    <img src="images/dev-portal-configuration-window.png" width="500" />
+    <img src="images/dev-portal-configuration-window.png" width="550" />
     
 
