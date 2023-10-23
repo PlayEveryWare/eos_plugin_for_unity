@@ -1,6 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-<div align="center"># Connect Login with AppleID using Sign In With Apple Plugin</div>
+# <div align="center">Connect Login with AppleID using Sign In With Apple Plugin</div>
 
 ## Overview
 
@@ -11,9 +11,6 @@ This document describes how to enable Apple ID authentication in conjunction wit
 First, install the Sign In With Apple unity plugin, which could be found at [Unity Asset Store](https://assetstore.unity.com/packages/tools/integration/sign-in-with-apple-unity-plugin-152088) or [Github](https://github.com/lupidan/apple-signin-unity).  
 
 Next, imported it into the target unity project, either as a unity package or through the package manager.
-
-> [!NOTE]
-> Visit the plugin [website](https://github.com/lupidan/apple-signin-unity) for more detailed information.
 
 ## Scripts
 
