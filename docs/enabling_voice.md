@@ -9,7 +9,7 @@
 
 3. From the Dashboard, find the product you wish to edit.
 
-    ![EOS dashboard](docs/images/eos_dashboard.png)
+    ![EOS dashboard](images/eos_dashboard.png)
 
 4. Click the 'Gear' to get to the Product Settings.
 5. Click on 'Clients'.
