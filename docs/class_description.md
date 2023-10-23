@@ -1,4 +1,5 @@
-----------------------------------------------------------------------------------------
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## Class description
 
 ### EOSManager

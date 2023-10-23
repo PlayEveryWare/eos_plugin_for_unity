@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Auth & Friends Demo**
 This demo showcases an implementation of the friends list into a game UI. The panel on the right shows the user's friend list and status of each friend. This panel can be accessed in other scenes that require access to the friends list.
 - The ``Refresh`` button refreshes the list, repolling for information.

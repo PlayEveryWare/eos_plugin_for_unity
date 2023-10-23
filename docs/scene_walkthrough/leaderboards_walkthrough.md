@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Leaderboards Demo**
 This demo showcases the leaderboard functionality to track scores across the player base with multiple filter methods such as global scores or only friend scores.
 - The left side of the demo shows all the established leaderboards for the product, clicking one will display the leaderboard on the right window.

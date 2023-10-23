@@ -1,12 +1,10 @@
-# Unity-specific plugin functionality
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-----------------------------------------------------------------------------------------
+# Unity-specific plugin functionality
 
 ## Overview
 
 This document lists some Unity related plugin behavior and how we support the EOS SDK in EOS plugin for Unity.
-
-----------------------------------------------------------------------------------------
 
 ### Why we support the versions we support.
 

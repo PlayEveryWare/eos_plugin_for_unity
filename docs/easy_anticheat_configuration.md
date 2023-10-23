@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 # How to configure Easy Anti-Cheat
 
 The EOS plugin provides a method of automating EAC installation as part of the build process for Windows, Mac and Linux platforms. First, some additional configuration is required.

@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Player Reports and Sanctions Demo**
 This demo showcases the reports interface and sanctions interface. This is done through a report menu, and a display of any current sanctions on the user's account.
 - The friends tab on the right of the screen allows the user to open a report window with the ``Report`` button.

@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ### Epic Online Services Overlay debugging
 
 If you are getting a error logging in pertaining to the EOS Overlay, this is caused by one or two things:

@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Sessions and Matchmaking**
 This demo showcases the sessions interface, users can create, manage and join sessions.
 - The top left window allows users to create and manage their sessions.

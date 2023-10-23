@@ -1,3 +1,4 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **P2P Netcode Demo**
 This demo showcases the Peer 2 Peer interface working with Unity's netcode. This is done through a simple game where players can move a square around the screen.

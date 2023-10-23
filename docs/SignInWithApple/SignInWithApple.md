@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 # Connect Login with AppleID using Sign In With Apple Plugin
 
 There are plenty of ways to implement Apple ID connect feature.  

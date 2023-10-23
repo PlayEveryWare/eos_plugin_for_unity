@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## Supported Versions of Unity
 Due to Unity's versioning there is a "current supported" version. Modestly newer or older versions may work without error, work with minor tweaks, or require a prohibitively large amount of work to function properly.
 

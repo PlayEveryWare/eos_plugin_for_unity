@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 # How to configure the plugin
 
 To get the EOS working, the plugin needs to know some specific things about your EOS project.

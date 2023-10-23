@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Performance Stress Test**
 This scene was created to test the performance of the overlay under different system conditions, it does not use any EOS systems outside of the overlay. It has the ability to change cpu usage, gpu usage, and memory usage.
 - CPU Test
