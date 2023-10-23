@@ -10,7 +10,7 @@ That being said, it can sometimes be more prudent to change the API compatibilit
 In those cases, it might be reasonable for users of the plugin to switch to a different API compatibility temporarily until the issue is resolved.
 
 > [!WARNING]
-> Sometimes _other_ plugins and code that is *not part of thIS Plugin* might break when changing the API Compatibility Level.
+> Sometimes _other_ plugins and code that is *not part of this plugin* might break when changing the API Compatibility Level.
 
 ## Issues with namespaces
 Different versions of Unity and different versions of .NET sometimes include different assemblies by default. When adding a feature to the SDK, or when switching between versions of Unity or between versions of API compatibility, this could cause different assemblies and the namespaces within them to 'disappear'.
