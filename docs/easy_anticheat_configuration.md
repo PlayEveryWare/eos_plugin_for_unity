@@ -11,17 +11,13 @@ The EOS plugin provides a method of automating EAC installation as part of the b
 
 # Steps
 1) Open your Unity project with the plugin installed.
-2) Open the editor preferences settings for the plugin, which is avaiable in Preferences->EOS Plugin. All EAC options are located under the Tools subheader.
+2) Open the editor preferences settings for the plugin, which is avaiable in `Tools -> EOS Plugin -> Configuration`. All EAC options are located under the Tools subheader.
 3) Enable EAC build steps by checking the `Use EAC` toggle.
 4) Set `Path to EAC private key` and `Path to EAC Certificate` to the private and public keys you previosuly downloaded, respectively.
 5) (Recommended) Set `Path to EAC splash image` to a 800x450 PNG that will display in the EAC bootstrapper.
 6) (Optional)
     1) If you want to customize the config for the EAC integrity tool, you can copy the default config from 
-    `Packages/Epic Online Services Plugin for Unity/Editor/Standalone/anticheat_integritytool.cfg` to your desired location, customize it,
-    and set `Path to EAC Integrity Tool Config` to the new file. See Epic's [documentation][epic_eac_configure] for more information.
+    `Packages/Epic Online Services Plugin for Unity/Editor/Standalone/anticheat_integritytool.cfg` to your desired location, customize it, and set `Path to EAC Integrity Tool Config` to the new file. See Epic's [documentation](https://dev.epicgames.com/docs/game-services/anti-cheat/using-anti-cheat#configure-your-integrity-tool) for more information.
     2) If you've downloaded the integrity tool yourself and want to use that, the path can be set via `Path to EAC Integrity Tool`.
 
 If the integrity tool was configured incorrectly, the Anti-Cheat interface should print a warning message after EOS initialization.
-
-
-[epic_eac_configure]: https://dev.epicgames.com/docs/game-services/anti-cheat/using-anti-cheat#configure-your-integrity-tool
