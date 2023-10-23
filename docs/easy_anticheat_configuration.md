@@ -9,7 +9,7 @@ The EOS plugin provides a method of automating EAC installation as part of the b
 * Make sure the Anti-Cheat interface is enabled in your [client policy](https://dev.epicgames.com/docs/dev-portal/client-credentials#policies).
 * [Download your EAC integrity keys.](https://dev.epicgames.com/docs/game-services/anti-cheat/using-anti-cheat#configure-your-integrity-tool) Make sure to store your private key in a secure manner, as making it public will allow players to bypass client protection.
 
-# Steps
+## Steps
 1) Open your Unity project with the plugin installed.
 2) Open the editor preferences settings for the plugin, which is avaiable in `Tools -> EOS Plugin -> Configuration`. All EAC options are located under the Tools subheader.
 3) Enable EAC build steps by checking the `Use EAC` toggle.
