@@ -19,32 +19,19 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
+
 using UnityEngine;
-using UnityEditor;
 
-#if UNITY_EDITOR
-using UnityEditor.PackageManager;
-using UnityEditor.PackageManager.Requests;
-
-namespace PlayEveryWare.Editor.InputSystem
+public class EventSystemManager : MonoBehaviour
 {
-    [InitializeOnLoad]
-    public class PackageInstallHelper_InputSystem
+    public GameObject inputSystemPrefab;
+    public GameObject inputManagerPrefab;
+    void Awake()
     {
-        static PackageInstallHelper_InputSystem()
-        {
-
-#if !COM_UNITY_MODULE_INPUTSYSTEM
-            AddRequest request;
-            Debug.LogWarning("Package : [com.unity.inputsystem] required, attempting to install...");
-
-            request = Client.Add("com.unity.inputsystem@1.4.4");
-            while (request.Status == StatusCode.InProgress) { }
-            if (request.Result != null) { Debug.Log("[com.unity.inputsystem@1.4.4] successfully installed"); }
-            else { Debug.Log("[com.unity.inputsystem@1.4.4] Request Failed : " + request.Error.ToString()); }
+#if ENABLE_INPUT_SYSTEM
+        Instantiate(inputSystemPrefab, this.transform);
+#else
+        Instantiate(inputManagerPrefab, this.transform);
 #endif
-        }
     }
 }
-#endif
-
