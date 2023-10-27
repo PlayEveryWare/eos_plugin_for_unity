@@ -74,32 +74,32 @@ The support level of each EOS SDK features as of the current release of the plug
 
 | Feature | Support Status | 
 | - | - |
-|[Achievements](https://dev.epicgames.com/docs/game-services/achievements) | :heavy_check_mark: |
-|[Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) |  :heavy_check_mark: |
-|[Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) | :heavy_check_mark: |
-|[Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | :heavy_check_mark: | 
-|[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true) |  :heavy_check_mark: |
-|[Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) | :heavy_check_mark: |
-|[Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) |  :heavy_check_mark: |
-|[Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) |  :heavy_check_mark: |
-|[Lobby](https://dev.epicgames.com/docs/game-services/lobbies) |  :heavy_check_mark: |
-|[Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) |  :heavy_check_mark: |
-|[Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) |  :heavy_check_mark: |
-|[Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) |  :heavy_check_mark: |
-|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | :white_check_mark: | 
-|[NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) |  :heavy_check_mark: |
-|[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |   :heavy_check_mark: |
-|[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) |  :heavy_check_mark: |
-|[Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |  :heavy_check_mark: |
-|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | &cross; |
-|[Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | :heavy_check_mark: | 
-|[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) | :heavy_check_mark: |
-|[Sessions](https://dev.epicgames.com/docs/game-services/sessions) |  :heavy_check_mark: |
-|[Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) (Not Supported in Editor or Mobile) |  :heavy_check_mark: |
-|[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) |  :heavy_check_mark: |
-|[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |  :heavy_check_mark: |
-|[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | :heavy_check_mark: |
-|[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | :red_check_mark: | 
+|[Achievements](https://dev.epicgames.com/docs/game-services/achievements) | ✅ |
+|[Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) |  ✅ |
+|[Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) | ✅ |
+|[Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | ✅ | 
+|[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true) |  ✅ |
+|[Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) | ✅ |
+|[Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) |  ✅ |
+|[Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) |  ✅ |
+|[Lobby](https://dev.epicgames.com/docs/game-services/lobbies) |  ✅ |
+|[Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) |  ✅ |
+|[Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) |  ✅ |
+|[Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) |  ✅ |
+|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | ❌ | 
+|[NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) |  ✅ |
+|[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |   ✅ |
+|[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) |  ✅ |
+|[Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |  ✅ |
+|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | ❌ |
+|[Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | ✅ | 
+|[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) | ✅ |
+|[Sessions](https://dev.epicgames.com/docs/game-services/sessions) |  ✅ |
+|[Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) (Not Supported in Editor or Mobile) |  ✅ |
+|[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) |  ✅ |
+|[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |  ✅ |
+|[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ |
+|[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | 
 
 <details>
   <summary><b>The EOS Features Shown by Sample</b></summary>
