@@ -72,7 +72,7 @@ The support level of each target platform in Unity as of the current release of 
 
 The support level of each EOS SDK features as of the current release of the plugin.
 
-<div align="center">
+
 | Feature | Support Status | 
 | :-- | :-: |
 |[Achievements](https://dev.epicgames.com/docs/game-services/achievements) | ✅ |
@@ -101,7 +101,7 @@ The support level of each EOS SDK features as of the current release of the plug
 |[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |  ✅ |
 |[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ |
 |[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | 
-</div>
+
 
 <details>
   <summary><b>The EOS Features Shown by Sample</b></summary>
