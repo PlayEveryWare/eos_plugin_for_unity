@@ -86,12 +86,12 @@ The support level of each EOS SDK features as of the current release of the plug
 |[Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) |  :heavy_check_mark: |
 |[Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) |  :heavy_check_mark: |
 |[Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) |  :heavy_check_mark: |
-|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | :white_checkmark: | 
+|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | :white_check_mark: | 
 |[NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) |  :heavy_check_mark: |
 |[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |   :heavy_check_mark: |
 |[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) |  :heavy_check_mark: |
 |[Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |  :heavy_check_mark: |
-|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | :red_checkmark: |
+|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | :red_check_mark: |
 |[Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | :heavy_check_mark: | 
 |[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) | :heavy_check_mark: |
 |[Sessions](https://dev.epicgames.com/docs/game-services/sessions) |  :heavy_check_mark: |
@@ -99,7 +99,7 @@ The support level of each EOS SDK features as of the current release of the plug
 |[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) |  :heavy_check_mark: |
 |[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |  :heavy_check_mark: |
 |[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | :heavy_check_mark: |
-|[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | :red_checkmark: | 
+|[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | :red_check_mark: | 
 
 <details>
   <summary><b>The EOS Features Shown by Sample</b></summary>
