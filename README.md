@@ -91,7 +91,7 @@ The support level of each EOS SDK features as of the current release of the plug
 |[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |   :heavy_check_mark: |
 |[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) |  :heavy_check_mark: |
 |[Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |  :heavy_check_mark: |
-|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | :red_check_mark: |
+|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | &cross; |
 |[Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | :heavy_check_mark: | 
 |[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) | :heavy_check_mark: |
 |[Sessions](https://dev.epicgames.com/docs/game-services/sessions) |  :heavy_check_mark: |
