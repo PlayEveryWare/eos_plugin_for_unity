@@ -15,4 +15,4 @@ In those cases, it might be reasonable for users of the plugin to switch to a di
 ## Issues with namespaces
 Different versions of Unity and different versions of .NET sometimes include different assemblies by default. When adding a feature to the SDK, or when switching between versions of Unity or between versions of API compatibility, this could cause different assemblies and the namespaces within them to 'disappear'.
 
-The general solution is to switch to a different version of Unity, or rewrite the code such that only particularLY common assemblies are used. In the rare case where that is not feasible, some assemblies can be added via an addition to a `csc.rsp` file.
+The general solution is to switch to a different version of Unity, or rewrite the code such that only particularly common assemblies are used. In the rare case where that is not feasible, some assemblies can be added via an addition to a `csc.rsp` file.
