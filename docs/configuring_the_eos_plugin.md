@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">How to configure the plugin</div>
+---
 
 To get the EOS Plugin for Unity working, the plugin needs to know some specific things about your EOS project.
 

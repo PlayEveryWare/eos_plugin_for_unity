@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Connect Login with AppleID using Sign In With Apple Plugin</div>
+---
 
 ## Overview
 

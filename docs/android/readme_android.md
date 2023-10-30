@@ -1,17 +1,11 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 <div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
-<br /><br /><br />
 
----
-
-
-
-# <div align="center">Android Getting Started</div> <a name="getting-started" />
+# <div align="center">Android Getting Started</div>
 ---
 
 ## Prerequisites
-
 
 * The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
 *  Check out this <a href="environment_setup_android.md#environment-setup-for-android">Environment Setup</a> doc for a quick setup guide.
@@ -75,11 +69,6 @@ You can follow the standard <a href="/readme.md#configuring-the-plugin">Configur
 4. Optionally, set the plugin to <a href="/docs/android/link_eos_library_settings.md">link the EOS Library dynamically</a>.
 
 
-<br />
-
-
-
-# <div align="center">FAQ</div> <a name="faq" />
----
+# FAQ
 
 See [docs/frequently_asked_questions.md](/docs/frequently_asked_questions.md).

@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-# Login Type by Platform
+# <div align="center">Login Type by Platform</div>
+---
 
 
 | Platform | Account Portal              | Persistent Auth | External Auth       | Exchange Codes | Dev Auth            |

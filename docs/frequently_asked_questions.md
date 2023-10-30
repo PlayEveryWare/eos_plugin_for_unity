@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center"> Frequently Asked Questions (FAQ)</div>
+---
 
 ## Questions
 - [Why does the plugin fail to work after changing configuration?](#why-does-the-plugin-fail-to-work-after-changing-configuration)

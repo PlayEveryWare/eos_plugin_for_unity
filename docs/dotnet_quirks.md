@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center"> .NET quirks </div>
+---
 
 ## How do different versions of the API Compatibility Level interact with the Plugin?
 The general goal of the Plugin is to support as many API Levels as Unity does.

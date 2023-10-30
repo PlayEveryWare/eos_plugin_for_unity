@@ -1,6 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-## **EOS Plugin for Unity Walkthrough**
+# EOS Plugin for Unity Walkthrough
  
 This document is meant to serve as a guide to our EOS Plugin for Unity demo scenes. Each scene is meant to showcase the implementation of a specific feature such as peer 2 peer communication, lobbies, or custom invites.
 Each scene has a few things in common: the login page, side bar, scene selection, and debug log.
@@ -62,7 +62,7 @@ The login options are as follows:
 ![Login Type by Platform](images/login_type_by_platform.png)
 
 
-## **Individual Scene Walkthroughs**
+## Individual Scene Walkthroughs
 - [Achievements](scene_walkthrough/achievements_walkthrough.md)
 - [Auth & Friends](scene_walkthrough/auth&friends_walkthrough.md)
 - [Custom Invites](scene_walkthrough/customInvites_walkthrough.md)

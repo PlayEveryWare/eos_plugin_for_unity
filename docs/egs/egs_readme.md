@@ -1,6 +1,7 @@
 <a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="10%"/></a>
 
 # <div align="center">Epic Games Store</div> <a name="epic-games-store">
+---
 
 ## Disabling Steam integration
 To disable Steam integration functionality, delete the configuration `Assets/StreamingAssets/EOS/eos_steam_config.json` before building.

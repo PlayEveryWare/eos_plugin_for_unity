@@ -1,13 +1,10 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 <div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
-<br /><br /><br />
 
+# <div align="center">Setting up for Steam</div>
 ---
 
-
-# <div align="center">Setting up for Steam</div> <a name="setting-up-for-steam" />
----
 The EOS(Epic Online Services) SDK supports logging in with a Steam Account and several other Steam functionalities.  
 This document is a guide to connect the dots between EOS SDK and Steam SDK.  
 

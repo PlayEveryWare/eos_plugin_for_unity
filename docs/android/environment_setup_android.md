@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-# <div align="center">Environment Setup for Android</div> <a name="environment-setup-for-android" />
+# <div align="center">Environment Setup for Android</div>
+---
 
 ## Unity/SDK&NDK/JDK Setup
 

@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Enabling Voice chat</div>
+---
 
 1. Go to the Epic Online Services [Dashboard](https://dev.epicgames.com/portal).
 2. Login with an Epic Account.
