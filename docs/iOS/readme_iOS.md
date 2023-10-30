@@ -31,7 +31,7 @@ You can follow the standard <a href="/readme.md#samples">Samples</a> process. Pl
 
 When following the steps to <a href="/readme.md#running-the-samples">run a sample</a> from a build for ios, in Xcode, open the ```.xcodeproj``` from the resulting build folder. Follow the Apple Developer instructions to build and run the app [here](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device). If running on a device you may need to <a href="https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device">enable developer mode</a> on the device. This may require you to set up <a href="https://help.apple.com/xcode/mac/current/#/dev80cc24546">automatic signing</a> as well.
 
-> [!INFO]
+> [!NOTE]
 > Find the build steps in the Unity docs <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/iphone-BuildProcess.html">here</a>.
 
 ## Configuring the Plugin
