@@ -136,7 +136,6 @@ If you would like to see specific examples of various EOS features in action, im
 The included samples show fully functional feature implementation that will both help with EOS integration as well as validate client to dev portal configuration. After installing the samples from the UPM package, you will find scenes for each major feature.
 
 <img src="images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/>
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 <img src="images/sample_screen_titlestorage.gif" alt="Title Storage Screenshot" width="48%"/>
 
