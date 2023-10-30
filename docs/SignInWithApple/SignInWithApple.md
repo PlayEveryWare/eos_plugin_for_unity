@@ -18,7 +18,7 @@ Next, imported it into the target unity project, either as a unity package or th
 
 One way to add the 'Sign in with Apple' capability is to mark the needed entitlements after the Xcode project is created, inside a function using the `[PostProcessBuild]` attribute.  
 
-Take EOS-Unity-Plugin as example, add this code block in `EOSOnPostProcessBuild.cs -> OnPostprocessBuild()`, and the `using AppleAuth.Editor`[^1] directive.
+Take EOS-Unity-Plugin as example, add this code block in `EOSOnPostProcessBuild.cs -> OnPostprocessBuild()`, and the `using AppleAuth.Editor` directive.
 
 > [!IMPORTANT]
 > In order to have the `using AppleAuth.Editor` directive compile properly, you will need to add `AppleAuth.asmdef`, and `AppleAuth.Editor.asmdef` (included with the plugin) to the Assembly Definitions Reference list:
