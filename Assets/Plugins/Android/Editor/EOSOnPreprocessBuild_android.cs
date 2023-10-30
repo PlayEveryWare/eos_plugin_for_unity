@@ -108,7 +108,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     private string GetPlatformSpecificAssetsPath(string subpath)
     {
         string packagePathname = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "PlatformSpecificAssets~", subpath));
-        string streamingAssetsSamplesPathname = Path.Combine(Application.dataPath, "..", "PlatformSpecificAssets", subpath);
+        string streamingAssetsSamplesPathname = Path.Combine(Application.dataPath, "..", "etc", "PlatformSpecificAssets", subpath);
         string pathToInstallFrom = "";
 
         if (Directory.Exists(packagePathname))
@@ -367,66 +367,19 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
 
         string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
-        string androidAssetFilepath = Path.Combine(Application.dataPath, "../PlatformSpecificAssets/EOS/Android/");
+        string androidAssetFilepath = Application.dataPath + "/../etc/PlatformSpecificAssets/EOS/Android/";
 
-        string sourcePath = Path.Combine(
-            Directory.Exists(packagePath) ? packagePath : androidAssetFilepath,   //From Package or From Assets(EOS Plugin Repo)
-            androidBuildConfigSection.GetCurrentConfig().DynamicallyLinkEOSLibrary ? "dynamic-stdc++" : "static-stdc++", //Dynamic or Static
-            "aar");
-        string destPath = "Assets/Plugins/Android";
+        string pluginSource = Directory.Exists(packagePath) ? packagePath : androidAssetFilepath;                                      //From Package or From Assets(EOS Plugin Repo)
+        string linkType = androidBuildConfigSection.GetCurrentConfig().DynamicallyLinkEOSLibrary ? "dynamic-stdc++/" : "static-stdc++/"; //Dynamic or Static       
 
-        CopyFromSourceToPluginFolder_Android(sourcePath, "eos-sdk.aar", destPath);
-        CopyFromSourceToPluginFolder_Android(sourcePath, "eos-sdk.aar.meta", destPath);
+        string sourcePath = pluginSource + linkType + "aar";
+        string destPath = "Assets/Plugins/Android/aar";
 
-        //////////////////////////////
-        // Temp fix pre EOS SDK 1.16//
-        ////////////////////////////// 
-
-        ZipFile.ExtractToDirectory("Assets/Plugins/Android/eos-sdk.aar", "../Temp/Android/eos-sdk", true);
-
-        string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
-        var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
-        eosConfigFile.LoadConfigFromDisk();
-        string clientIDAsLower = eosConfigFile.currentEOSConfig.clientID.ToLower();
-
-        var pathToEOSValuesConfig = "../Temp/Android/eos-sdk/res/values/values.xml";
-        var currentEOSValuesConfigAsXML = new System.Xml.XmlDocument();
-        currentEOSValuesConfigAsXML.Load(pathToEOSValuesConfig);
-
-        var node = currentEOSValuesConfigAsXML.DocumentElement.SelectSingleNode("/resources");
-        if (node == null) 
+        if (Directory.Exists(destPath))
         {
-            Directory.Delete("../Temp/", true); 
-            Debug.LogError("aar fix failed"); 
-            return; 
+            FileUtil.DeleteFileOrDirectory(destPath);
         }
-
-        var node2 = node.SelectSingleNode("string[@name=\"eos_login_protocol_scheme\"]");
-        if (node2 == null) 
-        { 
-            Directory.Delete("../Temp/", true); 
-            Debug.LogError("aar fix failed"); 
-            return; 
-        }
-
-        string eosProtocolScheme = node2.InnerText;
-        string storedClientID = eosProtocolScheme.Split('.').Last();
-
-        if (storedClientID != clientIDAsLower)
-        {
-            node2.InnerText = $"eos.{clientIDAsLower}";
-            currentEOSValuesConfigAsXML.Save(pathToEOSValuesConfig);
-        }
-
-        ZipFile.CreateFromDirectory("../Temp/Android/eos-sdk", "../eos-sdk.aar", System.IO.Compression.CompressionLevel.Optimal, false);
-        File.Copy("../eos-sdk.aar", "Assets/Plugins/Android/eos-sdk.aar", true);
-
-        Directory.Delete("../Temp/", true);
-        File.Delete("../eos-sdk.aar");
-
-        //////////////////////////////////
-        ///        End temp fix        ///
-        //////////////////////////////////
+        FileUtil.CopyFileOrDirectory(sourcePath, destPath);
     }
 
     private void CopyFromSourceToPluginFolder_Android(string sourcePath, string filename, string destPath)

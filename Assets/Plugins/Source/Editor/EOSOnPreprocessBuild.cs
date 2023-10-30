@@ -28,7 +28,7 @@ public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
                 if (!File.Exists(Path.Combine(macOSPluginFolder, "libDynamicLibraryLoaderHelper.dylib")) || !File.Exists(Path.Combine(macOSPluginFolder, "MicrophoneUtility_macos.dylib")))
                 {
 
-                    Debug.LogError("Custom native libraries missing for mac build, use the makefile in NativeCode/DynamicLibraryLoaderHelper_macOS to install the libraries");
+                    Debug.LogError("Custom native libraries missing for mac build, use the makefile in lib/NativeCode/DynamicLibraryLoaderHelper_macOS to install the libraries");
                 }
             }
         }

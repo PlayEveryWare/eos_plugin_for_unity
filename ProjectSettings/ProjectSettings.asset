@@ -549,7 +549,7 @@ PlayerSettings:
   switchSmallIcons_14: {fileID: 0}
   switchSmallIcons_15: {fileID: 0}
   switchManualHTML: 
-  switchAccessibleURLs: accessible-urls.txt
+  switchAccessibleURLs: etc/accessible-urls.txt
   switchLegalInformation: 
   switchMainThreadStackSize: 1048576
   switchPresenceGroupId: 
@@ -832,7 +832,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 2
+  activeInputHandler: 0
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []

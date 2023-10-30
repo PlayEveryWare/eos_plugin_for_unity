@@ -26,7 +26,7 @@ using UnityEditor.Build;
 
 public static class BuildPackage
 {
-    private enum PackageType
+    public enum PackageType
     {
         /// <summary>
         /// Un-compressed directory of UPM contents.
@@ -110,14 +110,14 @@ public static class BuildPackage
         switch(type)
         {
             case PackageType.DotUnity:
-                path = "PackageDescriptionConfigs/eos_dotunitypackage_package_desc.json";
+                path = "etc/PackageConfigurations/eos_dotunitypackage_package_desc.json";
                 break;
             case PackageType.UPMTarBall:
-                path = "PackageDescriptionConfigs/eos_package_description.json";
+                path = "etc/PackageConfigurations/eos_package_description.json";
                 break;
             case PackageType.UPMDirectory:
             default:
-                path = "PackageDescriptionConfigs/eos_export_assets_package_desc.json";
+                path = "etc/PackageConfigurations/eos_export_assets_package_desc.json";
                 break;
         }
 
@@ -202,8 +202,7 @@ public static class BuildPackage
                 break;
             case PackageType.UPMDirectory:
             default:
-                UnityPackageCreationUtility.customOutputDirectory = OutputDirectory;
-                UnityPackageCreationUtility.CreateUPM(jsonFile);
+                UnityPackageCreationUtility.CreateUPM(OutputDirectory, jsonFile);
                 break;
 
         }

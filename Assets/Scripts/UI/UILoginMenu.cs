@@ -867,6 +867,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnLogoutButtonClick()
         {
+            // if the readme is open, then close it.
+            UIReadme readme = UIReadme.FindObjectOfType<UIReadme>();
+            readme?.CloseReadme();
+
             if (EOSManager.Instance.GetLocalUserId() == null)
             {
                 EOSManager.Instance.ClearConnectId(EOSManager.Instance.GetProductUserId());

@@ -1,0 +1,483 @@
+{
+    "source_to_dest": [
+        {"src":"etc/PackageTemplate/CHANGELOG.md", "dest" : "CHANGELOG.md"},
+        {"src":"etc/PackageTemplate/CHANGELOG.md.meta", "dest" : ""},
+        {"src":"license.md", "dest" : "LICENSE.md"},
+        {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/package.json", "dest" : ""},
+        {"src":"etc/PackageTemplate/package.json.meta", "dest" : ""},
+
+        {"src":"docs/upm_readme.md", "dest" : "README.md"},
+        {"src":"etc/PackageTemplate/README.md.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/Editor.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/Runtime.meta", "dest" : ""},
+        {"src":"docs/class_description.md", "dest" : "Documentation~/"},
+        {"src":"docs/standards.md", "dest" : "Documentation~/"},
+        {"src":"docs/configuring_the_eos_plugin.md", "dest" : "Documentation~/"},
+        {"src":"docs/custom_eos_config_location.md", "dest" : "Documentation~/"},
+        {"src":"docs/frequently_asked_questions.md", "dest" : "Documentation~/"},
+
+        {"src":"docs/images/*", "dest" : "Documentation~/images/"},
+
+        {"src":"Assets/Plugins/com.playeveryware.eos.asmdef", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/com.playeveryware.eos.asmdef.meta", "dest": "Runtime/"},
+
+        {"src":"Assets/EOS.meta", "dest": "Runtime/"},
+        {"src":"Assets/EOS/*.png", "dest": "Runtime/EOS/"},
+        {"src":"Assets/EOS/*.png.meta", "dest": "Runtime/EOS/"},
+
+        {"src":"Assets/Plugins/*.cs", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/*.cs.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/*.prefab", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/*.prefab.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Source/Core.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/Source/Core/*.asmdef", "dest": "Runtime/Core/"},
+        {"src":"Assets/Plugins/Source/Core/*.asmdef.meta", "dest": "Runtime/Core/"},
+        {"src":"Assets/Plugins/Source/Core/*.cs", "dest": "Runtime/Core/"},
+        {"src":"Assets/Plugins/Source/Core/*.cs.meta", "dest": "Runtime/Core/"},
+        
+        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/csc.rsp.meta", "dest": "Editor/"},
+
+        {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
+        
+        {"src":"Assets/Plugins/Source/Editor/Utility.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs.meta", "dest": "Editor/Utility/"},
+        
+        {"comment": "----------------------------Standalone---------------------------------------------"},
+        {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
+        {"src":"Assets/Plugins/Standalone/Editor/*", "dest": "Editor/Standalone/"},
+        {"comment": "----------------------------End Standalone---------------------------------------------"},
+
+        {"comment": "----------------------------Windows---------------------------------------------"},
+        {"src":"Assets/Plugins/Windows.meta", "dest": "Runtime/"},
+
+        {"src":"Assets/Plugins/Windows/x64.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/x64/*.dll", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/*.dll.meta", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/license.txt", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/license.txt.meta", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Windows/x64/"},
+
+        {"src":"Assets/Plugins/Windows/x86.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/x86/*.dll", "dest": "Runtime/Windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.dll.meta", "dest": "Runtime/Windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/license.txt", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/license.txt.meta", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/windows/x86/"},
+
+        {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
+
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
+        {"src":"tools/bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
+        {"src":"tools/bin/EOSBootstrapper.exe", "dest": "bin~/"},
+
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Licenses/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Localization/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+
+
+        {"ignore_regex":"Assets/Plugins/Windows/.*/steam_api\\.dll"},
+        {"ignore_regex":"Assets/Plugins/Windows/.*/steam_api64\\.dll"},
+
+        {"comment": "----------------------------End Windows---------------------------------------------"},
+        
+        {"comment": "----------------------------Linux---------------------------------------------"},
+        
+        {"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
+        
+        {"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/license.txt.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.so", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.so.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.cs.meta", "dest": "Runtime/Linux/"},
+        
+        {"src":"Assets/Plugins/Linux/Core.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/Core/*", "dest": "Runtime/Linux/Core/"},
+        
+        {"src":"Assets/Plugins/Linux/Editor.meta", "dest": "Editor/Linux.meta"},
+        {"src":"Assets/Plugins/Linux/Editor/*.cs", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.cs.meta", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.asmref", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.asmref.meta", "dest": "Editor/Linux/"},
+        
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/eac_launcher", "dest": "PlatformSpecificAssets~/EOS/Linux/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Licenses/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Localization/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
+        
+        {"comment": "----------------------------End Linux---------------------------------------------"},
+
+        {"comment": "----------------------------macOS---------------------------------------------"},
+        {"src":"Assets/Plugins/macOS.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/macOS/libDynamicLibraryLoaderHelper.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/libDynamicLibraryLoaderHelper.dylib.meta", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/MicrophoneUtility_macos.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/MicrophoneUtility_macos.dylib.meta", "dest": "Runtime/macOS/"},
+
+        {"src":"Assets/Plugins/macOS/libEOSSDK-Mac-Shipping.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/libEOSSDK-Mac-Shipping.dylib.meta", "dest": "Runtime/macOS/"},
+
+        {"src":"Assets/Plugins/macOS/*.cs", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/*.cs.meta", "dest": "Runtime/macOS/"},
+        
+        {"src":"Assets/Plugins/macOS/Core.meta", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/Core/*", "dest": "Runtime/macOS/Core/"},
+
+        {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Editor/macOS.meta"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Editor/macOS/"},
+        
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Info.plist", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/MacOS/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/MacOS/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Resources/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/Resources/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/Licenses/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/Localization/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/"},
+
+        {"comment": "----------------------------End macOS---------------------------------------------"},
+        
+        {"comment": "----------------------------EAC bin---------------------------------------------"},
+        
+        {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg", "dest": "Editor/Standalone/"},
+        {"src":"Assets/Plugins/Standalone/Editor/anticheat_integritytool.cfg.meta", "dest": "Editor/Standalone/"},
+        {"src":"tools/bin/EAC/Windows/anticheat_integritytool.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"tools/bin/EAC/Windows/anticheat_integritytool64.exe", "dest": "bin~/EAC/Windows/"},
+        {"src":"tools/bin/EAC/Linux/anticheat_integritytool", "dest": "bin~/EAC/Linux/"},
+        {"src":"tools/bin/EAC/Mac/anticheat_integritytool", "dest": "bin~/EAC/Mac/"},
+        
+        {"comment": "----------------------------End EAC bin---------------------------------------------"},
+
+        {"src":"Assets/link.xml", "dest": "Editor/"},
+        {"src":"Assets/link.xml.meta", "dest": "Editor/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK.meta", "dest": "Runtime/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/license.txt", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/license.txt.meta", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/ThirdPartySoftwareNotice.txt", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/EOS_SDK/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/com.Epic.OnlineServices.asmdef", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/com.Epic.OnlineServices.asmdef.meta", "dest": "Runtime/EOS_SDK/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Core/*.cs", "dest": "Runtime/EOS_SDK/Core/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Core.meta", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Core/*.cs.meta", "dest": "Runtime/EOS_SDK/Core/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated.meta", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/*.cs", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Achievements.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Achievements/*.cs", "dest": "Runtime/EOS_SDK/Generated/Achievements/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Achievements/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Achievements/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatClient.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatClient/*.cs", "dest": "Runtime/EOS_SDK/Generated/AntiCheatClient/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatClient/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/AntiCheatClient/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatCommon.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatCommon/*.cs", "dest": "Runtime/EOS_SDK/Generated/AntiCheatCommon/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatCommon/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/AntiCheatCommon/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatServer.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatServer/*.cs", "dest": "Runtime/EOS_SDK/Generated/AntiCheatServer/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatServer/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/AntiCheatServer/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Auth.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Auth/*.cs", "dest": "Runtime/EOS_SDK/Generated/Auth/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Auth/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Auth/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Connect/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Connect/"},
+        
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/CustomInvites/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/CustomInvites/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ecom.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ecom/*.cs", "dest": "Runtime/EOS_SDK/Generated/Ecom/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ecom/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Ecom/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Friends.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Friends/*.cs", "dest": "Runtime/EOS_SDK/Generated/Friends/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Friends/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Friends/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform/*.cs", "dest": "Runtime/EOS_SDK/Generated/IntegratedPlatform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IntegratedPlatform/"},
+        
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS/*.cs", "dest": "Runtime/EOS_SDK/Generated/KWS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/KWS/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/KWS/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Leaderboards.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Leaderboards/*.cs", "dest": "Runtime/EOS_SDK/Generated/Leaderboards/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Leaderboards/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Leaderboards/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Lobby.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Lobby/*.cs", "dest": "Runtime/EOS_SDK/Generated/Lobby/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Lobby/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Lobby/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Logging.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Logging/*.cs", "dest": "Runtime/EOS_SDK/Generated/Logging/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Logging/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Logging/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Metrics.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Metrics/*.cs", "dest": "Runtime/EOS_SDK/Generated/Metrics/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Metrics/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Metrics/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Mods.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Mods/*.cs", "dest": "Runtime/EOS_SDK/Generated/Mods/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Mods/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Mods/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/P2P.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/P2P/*.cs", "dest": "Runtime/EOS_SDK/Generated/P2P/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/P2P/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/P2P/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Platform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Platform/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/PlayerDataStorage.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/PlayerDataStorage/*.cs", "dest": "Runtime/EOS_SDK/Generated/PlayerDataStorage/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/PlayerDataStorage/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/PlayerDataStorage/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Presence/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Presence/"},
+        
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/ProgressionSnapshot/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/ProgressionSnapshot/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports/*.cs", "dest": "Runtime/EOS_SDK/Generated/Reports/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Reports/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Reports/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTC.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTC/*.cs", "dest": "Runtime/EOS_SDK/Generated/RTC/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTC/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/RTC/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAdmin.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAdmin/*.cs", "dest": "Runtime/EOS_SDK/Generated/RTCAdmin/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAdmin/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/RTCAdmin/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAudio.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAudio/*.cs", "dest": "Runtime/EOS_SDK/Generated/RTCAudio/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCAudio/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/RTCAudio/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sanctions.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sanctions/*.cs", "dest": "Runtime/EOS_SDK/Generated/Sanctions/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sanctions/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Sanctions/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sessions.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sessions/*.cs", "dest": "Runtime/EOS_SDK/Generated/Sessions/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Sessions/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Sessions/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Stats.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Stats/*.cs", "dest": "Runtime/EOS_SDK/Generated/Stats/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Stats/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Stats/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage/*.cs", "dest": "Runtime/EOS_SDK/Generated/TitleStorage/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/TitleStorage/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ui.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ui/*.cs", "dest": "Runtime/EOS_SDK/Generated/Ui/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ui/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Ui/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
+
+
+        {"comment": "--------------------------------Prerelease platforms-----------------------------------------"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/*.cs", "dest": "Runtime/EOS_SDK/Generated/Android/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Android/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Android/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Android/Platform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Android/Platform/"},
+
+        {"src":"Assets/Plugins/Android.meta", "dest": "Runtime/"},
+
+        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/DynamicLibraryLoaderHelper_Android.cpp.meta", "dest": "Runtime/Android/"},
+
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/", "dest": "PlatformSpecificAssets~/EOS/Android/"},
+
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib.meta", "dest": "PlatformSpecificAssets~/EOS/Android/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/*", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/eos_dependencies.androidlib/res/values/*.xml.meta", "dest": "PlatformSpecificAssets~/EOS/Android/eos_dependencies.androidlib/res/values/"},
+    
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/eos-sdk.aar.meta","dest": "PlatformSpecificAssets~/EOS/Android/dynamic-stdc++/aar/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/static-stdc++/aar/eos-sdk.aar","dest": "PlatformSpecificAssets~/EOS/Android/static-stdc++/aar/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Android/static-stdc++/aar/eos-sdk.aar.meta","dest": "PlatformSpecificAssets~/EOS/Android/static-stdc++/aar/"},
+
+        {"src":"Assets/Plugins/Android/gradleTemplate.properties", "dest": "PlatformSpecificAssets~/EOS/Android/"},
+        {"src":"Assets/Plugins/Android/gradleTemplate.properties.meta", "dest": "PlatformSpecificAssets~/EOS/Android/"},
+
+        {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/UnityHelpers_Android-debug.aar.meta", "dest": "Runtime/Android/"},
+
+        {"src":"Assets/Plugins/Android/*.cs", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/*.cs.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/Editor.meta", "dest": "Editor/Android.meta"},
+        {"src":"Assets/Plugins/Android/Editor/*.cs", "dest": "Editor/Android/"},
+        {"src":"Assets/Plugins/Android/Editor/*.cs.meta", "dest": "Editor/Android/"},
+        {"src":"Assets/Plugins/Android/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/Android/"},
+        {"src":"Assets/Plugins/Android/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/Android/"},
+
+        {"src":"Assets/Plugins/Android/Core.meta", "dest": "Runtime/Android/"},
+        {"src":"Assets/Plugins/Android/Core/*", "dest": "Runtime/Android/Core/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/Auth/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/Auth/"},
+
+        {"src":"Assets/Plugins/iOS.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/iOS/*.cs", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.cs.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.cpp", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.cpp.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.mm", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.mm.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Core.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Core/*", "dest": "Runtime/iOS/Core/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK", "dest": "Runtime/iOS/EOSSDK.framework/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist", "dest": "Runtime/iOS/EOSSDK.framework/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
+
+        {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Editor/iOS.meta"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/iOS/"},
+
+        {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
+
+
+        {"src":"etc/PackageTemplate/.sample.json", "dest" : ""},
+
+        {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/StandardSamples/"},
+        {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
+        {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
+
+        {"src":"etc/PackageTemplate/Samples.meta", "dest" : "Samples~/"},
+        {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/*.asmdef", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/UI.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI.meta"},
+        {"src":"Assets/Scripts/UI/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
+        {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
+        {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util.meta"},
+        {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
+        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
+        {"src":"Assets/Scripts/Core.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Core.meta"},
+        {"src":"Assets/Scripts/Core/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Core/"},
+        {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam.meta"},
+        {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam/"},
+        {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord.meta"},
+        {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord/"},
+        {"src":"Assets/Scripts/Oculus.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Oculus.meta"},
+        {"src":"Assets/Scripts/Oculus/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Oculus/"},
+        {"src":"Assets/Scripts/OpenID.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID.meta"},
+        {"src":"Assets/Scripts/OpenID/*", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID/"},
+        {"src":"Assets/Scripts/OpenID/CloudFunction/*", "dest": "Samples~/Samples/StandardSamples/Scripts/OpenID/CloudFunction/"},
+        {"src":"Assets/Scripts/SignInWithApple.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple.meta"},
+        {"src":"Assets/Scripts/SignInWithApple/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"},
+        {"src":"Assets/Scripts/SignInWithApple/Editor.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/"},
+        {"src":"Assets/Scripts/SignInWithApple/Editor/*", "dest": "Samples~/Samples/StandardSamples/Scripts/SignInWithApple/Editor/"},
+
+        {"src":"Assets/Scenes.meta", "dest": "Samples~/Samples/"},
+        {"src":"Assets/Scenes/StandardSamples.meta", "dest": "Samples~/Samples/"},
+        {"src":"Assets/Scenes/StandardSamples/*.unity", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
+        {"src":"Assets/Scenes/StandardSamples/*.unity.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
+            
+        {"src":"Assets/Materials/StandardSamplesMaterials.meta", "dest": "Samples~/Samples/StandardSamples/Materials.meta"},
+        {"src":"Assets/Materials/StandardSamplesMaterials/*", "dest": "Samples~/Samples/StandardSamples/Materials/"},
+
+
+        {"comment": "-------------------------------P2P NetCode Sample-----------------------------------------"},
+ 
+        {"src":"Assets/Scenes/P2PNetcodeSample.meta", "dest": "Samples~/Samples/"},
+        {"src":"Assets/Scenes/P2PNetcodeSample/*.unity", "dest": "Samples~/Samples/P2PNetcodeSample/Scenes/"},
+        {"src":"Assets/Scenes/P2PNetcodeSample/*.unity.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scenes/"},
+
+        {"src":"Assets/Materials/NetcodeMaterials.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Materials.meta"},
+        {"src":"Assets/Materials/NetcodeMaterials/*", "dest": "Samples~/Samples/P2PNetcodeSample/Materials/"},
+
+        {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/Networking.meta"},
+        {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/Networking/"},
+        {"src":"Assets/Scripts/UI/P2PNetcode.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/UI.meta"},
+        {"src":"Assets/Scripts/UI/P2PNetcode/*", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/UI/"},
+
+        {"comment": "-------------------------------End P2P NetCode Sample-----------------------------------------"},
+
+
+
+	{"comment": "-------------------------------Performance Stress Test Sample-----------------------------------------"},
+
+        {"src":"Assets/Scenes/PerformanceStressTestSample.meta", "dest": "Samples~/Samples/"},
+        {"src":"Assets/Scenes/PerformanceStressTestSample/*.unity", "dest": "Samples~/Samples/PerformanceStressTestSample/Scenes/"},
+        {"src":"Assets/Scenes/PerformanceStressTestSample/*.unity.meta", "dest": "Samples~/Samples/PerformanceStressTestSample/Scenes/"},
+
+        {"src":"Assets/Materials/PerformanceStressTestMaterials.meta", "dest": "Samples~/Samples/PerformanceStressTestSample/Materials.meta"},
+        {"src":"Assets/Materials/PerformanceStressTestMaterials/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Materials/"},
+
+        {"src":"Assets/Scripts/PostProcessing.meta", "dest": "Samples~/Samples/PerformanceStressTestSample/Scripts/PostProcessing.meta"},
+        {"src":"Assets/Scripts/PostProcessing/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Scripts/PostProcessing/"},
+        {"src":"Assets/Resources/PerformanceStressTest_Profiles.meta", "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles.meta"},
+        {"src":"Assets/Resources/PerformanceStressTest_Profiles/*", "dest": "Samples~/Samples/PerformanceStressTestSample/Profiles/"},
+
+	{"comment": "-------------------------------End Performance Stress Test Sample-----------------------------------------"},
+
+
+        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
+        {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},
+        {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/Readme/"}
+    ],
+    "blacklist": [
+        "*.png"
+    ]
+}

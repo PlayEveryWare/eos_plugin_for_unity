@@ -53,4 +53,13 @@ public class UIReadme : MonoBehaviour
             ReadmeScrollRect.verticalNormalizedPosition = 1;
         }
     }
+
+    public void CloseReadme()
+    {
+        if (ReadmePanel.activeSelf)
+        {
+            ReadmePanel.SetActive(false);
+            ReadmeScrollRect.verticalNormalizedPosition = 1;
+        }
+    }
 }
