@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-# <div align="center"> Creating a UPM package</div>
+# <div align="center">Creating a UPM package</div>
+---
 
 ## Overview
 This tool (while a bit rough around the edges) allows for the generation of custom UPM packages of various components of the project.

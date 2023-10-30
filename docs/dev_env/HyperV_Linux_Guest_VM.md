@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Setting up a Hyper-V Linux Guest VM</div>
+---
 
 ## Overview
 

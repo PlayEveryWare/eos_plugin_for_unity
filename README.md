@@ -425,4 +425,6 @@ See [docs/class_description.md](docs/class_description.md).
 
 # <div align="center">FAQ</div> <a name="faq" />
 
+See [here](docs/command_line_export.md) for a guide on how to export the plugin from the command line. 
+
 See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md).

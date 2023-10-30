@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-# <div align="center">Linking EOS Library on Android Settings</div> <a name="linking-eos-library-on-android-settings" />
+# <div align="center">Linking EOS Library on Android Settings</div>
+---
 
 ## What is the Difference Between Linking the EOS Library Dynamically and Statically?
 

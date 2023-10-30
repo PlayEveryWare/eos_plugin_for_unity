@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Disabling the EOS plugin on specific platforms</div>
+---
 
 ## Why disable the plugin?
 

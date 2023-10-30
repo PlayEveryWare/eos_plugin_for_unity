@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-# Unity-specific plugin functionality
+# <div align="center">Unity-specific plugin functionality</div>
+---
 
 ## Overview
 

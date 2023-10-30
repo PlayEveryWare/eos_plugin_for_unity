@@ -1,6 +1,7 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Advantages of using this Plugin</div>
+---
 
 ## Handles Windows Init
 One of the core features of the Unity Plugin for EOS, is that it handles doing the init code in such a way that the Overlay will work correctly in standalone builds on Windows. 
