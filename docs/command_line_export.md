@@ -1,7 +1,7 @@
 <a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
 
 # <div align="center">Command-line Export of Plugin</div>
-
+---
 
 This document outlines how to export the plugin from source using a command line interface. This may be helpful if you have a CI/CD pipeline for your game, and want it to always incorporate whatever version of the plugin you have locally.
 
