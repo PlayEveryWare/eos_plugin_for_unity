@@ -28,14 +28,14 @@ The following methods will show how to install the missing build-tool 30.0.3, an
 ### Manage SDK through command prompt
 
 1. Run the command prompt and navigate to the `SDK\tools\bin` folder.
-        ```
-        ..\Unity\Hub\Editor\2020.1.11f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\tools\bin
-        ```
+```
+..\Unity\Hub\Editor\2020.1.11f1\Editor\Data\PlaybackEngines\AndroidPlayer\SDK\tools\bin
+```
 2. Run
-        ```
-        sdkmanager  "platform-tools" "platforms;android-30" "build-tools;30.0.3"
-        ```
-        
+```
+sdkmanager  "platform-tools" "platforms;android-30" "build-tools;30.0.3"
+```
+
 ## External Module Setup
 
 Modules can be shared across multiple versions of Unity on the same device  
