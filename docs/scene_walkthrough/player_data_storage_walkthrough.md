@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Player Data Storage Demo**
 This demo showcases the Player Data Storage interface. This allows games to store player specific data in cloud servers. The demo uses a faux inventory to showcase this.
 - The ``Enter filename`` box is used to enter a filename to be created locally.
@@ -10,4 +12,5 @@ This demo showcases the Player Data Storage interface. This allows games to stor
 
 ![Player Data Storage](../images/eos_sdk_player_data_storage.png)
 
-❗ More documentation on the Player Data Storage interface can be found [here](https://dev.epicgames.com/docs/game-services/player-data-storage).
+> [!NOTE] 
+> More documentation on the Player Data Storage interface can be found [here](https://dev.epicgames.com/docs/game-services/player-data-storage).

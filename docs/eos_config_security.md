@@ -1,3 +1,7 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
+# <div align="center">Security of Config File</div>
+---
 
 # Why is the config file in plain text in the Streaming assets folder?
 The configuration file needs to be read before the Unity runtime environment is fully setup and running from a native DLL, which means that none of the usual Unity niceties for obscuring config files work.

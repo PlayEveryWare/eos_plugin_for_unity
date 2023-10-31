@@ -1,6 +1,6 @@
-<a href="http://playeveryware.com"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="10%"/></a>
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-# <div align="center">Documentation Style Guide</div><a name="documentation-style-guide" />
+# <div align="center">Documentation Style Guide</div>
 ---
 
 **Table of Contents**
@@ -19,7 +19,7 @@
     * [Internal Markdown Reference](#internal-markdown-reference)
     * [Contributor Notes](#contributor-notes)
 
-# <div align="center">Overview</div> </div><a name="overview" />
+# Overview
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
 
@@ -27,7 +27,7 @@ While this document does give examples for some of the most frequently utilized 
 
 As with most things in life, this document serves as a guide, not a rule book. For the most part it should be strictly followed, but a reasonable amount of deviation is permissable so long as the goal of proper communication is accomplished.
 
-# <div align="center">Getting Started </div><a name="getting-started" />
+# Getting Started
 
 GitHub is the primary place where documentation for this project will be consumed. Therefore be sure to write your documentation using [GFM (GitHub Flavored Markdown)](https://github.github.com/gfm/).  
 
@@ -37,7 +37,7 @@ You may find a [GFM Cheat Sheet](https://gist.github.com/roshith-balendran/d50b3
 
 Understanding how to use GFM should be considered a prerequisite to contributing documentation to the project.
 
-# <div align="center">Organizational Structure </div><a name="structure" />
+# Organizational Structure
 
 Fundamentally (and very broadly speaking) every document should contain two or optionally three components:
 
@@ -47,7 +47,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 | Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
 | "See also" | _(Optional). This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
 
-# <div align="center">Header </div><a name="header" />
+# Header 
 
 ## Logo:
 
@@ -71,7 +71,7 @@ Following the PlayEveryWare, Inc. logo should be the title of the document cente
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
 Markdown:
 ```markdown
-# <div align="center">Documentation Style Guide </div> <a name="documentation-style-guide" >
+# <div align="center">Documentation Style Guide</div>
 ---
 ```
 
@@ -104,7 +104,7 @@ Note that the `url` for an internal link is the value of the `name` attribute of
 
 To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
-# <div align="center">Body </div><a name="body" />
+# Body
 
 ## Sections:
 
@@ -117,7 +117,7 @@ The document section headers share the same format as the document title, but wi
 Example markdown for creating a document section:
 
 ```markdown
-# <div align="center">Section Title </div><a name="section-title" />
+# Section Title
 ```
 
 > [!NOTE]
@@ -152,18 +152,20 @@ For example:
 
 The difference between the different section depths is below, followed by the markdown that generates it:
 
-# <div align="center">Section Example </div><a name="section-example" />
+# <div align="center">Document Title Example </div><a name="section-example" />
+# Section Example
 ## Subsection Example
-## Sub-Subsection Example <a name="sub-subsection-example">
+### Sub-Subsection Example 
 
 ```markdown
-# <div align="center">Section Example </div><a name="section-example" />
+# <div align="center">Document Title Example </div><a name="section-example" />
+# Section Example
 ## Subsection Example
-## Sub-Subsection Example <a name="sub-subsection-example">
+### Sub-Subsection Example
 ```
 
 > [!IMPORTANT]
-> No section or subsection should have within it only one "child" section. If you find yourself in this situation, rewrite your section title.
+> No section or subsection should have within it only one "child" section. If you find yourself in this situation, consider rewrite your section title.
 
 ## Images:
 
@@ -357,20 +359,21 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 > [!WARNING]
 > Critical content demanding immediate user attention due to potential risks.
 
-# <div align="center">See also </div><a name="see-also" />
+# See also
 
-[comment]: <> The following section will be completed once all documentation has been made to conform to this style guide - as making that change may inform changes to this document style guide, which may in turn alter the structure of the templates.
-[comment]: <> ## Templates
-[comment]: <> 
-[comment]: <> You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
-[comment]: <> 
-[comment]: <> They are mainly blank space holders, so you can decide whats needed, be it a list, an alert, an image, or whatever. 
-[comment]: <> 
-[comment]: <> [Basic Template](/docs/docs_on_docs/template_basic.md)
-[comment]: <> 
-[comment]: <> [ReadMe Template](/docs/docs_on_docs/template_readme.md)
-[comment]: <> 
-[comment]: <> 
+[//]: # The following section will be completed once all documentation has been made to conform to this style guide - as making that change may inform changes to this document style guide, which may in turn alter the structure of the templates.
+[//]: # ## Templates
+[//]: #
+[//]: # You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
+[//]: #
+[//]: # They are mainly blank space holders, so you can decide whats needed, be it a list, an alert, an image, or whatever. 
+[//]: #
+[//]: # [Basic Template](/docs/docs_on_docs/template_basic.md)
+[//]: #
+[//]: # [ReadMe Template](/docs/docs_on_docs/template_readme.md)
+[//]: #
+[//]: #
+
 ## Contributor Notes
  
 Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).

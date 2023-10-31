@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Metrics Demo**
 The Metrics demo showcases the player metrics interface, allowing for game use and analytical data to be collected. This data can then be accessed through the developer portal for the product.
 - ``Display Name`` Allows the user to choose what name their account is tied to.
@@ -6,4 +8,5 @@ The Metrics demo showcases the player metrics interface, allowing for game use a
 - ``Game Session ID`` can be used to attach a specific match identifiers to the metric session.
 
 
-❗ More documentation on the metrics interface can be found [here](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).
+> [!NOTE]
+> More documentation on the metrics interface can be found [here](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).

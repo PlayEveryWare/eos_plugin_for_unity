@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Lobbies Demo**
 This demo showcases the lobby and includes a voice chat interface in a combined demo. The demo functions as a waiting room style lobby where users can create a new lobby or join existing ones, once in a lobby users can communicate through the lobby voice chat.
 - The topmost window is where users can create and manage their own lobby.
@@ -38,4 +40,5 @@ This demo showcases the lobby and includes a voice chat interface in a combined 
     - The ``Invite`` button next to each entry sends an invite to that player.
 
 
-❗ More documentation on the lobby interface can be found [here](https://dev.epicgames.com/docs/game-services/lobbies).
+> [!NOTE]
+> More documentation on the lobby interface can be found [here](https://dev.epicgames.com/docs/game-services/lobbies).

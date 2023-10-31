@@ -1,19 +1,23 @@
-# How to configure the plugin
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-To get the EOS working, the plugin needs to know some specific things about your EOS project.
+# <div align="center">How to configure the plugin</div>
+---
+
+To get the EOS Plugin for Unity working, the plugin needs to know some specific things about your EOS project.
 
 ## Prerequisites
-* One has a unity project one would like to have the plugin integrated into.
-* One has a Epic Games Account, which you may sign up for [here](https://dev.epicgames.com/portal/)
-* One has accepted the Terms for the Epic Online Services
-* One has configured a product on the Epic Games Developer Portal
+* Unity project to add the plugin to.
+* Epic Games Account, which you may sign up for [here](https://dev.epicgames.com/portal/)
+* Project registered and added to the [Epic Games Developer Portal](https://dev.epicgames.com/portal/)
 
 ## Steps
-1) Open your Unity project, with the plugin 
-2) Open the Epic Online Service Configuration Editor
-    * This is done via `Tools -> EpicOnlineServiceConfigEditor`
 
-3) From the developer portal, copy the configuration values listed below, and paste them into the similarly named fields in the editor tool:
+1. Open the Dev Portal Configuration window for the EOS Plugin (`Tools -> EOS Plugin -> Dev Portal Configuration`)
+    
+    <img src="images/dev-portal-configuration-editor-menu.png" width="300" />
+
+2. To configure the plugin, use the EOS Plugin Dev Portal Configuration tool to copy the following properties from the developer portal for your game:
+
     * ProductName
     * ProductVersion
     * [ProductID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#P?term=ProductId)
@@ -22,5 +26,9 @@ To get the EOS working, the plugin needs to know some specific things about your
     * [ClientSecret](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientSecret)
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientId)
     * EncryptionKey
-   
+
+    <br />
+
+    <img src="images/eosconfig_ui.gif" width="550" />
+    
 

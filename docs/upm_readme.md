@@ -1,4 +1,9 @@
-# Epic Online Services Plugin for Unity (UPM package)
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+
+<div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
+
+# <div align="center">Epic Online Services Plugin for Unity (UPM package)</div>
+---
 
 ## Overview
 The [eos_plugin_for_unity_upm repository](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm) contains a Unity Package Manager (UPM) plugin for enabling the use of the [Epic Online Services (EOS)](https://dev.epicgames.com/docs/services/en-US/GameServices/Overview/index.html) [C# SDK](https://dev.epicgames.com/docs/services/en-US/GameServices/CSharpGettingStarted/index.html) in Unity.
@@ -14,7 +19,6 @@ For [support issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issue
 * Targets [EOS SDK 1.15.4] (https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*.
 * Targets Unity 2021.3.8f1.
 
-
 ## Supported Platforms
 The follow target platforms are supported in Unity for the current release of the plugin.
 
@@ -26,13 +30,14 @@ The follow target platforms are supported in Unity for the current release of th
 | Universal Windows Platform x64 | Supported |
 | Android | Supported |
 | iOS | Supported |
-| Linux | [Preview](docs/linux/linux_supported_versions.md) |
-| MacOS | [Preview](docs/macOS/macOS_supported_versions.md) |
+| Linux | Ubuntu 18.04 [^1] |
+| MacOS | macOS > 10.13 |
 | Console Platforms | Preview |
 | WebGL | Not Supported |
 | Universal Windows Platform x86 | Not Supported |
 | Unity Web Player | Not Supported |
 
+[^1]: The EOS overlay is _not_ currently supported on native Linux builds.
 
 ## Supported EOS SDK Features
 As the EOS SDK continues releasing new features and functionality, the EOS Unity Plugin will be updated over time to support the new functionality. Here's the current list of EOS SDK features and their level of support in the EOS Unity Plugin:
@@ -61,11 +66,8 @@ As the EOS SDK continues releasing new features and functionality, the EOS Unity
 | [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | Not Supported |
 | [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | Not Supported |
 
-
----
-# Integration Notes
+## Integration Notes
 For best results, Unity 2021 is preferred.
-
 
 ## Installing from a git URL
 Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.com/Manual/upm-git.html).
@@ -79,7 +81,6 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
     ![Unity Add Git Package](images/unity_package_git.gif)
 
 6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```.
-
 
 ## Installing from a tarball
 Download the latest release tarball from https://github.com/PlayEveryWare/eos_plugin_for_unity/releases
@@ -96,19 +97,17 @@ the git-lfs files i.e. the binaries/dynamic libraries.
 4. Go to directory containing the PEW Unity plugin tarball, and select it.
 5. Click ```Open```.
 
-
----
-# Configuring the Plugin
+## Configuring the Plugin
 
 To get the EOS working, the plugin needs to know some specific things about your EOS project.
 
-## Prerequisites
+### Prerequisites
 * A Unity project to integrate the EOS Unity Plugin into.
 * An Epic Games Account, which you may sign up for [here](https://dev.epicgames.com/portal/).
 * Accepted Terms of Service for [Epic Online Services](https://www.epicgames.com/site/en-US/tos?lang=en-US).
 * An EOS Product config, set up in your [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 
-## Steps
+### Steps
 1) Open your Unity project with the integrated EOS Unity Plugin. 
 2) In the Unity editor, Open ```Tools -> EOS Plugin -> Dev Portal Configuration```.
 
@@ -132,13 +131,12 @@ At this point, you are ready to start developing using the Epic Online Services 
 
 If you would like to see specific examples of various EOS features in action, import the sample Unity scenes below.
 
-
----
 # Samples
 
 The included samples show fully functional feature implementation that will both help with EOS integration as well as validate client to dev portal configuration. After installing the samples from the UPM package, you will find scenes for each major feature.
 
 <img src="images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/>
+
 <img src="images/sample_screen_titlestorage.gif" alt="Title Storage Screenshot" width="48%"/>
 
 In addition, the samples include Unity friendly *feature* Managers that can help to quickly integrate new EOS features into your title. They provide functional usage of the main feature functionality and can be a good base template.
@@ -159,8 +157,6 @@ The samples include both usage of the EOS SDK, and convenience wrappers to make 
 
     ![Auth and Friends Screenshot](images/sample_screen_auth_friends.gif)
 
-
----
 # Authentication
 
 ## Running and Configuring the EOS SDK Dev Auth Tool
@@ -175,14 +171,12 @@ The samples include both usage of the EOS SDK, and convenience wrappers to make 
 More specific and up-to-date instructions can also be found on Epic's [website](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DeveloperAuthenticationTool/index.html).
 
 
----
 # Open Source: Contribute
 
 This is an Open Source project. If you would like to view and contribute to the development of the EOS Unity Plugin, you can enlist in the development repo located at
 https://github.com/PlayEveryWare/eos_plugin_for_unity.
 
 
----
 # Plugin Support
 
 EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
@@ -194,7 +188,6 @@ For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS S
 Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Developer Documentation: Game Services](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
 
 
----
 # Source Code Contributor Notes
 
 The following are guidelines for helping contribute to this open source project.

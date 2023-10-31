@@ -1,4 +1,6 @@
-## **EOS Plugin for Unity Walkthrough**
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
+# EOS Plugin for Unity Walkthrough
  
 This document is meant to serve as a guide to our EOS Plugin for Unity demo scenes. Each scene is meant to showcase the implementation of a specific feature such as peer 2 peer communication, lobbies, or custom invites.
 Each scene has a few things in common: the login page, side bar, scene selection, and debug log.
@@ -22,7 +24,8 @@ The Debug log provides a filterable on screen debug output
 ## Scene selection
 The yellow dropdown in the top of the window allows the user to select which demo scene they would like to log into
 
-❗ There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and <a href="/readme.md#importing-the-samples">add them in the build settings</a>.
+> [!WARNING]
+> There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and <a href="/readme.md#importing-the-samples">add them in the build settings</a>.
 
 
 ## Login Page
@@ -59,7 +62,7 @@ The login options are as follows:
 ![Login Type by Platform](images/login_type_by_platform.png)
 
 
-## **Individual Scene Walkthroughs**
+## Individual Scene Walkthroughs
 - [Achievements](scene_walkthrough/achievements_walkthrough.md)
 - [Auth & Friends](scene_walkthrough/auth&friends_walkthrough.md)
 - [Custom Invites](scene_walkthrough/customInvites_walkthrough.md)
@@ -74,4 +77,5 @@ The login options are as follows:
 - [Store](scene_walkthrough/store_walkthrough.md)
 - [P2PNetcode](scene_walkthrough/P2P_netcode_walkthrough.md)
 
-❗ More information on the EOS interfaces can be found [here](https://dev.epicgames.com/docs)
+> [!NOTE]
+> More information on the EOS interfaces can be found [here](https://dev.epicgames.com/docs)

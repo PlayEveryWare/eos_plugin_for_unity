@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Title Storage Demo**
 This demo showcases the title storage interface. This functions similar to the player data storage interface, although the data accessed is game/platform specific instead of player specific. This demo allows users to search files by tag and name and then view their contents. The demo is broken up into three parts, Tags search, File Search and the File viewer:
 
@@ -13,4 +15,5 @@ This demo showcases the title storage interface. This functions similar to the p
 - File Viewer
     - ``File Contents`` Displays the contents of the selected file.
 
- ❗ More documentation on the Title Storage interface can be found [here](https://dev.epicgames.com/docs/game-services/title-storage)
+ > [!NOTE]
+ > More documentation on the Title Storage interface can be found [here](https://dev.epicgames.com/docs/game-services/title-storage)

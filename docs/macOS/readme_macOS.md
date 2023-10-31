@@ -1,6 +1,8 @@
-# macOS 
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
----------------------------------------
+# <div align="center">macOS</div>
+---
+
 ## Building Standalone with Unity.
 
 **Prerequisites:**

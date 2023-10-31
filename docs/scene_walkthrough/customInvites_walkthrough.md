@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Custom Invites Demo**
 This demo showcases the custom invite functionality allowing for messaging with arbitrary payloads. This is meant for cases where an already existing invitation system exists. This demo allows users to send invites with a text payload to anyone on their friends list.
 - The ``Payload`` field is where the text payload should be input.
@@ -9,4 +11,5 @@ This demo showcases the custom invite functionality allowing for messaging with 
 ![Custom Invite](../images/eos_sdk_custom_invites.png)
 
 
-❗ More documentation on the Custom Invites interface can be found [here](https://dev.epicgames.com/docs/game-services/custom-invites-interface).
+> [!NOTE] 
+> More documentation on the Custom Invites interface can be found [here](https://dev.epicgames.com/docs/game-services/custom-invites-interface).

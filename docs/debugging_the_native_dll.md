@@ -1,4 +1,7 @@
-# How to debug the native code on Windows
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
+# <div align="center">How to debug the native code on Windows</div>
+---
 
 1. Get code for the eos samples.
 2. Set build configuration to `Debug`

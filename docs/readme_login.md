@@ -1,33 +1,28 @@
-# Logging in with PEW EOS Plugin
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-----------------------------------------------------------------------------------------
+# <div align="center">Logging in with PEW EOS Plugin</div>
+---
 
 ## Overview
 
-This file documents how Login works in the PEW EOS Plugin for the following platforms
+This file documents how Login works in the PlayEveryWare EOS Plugin for the following platforms:
 * Windows
 * Mac 
 * Linux
 * iOS
 * Android
 
-----------------------------------------------------------------------------------------
+## Prerequisites
 
-## Integration Notes
+The EOS Platform Interface must be initialized before performing a login. This can be accomplished by attaching `EOSManager.cs` to an object in the scene.
 
-### Prerequisites
-
-* EOS Platform Interface must be initilaized before performing a login.
-  *  Could be done by attaching `EOSManager.cs` to an object in the scene.
-
-----------------------------------------------------------------------------------------
 ## Login Interfaces
 
-There are two login interfaces.
+There are two login interfaces:
 * **Auth Login**       for authorizing an **Epic Account** and related services 
 * **Connect Login**    for connecting the **User** for one **ProductID (Game)**
 
-More information about the distinction could be found [here](https://dev.epicgames.com/en-US/news/accessing-eos-game-services-with-the-connect-interface#a-brief-summary-of-auth-vs-connect-interfaces)
+More information about the distinction can be found [here](https://dev.epicgames.com/en-US/news/accessing-eos-game-services-with-the-connect-interface#a-brief-summary-of-auth-vs-connect-interfaces)
 
 ### Auth Login
 
@@ -119,46 +114,46 @@ Here are examples for each of the `LoginCredentialTypes`
 
 `StartPersistentLogin` attempts a login with `PersistentAuth`, and determine what happens according to the callback result
 ```cs
-    public void StartPersistentLogin(OnAuthLoginCallback onLoginCallback)
+public void StartPersistentLogin(OnAuthLoginCallback onLoginCallback)
+{
+    StartLoginWithLoginTypeAndToken(LoginCredentialType.PersistentAuth, null, null, (callbackInfo) =>
     {
-        StartLoginWithLoginTypeAndToken(LoginCredentialType.PersistentAuth, null, null, (callbackInfo) =>
-        {
-                // 🟡 Handle invalid or expired tokens for the caller
-                switch(callbackInfo.ResultCode)
-                {
-                    // 🟡 If the login attempt results in an invalid token, delete the local refresh token
-                    case Result.AuthInvalidPlatformToken:
-                    case Result.AuthInvalidRefreshToken:
-                    
-                        var authInterface = EOSManager.Instance.GetEOSPlatformInterface().GetAuthInterface();
-                        var options = new Epic.OnlineServices.Auth.DeletePersistentAuthOptions();
-                        authInterface.DeletePersistentAuth(ref options, null, (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
-                        {
-                               onLoginCallback?.Invoke(callbackInfo);
-                        });
-                        return;
-                        
-                    default:
-                        break;
-                }
-                
-                onLoginCallback?.Invoke(callbackInfo);
-        });
-    }
+            // Handle invalid or expired tokens for the caller
+            switch(callbackInfo.ResultCode)
+            {
+                // If the login attempt results in an invalid token, delete the local refresh token
+                case Result.AuthInvalidPlatformToken:
+                case Result.AuthInvalidRefreshToken:
+                    var authInterface = EOSManager.Instance.GetEOSPlatformInterface().GetAuthInterface();
+                    var options = new Epic.OnlineServices.Auth.DeletePersistentAuthOptions();
+                    authInterface.DeletePersistentAuth(ref options, null, (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
+                    {
+                            onLoginCallback?.Invoke(callbackInfo);
+                    });
+                    return;
+                default:
+                    break;
+            }
+            
+            onLoginCallback?.Invoke(callbackInfo);
+    });
+}
 ```
 The `onLoginCallback` in the function above is defined in `OnLoginButtonClick` function, at the `LoginCredentialType.PersistentAuth` case
 ```cs
-    EOSManager.Instance.StartPersistentLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
+EOSManager.Instance.StartPersistentLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
+{
+    if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success) 
     {
-        if (callbackInfo.ResultCode != Epic.OnlineServices.Result.Success) // 🔴 Pesistent Login Failed, handle the fail case here
-        {
-            return;
-        }
-        else // 🟢 Pesistent Login Succeeded
-        {
-            StartLoginWithLoginTypeAndTokenCallback(callbackInfo);
-        }
-    });
+        // Pesistent Login Failed, handle the fail case here
+        return;
+    }
+    else 
+    {
+        // Persistent Login Succeeded
+        StartLoginWithLoginTypeAndTokenCallback(callbackInfo);
+    }
+});
 ```
 
 ### Account Portal & Dev Auth
@@ -166,10 +161,11 @@ The `onLoginCallback` in the function above is defined in `OnLoginButtonClick` f
 Unlike `Persistent Auth`, these two `LoginCredentialTypes` do not need to worry about stored token, thus they could attempt login directly 
 
 ```cs
-    EOSManager.Instance.StartLoginWithLoginTypeAndToken(loginType,
-                                                        usernameAsString, // 🔵 could be null for Account Portal
-                                                        passwordAsString, // 🔵 could be null for Account Portal
-                                                        StartLoginWithLoginTypeAndTokenCallback);
+EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+    loginType,
+    usernameAsString, // can be null for Account Portal
+    passwordAsString, // can be null for Account Portal
+    StartLoginWithLoginTypeAndTokenCallback);
 ``` 
 
 ### Exchange Code
@@ -178,10 +174,12 @@ Unlike `Persistent Auth`, these two `LoginCredentialTypes` do not need to worry 
 The required exchange code could be retrieved with `GetCommandLineArgsFromEpicLauncher()`
 
 ```cs
-    EOSManager.Instance.StartLoginWithLoginTypeAndToken(loginType,
-                                                        null, // 🔵 Intended for UserID, but is unused for Exchange Code login
-                                                        EOSManager.Instance.GetCommandLineArgsFromEpicLauncher().authPassword, // 🔵 The exchange code itself, passed as login token
-                                                        StartLoginWithLoginTypeAndTokenCallback);
+EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+    loginType,
+    null, // Intended for UserID, but is unused for Exchange Code login
+    // The exchange code itself, passed as login token
+    EOSManager.Instance.GetCommandLineArgsFromEpicLauncher().authPassword, 
+    StartLoginWithLoginTypeAndTokenCallback);
 ``` 
 
 ### External Auth
@@ -189,23 +187,25 @@ The required exchange code could be retrieved with `GetCommandLineArgsFromEpicLa
 Currently `External Auth` is for Steam session ticket login
 
 ```cs
-    public void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
+public void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
+{
+    string steamId = GetSteamID();
+    string steamToken = GetSessionTicket();
+    if (steamId == null || steamToken == null)
     {
-        string steamId = GetSteamID();
-        string steamToken = GetSessionTicket();
-        if (steamId == null || steamToken == null)  // 🔴 Pesistent Login Failed, handle the fail case here
-        {
-            return;
-        }
-        else
-        {
-            EOSManager.Instance.StartLoginWithLoginTypeAndToken(
-                    Epic.OnlineServices.Auth.LoginCredentialType.ExternalAuth,
-                    Epic.OnlineServices.ExternalCredentialType.SteamSessionTicket,
-                    steamId,
-                    steamToken,
-                    onLoginCallback);
-        }
+        // Persistent Login Failed, handle the fail case here
+        return;
+    }
+    else
+    {
+        EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+            Epic.OnlineServices.Auth.LoginCredentialType.ExternalAuth,
+            Epic.OnlineServices.ExternalCredentialType.SteamSessionTicket,
+            steamId,
+            steamToken,
+            onLoginCallback);
+    }
+}
 ```           
 ### Handling Auth Login Results
 
@@ -214,35 +214,45 @@ When an Auth Login attempt finishes, `StartLoginWithLoginTypeAndTokenCallback` g
 * Auth Login returned `InvalidUser`: Implies that Steam(`External Auth`) logged in successfully but Epic Account wasn't linked yet, login flow prompts the user to link one.
 
 ```cs
-    public void StartLoginWithLoginTypeAndTokenCallback(LoginCallbackInfo loginCallbackInfo)
+public void StartLoginWithLoginTypeAndTokenCallback(LoginCallbackInfo loginCallbackInfo)
+{
+    // Epic Account logged in successfully
+    if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
     {
-        // 🟢 Epic Account logged in successfully
-        if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
-        {
-            // 🔵 Proceed to Connect Login
-            StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
-        }
-        
-        // 🟡 If no Epic Account is linked to Steam account yet
-        else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.InvalidUser)
-        {
-            // 🟡 Prompts the user to link an Epic account to the Steam account, whether by creating a new one or linking an existing one
-            EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(loginCallbackInfo.ContinuanceToken, 
-                                                                            LinkAccountFlags.NoFlags,
-                                                                            (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
-            {
-                
-                if (linkAccountCallbackInfo.ResultCode == Result.Success)
-                {
-                    // 🔵 Proceed to Connect Login
-                    StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
-                }
-                else return; // 🔴 Epic Account wasn't linked
-            });
-        }
-
-        else return; 🔴 Other fail cases of the external login attempt
+        // Proceed to Connect Login
+        StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
     }
+    
+    // If no Epic Account is linked to Steam account yet
+    else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.InvalidUser)
+    {
+        // Prompts the user to link an Epic account to the Steam account, 
+        // whether by creating a new one or linking an existing one
+        EOSManager.Instance.AuthLinkExternalAccountWithContinuanceToken(
+            loginCallbackInfo.ContinuanceToken, 
+            LinkAccountFlags.NoFlags,
+            (Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
+        {
+            
+            if (linkAccountCallbackInfo.ResultCode == Result.Success)
+            {
+                // Proceed to Connect Login
+                StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+            }
+            else
+            {
+                // Epic Account wasn't linked
+                return;
+            } 
+            return;
+        });
+    }
+    else 
+    {
+        // Other fail cases of the external login attempt
+        return; 
+    }
+}
 ```
 
 ### Connect Login
@@ -250,91 +260,107 @@ When an Auth Login attempt finishes, `StartLoginWithLoginTypeAndTokenCallback` g
 When Auth Login Succeeds, Connect login gets called next 
 
 ```cs    
-    private void StartConnectLoginWithLoginCallbackInfo(LoginCallbackInfo loginCallbackInfo)
+private void StartConnectLoginWithLoginCallbackInfo(LoginCallbackInfo loginCallbackInfo)
+{
+    // Attempts Connect Login
+    EOSManager.Instance.StartConnectLoginWithEpicAccount(
+        loginCallbackInfo.LocalUserId, 
+        (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
     {
-        // 🔵 Attempts Connect Login
-        EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
+        if (connectLoginCallbackInfo.ResultCode == Result.Success)
         {
-            if (connectLoginCallbackInfo.ResultCode == Result.Success)
-            {
-                // 🟢 Login flow completed and succeeded
-            }
-            
-            // 🟡 There is no user created for this game on this Epic Account yet
-            else if (connectLoginCallbackInfo.ResultCode == Result.InvalidUser)
-            {
-                // 🟡 Ask user if they want to connect; sample assumes they do and creates an user
-                EOSManager.Instance.CreateConnectUserWithContinuanceToken(connectLoginCallbackInfo.ContinuanceToken, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
+            // Login flow completed and succeeded
+        }
+        
+        // There is no user created for this game on this Epic Account yet
+        else if (connectLoginCallbackInfo.ResultCode == Result.InvalidUser)
+        {
+            // Ask user if they want to connect; sample assumes they do and creates an user
+            EOSManager.Instance.CreateConnectUserWithContinuanceToken(
+                connectLoginCallbackInfo.ContinuanceToken, 
+                (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
                 {
-                    // 🔵 Attempts Connect Login again after user created for the account
-                    EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo retryConnectLoginCallbackInfo) =>
-                    {
-                        if (retryConnectLoginCallbackInfo.ResultCode == Result.Success)
+                    // Attempts Connect Login again after user created for the account
+                    EOSManager.Instance.StartConnectLoginWithEpicAccount(
+                        loginCallbackInfo.LocalUserId, 
+                        (Epic.OnlineServices.Connect.LoginCallbackInfo retryConnectLoginCallbackInfo) =>
                         {
-                            // 🟢 Login flow completed and succeeded
-                        }
-                        
-                        else return; // 🔴 Connect login remain failing
-                    
-                    });
+                            if (retryConnectLoginCallbackInfo.ResultCode == Result.Success)
+                            {
+                                // Login flow completed and succeeded
+                            }
+                        });
                 });
-            }
-        });
-    }
+        }
+    });
+}
 ```      
-❗*What happens after login should be tailored to fit the game's flow, such as configure UI, open main scene, log information, etc*  
-*They are omitted to keep this file concise. The full version of the functions could be found in plugin scripts `EOSManager.cs` and `UILoginMenu.cs`*   
+> [!WARNING]
+> What happens after login should be tailored to fit the game's flow, such as configure UI, open main scene, log information, etc.
+> They are omitted to keep this file concise. The full version of the functions could be found in plugin scripts `EOSManager.cs` and `UILoginMenu.cs`.
             
 ### Intermediate functions that `StartLoginWithLoginTypeAndToken` contains
 
   * Sets `ExternalCredentialType.Epic` as the ExternalCredentialType
 ```cs       
-        public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, string id, string token, OnAuthLoginCallback onLoginCallback)
-        {
-            StartLoginWithLoginTypeAndToken(loginType, ExternalCredentialType.Epic, id, token, onLoginCallback);
-        }
+public void StartLoginWithLoginTypeAndToken(
+    LoginCredentialType loginType, 
+    string id, 
+    string token, 
+    OnAuthLoginCallback onLoginCallback)
+{
+    StartLoginWithLoginTypeAndToken(loginType, ExternalCredentialType.Epic, id, token, onLoginCallback);
+}
 ```        
   * Packs parameters into `LoginOptions` as an input for `StartLoginWithLoginOptions` (and eventually `EOSAuthInterface.Login`)
 ```cs  
-        public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, ExternalCredentialType externalCredentialType, string id, string token, OnAuthLoginCallback onLoginCallback)
-        {
-            var loginOptions = MakeLoginOptions(loginType, externalCredentialType, id, token);
-            StartLoginWithLoginOptions(loginOptions, onLoginCallback);
-        }
+public void StartLoginWithLoginTypeAndToken(
+    LoginCredentialType loginType, 
+    ExternalCredentialType externalCredentialType, 
+    string id, 
+    string token, 
+    OnAuthLoginCallback onLoginCallback)
+{
+    var loginOptions = MakeLoginOptions(loginType, externalCredentialType, id, token);
+    StartLoginWithLoginOptions(loginOptions, onLoginCallback);
+}
 ```       
   * With parameters all set we can finally call `StartLoginWithLoginOptions` function used for all kinds of login
 ```cs  
-        public void StartLoginWithLoginOptions(Epic.OnlineServices.Auth.LoginOptions loginOptions, OnAuthLoginCallback onLoginCallback)
-        {
-            var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-            Assert.IsNotNull(EOSAuthInterface, "EOSAuthInterface was null!"); // 🔴 EOSAuthInterface was null
+public void StartLoginWithLoginOptions(Epic.OnlineServices.Auth.LoginOptions loginOptions, OnAuthLoginCallback onLoginCallback)
+{
+    var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
+    Assert.IsNotNull(EOSAuthInterface, "EOSAuthInterface was null!");
 
 #if UNITY_IOS && !UNITY_EDITOR
-            // 🟡 App Controller needs to be set in Login Options for iOS
-            IOSLoginOptions modifiedLoginOptions = (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).MakeIOSLoginOptionsFromDefualt(loginOptions);
-            EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
+    // App Controller needs to be set in Login Options for iOS
+    IOSLoginOptions modifiedLoginOptions = (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).MakeIOSLoginOptionsFromDefault(loginOptions);
+    EOSAuthInterface.Login(
+        ref modifiedLoginOptions, null, 
+        (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 #else
-            EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
+    EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 #endif
-            // 🔵 This is the EOS login part
-            EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
+    // This is the EOS login part
+    EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 
-                if (data.ResultCode == Result.Success) // 🟢 Epic Account logged in successfully
-                {
-                    loggedInAccountIDs.Add(data.LocalUserId);
+        if (data.ResultCode == Result.Success)
+        {
+            loggedInAccountIDs.Add(data.LocalUserId);
 
-                    SetLocalUserId(data.LocalUserId);
+            SetLocalUserId(data.LocalUserId);
 
-                    ConfigureAuthStatusCallback();
+            ConfigureAuthStatusCallback();
 
-                    CallOnAuthLogin(data);
-                }
-
-                if (onLoginCallback != null) // 🟡 Next step will be handled by the callback function, whether login succeeds or not
-                {
-                    onLoginCallback(data);
-                }
-
-            }));
+            CallOnAuthLogin(data);
         }
+
+        if (onLoginCallback != null) 
+        {
+            // Next step will be handled by the callback function, whether login succeeds or not
+            onLoginCallback(data);
+        }
+
+    }));
+}
 ```

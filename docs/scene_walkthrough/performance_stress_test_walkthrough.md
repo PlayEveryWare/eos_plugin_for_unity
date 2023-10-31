@@ -1,3 +1,5 @@
+<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Performance Stress Test**
 This scene was created to test the performance of the overlay under different system conditions, it does not use any EOS systems outside of the overlay. It has the ability to change cpu usage, gpu usage, and memory usage.
 - CPU Test
@@ -13,5 +15,7 @@ This scene was created to test the performance of the overlay under different sy
 
     ![Stress Test](../images/stress_test.png)
 
-❗ The Perfomance Stress Test Sample Scene is included in the `Extra Pack 2` sample pack.  
-❗ Upon import, the `com.unity.postprocessing` package that this scene requires will be automatically installed.  You will still need to <a href="/readme.md#importing-the-samples">add it in the build settings</a>.  
+The Perfomance Stress Test Sample Scene is included in the `Extra Pack 2` sample pack.  
+
+> [!NOTE] 
+> Upon import, the `com.unity.postprocessing` package that this scene requires will be automatically installed.  You will still need to <a href="/readme.md#importing-the-samples">add it in the build settings</a>.  
