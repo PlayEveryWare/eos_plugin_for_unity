@@ -1,39 +1,31 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
 <div align="center"> <img src="docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
-<br /><br /><br />
 
----
-
-
-
-
-  Table of Contents
-  <ol>
-    <li>
-      <a href="#overview">Overview</a>
-      <ul>
-        <li><a href="#supported-platforms">Supported Platforms</a></li>
-        <li><a href="#supported-eos-sdk-features">Supported EOS SDK Features</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#importing-the-plugin">Importing the Plugin</a></li>
-        <li><a href="#samples">Samples</a></li>
-        <li><a href="#configuring-the-plugin">Configuring the Plugin</a></li>
-      </ul>
-    </li>
-    <li><a href="#plugin-support">Plugin Support</a></li>
-    <li><a href="#source-code-contributor-notes">Source Code Contributor Notes</a></li>
-    <li><a href="#faq">FAQ</a></li>
-  </ol>
-
+Table of Contents
+<ol>
+  <li>
+    <a href="#overview">Overview</a>
+    <ul>
+      <li><a href="#supported-platforms">Supported Platforms</a></li>
+      <li><a href="#supported-eos-sdk-features">Supported EOS SDK Features</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#getting-started">Getting Started</a>
+    <ul>
+      <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#importing-the-plugin">Importing the Plugin</a></li>
+      <li><a href="#samples">Samples</a></li>
+      <li><a href="#configuring-the-plugin">Configuring the Plugin</a></li>
+    </ul>
+  </li>
+  <li><a href="#plugin-support">Plugin Support</a></li>
+  <li><a href="#source-code-contributor-notes">Source Code Contributor Notes</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ol>
 
 # <div align="center">Overview</div> <a name="overview" />
----
 
 The PlayEveryWare EOS Plugin for Unity is a software development kit (SDK) used for integrating EOS into a Unity project. Bringing the free services that connect players across all platforms and all stores, to Unity in an easy to use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and Epic docs [here](https://dev.epicgames.com/docs/epic-online-services).
 
@@ -61,10 +53,6 @@ This repository contains the source code for development, samples and support fo
 * Targets [Unity 2021.3.8f1](https://unity.com/releases/editor/whats-new/2021.3.8), for best results a version of Unity 2021 is preferred.
 * Targets [EOS SDK 1.15.4](https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16) *(bundled with plugin)*.
 
-
-
-<br />
-
 ## Supported Platforms
 
 The support level of each target platform in Unity as of the current release of the plugin.
@@ -84,21 +72,36 @@ The support level of each target platform in Unity as of the current release of 
 
 The support level of each EOS SDK features as of the current release of the plugin.
 
-| Supported | | | |
-| - | - | - | - |
-| [Achievements](https://dev.epicgames.com/docs/game-services/achievements) | [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) | [Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) | [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) |
-| [Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) | [Lobby](https://dev.epicgames.com/docs/game-services/lobbies) | [Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) | [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) | |
-| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) | [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) (Not Supported in Editor or Mobile) | |
-| [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) | [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) | [Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) |
-| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) | [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) | [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) |
-| [Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true) | [Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) | [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |  |
 
+| Feature | Support Status | 
+| :-- | :-: |
+|[Achievements](https://dev.epicgames.com/docs/game-services/achievements) | ✅ |
+|[Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) |  ✅ |
+|[Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) | ✅ |
+|[Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) | ✅ | 
+|[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true) |  ✅ |
+|[Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) | ✅ |
+|[Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) |  ✅ |
+|[Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) |  ✅ |
+|[Lobby](https://dev.epicgames.com/docs/game-services/lobbies) |  ✅ |
+|[Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) |  ✅ |
+|[Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) |  ✅ |
+|[Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) |  ✅ |
+|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) | ❌ | 
+|[NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) |  ✅ |
+|[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |   ✅ |
+|[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) |  ✅ |
+|[Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |  ✅ |
+|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | ❌ |
+|[Reports](https://dev.epicgames.com/docs/game-services/reports-interface) | ✅ | 
+|[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) | ✅ |
+|[Sessions](https://dev.epicgames.com/docs/game-services/sessions) |  ✅ |
+|[Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) (Not Supported in Editor or Mobile) |  ✅ |
+|[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) |  ✅ |
+|[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |  ✅ |
+|[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ |
+|[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | 
 
-| Unsupported at Present | | |
-| - | - | - |
-|  [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) |  [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | [Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) |
-
-<br />
 
 <details>
   <summary><b>The EOS Features Shown by Sample</b></summary>
@@ -126,7 +129,6 @@ The support level of each EOS SDK features as of the current release of the plug
 
 <details>
   <summary><b>The EOS Features Shown by Requirement of a Player Needing an Epic Games Account</b></summary>
-<br />
   
   [EOS Game Services](https://dev.epicgames.com/docs/game-services) can be set up in your game without any requirement for your players to have an Epic Games account. As opposed to [EOS Epic Account Services](https://dev.epicgames.com/docs/epic-account-services), Which will require your players to have an Epic Games account.
   
