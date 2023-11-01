@@ -196,7 +196,7 @@ Web links can be written by surrounding the text you want as the link text in br
 
 When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
 
-When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
+When linking to another document, the base folder can be the start of the link, so `'/docs/android/README_Android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/README.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
 
 Example markdown linking to a specific section within a document:
 
@@ -207,13 +207,13 @@ Example markdown linking to a specific section within a document:
 Example markdown linking to another document:
 
 ```markdown
-[readme_android](/docs/android/readme_android.md)
+[Android README](/docs/android/README_Android.md)
 ```
 
 Example markdown linking to a specific section of another document:
 
 ```markdown
-[android prerequisites](/docs/android/readme_android.md#prerequisites)
+[Android Prerequisites](/docs/android/README_Android.md#prerequisites)
 ```
 
 > [!IMPORTANT]
