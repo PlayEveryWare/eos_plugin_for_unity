@@ -31,7 +31,7 @@ The PlayEveryWare EOS Plugin for Unity is a software development kit (SDK) used 
 
 This repository contains the source code for development, samples and support for the [PlayEveryWare EOS Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
 
-#### Plugin Features: [(In Depth Details)](docs/plugin_advantages.md)
+#### Plugin Features: [(In Depth Details)](/docs/plugin_advantages.md)
 
 * Social Overlay support across platforms.
 * Feature specific sample scenes, that include manager classes for common uses of EOS SDK API.
@@ -42,7 +42,7 @@ This repository contains the source code for development, samples and support fo
 
 #### Repo Contents:
 
-* Additional plugin Documentation can be found in the [docs/ directory](docs/).
+* Additional plugin Documentation can be found in the [docs/](/docs/) directory.
 * A Unity Project for development of feature managers and samples.
 * Native Source for `DynamicLibraryLoaderHelper` and `GfxPluginNativeRender`.
 * A Tool to build a Unity Package Manager compatible UPM.
@@ -59,8 +59,8 @@ The support level of each target platform in Unity as of the current release of 
 
 | Supported | Preview | Unsupported at Present |
 | - | - | - |
-| Unity Editor (No Social Overlay) | [Linux](docs/linux/linux_supported_versions.md) | WebGL |
-| Windows Standalone x64 | [MacOS](docs/macOS/macOS_supported_versions.md) | Universal Windows Platform x86 |
+| Unity Editor (No Social Overlay) | [Linux](/docs/linux/linux_supported_versions.md) | WebGL |
+| Windows Standalone x64 | [MacOS](/docs/macOS/macOS_supported_versions.md) | Universal Windows Platform x86 |
 | Windows Standalone x86 | Console Platforms | Unity Web Player |
 | Universal Windows Platform x64 | | |
 | [Android](/docs/android/readme_android.md) (No Social Overlay Yet) | | |
@@ -186,11 +186,11 @@ There are two options to install the package:
 
 3. From the Unity Editor, open the Package Manager via `Window -> Package Manager`.
 
-      ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
+      ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
 4. Click the `+` button in the top left of the window.
 
-    ![Unity Add Tarball Package](docs/images/unity_package_tarball.gif)
+    ![Unity Add Tarball Package](/docs/images/unity_package_tarball.gif)
 
 5. Select `Add package from tarball`.
 6. Navigate to the directory containing the tarball, select and `Open` the tarball.
@@ -208,11 +208,11 @@ There are two options to install the package:
 3.  From the Unity Editor, open the Package Manager.
     * `Window -> Package Manager`.
 
-      ![unity tools package manager](docs/images/unity_tools_package_manager.gif)
+      ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
 3. Click the `+` button in the top left of the window.
 
-    ![Unity Add Git Package](docs/images/unity_package_git.gif)
+    ![Unity Add Git Package](/docs/images/unity_package_git.gif)
 
 4. Select `Add Package from Git URL`.
 6. Paste in `git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git`.
@@ -235,7 +235,7 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 
 1. Select the `PlayEveryWare EOS Plugin for Unity` in the Package Manager window.
 
-    ![Unity Install Samples](docs/images/unity_install_samples.gif)
+    ![Unity Install Samples](/docs/images/unity_install_samples.gif)
 
 2. Open the `Samples` dropdown.
 
@@ -258,7 +258,7 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 > [!IMPORTANT]
 > The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="#importing-the-samples">imported</a>, or the scenes weren't added in the build settings. 
 
-Sample walkthroughs can be found [here](docs/Walkthrough.md).
+Sample walkthroughs can be found [here](/docs/Walkthrough.md).
 
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
@@ -270,9 +270,9 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
 
 2. Press the play button at the top of the editor.
 
-3. Login with a selected authentication type. <br />`Account Portal` and then `PersistentAuth` is easiest for the first time. `Dev Auth` can be used for quicker iteration, among other options described [here](docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
+3. Login with a selected authentication type. <br />`Account Portal` and then `PersistentAuth` is easiest for the first time. `Dev Auth` can be used for quicker iteration, among other options described [here](/docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
 
-    ![Auth and Friends Screenshot](docs/images/sample_screen_account_login.gif)
+    ![Auth and Friends Screenshot](/docs/images/sample_screen_account_login.gif)
 
 </details>
 
@@ -296,12 +296,12 @@ Sample walkthroughs can be found [here](docs/Walkthrough.md).
     > [!WARNING] 
     > A Windows build, is started by running the `EOSBootstrapper` application in the resulting build, and not the game application itself. it is for this (and similar) reasons that the `Build And Run` button may not always function as it usually would.
 
-4.  Login with a selected authentication type. <br />`Account Portal` and then `PersistentAuth` is easiest for the first time. `Dev Auth` can be used for quicker iteration, among other options described [here](docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
+4.  Login with a selected authentication type. <br />`Account Portal` and then `PersistentAuth` is easiest for the first time. `Dev Auth` can be used for quicker iteration, among other options described [here](/docs/Walkthrough.md), to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.
 
-     ![Auth and Friends Screenshot](docs/images/sample_screen_account_login.gif)
+     ![Auth and Friends Screenshot](/docs/images/sample_screen_account_login.gif)
 
     > [!NOTE]
-    > Additional info on login type options, implementation, and use cases can be found [here](docs/readme_login.md).
+    > Additional info on login type options, implementation, and use cases can be found [here](/docs/readme_login.md).
 
 
 </details>
@@ -314,7 +314,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
 1. In the Unity editor menu bar, open `Tools -> EpicOnlineServicesConfigEditor`.
 
-    ![EOS Config Menu](docs/images/unity_tools_eosconfig.gif)
+    ![EOS Config Menu](/docs/images/unity_tools_eosconfig.gif)
 
 2. From the [developer portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the `EOS Config Editor` window, under the `Main` portion of the config:
      > [!NOTE]
@@ -330,7 +330,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
       > [!WARNING]
       > Click the Generate button to create a random key, if you haven't already configured an encryption key in the EOS portal. <br />The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples, and don't want to create an Encryption Key, then the field must be left blank.
       
-    ![EOS Config UI](docs/images/eosconfig_ui.gif)
+    ![EOS Config UI](/docs/images/eosconfig_ui.gif)
 
 4. Press `Save All Changes`.
 
@@ -346,7 +346,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
 ## Disable on selected platforms
 
-See [docs/disable_plugin_per_platform.md](docs/disable_plugin_per_platform.md) for this feature.
+See [docs/disable_plugin_per_platform.md](/docs/disable_plugin_per_platform.md) for this feature.
 
 # <div align="center">Plugin Support</div> <a name="plugin-support" />
 
@@ -404,7 +404,7 @@ Instructions coming soon.
 
  Build the Visual Studio solutions for the native DLLs, extra platform specific instructions may be located in the docs for that platform.
 
-1. In your local repository, navigate to the `lib/NativeCode/DynamicLibraryLoaderHelper_[PLATFORM]` folder of your platform choice in [NativeCode](lib/NativeCode).
+1. In your local repository, navigate to the `lib/NativeCode/DynamicLibraryLoaderHelper_[PLATFORM]` folder of your platform choice in [NativeCode](/lib/NativeCode).
 
    > [!WARNING]
    > These files are not included with the package imported via tarball or git url.
@@ -415,16 +415,16 @@ A successful build will place the correct binaries in the proper locations for U
 
 ## Coding Standards
 
-See [standards.md](docs/standards.md).
+See [standards.md](/docs/standards.md).
 
 ## Class description
 
-See [docs/class_description.md](docs/class_description.md).
+See [docs/class_description.md](/docs/class_description.md).
 
 <br />
 
 # <div align="center">FAQ</div> <a name="faq" />
 
-See [here](docs/command_line_export.md) for a guide on how to export the plugin from the command line. 
+See [here](/docs/command_line_export.md) for a guide on how to export the plugin from the command line. 
 
-See [docs/frequently_asked_questions.md](docs/frequently_asked_questions.md).
+See [docs/frequently_asked_questions.md](/docs/frequently_asked_questions.md).
