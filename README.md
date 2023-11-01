@@ -396,7 +396,7 @@ To setup your environment on windows, follow these steps (or you can run the scr
 
 ### macOS
 
-Instructions coming soon.
+See [here](/docs/macOS/README_macOS.md).
 
 ## Build steps For Native Libraries
 
