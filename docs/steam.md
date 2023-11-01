@@ -1,6 +1,6 @@
 <a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-# Setting up for Steam
+# Steam Integration
 
 The EOS(Epic Online Services) SDK supports logging in with a Steam Account and several other Steam functionalities.  
 This document is a guide to connect the dots between EOS SDK and Steam SDK.  
