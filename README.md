@@ -203,12 +203,10 @@ There are two options to install the package:
 
 ## Adding the package from a git URL
 
-1. Setup Unity for [Git Dependency](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html).
-2. Install [git](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req) and [git-lfs](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req).
-3.  From the Unity Editor, open the Package Manager.
-    * `Window -> Package Manager`.
+1. Install [git](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req) and [git-lfs](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req).
+2.  From the Unity Editor, open the Package Manager. `Window -> Package Manager`.
 
-      ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
+    ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
 3. Click the `+` button in the top left of the window.
 
