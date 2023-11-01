@@ -63,7 +63,7 @@ The support level of each target platform in Unity as of the current release of 
 | Windows Standalone x64 | [MacOS](/docs/macOS/macOS_supported_versions.md) | Universal Windows Platform x86 |
 | Windows Standalone x86 | Console Platforms | Unity Web Player |
 | Universal Windows Platform x64 | | |
-| [Android](/docs/android/readme_android.md) (No Social Overlay Yet) | | |
+| [Android](/docs/android/README_Android.md) (No Social Overlay Yet) | | |
 | [iOS](/docs/iOS/README_iOS.md) (No Social Overlay Yet) | | |
 
 ## Supported EOS SDK Features
@@ -299,7 +299,7 @@ Sample walkthroughs can be found [here](/docs/Walkthrough.md).
      ![Auth and Friends Screenshot](/docs/images/sample_screen_account_login.gif)
 
     > [!NOTE]
-    > Additional info on login type options, implementation, and use cases can be found [here](/docs/readme_login.md).
+    > Additional info on login type options, implementation, and use cases can be found [here](/docs/player_authentication.md).
 
 
 </details>
