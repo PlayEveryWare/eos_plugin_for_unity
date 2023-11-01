@@ -23,7 +23,7 @@ To find out why and how to do so look [here](https://github.com/PlayEveryWare/eo
 
 ## How do I override sandbox or deployment IDs when publishing on the Epic Games Store?
 
-This functionality is outlined in the [EGS readme document](/docs/egs/egs_readme.md#overriding-sandbox-andor-deployment-id).
+This functionality is outlined in the [EGS readme document](/docs/epic_game_store.md#overriding-sandbox-andor-deployment-id).
 
 ## How do I get the Epic Username?
 It depends on what one means by "Username".
