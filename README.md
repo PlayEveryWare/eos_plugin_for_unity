@@ -64,7 +64,7 @@ The support level of each target platform in Unity as of the current release of 
 | Windows Standalone x86 | Console Platforms | Unity Web Player |
 | Universal Windows Platform x64 | | |
 | [Android](/docs/android/readme_android.md) (No Social Overlay Yet) | | |
-| [iOS](/docs/iOS/readme_iOS.md) (No Social Overlay Yet) | | |
+| [iOS](/docs/iOS/README_iOS.md) (No Social Overlay Yet) | | |
 
 ## Supported EOS SDK Features
 
