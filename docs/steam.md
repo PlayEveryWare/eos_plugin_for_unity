@@ -3,6 +3,7 @@
 # Steam Integration
 
 The EOS(Epic Online Services) SDK supports logging in with a Steam Account and several other Steam functionalities.  
+
 This document is a guide to connect the dots between EOS SDK and Steam SDK.  
 
 ## Prerequisites
