@@ -1,0 +1,649 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Overview  </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Overview  ">
+    
+      <link rel="shortcut icon" href="favicon.ico">
+      <link rel="stylesheet" href="styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="styles/docfx.css">
+      <link rel="stylesheet" href="styles/main.css">
+      <meta property="docfx:navrel" content="toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="pewlogo.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+
+<p><a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"></a></p>
+<div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity"> </div>
+<br><br><br>
+<hr>
+<p>Table of Contents</p>
+  <ol>
+    <li>
+      <a href="#overview">Overview</a>
+      <ul>
+        <li><a href="#supported-platforms">Supported Platforms</a></li>
+        <li><a href="#supported-eos-sdk-features">Supported EOS SDK Features</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#importing-the-plugin">Importing the Plugin</a></li>
+        <li><a href="#samples">Samples</a></li>
+        <li><a href="#configuring-the-plugin">Configuring the Plugin</a></li>
+      </ul>
+    </li>
+    <li><a href="#plugin-support">Plugin Support</a></li>
+    <li><a href="#source-code-contributor-notes">Source Code Contributor Notes</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ol>
+<h1 id="overview-"><div align="center">Overview</div> <a name="overview"></a></h1>
+<hr>
+<p>The PlayEveryWare EOS Plugin for Unity is a software development kit (SDK) used for integrating EOS into a Unity project. Bringing the free services that connect players across all platforms and all stores, to Unity in an easy to use package. Find more information on EOS <a href="https://dev.epicgames.com/en-US/services">here</a> and Epic docs <a href="https://dev.epicgames.com/docs/epic-online-services">here</a>.</p>
+<p>This repository contains the source code for development, samples and support for the <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity_upm">PlayEveryWare EOS Plugin for Unity (UPM Package)</a>.</p>
+<h4 id="plugin-features-in-depth-details">Plugin Features: <a href="/docs/plugin_advantages.md">(In Depth Details)</a></h4>
+<ul>
+<li>Social Overlay support across platforms.</li>
+<li>Feature specific sample scenes, that include manager classes for common uses of EOS SDK API.</li>
+<li>Custom Unity Tool for configuring EOS settings and saving to a JSON file.</li>
+<li>Unity editor playback support, handled by reloading EOS SDK.</li>
+<li>Most EOS features are accessible by players without an Epic Games Account.</li>
+</ul>
+<h4 id="repo-contents">Repo Contents:</h4>
+<ul>
+<li>Additional plugin Documentation can be found in the <a href="/docs/">docs/ directory</a>.</li>
+<li>A Unity Project for development of feature managers and samples.</li>
+<li>Native Source for <code>DynamicLibraryLoaderHelper</code> and <code>GfxPluginNativeRender</code>.</li>
+<li>A Tool to build a Unity Package Manager compatible UPM.</li>
+</ul>
+<h4 id="plugin-details">Plugin Details:</h4>
+<ul>
+<li>Targets <a href="https://unity.com/releases/editor/whats-new/2021.3.8">Unity 2021.3.8f1</a>, for best results a version of Unity 2021 is preferred.</li>
+<li>Targets <a href="https://dev.epicgames.com/docs/epic-online-services/release-notes#1154---2022-nov-16">EOS SDK 1.15.4</a> <em>(bundled with plugin)</em>.</li>
+</ul>
+<br>
+<h2 id="supported-platforms">Supported Platforms</h2>
+<p>The support level of each target platform in Unity as of the current release of the plugin.</p>
+<table>
+<thead>
+<tr>
+<th>Supported</th>
+<th>Preview</th>
+<th>Unsupported at Present</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unity Editor (No Social Overlay)</td>
+<td><a href="/docs/linux/linux_supported_versions.md">Linux</a></td>
+<td>WebGL</td>
+</tr>
+<tr>
+<td>Windows Standalone x64</td>
+<td><a href="/docs/macOS/macOS_supported_versions.md">MacOS</a></td>
+<td>Universal Windows Platform x86</td>
+</tr>
+<tr>
+<td>Windows Standalone x86</td>
+<td>Console Platforms</td>
+<td>Unity Web Player</td>
+</tr>
+<tr>
+<td>Universal Windows Platform x64</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/docs/android/readme_android.md">Android</a> (No Social Overlay Yet)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="/docs/iOS/readme_iOS.md">iOS</a> (No Social Overlay Yet)</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="supported-eos-sdk-features">Supported EOS SDK Features</h2>
+<p>The EOS Plugin for Unity will be updated over time to support the new content as the EOS SDK continues to release new features and functionality.</p>
+<p>The support level of each EOS SDK features as of the current release of the plugin.</p>
+<table>
+<thead>
+<tr>
+<th>Supported</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://dev.epicgames.com/docs/game-services/achievements">Achievements</a></td>
+<td><a href="https://dev.epicgames.com/docs/epic-account-services/auth-interface">Authentication</a></td>
+<td><a href="https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom">Ecommerce</a></td>
+<td><a href="https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface">Friends</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://dev.epicgames.com/docs/game-services/leaderboards">Leaderboards</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/lobbies">Lobby</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies">Lobby with Voice</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/p-2-p">NAT P2P</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://dev.epicgames.com/docs/game-services/player-data-storage">Player Data Storage</a></td>
+<td><a href="https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface">Presence</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/sessions">Sessions</a></td>
+<td><a href="https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview">Social Overlay</a>/<a href="https://dev.epicgames.com/docs/epic-account-services/eosui-interface">UI Interface</a> (Not Supported in Editor or Mobile)</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://dev.epicgames.com/docs/game-services/eos-stats-interface">Stats</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/title-storage">Title Storage</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/reports-interface">Reports</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/sanctions-interface">Sanctions</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://dev.epicgames.com/docs/game-services/anti-cheat">Anti-Cheat</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/custom-invites-interface">Custom Invites</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/eos-metrics-interface">Metrics</a></td>
+<td><a href="https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface">User Info Interface</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true">Connect Interface</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/eos-logging-interface">Logging Interface</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/eos-platform-interface">Platform Interface</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Unsupported at Present</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods">EOS Mod SDK</a></td>
+<td><a href="https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication">Voice Trusted Server</a></td>
+<td><a href="https://dev.epicgames.com/docs/epic-account-services/progression-snapshot">Progression Snapshot Interface</a></td>
+</tr>
+</tbody>
+</table>
+<br>
+<details>
+  <summary><b>The EOS Features Shown by Sample</b></summary>
+<table>
+<thead>
+<tr>
+<th>Sample Name</th>
+<th>EOS Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>- All Samples -</td>
+<td><a href="https://dev.epicgames.com/docs/epic-account-services/auth-interface">Authentication</a>, <a href="https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview">Social Overlay</a>,  <a href="https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface">User Info Interface</a>, <br><a href="https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true">Connect Interface</a>, <a href="https://dev.epicgames.com/docs/game-services/eos-logging-interface">Logging Interface</a>, <a href="https://dev.epicgames.com/docs/game-services/eos-platform-interface">Platform Interface</a></td>
+</tr>
+<tr>
+<td>Achievements</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/achievements">Achievements</a></td>
+</tr>
+<tr>
+<td>Auth &amp; Friends</td>
+<td><a href="https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface">Friends</a>, <a href="https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface">Presence</a></td>
+</tr>
+<tr>
+<td>Custom Invites</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/custom-invites-interface">Custom Invites</a></td>
+</tr>
+<tr>
+<td>Leaderboards</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/leaderboards">Leaderboards</a>, <a href="https://dev.epicgames.com/docs/game-services/eos-stats-interface">Stats</a></td>
+</tr>
+<tr>
+<td>Lobbies</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/anti-cheat">Anti-Cheat</a>, <a href="https://dev.epicgames.com/docs/game-services/lobbies">Lobby</a>, <a href="https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies">Lobby with Voice</a></td>
+</tr>
+<tr>
+<td>Metrics</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/eos-metrics-interface">Metrics</a></td>
+</tr>
+<tr>
+<td>Peer 2 Peer</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/p-2-p">NAT P2P</a></td>
+</tr>
+<tr>
+<td>Performance Stress Test</td>
+<td></td>
+</tr>
+<tr>
+<td>Player Data Storage</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/player-data-storage">Player Data Storage</a></td>
+</tr>
+<tr>
+<td>Player Reports &amp; Sanctions</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/reports-interface">Reports</a>, <a href="https://dev.epicgames.com/docs/game-services/sanctions-interface">Sanctions</a></td>
+</tr>
+<tr>
+<td>Sessions &amp; Matchmaking</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/sessions">Sessions</a></td>
+</tr>
+<tr>
+<td>Store</td>
+<td><a href="https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom">Ecommerce</a></td>
+</tr>
+<tr>
+<td>Title Storage</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/title-storage">Title Storage</a></td>
+</tr>
+<tr>
+<td>P2P Netcode</td>
+<td><a href="https://dev.epicgames.com/docs/game-services/p-2-p">NAT P2P</a></td>
+</tr>
+<tr>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>None (Not Supported)</td>
+<td><a href="https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods">EOS Mod SDK</a>, <a href="https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication">Voice Trusted Server</a>, <a href="https://dev.epicgames.com/docs/epic-account-services/progression-snapshot">Progression Snapshot Interface</a></td>
+</tr>
+</tbody>
+</table>
+</details>
+<details>
+  <summary><b>The EOS Features Shown by Requirement of a Player Needing an Epic Games Account</b></summary>
+<br>
+  
+  [EOS Game Services](https://dev.epicgames.com/docs/game-services) can be set up in your game without any requirement for your players to have an Epic Games account. As opposed to [EOS Epic Account Services](https://dev.epicgames.com/docs/epic-account-services), Which will require your players to have an Epic Games account.
+  
+| Not Required | Required  |
+| - | - |
+| [Achievements](https://dev.epicgames.com/docs/game-services/achievements) | [Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface) |
+| [Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards) | [Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom) |
+| [Lobby](https://dev.epicgames.com/docs/game-services/lobbies) | [Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) |
+| [Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies) | [Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface) |
+| [NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p) | [Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) |
+| [Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage) | [User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) |
+| [Sessions](https://dev.epicgames.com/docs/game-services/sessions) | [EOS Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods) (Unsupported) |
+| [Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface) | [Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) (Unsupported) |
+| [Title Storage](https://dev.epicgames.com/docs/game-services/title-storage) |  |
+| [Reports](https://dev.epicgames.com/docs/game-services/reports-interface) |  |
+| [Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface) |  |
+| [Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat) |  |
+| [Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface) |  |
+| [Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) |  |
+| [Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface?sessionInvalidated=true) |  |
+| [Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface) |  |
+| [Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) |  |
+| [Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) (Unsupported) |  |
+</details>
+<br>
+<h1 id="getting-started-"><div align="center">Getting Started</div> <a name="getting-started"></a></h1>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>An Epic Games Account, you can sign up for <a href="https://www.epicgames.com/id/register">here</a> (<em>although, most <a href="#supported-eos-sdk-features">features</a> do not require an Epic Games Account</em>).</li>
+<li>A product configured on the <a href="https://dev.epicgames.com/portal/">Epic Games Developer Portal</a>.</li>
+<li>A Unity project to integrate the plugin into.</li>
+</ul>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Your system should also satisfy <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html">Unity's system requirements</a> as well as the <a href="https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements">EOS system requirements</a></p>
+</div>
+<br>
+<h2 id="importing-the-plugin">Importing the Plugin</h2>
+<p>There are two options to install the package:</p>
+<ul>
+<li>Via a <a href="#adding-the-package-from-a-tarball">tarball</a> <em>(easiest to get started quickly)</em>.</li>
+<li>From a <a href="#adding-the-package-from-a-git-url">git url</a> <em>(this method has the possible advantage of keeping the plugin up-to-date, if that's something that you would prefer)</em>.</li>
+</ul>
+<h2 id="adding-the-package-from-a-tarball">Adding the package from a tarball</h2>
+<ol>
+<li><p>Download the latest release tarball, <code>&quot;com.playeveryware.eos-[version].tgz&quot;</code> <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/releases">here</a>.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Do <em>not</em> attempt to create a tarball yourself from the source, unless you know what you are doing with <code>git lfs</code>.</p>
+</div>
+</li>
+<li><p>Move the downloaded tarball into your project folder, but outside of the <code>Assets</code> folder.</p>
+</li>
+<li><p>From the Unity Editor, open the Package Manager via <code>Window -&gt; Package Manager</code>.</p>
+<p><img src="/docs/images/unity_tools_package_manager.gif" alt="unity tools package manager"></p>
+</li>
+<li><p>Click the <code>+</code> button in the top left of the window.</p>
+<p><img src="/docs/images/unity_package_tarball.gif" alt="Unity Add Tarball Package"></p>
+</li>
+<li><p>Select <code>Add package from tarball</code>.</p>
+</li>
+<li><p>Navigate to the directory containing the tarball, select and <code>Open</code> the tarball.</p>
+</li>
+<li><p>After the package has finished installing, <a href="#samples">import the samples</a>.</p>
+</li>
+<li><p>Finally, <a href="#configuring-the-plugin">configure the plugin</a>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The Unity doc for adding a tarball can be found <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html">here</a>.</p>
+</div>
+</li>
+</ol>
+<br>
+<h2 id="adding-the-package-from-a-git-url">Adding the package from a git URL</h2>
+<ol>
+<li><p>Setup Unity for <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html">Git Dependency</a>.</p>
+</li>
+<li><p>Install <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req">git</a> and <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/upm-git.html#req">git-lfs</a>.</p>
+</li>
+<li><p>From the Unity Editor, open the Package Manager.</p>
+<ul>
+<li><p><code>Window -&gt; Package Manager</code>.</p>
+<p><img src="/docs/images/unity_tools_package_manager.gif" alt="unity tools package manager"></p>
+</li>
+</ul>
+</li>
+<li><p>Click the <code>+</code> button in the top left of the window.</p>
+<p><img src="/docs/images/unity_package_git.gif" alt="Unity Add Git Package"></p>
+</li>
+<li><p>Select <code>Add Package from Git URL</code>.</p>
+</li>
+<li><p>Paste in <code>git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git</code>.</p>
+</li>
+<li><p>After the package has finished installing, <a href="#samples">import the samples</a>.</p>
+</li>
+<li><p>Finally, <a href="#configuring-the-plugin">configure the plugin</a>.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The Unity doc for adding a git url can be found <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html">here</a>.</p>
+</div>
+<h2 id="samples">Samples</h2>
+<p><img src="/docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"> <img src="/docs/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"></p>
+<p>The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implementation</a> to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The generalized managers are a great starting point for feature integration into your own project. They are named as <code>EOS[Feature/Platform name]Manager.cs</code>.</p>
+</div>
+<h2 id="importing-the-samples">Importing the samples</h2>
+<ol>
+<li><p>Select the <code>PlayEveryWare EOS Plugin for Unity</code> in the Package Manager window.</p>
+<p><img src="/docs/images/unity_install_samples.gif" alt="Unity Install Samples"></p>
+</li>
+<li><p>Open the <code>Samples</code> dropdown.</p>
+</li>
+<li><p>Select <code>Import</code> for each of the sample packs, to bring in the Sample scenes.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The samples are placed in <code>Assets/Samples</code> for personal modification.</p>
+</div>
+</li>
+<li><p>In the Unity editor menu bar, open <code>File-&gt;Build Settings</code>.</p>
+</li>
+<li><p>In the <code>Project</code> window, navigate to the scenes folders containing their respective sample scenes. <code>\Assets\Samples\PlayEveryWare EOS Plugin for Unity\[Version #]\[Pack Name]\Scenes</code>.</p>
+</li>
+<li><p>Add the scenes to the <code>Scenes In Build</code> section of the <code>Build Settings</code> window. This can be done quickly by using the <code>Shift</code> key to select each scene at the same time, then dragging them into the proper area. Repeating for each sample pack folder.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>If you have other scenes already, and plan to look at the samples in a build, drag a sample scene to be the 0th scene in Build Settings before you build.</p>
+</div>
+</li>
+</ol>
+<h2 id="running-the-samples">Running the samples</h2>
+<div class="IMPORTANT">
+<h5>Important</h5>
+<p>The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="#importing-the-samples">imported</a>, or the scenes weren't added in the build settings.</p>
+</div>
+<p>Sample walkthroughs can be found <a href="/docs/Walkthrough.md">here</a>.</p>
+<details>
+  <summary><b>Steps to run a sample in editor</b></summary>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The Social Overlay Feature is not supported in editor.</p>
+</div>
+<ol>
+<li><p>In the Unity editor, open the desired sample scene from the imported Scenes folder.</p>
+</li>
+<li><p>Press the play button at the top of the editor.</p>
+</li>
+<li><p>Login with a selected authentication type. <br><code>Account Portal</code> and then <code>PersistentAuth</code> is easiest for the first time. <code>Dev Auth</code> can be used for quicker iteration, among other options described <a href="/docs/Walkthrough.md">here</a>, to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.</p>
+<p><img src="/docs/images/sample_screen_account_login.gif" alt="Auth and Friends Screenshot"></p>
+</li>
+</ol>
+</details>
+<details>
+  <summary><b>Steps to run a sample from a build</b></summary>
+<br>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Check the <a href="#prerequisites">Prerequisites</a> as there may be specific requirements for a player's computer.
+For instance, Windows requires the players to have <code>The latest Microsoft Visual C++ Redistributable</code> installed on their computer in order to play any distributed builds.</p>
+</div>
+<ol>
+<li><p>In the Unity editor menu bar, open <code>File-&gt;Build Settings</code>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>If you have non-sample scenes, drag a sample scene to be the 0th scene in Build Settings before you build.</p>
+</div>
+</li>
+<li><p>Choose your desired platform, and settings, hitting <code>Build</code> as you normally would.</p>
+</li>
+<li><p>Run your build.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>A Windows build, is started by running the <code>EOSBootstrapper</code> application in the resulting build, and not the game application itself. it is for this (and similar) reasons that the <code>Build And Run</code> button may not always function as it usually would.</p>
+</div>
+</li>
+<li><p>Login with a selected authentication type. <br><code>Account Portal</code> and then <code>PersistentAuth</code> is easiest for the first time. <code>Dev Auth</code> can be used for quicker iteration, among other options described <a href="/docs/Walkthrough.md">here</a>, to explore features that don't require an Epic Games Account, or the options to choose for closer representation to the user experience on specific platform releases.</p>
+<p><img src="/docs/images/sample_screen_account_login.gif" alt="Auth and Friends Screenshot"></p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Additional info on login type options, implementation, and use cases can be found <a href="/docs/readme_login.md">here</a>.</p>
+</div>
+</li>
+</ol>
+</details>
+<h2 id="configuring-the-plugin">Configuring the Plugin</h2>
+<p>To function, the plugin needs some information from your EOS project. Epic Docs on how to set up your project can be found <a href="https://dev.epicgames.com/docs/epic-account-services/getting-started?sessionInvalidated=true">here</a>.</p>
+<h2 id="configuration-steps">Configuration Steps</h2>
+<ol>
+<li><p>In the Unity editor menu bar, open <code>Tools -&gt; EpicOnlineServicesConfigEditor</code>.</p>
+<p><img src="/docs/images/unity_tools_eosconfig.gif" alt="EOS Config Menu"></p>
+</li>
+<li><p>From the <a href="https://dev.epicgames.com/portal/">developer portal</a>, copy the configuration values listed below, and paste them into the similarly named fields in the <code>EOS Config Editor</code> window, under the <code>Main</code> portion of the config:</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>Addtional information about configuration settings can be found <a href="https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface">here</a>.</p>
+</div>
+<ul>
+<li>ProductName</li>
+<li>ProductVersion</li>
+<li><a href="https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#P?term=ProductId">ProductID</a></li>
+<li><a href="https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#S?term=SandboxId">SandboxID</a></li>
+<li><a href="https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=DeploymentId">DeploymentID</a></li>
+<li><a href="https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientSecret">ClientSecret</a></li>
+<li><a href="https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#C?term=OAuth%20ClientId">ClientID</a></li>
+<li><a href="https://dev.epicgames.com/docs/en-US/api-ref/structs/eos-platform-options">Encryption Key</a>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>Click the Generate button to create a random key, if you haven't already configured an encryption key in the EOS portal. <br>The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples, and don't want to create an Encryption Key, then the field must be left blank.</p>
+</div>
+</li>
+</ul>
+<p><img src="/docs/images/eosconfig_ui.gif" alt="EOS Config UI"></p>
+</li>
+<li><p>Press <code>Save All Changes</code>.</p>
+</li>
+<li><p>Navigate to <code>Packages/Epic Online Services for Unity/Runtime</code> via the <code>Project</code> window.</p>
+</li>
+<li><p>Add the <code>EOSManager.prefab</code>, to each of your game's scenes.</p>
+</li>
+<li><p>Simply attach <code>EOSManager.cs (Script)</code> to a Unity object and it will initialize the plugin with the specified configuration in <code>OnAwake()</code>.</p>
+<div class="NOTE">
+<h5>Note</h5>
+<p>The <a href="#samples">samples</a> already have this done!</p>
+</div>
+</li>
+</ol>
+<br>
+<h2 id="disable-on-selected-platforms">Disable on selected platforms</h2>
+<p>See <a href="/docs/disable_plugin_per_platform.md">docs/disable_plugin_per_platform.md</a> for this feature.</p>
+<h1 id="plugin-support-"><div align="center">Plugin Support</div> <a name="plugin-support"></a></h1>
+<p>PlayEveryWare EOS Plugin for Unity API Documentation can be found at <a href="https://eospluginforunity.playeveryware.com">https://eospluginforunity.playeveryware.com</a>.</p>
+<p>For issues related to integration or usage of the Unity plugin, please create a <code>New Issue</code> under the <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/issues">Issues</a> tab in the github repo.</p>
+<p>For issues related to Epic Online Services SDK, Epic Dev Portal or general EOS SDK information, please go to <a href="https://eoshelp.epicgames.com/">Epic Online Services Community Support</a>.</p>
+<p>Detailed descriptions and usage for EOS SDK Interfaces, can be found at <a href="https://dev.epicgames.com/docs/services/en-US/GameServices/index.html">EOS Developer Documentation: Game Services</a>.</p>
+<br>
+<h1 id="source-code-contributor-notes-"><div align="center">Source Code Contributor Notes</div> <a name="source-code-contributor-notes"></a></h1>
+<p>The following are guidelines for helping contribute to this open source project, as well as guidance on setting up your development environment.</p>
+<h2 id="environment-setup">Environment Setup</h2>
+<h3 id="linux">Linux</h3>
+<p>The following two guides can help you set up your development environment on Windows using Hyper-V. If you are not using Hyper-V, the second guide can still be used to configure your environment.</p>
+<h4 id="hyper-v-linux-guest-vm"><a href="/docs/dev_env/HyperV_Linux_Guest_VM.md">Hyper-V Linux Guest VM</a></h4>
+<h4 id="configuring-ubuntu-1804"><a href="/docs/dev_env/Ubuntu_Development_Environment.md">Configuring Ubuntu 18.04</a></h4>
+<h3 id="windows">Windows</h3>
+<p>To setup your environment on windows, follow these steps (or you can run the script indicated at the end of this section):</p>
+<ol>
+<li><p>Install the following:</p>
+<ul>
+<li><a href="https://git-scm.com/downloads">git</a></li>
+<li><a href="https://unity.com/download">Unity Hub</a></li>
+<li><a href="https://visualstudio.microsoft.com/vs/older-downloads/">Visual Studio 2019 Community Edition</a></li>
+</ul>
+</li>
+<li><p>Clone this repository and be sure to also run <code>git lfs pull</code> from the root of the repository.</p>
+</li>
+<li><p>Sign in to Unity Hub, and locate a project on disk by navigating to your local copy of the repository.</p>
+</li>
+<li><p>After adding the plugin project to Unity Hub, you will see a little caution sign next to the project if you do not currently have the proper version of the Unity Editor installed. This is expected. Click on the caution symbol and follow the prompts to install the appropriate version of the Unity Editor.</p>
+</li>
+</ol>
+<div class="NOTE">
+<h5>Note</h5>
+<p>You can execute the following PowerShell command in an elevated window to run the setup script which should do everything for you:</p>
+<pre><code class="lang-powershell">cd [root of repository]
+Set-ExecutionPolicy RemoteSigned -Force
+.\tools\scripts\setup-windows.ps1
+</code></pre>
+</div>
+<h3 id="macos">macOS</h3>
+<p>Instructions coming soon.</p>
+<h2 id="build-steps-for-native-libraries">Build steps For Native Libraries</h2>
+<p>Build the Visual Studio solutions for the native DLLs, extra platform specific instructions may be located in the docs for that platform.</p>
+<ol>
+<li><p>In your local repository, navigate to the <code>lib/NativeCode/DynamicLibraryLoaderHelper_[PLATFORM]</code> folder of your platform choice in <a href="/lib/NativeCode">NativeCode</a>.</p>
+<div class="WARNING">
+<h5>Warning</h5>
+<p>These files are not included with the package imported via tarball or git url.</p>
+</div>
+</li>
+<li><p>Open and build the <code>DynamicLibraryLoaderHelper.sln</code> in Visual Studio.</p>
+</li>
+</ol>
+<p>A successful build will place the correct binaries in the proper locations for Unity to initialize EOS SDK.</p>
+<h2 id="coding-standards">Coding Standards</h2>
+<p>See <a href="/docs/standards.md">standards.md</a>.</p>
+<h2 id="class-description">Class description</h2>
+<p>See <a href="/docs/class_description.md">docs/class_description.md</a>.</p>
+<br>
+<h1 id="faq-"><div align="center">FAQ</div> <a name="faq"></a></h1>
+<p>See <a href="/docs/command_line_export.md">here</a> for a guide on how to export the plugin from the command line.</p>
+<p>See <a href="/docs/frequently_asked_questions.md">docs/frequently_asked_questions.md</a>.</p>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/etc/docfx/project/index.md/#L1" class="contribution-link">Edit this page</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>

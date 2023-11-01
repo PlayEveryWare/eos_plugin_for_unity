@@ -1,0 +1,945 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class EOSAntiCheatClientManager
+ </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class EOSAntiCheatClientManager
+ ">
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../pewlogo.png" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager">
+
+
+
+  <h1 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager" class="text-break">Class EOSAntiCheatClientManager
+</h1>
+  <div class="markdown level0 summary"><p>Class <code>EOSAntiCheatClientManager</code> is a simplified wrapper for EOS <a href="https://dev.epicgames.com/docs/services/en-US/GameServices/AntiCheat/index.html">AntiCheat Client Interface</a>.</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">EOSAntiCheatClientManager</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><span class="xref">IEOSOnConnectLogin</span></div>
+    <div><span class="xref">IEOSOnAuthLogin</span></div>
+    <div><span class="xref">IEOSOnAuthLogout</span></div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="PlayEveryWare.html">PlayEveryWare</a>.<a class="xref" href="PlayEveryWare.EpicOnlineServices.html">EpicOnlineServices</a>.<a class="xref" href="PlayEveryWare.EpicOnlineServices.Samples.html">Samples</a></h6>
+  <h6><strong>Assembly</strong>: .dll</h6>
+  <h5 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class EOSAntiCheatClientManager : IEOSSubManager, IEOSOnConnectLogin, IEOSOnAuthLogin, IEOSOnAuthLogout</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager__ctor.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.%23ctor%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L63">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager__ctor_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.#ctor*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager__ctor" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.#ctor">EOSAntiCheatClientManager()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public EOSAntiCheatClientManager()</code></pre>
+  </div>
+  <h3 id="fields">Fields
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_PeerToPeerMode.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.PeerToPeerMode%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L44">View Source</a>
+  </span>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_PeerToPeerMode" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.PeerToPeerMode">PeerToPeerMode</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const bool PeerToPeerMode = true</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyClientIntegrityViolated_OnClientIntegrityViolatedCallback_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L152">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyClientIntegrityViolated_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyClientIntegrityViolated*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyClientIntegrityViolated_OnClientIntegrityViolatedCallback_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback)">AddNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback)</h4>
+  <div class="markdown level1 summary"><p>Use to access functionality of <a href="https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyClientIntegrityViolated/index.html">EOS_AntiCheatClient_AddNotifyClientIntegrityViolated</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback Callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OnClientIntegrityViolatedCallback</span></td>
+        <td><span class="parametername">Callback</span></td>
+        <td><p>Callback to receive notification of client integriy violation (modification of program memory or protected files, etc.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyPeerActionRequired_OnPeerActionRequiredCallback_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyPeerActionRequired(OnPeerActionRequiredCallback)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L241">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyPeerActionRequired_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyPeerActionRequired*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyPeerActionRequired_OnPeerActionRequiredCallback_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyPeerActionRequired(OnPeerActionRequiredCallback)">AddNotifyPeerActionRequired(OnPeerActionRequiredCallback)</h4>
+  <div class="markdown level1 summary"><p>Use to access functionality of <a href="https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyPeerActionRequired/index.html">EOS_AntiCheatClient_AddNotifyPeerActionRequired</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddNotifyPeerActionRequired(OnPeerActionRequiredCallback Callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OnPeerActionRequiredCallback</span></td>
+        <td><span class="parametername">Callback</span></td>
+        <td><p>Callback to receive notification about action required for a peer (usually removal from the session)</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyPeerAuthStatusChanged_OnPeerAuthStatusChangedCallback_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L218">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyPeerAuthStatusChanged_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyPeerAuthStatusChanged*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyPeerAuthStatusChanged_OnPeerAuthStatusChangedCallback_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback)">AddNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback)</h4>
+  <div class="markdown level1 summary"><p>Use to access functionality of <a href="https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged/index.html">EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback Callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OnPeerAuthStatusChangedCallback</span></td>
+        <td><span class="parametername">Callback</span></td>
+        <td><p>Callback to receive notification when peer auth is complete</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyToMessageToPeer_OnMessageToPeerCallback_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyToMessageToPeer(OnMessageToPeerCallback)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L175">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyToMessageToPeer_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyToMessageToPeer*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_AddNotifyToMessageToPeer_OnMessageToPeerCallback_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.AddNotifyToMessageToPeer(OnMessageToPeerCallback)">AddNotifyToMessageToPeer(OnMessageToPeerCallback)</h4>
+  <div class="markdown level1 summary"><p>Use to access functionality of <a href="https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_AddNotifyMessageToPeer/index.html">EOS_AntiCheatClient_AddNotifyMessageToPeer</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddNotifyToMessageToPeer(OnMessageToPeerCallback Callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OnMessageToPeerCallback</span></td>
+        <td><span class="parametername">Callback</span></td>
+        <td><p>Callback to receive message data to send to peer</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_BeginSession.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.BeginSession%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L365">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_BeginSession_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.BeginSession*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_BeginSession" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.BeginSession">BeginSession()</h4>
+  <div class="markdown level1 summary"><p>Wrapper for calling <a href="https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_BeginSession/index.html">EOS_AntiCheatClient_BeginSession</a>
+TODO: Add support for client-server mode</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void BeginSession()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_EndSession.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.EndSession%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L388">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_EndSession_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.EndSession*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_EndSession" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.EndSession">EndSession()</h4>
+  <div class="markdown level1 summary"><p>Wrapper for calling <a href="https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_EndSession/index.html">EOS_AntiCheatClient_EndSession</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void EndSession()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_GetPeerHandle_ProductUserId_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.GetPeerHandle(ProductUserId)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L272">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_GetPeerHandle_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.GetPeerHandle*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_GetPeerHandle_ProductUserId_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.GetPeerHandle(ProductUserId)">GetPeerHandle(ProductUserId)</h4>
+  <div class="markdown level1 summary"><p>Get index of registered peer by <code>ProductUserId</code> as <code>IntPtr</code></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public nint GetPeerHandle(ProductUserId UserId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ProductUserId</span></td>
+        <td><span class="parametername">UserId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">nint</a></td>
+        <td><p><code>IntPtr</code>representation of peer index for use with <code>GetPeerId</code> or <code>ReceiveMessageFromPeer</code></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_GetPeerId_System_IntPtr_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.GetPeerId(System.IntPtr)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L255">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_GetPeerId_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.GetPeerId*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_GetPeerId_System_IntPtr_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.GetPeerId(System.IntPtr)">GetPeerId(nint)</h4>
+  <div class="markdown level1 summary"><p>Get <code>ProductUserId</code> of registered peer by index</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ProductUserId GetPeerId(nint PeerHandle)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">nint</a></td>
+        <td><span class="parametername">PeerHandle</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ProductUserId</span></td>
+        <td><p><code>ProductUserId</code> of peer, or null if not registered</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsAntiCheatAvailable.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsAntiCheatAvailable%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L117">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsAntiCheatAvailable_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsAntiCheatAvailable*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsAntiCheatAvailable" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsAntiCheatAvailable">IsAntiCheatAvailable()</h4>
+  <div class="markdown level1 summary"><p>Check if EAC functionality is availble</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsAntiCheatAvailable()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p>False if EAC client functionality is not available i.e. game was launched without EAC bootstrapper</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsRegisteredPeer_ProductUserId_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsRegisteredPeer(ProductUserId)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L322">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsRegisteredPeer_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsRegisteredPeer*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsRegisteredPeer_ProductUserId_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsRegisteredPeer(ProductUserId)">IsRegisteredPeer(ProductUserId)</h4>
+  <div class="markdown level1 summary"><p>Checks if a user with a given <code>ProductUserId</code> is registered as a peer</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsRegisteredPeer(ProductUserId UserId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ProductUserId</span></td>
+        <td><span class="parametername">UserId</span></td>
+        <td><p><code>ProductUserId</code> of peer</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p>True if peer is registered</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsSessionActive.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsSessionActive%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L409">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsSessionActive_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsSessionActive*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_IsSessionActive" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.IsSessionActive">IsSessionActive()</h4>
+  <div class="markdown level1 summary"><p>Checks if a protected EAC sessionis active</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsSessionActive()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p>True if session is active</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnAuthLogin_Epic_OnlineServices_Auth_LoginCallbackInfo_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L128">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnAuthLogin_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnAuthLogin*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnAuthLogin_Epic_OnlineServices_Auth_LoginCallbackInfo_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo)">OnAuthLogin(LoginCallbackInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">LoginCallbackInfo</span></td>
+        <td><span class="parametername">loginCallbackInfo</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnAuthLogout_Epic_OnlineServices_Auth_LogoutCallbackInfo_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L134">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnAuthLogout_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnAuthLogout*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnAuthLogout_Epic_OnlineServices_Auth_LogoutCallbackInfo_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo)">OnAuthLogout(LogoutCallbackInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnAuthLogout(Epic.OnlineServices.Auth.LogoutCallbackInfo logoutCallbackInfo)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">LogoutCallbackInfo</span></td>
+        <td><span class="parametername">logoutCallbackInfo</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnConnectLogin_LoginCallbackInfo_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnConnectLogin(LoginCallbackInfo)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L122">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnConnectLogin_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnConnectLogin*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_OnConnectLogin_LoginCallbackInfo_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnConnectLogin(LoginCallbackInfo)">OnConnectLogin(LoginCallbackInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OnConnectLogin(LoginCallbackInfo loginCallbackInfo)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">LoginCallbackInfo</span></td>
+        <td><span class="parametername">loginCallbackInfo</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_ReceiveMessageFromPeer_System_IntPtr_System_ArraySegment_System_Byte__.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.ReceiveMessageFromPeer(System.IntPtr%2CSystem.ArraySegment%7BSystem.Byte%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L190">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_ReceiveMessageFromPeer_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.ReceiveMessageFromPeer*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_ReceiveMessageFromPeer_System_IntPtr_System_ArraySegment_System_Byte__" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.ReceiveMessageFromPeer(System.IntPtr,System.ArraySegment{System.Byte})">ReceiveMessageFromPeer(nint, ArraySegment&lt;byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>Wrapper for calling [EOS_AntiCheatClient_ReceiveMessageFromPeer]https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_ReceiveMessageFromPeer/index.html)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReceiveMessageFromPeer(nint PeerHandle, ArraySegment&lt;byte&gt; Data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">nint</a></td>
+        <td><span class="parametername">PeerHandle</span></td>
+        <td><p><code>IntPtr</code> referencing another player</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.arraysegment-1">ArraySegment</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</td>
+        <td><span class="parametername">Data</span></td>
+        <td><p><code>ArraySegment&lt;byte&gt;</code> previously received from <code>AddNotifyToMessageToPeer</code> callback</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RegisterPeer_ProductUserId_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RegisterPeer(ProductUserId)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L284">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RegisterPeer_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RegisterPeer*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RegisterPeer_ProductUserId_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RegisterPeer(ProductUserId)">RegisterPeer(ProductUserId)</h4>
+  <div class="markdown level1 summary"><p>Wrapper for calling <a href="https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_RegisterPeer/index.html">EOS_AntiCheatClient_RegisterPeer</a>
+TODO: Use ID tokens to verify player platform to determine whether their client must be protected or not (console players would use UnprotectedClient)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RegisterPeer(ProductUserId UserId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ProductUserId</span></td>
+        <td><span class="parametername">UserId</span></td>
+        <td><p><code>ProductUserId</code> of peer to register</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p>True if peer was successfully registered, or was already registered</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyClientIntegrityViolated_OnClientIntegrityViolatedCallback_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L157">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyClientIntegrityViolated_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyClientIntegrityViolated*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyClientIntegrityViolated_OnClientIntegrityViolatedCallback_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback)">RemoveNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveNotifyClientIntegrityViolated(OnClientIntegrityViolatedCallback Callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OnClientIntegrityViolatedCallback</span></td>
+        <td><span class="parametername">Callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyMessageToPeer_OnMessageToPeerCallback_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyMessageToPeer(OnMessageToPeerCallback)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L180">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyMessageToPeer_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyMessageToPeer*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyMessageToPeer_OnMessageToPeerCallback_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyMessageToPeer(OnMessageToPeerCallback)">RemoveNotifyMessageToPeer(OnMessageToPeerCallback)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveNotifyMessageToPeer(OnMessageToPeerCallback Callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OnMessageToPeerCallback</span></td>
+        <td><span class="parametername">Callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyPeerActionRequired_OnPeerActionRequiredCallback_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyPeerActionRequired(OnPeerActionRequiredCallback)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L246">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyPeerActionRequired_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyPeerActionRequired*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyPeerActionRequired_OnPeerActionRequiredCallback_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyPeerActionRequired(OnPeerActionRequiredCallback)">RemoveNotifyPeerActionRequired(OnPeerActionRequiredCallback)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveNotifyPeerActionRequired(OnPeerActionRequiredCallback Callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OnPeerActionRequiredCallback</span></td>
+        <td><span class="parametername">Callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyPeerAuthStatusChanged_OnPeerAuthStatusChangedCallback_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L223">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyPeerAuthStatusChanged_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyPeerAuthStatusChanged*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_RemoveNotifyPeerAuthStatusChanged_OnPeerAuthStatusChangedCallback_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.RemoveNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback)">RemoveNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RemoveNotifyPeerAuthStatusChanged(OnPeerAuthStatusChangedCallback Callback)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OnPeerAuthStatusChangedCallback</span></td>
+        <td><span class="parametername">Callback</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_UnregisterPeer_ProductUserId_.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.UnregisterPeer(ProductUserId)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L332">View Source</a>
+  </span>
+  <a id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_UnregisterPeer_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.UnregisterPeer*"></a>
+  <h4 id="PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager_UnregisterPeer_ProductUserId_" data-uid="PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.UnregisterPeer(ProductUserId)">UnregisterPeer(ProductUserId)</h4>
+  <div class="markdown level1 summary"><p>Wrapper for calling <a href="https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/AntiCheatClient/EOS_AntiCheatClient_UnregisterPeer/index.html">EOS_AntiCheatClient_UnregisterPeer</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool UnregisterPeer(ProductUserId UserId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">ProductUserId</span></td>
+        <td><span class="parametername">UserId</span></td>
+        <td><p><code>ProductUserId</code> of peer to unregister</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p>True if peer was successfully unregistered, or was already not registered</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <span class="xref">IEOSOnConnectLogin</span>
+  </div>
+  <div>
+      <span class="xref">IEOSOnAuthLogin</span>
+  </div>
+  <div>
+      <span class="xref">IEOSOnAuthLogout</span>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/new/docs/github-pages/apiSpec/new?filename=PlayEveryWare_EpicOnlineServices_Samples_EOSAntiCheatClientManager.md&amp;value=---%0Auid%3A%20PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Edit this page</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/docs/github-pages/Assets/Scripts/EOSAntiCheatClientManager.cs/#L38" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

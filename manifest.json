@@ -1,0 +1,741 @@
+{
+  "source_base_path": "/home/runner/work/eos_plugin_for_unity/eos_plugin_for_unity/etc/docfx/project",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSConfigFile-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSConfigFile-1.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorAndroidBuildConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorAndroidBuildConfig.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorAndroidBuildConfigSection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorAndroidBuildConfigSection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorConfigEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorConfigEditor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorPrebuildConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorPrebuildConfig.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorPrebuildConfigSection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorPrebuildConfigSection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorToolsConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorToolsConfig.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorToolsConfigSection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSPluginEditorToolsConfigSection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSVersionInformation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EOSVersionInformation.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.IEOSPluginEditorConfigurationSection.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.IEOSPluginEditorConfigurationSection.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.IPlatformSpecificConfigEditor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.IPlatformSpecificConfigEditor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.ChatEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.ChatEntry.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.ChatWithFriendData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.CustomInviteData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.CustomInviteData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSAchievementManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnAntiCheatClientCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.OnAntiCheatClientCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSAntiCheatClientManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSCustomInvitesManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSCustomInvitesManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSEACLobbyManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSEACLobbyManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.OnFriendsCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSFriendsManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.OnLeaderboardCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLeaderboardManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbyCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnLobbySearchCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.OnMemberUpdateCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSLobbyManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSMetricsManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSMetricsManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSPeer2PeerManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSPlayerDataStorageManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSPlayerDataStorageManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.OnSanctionsCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.OnSanctionsCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSReportsManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSSessionsManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSStoreManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnQueryFileListCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.OnReadFileCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSTitleStorageManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSTransferInProgress.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSUserInfoManager.OnUserInfoChangedCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSUserInfoManager.OnUserInfoChangedCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSUserInfoManager.OnUserInfoQueryDisplayNameCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSUserInfoManager.OnUserInfoQueryDisplayNameCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSUserInfoManager.OnUserInfoQueryIdCallback.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSUserInfoManager.OnUserInfoQueryIdCallback.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSUserInfoManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.EOSUserInfoManager.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.FriendData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.FriendData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.Lobby.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.Lobby.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyInvite.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyJoinRequest.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyJoinRequest.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyMember.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyMember.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyRTCState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.LobbyRTCState.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.PresenceInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.Sanction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.Sanction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.Session.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.Session.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.SessionAttribute.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.SessionSearch.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.messageData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.messageData.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.messageType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.messageType.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.Samples.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/PlayEveryWare.EpicOnlineServices.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/PlayEveryWare.EpicOnlineServices.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Playeveryware.Editor.LinkXmlCreatorTool.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Playeveryware.Editor.LinkXmlCreatorTool.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Playeveryware.Editor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Playeveryware.Editor.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/dev_auth_tool.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/dev_auth_tool.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/eosconfig_ui.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/eosconfig_ui.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/sample_screen_auth_friends.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/sample_screen_auth_friends.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/sample_screen_lobby.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/sample_screen_lobby.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/sample_screen_titlestorage.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/sample_screen_titlestorage.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/unity_install_samples.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/unity_install_samples.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/unity_package_git.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/unity_package_git.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/unity_package_tarball.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/unity_package_tarball.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/unity_tools_eosconfig.gif",
+      "output": {
+        "resource": {
+          "relative_path": "images/unity_tools_eosconfig.gif"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
