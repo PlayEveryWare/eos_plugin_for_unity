@@ -5,9 +5,15 @@
 # <div align="center">macOS</div>
 ---
 
-## Building Standalone with Unity.
+## Prerequisites:
 
-**Prerequisites:**
+> [!NOTE]
+> Most environment setup tasks can be accomplished by executing the setup script located [here](/tools/scripts/setup-macos.sh) by running the following command from within a terminal window at the root of the repository:
+> ```
+> ./tools/scripts/setup-macos.sh
+> ```
+
+If you want to do that work manually, please refer to the following:
 
 * The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
 * macOS Device
@@ -17,9 +23,7 @@
   * Required for running Unity Editor
   * Required if using RTC (Microphone) functionality
 
-### Additional Steps
-
-**Native libraries**
+### Building Native Libraries
 
 * Run `Tools -> EOS Plugin -> Build Libraries -> Mac` to build the dylibs needed for the mac build.
     * Set the path of `make` at `Edit -> Preferences -> EOS Plugin -> Platform Library Build Settings -> Make path`  
