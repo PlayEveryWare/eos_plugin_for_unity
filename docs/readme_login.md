@@ -34,7 +34,7 @@ More information about the distinction can be found [here](https://dev.epicgames
 * **Exchange Code** is for logging in on Epic Game Store deployments
 
 A list of which `LoginCredentialType` to use on which platform could be found [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/login_type_by_platform.md)
-![](images/login_type_by_platform.png)
+![](/docs/images/login_type_by_platform.png)
 
 ### Connect Login
 

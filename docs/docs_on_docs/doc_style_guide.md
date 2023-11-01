@@ -178,7 +178,7 @@ An image can be displayed with the web link format, prefacing with an exclamatio
 Markdown example:
 
 ```markdown
-![unity tools package manager](docs/images/unity_tools_package_manager.gif)
+![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 ```
 
 What it looks like:

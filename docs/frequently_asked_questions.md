@@ -23,7 +23,7 @@ To find out why and how to do so look [here](https://github.com/PlayEveryWare/eo
 
 ## How do I override sandbox or deployment IDs when publishing on the Epic Games Store?
 
-This functionality is outlined in the [EGS readme document](egs/egs_readme.md#overriding-sandbox-andor-deployment-id).
+This functionality is outlined in the [EGS readme document](/docs/egs/egs_readme.md#overriding-sandbox-andor-deployment-id).
 
 ## How do I get the Epic Username?
 It depends on what one means by "Username".
@@ -78,7 +78,7 @@ The config file has to be in StreamingAssets so that the GfxPluginNativeRender c
 all of Unity has been bootstrapped so that the Plugin can hook all the appropriate things before the first graphics call by the Unity engine.
 
 > [!NOTE]
-> See [eos_config_security.md](eos_config_security.md) for more information. 
+> See [eos_config_security.md](/docs/eos_config_security.md) for more information. 
 
 ## Why does the Demo Scene fail to load?
 
@@ -104,11 +104,11 @@ EOSManager.Instance.StartLoginWithLoginTypeAndToken(
 ## Do I or my players need an Epic Games Account?
 
 ### As a developer
-As a developer you will need to have an Epic Games account in order to interact with the [EOS Developer Portal](dev.epicgames/portal) and manage your product.
+As a developer you will need to have an Epic Games account in order to interact with the [EOS Developer Portal](https://dev.epicgames/portal) and manage your product.
 
 ### As a player
 Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed here:
-![LoginByType](images/login_type_by_platform.png)
+![LoginByType](/docs/images/login_type_by_platform.png)
 
 ## What does the "DllNotFoundException" error mean? 
 

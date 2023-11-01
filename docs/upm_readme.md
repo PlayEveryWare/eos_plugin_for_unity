@@ -78,7 +78,7 @@ Ensure you have property setup Unity for [Git Dependency](https://docs.unity3d.c
 4. Click the ```+``` button.
 5. Select '```Add Package from Git URL```'.
 
-    ![Unity Add Git Package](images/unity_package_git.gif)
+    ![Unity Add Git Package](/docs/images/unity_package_git.gif)
 
 6. Paste in ```git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git```.
 
@@ -92,7 +92,7 @@ the git-lfs files i.e. the binaries/dynamic libraries.
 2. Click the ```+``` button.
 3. Select '```Add package from tarball```'.
 
-    ![Unity Add Tarball Package](docs/images/unity_package_tarball.gif)
+    ![Unity Add Tarball Package](/docs/images/unity_package_tarball.gif)
 
 4. Go to directory containing the PEW Unity plugin tarball, and select it.
 5. Click ```Open```.
@@ -111,11 +111,11 @@ To get the EOS working, the plugin needs to know some specific things about your
 1) Open your Unity project with the integrated EOS Unity Plugin. 
 2) In the Unity editor, Open ```Tools -> EOS Plugin -> Dev Portal Configuration```.
 
-    ![EOS Config Menu](images/unity_tools_eosconfig.gif)
+    ![EOS Config Menu](/docs/images/unity_tools_eosconfig.gif)
 
 3) Configure the EOS Unity Plugin.
 
-    ![EOS Config UI](images/eosconfig_ui.gif)
+    ![EOS Config UI](/docs/images/eosconfig_ui.gif)
 
 4) From the [developer portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the editor tool:
     * ProductName
@@ -144,7 +144,7 @@ In addition, the samples include Unity friendly *feature* Managers that can help
 ## Installing the samples
 To use the samples, install them from the UPM manager.
 
-![Unity Install Samples](images/unity_install_samples.gif)
+![Unity Install Samples](/docs/images/unity_install_samples.gif)
 
 The samples include both usage of the EOS SDK, and convenience wrappers to make using the SDK more ergonomic in the Unity game engine. By being samples in the UPM sense, they are placed under Assets which allows modification.
 
@@ -155,14 +155,14 @@ The samples include both usage of the EOS SDK, and convenience wrappers to make 
 
 * Login with a selected authentication type.
 
-    ![Auth and Friends Screenshot](images/sample_screen_auth_friends.gif)
+    ![Auth and Friends Screenshot](/docs/images/sample_screen_auth_friends.gif)
 
 # Authentication
 
 ## Running and Configuring the EOS SDK Dev Auth Tool
 * Launch the [Developer Authentication Tool](https://dev.epicgames.com/docs/services/en-US/EpicAccountServices/DeveloperAuthenticationTool/index.html)
 
-    ![Developer Authentication Tool Screenshot](images/dev_auth_tool.gif)
+    ![Developer Authentication Tool Screenshot](/docs/images/dev_auth_tool.gif)
 
 * Pick a port to use on the computer. 8888 is a good quick to type number that isn't usually used by a process.
 * Log in with one's user credentials that are registered with Epic.
@@ -206,11 +206,11 @@ The following are guidelines for helping contribute to this open source project.
 A successful build will mean the correct binaries have been placed in the proper locations for Unity to successfully initialize EOS SDK.
 
 ## Standards
-See [standards.md](docs/standards.md).
+See [standards.md](/docs/standards.md).
 
 ## Class description
-See [docs/class_description.md](docs/class_description.md).
+See [docs/class_description.md](/docs/class_description.md).
 
 ## Additional Documentation
-Additional documentation can be found in the [docs/ directory](docs/).  
-Android documentation can be found [here](docs/android/).
+Additional documentation can be found in the [docs/](/docs/) directory.  
+Android documentation can be found [here](/docs/android/).
