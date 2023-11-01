@@ -29,11 +29,12 @@ If you want to do that work manually, please refer to the following:
     * Set the path of `make` at `Edit -> Preferences -> EOS Plugin -> Platform Library Build Settings -> Make path`  
     * By default the path is `/usr/bin/make` or `usr/local/bin/make`
 * Alternatively, manually use the makefile in `lib/NativeCode/DynamicLibraryLoaderHelper_macOS/` by opening the terminal at the folder and running the command: 
+
     ```bash
     make install
     ```
 
-## Mac Specific Caveats
+## Mac-Specific Caveats
 
 * If running the plugin in UnityEditor, after modifying the configuration settings, a UnityEditor reboot is needed for the changes to take place.  
 
