@@ -3,7 +3,7 @@
 # Login Type by Platform
 
 | Platform | Account Portal              | Persistent Auth | External Auth       | Exchange Codes | Dev Auth            |
-|--:|:-:|:-:|:-:|:-:|:-:|
+|--:|-|-|-|-|-|
 | [Windows](/docs/login.md) | ✅ | ✅ |  ✅ [^1] | ✅ [^2] | ✅ [^3] |
 | [Mac OS](/docs/login.md) | ✅ | ✅ | ✅ [^1] | ✅ [^2] | ✅ [^3] |
 | [Linux](/docs/login.md) | ✅ | ✅ | ✅ [^1] | ✅ [^2] | ✅ [^3] |
@@ -15,7 +15,7 @@
 | Switch  | ✅         | ✅          | ✅ [^4] | ❌       | ❌   |
 
 > [!NOTE]
-> Console specifics require access to their respective restricted repositories.
+> Consoles (GDK, PS4/PS5, & Switch) require access to their respective restricted repositories.
 
 [^1]: Use for Steam only
 [^2]: Use for EGS only
