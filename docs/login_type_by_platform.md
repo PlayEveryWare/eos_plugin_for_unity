@@ -5,16 +5,21 @@
 
 
 | Platform | Account Portal              | Persistent Auth | External Auth       | Exchange Codes | Dev Auth            |
-|----------|-----------------------------|-----------------|---------------------|----------------|---------------------|
-| [Windows](/docs/readme_login.md)             | Use it         | Use it          | Use for Steam       | Use for EGS    | Use for development |
-| [Mac OS](/docs/readme_login.md)              | Use it         | Use it          | Use for Steam       | Use for EGS    | Use for development |
-| [Linux](/docs/readme_login.md)               | Use it         | Use it          | Use for Steam       | Use for EGS    | Use for development |
-| [iOS](/docs/readme_login.md)                 | Use it         | Use it          | Dont Use            | Dont Use       | Dont Use   |
-| [Android](/docs/readme_login.md)             | Use it         | Use it          | Dont Use            | Dont Use       | Dont Use   |
-| GDK            | Dont Use       | Dont Use        | Use it              | Dont Use       | Dont Use   |
-| PS4            | Dont Use       | Dont Use        | Use it              | Dont Use       | Dont Use   |
-| PS5            | Dont Use       | Dont Use        | Use it              | Dont Use       | Dont Use   |
-| Switch  | Use it         | Use it          | Use for First Party | Dont Use       | Dont Use   |
+|-|-|-|-|-|-|
+| [Windows](/docs/login.md) | ✅ | ✅ |  ✅ [^1] | ✅ [^2] | ✅ [^3] |
+| [Mac OS](/docs/login.md) | ✅ | ✅ | ✅ [^1] | ✅ [^2] | ✅ [^3] |
+| [Linux](/docs/login.md) | ✅ | ✅ | ✅ [^1] | ✅ [^2] | ✅ [^3] |
+| [iOS](/docs/login.md) | ✅ | ✅ | ❌ | ❌ | ❌ |
+| [Android](/docs/login.md) | ✅ | ✅ |❌ |❌ | ❌ |
+| GDK            | ❌       | ❌        | ✅              | ❌       | ❌   |
+| PS4            | ❌       | ❌        | ✅              | ❌       | ❌   |
+| PS5            | ❌       | ❌        | ✅              | ❌       | ❌   |
+| Switch  | ✅         | ✅          | ✅ [^4] | ❌       | ❌   |
 
 > [!NOTE]
 > Console specifics require access to their respective restricted repositories.
+
+[^1]: Use for Steam
+[^2]: Use for EGS
+[^3]: Use for Development
+[^4]: Use for First Party
