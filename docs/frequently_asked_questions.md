@@ -107,8 +107,7 @@ EOSManager.Instance.StartLoginWithLoginTypeAndToken(
 As a developer you will need to have an Epic Games account in order to interact with the [EOS Developer Portal](https://dev.epicgames/portal) and manage your product.
 
 ### As a player
-Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed here:
-![LoginByType](/docs/images/login_type_by_platform.png)
+Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed [here](/docs/login_type_by_platform.md).
 
 ## What does the "DllNotFoundException" error mean? 
 
