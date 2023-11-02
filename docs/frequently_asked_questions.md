@@ -15,6 +15,7 @@
 - [What does the "DllNotFoundException" error mean?](#what-does-the-dllnotfoundexception-error-mean)
 - [Why am I getting overlay errors?](#why-am-i-getting-overlay-errors)
 - [Missing native libraries?](#missing-native-libraries)
+- [How do I debug the native dll?](#how-do-i-debug-the-native-dll)
 
 ## Why does the plugin fail to work after changing configuration?
 
@@ -23,7 +24,7 @@ To find out why and how to do so look [here](https://github.com/PlayEveryWare/eo
 
 ## How do I override sandbox or deployment IDs when publishing on the Epic Games Store?
 
-This functionality is outlined in the [EGS readme document](/docs/epic_game_store.md#overriding-sandbox-andor-deployment-id).
+This functionality is outlined in [here](/docs/epic_game_store.md#overriding-sandbox-andor-deployment-id).
 
 ## How do I get the Epic Username?
 It depends on what one means by "Username".
@@ -132,3 +133,11 @@ To get these dependent libraries, use the platform library build tool in the plu
 
 Or to install the libraries manually, go to the `lib/NativeCode` folder, find the target platform, and *build the `.sln`* or *`run the makefile`* in the folder.
 
+## How do I debug the native DLL?
+
+1. Get code for the eos samples.
+2. Set build configuration to `Debug`
+3. Set `SHOW_DIALOG_BOX_ON_WARN` to `1`.
+2. Build the Visual Studio project.
+3. Copy the DLL to a version of the exported project to debug.
+4. After launch, attach to the project after the dialog box appears.

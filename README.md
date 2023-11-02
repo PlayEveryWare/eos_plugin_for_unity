@@ -402,6 +402,8 @@ To disable the plugin for specific platforms, see [this](/docs/disable_plugin_pe
 
 See [here](/docs/command_line_export.md) for a guide on how to export the plugin from the command line. 
 
+For issues of API Level compatibility, please read our [document](/docs/dotnet_quirks.md) on .NET Quirks and Unity compatibility.
+
 For more FAQs see [here](/docs/frequently_asked_questions.md).
 
 If you have any outstanding questions, please bring them up in the [Discussions](https://github.com/PlayEveryWare/eos_plugin_for_unity/discussions) tab.
