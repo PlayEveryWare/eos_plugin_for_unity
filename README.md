@@ -44,7 +44,7 @@ See [this](/docs/plugin_advantages.md) for a more complete overview of the advan
 [^1]: See [here](#supported-eos-sdk-features) for which SDK features specifically are demonstrated.
 
 > [!NOTE]
-> If you are **not** interested in the _development_ of the EOS Plugin project, you can follow the instructions [here](#importing-the-plugin) on how to start using the most recently released version of the EOS Plugin.
+> If you are **not** interested in the _development_ of the EOS Plugin project (and instead just want to get to using it) you can follow the instructions [here](#importing-the-plugin) on how to start using the most recently released version of the EOS Plugin.
 
 ## Repo Contents:
 
@@ -395,6 +395,6 @@ To disable the plugin for specific platforms, see [this](/docs/disable_plugin_pe
 
 See [here](/docs/command_line_export.md) for a guide on how to export the plugin from the command line. 
 
-See [docs/frequently_asked_questions.md](/docs/frequently_asked_questions.md).
+For more FAQs see [here](/docs/frequently_asked_questions.md).
 
 If you have any outstanding questions, please bring them up in the [Discussions](https://github.com/PlayEveryWare/eos_plugin_for_unity/discussions) tab.
