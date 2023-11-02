@@ -85,32 +85,32 @@ There are many EOS features that do not require your player to have an Epic Game
 
 | Feature | Support Status | Sample Scene Walkthrough | Requires Epic Games Account |
 | :-- | :-: | :-: | :-: |
-|[Achievements](https://dev.epicgames.com/docs/game-services/achievements)                 | ✅ | [Achievements walkthrough](/docs/scene_walkthrough/achievements_walkthrough.md) | No |
-|[Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat)                     | ✅ | [Information](/docs/easy_anticheat_configuration.md) | No |
+|[Achievements](https://dev.epicgames.com/docs/game-services/achievements)                 | ✅ | [Achievements walkthrough](/docs/scene_walkthrough/achievements_walkthrough.md)                                                  | No  |
+|[Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat)                     | ✅ | [Information](/docs/easy_anticheat_configuration.md)                                                                             | No  |
 |[Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface)     | ✅ | [Auth & Friends walkthrough](/docs/scene_walkthrough/auth&friends_walkthrough.md), [Information](/docs/player_authentication.md) | Yes |
-|[Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface)   | ✅ | [Custom Invites workthrough](/docs/scene_walkthrough/customInvites_walkthrough.md) | No |
-|[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface)   | ✅ | [Walkthrough](/docs/scene_walkthrough/auth&friends_walkthrough.md) | No |
-|[Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom)    | ✅ | [Walkthrough](/docs/scene_walkthrough/store_walkthrough.md), [Information](/docs/ecom.md) | Yes |
-|[Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface)     | ✅ | [Walkthrough](/docs/scene_walkthrough/auth&friends_walkthrough.md) | Yes |
-|[Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/leaderboards_walkthrough.md) | No |
-|[Lobby](https://dev.epicgames.com/docs/game-services/lobbies)                             | ✅ | [Walkthrough](/docs/scene_walkthrough/lobbies_walkthrough.md) | No |
-|[Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies)   | ✅ | [Walkthrough](/docs/scene_walkthrough/lobbies_walkthrough.md), [Information](/docs/enabling_voice.md) | No |
-|[Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface)   | ✅ | NA | No |
-|[Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface)             | ✅ | [Walkthrough](/docs/scene_walkthrough/metrics_walkthrough.md) | No |
-|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods)      | ❌ | NA | Yes |
-|[NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p)                             | ✅ | [Walkthrough 1](/docs/scene_walkthrough/P2P_walkthrough.md), [Walkthrough 2](/docs/scene_walkthrough/P2P_netcode_walkthrough.md) | No |
-|[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface) | ✅ | NA | No |
-|[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage)   | ✅ | [Walkthrough](/docs/scene_walkthrough/player_data_storage_walkthrough.md) | No |
-|[Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface)   | ✅ | [Walkthrough](/docs/scene_walkthrough/auth&friends_walkthrough.md) | Yes |
-|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | ❌ | NA | Yes |
-|[Reports](https://dev.epicgames.com/docs/game-services/reports-interface)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/player_reports_and_sanctions_walkthrough.md) | No |
-|[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface)             | ✅ | [Walkthrough](/docs/scene_walkthrough/player_reports_and_sanctions_walkthrough.md) | No |
-|[Sessions](https://dev.epicgames.com/docs/game-services/sessions)                         | ✅ | [Walkthrough](/docs/scene_walkthrough/sessions_and_matchmaking_walkthrough.md) | No |
-|[Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) | ✅ | [Information](/docs/overlay.md) | Yes |
-|[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/leaderboards_walkthrough.md) | No |
-|[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage)               | ✅ | [Walkthrough](/docs/scene_walkthrough/title_storage_walkthrough.md) | No |
-|[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ | NA | Yes |
-|[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | NA | No |
+|[Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface)   | ✅ | [Custom Invites workthrough](/docs/scene_walkthrough/customInvites_walkthrough.md)                                               | No  |
+|[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface)   | ✅ | [Walkthrough](/docs/scene_walkthrough/auth&friends_walkthrough.md)                                                               | No  |
+|[Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom)    | ✅ | [Walkthrough](/docs/scene_walkthrough/store_walkthrough.md), [Information](/docs/ecom.md)                                        | Yes |
+|[Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface)     | ✅ | [Walkthrough](/docs/scene_walkthrough/auth&friends_walkthrough.md)                                                               | Yes |
+|[Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/leaderboards_walkthrough.md)                                                               | No  |
+|[Lobby](https://dev.epicgames.com/docs/game-services/lobbies)                             | ✅ | [Walkthrough](/docs/scene_walkthrough/lobbies_walkthrough.md)                                                                    | No  |
+|[Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies)   | ✅ | [Walkthrough](/docs/scene_walkthrough/lobbies_walkthrough.md), [Information](/docs/enabling_voice.md)                            | No  |
+|[Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface)   | ✅ | NA                                                                                                                               | No  |
+|[Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface)             | ✅ | [Walkthrough](/docs/scene_walkthrough/metrics_walkthrough.md)                                                                    | No  |
+|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods)      | ❌ | NA                                                                                                                               | Yes |
+|[NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p)                                               | ✅ | [Walkthrough 1](/docs/scene_walkthrough/P2P_walkthrough.md), [Walkthrough 2](/docs/scene_walkthrough/P2P_netcode_walkthrough.md) | No  |
+|[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface)                   | ✅ | NA                                                                                                                               | No  |
+|[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage)                     | ✅ | [Walkthrough](/docs/scene_walkthrough/player_data_storage_walkthrough.md)                                                        | No  |
+|[Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface)                     | ✅ | [Walkthrough](/docs/scene_walkthrough/auth&friends_walkthrough.md)                                                               | Yes |
+|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | ❌ | NA                                                                                                             | Yes |
+|[Reports](https://dev.epicgames.com/docs/game-services/reports-interface)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/player_reports_and_sanctions_walkthrough.md)                                               | No  |
+|[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface)             | ✅ | [Walkthrough](/docs/scene_walkthrough/player_reports_and_sanctions_walkthrough.md)                                               | No  |
+|[Sessions](https://dev.epicgames.com/docs/game-services/sessions)                         | ✅ | [Walkthrough](/docs/scene_walkthrough/sessions_and_matchmaking_walkthrough.md)                                                   | No  |
+|[Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) | ✅ | [Information](/docs/overlay.md)        | Yes |
+|[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/leaderboards_walkthrough.md)                                                               | No  |
+|[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage)               | ✅ | [Walkthrough](/docs/scene_walkthrough/title_storage_walkthrough.md)                                                              | No  |
+|[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ | NA                                                                                                                     | Yes |
+|[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | NA                                                                                                           | No  |
 
 
 <details>
