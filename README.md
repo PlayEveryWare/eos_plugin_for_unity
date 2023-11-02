@@ -189,11 +189,9 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
     ![EOS Config Menu](/docs/images/dev-portal-configuration-editor-menu.png)
 
-3) Configure the EOS Unity Plugin.
-
     ![EOS Config UI](/docs/images/eosconfig_ui.gif)
 
-4) From the [Developer Portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the editor tool:
+3) From the [Developer Portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the editor tool window pictured above:
 
      > [!NOTE]
      > Addtional information about configuration settings can be found [here](https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface).
@@ -211,13 +209,13 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
    > Click the "Generate" button to create a random key, if you haven't already configured an encryption key in the EOS portal. You can then add the generated key to the [Developer Portal](https://dev.epicgames.com/portal/).
    > The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples (and don't want to create an Encryption Key) then the field can be left blank.
 
-5) Click `Save All Changes`.
+4) Click `Save All Changes`.
 
-6) Navigate to `Packages/Epic Online Services for Unity/Runtime` via the `Project` window.
+5) Navigate to `Packages/Epic Online Services for Unity/Runtime` via the `Project` window.
 
-7) Add the `EOSManager.prefab`, to each of your game's scenes.
+6) Add the `EOSManager.prefab`, to each of your game's scenes.
 
-8) Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()`.
+7) Attach `EOSManager.cs (Script)` to a Unity object, and it will initialize the plugin with the specified configuration in `OnAwake()`.
 
 > [!NOTE]
 > The included <a href="#samples">samples</a> already have configuration values set for you to experiment with!
