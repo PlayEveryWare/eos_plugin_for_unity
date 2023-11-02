@@ -84,7 +84,7 @@ Below is a table summarizing the level of support the EOS Plugin for Unity provi
 There are many EOS features that do not require your player to have an Epic Games Account - such features are also marked accordingly in the following table.
 
 | Feature | Support Status | Sample Scene Walkthrough | Requires Epic Games Account |
-| :-- | :-: |
+| :-- | :-: | --- | :-: |
 |[Achievements](https://dev.epicgames.com/docs/game-services/achievements)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/achievements_walkthrough.md) | No |
 |[Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat)                     | ✅ | [Information](/docs/easy_anticheat_configuration.md) | No |
 |[Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface)     | ✅ | [Walkthrough](/docs/scene_walkthrough/auth&friends_walkthrough.md), [Information](/docs/player_authentication.md) | Yes |
