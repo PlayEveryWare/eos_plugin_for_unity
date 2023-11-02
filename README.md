@@ -218,7 +218,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
 If you would like to see specific examples of various EOS features in action, import the sample Unity scenes that are described below.
 
-## Samples
+# <div align="center">Samples</div><a name="samples" />
 
 <img src="docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="docs/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
 
@@ -304,7 +304,7 @@ Sample walkthroughs can be found [here](/docs/Walkthrough.md).
 
 ## Disable on selected platforms
 
-See [docs/disable_plugin_per_platform.md](/docs/disable_plugin_per_platform.md) for this feature.
+See [here](/docs/disable_plugin_per_platform.md) for details regarding why you might want to do this.
 
 # <div align="center">Plugin Support</div> <a name="plugin-support" />
 
