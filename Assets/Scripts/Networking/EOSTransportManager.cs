@@ -1112,6 +1112,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             };
             P2PHandle.GetNextReceivedPacketSize(ref getNextReceivedPacketSizeOptions, out uint nextPacketSizeBytes);
 
+            if (nextPacketSizeBytes == 0)
+            {
+                remoteUserId = null;
+                socketName = null;
+                channel = 0;
+                packet = null;
+                return false;
+            }
+            
             packet = new byte[nextPacketSizeBytes];
             var dataSegment = new ArraySegment<byte>(packet);
 
