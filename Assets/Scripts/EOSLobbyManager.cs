@@ -450,6 +450,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private NotifyEventHandle LobbyInviteNotification;
         private NotifyEventHandle LobbyInviteAcceptedNotification;
         private NotifyEventHandle JoinLobbyAcceptedNotification;
+        private NotifyEventHandle LeaveLobbyRequestedNotification;
 
         // TODO: Does this constant exist in the EOS SDK C# Wrapper?
         private const ulong EOS_INVALID_NOTIFICATIONID = 0;
@@ -541,11 +542,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             return lobbyInterface.AddNotifyLobbyMemberStatusReceived(ref options, null, notificationFn);
         }
 
+        private ulong AddNotifyLeaveLobbyRequested(LobbyInterface lobbyInterface, OnLeaveLobbyRequestedCallback notificationFn)
+        {
+            var options = new AddNotifyLeaveLobbyRequestedOptions();
+            return lobbyInterface.AddNotifyLeaveLobbyRequested(ref options, null, notificationFn);
+        }
+
         private void SubscribeToLobbyUpdates()
         {
             if(IsLobbyNotificationValid(LobbyUpdateNotification) ||
                 IsLobbyNotificationValid(LobbyMemberUpdateNotification) || 
-                IsLobbyNotificationValid(LobbyMemberStatusNotification))
+                IsLobbyNotificationValid(LobbyMemberStatusNotification) ||
+                IsLobbyNotificationValid(LeaveLobbyRequestedNotification))
             {
                 Debug.LogError("Lobbies (SubscribeToLobbyUpdates): SubscribeToLobbyUpdates called but already subscribed!");
                 return;
@@ -567,6 +575,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLobbyMemberStatusReceived(handle);
             });
+
+            LeaveLobbyRequestedNotification = new NotifyEventHandle(AddNotifyLeaveLobbyRequested(lobbyInterface, OnLeaveLobbyRequested), (ulong handle) =>
+            {
+                EOSManager.Instance.GetEOSLobbyInterface().RemoveNotifyLeaveLobbyRequested(handle);
+            });
         }
 
         private void UnsubscribeFromLobbyUpdates()
@@ -574,6 +587,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbyUpdateNotification.Dispose();
             LobbyMemberUpdateNotification.Dispose();
             LobbyMemberStatusNotification.Dispose();
+            LeaveLobbyRequestedNotification.Dispose();
         }
 
         //-------------------------------------------------------------------------
@@ -1794,6 +1808,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             PromoteMemberCallback?.Invoke(Result.Success);
         }
 
+        private void OnLeaveLobbyRequested(ref LeaveLobbyRequestedCallbackInfo data)
+        {
+            Debug.Log("Lobbies (OnLeaveLobbyRequested): Leave Lobby Requested via Overlay.");
+            LeaveLobby(null);
+        }
         private void OnMemberStatusReceived(ref LobbyMemberStatusReceivedCallbackInfo data)
         {
             // Callback for LobbyMemberStatusNotification
