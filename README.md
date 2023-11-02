@@ -364,7 +364,9 @@ To setup your environment on windows, follow these steps (or you can run the scr
 
 ### macOS
 
-See [here](/docs/macOS/README_macOS.md).
+See [here](/docs/macOS/README_macOS.md) to read our guide on setting up your environment on macOS.
+
+You can run [this](/tools/scripts/setup-macos.sh) script `tools/scripts/setup-macos.sh` from a terminal to accomplish most of the setup steps, or read the aforementioned guide for details.
 
 ## Building Native Libraries
 
