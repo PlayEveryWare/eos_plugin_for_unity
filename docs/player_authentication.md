@@ -23,6 +23,9 @@ There are two login interfaces:
 
 More information about the distinction can be found [here](https://dev.epicgames.com/en-US/news/accessing-eos-game-services-with-the-connect-interface#a-brief-summary-of-auth-vs-connect-interfaces)
 
+> [!IMPORTANT]
+> For information on how to authenticate a user via Apple, check out [this](/docs/apple_signin.md) guide.
+
 ### Auth Login
 
 * Auth Login functions are declared in EOS Auth Interface
