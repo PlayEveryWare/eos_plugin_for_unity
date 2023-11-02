@@ -4,9 +4,9 @@
 
 **Table of Contents:**
 1. [Overview](#overview)
-    - [Plugin Features](#plugin-features-in-depth-details)
+    - [Plugin Features](#plugin-features)
     - [Repo Contents](#repo-contents)
-    - [Plugin Details](#plugin-details)
+    - [Targetted Versions](#targetted-versions)
 2. [Platform Support](#platform-support)
     - [Supported Platforms](#supported)
     - [Unsupported Platforms](#unsupported)
@@ -33,26 +33,27 @@
 
 # Overview
 
-The PlayEveryWare EOS Plugin for Unity is a software development kit (SDK) used for integrating EOS into a Unity project. Bringing the free services that connect players across all platforms and all stores, to Unity in an easy to use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and Epic docs [here](https://dev.epicgames.com/docs/epic-online-services).
+The PlayEveryWare EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and read the Epic docs on the services [here](https://dev.epicgames.com/docs/epic-online-services).
 
-This repository contains the source code for development, samples and support for the [PlayEveryWare EOS Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
+This repository contains the source code for development and serves as a destination for support for the [PlayEveryWare EOS Plugin for Unity (UPM Package)](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm).
 
-## Plugin Features: [(In Depth Details)](/docs/plugin_advantages.md)
+Out of the box, this project demonstrates (through a collection of sample scenes) each feature of the Epic Online Services SDK[^1]. The sample scenes (coupled with accompanying documentation) can be used to get an idea of how you can implement all the online features you want in your game for free!
 
-* Social Overlay support across platforms.
-* Feature specific sample scenes, that include manager classes for common uses of EOS SDK API.
-* Custom Unity Tool for configuring EOS settings and saving to a JSON file.
-* Unity editor playback support, handled by reloading EOS SDK.
-* Most EOS features are accessible by players without an Epic Games Account.
+See [this](/docs/plugin_advantages.md) for a more complete overview of the advantages of using EOS with Unity.
+
+[^1]: See [here](#supported-eos-sdk-features) for which SDK features specifically are demonstrated.
+
+> [!NOTE]
+> If you are **not** interested in the _development_ of the EOS Plugin project, you can follow the instructions [here](#importing-the-plugin) on how to start using the most recently released version of the EOS Plugin.
 
 ## Repo Contents:
 
 * Additional plugin Documentation can be found in the [docs](/docs/) directory.
 * A Unity Project for development of feature managers and samples.
 * Native Source for `DynamicLibraryLoaderHelper` and `GfxPluginNativeRender`.
-* A Tool to build a Unity Package Manager compatible UPM.
+* A Tool to build a Unity Package Manager compatible UPM (again, if you would like to just start making use of the plugin, you can use the already created UPM [here](https://github.com/PlayEveryWare/eos_plugin_for_unity_upm)).
 
-## Plugin Details:
+## Targetted Versions:
 
 * Targets [Unity 2021.3.8f1](https://unity.com/releases/editor/whats-new/2021.3.8), for best results a version of Unity 2021 is preferred.
 * Targets [EOS SDK 1.16.0](https://dev.epicgames.com/docs/epic-online-services/release-notes#116---2023-aug-16) *(bundled with plugin)*.
@@ -61,14 +62,15 @@ This repository contains the source code for development, samples and support fo
 
 ## Supported:
 
-- Unity Editor [^1]
-- Windows Standalone
+- Windows (Standalone x86 & x64)
 - Universal Windows Platform (x64)
 - [Android](/docs/android/README_Android.md) [^1]
 - [iOS](/docs/iOS/README_iOS.md) [^1]
 - [Linux](/docs/linux/linux_supported_versions.md) [^1]
 - [MacOS](/docs/macOS/README_macOS.md)
-- Nintendo Switch (for details see the Nintendo Developer Portal)
+- Nintendo Switch (for details, please see the Nintendo Developer Portal)
+
+We are always looking to add the functionality of the plugin to more platforms, and have functionality for some in private development
 
 [^1]: Social overlay feature is currently not supported on this platform.
 
@@ -79,9 +81,6 @@ This repository contains the source code for development, samples and support fo
 - Unity Web Player
 
 # Supported EOS SDK Features
-
-> [!NOTE]
-> The EOS Plugin for Unity will be updated over time to support the new content as the EOS SDK continues to release new features and functionality. 
 
 Below is a table summarizing the level of support the EOS Plugin for Unity provides. Most features are demonstrated via sample scenes provided in the project, and links to the guide for each corresponding sample scene are listed below. In some cases (such as Anti-Cheat) the feature is not very well demonstrated with a scene. In those cases, a link to information about how the plugin utilizes the feature. In some cases (such as logging and overlay) the features are not implemented in any one scene specifically, but in all of them.
 
@@ -117,6 +116,8 @@ There are many EOS features that do not require your player to have an Epic Game
 |[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage)               | ✅ | ["Title Storage"](/docs/scene_walkthrough/title_storage_walkthrough.md)                                                              | No  |
 |[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ | NA                                                                                                                     | Yes |
 |[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | NA                                                                                                           | No  |
+
+Efforts will be made to add corresponding support to features as they are added to the Epic Online Services SDK. The table above reflects the features as of November 2023.
 
 # Getting Started
 
