@@ -205,9 +205,9 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
     * [ClientID](https://dev.epicgames.com/docs/services/en-US/Glossary/index.html#D?term=ClientId)
     * EncryptionKey
    
-    > [!WARNING]
-    > Click the "Generate" button to create a random key, if you haven't already configured an encryption key in the EOS portal. You can then add the generated key to the [Developer Portal](https://dev.epicgames.com/portal/).
-    > The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples (and don't want to create an Encryption Key) then the field can be left blank.
+     > [!WARNING]
+     > Click the "Generate" button to create a random key, if you haven't already configured an encryption key in the EOS portal. You can then add the generated key to the [Developer Portal](https://dev.epicgames.com/portal/).
+     > The Encryption Key is Used for Player Data Storage and Title Storage, if you do not plan to use these features in your project or the samples (and don't want to create an Encryption Key) then the field can be left blank.
 
 4) Click `Save All Changes`.
 
