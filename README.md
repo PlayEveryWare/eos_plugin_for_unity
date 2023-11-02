@@ -389,6 +389,13 @@ See [standards.md](/docs/standards.md).
 
 Descriptions for some of the core classes can be found [here](/docs/class_description.md).
 
+## Create your own UPM
+
+After making changes to the plugin, if you would like to subsequently generate your own Unity Package, read one of the following options:
+
+### [Create UPM Package](/docs/creating_the_upm_package.md)
+### [Command Line Package Creation](/docs/command_line_export.md)
+
 # FAQ
 
 To disable the plugin for specific platforms, see [this](/docs/disable_plugin_per_platform.md) (which also explains why you might want to do this).
