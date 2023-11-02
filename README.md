@@ -25,7 +25,7 @@ Table of Contents
   <li><a href="#faq">FAQ</a></li>
 </ol>
 
-# <div align="center">Overview</div> <a name="overview" />
+# Overview
 
 The PlayEveryWare EOS Plugin for Unity is a software development kit (SDK) used for integrating EOS into a Unity project. Bringing the free services that connect players across all platforms and all stores, to Unity in an easy to use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and Epic docs [here](https://dev.epicgames.com/docs/epic-online-services).
 
@@ -38,7 +38,6 @@ This repository contains the source code for development, samples and support fo
 * Custom Unity Tool for configuring EOS settings and saving to a JSON file.
 * Unity editor playback support, handled by reloading EOS SDK.
 * Most EOS features are accessible by players without an Epic Games Account.
-
 
 #### Repo Contents:
 
@@ -114,7 +113,7 @@ There are many EOS features that do not require your player to have an Epic Game
 |[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ | NA                                                                                                                     | Yes |
 |[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | NA                                                                                                           | No  |
 
-# <div align="center">Getting Started</div> <a name="getting-started" />
+# Getting Started
 
 ## Prerequisites
 
@@ -218,7 +217,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 
 If you would like to see specific examples of various EOS features in action, import the sample Unity scenes that are described below.
 
-# <div align="center">Samples</div><a name="samples" />
+# Samples
 
 <img src="docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="docs/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
 
@@ -306,7 +305,7 @@ Sample walkthroughs can be found [here](/docs/Walkthrough.md).
 
 See [here](/docs/disable_plugin_per_platform.md) for details regarding why you might want to do this.
 
-# <div align="center">Plugin Support</div> <a name="plugin-support" />
+# Plugin Support
 
 PlayEveryWare EOS Plugin for Unity API Documentation can be found at https://eospluginforunity.playeveryware.com.
 
@@ -318,7 +317,7 @@ Detailed descriptions and usage for EOS SDK Interfaces, can be found at [EOS Dev
 
 <br />
 
-# <div align="center">Source Code Contributor Notes</div> <a name="source-code-contributor-notes" />
+# Source Code Contributor Notes
 
 The following are guidelines for helping contribute to this open source project, as well as guidance on setting up your development environment.
 
@@ -381,7 +380,7 @@ See [docs/class_description.md](/docs/class_description.md).
 
 <br />
 
-# <div align="center">FAQ</div> <a name="faq" />
+# FAQ
 
 See [here](/docs/command_line_export.md) for a guide on how to export the plugin from the command line. 
 
