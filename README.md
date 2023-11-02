@@ -106,7 +106,7 @@ There are many EOS features that do not require your player to have an Epic Game
 |[Reports](https://dev.epicgames.com/docs/game-services/reports-interface)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/player_reports_and_sanctions_walkthrough.md) | No |
 |[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface)             | ✅ | [Walkthrough](/docs/scene_walkthrough/player_reports_and_sanctions_walkthrough.md) | No |
 |[Sessions](https://dev.epicgames.com/docs/game-services/sessions)                         | ✅ | [Walkthrough](/docs/scene_walkthrough/sessions_and_matchmaking_walkthrough.md) | No |
-|[Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) (Not Supported in Editor or Mobile) | ✅ | [Information](/docs/overlay.md) | Yes |
+|[Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview)/[UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) | ✅ | [Information](/docs/overlay.md) | Yes |
 |[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface)                 | ✅ | [Walkthrough](/docs/scene_walkthrough/leaderboards_walkthrough.md) | No |
 |[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage)               | ✅ | [Walkthrough](/docs/scene_walkthrough/title_storage_walkthrough.md) | No |
 |[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ | NA | Yes |
