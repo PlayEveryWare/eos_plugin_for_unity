@@ -58,7 +58,7 @@ The login options are as follows:
     - Openid Access Token
 
 
-For details on supported login methods per platform, see [here](/docs/login_type_by_platform).
+For details on supported login methods per platform, see [here](/docs/login_type_by_platform.md).
 
 
 ## Individual Scene Walkthroughs
