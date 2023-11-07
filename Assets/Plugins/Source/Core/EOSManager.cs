@@ -320,6 +320,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_onAuthLogoutCallbacks.Add(authLogout.OnAuthLogout);
             }
 
+            public void AddApplicationCloseListener(Action listener)
+            {
+                s_onApplicationShutdownCallbacks.Add(listener);
+            }
+
             public void RemoveConnectLoginListener(IEOSOnConnectLogin connectLogin)
             {
                 s_onConnectLoginCallbacks.Remove(connectLogin.OnConnectLogin);
@@ -333,11 +338,6 @@ namespace PlayEveryWare.EpicOnlineServices
             public void RemoveAuthLogoutListener(IEOSOnAuthLogout authLogout)
             {
                 s_onAuthLogoutCallbacks.Remove(authLogout.OnAuthLogout);
-            }
-
-            public void AddApplicationCloseListener(Action listener)
-            {
-                s_onApplicationShutdownCallbacks.Add(listener);
             }
 
             //-------------------------------------------------------------------------
