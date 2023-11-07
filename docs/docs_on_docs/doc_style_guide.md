@@ -3,22 +3,6 @@
 # <div align="center">Documentation Style Guide</div>
 ---
 
-**Table of Contents**
-1. [Overview](#overview)
-2. [Getting Started](#getting-started)
-3. [Document Header](#header)
-    - [Logo](#logo)
-    - [Title](#title)
-    - [Table of Contents](#table-of-contents)
-4. [Document Body](#body)
-    - [Sections](#sections)
-    - [Subsections](#subsections)
-    - [Sub-Subsections](#sub-subsections)
-5. [See also](#see-also)
-    - [Templates](#templates)
-    - [Internal Markdown Reference](#internal-markdown-reference)
-    - [Contributor Notes](#contributor-notes)
-
 # Overview
 
 The purpose of this document is to describe a standard which all other documents should follow. Use and follow this guide when creating new documentation for the project.
@@ -43,7 +27,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 | Component | Purpose |
 | -: | :- |
-| Header | _Title, logo, table of contents, and overview (table of contents only as needed)_ |
+| Header | _Title, logo, and overview_ |
 | Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
 | "See also" | _(Optional). This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
 
@@ -76,38 +60,13 @@ Markdown:
 ---
 ```
 
-## Table of Contents:
-
-If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title, and *precede* the "Overview" section.
-
-As an example, the following is the markdown to create the table of contents as it exists at the top of *this* document:
-
-Markdown:
-```markdown
-**Table of Contents**
-1. [Overview](#overview)
-2. [Getting Started](#getting-started)
-3. [Document Header](#header)
-  - [Logo](#logo)
-  - [Title](#title)
-  - [Table of Contents](#table-of-contents)
-4. [Document Body](#body)
-  - [Sections](#sections)
-  - [Subsections](#subsections)
-  - [Sub-Subsections](#sub-subsections)
-5. [See also](#see-also)
-  - [Templates](#templates)
-  - [Internal Markdown Reference](#internal-markdown-reference)
-  - [Contributor Notes](#contributor-notes)
-```
-
 # Body
 
 ## Sections:
 
 Document sections allow for clear organization of thought within a document.
 
-Each main section of the document should be denoted by the following markdown. Please note that it is important to have your first main section after the table of contents be an "Overview" section that gives the reader a summary of the purpose of the document. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to. 
+Each main section of the document should be denoted by the following markdown. Please note that it is important to have your first main section be an "Overview" section that gives the reader a _summary of the purpose of the document_. 
 
 The document section headers share the same format as the document title, but without the horizontal bar.
 
@@ -116,9 +75,6 @@ Example markdown for creating a document section:
 ```markdown
 # Section Title
 ```
-
-> [!NOTE]
-> Document sections should be important enough to include in a table of contents, if one exists for the document.
 
 ## Subsections:
 

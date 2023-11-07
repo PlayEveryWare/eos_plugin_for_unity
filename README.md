@@ -2,35 +2,6 @@
 
 <div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
 
-**Table of Contents:**
-1. [Overview](#overview)
-    - [Plugin Features](#plugin-features)
-    - [Repo Contents](#repo-contents)
-    - [Targetted Versions](#targetted-versions)
-2. [Platform Support](#platform-support)
-    - [Supported Platforms](#supported)
-    - [Unsupported Platforms](#unsupported)
-3. [Supported EOS SDK Features](#supported-eos-sdk-features)
-4. [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Importing the Plugin](#importing-the-plugin)
-        - [Adding the package from tarball](#adding-the-package-from-a-tarball)
-        - [Adding the package from git url](#adding-the-package-from-a-git-url)
-    - [Configuring the Plugin](#configuring-the-plugin)
-5. [Samples](#samples)
-    - [Importing Samples](#importing-samples)
-    - [Running the Samples](#running-the-samples)
-6. [Support / Contact](#support--contact)
-7. [Contributor Notes](#contributor-notes)
-    - [Environment Setup](#environment-setup)
-        - [Linux](#linux)
-        - [Windows](#windows)
-        - [macOS](#macos)
-    - [Building Native Libraries](#building-native-libraries)
-    - [Coding Standards](#coding-standards)
-    - [Core Classes](#core-classes)
-8. [FAQ](#faq)
-
 # Overview
 
 The PlayEveryWare EOS Plugin for Unity brings the free services from Epic that connect players across all platforms and all stores to Unity in an easy-to-use package. Find more information on EOS [here](https://dev.epicgames.com/en-US/services) and read the Epic docs on the services [here](https://dev.epicgames.com/docs/epic-online-services).
