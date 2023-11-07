@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 <div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
 
@@ -15,7 +15,7 @@
 
 If you want to do that work manually, please refer to the following:
 
-* The standard <a href="/readme.md#prerequisites">Prerequisites</a> for all platforms.
+* The standard <a href="/README.md#prerequisites">Prerequisites</a> for all platforms.
 * macOS Device
 * Unity macOS build module
 * XCode

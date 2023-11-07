@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Documentation Style Guide</div>
 ---
@@ -390,6 +390,6 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 [//]: #
 [//]: # [Basic Template](/docs/docs_on_docs/template_basic.md)
 [//]: #
-[//]: # [ReadMe Template](/docs/docs_on_docs/template_readme.md)
+[//]: # [ReadMe Template](/docs/docs_on_docs/template_README.md)
 [//]: #
 [//]: #

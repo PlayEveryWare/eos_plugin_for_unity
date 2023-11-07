@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Store Demo**
 This demo showcases the store interface through a faux store.
