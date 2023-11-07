@@ -51,18 +51,18 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 ## Logo:
 
-Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md), and with the width of the image set to 10%.
+Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](/README.md), and with the width of the image set to 10%.
 
 Markdown:
 ```markdown
-<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md">
+<a href="/README.md">
     <img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
 </a>
 ```
 
 What it looks like:
 
-<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
 ## Title:
 
@@ -378,18 +378,3 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 
 > [!WARNING]
 > Critical content demanding immediate user attention due to potential risks.
-
-# See also
-
-[//]: # The following section will be completed once all documentation has been made to conform to this style guide - as making that change may inform changes to this document style guide, which may in turn alter the structure of the templates.
-[//]: # ## Templates
-[//]: #
-[//]: # You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
-[//]: #
-[//]: # They are mainly blank space holders, so you can decide whats needed, be it a list, an alert, an image, or whatever. 
-[//]: #
-[//]: # [Basic Template](/docs/docs_on_docs/template_basic.md)
-[//]: #
-[//]: # [ReadMe Template](/docs/docs_on_docs/template_README.md)
-[//]: #
-[//]: #
