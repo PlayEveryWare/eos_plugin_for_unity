@@ -12,16 +12,16 @@ Out of the box, this project demonstrates (through a collection of sample scenes
 
 See [this](/docs/plugin_advantages.md) for a more complete overview of the advantages of using EOS with Unity.
 
-[^1]: See [here](#supported-eos-sdk-features) for which SDK features specifically are demonstrated.
+[^1]: See [here](#exploring-supported-eos-features) for which SDK features specifically are demonstrated.
 
 > [!NOTE]
-> If you are **not** interested in the _development_ of the EOS Plugin project (and instead just want to get to using it) you can follow the instructions [here](#importing-the-plugin) on how to start using the most recently released version of the EOS Plugin.
+> If you are **not** interested in the _development_ of the EOS Plugin project (and instead just want to get to using it) you can follow the instructions [here](#importing-the-plugin-package) on how to start using the most recently released version of the EOS Plugin.
 
 # Getting Started
 
 ## Prerequisites
 
-* An Epic Games Account, you can sign up for [here](https://www.epicgames.com/id/register) (_although, most [features](#supported-eos-sdk-features) do not require an Epic Games Account_).
+* An Epic Games Account, you can sign up for [here](https://www.epicgames.com/id/register) (_although, most [features](#exploring-supported-eos-features) do not require an Epic Games Account_).
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into.
 
