@@ -109,6 +109,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <value>List of Auth Logout callbacks</value>
         private static List<OnAuthLogoutCallback> s_onAuthLogoutCallbacks = new List<OnAuthLogoutCallback>();
+        
+        /// <value>List of application shutdown callbacks</value>
+        private static List<Action> s_onApplicationShutdownCallbacks = new List<Action>();
 
         /// <value>True if EOS Overlay is visible and has exclusive input.</value>
         private static bool s_isOverlayVisible = false;
@@ -315,6 +318,11 @@ namespace PlayEveryWare.EpicOnlineServices
             public void AddAuthLogoutListener(IEOSOnAuthLogout authLogout)
             {
                 s_onAuthLogoutCallbacks.Add(authLogout.OnAuthLogout);
+            }
+
+            public void AddApplicationCloseListener(Action listener)
+            {
+                s_onApplicationShutdownCallbacks.Add(listener);
             }
 
             public void RemoveConnectLoginListener(IEOSOnConnectLogin connectLogin)
@@ -1461,6 +1469,13 @@ namespace PlayEveryWare.EpicOnlineServices
             public void OnShutdown()
             {
                 print("Shutting down");
+
+                foreach(Action callback in s_onApplicationShutdownCallbacks)
+                {
+                    callback();
+                }
+
+
                 var PlatformInterface = GetEOSPlatformInterface();
                 if(PlatformInterface != null)
                 {

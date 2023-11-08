@@ -399,6 +399,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 }
                 Connections = new Dictionary<ProductUserId, List<Connection>>();
                 InProgressPackets = new Dictionary<ushort, SortedList<ushort, byte[]>>();
+
+                EOSManager.Instance.AddApplicationCloseListener(Shutdown);
             }
 
             if (P2PHandle == null)
