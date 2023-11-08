@@ -541,6 +541,33 @@ namespace PlayEveryWare.EpicOnlineServices
                     loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
                 }
 
+                var epicArgs = GetCommandLineArgsFromEpicLauncher();
+
+                if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
+                {
+                    UnityEngine.Debug.Log("Sandbox ID override specified: " + epicArgs.epicSandboxID);
+                    loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
+                }
+
+                if (loadedEOSConfig.sandboxDeploymentOverrides != null)
+                {
+                    //check if a deployment id override exists for sandbox id
+                    foreach (var deploymentOverride in loadedEOSConfig.sandboxDeploymentOverrides)
+                    {
+                        if (loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
+                        {
+                            UnityEngine.Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
+                            loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
+                {
+                    UnityEngine.Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
+                    loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
+                }
+
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -569,32 +596,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 LoadEOSLibraries();
                 NativeCallToUnloadEOS();
 
-                var epicArgs = GetCommandLineArgsFromEpicLauncher();
-
-                if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
-                {
-                    UnityEngine.Debug.Log("Sandbox ID override specified: " + epicArgs.epicSandboxID);
-                    loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
-                }
-
-                if (loadedEOSConfig.sandboxDeploymentOverrides != null)
-                {
-                    //check if a deployment id override exists for sandbox id
-                    foreach (var deploymentOverride in loadedEOSConfig.sandboxDeploymentOverrides)
-                    {
-                        if (loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
-                        {
-                            UnityEngine.Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
-                            loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
-                        }
-                    }
-                }
-
-                if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
-                {
-                    UnityEngine.Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
-                    loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
-                }
+                
 
                 Epic.OnlineServices.Result initResult = InitializePlatformInterface(loadedEOSConfig);
                 UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
