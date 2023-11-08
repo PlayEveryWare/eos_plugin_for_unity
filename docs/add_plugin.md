@@ -17,8 +17,8 @@ The following document outlines the two methods with which you can add the plugi
 
 4. Select `Add Package from Git URL`.
 6. Paste in `git@github.com:PlayEveryWare/eos_plugin_for_unity_upm.git`.
-7. After the package has finished installing, <a href="#samples">import the samples</a>.
-8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
+7. After the package has finished installing, [import the samples](/docs/samples.md).
+8. Finally, [Configure the Plugin](/docs/configure_plugin.md).
 
 > [!NOTE]
 > The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
@@ -42,7 +42,7 @@ The following document outlines the two methods with which you can add the plugi
 
 5. Select `Add package from tarball`.
 6. Navigate to the directory containing the tarball, select and `Open` the tarball.
-7. After the package has finished installing, [import the samples](#samples).
+7. After the package has finished installing, [import the samples](/docs/samples.md).
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
 > [!NOTE]

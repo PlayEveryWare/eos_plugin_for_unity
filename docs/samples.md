@@ -4,7 +4,7 @@
 
 <img src="docs/images/sample_screen_lobby.gif" alt="Lobby Screenshot" width="48%"/> <img src="docs/images/sample_screen_achievements.gif" alt="Achievements Storage Screenshot" width="48%"/>
 
-The included samples show examples of fully functional <a href="#supported-eos-sdk-features">feature implementation</a> to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
+The included samples show examples of fully functional [feature implementations](/docs/eos_features.md) to validate client and dev portal configuration as well as help with EOS integration into your own project. The samples are a collection of scenes that are imported from the UPM package, and include a series of scripts that function as generalized managers for each supported EOS SDK feature and platform.
 
 > [!NOTE]
 > The generalized managers are a great starting point for feature integration into your own project. They are named as `EOS[Feature/Platform name]Manager.cs`.
@@ -34,9 +34,9 @@ The included samples show examples of fully functional <a href="#supported-eos-s
 ## Running the samples
 
 > [!IMPORTANT]
-> The plugin must be <a href="#configuring-the-plugin">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="#importing-samples">imported</a>.
+> The plugin must be <a href="/docs/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="#importing-samples">imported</a>.
 
-Sample walkthroughs can be found [here](/docs/Walkthrough.md).
+Sample walkthroughs for each scene can be found [here](/docs/Walkthrough.md).
 
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
@@ -65,7 +65,7 @@ Sample walkthroughs can be found [here](/docs/Walkthrough.md).
 <br />
 
   > [!NOTE] 
-  > Check the [Prerequisites](#prerequisites) as there may be specific requirements for a player's computer.
+  > Check the [Prerequisites](/README.md#prerequisites) as there may be specific requirements for a player's computer.
   > For instance, Windows requires the players to have `The latest Microsoft Visual C++ Redistributable` installed on their computer in order to play any distributed builds.
 
   1. In the Unity editor menu bar, open `File -> Build Settings`.

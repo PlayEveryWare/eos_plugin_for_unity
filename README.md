@@ -84,6 +84,8 @@ There are two options to install the package:
 * Via a [tarball](/docs/add_plugin.md#adding-the-package-from-a-tarball) _(easiest to get started quickly)_.
 * From a [git url](/docs/add_plugin.md#adding-the-package-from-a-git-url) _(this method has the possible advantage of keeping the plugin up-to-date, if that's something that you would prefer)_.
 
+Once imported into your project, be sure to [Configure the Plugin](/docs/configure_plugin.md) to work with your game.
+
 ## Exploring Supported EOS Features
 
 ### [Supported Epic Online Services Features](/docs/eos_features.md)
