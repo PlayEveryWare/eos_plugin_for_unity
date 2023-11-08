@@ -43,10 +43,6 @@ There are two options to install the package:
 ### [Supported Epic Online Services Features](/docs/eos_features.md)
 ### [How to import sample scenes into your project](/docs/samples.md)
 
-## Contributor Notes
-
-This is an open source project! We welcome you to make contributions. See our [Contributions](/docs/contributions.md) document for more information.
-
 # Support / Contact
 
 PlayEveryWare EOS Plugin for Unity API Documentation can be found at [here](https://eospluginforunity.playeveryware.com).
@@ -56,6 +52,10 @@ For issues related to integration or usage of the EOS Unity plugin, please creat
 For issues related to Epic Online Services SDK, Epic Dev Portal or for general EOS SDK information, please go to [Epic Online Services Community Support](https://eoshelp.epicgames.com/).
 
 Detailed descriptions and usage for EOS SDK Interfaces can be found at [here](https://dev.epicgames.com/docs/services/en-US/GameServices/index.html).
+
+# Contributor Notes
+
+This is an open source project! We welcome you to make contributions. See our [Contributions](/docs/contributions.md) document for more information.
 
 # FAQ
 
