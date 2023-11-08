@@ -34,7 +34,7 @@ The included samples show examples of fully functional [feature implementations]
 ## Running the samples
 
 > [!IMPORTANT]
-> The plugin must be <a href="/docs/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="#importing-samples">imported</a>.
+> The plugin must be <a href="/docs/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md#importing-samples">imported</a>.
 
 Sample walkthroughs for each scene can be found [here](/docs/Walkthrough.md).
 
@@ -65,7 +65,7 @@ Sample walkthroughs for each scene can be found [here](/docs/Walkthrough.md).
 <br />
 
   > [!NOTE] 
-  > Check the [Prerequisites](/README.md#prerequisites) as there may be specific requirements for a player's computer.
+  > Check the [Prerequisites](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md#prerequisites) as there may be specific requirements for a player's computer.
   > For instance, Windows requires the players to have `The latest Microsoft Visual C++ Redistributable` installed on their computer in order to play any distributed builds.
 
   1. In the Unity editor menu bar, open `File -> Build Settings`.
