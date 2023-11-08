@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **P2P Netcode Demo**
 This demo showcases the Peer 2 Peer interface working with Unity's netcode. This is done through a simple game where players can move a square around the screen.
@@ -11,7 +11,7 @@ This demo showcases the Peer 2 Peer interface working with Unity's netcode. This
 
 The P2P Netcode Sample Scene is included in the `Extra Pack 1` sample pack.  
 
-Upon import, the `com.unity.netcode.gameobjects` package that this scene requires will be automatically installed. You will still need to <a href="/readme.md#importing-the-samples">add it in the build settings</a>.   
+Upon import, the `com.unity.netcode.gameobjects` package that this scene requires will be automatically installed. You will still need to <a href="/README.md#importing-samples">add it in the build settings</a>.   
 *Default version `1.0.2`.  Verified Working Versions `1.5.1` , `1.5.2`*  
 
 > [!NOTE]

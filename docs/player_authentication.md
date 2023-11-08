@@ -1,7 +1,6 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
-# <div align="center">Logging in with PEW EOS Plugin</div>
----
+# Authenticating Players
 
 ## Overview
 
@@ -24,6 +23,8 @@ There are two login interfaces:
 
 More information about the distinction can be found [here](https://dev.epicgames.com/en-US/news/accessing-eos-game-services-with-the-connect-interface#a-brief-summary-of-auth-vs-connect-interfaces)
 
+For information on how to authenticate a user via Apple, check out [this](/docs/apple_signin.md) guide.
+
 ### Auth Login
 
 * Auth Login functions are declared in EOS Auth Interface
@@ -34,7 +35,6 @@ More information about the distinction can be found [here](https://dev.epicgames
 * **Exchange Code** is for logging in on Epic Game Store deployments
 
 A list of which `LoginCredentialType` to use on which platform could be found [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/login_type_by_platform.md)
-![](images/login_type_by_platform.png)
 
 ### Connect Login
 
@@ -119,8 +119,7 @@ public void StartPersistentLogin(OnAuthLoginCallback onLoginCallback)
     StartLoginWithLoginTypeAndToken(LoginCredentialType.PersistentAuth, null, null, (callbackInfo) =>
     {
             // Handle invalid or expired tokens for the caller
-            switch(callbackInfo.ResultCode)
-            {
+            switch(callbackInfo.ResultCode) {
                 // If the login attempt results in an invalid token, delete the local refresh token
                 case Result.AuthInvalidPlatformToken:
                 case Result.AuthInvalidRefreshToken:
@@ -139,7 +138,10 @@ public void StartPersistentLogin(OnAuthLoginCallback onLoginCallback)
     });
 }
 ```
-The `onLoginCallback` in the function above is defined in `OnLoginButtonClick` function, at the `LoginCredentialType.PersistentAuth` case
+
+The `onLoginCallback` in the function above is defined in `OnLoginButtonClick` function, at the `LoginCredentialType.PersistentAuth` case.
+
+
 ```cs
 EOSManager.Instance.StartPersistentLogin((Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo) =>
 {
@@ -158,7 +160,7 @@ EOSManager.Instance.StartPersistentLogin((Epic.OnlineServices.Auth.LoginCallback
 
 ### Account Portal & Dev Auth
 
-Unlike `Persistent Auth`, these two `LoginCredentialTypes` do not need to worry about stored token, thus they could attempt login directly 
+Unlike `Persistent Auth`, these two `LoginCredentialTypes` do not need to worry about stored token, thus they could attempt login directly.
 
 ```cs
 EOSManager.Instance.StartLoginWithLoginTypeAndToken(
@@ -170,8 +172,8 @@ EOSManager.Instance.StartLoginWithLoginTypeAndToken(
 
 ### Exchange Code
 
-`Exchange Code` login could used when launching the game through Epic Games Launcher on desktop platforms (Windows, Mac, Linux)  
-The required exchange code could be retrieved with `GetCommandLineArgsFromEpicLauncher()`
+`Exchange Code` login could used when launching the game through Epic Games Launcher on desktop platforms (Windows, Mac, Linux).
+The required exchange code could be retrieved with `GetCommandLineArgsFromEpicLauncher()`.
 
 ```cs
 EOSManager.Instance.StartLoginWithLoginTypeAndToken(
@@ -184,7 +186,7 @@ EOSManager.Instance.StartLoginWithLoginTypeAndToken(
 
 ### External Auth
 
-Currently `External Auth` is for Steam session ticket login
+Currently `External Auth` is for Steam session ticket login.
 
 ```cs
 public void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
@@ -210,7 +212,7 @@ public void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
 ### Handling Auth Login Results
 
 When an Auth Login attempt finishes, `StartLoginWithLoginTypeAndTokenCallback` gets called and handles the login flow according to the result from Auth Login.  
-* Auth Login returned `Success`: Login flow proceeds to perform a Connect Login attempt
+* Auth Login returned `Success`: Login flow proceeds to perform a Connect Login attempt.
 * Auth Login returned `InvalidUser`: Implies that Steam(`External Auth`) logged in successfully but Epic Account wasn't linked yet, login flow prompts the user to link one.
 
 ```cs
@@ -257,7 +259,7 @@ public void StartLoginWithLoginTypeAndTokenCallback(LoginCallbackInfo loginCallb
 
 ### Connect Login
 
-When Auth Login Succeeds, Connect login gets called next 
+When Auth Login Succeeds, Connect login gets called next. 
 
 ```cs    
 private void StartConnectLoginWithLoginCallbackInfo(LoginCallbackInfo loginCallbackInfo)

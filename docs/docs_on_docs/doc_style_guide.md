@@ -1,23 +1,7 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Documentation Style Guide</div>
 ---
-
-**Table of Contents**
-1. [Overview](#overview)
-2. [Getting Started](#getting-started)
-3. [Document Header](#header)
-    * [Logo](#logo)
-    * [Title](#title)
-    * [Table of Contents](#table-of-contents)
-4. [Document Body](#body)
-    * [Sections](#sections)
-    * [Subsections](#subsections)
-    * [Sub-Subsections](#sub-subsections)
-5. [See also](#see-also)
-    * [Templates](#templates)
-    * [Internal Markdown Reference](#internal-markdown-reference)
-    * [Contributor Notes](#contributor-notes)
 
 # Overview
 
@@ -43,7 +27,7 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 | Component | Purpose |
 | -: | :- |
-| Header | _Title, logo, table of contents, and overview (table of contents only as needed)_ |
+| Header | _Title, logo, and overview_ |
 | Body | _This should contain the meat of the document wherein each concept is appropriately boxed into sections._ |
 | "See also" | _(Optional). This should contain links to other documents that are somewhat related in topic, or (as in this document) links to supplementary resources._ |
 
@@ -51,58 +35,30 @@ Fundamentally (and very broadly speaking) every document should contain two or o
 
 ## Logo:
 
-Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md), and with the width of the image set to 10%.
+Each document should start (before the document title) with the PlayEveryWare, Inc. logo. The image should be surrounded by a link (`<a> </a>`) tag with the `href` set to the main [README.md document](/README.md), and with the width of the image set to 10%.
 
 Markdown:
 ```markdown
-<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md">
+<a href="/README.md">
     <img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/>
 </a>
 ```
 
 What it looks like:
 
-<a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="PlayEveryWare, Inc. Logo" width="10%"/></a>
 
 ## Title:
 
 Following the PlayEveryWare, Inc. logo should be the title of the document centered, followed immediately by a horizontal rule. 
 
 As an example of how to properly add a title to the document, below is the markdown used to create the header for _this_ document.
+
 Markdown:
 ```markdown
 # <div align="center">Documentation Style Guide</div>
 ---
 ```
-
-## Table of Contents:
-
-If the document is sufficiently long as to warrant a table of contents, it should immediately follow the document title, and *precede* the "Overview" section.
-
-As an example, the following is the markdown to create the table of contents as it exists at the top of *this* document:
-
-Markdown:
-```markdown
-**Table of Contents**
-1. [Overview](#overview)
-2. [Getting Started](#getting-started)
-3. [Document Header](#header)
-    * [Logo](#logo)
-    * [Title](#title)
-    * [Table of Contents](#table-of-contents)
-4. [Document Body](#body)
-    * [Sections](#sections)
-    * [Subsections](#subsections)
-    * [Sub-Subsections](#sub-subsections)
-5. [See also](#see-also)
-    * [Templates](#templates)
-    * [Internal Markdown Reference](#internal-markdown-reference)
-    * [Contributor Notes](#contributor-notes)
-```
-
-Note that the `url` for an internal link is the value of the `name` attribute of the corresponding section link following a hash symbol (`#`).
-
-To see this in action, [this](#source-code-contributor-notes) is a link to the last section of this document.
 
 # Body
 
@@ -110,7 +66,7 @@ To see this in action, [this](#source-code-contributor-notes) is a link to the l
 
 Document sections allow for clear organization of thought within a document.
 
-Each main section of the document should be denoted by the following markdown. Please note that it is important to have your first main section after the table of contents be an "Overview" section that gives the reader a summary of the purpose of the document. The `name` attribute of the link should be the document title, all lowercase, with spaces replaced with dashes. This enables the section to be specifically linked to. 
+Each main section of the document should be denoted by the following markdown. Please note that it is important to have your first main section be an "Overview" section that gives the reader a _summary of the purpose of the document_. 
 
 The document section headers share the same format as the document title, but without the horizontal bar.
 
@@ -119,9 +75,6 @@ Example markdown for creating a document section:
 ```markdown
 # Section Title
 ```
-
-> [!NOTE]
-> Document sections should be important enough to include in a table of contents, if one exists for the document.
 
 ## Subsections:
 
@@ -139,20 +92,20 @@ Should a subsection of the document need to be further broken up into discrete s
 For example:
 
 ```markdown
-## Sub Subsection:
+## Sub-Subsection:
 ```
 
 > [!NOTE]
 > Just to be as clear as possible: note that the "Sub-Subsections" title above is itself a _sub section_, **not** a _**sub** subsection_.
 
 > [!IMPORTANT] 
-> Ideally, documents should only ever have a maximum depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
+> Ideally, documents should only ever have a maximum section depth of 2. If you feel greater depth is needed, it is a sign that you need to rethink the structure of your document, or break it up into separate files.
 
 ## Section Summary:
 
 The difference between the different section depths is below, followed by the markdown that generates it:
 
-# <div align="center">Document Title Example </div><a name="section-example" />
+# <div align="center">Document Title Example </div>
 # Section Example
 ## Subsection Example
 ### Sub-Subsection Example 
@@ -178,17 +131,20 @@ An image can be displayed with the web link format, prefacing with an exclamatio
 Markdown example:
 
 ```markdown
-![unity tools package manager](docs/images/unity_tools_package_manager.gif)
+![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 ```
 
 What it looks like:
 
 ![unity tools package manager](/docs/images/unity_tools_package_manager.gif)
 
+Always place images in the `/docs/images/` directory of the repository. In most cases, it is also appropriate to add a subdirectory to the images directory in order to keep related images organized. For instance, when creating a new document that contains a variety of images, it would be wise to create a subdirectory in the images folder to contain all the images for that new document.
+
 > [!IMPORTANT] 
 > Never use an image in place of text (for instance do not take a screenshot of documentation from one area to include it in another). Aside from the issue of maintainability, the problem with this is that GitHub allows for dark and light modes, and the image will look wrong in one mode or the other. 
-> 
-> _One notable exception is a circumstance where a small amount of text is utilized as a frequently referenced item, and in that circumstance it's important to have the first occurrence of the information be in text format so it can be easily maintained._
+
+> [!IMPORTANT]
+> Because of how we utilize the documentation, it is **very important** that all your links be absolute instead of relative. If you fail to do this your links might be broken when the documentation is added to places like [eospluginforunity.playeveryware.com](https://eospluginforunity.playeveryware.com).
 
 ## Links:
 
@@ -196,7 +152,7 @@ Web links can be written by surrounding the text you want as the link text in br
 
 When linking to a header within the same document, the link can consist of just the pound sign followed by the header name. 
 
-When linking to another document, the base folder can be the start of the link, so `'/docs/android/readme_android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/readme.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
+When linking to another document, the base folder can be the start of the link, so `'/docs/android/README_Android.md'` would be an acceptable link. Additionally you can link to a specific area in another document by adding the pound sign and name at the end of the link, `'/README.md#prerequisites'`. when ending a sentence with a link, make sure the period is not accidentally included in the url portion of the link.
 
 Example markdown linking to a specific section within a document:
 
@@ -207,24 +163,41 @@ Example markdown linking to a specific section within a document:
 Example markdown linking to another document:
 
 ```markdown
-[readme_android](/docs/android/readme_android.md)
+[Android README](/docs/android/README_Android.md)
 ```
 
 Example markdown linking to a specific section of another document:
 
 ```markdown
-[android prerequisites](/docs/android/readme_android.md#prerequisites)
+[Android Prerequisites](/docs/android/README_Android.md#prerequisites)
 ```
 
 > [!IMPORTANT]
 > Periodically, a script should be run against all the documentation to check that all of the links (internal and external) are still valid. It's important to make sure links do not become stale or broken. Because of this, external links should be used sparingly.
 
 > [!IMPORTANT]
-> When renaming a document or any of the sections, make sure to search for and update any references to that document from others.
+> When renaming a document or any of the sections, make sure to search for (and update) any references to that document from others.
+> A handy tool for doing this is `grep`, and you could run a command in git bash like the following from the root of the repository to find all documents that link to a specific document you might want to rename:
+>
+> ```bash
+> grep -irnl "login_type_by_platform.md" ./docs
+> ```
+>
+> Output:
+> ```bash
+> $ grep -irnl "login_type_by_platform.md" ./docs
+> ./docs/frequently_asked_questions.md
+> ./docs/player_authentication.md
+> ```
+> 
+> Based on the output of the command above, were we to rename the document `login_type_by_platform.md`, we would need to update references to the document in both `./docs/frequently_asked_questions.md`, and `./docs/player_authentication.md`.
+
+> [!IMPORTANT]
+> Because of how we utilize the documentation, it is **very important** that (as with images) all your links be absolute instead of relative. If you fail to do this, your links might be broken when the documentation is added to places like [eospluginforunity.playeveryware.com](https://eospluginforunity.playeveryware.com) or GitHub Pages.
 
 ## Code:
 
-## Block <a name="block">
+### Block
 
 For inline code formatting, use single ticks. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
@@ -233,14 +206,14 @@ In order to display code blocks, put the code you wish to display between two li
 > [!IMPORTANT]
 > When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would normally require horizontal scrolling to fully view. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
 
-## Inline <a name="inline">
+### Inline
 
-When writing inline instructions, such as menu navigation, use the inline code block, and separate action names by an arrow ` -> ` (spaces included for increased legibility). Inline code blocks are also appropriate to use when (in normal a normal sentence) you are referencing a variable.
+When writing inline instructions (such as menu navigation) use the inline code block, and separate action names by an arrow ` -> ` (spaces included for increased legibility). Inline code blocks are also appropriate to use when (in normal a sentence) you are referencing a variable.
 
-Example markdown:
+Examples of inline code markdown:
 
 ```markdown
-To create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
+To create a new C# script in Unity, navigate the menus through `Assets -> Create -> C# Script`.
 ```
 
 ```markdown
@@ -249,7 +222,7 @@ The variable `foo` is much better than the variable `bar`.
 
 What it looks like:
 
-To create a new c# script in unity navigate the menus through `Assets -> Create -> C# Script`.
+To create a new C# script in Unity, navigate the menus through `Assets -> Create -> C# Script`.
 
 The variable `foo` is much better than the variable `bar`.
 
@@ -277,9 +250,12 @@ __How to Use EOS:__
 > [!IMPORTANT]
 > If the list *can* be unordered, then it *should* be unordered.
 
+> [!WARNING]
+> When organizing a list, no item should ever have a single child, if you find yourself doing that rethink the organizational structure of the process you are describing.
+
 ## Grids:
 
-Often larger amounts of information need to be illustrated in the documentation. Information like this might be well suited to a table format. See the below example of markdown for an example of how to create a grid in markdown:
+Often, larger amounts of information need to be illustrated in the documentation. Information like this might be well suited to a table format. See the below example of markdown for an example of how to create a grid in markdown:
 
 ```markdown
 | First | Second | Add more boxes to the right for more columns |
@@ -302,12 +278,12 @@ What it looks like:
 
 ## Collapsed Sections:
 
-When there is a large amount of information that may or may not be immediately pertinent to the documentation, it may be wise to include it in a collapsed section of the document, making it clear that the information exists, albeit in a collapsed manner. This helps avoid a situation where too much information of variable utility is displayed on the screen, while still making the information accessible if needed.
+When there is a large amount of information that may or may not be immediately pertinent to the documentation, it may be wise to include it in a collapsed section of the document, making it clear that the information exists, albeit in an abbreviated manner. This helps avoid a situation where too much information of variable utility is displayed on the screen, while still making the information accessible if needed.
 
 Markdown for collapsing content:
 
 ```markdown
-#### Collapsed stuff:
+### Collapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
 Surprise!
@@ -316,22 +292,22 @@ Surprise!
 
 What it looks like:
 
-#### Collapsed stuff:
+### Collapsed stuff:
 <details>
   <summary><b>Find a surprise hidden here</b></summary>
 Surprise!
 </details>
 
 > [!WARNING] 
-> Collapsed sections have a tendency to be overlooked by readers, so be cautions about what you choose to put within them, and in many cases it might be more effective to break up your documentation into more than one file.
+> Collapsed sections have a tendency to be overlooked by readers; be cautious about what you choose to put within them. In many cases, it might be more effective to break up your documentation into more than one file.
 
 ## Mermaid:
 
-Mermaid is the formatting we use for displaying flowcharts about the plugin. From the perspective of style guidelines, these flowcharts can be thought of as images, with the added functionality that they are interactive. [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
+Mermaid is the formatting we use for displaying flowcharts. From the perspective of style guidelines, these flowcharts can be thought of as images, with the added functionality that they are interactive. See [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) for a guide on creating diagrams using Mermaid.
 
 ## Alerts:
 
-This section is a copy of [a discussion](https://github.com/orgs/community/discussions/16925) of these features when they were first introduced to GFM.
+This section is a copy of [a discussion](https://github.com/orgs/community/discussions/16925) of these features when they were first introduced to GitHub Flavored Markdown (GFM).
 
 Alerts are an extension of Markdown used to emphasize critical information. On GitHub, they are displayed with distinctive colors and icons to indicate the importance of the content. Use the "note" alert for important details that might escape observation if someone is skimming the document, use the "important" alert to describe things that _must_ or must _not_ be done in order to succeed in the documented task, and use the "warning" alert to highlight potential risks.
 
@@ -358,22 +334,3 @@ Alerts are an extension of Markdown used to emphasize critical information. On G
 
 > [!WARNING]
 > Critical content demanding immediate user attention due to potential risks.
-
-# See also
-
-[//]: # The following section will be completed once all documentation has been made to conform to this style guide - as making that change may inform changes to this document style guide, which may in turn alter the structure of the templates.
-[//]: # ## Templates
-[//]: #
-[//]: # You can use the templates here by copying them and replacing the content within the `[ ]` including the brackets themselves, with the the appropriate content. 
-[//]: #
-[//]: # They are mainly blank space holders, so you can decide whats needed, be it a list, an alert, an image, or whatever. 
-[//]: #
-[//]: # [Basic Template](/docs/docs_on_docs/template_basic.md)
-[//]: #
-[//]: # [ReadMe Template](/docs/docs_on_docs/template_readme.md)
-[//]: #
-[//]: #
-
-## Contributor Notes
- 
-Find info on source code (and doc) contributions [here](/readme.md#configuring-the-plugin).

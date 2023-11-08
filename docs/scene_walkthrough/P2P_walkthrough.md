@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 ## **Peer 2 Peer Demo**
 The Peer 2 Peer demo showcases the peer 2 peer interface. This is done through a basic messaging application where users can chat with other users on their friend list.

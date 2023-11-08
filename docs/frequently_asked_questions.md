@@ -1,4 +1,4 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center"> Frequently Asked Questions (FAQ)</div>
 ---
@@ -15,6 +15,7 @@
 - [What does the "DllNotFoundException" error mean?](#what-does-the-dllnotfoundexception-error-mean)
 - [Why am I getting overlay errors?](#why-am-i-getting-overlay-errors)
 - [Missing native libraries?](#missing-native-libraries)
+- [How do I debug the native dll?](#how-do-i-debug-the-native-dll)
 
 ## Why does the plugin fail to work after changing configuration?
 
@@ -23,7 +24,7 @@ To find out why and how to do so look [here](https://github.com/PlayEveryWare/eo
 
 ## How do I override sandbox or deployment IDs when publishing on the Epic Games Store?
 
-This functionality is outlined in the [EGS readme document](egs/egs_readme.md#overriding-sandbox-andor-deployment-id).
+This functionality is outlined in [here](/docs/epic_game_store.md#overriding-sandbox-andor-deployment-id).
 
 ## How do I get the Epic Username?
 It depends on what one means by "Username".
@@ -78,12 +79,12 @@ The config file has to be in StreamingAssets so that the GfxPluginNativeRender c
 all of Unity has been bootstrapped so that the Plugin can hook all the appropriate things before the first graphics call by the Unity engine.
 
 > [!NOTE]
-> See [eos_config_security.md](eos_config_security.md) for more information. 
+> See [eos_config_security.md](/docs/eos_config_security.md) for more information. 
 
 ## Why does the Demo Scene fail to load?
 
 There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack.
-Additionally, make sure all wanted sample scenes are included in the build settings as shown in steps 4.-6. of <a href="/readme.md#importing-the-samples">Importing the samples</a>.
+Additionally, make sure all wanted sample scenes are included in the build settings as shown in steps 4.-6. of <a href="/README.md#importing-samples">Importing the samples</a>.
 
 ## What is the correct way to log into the Epic Games Store?
 The correct way to connect to the Epic Games Store through your application would be to use the exchange code login method:
@@ -104,11 +105,10 @@ EOSManager.Instance.StartLoginWithLoginTypeAndToken(
 ## Do I or my players need an Epic Games Account?
 
 ### As a developer
-As a developer you will need to have an Epic Games account in order to interact with the [EOS Developer Portal](dev.epicgames/portal) and manage your product.
+As a developer you will need to have an Epic Games account in order to interact with the [EOS Developer Portal](https://dev.epicgames.com/portal) and manage your product.
 
 ### As a player
-Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed here:
-![LoginByType](images/login_type_by_platform.png)
+Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed [here](/docs/login_type_by_platform.md).
 
 ## What does the "DllNotFoundException" error mean? 
 
@@ -133,3 +133,11 @@ To get these dependent libraries, use the platform library build tool in the plu
 
 Or to install the libraries manually, go to the `lib/NativeCode` folder, find the target platform, and *build the `.sln`* or *`run the makefile`* in the folder.
 
+## How do I debug the native DLL?
+
+1. Get code for the eos samples.
+2. Set build configuration to `Debug`
+3. Set `SHOW_DIALOG_BOX_ON_WARN` to `1`.
+2. Build the Visual Studio project.
+3. Copy the DLL to a version of the exported project to debug.
+4. After launch, attach to the project after the dialog box appears.
