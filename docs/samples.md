@@ -34,7 +34,7 @@ The included samples show examples of fully functional [feature implementations]
 ## Running the samples
 
 > [!IMPORTANT]
-> The plugin must be <a href="/docs/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/README.md#importing-samples">imported</a>.
+> The plugin must be <a href="/docs/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/README.md#importing-samples">imported</a>.
 
 Sample walkthroughs for each scene can be found [here](/docs/Walkthrough.md).
 
