@@ -25,7 +25,7 @@ The Debug log provides a filterable on screen debug output
 The yellow dropdown in the top of the window allows the user to select which demo scene they would like to log into
 
 > [!WARNING]
-> There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and <a href="/README.md#importing-the-samples">add them in the build settings</a>.
+> There is a standard sample pack, and several extra packs in the EOS Unity Plugin. If a scene doesn't load, remember to import the wanted extra pack, and [add them in the build settings](/README.md#importing-the-samples)
 
 
 ## Login Page
