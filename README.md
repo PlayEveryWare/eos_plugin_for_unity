@@ -37,7 +37,7 @@ See [this](/docs/plugin_advantages.md) for a more complete overview of the advan
 - Universal Windows Platform (x64)
 - [Android](/docs/android/README_Android.md) [^1]
 - [iOS](/docs/iOS/README_iOS.md) [^1]
-- Linux (Officially supported 18.04 LTS) [^1]
+- [Linux](/docs/dev_env/Ubuntu_Development_Environment.md) [^1]
 - [MacOS](/docs/macOS/README_macOS.md)
 - Nintendo Switch (for details, please see the Nintendo Developer Portal)
 
