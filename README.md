@@ -12,10 +12,10 @@ Out of the box, this project demonstrates (through a collection of sample scenes
 
 See [this](/docs/plugin_advantages.md) for a more complete overview of the advantages of using EOS with Unity.
 
-[^1]: See [here](#exploring-supported-eos-features) for which SDK features specifically are demonstrated.
+[^1]: See [here](#supported-eos-sdk-features) for which SDK features specifically are demonstrated.
 
 > [!NOTE]
-> If you are **not** interested in the _development_ of the EOS Plugin project (and instead just want to get to using it) you can follow the instructions [here](#importing-the-plugin-package) on how to start using the most recently released version of the EOS Plugin.
+> If you are **not** interested in the _development_ of the EOS Plugin project (and instead just want to get to using it) you can follow our guide on [Importing the Plugin Package](#importing-the-plugin-package) to start using the most recently released version of the EOS Plugin.
 
 # Getting Started
 
@@ -28,9 +28,55 @@ See [this](/docs/plugin_advantages.md) for a more complete overview of the advan
 > [!NOTE]
 > Your system should also satisfy [Unity's system requirements](https://docs.unity3d.com/2021.3/Documentation/Manual/system-requirements.html) as well as the [EOS system requirements](https://dev.epicgames.com/docs/epic-online-services/eos-get-started/system-requirements)
 
+# Supported EOS SDK Features
+
+Below is a table summarizing the level of support the EOS Plugin for Unity provides. Most features are demonstrated via sample scenes provided in the project, and links to the guide for each corresponding sample scene are listed below. In some cases (such as Anti-Cheat) the feature is not very well demonstrated with a scene. In those cases, a link to information about how the plugin utilizes the feature is provided. In some cases (such as logging and overlay) the features are not implemented in any one scene specifically, but in all of them.
+
+Use the "Select Demo Scene" dropdown in the application to select the sample scene that corresponds with the walkthrough. 
+
+There are many EOS features that do not require your player to have an Epic Games Account (EGA) - such features are also marked accordingly in the following table.
+
+| Feature | Status | Sample Scene Walkthrough | Requires EGA |
+| :-- | :-: | :-- | :-: |
+|[Achievements](https://dev.epicgames.com/docs/game-services/achievements)                 | ✅ | ["Achievements"](/docs/scene_walkthrough/achievements_walkthrough.md)                                                  | No  |
+|[Anti-Cheat](https://dev.epicgames.com/docs/game-services/anti-cheat)                     | ✅ | ["Information"](/docs/easy_anticheat_configuration.md)                                                                             | No  |
+|[Authentication](https://dev.epicgames.com/docs/epic-account-services/auth-interface)     | ✅ | ["Auth & Friends"](/docs/scene_walkthrough/auth&friends_walkthrough.md), [Information](/docs/player_authentication.md) | Yes |
+|[Custom Invites](https://dev.epicgames.com/docs/game-services/custom-invites-interface)   | ✅ | ["Custom Invites"](/docs/scene_walkthrough/customInvites_walkthrough.md)                                               | No  |
+|[Connect Interface](https://dev.epicgames.com/docs/game-services/eos-connect-interface)   | ✅ | ["Auth & Friends"](/docs/scene_walkthrough/auth&friends_walkthrough.md)                                                               | No  |
+|[Ecommerce](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/ecom)    | ✅ | ["Store"](/docs/scene_walkthrough/store_walkthrough.md), [Information](/docs/ecom.md)                                        | Yes |
+|[Friends](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface)     | ✅ | ["Auth & Friends"](/docs/scene_walkthrough/auth&friends_walkthrough.md)                                                               | Yes |
+|[Leaderboards](https://dev.epicgames.com/docs/game-services/leaderboards)                 | ✅ | ["Leaderboards"](/docs/scene_walkthrough/leaderboards_walkthrough.md)                                                               | No  |
+|[Lobby](https://dev.epicgames.com/docs/game-services/lobbies)                             | ✅ | ["Lobbies"](/docs/scene_walkthrough/lobbies_walkthrough.md)                                                                    | No  |
+|[Lobby with Voice](https://dev.epicgames.com/docs/game-services/voice#voicewithlobbies)   | ✅ | ["Lobbies"](/docs/scene_walkthrough/lobbies_walkthrough.md), [Information](/docs/enabling_voice.md)                            | No  |
+|[Logging Interface](https://dev.epicgames.com/docs/game-services/eos-logging-interface)   | ✅ | NA                                                                                                                               | No  |
+|[Metrics](https://dev.epicgames.com/docs/game-services/eos-metrics-interface)             | ✅ | ["Metrics"](/docs/scene_walkthrough/metrics_walkthrough.md)                                                                    | No  |
+|[Mod SDK](https://dev.epicgames.com/docs/epic-games-store/tech-features-config/mods)      | ❌ | NA                                                                                                                               | Yes |
+|[NAT P2P](https://dev.epicgames.com/docs/game-services/p-2-p)                                               | ✅ | ["Peer 2 Peer"](/docs/scene_walkthrough/P2P_walkthrough.md), ["P2P Netcode"](/docs/scene_walkthrough/P2P_netcode_walkthrough.md) | No  |
+|[Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface)                   | ✅ | NA | No  |
+|[Player Data Storage](https://dev.epicgames.com/docs/game-services/player-data-storage)                     | ✅ | ["Player Data Storage"](/docs/scene_walkthrough/player_data_storage_walkthrough.md)                                                        | No  |
+|[Presence](https://dev.epicgames.com/docs/epic-account-services/eos-presence-interface)                     | ✅ | ["Auth & Friends"](/docs/scene_walkthrough/auth&friends_walkthrough.md)                                                               | Yes |
+|[Progression Snapshot Interface](https://dev.epicgames.com/docs/epic-account-services/progression-snapshot) | ❌ | NA                                                                                                             | Yes |
+|[Reports](https://dev.epicgames.com/docs/game-services/reports-interface)                 | ✅ | ["Player Reports & Sanctions"](/docs/scene_walkthrough/player_reports_and_sanctions_walkthrough.md)                                               | No  |
+|[Sanctions](https://dev.epicgames.com/docs/game-services/sanctions-interface)             | ✅ | ["Player Reports & Sanctions"](/docs/scene_walkthrough/player_reports_and_sanctions_walkthrough.md)                                               | No  |
+|[Sessions](https://dev.epicgames.com/docs/game-services/sessions)                         | ✅ | ["Sessions & Matchmaking"](/docs/scene_walkthrough/sessions_and_matchmaking_walkthrough.md)                                                   | No  |
+|[Social Overlay](https://dev.epicgames.com/docs/epic-account-services/social-overlay-overview) / [UI Interface](https://dev.epicgames.com/docs/epic-account-services/eosui-interface) | ✅ | [Information](/docs/overlay.md)        | Yes |
+|[Stats](https://dev.epicgames.com/docs/game-services/eos-stats-interface)                 | ✅ | ["Leaderboards"](/docs/scene_walkthrough/leaderboards_walkthrough.md)                                                               | No  |
+|[Title Storage](https://dev.epicgames.com/docs/game-services/title-storage)               | ✅ | ["Title Storage"](/docs/scene_walkthrough/title_storage_walkthrough.md)                                                              | No  |
+|[User Info Interface](https://dev.epicgames.com/docs/epic-account-services/eos-user-info-interface) | ✅ | NA                                                                                                                     | Yes |
+|[Voice Trusted Server](https://dev.epicgames.com/docs/game-services/voice#voicewithatrustedserverapplication) | ❌ | NA                                                                                                           | No  |
+
+Efforts will be made to add corresponding support to features as they are added to the Epic Online Services SDK. The table above reflects the features as of November 2023.
+
 ## Supported Platforms
 
-For an overview of supported platforms and targetted versions of both Unity and the EOS SDK, see our [Supported Platforms](/docs/supported_platforms.md) document.
+We currently support the following platforms, details of each can be found on our [Supported Platforms](/docs/supported_platforms.md) document:
+
+* Windows
+* Linux
+* macOS
+* Android
+* iOS
+* Nintendo Switch
 
 ## Importing the Plugin Package
 
