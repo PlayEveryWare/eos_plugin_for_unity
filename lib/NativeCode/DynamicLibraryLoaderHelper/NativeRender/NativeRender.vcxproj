@@ -73,22 +73,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Assets\Plugins\Windows\$(PlatformTarget)\</OutDir>
+    <OutDir>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(PlatformTarget)\</OutDir>
     <TargetName>$(ProjectName)-x64</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Assets\Plugins\Windows\$(PlatformTarget)\</OutDir>
+    <OutDir>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(PlatformTarget)\</OutDir>
     <TargetName>$(ProjectName)-x86</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Assets\Plugins\Windows\$(PlatformTarget)\</OutDir>
+    <OutDir>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(PlatformTarget)\</OutDir>
     <TargetName>$(ProjectName)-x86</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\Assets\Plugins\Windows\$(PlatformTarget)\</OutDir>
+    <OutDir>$(SolutionDir)..\..\..\Assets\Plugins\Windows\$(PlatformTarget)\</OutDir>
     <TargetName>$(ProjectName)-x64</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -150,7 +150,7 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)$(ProjectName)-x86.dll.meta $(SolutionDir)..\..\Assets\Plugins\Windows\$(PlatformTarget)\</Command>
+      <Command>copy $(SolutionDir)$(ProjectName)-x86.dll.meta $(SolutionDir)..\..\..\Assets\Plugins\Windows\$(PlatformTarget)\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -175,7 +175,7 @@
       <EnableUAC>false</EnableUAC>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)$(ProjectName)-x64.dll.meta $(SolutionDir)..\..\Assets\Plugins\Windows\$(PlatformTarget)\</Command>
+      <Command>copy $(SolutionDir)$(ProjectName)-x64.dll.meta $(SolutionDir)..\..\..\Assets\Plugins\Windows\$(PlatformTarget)\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
