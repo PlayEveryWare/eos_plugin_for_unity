@@ -21,7 +21,7 @@ See [this](/docs/plugin_advantages.md) for a more complete overview of the advan
 
 ## Prerequisites
 
-* [Create an Epic Games Account](https://www.epicgames.com/id/register) (_although, most [features](#exploring-supported-eos-features) do not require an Epic Games Account_).
+* [Create an Epic Games Account](https://www.epicgames.com/id/register) (_although, most [features](#exploring-supported-eos-features) do not require your users to have an Epic Games Account, you must have one to configure your game with Epic Games Developer Portal_).
 * A product configured on the [Epic Games Developer Portal](https://dev.epicgames.com/portal/).
 * A Unity project to integrate the plugin into.
 
