@@ -12,8 +12,8 @@ UNITY_META_FILES = libDynamicLibraryLoaderHelper.dylib.meta
 all : $(DYLIBS)
 
 install : all
-	cp $(DYLIBS) ../../Assets/Plugins/macOS/
-	cp $(UNITY_META_FILES) ../../Assets/Plugins/macOS/
+	cp $(DYLIBS) ../../../Assets/Plugins/macOS/
+	cp $(UNITY_META_FILES) ../../../Assets/Plugins/macOS/
 
 clean : DynamicLibraryLoaderHelper_clean MicrophoneUtility_macos_clean
 #-----------------------------------------------------------------------
