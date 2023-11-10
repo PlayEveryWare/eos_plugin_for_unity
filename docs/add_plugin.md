@@ -25,7 +25,7 @@ The following document outlines the two methods with which you can add the plugi
 
 ## Adding the package from a tarball
 
-1. Download the latest release tarball, `"com.playeveryware.eos-[version].tgz"` [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
+1. Download the latest release UPM tarball, `"com.playeveryware.eos-[version].tgz"` [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
 
     > [!WARNING]
     > Do *not* attempt to create a tarball yourself from the source, unless you know what you are doing with respect to [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/configuring-git-large-file-storage).
