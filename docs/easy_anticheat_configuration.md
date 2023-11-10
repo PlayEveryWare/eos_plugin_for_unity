@@ -47,11 +47,11 @@ If you would like to test the functionality of EAC as it pertains to file integr
 
 4. After saving changes made to that file, launch the sample scene "Lobbies," and look at the log. You should see an error logged there indicating that the file integrity of that modified file has been violated.
 
-    <img src="/docs/images/file_integrity_violation.png" width="500" />
+    <img src="/docs/images/file_integrity_violation.png" />
 
 > [!NOTE]
-> The "Lobbies" sample scene was selected to implement an example of EAC file integrity testing because lobbies themselves have some additional EAC features connected, so it seemed like a natural place to demonstrate that functionality. The relevant lines of code that trigger the notification of file integrity violation can be found within `Assets/Scripts/EOSEACLobbyManager.cs
-`:
+> The "Lobbies" sample scene was selected to implement an example of EAC file integrity testing because lobbies themselves have some additional EAC features connected, so it seemed like a natural place to demonstrate that functionality. The relevant lines of code that trigger the notification of file integrity violation can be found within `Assets/Scripts/EOSEACLobbyManager.cs`:
+> 
 > ```cs
 > public EOSEACLobbyManager()
 > {
