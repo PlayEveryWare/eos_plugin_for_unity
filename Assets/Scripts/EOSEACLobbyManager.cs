@@ -68,7 +68,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 AntiCheatManager.AddNotifyToMessageToPeer(OnMessageToPeer);
                 AntiCheatManager.AddNotifyPeerActionRequired(OnPeerActionRequired);
+                AntiCheatManager.AddNotifyClientIntegrityViolated(OnClientIntegrityViolated);
             }
+        }
+
+        /// <summary>
+        /// Called when the integrity of the client has been violated according to EAC
+        /// </summary>
+        /// <param name="data"></param>
+        private void OnClientIntegrityViolated(ref OnClientIntegrityViolatedCallbackInfo data)
+        {
+            Debug.LogError("EAC Client Integrity Violeted!");
         }
 
         /// <summary>
