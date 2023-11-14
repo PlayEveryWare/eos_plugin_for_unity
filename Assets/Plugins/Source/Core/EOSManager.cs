@@ -691,7 +691,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     type = LogType.Warning;
                 }
 
-                UnityEngine.Debug.LogFormat(type, LogOption.NoStacktrace, null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
+                UnityEngine.Debug.LogFormat(type, LogOption.NoStacktrace, null, "{0:O} {1}({2}): {3}", dateTime.ToString(DateTimeFormatInfo.InvariantInfo), messageCategory, message.Level, message.Message);
             }
 
             //-------------------------------------------------------------------------
