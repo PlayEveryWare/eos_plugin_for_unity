@@ -2,12 +2,101 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+##[3.0.2] - 2023-10-27
 ### Inprogress
+doc : Documentation style overhaul
+feat : command line tools
+
 ### Unreleased
+
 ### Added
+doc : Added images for increasing the size of the system image for a linux vm, moved optional items from one document to the other, and put information about expanding the disk size post ubuntu installation toward end of guide in case it's something people forget to do.
+doc : Added section in the contributors notes for setting up Linux and Windows development environments.
+doc : Added section for Linux environment setup.
+doc : Added step labels to each of the linux environment setup documents.
+doc : Added images and markdown files documenting how to set up a linux development environment.
+tidy : Added directory to gitignore file that is created when docfx is run.
+tidy : Added git ignore to ignore files that docfx generates inside of the api directory.
+scripts(env) : Added linux setup script.
+scripts(env) : Added commands to install the editor, get a license, and build the project.
+scripts(env) : Added no-sandbox switch to unity editor install command.
+scripts(env) : Added sudo before unity editor install command.
+scripts(env) : Added command to install Unity Editor.
+scripts(env) : Added auto confirm to all the apt commands.
+scripts(env) : Added accept package agreements switch.
+scripts(env) : Added error action preference.
+feat : Added functionality to close the readme if it is open.
+
 ### Changed
+doc : Update HyperV_Linux_Guest_VM.md
+doc : Moved the note about setup script to the end of the Windows section.
+doc : Fixed formatting on environment setup section of README document.
+doc : Fixed text to match the image.
+doc : Updated the linux setup script.
+doc : Update doc_style_guide.md
+doc : Updated documentation to reflect the changes to the unity package creation tool.
+doc : Refine directory description
+doc(steam) : Fixes for PR
+doc(steam) : readme_steam.md
+doc(android) : link to environment setup
+doc(android) : environment_setup_android.md
+feat(input) : Use the input module selector in scenes
+feat(input) : Instantiate input module on Awake
+chore(input) : rename event system prefab
+revert(scene) : Use input manager on sample scenes for public repo
+revert(input) : use input manager on public repo
+scripts(env) : Updated linux setup script.
+scripts(env) : Updated add-apt-repository command to auto confirm.
+scripts(env) : chmod +x for the linux setup script.
+scripts(env) : Updated comment at top of setup-windows.ps1 for clarity.
+scripts(env) : Moved visual studio installation winget command to the end of the file.
+tidy : Changed directory where EOSPluginEditorConfig places configuration files from the root into the etc directory, and added appropriate directory to a gitignore file.
+tidy : Moved scripts to tools directory.
+tidy : Moved EAC from bin to tools/bin
+tidy : Moved EOSBootstrapper.exe from bin to tools/bin
+tidy : Moved EOSBootstrapperTool.exe from bin to tools/bin directory.
+tidy : Moved NativeCode into 'lib' directory.
+tidy : Moved docfx_project to etc/docfx, updating all references to the directory in both code and documentation.
+tidy : Moved PlatformSpecificAssets directory into etc directory, updating all code and documentation references.
+tidy : Renamed license and readme files to have their case be more canonical.
+tidy : Moved PackageDescriptionConfigs to etc/PackageConfigurations, and updated all references to the directory in both documentation and code.
+tidy : Re-introduced .json description for internal use.
+tidy : Renamed EOSUnityPlugin_package_template simply 'PackageTemplate', and moved it into the etc directory, updating all references to files in that path.
+tidy : Removed unreferenced, or otherwise unused files.
+tidy : Moved accessible-urls.txt file to etc directory.
+tidy : Moved JSON to advanced section that is collapsed, and simplified the code inside the UnityPackageCreationTool
+
 ### Removed
+
+doc : Removed references to LaTeX, and removed the requirement to append a link tag to the end of sub subsections, since GitHub handles that automatically.
+doc : Removed markdown reference, and templates.
+doc : Removed references to readme style guide and templates for the time being. They will be re-introduced once all the documentation has been updated to conform to this style guide, as doing so will likely alter the guide itself as well as the subsequently defined templates.
+chore : clean up stray meta file
+remove(login) : scheme protocol temp fix
+remove(pkg) : remove input system upm
+remove : old Invoke-WebRequest line.
+tidy : Removed Brewfile (as it exists within the scripts directory).
+tidy : Removed previously checked in docfx generated api yml files.
+tidy : Removed the license acquisition and build commands for the linux script.
+tidy : Remove dnf package manager usages.
+tidy : 'Custom Build Directory' in favor of using a single output directory when creating a package. Also added dialog box for when the custom build directory has not been selected.
+
 ### Fixed
+fix : Correct file/directory paths to make sense
+fix : Correct bin/bin to bin.
+fix : correct asmdef path
+fix : rename steam utility asmdef for pkg description to recognize it
+fix(tool) : build .unitypackage
+fix :  installing aar by folder
+fix(assembly) : AlwaysLinkAssembly only on standalone. (not on editor)
+fix : Made it so readme could be null and the world would not end.
+fix : bug with .unitypackage creation that was causing null reference stuff.
+scripts(env) : Updated mac os shell script to have proper path to sh
+scripts(env) : Fixed editor version path stuff.
+scripts(env) : Fixed some of the commands.
+scripts(env) : Fixed the line for visual studio community.
+script(env) : Added setup scripts to scripts directory.
 
 ##[3.0.1] - 2023-09-22
 ### Inprogress
