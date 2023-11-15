@@ -47,8 +47,8 @@ You can follow the standard <a href="/README.md#configuring-the-plugin">Configur
 
 2. Press ```Save All Changes```.
 
-      > [!WARNING] 
-      > This is required, even if you leave every field blank.
+>[!WARNING] 
+>This is required, even if you leave every field blank.
 
 3. Update the <a href="https://docs.unity3d.com/2021.3/Documentation/Manual/class-PlayerSettingsAndroid.html">Minimum API Level</a> to be at least ```Android 6.0 'Marshmallow' (API Level 23)```.
 
@@ -56,5 +56,7 @@ You can follow the standard <a href="/README.md#configuring-the-plugin">Configur
 
 
 # FAQ
+
+
 
 See [frequently_asked_questions.md](/docs/frequently_asked_questions.md).
