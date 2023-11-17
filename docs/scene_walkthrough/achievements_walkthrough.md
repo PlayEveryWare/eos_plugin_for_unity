@@ -1,3 +1,5 @@
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Achievements Demo**
 This demo showcases the Achievements function. This is done through 2 test achievements, one tracking logins and the other logging an arbitrary stat. Each Achievement has a unlocked and locked display name and description, as well as the ability to hide it and the relevant tracked data for it.
 - The ``Show Achievement`` button shows extra debug details for a selected achievement.
@@ -27,5 +29,5 @@ To make testing easier, one could manually unlock or reset an user's achievement
 *If one wants to modify the stat that unlocks the achievement (ex. Login Count)*  
 *Go to `[Targeted Game] > Game Services > Stats` instead, the remaining steps are similar*
 
-
-❗ More information on the Achievement interface can be found [here](https://dev.epicgames.com/docs/game-services/achievements).
+> [!NOTE]
+> More information on the Achievement interface can be found [here](https://dev.epicgames.com/docs/game-services/achievements).

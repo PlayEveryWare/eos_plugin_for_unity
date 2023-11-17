@@ -10,8 +10,8 @@ UNITY_META_FILES = libDynamicLibraryLoaderHelper.so.meta
 all : $(SOLIBS)
 
 install : all
-	cp $(SOLIBS) ../../Assets/Plugins/Linux/
-	cp $(UNITY_META_FILES) ../../Assets/Plugins/Linux/
+	cp $(SOLIBS) ../../../Assets/Plugins/Linux/
+	cp $(UNITY_META_FILES) ../../../Assets/Plugins/Linux/
 
 clean : DynamicLibraryLoaderHelper_clean
 #-----------------------------------------------------------------------

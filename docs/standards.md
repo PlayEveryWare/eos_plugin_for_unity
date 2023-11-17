@@ -1,4 +1,7 @@
-# Standards
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
+# <div align="center">Coding Standards</div>
+---
 
 ## Language Style Guides
 

@@ -1,13 +1,6 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="Lobby Screenshot" width="5%"/></a>
 
-<div align="center"> <img src="/docs/images/EOSPluginLogo.png" alt="PlayEveryWare EOS Plugin for Unity" /> </div>
-<br /><br /><br />
-
----
-
-
-
-# <div align="center">Linking EOS Library on Android Settings</div> <a name="linking-eos-library-on-android-settings" />
+# <div align="center">Linking EOS Library on Android Settings</div>
 ---
 
 ## What is the Difference Between Linking the EOS Library Dynamically and Statically?
@@ -18,20 +11,16 @@ The full expression of this setting is to determine how the EOS Library links `a
 
 If the game is using other libraries that also links to the C++ Library, the EOS Library should use the version that matches the linking type of the others, or else duplicate symbols would occur.  
 
-<br />
-
 ## Steps to Swap Dynamically and Statically
 
-1. Open Preferences, ```Edit -> Preferences...```.
+1. Open Preferences, `Edit -> Preferences...`.
 
     ![EOS Config UI](/docs/images/preferences_menu.gif)
 
-2. Select ```EOS Plugin``` from the categories menu on the left.
+2. Select `EOS Plugin` from the categories menu on the left.
 
     ![EOS Config UI](/docs/images/link_eos_lib_instructions.gif)
 
-3. Under the ```Android Build Settings``` section, check the box next to ```Link EOS Library Dynamically``` to link the EOS library dynamically, and uncheck it link the EOS library statically.
+3. Under the `Android Build Settings` section, check the box next to `Link EOS Library Dynamically` to link the EOS library dynamically, and uncheck it link the EOS library statically.
 
-4. Press ```Save All Changes```.
-
-<br />
+4. Press `Save All Changes`.

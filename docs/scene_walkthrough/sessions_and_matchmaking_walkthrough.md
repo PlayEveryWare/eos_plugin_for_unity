@@ -1,3 +1,5 @@
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
 ## **Sessions and Matchmaking**
 This demo showcases the sessions interface, users can create, manage and join sessions.
 - The top left window allows users to create and manage their sessions.
@@ -32,4 +34,5 @@ This demo showcases the sessions interface, users can create, manage and join se
 
 ![Current Sessions](../images/eos_sdk_sessions_current_sessions.png)
 
-❗ More documentation on the sessions interface can be found [here](https://dev.epicgames.com/docs/game-services/sessions).
+> [!NOTE]
+> More documentation on the sessions interface can be found [here](https://dev.epicgames.com/docs/game-services/sessions).

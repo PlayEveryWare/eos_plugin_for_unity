@@ -1,4 +1,7 @@
-# Installing New versions of EOS
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+
+# <div align="center">Installing New versions of EOS</div>
+---
 
 This document covers three different scenarios where one might need to upgrade the EOS SDK:
  * When the plugin is installed into a Unity Project.
@@ -60,5 +63,5 @@ It requires a JSON description file to direct it where to put the files in the z
 and a zip file that contains the SDK. The latest version of the SDK can be downloaded from
 the EOS Developer Portal.
 
-After being installed via the Tool, update the repo [readme](/readme.md) to ensure it lists the correct version
+After being installed via the Tool, update the repo [readme](/README.md) to ensure it lists the correct version
 and that any links on the readme are up to date.

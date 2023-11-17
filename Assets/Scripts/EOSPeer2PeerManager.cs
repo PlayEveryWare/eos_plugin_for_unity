@@ -306,6 +306,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 RequestedChannel = null
             };
             P2PHandle.GetNextReceivedPacketSize(ref getNextReceivedPacketSizeOptions, out uint nextPacketSizeBytes);
+            
+            if (nextPacketSizeBytes == 0)
+            {
+                return null;
+            }
 
             byte[] data = new byte[nextPacketSizeBytes];
             var dataSegment = new ArraySegment<byte>(data);

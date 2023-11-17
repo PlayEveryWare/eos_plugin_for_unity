@@ -1,6 +1,11 @@
-<a href="/readme.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
+<a href="/README.md"><img src="/docs/images/PlayEveryWareLogo.gif" alt="README.md" width="5%"/></a>
 
 # <div align="center">Setting up a Hyper-V Linux Guest VM</div>
+---
+
+## Overview
+
+This document describes how to create a Ubuntu Virtual Machine on Hyper-V suitable for making contributions to the EOS Plugin for Unity project on Linux.
 
 ## Step 1: Enabling Virtualization
 
