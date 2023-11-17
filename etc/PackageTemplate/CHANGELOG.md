@@ -2,6 +2,31 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+### Inprogress
+### Unreleased
+### Added
+### Changed
+### Removed
+### Fixed
+
+
+##[3.0.3] - 2023-11-14
+### Inprogress
+### Unreleased
+### Added
+doc : Added documentation for exporting the plugin via command line.
+feat(overlay) : Added functionality to leave a lobby with the overlay.
+feat : Added application shutdown callbacks to EOS Manager.
+feat : Added Easy Anti Cheat (EAC) violation callback and documentation.
+### Changed
+doc : Updated documentation formatting.
+doc : Swapped plugin logo for one that is shorter.
+### Removed
+remove(assembly) : Clean out Text Mesh Pro assembly references.
+### Fixed
+fix(P2P) : Do not receive a packet size of 0.
+fix : Fix platform native lib output path.
+
 
 ##[3.0.2] - 2023-10-27
 ### Inprogress
