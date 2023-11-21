@@ -50,6 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Transform parent;
         public UIHighFrequencyPeer2PeerMenu owner;
 
+        public float packetSizeMB = 0.5f;
         public int refreshRate = 60;
         private float timer;
 
@@ -78,11 +79,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             ChatDataCache = new Dictionary<ProductUserId, ChatWithFriendData>();
             ChatDataCacheDirty = true;
-            dataDump = new List<float>();
-            for (int i = 0; i < 1000; i++)
-            {
-                dataDump.Add(i);
-            }
+            updatePacketSize();
         }
 
 #if UNITY_EDITOR
@@ -91,6 +88,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UnityEditor.EditorApplication.playModeStateChanged -= OnPlayModeChanged;
         }
 #endif
+        public void updatePacketSize()
+        {
+            dataDump = new List<float>();
+            for (int i = 0; i < packetSizeMB * 256; i++)
+            {
+                dataDump.Add(i);
+            }
+        }
+
 
         public void P2PUpdate()
         {

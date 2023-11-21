@@ -60,7 +60,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Slider refreshRateSlider;
         [Header("Controller")]
         public GameObject UIFirstSelected;
-        public int refreshRate = 60;
 
         // Private
 
@@ -77,7 +76,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             Peer2PeerManager.ParticleController = ParticleManager;
             Peer2PeerManager.owner = this;
             Peer2PeerManager.parent = this.transform;
-            CloseChatOnClick();
         }
 
         private void OnDestroy()
@@ -97,7 +95,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void Update()
         {
             ProductUserId messageFromPlayer = Peer2PeerManager.HandleReceivedMessages();
-            Peer2PeerManager.refreshRate = refreshRate;
             if (messageFromPlayer != null)
             {
                 IncomingChat(messageFromPlayer);
@@ -108,7 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            switch (Peer2PeerManager.GetNATType())
+            /*switch (Peer2PeerManager.GetNATType())
             {
                 case NATType.Moderate:
                     NATTypeText.text = "Moderate";
@@ -122,7 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 case NATType.Unknown:
                     NATTypeText.text = "Unknown";
                     break;
-            }
+            }*/
 
            /*if (Peer2PeerManager.GetChatDataCache(out Dictionary<ProductUserId, ChatWithFriendData> ChatDataDictionary))
             {
@@ -190,12 +187,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return;
                 }
 
-                currentChatDisplayName = friend.Name;
+                //currentChatDisplayName = friend.Name;
                 currentChatProductUserId = friend.UserProductUserId;
 
-                CurrentChatUserText.text = currentChatDisplayName;
+                //CurrentChatUserText.text = currentChatDisplayName;
 
-                ChatWindow.SetActive(true);
+                //ChatWindow.SetActive(true);
             }
             else
             {
@@ -240,22 +237,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public void CloseChatOnClick()
-        {
-            currentChatDisplayName = string.Empty;
-            currentChatProductUserId = null;
-            CurrentChatUserText.text = string.Empty;
-            NATTypeText.text = string.Empty;
-
-            // Destroy current UI chat entry list
-            foreach (Transform child in ChatEntriesContentParent.transform)
-            {
-                GameObject.Destroy(child.gameObject);
-            }
-
-            ChatWindow.SetActive(false);
-        }
-
         public void SetIdOnClick()
         {
             var productUserIdText = ProductUserIdInput.InputField.text;
@@ -266,10 +247,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            currentChatDisplayName = productUserIdText;
+            //currentChatDisplayName = productUserIdText;
             currentChatProductUserId = productUserId;
 
-            CurrentChatUserText.text = productUserIdText;
+            //CurrentChatUserText.text = productUserIdText;
 
             ChatWindow.SetActive(true);
         }
@@ -345,11 +326,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         }
 
+        public void SetRefreshRate(string hz)
+        {
+            Peer2PeerManager.refreshRate = int.Parse(hz);
+            Debug.Log("UIPeer2PeerMenu (SetRefresshRate):Updated refresh rate to " + Peer2PeerManager.refreshRate + " Hz.");
+        }
+
+        public void SetPacketSize(string mb)
+        {
+            Peer2PeerManager.packetSizeMB = float.Parse(mb);
+            Peer2PeerManager.updatePacketSize();
+            Debug.Log("UIPeer2PeerMenu (SetPacketSize):Updated packet size to " + Peer2PeerManager.packetSizeMB + " Mb.");
+        }
         public void HideMenu()
         {
             Peer2PeerManager?.OnLoggedOut();
-
-            CloseChatOnClick();
 
             Peer2PeerUIParent.gameObject.SetActive(false);
         }
