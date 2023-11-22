@@ -703,7 +703,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     type, 
                     LogOption.NoStacktrace, 
                     null, "{0:O} {1}({2}): {3}", 
-                    dateTime.ToString(DateTimeFormatInfo.InvariantInfo), 
+                    dateTime.ToString(System.Globalization.DateTimeFormatInfo.InvariantInfo), 
                     messageCategory, 
                     message.Level, 
                     message.Message);
