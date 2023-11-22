@@ -187,10 +187,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return;
                 }
 
-                //currentChatDisplayName = friend.Name;
+                currentChatDisplayName = friend.Name;
                 currentChatProductUserId = friend.UserProductUserId;
 
-                //CurrentChatUserText.text = currentChatDisplayName;
+                CurrentChatUserText.text = currentChatDisplayName;
 
                 //ChatWindow.SetActive(true);
             }
@@ -229,7 +229,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 CurrentChatUserText.text = currentChatDisplayName;
 
-                ChatWindow.SetActive(true);
+                //ChatWindow.SetActive(true);
             }
             else
             {
@@ -247,12 +247,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            //currentChatDisplayName = productUserIdText;
+            currentChatDisplayName = productUserIdText;
             currentChatProductUserId = productUserId;
 
-            //CurrentChatUserText.text = productUserIdText;
+            CurrentChatUserText.text = productUserIdText;
 
-            ChatWindow.SetActive(true);
+           // ChatWindow.SetActive(true);
         }
 
         public void SendOnClick()
