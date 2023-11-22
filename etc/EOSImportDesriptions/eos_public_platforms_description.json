@@ -9,9 +9,9 @@
         {"src": "SDK/Bin/x64/*.dll", "dest":"Assets/Plugins/Windows/x64/"},
         {"src": "SDK/Bin/libEOSSDK-Linux-Shipping.so", "dest": "Assets/Plugins/Linux/"},
         {"src": "SDK/Bin/libEOSSDK-Mac-Shipping.dylib", "dest": "Assets/Plugins/macOS/"},
-	{"src": "SDK/Bin/Android/dynamic-stdc++/", "dest": "etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/", "recursive":true},
-	{"src": "SDK/Bin/Android/static-stdc++/", "dest": "etc/PlatformSpecificAssets/EOS/Android/static-stdc++/", "recursive":true},
-	{"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
-	{"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"}
+        {"src": "SDK/Bin/Android/dynamic-stdc++/", "dest": "etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/", "recursive":true},
+        {"src": "SDK/Bin/Android/static-stdc++/", "dest": "etc/PlatformSpecificAssets/EOS/Android/static-stdc++/", "recursive":true},
+        {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
+        {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"}
     ]
 }
