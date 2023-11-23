@@ -618,7 +618,7 @@ _WIN32 || _WIN64
             if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
             {
                 var steamworksVersion = Steamworks_Utility.GetSteamworksVersion();
-                var versionParts = steamworksVersion.Split(".");
+                var versionParts = steamworksVersion.Split('.');
                 bool success = false;
                 if (versionParts.Length >= 2)
                 {
