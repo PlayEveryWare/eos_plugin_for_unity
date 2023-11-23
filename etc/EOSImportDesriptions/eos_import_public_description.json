@@ -43,9 +43,9 @@
 
         {"src": "SDK/Bin/Android/dynamic-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/"},
         {"src": "SDK/Bin/Android/static-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/static-stdc++/aar/"},
+        
         {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
         {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
-
 
         {"src": "SDK/Bin/EOSSDK-Win32-Shipping.dll", "dest": "Assets/Plugins/Windows/x86/"},
         {"src": "SDK/Bin/x86/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/x86/"},
@@ -54,8 +54,8 @@
         {"src": "SDK/Bin/libEOSSDK-Linux-Shipping.so", "dest": "Assets/Plugins/Linux/"},
         {"src": "SDK/Bin/libEOSSDK-Mac-Shipping.dylib", "dest": "Assets/Plugins/macOS/"},
 
-        {"src": "SDK/Tools/EOSBootstrapper.exe", "dest": "bin/"},
-        {"src": "SDK/Tools/EOSBootstrapperTool.exe", "dest": "bin/"}
+        {"src": "SDK/Tools/EOSBootstrapper.exe", "dest": "tools/bin/"},
+        {"src": "SDK/Tools/EOSBootstrapperTool.exe", "dest": "tools/bin/"}
 
 
     ]
