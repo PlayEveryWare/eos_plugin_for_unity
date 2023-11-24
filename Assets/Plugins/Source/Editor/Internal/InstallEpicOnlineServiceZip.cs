@@ -14,6 +14,9 @@ namespace PlayEveryWare.EpicOnlineServices
         private string pathToJSONPackageDescription;
         private string pathToZipFile;
 
+        private string pathToImportDescDirectory;
+        private PlatformImportInfoList importInfoList;
+
         [MenuItem("Tools/EOS Plugin/Install EOS zip")]
         public static void ShowWindow()
         {
@@ -95,7 +98,15 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         private void Awake()
         {
-            
+            pathToImportDescDirectory = Application.dataPath + "/../etc/EOSImportDesriptions/";
+            var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + "eos_platform_import_info_list.json");
+            importInfoList = JsonUtility.FromJson<PlatformImportInfoList>(JSONPackageDescription);
+        }
+
+        //-------------------------------------------------------------------------
+        private void OnDestroy()
+        {
+            //JsonUtility.ToJson(importInfoList);
         }
 
         //-------------------------------------------------------------------------
@@ -111,7 +122,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
             GUILayout.Label(pathToJSONPackageDescription);
             GUILayout.EndHorizontal();
-            
+
             GUILayout.Label("Select Zip Path");
             GUILayout.BeginHorizontal(GUIStyle.none);
             if (GUILayout.Button("Select", GUILayout.Width(100)))
@@ -123,8 +134,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (GUILayout.Button("Install"))
             {
-                var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
-                var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
                 string tmpDir = PackageFileUtils.GenerateTemporaryBuildPath();
 
                 try
@@ -149,11 +158,21 @@ namespace PlayEveryWare.EpicOnlineServices
                     }
                     EditorUtility.ClearProgressBar();
 
-                    var fileResults = PackageFileUtils.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
 
-                    // This should be the correct directory
-                    var projectDir = PackageFileUtils.GetProjectPath();
-                    PackageFileUtils.CopyFilesToDirectory(projectDir, fileResults);
+                    foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+                    {
+                        if (platformImportInfo.isGettingImported)
+                        {
+                            var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
+                            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+
+                            var fileResults = PackageFileUtils.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
+                            // This should be the correct directory
+                            var projectDir = PackageFileUtils.GetProjectPath();
+                            PackageFileUtils.CopyFilesToDirectory(projectDir, fileResults);
+                        }
+                    }
+
                 }
                 finally
                 {
@@ -161,6 +180,12 @@ namespace PlayEveryWare.EpicOnlineServices
                     Directory.Delete(tmpDir, true);
                 }
             }
+
+            foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+            {
+                EpicOnlineServicesConfigEditor.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
+            }
+
         }
 
     }

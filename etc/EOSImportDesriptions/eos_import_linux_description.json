@@ -1,0 +1,5 @@
+{
+    "source_to_dest": [
+        {"src": "SDK/Bin/libEOSSDK-Linux-Shipping.so", "dest": "Assets/Plugins/Linux/"}
+    ]
+}
