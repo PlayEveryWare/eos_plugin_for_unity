@@ -108,21 +108,80 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             //JsonUtility.ToJson(importInfoList);
         }
+        //-------------------------------------------------------------------------
 
+        private void DrawPresets()
+        {
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Public", GUILayout.MaxWidth(100)))
+            {
+                foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+                {
+                    if (platformImportInfo.platform == "iOS" ||
+                        platformImportInfo.platform == "Android" ||
+                        platformImportInfo.platform == "Windows" ||
+                        platformImportInfo.platform == "Mac" ||
+                        platformImportInfo.platform == "Linux")
+                    {
+                        platformImportInfo.isGettingImported = true;
+                    }
+                    else
+                    {
+                        platformImportInfo.isGettingImported = false;
+                    }
+                }
+            }
+
+            if (GUILayout.Button("Mobile", GUILayout.MaxWidth(100)))
+            {
+                foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+                {
+                    if (platformImportInfo.platform == "iOS" ||
+                        platformImportInfo.platform == "Android")
+                    {
+                        platformImportInfo.isGettingImported = true;
+                    }
+                    else
+                    {
+                        platformImportInfo.isGettingImported = false;
+                    }
+                }
+            }
+
+            if (GUILayout.Button("Select All", GUILayout.MaxWidth(100)))
+            {
+                foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+                {
+                    {
+                        platformImportInfo.isGettingImported = true;
+                    }
+                }
+            }
+
+            if (GUILayout.Button("Clear All", GUILayout.MaxWidth(100)))
+            {
+                foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+                {
+                    {
+                        platformImportInfo.isGettingImported = false;
+                    }
+                }
+            }
+            GUILayout.EndHorizontal();
+        }
         //-------------------------------------------------------------------------
         private void OnGUI()
         {
             GUILayout.Label("Install EOS Files into project");
 
-            GUILayout.Label("JSON Description Path");
-            GUILayout.BeginHorizontal(GUIStyle.none);
-            if (GUILayout.Button("Select", GUILayout.Width(100)))
-            {
-                pathToJSONPackageDescription = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
-            }
-            GUILayout.Label(pathToJSONPackageDescription);
-            GUILayout.EndHorizontal();
 
+            DrawPresets();
+            foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+            {
+                EpicOnlineServicesConfigEditor.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
+            }
+
+            GUILayout.Label("");
             GUILayout.Label("Select Zip Path");
             GUILayout.BeginHorizontal(GUIStyle.none);
             if (GUILayout.Button("Select", GUILayout.Width(100)))
@@ -180,13 +239,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     Directory.Delete(tmpDir, true);
                 }
             }
-
-            foreach (var platformImportInfo in importInfoList.platformImportInfoList)
-            {
-                EpicOnlineServicesConfigEditor.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
-            }
-
         }
-
     }
 }
