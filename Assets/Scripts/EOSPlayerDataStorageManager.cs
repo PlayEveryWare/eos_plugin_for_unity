@@ -29,8 +29,6 @@ using UnityEngine;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.PlayerDataStorage;
-using static Codice.Client.Common.WebApi.WebApiEndpoints;
-using static UnityEditor.PlayerSettings;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
