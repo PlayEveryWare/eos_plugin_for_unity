@@ -154,7 +154,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
+            // This is to test a typical use case
             string newFileContents = JsonUtility.ToJson(new PlayerDataInventory(), true);
+
+            // TODO: Add this as a test case.
+            // Un-comment the following lines to test a large file
+            // newFileContents = new string('*', 20000);
 
             PlayerDataStorageManager.AddFile(NewFileNameTextBox.InputField.text, newFileContents, UpdateFileListUI);
 
