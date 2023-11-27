@@ -152,9 +152,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 foreach (var platformImportInfo in importInfoList.platformImportInfoList)
                 {
-                    {
-                        platformImportInfo.isGettingImported = true;
-                    }
+                    platformImportInfo.isGettingImported = true;
                 }
             }
 
@@ -162,9 +160,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 foreach (var platformImportInfo in importInfoList.platformImportInfoList)
                 {
-                    {
-                        platformImportInfo.isGettingImported = false;
-                    }
+                    platformImportInfo.isGettingImported = false;
                 }
             }
             GUILayout.EndHorizontal();
