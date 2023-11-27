@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject Peer2PeerUIParent;
         public GameObject ChatWindow;
 
-        // Chat Window
+        // UI
         public Button CloseChatButton;
         public Text NATTypeText;
         public Text CurrentChatUserText;
@@ -104,49 +104,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 return;
             }
-
-            /*switch (Peer2PeerManager.GetNATType())
-            {
-                case NATType.Moderate:
-                    NATTypeText.text = "Moderate";
-                    break;
-                case NATType.Open:
-                    NATTypeText.text = "Open";
-                    break;
-                case NATType.Strict:
-                    NATTypeText.text = "Strict";
-                    break;
-                case NATType.Unknown:
-                    NATTypeText.text = "Unknown";
-                    break;
-            }*/
-
-           /*if (Peer2PeerManager.GetChatDataCache(out Dictionary<ProductUserId, ChatWithFriendData> ChatDataDictionary))
-            {
-                // Destroy current UI chat entry list
-                foreach (Transform child in ChatEntriesContentParent.transform)
-                {
-                    GameObject.Destroy(child.gameObject);
-                }
-
-                if (ChatDataDictionary.TryGetValue(currentChatProductUserId, out ChatWithFriendData chatData))
-                {
-                    foreach (ChatEntry entry in chatData.ChatLines)
-                    {
-                        GameObject chatEntryUIObj = Instantiate(ChatEntryPrefab, ChatEntriesContentParent.transform);
-                        UIChatEntry uiEntry = chatEntryUIObj.GetComponent<UIChatEntry>();
-
-                        if (entry.isOwnEntry)
-                        {
-                            uiEntry.SetLocalEntry("Me", entry.Message);
-                        }
-                        else
-                        {
-                            uiEntry.SetRemoteEntry(currentChatDisplayName, entry.Message);
-                        }
-                    }
-                }
-            }*/
 
             if(Peer2PeerManager.sendActive && currentChatProductUserId != null)
             {
@@ -274,14 +231,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             message.xPos = 0;
             message.yPos = 0;
 
-
-
             if (currentChatProductUserId == null || !currentChatProductUserId.IsValid())
             {
                 Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
                 return;
             }
-
 
             Peer2PeerManager.SendMessage(currentChatProductUserId, message.ToString());
             ChatMessageInput.InputField.text = string.Empty;
@@ -295,7 +249,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Controller
             EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-
 
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             var presenceModificationOptions = new CreatePresenceModificationOptions();
@@ -361,7 +314,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogError("UIPeer2PeerMenu (SendOnClick): ProductUserId for '{0}' is not valid!");
                 return;
             }
-
 
             Peer2PeerManager.SendMessage(currentChatProductUserId, message.ToString()) ;
         }
