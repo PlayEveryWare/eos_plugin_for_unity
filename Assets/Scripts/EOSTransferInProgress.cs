@@ -32,7 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
     public class EOSTransferInProgress
     {
-        public const int FileMaxSizeBytes = (64 * 1024 * 1024);
+        // per EOS SDK documentation, the maximum size for a file is 200MB, or this many bytes.
+        public const int FileMaxSizeBytes = 200000000;
 
         public bool Download = true;
         public uint CurrentIndex = 0;

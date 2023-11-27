@@ -384,19 +384,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
 
-                if (isLastChunk)//transfer.TotalSize - transfer.CurrentIndex >= numBytes)
+                // If more data has been received than was anticipated, fail the request
+                if (transfer.TotalSize < transfer.CurrentIndex + data.Count)
                 {
-                    data.Array.CopyTo(transfer.Data, transfer.CurrentIndex);
-
-                    transfer.CurrentIndex = transfer.TotalSize; // Done
-
-                    return ReadResult.ContinueReading;
-                }
-                else
-                {
-                    Debug.LogError("[EOS SDK] Player data storage: could not receive data: too much of it.");
+                    Debug.LogError("[EOS SDK] Player data storage: could not receive data: too much.");
                     return ReadResult.FailRequest;
                 }
+
+                // Copy the data 
+                data.Array?.CopyTo(transfer.Data, transfer.CurrentIndex);
+
+                // Advance the index by the amount of data received.
+                transfer.CurrentIndex += (uint)data.Count;
+
+                // Keep reading
+                return ReadResult.ContinueReading;
             }
 
             return ReadResult.CancelRequest;
