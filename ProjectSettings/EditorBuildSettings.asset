@@ -47,4 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/P2PNetcodeSample/P2PNetcode.unity
     guid: 5bc893a381bed4647ab60a3e6ca962d7
+  - enabled: 1
+    path: Assets/Scenes/StandardSamples/HighFrequencyP2P.unity
+    guid: d2f76d9ae72eed44690276ad85f05303
   m_configObjects: {}

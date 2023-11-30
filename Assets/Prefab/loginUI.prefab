@@ -4039,6 +4039,8 @@ MonoBehaviour:
       m_Image: {fileID: 0}
     - m_Text: P2P Netcode
       m_Image: {fileID: 0}
+    - m_Text: High Frequency P2P
+      m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
