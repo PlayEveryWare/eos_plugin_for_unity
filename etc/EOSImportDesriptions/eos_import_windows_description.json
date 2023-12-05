@@ -1,0 +1,14 @@
+{
+    "source_to_dest": [
+        {"src":"SDK/Source/Generated/Windows/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/"},
+        {"src":"SDK/Source/Generated/Windows/Platform/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/"},
+
+        {"src": "SDK/Bin/EOSSDK-Win32-Shipping.dll", "dest": "Assets/Plugins/Windows/x86/"},
+        {"src": "SDK/Bin/x86/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/x86/"},
+        {"src": "SDK/Bin/EOSSDK-Win64-Shipping.dll", "dest": "Assets/Plugins/Windows/x64/"},
+        {"src": "SDK/Bin/x64/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/x64/"},
+
+        {"src": "SDK/Tools/EOSBootstrapper.exe", "dest": "tools/bin/"},
+        {"src": "SDK/Tools/EOSBootstrapperTool.exe", "dest": "tools/bin/"}
+    ]
+}

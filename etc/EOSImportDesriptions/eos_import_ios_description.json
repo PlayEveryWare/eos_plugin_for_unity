@@ -1,0 +1,9 @@
+{
+    "source_to_dest": [
+        {"src":"SDK/Source/Generated/iOS/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/iOS/"},
+        {"src":"SDK/Source/Generated/iOS/Auth/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/iOS/Auth/"},
+
+        {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
+        {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"}
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "platformImportInfoList": [
+         {"platform":"Shared","descPath":"eos_import_shared_description.json","isGettingImported":"true"},
+         {"platform":"Windows","descPath":"eos_import_windows_description.json"},
+         {"platform":"Linux","descPath":"eos_import_linux_description.json"},
+         {"platform":"Mac","descPath":"eos_import_mac_description.json"},
+         {"platform":"iOS","descPath":"eos_import_ios_description.json"},
+         {"platform":"Android","descPath":"eos_import_android_description.json"}
+    ]
+}

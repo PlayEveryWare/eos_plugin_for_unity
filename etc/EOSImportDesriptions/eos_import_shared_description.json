@@ -3,8 +3,6 @@
         {"src":"SDK/Source/Core/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Core/"},
         {"src":"SDK/Source/Generated/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/"},
         {"src":"SDK/Source/Generated/Achievements/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Achievements/"},
-        {"src":"SDK/Source/Generated/Android/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Android/"},
-        {"src":"SDK/Source/Generated/Android/Platform/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Android/Platform/"},
         {"src":"SDK/Source/Generated/AntiCheatClient/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatClient/"},
         {"src":"SDK/Source/Generated/AntiCheatCommon/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatCommon/"},
         {"src":"SDK/Source/Generated/AntiCheatServer/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/AntiCheatServer/"},
@@ -14,8 +12,6 @@
         {"src":"SDK/Source/Generated/Ecom/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Ecom/"},
         {"src":"SDK/Source/Generated/Friends/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Friends/"},
         {"src":"SDK/Source/Generated/IntegratedPlatform/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/IntegratedPlatform/"},
-        {"src":"SDK/Source/Generated/iOS/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/iOS/"},
-        {"src":"SDK/Source/Generated/iOS/Auth/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/iOS/Auth/"},
         {"src":"SDK/Source/Generated/KWS/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/KWS/"},
         {"src":"SDK/Source/Generated/Leaderboards/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Leaderboards/"},
         {"src":"SDK/Source/Generated/Lobby/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Lobby/"},
@@ -37,26 +33,6 @@
         {"src":"SDK/Source/Generated/TitleStorage/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage/"},
         {"src":"SDK/Source/Generated/Ui/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Ui/"},
         {"src":"SDK/Source/Generated/UserInfo/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/"},
-        {"src":"SDK/Source/Generated/Version/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Version/"},
-        {"src":"SDK/Source/Generated/Windows/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/"},
-        {"src":"SDK/Source/Generated/Windows/Platform/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/"},
-
-        {"src": "SDK/Bin/Android/dynamic-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/dynamic-stdc++/aar/"},
-        {"src": "SDK/Bin/Android/static-stdc++/aar/*.aar", "dest": "etc/PlatformSpecificAssets/EOS/Android/static-stdc++/aar/"},
-        {"src": "SDK/Bin/IOS/EOSSDK.framework/EOSSDK", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
-        {"src": "SDK/Bin/IOS/EOSSDK.framework/Info.plist", "dest": "Assets/Plugins/iOS/EOSSDK.framework/"},
-
-
-        {"src": "SDK/Bin/EOSSDK-Win32-Shipping.dll", "dest": "Assets/Plugins/Windows/x86/"},
-        {"src": "SDK/Bin/x86/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/x86/"},
-        {"src": "SDK/Bin/EOSSDK-Win64-Shipping.dll", "dest": "Assets/Plugins/Windows/x64/"},
-        {"src": "SDK/Bin/x64/", "pattern": "*.dll", "dest": "Assets/Plugins/Windows/x64/"},
-        {"src": "SDK/Bin/libEOSSDK-Linux-Shipping.so", "dest": "Assets/Plugins/Linux/"},
-        {"src": "SDK/Bin/libEOSSDK-Mac-Shipping.dylib", "dest": "Assets/Plugins/macOS/"},
-
-        {"src": "SDK/Tools/EOSBootstrapper.exe", "dest": "bin/"},
-        {"src": "SDK/Tools/EOSBootstrapperTool.exe", "dest": "bin/"}
-
-
+        {"src":"SDK/Source/Generated/Version/*.cs", "dest": "Assets/Plugins/Source/EOS_SDK/Generated/Version/"}
     ]
 }
