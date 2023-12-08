@@ -143,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                             EnablePressToTalkToggle.isOn = member.RTCState.PressToTalkEnabled;
 
-                            if (!member.RTCState.IsLocalMuted && EnablePressToTalkToggle.isOn)
+                            if (EnablePressToTalkToggle.isOn)
                             {
                                 lobbyManager.PressToTalk(PTTKey, null);
                             }
