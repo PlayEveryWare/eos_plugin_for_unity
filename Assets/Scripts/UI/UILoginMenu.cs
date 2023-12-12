@@ -80,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private GameObject selectedGameObject;
 
         //use to indicate Connect login instead of Auth
-        private const LoginCredentialType invalidAuthType = (LoginCredentialType)(-1);
+        private const LoginCredentialType connect = (LoginCredentialType)(-1);
         private LoginCredentialType loginType = LoginCredentialType.Developer;
         //default to invalid value
         private const ExternalCredentialType invalidConnectType = (ExternalCredentialType)(-1);
@@ -162,7 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     loginType = LoginCredentialType.ExchangeCode;
                     break;
                 case 5:
-                    loginType = invalidAuthType;
+                    loginType = connect;
                     break;
                 case 0:
                 default:
@@ -171,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     break;
             }
 
-            if (loginType == invalidAuthType)
+            if (loginType == connect)
             {
                 connectType = GetConnectType();
             }
@@ -185,7 +185,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void OnConnectDropdownChange()
         {
-            if (loginType != invalidAuthType)
+            if (loginType != connect)
             {
                 return;
             }
@@ -829,7 +829,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 case LoginCredentialType.ExchangeCode:
                     ConfigureUIForExchangeCode();
                     break;
-                case invalidAuthType:
+                case connect:
                     ConfigureUIForConnectLogin();
                     break;
                 case LoginCredentialType.Developer:
@@ -985,7 +985,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //    print(logMessage.Message);
             //});
 
-            if (loginType == invalidAuthType)
+            if (loginType == connect)
             {
                 AcquireTokenForConnectLogin(connectType);
             }
