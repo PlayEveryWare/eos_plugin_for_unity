@@ -13,7 +13,7 @@ namespace Epic.OnlineServices.Version
 
 		public const int MinorVersion = 16;
 
-		public const int PatchVersion = 0;
+		public const int PatchVersion = 1;
 
 		public static readonly Utf8String ProductIdentifier = "Epic Online Services SDK";
 
