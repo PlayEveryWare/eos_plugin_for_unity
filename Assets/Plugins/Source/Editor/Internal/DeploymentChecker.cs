@@ -20,12 +20,13 @@
 * SOFTWARE.
 */
 
+using PlayEveryWare.EpicOnlineServices;
 using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class DeploymentChecker : EditorWindow
+public class DeploymentChecker : EOSEditorWindow
 {
     private const string PackageDirectory = "etc/PackageTemplate";
     private const string ChangelogFile = "CHANGELOG.md";

@@ -20,6 +20,7 @@
 * SOFTWARE.
 */
 
+using PlayEveryWare.EpicOnlineServices;
 using UnityEngine;
 using UnityEditor;
 
@@ -28,7 +29,7 @@ using UPCUtil = UnityPackageCreationUtility;
 using ConfigEditor = PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor;
 
 //-------------------------------------------------------------------------
-public class UnityPackageCreationTool : EditorWindow
+public class UnityPackageCreationTool : EOSEditorWindow
 {
     const string DEFAULT_OUTPUT_DIRECTORY = "Build";
 

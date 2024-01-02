@@ -195,7 +195,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Creates the view for showing the eos plugin editor config values.
     ///
     /// </summary>
-    public class EOSPluginEditorConfigEditor : EditorWindow
+    public class EOSPluginEditorConfigEditor : EOSEditorWindow
     {
         private static string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 

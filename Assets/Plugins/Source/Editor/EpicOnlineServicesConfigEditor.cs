@@ -32,7 +32,7 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class EpicOnlineServicesConfigEditor : EditorWindow
+    public class EpicOnlineServicesConfigEditor : EOSEditorWindow
     {
         static Regex EncryptionKeyRegex;
 
