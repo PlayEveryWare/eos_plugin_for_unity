@@ -121,12 +121,6 @@ namespace PlayEveryWare.EpicOnlineServices
             process.Close();
         }
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new SignToolConfigEditor());
-        }
-
         public void Awake()
         {
             var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);

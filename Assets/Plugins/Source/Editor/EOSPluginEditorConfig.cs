@@ -40,14 +40,8 @@ namespace PlayEveryWare.EpicOnlineServices
     
     public class EOSPluginEditorToolsConfigSection : IEOSPluginEditorConfigurationSection
     {
-        private static string ConfigName = "eos_plugin_tools_config.json";
+        private const string ConfigName = "eos_plugin_tools_config.json";
         private EOSConfigFile<EOSPluginEditorToolsConfig> configFile;
-
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorToolsConfigSection());
-        }
         
         public string GetNameForMenu()
         {
@@ -116,7 +110,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class EOSPluginEditorPrebuildConfigSection : IEOSPluginEditorConfigurationSection
     {
-        private static string ConfigName = "eos_plugin_version_config.json";
+        private const string ConfigName = "eos_plugin_version_config.json";
         private EOSConfigFile<EOSPluginEditorPrebuildConfig> configFile;
 
         /// <summary>
@@ -124,12 +118,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         public bool IsValid => configFile != null;
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorPrebuildConfigSection());
-        }
-        
         public string GetNameForMenu()
         {
             return "Prebuild Settings";
@@ -173,9 +161,9 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class EOSPluginEditorConfigEditor : EOSEditorWindow
     {
-        private static string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
+        private const string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 
-        static List<IEOSPluginEditorConfigurationSection> configurationSectionEditors;
+        private List<IEOSPluginEditorConfigurationSection> configurationSectionEditors;
 
         bool prettyPrint = false;
 
@@ -207,7 +195,7 @@ namespace PlayEveryWare.EpicOnlineServices
             GetWindow<EOSPluginEditorConfigEditor>("EOS Plugin Config");
         }
         
-        public static void AddConfigurationSectionEditor(IEOSPluginEditorConfigurationSection section)
+        public void AddConfigurationSectionEditor(IEOSPluginEditorConfigurationSection section)
         {
             if (configurationSectionEditors == null)
             {
@@ -217,7 +205,7 @@ namespace PlayEveryWare.EpicOnlineServices
             configurationSectionEditors.Add(section);
         }
         
-        public static T GetConfigurationSectionEditor<T>() where T : IEOSPluginEditorConfigurationSection, new()
+        public T GetConfigurationSectionEditor<T>() where T : IEOSPluginEditorConfigurationSection, new()
         {
             if (configurationSectionEditors != null)
             {
@@ -278,6 +266,13 @@ namespace PlayEveryWare.EpicOnlineServices
             if (configurationSectionEditors == null)
             {
                 configurationSectionEditors = new List<IEOSPluginEditorConfigurationSection>();
+
+                configurationSectionEditors.Add(new EOSPluginEditorPrebuildConfigSection());
+                configurationSectionEditors.Add(new EOSPluginEditorToolsConfigSection());
+                configurationSectionEditors.Add(new EOSPluginEditorAndroidBuildConfigSection());
+                configurationSectionEditors.Add(new LibraryBuildConfigEditor());
+                configurationSectionEditors.Add(new SignToolConfigEditor());
+                configurationSectionEditors.Add(new EOSPluginEditorPackagingConfigSection());
             }
 
             foreach (var configurationSectionEditor in configurationSectionEditors)

@@ -77,7 +77,7 @@ public static class UnityPackageCreationUtility
     /// </summary>
     static UnityPackageCreationUtility() 
     {
-        packageConfig = ConfigEditor.GetConfigurationSectionEditor<PackagingConfigSection>();
+        packageConfig = new PackagingConfigSection();
         packageConfig.Awake();
         packageConfig.LoadConfigFromDisk();
 

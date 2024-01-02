@@ -48,13 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class LibraryBuildConfigEditor : IEOSPluginEditorConfigurationSection
     {
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new LibraryBuildConfigEditor());
-        }
-
-        public static string ConfigName = "eos_plugin_library_build_config.json";
+        public const string ConfigName = "eos_plugin_library_build_config.json";
         private EOSConfigFile<EOSLibraryBuildConfig> configFile;
 
         public void Awake()

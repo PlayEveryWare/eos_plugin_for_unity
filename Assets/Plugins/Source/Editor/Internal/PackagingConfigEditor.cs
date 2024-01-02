@@ -52,12 +52,6 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string ConfigName = "eos_plugin_packaging_config.json";
         private EOSConfigFile<EOSPluginEditorPackagingConfig> configFile;
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorPackagingConfigSection());
-        }
-
         //-------------------------------------------------------------------------
         public string GetNameForMenu()
         {

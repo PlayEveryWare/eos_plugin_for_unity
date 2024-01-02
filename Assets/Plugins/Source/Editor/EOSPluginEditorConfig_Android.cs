@@ -12,12 +12,6 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string ConfigName = "eos_plugin_android_build_config.json";
         private EOSConfigFile<EOSPluginEditorAndroidBuildConfig> configFile;
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorAndroidBuildConfigSection());
-        }
-
         //-------------------------------------------------------------------------
         public string GetNameForMenu()
         {
