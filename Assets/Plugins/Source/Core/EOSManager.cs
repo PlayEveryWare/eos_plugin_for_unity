@@ -1,29 +1,30 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in all
-* copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-* SOFTWARE.
-*/
+ * Copyright (c) 2021 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 // Don't shut down the interface if running in the editor.
 // According to the Epic documentation, shutting down this will disable a given loaded
 // instance of the SDK from ever initializing again. Which is bad because Unity often (always?) loads a library just once
 // up front for a given DLL.
+
 #if UNITY_EDITOR_WIN || UNITY_EDITOR_OSX || UNITY_STANDALONE_WIN
 #define EOS_CAN_SHUTDOWN
 #endif
@@ -47,13 +48,6 @@
 #define USE_EOS_DYNAMIC_BINDINGS
 #endif
 
-using System.Collections.Generic;
-
-using System.Runtime.InteropServices;
-using System;
-using System.IO;
-using AOT;
-
 #if !EOS_DISABLE
 using Epic.OnlineServices.Platform;
 using Epic.OnlineServices;
@@ -63,13 +57,26 @@ using Epic.OnlineServices.Connect;
 using Epic.OnlineServices.UI;
 #endif
 
-using UnityEngine;
-using UnityEngine.Assertions;
-using System.Diagnostics;
-using System.Collections;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Epic.OnlineServices.Presence;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.IO;
+    using UnityEngine;
+    using UnityEngine.Assertions;
+    using AddNotifyLoginStatusChangedOptions = Epic.OnlineServices.Auth.AddNotifyLoginStatusChangedOptions;
+    using Credentials = Epic.OnlineServices.Auth.Credentials;
+    using Debug = UnityEngine.Debug;
+    using LinkAccountCallbackInfo = Epic.OnlineServices.Connect.LinkAccountCallbackInfo;
+    using LinkAccountOptions = Epic.OnlineServices.Auth.LinkAccountOptions;
+    using LoginCallbackInfo = Epic.OnlineServices.Auth.LoginCallbackInfo;
+    using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
+    using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
+
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of
     /// the EOS SDK and to be the interface for getting all the managed EOS interfaces.
@@ -86,12 +93,18 @@ namespace PlayEveryWare.EpicOnlineServices
         public bool ShouldShutdownOnApplicationQuit = true;
 
 #if !EOS_DISABLE
-        public delegate void OnAuthLoginCallback(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo);
+        public delegate void OnAuthLoginCallback(LoginCallbackInfo loginCallbackInfo);
+
         public delegate void OnAuthLogoutCallback(LogoutCallbackInfo data);
+
         public delegate void OnConnectLoginCallback(Epic.OnlineServices.Connect.LoginCallbackInfo loginCallbackInfo);
-        public delegate void OnCreateConnectUserCallback(Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo);
-        public delegate void OnConnectLinkExternalAccountCallback(Epic.OnlineServices.Connect.LinkAccountCallbackInfo linkAccountCallbackInfo);
-        public delegate void OnAuthLinkExternalAccountCallback(Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo);
+
+        public delegate void OnCreateConnectUserCallback(CreateUserCallbackInfo createUserCallbackInfo);
+
+        public delegate void OnConnectLinkExternalAccountCallback(LinkAccountCallbackInfo linkAccountCallbackInfo);
+
+        public delegate void OnAuthLinkExternalAccountCallback(
+            Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo);
 
         /// <value>List of logged in <c>EpicAccountId</c></value>
         private static List<EpicAccountId> loggedInAccountIDs = new List<EpicAccountId>();
@@ -109,16 +122,17 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <value>List of Auth Logout callbacks</value>
         private static List<OnAuthLogoutCallback> s_onAuthLogoutCallbacks = new List<OnAuthLogoutCallback>();
-        
+
         /// <value>List of application shutdown callbacks</value>
         private static List<Action> s_onApplicationShutdownCallbacks = new List<Action>();
 
         /// <value>True if EOS Overlay is visible and has exclusive input.</value>
-        private static bool s_isOverlayVisible = false;
-        private static bool s_DoesOverlayHaveExcusiveInput = false;
+        private static bool s_isOverlayVisible;
+
+        private static bool s_DoesOverlayHaveExcusiveInput;
 
         //cached log levels for retrieving later
-        private static Dictionary<LogCategory, LogLevel> logLevels = null;
+        private static Dictionary<LogCategory, LogLevel> logLevels;
 
         enum EOSState
         {
@@ -129,12 +143,12 @@ namespace PlayEveryWare.EpicOnlineServices
             Suspended,
             ShuttingDown,
             Shutdown
-        };
+        }
 
         static private EOSState s_state = EOSState.NotStarted;
 
         // Application is paused? (ie. suspended)
-        static private bool s_isPaused = false;
+        static private bool s_isPaused;
         static public bool ApplicationIsPaused { get => s_isPaused; }
 
         // Application is in focus? (ie. is the foreground application)
@@ -151,7 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public partial class EOSSingleton
         {
             static private EpicAccountId s_localUserId;
-            static private ProductUserId s_localProductUserId = null;
+            static private ProductUserId s_localProductUserId;
 
             static private NotifyEventHandle s_notifyLoginStatusChangedCallbackHandle;
             static private NotifyEventHandle s_notifyConnectLoginStatusChangedCallbackHandle;
@@ -159,10 +173,10 @@ namespace PlayEveryWare.EpicOnlineServices
             static private EOSConfig loadedEOSConfig;
 
             // Setting it twice will cause an exception
-            static bool hasSetLoggingCallback = false;
+            static bool hasSetLoggingCallback;
 
             // Need to keep track for shutting down EOS after a successful platform initialization
-            static private bool s_hasInitializedPlatform = false;
+            static private bool s_hasInitializedPlatform;
 
             //-------------------------------------------------------------------------
             /// <summary>
@@ -198,6 +212,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     toReturn = "null";
                 }
+
                 return toReturn;
             }
 
@@ -208,7 +223,8 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="localProductUserId"></param>
             protected void SetLocalProductUserId(ProductUserId localProductUserId)
             {
-                print("Changing PUID: " + PUIDToString(s_localProductUserId) + " => " + PUIDToString(localProductUserId));
+                print("Changing PUID: " + PUIDToString(s_localProductUserId) + " => " +
+                      PUIDToString(localProductUserId));
                 s_localProductUserId = localProductUserId;
             }
 
@@ -286,22 +302,21 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public bool ShouldOverlayReceiveInput()
             {
-                return (EOSManager.s_isOverlayVisible && EOSManager.s_DoesOverlayHaveExcusiveInput)
-                    || GetLoadedEOSConfig().alwaysSendInputToOverlay
-                ;
-                
+                return (s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput)
+                       || GetLoadedEOSConfig().alwaysSendInputToOverlay
+                    ;
             }
 
             public bool IsOverlayOpenWithExclusiveInput()
             {
-                return EOSManager.s_isOverlayVisible && EOSManager.s_DoesOverlayHaveExcusiveInput;
+                return s_isOverlayVisible && s_DoesOverlayHaveExcusiveInput;
             }
 
             //-------------------------------------------------------------------------
             [Conditional("ENABLE_DEBUG_EOSMANAGER")]
             static void print(string toPrint)
             {
-                UnityEngine.Debug.Log(toPrint);
+                Debug.Log(toPrint);
             }
 
             //-------------------------------------------------------------------------
@@ -354,10 +369,12 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         AddConnectLoginListener(manager as IEOSOnConnectLogin);
                     }
+
                     if (manager is IEOSOnAuthLogin)
                     {
                         AddAuthLoginListener(manager as IEOSOnAuthLogin);
                     }
+
                     if (manager is IEOSOnAuthLogout)
                     {
                         AddAuthLogoutListener(manager as IEOSOnAuthLogout);
@@ -367,6 +384,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     manager = (T)s_subManagers[type];
                 }
+
                 return manager;
             }
 
@@ -380,10 +398,12 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         RemoveConnectLoginListener(manager as IEOSOnConnectLogin);
                     }
+
                     if (manager is IEOSOnAuthLogin)
                     {
                         RemoveAuthLoginListener(manager as IEOSOnAuthLogin);
                     }
+
                     if (manager is IEOSOnAuthLogout)
                     {
                         RemoveAuthLogoutListener(manager as IEOSOnAuthLogout);
@@ -394,15 +414,15 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private Epic.OnlineServices.Result InitializePlatformInterface(EOSConfig configData)
+            private Result InitializePlatformInterface(EOSConfig configData)
             {
                 IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
 
-                print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType().ToString());
+                print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
 
                 IEOSInitializeOptions initOptions = platformSpecifics.CreateSystemInitOptions();
 
-                print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType().ToString());
+                print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
                 initOptions.ProductName = configData.productName;
                 initOptions.ProductVersion = configData.productVersion;
@@ -414,11 +434,15 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 var overrideThreadAffinity = new InitializeThreadAffinity();
 
-                overrideThreadAffinity.NetworkWork = configData.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
-                overrideThreadAffinity.StorageIo = configData.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
-                overrideThreadAffinity.WebSocketIo = configData.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
+                overrideThreadAffinity.NetworkWork =
+                    configData.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
+                overrideThreadAffinity.StorageIo =
+                    configData.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
+                overrideThreadAffinity.WebSocketIo =
+                    configData.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
                 overrideThreadAffinity.P2PIo = configData.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
-                overrideThreadAffinity.HttpRequestIo = configData.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
+                overrideThreadAffinity.HttpRequestIo =
+                    configData.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
                 overrideThreadAffinity.RTCIo = configData.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
 
                 initOptions.OverrideThreadAffinity = overrideThreadAffinity;
@@ -444,7 +468,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 platformOptions.IsServer = configData.isServer;
                 platformOptions.Flags =
 #if UNITY_EDITOR
-                PlatformFlags.LoadingInEditor;
+                    PlatformFlags.LoadingInEditor;
 #else
                 configData.platformOptionsFlagsAsPlatformFlags();
 #endif
@@ -454,7 +478,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
                 else
                 {
-                    UnityEngine.Debug.LogWarning("EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
+                    Debug.LogWarning(
+                        "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
                 }
 
                 platformOptions.OverrideCountryCode = null;
@@ -465,19 +490,21 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 platformOptions.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
 
-                var clientCredentials = new Epic.OnlineServices.Platform.ClientCredentials
+                var clientCredentials = new ClientCredentials
                 {
-                    ClientId = configData.clientID,
-                    ClientSecret = configData.clientSecret
+                    ClientId = configData.clientID, ClientSecret = configData.clientSecret
                 };
                 platformOptions.ClientCredentials = clientCredentials;
 
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
-                var createIntegratedPlatformOptionsContainerOptions = new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
+                var createIntegratedPlatformOptionsContainerOptions =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        new Epic.OnlineServices.IntegratedPlatform.CreateIntegratedPlatformOptionsContainerOptions();
 
-                var integratedPlatformOptionsContainer = new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
-                var integratedPlatformOptionsContainerResult = Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformInterface.CreateIntegratedPlatformOptionsContainer(ref createIntegratedPlatformOptionsContainerOptions, out integratedPlatformOptionsContainer);
+                var integratedPlatformOptionsContainer =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                new Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer();
+                var integratedPlatformOptionsContainerResult =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformInterface.CreateIntegratedPlatformOptionsContainer(ref createIntegratedPlatformOptionsContainerOptions, out integratedPlatformOptionsContainer);
                 if (integratedPlatformOptionsContainerResult != Result.Success)
                 {
                     print($"Error creating integrated platform container: {integratedPlatformOptionsContainerResult}");
@@ -497,19 +524,20 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     ButtonCombination = InputStateButtonFlags.SpecialLeft
                 };
-                UIInterface uiInterface = EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface();
+                UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);
 
                 EOSManagerPlatformSpecifics.Instance.InitializeOverlay(coroutineOwner);
 
-                AddNotifyDisplaySettingsUpdatedOptions addNotificationData = new AddNotifyDisplaySettingsUpdatedOptions()
-                {
-                };
+                AddNotifyDisplaySettingsUpdatedOptions addNotificationData =
+                    new AddNotifyDisplaySettingsUpdatedOptions();
 
-               GetEOSUIInterface().AddNotifyDisplaySettingsUpdated(ref addNotificationData, null, (ref OnDisplaySettingsUpdatedCallbackInfo data) => {
-                   EOSManager.s_isOverlayVisible = data.IsVisible;
-                   EOSManager.s_DoesOverlayHaveExcusiveInput = data.IsExclusiveInput;
-                });
+                GetEOSUIInterface().AddNotifyDisplaySettingsUpdated(ref addNotificationData, null,
+                    (ref OnDisplaySettingsUpdatedCallbackInfo data) =>
+                    {
+                        s_isOverlayVisible = data.IsVisible;
+                        s_DoesOverlayHaveExcusiveInput = data.IsExclusiveInput;
+                    });
             }
 
             //-------------------------------------------------------------------------
@@ -525,14 +553,15 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 string configDataAsString = "";
 #if UNITY_ANDROID && !UNITY_EDITOR
-
                 configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
 #else
                 if (!File.Exists(eosFinalConfigPath))
                 {
-                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath + " exists and is a valid config");
+                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath +
+                                        " exists and is a valid config");
                 }
-                configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
+
+                configDataAsString = File.ReadAllText(eosFinalConfigPath);
 #endif
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
 
@@ -543,7 +572,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
-                string eosFinalConfigPath = System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
+                string eosFinalConfigPath = Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
                 if (loadedEOSConfig == null)
                 {
                     loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
@@ -555,7 +584,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                     if (!hasSetLoggingCallback)
                     {
-                        Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
+                        LoggingInterface.SetCallback(SimplePrintCallback);
                         hasSetLoggingCallback = true;
                     }
 #if UNITY_EDITOR
@@ -581,7 +610,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicSandboxID))
                 {
-                    UnityEngine.Debug.Log("Sandbox ID override specified: " + epicArgs.epicSandboxID);
+                    Debug.Log("Sandbox ID override specified: " + epicArgs.epicSandboxID);
                     loadedEOSConfig.sandboxID = epicArgs.epicSandboxID;
                 }
 
@@ -592,7 +621,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         if (loadedEOSConfig.sandboxID == deploymentOverride.sandboxID)
                         {
-                            UnityEngine.Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
+                            Debug.Log("Sandbox Deployment ID override specified: " + deploymentOverride.deploymentID);
                             loadedEOSConfig.deploymentID = deploymentOverride.deploymentID;
                         }
                     }
@@ -600,14 +629,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 if (!string.IsNullOrWhiteSpace(epicArgs.epicDeploymentID))
                 {
-                    UnityEngine.Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
+                    Debug.Log("Deployment ID override specified: " + epicArgs.epicDeploymentID);
                     loadedEOSConfig.deploymentID = epicArgs.epicDeploymentID;
                 }
 
-                Epic.OnlineServices.Result initResult = InitializePlatformInterface(loadedEOSConfig);
-                UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
-                
-                if (initResult != Epic.OnlineServices.Result.Success)
+                Result initResult = InitializePlatformInterface(loadedEOSConfig);
+                Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
+
+                if (initResult != Result.Success)
                 {
 #if UNITY_EDITOR
                     ShutdownPlatformInterface();
@@ -616,7 +645,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     LoadEOSLibraries();
 
                     var secondTryResult = InitializePlatformInterface(loadedEOSConfig);
-                    UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
+                    Debug.Log($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
 
                     if (secondTryResult != Result.Success)
 #endif
@@ -624,20 +653,20 @@ namespace PlayEveryWare.EpicOnlineServices
                     if (secondTryResult != Result.AlreadyConfigured)
 #endif
                     {
-                        throw new System.Exception("Epic Online Services didn't init correctly: " + initResult);
+                        throw new Exception("Epic Online Services didn't init correctly: " + initResult);
                     }
                 }
 
                 s_hasInitializedPlatform = true;
 
-                Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
+                LoggingInterface.SetCallback(SimplePrintCallback);
 
 
                 var eosPlatformInterface = CreatePlatformInterface(loadedEOSConfig);
 
                 if (eosPlatformInterface == null)
                 {
-                    throw new System.Exception("failed to create an Epic Online Services PlatformInterface");
+                    throw new Exception("failed to create an Epic Online Services PlatformInterface");
                 }
 
                 SetEOSPlatformInterface(eosPlatformInterface);
@@ -646,7 +675,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 InitializeOverlay(coroutineOwner);
 
-               // Default back to quiet logs
+                // Default back to quiet logs
 #if UNITY_EDITOR
                 SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
 #else
@@ -666,7 +695,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
                 if (platformSpecifics != null)
                 {
-                    UnityEngine.Debug.Log("EOSManager: Registering for platform-specific notifications");
+                    Debug.Log("EOSManager: Registering for platform-specific notifications");
                     platformSpecifics.RegisterForPlatformNotifications();
                 }
             }
@@ -675,7 +704,7 @@ namespace PlayEveryWare.EpicOnlineServices
             [MonoPInvokeCallback(typeof(string))]
             private static void SimplePrintStringCallback(string str)
             {
-                UnityEngine.Debug.LogFormat(LogType.Log, LogOption.NoStacktrace, null, "{0}", str);
+                Debug.LogFormat(LogType.Log, LogOption.NoStacktrace, null, "{0}", str);
             }
 
             //-------------------------------------------------------------------------
@@ -699,13 +728,13 @@ namespace PlayEveryWare.EpicOnlineServices
                     type = LogType.Warning;
                 }
 
-                UnityEngine.Debug.LogFormat(
-                    type, 
-                    LogOption.NoStacktrace, 
-                    null, "{0:O} {1}({2}): {3}", 
-                    dateTime.ToString(System.Globalization.DateTimeFormatInfo.InvariantInfo), 
-                    messageCategory, 
-                    message.Level, 
+                Debug.LogFormat(
+                    type,
+                    LogOption.NoStacktrace,
+                    null, "{0:O} {1}({2}): {3}",
+                    dateTime.ToString(DateTimeFormatInfo.InvariantInfo),
+                    messageCategory,
+                    message.Level,
                     message.Message);
             }
 
@@ -724,6 +753,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     //don't construct logLevels until it's needed
                     logLevels = new Dictionary<LogCategory, LogLevel>();
                 }
+
                 if (Category == LogCategory.AllCategories)
                 {
                     foreach (LogCategory cat in Enum.GetValues(typeof(LogCategory)))
@@ -753,6 +783,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     //logLevels will only be null if log level was never set, so it should be off
                     return LogLevel.Off;
                 }
+
                 if (Category == LogCategory.AllCategories)
                 {
                     LogLevel level = GetLogLevel(LogCategory.Core);
@@ -767,19 +798,16 @@ namespace PlayEveryWare.EpicOnlineServices
                             }
                         }
                     }
+
                     return level;
                 }
-                else
+
+                if (logLevels.ContainsKey(Category))
                 {
-                    if (logLevels.ContainsKey(Category))
-                    {
-                        return logLevels[Category];
-                    }
-                    else
-                    {
-                        return LogLevel.Off;
-                    }
+                    return logLevels[Category];
                 }
+
+                return LogLevel.Off;
             }
 
             //-------------------------------------------------------------------------
@@ -789,24 +817,27 @@ namespace PlayEveryWare.EpicOnlineServices
                 var dateTime = DateTime.Now;
                 var messageCategory = message.Category.Length == 0 ? new Utf8String() : message.Category;
 
-                UnityEngine.Debug.LogFormat(null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
+                Debug.LogFormat(null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
             }
 
             //-------------------------------------------------------------------------
-            static private Epic.OnlineServices.Auth.LoginOptions MakeLoginOptions(LoginCredentialType loginType, ExternalCredentialType externalCredentialType, string id, string token)
+            static private LoginOptions MakeLoginOptions(LoginCredentialType loginType,
+                ExternalCredentialType externalCredentialType, string id, string token)
             {
-                var loginCredentials = new Epic.OnlineServices.Auth.Credentials {
-                    Type = loginType,
-                    ExternalType = externalCredentialType,
-                    Id = id,
-                    Token = token
+                var loginCredentials = new Credentials
+                {
+                    Type = loginType, ExternalType = externalCredentialType, Id = id, Token = token
                 };
 
-                var defaultScopeFlags = AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
+                var defaultScopeFlags =
+                    AuthScopeFlags.BasicProfile | AuthScopeFlags.FriendsList | AuthScopeFlags.Presence;
 
-                return new Epic.OnlineServices.Auth.LoginOptions {
+                return new LoginOptions
+                {
                     Credentials = loginCredentials,
-                    ScopeFlags = loadedEOSConfig.authScopeOptionsFlags.Count > 0 ? loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags() : defaultScopeFlags
+                    ScopeFlags = loadedEOSConfig.authScopeOptionsFlags.Count > 0
+                        ? loadedEOSConfig.authScopeOptionsFlagsAsAuthScopeFlags()
+                        : defaultScopeFlags
                 };
             }
 
@@ -819,7 +850,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public Token? GetUserAuthTokenForAccountId(EpicAccountId accountId)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                var copyUserTokenOptions = new Epic.OnlineServices.Auth.CopyUserAuthTokenOptions();
+                var copyUserTokenOptions = new CopyUserAuthTokenOptions();
 
                 EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, accountId, out Token? userAuthToken);
                 return userAuthToken;
@@ -862,7 +893,8 @@ namespace PlayEveryWare.EpicOnlineServices
                         argumentString = argument.Substring(startIndex);
                     }
                 }
-                foreach (string argument in System.Environment.GetCommandLineArgs())
+
+                foreach (string argument in Environment.GetCommandLineArgs())
                 {
                     if (argument.StartsWith("-AUTH_LOGIN="))
                     {
@@ -910,18 +942,20 @@ namespace PlayEveryWare.EpicOnlineServices
                         ConfigureEpicArgument(argument, ref epicLauncherArgs.epicDeploymentID);
                     }
                 }
+
                 return epicLauncherArgs;
             }
 
 
             //-------------------------------------------------------------------------
-            public void CreateConnectUserWithContinuanceToken(Epic.OnlineServices.ContinuanceToken token, OnCreateConnectUserCallback onCreateUserCallback)
+            public void CreateConnectUserWithContinuanceToken(ContinuanceToken token,
+                OnCreateConnectUserCallback onCreateUserCallback)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
-                var options = new Epic.OnlineServices.Connect.CreateUserOptions();
+                var options = new CreateUserOptions();
 
                 options.ContinuanceToken = token;
-                connectInterface.CreateUser(ref options, null, (ref Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
+                connectInterface.CreateUser(ref options, null, (ref CreateUserCallbackInfo createUserCallbackInfo) =>
                 {
                     if (createUserCallbackInfo.ResultCode == Result.Success)
                     {
@@ -937,14 +971,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             // May only be called after auth login was called once
-            public void AuthLinkExternalAccountWithContinuanceToken(Epic.OnlineServices.ContinuanceToken token, Epic.OnlineServices.Auth.LinkAccountFlags linkAccountFlags, OnAuthLinkExternalAccountCallback callback)
+            public void AuthLinkExternalAccountWithContinuanceToken(ContinuanceToken token,
+                LinkAccountFlags linkAccountFlags, OnAuthLinkExternalAccountCallback callback)
             {
                 var authInterface = GetEOSPlatformInterface().GetAuthInterface();
-                var linkOptions = new Epic.OnlineServices.Auth.LinkAccountOptions()
+                var linkOptions = new LinkAccountOptions
                 {
-                    ContinuanceToken = token,
-                    LinkAccountFlags = linkAccountFlags,
-                    LocalUserId = null
+                    ContinuanceToken = token, LinkAccountFlags = linkAccountFlags, LocalUserId = null
                 };
 
                 if (linkAccountFlags.HasFlag(LinkAccountFlags.NintendoNsaId))
@@ -952,34 +985,36 @@ namespace PlayEveryWare.EpicOnlineServices
                     linkOptions.LocalUserId = Instance.GetLocalUserId();
                 }
 
-                authInterface.LinkAccount(ref linkOptions, null, (ref Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
-                {
-                    Instance.SetLocalUserId(linkAccountCallbackInfo.LocalUserId);
-
-                    if (callback != null)
+                authInterface.LinkAccount(ref linkOptions, null,
+                    (ref Epic.OnlineServices.Auth.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                     {
-                        callback(linkAccountCallbackInfo);
-                    }
-                });
+                        Instance.SetLocalUserId(linkAccountCallbackInfo.LocalUserId);
 
+                        if (callback != null)
+                        {
+                            callback(linkAccountCallbackInfo);
+                        }
+                    });
             }
 
             //-------------------------------------------------------------------------
             // Can only be called if Connect.Login was called in before
-            public void ConnectLinkExternalAccountWithContinuanceToken(Epic.OnlineServices.ContinuanceToken token, OnConnectLinkExternalAccountCallback callback)
+            public void ConnectLinkExternalAccountWithContinuanceToken(ContinuanceToken token,
+                OnConnectLinkExternalAccountCallback callback)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 var linkAccountOptions = new Epic.OnlineServices.Connect.LinkAccountOptions();
                 linkAccountOptions.ContinuanceToken = token;
                 linkAccountOptions.LocalUserId = Instance.GetProductUserId();
 
-                connectInterface.LinkAccount(ref linkAccountOptions, null, (ref Epic.OnlineServices.Connect.LinkAccountCallbackInfo linkAccountCallbackInfo) =>
-                {
-                    if (callback != null)
+                connectInterface.LinkAccount(ref linkAccountOptions, null,
+                    (ref LinkAccountCallbackInfo linkAccountCallbackInfo) =>
                     {
-                        callback(linkAccountCallbackInfo);
-                    }
-                });
+                        if (callback != null)
+                        {
+                            callback(linkAccountCallbackInfo);
+                        }
+                    });
             }
 
             //-------------------------------------------------------------------------
@@ -988,11 +1023,13 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             /// <param name="epicAccountId"></param>
             /// <param name="onConnectLoginCallback"></param>
-            public void StartConnectLoginWithEpicAccount(Epic.OnlineServices.EpicAccountId epicAccountId, OnConnectLoginCallback onConnectLoginCallback)
+            public void StartConnectLoginWithEpicAccount(EpicAccountId epicAccountId,
+                OnConnectLoginCallback onConnectLoginCallback)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                var copyUserTokenOptions = new Epic.OnlineServices.Auth.CopyUserAuthTokenOptions();
-                var result = EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, epicAccountId, out Token? authToken);
+                var copyUserTokenOptions = new CopyUserAuthTokenOptions();
+                var result =
+                    EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, epicAccountId, out Token? authToken);
                 var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions();
 
                 if (result == Result.NotFound)
@@ -1004,34 +1041,36 @@ namespace PlayEveryWare.EpicOnlineServices
                         dummyLoginCallbackInfo.ResultCode = Result.ConnectAuthExpired;
                         onConnectLoginCallback(dummyLoginCallbackInfo);
                     }
+
                     return;
                 }
-                else if (authToken.HasValue && authToken.Value.RefreshToken != null)
+
+                if (authToken.HasValue && authToken.Value.RefreshToken != null)
                 {
                     print("Attempting to use refresh token to login with connect");
                     // need to refresh the epicaccount id
                     // LoginCredentialType.RefreshToken
-                    EOSManager.Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.RefreshToken, null, authToken.Value.RefreshToken, (callbackInfo) =>
-                    {
-                        var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                        var copyUserTokenOptions = new Epic.OnlineServices.Auth.CopyUserAuthTokenOptions();
-                        var result = EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions, callbackInfo.LocalUserId, out Token? userAuthToken);
-
-                        connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
+                    Instance.StartLoginWithLoginTypeAndToken(LoginCredentialType.RefreshToken, null,
+                        authToken.Value.RefreshToken, callbackInfo =>
                         {
-                            Token = userAuthToken.Value.AccessToken,
-                            Type = ExternalCredentialType.Epic
-                        };
+                            var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
+                            var copyUserTokenOptions = new CopyUserAuthTokenOptions();
+                            var result = EOSAuthInterface.CopyUserAuthToken(ref copyUserTokenOptions,
+                                callbackInfo.LocalUserId, out Token? userAuthToken);
 
-                        StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
-                    });
+                            connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
+                            {
+                                Token = userAuthToken.Value.AccessToken, Type = ExternalCredentialType.Epic
+                            };
+
+                            StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
+                        });
                 }
                 else
                 {
                     connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                     {
-                        Token = authToken.Value.AccessToken,
-                        Type = ExternalCredentialType.Epic
+                        Token = authToken.Value.AccessToken, Type = ExternalCredentialType.Epic
                     };
 
                     StartConnectLoginWithOptions(connectLoginOptions, onConnectLoginCallback);
@@ -1039,16 +1078,16 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            public void StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType externalCredentialType, string token, string displayname = null, string nsaIdToken = null, OnConnectLoginCallback onloginCallback = null)
+            public void StartConnectLoginWithOptions(ExternalCredentialType externalCredentialType, string token,
+                string displayname = null, string nsaIdToken = null, OnConnectLoginCallback onloginCallback = null)
             {
                 var loginOptions = new Epic.OnlineServices.Connect.LoginOptions();
                 loginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
-                    Token = token,
-                    Type = externalCredentialType
+                    Token = token, Type = externalCredentialType
                 };
 
-                switch(externalCredentialType)
+                switch (externalCredentialType)
                 {
                     case ExternalCredentialType.EpicIdToken:
                         // If an NSA ID token is provided for an Epic ID token login, also added it in the login info
@@ -1057,10 +1096,10 @@ namespace PlayEveryWare.EpicOnlineServices
                         {
                             loginOptions.UserLoginInfo = new UserLoginInfo
                             {
-                                DisplayName = displayname,
-                                NsaIdToken = nsaIdToken,
+                                DisplayName = displayname, NsaIdToken = nsaIdToken,
                             };
                         }
+
                         break;
                     case ExternalCredentialType.XblXstsToken:
                         loginOptions.UserLoginInfo = null;
@@ -1084,30 +1123,34 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            public void StartConnectLoginWithOptions(Epic.OnlineServices.ExternalCredentialType externalCredentialType, string token, string displayname, OnConnectLoginCallback onloginCallback)
+            public void StartConnectLoginWithOptions(ExternalCredentialType externalCredentialType, string token,
+                string displayname, OnConnectLoginCallback onloginCallback)
             {
                 StartConnectLoginWithOptions(externalCredentialType, token, displayname, null, onloginCallback);
             }
 
             //-------------------------------------------------------------------------
             // 
-            public void StartConnectLoginWithOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions, OnConnectLoginCallback onloginCallback)
+            public void StartConnectLoginWithOptions(Epic.OnlineServices.Connect.LoginOptions connectLoginOptions,
+                OnConnectLoginCallback onloginCallback)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
-                connectInterface.Login(ref connectLoginOptions, (object)null, (ref Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
-                {
-                    if(connectLoginData.LocalUserId != null)
+                connectInterface.Login(ref connectLoginOptions, null,
+                    (ref Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginData) =>
                     {
-                        SetLocalProductUserId(connectLoginData.LocalUserId);
-                        ConfigureConnectStatusCallback();
-                        ConfigureConnectExpirationCallback();
-                        CallOnConnectLogin(connectLoginData);
-                    }
-                    if (onloginCallback != null)
-                    {
-                        onloginCallback(connectLoginData);
-                    }
-                });
+                        if (connectLoginData.LocalUserId != null)
+                        {
+                            SetLocalProductUserId(connectLoginData.LocalUserId);
+                            ConfigureConnectStatusCallback();
+                            ConfigureConnectExpirationCallback();
+                            CallOnConnectLogin(connectLoginData);
+                        }
+
+                        if (onloginCallback != null)
+                        {
+                            onloginCallback(connectLoginData);
+                        }
+                    });
             }
 
             //-------------------------------------------------------------------------
@@ -1115,12 +1158,11 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
                 var connectLoginOptions = new Epic.OnlineServices.Connect.LoginOptions();
-                connectLoginOptions.UserLoginInfo = new Epic.OnlineServices.Connect.UserLoginInfo { DisplayName = displayName };
+                connectLoginOptions.UserLoginInfo = new UserLoginInfo { DisplayName = displayName };
 
                 connectLoginOptions.Credentials = new Epic.OnlineServices.Connect.Credentials
                 {
-                    Token = null,
-                    Type = ExternalCredentialType.DeviceidAccessToken,
+                    Token = null, Type = ExternalCredentialType.DeviceidAccessToken,
                 };
 
                 StartConnectLoginWithOptions(connectLoginOptions, onLoginCallback);
@@ -1128,50 +1170,51 @@ namespace PlayEveryWare.EpicOnlineServices
 
             //-------------------------------------------------------------------------
             // Using this method is preferable as it allows the EOSManager to keep track of the product ID
-            public void ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions options, object clientData, OnTransferDeviceIdAccountCallback completionDelegate = null)
+            public void ConnectTransferDeviceIDAccount(TransferDeviceIdAccountOptions options, object clientData,
+                OnTransferDeviceIdAccountCallback completionDelegate = null)
             {
                 var connectInterface = GetEOSPlatformInterface().GetConnectInterface();
 
-                connectInterface.TransferDeviceIdAccount(ref options, clientData, (ref TransferDeviceIdAccountCallbackInfo data) =>
-                {
-                    SetLocalProductUserId(data.LocalUserId);
-                    if (completionDelegate != null)
+                connectInterface.TransferDeviceIdAccount(ref options, clientData,
+                    (ref TransferDeviceIdAccountCallbackInfo data) =>
                     {
-                        completionDelegate(ref data);
-                    }
-                });
+                        SetLocalProductUserId(data.LocalUserId);
+                        if (completionDelegate != null)
+                        {
+                            completionDelegate(ref data);
+                        }
+                    });
             }
 
             //-------------------------------------------------------------------------
             // Helper method
             public void StartPersistentLogin(OnAuthLoginCallback onLoginCallback)
             {
-                StartLoginWithLoginTypeAndToken(LoginCredentialType.PersistentAuth, null, null, (callbackInfo) =>
+                StartLoginWithLoginTypeAndToken(LoginCredentialType.PersistentAuth, null, null, callbackInfo =>
                 {
-                        // Handle invalid or expired tokens for the caller
-                        switch(callbackInfo.ResultCode)
-                        {
-                            case Result.AuthInvalidPlatformToken:
-                            case Result.AuthInvalidRefreshToken:
-                                var authInterface = EOSManager.Instance.GetEOSPlatformInterface().GetAuthInterface();
-                                var options = new Epic.OnlineServices.Auth.DeletePersistentAuthOptions();
+                    // Handle invalid or expired tokens for the caller
+                    switch (callbackInfo.ResultCode)
+                    {
+                        case Result.AuthInvalidPlatformToken:
+                        case Result.AuthInvalidRefreshToken:
+                            var authInterface = Instance.GetEOSPlatformInterface().GetAuthInterface();
+                            var options = new DeletePersistentAuthOptions();
 
-                                authInterface.DeletePersistentAuth(ref options, null, (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
+                            authInterface.DeletePersistentAuth(ref options, null,
+                                (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
                                 {
                                     if (onLoginCallback != null)
                                     {
                                         onLoginCallback(callbackInfo);
                                     }
                                 });
-                                return;
-                            default:
-                                break;
-                        }
+                            return;
+                    }
 
-                        if (onLoginCallback != null)
-                        {
-                            onLoginCallback(callbackInfo);
-                        }
+                    if (onLoginCallback != null)
+                    {
+                        onLoginCallback(callbackInfo);
+                    }
                 });
             }
 
@@ -1183,13 +1226,16 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="id"></param>
             /// <param name="token"></param>
             /// <param name="onLoginCallback"></param>
-            public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, string id, string token, OnAuthLoginCallback onLoginCallback)
+            public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, string id, string token,
+                OnAuthLoginCallback onLoginCallback)
             {
                 StartLoginWithLoginTypeAndToken(loginType, ExternalCredentialType.Epic, id, token, onLoginCallback);
             }
 
             //-------------------------------------------------------------------------
-            public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType, ExternalCredentialType externalCredentialType, string id, string token, OnAuthLoginCallback onLoginCallback)
+            public void StartLoginWithLoginTypeAndToken(LoginCredentialType loginType,
+                ExternalCredentialType externalCredentialType, string id, string token,
+                OnAuthLoginCallback onLoginCallback)
             {
                 var loginOptions = MakeLoginOptions(loginType, externalCredentialType, id, token);
                 StartLoginWithLoginOptions(loginOptions, onLoginCallback);
@@ -1203,17 +1249,20 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (s_notifyLoginStatusChangedCallbackHandle == null)
                 {
                     var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                    var addNotifyLoginStatusChangedOptions = new Epic.OnlineServices.Auth.AddNotifyLoginStatusChangedOptions();
+                    var addNotifyLoginStatusChangedOptions = new AddNotifyLoginStatusChangedOptions();
 
-                    ulong callbackHandle = EOSAuthInterface.AddNotifyLoginStatusChanged(ref addNotifyLoginStatusChangedOptions, null, (ref Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo callbackInfo) =>
-                    {
-                        // if the user logged off
-                        if (callbackInfo.CurrentStatus == LoginStatus.NotLoggedIn && callbackInfo.PrevStatus == LoginStatus.LoggedIn)
+                    ulong callbackHandle = EOSAuthInterface.AddNotifyLoginStatusChanged(
+                        ref addNotifyLoginStatusChangedOptions, null,
+                        (ref LoginStatusChangedCallbackInfo callbackInfo) =>
                         {
-                            loggedInAccountIDs.Remove(callbackInfo.LocalUserId);
-                        }
-                    });
-                    s_notifyLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
+                            // if the user logged off
+                            if (callbackInfo.CurrentStatus == LoginStatus.NotLoggedIn &&
+                                callbackInfo.PrevStatus == LoginStatus.LoggedIn)
+                            {
+                                loggedInAccountIDs.Remove(callbackInfo.LocalUserId);
+                            }
+                        });
+                    s_notifyLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
                     {
                         GetEOSAuthInterface()?.RemoveNotifyLoginStatusChanged(handle);
                     });
@@ -1226,20 +1275,25 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (s_notifyConnectLoginStatusChangedCallbackHandle == null)
                 {
                     var EOSConnectInterface = GetEOSConnectInterface();
-                    var addNotifyLoginStatusChangedOptions = new Epic.OnlineServices.Connect.AddNotifyLoginStatusChangedOptions();
-                    ulong callbackHandle = EOSConnectInterface.AddNotifyLoginStatusChanged(ref addNotifyLoginStatusChangedOptions, null, (ref Epic.OnlineServices.Connect.LoginStatusChangedCallbackInfo callbackInfo) =>
-                    {
-                        if (callbackInfo.CurrentStatus == LoginStatus.NotLoggedIn && callbackInfo.PreviousStatus == LoginStatus.LoggedIn)
+                    var addNotifyLoginStatusChangedOptions =
+                        new Epic.OnlineServices.Connect.AddNotifyLoginStatusChangedOptions();
+                    ulong callbackHandle = EOSConnectInterface.AddNotifyLoginStatusChanged(
+                        ref addNotifyLoginStatusChangedOptions, null,
+                        (ref Epic.OnlineServices.Connect.LoginStatusChangedCallbackInfo callbackInfo) =>
                         {
-                            SetLocalProductUserId(null);
-                        }
-                        else if (callbackInfo.CurrentStatus == LoginStatus.LoggedIn && callbackInfo.PreviousStatus == LoginStatus.NotLoggedIn)
-                        {
-                            SetLocalProductUserId(callbackInfo.LocalUserId);
-                        }
-                    });
+                            if (callbackInfo.CurrentStatus == LoginStatus.NotLoggedIn &&
+                                callbackInfo.PreviousStatus == LoginStatus.LoggedIn)
+                            {
+                                SetLocalProductUserId(null);
+                            }
+                            else if (callbackInfo.CurrentStatus == LoginStatus.LoggedIn &&
+                                     callbackInfo.PreviousStatus == LoginStatus.NotLoggedIn)
+                            {
+                                SetLocalProductUserId(callbackInfo.LocalUserId);
+                            }
+                        });
 
-                    s_notifyConnectLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
+                    s_notifyConnectLoginStatusChangedCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
                     {
                         GetEOSConnectInterface()?.RemoveNotifyLoginStatusChanged(handle);
                     });
@@ -1252,12 +1306,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (s_notifyConnectAuthExpirationCallbackHandle == null)
                 {
                     var EOSConnectInterface = GetEOSConnectInterface();
-                    var addNotifyAuthExpirationOptions = new Epic.OnlineServices.Connect.AddNotifyAuthExpirationOptions();
-                    ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(ref addNotifyAuthExpirationOptions, null, (ref Epic.OnlineServices.Connect.AuthExpirationCallbackInfo callbackInfo) =>
-                    {
-                    });
+                    var addNotifyAuthExpirationOptions = new AddNotifyAuthExpirationOptions();
+                    ulong callbackHandle = EOSConnectInterface.AddNotifyAuthExpiration(
+                        ref addNotifyAuthExpirationOptions, null, (ref AuthExpirationCallbackInfo callbackInfo) =>
+                        {
+                        });
 
-                    s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, (ulong handle) =>
+                    s_notifyConnectAuthExpirationCallbackHandle = new NotifyEventHandle(callbackHandle, handle =>
                     {
                         GetEOSConnectInterface()?.RemoveNotifyAuthExpiration(handle);
                     });
@@ -1265,7 +1320,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private void CallOnAuthLogin(Epic.OnlineServices.Auth.LoginCallbackInfo loginCallbackInfo)
+            private void CallOnAuthLogin(LoginCallbackInfo loginCallbackInfo)
             {
                 //create a copy of the callback list to iterate on in case the original list is modified during iteration
                 var callbacks = new List<OnAuthLoginCallback>(s_onAuthLoginCallbacks);
@@ -1306,7 +1361,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// <param name="id"></param>
             /// <param name="token"> might be a password</param>
             /// <param name="onLoginCallback"></param>
-            public void StartLoginWithLoginOptions(Epic.OnlineServices.Auth.LoginOptions loginOptions, OnAuthLoginCallback onLoginCallback)
+            public void StartLoginWithLoginOptions(LoginOptions loginOptions, OnAuthLoginCallback onLoginCallback)
             {
                 // start login things
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
@@ -1314,21 +1369,23 @@ namespace PlayEveryWare.EpicOnlineServices
                 Assert.IsNotNull(EOSAuthInterface, "EOSAuthInterface was null!");
 
                 // TODO: put this in a config file?
-                var displayOptions = new Epic.OnlineServices.UI.SetDisplayPreferenceOptions
+                var displayOptions = new SetDisplayPreferenceOptions
                 {
-                    NotificationLocation = Epic.OnlineServices.UI.NotificationLocation.TopRight
+                    NotificationLocation = NotificationLocation.TopRight
                 };
-                EOSManager.Instance.GetEOSPlatformInterface().GetUIInterface().SetDisplayPreference(ref displayOptions);
+                Instance.GetEOSPlatformInterface().GetUIInterface().SetDisplayPreference(ref displayOptions);
 
                 print("StartLoginWithLoginTypeAndToken");
 
 #if UNITY_IOS && !UNITY_EDITOR
-                IOSLoginOptions modifiedLoginOptions = EOS_iOSLoginOptionsHelper.MakeIOSLoginOptionsFromDefualt(loginOptions);
+                IOSLoginOptions modifiedLoginOptions =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           EOS_iOSLoginOptionsHelper.MakeIOSLoginOptionsFromDefualt(loginOptions);
                 EOSAuthInterface.Login(ref modifiedLoginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
 #else
-                EOSAuthInterface.Login(ref loginOptions, null, (Epic.OnlineServices.Auth.OnLoginCallback)((ref Epic.OnlineServices.Auth.LoginCallbackInfo data) => {
+                EOSAuthInterface.Login(ref loginOptions, null, (ref LoginCallbackInfo data) =>
+                {
 #endif
-                    print("LoginCallBackResult : " + data.ResultCode.ToString());
+                    print("LoginCallBackResult : " + data.ResultCode);
                     if (data.ResultCode == Result.Success)
                     {
                         loggedInAccountIDs.Add(data.LocalUserId);
@@ -1339,13 +1396,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
                         CallOnAuthLogin(data);
                     }
-                                        
+
                     if (onLoginCallback != null)
                     {
                         onLoginCallback(data);
                     }
-                    
-                }));
+                });
             }
 
             //-------------------------------------------------------------------------
@@ -1357,38 +1413,39 @@ namespace PlayEveryWare.EpicOnlineServices
             public void SetPresenceRichTextForUser(EpicAccountId accountId, string richText /*, string platformText */)
             {
                 var presenceInterface = GetEOSPresenceInterface();
-                var presenceHandle = new Epic.OnlineServices.Presence.PresenceModification();
-                var presenceModificationOption = new Epic.OnlineServices.Presence.CreatePresenceModificationOptions();
+                var presenceHandle = new PresenceModification();
+                var presenceModificationOption = new CreatePresenceModificationOptions();
                 presenceModificationOption.LocalUserId = accountId;
 
-                var createPresenceModificationResult = presenceInterface.CreatePresenceModification(ref presenceModificationOption, out presenceHandle);
+                var createPresenceModificationResult =
+                    presenceInterface.CreatePresenceModification(ref presenceModificationOption, out presenceHandle);
 
                 if (createPresenceModificationResult != Result.Success)
                 {
-                    UnityEngine.Debug.LogError("Unable to create presence modfication handle");
+                    Debug.LogError("Unable to create presence modfication handle");
                 }
 
-                var presenceModificationSetStatUsOptions = new Epic.OnlineServices.Presence.PresenceModificationSetStatusOptions();
-                presenceModificationSetStatUsOptions.Status = Epic.OnlineServices.Presence.Status.Online;
+                var presenceModificationSetStatUsOptions = new PresenceModificationSetStatusOptions();
+                presenceModificationSetStatUsOptions.Status = Status.Online;
                 var setStatusResult = presenceHandle.SetStatus(ref presenceModificationSetStatUsOptions);
 
                 if (setStatusResult != Result.Success)
                 {
-                    UnityEngine.Debug.LogError("unable to set status");
+                    Debug.LogError("unable to set status");
                 }
 
-                var richTextOptions = new Epic.OnlineServices.Presence.PresenceModificationSetRawRichTextOptions();
+                var richTextOptions = new PresenceModificationSetRawRichTextOptions();
                 richTextOptions.RichText = richText;
                 presenceHandle.SetRawRichText(ref richTextOptions);
 
-                var options = new Epic.OnlineServices.Presence.SetPresenceOptions();
+                var options = new SetPresenceOptions();
                 options.LocalUserId = accountId;
                 options.PresenceModificationHandle = presenceHandle;
-                presenceInterface.SetPresence(ref options, null, (ref Epic.OnlineServices.Presence.SetPresenceCallbackInfo callbackInfo) =>
+                presenceInterface.SetPresence(ref options, null, (ref SetPresenceCallbackInfo callbackInfo) =>
                 {
                     if (callbackInfo.ResultCode != Result.Success)
                     {
-                        UnityEngine.Debug.LogError("Unable to set presence: " + callbackInfo.ResultCode.ToString());
+                        Debug.LogError("Unable to set presence: " + callbackInfo.ResultCode);
                     }
                 });
             }
@@ -1402,12 +1459,10 @@ namespace PlayEveryWare.EpicOnlineServices
             public void StartLogout(EpicAccountId accountId, OnLogoutCallback onLogoutCallback)
             {
                 var EOSAuthInterface = GetEOSPlatformInterface().GetAuthInterface();
-                LogoutOptions options = new LogoutOptions
-                {
-                    LocalUserId = accountId
-                };
+                LogoutOptions options = new LogoutOptions { LocalUserId = accountId };
 
-                EOSAuthInterface.Logout(ref options, null, (ref LogoutCallbackInfo data) => {
+                EOSAuthInterface.Logout(ref options, null, (ref LogoutCallbackInfo data) =>
+                {
                     if (onLogoutCallback != null)
                     {
                         onLogoutCallback(ref data);
@@ -1432,20 +1487,22 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             public void RemovePersistentToken()
             {
-                var authInterface = EOSManager.Instance.GetEOSPlatformInterface().GetAuthInterface();
-                var options = new Epic.OnlineServices.Auth.DeletePersistentAuthOptions();
+                var authInterface = Instance.GetEOSPlatformInterface().GetAuthInterface();
+                var options = new DeletePersistentAuthOptions();
 
-                authInterface.DeletePersistentAuth(ref options, null, (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
-                {
-                    if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
+                authInterface.DeletePersistentAuth(ref options, null,
+                    (ref DeletePersistentAuthCallbackInfo deletePersistentAuthCallbackInfo) =>
                     {
-                        UnityEngine.Debug.LogError("Unable to delete persistent token, Result : " + deletePersistentAuthCallbackInfo.ResultCode.ToString());
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.Log("Successfully deleted persistent token");
-                    }
-                });
+                        if (deletePersistentAuthCallbackInfo.ResultCode != Result.Success)
+                        {
+                            Debug.LogError("Unable to delete persistent token, Result : " +
+                                           deletePersistentAuthCallbackInfo.ResultCode);
+                        }
+                        else
+                        {
+                            Debug.Log("Successfully deleted persistent token");
+                        }
+                    });
             }
 
             //-------------------------------------------------------------------------
@@ -1459,7 +1516,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                     UpdateNetworkStatus();
 
-                   if (s_state != EOSState.Suspended)
+                    if (s_state != EOSState.Suspended)
                     {
                         // Only tick if awake?
                         GetEOSPlatformInterface().Tick();
@@ -1477,14 +1534,14 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 print("Shutting down");
 
-                foreach(Action callback in s_onApplicationShutdownCallbacks)
+                foreach (Action callback in s_onApplicationShutdownCallbacks)
                 {
                     callback();
                 }
 
 
                 var PlatformInterface = GetEOSPlatformInterface();
-                if(PlatformInterface != null)
+                if (PlatformInterface != null)
                 {
                     var EOSAuthInterface = PlatformInterface.GetAuthInterface();
                     // I don't need to create a new LogoutOption every time because the EOS wrapper API 
@@ -1494,7 +1551,8 @@ namespace PlayEveryWare.EpicOnlineServices
                     foreach (var epicUserID in loggedInAccountIDs)
                     {
                         logoutOptions.LocalUserId = epicUserID;
-                        EOSAuthInterface.Logout(ref logoutOptions, null, (ref LogoutCallbackInfo data) => {
+                        EOSAuthInterface.Logout(ref logoutOptions, null, (ref LogoutCallbackInfo data) =>
+                        {
                             if (data.ResultCode != Result.Success)
                             {
                                 print("failed to logout ");
@@ -1545,11 +1603,12 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 if (s_hasInitializedPlatform)
                 {
-                    Epic.OnlineServices.Platform.PlatformInterface.Shutdown();
+                    PlatformInterface.Shutdown();
                 }
+
                 s_hasInitializedPlatform = false;
             }
-            
+
             //-------------------------------------------------------------------------
             public ApplicationStatus GetEOSApplicationStatus()
             {
@@ -1561,14 +1620,15 @@ namespace PlayEveryWare.EpicOnlineServices
             private void SetEOSApplicationStatus(ApplicationStatus newStatus)
             {
                 ApplicationStatus currentStatus = GetEOSApplicationStatus();
-                if(currentStatus != newStatus)
+                if (currentStatus != newStatus)
                 {
                     print($"EOSSingleton.SetEOSApplicationStatus: {currentStatus} -> {newStatus}");
 
                     Result result = GetEOSPlatformInterface().SetApplicationStatus(newStatus);
                     if (result != Result.Success)
                     {
-                        UnityEngine.Debug.LogError($"EOSSingleton.SetEOSApplicationStatus: Error setting EOS application status (Result = {result})");
+                        Debug.LogError(
+                            $"EOSSingleton.SetEOSApplicationStatus: Error setting EOS application status (Result = {result})");
                     }
                 }
             }
@@ -1676,7 +1736,8 @@ namespace PlayEveryWare.EpicOnlineServices
                 if (wasConstrained != isConstrained)
                 {
                     s_isConstrained = isConstrained;
-                    print($"EOSSingleton.OnApplicationConstrained: IsConstrained {wasConstrained} -> {s_isConstrained}");
+                    print(
+                        $"EOSSingleton.OnApplicationConstrained: IsConstrained {wasConstrained} -> {s_isConstrained}");
                     UpdateEOSApplicationStatus();
                 }
             }
@@ -1706,6 +1767,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     s_instance = new EOSSingleton();
                 }
+
                 return s_instance;
             }
         }
@@ -1721,7 +1783,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             if (InitializeOnAwake)
             {
-                EOSManager.Instance.Init(this);
+                Instance.Init(this);
             }
         }
 
@@ -1733,7 +1795,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void Update()
         {
-            EOSManager.Instance.Tick();
+            Instance.Tick();
         }
 
         //-------------------------------------------------------------------------
@@ -1746,7 +1808,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             if (ShouldShutdownOnApplicationQuit)
             {
-                EOSManager.Instance.OnShutdown();
+                Instance.OnShutdown();
             }
         }
 
@@ -1758,7 +1820,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void OnApplicationFocus(bool hasFocus)
         {
-            EOSManager.Instance.OnApplicationFocus(hasFocus);
+            Instance.OnApplicationFocus(hasFocus);
         }
 
         //-------------------------------------------------------------------------
@@ -1769,7 +1831,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         void OnApplicationPause(bool pauseStatus)
         {
-            EOSManager.Instance.OnApplicationPause(pauseStatus);
+            Instance.OnApplicationPause(pauseStatus);
         }
 #endif
 
