@@ -267,7 +267,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
 
                     GUILayout.Label(configurationSectionEditor.GetNameForMenu(), EditorStyles.boldLabel);
-                    EpicOnlineServicesConfigEditor.HorizontalLine(Color.white);
+                    GUIEditorHelper.HorizontalLine(Color.white);
                     configurationSectionEditor.OnGUI();
                     EditorGUILayout.Space();
                 }
