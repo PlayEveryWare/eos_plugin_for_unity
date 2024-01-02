@@ -6,32 +6,32 @@ using UnityEditor;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    //-------------------------------------------------------------------------
+    
     public class EOSPluginEditorAndroidBuildConfigSection : IEOSPluginEditorConfigurationSection
     {
         private static string ConfigName = "eos_plugin_android_build_config.json";
         private EOSConfigFile<EOSPluginEditorAndroidBuildConfig> configFile;
 
-        //-------------------------------------------------------------------------
+        
         public string GetNameForMenu()
         {
             return "Android Build Settings";
         }
 
-        //-------------------------------------------------------------------------
+        
         public void Awake()
         {
             var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
             configFile = new EOSConfigFile<EOSPluginEditorAndroidBuildConfig>(configFilenamePath);
         }
 
-        //-------------------------------------------------------------------------
+        
         public bool DoesHaveUnsavedChanges()
         {
             return false;
         }
 
-        //-------------------------------------------------------------------------
+        
         public void LoadConfigFromDisk()
         {
             configFile.LoadConfigFromDisk();
@@ -42,13 +42,13 @@ namespace PlayEveryWare.EpicOnlineServices
             return configFile.currentEOSConfig;
         }
 
-        //-------------------------------------------------------------------------
+        
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
             EpicOnlineServicesConfigEditor.AssigningBoolField("Link EOS Library Dynamically", ref configFile.currentEOSConfig.DynamicallyLinkEOSLibrary);
         }
 
-        //-------------------------------------------------------------------------
+        
         public void SaveToJSONConfig(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);

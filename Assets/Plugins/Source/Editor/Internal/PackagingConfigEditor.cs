@@ -52,26 +52,26 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string ConfigName = "eos_plugin_packaging_config.json";
         private EOSConfigFile<EOSPluginEditorPackagingConfig> configFile;
 
-        //-------------------------------------------------------------------------
+        
         public string GetNameForMenu()
         {
             return "Packaging";
         }
 
-        //-------------------------------------------------------------------------
+        
         public void Awake()
         {
             var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
             configFile = new EOSConfigFile<EOSPluginEditorPackagingConfig>(configFilenamePath);
         }
 
-        //-------------------------------------------------------------------------
+        
         public bool DoesHaveUnsavedChanges()
         {
             return false;
         }
 
-        //-------------------------------------------------------------------------
+        
         public void LoadConfigFromDisk()
         {
             configFile.LoadConfigFromDisk();
@@ -82,7 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return configFile.currentEOSConfig;
         }
 
-        //-------------------------------------------------------------------------
+        
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
             string pathToJSONPackageDescription = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToJSONPackageDescription);
@@ -97,7 +97,7 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile.currentEOSConfig.pathToOutput = pathToOutput;
         }
 
-        //-------------------------------------------------------------------------
+        
         public void SaveToJSONConfig(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);

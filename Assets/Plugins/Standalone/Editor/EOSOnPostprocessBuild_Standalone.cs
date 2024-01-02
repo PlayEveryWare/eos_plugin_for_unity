@@ -46,7 +46,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
     private EOSConfig eosConfig = null;
     private string buildExeName = null;
 
-    //-------------------------------------------------------------------------
+    
     private static string GetPathToEOSBin()
     {
         string projectPathToBin = Path.Combine(Application.dataPath, "../tools/bin/");
@@ -63,7 +63,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         return "";
     }
 
-    //-------------------------------------------------------------------------
+    
     private static string GetPathToPlatformSpecificAssets(BuildReport report)
     {
         string platformDirectoryName = null;
@@ -99,7 +99,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         return pathToInstallFrom;
     }
 
-    //-------------------------------------------------------------------------
+    
 #if UNITY_EDITOR_WIN
     private static void InstallBootStrapper(string appFilenameExe, string installDirectory, string pathToEOSBootStrapperTool, string bootstrapperFileName)
     {
@@ -309,7 +309,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         return directories;
     }
 
-        //-------------------------------------------------------------------------
+        
     private void InstallFiles(BuildReport report, bool useEAC)
     {
         string destDir = Path.GetDirectoryName(report.summary.outputPath);
@@ -428,7 +428,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         File.WriteAllText(filepath, fileContents);
     }
 
-    //-------------------------------------------------------------------------
+    
     public void OnPostprocessBuild(BuildReport report)
     {
         if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report.summary.platform))

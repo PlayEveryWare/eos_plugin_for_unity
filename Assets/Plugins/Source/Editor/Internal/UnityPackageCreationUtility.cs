@@ -38,7 +38,7 @@ using ConfigEditor = PlayEveryWare.EpicOnlineServices.EOSPluginEditorConfigEdito
 // Helper to allow for StartCoroutine to be used from a static context
 public class CoroutineExecutor : MonoBehaviour { }
 
-//-------------------------------------------------------------------------
+
 public static class UnityPackageCreationUtility
 {
     /// <summary>
@@ -104,7 +104,7 @@ public static class UnityPackageCreationUtility
         }
     }
 
-    //-------------------------------------------------------------------------
+    
     private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
     {
          var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
@@ -114,7 +114,7 @@ public static class UnityPackageCreationUtility
          return packageDescription;
     }
 
-    //-------------------------------------------------------------------------
+    
     private static string GetPackageOutputFolder()
     {
         if (customOutputDirectory != null && 
@@ -125,7 +125,7 @@ public static class UnityPackageCreationUtility
         return PackageFileUtils.GenerateTemporaryBuildPath();
     }
 
-    //-------------------------------------------------------------------------
+    
     private static void CopyFilesToPackageDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
     {
         PackageFileUtils.CopyFilesToDirectory(
@@ -134,7 +134,7 @@ public static class UnityPackageCreationUtility
             WriteVersionInfo);
     }
 
-    //-------------------------------------------------------------------------
+    
     private static void WriteVersionInfo(string destPath)
     {
         if (Path.GetFileName(destPath) == "EOSPackageInfo.cs")
@@ -162,7 +162,7 @@ public static class UnityPackageCreationUtility
 
     
 
-    //-------------------------------------------------------------------------
+    
     public static void CreateUPMTarball(string outputPath, string json_file)
     {
         UnityEngine.Debug.Log("DEBUG " + json_file);
@@ -196,7 +196,7 @@ public static class UnityPackageCreationUtility
             );
     }
 
-    //-------------------------------------------------------------------------
+    
     public static void CreateDotUnityPackage(string outputPath, string json_file, string packageName = "pew_eos_plugin.unitypackage")
     {
         var JSONPackageDescription = File.ReadAllText(json_file);
@@ -227,7 +227,7 @@ public static class UnityPackageCreationUtility
         CopyFilesToPackageDirectory(outputPath, filesToCopy);
     }
 
-    //-------------------------------------------------------------------------
+    
     // Helper coroutine for making the client package.
     private static IEnumerator StartMakingTarball(string packageFolder, string outputPath)
     {   
