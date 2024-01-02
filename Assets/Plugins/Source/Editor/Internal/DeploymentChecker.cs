@@ -21,11 +21,13 @@
 */
 
 using PlayEveryWare.EpicOnlineServices;
+using System;
 using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
 
+[Serializable]
 public class DeploymentChecker : EOSEditorWindow
 {
     private const string PackageDirectory = "etc/PackageTemplate";
@@ -44,7 +46,7 @@ public class DeploymentChecker : EOSEditorWindow
     [MenuItem("Tools/EOS Plugin/Check Deployment")]
     public static void ShowWindow()
     {
-        GetWindow(typeof(DeploymentChecker), false, "Deployment Checker", true);
+        GetWindow<DeploymentChecker>("Deployment Checker");
     }
 
     //-------------------------------------------------------------------------
@@ -53,11 +55,18 @@ public class DeploymentChecker : EOSEditorWindow
         return Path.Combine(Application.dataPath, "..");
     }
 
-    //-------------------------------------------------------------------------
-    private void OnGUI()
+    protected override void Setup()
     {
-        GUILayout.BeginArea(new Rect(5, 5, Screen.width / 4, Screen.height - 5));
+        // We set auto-resize to false here because this window has a text area, and it doesn't play
+        // nicely with the AdjustWindowSize method. Instead of figuring out how to implement an edge
+        // case for it right now, this particular window disables the ability, as no other editor
+        // windows currently implemented contain text areas.
+        SetAutoResize(false);
+    }
 
+    //-------------------------------------------------------------------------
+    protected override void RenderWindow()
+    {
         if (GUILayout.Button(ChangelogFile))
         {
             LoadTextFile(Path.Combine(GetRepositoryRoot(), PackageDirectory, ChangelogFile));
@@ -78,29 +87,19 @@ public class DeploymentChecker : EOSEditorWindow
             LoadDLLFile(Path.Combine(GetRepositoryRoot(), WindowsPluginDirectory, EOSWindows64DllFile));
         }
 
-        GUILayout.EndArea();
-
-        GUILayout.BeginArea(new Rect(Screen.width / 4 + 5, 5, Screen.width * 3 / 4 - 5, Screen.height - 5));
-
-        GUILayout.BeginHorizontal();
-
         if (!string.IsNullOrWhiteSpace(currentPath))
         {
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Show in Explorer"))
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.MaxHeight(Screen.height));
+            GUI.enabled = false;
+            GUILayout.TextArea(content);
+            GUI.enabled = true;
+            GUILayout.EndScrollView();
+
+            if (GUILayout.Button("Show file in Explorer"))
             {
                 EditorUtility.RevealInFinder(currentPath);
             }
         }
-
-        GUILayout.EndHorizontal();
-
-        scrollPosition = GUILayout.BeginScrollView(scrollPosition, 
-            GUILayout.Width(Screen.width * 3/4 - 10), GUILayout.Height(Screen.height - 50));
-        GUILayout.Label(content);
-        GUILayout.EndScrollView();
-
-        GUILayout.EndArea();
     }
 
     //-------------------------------------------------------------------------

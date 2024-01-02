@@ -27,8 +27,10 @@ using UnityEditor;
 // make lines a little shorter
 using UPCUtil = UnityPackageCreationUtility;
 using ConfigEditor = PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor;
+using System;
 
 //-------------------------------------------------------------------------
+[Serializable]
 public class UnityPackageCreationTool : EOSEditorWindow
 {
     const string DEFAULT_OUTPUT_DIRECTORY = "Build";
@@ -39,11 +41,11 @@ public class UnityPackageCreationTool : EOSEditorWindow
     [MenuItem("Tools/EOS Plugin/Create Package")]
     public static void ShowWindow()
     {
-        GetWindow(typeof(UnityPackageCreationTool), false, "Create Package", true);
+        GetWindow<UnityPackageCreationTool>("Create Package");
     }
 
     //-------------------------------------------------------------------------
-    private void OnGUI()
+    protected override void RenderWindow()
     {
         GUILayout.Space(10f);
 

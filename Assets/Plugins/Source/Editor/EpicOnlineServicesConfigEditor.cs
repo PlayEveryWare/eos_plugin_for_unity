@@ -31,7 +31,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-
+    [Serializable]
     public class EpicOnlineServicesConfigEditor : EOSEditorWindow
     {
         static Regex EncryptionKeyRegex;
@@ -54,7 +54,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static List<IPlatformSpecificConfigEditor> platformSpecificConfigEditors;
 
-
         int toolbarInt = 0;
         string[] toolbarTitleStrings;
 
@@ -70,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(EpicOnlineServicesConfigEditor), false, "EOS Config Editor", true);
+            GetWindow<EpicOnlineServicesConfigEditor>("EOS Config Editor");
         }
 
 
@@ -176,7 +175,7 @@ _WIN32 || _WIN64
             }
         }
 
-        private void Awake()
+        protected override void Setup()
         {
             mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
             steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
@@ -643,11 +642,8 @@ _WIN32 || _WIN64
             return toolbarTitleStrings;
         }
 
-        //TODO: Add verification for data
-        //TODO: Add something that warns if a feature won't work without some config
-        private void OnGUI()
+        protected override void RenderWindow()
         {
-            EnsureConfigLoaded();
             string[] toolbarTitlesToUse = CreateToolbarTitles();
             int xCount = (int)(EditorGUIUtility.currentViewWidth / 200);
             toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitlesToUse, xCount);
@@ -692,19 +688,6 @@ _WIN32 || _WIN64
             if (DoesHaveUnsavedChanges())
             {
                 //Show Model window to confirm close on changes?
-            }
-        }
-
-        private void EnsureConfigLoaded()
-        {
-            if (mainEOSConfigFile == null ||
-                mainEOSConfigFile.configDataOnDisk == null ||
-                mainEOSConfigFile.currentEOSConfig == null ||
-                steamEOSConfigFile == null ||
-                steamEOSConfigFile.configDataOnDisk == null ||
-                steamEOSConfigFile.currentEOSConfig == null)
-            {
-                Awake();
             }
         }
     }

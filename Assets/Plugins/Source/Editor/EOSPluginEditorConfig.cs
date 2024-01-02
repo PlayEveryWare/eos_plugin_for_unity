@@ -193,8 +193,8 @@ namespace PlayEveryWare.EpicOnlineServices
     //-------------------------------------------------------------------------
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
-    ///
     /// </summary>
+    [Serializable]
     public class EOSPluginEditorConfigEditor : EOSEditorWindow
     {
         private static string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
@@ -229,7 +229,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Configuration")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(EOSPluginEditorConfigEditor));
+            GetWindow<EOSPluginEditorConfigEditor>("EOS Plugin Config");
         }
 
         //-------------------------------------------------------------------------
@@ -306,7 +306,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        private void Awake()
+        protected override void Setup()
         {
             if (configurationSectionEditors == null)
             {
@@ -322,10 +322,8 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        private void OnGUI()
+        protected override void RenderWindow()
         {
-
-            GUILayout.BeginScrollView(new Vector2(), GUIStyle.none);
             if (configurationSectionEditors.Count > 0)
             {
                 foreach (var configurationSectionEditor in configurationSectionEditors)
@@ -338,7 +336,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            GUILayout.EndScrollView();
             EpicOnlineServicesConfigEditor.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
