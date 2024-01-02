@@ -25,7 +25,7 @@ using UnityEditor;
 
 // make lines a little shorter
 using UPCUtil = UnityPackageCreationUtility;
-using ConfigEditor = PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor;
+
 using System;
 
 namespace PlayEveryWare.EpicOnlineServices
@@ -51,7 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             GUILayout.BeginHorizontal();
             GUILayout.Space(10f);
-            ConfigEditor.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
+            GUIEditorHelper.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
             if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
             {
                 var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Space(10f);
-                ConfigEditor.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
+                GUIEditorHelper.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
                 if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
                 {
                     var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");

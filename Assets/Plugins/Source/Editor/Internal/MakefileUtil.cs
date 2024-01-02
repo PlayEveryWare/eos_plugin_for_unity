@@ -77,9 +77,9 @@ namespace PlayEveryWare.EpicOnlineServices
             string msbuildPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.msbuildPath);
             string makePath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.makePath);
             bool msbuildDebug = configFile.currentEOSConfig.msbuildDebug;
-            EpicOnlineServicesConfigEditor.AssigningPath("MSBuild path", ref msbuildPath, "Select MSBuild", labelWidth: 80);
-            EpicOnlineServicesConfigEditor.AssigningPath("Make path", ref makePath, "Select make", labelWidth: 80);
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Use debug config for MSBuild", ref msbuildDebug, labelWidth: 180);
+            GUIEditorHelper.AssigningPath("MSBuild path", ref msbuildPath, "Select MSBuild", labelWidth: 80);
+            GUIEditorHelper.AssigningPath("Make path", ref makePath, "Select make", labelWidth: 80);
+            GUIEditorHelper.AssigningBoolField("Use debug config for MSBuild", ref msbuildDebug, labelWidth: 180);
             configFile.currentEOSConfig.msbuildPath = msbuildPath;
             configFile.currentEOSConfig.makePath = makePath;
             configFile.currentEOSConfig.msbuildDebug = msbuildDebug;

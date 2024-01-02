@@ -148,10 +148,10 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToPFX = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToPFX);
             string pfxPassword = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pfxPassword);
             string timestampURL = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.timestampURL);
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
-            EpicOnlineServicesConfigEditor.AssigningTextField("PFX password", ref pfxPassword);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Timestamp Authority URL", ref timestampURL);
+            GUIEditorHelper.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
+            GUIEditorHelper.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
+            GUIEditorHelper.AssigningTextField("PFX password", ref pfxPassword);
+            GUIEditorHelper.AssigningTextField("Timestamp Authority URL", ref timestampURL);
 
             if (configFile.currentEOSConfig.dllPaths == null)
             {
@@ -162,7 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 EditorGUILayout.BeginHorizontal();
                 string dllPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.dllPaths[i]);
-                EpicOnlineServicesConfigEditor.AssigningTextField("", ref dllPath);
+                GUIEditorHelper.AssigningTextField("", ref dllPath);
                 configFile.currentEOSConfig.dllPaths[i] = dllPath;
                 if (GUILayout.Button("Remove", GUILayout.MaxWidth(100)))
                 {

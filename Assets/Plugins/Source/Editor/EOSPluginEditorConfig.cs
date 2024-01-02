@@ -79,19 +79,19 @@ namespace PlayEveryWare.EpicOnlineServices
             string bootstrapOverideName = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.bootstrapperNameOverride);
             bool useEAC = configFile.currentEOSConfig.useEAC;
 
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool", 
+            GUIEditorHelper.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool", 
                 tooltip: "EOS SDK tool used to generate EAC certificate from file hashes");
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Integrity Tool Config", ref pathToIntegrityConfig, "Select EAC Integrity Tool Config",
+            GUIEditorHelper.AssigningPath("Path to EAC Integrity Tool Config", ref pathToIntegrityConfig, "Select EAC Integrity Tool Config",
                 tooltip: "Config file used by integry tool. Defaults to anticheat_integritytool.cfg in same directory.", extension: "cfg", labelWidth:200);
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC private key", ref pathToEACPrivateKey, "Select EAC private key", extension: "key",
+            GUIEditorHelper.AssigningPath("Path to EAC private key", ref pathToEACPrivateKey, "Select EAC private key", extension: "key",
                 tooltip: "EAC private key used in integrity tool cert generation. Exposing this to the public will comprimise anti-cheat functionality.");
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer",
+            GUIEditorHelper.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer",
                 tooltip: "EAC public key used in integrity tool cert generation");
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to EAC splash image", ref pathToEACSplashImage, "Select 800x450 EAC splash image PNG", extension: "png",
+            GUIEditorHelper.AssigningPath("Path to EAC splash image", ref pathToEACSplashImage, "Select 800x450 EAC splash image PNG", extension: "png",
                 tooltip: "EAC splash screen used by launcher. Must be a PNG of size 800x450.");
 
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Use EAC", ref useEAC, tooltip: "If set to true, uses the EAC");
-            EpicOnlineServicesConfigEditor.AssigningTextField("Bootstrapper Name Override", ref bootstrapOverideName, labelWidth: 180, tooltip: "Name to use instead of 'Bootstrapper.exe'");
+            GUIEditorHelper.AssigningBoolField("Use EAC", ref useEAC, tooltip: "If set to true, uses the EAC");
+            GUIEditorHelper.AssigningTextField("Bootstrapper Name Override", ref bootstrapOverideName, labelWidth: 180, tooltip: "Name to use instead of 'Bootstrapper.exe'");
 
             configFile.currentEOSConfig.pathToEACIntegrityTool = pathToIntegrityTool;
             configFile.currentEOSConfig.pathToEACIntegrityConfig = pathToIntegrityConfig;
@@ -146,7 +146,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Use Unity App Version for the EOS product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion, 300);
+            GUIEditorHelper.AssigningBoolField("Use Unity App Version for the EOS product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion, 300);
         }
         
         public void SaveToJSONConfig(bool prettyPrint)
@@ -273,7 +273,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
+            GUIEditorHelper.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
             {
