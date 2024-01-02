@@ -32,12 +32,6 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string ConfigFilename = "eos_linux_config.json";
         PlayEveryWare.EpicOnlineServices.EOSConfigFile<EOSLinuxConfig> configFile;
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditorLinux());
-        }
-
         public string GetNameForMenu()
         {
             return "Linux";

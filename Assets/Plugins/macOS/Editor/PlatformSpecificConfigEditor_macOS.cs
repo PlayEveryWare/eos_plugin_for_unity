@@ -33,12 +33,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string ConfigFilename = "eos_macos_config.json";
         EOSConfigFile<EOS_macOSConfig> configFile;
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditor_macOS());
-        }
-
         public string GetNameForMenu()
         {
             return "macOS";

@@ -34,25 +34,9 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class EpicOnlineServicesConfigEditor : EOSEditorWindow
     {
-        static Regex EncryptionKeyRegex;
+        private const string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
-        static EpicOnlineServicesConfigEditor()
-        {
-            EncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
-        }
-
-        public static void AddPlatformSpecificConfigEditor(IPlatformSpecificConfigEditor platformSpecificConfigEditor)
-        {
-            if (platformSpecificConfigEditors == null)
-            {
-                platformSpecificConfigEditors = new List<IPlatformSpecificConfigEditor>();
-            }
-            platformSpecificConfigEditors.Add(platformSpecificConfigEditor);
-        }
-
-        private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
-
-        static List<IPlatformSpecificConfigEditor> platformSpecificConfigEditors;
+        private List<IPlatformSpecificConfigEditor> platformSpecificConfigEditors;
 
         int toolbarInt = 0;
         string[] toolbarTitleStrings;
@@ -77,12 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public static SettingsProvider CreateProjectSettingsProvider()
         {
             var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EpicOnlineServicesConfigEditor>();
-            var keywords = new List<string>();
-
-            foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                keywords.Add(platformSpecificConfigEditor.GetNameForMenu());
-            }
+            var keywords = eosPluginEditorConfigEditor.GetKeywords();
 
             var provider = new SettingsProvider("Project/EOS Plugin", SettingsScope.Project)
             {
@@ -175,15 +154,31 @@ _WIN32 || _WIN64
             }
         }
 
+        public IList<string> GetKeywords()
+        {
+            IList<string> keywords = new List<string>();
+            foreach (var section in platformSpecificConfigEditors)
+            {
+                keywords.Add(section.GetNameForMenu());
+            }
+
+            return keywords;
+        }
+
         protected override void Setup()
         {
             mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
             steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
 
-            if (platformSpecificConfigEditors == null)
-            {
-                platformSpecificConfigEditors = new List<IPlatformSpecificConfigEditor>();
-            }
+            platformSpecificConfigEditors ??= new List<IPlatformSpecificConfigEditor>
+                {
+                    new PlatformSpecificConfigEditorLinux(),
+                    new PlatformSpecificConfigEditorAndroid(),
+                    new PlatformSpecificConfigEditor_iOS(),
+                    new PlatformSpecificConfigEditor_macOS(),
+
+
+                };
 
             toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];
             toolbarTitleStrings[0] = "Main";
@@ -223,31 +218,11 @@ _WIN32 || _WIN64
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
-
-        public static string CollectFlags(List<string> flags)
-        {
-            return String.Join("|", EmptyPredicates.NewIfNull(flags));
-        }
-
-        public static List<string> SplitFlags(string collectedFlags)
-        {
-            return new List<string>(collectedFlags.Split('|'));
-        }
-
+        
         private static GUIContent CreateGUIContent(string label, string tooltip = null)
         {
-            if (label == null)
-            {
-                label = "";
-            }
-            if (tooltip == null)
-            {
-                return new GUIContent(label);
-            }
-            else
-            {
-                return new GUIContent(label, tooltip);
-            }
+            label ??= "";
+            return tooltip == null ? new GUIContent(label) : new GUIContent(label, tooltip);
         }
 
         public static void AssigningFlagTextField(string label, ref List<string> flags, float labelWidth = -1, string tooltip = null)
@@ -258,9 +233,9 @@ _WIN32 || _WIN64
                 EditorGUIUtility.labelWidth = labelWidth;
             }
 
-            var collectedEOSplatformFlags = CollectFlags(flags);
+            var collectedEOSplatformFlags = String.Join("|", EmptyPredicates.NewIfNull(flags));
             var platformFlags = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), collectedEOSplatformFlags);
-            flags = SplitFlags(platformFlags);
+            flags = new List<string>(platformFlags.Split('|'));
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }

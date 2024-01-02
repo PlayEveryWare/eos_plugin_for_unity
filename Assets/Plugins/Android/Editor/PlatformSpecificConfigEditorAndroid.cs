@@ -33,12 +33,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string ConfigFilename = "eos_android_config.json";
         EOSConfigFile<EOSAndroidConfig> configFile;
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditorAndroid());
-        }
-
         public string GetNameForMenu()
         {
             return "Android";

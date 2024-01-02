@@ -33,12 +33,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string ConfigFilename = "eos_ios_config.json";
         EOSConfigFile<EOS_iOSConfig> configFile;
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditor_iOS());
-        }
-
         public string GetNameForMenu()
         {
             return "iOS";
