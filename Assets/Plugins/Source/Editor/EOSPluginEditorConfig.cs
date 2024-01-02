@@ -69,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return configFile.currentEOSConfig;
         }
         
-        void IEOSPluginEditorConfigurationSection.OnGUI()
+        public void OnGUI()
         {
             string pathToIntegrityTool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityTool);
             string pathToIntegrityConfig = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityConfig);
@@ -195,31 +195,6 @@ namespace PlayEveryWare.EpicOnlineServices
             GetWindow<EOSPluginEditorConfigEditor>("EOS Plugin Config");
         }
         
-        public void AddConfigurationSectionEditor(IEOSPluginEditorConfigurationSection section)
-        {
-            if (configurationSectionEditors == null)
-            {
-                configurationSectionEditors = new List<IEOSPluginEditorConfigurationSection>();
-            }
-
-            configurationSectionEditors.Add(section);
-        }
-        
-        public T GetConfigurationSectionEditor<T>() where T : IEOSPluginEditorConfigurationSection, new()
-        {
-            if (configurationSectionEditors != null)
-            {
-                foreach (var configurationSectionEditor in configurationSectionEditors)
-                {
-                    if (configurationSectionEditor.GetType() == typeof(T))
-                    {
-                        return (T)configurationSectionEditor;
-                    }
-                }
-            }
-            return default;
-        }
-        
         private static string GetConfigDirectory()
         {
             return System.IO.Path.Combine(Application.dataPath, "..", ConfigDirectory);
@@ -265,14 +240,15 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             if (configurationSectionEditors == null)
             {
-                configurationSectionEditors = new List<IEOSPluginEditorConfigurationSection>();
-
-                configurationSectionEditors.Add(new EOSPluginEditorPrebuildConfigSection());
-                configurationSectionEditors.Add(new EOSPluginEditorToolsConfigSection());
-                configurationSectionEditors.Add(new EOSPluginEditorAndroidBuildConfigSection());
-                configurationSectionEditors.Add(new LibraryBuildConfigEditor());
-                configurationSectionEditors.Add(new SignToolConfigEditor());
-                configurationSectionEditors.Add(new EOSPluginEditorPackagingConfigSection());
+                configurationSectionEditors = new List<IEOSPluginEditorConfigurationSection>
+                {
+                    new EOSPluginEditorPrebuildConfigSection(),
+                    new EOSPluginEditorToolsConfigSection(),
+                    new EOSPluginEditorAndroidBuildConfigSection(),
+                    new LibraryBuildConfigEditor(),
+                    new SignToolConfigEditor(),
+                    new EOSPluginEditorPackagingConfigSection()
+                };
             }
 
             foreach (var configurationSectionEditor in configurationSectionEditors)
