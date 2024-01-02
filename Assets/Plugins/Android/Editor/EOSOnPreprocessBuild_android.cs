@@ -331,7 +331,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     {
         string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
         var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
-        eosConfigFile.LoadConfigFromDisk();
+        eosConfigFile.Read();
         string clientIDAsLower = eosConfigFile.currentEOSConfig.clientID.ToLower();
 
         var pathToEOSValuesConfig = GetAndroidEOSValuesConfigPath();
@@ -362,7 +362,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         {
             if (androidBuildConfigSection.GetCurrentConfig() == null)
             {
-                androidBuildConfigSection.LoadConfigFromDisk();
+                androidBuildConfigSection.Read();
             }
         }
 

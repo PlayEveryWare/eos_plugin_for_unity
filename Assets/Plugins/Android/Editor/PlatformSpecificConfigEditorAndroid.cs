@@ -28,28 +28,11 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditorAndroid : IPlatformSpecificConfigEditor
+    public class PlatformSpecificConfigEditorAndroid : PlatformSpecificConfigEditor<EOSAndroidConfig>
     {
-        public static string ConfigFilename = "eos_android_config.json";
-        EOSConfigFile<EOSAndroidConfig> configFile;
+        public PlatformSpecificConfigEditorAndroid() : base("Android", "eos_android_config.json") { }
 
-        public string GetNameForMenu()
-        {
-            return "Android";
-        }
-
-        public void Awake()
-        {
-            var configFilenamePath = EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename);
-            configFile = new EOSConfigFile<EOSAndroidConfig>(configFilenamePath);
-        }
-
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public void OnGUI()
+        public override void OnGUI()
         {
             GUILayout.Label("Android Configuration Values", EditorStyles.boldLabel);
 
@@ -81,11 +64,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 configFile.currentEOSConfig.overrideValues = overrideValues;
             }
 
-        }
-
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 }

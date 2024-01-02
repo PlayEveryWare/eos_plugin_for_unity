@@ -150,7 +150,7 @@ _WIN32 || _WIN64
 
             foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                platformSpecificConfigEditor.LoadConfigFromDisk();
+                platformSpecificConfigEditor.Read();
             }
         }
 
@@ -200,7 +200,7 @@ _WIN32 || _WIN64
 
             foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                platformSpecificConfigEditor.SaveToJSONConfig(prettyPrint);
+                platformSpecificConfigEditor.Save(prettyPrint);
             }
 
 #if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE

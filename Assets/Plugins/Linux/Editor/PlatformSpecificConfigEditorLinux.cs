@@ -27,28 +27,11 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class PlatformSpecificConfigEditorLinux : IPlatformSpecificConfigEditor
+    public class PlatformSpecificConfigEditorLinux : PlatformSpecificConfigEditor<EOSLinuxConfig>
     {
-        private static string ConfigFilename = "eos_linux_config.json";
-        PlayEveryWare.EpicOnlineServices.EOSConfigFile<EOSLinuxConfig> configFile;
+        public PlatformSpecificConfigEditorLinux() : base("Linux", "eos_linux_config.json") { }
 
-        public string GetNameForMenu()
-        {
-            return "Linux";
-        }
-
-        public void Awake()
-        {
-            var configFilenamePath = EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename);
-            configFile = new EOSConfigFile<EOSLinuxConfig>(configFilenamePath);
-        }
-
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public void OnGUI()
+        public override void OnGUI()
         {
             GUILayout.Label("Linux Configuration Values", EditorStyles.boldLabel);
 
@@ -76,11 +59,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 configFile.currentEOSConfig.overrideValues = overrideValues;
             }
 
-        }
-
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 }

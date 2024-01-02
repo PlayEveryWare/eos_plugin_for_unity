@@ -22,6 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using System.IO;
+
     //-------------------------------------------------------------------------
     // Interface for allowing adding additional config files to the Config editor
     public interface IPlatformSpecificConfigEditor
@@ -30,10 +32,46 @@ namespace PlayEveryWare.EpicOnlineServices
 
         void Awake();
 
-        void LoadConfigFromDisk();
+        void Read();
 
-        void SaveToJSONConfig(bool prettyPrint);
+        void Save(bool prettyPrint);
 
         void OnGUI();
+    }
+
+    public abstract class PlatformSpecificConfigEditor<T> : IPlatformSpecificConfigEditor where T : IEmpty, ICloneableGeneric<T>, new()
+    {
+        protected readonly string configFilePath;
+        protected readonly string configName;
+        protected EOSConfigFile<T> configFile;
+        protected PlatformSpecificConfigEditor(string name, string file)
+        {
+            configName = name;
+            configFilePath = file;
+        }
+
+        public string GetNameForMenu()
+        {
+            return configName;
+        }
+
+        public void Awake()
+        {
+            string filepath = Path.Combine("Assets", "StreamingAssets", "EOS", configFilePath);
+            configFile = new EOSConfigFile<T>(filepath);
+        }
+
+        public void Read()
+        {
+            configFile.LoadConfigFromDisk();
+        }
+
+        public void Save(bool prettyPrint)
+        {
+            configFile.SaveToJSONConfig(prettyPrint);
+        }
+
+        public abstract void OnGUI();
+
     }
 }

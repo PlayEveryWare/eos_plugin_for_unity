@@ -28,28 +28,11 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditor_iOS : IPlatformSpecificConfigEditor
+    public class PlatformSpecificConfigEditor_iOS : PlatformSpecificConfigEditor<EOS_iOSConfig>
     {
-        public static string ConfigFilename = "eos_ios_config.json";
-        EOSConfigFile<EOS_iOSConfig> configFile;
+        public PlatformSpecificConfigEditor_iOS() : base("iOS", "eos_ios_config.json") { }
 
-        public string GetNameForMenu()
-        {
-            return "iOS";
-        }
-
-        public void Awake()
-        {
-            var configFilenamePath = EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename);
-            configFile = new EOSConfigFile<EOS_iOSConfig>(configFilenamePath);
-        }
-
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public void OnGUI()
+        public override void OnGUI()
         {
             GUILayout.Label("iOS Configuration Values", EditorStyles.boldLabel);
 
@@ -81,11 +64,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 configFile.currentEOSConfig.overrideValues = overrideValues;
             }
 
-        }
-
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 }
