@@ -27,118 +27,117 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-[Serializable]
-public class DeploymentChecker : EOSEditorWindow
+namespace PlayEveryWare.EpicOnlineServices
 {
-    private const string PackageDirectory = "etc/PackageTemplate";
-    private const string ChangelogFile = "CHANGELOG.md";
-    private const string PackageJsonFile = "package.json";
-
-    private const string WindowsPluginDirectory = "Assets/Plugins/Windows";
-    private const string EOSWindows64DllFile = "x64/EOSSDK-Win64-Shipping.dll";
-    private const string EOSWindows32DllFile = "x86/EOSSDK-Win32-Shipping.dll";
-
-    private string content;
-    private string currentPath;
-    Vector2 scrollPosition;
-
-    //-------------------------------------------------------------------------
-    [MenuItem("Tools/EOS Plugin/Check Deployment")]
-    public static void ShowWindow()
+    [Serializable]
+    public class DeploymentChecker : EOSEditorWindow
     {
-        GetWindow<DeploymentChecker>("Deployment Checker");
-    }
+        private const string PackageDirectory = "etc/PackageTemplate";
+        private const string ChangelogFile = "CHANGELOG.md";
+        private const string PackageJsonFile = "package.json";
 
-    //-------------------------------------------------------------------------
-    public string GetRepositoryRoot()
-    {
-        return Path.Combine(Application.dataPath, "..");
-    }
+        private const string WindowsPluginDirectory = "Assets/Plugins/Windows";
+        private const string EOSWindows64DllFile = "x64/EOSSDK-Win64-Shipping.dll";
+        private const string EOSWindows32DllFile = "x86/EOSSDK-Win32-Shipping.dll";
 
-    protected override void Setup()
-    {
-        // We set auto-resize to false here because this window has a text area, and it doesn't play
-        // nicely with the AdjustWindowSize method. Instead of figuring out how to implement an edge
-        // case for it right now, this particular window disables the ability, as no other editor
-        // windows currently implemented contain text areas.
-        SetAutoResize(false);
-    }
+        private string content;
+        private string currentPath;
+        Vector2 scrollPosition;
 
-    //-------------------------------------------------------------------------
-    protected override void RenderWindow()
-    {
-        if (GUILayout.Button(ChangelogFile))
+        [MenuItem("Tools/EOS Plugin/Check Deployment")]
+        public static void ShowWindow()
         {
-            LoadTextFile(Path.Combine(GetRepositoryRoot(), PackageDirectory, ChangelogFile));
+            GetWindow<DeploymentChecker>("Deployment Checker");
         }
 
-        if (GUILayout.Button(PackageJsonFile))
+        public string GetRepositoryRoot()
         {
-            LoadTextFile(Path.Combine(GetRepositoryRoot(), PackageDirectory, PackageJsonFile));
+            return Path.Combine(Application.dataPath, "..");
         }
 
-        if (GUILayout.Button(EOSWindows32DllFile))
+        protected override void Setup()
         {
-            LoadDLLFile(Path.Combine(GetRepositoryRoot(), WindowsPluginDirectory, EOSWindows32DllFile));
+            // We set auto-resize to false here because this window has a text area, and it doesn't play
+            // nicely with the AdjustWindowSize method. Instead of figuring out how to implement an edge
+            // case for it right now, this particular window disables the ability, as no other editor
+            // windows currently implemented contain text areas.
+            SetAutoResize(false);
         }
 
-        if (GUILayout.Button(EOSWindows64DllFile))
+        protected override void RenderWindow()
         {
-            LoadDLLFile(Path.Combine(GetRepositoryRoot(), WindowsPluginDirectory, EOSWindows64DllFile));
-        }
-
-        if (!string.IsNullOrWhiteSpace(currentPath))
-        {
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.MaxHeight(Screen.height));
-            GUI.enabled = false;
-            GUILayout.TextArea(content);
-            GUI.enabled = true;
-            GUILayout.EndScrollView();
-
-            if (GUILayout.Button("Show file in Explorer"))
+            if (GUILayout.Button(ChangelogFile))
             {
-                EditorUtility.RevealInFinder(currentPath);
+                LoadTextFile(Path.Combine(GetRepositoryRoot(), PackageDirectory, ChangelogFile));
             }
-        }
-    }
 
-    //-------------------------------------------------------------------------
-    private void LoadTextFile(string filepath)
-    {
-        content = File.ReadAllText(filepath);
-        currentPath = filepath;
-    }
-
-    //-------------------------------------------------------------------------
-    private void LoadDLLFile(string filepath)
-    {
-        currentPath = filepath;
-        EditorUtility.DisplayProgressBar("Deployment Checker", "Loading file...", 0f);
-
-        StringBuilder builder = new StringBuilder();
-        long progress = 0;
-        using (FileStream fs = File.OpenRead(filepath))
-        {
-            byte[] b = new byte[1024];
-            UTF8Encoding temp = new UTF8Encoding(true);
-            while (fs.Read(b, 0, b.Length) > 0)
+            if (GUILayout.Button(PackageJsonFile))
             {
-                progress += 1024;
-                builder.Append(temp.GetString(b));
-                EditorUtility.DisplayProgressBar("Deploment Checker", "Loading file...", progress / (float)fs.Length);
+                LoadTextFile(Path.Combine(GetRepositoryRoot(), PackageDirectory, PackageJsonFile));
+            }
+
+            if (GUILayout.Button(EOSWindows32DllFile))
+            {
+                LoadDLLFile(Path.Combine(GetRepositoryRoot(), WindowsPluginDirectory, EOSWindows32DllFile));
+            }
+
+            if (GUILayout.Button(EOSWindows64DllFile))
+            {
+                LoadDLLFile(Path.Combine(GetRepositoryRoot(), WindowsPluginDirectory, EOSWindows64DllFile));
+            }
+
+            if (!string.IsNullOrWhiteSpace(currentPath))
+            {
+                scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.MaxHeight(Screen.height));
+                GUI.enabled = false;
+                GUILayout.TextArea(content);
+                GUI.enabled = true;
+                GUILayout.EndScrollView();
+
+                if (GUILayout.Button("Show file in Explorer"))
+                {
+                    EditorUtility.RevealInFinder(currentPath);
+                }
             }
         }
 
-        string fileContent = builder.ToString();
-        if (fileContent.Contains("<<<<<<<"))
+        private void LoadTextFile(string filepath)
         {
-            content = fileContent;
-        }
-        else
-        {
-            content = "Library file appears okay.";
+            content = File.ReadAllText(filepath);
+            currentPath = filepath;
         }
 
-        EditorUtility.ClearProgressBar();
+        private void LoadDLLFile(string filepath)
+        {
+            currentPath = filepath;
+            EditorUtility.DisplayProgressBar("Deployment Checker", "Loading file...", 0f);
+
+            StringBuilder builder = new StringBuilder();
+            long progress = 0;
+            using (FileStream fs = File.OpenRead(filepath))
+            {
+                byte[] b = new byte[1024];
+                UTF8Encoding temp = new UTF8Encoding(true);
+                while (fs.Read(b, 0, b.Length) > 0)
+                {
+                    progress += 1024;
+                    builder.Append(temp.GetString(b));
+                    EditorUtility.DisplayProgressBar("Deploment Checker", "Loading file...",
+                        progress / (float)fs.Length);
+                }
+            }
+
+            string fileContent = builder.ToString();
+            if (fileContent.Contains("<<<<<<<"))
+            {
+                content = fileContent;
+            }
+            else
+            {
+                content = "Library file appears okay.";
+            }
+
+            EditorUtility.ClearProgressBar();
+        }
     }
 }

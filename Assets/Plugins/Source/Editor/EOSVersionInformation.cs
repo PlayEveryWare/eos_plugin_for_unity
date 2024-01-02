@@ -47,7 +47,6 @@ namespace PlayEveryWare.EpicOnlineServices
             public string version;
         }
 
-        //-------------------------------------------------------------------------
         [MenuItem("Tools/EOS Plugin/Version", false, 100)]
         public static void ShowWindow()
         {
@@ -76,7 +75,6 @@ namespace PlayEveryWare.EpicOnlineServices
             eos_plugin_version = package.version;
         }
 
-        //-------------------------------------------------------------------------
         protected override void Setup()
         {
 #if EOS_DISABLE
@@ -101,8 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
         }
-
-        //-------------------------------------------------------------------------
+        
         protected override void RenderWindow()
         {
             GUILayout.BeginHorizontal();
