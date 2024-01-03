@@ -28,9 +28,9 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditorAndroid : PlatformSpecificConfigEditor<EOSAndroidConfig>
+    public class ConfigSectionAndroid : ConfigSection<EOSAndroidConfig>
     {
-        public PlatformSpecificConfigEditorAndroid() : base("Android", "eos_android_config.json") { }
+        public ConfigSectionAndroid() : base("Android", "eos_android_config.json") { }
 
         public override void OnGUI()
         {

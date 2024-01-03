@@ -25,9 +25,9 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class PlatformSpecificConfigEditor_iOS : PlatformSpecificConfigEditor<EOS_iOSConfig>
+    public class ConfigSectionIOs : ConfigSection<EOS_iOSConfig>
     {
-        public PlatformSpecificConfigEditor_iOS() : base("iOS", "eos_ios_config.json") { }
+        public ConfigSectionIOs() : base("iOS", "eos_ios_config.json") { }
 
         public override void OnGUI()
         {

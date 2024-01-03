@@ -50,14 +50,14 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class SignToolConfigEditor : PlatformSpecificConfigEditor<EOSPluginEditorSigningConfig>
+    public class SignToolConfigSection : ConfigSection<EOSPluginEditorSigningConfig>
     {
-        public SignToolConfigEditor() : base("Code Signing", "eos_plugin_signing_config.json") { }
+        public SignToolConfigSection() : base("Code Signing", "eos_plugin_signing_config.json") { }
 
         [MenuItem("Tools/EOS Plugin/Sign DLLs")]
         static void SignAllDLLs()
         {
-            var signTool = new SignToolConfigEditor();
+            var signTool = new SignToolConfigSection();
             signTool.Read();
             
             foreach (var dllPath in signTool.GetConfig().currentEOSConfig.dllPaths)

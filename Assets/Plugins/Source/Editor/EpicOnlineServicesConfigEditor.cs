@@ -159,7 +159,7 @@ _WIN32 || _WIN64
             IList<string> keywords = new List<string>();
             foreach (var section in platformSpecificConfigEditors)
             {
-                keywords.Add(section.GetNameForMenu());
+                keywords.Add(section.GetName());
             }
 
             return keywords;
@@ -172,10 +172,10 @@ _WIN32 || _WIN64
 
             platformSpecificConfigEditors ??= new List<IPlatformSpecificConfigEditor>
                 {
-                    new PlatformSpecificConfigEditorLinux(),
-                    new PlatformSpecificConfigEditorAndroid(),
-                    new PlatformSpecificConfigEditor_iOS(),
-                    new PlatformSpecificConfigEditor_macOS()
+                    new ConfigSectionLinux(),
+                    new ConfigSectionAndroid(),
+                    new ConfigSectionIOs(),
+                    new ConfigSectionMacOs()
                 };
 
             toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];
@@ -186,7 +186,7 @@ _WIN32 || _WIN64
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
                 platformSpecificConfigEditor.Read();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetNameForMenu();
+                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetName();
                 i++;
             }
 

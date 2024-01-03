@@ -7,9 +7,9 @@ using UnityEditor;
 namespace PlayEveryWare.EpicOnlineServices
 {
     
-    public class EOSPluginEditorAndroidBuildConfigSection : PlatformSpecificConfigEditor<EOSPluginEditorAndroidBuildConfig>
+    public class EosPluginSectionAndroidBuildConfigSection : ConfigSection<EOSPluginEditorAndroidBuildConfig>
     {
-        public EOSPluginEditorAndroidBuildConfigSection() : base("Android Build Settings",
+        public EosPluginSectionAndroidBuildConfigSection() : base("Android Build Settings",
             "eos_plugin_android_build_config.json")
         {
         }

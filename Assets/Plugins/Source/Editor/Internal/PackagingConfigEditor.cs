@@ -42,9 +42,9 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class EOSPluginEditorPackagingConfigSection : PlatformSpecificConfigEditor<EOSPluginEditorPackagingConfig>
+    public class EosPluginSectionPackagingConfigSection : ConfigSection<EOSPluginEditorPackagingConfig>
     {
-        public EOSPluginEditorPackagingConfigSection() : base("Packaging", "eos_plugin_packaging_config.json") { }
+        public EosPluginSectionPackagingConfigSection() : base("Packaging", "eos_plugin_packaging_config.json") { }
         
         public EOSPluginEditorPackagingConfig GetCurrentConfig()
         {

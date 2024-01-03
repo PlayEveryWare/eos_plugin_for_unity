@@ -31,21 +31,16 @@ using PlayEveryWare.EpicOnlineServices;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using System.IO.Compression;
-
-#if UNITY_ANDROID
 public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 {
     public int callbackOrder { get { return 3; } }
 
-    //-------------------------------------------------------------------------
     private static string GetAndroidEOSValuesConfigPath()
     {
         string assetsPathname = Path.Combine(Application.dataPath, "Plugins/Android/EOS/");
         return Path.Combine(assetsPathname, "eos_dependencies.androidlib/res/values/eos_values.xml");
     }
 
-    //-------------------------------------------------------------------------
     public void OnPreprocessBuild(BuildReport report)
     {
         if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
@@ -63,7 +58,6 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
     }
 
-    //-------------------------------------------------------------------------
     static private void OverwriteCopy(string fileToInstallPathName, string destPathname)
     {
         if (File.Exists(destPathname))
@@ -74,7 +68,6 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         File.Copy(fileToInstallPathName, destPathname, true);
     }
 
-    //-------------------------------------------------------------------------
     static private void InstallFiles(string[] filenames,  string pathToInstallFrom, string pathToInstallTo)
     {
 
@@ -104,7 +97,6 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
     }
 
-    //-------------------------------------------------------------------------
     private string GetPlatformSpecificAssetsPath(string subpath)
     {
         string packagePathname = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "PlatformSpecificAssets~", subpath));
@@ -126,8 +118,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
         return pathToInstallFrom;
     }
-
-    //-------------------------------------------------------------------------
+    
     bool DoesGradlePropertiesContainSetting(string gradleTemplatePathname, string setting)
     {
         // check if it contains the android.useAndroidX=true
@@ -140,8 +131,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
         return false;
     }
-
-    //-------------------------------------------------------------------------
+    
     void DisableGradleProperty(string gradleTemplatePathname, string setting)
     {
         var gradleTemplateToWrite = new List<string>();
@@ -158,7 +148,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
         File.WriteAllLines(gradleTemplatePathname, gradleTemplateToWrite.ToArray());
     }
-    //-------------------------------------------------------------------------
+
     void ReplaceOrSetGradleProperty(string gradleTemplatePathname, string setting, string value)
     {
         var gradleTemplateToWrite = new List<string>();
@@ -184,7 +174,6 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         File.WriteAllLines(gradleTemplatePathname, gradleTemplateToWrite.ToArray());
     }
 
-    //-------------------------------------------------------------------------
     int GetTargetAPI()
     {
         var playerApiTarget = PlayerSettings.Android.targetSdkVersion;
@@ -220,7 +209,6 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         }
     }
 
-    //-------------------------------------------------------------------------
     string GetBuildTools()
     {
         var toolsRegex = new Regex(@"(\d+)\.(\d+)\.(\d+)");
@@ -265,7 +253,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             return $"{maxMajor}.{maxMinor}.{maxPatch}";
         }
     }
-    //-------------------------------------------------------------------------
+    
     void WriteConfigMacros(string filepath)
     {
         var contents = File.ReadAllText(filepath);
@@ -274,8 +262,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         string newContents = contents.Replace("**APIVERSION**", apiVersion).Replace("**TARGETSDKVERSION**", apiVersion).Replace("**BUILDTOOLS**", buildTools);
         File.WriteAllText(filepath, newContents);
     }
-
-    //-------------------------------------------------------------------------
+    
     public void InstallEOSDependentLibrary()
     {
         string packagedPathname = GetPlatformSpecificAssetsPath("EOS/Android/");
@@ -298,7 +285,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
             WriteConfigMacros(Path.Combine(assetsPathname, buildGradlePath));
         }
     }
-    //-------------------------------------------------------------------------
+    
     public void ConfigureGradleTemplateProperties()
     {   
         // Unity has a fixed location for the gradleTemplate.properties file. (as of 2021)
@@ -326,12 +313,12 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
         DisableGradleProperty(gradleTemplatePathname, "android.enableR8");
 #endif
     }
-    //-------------------------------------------------------------------------
+    
     public void ConfigureEOSDependentLibrary()
     {
         string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
         var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
-        eosConfigFile.Read();
+        eosConfigFile.LoadConfigFromDisk();
         string clientIDAsLower = eosConfigFile.currentEOSConfig.clientID.ToLower();
 
         var pathToEOSValuesConfig = GetAndroidEOSValuesConfigPath();
@@ -356,16 +343,9 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 
     private void DetermineLibraryLinkingMethod()
     {
-        var androidBuildConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorAndroidBuildConfigSection>();
-        androidBuildConfigSection?.Awake();
-        if (androidBuildConfigSection != null)
-        {
-            if (androidBuildConfigSection.GetCurrentConfig() == null)
-            {
-                androidBuildConfigSection.Read();
-            }
-        }
-
+        var androidBuildConfigSection = new EosPluginSectionAndroidBuildConfigSection();
+        androidBuildConfigSection?.Read();
+            
         string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
         string androidAssetFilepath = Application.dataPath + "/../etc/PlatformSpecificAssets/EOS/Android/";
 
@@ -388,4 +368,3 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
            Path.Combine(destPath, filename), true);
     }
 }
-#endif

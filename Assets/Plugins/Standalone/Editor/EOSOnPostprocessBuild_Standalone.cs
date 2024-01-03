@@ -442,7 +442,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             report.summary.platform == BuildTarget.StandaloneOSX ||
             report.summary.platform == BuildTarget.StandaloneLinux64)
         {
-            var editorToolsConfigSection = new EOSPluginEditorToolsConfigSection();
+            var editorToolsConfigSection = new EosPluginSectionToolsConfigSection();
             EOSPluginEditorToolsConfig editorToolConfig = null;
             
             bool useEAC = false;

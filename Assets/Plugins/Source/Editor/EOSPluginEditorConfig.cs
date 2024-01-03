@@ -28,9 +28,9 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorToolsConfigSection : PlatformSpecificConfigEditor<EOSPluginEditorToolsConfig>
+    public class EosPluginSectionToolsConfigSection : ConfigSection<EOSPluginEditorToolsConfig>
     {
-        public EOSPluginEditorToolsConfigSection() : base("Tools", "eos_plugin_tools_config.json") { }
+        public EosPluginSectionToolsConfigSection() : base("Tools", "eos_plugin_tools_config.json") { }
         
         public override void OnGUI()
         {
@@ -66,9 +66,9 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class EOSPluginEditorPrebuildConfigSection : PlatformSpecificConfigEditor<EOSPluginEditorPrebuildConfig>
+    public class EosPluginSectionPrebuildConfigSection : ConfigSection<EOSPluginEditorPrebuildConfig>
     {
-        public EOSPluginEditorPrebuildConfigSection() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
+        public EosPluginSectionPrebuildConfigSection() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
 
         /// <summary>
         /// It's possible for the config file to not load in certain cases (like making test builds).
@@ -166,12 +166,12 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             configurationSectionEditors ??= new List<IPlatformSpecificConfigEditor>
                 {
-                    new EOSPluginEditorPrebuildConfigSection(),
-                    new EOSPluginEditorToolsConfigSection(),
-                    new EOSPluginEditorAndroidBuildConfigSection(),
-                    new LibraryBuildConfigEditor(),
-                    new SignToolConfigEditor(),
-                    new EOSPluginEditorPackagingConfigSection()
+                    new EosPluginSectionPrebuildConfigSection(),
+                    new EosPluginSectionToolsConfigSection(),
+                    new EosPluginSectionAndroidBuildConfigSection(),
+                    new LibraryBuildConfigSection(),
+                    new SignToolConfigSection(),
+                    new EosPluginSectionPackagingConfigSection()
                 };
 
             LoadConfigFromDisk();
@@ -183,8 +183,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 foreach (var configurationSectionEditor in configurationSectionEditors)
                 {
-
-                    GUILayout.Label(configurationSectionEditor.GetNameForMenu(), EditorStyles.boldLabel);
+                    GUILayout.Label(configurationSectionEditor.GetName(), EditorStyles.boldLabel);
                     GUIEditorHelper.HorizontalLine(Color.white);
                     configurationSectionEditor.OnGUI();
                     EditorGUILayout.Space();
@@ -196,13 +195,12 @@ namespace PlayEveryWare.EpicOnlineServices
             if (GUILayout.Button("Save All Changes"))
             {
                 GUI.FocusControl("Save");
-                SaveToJSONConfig(prettyPrint);
+                Save(prettyPrint);
             }
         }
         
-        private void SaveToJSONConfig(bool prettyPrint)
+        private void Save(bool prettyPrint)
         {
-
             foreach (var configurationSectionEditor in configurationSectionEditors)
             {
                 configurationSectionEditor.Save(prettyPrint);

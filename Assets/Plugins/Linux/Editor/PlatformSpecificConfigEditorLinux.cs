@@ -27,9 +27,9 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class PlatformSpecificConfigEditorLinux : PlatformSpecificConfigEditor<EOSLinuxConfig>
+    public class ConfigSectionLinux : ConfigSection<EOSLinuxConfig>
     {
-        public PlatformSpecificConfigEditorLinux() : base("Linux", "eos_linux_config.json") { }
+        public ConfigSectionLinux() : base("Linux", "eos_linux_config.json") { }
 
         public override void OnGUI()
         {
