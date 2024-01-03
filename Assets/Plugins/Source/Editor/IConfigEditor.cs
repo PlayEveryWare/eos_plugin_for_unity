@@ -23,20 +23,39 @@
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System.IO;
-
     
     // Interface for allowing adding additional config files to the Config editor
     public interface IConfigEditor
     {
-        string GetName();
+        /// <summary>
+        /// Returns the human-readable label for the section of configuration.
+        /// </summary>
+        /// <returns>String representing the section this config controls.</returns>
+        string GetLabel();
 
+        /// <summary>
+        /// Loads the config values from disk.
+        /// </summary>
         void Read();
 
+        /// <summary>
+        /// Saves the configuration to disk.
+        /// </summary>
+        /// <param name="prettyPrint">Whether or not to format the JSON in a more human-readable manner.</param>
         void Save(bool prettyPrint);
 
+        /// <summary>
+        /// Used to render the configuration. It's important to note that despite the name, UnityEditor never
+        /// directly calls this method, rather difference classes within this project may call it when they
+        /// wish to display GUI controls to allow editing of the config values.
+        /// </summary>
         void OnGUI();
     }
 
+    /// <summary>
+    /// Contains implementations of IConfigEditor that are common to all implementing classes.
+    /// </summary>
+    /// <typeparam name="T">Indented to be a type accepted by the templated class EOSConfigFile.</typeparam>
     public abstract class ConfigEditor<T> : IConfigEditor where T : IEmpty, ICloneableGeneric<T>, new()
     {
         private readonly string _configLabel;
@@ -48,7 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile = new EOSConfigFile<T>(Path.Combine("Assets", "StreamingAssets", "EOS", file));
         }
 
-        public string GetName()
+        public string GetLabel()
         {
             return _configLabel;
         }
