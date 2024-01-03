@@ -183,7 +183,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 foreach (var configurationSectionEditor in configurationSectionEditors)
                 {
-                    GUILayout.Label(configurationSectionEditor.GetName(), EditorStyles.boldLabel);
+                    GUILayout.Label(configurationSectionEditor.GetLabel(), EditorStyles.boldLabel);
                     GUIEditorHelper.HorizontalLine(Color.white);
                     configurationSectionEditor.OnGUI();
                     EditorGUILayout.Space();

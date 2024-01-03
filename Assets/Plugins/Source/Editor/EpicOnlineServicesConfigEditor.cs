@@ -159,7 +159,7 @@ _WIN32 || _WIN64
             IList<string> keywords = new List<string>();
             foreach (var section in platformSpecificConfigEditors)
             {
-                keywords.Add(section.GetName());
+                keywords.Add(section.GetLabel());
             }
 
             return keywords;
@@ -186,7 +186,7 @@ _WIN32 || _WIN64
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
                 platformSpecificConfigEditor.Read();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetName();
+                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetLabel();
                 i++;
             }
 
