@@ -14,11 +14,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
         }
 
-        public EOSPluginEditorAndroidBuildConfig GetCurrentConfig()
-        {
-            return configFile.currentEOSConfig;
-        }
-
         public override void OnGUI()
         {
             GUIEditorHelper.AssigningBoolField("Link EOS Library Dynamically", ref configFile.currentEOSConfig.DynamicallyLinkEOSLibrary);

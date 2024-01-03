@@ -39,8 +39,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public abstract class ConfigEditor<T> : IConfigEditor where T : IEmpty, ICloneableGeneric<T>, new()
     {
-        protected readonly string configFilePath;
-        protected readonly string configName;
+        private readonly string configFilePath;
+        private readonly string configName;
         protected EOSConfigFile<T> configFile;
 
         protected ConfigEditor(string name, string file)
