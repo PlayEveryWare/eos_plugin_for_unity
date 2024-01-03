@@ -59,7 +59,13 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             var signTool = new SignToolConfigSection();
             signTool.Read();
-            
+
+            // stop if there are no dlls to sign
+            if (signTool.GetConfig().currentEOSConfig.dllPaths == null)
+            {
+                return;
+            }
+
             foreach (var dllPath in signTool.GetConfig().currentEOSConfig.dllPaths)
             {
                 SignDLL(signTool.GetConfig().currentEOSConfig, dllPath);
@@ -70,7 +76,10 @@ namespace PlayEveryWare.EpicOnlineServices
         static bool CanSignDLLs()
         {
 #if UNITY_EDITOR_WIN
-            return true;
+            var configSection = new SignToolConfigSection();
+            configSection.Read();
+
+            return (configSection.GetConfig().currentEOSConfig.dllPaths != null);
 #else
             return false;
 #endif

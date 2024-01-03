@@ -31,6 +31,7 @@ using PlayEveryWare.EpicOnlineServices;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+#if UNITY_ANDROID
 public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 {
     public int callbackOrder { get { return 3; } }
@@ -368,3 +369,4 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
            Path.Combine(destPath, filename), true);
     }
 }
+#endif
