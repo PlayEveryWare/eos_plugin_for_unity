@@ -20,14 +20,11 @@
 * SOFTWARE.
 */
 
-using System;
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-
     public class PlatformSpecificConfigEditor_iOS : PlatformSpecificConfigEditor<EOS_iOSConfig>
     {
         public PlatformSpecificConfigEditor_iOS() : base("iOS", "eos_ios_config.json") { }
@@ -36,15 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             GUILayout.Label("iOS Configuration Values", EditorStyles.boldLabel);
 
-            EOSConfig overrideValues = null;
-            if (configFile.currentEOSConfig.overrideValues == null)
-            {
-                overrideValues = new EOSConfig();
-            }
-            else
-            {
-                overrideValues = configFile.currentEOSConfig.overrideValues;
-            }
+            EOSConfig overrideValues = configFile.currentEOSConfig.overrideValues ?? new EOSConfig();
 
             GUIEditorHelper.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
 

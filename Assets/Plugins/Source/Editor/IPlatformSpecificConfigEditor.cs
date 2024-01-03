@@ -24,13 +24,11 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System.IO;
 
-    //-------------------------------------------------------------------------
+    
     // Interface for allowing adding additional config files to the Config editor
     public interface IPlatformSpecificConfigEditor
     {
         string GetNameForMenu();
-
-        void Awake();
 
         void Read();
 
@@ -44,6 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices
         protected readonly string configFilePath;
         protected readonly string configName;
         protected EOSConfigFile<T> configFile;
+
         protected PlatformSpecificConfigEditor(string name, string file)
         {
             configName = name;
@@ -55,14 +54,10 @@ namespace PlayEveryWare.EpicOnlineServices
             return configName;
         }
 
-        public void Awake()
+        public void Read()
         {
             string filepath = Path.Combine("Assets", "StreamingAssets", "EOS", configFilePath);
             configFile = new EOSConfigFile<T>(filepath);
-        }
-
-        public void Read()
-        {
             configFile.LoadConfigFromDisk();
         }
 

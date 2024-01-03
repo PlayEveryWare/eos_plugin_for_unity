@@ -35,7 +35,6 @@ namespace PlayEveryWare.EpicOnlineServices
         void LoadConfigFromDisk();
         void SaveToJSONConfig(bool prettyPrint);
         void OnGUI();
-        bool DoesHaveUnsavedChanges();
     }
     
     public class EOSPluginEditorToolsConfigSection : IEOSPluginEditorConfigurationSection
@@ -54,11 +53,6 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile = new EOSConfigFile<EOSPluginEditorToolsConfig>(configFilenamePath);
         }
 
-        public bool DoesHaveUnsavedChanges()
-        {
-            return false;
-        }
-        
         public void LoadConfigFromDisk()
         {
             configFile.LoadConfigFromDisk();
@@ -127,11 +121,6 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
             configFile = new EOSConfigFile<EOSPluginEditorPrebuildConfig>(configFilenamePath);
-        }
-        
-        public bool DoesHaveUnsavedChanges()
-        {
-            return false;
         }
         
         public void LoadConfigFromDisk()
@@ -224,7 +213,6 @@ namespace PlayEveryWare.EpicOnlineServices
         
         private void LoadConfigFromDisk()
         {
-
             if (!Directory.Exists(GetConfigDirectory()))
             {
                 Directory.CreateDirectory(GetConfigDirectory());
@@ -238,9 +226,7 @@ namespace PlayEveryWare.EpicOnlineServices
         
         protected override void Setup()
         {
-            if (configurationSectionEditors == null)
-            {
-                configurationSectionEditors = new List<IEOSPluginEditorConfigurationSection>
+            configurationSectionEditors ??= new List<IEOSPluginEditorConfigurationSection>
                 {
                     new EOSPluginEditorPrebuildConfigSection(),
                     new EOSPluginEditorToolsConfigSection(),
@@ -249,7 +235,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     new SignToolConfigEditor(),
                     new EOSPluginEditorPackagingConfigSection()
                 };
-            }
 
             foreach (var configurationSectionEditor in configurationSectionEditors)
             {
@@ -292,39 +277,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-        }
-        
-        private bool DoesHaveUnsavedChanges()
-        {
-            foreach (var configurationSectionEditor in configurationSectionEditors)
-            {
-                if (configurationSectionEditor.DoesHaveUnsavedChanges())
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private void OnGUIForUnsavedChanges(int idx)
-        {
-            if (GUI.Button(new Rect(10, 20, 100, 20), "Save"))
-            {
-                SaveToJSONConfig(prettyPrint);
-            }
-
-            if (GUI.Button(new Rect(10, 20, 100, 20), "Cancel"))
-            {
-            }
-        }
-        
-        private void OnDestroy()
-        {
-            if (DoesHaveUnsavedChanges())
-            {
-                GUI.ModalWindow(0, new Rect(20, 20, 120, 50), OnGUIForUnsavedChanges, "Unsaved Changes");
-            }
         }
     }
 

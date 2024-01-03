@@ -185,7 +185,7 @@ _WIN32 || _WIN64
             int i = 2;
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                platformSpecificConfigEditor.Awake();
+                platformSpecificConfigEditor.Read();
                 toolbarTitleStrings[i] = platformSpecificConfigEditor.GetNameForMenu();
                 i++;
             }
