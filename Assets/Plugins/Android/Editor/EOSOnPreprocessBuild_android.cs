@@ -344,14 +344,14 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 
     private void DetermineLibraryLinkingMethod()
     {
-        var androidBuildConfigSection = new EosPluginSectionAndroidBuildConfigSection();
+        var androidBuildConfigSection = new EOSLibraryBuildConfig();
         androidBuildConfigSection?.Read();
             
         string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
         string androidAssetFilepath = Application.dataPath + "/../etc/PlatformSpecificAssets/EOS/Android/";
 
         string pluginSource = Directory.Exists(packagePath) ? packagePath : androidAssetFilepath;                                      //From Package or From Assets(EOS Plugin Repo)
-        string linkType = androidBuildConfigSection.GetCurrentConfig().DynamicallyLinkEOSLibrary ? "dynamic-stdc++/" : "static-stdc++/"; //Dynamic or Static       
+        string linkType = androidBuildConfigSection.GetConfig().currentEOSConfig.DynamicallyLinkEOSLibrary ? "dynamic-stdc++/" : "static-stdc++/"; //Dynamic or Static       
 
         string sourcePath = pluginSource + linkType + "aar";
         string destPath = "Assets/Plugins/Android/aar";

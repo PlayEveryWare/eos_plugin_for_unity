@@ -46,9 +46,9 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class LibraryBuildConfigSection : ConfigSection<EOSLibraryBuildConfig>
+    public class LibraryBuildConfigEditor : ConfigEditor<EOSLibraryBuildConfig>
     {
-        public LibraryBuildConfigSection() : base("Platform Library Build Settings",
+        public LibraryBuildConfigEditor() : base("Platform Library Build Settings",
             "eos_plugin_library_build_config.json")
         {
         }
@@ -144,7 +144,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static string GetMSBuildPath()
         {
-            var configEditor = new LibraryBuildConfigSection();
+            var configEditor = new LibraryBuildConfigEditor();
             configEditor.Read();
 
             if (configEditor.GetConfig().currentEOSConfig != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().currentEOSConfig.msbuildPath))
@@ -163,7 +163,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static string GetMakePath()
         {
-            var configEditor = new LibraryBuildConfigSection();
+            var configEditor = new LibraryBuildConfigEditor();
             configEditor.Read();
 
             if (configEditor.GetConfig().currentEOSConfig != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().currentEOSConfig.makePath))
@@ -182,7 +182,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static bool IsMSBuildDebugEnabled()
         {
-            var configEditor = new LibraryBuildConfigSection();
+            var configEditor = new LibraryBuildConfigEditor();
             configEditor.Read();
 
             if (configEditor.GetConfig().currentEOSConfig != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().currentEOSConfig.msbuildPath))

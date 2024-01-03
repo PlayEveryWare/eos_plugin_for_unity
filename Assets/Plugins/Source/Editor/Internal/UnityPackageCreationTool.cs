@@ -37,13 +37,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         bool showJSON = false;
 
-
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
         {
             GetWindow<UnityPackageCreationTool>("Create Package");
         }
-
 
         protected override void RenderWindow()
         {

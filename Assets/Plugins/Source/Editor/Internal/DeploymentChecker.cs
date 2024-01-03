@@ -20,7 +20,6 @@
 * SOFTWARE.
 */
 
-using PlayEveryWare.EpicOnlineServices;
 using System;
 using System.IO;
 using System.Text;

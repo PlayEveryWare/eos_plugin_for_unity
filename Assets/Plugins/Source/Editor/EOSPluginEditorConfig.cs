@@ -28,9 +28,9 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EosPluginSectionToolsConfigSection : ConfigSection<EOSPluginEditorToolsConfig>
+    public class EOSPluginEditorToolsConfigEditor : ConfigEditor<EOSPluginEditorToolsConfig>
     {
-        public EosPluginSectionToolsConfigSection() : base("Tools", "eos_plugin_tools_config.json") { }
+        public EOSPluginEditorToolsConfigEditor() : base("Tools", "eos_plugin_tools_config.json") { }
         
         public override void OnGUI()
         {
@@ -66,9 +66,9 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class EosPluginSectionPrebuildConfigSection : ConfigSection<EOSPluginEditorPrebuildConfig>
+    public class EOSPluginEditorPrebuildConfigEditor : ConfigEditor<EOSPluginEditorPrebuildConfig>
     {
-        public EosPluginSectionPrebuildConfigSection() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
+        public EOSPluginEditorPrebuildConfigEditor() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
 
         /// <summary>
         /// It's possible for the config file to not load in certain cases (like making test builds).
@@ -166,12 +166,12 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             configurationSectionEditors ??= new List<IPlatformSpecificConfigEditor>
                 {
-                    new EosPluginSectionPrebuildConfigSection(),
-                    new EosPluginSectionToolsConfigSection(),
-                    new EosPluginSectionAndroidBuildConfigSection(),
-                    new LibraryBuildConfigSection(),
-                    new SignToolConfigSection(),
-                    new EosPluginSectionPackagingConfigSection()
+                    new EOSPluginEditorPrebuildConfigEditor(),
+                    new EOSPluginEditorToolsConfigEditor(),
+                    new EOSPluginEditorAndroidBuildConfigEditor(),
+                    new LibraryBuildConfigEditor(),
+                    new SignToolConfigEditor(),
+                    new EOSPluginEditorPackagingConfigEditor()
                 };
 
             LoadConfigFromDisk();

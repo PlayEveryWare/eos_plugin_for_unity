@@ -65,7 +65,7 @@ public static class UnityPackageCreationUtility
     /// <summary>
     /// Contains section of package.json file pertaining to configuration
     /// </summary>
-    public static EosPluginSectionPackagingConfigSection packageConfig;
+    public static EOSPluginEditorPackagingConfigEditor packageConfig;
 
     /// <summary>
     /// This is used in order to use StartCoroutine from a static context.
@@ -77,7 +77,7 @@ public static class UnityPackageCreationUtility
     /// </summary>
     static UnityPackageCreationUtility() 
     {
-        packageConfig = new EosPluginSectionPackagingConfigSection();
+        packageConfig = new EOSPluginEditorPackagingConfigEditor();
         packageConfig.Read();
 
         // Configure UI defaults

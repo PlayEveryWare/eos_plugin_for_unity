@@ -37,13 +37,13 @@ namespace PlayEveryWare.EpicOnlineServices
         void OnGUI();
     }
 
-    public abstract class ConfigSection<T> : IPlatformSpecificConfigEditor where T : IEmpty, ICloneableGeneric<T>, new()
+    public abstract class ConfigEditor<T> : IPlatformSpecificConfigEditor where T : IEmpty, ICloneableGeneric<T>, new()
     {
         protected readonly string configFilePath;
         protected readonly string configName;
         protected EOSConfigFile<T> configFile;
 
-        protected ConfigSection(string name, string file)
+        protected ConfigEditor(string name, string file)
         {
             configName = name;
             configFilePath = file;

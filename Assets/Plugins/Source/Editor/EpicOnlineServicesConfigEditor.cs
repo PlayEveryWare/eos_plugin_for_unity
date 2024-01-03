@@ -172,10 +172,10 @@ _WIN32 || _WIN64
 
             platformSpecificConfigEditors ??= new List<IPlatformSpecificConfigEditor>
                 {
-                    new ConfigSectionLinux(),
-                    new ConfigSectionAndroid(),
-                    new ConfigSectionIOs(),
-                    new ConfigSectionMacOs()
+                    new PlatformSpecificConfigEditorLinux(),
+                    new PlatformSpecificConfigEditorAndroid(),
+                    new PlatformSpecificConfigEditor_iOS(),
+                    new PlatformSpecificConfigEditor_macOS()
                 };
 
             toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];

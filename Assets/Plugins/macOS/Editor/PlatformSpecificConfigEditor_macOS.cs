@@ -28,9 +28,9 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class ConfigSectionMacOs : ConfigSection<EOS_macOSConfig>
+    public class PlatformSpecificConfigEditor_macOS : ConfigEditor<EOS_macOSConfig>
     {
-        public ConfigSectionMacOs() : base("macOS", "eos_macos_config.json") { }
+        public PlatformSpecificConfigEditor_macOS() : base("macOS", "eos_macos_config.json") { }
 
         public override void OnGUI()
         {
