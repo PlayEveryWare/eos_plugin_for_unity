@@ -39,19 +39,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public abstract class ConfigEditor<T> : IConfigEditor where T : IEmpty, ICloneableGeneric<T>, new()
     {
-        private readonly string configFilePath;
-        private readonly string configName;
+        private readonly string _configLabel;
         protected EOSConfigFile<T> configFile;
 
-        protected ConfigEditor(string name, string file)
+        protected ConfigEditor(string label, string file)
         {
-            configName = name;
-            configFilePath = file;
+            _configLabel = label;
+            configFile = new EOSConfigFile<T>(Path.Combine("Assets", "StreamingAssets", "EOS", file));
         }
 
         public string GetName()
         {
-            return configName;
+            return _configLabel;
         }
 
         public EOSConfigFile<T> GetConfig()
@@ -61,8 +60,6 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public void Read()
         {
-            string filepath = Path.Combine("Assets", "StreamingAssets", "EOS", configFilePath);
-            configFile = new EOSConfigFile<T>(filepath);
             configFile.LoadConfigFromDisk();
         }
 
