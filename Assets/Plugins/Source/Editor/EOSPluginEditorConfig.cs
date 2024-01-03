@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         private const string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 
-        private List<IPlatformSpecificConfigEditor> configurationSectionEditors;
+        private List<IConfigEditor> configurationSectionEditors;
 
         bool prettyPrint = false;
 
@@ -164,7 +164,7 @@ namespace PlayEveryWare.EpicOnlineServices
         
         protected override void Setup()
         {
-            configurationSectionEditors ??= new List<IPlatformSpecificConfigEditor>
+            configurationSectionEditors ??= new List<IConfigEditor>
                 {
                     new EOSPluginEditorPrebuildConfigEditor(),
                     new EOSPluginEditorToolsConfigEditor(),

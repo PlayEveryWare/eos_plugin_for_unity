@@ -26,7 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     
     // Interface for allowing adding additional config files to the Config editor
-    public interface IPlatformSpecificConfigEditor
+    public interface IConfigEditor
     {
         string GetName();
 
@@ -37,7 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices
         void OnGUI();
     }
 
-    public abstract class ConfigEditor<T> : IPlatformSpecificConfigEditor where T : IEmpty, ICloneableGeneric<T>, new()
+    public abstract class ConfigEditor<T> : IConfigEditor where T : IEmpty, ICloneableGeneric<T>, new()
     {
         protected readonly string configFilePath;
         protected readonly string configName;

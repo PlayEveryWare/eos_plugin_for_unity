@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         private const string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
-        private List<IPlatformSpecificConfigEditor> platformSpecificConfigEditors;
+        private List<IConfigEditor> platformSpecificConfigEditors;
 
         int toolbarInt = 0;
         string[] toolbarTitleStrings;
@@ -170,7 +170,7 @@ _WIN32 || _WIN64
             mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
             steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
 
-            platformSpecificConfigEditors ??= new List<IPlatformSpecificConfigEditor>
+            platformSpecificConfigEditors ??= new List<IConfigEditor>
                 {
                     new PlatformSpecificConfigEditorLinux(),
                     new PlatformSpecificConfigEditorAndroid(),
