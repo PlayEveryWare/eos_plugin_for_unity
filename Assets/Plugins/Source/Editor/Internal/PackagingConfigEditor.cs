@@ -20,11 +20,6 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
     public class EOSPluginEditorPackagingConfig : ICloneableGeneric<EOSPluginEditorPackagingConfig>, IEmpty
@@ -47,43 +42,16 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class EOSPluginEditorPackagingConfigSection : IEOSPluginEditorConfigurationSection
+    public class EOSPluginEditorPackagingConfigSection : PlatformSpecificConfigEditor<EOSPluginEditorPackagingConfig>
     {
-        private static string ConfigName = "eos_plugin_packaging_config.json";
-        private EOSConfigFile<EOSPluginEditorPackagingConfig> configFile;
-
+        public EOSPluginEditorPackagingConfigSection() : base("Packaging", "eos_plugin_packaging_config.json") { }
         
-        public string GetNameForMenu()
-        {
-            return "Packaging";
-        }
-
-        
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorPackagingConfig>(configFilenamePath);
-        }
-
-        
-        public bool DoesHaveUnsavedChanges()
-        {
-            return false;
-        }
-
-        
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
         public EOSPluginEditorPackagingConfig GetCurrentConfig()
         {
             return configFile.currentEOSConfig;
         }
 
-        
-        void IEOSPluginEditorConfigurationSection.OnGUI()
+        public override void OnGUI()
         {
             string pathToJSONPackageDescription = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToJSONPackageDescription);
             string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
@@ -95,12 +63,6 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile.currentEOSConfig.pathToJSONPackageDescription = pathToJSONPackageDescription;
             configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
             configFile.currentEOSConfig.pathToOutput = pathToOutput;
-        }
-
-        
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 }

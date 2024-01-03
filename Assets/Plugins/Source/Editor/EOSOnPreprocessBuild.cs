@@ -41,14 +41,14 @@ public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
 #if !EOS_DISABLE
         var eosVersionConfigSection = new EOSPluginEditorPrebuildConfigSection();
 
-        eosVersionConfigSection.Awake();
+        eosVersionConfigSection.Read();
 
         string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
         var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
         eosConfigFile.LoadConfigFromDisk();
 
         var previousProdVer = eosConfigFile.currentEOSConfig.productVersion;
-        var currentSectionConfig = eosVersionConfigSection.GetCurrentConfig();
+        var currentSectionConfig = eosVersionConfigSection.GetConfig().currentEOSConfig;
 
         if (currentSectionConfig == null)
         {

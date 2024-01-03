@@ -28,42 +28,11 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public interface IEOSPluginEditorConfigurationSection
+    public class EOSPluginEditorToolsConfigSection : PlatformSpecificConfigEditor<EOSPluginEditorToolsConfig>
     {
-        string GetNameForMenu();
-        void Awake();
-        void LoadConfigFromDisk();
-        void SaveToJSONConfig(bool prettyPrint);
-        void OnGUI();
-    }
-    
-    public class EOSPluginEditorToolsConfigSection : IEOSPluginEditorConfigurationSection
-    {
-        private const string ConfigName = "eos_plugin_tools_config.json";
-        private EOSConfigFile<EOSPluginEditorToolsConfig> configFile;
+        public EOSPluginEditorToolsConfigSection() : base("Tools", "eos_plugin_tools_config.json") { }
         
-        public string GetNameForMenu()
-        {
-            return "Tools";
-        }
-        
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorToolsConfig>(configFilenamePath);
-        }
-
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public EOSPluginEditorToolsConfig GetCurrentConfig()
-        {
-            return configFile.currentEOSConfig;
-        }
-        
-        public void OnGUI()
+        public override void OnGUI()
         {
             string pathToIntegrityTool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityTool);
             string pathToIntegrityConfig = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityConfig);
@@ -95,52 +64,20 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile.currentEOSConfig.useEAC = useEAC;
             configFile.currentEOSConfig.bootstrapperNameOverride = bootstrapOverideName;
         }
-        
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
-        }
     }
 
-    public class EOSPluginEditorPrebuildConfigSection : IEOSPluginEditorConfigurationSection
+    public class EOSPluginEditorPrebuildConfigSection : PlatformSpecificConfigEditor<EOSPluginEditorPrebuildConfig>
     {
-        private const string ConfigName = "eos_plugin_version_config.json";
-        private EOSConfigFile<EOSPluginEditorPrebuildConfig> configFile;
+        public EOSPluginEditorPrebuildConfigSection() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
 
         /// <summary>
         /// It's possible for the config file to not load in certain cases (like making test builds).
         /// </summary>
         public bool IsValid => configFile != null;
-
-        public string GetNameForMenu()
-        {
-            return "Prebuild Settings";
-        }
         
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorPrebuildConfig>(configFilenamePath);
-        }
-        
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public EOSPluginEditorPrebuildConfig GetCurrentConfig()
-        {
-            return configFile.currentEOSConfig;
-        }
-
-        void IEOSPluginEditorConfigurationSection.OnGUI()
+        public override void OnGUI()
         {
             GUIEditorHelper.AssigningBoolField("Use Unity App Version for the EOS product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion, 300);
-        }
-        
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 
@@ -152,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         private const string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 
-        private List<IEOSPluginEditorConfigurationSection> configurationSectionEditors;
+        private List<IPlatformSpecificConfigEditor> configurationSectionEditors;
 
         bool prettyPrint = false;
 
@@ -206,7 +143,8 @@ namespace PlayEveryWare.EpicOnlineServices
                     isParent = true;
                     break;
                 }
-                else fileDir = fileDir.Parent;
+                
+                fileDir = fileDir.Parent;
             }
             return isParent;
         }
@@ -220,13 +158,13 @@ namespace PlayEveryWare.EpicOnlineServices
 
             foreach(var configurationSectionEditor in configurationSectionEditors)
             {
-                configurationSectionEditor.LoadConfigFromDisk();
+                configurationSectionEditor.Read();
             }
         }
         
         protected override void Setup()
         {
-            configurationSectionEditors ??= new List<IEOSPluginEditorConfigurationSection>
+            configurationSectionEditors ??= new List<IPlatformSpecificConfigEditor>
                 {
                     new EOSPluginEditorPrebuildConfigSection(),
                     new EOSPluginEditorToolsConfigSection(),
@@ -235,11 +173,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     new SignToolConfigEditor(),
                     new EOSPluginEditorPackagingConfigSection()
                 };
-
-            foreach (var configurationSectionEditor in configurationSectionEditors)
-            {
-                configurationSectionEditor.Awake();
-            }
 
             LoadConfigFromDisk();
         }
@@ -272,7 +205,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             foreach (var configurationSectionEditor in configurationSectionEditors)
             {
-                configurationSectionEditor.SaveToJSONConfig(prettyPrint);
+                configurationSectionEditor.Save(prettyPrint);
             }
 
             AssetDatabase.SaveAssets();

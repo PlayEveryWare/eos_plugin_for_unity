@@ -50,21 +50,19 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class SignToolConfigEditor : IEOSPluginEditorConfigurationSection
+    public class SignToolConfigEditor : PlatformSpecificConfigEditor<EOSPluginEditorSigningConfig>
     {
-        private static string ConfigName = "eos_plugin_signing_config.json";
-        private EOSConfigFile<EOSPluginEditorSigningConfig> configFile;
+        public SignToolConfigEditor() : base("Code Signing", "eos_plugin_signing_config.json") { }
 
         [MenuItem("Tools/EOS Plugin/Sign DLLs")]
         static void SignAllDLLs()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            var signConfig = new EOSConfigFile<EOSPluginEditorSigningConfig>(configFilenamePath);
-            signConfig.LoadConfigFromDisk();
-
-            foreach (var dllPath in signConfig.currentEOSConfig.dllPaths)
+            var signTool = new SignToolConfigEditor();
+            signTool.Read();
+            
+            foreach (var dllPath in signTool.GetConfig().currentEOSConfig.dllPaths)
             {
-                SignDLL(signConfig.currentEOSConfig, dllPath);
+                SignDLL(signTool.GetConfig().currentEOSConfig, dllPath);
             }
         }
 
@@ -121,28 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices
             process.Close();
         }
 
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorSigningConfig>(configFilenamePath);
-        }
-
-        public bool DoesHaveUnsavedChanges()
-        {
-            return false;
-        }
-
-        public string GetNameForMenu()
-        {
-            return "Code Signing";
-        }
-
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public void OnGUI()
+        public override void OnGUI()
         {
             string pathToSigntool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToSignTool);
             string pathToPFX = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToPFX);
@@ -179,11 +156,6 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile.currentEOSConfig.pathToPFX = pathToPFX;
             configFile.currentEOSConfig.pfxPassword = pfxPassword;
             configFile.currentEOSConfig.timestampURL = timestampURL.Trim();
-        }
-
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 }

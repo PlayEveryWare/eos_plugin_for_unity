@@ -447,10 +447,9 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             
             bool useEAC = false;
 
-            editorToolsConfigSection.Awake();
-            editorToolsConfigSection.LoadConfigFromDisk();
+            editorToolsConfigSection.Read();
 
-            editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
+            editorToolConfig = editorToolsConfigSection.GetConfig().currentEOSConfig;
             if (editorToolConfig != null)
             {
                 useEAC = editorToolConfig.useEAC;

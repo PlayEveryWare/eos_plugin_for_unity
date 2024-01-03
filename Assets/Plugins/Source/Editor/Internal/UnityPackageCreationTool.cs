@@ -140,7 +140,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 return false;
             }
 
-            UPCUtil.packageConfig.SaveToJSONConfig(true);
+            UPCUtil.packageConfig.Save(true);
             return true;
         }
 

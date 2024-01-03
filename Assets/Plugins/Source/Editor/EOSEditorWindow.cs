@@ -25,7 +25,6 @@ using UnityEditor;
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
-    using System.Collections.Generic;
     using UnityEngine;
 
     public abstract class EOSEditorWindow : EditorWindow

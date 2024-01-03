@@ -7,34 +7,11 @@ using UnityEditor;
 namespace PlayEveryWare.EpicOnlineServices
 {
     
-    public class EOSPluginEditorAndroidBuildConfigSection : IEOSPluginEditorConfigurationSection
+    public class EOSPluginEditorAndroidBuildConfigSection : PlatformSpecificConfigEditor<EOSPluginEditorAndroidBuildConfig>
     {
-        private static string ConfigName = "eos_plugin_android_build_config.json";
-        private EOSConfigFile<EOSPluginEditorAndroidBuildConfig> configFile;
-
-        
-        public string GetNameForMenu()
+        public EOSPluginEditorAndroidBuildConfigSection() : base("Android Build Settings",
+            "eos_plugin_android_build_config.json")
         {
-            return "Android Build Settings";
-        }
-
-        
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorAndroidBuildConfig>(configFilenamePath);
-        }
-
-        
-        public bool DoesHaveUnsavedChanges()
-        {
-            return false;
-        }
-
-        
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
         }
 
         public EOSPluginEditorAndroidBuildConfig GetCurrentConfig()
@@ -42,22 +19,14 @@ namespace PlayEveryWare.EpicOnlineServices
             return configFile.currentEOSConfig;
         }
 
-        
-        void IEOSPluginEditorConfigurationSection.OnGUI()
+        public override void OnGUI()
         {
             GUIEditorHelper.AssigningBoolField("Link EOS Library Dynamically", ref configFile.currentEOSConfig.DynamicallyLinkEOSLibrary);
-        }
-
-        
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 
     public class EOSPluginEditorAndroidBuildConfig : ICloneableGeneric<EOSPluginEditorAndroidBuildConfig>, IEmpty
     {
-
         public bool DynamicallyLinkEOSLibrary;
 
         public EOSPluginEditorAndroidBuildConfig Clone()

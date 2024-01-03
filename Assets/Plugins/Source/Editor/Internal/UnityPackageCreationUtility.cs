@@ -78,8 +78,7 @@ public static class UnityPackageCreationUtility
     static UnityPackageCreationUtility() 
     {
         packageConfig = new PackagingConfigSection();
-        packageConfig.Awake();
-        packageConfig.LoadConfigFromDisk();
+        packageConfig.Read();
 
         // Configure UI defaults
         jsonPackageFile = Path.Combine(

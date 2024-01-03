@@ -54,6 +54,11 @@ namespace PlayEveryWare.EpicOnlineServices
             return configName;
         }
 
+        public EOSConfigFile<T> GetConfig()
+        {
+            return configFile;
+        }
+
         public void Read()
         {
             string filepath = Path.Combine("Assets", "StreamingAssets", "EOS", configFilePath);

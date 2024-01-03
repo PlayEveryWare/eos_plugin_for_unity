@@ -149,7 +149,7 @@ namespace Playeveryware.Editor
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
             var toolsSection = new EOSPluginEditorToolsConfigSection();
-            toolsSection?.Awake();
+            toolsSection?.Read();
 
             foreach (var srcToDestKeyValues in packageDescription.source_to_dest)
             {
@@ -197,23 +197,6 @@ namespace Playeveryware.Editor
                         {
                             string errorMessageToUse = EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
                             Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + srcToDestKeyValues.sha1_mismatch_error);
-                        }
-                    }
-                    if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.signWithDefaultCertificate))
-                    {
-                        
-                        if (toolsSection != null)
-                        {
-                            if (toolsSection.GetCurrentConfig() == null)
-                            {
-                                toolsSection.LoadConfigFromDisk();
-                            }
-                            var pathToSignTool = toolsSection.GetCurrentConfig().pathToEACIntegrityTool;
-                            var pathToDefaultCertificate = toolsSection.GetCurrentConfig().pathToDefaultCertificate;
-                        }
-                        else
-                        {
-                            Debug.LogError("No tools configuration set!");
                         }
                     }
                 }
