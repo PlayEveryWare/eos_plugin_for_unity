@@ -344,7 +344,8 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 
     private void DetermineLibraryLinkingMethod()
     {
-        var androidBuildConfigSection = new EOSLibraryBuildConfig();
+        var androidBuildConfigSection = new EOSPluginEditorAndroidBuildConfigEditor();
+        
         androidBuildConfigSection?.Read();
             
         string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
