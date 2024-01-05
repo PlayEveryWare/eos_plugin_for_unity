@@ -22,6 +22,8 @@
 
 using UnityEngine;
 using UnityEditor;
+using System.IO;
+using Playeveryware.Editor;
 
 // make lines a little shorter
 using UPCUtil = UnityPackageCreationUtility;
@@ -34,6 +36,9 @@ public class UnityPackageCreationTool : EditorWindow
 
     bool showJSON = false;
 
+    private string pathToExportDescDirectory;
+    private PlatformExportInfoList exportInfoList;
+    private PackagePresetList presetList;
     //-------------------------------------------------------------------------
     [MenuItem("Tools/EOS Plugin/Create Package")]
     public static void ShowWindow()
@@ -42,8 +47,38 @@ public class UnityPackageCreationTool : EditorWindow
     }
 
     //-------------------------------------------------------------------------
+    private void Awake()
+    {
+        pathToExportDescDirectory = Application.dataPath + "/../etc/PackageConfigurations/";
+        var JSONPackageDescription = File.ReadAllText(pathToExportDescDirectory + "eos_platform_export_info_list.json");
+        exportInfoList = JsonUtility.FromJson<PlatformExportInfoList>(JSONPackageDescription);
+
+        var presetDescription = File.ReadAllText(pathToExportDescDirectory + "eos_package_export_preset_list.json");
+        presetList = JsonUtility.FromJson<PackagePresetList>(presetDescription);
+    }
+    //-------------------------------------------------------------------------
     private void OnGUI()
     {
+        foreach (var preset in presetList.packagePresetList)
+        {
+            GUILayout.BeginHorizontal();
+
+            var value = GUILayout.Toggle(preset.isGettingExported, preset.name, "button", GUILayout.MaxWidth(100));
+            preset.isGettingExported = value;
+
+            if (preset.isGettingExported)
+            {
+                foreach (var platformImportInfo in exportInfoList.platformExportInfoList)
+                {
+                    if (preset.platformList.Contains(platformImportInfo.platform))
+                    {
+                        GUILayout.Label(platformImportInfo.platform, GUILayout.MaxWidth(80));
+                    }                 
+                }
+            }
+            GUILayout.EndHorizontal();
+        }
+
         GUILayout.Space(10f);
 
         GUILayout.BeginHorizontal();
