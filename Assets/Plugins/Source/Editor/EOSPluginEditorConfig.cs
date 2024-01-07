@@ -97,18 +97,13 @@ namespace PlayEveryWare.EpicOnlineServices
         public static SettingsProvider CreateSettingsProvider()
         {
             var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EOSPluginEditorConfigEditor>();
-            var provider = new SettingsProvider("Preferences/EOS Plugin", SettingsScope.User)
+            eosPluginEditorConfigEditor.SetIsEmbedded(true);
+            var provider = new SettingsProvider("Preferences/EOS Plugin Configuration", SettingsScope.User)
             {
-                label = "EOS Plugin",
+                label = "EOS Plugin Configuration",
                 guiHandler = (searchContext) =>
                 {
-                    EditorGUI.BeginChangeCheck();
-
                     eosPluginEditorConfigEditor.OnGUI();
-                    if(EditorGUI.EndChangeCheck())
-                    {
-                        // save settings
-                    }
                 }
             };
 

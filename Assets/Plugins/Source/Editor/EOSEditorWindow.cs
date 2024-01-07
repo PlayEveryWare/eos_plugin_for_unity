@@ -20,11 +20,10 @@
  * SOFTWARE.
  */
 
-using UnityEditor;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using UnityEditor;
     using UnityEngine;
 
     public abstract class EOSEditorWindow : EditorWindow
@@ -32,7 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Keeps track of whether the window has been initialized.
         /// </summary>
-        private bool _initialized = false;
+        private bool _initialized;
 
         /// <summary>
         /// Determines whether or not the editor window resizes itself.
@@ -40,12 +39,31 @@ namespace PlayEveryWare.EpicOnlineServices
         private bool _autoResize = true;
 
         /// <summary>
+        /// Determines whether or not the window contents are padded. Typically
+        /// this will always stay true, but if the window is being rendered within a SettingsWindow,
+        /// then this will be turned off.
+        /// </summary>
+        private bool _isPadded = true;
+
+        /// <summary>
         /// Padding used in a variety of places.
         /// </summary>
         protected const float Padding = 10.0f;
 
+        /// <summary>
+        /// Absolute minimum height for any window
+        /// </summary>
         private const float AbsoluteMinimumWindowHeight = 50f;
+
+        /// <summary>
+        /// Absolute minimum width for any window
+        /// </summary>
         private const float AbsoluteMinimumWindowWidth = 50f;
+
+        /// <summary>
+        /// Determines whether or not the window is being rendered within another window (like the Preferences window)
+        /// </summary>
+        private bool? _isEmbedded;
 
         /// <summary>
         /// Sets whether or not the editor window resizes itself.
@@ -74,22 +92,46 @@ namespace PlayEveryWare.EpicOnlineServices
             // return if the window has already been initialized.
             if (_initialized) return;
 
-            // Otherwise, run the setup function, and mark the window as being initialized
+            // Otherwise, run the setup function
             Setup();
+
+            // mark the window as being initialized
             _initialized = true;
+        }
+
+        /// <summary>
+        /// Sets whether the window is embedded - such as is the case when being rendered within the Preferences Unity window.
+        /// In such a case, the padding and auto-resize functionality is disabled.
+        /// </summary>
+        /// <param name="isEmbedded">Whether or not the window is being rendered within another.</param>
+        protected void SetIsEmbedded(bool? isEmbedded = null)
+        {
+            // if the window has already been marked as embedded, skip
+            if (_isEmbedded != null) return;
+
+            _isEmbedded = isEmbedded;
+            if(isEmbedded == true)
+            {
+                _isPadded = false;
+                _autoResize = false;
+            }
         }
 
         public void OnGUI()
         {
             // Call initialize, in case it hasn't already happened
             Initialize();
+    
+            // if padding should be applied to the window
+            if (_isPadded)
+            {
+                // The area in which to add controls - this keeps all content padded within the window.
+                Rect paddedArea = new Rect(Padding, Padding, position.width - (2 * Padding),
+                    position.height - (2 * Padding));
 
-            // The area in which to add controls - this keeps all content padded within the window.
-            Rect paddedArea = new Rect(Padding, Padding, position.width - (2 * Padding),
-                position.height - (2 * Padding));
-
-            // Begin the padded area
-            GUILayout.BeginArea(paddedArea);
+                // Begin the padded area
+                GUILayout.BeginArea(paddedArea);
+            }
 
             // Call the implemented method to render the window
             RenderWindow();
@@ -100,8 +142,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 AdjustWindowSize();
             }
 
-            // End the padded area
-            GUILayout.EndArea();
+            // we only need to close the area if we are padded, because otherwise it will not have 
+            // been opened.
+            if (_isPadded)
+            {
+                // End the padded area
+                GUILayout.EndArea();
+            }
         }
 
         /// <summary>

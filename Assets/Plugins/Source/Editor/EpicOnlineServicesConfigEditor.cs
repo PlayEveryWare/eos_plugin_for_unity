@@ -22,23 +22,24 @@
 
 //#define ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
 
-using System;
-using System.IO;
-using System.Text.RegularExpressions;
-using UnityEditor;
-using UnityEngine;
-using System.Collections.Generic;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using UnityEditor;
+    using UnityEngine;
+    using Random = System.Random;
+
     [Serializable]
     public class EpicOnlineServicesConfigEditor : EOSEditorWindow
     {
+        private static readonly string WindowTitle = "EOS Dev Portal Configuration";
         private const string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
         private List<IConfigEditor> platformSpecificConfigEditors;
 
-        int toolbarInt = 0;
+        int toolbarInt;
         string[] toolbarTitleStrings;
 
         EOSConfigFile<EOSConfig> mainEOSConfigFile;
@@ -46,28 +47,29 @@ namespace PlayEveryWare.EpicOnlineServices
 #if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
         string eosGeneratedCFilePath = "";
 #endif
-        bool prettyPrint = false;
+        bool prettyPrint;
 
         EOSConfigFile<EOSSteamConfig> steamEOSConfigFile;
 
         [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<EpicOnlineServicesConfigEditor>("EOS Config Editor");
+            GetWindow<EpicOnlineServicesConfigEditor>(WindowTitle);
         }
 
 
         [SettingsProvider]
         public static SettingsProvider CreateProjectSettingsProvider()
         {
-            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EpicOnlineServicesConfigEditor>();
+            var eosPluginEditorConfigEditor = CreateInstance<EpicOnlineServicesConfigEditor>();
             var keywords = eosPluginEditorConfigEditor.GetKeywords();
-
-            var provider = new SettingsProvider("Project/EOS Plugin", SettingsScope.Project)
+            // mark the editor window as being embedded, so it skips auto formatting stuff.
+            eosPluginEditorConfigEditor.SetIsEmbedded(true);
+            var provider = new SettingsProvider($"Preferences/{WindowTitle}", SettingsScope.Project)
             {
-                label = "EOS Plugin",
+                label = WindowTitle,
                 keywords = keywords,
-                guiHandler = (searchContext) =>
+                guiHandler = searchContext =>
                 {
                     eosPluginEditorConfigEditor.OnGUI();
                 }
@@ -78,12 +80,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static string GetConfigDirectory()
         {
-            return System.IO.Path.Combine("Assets", "StreamingAssets", "EOS");
+            return Path.Combine("Assets", "StreamingAssets", "EOS");
         }
 
         public static string GetConfigPath(string configFilename)
         {
-            return System.IO.Path.Combine(GetConfigDirectory(), configFilename);
+            return Path.Combine(GetConfigDirectory(), configFilename);
         }
 
         private string GetWindowsPluginDirectory()
@@ -93,15 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private string GenerateEOSGeneratedFile(EOSConfig aEOSConfig)
         {
-            return string.Format(String.Join("\n", new string[] {
-            "#define EOS_PRODUCT_NAME \"{0}\"",
-            "#define EOS_PRODUCT_VERSION \"{1}\"",
-            "#define EOS_SANDBOX_ID \"{2}\"",
-            "#define EOS_PRODUCT_ID \"{3}\"",
-            "#define EOS_DEPLOYMENT_ID \"{4}\"",
-            "#define EOS_CLIENT_SECRET \"{5}\"",
-            "#define EOS_CLIENT_ID \"{6}\""
-        }), aEOSConfig.productName,
+            return string.Format(String.Join("\n", "#define EOS_PRODUCT_NAME \"{0}\"", "#define EOS_PRODUCT_VERSION \"{1}\"", "#define EOS_SANDBOX_ID \"{2}\"", "#define EOS_PRODUCT_ID \"{3}\"", "#define EOS_DEPLOYMENT_ID \"{4}\"", "#define EOS_CLIENT_SECRET \"{5}\"", "#define EOS_CLIENT_ID \"{6}\""), aEOSConfig.productName,
             aEOSConfig.productVersion,
             aEOSConfig.productID,
             aEOSConfig.sandboxID,
@@ -156,6 +150,11 @@ _WIN32 || _WIN64
 
         public IList<string> GetKeywords()
         {
+            if (null == platformSpecificConfigEditors)
+            {
+                Setup();
+            }
+
             IList<string> keywords = new List<string>();
             foreach (var section in platformSpecificConfigEditors)
             {
@@ -167,8 +166,8 @@ _WIN32 || _WIN64
 
         protected override void Setup()
         {
-            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
-            steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
+            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(GetConfigPath(EOSPackageInfo.ConfigFileName));
+            steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>
                 {
@@ -305,7 +304,7 @@ _WIN32 || _WIN64
             if (GUILayout.Button("Generate"))
             {
                 //generate random 32-byte hex sequence
-                var rng = new System.Random(SystemInfo.deviceUniqueIdentifier.GetHashCode() * (int)(EditorApplication.timeSinceStartup * 1000));
+                var rng = new Random(SystemInfo.deviceUniqueIdentifier.GetHashCode() * (int)(EditorApplication.timeSinceStartup * 1000));
                 var keyBytes = new byte[32];
                 rng.NextBytes(keyBytes);
                 mainEOSConfigFile.currentEOSConfig.encryptionKey = BitConverter.ToString(keyBytes).Replace("-", "");
