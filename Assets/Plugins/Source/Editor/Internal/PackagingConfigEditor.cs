@@ -20,11 +20,6 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
     public class EOSPluginEditorPackagingConfig : ICloneableGeneric<EOSPluginEditorPackagingConfig>, IEmpty
@@ -47,66 +42,27 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class EOSPluginEditorPackagingConfigSection : IEOSPluginEditorConfigurationSection
+    public class EOSPluginEditorPackagingConfigEditor : ConfigEditor<EOSPluginEditorPackagingConfig>
     {
-        private static string ConfigName = "eos_plugin_packaging_config.json";
-        private EOSConfigFile<EOSPluginEditorPackagingConfig> configFile;
-
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorPackagingConfigSection());
-        }
-
-        //-------------------------------------------------------------------------
-        public string GetNameForMenu()
-        {
-            return "Packaging";
-        }
-
-        //-------------------------------------------------------------------------
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorPackagingConfig>(configFilenamePath);
-        }
-
-        //-------------------------------------------------------------------------
-        public bool DoesHaveUnsavedChanges()
-        {
-            return false;
-        }
-
-        //-------------------------------------------------------------------------
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
+        public EOSPluginEditorPackagingConfigEditor() : base("Packaging", "eos_plugin_packaging_config.json") { }
+        
         public EOSPluginEditorPackagingConfig GetCurrentConfig()
         {
             return configFile.currentEOSConfig;
         }
 
-        //-------------------------------------------------------------------------
-        void IEOSPluginEditorConfigurationSection.OnGUI()
+        public override void OnGUI()
         {
             string pathToJSONPackageDescription = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToJSONPackageDescription);
             string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
             string pathToOutput = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToOutput);
-            EpicOnlineServicesConfigEditor.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
-            EpicOnlineServicesConfigEditor.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
-            EpicOnlineServicesConfigEditor.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
+            GUIEditorHelper.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
+            GUIEditorHelper.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
+            GUIEditorHelper.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
 
             configFile.currentEOSConfig.pathToJSONPackageDescription = pathToJSONPackageDescription;
             configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
             configFile.currentEOSConfig.pathToOutput = pathToOutput;
-        }
-
-        //-------------------------------------------------------------------------
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 }

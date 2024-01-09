@@ -46,7 +46,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
     private EOSConfig eosConfig = null;
     private string buildExeName = null;
 
-    //-------------------------------------------------------------------------
+    
     private static string GetPathToEOSBin()
     {
         string projectPathToBin = Path.Combine(Application.dataPath, "../tools/bin/");
@@ -63,7 +63,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         return "";
     }
 
-    //-------------------------------------------------------------------------
+    
     private static string GetPathToPlatformSpecificAssets(BuildReport report)
     {
         string platformDirectoryName = null;
@@ -99,7 +99,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         return pathToInstallFrom;
     }
 
-    //-------------------------------------------------------------------------
+    
 #if UNITY_EDITOR_WIN
     private static void InstallBootStrapper(string appFilenameExe, string installDirectory, string pathToEOSBootStrapperTool, string bootstrapperFileName)
     {
@@ -309,7 +309,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         return directories;
     }
 
-        //-------------------------------------------------------------------------
+        
     private void InstallFiles(BuildReport report, bool useEAC)
     {
         string destDir = Path.GetDirectoryName(report.summary.outputPath);
@@ -428,7 +428,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
         File.WriteAllText(filepath, fileContents);
     }
 
-    //-------------------------------------------------------------------------
+    
     public void OnPostprocessBuild(BuildReport report)
     {
         if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report.summary.platform))
@@ -442,22 +442,19 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             report.summary.platform == BuildTarget.StandaloneOSX ||
             report.summary.platform == BuildTarget.StandaloneLinux64)
         {
-            var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+            var editorToolsConfigSection = new EOSPluginEditorToolsConfigEditor();
             EOSPluginEditorToolsConfig editorToolConfig = null;
             
             bool useEAC = false;
 
-            if (editorToolsConfigSection != null)
-            {
-                editorToolsConfigSection.Awake();
-                editorToolsConfigSection.LoadConfigFromDisk();
+            editorToolsConfigSection.Read();
 
-                editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
-                if (editorToolConfig != null)
-                {
-                    useEAC = editorToolConfig.useEAC;
-                }
+            editorToolConfig = editorToolsConfigSection.GetConfig().currentEOSConfig;
+            if (editorToolConfig != null)
+            {
+                useEAC = editorToolConfig.useEAC;
             }
+            
             
             buildExeName = Path.GetFileName(report.summary.outputPath);
 

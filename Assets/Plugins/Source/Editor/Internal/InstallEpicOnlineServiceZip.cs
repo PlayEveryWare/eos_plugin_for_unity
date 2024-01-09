@@ -9,7 +9,7 @@ using System.IO.Compression;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class InstallEpicOnlineServiceZip : UnityEditor.EditorWindow
+    public class InstallEpicOnlineServiceZip : EOSEditorWindow
     {
         private string pathToJSONPackageDescription;
         private string pathToZipFile;
@@ -20,7 +20,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Install EOS zip")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(InstallEpicOnlineServiceZip), false, "Install EOS Zip", true);
+            GetWindow<InstallEpicOnlineServiceZip>("Install EOS Zip");
         }
 
         static public void UnzipEntry(ZipArchiveEntry zipEntry, string pathName)
@@ -31,7 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        //-------------------------------------------------------------------------
+        
         static public void UnzipFile(string pathToZipFile, string dest)
         {
             // unzip files
@@ -80,35 +80,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
         }
-        //-------------------------------------------------------------------------
-        public string ToCapitalize(string str)
-        {
-            if (str == null)
-            {
-                return null;
-            }
-
-            if (str.Length > 1)
-            {
-                return char.ToUpper(str[0]) + str.Substring(1);
-            }
-            return str.ToUpper();
-        }
-
-        //-------------------------------------------------------------------------
-        private void Awake()
+        
+        protected override void Setup()
         {
             pathToImportDescDirectory = Application.dataPath + "/../etc/EOSImportDesriptions/";
             var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + "eos_platform_import_info_list.json");
             importInfoList = JsonUtility.FromJson<PlatformImportInfoList>(JSONPackageDescription);
         }
-
-        //-------------------------------------------------------------------------
-        private void OnDestroy()
-        {
-            //JsonUtility.ToJson(importInfoList);
-        }
-        //-------------------------------------------------------------------------
 
         private void DrawPresets()
         {
@@ -165,16 +143,15 @@ namespace PlayEveryWare.EpicOnlineServices
             }
             GUILayout.EndHorizontal();
         }
-        //-------------------------------------------------------------------------
-        private void OnGUI()
+        
+        protected override void RenderWindow()
         {
             GUILayout.Label("Install EOS Files into project");
-
-
+            
             DrawPresets();
             foreach (var platformImportInfo in importInfoList.platformImportInfoList)
             {
-                EpicOnlineServicesConfigEditor.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
+                GUIEditorHelper.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
             }
 
             GUILayout.Label("");

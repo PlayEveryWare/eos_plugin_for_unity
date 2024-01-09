@@ -27,34 +27,11 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class PlatformSpecificConfigEditorLinux : IPlatformSpecificConfigEditor
+    public class PlatformSpecificConfigEditorLinux : ConfigEditor<EOSLinuxConfig>
     {
-        private static string ConfigFilename = "eos_linux_config.json";
-        PlayEveryWare.EpicOnlineServices.EOSConfigFile<EOSLinuxConfig> configFile;
+        public PlatformSpecificConfigEditorLinux() : base("Linux", "eos_linux_config.json") { }
 
-        [InitializeOnLoadMethod]
-        static void Register()
-        {
-            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditorLinux());
-        }
-
-        public string GetNameForMenu()
-        {
-            return "Linux";
-        }
-
-        public void Awake()
-        {
-            var configFilenamePath = EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename);
-            configFile = new EOSConfigFile<EOSLinuxConfig>(configFilenamePath);
-        }
-
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public void OnGUI()
+        public override void OnGUI()
         {
             GUILayout.Label("Linux Configuration Values", EditorStyles.boldLabel);
 
@@ -68,25 +45,20 @@ namespace PlayEveryWare.EpicOnlineServices
                 overrideValues = configFile.currentEOSConfig.overrideValues;
             }
 
-            EpicOnlineServicesConfigEditor.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
+            GUIEditorHelper.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: networkWork", ref overrideValues.ThreadAffinity_networkWork, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: storageIO", ref overrideValues.ThreadAffinity_storageIO, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: webSocketIO", ref overrideValues.ThreadAffinity_webSocketIO, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: P2PIO", ref overrideValues.ThreadAffinity_P2PIO, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref overrideValues.ThreadAffinity_HTTPRequestIO, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: RTCIO", ref overrideValues.ThreadAffinity_RTCIO, 250);
+            GUIEditorHelper.AssigningULongToStringField("Thread Affinity: networkWork", ref overrideValues.ThreadAffinity_networkWork, 250);
+            GUIEditorHelper.AssigningULongToStringField("Thread Affinity: storageIO", ref overrideValues.ThreadAffinity_storageIO, 250);
+            GUIEditorHelper.AssigningULongToStringField("Thread Affinity: webSocketIO", ref overrideValues.ThreadAffinity_webSocketIO, 250);
+            GUIEditorHelper.AssigningULongToStringField("Thread Affinity: P2PIO", ref overrideValues.ThreadAffinity_P2PIO, 250);
+            GUIEditorHelper.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref overrideValues.ThreadAffinity_HTTPRequestIO, 250);
+            GUIEditorHelper.AssigningULongToStringField("Thread Affinity: RTCIO", ref overrideValues.ThreadAffinity_RTCIO, 250);
 
             if (!overrideValues.IsEmpty())
             {
                 configFile.currentEOSConfig.overrideValues = overrideValues;
             }
 
-        }
-
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
         }
     }
 }

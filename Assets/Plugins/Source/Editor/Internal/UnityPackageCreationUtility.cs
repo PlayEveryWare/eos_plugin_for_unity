@@ -28,17 +28,17 @@ using UnityEditor;
 using System.IO;
 using System.Linq;
 using Playeveryware.Editor;
+using PlayEveryWare.EpicOnlineServices;
 using UnityEditor.Build;
 
 // help make lines shorter
-using PackagingConfigSection = PlayEveryWare.EpicOnlineServices.EOSPluginEditorPackagingConfigSection;
 using ConfigEditor = PlayEveryWare.EpicOnlineServices.EOSPluginEditorConfigEditor;
 
 
 // Helper to allow for StartCoroutine to be used from a static context
 public class CoroutineExecutor : MonoBehaviour { }
 
-//-------------------------------------------------------------------------
+
 public static class UnityPackageCreationUtility
 {
     /// <summary>
@@ -65,7 +65,7 @@ public static class UnityPackageCreationUtility
     /// <summary>
     /// Contains section of package.json file pertaining to configuration
     /// </summary>
-    public static PackagingConfigSection packageConfig;
+    public static EOSPluginEditorPackagingConfigEditor packageConfig;
 
     /// <summary>
     /// This is used in order to use StartCoroutine from a static context.
@@ -77,9 +77,8 @@ public static class UnityPackageCreationUtility
     /// </summary>
     static UnityPackageCreationUtility() 
     {
-        packageConfig = ConfigEditor.GetConfigurationSectionEditor<PackagingConfigSection>();
-        packageConfig.Awake();
-        packageConfig.LoadConfigFromDisk();
+        packageConfig = new EOSPluginEditorPackagingConfigEditor();
+        packageConfig.Read();
 
         // Configure UI defaults
         jsonPackageFile = Path.Combine(
@@ -104,7 +103,7 @@ public static class UnityPackageCreationUtility
         }
     }
 
-    //-------------------------------------------------------------------------
+    
     private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
     {
          var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
@@ -114,7 +113,7 @@ public static class UnityPackageCreationUtility
          return packageDescription;
     }
 
-    //-------------------------------------------------------------------------
+    
     private static string GetPackageOutputFolder()
     {
         if (customOutputDirectory != null && 
@@ -125,7 +124,7 @@ public static class UnityPackageCreationUtility
         return PackageFileUtils.GenerateTemporaryBuildPath();
     }
 
-    //-------------------------------------------------------------------------
+    
     private static void CopyFilesToPackageDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress)
     {
         PackageFileUtils.CopyFilesToDirectory(
@@ -134,7 +133,7 @@ public static class UnityPackageCreationUtility
             WriteVersionInfo);
     }
 
-    //-------------------------------------------------------------------------
+    
     private static void WriteVersionInfo(string destPath)
     {
         if (Path.GetFileName(destPath) == "EOSPackageInfo.cs")
@@ -162,7 +161,7 @@ public static class UnityPackageCreationUtility
 
     
 
-    //-------------------------------------------------------------------------
+    
     public static void CreateUPMTarball(string outputPath, string json_file)
     {
         UnityEngine.Debug.Log("DEBUG " + json_file);
@@ -196,7 +195,7 @@ public static class UnityPackageCreationUtility
             );
     }
 
-    //-------------------------------------------------------------------------
+    
     public static void CreateDotUnityPackage(string outputPath, string json_file, string packageName = "pew_eos_plugin.unitypackage")
     {
         var JSONPackageDescription = File.ReadAllText(json_file);
@@ -227,7 +226,7 @@ public static class UnityPackageCreationUtility
         CopyFilesToPackageDirectory(outputPath, filesToCopy);
     }
 
-    //-------------------------------------------------------------------------
+    
     // Helper coroutine for making the client package.
     private static IEnumerator StartMakingTarball(string packageFolder, string outputPath)
     {   

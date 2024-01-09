@@ -6,64 +6,22 @@ using UnityEditor;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    //-------------------------------------------------------------------------
-    public class EOSPluginEditorAndroidBuildConfigSection : IEOSPluginEditorConfigurationSection
+    
+    public class EOSPluginEditorAndroidBuildConfigEditor : ConfigEditor<EOSPluginEditorAndroidBuildConfig>
     {
-        private static string ConfigName = "eos_plugin_android_build_config.json";
-        private EOSConfigFile<EOSPluginEditorAndroidBuildConfig> configFile;
-
-        [InitializeOnLoadMethod]
-        static void Register()
+        public EOSPluginEditorAndroidBuildConfigEditor() : base("Android Build Settings",
+            "eos_plugin_android_build_config.json")
         {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorAndroidBuildConfigSection());
         }
 
-        //-------------------------------------------------------------------------
-        public string GetNameForMenu()
+        public override void OnGUI()
         {
-            return "Android Build Settings";
-        }
-
-        //-------------------------------------------------------------------------
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorAndroidBuildConfig>(configFilenamePath);
-        }
-
-        //-------------------------------------------------------------------------
-        public bool DoesHaveUnsavedChanges()
-        {
-            return false;
-        }
-
-        //-------------------------------------------------------------------------
-        public void LoadConfigFromDisk()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public EOSPluginEditorAndroidBuildConfig GetCurrentConfig()
-        {
-            return configFile.currentEOSConfig;
-        }
-
-        //-------------------------------------------------------------------------
-        void IEOSPluginEditorConfigurationSection.OnGUI()
-        {
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Link EOS Library Dynamically", ref configFile.currentEOSConfig.DynamicallyLinkEOSLibrary);
-        }
-
-        //-------------------------------------------------------------------------
-        public void SaveToJSONConfig(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
+            GUIEditorHelper.AssigningBoolField("Link EOS Library Dynamically", ref configFile.currentEOSConfig.DynamicallyLinkEOSLibrary);
         }
     }
 
     public class EOSPluginEditorAndroidBuildConfig : ICloneableGeneric<EOSPluginEditorAndroidBuildConfig>, IEmpty
     {
-
         public bool DynamicallyLinkEOSLibrary;
 
         public EOSPluginEditorAndroidBuildConfig Clone()

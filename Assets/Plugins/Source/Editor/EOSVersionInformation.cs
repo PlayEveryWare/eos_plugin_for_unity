@@ -22,17 +22,16 @@
 
 using System;
 using System.IO;
-using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
-using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
     /// <summary>
     /// Unity Editor tool to display plug-in version information.
     /// </summary>
-    public class EOSVersionInformation : EditorWindow
+    [Serializable]
+    public class EOSVersionInformation : EOSEditorWindow
     {
         string eos_library_version = "Not found";
         string eos_plugin_version = "Not found";
@@ -48,11 +47,10 @@ namespace PlayEveryWare.EpicOnlineServices
             public string version;
         }
 
-        //-------------------------------------------------------------------------
         [MenuItem("Tools/EOS Plugin/Version", false, 100)]
         public static void ShowWindow()
         {
-            GetWindow(typeof(EOSVersionInformation), false, "EOS Version", true);
+            GetWindow<EOSVersionInformation>("EOS Version Information");
         }
 
         public string GetRepositoryRoot()
@@ -77,8 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices
             eos_plugin_version = package.version;
         }
 
-        //-------------------------------------------------------------------------
-        public void Awake()
+        protected override void Setup()
         {
 #if EOS_DISABLE
             eos_library_version = "disabled";
@@ -102,9 +99,8 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
         }
-
-        //-------------------------------------------------------------------------
-        public void OnGUI()
+        
+        protected override void RenderWindow()
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label("Epic Online Services Version:", EditorStyles.boldLabel);

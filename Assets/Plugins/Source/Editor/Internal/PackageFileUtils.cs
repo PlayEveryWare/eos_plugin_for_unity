@@ -34,19 +34,19 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 
-//-------------------------------------------------------------------------
+
 namespace Playeveryware.Editor
 {
-    //-------------------------------------------------------------------------
+    
     public class PackageFileUtils
     {
-        //-------------------------------------------------------------------------
+        
         public static string GenerateTemporaryBuildPath()
         {
             return Application.temporaryCachePath + "/Output-" + System.Guid.NewGuid().ToString() + "/";
         }
 
-        //-------------------------------------------------------------------------
+        
         public static void Dos2UnixLineEndings(string srcFilename, string destFilename)
         {
             const byte CR = 0x0d;
@@ -80,13 +80,13 @@ namespace Playeveryware.Editor
             }
         }
 
-        //-------------------------------------------------------------------------
+        
         public static void Dos2UnixLineEndings(string filename)
         {
             Dos2UnixLineEndings(filename, filename);
         }
 
-        //-------------------------------------------------------------------------
+        
         /// <summary>
         /// 
         /// </summary>
@@ -126,21 +126,21 @@ namespace Playeveryware.Editor
             return filepaths;
         }
 
-        //-------------------------------------------------------------------------
+        
         public static string GetNormalizedCurrentWorkingDirectory()
         {
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
             return currentWorkingDir;
         }
 
-        //-------------------------------------------------------------------------
+        
         public static string GetProjectPath()
         {
             return Application.dataPath + "/..";
 
         }
 
-        //-------------------------------------------------------------------------
+        
         // Root is often "./"
         public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
         {
@@ -148,8 +148,8 @@ namespace Playeveryware.Editor
             List<SrcDestPair> ignoreList = new List<SrcDestPair>();
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
-            var toolsSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
-            toolsSection?.Awake();
+            var toolsSection = new EOSPluginEditorToolsConfigEditor();
+            toolsSection?.Read();
 
             foreach (var srcToDestKeyValues in packageDescription.source_to_dest)
             {
@@ -199,23 +199,6 @@ namespace Playeveryware.Editor
                             Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + srcToDestKeyValues.sha1_mismatch_error);
                         }
                     }
-                    if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.signWithDefaultCertificate))
-                    {
-                        
-                        if (toolsSection != null)
-                        {
-                            if (toolsSection.GetCurrentConfig() == null)
-                            {
-                                toolsSection.LoadConfigFromDisk();
-                            }
-                            var pathToSignTool = toolsSection.GetCurrentConfig().pathToEACIntegrityTool;
-                            var pathToDefaultCertificate = toolsSection.GetCurrentConfig().pathToDefaultCertificate;
-                        }
-                        else
-                        {
-                            Debug.LogError("No tools configuration set!");
-                        }
-                    }
                 }
 
                 IEnumerable<string> collectedFiles;
@@ -261,7 +244,7 @@ namespace Playeveryware.Editor
             return fileInfos;
         }
 
-        //-------------------------------------------------------------------------
+        
         const int BYTES_TO_READ = sizeof(Int64); //check 4 bytes at a time
         static bool FilesAreEqual(FileInfo first, FileInfo second)
         {
@@ -298,7 +281,7 @@ namespace Playeveryware.Editor
             return true;
         }
 
-        //-------------------------------------------------------------------------
+        
         public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress, Action<string> postProcessCallback = null)
         {
             Directory.CreateDirectory(packageFolder);
