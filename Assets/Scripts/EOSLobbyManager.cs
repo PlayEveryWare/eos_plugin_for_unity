@@ -945,6 +945,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="CreateLobbyCompleted">Callback when create lobby is completed</param>
         public void CreateLobby(Lobby lobbyProperties, OnLobbyCallback CreateLobbyCompleted)
         {
+            CreateLobby(lobbyProperties, false, false, false, CreateLobbyCompleted);
+        }
+
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_CreateLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_CreateLobby/index.html)
+        /// </summary>
+        /// <param name="lobbyProperties"><b>Lobby</b> properties used to create new lobby</param>
+        /// <param name="enableEcho">Presence Enabled if <c>true</c></param>
+        /// <param name="useManualAudioInput">Manual audio input if <c>true</c></param>
+        /// <param name="useManualAudioOutput">Manual audio output if <c>true</c></param>
+        /// <param name="CreateLobbyCompleted">Callback when create lobby is completed</param>
+        public void CreateLobby(Lobby lobbyProperties, bool enableEcho, bool useManualAudioInput, bool useManualAudioOutput, OnLobbyCallback CreateLobbyCompleted)
+        {
             ProductUserId currentUserProductId = EOSManager.Instance.GetProductUserId();
             if (!currentUserProductId.IsValid())
             {
@@ -977,13 +990,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 createLobbyOptions.DisableHostMigration = (bool)lobbyProperties.DisableHostMigration;
             }
             // Voice Chat
-            if(lobbyProperties.RTCRoomEnabled)
+            if (lobbyProperties.RTCRoomEnabled)
             {
                 LocalRTCOptions rtcOptions = new LocalRTCOptions()
                 {
-                    Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
-                    UseManualAudioInput = false,
-                    UseManualAudioOutput = false,
+                    Flags = (enableEcho) ? (uint)Epic.OnlineServices.RTC.JoinRoomFlags.EnableEcho : (uint)Epic.OnlineServices.RTC.JoinRoomFlags.None,
+                    UseManualAudioInput = useManualAudioInput,
+                    UseManualAudioOutput = useManualAudioOutput,
                     LocalAudioDeviceInputStartsMuted = false
                 };
 
@@ -2292,6 +2305,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
         public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, OnLobbyCallback JoinLobbyCompleted)
         {
+            JoinLobby(lobbyId, lobbyDetails, presenceEnabled, false, false, false, JoinLobbyCompleted);
+        }
+
+        /// <summary>
+        /// Wrapper for calling [EOS_Lobby_JoinLobby](https://dev.epicgames.com/docs/services/en-US/API/Members/Functions/Lobby/EOS_Lobby_JoinLobby/index.html)
+        /// </summary>
+        /// <param name="lobbyId">Target lobbyId of lobby to join</param>
+        /// <param name="lobbyDetails">Reference to <c>LobbyDetails</c> of lobby to join</param>
+        /// <param name="presenceEnabled">Presence Enabled if <c>true</c></param>
+        /// <param name="enableEcho">Presence Enabled if <c>true</c></param>
+        /// <param name="useManualAudioInput">Manual audio input if <c>true</c></param>
+        /// <param name="useManualAudioOutput">Manual audio output if <c>true</c></param>
+        /// <param name="JoinLobbyCompleted">Callback when join lobby is completed</param>
+        public void JoinLobby(string lobbyId, LobbyDetails lobbyDetails, bool presenceEnabled, bool enableEcho, bool useManualAudioInput, bool useManualAudioOutput, OnLobbyCallback JoinLobbyCompleted)
+        {
             HackWorkaroundRTCInitIssues();
 
             if (string.IsNullOrEmpty(lobbyId))
@@ -2329,6 +2357,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             joinOptions.LobbyDetailsHandle = lobbyDetails;
             joinOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
             joinOptions.PresenceEnabled = presenceEnabled;
+
+            LocalRTCOptions rtcOptions = new LocalRTCOptions()
+            {
+                Flags = (enableEcho) ? (uint)Epic.OnlineServices.RTC.JoinRoomFlags.EnableEcho : (uint)Epic.OnlineServices.RTC.JoinRoomFlags.None,
+                UseManualAudioInput = useManualAudioInput,
+                UseManualAudioOutput = useManualAudioOutput,
+                LocalAudioDeviceInputStartsMuted = false
+            };
+
+            joinOptions.LocalRTCOptions = rtcOptions;
 
             EOSManager.Instance.GetEOSLobbyInterface().JoinLobby(ref joinOptions, JoinLobbyCompleted, OnJoinLobbyCompleted);
         }
