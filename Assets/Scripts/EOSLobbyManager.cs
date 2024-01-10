@@ -47,6 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public uint AvailableSlots = 0;
         public bool AllowInvites = true;
         public bool? DisableHostMigration;
+        public LocalRTCOptions? localRTCOptions;
 
         // Cached copy of the RoomName of the RTC room that our lobby has, if any
         public string RTCRoomName = string.Empty;
@@ -979,16 +980,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Voice Chat
             if(lobbyProperties.RTCRoomEnabled)
             {
-                LocalRTCOptions rtcOptions = new LocalRTCOptions()
+                if (lobbyProperties.localRTCOptions == null)
                 {
-                    Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
-                    UseManualAudioInput = false,
-                    UseManualAudioOutput = false,
-                    LocalAudioDeviceInputStartsMuted = false
-                };
+                    lobbyProperties.localRTCOptions = new LocalRTCOptions()
+                    {
+                        Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
+                        UseManualAudioInput = false,
+                        UseManualAudioOutput = false,
+                        LocalAudioDeviceInputStartsMuted = false
+                    };
+                }
 
                 createLobbyOptions.EnableRTCRoom = true;
-                createLobbyOptions.LocalRTCOptions = rtcOptions;
+                createLobbyOptions.LocalRTCOptions = lobbyProperties.localRTCOptions;
             }
             else
             {
