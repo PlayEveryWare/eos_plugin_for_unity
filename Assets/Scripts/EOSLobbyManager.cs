@@ -47,7 +47,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public uint AvailableSlots = 0;
         public bool AllowInvites = true;
         public bool? DisableHostMigration;
-        public LocalRTCOptions? localRTCOptions;
 
         // Cached copy of the RoomName of the RTC room that our lobby has, if any
         public string RTCRoomName = string.Empty;
@@ -471,9 +470,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<Action> LobbyUpdateCallbacks;
 
         private EOSUserInfoManager UserInfoManager;
+        
+        public LocalRTCOptions? customLocalRTCOptions;
 
         // Init
-
         public EOSLobbyManager()
         {
             UserInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
@@ -980,24 +980,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Voice Chat
             if(lobbyProperties.RTCRoomEnabled)
             {
-                if (lobbyProperties.localRTCOptions == null)
+                if (customLocalRTCOptions != null)
                 {
-                    lobbyProperties.localRTCOptions = new LocalRTCOptions()
-                    {
-                        Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
-                        UseManualAudioInput = false,
-                        UseManualAudioOutput = false,
-                        LocalAudioDeviceInputStartsMuted = false
-                    };
+                    createLobbyOptions.LocalRTCOptions = customLocalRTCOptions;
                 }
 
-                createLobbyOptions.EnableRTCRoom = true;
-                createLobbyOptions.LocalRTCOptions = lobbyProperties.localRTCOptions;
+                createLobbyOptions.EnableRTCRoom = true;      
             }
             else
             {
                 createLobbyOptions.EnableRTCRoom = false;
-                createLobbyOptions.LocalRTCOptions = null;
             }
 
             EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, CreateLobbyCompleted, OnCreateLobbyCompleted);
@@ -2333,7 +2325,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             joinOptions.LobbyDetailsHandle = lobbyDetails;
             joinOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
             joinOptions.PresenceEnabled = presenceEnabled;
-
+            if (customLocalRTCOptions != null)
+            {
+                joinOptions.LocalRTCOptions = customLocalRTCOptions;
+            }
             EOSManager.Instance.GetEOSLobbyInterface().JoinLobby(ref joinOptions, JoinLobbyCompleted, OnJoinLobbyCompleted);
         }
 
