@@ -470,9 +470,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private List<Action> LobbyUpdateCallbacks;
 
         private EOSUserInfoManager UserInfoManager;
+        
+        public LocalRTCOptions? customLocalRTCOptions;
 
         // Init
-
         public EOSLobbyManager()
         {
             UserInfoManager = EOSManager.Instance.GetOrCreateManager<EOSUserInfoManager>();
@@ -979,21 +980,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Voice Chat
             if(lobbyProperties.RTCRoomEnabled)
             {
-                LocalRTCOptions rtcOptions = new LocalRTCOptions()
+                if (customLocalRTCOptions != null)
                 {
-                    Flags = 0, //EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO;
-                    UseManualAudioInput = false,
-                    UseManualAudioOutput = false,
-                    LocalAudioDeviceInputStartsMuted = false
-                };
+                    createLobbyOptions.LocalRTCOptions = customLocalRTCOptions;
+                }
 
-                createLobbyOptions.EnableRTCRoom = true;
-                createLobbyOptions.LocalRTCOptions = rtcOptions;
+                createLobbyOptions.EnableRTCRoom = true;      
             }
             else
             {
                 createLobbyOptions.EnableRTCRoom = false;
-                createLobbyOptions.LocalRTCOptions = null;
             }
 
             EOSManager.Instance.GetEOSLobbyInterface().CreateLobby(ref createLobbyOptions, CreateLobbyCompleted, OnCreateLobbyCompleted);
@@ -2329,7 +2325,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             joinOptions.LobbyDetailsHandle = lobbyDetails;
             joinOptions.LocalUserId = EOSManager.Instance.GetProductUserId();
             joinOptions.PresenceEnabled = presenceEnabled;
-
+            if (customLocalRTCOptions != null)
+            {
+                joinOptions.LocalRTCOptions = customLocalRTCOptions;
+            }
             EOSManager.Instance.GetEOSLobbyInterface().JoinLobby(ref joinOptions, JoinLobbyCompleted, OnJoinLobbyCompleted);
         }
 
