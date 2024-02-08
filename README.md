@@ -77,6 +77,10 @@ We currently support the following platforms, details of each can be found on ou
 * Android
 * iOS
 * Nintendo Switch
+* Xbox One
+* Xbox Series X
+* PlayStation 4
+* PlayStation 5
 
 ## Importing the Plugin Package
 
