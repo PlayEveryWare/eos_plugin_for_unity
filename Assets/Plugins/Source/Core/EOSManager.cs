@@ -1378,7 +1378,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 print("StartLoginWithLoginTypeAndToken");
 
 #if UNITY_IOS && !UNITY_EDITOR
-                IOSLoginOptions modifiedLoginOptions = EOS_iOSLoginOptionsHelper.MakeIOSLoginOptionsFromDefualt(loginOptions);
+                IOSLoginOptions modifiedLoginOptions = EOS_iOSLoginOptionsHelper.MakeIOSLoginOptionsFromDefault(loginOptions);
 
                 EOSAuthInterface.Login(ref modifiedLoginOptions, null, (ref LoginCallbackInfo data) =>
                 {
