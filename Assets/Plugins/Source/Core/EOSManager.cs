@@ -1380,7 +1380,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_IOS && !UNITY_EDITOR
                 IOSLoginOptions modifiedLoginOptions = EOS_iOSLoginOptionsHelper.MakeIOSLoginOptionsFromDefualt(loginOptions);
 
-                EOSAuthInterface.Login(ref modifiedLoginOptions, null, (ref Epic.OnlineServices.Auth.LoginCallbackInfo data) =>
+                EOSAuthInterface.Login(ref modifiedLoginOptions, null, (ref LoginCallbackInfo data) =>
                 {
 #else
                 EOSAuthInterface.Login(ref loginOptions, null, (ref LoginCallbackInfo data) =>
