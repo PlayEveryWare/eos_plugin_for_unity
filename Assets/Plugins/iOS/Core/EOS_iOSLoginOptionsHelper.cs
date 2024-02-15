@@ -40,7 +40,7 @@ public static class EOS_iOSLoginOptionsHelper
     /// Make Login Options for iOS Specific
     /// </summary>
 
-    public static Epic.OnlineServices.Auth.IOSLoginOptions MakeIOSLoginOptionsFromDefualt(Epic.OnlineServices.Auth.LoginOptions loginOptions)
+    public static Epic.OnlineServices.Auth.IOSLoginOptions MakeIOSLoginOptionsFromDefault(Epic.OnlineServices.Auth.LoginOptions loginOptions)
     {
         Epic.OnlineServices.Auth.IOSLoginOptions modifiedLoginOptions = new Epic.OnlineServices.Auth.IOSLoginOptions();
         modifiedLoginOptions.ScopeFlags = loginOptions.ScopeFlags;
