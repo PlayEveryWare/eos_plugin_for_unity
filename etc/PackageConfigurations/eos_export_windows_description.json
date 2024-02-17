@@ -1,0 +1,45 @@
+{
+    "source_to_dest": [
+        {"comment": "----------------------------Windows---------------------------------------------"},
+        {"src":"Assets/Plugins/Windows.meta", "dest": "Runtime/"},
+
+        {"src":"Assets/Plugins/Windows/x64.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/x64/*.dll", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/*.dll.meta", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/license.txt", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/license.txt.meta", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Windows/x64/"},
+        {"src":"Assets/Plugins/Windows/x64/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Windows/x64/"},
+
+        {"src":"Assets/Plugins/Windows/x86.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/x86/*.dll", "dest": "Runtime/Windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/*.dll.meta", "dest": "Runtime/Windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/license.txt", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/license.txt.meta", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt", "dest": "Runtime/windows/x86/"},
+        {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/windows/x86/"},
+
+        {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
+
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
+        {"src":"tools/bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
+        {"src":"tools/bin/EOSBootstrapper.exe", "dest": "bin~/"},
+
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EACLauncher.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Licenses/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/Localization/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Windows/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Windows/EasyAntiCheat/"},
+
+
+        {"ignore_regex":"Assets/Plugins/Windows/.*/steam_api\\.dll"},
+        {"ignore_regex":"Assets/Plugins/Windows/.*/steam_api64\\.dll"},
+
+        {"comment": "----------------------------End Windows---------------------------------------------"}
+    ],
+    "blacklist": [
+        "*.png"
+    ]
+}

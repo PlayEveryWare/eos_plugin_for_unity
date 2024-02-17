@@ -1,0 +1,11 @@
+{
+    "platformExportInfoList": [
+         {"platform":"Test","descPath":"eos_package_description.json"},
+         {"platform":"Shared","descPath":"eos_export_shared_description.json"},
+         {"platform":"Windows","descPath":"eos_export_windows_description.json"},
+         {"platform":"Linux","descPath":"eos_export_linux_description.json"},
+         {"platform":"Mac","descPath":"eos_export_mac_description.json"},
+         {"platform":"iOS","descPath":"eos_export_ios_description.json"},
+         {"platform":"Android","descPath":"eos_export_android_description.json"}
+    ]
+}
