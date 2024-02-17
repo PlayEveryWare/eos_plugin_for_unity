@@ -72,6 +72,12 @@ public static class UnityPackageCreationUtility
     /// </summary>
     public static CoroutineExecutor executorInstance;
 
+    public static Dictionary<string,string> platformDescDict = new Dictionary<string, string>();
+    public static Dictionary<string, bool> isPackageExported = new Dictionary<string, bool>();
+
+    public static Dictionary<string, List<string>> packagePlatformsDict = new Dictionary<string, List<string>>();
+ 
+
     /// <summary>
     /// Static constructor
     /// </summary>
@@ -101,6 +107,33 @@ public static class UnityPackageCreationUtility
         if(!string.IsNullOrEmpty(currentConfig.customBuildDirectoryPath))
         {
             customOutputDirectory = currentConfig.customBuildDirectoryPath;
+        }
+
+    }
+
+    public static void ReloadPackageDescriptions() 
+    {
+        string pathToExportDescDirectory = Application.dataPath + "/../etc/PackageConfigurations/";
+
+        platformDescDict.Clear();
+        packagePlatformsDict.Clear();
+        isPackageExported.Clear();
+
+        var JSONPackageDescription = File.ReadAllText(pathToExportDescDirectory + "eos_platform_export_info_list.json");
+        var exportInfoList = JsonUtility.FromJson<PlatformExportInfoList>(JSONPackageDescription);
+
+        foreach (var entry in exportInfoList.platformExportInfoList)
+        {
+            platformDescDict[entry.platform] = pathToExportDescDirectory + entry.descPath;
+        }
+
+        var presetDescription = File.ReadAllText(pathToExportDescDirectory + "eos_package_export_preset_list.json");
+        var presetList = JsonUtility.FromJson<PackagePresetList>(presetDescription);
+
+        foreach (var entry in presetList.packagePresetList)
+        {
+            packagePlatformsDict[entry.name] = entry.platformList;
+            isPackageExported[entry.name] = false;
         }
     }
 
@@ -160,7 +193,41 @@ public static class UnityPackageCreationUtility
         }
     }
 
-    
+    public static void CreateUPMTarballV2(string preset)
+    {
+        string packageFolder = GetPackageOutputFolder();
+
+        foreach (var platform in packagePlatformsDict[preset])
+        {
+            var JSONPackageDescription = File.ReadAllText(platformDescDict[platform]);
+            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+            var filesToCompress = PackageFileUtils.GetFileInfoMatchingPackageDescription("./", packageDescription);
+
+            CopyFilesToPackageDirectory(
+                packageFolder,
+                filesToCompress
+                );
+        }
+
+        if (!executorInstance)
+        {
+            executorInstance = UnityEngine.Object.FindObjectOfType<
+                CoroutineExecutor>();
+
+            if (!executorInstance)
+            {
+                executorInstance = new GameObject(
+                    "CoroutineExecutor").AddComponent<CoroutineExecutor>();
+            }
+        }
+
+        executorInstance.StartCoroutine(
+            StartMakingTarball(
+                packageFolder,
+                pathToOutput
+                )
+            );
+    }
 
     //-------------------------------------------------------------------------
     public static void CreateUPMTarball(string outputPath, string json_file)

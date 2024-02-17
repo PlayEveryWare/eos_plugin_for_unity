@@ -36,9 +36,6 @@ public class UnityPackageCreationTool : EditorWindow
 
     bool showJSON = false;
 
-    private string pathToExportDescDirectory;
-    private PlatformExportInfoList exportInfoList;
-    private PackagePresetList presetList;
     //-------------------------------------------------------------------------
     [MenuItem("Tools/EOS Plugin/Create Package")]
     public static void ShowWindow()
@@ -49,33 +46,22 @@ public class UnityPackageCreationTool : EditorWindow
     //-------------------------------------------------------------------------
     private void Awake()
     {
-        pathToExportDescDirectory = Application.dataPath + "/../etc/PackageConfigurations/";
-        var JSONPackageDescription = File.ReadAllText(pathToExportDescDirectory + "eos_platform_export_info_list.json");
-        exportInfoList = JsonUtility.FromJson<PlatformExportInfoList>(JSONPackageDescription);
-
-        var presetDescription = File.ReadAllText(pathToExportDescDirectory + "eos_package_export_preset_list.json");
-        presetList = JsonUtility.FromJson<PackagePresetList>(presetDescription);
+        UPCUtil.ReloadPackageDescriptions();
     }
     //-------------------------------------------------------------------------
     private void OnGUI()
     {
-        foreach (var preset in presetList.packagePresetList)
+        foreach (var package in UPCUtil.packagePlatformsDict)
         {
             GUILayout.BeginHorizontal();
 
-            var value = GUILayout.Toggle(preset.isGettingExported, preset.name, "button", GUILayout.MaxWidth(100));
-            preset.isGettingExported = value;
+            UPCUtil.isPackageExported[package.Key] = GUILayout.Toggle(UPCUtil.isPackageExported[package.Key], package.Key, "button", GUILayout.MaxWidth(100));
 
-            if (preset.isGettingExported)
+            foreach (var platform in package.Value)
             {
-                foreach (var platformImportInfo in exportInfoList.platformExportInfoList)
-                {
-                    if (preset.platformList.Contains(platformImportInfo.platform))
-                    {
-                        GUILayout.Label(platformImportInfo.platform, GUILayout.MaxWidth(80));
-                    }                 
-                }
+                GUILayout.Label(platform, GUILayout.MaxWidth(80));
             }
+
             GUILayout.EndHorizontal();
         }
 
@@ -95,6 +81,15 @@ public class UnityPackageCreationTool : EditorWindow
         }
         GUILayout.Space(10f);
         GUILayout.EndHorizontal();
+
+        if (GUILayout.Button("Create UPM Package V2", GUILayout.MaxWidth(200)))
+        {
+            foreach (var package in UPCUtil.packagePlatformsDict)
+            {
+                UPCUtil.CreateUPMTarballV2(package.Key);
+                OnPackageCreated(UPCUtil.pathToOutput);
+            }
+        }
 
         showJSON = EditorGUILayout.Foldout(showJSON, "Advanced");
         if (showJSON)
