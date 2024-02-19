@@ -22,7 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Settings
 {
-    // Flags specifically for Switch
+    // Flags specifically for Android
     public class AndroidConfig : PlatformConfig
     {
         public AndroidConfig() : base(PlatformManager.Platform.Android) { }
