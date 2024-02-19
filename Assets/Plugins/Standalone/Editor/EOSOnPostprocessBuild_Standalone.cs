@@ -120,14 +120,14 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
 
         var process = new System.Diagnostics.Process { StartInfo = procInfo };
         process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-            if(!EmptyPredicates.IsEmptyOrNull(e.Data))
+            if(!string.IsNullOrEmpty(e.Data))
             {
                 Debug.Log(e.Data);
             }
         });
 
         process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>{
-            if(!EmptyPredicates.IsEmptyOrNull(e.Data))
+            if(!string.IsNullOrEmpty(e.Data))
             {
                 Debug.LogError(e.Data);
             }
@@ -210,7 +210,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             var process = new System.Diagnostics.Process { StartInfo = procInfo };
             process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
             {
-                if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                if (!string.IsNullOrEmpty(e.Data))
                 {
                     if (e.Data.StartsWith("[Err!]"))
                     {
@@ -229,7 +229,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
 
             process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
             {
-                if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                if (!string.IsNullOrEmpty(e.Data))
                 {
                     Debug.LogError(e.Data);
                 }
@@ -333,7 +333,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             }
         }
 
-        if (!EmptyPredicates.IsEmptyOrNull(pathToInstallFrom))
+        if (!string.IsNullOrEmpty(pathToInstallFrom))
         {
             foreach (var fileToInstall in filestoInstall)
             {
@@ -447,9 +447,9 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             
             bool useEAC = false;
 
-            editorToolsConfigSection.Read();
+            editorToolsConfigSection.Load();
 
-            editorToolConfig = editorToolsConfigSection.GetConfig().currentEOSConfig;
+            editorToolConfig = editorToolsConfigSection.GetConfig().Data;
             if (editorToolConfig != null)
             {
                 useEAC = editorToolConfig.useEAC;

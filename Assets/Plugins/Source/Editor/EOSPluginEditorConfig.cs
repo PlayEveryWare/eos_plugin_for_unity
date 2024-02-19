@@ -28,24 +28,26 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Settings;
+
     public class EOSPluginEditorToolsConfigEditor : ConfigEditor<EOSPluginEditorToolsConfig>
     {
         public EOSPluginEditorToolsConfigEditor() : base("Tools", "eos_plugin_tools_config.json") { }
-        
-        public override void OnGUI()
-        {
-            string pathToIntegrityTool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityTool);
-            string pathToIntegrityConfig = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityConfig);
-            string pathToEACCertificate = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACCertificate);
-            string pathToEACPrivateKey = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACPrivateKey);
-            string pathToEACSplashImage = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACSplashImage);
-            string bootstrapOverideName = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.bootstrapperNameOverride);
-            bool useEAC = configFile.currentEOSConfig.useEAC;
 
-            GUIEditorHelper.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool", 
+        public override void RenderContents()
+        {
+            string pathToIntegrityTool = (ConfigHandler.Data.pathToEACIntegrityTool);
+            string pathToIntegrityConfig = (ConfigHandler.Data.pathToEACIntegrityConfig);
+            string pathToEACCertificate = (ConfigHandler.Data.pathToEACCertificate);
+            string pathToEACPrivateKey = (ConfigHandler.Data.pathToEACPrivateKey);
+            string pathToEACSplashImage = (ConfigHandler.Data.pathToEACSplashImage);
+            string bootstrapOverideName = (ConfigHandler.Data.bootstrapperNameOverride);
+            bool useEAC = ConfigHandler.Data.useEAC;
+
+            GUIEditorHelper.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool",
                 tooltip: "EOS SDK tool used to generate EAC certificate from file hashes");
             GUIEditorHelper.AssigningPath("Path to EAC Integrity Tool Config", ref pathToIntegrityConfig, "Select EAC Integrity Tool Config",
-                tooltip: "Config file used by integry tool. Defaults to anticheat_integritytool.cfg in same directory.", extension: "cfg", labelWidth:200);
+                tooltip: "Config file used by integry tool. Defaults to anticheat_integritytool.cfg in same directory.", extension: "cfg", labelWidth: 200);
             GUIEditorHelper.AssigningPath("Path to EAC private key", ref pathToEACPrivateKey, "Select EAC private key", extension: "key",
                 tooltip: "EAC private key used in integrity tool cert generation. Exposing this to the public will comprimise anti-cheat functionality.");
             GUIEditorHelper.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer",
@@ -56,13 +58,13 @@ namespace PlayEveryWare.EpicOnlineServices
             GUIEditorHelper.AssigningBoolField("Use EAC", ref useEAC, tooltip: "If set to true, uses the EAC");
             GUIEditorHelper.AssigningTextField("Bootstrapper Name Override", ref bootstrapOverideName, labelWidth: 180, tooltip: "Name to use instead of 'Bootstrapper.exe'");
 
-            configFile.currentEOSConfig.pathToEACIntegrityTool = pathToIntegrityTool;
-            configFile.currentEOSConfig.pathToEACIntegrityConfig = pathToIntegrityConfig;
-            configFile.currentEOSConfig.pathToEACPrivateKey = pathToEACPrivateKey;
-            configFile.currentEOSConfig.pathToEACCertificate = pathToEACCertificate;
-            configFile.currentEOSConfig.pathToEACSplashImage = pathToEACSplashImage;
-            configFile.currentEOSConfig.useEAC = useEAC;
-            configFile.currentEOSConfig.bootstrapperNameOverride = bootstrapOverideName;
+            ConfigHandler.Data.pathToEACIntegrityTool = pathToIntegrityTool;
+            ConfigHandler.Data.pathToEACIntegrityConfig = pathToIntegrityConfig;
+            ConfigHandler.Data.pathToEACPrivateKey = pathToEACPrivateKey;
+            ConfigHandler.Data.pathToEACCertificate = pathToEACCertificate;
+            ConfigHandler.Data.pathToEACSplashImage = pathToEACSplashImage;
+            ConfigHandler.Data.useEAC = useEAC;
+            ConfigHandler.Data.bootstrapperNameOverride = bootstrapOverideName;
         }
     }
 
@@ -73,11 +75,12 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// It's possible for the config file to not load in certain cases (like making test builds).
         /// </summary>
-        public bool IsValid => configFile != null;
-        
-        public override void OnGUI()
+        public bool IsValid => ConfigHandler != null;
+
+        public override void RenderContents()
         {
-            GUIEditorHelper.AssigningBoolField("Use Unity App Version for the EOS product version", ref configFile.currentEOSConfig.useAppVersionAsProductVersion, 300);
+            GUIEditorHelper.AssigningBoolField("Use Unity App Version for the EOS product version",
+                ref ConfigHandler.Data.useAppVersionAsProductVersion);
         }
     }
 
@@ -109,23 +112,23 @@ namespace PlayEveryWare.EpicOnlineServices
 
             return provider;
         }
-        
+
         [MenuItem("Tools/EOS Plugin/Configuration")]
         public static void ShowWindow()
         {
             GetWindow<EOSPluginEditorConfigEditor>("EOS Plugin Config");
         }
-        
+
         private static string GetConfigDirectory()
         {
             return System.IO.Path.Combine(Application.dataPath, "..", ConfigDirectory);
         }
-        
+
         public static string GetConfigPath(string configFilename)
         {
             return System.IO.Path.Combine(GetConfigDirectory(), configFilename);
         }
-        
+
         public static bool IsAsset(string configFilepath)
         {
             var assetDir = new DirectoryInfo(Application.dataPath);
@@ -138,12 +141,12 @@ namespace PlayEveryWare.EpicOnlineServices
                     isParent = true;
                     break;
                 }
-                
+
                 fileDir = fileDir.Parent;
             }
             return isParent;
         }
-        
+
         private void LoadConfigFromDisk()
         {
             if (!Directory.Exists(GetConfigDirectory()))
@@ -151,12 +154,12 @@ namespace PlayEveryWare.EpicOnlineServices
                 Directory.CreateDirectory(GetConfigDirectory());
             }
 
-            foreach(var configurationSectionEditor in configurationSectionEditors)
+            foreach (var configurationSectionEditor in configurationSectionEditors)
             {
-                configurationSectionEditor.Read();
+                configurationSectionEditor.Load();
             }
         }
-        
+
         protected override void Setup()
         {
             configurationSectionEditors ??= new List<IConfigEditor>
@@ -171,21 +174,21 @@ namespace PlayEveryWare.EpicOnlineServices
 
             LoadConfigFromDisk();
         }
-        
+
         protected override void RenderWindow()
         {
             if (configurationSectionEditors.Count > 0)
             {
                 foreach (var configurationSectionEditor in configurationSectionEditors)
                 {
-                    GUILayout.Label(configurationSectionEditor.GetLabel(), EditorStyles.boldLabel);
+                    GUILayout.Label(configurationSectionEditor.GetLabelText(), EditorStyles.boldLabel);
                     GUIEditorHelper.HorizontalLine(Color.white);
-                    configurationSectionEditor.OnGUI();
+                    configurationSectionEditor.Render();
                     EditorGUILayout.Space();
                 }
             }
 
-            GUIEditorHelper.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
+            GUIEditorHelper.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint);
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
             {
@@ -193,7 +196,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Save(prettyPrint);
             }
         }
-        
+
         private void Save(bool prettyPrint)
         {
             foreach (var configurationSectionEditor in configurationSectionEditors)
@@ -206,12 +209,12 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    
+
     /// <summary>
     /// Represents the EOS Plugin Configuration used for values that might 
     /// vary depending  on the environment that one is running Unity from.
     /// </summary>
-    public class EOSPluginEditorToolsConfig : ICloneableGeneric<EOSPluginEditorToolsConfig>, IEmpty
+    public class EOSPluginEditorToolsConfig : Config
     {
         /// <value><c>Path To EAC integrity tool</c> The path to find the tool used for generating EAC certs</value>
         public string pathToEACIntegrityTool;
@@ -226,73 +229,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
         /// <value><c>Use EAC</c>If enabled, making a build will run the Easy Anti-Cheat integrity tool and copy EAC files to the build directory</value>
         public bool useEAC;
-
-        public EOSPluginEditorToolsConfig Clone()
-        {
-            return (EOSPluginEditorToolsConfig)this.MemberwiseClone();
-        }
-
-        static public bool operator ==(EOSPluginEditorToolsConfig a, EOSPluginEditorToolsConfig b)
-        {
-            if (object.ReferenceEquals(a, null) != object.ReferenceEquals(b, null))
-            {
-                return false;
-            }
-
-            if (object.ReferenceEquals(a, b))
-            {
-                return true;
-            }
-
-            return a.pathToEACIntegrityTool == b.pathToEACIntegrityTool &&
-                a.pathToDefaultCertificate == b.pathToDefaultCertificate &&
-                a.pathToEACPrivateKey == b.pathToEACPrivateKey &&
-                a.pathToEACCertificate == b.pathToEACCertificate &&
-                a.pathToEACSplashImage == b.pathToEACSplashImage &&
-                a.bootstrapperNameOverride == b.bootstrapperNameOverride &&
-                a.useEAC == b.useEAC;
-        }
-
-        static public bool operator !=(EOSPluginEditorToolsConfig a, EOSPluginEditorToolsConfig b)
-        {
-            return !(a == b);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is EOSPluginEditorToolsConfig && this == (EOSPluginEditorToolsConfig)obj; 
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        public bool IsEmpty()
-        {
-            return String.IsNullOrEmpty(pathToEACIntegrityTool)
-                && String.IsNullOrEmpty(pathToDefaultCertificate)
-                && String.IsNullOrEmpty(pathToEACPrivateKey)
-                && String.IsNullOrEmpty(pathToEACCertificate)
-                && String.IsNullOrEmpty(pathToEACSplashImage)
-                && String.IsNullOrEmpty(bootstrapperNameOverride)
-                && !useEAC
-            ;
-        }
     }
 
-    public class EOSPluginEditorPrebuildConfig : ICloneableGeneric<EOSPluginEditorPrebuildConfig>, IEmpty
+    public class EOSPluginEditorPrebuildConfig : Config
     {
         public bool useAppVersionAsProductVersion;
-
-        public EOSPluginEditorPrebuildConfig Clone()
-        {
-            return (EOSPluginEditorPrebuildConfig)this.MemberwiseClone();
-        }
-
-        public bool IsEmpty()
-        {
-            return false;
-        }
     }
 }

@@ -27,27 +27,13 @@ using System.IO;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorSigningConfig : ICloneableGeneric<EOSPluginEditorSigningConfig>, IEmpty
+    public class EOSPluginEditorSigningConfig : Config
     {
         public string pathToSignTool;
         public string pathToPFX;
         public string pfxPassword;
         public string timestampURL;
         public List<string> dllPaths;
-
-        public EOSPluginEditorSigningConfig Clone()
-        {
-            return (EOSPluginEditorSigningConfig)this.MemberwiseClone();
-        }
-
-        public bool IsEmpty()
-        {
-            return string.IsNullOrEmpty(pathToSignTool)
-                && string.IsNullOrEmpty(pathToPFX)
-                && string.IsNullOrEmpty(timestampURL)
-                && dllPaths == null || dllPaths.Count == 0
-                ;
-        }
     }
 
     public class SignToolConfigEditor : ConfigEditor<EOSPluginEditorSigningConfig>
@@ -58,17 +44,17 @@ namespace PlayEveryWare.EpicOnlineServices
         static void SignAllDLLs()
         {
             var signTool = new SignToolConfigEditor();
-            signTool.Read();
+            signTool.Load();
 
             // stop if there are no dlls to sign
-            if (signTool.GetConfig().currentEOSConfig.dllPaths == null)
+            if (signTool.GetConfig().Data.dllPaths == null)
             {
                 return;
             }
 
-            foreach (var dllPath in signTool.GetConfig().currentEOSConfig.dllPaths)
+            foreach (var dllPath in signTool.GetConfig().Data.dllPaths)
             {
-                SignDLL(signTool.GetConfig().currentEOSConfig, dllPath);
+                SignDLL(signTool.GetConfig().Data, dllPath);
             }
         }
 
@@ -77,9 +63,9 @@ namespace PlayEveryWare.EpicOnlineServices
         {
 #if UNITY_EDITOR_WIN
             var configSection = new SignToolConfigEditor();
-            configSection.Read();
+            configSection.Load();
 
-            return (configSection.GetConfig().currentEOSConfig.dllPaths != null);
+            return (configSection.GetConfig().Data.dllPaths != null);
 #else
             return false;
 #endif
@@ -108,14 +94,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
             var process = new System.Diagnostics.Process { StartInfo = procInfo };
             process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-                if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                if (!string.IsNullOrEmpty(e.Data))
                 {
                     Debug.Log(e.Data);
                 }
             });
 
             process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-                if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                if (!string.IsNullOrEmpty(e.Data))
                 {
                     Debug.LogError(e.Data);
                 }
@@ -128,43 +114,43 @@ namespace PlayEveryWare.EpicOnlineServices
             process.Close();
         }
 
-        public override void OnGUI()
+        public override void RenderContents()
         {
-            string pathToSigntool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToSignTool);
-            string pathToPFX = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToPFX);
-            string pfxPassword = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pfxPassword);
-            string timestampURL = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.timestampURL);
+            string pathToSigntool = (ConfigHandler.Data.pathToSignTool ?? "");
+            string pathToPFX = (ConfigHandler.Data.pathToPFX ?? "");
+            string pfxPassword = (ConfigHandler.Data.pfxPassword ?? "");
+            string timestampURL = (ConfigHandler.Data.timestampURL ?? "");
             GUIEditorHelper.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
             GUIEditorHelper.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
             GUIEditorHelper.AssigningTextField("PFX password", ref pfxPassword);
             GUIEditorHelper.AssigningTextField("Timestamp Authority URL", ref timestampURL);
 
-            if (configFile.currentEOSConfig.dllPaths == null)
+            if (ConfigHandler.Data.dllPaths == null)
             {
-                configFile.currentEOSConfig.dllPaths = new List<string>();
+                ConfigHandler.Data.dllPaths = new List<string>();
             }
             EditorGUILayout.LabelField("Target DLL Paths");
-            for (int i = 0; i < configFile.currentEOSConfig.dllPaths.Count; ++i)
+            for (int i = 0; i < ConfigHandler.Data.dllPaths.Count; ++i)
             {
                 EditorGUILayout.BeginHorizontal();
-                string dllPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.dllPaths[i]);
+                string dllPath = (ConfigHandler.Data.dllPaths[i]);
                 GUIEditorHelper.AssigningTextField("", ref dllPath);
-                configFile.currentEOSConfig.dllPaths[i] = dllPath;
+                ConfigHandler.Data.dllPaths[i] = dllPath;
                 if (GUILayout.Button("Remove", GUILayout.MaxWidth(100)))
                 {
-                    configFile.currentEOSConfig.dllPaths.RemoveAt(i);
+                    ConfigHandler.Data.dllPaths.RemoveAt(i);
                 }
                 EditorGUILayout.EndHorizontal();
             }
             if (GUILayout.Button("Add", GUILayout.MaxWidth(100)))
             {
-                configFile.currentEOSConfig.dllPaths.Add("");
+                ConfigHandler.Data.dllPaths.Add("");
             }
 
-            configFile.currentEOSConfig.pathToSignTool = pathToSigntool;
-            configFile.currentEOSConfig.pathToPFX = pathToPFX;
-            configFile.currentEOSConfig.pfxPassword = pfxPassword;
-            configFile.currentEOSConfig.timestampURL = timestampURL.Trim();
+            ConfigHandler.Data.pathToSignTool = pathToSigntool;
+            ConfigHandler.Data.pathToPFX = pathToPFX;
+            ConfigHandler.Data.pfxPassword = pfxPassword;
+            ConfigHandler.Data.timestampURL = timestampURL.Trim();
         }
     }
 }

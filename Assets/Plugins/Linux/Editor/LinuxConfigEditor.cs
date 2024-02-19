@@ -20,10 +20,8 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor
+namespace PlayEveryWare.EpicOnlineServices
 {
-    using Settings;
-
     public class LinuxConfigEditor : PlatformConfigEditor<LinuxConfig>
     {
         public LinuxConfigEditor() : base(PlatformManager.Platform.Linux) { }

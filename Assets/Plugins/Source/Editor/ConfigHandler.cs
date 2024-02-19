@@ -24,7 +24,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace PlayEveryWare.EpicOnlineServices.Editor
+namespace PlayEveryWare.EpicOnlineServices
 {
     using Settings;
 

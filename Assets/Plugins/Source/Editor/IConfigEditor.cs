@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor
+namespace PlayEveryWare.EpicOnlineServices
 {
     // Interface for allowing adding additional config files to the Config editor
     public interface IConfigEditor

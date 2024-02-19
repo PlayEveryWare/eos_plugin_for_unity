@@ -20,7 +20,7 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor
+namespace PlayEveryWare.EpicOnlineServices
 {
     using Settings;
     using System.IO;
