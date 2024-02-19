@@ -28,8 +28,6 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Settings;
-
     public class EOSPluginEditorToolsConfigEditor : ConfigEditor<EOSPluginEditorToolsConfig>
     {
         public EOSPluginEditorToolsConfigEditor() : base("Tools", "eos_plugin_tools_config.json") { }

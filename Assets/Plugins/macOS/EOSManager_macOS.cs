@@ -78,7 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices
     //-------------------------------------------------------------------------
     public class EOSPlatformSpecificsmacOS : IEOSManagerPlatformSpecifics
     {
-        EOS_macOSConfig macOSConfig;
+        MacOSConfig macOSConfig;
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
@@ -122,7 +122,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", "eos_macos_config.json");
         }
         //-------------------------------------------------------------------------
-        private EOS_macOSConfig GetEOS_macOSConfig()
+        private MacOSConfig GetEOS_macOSConfig()
         {
             if (macOSConfig != null)
             {
@@ -131,7 +131,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             string eosFinalConfigPath = GetPathToEOSConfig();
             var configDataAsString = File.ReadAllText(eosFinalConfigPath);
-            var configData = JsonUtility.FromJson<EOS_macOSConfig>(configDataAsString);
+            var configData = JsonUtility.FromJson<MacOSConfig>(configDataAsString);
             macOSConfig = configData;
             return macOSConfig;
         }
