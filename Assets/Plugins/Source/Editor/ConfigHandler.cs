@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2024 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -24,71 +24,114 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    //-------------------------------------------------------------------------
-    public class EOSConfigFile<T> where T : ICloneableGeneric<T>, IEmpty, new()
+    using Settings;
+
+    /// <summary>
+    /// Used to represent a "handle" to the config data, thus delegating all the IO work here.
+    /// </summary>
+    /// <typeparam name="T">The Config being represented</typeparam>
+    public class ConfigHandler<T> where T : Config, new()
     {
-        public string configFilenamePath;
-        public T configDataOnDisk;
-        public T currentEOSConfig;
+        /// <summary>
+        /// Fully-qualified path to the file that contains the configuration values.
+        /// </summary>
+        private string _configFilePath;
 
-        //-------------------------------------------------------------------------
-        public EOSConfigFile(string aConfigFilenamePath)
+        /// <summary>
+        /// The Config data as it exists on the disk.
+        /// </summary>
+        private T _dataOnDisk;
+
+        /// <summary>
+        /// The Config data as it exists in memory.
+        /// </summary>
+        public T Data;
+
+        /// <summary>
+        /// Creates a new ConfigHandle to represent the manipulation of the data at the given filepath.
+        /// </summary>
+        /// <param name="filepath">Fully-qualified path to the file containing the configuration values.</param>
+        public ConfigHandler(string filepath)
         {
-            configFilenamePath = aConfigFilenamePath;
+            _configFilePath = filepath;
         }
 
-        //-------------------------------------------------------------------------
-        public void LoadConfigFromDisk()
+        /// <summary>
+        /// Reads the configuration values from the disk into memory. If the file does not exist, Read() will create the file with default configuration values.
+        /// </summary>
+        public void Read()
         {
-            string eosFinalConfigPath = configFilenamePath;
-            bool jsonConfigExists = File.Exists(eosFinalConfigPath);
+            bool configFileExists = File.Exists(_configFilePath);
 
-            if (jsonConfigExists)
+            if (configFileExists)
             {
-                var configDataAsString = System.IO.File.ReadAllText(eosFinalConfigPath);
-                configDataOnDisk = JsonUtility.FromJson<T>(configDataAsString);
+                var configDataAsString = System.IO.File.ReadAllText(_configFilePath);
+                _dataOnDisk = JsonUtility.FromJson<T>(configDataAsString);
             }
             else
             {
-                configDataOnDisk = new T();
+                _dataOnDisk = new T();
             }
-            currentEOSConfig = configDataOnDisk.Clone();
+
+            Data = (T)_dataOnDisk.Clone();
+
+            // if the config file does not currently exist, lets save it so it does
+            if (!configFileExists)
+            {
+                Write();
+            }
         }
 
-        //-------------------------------------------------------------------------
-        public void SaveToJSONConfig(bool prettyPrint)
+        /// <summary>
+        /// Is true if there are changes to the config that have not been written.
+        /// </summary>
+        public bool HasChanges
         {
-            if (currentEOSConfig.IsEmpty())
+            get
             {
-                if (EOSPluginEditorConfigEditor.IsAsset(configFilenamePath))
-                {
-                    AssetDatabase.DeleteAsset(configFilenamePath);
-                }
-                else
-                {
-                    File.Delete(configFilenamePath);
-                }
+                return (_dataOnDisk != Data);
             }
-            else
-            {
-                var configDataAsJSON = JsonUtility.ToJson(currentEOSConfig, prettyPrint);
-                string configFilenameParentPath = Path.GetDirectoryName(configFilenamePath);
+        }
 
-                if (!Directory.Exists(configFilenameParentPath))
-                {
-                    Directory.CreateDirectory(configFilenameParentPath);
-                }
+        /// <summary>
+        /// Writes the configuration data to the file that contains the information on disk.
+        /// </summary>
+        /// <param name="prettyPrint">Whether or not to format the data in a more human-readable manner.</param>
+        public void Write(bool prettyPrint = true)
+        {
+            // TODO: For PR discussion: It appears that the intent of this code is that if the Config data
+            //       has only default values, then it doesn't really do anything, and so should be deleted.
+            //       I think this causes some confusion, and there is no reason not to include the file if
+            //       its presence doesn't cause concern. I think there are other solutions to excluding it
+            //       from assets if it is not relevant. But I leave the code here for now so we can discuss.
+            //       Possible counter-point: Users might be confused about why there is a config file that
+            //       appears to specify (albeit empty) config values for platforms that they may not be
+            //       targetting. Keeping the file out of their assets could reduce that confusion.
+            //if (Data.IsDefault())
+            //{
+            //    if (EOSPluginEditorConfigEditor.IsAsset(_configFilePath))
+            //    {
+            //        AssetDatabase.DeleteAsset(_configFilePath);
+            //    }
+            //    else
+            //    {
+            //        File.Delete(_configFilePath);
+            //    }
+            //}
+            //else
+            //{
+            var configDataAsJSON = JsonUtility.ToJson(Data, prettyPrint);
 
+            // If this is the first time we are saving the config, we need to create the directory
+            // If the directory already exists this will do nothing
+            FileInfo file = new(_configFilePath);
+            file.Directory?.Create();
 
-                // If this is the first time we are saving the config, we need to create the directory
-                // If the directory already exists this will do nothing
-                System.IO.FileInfo file = new System.IO.FileInfo(configFilenamePath);
-                file.Directory.Create();
-                
-                File.WriteAllText(configFilenamePath, configDataAsJSON);
-            }
+            File.WriteAllText(_configFilePath, configDataAsJSON);
+            //}
+
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
