@@ -1,6 +1,14 @@
 {
     "source_to_dest": [
         {"comment": "----------------------------Windows---------------------------------------------"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
+
         {"src":"Assets/Plugins/Windows.meta", "dest": "Runtime/"},
 
         {"src":"Assets/Plugins/Windows/x64.meta", "dest": "Runtime/Windows/"},

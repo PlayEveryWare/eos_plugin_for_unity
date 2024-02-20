@@ -2,12 +2,12 @@
     "source_to_dest": [
         {"src":"etc/PackageTemplate/CHANGELOG.md", "dest" : "CHANGELOG.md"},
         {"src":"etc/PackageTemplate/CHANGELOG.md.meta", "dest" : ""},
-        {"src":"license.md", "dest" : "LICENSE.md"},
+        {"src":"LICENSE.md", "dest" : "LICENSE.md"},
         {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/package.json", "dest" : ""},
         {"src":"etc/PackageTemplate/package.json.meta", "dest" : ""},
 
-        {"src":"docs/upm_readme.md", "dest" : "README.md"},
+        {"src":"README.md", "dest" : "README.md"},
         {"src":"etc/PackageTemplate/README.md.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/Editor.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/Runtime.meta", "dest" : ""},
@@ -43,13 +43,7 @@
 
         {"src":"Assets/Plugins/Source/Editor/*.cs", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
-        
-        {"src":"Assets/Plugins/Source/Editor/Utility.meta", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs.meta", "dest": "Editor/Utility/"},
-        
+
         {"comment": "----------------------------Standalone---------------------------------------------"},
         {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
         {"src":"Assets/Plugins/Standalone/Editor/*", "dest": "Editor/Standalone/"},
@@ -70,6 +64,8 @@
         {"src":"Assets/link.xml", "dest": "Editor/"},
         {"src":"Assets/link.xml.meta", "dest": "Editor/"},
 
+
+        {"comment": "----------------------------EOSSDK Shared C#---------------------------------------------"},
         {"src":"Assets/Plugins/Source/EOS_SDK.meta", "dest": "Runtime/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/license.txt", "dest": "Runtime/EOS_SDK/"},
@@ -212,14 +208,7 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
 
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows.meta", "dest": "Runtime/EOS_SDK/Generated/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
-        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/Platform/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/Platform/"},
-
-
+        {"comment": "----------------------------End EOSSDK Shared C#---------------------------------------------"},
 
         {"src":"etc/PackageTemplate/.sample.json", "dest" : ""},
 
@@ -240,8 +229,6 @@
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
         {"src":"Assets/Scripts/Core.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Core.meta"},
         {"src":"Assets/Scripts/Core/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Core/"},
-        {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam.meta"},
-        {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam/"},
         {"src":"Assets/Scripts/Discord.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord.meta"},
         {"src":"Assets/Scripts/Discord/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Discord/"},
         {"src":"Assets/Scripts/Oculus.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Oculus.meta"},
