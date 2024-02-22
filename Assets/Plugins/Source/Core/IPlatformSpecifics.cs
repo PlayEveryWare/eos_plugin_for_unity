@@ -87,9 +87,9 @@ namespace PlayEveryWare.EpicOnlineServices
     }
 
     //-------------------------------------------------------------------------
-    public class EOSManagerPlatformSpecifics
+    public class EOSManagerPlatformSpecificsSingleton
     {
-        static IEOSManagerPlatformSpecifics s_platformSpecifics;
+        static IPlatformSpecifics s_platformSpecifics;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void InitOnPlayMode()
@@ -99,11 +99,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         //-------------------------------------------------------------------------
         // Should only be called once
-        static public void SetEOSManagerPlatformSpecificsInterface(IEOSManagerPlatformSpecifics platformSpecifics)
+        static public void SetEOSManagerPlatformSpecificsInterface(IPlatformSpecifics platformSpecifics)
         {
             if (s_platformSpecifics != null)
             {
-                throw new Exception(string.Format("Trying to set the EOSManagerPlatformSpecifics twice: {0} => {1}", 
+                throw new Exception(string.Format("Trying to set the EOSManagerPlatformSpecificsSingleton twice: {0} => {1}", 
                     s_platformSpecifics.GetType().Name,
                     platformSpecifics == null ? "NULL" : platformSpecifics.GetType().Name
                 ));
@@ -112,7 +112,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        static public IEOSManagerPlatformSpecifics Instance
+        static public IPlatformSpecifics Instance
         {
             get
             {
@@ -134,7 +134,7 @@ namespace PlayEveryWare.EpicOnlineServices
     }
 
     //-------------------------------------------------------------------------
-    public interface IEOSManagerPlatformSpecifics
+    public interface IPlatformSpecifics
     {
 #if !EOS_DISABLE
         string GetTempDir();
@@ -149,22 +149,23 @@ namespace PlayEveryWare.EpicOnlineServices
         void LoadDelegatesWithEOSBindingAPI();
 //#endif
 
-        //-------------------------------------------------------------------------
-        IEOSInitializeOptions CreateSystemInitOptions();
         void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData);
 
-        IEOSCreateOptions CreateSystemPlatformOption();
         void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions);
-
-        Epic.OnlineServices.Result InitializePlatformInterface(IEOSInitializeOptions options);
-
-        Epic.OnlineServices.Platform.PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions);
 
         void InitializeOverlay(IEOSCoroutineOwner owner);
 
         void RegisterForPlatformNotifications();
 
         bool IsApplicationConstrainedWhenOutOfFocus();
+
+        Int32 IsReadyForNetworkActivity();
+
+        /// <summary>
+        /// Sets the default audio session.
+        /// NOTE: This is only implemented for iOS
+        /// </summary>
+        void SetDefaultAudioSession();
 #endif
     }
 }

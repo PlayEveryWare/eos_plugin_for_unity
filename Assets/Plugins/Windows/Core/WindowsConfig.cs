@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,8 +22,12 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class AndroidConfigEditor : PlatformConfigEditor<AndroidConfig>
+    using System;
+
+    // Flags specifically for macOS
+    [Serializable]
+    public class WindowsConfig : PlatformConfig
     {
-        public AndroidConfigEditor() : base(PlatformManager.Platform.Android) { }
+        public WindowsConfig() : base(PlatformManager.Platform.Windows) { }
     }
 }

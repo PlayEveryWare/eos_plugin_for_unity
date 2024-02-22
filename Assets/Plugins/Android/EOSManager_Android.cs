@@ -20,17 +20,9 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Scripting;
-
-using Epic.OnlineServices.Platform;
-using Epic.OnlineServices;
-using Epic.OnlineServices.Auth;
-using Epic.OnlineServices.Logging;
 using System.Runtime.InteropServices;
-using UnityEngine.Assertions;
 using System;
 
 using jint = System.Int32;
@@ -38,88 +30,28 @@ using jsize = System.Int32;
 using JavaVM = System.IntPtr;
 using System.Diagnostics;
 
-
-
 #if UNITY_ANDROID && !UNITY_EDITOR
 [assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
-    public class EOSAndroidOptions : IEOSCreateOptions
-    {
-
-        public Epic.OnlineServices.Platform.Options options;
-
-        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get => options.IntegratedPlatformOptionsContainerHandle; set => options.IntegratedPlatformOptionsContainerHandle = value; }
-        IntPtr IEOSCreateOptions.Reserved { get => options.Reserved; set => options.Reserved = value; }
-        Utf8String IEOSCreateOptions.ProductId { get => options.ProductId; set => options.ProductId = value; }
-        Utf8String IEOSCreateOptions.SandboxId { get => options.SandboxId; set => options.SandboxId = value; }
-        ClientCredentials IEOSCreateOptions.ClientCredentials { get => options.ClientCredentials; set => options.ClientCredentials = value; }
-        bool IEOSCreateOptions.IsServer { get => options.IsServer; set => options.IsServer = value; }
-        Utf8String IEOSCreateOptions.EncryptionKey { get => options.EncryptionKey; set => options.EncryptionKey = value; }
-        Utf8String IEOSCreateOptions.OverrideCountryCode { get => options.OverrideCountryCode; set => options.OverrideCountryCode = value; }
-        Utf8String IEOSCreateOptions.OverrideLocaleCode { get => options.OverrideLocaleCode; set => options.OverrideLocaleCode = value; }
-        Utf8String IEOSCreateOptions.DeploymentId { get => options.DeploymentId; set => options.DeploymentId = value; }
-        PlatformFlags IEOSCreateOptions.Flags { get => options.Flags; set => options.Flags = value; }
-        Utf8String IEOSCreateOptions.CacheDirectory { get => options.CacheDirectory; set => options.CacheDirectory = value; }
-        uint IEOSCreateOptions.TickBudgetInMilliseconds { get => options.TickBudgetInMilliseconds; set => options.TickBudgetInMilliseconds = value; }
-    }
-
-    //-------------------------------------------------------------------------
-    public class EOSAndroidInitializeOptions : IEOSInitializeOptions
-    {
-        public Epic.OnlineServices.Platform.AndroidInitializeOptions options;
-
-        public IntPtr AllocateMemoryFunction { get => options.AllocateMemoryFunction; set => options.AllocateMemoryFunction = value; }
-        public IntPtr ReallocateMemoryFunction { get => options.ReallocateMemoryFunction; set => options.ReallocateMemoryFunction = value; }
-        public IntPtr ReleaseMemoryFunction { get => options.ReleaseMemoryFunction; set => options.ReleaseMemoryFunction = value; }
-        public Utf8String ProductName { get => options.ProductName; set => options.ProductName = value; }
-        public Utf8String ProductVersion { get => options.ProductVersion; set => options.ProductVersion = value; }
-        public InitializeThreadAffinity? OverrideThreadAffinity { get => options.OverrideThreadAffinity; set => options.OverrideThreadAffinity = value; }
-    }
-
-    //-------------------------------------------------------------------------
     // Android specific Unity Parts.
-    public partial class EOSPlatformSpecificsAndroid : IEOSManagerPlatformSpecifics
+    public class EOSPlatformSpecificsAndroid : PlatformSpecifics<AndroidConfig>
     {
-        AndroidConfig androidConfig;
 
         [DllImport("UnityHelpers_Android")]
         private static extern JavaVM UnityHelpers_GetJavaVM();
 
-        //-------------------------------------------------------------------------
+        public EOSPlatformSpecificsAndroid() : base(PlatformManager.Platform.Android) { }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
-            EOSManagerPlatformSpecifics.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
+            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
         }
 
-        //-------------------------------------------------------------------------
-        private string GetPathToEOSConfig()
+        private static void ConfigureAndroidActivity()
         {
-            return System.IO.Path.Combine(Application.streamingAssetsPath, "EOS", "eos_android_config.json");
-        }
-
-        //-------------------------------------------------------------------------
-        AndroidConfig GetEOSAndroidConfig()
-        {
-            string eosFinalConfigPath = GetPathToEOSConfig();
-            var configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
-            androidConfig = JsonUtility.FromJson<AndroidConfig>(configDataAsString);
-            return androidConfig;
-        }
-
-        //-------------------------------------------------------------------------
-        public string GetTempDir()
-        {
-
-            return Application.temporaryCachePath;
-        }
-
-        //-------------------------------------------------------------------------
-        static private void ConfigureAndroidActivity()
-        {
-
             UnityEngine.Debug.Log("EOSAndroid: Getting activity context...");
             AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
@@ -138,122 +70,27 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        //-------------------------------------------------------------------------
         // This does some work to configure the Android side of things before doing the
         // 'normal' EOS init things.
         // TODO: Configure the internal and external directory
-        public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
+        public override void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
         {
+            // Do the standard overriding stuff
+            base.ConfigureSystemInitOptions(ref initializeOptionsRef, configData);
 
-            EOSAndroidInitializeOptions initializeOptions = (initializeOptionsRef as EOSAndroidInitializeOptions);
-
-            if (initializeOptions == null)
+            // check again for if it's null after coming out of the base ConfigureSystemInitOptions method
+            // (it shouldn't, but check anyways to make compile-time checks happy)
+            if (initializeOptionsRef is not EOSInitializeOptions initializeOptions)
             {
                 throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
             }
+
+            // Options that need to be set for Android specifically
             initializeOptions.options.Reserved = IntPtr.Zero;
+            initializeOptions.options.SystemInitializeOptions = new();
 
-
-            AndroidInitializeOptionsSystemInitializeOptions androidInitOptionsSystemInitOptions = new AndroidInitializeOptionsSystemInitializeOptions();
-            initializeOptions.options.SystemInitializeOptions = androidInitOptionsSystemInitOptions;
-
+            // Additional setup stuff needed for Android
             ConfigureAndroidActivity();
-
-            if (GetEOSAndroidConfig() != null)
-            {
-                if (initializeOptions.OverrideThreadAffinity.HasValue)
-                {
-                    var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
-                    overrideThreadAffinity.NetworkWork = androidConfig.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
-                    overrideThreadAffinity.StorageIo = androidConfig.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
-                    overrideThreadAffinity.WebSocketIo = androidConfig.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
-                    overrideThreadAffinity.P2PIo = androidConfig.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
-                    overrideThreadAffinity.HttpRequestIo = androidConfig.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
-                    overrideThreadAffinity.RTCIo = androidConfig.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
-                    initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
-                }
-            }
-        }
-
-        //-------------------------------------------------------------------------
-        public IEOSCreateOptions CreateSystemPlatformOption()
-        {
-
-            return new EOSAndroidOptions();
-        }
-
-        //-------------------------------------------------------------------------
-        public void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
-        {
-            var rtcOptions = new RTCOptions();
-
-
-
-            // assume that RTC needs to be enabled and enable with a default option.
-            (createOptions as EOSAndroidOptions).options.RTCOptions = rtcOptions;
-
-        }
-
-        //-------------------------------------------------------------------------
-        private void InitailizeOverlaySupport()
-        {
-
-        }
-
-        //-------------------------------------------------------------------------
-        public void AddPluginSearchPaths(ref List<string> pluginPaths)
-        {
-
-        }
-
-        //-------------------------------------------------------------------------
-        public string GetDynamicLibraryExtension()
-        {
-
-            return ".so";
-        }
-
-        //-------------------------------------------------------------------------
-        public void LoadDelegatesWithEOSBindingAPI()
-        {
-
-        }
-
-        public IEOSInitializeOptions CreateSystemInitOptions()
-        {
-
-            return new EOSAndroidInitializeOptions();
-        }
-
-
-        public Result InitializePlatformInterface(IEOSInitializeOptions options)
-        {
-
-            return PlatformInterface.Initialize(ref (options as EOSAndroidInitializeOptions).options);
-        }
-
-        public PlatformInterface CreatePlatformInterface(IEOSCreateOptions platformOptions)
-        {
-
-            return PlatformInterface.Create(ref (platformOptions as EOSAndroidOptions).options);
-        }
-
-        public void InitializeOverlay(IEOSCoroutineOwner owner)
-        {
-
-        }
-
-        //-------------------------------------------------------------------------
-        public void RegisterForPlatformNotifications()
-        {
-
-        }
-
-        public bool IsApplicationConstrainedWhenOutOfFocus()
-        {
-
-            // TODO: Need to implement this for Android
-            return false;
         }
 
         //-------------------------------------------------------------------------

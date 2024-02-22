@@ -913,7 +913,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchCallback = null;
 
 #if UNITY_IOS && !UNITY_EDITOR
-            (EOSManagerPlatformSpecifics.Instance as EOSPlatformSpecificsiOS).SetDefaultAudioSession();
+            (EOSManagerPlatformSpecificsSingleton.Instance as IOSPlatformSpecifics).SetDefaultAudioSession();
 #endif
         }
 

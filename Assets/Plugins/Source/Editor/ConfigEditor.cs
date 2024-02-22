@@ -22,7 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Settings;
     using System.IO;
 
     /// <summary>

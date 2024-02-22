@@ -26,8 +26,6 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Settings;
-
     /// <summary>
     /// Used to represent a "handle" to the config data, thus delegating all the IO work here.
     /// </summary>
