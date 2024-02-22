@@ -24,7 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
 
-    // Flags specifically for macOS
+    // Flags specifically for Windows
     [Serializable]
     public class WindowsConfig : PlatformConfig
     {
