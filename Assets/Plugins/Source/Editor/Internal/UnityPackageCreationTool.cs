@@ -86,8 +86,11 @@ public class UnityPackageCreationTool : EditorWindow
         {
             foreach (var package in UPCUtil.packagePlatformsDict)
             {
-                UPCUtil.CreateUPMTarballV2(package.Key);
-                OnPackageCreated(UPCUtil.pathToOutput);
+                if (UPCUtil.isPackageExported[package.Key])
+                {
+                    UPCUtil.CreateUPMTarballV2(package.Key);
+                    OnPackageCreated(UPCUtil.pathToOutput);
+                }
             }
         }
 
