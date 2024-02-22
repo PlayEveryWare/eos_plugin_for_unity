@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Creates the view for showing the eos plugin editor config values.
     /// </summary>
     [Serializable]
-    public class DevPortalSettingsWindow : EOSEditorWindow
+    public class EOSPluginSettingsWindow : EOSEditorWindow
     {
         private const string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 
@@ -43,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [SettingsProvider]
         public static SettingsProvider CreateSettingsProvider()
         {
-            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<DevPortalSettingsWindow>();
+            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EOSPluginSettingsWindow>();
             eosPluginEditorConfigEditor.SetIsEmbedded(true);
             var provider = new SettingsProvider("Preferences/EOS Plugin Configuration", SettingsScope.User)
             {
@@ -60,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<DevPortalSettingsWindow>("EOS Plugin Config");
+            GetWindow<EOSPluginSettingsWindow>("EOS Plugin Config");
         }
 
         private static string GetConfigDirectory()

@@ -21,8 +21,6 @@
  */
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System;
-
     public class AndroidBuildConfigEditor : ConfigEditor<AndroidBuildConfig>
     {
         public AndroidBuildConfigEditor() : base("Android Build Settings",

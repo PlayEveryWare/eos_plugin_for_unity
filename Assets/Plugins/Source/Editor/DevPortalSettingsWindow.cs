@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Random = System.Random;
 
     [Serializable]
-    public class EpicOnlineServicesConfigEditor : EOSEditorWindow
+    public class DevPortalSettingsWindow : EOSEditorWindow
     {
         private static readonly string WindowTitle = "EOS Dev Portal Configuration";
         private const string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
@@ -54,14 +54,14 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<EpicOnlineServicesConfigEditor>(WindowTitle);
+            GetWindow<DevPortalSettingsWindow>(WindowTitle);
         }
 
 
         [SettingsProvider]
         public static SettingsProvider CreateProjectSettingsProvider()
         {
-            var eosPluginEditorConfigEditor = CreateInstance<EpicOnlineServicesConfigEditor>();
+            var eosPluginEditorConfigEditor = CreateInstance<DevPortalSettingsWindow>();
             var keywords = eosPluginEditorConfigEditor.GetKeywords();
             // mark the editor window as being embedded, so it skips auto formatting stuff.
             eosPluginEditorConfigEditor.SetIsEmbedded(true);
