@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2024 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -27,23 +27,14 @@ using System.IO;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorSigningConfig : Config
+    public class SigningConfigEditor : ConfigEditor<SigningConfig>
     {
-        public string pathToSignTool;
-        public string pathToPFX;
-        public string pfxPassword;
-        public string timestampURL;
-        public List<string> dllPaths;
-    }
-
-    public class SignToolConfigEditor : ConfigEditor<EOSPluginEditorSigningConfig>
-    {
-        public SignToolConfigEditor() : base("Code Signing", "eos_plugin_signing_config.json") { }
+        public SigningConfigEditor() : base("Code Signing", "eos_plugin_signing_config.json") { }
 
         [MenuItem("Tools/EOS Plugin/Sign DLLs")]
         static void SignAllDLLs()
         {
-            var signTool = new SignToolConfigEditor();
+            var signTool = new SigningConfigEditor();
             signTool.Load();
 
             // stop if there are no dlls to sign
@@ -62,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices
         static bool CanSignDLLs()
         {
 #if UNITY_EDITOR_WIN
-            var configSection = new SignToolConfigEditor();
+            var configSection = new SigningConfigEditor();
             configSection.Load();
 
             return (configSection.GetConfig().Data.dllPaths != null);
@@ -71,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
         }
 
-        static void SignDLL(EOSPluginEditorSigningConfig config, string dllPath)
+        static void SignDLL(SigningConfig config, string dllPath)
         {
             var procInfo = new System.Diagnostics.ProcessStartInfo()
             {

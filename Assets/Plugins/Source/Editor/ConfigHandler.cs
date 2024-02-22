@@ -111,7 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //       targetting. Keeping the file out of their assets could reduce that confusion.
             //if (Data.IsDefault())
             //{
-            //    if (EOSPluginEditorConfigEditor.IsAsset(_configFilePath))
+            //    if (DevPortalSettingsWindow.IsAsset(_configFilePath))
             //    {
             //        AssetDatabase.DeleteAsset(_configFilePath);
             //    }

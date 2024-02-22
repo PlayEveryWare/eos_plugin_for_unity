@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,21 @@
 * SOFTWARE.
 */
 
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
-    [Serializable]
-    public class PackageDescription
+    public class PrebuildConfigEditor : ConfigEditor<PrebuildConfig>
     {
-        [SerializeField]
-        public List<SrcDestPair> source_to_dest;
+        public PrebuildConfigEditor() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
 
-        [SerializeField]
-        public List<string> blacklist;
+        /// <summary>
+        /// It's possible for the config file to not load in certain cases (like making test builds).
+        /// </summary>
+        public bool IsValid => ConfigHandler != null;
+
+        public override void RenderContents()
+        {
+            GUIEditorHelper.AssigningBoolField("Use Unity App Version for the EOS product version",
+                ref ConfigHandler.Data.useAppVersionAsProductVersion);
+        }
     }
 }

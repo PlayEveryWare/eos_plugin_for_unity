@@ -28,65 +28,11 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorToolsConfigEditor : ConfigEditor<EOSPluginEditorToolsConfig>
-    {
-        public EOSPluginEditorToolsConfigEditor() : base("Tools", "eos_plugin_tools_config.json") { }
-
-        public override void RenderContents()
-        {
-            string pathToIntegrityTool = (ConfigHandler.Data.pathToEACIntegrityTool);
-            string pathToIntegrityConfig = (ConfigHandler.Data.pathToEACIntegrityConfig);
-            string pathToEACCertificate = (ConfigHandler.Data.pathToEACCertificate);
-            string pathToEACPrivateKey = (ConfigHandler.Data.pathToEACPrivateKey);
-            string pathToEACSplashImage = (ConfigHandler.Data.pathToEACSplashImage);
-            string bootstrapOverideName = (ConfigHandler.Data.bootstrapperNameOverride);
-            bool useEAC = ConfigHandler.Data.useEAC;
-
-            GUIEditorHelper.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool",
-                tooltip: "EOS SDK tool used to generate EAC certificate from file hashes");
-            GUIEditorHelper.AssigningPath("Path to EAC Integrity Tool Config", ref pathToIntegrityConfig, "Select EAC Integrity Tool Config",
-                tooltip: "Config file used by integry tool. Defaults to anticheat_integritytool.cfg in same directory.", extension: "cfg", labelWidth: 200);
-            GUIEditorHelper.AssigningPath("Path to EAC private key", ref pathToEACPrivateKey, "Select EAC private key", extension: "key",
-                tooltip: "EAC private key used in integrity tool cert generation. Exposing this to the public will comprimise anti-cheat functionality.");
-            GUIEditorHelper.AssigningPath("Path to EAC Certificate", ref pathToEACCertificate, "Select EAC public key", extension: "cer",
-                tooltip: "EAC public key used in integrity tool cert generation");
-            GUIEditorHelper.AssigningPath("Path to EAC splash image", ref pathToEACSplashImage, "Select 800x450 EAC splash image PNG", extension: "png",
-                tooltip: "EAC splash screen used by launcher. Must be a PNG of size 800x450.");
-
-            GUIEditorHelper.AssigningBoolField("Use EAC", ref useEAC, tooltip: "If set to true, uses the EAC");
-            GUIEditorHelper.AssigningTextField("Bootstrapper Name Override", ref bootstrapOverideName, labelWidth: 180, tooltip: "Name to use instead of 'Bootstrapper.exe'");
-
-            ConfigHandler.Data.pathToEACIntegrityTool = pathToIntegrityTool;
-            ConfigHandler.Data.pathToEACIntegrityConfig = pathToIntegrityConfig;
-            ConfigHandler.Data.pathToEACPrivateKey = pathToEACPrivateKey;
-            ConfigHandler.Data.pathToEACCertificate = pathToEACCertificate;
-            ConfigHandler.Data.pathToEACSplashImage = pathToEACSplashImage;
-            ConfigHandler.Data.useEAC = useEAC;
-            ConfigHandler.Data.bootstrapperNameOverride = bootstrapOverideName;
-        }
-    }
-
-    public class EOSPluginEditorPrebuildConfigEditor : ConfigEditor<EOSPluginEditorPrebuildConfig>
-    {
-        public EOSPluginEditorPrebuildConfigEditor() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
-
-        /// <summary>
-        /// It's possible for the config file to not load in certain cases (like making test builds).
-        /// </summary>
-        public bool IsValid => ConfigHandler != null;
-
-        public override void RenderContents()
-        {
-            GUIEditorHelper.AssigningBoolField("Use Unity App Version for the EOS product version",
-                ref ConfigHandler.Data.useAppVersionAsProductVersion);
-        }
-    }
-
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
     /// </summary>
     [Serializable]
-    public class EOSPluginEditorConfigEditor : EOSEditorWindow
+    public class DevPortalSettingsWindow : EOSEditorWindow
     {
         private const string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 
@@ -97,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [SettingsProvider]
         public static SettingsProvider CreateSettingsProvider()
         {
-            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EOSPluginEditorConfigEditor>();
+            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<DevPortalSettingsWindow>();
             eosPluginEditorConfigEditor.SetIsEmbedded(true);
             var provider = new SettingsProvider("Preferences/EOS Plugin Configuration", SettingsScope.User)
             {
@@ -114,7 +60,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<EOSPluginEditorConfigEditor>("EOS Plugin Config");
+            GetWindow<DevPortalSettingsWindow>("EOS Plugin Config");
         }
 
         private static string GetConfigDirectory()
@@ -162,12 +108,12 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             configurationSectionEditors ??= new List<IConfigEditor>
                 {
-                    new EOSPluginEditorPrebuildConfigEditor(),
-                    new EOSPluginEditorToolsConfigEditor(),
-                    new EOSPluginEditorAndroidBuildConfigEditor(),
+                    new PrebuildConfigEditor(),
+                    new ToolsConfigEditor(),
+                    new AndroidBuildConfigEditor(),
                     new LibraryBuildConfigEditor(),
-                    new SignToolConfigEditor(),
-                    new EOSPluginEditorPackagingConfigEditor()
+                    new SigningConfigEditor(),
+                    new PackagingConfigEditor()
                 };
 
             LoadConfigFromDisk();
@@ -205,32 +151,5 @@ namespace PlayEveryWare.EpicOnlineServices
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
-    }
-
-
-    /// <summary>
-    /// Represents the EOS Plugin Configuration used for values that might 
-    /// vary depending  on the environment that one is running Unity from.
-    /// </summary>
-    public class EOSPluginEditorToolsConfig : Config
-    {
-        /// <value><c>Path To EAC integrity tool</c> The path to find the tool used for generating EAC certs</value>
-        public string pathToEACIntegrityTool;
-        public string pathToEACIntegrityConfig;
-        public string pathToDefaultCertificate;
-        public string pathToEACPrivateKey;
-        public string pathToEACCertificate;
-        public string pathToEACSplashImage;
-
-        /// <value><c>Bootstrapper override name</c>Optional override name for EOSBootstrapper.exe</value>
-        public string bootstrapperNameOverride;
-
-        /// <value><c>Use EAC</c>If enabled, making a build will run the Easy Anti-Cheat integrity tool and copy EAC files to the build directory</value>
-        public bool useEAC;
-    }
-
-    public class EOSPluginEditorPrebuildConfig : Config
-    {
-        public bool useAppVersionAsProductVersion;
     }
 }

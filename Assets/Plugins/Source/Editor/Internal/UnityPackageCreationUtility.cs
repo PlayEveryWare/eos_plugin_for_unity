@@ -32,7 +32,6 @@ using PlayEveryWare.EpicOnlineServices;
 using UnityEditor.Build;
 
 // help make lines shorter
-using ConfigEditor = PlayEveryWare.EpicOnlineServices.EOSPluginEditorConfigEditor;
 
 
 // Helper to allow for StartCoroutine to be used from a static context
@@ -65,7 +64,7 @@ public static class UnityPackageCreationUtility
     /// <summary>
     /// Contains section of package.json file pertaining to configuration
     /// </summary>
-    public static EOSPluginEditorPackagingConfigEditor packageConfig;
+    public static PackagingConfigEditor packageConfig;
 
     /// <summary>
     /// This is used in order to use StartCoroutine from a static context.
@@ -77,7 +76,7 @@ public static class UnityPackageCreationUtility
     /// </summary>
     static UnityPackageCreationUtility() 
     {
-        packageConfig = new EOSPluginEditorPackagingConfigEditor();
+        packageConfig = new PackagingConfigEditor();
         packageConfig.Load();
 
         // Configure UI defaults

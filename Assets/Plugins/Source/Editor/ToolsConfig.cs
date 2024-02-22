@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,29 @@
 * SOFTWARE.
 */
 
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
-    [Serializable]
-    public class PackageDescription
-    {
-        [SerializeField]
-        public List<SrcDestPair> source_to_dest;
+    using System;
 
-        [SerializeField]
-        public List<string> blacklist;
+    /// <summary>
+    /// Represents the EOS Plugin Configuration used for values that might 
+    /// vary depending  on the environment that one is running Unity from.
+    /// </summary>
+    [Serializable]
+    public class ToolsConfig : Config
+    {
+        /// <value><c>Path To EAC integrity tool</c> The path to find the tool used for generating EAC certs</value>
+        public string pathToEACIntegrityTool;
+        public string pathToEACIntegrityConfig;
+        public string pathToDefaultCertificate;
+        public string pathToEACPrivateKey;
+        public string pathToEACCertificate;
+        public string pathToEACSplashImage;
+
+        /// <value><c>Bootstrapper override name</c>Optional override name for EOSBootstrapper.exe</value>
+        public string bootstrapperNameOverride;
+
+        /// <value><c>Use EAC</c>If enabled, making a build will run the Easy Anti-Cheat integrity tool and copy EAC files to the build directory</value>
+        public bool useEAC;
     }
 }

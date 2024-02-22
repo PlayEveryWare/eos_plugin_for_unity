@@ -22,18 +22,11 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorPackagingConfig : Config
+    public class PackagingConfigEditor : ConfigEditor<PackagingConfig>
     {
-        public string customBuildDirectoryPath;
-        public string pathToJSONPackageDescription;
-        public string pathToOutput;
-    }
+        public PackagingConfigEditor() : base("Packaging", "eos_plugin_packaging_config.json") { }
 
-    public class EOSPluginEditorPackagingConfigEditor : ConfigEditor<EOSPluginEditorPackagingConfig>
-    {
-        public EOSPluginEditorPackagingConfigEditor() : base("Packaging", "eos_plugin_packaging_config.json") { }
-
-        public EOSPluginEditorPackagingConfig GetCurrentConfig()
+        public PackagingConfig GetCurrentConfig()
         {
             return ConfigHandler.Data;
         }

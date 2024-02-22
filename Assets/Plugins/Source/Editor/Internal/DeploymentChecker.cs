@@ -29,7 +29,7 @@ using UnityEngine;
 namespace PlayEveryWare.EpicOnlineServices
 {
     [Serializable]
-    public class DeploymentChecker : EOSEditorWindow
+    public class CheckDeploymentWindow : EOSEditorWindow
     {
         private const string PackageDirectory = "etc/PackageTemplate";
         private const string ChangelogFile = "CHANGELOG.md";
@@ -46,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Check Deployment")]
         public static void ShowWindow()
         {
-            GetWindow<DeploymentChecker>("Deployment Checker");
+            GetWindow<CheckDeploymentWindow>("Deployment Checker");
         }
 
         public string GetRepositoryRoot()

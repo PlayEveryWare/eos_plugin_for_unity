@@ -344,7 +344,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
 
     private void DetermineLibraryLinkingMethod()
     {
-        var androidBuildConfigSection = new EOSPluginEditorAndroidBuildConfigEditor();
+        var androidBuildConfigSection = new AndroidBuildConfigEditor();
         
         androidBuildConfigSection?.Load();
             

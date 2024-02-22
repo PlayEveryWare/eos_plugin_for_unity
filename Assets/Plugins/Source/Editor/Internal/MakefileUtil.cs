@@ -27,34 +27,6 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSLibraryBuildConfig : Config
-    {
-        public string msbuildPath;
-        public string makePath;
-        public bool msbuildDebug;
-    }
-
-    public class LibraryBuildConfigEditor : ConfigEditor<EOSLibraryBuildConfig>
-    {
-        public LibraryBuildConfigEditor() : base("Platform Library Build Settings",
-            "eos_plugin_library_build_config.json")
-        {
-        }
-
-        public override void RenderContents()
-        {
-            string msbuildPath = (ConfigHandler.Data.msbuildPath);
-            string makePath = (ConfigHandler.Data.makePath);
-            bool msbuildDebug = ConfigHandler.Data.msbuildDebug;
-            GUIEditorHelper.AssigningPath("MSBuild path", ref msbuildPath, "Select MSBuild", labelWidth: 80);
-            GUIEditorHelper.AssigningPath("Make path", ref makePath, "Select make", labelWidth: 80);
-            GUIEditorHelper.AssigningBoolField("Use debug config for MSBuild", ref msbuildDebug, labelWidth: 180);
-            ConfigHandler.Data.msbuildPath = msbuildPath;
-            ConfigHandler.Data.makePath = makePath;
-            ConfigHandler.Data.msbuildDebug = msbuildDebug;
-        }
-    }
-
     [InitializeOnLoad]
     public static partial class MakefileUtil
     {

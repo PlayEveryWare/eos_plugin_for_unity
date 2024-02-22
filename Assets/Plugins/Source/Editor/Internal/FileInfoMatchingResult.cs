@@ -19,20 +19,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+using System.IO;
+
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System;
-
-    public class AndroidBuildConfigEditor : ConfigEditor<AndroidBuildConfig>
+    public class FileInfoMatchingResult
     {
-        public AndroidBuildConfigEditor() : base("Android Build Settings",
-            "eos_plugin_android_build_config.json")
-        {
-        }
+        public SrcDestPair originalSrcDestPair;
+        public FileInfo fileInfo;
+        public string relativePath = null;
 
-        public override void RenderContents()
+        public string GetDestination()
         {
-            GUIEditorHelper.AssigningBoolField("Link EOS Library Dynamically", ref ConfigHandler.Data.DynamicallyLinkEOSLibrary);
+            if (!string.IsNullOrWhiteSpace(relativePath) &&
+                (originalSrcDestPair.dest.EndsWith("/") || originalSrcDestPair.dest.Length == 0))
+            {
+                return Path.Combine(originalSrcDestPair.dest, relativePath);
+            }
+
+            return originalSrcDestPair.dest;
         }
     }
 }

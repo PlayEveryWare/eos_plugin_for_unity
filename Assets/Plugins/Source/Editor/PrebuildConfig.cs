@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,13 @@
 * SOFTWARE.
 */
 
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-
 namespace PlayEveryWare.EpicOnlineServices
 {
-    [Serializable]
-    public class PackageDescription
-    {
-        [SerializeField]
-        public List<SrcDestPair> source_to_dest;
+    using System;
 
-        [SerializeField]
-        public List<string> blacklist;
+    [Serializable]
+    public class PrebuildConfig : Config
+    {
+        public bool useAppVersionAsProductVersion;
     }
 }

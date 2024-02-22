@@ -148,7 +148,7 @@ namespace Playeveryware.Editor
             List<SrcDestPair> ignoreList = new List<SrcDestPair>();
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
-            var toolsSection = new EOSPluginEditorToolsConfigEditor();
+            var toolsSection = new ToolsConfigEditor();
             toolsSection?.Load();
 
             foreach (var srcToDestKeyValues in packageDescription.source_to_dest)

@@ -19,20 +19,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System;
-
-    public class AndroidBuildConfigEditor : ConfigEditor<AndroidBuildConfig>
+    public class PackagingConfig : Config
     {
-        public AndroidBuildConfigEditor() : base("Android Build Settings",
-            "eos_plugin_android_build_config.json")
-        {
-        }
-
-        public override void RenderContents()
-        {
-            GUIEditorHelper.AssigningBoolField("Link EOS Library Dynamically", ref ConfigHandler.Data.DynamicallyLinkEOSLibrary);
-        }
+        public string customBuildDirectoryPath;
+        public string pathToJSONPackageDescription;
+        public string pathToOutput;
     }
 }

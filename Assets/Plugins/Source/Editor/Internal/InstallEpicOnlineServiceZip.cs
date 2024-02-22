@@ -1,4 +1,26 @@
-﻿using System.Collections;
+﻿/*
+ * Copyright (c) 2024 PlayEveryWare
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -6,11 +28,33 @@ using System.IO;
 using Playeveryware.Editor;
 using System.Threading.Tasks;
 using System.IO.Compression;
+using System;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class InstallEpicOnlineServiceZip : EOSEditorWindow
+    public class InstallEOSZipWindow : EOSEditorWindow
     {
+        [Serializable]
+        private class PlatformImportInfo
+        {
+            [SerializeField]
+            public string platform;
+
+            [SerializeField]
+            public string descPath;
+
+            [SerializeField]
+            public bool isGettingImported;
+        }
+
+        [Serializable]
+        private class PlatformImportInfoList
+        {
+            [SerializeField]
+            public List<PlatformImportInfo> platformImportInfoList;
+
+        }
+
         private string pathToJSONPackageDescription;
         private string pathToZipFile;
 
@@ -20,7 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Install EOS zip")]
         public static void ShowWindow()
         {
-            GetWindow<InstallEpicOnlineServiceZip>("Install EOS Zip");
+            GetWindow<InstallEOSZipWindow>("Install EOS Zip");
         }
 
         static public void UnzipEntry(ZipArchiveEntry zipEntry, string pathName)

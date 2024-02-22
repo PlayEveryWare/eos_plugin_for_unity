@@ -31,7 +31,7 @@ using System;
 namespace PlayEveryWare.EpicOnlineServices
 {
     [Serializable]
-    public class UnityPackageCreationTool : EOSEditorWindow
+    public class CreatePackageWindow : EOSEditorWindow
     {
         const string DEFAULT_OUTPUT_DIRECTORY = "Build";
 
@@ -40,7 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
         {
-            GetWindow<UnityPackageCreationTool>("Create Package");
+            GetWindow<CreatePackageWindow>("Create Package");
         }
 
         protected override void RenderWindow()
