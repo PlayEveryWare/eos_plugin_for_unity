@@ -24,7 +24,7 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 
-namespace Playeveryware.Editor
+namespace PlayEveryWare.EpicOnlineServices
 {
     public static class LinkXmlCreatorTool
     {
