@@ -126,13 +126,13 @@ namespace PlayEveryWare.EpicOnlineServices
                 foreach (var configurationSectionEditor in configurationSectionEditors)
                 {
                     GUILayout.Label(configurationSectionEditor.GetLabelText(), EditorStyles.boldLabel);
-                    GUIEditorHelper.HorizontalLine(Color.white);
+                    GUIEditorUtility.HorizontalLine(Color.white);
                     configurationSectionEditor.Render();
                     EditorGUILayout.Space();
                 }
             }
 
-            GUIEditorHelper.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint);
+            GUIEditorUtility.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint);
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
             {

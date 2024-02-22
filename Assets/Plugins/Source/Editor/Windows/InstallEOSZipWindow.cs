@@ -195,7 +195,7 @@ namespace PlayEveryWare.EpicOnlineServices
             DrawPresets();
             foreach (var platformImportInfo in importInfoList.platformImportInfoList)
             {
-                GUIEditorHelper.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
+                GUIEditorUtility.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
             }
 
             GUILayout.Label("");

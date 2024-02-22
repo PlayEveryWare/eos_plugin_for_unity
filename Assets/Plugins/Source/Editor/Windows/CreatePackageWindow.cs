@@ -49,7 +49,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             GUILayout.BeginHorizontal();
             GUILayout.Space(10f);
-            GUIEditorHelper.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
+            GUIEditorUtility.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
             if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
             {
                 var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
@@ -68,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.Space(10f);
-                GUIEditorHelper.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
+                GUIEditorUtility.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
                 if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
                 {
                     var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");

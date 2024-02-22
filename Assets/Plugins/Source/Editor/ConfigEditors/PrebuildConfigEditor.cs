@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override void RenderContents()
         {
-            GUIEditorHelper.AssigningBoolField("Use Unity App Version for the EOS product version",
+            GUIEditorUtility.AssigningBoolField("Use Unity App Version for the EOS product version",
                 ref ConfigHandler.Data.useAppVersionAsProductVersion);
         }
     }

@@ -26,7 +26,7 @@ using UnityEditor;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public static class LinkXmlCreatorTool
+    public static class CreateXMLLinkUtility
     {
         [MenuItem("Tools/EOS Plugin/Create link.xml")]
         static void CreateLinkXml()

@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEditor;
     using UnityEngine;
 
-    public static class GUIEditorHelper
+    public static class GUIEditorUtility
     {
         private static GUIContent CreateGUIContent(string label, string tooltip = null)
         {

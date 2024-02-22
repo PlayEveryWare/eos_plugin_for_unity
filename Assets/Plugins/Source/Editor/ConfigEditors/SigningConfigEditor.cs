@@ -111,10 +111,10 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToPFX = (ConfigHandler.Data.pathToPFX ?? "");
             string pfxPassword = (ConfigHandler.Data.pfxPassword ?? "");
             string timestampURL = (ConfigHandler.Data.timestampURL ?? "");
-            GUIEditorHelper.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
-            GUIEditorHelper.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
-            GUIEditorHelper.AssigningTextField("PFX password", ref pfxPassword);
-            GUIEditorHelper.AssigningTextField("Timestamp Authority URL", ref timestampURL);
+            GUIEditorUtility.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
+            GUIEditorUtility.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
+            GUIEditorUtility.AssigningTextField("PFX password", ref pfxPassword);
+            GUIEditorUtility.AssigningTextField("Timestamp Authority URL", ref timestampURL);
 
             if (ConfigHandler.Data.dllPaths == null)
             {
@@ -125,7 +125,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 EditorGUILayout.BeginHorizontal();
                 string dllPath = (ConfigHandler.Data.dllPaths[i]);
-                GUIEditorHelper.AssigningTextField("", ref dllPath);
+                GUIEditorUtility.AssigningTextField("", ref dllPath);
                 ConfigHandler.Data.dllPaths[i] = dllPath;
                 if (GUILayout.Button("Remove", GUILayout.MaxWidth(100)))
                 {

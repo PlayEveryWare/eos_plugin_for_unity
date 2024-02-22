@@ -36,9 +36,9 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToJSONPackageDescription = (ConfigHandler.Data.pathToJSONPackageDescription);
             string customBuildDirectoryPath = (ConfigHandler.Data.customBuildDirectoryPath);
             string pathToOutput = (ConfigHandler.Data.pathToOutput);
-            GUIEditorHelper.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
-            GUIEditorHelper.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
-            GUIEditorHelper.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
+            GUIEditorUtility.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
+            GUIEditorUtility.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
+            GUIEditorUtility.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
 
             ConfigHandler.Data.pathToJSONPackageDescription = pathToJSONPackageDescription;
             ConfigHandler.Data.customBuildDirectoryPath = customBuildDirectoryPath;
