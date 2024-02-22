@@ -912,9 +912,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LobbySearchCallback = null;
 
-#if UNITY_IOS && !UNITY_EDITOR
-            (EOSManagerPlatformSpecificsSingleton.Instance as IOSPlatformSpecifics).SetDefaultAudioSession();
-#endif
+            EOSManagerPlatformSpecificsSingleton.Instance.SetDefaultAudioSession();
         }
 
         /// <summary>User Logged Out actions</summary>
