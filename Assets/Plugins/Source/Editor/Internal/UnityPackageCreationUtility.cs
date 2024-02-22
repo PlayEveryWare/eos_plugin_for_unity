@@ -74,6 +74,7 @@ public static class UnityPackageCreationUtility
 
     public static Dictionary<string,string> platformDescDict = new Dictionary<string, string>();
     public static Dictionary<string, bool> isPackageExported = new Dictionary<string, bool>();
+    public static Dictionary<string, string> identifierPath = new Dictionary<string, string>();
 
     public static Dictionary<string, List<string>> packagePlatformsDict = new Dictionary<string, List<string>>();
  
@@ -118,6 +119,7 @@ public static class UnityPackageCreationUtility
         platformDescDict.Clear();
         packagePlatformsDict.Clear();
         isPackageExported.Clear();
+        identifierPath.Clear();
 
         var JSONPackageDescription = File.ReadAllText(pathToExportDescDirectory + "eos_platform_export_info_list.json");
         var exportInfoList = JsonUtility.FromJson<PlatformExportInfoList>(JSONPackageDescription);
@@ -134,6 +136,7 @@ public static class UnityPackageCreationUtility
         {
             packagePlatformsDict[entry.name] = entry.platformList;
             isPackageExported[entry.name] = false;
+            identifierPath[entry.name] = entry.packageIdentifierPath;
         }
     }
 
@@ -208,6 +211,9 @@ public static class UnityPackageCreationUtility
                 filesToCompress
                 );
         }
+
+        File.Copy(identifierPath[preset], Path.Combine(packageFolder, "package.json"));
+        File.Copy(identifierPath[preset] + ".meta", Path.Combine(packageFolder, "package.json.meta"));
 
         if (!executorInstance)
         {

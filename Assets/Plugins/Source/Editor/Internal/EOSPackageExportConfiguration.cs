@@ -53,12 +53,13 @@ namespace Playeveryware.Editor
         public string name;
 
         [SerializeField]
+        public string packageIdentifierPath;
+
+        [SerializeField]
         public List<string> platformList;
 
         [SerializeField]
         public List<string> sampleList;
-
-        public bool isGettingExported;
     }
 
     [Serializable]
