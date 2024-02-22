@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2024 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,10 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using Utility;
+
     /// <summary>
     /// Creates the view for showing the eos plugin editor config values.
     /// </summary>

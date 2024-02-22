@@ -19,8 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using Config = EpicOnlineServices.Config;
+
     public class LibraryBuildConfig : Config
     {
         public string msbuildPath;

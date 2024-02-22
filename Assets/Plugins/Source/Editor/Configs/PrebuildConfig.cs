@@ -20,9 +20,10 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
+    using Config = EpicOnlineServices.Config;
 
     [Serializable]
     public class PrebuildConfig : Config

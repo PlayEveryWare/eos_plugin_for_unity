@@ -25,7 +25,7 @@ using UnityEditor;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     [InitializeOnLoad]
     public static partial class MakefileUtil

@@ -25,7 +25,7 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     public class PreprocessPackageVersion : IPreprocessBuildWithReport
     {

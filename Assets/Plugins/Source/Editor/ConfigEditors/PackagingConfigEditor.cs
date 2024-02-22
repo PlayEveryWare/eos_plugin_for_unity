@@ -20,8 +20,11 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using Config;
+    using Utility;
+
     public class PackagingConfigEditor : ConfigEditor<PackagingConfig>
     {
         public PackagingConfigEditor() : base("Packaging", "eos_plugin_packaging_config.json") { }

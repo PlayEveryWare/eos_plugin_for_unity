@@ -24,12 +24,14 @@ using UnityEngine;
 using UnityEditor;
 
 // make lines a little shorter
-using UPCUtil = UnityPackageCreationUtility;
+using UPCUtil = PlayEveryWare.EpicOnlineServices.Editor.Utility.UnityPackageCreationUtility;
 
 using System;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using Utility;
+
     [Serializable]
     public class CreatePackageWindow : EOSEditorWindow
     {

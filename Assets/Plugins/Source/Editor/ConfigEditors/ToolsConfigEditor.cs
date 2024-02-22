@@ -20,8 +20,11 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using Config;
+    using Utility;
+
     public class ToolsConfigEditor : ConfigEditor<ToolsConfig>
     {
         public ToolsConfigEditor() : base("Tools", "eos_plugin_tools_config.json") { }

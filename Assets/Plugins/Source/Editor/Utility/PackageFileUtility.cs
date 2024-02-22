@@ -20,32 +20,27 @@
 * SOFTWARE.
 */
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using System.IO;
-using System.IO.Compression;
 using System;
-using System.Linq;
-using PlayEveryWare.EpicOnlineServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
 
 
-namespace Playeveryware.Editor
+namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    
-    public class PackageFileUtils
+    using Editor;
+    using Editor.Build;
+
+    public class PackageFileUtility
     {
-        
         public static string GenerateTemporaryBuildPath()
         {
             return Application.temporaryCachePath + "/Output-" + System.Guid.NewGuid().ToString() + "/";
         }
-
         
         public static void Dos2UnixLineEndings(string srcFilename, string destFilename)
         {

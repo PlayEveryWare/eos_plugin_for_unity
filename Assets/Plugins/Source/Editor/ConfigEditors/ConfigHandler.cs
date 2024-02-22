@@ -24,13 +24,13 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     /// <summary>
     /// Used to represent a "handle" to the config data, thus delegating all the IO work here.
     /// </summary>
     /// <typeparam name="T">The Config being represented</typeparam>
-    public class ConfigHandler<T> where T : Config, new()
+    public class ConfigHandler<T> where T : EpicOnlineServices.Config, new()
     {
         /// <summary>
         /// Fully-qualified path to the file that contains the configuration values.

@@ -23,7 +23,7 @@
 using UnityEngine;
 using System;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     [Serializable]
     public class SrcDestPair

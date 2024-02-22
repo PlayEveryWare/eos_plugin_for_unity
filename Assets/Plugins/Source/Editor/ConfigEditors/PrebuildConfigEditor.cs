@@ -20,8 +20,11 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using Config;
+    using Utility;
+
     public class PrebuildConfigEditor : ConfigEditor<PrebuildConfig>
     {
         public PrebuildConfigEditor() : base("Prebuild Settings", "eos_plugin_version_config.json") { }

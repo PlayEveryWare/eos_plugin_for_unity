@@ -20,8 +20,10 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using Config = EpicOnlineServices.Config;
+
     public class PackagingConfig : Config
     {
         public string customBuildDirectoryPath;

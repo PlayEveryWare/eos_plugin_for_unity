@@ -24,7 +24,7 @@ using System.IO;
 using UnityEngine;
 using UnityEditor;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     public static class CreateXMLLinkUtility
     {

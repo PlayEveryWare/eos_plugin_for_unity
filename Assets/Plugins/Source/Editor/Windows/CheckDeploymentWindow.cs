@@ -26,7 +26,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     [Serializable]
     public class CheckDeploymentWindow : EOSEditorWindow

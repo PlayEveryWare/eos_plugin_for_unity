@@ -24,8 +24,10 @@ using System.IO;
 using UnityEngine;
 using UnityEditor.Build;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Utility;
+
     public static class BuildPackage
     {
         public enum PackageType

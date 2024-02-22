@@ -22,8 +22,10 @@
 
 using System.Collections.Generic;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using Config = EpicOnlineServices.Config;
+
     public class SigningConfig : Config
     {
         public string pathToSignTool;

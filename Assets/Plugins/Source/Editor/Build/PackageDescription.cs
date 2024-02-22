@@ -24,7 +24,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     [Serializable]
     public class PackageDescription

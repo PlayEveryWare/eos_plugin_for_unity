@@ -20,16 +20,15 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    using Settings;
     using System.IO;
 
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all implementing classes.
     /// </summary>
     /// <typeparam name="T">Indented to be a type accepted by the templated class EOSConfigFile.</typeparam>
-    public abstract class ConfigEditor<T> : IConfigEditor where T : Config, new()
+    public abstract class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config, new()
     {
         private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
 

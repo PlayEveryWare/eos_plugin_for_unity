@@ -25,8 +25,11 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using Config;
+    using Utility;
+
     public class SigningConfigEditor : ConfigEditor<SigningConfig>
     {
         public SigningConfigEditor() : base("Code Signing", "eos_plugin_signing_config.json") { }

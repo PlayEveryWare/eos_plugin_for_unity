@@ -20,8 +20,11 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using Config;
+    using Utility;
+
     public class LibraryBuildConfigEditor : ConfigEditor<LibraryBuildConfig>
     {
         public LibraryBuildConfigEditor() : base("Platform Library Build Settings",

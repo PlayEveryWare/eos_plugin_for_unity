@@ -26,7 +26,7 @@ using UnityEditor.Build.Reporting;
 using UnityEngine;
 using System.IO;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
     {

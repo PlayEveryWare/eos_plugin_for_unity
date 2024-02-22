@@ -20,18 +20,19 @@
  * SOFTWARE.
  */
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using Playeveryware.Editor;
-using System.Threading.Tasks;
 using System.IO.Compression;
 using System;
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using Build;
+    using EpicOnlineServices.Utility;
+    using Utility;
+
     public class InstallEOSZipWindow : EOSEditorWindow
     {
         [Serializable]
@@ -210,7 +211,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (GUILayout.Button("Install"))
             {
-                string tmpDir = PackageFileUtils.GenerateTemporaryBuildPath();
+                string tmpDir = PackageFileUtility.GenerateTemporaryBuildPath();
 
                 try
                 {
@@ -230,7 +231,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     {
                         var entity = toConvert[i];
                         EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity), (float)i / toConvert.Count);
-                        PackageFileUtils.Dos2UnixLineEndings(entity);
+                        PackageFileUtility.Dos2UnixLineEndings(entity);
                     }
                     EditorUtility.ClearProgressBar();
 
@@ -242,10 +243,10 @@ namespace PlayEveryWare.EpicOnlineServices
                             var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
                             var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
 
-                            var fileResults = PackageFileUtils.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
+                            var fileResults = PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
                             // This should be the correct directory
-                            var projectDir = PackageFileUtils.GetProjectPath();
-                            PackageFileUtils.CopyFilesToDirectory(projectDir, fileResults);
+                            var projectDir = PackageFileUtility.GetProjectPath();
+                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
                         }
                     }
 

@@ -20,10 +20,7 @@
  * SOFTWARE.
  */
 
-using UnityEditor;
-using UnityEngine;
-
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using Settings;
 

@@ -20,9 +20,10 @@
 * SOFTWARE.
 */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
+    using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// Represents the EOS Plugin Configuration used for values that might 

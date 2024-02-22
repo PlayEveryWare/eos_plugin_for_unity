@@ -19,10 +19,11 @@
 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 * SOFTWARE.
 */
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using UnityEditor;
     using UnityEngine;
+    using Utility;
 
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all ConfigEditors that represent the configuration options for a specific platform.

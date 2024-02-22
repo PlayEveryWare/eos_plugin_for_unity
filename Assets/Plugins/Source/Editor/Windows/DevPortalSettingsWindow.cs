@@ -22,13 +22,14 @@
 
 //#define ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using UnityEditor;
     using UnityEngine;
+    using Utility;
     using Random = System.Random;
 
     [Serializable]
