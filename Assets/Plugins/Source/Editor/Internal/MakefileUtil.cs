@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2024 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -27,23 +27,11 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSLibraryBuildConfig : ICloneableGeneric<EOSLibraryBuildConfig>, IEmpty
+    public class EOSLibraryBuildConfig : Config
     {
         public string msbuildPath;
         public string makePath;
         public bool msbuildDebug;
-
-        public EOSLibraryBuildConfig Clone()
-        {
-            return (EOSLibraryBuildConfig)this.MemberwiseClone();
-        }
-
-        public bool IsEmpty()
-        {
-            return string.IsNullOrEmpty(msbuildPath)
-                && string.IsNullOrEmpty(makePath)
-                && !msbuildDebug;
-        }
     }
 
     public class LibraryBuildConfigEditor : ConfigEditor<EOSLibraryBuildConfig>
@@ -53,17 +41,17 @@ namespace PlayEveryWare.EpicOnlineServices
         {
         }
 
-        public override void OnGUI()
+        public override void RenderContents()
         {
-            string msbuildPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.msbuildPath);
-            string makePath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.makePath);
-            bool msbuildDebug = configFile.currentEOSConfig.msbuildDebug;
+            string msbuildPath = (ConfigHandler.Data.msbuildPath);
+            string makePath = (ConfigHandler.Data.makePath);
+            bool msbuildDebug = ConfigHandler.Data.msbuildDebug;
             GUIEditorHelper.AssigningPath("MSBuild path", ref msbuildPath, "Select MSBuild", labelWidth: 80);
             GUIEditorHelper.AssigningPath("Make path", ref makePath, "Select make", labelWidth: 80);
             GUIEditorHelper.AssigningBoolField("Use debug config for MSBuild", ref msbuildDebug, labelWidth: 180);
-            configFile.currentEOSConfig.msbuildPath = msbuildPath;
-            configFile.currentEOSConfig.makePath = makePath;
-            configFile.currentEOSConfig.msbuildDebug = msbuildDebug;
+            ConfigHandler.Data.msbuildPath = msbuildPath;
+            ConfigHandler.Data.makePath = makePath;
+            ConfigHandler.Data.msbuildDebug = msbuildDebug;
         }
     }
 
@@ -145,11 +133,11 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string GetMSBuildPath()
         {
             var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Read();
+            configEditor.Load();
 
-            if (configEditor.GetConfig().currentEOSConfig != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().currentEOSConfig.msbuildPath))
+            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
             {
-                return configEditor.GetConfig().currentEOSConfig.msbuildPath;
+                return configEditor.GetConfig().Data.msbuildPath;
             }
             else if (RunProcess("where", "msbuild", printOutput: false, printError: false) != 0)
             {
@@ -164,11 +152,11 @@ namespace PlayEveryWare.EpicOnlineServices
         private static string GetMakePath()
         {
             var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Read();
+            configEditor.Load();
 
-            if (configEditor.GetConfig().currentEOSConfig != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().currentEOSConfig.makePath))
+            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.makePath))
             {
-                return configEditor.GetConfig().currentEOSConfig.makePath;
+                return configEditor.GetConfig().Data.makePath;
             }
             else if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
             {
@@ -183,11 +171,11 @@ namespace PlayEveryWare.EpicOnlineServices
         private static bool IsMSBuildDebugEnabled()
         {
             var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Read();
+            configEditor.Load();
 
-            if (configEditor.GetConfig().currentEOSConfig != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().currentEOSConfig.msbuildPath))
+            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
             {
-                return configEditor.GetConfig().currentEOSConfig.msbuildDebug;
+                return configEditor.GetConfig().Data.msbuildDebug;
             }
             else
             {
@@ -250,10 +238,10 @@ namespace PlayEveryWare.EpicOnlineServices
             procInfo.RedirectStandardError = true;
 
             var process = new System.Diagnostics.Process { StartInfo = procInfo };
-            if(printOutput)
+            if (printOutput)
             {
                 process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-                    if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                    if (!string.IsNullOrEmpty(e.Data))
                     {
                         if (ErrorRegex.IsMatch(e.Data))
                         {
@@ -271,10 +259,10 @@ namespace PlayEveryWare.EpicOnlineServices
                 });
             }
 
-            if(printError)
+            if (printError)
             {
                 process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-                    if (!EmptyPredicates.IsEmptyOrNull(e.Data))
+                    if (!string.IsNullOrEmpty(e.Data))
                     {
                         Debug.LogError(e.Data);
                     }

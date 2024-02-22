@@ -79,9 +79,9 @@ namespace Playeveryware.Editor
 
         public bool IsCommentOnly()
         {
-            return (EmptyPredicates.IsEmptyOrNull(src) && 
-                EmptyPredicates.IsEmptyOrNull(dest) && 
-                EmptyPredicates.IsEmptyOrNull(ignore_regex)) || (null != comment && comment.StartsWith("//"));
+            return (string.IsNullOrEmpty(src) && 
+                string.IsNullOrEmpty(dest) && 
+                string.IsNullOrEmpty(ignore_regex)) || (null != comment && comment.StartsWith("//"));
         }
     }
 

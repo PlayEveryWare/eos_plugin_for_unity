@@ -72,7 +72,7 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     static private void InstallFiles(string[] filenames,  string pathToInstallFrom, string pathToInstallTo)
     {
 
-        if (!EmptyPredicates.IsEmptyOrNull(pathToInstallFrom))
+        if (!string.IsNullOrEmpty(pathToInstallFrom))
         {
             foreach (var fileToInstall in filenames)
             {
@@ -318,9 +318,9 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     public void ConfigureEOSDependentLibrary()
     {
         string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
-        var eosConfigFile = new EOSConfigFile<EOSConfig>(configFilePath);
-        eosConfigFile.LoadConfigFromDisk();
-        string clientIDAsLower = eosConfigFile.currentEOSConfig.clientID.ToLower();
+        var eosConfigFile = new ConfigHandler<EOSConfig>(configFilePath);
+        eosConfigFile.Read();
+        string clientIDAsLower = eosConfigFile.Data.clientID.ToLower();
 
         var pathToEOSValuesConfig = GetAndroidEOSValuesConfigPath();
         var currentEOSValuesConfigAsXML = new System.Xml.XmlDocument();
@@ -346,13 +346,13 @@ public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     {
         var androidBuildConfigSection = new EOSPluginEditorAndroidBuildConfigEditor();
         
-        androidBuildConfigSection?.Read();
+        androidBuildConfigSection?.Load();
             
         string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/PlatformSpecificAssets~/EOS/Android/");
         string androidAssetFilepath = Application.dataPath + "/../etc/PlatformSpecificAssets/EOS/Android/";
 
         string pluginSource = Directory.Exists(packagePath) ? packagePath : androidAssetFilepath;                                      //From Package or From Assets(EOS Plugin Repo)
-        string linkType = androidBuildConfigSection.GetConfig().currentEOSConfig.DynamicallyLinkEOSLibrary ? "dynamic-stdc++/" : "static-stdc++/"; //Dynamic or Static       
+        string linkType = androidBuildConfigSection.GetConfig().Data.DynamicallyLinkEOSLibrary ? "dynamic-stdc++/" : "static-stdc++/"; //Dynamic or Static       
 
         string sourcePath = pluginSource + linkType + "aar";
         string destPath = "Assets/Plugins/Android/aar";

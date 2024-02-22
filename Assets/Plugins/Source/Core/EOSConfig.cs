@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Represents the EOS Configuration used for initializing EOS SDK.
     /// </summary>
     [Serializable]
-    public class EOSConfig : ICloneableGeneric<EOSConfig>, IEmpty
+    public class EOSConfig : Config
     {
         /// <value><c>Product Name</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string productName;
@@ -290,35 +290,6 @@ namespace PlayEveryWare.EpicOnlineServices
             return EOSConfig.authScopeOptionsFlagsAsAuthScopeFlags(authScopeOptionsFlags);
         }
 #endif
-
-        //-------------------------------------------------------------------------
-        /// <summary>
-        /// Creates a shallow copy of the current <c>EOSConfig</c>
-        /// </summary>
-        /// <returns>Shallow copy of <c>EOSConfig</c></returns>
-        public EOSConfig Clone()
-        {
-            return (EOSConfig)this.MemberwiseClone();
-        }
-
-        //-------------------------------------------------------------------------
-        public bool IsEmpty()
-        {
-            return EmptyPredicates.IsEmptyOrNull(productName)
-                && EmptyPredicates.IsEmptyOrNull(productVersion)
-                && EmptyPredicates.IsEmptyOrNull(productID)
-                && EmptyPredicates.IsEmptyOrNull(sandboxID)
-                && EmptyPredicates.IsEmptyOrNull(deploymentID)
-                && (sandboxDeploymentOverrides == null || sandboxDeploymentOverrides.Count == 0)
-                && EmptyPredicates.IsEmptyOrNull(clientSecret)
-                && EmptyPredicates.IsEmptyOrNull(clientID)
-                && EmptyPredicates.IsEmptyOrNull(encryptionKey)
-                && EmptyPredicates.IsEmptyOrNull(platformOptionsFlags)
-                && EmptyPredicates.IsEmptyOrNull(authScopeOptionsFlags)
-                && EmptyPredicates.IsEmptyOrNull(repeatButtonDelayForOverlay)
-                && EmptyPredicates.IsEmptyOrNull(initialButtonDelayForOverlay)
-                ;
-        }
 
         //-------------------------------------------------------------------------
         public float GetInitialButtonDelayForOverlayAsFloat()

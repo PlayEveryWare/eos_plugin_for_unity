@@ -82,8 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices
     // Android specific Unity Parts.
     public partial class EOSPlatformSpecificsAndroid : IEOSManagerPlatformSpecifics
     {
-
-        EOSAndroidConfig androidConfig;
+        AndroidConfig androidConfig;
 
         [DllImport("UnityHelpers_Android")]
         private static extern JavaVM UnityHelpers_GetJavaVM();
@@ -102,11 +101,11 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        EOSAndroidConfig GetEOSAndroidConfig()
+        AndroidConfig GetEOSAndroidConfig()
         {
             string eosFinalConfigPath = GetPathToEOSConfig();
             var configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
-            androidConfig = JsonUtility.FromJson<EOSAndroidConfig>(configDataAsString);
+            androidConfig = JsonUtility.FromJson<AndroidConfig>(configDataAsString);
             return androidConfig;
         }
 

@@ -78,7 +78,7 @@ public static class UnityPackageCreationUtility
     static UnityPackageCreationUtility() 
     {
         packageConfig = new EOSPluginEditorPackagingConfigEditor();
-        packageConfig.Read();
+        packageConfig.Load();
 
         // Configure UI defaults
         jsonPackageFile = Path.Combine(

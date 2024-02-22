@@ -43,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 EditorGUIUtility.labelWidth = labelWidth;
             }
 
-            var collectedEOSplatformFlags = String.Join("|", EmptyPredicates.NewIfNull(flags));
+            var collectedEOSplatformFlags = String.Join("|", flags ?? new List<string>());
             var platformFlags = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), collectedEOSplatformFlags);
             flags = new List<string>(platformFlags.Split('|'));
 
@@ -58,7 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 EditorGUIUtility.labelWidth = labelWidth;
             }
 
-            var newValue = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), EmptyPredicates.NewIfNull(value), GUILayout.ExpandWidth(true));
+            var newValue = EditorGUILayout.TextField(CreateGUIContent(label, tooltip), value ?? "", GUILayout.ExpandWidth(true));
             if (newValue != null)
             {
                 value = newValue;

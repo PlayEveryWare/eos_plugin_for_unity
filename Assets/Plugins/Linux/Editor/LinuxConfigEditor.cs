@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,26 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System;
-
-    public class EOSPluginEditorAndroidBuildConfigEditor : ConfigEditor<EOSPluginEditorAndroidBuildConfig>
+    public class LinuxConfigEditor : PlatformConfigEditor<LinuxConfig>
     {
-        public EOSPluginEditorAndroidBuildConfigEditor() : base("Android Build Settings",
-            "eos_plugin_android_build_config.json")
-        {
-        }
-
-        public override void RenderContents()
-        {
-            GUIEditorHelper.AssigningBoolField("Link EOS Library Dynamically", ref ConfigHandler.Data.DynamicallyLinkEOSLibrary);
-        }
-    }
-
-    [Serializable]
-    public class EOSPluginEditorAndroidBuildConfig : Config
-    {
-        public bool DynamicallyLinkEOSLibrary;
+        public LinuxConfigEditor() : base(PlatformManager.Platform.Linux) { }
     }
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2024 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -22,47 +22,34 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorPackagingConfig : ICloneableGeneric<EOSPluginEditorPackagingConfig>, IEmpty
+    public class EOSPluginEditorPackagingConfig : Config
     {
         public string customBuildDirectoryPath;
         public string pathToJSONPackageDescription;
         public string pathToOutput;
-
-        public EOSPluginEditorPackagingConfig Clone()
-        {
-            return (EOSPluginEditorPackagingConfig)this.MemberwiseClone();
-        }
-
-        public bool IsEmpty()
-        {
-            return string.IsNullOrEmpty(customBuildDirectoryPath)
-                && string.IsNullOrEmpty(pathToJSONPackageDescription)
-                && string.IsNullOrEmpty(pathToOutput)
-                ;
-        }
     }
 
     public class EOSPluginEditorPackagingConfigEditor : ConfigEditor<EOSPluginEditorPackagingConfig>
     {
         public EOSPluginEditorPackagingConfigEditor() : base("Packaging", "eos_plugin_packaging_config.json") { }
-        
+
         public EOSPluginEditorPackagingConfig GetCurrentConfig()
         {
-            return configFile.currentEOSConfig;
+            return ConfigHandler.Data;
         }
 
-        public override void OnGUI()
+        public override void RenderContents()
         {
-            string pathToJSONPackageDescription = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToJSONPackageDescription);
-            string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
-            string pathToOutput = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToOutput);
+            string pathToJSONPackageDescription = (ConfigHandler.Data.pathToJSONPackageDescription);
+            string customBuildDirectoryPath = (ConfigHandler.Data.customBuildDirectoryPath);
+            string pathToOutput = (ConfigHandler.Data.pathToOutput);
             GUIEditorHelper.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
             GUIEditorHelper.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
             GUIEditorHelper.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
 
-            configFile.currentEOSConfig.pathToJSONPackageDescription = pathToJSONPackageDescription;
-            configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
-            configFile.currentEOSConfig.pathToOutput = pathToOutput;
+            ConfigHandler.Data.pathToJSONPackageDescription = pathToJSONPackageDescription;
+            ConfigHandler.Data.customBuildDirectoryPath = customBuildDirectoryPath;
+            ConfigHandler.Data.pathToOutput = pathToOutput;
         }
     }
 }

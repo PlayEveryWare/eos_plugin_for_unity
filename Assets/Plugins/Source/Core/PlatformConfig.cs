@@ -1,4 +1,4 @@
-/*
+/*PlayEveryWare.EpicOnlineServices
  * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,26 +19,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
+    using System.Collections.Generic;
 
-    public class EOSPluginEditorAndroidBuildConfigEditor : ConfigEditor<EOSPluginEditorAndroidBuildConfig>
-    {
-        public EOSPluginEditorAndroidBuildConfigEditor() : base("Android Build Settings",
-            "eos_plugin_android_build_config.json")
-        {
-        }
-
-        public override void RenderContents()
-        {
-            GUIEditorHelper.AssigningBoolField("Link EOS Library Dynamically", ref ConfigHandler.Data.DynamicallyLinkEOSLibrary);
-        }
-    }
-
+    /// <summary>
+    /// Represents a set of configuration data for use by the EOS Plugin for Unity
+    /// </summary>
     [Serializable]
-    public class EOSPluginEditorAndroidBuildConfig : Config
+    public abstract class PlatformConfig : Config
     {
-        public bool DynamicallyLinkEOSLibrary;
+        protected PlatformManager.Platform Platform;
+        public List<string> flags;
+        public EOSConfig overrideValues;
+
+        protected PlatformConfig(PlatformManager.Platform platform)
+        {
+            this.Platform = platform;
+        }
+
+#if !EOS_DISABLE
+        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
+        {
+            return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
+        }
+#endif
     }
 }

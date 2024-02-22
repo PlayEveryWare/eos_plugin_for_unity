@@ -102,7 +102,7 @@ namespace Playeveryware.Editor
                 {
                     continue;
                 }
-                if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.ignore_regex))
+                if (!string.IsNullOrEmpty(srcToDestKeyValues.ignore_regex))
                 {
                     continue;
                 }
@@ -149,7 +149,7 @@ namespace Playeveryware.Editor
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
             var toolsSection = new EOSPluginEditorToolsConfigEditor();
-            toolsSection?.Read();
+            toolsSection?.Load();
 
             foreach (var srcToDestKeyValues in packageDescription.source_to_dest)
             {
@@ -157,7 +157,7 @@ namespace Playeveryware.Editor
                 {
                     continue;
                 }
-                if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.ignore_regex))
+                if (!string.IsNullOrEmpty(srcToDestKeyValues.ignore_regex))
                 {
                     ignoreList.Add(srcToDestKeyValues);
                     continue;
@@ -173,7 +173,7 @@ namespace Playeveryware.Editor
                 }
                 else
                 {
-                    if (!EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.sha1))
+                    if (!string.IsNullOrEmpty(srcToDestKeyValues.sha1))
                     {
                         string computedSHA = "";
 
@@ -195,7 +195,7 @@ namespace Playeveryware.Editor
                         }
                         if (computedSHA != srcToDestKeyValues.sha1)
                         {
-                            string errorMessageToUse = EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
+                            string errorMessageToUse = string.IsNullOrEmpty(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
                             Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + srcToDestKeyValues.sha1_mismatch_error);
                         }
                     }
@@ -203,7 +203,7 @@ namespace Playeveryware.Editor
 
                 IEnumerable<string> collectedFiles;
 
-                if (EmptyPredicates.IsEmptyOrNull(srcToDestKeyValues.pattern))
+                if (string.IsNullOrEmpty(srcToDestKeyValues.pattern))
                 {
                     collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src, searchOption);
                 }
