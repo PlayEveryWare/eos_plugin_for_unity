@@ -26,8 +26,6 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Settings;
-
     /// <summary>
     /// Used to represent a "handle" to the config data, thus delegating all the IO work here.
     /// </summary>
@@ -101,27 +99,6 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="prettyPrint">Whether or not to format the data in a more human-readable manner.</param>
         public void Write(bool prettyPrint = true)
         {
-            // TODO: For PR discussion: It appears that the intent of this code is that if the Config data
-            //       has only default values, then it doesn't really do anything, and so should be deleted.
-            //       I think this causes some confusion, and there is no reason not to include the file if
-            //       its presence doesn't cause concern. I think there are other solutions to excluding it
-            //       from assets if it is not relevant. But I leave the code here for now so we can discuss.
-            //       Possible counter-point: Users might be confused about why there is a config file that
-            //       appears to specify (albeit empty) config values for platforms that they may not be
-            //       targetting. Keeping the file out of their assets could reduce that confusion.
-            //if (Data.IsDefault())
-            //{
-            //    if (DevPortalSettingsWindow.IsAsset(_configFilePath))
-            //    {
-            //        AssetDatabase.DeleteAsset(_configFilePath);
-            //    }
-            //    else
-            //    {
-            //        File.Delete(_configFilePath);
-            //    }
-            //}
-            //else
-            //{
             var configDataAsJSON = JsonUtility.ToJson(Data, prettyPrint);
 
             // If this is the first time we are saving the config, we need to create the directory
@@ -130,7 +107,6 @@ namespace PlayEveryWare.EpicOnlineServices
             file.Directory?.Create();
 
             File.WriteAllText(_configFilePath, configDataAsJSON);
-            //}
 
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();

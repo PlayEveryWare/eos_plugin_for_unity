@@ -1,5 +1,5 @@
 ﻿/*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2024 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,6 @@
 * SOFTWARE.
 */
 
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
