@@ -30,9 +30,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+#if UNITY_ANDROID
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-#if UNITY_ANDROID
     public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
     {
         public int callbackOrder { get { return 3; } }
