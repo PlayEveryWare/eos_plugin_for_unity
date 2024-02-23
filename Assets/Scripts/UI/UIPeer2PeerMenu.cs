@@ -20,26 +20,19 @@
 * SOFTWARE.
 */
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-
 using Epic.OnlineServices;
 using Epic.OnlineServices.P2P;
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
-using PlayEveryWare.EpicOnlineServices;
 using Epic.OnlineServices.Presence;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPeer2PeerMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UIPeer2PeerMenu : SampleSceneWithFriendsUI<EOSPeer2PeerManager>
     {
         [Header("Peer 2 Peer UI")]
-        public GameObject Peer2PeerUIParent;
         public GameObject ChatWindow;
 
         // Chat Window
@@ -56,31 +49,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public UIPeer2PeerParticleController ParticleManager;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         // Private
-
-        private EOSPeer2PeerManager Peer2PeerManager;
-        private EOSFriendsManager FriendsManager;
 
         private string currentChatDisplayName;
         private ProductUserId currentChatProductUserId;
 
         void Start()
         {
-            Peer2PeerManager = EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>();
-            FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
-            Peer2PeerManager.ParticleController = ParticleManager;
-            Peer2PeerManager.parent = this.transform;
+            Manager.ParticleController = ParticleManager;
+            Manager.parent = this.transform;
             CloseChatOnClick();
         }
 
-        private void OnDestroy()
-        {
-            EOSManager.Instance.RemoveManager<EOSPeer2PeerManager>();
-            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
-        }
         public void ChatMessageEndEdit(string arg0)
         {
             SendOnClick();
@@ -88,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Update()
         {
-            ProductUserId messageFromPlayer = Peer2PeerManager.HandleReceivedMessages();
+            ProductUserId messageFromPlayer = Manager.HandleReceivedMessages();
 
             if (messageFromPlayer != null)
             {
@@ -100,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            switch (Peer2PeerManager.GetNATType())
+            switch (Manager.GetNATType())
             {
                 case NATType.Moderate:
                     NATTypeText.text = "Moderate";
@@ -116,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     break;
             }
 
-            if (Peer2PeerManager.GetChatDataCache(out Dictionary<ProductUserId, ChatWithFriendData> ChatDataDictionary))
+            if (Manager.GetChatDataCache(out Dictionary<ProductUserId, ChatWithFriendData> ChatDataDictionary))
             {
                 // Destroy current UI chat entry list
                 foreach (Transform child in ChatEntriesContentParent.transform)
@@ -144,9 +124,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        public override IFriendInteractionSource.FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
-            return friendData.IsFriend() && friendData.IsOnline() ? FriendInteractionState.Enabled : FriendInteractionState.Hidden;
+            return friendData.IsFriend() && friendData.IsOnline() ? IFriendInteractionSource.FriendInteractionState.Enabled : IFriendInteractionSource.FriendInteractionState.Hidden;
         }
 
         public override void OnFriendInteractButtonClicked(FriendData friendData)
@@ -257,7 +237,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ChatWindow.SetActive(true);
         }
 
-        public void SendOnClick()
+        public void SendOnClick() 
         {
             if (string.IsNullOrEmpty(currentChatDisplayName) && currentChatProductUserId == null)
             {
@@ -285,19 +265,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
 
-            Peer2PeerManager.SendMessage(currentChatProductUserId, message);
+            Manager.SendMessage(currentChatProductUserId, message);
             ChatMessageInput.InputField.text = string.Empty;
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
-            EOSManager.Instance.GetOrCreateManager<EOSPeer2PeerManager>().OnLoggedIn();
-
-            Peer2PeerUIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-
+            base.ShowMenu();
 
             var presenceInterface = EOSManager.Instance.GetEOSPresenceInterface();
             var presenceModificationOptions = new CreatePresenceModificationOptions();
@@ -328,13 +302,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
-            Peer2PeerManager?.OnLoggedOut();
-
+            base.HideMenu();
             CloseChatOnClick();
-
-            Peer2PeerUIParent.gameObject.SetActive(false);
         }
 
         public void ParticlesOnClick()
@@ -355,7 +326,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
 
-            Peer2PeerManager.SendMessage(currentChatProductUserId, message);
+            Manager.SendMessage(currentChatProductUserId, message);
         }
     }
 }

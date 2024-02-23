@@ -446,5 +446,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             Debug.LogFormat("AntiCheatClient (VerifyIdToken): Result:{0}, Platform:\"{1}\" DeviceType:\"{2}\"", data.ResultCode, data.Platform, data.DeviceType);
         }
+
+        public void OnLoggedOut()
+        {
+
+        }
     }
 }

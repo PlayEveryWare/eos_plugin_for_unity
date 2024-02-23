@@ -30,14 +30,12 @@ using UnityEngine.UI;
 using Epic.OnlineServices;
 using Epic.OnlineServices.Reports;
 
-using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UIPlayerReportMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UIPlayerReportMenu : SampleSceneWithFriendsUI<EOSReportsManager>
     {
         [Header("Reports")]
-        public GameObject CrashReportUIParent;
         public Text PlayerName;
         public Dropdown CategoryList;
         public InputField Message;
@@ -46,29 +44,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject SanctionsListContentParent;
         public GameObject UISanctionsEntryPrefab;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
-        private ProductUserId currentProdcutUserId;
-
-        private EOSReportsManager ReportsManager;
-        private EOSFriendsManager FriendsManager;
+        private ProductUserId currentProductUserId;
 
         private void Awake()
         {
             ResetPopUp();
-        }
-
-        private void Start()
-        {
-            ReportsManager = EOSManager.Instance.GetOrCreateManager<EOSReportsManager>();
-            FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
-        }
-
-        private void OnDestroy()
-        {
-            EOSManager.Instance.RemoveManager<EOSReportsManager>();
-            EOSManager.Instance.RemoveManager<EOSFriendsManager>();
         }
 
         public void ReportButtonOnClick(ProductUserId userId, string playerName)
@@ -80,25 +60,25 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }    
 
             PlayerName.text = playerName;
-            currentProdcutUserId = userId;
+            currentProductUserId = userId;
 
             // Start Search for Sanctions
             EOSManager.Instance.GetOrCreateManager<EOSReportsManager>().QueryActivePlayerSanctions(userId, QueryActivePlayerSanctionsCompleted);
 
             // Show PopUp
-            CrashReportUIParent.gameObject.SetActive(true);
+            UIParent.SetActive(true);
 
             // Controller
-            if(UIFirstSelected.activeInHierarchy)
+            if(UIController.activeInHierarchy)
             {
-                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+                EventSystem.current.SetSelectedGameObject(UIController);
             }
         }
 
         public void PlayerSanctionsRefreshOnClick()
         {
             // Start Search for Sanctions
-            ReportsManager.QueryActivePlayerSanctions(currentProdcutUserId, QueryActivePlayerSanctionsCompleted);
+            Manager.QueryActivePlayerSanctions(currentProductUserId, QueryActivePlayerSanctionsCompleted);
         }
 
         private void QueryActivePlayerSanctionsCompleted(Result result)
@@ -116,9 +96,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Update Sanctions List UI
-            if (ReportsManager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup))
+            if (Manager.GetCachedPlayerSanctions(out Dictionary<ProductUserId, List<Sanction>> sanctionLookup))
             {
-                if(!sanctionLookup.ContainsKey(currentProdcutUserId))
+                if(!sanctionLookup.ContainsKey(currentProductUserId))
                 {
                     // No Sanctions for current user
 
@@ -131,7 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     return;
                 }
 
-                List<Sanction> sanctionList = sanctionLookup[currentProdcutUserId];
+                List<Sanction> sanctionList = sanctionLookup[currentProductUserId];
 
                 foreach (Sanction s in sanctionList)
                 {
@@ -146,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void SubmitReportButtonOnClick()
         {
-            if(currentProdcutUserId == null || !currentProdcutUserId.IsValid())
+            if(currentProductUserId == null || !currentProductUserId.IsValid())
             {
                 Debug.LogError("UIPlayerReportMenu (ReportButtonOnClick): ProductUserId is not valid!");
                 return;
@@ -161,9 +141,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 category = (PlayerReportsCategory)categoryParsed;
             }
 
-            if (ReportsManager != null)
+            if (Manager != null)
             {
-                ReportsManager.SendPlayerBehaviorReport(currentProdcutUserId, category, Message.text);
+                Manager.SendPlayerBehaviorReport(currentProductUserId, category, Message.text);
                 ResetPopUp();
             }
         }
@@ -179,13 +159,13 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CategoryList.value = 0;
             Message.text = string.Empty;
 
-            currentProdcutUserId = null;
-            CrashReportUIParent.gameObject.SetActive(false);
+            currentProductUserId = null;
+            UIParent.SetActive(false);
         }
 
-        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        public override IFriendInteractionSource.FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
-            return FriendInteractionState.Enabled;
+            return IFriendInteractionSource.FriendInteractionState.Enabled;
         }
 
         public override string GetFriendInteractButtonText()
@@ -198,13 +178,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ReportButtonOnClick(friendData.UserProductUserId, friendData.Name);
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
+            base.ShowMenu();
             ResetPopUp();
         }
 
-        public void HideMenu()
+        public override void HideMenu()
         {
+            base.HideMenu();
             ResetPopUp();
         }
     }

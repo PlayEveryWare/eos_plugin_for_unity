@@ -128,5 +128,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 EndSession();
             }
         }
+
+        public void OnLoggedOut()
+        {
+
+        }
     }
 }

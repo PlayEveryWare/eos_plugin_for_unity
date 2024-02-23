@@ -32,7 +32,7 @@ using UnityEngine.EventSystems;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILeaderboardMenu : MonoBehaviour, ISampleSceneUI
+    public class UILeaderboardMenu : SampleSceneUI<EOSLeaderboardManager>
     {
         private enum LeaderboardGroup
         {
@@ -60,28 +60,26 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private string currentSelectedDefinitionStatName = string.Empty;
         private LeaderboardGroup currentGroup = LeaderboardGroup.Global;
 
-        private EOSLeaderboardManager LeaderboardManager;
         private EOSFriendsManager PlayerManager;
 
         private void Start()
         {
             PlayerManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
-            LeaderboardManager = EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>();
 
             CurrentSelectedLeaderboardTxt.text = "*select definition*";
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
-            EOSManager.Instance.RemoveManager<EOSLeaderboardManager>();
         }
 
         private void DefinitionListOnClick(string leaderboardId)
         {
             currentSelectedDefinitionLeaderboardId = leaderboardId;
 
-            Definition? leaderboard = LeaderboardManager.GetCachedDefinitionFromId(leaderboardId);
+            Definition? leaderboard = Manager.GetCachedDefinitionFromId(leaderboardId);
 
             if(leaderboard != null)
             {
@@ -106,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Update UI
-            if(LeaderboardManager.GetCachedLeaderboardRecords(out List<LeaderboardRecord> leaderboardRecords))
+            if(Manager.GetCachedLeaderboardRecords(out List<LeaderboardRecord> leaderboardRecords))
             {
                 Debug.LogFormat("Display Leaderboard Records: Count={0}", leaderboardRecords.Count);
 
@@ -138,15 +136,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void RefreshDefinitionsOnClick()
         {
-            if(LeaderboardManager != null)
+            if(Manager != null)
             {
-                LeaderboardManager.QueryDefinitions(RefreshCachedDefinitions);
+                Manager.QueryDefinitions(RefreshCachedDefinitions);
             }
         }
 
         private void RefreshCachedDefinitions(Result result)
         {
-            if (LeaderboardManager.GetCachedLeaderboardDefinitions(out Dictionary<string, Definition> leaderboardsDefinitions))
+            if (Manager.GetCachedLeaderboardDefinitions(out Dictionary<string, Definition> leaderboardsDefinitions))
             {
                 // Destroy current definition list
                 foreach (Transform child in LeaderboardDefinitionsContentParent.transform)
@@ -198,7 +196,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else
                 {
-                    LeaderboardManager.QueryUserScores(new List<string>() { currentSelectedDefinitionLeaderboardId }, friends, QueryUserScoresCompleted);
+                    Manager.QueryUserScores(new List<string>() { currentSelectedDefinitionLeaderboardId }, friends, QueryUserScoresCompleted);
                 }
             }
             else
@@ -216,7 +214,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Update UI
-            if (LeaderboardManager.GetCachedLeaderboardUserScores(out Dictionary<string, List<LeaderboardUserScore>> leaderboardUserScores))
+            if (Manager.GetCachedLeaderboardUserScores(out Dictionary<string, List<LeaderboardUserScore>> leaderboardUserScores))
             {
                 // key == leaderboardId
 
@@ -243,7 +241,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         Debug.Log($"    UserScore: UserId={userScore.UserId}, Score={userScore.Score}");
 
                         // Display in UI
-                        var copyResult = LeaderboardManager.CopyUserScore(userScore.UserId, out LeaderboardRecord? record);
+                        var copyResult = Manager.CopyUserScore(userScore.UserId, out LeaderboardRecord? record);
 
                         GameObject entryUIObj = Instantiate(UILeaderboardEntryPrefab, LeaderboardEntriesContentParent.transform);
 
@@ -275,7 +273,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 currentGroup = LeaderboardGroup.Global;
                 SetCurrentLeaderboardDescription();
-                LeaderboardManager.QueryRanks(currentSelectedDefinitionLeaderboardId, QueryRanksCompleted);
+                Manager.QueryRanks(currentSelectedDefinitionLeaderboardId, QueryRanksCompleted);
             }
             else
             {
@@ -303,14 +301,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            LeaderboardManager.IngestStat(currentSelectedDefinitionStatName, amount);
+            Manager.IngestStat(currentSelectedDefinitionStatName, amount);
         }
 
-        public void ShowMenu()
+        public override void ShowMenu()
         {
-            LeaderboardUIParent.gameObject.SetActive(true);
-
-            //EOSManager.Instance.GetOrCreateManager<EOSLeaderboardManager>().OnLoggedIn();
+            base.ShowMenu();
             Invoke("InitFriends",0);
 
             // Controller
@@ -321,13 +317,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             PlayerManager.QueryFriends(null);
             RefreshDefinitionsOnClick();
-        }
-
-        public void HideMenu()
-        {
-            LeaderboardManager?.OnLoggedOut();
-
-            LeaderboardUIParent.gameObject.SetActive(false);
         }
 
         private void SetCurrentLeaderboardDescription()

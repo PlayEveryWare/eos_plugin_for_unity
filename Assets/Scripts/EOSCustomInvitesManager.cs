@@ -366,5 +366,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             var callback = data.ClientData as OnSendCustomInviteCallback;
             callback?.Invoke(ref data);
         }
+
+        public void OnLoggedOut()
+        {
+
+        }
     }
 }

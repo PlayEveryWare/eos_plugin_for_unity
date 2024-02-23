@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2021 PlayEveryWare
+* Copyright (c) 2024 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +20,11 @@
 * SOFTWARE.
 */
 
-using System;
 using System.Collections.Generic;
-using System.Text;
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
 using Epic.OnlineServices;
-using Epic.OnlineServices.TitleStorage;
-
-using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -39,11 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     /// Unity UI sample that uses <c>TitleStoragemanager</c> to demo features.  Can be used as a template or starting point for implementing Title Storage features.
     /// </summary>
 
-    public class UITitleStorageMenu : MonoBehaviour, ISampleSceneUI
+    public class UITitleStorageMenu : SampleSceneUI<EOSTitleStorageManager>
     {
-        [Header("Title Storage UI")]
-        public GameObject TitleStorageUIParent;
-
         public UIConsoleInputField AddTagTextBox;
         public UIConsoleInputField FileNameTextBox;
 
@@ -55,12 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public Text FileContent;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
-        private EOSTitleStorageManager TitleStorageManager;
-
-        private List<string> CurrentTags = new List<string>();
+        private List<string> CurrentTags = new();
 
         public void Awake()
         {
@@ -77,16 +62,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 FileContent.text = "Valid encryption key not set. Use the EOS Config Editor to add one.";
             }
-        }
-
-        private void Start()
-        {
-            TitleStorageManager = EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>();
-        }
-
-        private void OnDestroy()
-        {
-            EOSManager.Instance.RemoveManager<EOSTitleStorageManager>();
         }
 
         public void AddTagOnClick()
@@ -171,8 +146,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogErrorFormat("Please enter at least one tag and press 'Add tag'.");
                 return;
             }
-
-            TitleStorageManager.QueryFileList(CurrentTags.ToArray(), SetFileListUI);
+            
+            Manager.QueryFileList(CurrentTags.ToArray(), SetFileListUI);
         }
 
         private void SetFileListUI(Result result)
@@ -189,7 +164,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 GameObject.Destroy(child.gameObject);
             }
 
-            foreach (string entry in TitleStorageManager.GetCachedCurrentFileNames())
+            foreach (string entry in Manager.GetCachedCurrentFileNames())
             {
                 GameObject fileNameUIObj = Instantiate(UIFileNameEntryPrefab, FileNameContentParent.transform);
                 UIFileNameEntry fileNameEntry = fileNameUIObj.GetComponent<UIFileNameEntry>();
@@ -203,7 +178,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private string GetLocalData(string entryName)
         {
-            TitleStorageManager.GetCachedStorageData().TryGetValue(entryName, out string data);
+            Manager.GetCachedStorageData().TryGetValue(entryName, out string data);
 
             if (!string.IsNullOrEmpty(data))
             {
@@ -226,7 +201,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!TitleStorageManager.GetCachedCurrentFileNames().Contains(FileNameTextBox.InputField.text))
+            if (!Manager.GetCachedCurrentFileNames().Contains(FileNameTextBox.InputField.text))
             {
                 Debug.LogError("UITitleStorageMenu - FileName doesn't exist, cannot be downloaded!");
                 return;
@@ -243,7 +218,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            TitleStorageManager.ReadFile(FileNameTextBox.InputField.text, UpdateFileContent);
+            Manager.ReadFile(FileNameTextBox.InputField.text, UpdateFileContent);
 
             // TODO: Show progress bar
         }
@@ -256,7 +231,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (TitleStorageManager.GetCachedStorageData().TryGetValue(FileNameTextBox.InputField.text, out string fileContent))
+            if (Manager.GetCachedStorageData().TryGetValue(FileNameTextBox.InputField.text, out string fileContent))
             {
                 // Update UI
                 FileContent.text = fileContent;
@@ -265,23 +240,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             {
                 Debug.LogErrorFormat("UITitleStorageMenu - '{0}' file content was not found in cached data storage.", FileNameTextBox.InputField.text);
             }
-        }
-
-        public void ShowMenu()
-        {
-            EOSManager.Instance.GetOrCreateManager<EOSTitleStorageManager>().OnLoggedOut();
-
-            TitleStorageUIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-        }
-
-        public void HideMenu()
-        {
-            TitleStorageUIParent.gameObject.SetActive(false);
-
-            TitleStorageManager?.OnLoggedOut();
         }
     }
 }

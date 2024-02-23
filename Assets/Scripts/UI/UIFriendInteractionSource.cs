@@ -25,6 +25,22 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    public interface IFriendInteractionSource
+    {
+        public enum FriendInteractionState
+        {
+            Hidden,
+            Disabled,
+            Enabled
+        }
+
+        FriendInteractionState GetFriendInteractionState(FriendData friendData);
+        string GetFriendInteractButtonText();
+        void OnFriendInteractButtonClicked(FriendData friendData);
+        bool IsDirty();
+        void ResetDirtyFlag();
+    }
+
     /// <summary>
     /// Class <c>UIFriendInteractionSource</c> is the base class for sample UIs that interact with the friend list UI.
     /// </summary>

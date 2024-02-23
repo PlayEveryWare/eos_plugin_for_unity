@@ -22,20 +22,16 @@
 
 //#define ENABLE_DEBUG_EOSACHIEVEMENTMANAGER
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Net.Http;
 using System.Collections.Concurrent;
 using Epic.OnlineServices.Achievements;
 using Epic.OnlineServices.Platform;
-using Epic.OnlineServices.UserInfo;
 using Epic.OnlineServices.Stats;
 using System;
 using Epic.OnlineServices;
 using System.Diagnostics;
-using Epic.OnlineServices.Auth;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -225,27 +221,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             });
         }
-
-        //-------------------------------------------------------------------------
-        /*public void QueryUserInformation(EpicAccountId localEpicAccountId, EpicAccountId targetEpicAccountId)
-        {
-            var options = new QueryUserInfoOptions
-            {
-                LocalUserId = localEpicAccountId,
-                TargetUserId = targetEpicAccountId
-            };
-
-            GetEOSUserInfoInterface().QueryUserInfo(ref options, null, (ref QueryUserInfoCallbackInfo data) =>
-            {
-                var copyUserInfoOptions = new CopyUserInfoOptions
-                {
-                    LocalUserId = localEpicAccountId,
-                    TargetUserId = targetEpicAccountId
-                };
-                GetEOSUserInfoInterface().CopyUserInfo(ref copyUserInfoOptions, out UserInfoData? userInfoData);
-
-            });
-        }*/
 
         //-------------------------------------------------------------------------
         AchievementsInterface GetEOSAchievementInterface()
@@ -610,6 +585,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     downloadCache[uri] = downloadHandler.data;
                 }
             }
+        }
+
+        public void OnLoggedOut()
+        {
+
         }
     }
 }

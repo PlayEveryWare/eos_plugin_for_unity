@@ -27,5 +27,6 @@
     /// </summary>
     public interface IEOSSubManager
     {
+        void OnLoggedOut();
     }
 }

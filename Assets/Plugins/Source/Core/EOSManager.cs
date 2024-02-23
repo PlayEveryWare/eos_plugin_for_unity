@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -358,26 +358,26 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             public T GetOrCreateManager<T>() where T : IEOSSubManager, new()
             {
-                T manager = default;
                 Type type = typeof(T);
+                T manager;
                 if (!s_subManagers.ContainsKey(type))
                 {
                     manager = new T();
                     s_subManagers.Add(type, manager);
 
-                    if (manager is IEOSOnConnectLogin)
+                    if (manager is IEOSOnConnectLogin login)
                     {
-                        AddConnectLoginListener(manager as IEOSOnConnectLogin);
+                        AddConnectLoginListener(login);
                     }
 
-                    if (manager is IEOSOnAuthLogin)
+                    if (manager is IEOSOnAuthLogin authLogin)
                     {
-                        AddAuthLoginListener(manager as IEOSOnAuthLogin);
+                        AddAuthLoginListener(authLogin);
                     }
 
-                    if (manager is IEOSOnAuthLogout)
+                    if (manager is IEOSOnAuthLogout logout)
                     {
-                        AddAuthLogoutListener(manager as IEOSOnAuthLogout);
+                        AddAuthLogoutListener(logout);
                     }
                 }
                 else

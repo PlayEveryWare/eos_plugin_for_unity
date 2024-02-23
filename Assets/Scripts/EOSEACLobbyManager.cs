@@ -275,5 +275,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
         }
+
+        public void OnLoggedOut()
+        {
+
+        }
     }
 }

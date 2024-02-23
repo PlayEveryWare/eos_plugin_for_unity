@@ -21,7 +21,6 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -29,18 +28,14 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using Epic.OnlineServices;
-using Epic.OnlineServices.Platform;
 using Epic.OnlineServices.Lobby;
-
-using PlayEveryWare.EpicOnlineServices;
 using UnityEngine.Android;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
-    public class UILobbiesMenu : UIFriendInteractionSource, ISampleSceneUI
+    public class UILobbiesMenu : SampleSceneWithFriendsUI<EOSLobbyManager>
     {
         [Header("Lobbies UI - Create Options")]
-        public GameObject LobbiesUIParent;
         public UIConsoleInputField BucketIdVal;
         public Dropdown MaxPlayersVal;
         public Dropdown LevelVal;
@@ -81,9 +76,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public Text InviteLevelVal;
         public Toggle InvitePresence;
 
-        [Header("Controller")]
-        public GameObject UIFirstSelected;
-
         // UI Cache
         private int lastMemberCount = 0;
         private ProductUserId currentLobbyOwnerCache;
@@ -91,8 +83,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private List<UIMemberEntry> UIMemberEntries = new List<UIMemberEntry>();
 
-        private EOSLobbyManager LobbyManager;
-        private EOSFriendsManager FriendsManager;
         private EOSEACLobbyManager AntiCheatLobbyManager;
 
         private bool UIDirty = false;
@@ -115,8 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
-            LobbyManager = EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>();
-            FriendsManager = EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>();
+            // TODO: This is the only place in this file where EOSEACLobbyManager is used - is it really needed?
             AntiCheatLobbyManager = EOSManager.Instance.GetOrCreateManager<EOSEACLobbyManager>();
             if (AntiCheatEnabledVal != null)
             {
@@ -124,7 +113,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AntiCheatEnabledVal.interactable = AntiCheatLobbyManager.IsAntiCheatAvailable();
             }
 
-            LobbyManager.AddNotifyMemberUpdateReceived(OnMemberUpdate);
+            Manager.AddNotifyMemberUpdateReceived(OnMemberUpdate);
             CurrentLobbyPanel.SetActive(false);
 
             if (ONANDROIDPLATFORM){
@@ -156,14 +145,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             LobbySearchUI.SetActive(true);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             UIActions.OnCollapseFriendsTab -= EnableInterferingUIForFriendsTab;
             UIActions.OnExpandFriendsTab -= DisableInterferingUIForFriendsTab;
 
-            LobbyManager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
+            Manager?.RemoveNotifyMemberUpdate(OnMemberUpdate);
 
-            EOSManager.Instance.RemoveManager<EOSLobbyManager>();
             EOSManager.Instance.RemoveManager<EOSFriendsManager>();
             EOSManager.Instance.RemoveManager<EOSEACLobbyManager>();
             EOSManager.Instance.RemoveManager<EOSAntiCheatClientManager>();
@@ -171,7 +161,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnMemberUpdate(string LobbyId, ProductUserId MemberId)
         {
-            Lobby currentLobby = LobbyManager.GetCurrentLobby();
+            Lobby currentLobby = Manager.GetCurrentLobby();
             if (currentLobby.Id != LobbyId)
             {
                 return;
@@ -197,12 +187,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if (!LobbyManager._Dirty)
+            if (!Manager._Dirty)
             {
                 return;
             }
 
-            Lobby currentLobby = LobbyManager.GetCurrentLobby();
+            Lobby currentLobby = Manager.GetCurrentLobby();
 
             if (currentLobby.IsValid())
             {
@@ -296,11 +286,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // Invites UI Prompt
-            if (LobbyManager.GetCurrentInvite() != null)
+            if (Manager.GetCurrentInvite() != null)
             {
                 UIInvitePanel.SetActive(true);
 
-                Result resultInviteFrom = LobbyManager.GetCurrentInvite().FriendId.ToString(out Utf8String outBuffer);
+                Result resultInviteFrom = Manager.GetCurrentInvite().FriendId.ToString(out Utf8String outBuffer);
                 if (resultInviteFrom == Result.Success)
                 {
                     // Update invite from
@@ -311,7 +301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     InviteFromVal.text = "Error: " + resultInviteFrom;
                 }
 
-                InviteLevelVal.text = LobbyManager.GetCurrentInvite().Lobby.Attributes[0].AsString;
+                InviteLevelVal.text = Manager.GetCurrentInvite().Lobby.Attributes[0].AsString;
             }
             else
             {
@@ -397,14 +387,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Voice Chat
             lobbyProperties.RTCRoomEnabled = RTCVoiceRoomEnabledVal.isOn;
 
-            LobbyManager.CreateLobby(lobbyProperties, UIOnLobbyUpdated);
+            Manager.CreateLobby(lobbyProperties, UIOnLobbyUpdated);
 
             EventSystem.current.SetSelectedGameObject(ModifyLobbyButton.gameObject);
         }
 
         public void ModifyLobbyButtonOnClick()
         {
-            Lobby currentLobby = LobbyManager.GetCurrentLobby();
+            Lobby currentLobby = Manager.GetCurrentLobby();
 
             if (currentLobby == null || !currentLobby.IsValid())
             {
@@ -447,12 +437,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Presence Enabled (cannot be modified)
             //lobbyProperties.PresenceEnabled = PresenceEnabledVal.isOn;
 
-            LobbyManager.ModifyLobby(lobbyProperties, UIOnLobbyUpdated);
+            Manager.ModifyLobby(lobbyProperties, UIOnLobbyUpdated);
         }
 
         public void LeaveLobbyButtonOnClick()
         {
-            LobbyManager.LeaveLobby(UIOnLeaveLobby);
+            Manager.LeaveLobby(UIOnLeaveLobby);
             
         }
 
@@ -466,17 +456,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 AsString = "TestValue"
             };
 
-            LobbyManager.SetMemberAttribute(memberAttribute);
+            Manager.SetMemberAttribute(memberAttribute);
         }
 
         public void JoinButtonOnClick(Lobby lobbyRef, LobbyDetails lobbyDetailsRef)
         {
-            LobbyManager.JoinLobby(lobbyRef.Id, lobbyDetailsRef, true, UIOnLobbyUpdated);
+            Manager.JoinLobby(lobbyRef.Id, lobbyDetailsRef, true, UIOnLobbyUpdated);
         }
 
         public void MuteButtonOnClick(ProductUserId productUserId)
         {
-            LobbyManager.ToggleMute(productUserId, (Result result)=> 
+            Manager.ToggleMute(productUserId, (Result result)=> 
             {
                 if (result != Result.Success)
                 { 
@@ -501,29 +491,29 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void KickButtonOnClick(ProductUserId productUserId)
         {
-            LobbyManager.KickMember(productUserId, null);
+            Manager.KickMember(productUserId, null);
         }
 
         public void PromoteButtonOnClick(ProductUserId productUserId)
         {
-            LobbyManager.PromoteMember(productUserId, null);
+            Manager.PromoteMember(productUserId, null);
         }
 
         public void EnablePressToTalkToggleOnClick(ProductUserId productUserId)
         {
-            LobbyManager.EnablePressToTalk(productUserId, null);
+            Manager.EnablePressToTalk(productUserId, null);
         }
 
         public void AcceptInviteButtonOnClick()
         {
             bool invitePresenceToggled = InvitePresence.isOn;
 
-            LobbyManager.AcceptCurrentLobbyInvite(invitePresenceToggled, UIOnLobbyUpdated);
+            Manager.AcceptCurrentLobbyInvite(invitePresenceToggled, UIOnLobbyUpdated);
         }
 
         public void DeclineInviteButtonOnClick()
         {
-            LobbyManager.DeclineLobbyInvite();
+            Manager.DeclineLobbyInvite();
         }
 
         public override void OnFriendInteractButtonClicked(FriendData friendData)
@@ -546,23 +536,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             UIDirty = false;
         }
 
-        public override FriendInteractionState GetFriendInteractionState(FriendData friendData)
+        public override IFriendInteractionSource.FriendInteractionState GetFriendInteractionState(FriendData friendData)
         {
             if (friendData.IsFriend() && friendData.IsOnline() && IsCurrentLobbyValid())
             {
                 //hide invite button for users already in the lobby
-                if (LobbyManager.GetCurrentLobby().Members.Find((LobbyMember member) => { return member.ProductId == friendData.UserProductUserId; }) == null)
+                if (Manager.GetCurrentLobby().Members.Find((LobbyMember member) => { return member.ProductId == friendData.UserProductUserId; }) == null)
                 {
-                    return FriendInteractionState.Enabled;
+                    return IFriendInteractionSource.FriendInteractionState.Enabled;
                 }
                 else
                 {
-                    return FriendInteractionState.Hidden;
+                    return IFriendInteractionSource.FriendInteractionState.Hidden;
                 }
             }
             else
             {
-                return FriendInteractionState.Disabled;
+                return IFriendInteractionSource.FriendInteractionState.Disabled;
             }
         }
 
@@ -580,7 +570,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
                 else
                 {
-                    LobbyManager.SendInvite(friend.UserProductUserId);
+                    Manager.SendInvite(friend.UserProductUserId);
                 }
             }
             else
@@ -591,7 +581,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public bool IsCurrentLobbyValid()
         {
-            Lobby currentLobby = LobbyManager.GetCurrentLobby();
+            Lobby currentLobby = Manager.GetCurrentLobby();
 
             return currentLobby.IsValid();
         }
@@ -604,7 +594,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Lobby currentLobby = LobbyManager.GetCurrentLobby();
+            Lobby currentLobby = Manager.GetCurrentLobby();
 
             if (!currentLobby.IsValid())
             {
@@ -667,20 +657,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Search UI
         public void SearchByLevelAttributeEndEdit(string searchAttributeValue)
         {
-            LobbyManager.SearchByAttribute("LEVEL", searchAttributeValue.ToUpper(), UIUpateSearchResults);
+            Manager.SearchByAttribute("LEVEL", searchAttributeValue.ToUpper(), UIUpdateSearchResults);
         }
 
         public void SearchByBucketAttributeEndEdit(string searchAttributeValue)
         {
-            LobbyManager.SearchByAttribute("bucket", searchAttributeValue, UIUpateSearchResults);
+            Manager.SearchByAttribute("bucket", searchAttributeValue, UIUpdateSearchResults);
         }
 
         public void SearchByLobbyIdEndEdit(string searchString)
         {
-            LobbyManager.SearchByLobbyId(searchString, UIUpateSearchResults);
+            Manager.SearchByLobbyId(searchString, UIUpdateSearchResults);
         }
 
-        public void UIUpateSearchResults(Result result)
+        public void UIUpdateSearchResults(Result result)
         {
             if (result != Result.Success)
             {
@@ -701,7 +691,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             bool firstResultSelected = false;
 
-            foreach (KeyValuePair<Lobby, LobbyDetails> kvp in LobbyManager.GetSearchResults())
+            foreach (KeyValuePair<Lobby, LobbyDetails> kvp in Manager.GetSearchResults())
             {
                 if (kvp.Key == null)
                 {
@@ -739,7 +729,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                         if (!kvp.Key.LobbyOwnerAccountId.IsValid())
                         {
-                            Debug.LogWarning("UILobbiesMenu (UIUpateSearchResults): LobbyOwner EpicAccountId not found in cache, need to query...");
+                            Debug.LogWarning("UILobbiesMenu (UIUpdateSearchResults): LobbyOwner EpicAccountId not found in cache, need to query...");
                             // If still invalid, need to query for account information
                             // TODO query non cached
                         }
@@ -805,23 +795,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
      
-        public void ShowMenu()
-        {
-            EOSManager.Instance.GetOrCreateManager<EOSLobbyManager>().OnLoggedIn();
-
-            LobbiesUIParent.gameObject.SetActive(true);
-
-            // Controller
-            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-        }
-
-        public void HideMenu()
-        {
-            LobbyManager?.OnLoggedOut();
-
-            LobbiesUIParent.gameObject.SetActive(false);
-        }
-
         private void ClearSearchResults()
         {
             // Destroy current UI member list

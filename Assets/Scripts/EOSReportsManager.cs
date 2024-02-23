@@ -22,9 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Epic.OnlineServices;
 using Epic.OnlineServices.Reports;
@@ -193,6 +190,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             CachedPlayerSanctionsDirty = false;
 
             return returnDirty;
+        }
+
+        public void OnLoggedOut()
+        {
+
         }
     }
 }
