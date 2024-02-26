@@ -20,27 +20,19 @@
 * SOFTWARE.
 */
 
-#if !STEAMWORKS_MODULE || !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLESTEAMWORKS
-#endif
-
+using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-#if !DISABLESTEAMWORKS
-using Steamworks;
-#endif
-
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    public class Steamworks_Utility : MonoBehaviour
+    [Serializable]
+    public class PackageDescription
     {
-        public static string GetSteamworksVersion()
-        {
-#if DISABLESTEAMWORKS
-            return "Steamworks not imported or not supported on platform";
-#else
-        return Steamworks.Version.SteamworksSDKVersion;
-#endif
-        }
+        [SerializeField]
+        public List<SrcDestPair> source_to_dest;
+
+        [SerializeField]
+        public List<string> blacklist;
     }
 }

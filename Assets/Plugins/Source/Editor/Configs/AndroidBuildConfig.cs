@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,11 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-namespace PlayEveryWare.EpicOnlineServices.Editor
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
-    public class IOSConfigEditor : PlatformConfigEditor<IOSConfig>
+    using System;
+    using Config = EpicOnlineServices.Config;
+
+    [Serializable]
+    public class AndroidBuildConfig : Config
     {
-        public IOSConfigEditor() : base(PlatformManager.Platform.iOS) { }
+        public bool DynamicallyLinkEOSLibrary;
     }
 }

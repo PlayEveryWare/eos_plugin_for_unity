@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,24 @@
 * SOFTWARE.
 */
 
-#if !STEAMWORKS_MODULE || !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLESTEAMWORKS
-#endif
-
-using UnityEngine;
-
-#if !DISABLESTEAMWORKS
-using Steamworks;
-#endif
-
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    public class Steamworks_Utility : MonoBehaviour
+    using Config;
+    using Utility;
+
+    public class PrebuildConfigEditor : ConfigEditor<PrebuildConfig>
     {
-        public static string GetSteamworksVersion()
+        public PrebuildConfigEditor() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
+
+        /// <summary>
+        /// It's possible for the config file to not load in certain cases (like making test builds).
+        /// </summary>
+        public bool IsValid => ConfigHandler != null;
+
+        public override void RenderContents()
         {
-#if DISABLESTEAMWORKS
-            return "Steamworks not imported or not supported on platform";
-#else
-        return Steamworks.Version.SteamworksSDKVersion;
-#endif
+            GUIEditorUtility.AssigningBoolField("Use Unity App Version for the EOS product version",
+                ref ConfigHandler.Data.useAppVersionAsProductVersion);
         }
     }
 }

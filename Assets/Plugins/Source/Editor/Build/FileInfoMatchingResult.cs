@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 PlayEveryWare
+ * Copyright (c) 2024 PlayEveryWare
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,25 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor
+using System.IO;
+
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    public class IOSConfigEditor : PlatformConfigEditor<IOSConfig>
+    public class FileInfoMatchingResult
     {
-        public IOSConfigEditor() : base(PlatformManager.Platform.iOS) { }
+        public SrcDestPair originalSrcDestPair;
+        public FileInfo fileInfo;
+        public string relativePath = null;
+
+        public string GetDestination()
+        {
+            if (!string.IsNullOrWhiteSpace(relativePath) &&
+                (originalSrcDestPair.dest.EndsWith("/") || originalSrcDestPair.dest.Length == 0))
+            {
+                return Path.Combine(originalSrcDestPair.dest, relativePath);
+            }
+
+            return originalSrcDestPair.dest;
+        }
     }
 }

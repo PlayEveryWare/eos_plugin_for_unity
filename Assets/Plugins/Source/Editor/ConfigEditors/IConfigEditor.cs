@@ -20,27 +20,31 @@
 * SOFTWARE.
 */
 
-#if !STEAMWORKS_MODULE || !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLESTEAMWORKS
-#endif
-
-using UnityEngine;
-
-#if !DISABLESTEAMWORKS
-using Steamworks;
-#endif
-
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    public class Steamworks_Utility : MonoBehaviour
+    // Interface for allowing adding additional config files to the Config editor
+    public interface IConfigEditor
     {
-        public static string GetSteamworksVersion()
-        {
-#if DISABLESTEAMWORKS
-            return "Steamworks not imported or not supported on platform";
-#else
-        return Steamworks.Version.SteamworksSDKVersion;
-#endif
-        }
+        /// <summary>
+        /// Returns the human-readable labelText for the section of configuration.
+        /// </summary>
+        /// <returns>String representing the section this config controls.</returns>
+        string GetLabelText();
+
+        /// <summary>
+        /// Loads the config values from disk.
+        /// </summary>
+        void Load();
+
+        /// <summary>
+        /// Saves the configuration to disk.
+        /// </summary>
+        /// <param name="prettyPrint">Whether or not to format the JSON in a more human-readable manner.</param>
+        void Save(bool prettyPrint);
+
+        /// <summary>
+        /// Render the editor for the configuration values.
+        /// </summary>
+        void Render();
     }
 }
