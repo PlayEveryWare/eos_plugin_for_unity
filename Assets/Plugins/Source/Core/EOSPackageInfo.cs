@@ -20,46 +20,52 @@
 * SOFTWARE.
 */
 
-public static class EOSPackageInfo
+namespace PlayEveryWare.EpicOnlineServices
 {
-    /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
-    public static readonly string ConfigFileName = "EpicOnlineServicesConfig.json";
-    public const string UnknownVersion = "?.?.?";
-
-    //-------------------------------------------------------------------------
-
-    public static string GetPackageName()
+    public static class EOSPackageInfo
     {
-        return "com.playeveryware.eos";
-    }
+        /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
+        public static readonly string ConfigFileName = "EpicOnlineServicesConfig.json";
 
-    //-------------------------------------------------------------------------
-    //VERSION START
-    private struct VersionReader
-    {
-        public string version;
-    }
-    public static string GetPackageVersion()
-    {
-        try
+        public const string UnknownVersion = "?.?.?";
+
+        //-------------------------------------------------------------------------
+
+        public static string GetPackageName()
         {
-            var pathToManifest = System.IO.Path.Combine(UnityEngine.Application.dataPath, "..", "etc/PackageTemplate", "package.json");
-            var contents = System.IO.File.ReadAllText(pathToManifest);
-            var versionData = UnityEngine.JsonUtility.FromJson<VersionReader>(contents);
-            return versionData.version;
+            return "com.playeveryware.eos";
         }
-        catch
+
+        //-------------------------------------------------------------------------
+        //VERSION START
+        private struct VersionReader
         {
-            var versionAsset = UnityEngine.Resources.Load<UnityEngine.TextAsset>("eosPluginVersion");
-            if (versionAsset != null)
+            public string version;
+        }
+
+        public static string GetPackageVersion()
+        {
+            try
             {
-                return versionAsset.text;
+                var pathToManifest = System.IO.Path.Combine(UnityEngine.Application.dataPath, "..",
+                    "etc/PackageTemplate", "package.json");
+                var contents = System.IO.File.ReadAllText(pathToManifest);
+                var versionData = UnityEngine.JsonUtility.FromJson<VersionReader>(contents);
+                return versionData.version;
             }
-            else
+            catch
             {
-                return UnknownVersion;
+                var versionAsset = UnityEngine.Resources.Load<UnityEngine.TextAsset>("eosPluginVersion");
+                if (versionAsset != null)
+                {
+                    return versionAsset.text;
+                }
+                else
+                {
+                    return UnknownVersion;
+                }
             }
         }
+        //VERSION END
     }
-    //VERSION END
 }

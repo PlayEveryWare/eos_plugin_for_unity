@@ -416,11 +416,11 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private Result InitializePlatformInterface(EOSConfig configData)
             {
-                IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
+                IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
 
-                IEOSInitializeOptions initOptions = platformSpecifics.CreateSystemInitOptions();
+                IEOSInitializeOptions initOptions = new EOSInitializeOptions();
 
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
@@ -455,15 +455,15 @@ namespace PlayEveryWare.EpicOnlineServices
                 RegisterForPlatformNotifications();
 #endif
 
-                return platformSpecifics.InitializePlatformInterface(initOptions);
+                return PlatformInterface.Initialize(ref (initOptions as EOSInitializeOptions).options);
             }
 
             //-------------------------------------------------------------------------
             private PlatformInterface CreatePlatformInterface(EOSConfig configData)
             {
-                IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
+                IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
-                var platformOptions = platformSpecifics.CreateSystemPlatformOption();
+                IEOSCreateOptions platformOptions = new EOSCreateOptions();
                 platformOptions.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.IsServer = configData.isServer;
                 platformOptions.Flags =
@@ -513,7 +513,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
                 platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
 
-                return platformSpecifics.CreatePlatformInterface(platformOptions);
+                return PlatformInterface.Create(ref (platformOptions as EOSCreateOptions).options);
             }
 
             //-------------------------------------------------------------------------
@@ -527,7 +527,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 UIInterface uiInterface = Instance.GetEOSPlatformInterface().GetUIInterface();
                 uiInterface.SetToggleFriendsButton(ref friendToggle);
 
-                EOSManagerPlatformSpecifics.Instance.InitializeOverlay(coroutineOwner);
+                EOSManagerPlatformSpecificsSingleton.Instance.InitializeOverlay(coroutineOwner);
 
                 AddNotifyDisplaySettingsUpdatedOptions addNotificationData =
                     new AddNotifyDisplaySettingsUpdatedOptions();
@@ -692,7 +692,7 @@ namespace PlayEveryWare.EpicOnlineServices
             /// </summary>
             public void RegisterForPlatformNotifications()
             {
-                IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
+                IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
                 if (platformSpecifics != null)
                 {
                     Debug.Log("EOSManager: Registering for platform-specific notifications");
@@ -1725,13 +1725,13 @@ namespace PlayEveryWare.EpicOnlineServices
             // (if they even support constraining applications at all).
             private void UpdateApplicationConstrainedState()
             {
-                if (EOSManagerPlatformSpecifics.Instance == null)
+                if (EOSManagerPlatformSpecificsSingleton.Instance == null)
                 {
                     return;
                 }
 
                 bool wasConstrained = s_isConstrained;
-                bool isConstrained = EOSManagerPlatformSpecifics.Instance.IsApplicationConstrainedWhenOutOfFocus();
+                bool isConstrained = EOSManagerPlatformSpecificsSingleton.Instance.IsApplicationConstrainedWhenOutOfFocus();
 
                 // Constrained state changed?
                 if (wasConstrained != isConstrained)
@@ -1745,7 +1745,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             private void UpdateNetworkStatus()
             {
-                var platformSpecifics = EOSManagerPlatformSpecifics.Instance;
+                var platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 if (platformSpecifics != null && platformSpecifics is IEOSNetworkStatusUpdater)
                 {

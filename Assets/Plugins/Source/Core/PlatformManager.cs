@@ -22,7 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Settings;
     using System.Collections.Generic;
     using System;
     using System.IO;
@@ -149,7 +148,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <param name="platform">The platform to get the specific file extension for.</param>
         /// <returns>File extension for the dynamic library used by the indicated platform.</returns>
-        private static string GetDynamicLibraryExtension(Platform platform)
+        public static string GetDynamicLibraryExtension(Platform platform)
         {
             return PlatformInformation[platform].DynamicLibraryExtension;
         }

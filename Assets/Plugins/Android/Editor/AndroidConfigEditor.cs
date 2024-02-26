@@ -20,13 +20,8 @@
  * SOFTWARE.
  */
 
-using UnityEditor;
-using UnityEngine;
-
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    using Settings;
-
     public class AndroidConfigEditor : PlatformConfigEditor<AndroidConfig>
     {
         public AndroidConfigEditor() : base(PlatformManager.Platform.Android) { }

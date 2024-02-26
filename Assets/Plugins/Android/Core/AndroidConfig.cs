@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Settings
+namespace PlayEveryWare.EpicOnlineServices
 {
     // Flags specifically for Android
     public class AndroidConfig : PlatformConfig
