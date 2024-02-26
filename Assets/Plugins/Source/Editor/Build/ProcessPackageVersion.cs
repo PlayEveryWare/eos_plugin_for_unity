@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,28 @@
 * SOFTWARE.
 */
 
-#if !STEAMWORKS_MODULE || !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLESTEAMWORKS
-#endif
-
 using UnityEngine;
+using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 
-#if !DISABLESTEAMWORKS
-using Steamworks;
-#endif
-
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
-    public class Steamworks_Utility : MonoBehaviour
+    public class PreprocessPackageVersion : IPreprocessBuildWithReport
     {
-        public static string GetSteamworksVersion()
+        public const string packageVersionPath = "Assets/Resources/eosPluginVersion.asset";
+
+        public int callbackOrder { get { return 0; } }
+        public void OnPreprocessBuild(BuildReport report)
         {
-#if DISABLESTEAMWORKS
-            return "Steamworks not imported or not supported on platform";
-#else
-        return Steamworks.Version.SteamworksSDKVersion;
-#endif
+            string packageVersion = EOSPackageInfo.GetPackageVersion();
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Resources");
+            }
+            TextAsset versionAsset = new TextAsset(packageVersion);
+            AssetDatabase.CreateAsset(versionAsset, packageVersionPath);
+            AssetDatabase.SaveAssets();
         }
     }
 }

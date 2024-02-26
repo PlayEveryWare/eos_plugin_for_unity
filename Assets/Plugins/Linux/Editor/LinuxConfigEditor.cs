@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices
+namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     public class LinuxConfigEditor : PlatformConfigEditor<LinuxConfig>
     {

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,14 @@
 * SOFTWARE.
 */
 
-#if !STEAMWORKS_MODULE || !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLESTEAMWORKS
-#endif
-
-using UnityEngine;
-
-#if !DISABLESTEAMWORKS
-using Steamworks;
-#endif
-
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
-    public class Steamworks_Utility : MonoBehaviour
+    using System;
+    using Config = EpicOnlineServices.Config;
+
+    [Serializable]
+    public class PrebuildConfig : Config
     {
-        public static string GetSteamworksVersion()
-        {
-#if DISABLESTEAMWORKS
-            return "Steamworks not imported or not supported on platform";
-#else
-        return Steamworks.Version.SteamworksSDKVersion;
-#endif
-        }
+        public bool useAppVersionAsProductVersion;
     }
 }
