@@ -28,8 +28,20 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     {
         private delegate bool TryConvertDelegate<TInput, TOutput>(TInput input, out TOutput output);
 
-        // Generic helper function for testing conversions
-        private static void TestTryConvert<TInput, TOutput>(TInput inputValue, bool expectedResult, TOutput expectedOutput, TryConvertDelegate<TInput, TOutput> conversionMethod)
+        /// <summary>
+        /// Tests a given conversionMethod using provided input and expected output.
+        /// </summary>
+        /// <typeparam name="TInput">The input type.</typeparam>
+        /// <typeparam name="TOutput">The output type (opposite sign of the input type).</typeparam>
+        /// <param name="inputValue">The input value.</param>
+        /// <param name="expectedResult">Whether or not the conversion is successful.</param>
+        /// <param name="expectedOutput">The expected value of output after the conversion is attempted.</param>
+        /// <param name="conversionMethod">The method of conversion to use.</param>
+        private static void TestTryConvert<TInput, TOutput>(
+            TInput inputValue, 
+            bool expectedResult, 
+            TOutput expectedOutput, 
+            TryConvertDelegate<TInput, TOutput> conversionMethod)
         {
             bool converted = conversionMethod(inputValue, out TOutput output);
 
