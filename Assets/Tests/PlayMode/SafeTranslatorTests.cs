@@ -121,7 +121,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         [Test]
-        public void TryConvert_ULongToLong_OverflowLong_ReturnsFalse()
+        public static void TryConvert_ULongToLong_OverflowLong_ReturnsFalse()
         {
             const ulong overflowValue = ulong.MaxValue;
             const long uncheckedCast = unchecked((long)overflowValue);
@@ -130,7 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         [Test]
-        public void TryConvert_ULongToLong_PositiveLong_ReturnsTrue()
+        public static void TryConvert_ULongToLong_PositiveLong_ReturnsTrue()
         {
             const long positiveValue = 55;
             const ulong uncheckedCast = unchecked((ulong)positiveValue);
