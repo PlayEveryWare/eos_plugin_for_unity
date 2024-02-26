@@ -21,26 +21,33 @@
  */
 
 using NUnit.Framework;
-using UnityEngine.TestTools;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     public class SafeTranslatorTests
     {
+        private delegate bool TryConvertDelegate<TInput, TOutput>(TInput input, out TOutput output);
+
+        // Generic helper function for testing conversions
+        private static void TestTryConvert<TInput, TOutput>(TInput inputValue, bool expectedResult, TOutput expectedOutput, TryConvertDelegate<TInput, TOutput> conversionMethod)
+        {
+            bool converted = conversionMethod(inputValue, out TOutput output);
+
+            Assert.AreEqual(expectedResult, converted, $"Expected conversion result to be {expectedResult}.");
+            Assert.AreEqual(expectedOutput, output, $"Expected output to be {expectedOutput}.");
+        }
+
         /// <summary>
         /// Tests that when you try to convert a negative int to a uint, the conversion
         /// fails, and the output value is set to a straightforward cast.
         /// </summary>
         [Test]
-        public void TryConvert_IntToUint_NegativeInt_ReturnsFalse()
+        public static void TryConvert_IntToUint_NegativeInt_ReturnsFalse()
         {
             const int negativeValue = -1;
             const uint uncheckedCast = unchecked((uint)negativeValue);
 
-            bool converted = SafeTranslator.TryConvert(negativeValue, out uint output);
-
-            Assert.IsFalse(converted);
-            Assert.AreEqual(uncheckedCast, output);
+            TestTryConvert(negativeValue, false, uncheckedCast, SafeTranslator.TryConvert);
         }
 
         /// <summary>
@@ -48,15 +55,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// is set to int.MaxValue.
         /// </summary>
         [Test]
-        public void TryConvert_IntToUint_PositiveInt_ReturnsTrue()
+        public static void TryConvert_IntToUint_PositiveInt_ReturnsTrue()
         {
             const int positiveValue = int.MaxValue;
             const uint uncheckedCast = unchecked((uint)positiveValue);
 
-            bool converted = SafeTranslator.TryConvert(positiveValue, out uint output);
-
-            Assert.IsFalse(converted);
-            Assert.AreEqual(uncheckedCast, output);
+            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslator.TryConvert);
         }
 
         /// <summary>
@@ -65,18 +69,61 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// set to what a straightforward.
         /// </summary>
         [Test]
-        public void TryConvert_UintToInt_OverflowInt_ReturnsFalse() { }
+        public static void TryConvert_UintToInt_OverflowInt_ReturnsFalse()
+        {
+            const uint overflowValue = uint.MaxValue;
+            const int uncheckedCast = unchecked((int)overflowValue);
+
+            TestTryConvert(overflowValue, false, uncheckedCast, SafeTranslator.TryConvert);
+        }
 
         /// <summary>
         /// Test that trying to convert a uint to int within range works properly (returns
         /// true, and has output set to unchecked cast.
         /// </summary>
         [Test]
-        public void TryConvert_UintToInt_PositiveInt_ReturnsTrue()
+        public static void TryConvert_UintToInt_PositiveInt_ReturnsTrue()
         {
+            const uint positiveValue = 55;
+            const int uncheckedCast = unchecked((int)positiveValue);
 
+            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslator.TryConvert);
         }
 
+        [Test]
+        public static void TryConvert_LongToUlong_NegativeLong_ReturnsFalse()
+        {
+            const long negativeValue = -1;
+            const ulong uncheckedCast = unchecked((ulong)negativeValue);
 
+            TestTryConvert(negativeValue, false, uncheckedCast, SafeTranslator.TryConvert);
+        }
+
+        [Test]
+        public static void TryConvert_LongToULong_PositiveLong_ReturnsTrue()
+        {
+            const long positiveValue = 55;
+            const ulong uncheckedCast = unchecked((ulong)positiveValue);
+
+            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslator.TryConvert);
+        }
+
+        [Test]
+        public void TryConvert_ULongToLong_OverflowLong_ReturnsFalse()
+        {
+            const ulong overflowValue = ulong.MaxValue;
+            const long uncheckedCast = unchecked((long)overflowValue);
+
+            TestTryConvert(overflowValue, false, uncheckedCast, SafeTranslator.TryConvert);
+        }
+
+        [Test]
+        public void TryConvert_ULongToLong_PositiveLong_ReturnsTrue()
+        {
+            const long positiveValue = 55;
+            const ulong uncheckedCast = unchecked((ulong)positiveValue);
+
+            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslator.TryConvert);
+        }
     }
 }
