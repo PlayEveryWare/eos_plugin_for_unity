@@ -2,43 +2,56 @@ name: Copyright Updater
 
 on: 
   pull_request:
-    branches: [development]
+    branches:
+      - 'development'
 
 jobs:
   update-copyright:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Get list of changed files
         id: files
         run: |
           git fetch origin ${{ github.base_ref }} --depth=1
-          echo "TEST OUTPUT START of git diff --name-only origin/${{ github.base_ref }} ${{ github.sha }}"
-          git diff --name-only origin/${{ github.base_ref }} ${{ github.sha }}
-          echo "TEST OUTPUT END"
           echo "CHANGED_FILES<<EOF" >> $GITHUB_ENV
           git diff --name-only origin/${{ github.base_ref }} ${{ github.sha }} >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
       - name: Pass files to python script.
+        id: copyright_script
         run: |
           python ./tools/scripts/copyright_update.py "${{ env.CHANGED_FILES }}"
+        continue-on-error: true
+
+        # TODO: More elegantly skip subsequent steps if there were no altered files
+        #       (instead of having each subsequent job only run if things were altered)
+      - name: Check script result and exit if no changes
+        if: steps.copyright_script.outcome == 'failure'
+        run: echo "No files altered, exiting..."
 
       - name: Configure Git
+        if: steps.copyright_scripts.outcome == 'success'
         run: |
           git config --global user.name "copyright-bot"
           git config --global user.email "copyright-bot@users.noreply.github.com"
           
       - name: Add & Commit Changes
+        if: steps.copyright_scripts.outcome == 'success'
         run: |
           git add -A
           git diff --staged --quiet || git commit -m "Automatically update copyright notices [skip ci]"
           
       - name: Push changes
+        if: steps.copyright_scripts.outcome == 'success'
         run: |
           git push origin HEAD:${{ github.head_ref }}

@@ -47,9 +47,6 @@ def update_copyright_notice(file_path) -> bool:
     """
     Given a file, scans each line to find a copyright notice, and updates the year.
     """
-    current_year = datetime.datetime.now().year
-    pattern = re.compile(r'\(c\) (\d{4})(|-\d{4})? PlayEveryWare.+')
-    
     # Read the original content of the file
     try:
         with open(file_path, 'r', encoding='utf-8') as file:
@@ -57,6 +54,8 @@ def update_copyright_notice(file_path) -> bool:
     except IOError as e:
         print(f"Error opening or reading file: {file_path}. {e}")
         return
+    
+    current_year = datetime.datetime.now().year
     
     # Function to use in re.sub for replacement logic
     def replace_func(match) -> str:
@@ -74,6 +73,8 @@ def update_copyright_notice(file_path) -> bool:
                 new_copyright = f"(c) {start_year}-{current_year} PlayEveryWare, Inc."
         
         return new_copyright
+    
+    pattern = re.compile(r'\(c\) (\d{4})(|-\d{4})? PlayEveryWare.*')
     
     # Update the content
     updated_content = pattern.sub(replace_func, content)
@@ -108,9 +109,17 @@ def main(changed_files):
     files = filter_non_binary_files(files)
     
     print("\nNon-binary files:")
+    files_were_changed = False
+
     for f in files:
         if update_copyright_notice(f):
             print(f'File "{f}" had it\'s copyright updated.')
+            files_were_changed = True
+            
+    if files_were_changed:
+        sys.exit(0) # files were changed successfully
+    else:
+        sys.exit(1) # indicates that no files were altered
     
 if __name__ == "__main__":
     """
