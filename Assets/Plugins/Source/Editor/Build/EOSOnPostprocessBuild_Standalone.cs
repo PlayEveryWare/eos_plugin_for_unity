@@ -63,7 +63,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             return Directory.Exists(projectPathToBin) ? projectPathToBin : "";
         }
 
-
         private static string GetPathToPlatformSpecificAssets(BuildReport report)
         {
             string platformDirectoryName = report.summary.platform switch
@@ -91,7 +90,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             return pathToInstallFrom;
         }
-
 
 #if UNITY_EDITOR_WIN
         private static void InstallBootStrapper(string appFilenameExe, string installDirectory,
@@ -265,7 +263,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             return rel;
         }
 
-        public static List<string> GetPostBuildFiles(BuildReport report, bool useEAC)
+        private static List<string> GetPostBuildFiles(BuildReport report, bool useEAC)
         {
             List<string> files = new();
 
@@ -294,7 +292,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             return files;
         }
 
-        public static List<string> GetPostBuildDirectories(BuildReport report, bool useEAC)
+        private static List<string> GetPostBuildDirectories(BuildReport report, bool useEAC)
         {
             List<string> directories = new();
 
@@ -320,8 +318,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             return directories;
         }
-
-
+        
         private static void InstallFiles(BuildReport report, bool useEAC)
         {
             string buildExeName = Path.GetFileName(report.summary.outputPath);
@@ -441,8 +438,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             File.WriteAllText(filepath, fileContents);
         }
-
-
+        
         public void OnPostprocessBuild(BuildReport report)
         {
             if (ScriptingDefineUtility.IsEOSDisabled(report.summary.platform))
