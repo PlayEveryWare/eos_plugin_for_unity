@@ -22,8 +22,38 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
+    using System.IO;
+    using UnityEditor.Build.Reporting;
+
+#if UNITY_IOS // This conditional is here so that no compiler errors will happen if the Unity Editor is not configured to build for iOS
+    using UnityEditor.iOS.Xcode;
+#endif
+
     public class IOSBuilder : PlatformSpecificBuilder
     {
         public IOSBuilder() : base("Plugins/iOS") { }
+
+        public override void PlatformPostbuild(BuildReport report)
+        {
+
+#if UNITY_IOS // This conditional is here so that no compiler errors will happen if the Unity Editor is not configured to build for iOS
+            string projPath = report.summary.outputPath + "/Unity-iPhone.xcodeproj/project.pbxproj";
+
+            PBXProject proj = new();
+
+            proj.ReadFromString(File.ReadAllText(projPath));
+
+            string targetGUID = proj.GetUnityMainTargetGuid();
+            string unityTargetGUID = proj.GetUnityFrameworkTargetGuid();
+
+            proj.SetBuildProperty(targetGUID, "ENABLE_BITCODE", "false");
+            proj.SetBuildProperty(unityTargetGUID, "ENABLE_BITCODE", "false");
+
+            proj.AddFrameworkToProject(targetGUID, "SafariServices.framework", true);
+            proj.AddFrameworkToProject(targetGUID, "AuthenticationServices.framework", true);
+
+            File.WriteAllText(projPath, proj.WriteToString());
+#endif
+        }
     }
 }

@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             BuildUtility.FindVSInstallations();
 
-            Debug.Log("Checking   for platform-specific prerequisites.");
+            Debug.Log("Checking for platform-specific prerequisites.");
 
             // Validate the configuration for the platform
             BuildUtility.ValidatePlatformConfiguration();
