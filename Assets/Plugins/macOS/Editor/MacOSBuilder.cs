@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     {
         public MacOSBuilder() : base("Plugins/macOS") { }
 
-        public override void PlatformPrebuild(BuildReport report)
+        public override void PreBuild(BuildReport report)
         {
             string macOSPackagePluginFolder =
                 Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Runtime", "macOS");

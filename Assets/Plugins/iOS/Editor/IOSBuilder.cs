@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     {
         public IOSBuilder() : base("Plugins/iOS") { }
 
-        public override void PlatformPostbuild(BuildReport report)
+        public override void PostBuild(BuildReport report)
         {
 
 #if UNITY_IOS // This conditional is here so that no compiler errors will happen if the Unity Editor is not configured to build for iOS

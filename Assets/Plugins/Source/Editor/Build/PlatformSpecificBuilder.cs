@@ -86,7 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// Implement this function on a per-platform basis to provide custom logic for the platform being compiled.
         /// </summary>
         /// <param name="report"></param>
-        public virtual void PlatformPrebuild(BuildReport report)
+        public virtual void PreBuild(BuildReport report)
         {
             EnsurePlatformPrerequisites();
         }
@@ -95,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// Implement this function on a per-platform basis to provide custom logic for the platform being compiled.
         /// </summary>
         /// <param name="report"></param>
-        public virtual void PlatformPostbuild(BuildReport report)
+        public virtual void PostBuild(BuildReport report)
         {
             // Default post-build behavior is empty for the time being.
         }

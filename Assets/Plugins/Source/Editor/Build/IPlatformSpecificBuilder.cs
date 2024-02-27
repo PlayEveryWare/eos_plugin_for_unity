@@ -33,12 +33,12 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// Called by the BuildRunner before the build happens on the platform.
         /// </summary>
         /// <param name="report">The BuildReport for the prebuild task.</param>
-        public void PlatformPrebuild(BuildReport report);
+        public void PreBuild(BuildReport report);
 
         /// <summary>
         /// Called by the BuildRunner after the build happens on the platform.
         /// </summary>
         /// <param name="report">The BuildReport for the postbuild task.</param>
-        public void PlatformPostbuild(BuildReport report);
+        public void PostBuild(BuildReport report);
     }
 }

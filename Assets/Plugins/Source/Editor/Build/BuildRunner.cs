@@ -75,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             ConfigureVersions();
 
             // perform the pre-build task for the platform using it's builder.
-            GetBuilder()?.PlatformPrebuild(report);
+            GetBuilder()?.PreBuild(report);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         public void OnPostprocessBuild(BuildReport report)
         {
             // perform the post-build task for the platform using it's builder.
-            GetBuilder()?.PlatformPostbuild(report);
+            GetBuilder()?.PostBuild(report);
 
             // Configure EAC
             EACPostBuild.ConfigureEAC(report);
