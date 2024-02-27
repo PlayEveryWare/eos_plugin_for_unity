@@ -28,12 +28,12 @@ using System.Text.RegularExpressions;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     [InitializeOnLoad]
-    public static partial class MakefileUtil
+    public static partial class MakefileUtility
     {
         private static Regex WarningRegex;
         private static Regex ErrorRegex;
 
-        static MakefileUtil()
+        static MakefileUtility()
         {
             WarningRegex = new Regex(@"warning [a-zA-z0-9]*:", RegexOptions.IgnoreCase);
             ErrorRegex = new Regex(@"error [a-zA-z0-9]*:", RegexOptions.IgnoreCase);

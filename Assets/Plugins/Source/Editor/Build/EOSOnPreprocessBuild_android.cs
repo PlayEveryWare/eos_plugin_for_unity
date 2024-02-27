@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public void OnPreprocessBuild(BuildReport report)
         {
-            if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
+            if (EOSPreprocessUtilities.IsEOSDisabled(report))
             {
                 return;
             }

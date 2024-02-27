@@ -31,6 +31,8 @@ using System;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Utility;
+
     public class EOSOnPostprocessBuild_Standalone : IPostprocessBuildWithReport
     {
         public int callbackOrder { get { return 0; } }
@@ -449,7 +451,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public void OnPostprocessBuild(BuildReport report)
         {
-            if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report.summary.platform))
+            if (ScriptingDefineUtility.IsEOSDisabled(report.summary.platform))
             {
                 return;
             }

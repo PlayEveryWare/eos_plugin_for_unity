@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
+    using Editor.Utility;
     using UnityEditor.Build.Reporting;
     using UnityEditor;
     using UnityEngine;
@@ -431,7 +432,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         public static void ConfigureEAC(BuildReport report)
         {
-            if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report.summary.platform))
+            if (ScriptingDefineUtility.IsEOSDisabled(report.summary.platform))
             {
                 return;
             }

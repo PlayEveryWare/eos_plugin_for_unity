@@ -28,13 +28,15 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Utility;
+
     class PreProcessConfigConfirmation : IPreprocessBuildWithReport
     {
         public int callbackOrder { get { return int.MaxValue; } }
 
         public void OnPreprocessBuild(BuildReport report)
         {
-            if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
             {
                 return;
             }

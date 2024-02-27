@@ -23,39 +23,33 @@
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Build
+namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
-    public class EOSPreprocessUtilities
-    {
-        private static bool isScriptingDefineEnabled(string scriptingDefineSymbols, string defineAsString)
-        {
-            foreach (string define in scriptingDefineSymbols.Split(';'))
-            {
-                if (define == defineAsString)
-                {
-                    return true;
-                }
-            }
+    using System.Linq;
 
-            return false;
+    public class ScriptingDefineUtility
+    {
+        private static bool DoesScriptingDefineExist(string scriptingDefineSymbols, string defineAsString)
+        {
+            return scriptingDefineSymbols.Split(';').Any(define => define == defineAsString);
         }
 
         //-------------------------------------------------------------------------
-        public static bool isScriptingDefineEnabled(BuildReport report, string defineAsString)
+        private static bool DoesScriptingDefineExist(BuildReport report, string defineAsString)
         {
 #if UNITY_2021_2_OR_NEWER
             var namedBuildTarget =
                 UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(report.summary.platformGroup);
             var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
 #else
-        // Ensure that we don't do checks for config files if the current platform group has EOS disabled
-        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(report.summary.platformGroup);
+            // Ensure that we don't do checks for config files if the current platform group has EOS disabled
+            var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(report.summary.platformGroup);
 #endif
-            return isScriptingDefineEnabled(defineSymbolsForGroup, defineAsString);
+            return DoesScriptingDefineExist(defineSymbolsForGroup, defineAsString);
         }
 
         //-------------------------------------------------------------------------
-        public static bool isScriptingDefineEnabled(BuildTarget buildTarget, string defineAsString)
+        private static bool DoesScriptingDefineExist(BuildTarget buildTarget, string defineAsString)
         {
 #if UNITY_2021_2_OR_NEWER
             var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
@@ -63,24 +57,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 UnityEditor.Build.NamedBuildTarget.FromBuildTargetGroup(buildTargetGroup);
             var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbols(namedBuildTarget);
 #else
-        var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
-        var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
+            var buildTargetGroup = BuildPipeline.GetBuildTargetGroup(buildTarget);
+            var defineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(buildTargetGroup);
 #endif
 
-
-            return isScriptingDefineEnabled(defineSymbolsForGroup, defineAsString);
+            return DoesScriptingDefineExist(defineSymbolsForGroup, defineAsString);
         }
 
         //-------------------------------------------------------------------------
-        public static bool isEOSDisableScriptingDefineEnabled(BuildReport report)
+        public static bool IsEOSDisabled(BuildReport report)
         {
-            return EOSPreprocessUtilities.isScriptingDefineEnabled(report, "EOS_DISABLE");
+            return ScriptingDefineUtility.DoesScriptingDefineExist(report, "EOS_DISABLE");
         }
 
         //-------------------------------------------------------------------------
-        public static bool isEOSDisableScriptingDefineEnabled(BuildTarget buildTarget)
+        public static bool IsEOSDisabled(BuildTarget buildTarget)
         {
-            return EOSPreprocessUtilities.isScriptingDefineEnabled(buildTarget, "EOS_DISABLE");
+            return ScriptingDefineUtility.DoesScriptingDefineExist(buildTarget, "EOS_DISABLE");
         }
     }
 }
