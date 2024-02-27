@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
     using Editor;
+    using Editor.Utility;
     using System;
     using System.IO;
     using UnityEditor;
@@ -71,6 +72,12 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="report">The pre-process build report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
+            // Don't do any preprocessing if EOS has been disabled.
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
+            {
+                return;
+            }
+
             // Check to make sure that the configuration file for the platform being 
             // built against exists.
             CheckPlatformConfiguration();
@@ -88,6 +95,12 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="report">The report from the post-process build.</param>
         public void OnPostprocessBuild(BuildReport report)
         {
+            // Don't do any postprocessing if EOS has been disabled.
+            if (ScriptingDefineUtility.IsEOSDisabled(report))
+            {
+                return;
+            }
+
             // perform the post-build task for the platform using it's builder.
             GetBuilder()?.PostBuild(report);
 
