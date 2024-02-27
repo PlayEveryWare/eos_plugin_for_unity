@@ -1,0 +1,25 @@
+name: Pull Patrol
+
+on: 
+  workflow_dispatch:
+  schedule:
+  # Assuming that the server is GMT, run this workflow every weekday morning at 9AM
+  - cron: "0 17 * * 1-5"
+jobs:
+  pull-patrol:
+    runs-on: ubuntu-latest
+    steps:
+      # TODO: This is set to simply use the 'master' branch of the repository because it's easier
+      #       to change implementation this way. Once this workflow is stable, it should be changed
+      #       to be a specific release.
+    - uses: paulhazen/pr-reviews-reminder-action@master
+      env: 
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        webhook-url: "${{ secrets.PULL_PATROL_SLACK_WEBHOOK }}"
+        provider: "slack"
+        github-provider-map: "${{ secrets.PULL_PATROL_GITHUB_PROVIDER_MAP }}"
+        channel: "#test-channel"
+
+
+            
