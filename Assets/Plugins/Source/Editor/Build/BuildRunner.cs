@@ -71,6 +71,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="report">The pre-process build report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
+            // Check to make sure that the configuration file for the platform being 
+            // built against exists.
+            CheckPlatformConfiguration();
+
             // Do the various version-related tasks that need to be configured.
             ConfigureVersions();
 
@@ -89,6 +93,19 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             // Configure EAC
             EACPostBuild.ConfigureEAC(report);
+        }
+
+        /// <summary>
+        /// Checks to make sure that the platform configuration file exists where it is expected to be
+        /// TODO: Add configuration validation.
+        /// </summary>
+        private static void CheckPlatformConfiguration()
+        {
+            string configFilePath = PlatformManager.GetConfigFilePath();
+            if (!File.Exists(configFilePath))
+            {
+                throw new BuildFailedException($"Expected config file \"{configFilePath}\" for platform {PlatformManager.GetFullName(PlatformManager.CurrentPlatform)} does not exist.");
+            }
         }
 
         /// <summary>
