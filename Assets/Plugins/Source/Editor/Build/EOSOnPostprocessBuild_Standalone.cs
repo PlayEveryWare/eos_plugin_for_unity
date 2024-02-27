@@ -37,15 +37,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     {
         public int callbackOrder { get { return 0; } }
 
-        private HashSet<string> postBuildFilesOptional =
-            new HashSet<string>() { "[ExeName].eac", "EasyAntiCheat/SplashScreen.png" };
+        private static readonly HashSet<string> s_postBuildFilesOptional =
+            new()
+            {
+                "[ExeName].eac", 
+                "EasyAntiCheat/SplashScreen.png"
+            };
 
         //files with contents that need string vars replaced
-        private HashSet<string> postBuildFilesWithVars = new HashSet<string>() { "EasyAntiCheat/Settings.json" };
-
-        private EOSConfig eosConfig = null;
-        private string buildExeName = null;
-
+        private static readonly HashSet<string> s_postBuildFilesWithVars = new()
+        {
+            "EasyAntiCheat/Settings.json"
+        };
 
         private static string GetPathToEOSBin()
         {
@@ -56,32 +59,19 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             {
                 return packagePathToBin;
             }
-            else if (Directory.Exists(projectPathToBin))
-            {
-                return projectPathToBin;
-            }
 
-            return "";
+            return Directory.Exists(projectPathToBin) ? projectPathToBin : "";
         }
 
 
         private static string GetPathToPlatformSpecificAssets(BuildReport report)
         {
-            string platformDirectoryName = null;
-            switch (report.summary.platform)
+            string platformDirectoryName = report.summary.platform switch
             {
-                case BuildTarget.StandaloneLinux64:
-                    platformDirectoryName = "Linux";
-                    break;
-
-                case BuildTarget.StandaloneOSX:
-                    platformDirectoryName = "Mac";
-                    break;
-
-                default:
-                    platformDirectoryName = "Windows";
-                    break;
-            }
+                BuildTarget.StandaloneLinux64 => "Linux",
+                BuildTarget.StandaloneOSX => "Mac",
+                _ => "Windows",
+            };
 
             string packagePathname = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() +
                                                       "/PlatformSpecificAssets~/EOS/" + platformDirectoryName + "/");
@@ -148,22 +138,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
 #endif
 
-        private string GetDefaultIntegrityToolPath()
+        private static string GetDefaultIntegrityToolPath()
         {
             string toolPath = Path.Combine(GetPathToEOSBin(), "EAC");
 #if UNITY_EDITOR_WIN
             toolPath = Path.Combine(toolPath, "Windows", "anticheat_integritytool64.exe");
 #elif UNITY_EDITOR_OSX
-        toolPath = Path.Combine(toolPath, "Mac", "anticheat_integritytool");
+            toolPath = Path.Combine(toolPath, "Mac", "anticheat_integritytool");
 #elif UNITY_EDITOR_LINUX
-        toolPath = Path.Combine(toolPath, "Linux", "anticheat_integritytool");
+            toolPath = Path.Combine(toolPath, "Linux", "anticheat_integritytool");
 #else
-        toolPath = null;
+            toolPath = null;
 #endif
             return toolPath;
         }
 
-        private string GetDefaultIntegrityConfigPath()
+        private static string GetDefaultIntegrityConfigPath()
         {
             string projectPathToCfg = Path.Combine(Application.dataPath,
                 "Plugins/Standalone/Editor/anticheat_integritytool.cfg");
@@ -183,9 +173,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
 
         //use anticheat_integritytool to hash protected files and generate certificate for EAC
-        private void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID,
+        private static void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID,
             string keyFileName, string certFileName, string configFile = null)
         {
+            string buildExeName = Path.GetFileName(report.summary.outputPath);
             string installPathForExe = report.summary.outputPath;
             string installDirectory = Path.GetDirectoryName(installPathForExe);
             string toolDirectory = Path.GetDirectoryName(pathToEACIntegrityTool);
@@ -200,7 +191,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             File.Copy(originalCfg, newCfgPath, true);
             try
             {
-                ReplaceFileContentVars(newCfgPath);
+                ReplaceFileContentVars(newCfgPath, buildExeName);
                 configFile = newCfgPath;
 
                 string integrityToolArgs =
@@ -220,32 +211,34 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 procInfo.RedirectStandardError = true;
 
                 var process = new System.Diagnostics.Process { StartInfo = procInfo };
-                process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
+                process.OutputDataReceived += (sender, e) =>
                 {
-                    if (!string.IsNullOrEmpty(e.Data))
+                    if (string.IsNullOrEmpty(e.Data))
                     {
-                        if (e.Data.StartsWith("[Err!]"))
-                        {
-                            Debug.LogError(e.Data);
-                        }
-                        else if (e.Data.StartsWith("[Warn]"))
-                        {
-                            Debug.LogWarning(e.Data);
-                        }
-                        else
-                        {
-                            Debug.Log(e.Data);
-                        }
+                        return;
                     }
-                });
 
-                process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
+                    if (e.Data.StartsWith("[Err!]"))
+                    {
+                        Debug.LogError(e.Data);
+                    }
+                    else if (e.Data.StartsWith("[Warn]"))
+                    {
+                        Debug.LogWarning(e.Data);
+                    }
+                    else
+                    {
+                        Debug.Log(e.Data);
+                    }
+                };
+
+                process.ErrorDataReceived += (sender, e) =>
                 {
                     if (!string.IsNullOrEmpty(e.Data))
                     {
                         Debug.LogError(e.Data);
                     }
-                });
+                };
 
                 bool didStart = process.Start();
                 process.BeginOutputReadLine();
@@ -274,58 +267,65 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         public static List<string> GetPostBuildFiles(BuildReport report, bool useEAC)
         {
-            List<string> files = new List<string>();
+            List<string> files = new();
 
-            if (useEAC)
+            if (!useEAC)
             {
-                //optional override config file for EAC CDN
-                files.Add("[ExeName].eac");
-                files.Add("EasyAntiCheat/Settings.json");
-                files.Add("EasyAntiCheat/SplashScreen.png");
-
-                switch (report.summary.platform)
-                {
-                    case BuildTarget.StandaloneLinux64:
-                        files.Add("eac_launcher");
-                        break;
-
-                    case BuildTarget.StandaloneWindows:
-                    case BuildTarget.StandaloneWindows64:
-                        files.Add("EACLauncher.exe");
-                        files.Add("EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe");
-                        break;
-                }
+                return files;
             }
 
+            //optional override config file for EAC CDN
+            files.Add("[ExeName].eac");
+            files.Add("EasyAntiCheat/Settings.json");
+            files.Add("EasyAntiCheat/SplashScreen.png");
+
+            switch (report.summary.platform)
+            {
+                case BuildTarget.StandaloneLinux64:
+                    files.Add("eac_launcher");
+                    break;
+                case BuildTarget.StandaloneWindows:
+                case BuildTarget.StandaloneWindows64:
+                    files.Add("EACLauncher.exe");
+                    files.Add("EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe");
+                    break;
+            }
+        
             return files;
         }
 
         public static List<string> GetPostBuildDirectories(BuildReport report, bool useEAC)
         {
-            List<string> directories = new List<string>();
+            List<string> directories = new();
 
-            if (useEAC)
+            // If we're not using EAC, then we can stop here
+            if (!useEAC)
             {
-                directories.Add("EasyAntiCheat/Licenses");
-                directories.Add("EasyAntiCheat/Localization");
+                return directories;
+            }
 
-                switch (report.summary.platform)
-                {
-                    case BuildTarget.StandaloneOSX:
-                        directories.Add("eac_launcher.app/Contents");
-                        directories.Add("eac_launcher.app/Contents/_CodeSignature");
-                        directories.Add("eac_launcher.app/Contents/MacOS");
-                        directories.Add("eac_launcher.app/Contents/Resources");
-                        break;
-                }
+            directories.Add("EasyAntiCheat/Licenses");
+            directories.Add("EasyAntiCheat/Localization");
+
+            // TODO: Put this in MacOS builder
+            switch (report.summary.platform)
+            {
+                case BuildTarget.StandaloneOSX:
+                    directories.Add("eac_launcher.app/Contents");
+                    directories.Add("eac_launcher.app/Contents/_CodeSignature");
+                    directories.Add("eac_launcher.app/Contents/MacOS");
+                    directories.Add("eac_launcher.app/Contents/Resources");
+                    break;
             }
 
             return directories;
         }
 
 
-        private void InstallFiles(BuildReport report, bool useEAC)
+        private static void InstallFiles(BuildReport report, bool useEAC)
         {
+            string buildExeName = Path.GetFileName(report.summary.outputPath);
+
             string destDir = Path.GetDirectoryName(report.summary.outputPath);
             string pathToInstallFrom = GetPathToPlatformSpecificAssets(report);
 
@@ -366,7 +366,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                         string destPathname = Path.Combine(fileToInstallParentDirectory,
                             Path.GetFileName(fileToInstallPathName));
 
-                        destPathname = ReplaceFileNameVars(destPathname);
+                        destPathname = ReplaceFileNameVars(destPathname, buildExeName);
 
                         if (File.Exists(destPathname))
                         {
@@ -376,12 +376,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                         File.Copy(fileToInstallPathName, destPathname, true);
 
-                        if (postBuildFilesWithVars.Contains(fileToInstall))
+                        if (s_postBuildFilesWithVars.Contains(fileToInstall))
                         {
-                            ReplaceFileContentVars(destPathname);
+                            ReplaceFileContentVars(destPathname, buildExeName);
                         }
                     }
-                    else if (!postBuildFilesOptional.Contains(fileToInstall))
+                    else if (!s_postBuildFilesOptional.Contains(fileToInstall))
                     {
                         Debug.LogError("Missing platform specific file: " + fileToInstall);
                     }
@@ -389,7 +389,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        private void CopySplashImage(BuildReport report, string imagePath)
+        private static void CopySplashImage(BuildReport report, string imagePath)
         {
             if (!File.Exists(imagePath))
             {
@@ -407,28 +407,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             File.Copy(imagePath, destPath, true);
         }
 
-        private EOSConfig GetEOSConfig()
+        private static EOSConfig GetEOSConfig()
         {
-            if (eosConfig != null)
-            {
-                return eosConfig;
-            }
-
             string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
             var configDataAsString = File.ReadAllText(configFilePath);
             var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
-            eosConfig = configData;
             return configData;
         }
 
-        private string ReplaceFileNameVars(string filename)
+        private static string ReplaceFileNameVars(string filename, string buildExeName)
         {
             filename = filename.Replace("[UnityProductName]", Application.productName);
             filename = filename.Replace("[ExeName]", buildExeName);
             return filename;
         }
 
-        private void ReplaceFileContentVars(string filepath)
+        private static void ReplaceFileContentVars(string filepath, string buildExeName)
         {
             var fileContents = File.ReadAllText(filepath);
             EOSConfig eosConfig = GetEOSConfig();
@@ -476,7 +470,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 }
 
 
-                buildExeName = Path.GetFileName(report.summary.outputPath);
+                string buildExeName = Path.GetFileName(report.summary.outputPath);
 
                 InstallFiles(report, useEAC);
 
