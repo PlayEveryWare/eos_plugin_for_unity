@@ -1,16 +1,14 @@
 {
     "source_to_dest": [
-        {"src":"etc/PackageTemplate/CHANGELOG.md", "dest" : "CHANGELOG.md"},
-        {"src":"etc/PackageTemplate/CHANGELOG.md.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/Shared/CHANGELOG.md", "dest" : "CHANGELOG.md"},
+        {"src":"etc/PackageTemplate/Shared/CHANGELOG.md.meta", "dest" : ""},
         {"src":"LICENSE.md", "dest" : "LICENSE.md"},
-        {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
-        {"src":"etc/PackageTemplate/package.json", "dest" : ""},
-        {"src":"etc/PackageTemplate/package.json.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/Shared/LICENSE.md.meta", "dest" : ""},
 
         {"src":"README.md", "dest" : "README.md"},
-        {"src":"etc/PackageTemplate/README.md.meta", "dest" : ""},
-        {"src":"etc/PackageTemplate/Editor.meta", "dest" : ""},
-        {"src":"etc/PackageTemplate/Runtime.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/Shared/README.md.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/Shared/Editor.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/Shared/Runtime.meta", "dest" : ""},
         {"src":"docs/class_description.md", "dest" : "Documentation~/"},
         {"src":"docs/standards.md", "dest" : "Documentation~/"},
         {"src":"docs/configuring_the_eos_plugin.md", "dest" : "Documentation~/"},
@@ -210,13 +208,13 @@
 
         {"comment": "----------------------------End EOSSDK Shared C#---------------------------------------------"},
 
-        {"src":"etc/PackageTemplate/.sample.json", "dest" : ""},
+        {"src":"etc/PackageTemplate/Shared/.sample.json", "dest" : ""},
 
         {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/StandardSamples/"},
         {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
         {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
 
-        {"src":"etc/PackageTemplate/Samples.meta", "dest" : "Samples~/"},
+        {"src":"etc/PackageTemplate/Shared/Samples.meta", "dest" : "Samples~/"},
         {"src":"Assets/Scripts/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
         {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
         {"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},

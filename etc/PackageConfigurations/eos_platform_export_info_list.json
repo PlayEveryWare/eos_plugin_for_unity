@@ -7,6 +7,9 @@
          {"platform":"Mac","descPath":"eos_export_mac_description.json"},
          {"platform":"iOS","descPath":"eos_export_ios_description.json"},
          {"platform":"Android","descPath":"eos_export_android_description.json"},
-         {"platform":"Steam","descPath":"eos_export_steam_description.json"}
+         {"platform":"Steam","descPath":"eos_export_steam_description.json"},
+
+
+         {"platform":"Public","descPath":"public_upm_header.json"}
     ]
 }
