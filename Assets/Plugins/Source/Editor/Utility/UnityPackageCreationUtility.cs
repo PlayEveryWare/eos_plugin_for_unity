@@ -33,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Build;
     using EpicOnlineServices.Utility;
+    using Playeveryware.Editor;
 
     // Helper to allow for StartCoroutine to be used from a static context
     public class CoroutineExecutor : MonoBehaviour
@@ -73,6 +74,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         public static CoroutineExecutor executorInstance;
 
+        // TODO: These were introduced by the changes to the modular export tool. Go back and comment explaining what each of these does.
+        public static Dictionary<string, string> platformDescDict = new Dictionary<string, string>();
+        public static Dictionary<string, bool> isPackageExported = new Dictionary<string, bool>();
+        public static Dictionary<string, List<string>> packagePlatformsDict = new Dictionary<string, List<string>>();
+
         /// <summary>
         /// Static constructor
         /// </summary>
@@ -106,7 +112,31 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
+        public static void ReloadPackageDescriptions()
+        {
+            string pathToExportDescDirectory = Application.dataPath + "/../etc/PackageConfigurations/";
 
+            platformDescDict.Clear();
+            packagePlatformsDict.Clear();
+            isPackageExported.Clear();
+
+            var JSONPackageDescription = File.ReadAllText(pathToExportDescDirectory + "eos_platform_export_info_list.json");
+            var exportInfoList = JsonUtility.FromJson<PlatformExportInfoList>(JSONPackageDescription);
+
+            foreach (var entry in exportInfoList.platformExportInfoList)
+            {
+                platformDescDict[entry.platform] = pathToExportDescDirectory + entry.descPath;
+            }
+
+            var presetDescription = File.ReadAllText(pathToExportDescDirectory + "eos_package_export_preset_list.json");
+            var presetList = JsonUtility.FromJson<PackagePresetList>(presetDescription);
+
+            foreach (var entry in presetList.packagePresetList)
+            {
+                packagePlatformsDict[entry.name] = entry.platformList;
+                isPackageExported[entry.name] = false;
+            }
+        }
         private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
         {
             var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
@@ -164,9 +194,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
-
-
-
         public static void CreateUPMTarball(string outputPath, string json_file)
         {
             UnityEngine.Debug.Log("DEBUG " + json_file);
@@ -200,6 +227,41 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             );
         }
 
+        public static void CreateUPMTarballV2(string preset)
+        {
+            string packageFolder = GetPackageOutputFolder();
+
+            foreach (var platform in packagePlatformsDict[preset])
+            {
+                var JSONPackageDescription = File.ReadAllText(platformDescDict[platform]);
+                var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+                var filesToCompress = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
+
+                CopyFilesToPackageDirectory(
+                    packageFolder,
+                    filesToCompress
+                );
+            }
+
+            if (!executorInstance)
+            {
+                executorInstance = UnityEngine.Object.FindObjectOfType<
+                    CoroutineExecutor>();
+
+                if (!executorInstance)
+                {
+                    executorInstance = new GameObject(
+                        "CoroutineExecutor").AddComponent<CoroutineExecutor>();
+                }
+            }
+
+            executorInstance.StartCoroutine(
+                StartMakingTarball(
+                    packageFolder,
+                    pathToOutput
+                )
+            );
+        }
 
         public static void CreateDotUnityPackage(string outputPath, string json_file,
             string packageName = "pew_eos_plugin.unitypackage")
