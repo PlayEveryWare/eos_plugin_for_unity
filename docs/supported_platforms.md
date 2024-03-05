@@ -4,13 +4,18 @@
 
 ## Supported:
 
-- Windows (Standalone x86 & x64)
-- Universal Windows Platform (x64)
-- [Android](/docs/android/README_Android.md) [^1]
-- [iOS](/docs/iOS/README_iOS.md) [^1]
-- [Linux](/docs/dev_env/Ubuntu_Development_Environment.md) [^1]
-- [MacOS](/docs/macOS/README_macOS.md)
-- Nintendo Switch (for details, please see the Nintendo Developer Portal)
+- **Windows (Standalone x86 & x64)**
+- **Universal Windows Platform (x64)**
+- **[Android](/docs/android/README_Android.md)** [^1]
+- **[iOS](/docs/iOS/README_iOS.md)** [^1]
+- **[Linux](/docs/dev_env/Ubuntu_Development_Environment.md)** [^1]
+- **[MacOS](/docs/macOS/README_macOS.md)**
+- **Nintendo Switch**<br>
+  _For details, please see the Nintendo Developer Portal._
+- **Xbox (One & Xbox Series X)**<br>
+  _To get access to PlayEveryWare's EOS Plugin for Unity on Xbox platforms, please prompt your EPM to contact PlayEveryWare to confirm status as a verified GDKX licensed developer._
+- **PlayStation (4 & 5)**<br>
+  _To get access to PlayEveryWare's EOS Plugin for Unity on Sony platforms, please contact us at [eos-support@playeveryware.com](mailto:eos-support@playeveryware.com)_
 
 We are always looking to add the functionality of the plugin to more platforms, and have functionality for some in private development
 

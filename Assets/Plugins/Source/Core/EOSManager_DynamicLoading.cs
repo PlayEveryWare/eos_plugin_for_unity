@@ -225,7 +225,7 @@ namespace PlayEveryWare.EpicOnlineServices
                  });
 
 //#if !UNITY_EDITOR
-                EOSManagerPlatformSpecifics.Instance?.LoadDelegatesWithEOSBindingAPI();
+                EOSManagerPlatformSpecificsSingleton.Instance?.LoadDelegatesWithEOSBindingAPI();
 //#endif
 #endif
                 }
