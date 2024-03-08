@@ -115,6 +115,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 }));
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// Maps Unity BuildTarget to Platform
         /// </summary>
@@ -143,6 +144,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return PlatformInformation[platform].ConfigType;
         }
 
+#endif
         /// <summary>
         /// Return a string that represents the file extension used by the indicated platform for dynamic library files.
         /// </summary>
@@ -153,6 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return PlatformInformation[platform].DynamicLibraryExtension;
         }
 
+
         /// <summary>
         /// Get the file extension used by the current platform for dynamic library files.
         /// </summary>
@@ -162,6 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return GetDynamicLibraryExtension(CurrentPlatform);
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// Returns the type of the PlatformConfig that holds configuration values for the indicated BuildTarget
         /// </summary>
@@ -183,7 +187,7 @@ namespace PlayEveryWare.EpicOnlineServices
             var platform = TargetToPlatformsMap[target];
             return GetConfigFilePath(platform);
         }
-
+#endif
         /// <summary>
         /// Return the fully qualified path to the configuration file for the current platform.
         /// </summary>
@@ -226,6 +230,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return false;
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// Try to retrieve the config file path for the indicated BuildTarget.
         /// </summary>
@@ -237,6 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices
             var platform = TargetToPlatformsMap[target];
             return TryGetConfigFilePath(platform, out configFilePath);
         }
+#endif
 
         /// <summary>
         /// Returns the name of the JSON file that contains configuration values for the given platform.

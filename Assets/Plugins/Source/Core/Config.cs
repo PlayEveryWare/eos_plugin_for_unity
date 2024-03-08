@@ -50,6 +50,9 @@ namespace PlayEveryWare.EpicOnlineServices
             return IsDefault(this);
         }
 
+#endif
+
+
         /// <summary>
         /// Returns member-wise clone of configuration data
         /// (copies the values).
@@ -60,6 +63,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return this.MemberwiseClone();
         }
 
+#if UNITY_EDITOR
         #region Functions to help determine if a config has default values
 
         /// <summary>

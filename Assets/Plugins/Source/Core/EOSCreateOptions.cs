@@ -43,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Platform-Specific properties
 
-#if UNITY_PS5 || UNITY_GAMECORE || UNITY_SWITCH
+#if UNITY_PS5 || UNITY_GAMECORE || UNITY_SWITCH || UNITY_ANDROID || UNITY_IOS
         public IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get => options.IntegratedPlatformOptionsContainerHandle; set => options.IntegratedPlatformOptionsContainerHandle = value; }
 #endif
 
