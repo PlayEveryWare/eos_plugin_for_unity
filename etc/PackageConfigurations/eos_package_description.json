@@ -313,6 +313,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/UserInfo/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/UserInfo/"},
 
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Version.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Version/*.cs", "dest": "Runtime/EOS_SDK/Generated/Version/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Version/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Version/"},
+
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Windows/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Windows/"},
