@@ -35,10 +35,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <summary>
         /// For every platform, there are certain binary files that represent native console-specific implementations of the EOS plugin.
         /// Each of these binaries maps to a solution file that must be compiled in order for the project to function properly on the
-        /// platform. This dictionary stores the relationship between the fully-qualified path to the solution file and the
-        /// fully-qualified path to the binary that is expected.
+        /// platform. This dictionary stores the relationship between the fully-qualified path to the project file (.sln or Makefile
+        /// depending on the platform) and the fully-qualified path to the binary that is expected.
         /// </summary>
-        private IDictionary<string, string[]> _solutionToBinaryFilesMap;
+        private IDictionary<string, string[]> _projectFileToBinaryFilesMap;
 
         /// <summary>
         /// Fully-qualified path to the directory that should contain the output from the native code.
@@ -54,22 +54,18 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// Constructs a new PlatformSpecificBuilder script.
         /// </summary>
         /// <param name="nativeCodeOutputDirectory">The filepath to the location of the binary files, relative to the Assets directory.</param>
-        /// <param name="solutionToBinaryFilesMap">
-        /// Map where each key is the path to a solution file relative to the NativeCode library in the repository (lib/NativeCode/) containing native code,
-        /// and each value is a list of filepaths relative to the indicated nativeCodeOutputDirectory path that are expected as output
-        /// from that solution file.</param>
         protected PlatformSpecificBuilder(string nativeCodeOutputDirectory)
         {
             _nativeCodeOutputDirectory = Path.Combine(Application.dataPath, nativeCodeOutputDirectory);
-            _solutionToBinaryFilesMap = new Dictionary<string, string[]>();
+            _projectFileToBinaryFilesMap = new Dictionary<string, string[]>();
         }
 
         /// <summary>
         /// Adds a mapping of solution file to expected binary file output.
         /// </summary>
-        /// <param name="solutionFile">Path of the solution file relative to the NativeCode directory (lib/NativeCode).</param>
+        /// <param name="solutionFile">Path of the project file relative to the NativeCode directory (lib/NativeCode).</param>
         /// <param name="binaryFiles">Paths of any expected binary files, relative to the native code output directory defined for the builder.</param>
-        protected void AddSolutionToBinaryMapping(string solutionFile, params string[] binaryFiles)
+        protected void AddProjectFileToBinaryMapping(string solutionFile, params string[] binaryFiles)
         {
             string fullyQualifiedOutputPath = Path.Combine(Application.dataPath, _nativeCodeOutputDirectory);
 
@@ -79,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 fullyQualifiedBinaryPaths[i] = Path.Combine(fullyQualifiedOutputPath, binaryFiles[i]);
             }
 
-            _solutionToBinaryFilesMap.Add(Path.Combine(NativeCodeDirectory, solutionFile), fullyQualifiedBinaryPaths);
+            _projectFileToBinaryFilesMap.Add(Path.Combine(NativeCodeDirectory, solutionFile), fullyQualifiedBinaryPaths);
         }
 
         /// <summary>
@@ -114,7 +110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             // Validate the configuration for the platform
             BuildUtility.ValidatePlatformConfiguration();
 
-            // Build any native libraries that need to be build for the platform
+            // Build any native libraries that need to be built for the platform
             BuildNativeBinaries();
 
             // Validate that the binaries built are now in the correct location
@@ -129,15 +125,15 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             bool prerequisitesSatisfied = true;
 
-            foreach (string solutionFile in _solutionToBinaryFilesMap.Keys)
+            foreach (string projectFile in _projectFileToBinaryFilesMap.Keys)
             {
-                foreach (string outputFile in _solutionToBinaryFilesMap[solutionFile])
+                foreach (string outputFile in _projectFileToBinaryFilesMap[projectFile])
                 {
                     // skip if the output file exists
-                    if (false != File.Exists(outputFile)) continue;
+                    if (File.Exists(outputFile)) continue;
 
-                    // make sure to log all the missing files / solution pairs before throwing an exception
-                    Debug.LogError($"Required file \"{outputFile}\" which is output from solution \"{solutionFile}\" is missing.");
+                    // make sure to log all the missing files / project file pairs before throwing an exception
+                    Debug.LogError($"Required file \"{outputFile}\" which is output from project file \"{projectFile}\" is missing.");
                     prerequisitesSatisfied = false;
                 }
             }
@@ -149,26 +145,24 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         }
 
         /// <summary>
-        /// Looks for any missing output files, and tries to build the solution file corresponding to it if the file is missing.
+        /// Looks for any missing output files, and tries to build the project file corresponding to it if the file is missing.
         /// </summary>
         private void BuildNativeBinaries()
         {
-            var solutionsToBuild = new HashSet<string>();
-            foreach (string solutionFile in _solutionToBinaryFilesMap.Keys)
+            var projectsToBuild = new HashSet<string>();
+            foreach (string projectFile in _projectFileToBinaryFilesMap.Keys)
             {
-                if (_solutionToBinaryFilesMap[solutionFile].Any(outputFile => !File.Exists(outputFile)))
+                if (_projectFileToBinaryFilesMap[projectFile].Any(outputFile => !File.Exists(outputFile)))
                 {
-                    solutionsToBuild.Add(solutionFile);
+                    projectsToBuild.Add(projectFile);
                 }
             }
 
-            // Build any solution that needs to be built
-            foreach (string solution in solutionsToBuild)
+            // Build any project that needs to be built
+            foreach (string project in projectsToBuild)
             {
-                BuildUtility.BuildNativeLibrary(solution, _nativeCodeOutputDirectory);
+                BuildUtility.BuildNativeLibrary(project, _nativeCodeOutputDirectory);
             }
         }
-
-
     }
 }

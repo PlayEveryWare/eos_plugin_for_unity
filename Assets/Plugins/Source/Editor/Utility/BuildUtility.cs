@@ -87,7 +87,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             }
         }
 
-
         #region Methods for determining toolsets installed on build system
 
         /// <summary>
