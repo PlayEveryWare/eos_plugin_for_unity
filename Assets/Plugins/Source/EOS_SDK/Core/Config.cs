@@ -46,8 +46,9 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
-	public static class Config
+	public static partial class Config
 	{
+#if EOS_PLATFORM_WINDOWS_32 || EOS_PLATFORM_WINDOWS_64 || EOS_PLATFORM_OSX || EOS_PLATFORM_LINUX || EOS_PLATFORM_IOS || EOS_PLATFORM_ANDROID
 		public const string LibraryName =
 		#if EOS_PLATFORM_WINDOWS_32 && EOS_UNITY
 			"EOSSDK-Win32-Shipping"
@@ -83,7 +84,7 @@ namespace Epic.OnlineServices
 
 		#endif
 		;
-		
+#endif
 		public const CallingConvention LibraryCallingConvention =
 		#if EOS_PLATFORM_WINDOWS_32
 			CallingConvention.StdCall
