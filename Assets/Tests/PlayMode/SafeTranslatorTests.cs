@@ -59,7 +59,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             const int negativeValue = -1;
             const uint uncheckedCast = unchecked((uint)negativeValue);
 
-            TestTryConvert(negativeValue, false, uncheckedCast, SafeTranslator.TryConvert);
+            TestTryConvert(negativeValue, false, uncheckedCast, SafeTranslatorUtility.TryConvert);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             const int positiveValue = int.MaxValue;
             const uint uncheckedCast = unchecked((uint)positiveValue);
 
-            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslator.TryConvert);
+            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslatorUtility.TryConvert);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             const uint overflowValue = uint.MaxValue;
             const int uncheckedCast = unchecked((int)overflowValue);
 
-            TestTryConvert(overflowValue, false, uncheckedCast, SafeTranslator.TryConvert);
+            TestTryConvert(overflowValue, false, uncheckedCast, SafeTranslatorUtility.TryConvert);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             const uint positiveValue = 55;
             const int uncheckedCast = unchecked((int)positiveValue);
 
-            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslator.TryConvert);
+            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslatorUtility.TryConvert);
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             const long negativeValue = -1;
             const ulong uncheckedCast = unchecked((ulong)negativeValue);
 
-            TestTryConvert(negativeValue, false, uncheckedCast, SafeTranslator.TryConvert);
+            TestTryConvert(negativeValue, false, uncheckedCast, SafeTranslatorUtility.TryConvert);
         }
 
         [Test]
@@ -117,7 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             const long positiveValue = 55;
             const ulong uncheckedCast = unchecked((ulong)positiveValue);
 
-            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslator.TryConvert);
+            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslatorUtility.TryConvert);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             const ulong overflowValue = ulong.MaxValue;
             const long uncheckedCast = unchecked((long)overflowValue);
 
-            TestTryConvert(overflowValue, false, uncheckedCast, SafeTranslator.TryConvert);
+            TestTryConvert(overflowValue, false, uncheckedCast, SafeTranslatorUtility.TryConvert);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             const long positiveValue = 55;
             const ulong uncheckedCast = unchecked((ulong)positiveValue);
 
-            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslator.TryConvert);
+            TestTryConvert(positiveValue, true, uncheckedCast, SafeTranslatorUtility.TryConvert);
         }
     }
 }
