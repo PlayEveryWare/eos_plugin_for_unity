@@ -63,9 +63,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <summary>
         /// Adds a mapping of solution file to expected binary file output.
         /// </summary>
-        /// <param name="solutionFile">Path of the project file relative to the NativeCode directory (lib/NativeCode).</param>
+        /// <param name="projectFile">Path of the project file relative to the NativeCode directory (lib/NativeCode).</param>
         /// <param name="binaryFiles">Paths of any expected binary files, relative to the native code output directory defined for the builder.</param>
-        protected void AddProjectFileToBinaryMapping(string solutionFile, params string[] binaryFiles)
+        protected void AddProjectFileToBinaryMapping(string projectFile, params string[] binaryFiles)
         {
             string fullyQualifiedOutputPath = Path.Combine(Application.dataPath, _nativeCodeOutputDirectory);
 
@@ -75,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 fullyQualifiedBinaryPaths[i] = Path.Combine(fullyQualifiedOutputPath, binaryFiles[i]);
             }
 
-            _projectFileToBinaryFilesMap.Add(Path.Combine(NativeCodeDirectory, solutionFile), fullyQualifiedBinaryPaths);
+            _projectFileToBinaryFilesMap.Add(Path.Combine(NativeCodeDirectory, projectFile), fullyQualifiedBinaryPaths);
         }
 
         /// <summary>

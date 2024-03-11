@@ -24,6 +24,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 {
     public class LinuxBuilder : PlatformSpecificBuilder
     {
-        public LinuxBuilder() : base("Plugins/Android") { }
+        public LinuxBuilder() : base("Plugins/Android")
+        {
+            AddProjectFileToBinaryMapping(
+                "DynamicLibraryLoaderHelper_Linux/Makefile",
+                "libDynamicLibraryLoaderHelper.so");
+        }
     }
 }

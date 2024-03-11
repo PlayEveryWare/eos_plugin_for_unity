@@ -20,6 +20,10 @@
  * SOFTWARE.
  */
 
+// TODO: Make sure to enclose this properly in scripting defines so that it is only enabled for Windows platforms.
+//       Alternatively, implement it so that it behaves as expected on a Linux machine (ie running the Makefile
+//       natively.
+
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
     using Newtonsoft.Json.Linq;
@@ -249,17 +253,40 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         }
 
         /// <summary>
-        /// Given a fully-qualified filepath to a solution file, build the solution with the 'Release' configuration.
-        /// This only works on Windows, if the editor is running on a different platform, and this function is called, an
-        /// exception of "NotImplementedException" will be thrown.
+        /// Given a fully-qualified filepath to a project file, build the project and put the resulting binary
+        /// files in the directory indicated.
         /// </summary>
-        /// <param name="solutionFilePath">Fully-qualified path to the solution to build.</param>
+        /// <param name="projectFilePath">Fully-qualified path to the project file to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
-        /// <exception cref="BuildFailedException">If building the solution fails, a BuildFailedException is thrown.</exception>
-        public static void BuildNativeLibrary(string solutionFilePath, string binaryOutput)
+        /// <exception cref="BuildFailedException">If building fails, a BuildFailedException is thrown.</exception>
+        public static void BuildNativeLibrary(string projectFilePath, string binaryOutput)
         {
-            Debug.Log($"Building native libraries from solution {solutionFilePath}");
+            Debug.Log($"Building native libraries from project file {projectFilePath}");
 
+            if (Path.GetExtension(projectFilePath) == ".sln")
+            {
+                BuildFromSolutionFile(projectFilePath, binaryOutput);
+            }
+            else if (Path.GetFileName(projectFilePath) == "Makefile")
+            {
+                BuildFromMakefile(projectFilePath, binaryOutput);
+            }
+            else
+            {
+                throw new BuildFailedException(
+                    $"Unfamiliar with type of project file at \"{projectFilePath}\". Current supported project files are solution (.sln) files, or makefiles (Makefile).");
+            }
+        }
+
+        /// <summary>
+        /// Given a fully qualified path to a solution file, build the project using the "Release" configuration,
+        /// placing the resulting binary files in the directory indicated.
+        /// </summary>
+        /// <param name="solutionFilePath">Fully-qualified path to the solution file to build.</param>
+        /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
+        /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
+        private static void BuildFromSolutionFile(string solutionFilePath, string binaryOutput)
+        {
             if (!TryGetCompatibleTools(solutionFilePath, out VSInstallation tools))
             {
                 Debug.LogError($"Cannot build native library.");
@@ -280,6 +307,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                                     //$" /p:Platform={PlatformManager.GetMSPlatformString()}" +
                                     $" /p:OutDir={binaryOutput}";
 
+            // TODO: Consider running this asynchronously? If only for better user feedback during build.
             var processStartInfo = new ProcessStartInfo()
             {
                 FileName = "cmd.exe",
@@ -309,6 +337,78 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     Debug.LogError(errors);
                     Debug.LogError($"Failed to build solution \"{solutionFilePath}\"");
                     throw new BuildFailedException($"Failed to build solution \"{solutionFilePath}\"");
+                }
+            }
+        }
+
+        private static void BuildFromMakefile(string makefileFilePath, string binaryOutput)
+        {
+            if (!CheckWSLInstalled())
+            {
+                Debug.LogError("Windows Subsystem for Linux is not installed. On Windows, WSL is required in order to properly compile native libraries that are required for running the EOS Plugin on the Linux platform. Please install WSL and rebuild.");
+                throw new BuildFailedException("Failed to run Makefile. Please see log for further details.");
+            }
+
+            // Check for required packages and install if missing
+            string checkAndInstallPackagesCmd = "bash -c \"which clang || sudo apt-get update && sudo apt-get install -y clang; " +
+                                                "which make || sudo apt-get install -y make;\"";
+
+            // Command to run the makefile
+            string makeCmd = "bash -c \"cd /path/to/your/makefile/directory && make\"";
+
+            // Execute commands
+            RunWSLCommand(checkAndInstallPackagesCmd);
+            RunWSLCommand(makeCmd);
+        }
+
+        /// <summary>
+        /// Determines whether Windows Subsystem for Linux is installed or not on this machine.
+        /// </summary>
+        /// <returns>True if WSL is installed, False otherwise.</returns>
+        private static bool CheckWSLInstalled()
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = "cmd.exe",
+                Arguments = "/c wsl -l",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            using (Process process = Process.Start(startInfo))
+            {
+                string output = process.StandardOutput.ReadToEnd();
+                string err = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+
+                // If the command executes successfully, WSL is installed
+                return process.ExitCode == 0 && string.IsNullOrEmpty(err);
+            }
+        }
+
+        /// <summary>
+        /// Runs a command in Windows Subsystem for Linux.
+        /// </summary>
+        /// <param name="command">The command to run in WSL</param>
+        private static void RunWSLCommand(string command)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = "wsl.exe",
+                Arguments = command,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true
+            };
+
+            using (Process process = Process.Start(startInfo))
+            {
+                using (StreamReader reader = process.StandardOutput)
+                {
+                    string result = reader.ReadToEnd();
+                    Debug.Log(result);
                 }
             }
         }

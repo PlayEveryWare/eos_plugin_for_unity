@@ -24,6 +24,13 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 {
     public class WindowsBuilder : PlatformSpecificBuilder
     {
-        public WindowsBuilder() : base("Plugins/Windows") { }
+        public WindowsBuilder() : base("Plugins/Windows")
+        {
+            // TODO/NOTE: Add support for 32-bit project to binary file mapping.
+            AddProjectFileToBinaryMapping(
+                "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
+                "x64/DynamicLibraryLoaderHelper-x64.dll",
+                "x64/GfxPluginNativeRender-x64.dll");
+        }
     }
 }
