@@ -164,5 +164,17 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 BuildUtility.BuildNativeLibrary(project, _nativeCodeOutputDirectory);
             }
         }
+
+        /// <summary>
+        /// When building on Windows, msbuild has a flag specifying the platform to build towards. Each
+        /// class that derives from PlatformSpecificBuilder must define the value to pass msbuild for it's
+        /// respective platform. These strings can be confidential on unreleased or code-named platforms,
+        /// so it is important for security reasons that only implementing classes contain the value.
+        /// </summary>
+        /// <returns>The appropriate string to pass to msbuild.</returns>
+        public virtual string GetPlatformString()
+        {
+            return string.Empty;
+        }
     }
 }

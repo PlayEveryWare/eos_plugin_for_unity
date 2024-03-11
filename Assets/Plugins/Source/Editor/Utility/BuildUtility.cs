@@ -303,8 +303,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             string msBuildCommand = $"msbuild \"{solutionFilePath}\"" +
                                     $" /t:Clean;Rebuild" +
                                     $" /p:Configuration={configuration}" +
-                                    // TODO: Re-implement GetMSPlatformString to re-enable this component.
-                                    //$" /p:Platform={PlatformManager.GetMSPlatformString()}" +
+                                    // TODO: Re-implement GetPlatformString to re-enable this component?
+                                    // NOTE: This may not be necessary, because typically the platform to build against is defined within the project and/or solution file.
+                                    //$" /p:Platform={PlatformManager.GetPlatformString()}" +
                                     $" /p:OutDir={binaryOutput}";
 
             // TODO: Consider running this asynchronously? If only for better user feedback during build.

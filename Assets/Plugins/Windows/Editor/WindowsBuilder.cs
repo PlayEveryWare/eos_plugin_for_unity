@@ -26,7 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     {
         public WindowsBuilder() : base("Plugins/Windows")
         {
-            // TODO/NOTE: Add support for 32-bit project to binary file mapping.
+            // TODO/NOTE: Add support for 32-bit project to binary file mapping?
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
                 "x64/DynamicLibraryLoaderHelper-x64.dll",
