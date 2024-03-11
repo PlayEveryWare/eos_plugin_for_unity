@@ -7,7 +7,7 @@ extern "C" void MicrophoneUtility_set_default_audio_session()
     NSError *error = nil;
     [session setCategory:AVAudioSessionCategoryPlayAndRecord
                     mode:AVAudioSessionModeVoiceChat
-                 options:AVAudioSessionCategoryOptionDefaultToSpeaker|AVAudioSessionCategoryOptionDuckOthers
+                 options:AVAudioSessionCategoryOptionDefaultToSpeaker|AVAudioSessionCategoryOptionDuckOthers|AVAudioSessionCategoryOptionAllowBluetooth
                    error:&error];
     if (nil == error)
     {
