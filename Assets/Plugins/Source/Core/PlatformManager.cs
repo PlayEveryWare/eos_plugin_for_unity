@@ -85,7 +85,15 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 // This is to ensure that the platform is only ever determined once
                 if (CurrentPlatform == Platform.Unknown)
+                {
                     s_CurrentPlatform = value;
+                    Debug.Log($"CurrentPlatform has been assigned as {GetFullName(s_CurrentPlatform)}.");
+                }
+                else
+                {
+                    Debug.Log($"CurrentPlatform has already been assigned as {GetFullName(s_CurrentPlatform)}.");
+                }
+
             }
         }
 

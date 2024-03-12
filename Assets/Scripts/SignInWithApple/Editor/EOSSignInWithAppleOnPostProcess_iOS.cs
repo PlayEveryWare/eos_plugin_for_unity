@@ -14,7 +14,7 @@ public class EOSSignInWithAppleOnPostProcess_iOS
     [PostProcessBuild]
     public static void OnPostprocessBuild(BuildTarget buildTarget, string path)
     {
-        if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(buildTarget))
+        if (EOSPreprocessUtilities.IsEOSDisabled(buildTarget))
         {
             return;
         }

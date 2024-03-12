@@ -20,30 +20,28 @@
 * SOFTWARE.
 */
 
-using UnityEditor.Build.Reporting;
-using UnityEditor.Build;
-using UnityEditor;
-using UnityEngine;
-using System.IO;
-using PlayEveryWare.EpicOnlineServices.Editor.Config;
-using System.Collections.Generic;
-using System;
-
-namespace PlayEveryWare.EpicOnlineServices.Editor.Build
+namespace PlayEveryWare.EpicOnlineServices.Build
 {
-    public class EOSOnPostprocessBuild_Standalone : IPostprocessBuildWithReport
-    {
-        public int callbackOrder { get { return 0; } }
+    using Editor.Utility;
+    using UnityEditor.Build.Reporting;
+    using UnityEditor;
+    using UnityEngine;
+    using System.IO;
+    using PlayEveryWare.EpicOnlineServices;
+    using PlayEveryWare.EpicOnlineServices.Editor;
+    using System.Collections.Generic;
+    using System;
+    using PlayEveryWare.EpicOnlineServices.Editor.Build;
+    using PlayEveryWare.EpicOnlineServices.Editor.Config;
 
-        private HashSet<string> postBuildFilesOptional =
+    public class EACPostBuild
+    {
+        private static readonly HashSet<string> postBuildFilesOptional =
             new HashSet<string>() { "[ExeName].eac", "EasyAntiCheat/SplashScreen.png" };
 
         //files with contents that need string vars replaced
-        private HashSet<string> postBuildFilesWithVars = new HashSet<string>() { "EasyAntiCheat/Settings.json" };
-
-        private EOSConfig eosConfig = null;
-        private string buildExeName = null;
-
+        private static readonly HashSet<string> postBuildFilesWithVars =
+            new HashSet<string>() { "EasyAntiCheat/Settings.json" };
 
         private static string GetPathToEOSBin()
         {
@@ -61,7 +59,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             return "";
         }
-
 
         private static string GetPathToPlatformSpecificAssets(BuildReport report)
         {
@@ -146,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
 #endif
 
-        private string GetDefaultIntegrityToolPath()
+        private static string GetDefaultIntegrityToolPath()
         {
             string toolPath = Path.Combine(GetPathToEOSBin(), "EAC");
 #if UNITY_EDITOR_WIN
@@ -161,7 +158,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             return toolPath;
         }
 
-        private string GetDefaultIntegrityConfigPath()
+        private static string GetDefaultIntegrityConfigPath()
         {
             string projectPathToCfg = Path.Combine(Application.dataPath,
                 "Plugins/Standalone/Editor/anticheat_integritytool.cfg");
@@ -181,7 +178,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
 
         //use anticheat_integritytool to hash protected files and generate certificate for EAC
-        private void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID,
+        private static void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID,
             string keyFileName, string certFileName, string configFile = null)
         {
             string installPathForExe = report.summary.outputPath;
@@ -196,9 +193,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
             string newCfgPath = Path.Combine(Application.temporaryCachePath, $"eac_integritytool_{Guid.NewGuid()}.cfg");
             File.Copy(originalCfg, newCfgPath, true);
+
+            string buildExeName = Path.GetFileName(report.summary.outputPath);
+
             try
             {
-                ReplaceFileContentVars(newCfgPath);
+                ReplaceFileContentVars(newCfgPath, buildExeName);
                 configFile = newCfgPath;
 
                 string integrityToolArgs =
@@ -257,9 +257,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        public static string GetRelativePath(string relativeTo, string path)
+        private static string GetRelativePath(string relativeTo, string path)
         {
-            var uri = new Uri(relativeTo);
+            Uri uri = new(relativeTo);
             var rel = Uri.UnescapeDataString(uri.MakeRelativeUri(new Uri(path)).ToString())
                 .Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
             if (rel.Contains(Path.DirectorySeparatorChar.ToString()) == false)
@@ -270,124 +270,114 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             return rel;
         }
 
-        public static List<string> GetPostBuildFiles(BuildReport report, bool useEAC)
+        private static List<string> GetPostBuildFiles(BuildReport report)
         {
-            List<string> files = new List<string>();
-
-            if (useEAC)
+            List<string> files = new()
             {
                 //optional override config file for EAC CDN
-                files.Add("[ExeName].eac");
-                files.Add("EasyAntiCheat/Settings.json");
-                files.Add("EasyAntiCheat/SplashScreen.png");
+                "[ExeName].eac", "EasyAntiCheat/Settings.json", "EasyAntiCheat/SplashScreen.png"
+            };
 
-                switch (report.summary.platform)
-                {
-                    case BuildTarget.StandaloneLinux64:
-                        files.Add("eac_launcher");
-                        break;
+            switch (report.summary.platform)
+            {
+                case BuildTarget.StandaloneLinux64:
+                    files.Add("eac_launcher");
+                    break;
 
-                    case BuildTarget.StandaloneWindows:
-                    case BuildTarget.StandaloneWindows64:
-                        files.Add("EACLauncher.exe");
-                        files.Add("EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe");
-                        break;
-                }
+                case BuildTarget.StandaloneWindows:
+                case BuildTarget.StandaloneWindows64:
+                    files.Add("EACLauncher.exe");
+                    files.Add("EasyAntiCheat/EasyAntiCheat_EOS_Setup.exe");
+                    break;
             }
 
             return files;
         }
 
-        public static List<string> GetPostBuildDirectories(BuildReport report, bool useEAC)
+        private static List<string> GetPostBuildDirectories(BuildReport report)
         {
-            List<string> directories = new List<string>();
+            List<string> directories = new() { "EasyAntiCheat/Licenses", "EasyAntiCheat/Localization" };
 
-            if (useEAC)
+            switch (report.summary.platform)
             {
-                directories.Add("EasyAntiCheat/Licenses");
-                directories.Add("EasyAntiCheat/Localization");
-
-                switch (report.summary.platform)
-                {
-                    case BuildTarget.StandaloneOSX:
-                        directories.Add("eac_launcher.app/Contents");
-                        directories.Add("eac_launcher.app/Contents/_CodeSignature");
-                        directories.Add("eac_launcher.app/Contents/MacOS");
-                        directories.Add("eac_launcher.app/Contents/Resources");
-                        break;
-                }
+                case BuildTarget.StandaloneOSX:
+                    directories.Add("eac_launcher.app/Contents");
+                    directories.Add("eac_launcher.app/Contents/_CodeSignature");
+                    directories.Add("eac_launcher.app/Contents/MacOS");
+                    directories.Add("eac_launcher.app/Contents/Resources");
+                    break;
             }
 
             return directories;
         }
 
-
-        private void InstallFiles(BuildReport report, bool useEAC)
+        private static void InstallEACFiles(BuildReport report)
         {
             string destDir = Path.GetDirectoryName(report.summary.outputPath);
             string pathToInstallFrom = GetPathToPlatformSpecificAssets(report);
 
-            List<string> filestoInstall = GetPostBuildFiles(report, useEAC);
-            List<string> directoriesToInstall = GetPostBuildDirectories(report, useEAC);
+            if (!string.IsNullOrEmpty(pathToInstallFrom))
+                return;
+
+            List<string> filestoInstall = GetPostBuildFiles(report);
+            List<string> directoriesToInstall = GetPostBuildDirectories(report);
 
             //add all files in postBuildDirectories to list of files to copy (non-recursive)
             foreach (string directoryToInstall in directoriesToInstall)
             {
                 string dirToInstallPathName = Path.Combine(pathToInstallFrom, directoryToInstall);
-                if (Directory.Exists(dirToInstallPathName))
+
+                if (!Directory.Exists(dirToInstallPathName))
+                    continue;
+
+                var dirFiles = Directory.GetFiles(dirToInstallPathName);
+                foreach (string dirFile in dirFiles)
                 {
-                    var dirFiles = Directory.GetFiles(dirToInstallPathName);
-                    foreach (string dirFile in dirFiles)
-                    {
-                        string relativePath = GetRelativePath(pathToInstallFrom, dirFile);
-                        filestoInstall.Add(relativePath);
-                    }
+                    string relativePath = GetRelativePath(pathToInstallFrom, dirFile);
+                    filestoInstall.Add(relativePath);
                 }
             }
 
-            if (!string.IsNullOrEmpty(pathToInstallFrom))
+            string buildExeName = Path.GetFileName(report.summary.outputPath);
+
+            foreach (var fileToInstall in filestoInstall)
             {
-                foreach (var fileToInstall in filestoInstall)
+                string fileToInstallPathName = Path.Combine(pathToInstallFrom, fileToInstall);
+
+                if (File.Exists(fileToInstallPathName))
                 {
-                    string fileToInstallPathName = Path.Combine(pathToInstallFrom, fileToInstall);
+                    string fileToInstallParentDirectory = Path.GetDirectoryName(Path.Combine(destDir, fileToInstall));
 
-                    if (File.Exists(fileToInstallPathName))
+                    if (!Directory.Exists(fileToInstallParentDirectory))
                     {
-                        string fileToInstallParentDirectory =
-                            Path.GetDirectoryName(Path.Combine(destDir, fileToInstall));
-
-                        if (!Directory.Exists(fileToInstallParentDirectory))
-                        {
-                            Directory.CreateDirectory(fileToInstallParentDirectory);
-                        }
-
-                        string destPathname = Path.Combine(fileToInstallParentDirectory,
-                            Path.GetFileName(fileToInstallPathName));
-
-                        destPathname = ReplaceFileNameVars(destPathname);
-
-                        if (File.Exists(destPathname))
-                        {
-                            File.SetAttributes(destPathname,
-                                File.GetAttributes(destPathname) & ~FileAttributes.ReadOnly);
-                        }
-
-                        File.Copy(fileToInstallPathName, destPathname, true);
-
-                        if (postBuildFilesWithVars.Contains(fileToInstall))
-                        {
-                            ReplaceFileContentVars(destPathname);
-                        }
+                        Directory.CreateDirectory(fileToInstallParentDirectory);
                     }
-                    else if (!postBuildFilesOptional.Contains(fileToInstall))
+
+                    string destPathname = Path.Combine(fileToInstallParentDirectory,
+                        Path.GetFileName(fileToInstallPathName));
+
+                    destPathname = ReplaceFileNameVars(destPathname, buildExeName);
+
+                    if (File.Exists(destPathname))
                     {
-                        Debug.LogError("Missing platform specific file: " + fileToInstall);
+                        File.SetAttributes(destPathname, File.GetAttributes(destPathname) & ~FileAttributes.ReadOnly);
                     }
+
+                    File.Copy(fileToInstallPathName, destPathname, true);
+
+                    if (postBuildFilesWithVars.Contains(fileToInstall))
+                    {
+                        ReplaceFileContentVars(destPathname, buildExeName);
+                    }
+                }
+                else if (!postBuildFilesOptional.Contains(fileToInstall))
+                {
+                    Debug.LogError("Missing platform specific file: " + fileToInstall);
                 }
             }
         }
 
-        private void CopySplashImage(BuildReport report, string imagePath)
+        private static void CopySplashImage(BuildReport report, string imagePath)
         {
             if (!File.Exists(imagePath))
             {
@@ -405,28 +395,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             File.Copy(imagePath, destPath, true);
         }
 
-        private EOSConfig GetEOSConfig()
+        private static EOSConfig GetEOSConfig()
         {
-            if (eosConfig != null)
-            {
-                return eosConfig;
-            }
-
             string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
             var configDataAsString = File.ReadAllText(configFilePath);
             var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
-            eosConfig = configData;
             return configData;
         }
 
-        private string ReplaceFileNameVars(string filename)
+        private static string ReplaceFileNameVars(string filename, string buildExeName)
         {
             filename = filename.Replace("[UnityProductName]", Application.productName);
             filename = filename.Replace("[ExeName]", buildExeName);
             return filename;
         }
 
-        private void ReplaceFileContentVars(string filepath)
+        private static void ReplaceFileContentVars(string filepath, string buildExeName)
         {
             var fileContents = File.ReadAllText(filepath);
             EOSConfig eosConfig = GetEOSConfig();
@@ -446,10 +430,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             File.WriteAllText(filepath, fileContents);
         }
 
-
-        public void OnPostprocessBuild(BuildReport report)
+        public static void ConfigureEAC(BuildReport report)
         {
-            if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report.summary.platform))
+            if (ScriptingDefineUtility.IsEOSDisabled(report.summary.platform))
             {
                 return;
             }
@@ -460,9 +443,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                 report.summary.platform == BuildTarget.StandaloneOSX ||
                 report.summary.platform == BuildTarget.StandaloneLinux64)
             {
+                // Determine whether or not to install EAC
                 var editorToolsConfigSection = new ToolsConfigEditor();
                 ToolsConfig editorToolConfig = null;
-
                 bool useEAC = false;
 
                 editorToolsConfigSection.Load();
@@ -473,12 +456,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                     useEAC = editorToolConfig.useEAC;
                 }
 
+                // if EAC is not supposed to be installed, then stop here
+                if (!useEAC)
+                {
+                    return;
+                }
 
-                buildExeName = Path.GetFileName(report.summary.outputPath);
+                InstallEACFiles(report);
 
-                InstallFiles(report, useEAC);
-
-                if (useEAC && !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACSplashImage))
+                if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACSplashImage))
                 {
                     CopySplashImage(report, editorToolConfig.pathToEACSplashImage);
                 }
@@ -507,16 +493,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
                     string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
 
-                    string bootstrapperTarget = useEAC ? "EACLauncher.exe" : buildExeName;
+                    string bootstrapperTarget =
+                        useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
 
                     InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
                         bootstrapperName);
                 }
 #endif
 
-                if (useEAC &&
-                    editorToolConfig != null &&
-                    !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
+                if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
                     !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACCertificate))
                 {
                     bool defaultTool = false;

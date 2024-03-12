@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2024 PlayEveryWare
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,22 +20,30 @@
  * SOFTWARE.
  */
 
-using UnityEditor;
-using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
-using UnityEditor.Android;
-using UnityEngine;
-using System.IO;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
-#if UNITY_ANDROID
-namespace PlayEveryWare.EpicOnlineServices.Editor.Build
+namespace PlayEveryWare.EpicOnlineServices.Build
 {
-    public class EOSOnPreprocessBuild_android : IPreprocessBuildWithReport
+    using Editor;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+    using UnityEditor.Android;
+    using UnityEditor;
+    using UnityEditor.Build.Reporting;
+    using UnityEngine;
+
+    public class AndroidBuilder : PlatformSpecificBuilder
     {
-        public int callbackOrder { get { return 3; } }
+        public AndroidBuilder() : base("Plugins/Android") { }
+
+        public override void PreBuild(BuildReport report)
+        {
+            InstallEOSDependentLibrary();
+            ConfigureGradleTemplateProperties();
+            ConfigureEOSDependentLibrary();
+
+            DetermineLibraryLinkingMethod();
+        }
 
         private static string GetAndroidEOSValuesConfigPath()
         {
@@ -43,24 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             return Path.Combine(assetsPathname, "eos_dependencies.androidlib/res/values/eos_values.xml");
         }
 
-        public void OnPreprocessBuild(BuildReport report)
-        {
-            if (EOSPreprocessUtilities.isEOSDisableScriptingDefineEnabled(report))
-            {
-                return;
-            }
-
-            if (report.summary.platform == BuildTarget.Android)
-            {
-                InstallEOSDependentLibrary();
-                ConfigureGradleTemplateProperties();
-                ConfigureEOSDependentLibrary();
-
-                DetermineLibraryLinkingMethod();
-            }
-        }
-
-        static private void OverwriteCopy(string fileToInstallPathName, string destPathname)
+        private static void OverwriteCopy(string fileToInstallPathName, string destPathname)
         {
             if (File.Exists(destPathname))
             {
@@ -70,7 +61,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             File.Copy(fileToInstallPathName, destPathname, true);
         }
 
-        static private void InstallFiles(string[] filenames, string pathToInstallFrom, string pathToInstallTo)
+        private static void InstallFiles(string[] filenames, string pathToInstallFrom, string pathToInstallTo)
         {
 
             if (!string.IsNullOrEmpty(pathToInstallFrom))
@@ -102,7 +93,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        private string GetPlatformSpecificAssetsPath(string subpath)
+        private static string GetPlatformSpecificAssetsPath(string subpath)
         {
             string packagePathname = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(),
                 "PlatformSpecificAssets~", subpath));
@@ -127,7 +118,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             return pathToInstallFrom;
         }
 
-        bool DoesGradlePropertiesContainSetting(string gradleTemplatePathname, string setting)
+        private static bool DoesGradlePropertiesContainSetting(string gradleTemplatePathname, string setting)
         {
             // check if it contains the android.useAndroidX=true
             foreach (string line in File.ReadAllLines(gradleTemplatePathname))
@@ -141,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             return false;
         }
 
-        void DisableGradleProperty(string gradleTemplatePathname, string setting)
+        private static void DisableGradleProperty(string gradleTemplatePathname, string setting)
         {
             var gradleTemplateToWrite = new List<string>();
 
@@ -159,7 +150,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             File.WriteAllLines(gradleTemplatePathname, gradleTemplateToWrite.ToArray());
         }
 
-        void ReplaceOrSetGradleProperty(string gradleTemplatePathname, string setting, string value)
+        private static void ReplaceOrSetGradleProperty(string gradleTemplatePathname, string setting, string value)
         {
             var gradleTemplateToWrite = new List<string>();
             bool wasAdded = false;
@@ -185,7 +176,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             File.WriteAllLines(gradleTemplatePathname, gradleTemplateToWrite.ToArray());
         }
 
-        int GetTargetAPI()
+        private static int GetTargetAPI()
         {
             var playerApiTarget = PlayerSettings.Android.targetSdkVersion;
             if (playerApiTarget == AndroidSdkVersions.AndroidApiLevelAuto)
@@ -223,13 +214,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        string GetBuildTools()
+        private static string GetBuildTools()
         {
             var toolsRegex = new Regex(@"(\d+)\.(\d+)\.(\d+)");
             int maxMajor = 0, maxMinor = 0, maxPatch = 0;
             //find highest usable build tools version
 #if UNITY_2022_2_OR_NEWER
-        const int highestVersion = 32;
+            const int highestVersion = 32;
 #else
             const int highestVersion = 30;
 #endif
@@ -271,7 +262,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        void WriteConfigMacros(string filepath)
+        private static void WriteConfigMacros(string filepath)
         {
             var contents = File.ReadAllText(filepath);
             string apiVersion = GetTargetAPI().ToString();
@@ -281,7 +272,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             File.WriteAllText(filepath, newContents);
         }
 
-        public void InstallEOSDependentLibrary()
+        private static void InstallEOSDependentLibrary()
         {
             string packagedPathname = GetPlatformSpecificAssetsPath("EOS/Android/");
 
@@ -302,7 +293,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        public void ConfigureGradleTemplateProperties()
+        private static void ConfigureGradleTemplateProperties()
         {
             // Unity has a fixed location for the gradleTemplate.properties file. (as of 2021)
             string gradleTemplatePathname =
@@ -327,12 +318,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
                     "gradleTemplate.properties");
                 File.Copy(bundledGradleTemplatePathname, gradleTemplatePathname);
             }
+
 #if UNITY_2022_2_OR_NEWER
-        DisableGradleProperty(gradleTemplatePathname, "android.enableR8");
+            DisableGradleProperty(gradleTemplatePathname, "android.enableR8");
 #endif
+
         }
 
-        public void ConfigureEOSDependentLibrary()
+        private static void ConfigureEOSDependentLibrary()
         {
             string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
             var eosConfigFile = new ConfigHandler<EOSConfig>(configFilePath);
@@ -359,7 +352,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        private void DetermineLibraryLinkingMethod()
+        private static void DetermineLibraryLinkingMethod()
         {
             var androidBuildConfigSection = new AndroidBuildConfigEditor();
 
@@ -388,11 +381,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             FileUtil.CopyFileOrDirectory(sourcePath, destPath);
         }
 
-        private void CopyFromSourceToPluginFolder_Android(string sourcePath, string filename, string destPath)
+        private static void CopyFromSourceToPluginFolder_Android(string sourcePath, string filename, string destPath)
         {
             File.Copy(Path.Combine(sourcePath, filename),
                 Path.Combine(destPath, filename), true);
         }
     }
 }
-#endif
