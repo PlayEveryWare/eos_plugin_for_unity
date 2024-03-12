@@ -25,7 +25,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     /// <summary>
     /// Used to safely convert between signed and unsigned values.
     /// </summary>
-    public static class SafeTranslator
+    public static class SafeTranslatorUtility
     {
         /// <summary>
         /// Try to convert an int value to a uint.
