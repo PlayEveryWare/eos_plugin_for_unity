@@ -125,7 +125,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 return customOutputDirectory;
             }
 
-            return PackageFileUtility.GenerateTemporaryBuildPath();
+            return FileUtility.GenerateTempDirectory();
         }
 
 

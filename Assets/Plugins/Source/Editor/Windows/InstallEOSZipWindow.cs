@@ -31,6 +31,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Build;
     using EpicOnlineServices.Utility;
+    using EpicOnlineServices.Utility.Extensions;
+    using System.Linq;
     using Utility;
 
     public class InstallEOSZipWindow : EOSEditorWindow
@@ -211,51 +213,52 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             if (GUILayout.Button("Install"))
             {
-                string tmpDir = PackageFileUtility.GenerateTemporaryBuildPath();
+                OnInstallClicked();
+            }
+        }
 
-                try
+        private void OnInstallClicked()
+        {
+            string tmpDir = FileUtility.GenerateTempDirectory();
+
+            try
+            {
+                // Unzip the file to the temporary directory.
+                UnzipFile(pathToZipFile, tmpDir);
+
+                // Get a list of all the cs files
+                IList<FileInfo> toConvert = Directory.EnumerateFiles(tmpDir, "*.cs", SearchOption.AllDirectories)
+                    .Select(s => new FileInfo(s)).ToArray();
+
+                for (int i = 0; i < toConvert.Count; ++i)
                 {
-                    UnzipFile(pathToZipFile, tmpDir);
+                    var entity = toConvert[i];
+                    EditorUtility.DisplayProgressBar("Converting line endings.", entity.FullName, (float)i / toConvert.Count);
 
-                    var toConvert = new List<string>();
-                    // Convert files to a consistant line ending
-                    foreach (var entity in Directory.EnumerateFiles(tmpDir, "*", SearchOption.AllDirectories))
-                    {
-                        if (Path.GetExtension(entity) == ".cs")
-                        {
-                            toConvert.Add(entity);
-                        }
-                    }
-
-                    for (int i = 0; i < toConvert.Count; ++i)
-                    {
-                        var entity = toConvert[i];
-                        EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity), (float)i / toConvert.Count);
-                        PackageFileUtility.Dos2UnixLineEndings(entity);
-                    }
-                    EditorUtility.ClearProgressBar();
-
-
-                    foreach (var platformImportInfo in importInfoList.platformImportInfoList)
-                    {
-                        if (platformImportInfo.isGettingImported)
-                        {
-                            var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
-                            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-
-                            var fileResults = PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
-                            // This should be the correct directory
-                            var projectDir = PackageFileUtility.GetProjectPath();
-                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
-                        }
-                    }
-
+                    // Convert line endings in file from Dos to Unix style.
+                    entity.ConvertDosToUnixLineEndings();
                 }
-                finally
+                EditorUtility.ClearProgressBar();
+
+
+                foreach (var platformImportInfo in importInfoList.platformImportInfoList)
                 {
-                    //clean up unzipped files on success or error
-                    Directory.Delete(tmpDir, true);
+                    // Skip if it's not getting imported.
+                    if (!platformImportInfo.isGettingImported) continue;
+                    
+                    var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
+                    var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+
+                    var fileResults = PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
+                    // This should be the correct directory.
+                    var projectDir = FileUtility.GetProjectPath();
+                    PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
                 }
+            }
+            finally
+            {
+                // Clean up unzipped files on success or error.
+                Directory.Delete(tmpDir, true);
             }
         }
     }

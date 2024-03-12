@@ -24,68 +24,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Editor;
     using Editor.Build;
+    using Extensions;
 
     public class PackageFileUtility
     {
-        public static string GenerateTemporaryBuildPath()
-        {
-            return Application.temporaryCachePath + "/Output-" + System.Guid.NewGuid().ToString() + "/";
-        }
-        
-        public static void Dos2UnixLineEndings(string srcFilename, string destFilename)
-        {
-            const byte CR = 0x0d;
-
-            var fileAsBytes = File.ReadAllBytes(srcFilename);
-
-            using (var filestream = File.OpenWrite(destFilename))
-            {
-                var writer = new BinaryWriter(filestream);
-                int filePosition = 0;
-                int indexOfDOSNewline = 0;
-
-                do
-                {
-                    indexOfDOSNewline = Array.IndexOf<byte>(fileAsBytes, CR, filePosition);
-
-                    if (indexOfDOSNewline >= 0)
-                    {
-                        writer.Write(fileAsBytes, filePosition, indexOfDOSNewline - filePosition);
-                        filePosition = indexOfDOSNewline + 1;
-                    }
-                    else if (filePosition < fileAsBytes.Length)
-                    {
-                        writer.Write(fileAsBytes, filePosition, fileAsBytes.Length - filePosition);
-                    }
-
-                } while (indexOfDOSNewline > 0);
-
-                // truncate trailing garbage.
-                filestream.SetLength(filestream.Position);
-            }
-        }
-
-        
-        public static void Dos2UnixLineEndings(string filename)
-        {
-            Dos2UnixLineEndings(filename, filename);
-        }
-
-        
         /// <summary>
-        /// 
+        /// Gets all the filepaths that match the given package description.
         /// </summary>
-        /// <param name="root">Where the files start from</param>
-        /// <param name="packageDescription"></param>
-        /// <returns></returns>
+        /// <param name="root">Where the files start from.</param>
+        /// <param name="packageDescription">The description for the package.</param>
+        /// <returns>A list of all the file paths in the root that match the given package description.</returns>
         public static List<string> GetFilePathsMatchingPackageDescription(string root, PackageDescription packageDescription)
         {
             var filepaths = new List<string>();
@@ -118,21 +72,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             return filepaths;
         }
-
-        
-        public static string GetNormalizedCurrentWorkingDirectory()
-        {
-            string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
-            return currentWorkingDir;
-        }
-
-        
-        public static string GetProjectPath()
-        {
-            return Application.dataPath + "/..";
-
-        }
-
         
         // Root is often "./"
         public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
@@ -159,41 +98,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 SearchOption searchOption = srcToDestKeyValues.recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
                 var srcFileInfo = new FileInfo(srcToDestKeyValues.src);
 
-                // Find instead the part of the path that does exist on disk
-                if (!srcFileInfo.Exists)
+                if (srcFileInfo.Exists &&
+                    !string.IsNullOrEmpty(srcToDestKeyValues.sha1) && 
+                    srcFileInfo.CalculateSHA1() != srcToDestKeyValues.sha1)
                 {
-                    srcFileInfo = new FileInfo(srcFileInfo.DirectoryName);
+                    string errorMessageToUse = string.IsNullOrEmpty(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
+                    Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + errorMessageToUse);
                 }
-                else
-                {
-                    if (!string.IsNullOrEmpty(srcToDestKeyValues.sha1))
-                    {
-                        string computedSHA = "";
-
-                        using (SHA1 fileSHA = SHA1.Create())
-                        {
-                            byte[] computedHash = null;
-
-                            using (var srcFileStream = srcFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                            {
-                                srcFileStream.Position = 0;
-                                computedHash = fileSHA.ComputeHash(srcFileStream);
-                            }
-                            StringBuilder formatedStr = new StringBuilder(computedHash.Length * 2);
-                            foreach (byte b in computedHash)
-                            {
-                                formatedStr.AppendFormat("{0:x2}", b);
-                            }
-                            computedSHA = formatedStr.ToString();
-                        }
-                        if (computedSHA != srcToDestKeyValues.sha1)
-                        {
-                            string errorMessageToUse = string.IsNullOrEmpty(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
-                            Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + srcToDestKeyValues.sha1_mismatch_error);
-                        }
-                    }
-                }
-
+            
                 IEnumerable<string> collectedFiles;
 
                 if (string.IsNullOrEmpty(srcToDestKeyValues.pattern))
@@ -236,49 +148,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             return fileInfos;
         }
-
-        
-        const int BYTES_TO_READ = sizeof(Int64); //check 4 bytes at a time
-        static bool FilesAreEqual(FileInfo first, FileInfo second)
-        {
-            if (first.Exists != second.Exists)
-                return false;
-
-            if (!first.Exists && !second.Exists)
-                return true;
-
-            if (first.Length != second.Length)
-                return false;
-
-            if (string.Equals(first.FullName, second.FullName, StringComparison.OrdinalIgnoreCase))
-                return true;
-
-            int iterations = (int)Math.Ceiling((double)first.Length / BYTES_TO_READ);
-
-            using (FileStream fs1 = first.OpenRead())
-            using (FileStream fs2 = second.OpenRead())
-            {
-                byte[] one = new byte[BYTES_TO_READ];
-                byte[] two = new byte[BYTES_TO_READ];
-
-                for (int i = 0; i < iterations; i++)
-                {
-                    fs1.Read(one, 0, BYTES_TO_READ);
-                    fs2.Read(two, 0, BYTES_TO_READ);
-
-                    if (BitConverter.ToInt64(one, 0) != BitConverter.ToInt64(two, 0))
-                        return false;
-                }
-            }
-
-            return true;
-        }
-
         
         public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress, Action<string> postProcessCallback = null)
         {
             Directory.CreateDirectory(packageFolder);
-
 
             foreach (var fileInfo in fileInfoForFilesToCompress)
             {
@@ -289,32 +162,34 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 string finalDestinationParent = Path.GetDirectoryName(finalDestinationPath);
                 bool isDestinationADirectory = dest.EndsWith("/") || dest.Length == 0;
 
-                if (!Directory.Exists(finalDestinationParent))
+                // Create the directory if it does not exist (does nothing if the file already exists).
+                Directory.CreateDirectory(finalDestinationParent);
+
+                if (isDestinationADirectory)
                 {
-                    Directory.CreateDirectory(finalDestinationParent);
+                    Directory.CreateDirectory(finalDestinationPath);
                 }
 
-                // If it ends in a '/', treat it as a directory to move to
-                if (!Directory.Exists(finalDestinationPath))
-                {
-                    if (isDestinationADirectory)
-                    {
-                        Directory.CreateDirectory(finalDestinationPath);
-                    }
-                }
                 string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
 
-                // Ensure we can write over the dest path
-                if (File.Exists(destPath))
+                // Create the fileInfo for the destination.
+                FileInfo destinationPath = new (destPath);
+
+                // If it exists, make sure we can write over it.
+                if (destinationPath.Exists)
                 {
-                    var destPathFileInfo = new System.IO.FileInfo(destPath);
-                    destPathFileInfo.IsReadOnly = false;
+                    destinationPath.IsReadOnly = false;
+                }
+                
+                // If the pair is either supposed to be copied identically, or if the files are not equal.
+                if (fileInfo.originalSrcDestPair.copy_identical || 
+                    !destinationPath.AreSemanticallyEqual(src))
+                {
+                    // Copy the file, overwriting the destination.
+                    File.Copy(src.FullName, destPath, true);
                 }
 
-                if (fileInfo.originalSrcDestPair.copy_identical || !FilesAreEqual(new FileInfo(src.FullName), new FileInfo(destPath)))
-                {
-                    File.Copy(src.FullName, destPath, true);
-                }                
+                // Invoke the callback indicating that the current file has been properly copied.
                 postProcessCallback?.Invoke(destPath);
             }
         }
