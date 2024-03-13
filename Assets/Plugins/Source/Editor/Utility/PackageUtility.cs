@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using Editor.Build;
     using Extensions;
 
-    public class PackageFileUtility
+    public class PackageUtility
     {
         /// <summary>
         /// Gets all the filepaths that match the given package description.

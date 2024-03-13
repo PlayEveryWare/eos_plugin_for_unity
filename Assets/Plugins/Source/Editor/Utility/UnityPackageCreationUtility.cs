@@ -132,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         private static void CopyFilesToPackageDirectory(string packageFolder,
             List<FileInfoMatchingResult> fileInfoForFilesToCompress)
         {
-            PackageFileUtility.CopyFilesToDirectory(
+            PackageUtility.CopyFilesToDirectory(
                 packageFolder,
                 fileInfoForFilesToCompress,
                 WriteVersionInfo);
@@ -173,7 +173,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             var JSONPackageDescription = File.ReadAllText(json_file);
             var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
             string packageFolder = GetPackageOutputFolder();
-            var filesToCompress = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
+            var filesToCompress = PackageUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
             CopyFilesToPackageDirectory(
                 packageFolder,
@@ -213,7 +213,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             string gzipFilePathName = Path.Combine(outputPath, packageName);
 
             List<string> filesToCompress =
-                PackageFileUtility.GetFilePathsMatchingPackageDescription("./", packageDescription);
+                PackageUtility.GetFilePathsMatchingPackageDescription("./", packageDescription);
 
             var toExport = filesToCompress.Where(
                 (path) => { return !path.Contains(".meta"); }
@@ -228,7 +228,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             var packageDescription = ReadPackageDescription(json_file);
 
-            var filesToCopy = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
+            var filesToCopy = PackageUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
             CopyFilesToPackageDirectory(outputPath, filesToCopy);
         }

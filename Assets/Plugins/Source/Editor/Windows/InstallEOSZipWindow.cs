@@ -249,10 +249,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
                     var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
 
-                    var fileResults = PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
+                    var fileResults = PackageUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
                     // This should be the correct directory.
                     var projectDir = FileUtility.GetProjectPath();
-                    PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
+                    PackageUtility.CopyFilesToDirectory(projectDir, fileResults);
                 }
             }
             finally
