@@ -97,11 +97,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 var srcFileInfo = new FileInfo(srcToDestKeyValues.src);
 
                 if (srcFileInfo.Exists &&
-                    !string.IsNullOrEmpty(srcToDestKeyValues.sha1) && 
+                    !string.IsNullOrEmpty(srcToDestKeyValues.sha1) &&
                     srcFileInfo.CalculateSHA1() != srcToDestKeyValues.sha1)
                 {
-                    string errorMessageToUse = string.IsNullOrEmpty(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
-                    Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + errorMessageToUse);
+                    Debug.LogWarning($"Copy error for file (\"{srcToDestKeyValues.src}\") : SHA1 mismatch.");
                 }
             
                 IEnumerable<string> collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src);
@@ -167,8 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 }
                 
                 // If the pair is either supposed to be copied identically, or if the files are not equal.
-                if (fileInfo.originalSrcDestPair.copy_identical || 
-                    !destinationPath.AreSemanticallyEqual(src))
+                if (!destinationPath.AreSemanticallyEqual(src))
                 {
                     // Copy the file, overwriting the destination.
                     File.Copy(src.FullName, destPath, true);

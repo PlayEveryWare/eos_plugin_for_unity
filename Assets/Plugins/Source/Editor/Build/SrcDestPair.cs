@@ -32,9 +32,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         [SerializeField] 
         public string comment;
 
-        //[SerializeField] 
-        //public bool recursive;
-
         [SerializeField] 
         public string src;
 
@@ -46,23 +43,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         [SerializeField] 
         public string sha1;
 
-        [SerializeField] 
-        public string sha1_mismatch_error;
-
         // Files matching this pattern will 
         [SerializeField] 
         public string ignore_regex;
-
-        // Do file copy even if dest file already exists and is identical
-        [SerializeField] 
-        public bool copy_identical;
-
-        // Normalizes file line endings to unix line endings.
-        // One probably shouldn't do this for non-text files.
-        [SerializeField] 
-        public bool dos2unix;
-
-        public bool signWithDefaultCertificate;
 
         public bool IsCommentOnly()
         {
