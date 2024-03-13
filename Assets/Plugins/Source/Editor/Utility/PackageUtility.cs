@@ -45,10 +45,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             var filepaths = new List<string>();
             foreach(var srcToDestKeyValues in packageDescription.source_to_dest)
             {
-                if (srcToDestKeyValues.IsCommentOnly())
-                {
-                    continue;
-                }
+                // Skip if it's just a comment
+                if (srcToDestKeyValues.IsCommentOnly()) { continue; }
 
                 var collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src);
                 foreach (var entry in collectedFiles)
@@ -80,10 +78,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             foreach (var srcToDestKeyValues in packageDescription.source_to_dest)
             {
-                if (srcToDestKeyValues.IsCommentOnly() || (srcToDestKeyValues.comment != null && srcToDestKeyValues.comment.StartsWith("//")))
-                {
-                    continue;
-                }
+                // Skip if it's just a comment.
+                if (srcToDestKeyValues.IsCommentOnly()) { continue; }
 
                 var srcFileInfo = new FileInfo(srcToDestKeyValues.src);
 
