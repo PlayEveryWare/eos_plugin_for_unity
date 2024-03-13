@@ -27,27 +27,13 @@ using UnityEngine;
 namespace PlayEveryWare.EpicOnlineServices
 {
     [Serializable]
-    public class EOSSteamConfig : ICloneableGeneric<EOSSteamConfig>, IEmpty
+    public class EOSSteamConfig : Config
     {
         public List<string> flags;
         public string overrideLibraryPath;
 
         public uint steamSDKMajorVersion;
         public uint steamSDKMinorVersion;
-
-        public EOSSteamConfig Clone()
-        {
-            return (EOSSteamConfig)this.MemberwiseClone();
-        }
-
-        public bool IsEmpty()
-        {
-            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags)
-                && EmptyPredicates.IsEmptyOrNull(overrideLibraryPath)
-                && steamSDKMajorVersion == 0
-                && steamSDKMinorVersion == 0
-            ;
-        }
     }
 }
 

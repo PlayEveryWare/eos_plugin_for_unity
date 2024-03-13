@@ -155,6 +155,5 @@ test-results/
 EOSPluginEditorConfiguration/
 [Aa]ssets/TextMesh*Pro/
 Assets/Plugins/Source/Editor/obj/
-Assets/Plugins/Android/*
 *_BackUpThisFolder_ButDontShipItWithYourGame*
 *_BurstDebugInformation_DoNotShip*
