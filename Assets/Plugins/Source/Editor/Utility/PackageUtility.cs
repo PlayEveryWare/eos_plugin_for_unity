@@ -34,6 +34,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
     public class PackageUtility
     {
+        /// <summary>
+        /// Stores the package description - which is more appropriately a list of which files to copy where in order to create a package.
+        /// </summary>
         [Serializable]
         public class PackageDescription
         {
