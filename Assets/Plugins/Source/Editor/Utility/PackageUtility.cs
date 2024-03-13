@@ -45,11 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             var filepaths = new List<string>();
             foreach(var srcToDestKeyValues in packageDescription.source_to_dest)
             {
-                if (srcToDestKeyValues.IsCommentOnly() || (srcToDestKeyValues.comment != null && srcToDestKeyValues.comment.StartsWith("//")))
-                {
-                    continue;
-                }
-                if (!string.IsNullOrEmpty(srcToDestKeyValues.ignore_regex))
+                if (srcToDestKeyValues.IsCommentOnly())
                 {
                     continue;
                 }
@@ -76,7 +72,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
         {
             var fileInfos = new List<FileInfoMatchingResult>();
-            List<SrcDestPair> ignoreList = new List<SrcDestPair>();
+            
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
             var toolsSection = new ToolsConfigEditor();
@@ -86,11 +82,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 if (srcToDestKeyValues.IsCommentOnly() || (srcToDestKeyValues.comment != null && srcToDestKeyValues.comment.StartsWith("//")))
                 {
-                    continue;
-                }
-                if (!string.IsNullOrEmpty(srcToDestKeyValues.ignore_regex))
-                {
-                    ignoreList.Add(srcToDestKeyValues);
                     continue;
                 }
 
@@ -116,19 +107,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 }
 
             }
-
-            fileInfos = fileInfos.FindAll((e) => {
-                foreach (var ignorePattern in ignoreList)
-                {
-                    var regex = new Regex(ignorePattern.ignore_regex.Replace(@"\\", @"\"));
-                    var normalizedPath = e.fileInfo.FullName.Replace('\\', '/').Replace(currentWorkingDir, "");
-                    if (regex.IsMatch(normalizedPath))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            });
 
             return fileInfos;
         }

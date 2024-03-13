@@ -43,15 +43,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         [SerializeField] 
         public string sha1;
 
-        // Files matching this pattern will 
-        [SerializeField] 
-        public string ignore_regex;
-
         public bool IsCommentOnly()
         {
-            return (string.IsNullOrEmpty(src) &&
-                    string.IsNullOrEmpty(dest) &&
-                    string.IsNullOrEmpty(ignore_regex)) || (null != comment && comment.StartsWith("//"));
+            return (!string.IsNullOrEmpty(comment) &&
+                    string.IsNullOrEmpty(src) &&
+                    string.IsNullOrEmpty(dest));
         }
     }
 }
