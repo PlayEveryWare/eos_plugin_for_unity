@@ -76,6 +76,8 @@
 
         {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/Core.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/Core/*", "dest": "Runtime/Windows/Core/"},
 
         {"src":"etc/PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
         {"src":"tools/bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
