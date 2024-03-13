@@ -74,10 +74,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         public static CoroutineExecutor executorInstance;
 
-        // TODO: These were introduced by the changes to the modular export tool. Go back and comment explaining what each of these does.
-        public static Dictionary<string, string> platformDescDict = new Dictionary<string, string>();
-        public static Dictionary<string, bool> isPackageExported = new Dictionary<string, bool>();
+        /// <summary>
+        /// <key> The package name
+        /// <value> Subsets that should be included in that package
+        /// </summary>
         public static Dictionary<string, List<string>> packagePlatformsDict = new Dictionary<string, List<string>>();
+
+        /// <summary>
+        /// <key> The subset title 
+        /// <value> The json description that specifies what files are included in that subset
+        /// </summary>
+        public static Dictionary<string, string> platformDescDict = new Dictionary<string, string>();
+
+        /// <summary>
+        /// <key> The package name
+        /// <value> Is the package getting exported
+        /// </summary>
+        public static Dictionary<string, bool> isPackageExported = new Dictionary<string, bool>();
 
         /// <summary>
         /// Static constructor
