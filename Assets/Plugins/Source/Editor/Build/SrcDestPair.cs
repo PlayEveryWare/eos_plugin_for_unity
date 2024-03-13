@@ -34,9 +34,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         [SerializeField] public bool recursive;
         [SerializeField] public string src;
 
-        // If pattern is provided, src must be a directory,
-        [SerializeField] public string pattern;
-
         [SerializeField] public string dest;
 
         // if this field is present, the build will error out if the SHA of the src file

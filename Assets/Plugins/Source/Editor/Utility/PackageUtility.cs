@@ -106,17 +106,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + errorMessageToUse);
                 }
             
-                IEnumerable<string> collectedFiles;
-
-                if (string.IsNullOrEmpty(srcToDestKeyValues.pattern))
-                {
-                    collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src, searchOption);
-                }
-                else
-                {
-                    collectedFiles = Directory.EnumerateFiles(Path.Combine(root, srcToDestKeyValues.src), srcToDestKeyValues.pattern, searchOption);
-                }
-
+                IEnumerable<string> collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src, searchOption);
+                
                 foreach (var entry in collectedFiles)
                 {
                     FileInfo srcItem = new FileInfo(Path.GetFullPath(entry).Replace('\\', '/').Replace(currentWorkingDir,""));
