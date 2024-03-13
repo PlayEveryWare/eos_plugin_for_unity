@@ -54,8 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     continue;
                 }
 
-                SearchOption searchOption = srcToDestKeyValues.recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-                var collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src, searchOption);
+                var collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src);
                 foreach (var entry in collectedFiles)
                 {
                     if (root.StartsWith("./"))
@@ -95,7 +94,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     continue;
                 }
 
-                SearchOption searchOption = srcToDestKeyValues.recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
                 var srcFileInfo = new FileInfo(srcToDestKeyValues.src);
 
                 if (srcFileInfo.Exists &&
@@ -106,16 +104,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + errorMessageToUse);
                 }
             
-                IEnumerable<string> collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src, searchOption);
+                IEnumerable<string> collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src);
                 
                 foreach (var entry in collectedFiles)
                 {
                     FileInfo srcItem = new FileInfo(Path.GetFullPath(entry).Replace('\\', '/').Replace(currentWorkingDir,""));
                     var newItem = new FileInfoMatchingResult();
-                    if (srcToDestKeyValues.recursive && Directory.Exists(Path.Combine(root, srcToDestKeyValues.src)))
-                    {
-                        newItem.relativePath = Path.GetRelativePath(Path.Combine(root, srcToDestKeyValues.src), entry);
-                    }
                     newItem.fileInfo = srcItem;
                     newItem.originalSrcDestPair = srcToDestKeyValues;
 

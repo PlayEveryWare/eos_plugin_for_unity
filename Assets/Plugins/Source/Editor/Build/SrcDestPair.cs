@@ -29,28 +29,38 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     public class SrcDestPair
     {
         // Allows for adding a comment
-        [SerializeField] public string comment;
+        [SerializeField] 
+        public string comment;
 
-        [SerializeField] public bool recursive;
-        [SerializeField] public string src;
+        //[SerializeField] 
+        //public bool recursive;
 
-        [SerializeField] public string dest;
+        [SerializeField] 
+        public string src;
+
+        [SerializeField] 
+        public string dest;
 
         // if this field is present, the build will error out if the SHA of the src file
         // doesn't match this. This allows as a reminder to update files
-        [SerializeField] public string sha1;
+        [SerializeField] 
+        public string sha1;
 
-        [SerializeField] public string sha1_mismatch_error;
+        [SerializeField] 
+        public string sha1_mismatch_error;
 
         // Files matching this pattern will 
-        [SerializeField] public string ignore_regex;
+        [SerializeField] 
+        public string ignore_regex;
 
         // Do file copy even if dest file already exists and is identical
-        [SerializeField] public bool copy_identical;
+        [SerializeField] 
+        public bool copy_identical;
 
         // Normalizes file line endings to unix line endings.
         // One probably shouldn't do this for non-text files.
-        [SerializeField] public bool dos2unix;
+        [SerializeField] 
+        public bool dos2unix;
 
         public bool signWithDefaultCertificate;
 
