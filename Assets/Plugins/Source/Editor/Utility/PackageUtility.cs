@@ -34,6 +34,25 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
     public class PackageUtility
     {
+        [Serializable]
+        public class PackageDescription
+        {
+            [SerializeField]
+            public List<SrcDestPair> source_to_dest;
+        }
+
+        /// <summary>
+        /// Reads the package description from JSON.
+        /// </summary>
+        /// <param name="path">Fully-qualified path to the JSON file that describes the contents of the package to create.</param>
+        /// <returns>PackageDescription stored in the indicated path.</returns>
+        public static PackageDescription ReadPackageDescription(string path)
+        {
+            string jsonText = File.ReadAllText(path);
+
+            return JsonUtility.FromJson<PackageDescription>(jsonText);
+        }
+
         /// <summary>
         /// Gets all the filepaths that match the given package description.
         /// </summary>

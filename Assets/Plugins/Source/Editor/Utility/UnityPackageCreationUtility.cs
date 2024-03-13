@@ -106,17 +106,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
-
-        private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
-        {
-            var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
-
-            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-
-            return packageDescription;
-        }
-
-
         private static string GetPackageOutputFolder()
         {
             if (customOutputDirectory != null &&
@@ -170,8 +159,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static void CreateUPMTarball(string outputPath, string json_file)
         {
             UnityEngine.Debug.Log("DEBUG " + json_file);
-            var JSONPackageDescription = File.ReadAllText(json_file);
-            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+            var packageDescription = PackageUtility.ReadPackageDescription(json_file);
             string packageFolder = GetPackageOutputFolder();
             var filesToCompress = PackageUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
@@ -204,9 +192,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static void CreateDotUnityPackage(string outputPath, string json_file,
             string packageName = "pew_eos_plugin.unitypackage")
         {
-            var JSONPackageDescription = File.ReadAllText(json_file);
-
-            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+            var packageDescription = PackageUtility.ReadPackageDescription(json_file);
 
             // Transform PackageDescription into a list of actual files that can be
             // copied to a directory that can be zipped 
@@ -226,7 +212,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static void CreateUPM(string outputPath, string json_file)
         {
-            var packageDescription = ReadPackageDescription(json_file);
+            var packageDescription = PackageUtility.ReadPackageDescription(json_file);
 
             var filesToCopy = PackageUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
 

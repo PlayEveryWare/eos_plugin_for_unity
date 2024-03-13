@@ -246,8 +246,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     // Skip if it's not getting imported.
                     if (!platformImportInfo.isGettingImported) continue;
                     
-                    var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
-                    var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+                    var packageDescription = PackageUtility.ReadPackageDescription(pathToImportDescDirectory + platformImportInfo.descPath);
 
                     var fileResults = PackageUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
                     // This should be the correct directory.
