@@ -103,15 +103,19 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 // Skip if it's just a comment.
                 if (srcToDestKeyValues.IsCommentOnly()) { continue; }
 
+                // Otherwise, create a FileInfo object 
                 var srcFileInfo = new FileInfo(srcToDestKeyValues.src);
 
-                if (srcFileInfo.Exists &&
-                    !string.IsNullOrEmpty(srcToDestKeyValues.sha1) &&
-                    srcFileInfo.CalculateSHA1() != srcToDestKeyValues.sha1)
+                // If the sha1 value is set for the SrcDestPair entry
+                if (!string.IsNullOrEmpty(srcToDestKeyValues.sha1))
                 {
-                    Debug.LogWarning($"Copy error for file (\"{srcToDestKeyValues.src}\") : SHA1 mismatch.");
+                    // Then (assuming the file exists) calculate it's SHA1, and determine whether it matches
+                    if (srcFileInfo.Exists && srcFileInfo.CalculateSHA1() != srcToDestKeyValues.sha1)
+                    {
+                        Debug.LogWarning($"Copy error for file (\"{srcToDestKeyValues.src}\") : SHA1 mismatch - {srcToDestKeyValues.sha1_mismatch_error}.");
+                    }
                 }
-            
+
                 IEnumerable<string> collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src);
                 
                 foreach (var entry in collectedFiles)
