@@ -43,7 +43,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         private static readonly HashSet<string> postBuildFilesWithVars =
             new HashSet<string>() { "EasyAntiCheat/Settings.json" };
 
-        private static string GetPathToEOSBin()
+        // TODO: From an organizational perspective - this function ought to be implemented
+        //       somewhere other than EACPostBuild, as it's functionality is used in several
+        //       places in the build process that have little to do with EAC.
+        public static string GetPathToEOSBin()
         {
             string projectPathToBin = Path.Combine(Application.dataPath, "../tools/bin/");
             string packagePathToBin = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/bin~/");
@@ -96,52 +99,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             return pathToInstallFrom;
         }
-
-
-#if UNITY_EDITOR_WIN
-        private static void InstallBootStrapper(string appFilenameExe, string installDirectory,
-            string pathToEOSBootStrapperTool, string bootstrapperFileName)
-        {
-            string installPathForEOSBootStrapper = Path.Combine(installDirectory, bootstrapperFileName);
-            string workingDirectory = GetPathToEOSBin();
-            string bootStrapperArgs = ""
-                                      + " --output-path " + "\"" + installPathForEOSBootStrapper + "\""
-                                      + " --app-path " + "\"" + appFilenameExe + "\""
-                ;
-
-            var procInfo = new System.Diagnostics.ProcessStartInfo();
-            procInfo.FileName = pathToEOSBootStrapperTool;
-            procInfo.Arguments = bootStrapperArgs;
-            procInfo.UseShellExecute = false;
-            procInfo.WorkingDirectory = workingDirectory;
-            procInfo.RedirectStandardOutput = true;
-            procInfo.RedirectStandardError = true;
-
-            var process = new System.Diagnostics.Process { StartInfo = procInfo };
-            process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
-            {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    Debug.Log(e.Data);
-                }
-            });
-
-            process.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
-            {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    Debug.LogError(e.Data);
-                }
-            });
-
-            bool didStart = process.Start();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
-            process.Close();
-
-        }
-#endif
 
         private static string GetDefaultIntegrityToolPath()
         {
@@ -468,38 +425,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 {
                     CopySplashImage(report, editorToolConfig.pathToEACSplashImage);
                 }
-
-#if UNITY_EDITOR_WIN
-                if (report.summary.platform == BuildTarget.StandaloneWindows ||
-                    report.summary.platform == BuildTarget.StandaloneWindows64)
-                {
-                    string bootstrapperName = null;
-                    if (editorToolConfig != null)
-                    {
-                        bootstrapperName = editorToolConfig.bootstrapperNameOverride;
-                    }
-
-                    if (string.IsNullOrWhiteSpace(bootstrapperName))
-                    {
-                        bootstrapperName = "EOSBootstrapper.exe";
-                    }
-
-                    if (!bootstrapperName.EndsWith(".exe"))
-                    {
-                        bootstrapperName += ".exe";
-                    }
-
-                    string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
-
-                    string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
-
-                    string bootstrapperTarget =
-                        useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
-
-                    InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
-                        bootstrapperName);
-                }
-#endif
 
                 if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
                     !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACCertificate))
