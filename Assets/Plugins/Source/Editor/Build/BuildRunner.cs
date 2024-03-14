@@ -126,11 +126,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 return;
             }
 
-            // perform the post-build task for the platform using it's builder.
+            // Perform the post-build task for the platform using it's builder.
             GetBuilder()?.PostBuild(report);
-
-            // Configure EAC (Note that this only happens on "standalone" builds.
-            EACPostBuild.ConfigureEAC(report);
         }
 
         /// <summary>
