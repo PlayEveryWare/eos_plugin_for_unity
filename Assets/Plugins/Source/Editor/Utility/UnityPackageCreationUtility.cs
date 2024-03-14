@@ -118,16 +118,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
 
-        private static void CopyFilesToPackageDirectory(string packageFolder,
-            List<FileInfoMatchingResult> fileInfoForFilesToCompress)
-        {
-            PackageUtility.CopyFilesToDirectory(
-                packageFolder,
-                fileInfoForFilesToCompress,
-                WriteVersionInfo);
-        }
-
-
         private static void WriteVersionInfo(string destPath)
         {
             if (Path.GetFileName(destPath) == "EOSPackageInfo.cs")
@@ -161,13 +151,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             UnityEngine.Debug.Log("DEBUG " + json_file);
             var packageDescription = PackageUtility.ReadPackageDescription(json_file);
             string packageFolder = GetPackageOutputFolder();
-            var filesToCompress = PackageUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
+            var copyFileTasks = PackageUtility.DetermineFileCopyTasks("./", packageDescription);
 
-            CopyFilesToPackageDirectory(
-                packageFolder,
-                filesToCompress
-            );
-
+            PackageUtility.ExecuteCopyFileTasks(packageFolder, copyFileTasks);
+            
             if (!executorInstance)
             {
                 executorInstance = UnityEngine.Object.FindObjectOfType<
@@ -192,31 +179,35 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static void CreateDotUnityPackage(string outputPath, string json_file,
             string packageName = "pew_eos_plugin.unitypackage")
         {
-            var packageDescription = PackageUtility.ReadPackageDescription(json_file);
+            // TODO: Re-enable
+            //var packageDescription = PackageUtility.ReadPackageDescription(json_file);
 
-            // Transform PackageDescription into a list of actual files that can be
-            // copied to a directory that can be zipped 
-            string gzipFilePathName = Path.Combine(outputPath, packageName);
+            //// Transform PackageDescription into a list of actual files that can be
+            //// copied to a directory that can be zipped 
+            //string gzipFilePathName = Path.Combine(outputPath, packageName);
 
-            List<string> filesToCompress =
-                PackageUtility.GetFilePathsMatchingPackageDescription("./", packageDescription);
+            //List<string> filesToCompress =
+            //    PackageUtility.GetFilePathsMatchingPackageDescription("./", packageDescription);
 
-            var toExport = filesToCompress.Where(
-                (path) => { return !path.Contains(".meta"); }
-            ).ToArray();
+            //var toExport = filesToCompress.Where(
+            //    (path) => { return !path.Contains(".meta"); }
+            //).ToArray();
 
-            var options = ExportPackageOptions.Interactive;
+            //var options = ExportPackageOptions.Interactive;
 
-            AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);
+            //AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);
         }
 
         public static void CreateUPM(string outputPath, string json_file)
         {
             var packageDescription = PackageUtility.ReadPackageDescription(json_file);
 
-            var filesToCopy = PackageUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
+            var filesToCopy = PackageUtility.DetermineFileCopyTasks(
+                FileUtility.GetProjectPath(), 
+                packageDescription
+            );
 
-            CopyFilesToPackageDirectory(outputPath, filesToCopy);
+            PackageUtility.ExecuteCopyFileTasks(outputPath, filesToCopy);
         }
 
 

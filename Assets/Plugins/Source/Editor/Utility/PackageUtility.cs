@@ -31,6 +31,10 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     using Editor;
     using Editor.Build;
     using Extensions;
+    using System.Linq;
+    using UnityEditor;
+    using Directory = System.IO.Directory;
+    using File = System.IO.File;
 
     public class PackageUtility
     {
@@ -42,6 +46,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             [SerializeField]
             public List<SrcDestPair> source_to_dest;
+        }
+
+        public class CopyFileTask
+        {
+            public string From;
+            public string To;
         }
 
         /// <summary>
@@ -57,123 +67,263 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         /// <summary>
-        /// Gets all the filepaths that match the given package description.
+        /// Parses the SrcDestPair objects listed within the given package description. Combined with
+        /// the path to a source directory, this function determines each of the individual file copy
+        /// operations that need to be carried out to create a package.
         /// </summary>
-        /// <param name="root">Where the files start from.</param>
-        /// <param name="packageDescription">The description for the package.</param>
-        /// <returns>A list of all the file paths in the root that match the given package description.</returns>
-        public static List<string> GetFilePathsMatchingPackageDescription(string root, PackageDescription packageDescription)
+        /// <param name="source">The directory in which to scan for files that need copying.</param>
+        /// <param name="packageDescription">The package description.</param>
+        /// <returns></returns>
+        public static IList<CopyFileTask> DetermineFileCopyTasks(string source, PackageDescription packageDescription)
         {
-            var filepaths = new List<string>();
-            foreach(var srcToDestKeyValues in packageDescription.source_to_dest)
-            {
-                // Skip if it's just a comment
-                if (srcToDestKeyValues.IsCommentOnly()) { continue; }
+            IList<CopyFileTask> copyTasks = new List<CopyFileTask>();
+            IList<string> filesToIgnore = new List<string>();
 
-                var collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src);
-                foreach (var entry in collectedFiles)
+            // Process all the entries in the source_to_dest list.
+            foreach (var srcDestPair in packageDescription.source_to_dest)
+            {
+                // Skip if it's just a comment.
+                if (srcDestPair.IsCommentOnly()) { continue; }
+
+                // Determine whether we're supposed to include the matching files, or exclude them.
+                bool isExclusionary = srcDestPair.src.StartsWith("!");
+
+                // Otherwise, create a FileInfo object 
+                var srcFileInfo = new FileInfo(srcDestPair.src);
+
+                // If the sha1 value is set for the SrcDestPair entry
+                if (!string.IsNullOrEmpty(srcDestPair.sha1))
                 {
-                    if (root.StartsWith("./"))
+                    // Then (assuming the file exists) calculate it's SHA1, and determine whether it matches
+                    if (srcFileInfo.Exists && srcFileInfo.CalculateSHA1() != srcDestPair.sha1)
                     {
-                        // Remove the "./", as it makes the AssetDatabase.ExportPackage code break
-                        filepaths.Add(entry.Remove(0, 2));
+                        Debug.LogWarning($"Copy error for file (\"{srcDestPair.src}\") : SHA1 mismatch - {srcDestPair.sha1_mismatch_error}.");
+                    }
+                }
+                
+                // Process each file that matches the pattern in the SrcDestPair
+                foreach (var matchingFile in GetMatchingFiles(source, srcDestPair))
+                {
+                    // If we are meant to exclude all matches, add the matchingFile path to the ignore list.
+                    if (isExclusionary)
+                    {
+                        filesToIgnore.Add(matchingFile);
                     }
                     else
                     {
-                        filepaths.Add(entry);
+                        // Otherwise, add the match to the list of files that need to be copied.
+                        copyTasks.Add(new CopyFileTask()
+                        {
+                            From = matchingFile,
+                            To = Path.Combine(srcDestPair.dest, Path.GetFileName(matchingFile))
+                        });
                     }
                 }
             }
 
-            return filepaths;
-        }
-        
-        // Root is often "./"
-        public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
-        {
-            var fileInfos = new List<FileInfoMatchingResult>();
+            // Now that the list of files to ignore is complete, we can trim the list of files to copy
+            copyTasks = copyTasks.Where(
+                copyTask => !filesToIgnore.Contains(copyTask.From)
+                ).ToList();
             
-            string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
-
-            var toolsSection = new ToolsConfigEditor();
-            toolsSection?.Load();
-
-            foreach (var srcToDestKeyValues in packageDescription.source_to_dest)
+            // Add to the list of files to copy any meta files that exist and match files already marked for copy
+            IList<CopyFileTask> completeCopyTasks = new List<CopyFileTask>();
+            foreach (var copyTask in copyTasks)
             {
-                // Skip if it's just a comment.
-                if (srcToDestKeyValues.IsCommentOnly()) { continue; }
+                // add the copy task for the file
+                completeCopyTasks.Add(copyTask);
 
-                // Otherwise, create a FileInfo object 
-                var srcFileInfo = new FileInfo(srcToDestKeyValues.src);
+                // if the copy task is a .meta file, we don't need to look for a meta-meta file
+                if (copyTask.From.EndsWith(".meta")) { continue; }
 
-                // If the sha1 value is set for the SrcDestPair entry
-                if (!string.IsNullOrEmpty(srcToDestKeyValues.sha1))
+                // determine if there is a meta file
+                var metaFilePath = Path.Combine(copyTask.From, ".meta");
+                if (!File.Exists(metaFilePath)) { continue; }
+            
+                // if there is a meta file, then add it to the list of copy tasks as well
+                completeCopyTasks.Add(new CopyFileTask()
                 {
-                    // Then (assuming the file exists) calculate it's SHA1, and determine whether it matches
-                    if (srcFileInfo.Exists && srcFileInfo.CalculateSHA1() != srcToDestKeyValues.sha1)
-                    {
-                        Debug.LogWarning($"Copy error for file (\"{srcToDestKeyValues.src}\") : SHA1 mismatch - {srcToDestKeyValues.sha1_mismatch_error}.");
-                    }
-                }
-
-                IEnumerable<string> collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src);
-                
-                foreach (var entry in collectedFiles)
-                {
-                    FileInfo srcItem = new FileInfo(Path.GetFullPath(entry).Replace('\\', '/').Replace(currentWorkingDir,""));
-                    var newItem = new FileInfoMatchingResult();
-                    newItem.fileInfo = srcItem;
-                    newItem.originalSrcDestPair = srcToDestKeyValues;
-
-                    fileInfos.Add(newItem);
-                }
-
+                    From = Path.Combine(copyTask.From, ".meta"),
+                    To = Path.Combine(copyTask.To, ".meta")
+                });
             }
 
-            return fileInfos;
+            return completeCopyTasks;
         }
-        
-        public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress, Action<string> postProcessCallback = null)
+
+        [MenuItem("ZAP/ZAP!")]
+        public static void DoTheZap()
         {
-            Directory.CreateDirectory(packageFolder);
+            string current_directory = Directory.GetCurrentDirectory();
+            string dot_slash_fqp = Path.GetFullPath("./");
 
-            foreach (var fileInfo in fileInfoForFilesToCompress)
+            Debug.Log($"Current directory: {current_directory}");
+            Debug.Log($"dot_slash: {dot_slash_fqp}");
+        }
+
+        /// <summary>
+        /// Executes the given list of copy file tasks, copying them into the given output directory, and invoking the task complete callback for
+        /// each copy task that completes.
+        /// </summary>
+        /// <param name="outputDirectory">The directory in which to output the files.</param>
+        /// <param name="tasks">The copy tasks to execute.</param>
+        /// <param name="taskCompleteCallback">Callback function that is invoked when a copy file task is completed.</param>
+        public static void ExecuteCopyFileTasks(string outputDirectory, IList<CopyFileTask> tasks, Action<string> taskCompleteCallback = null)
+        {
+            // TODO: Disable this before ship - we should not actually ddelete all the contents of the output directory.
+            Directory.Delete(outputDirectory, true);
+
+            // Create the output directory if it does not already exist
+            Directory.CreateDirectory(outputDirectory);
+
+            // This helps keep track of whether a file has already been copied
+            HashSet<string> copiedFiles = new HashSet<string>();
+
+            // process each copy task
+            foreach (var task in tasks)
             {
-                FileInfo src = fileInfo.fileInfo;
-                string dest = fileInfo.GetDestination();
-
-                string finalDestinationPath = Path.Combine(packageFolder, dest);
-                string finalDestinationParent = Path.GetDirectoryName(finalDestinationPath);
-                bool isDestinationADirectory = dest.EndsWith("/") || dest.Length == 0;
-
-                // Create the directory if it does not exist (does nothing if the file already exists).
-                Directory.CreateDirectory(finalDestinationParent);
-
-                if (isDestinationADirectory)
+                // Create the directory if it does not exist (does nothing if the directory already exists).
+                string destinationParent = Path.GetDirectoryName(task.To);
+                if (destinationParent != null)
                 {
-                    Directory.CreateDirectory(finalDestinationPath);
+                    // TODO: Make sure that the proper *.meta files are copied over where and when appropriate for the new Directories.
+                    string directoryToCreate = Path.Combine(outputDirectory, destinationParent);
+                    Directory.CreateDirectory(directoryToCreate);
+                    //ListDirectoriesToCreateInOrder(directoryToCreate);
+                    //Debug.Log($"New directory \"{directoryToCreate}\".");
                 }
-
-                string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
 
                 // Create the fileInfo for the destination.
-                FileInfo destinationPath = new (destPath);
+                FileInfo destinationPath = new (task.To);
 
                 // If it exists, make sure we can write over it.
                 if (destinationPath.Exists)
                 {
                     destinationPath.IsReadOnly = false;
                 }
-                
-                // If the pair is either supposed to be copied identically, or if the files are not equal.
-                if (!destinationPath.AreSemanticallyEqual(src))
+
+                try
                 {
                     // Copy the file, overwriting the destination.
-                    File.Copy(src.FullName, destPath, true);
+                    //Debug.Log($"CopyTaskDebug: \"{task.From}\" => \"{Path.Combine(outputDirectory, task.To)}\"");
+                    // TODO: Re-enable (not performing IO until we know it is working properly.
+                    File.Copy(task.From, Path.Combine(outputDirectory, task.To), true);
                 }
+                catch(Exception ex) 
+                {
+                    Debug.LogWarning($"Error copying file \"{task.From}\": {ex.Message}.");
+                }
+                finally
+                {
+                    // Invoke the callback indicating that the current file has been properly copied.
+                    // TODO: Alter the callback to indicate success or failure
+                    taskCompleteCallback?.Invoke(task.To);
+                }
+            }
 
-                // Invoke the callback indicating that the current file has been properly copied.
-                postProcessCallback?.Invoke(destPath);
+            Debug.Log($"{tasks.Count} copy tasks have completed successfully.");
+        }
+
+
+        private static void ListDirectoriesToCreateInOrder(string directory)
+        {
+            string current = Path.GetDirectoryName(directory);
+            var createOrder = new Queue<string>();
+            while (!string.IsNullOrEmpty(current))
+            {
+                // We stop going up the directory structure once we have found a directory that exists.
+                if (Directory.Exists(current)) { break; }
+                
+                // Otherwise we add it to the queue of directories to create
+                createOrder.Enqueue(current);
+
+                // And move up one level
+                current = Path.GetDirectoryName(current);
+            }
+
+            while (createOrder.Count > 0)
+            {
+                var directoryToCreate = createOrder.Dequeue();
+                Debug.Log($"Creating directory \"{directoryToCreate}\".");
+            }
+        }
+
+        /// <summary>
+        /// Helper function that accepts a SrcDestPair object, and a root directory, and finds all files that match
+        /// the pattern in the "src" field of the SrcDestPair object.
+        /// </summary>
+        /// <param name="root">Source directory to scan for files in.</param>
+        /// <param name="pair">The SrcDestPair object that contains the information about the pattern to match and the destination to copy files to.</param>
+        /// <returns>An enumerable of fully-qualified file paths to all files that match the pattern in the "src" field of the given SrcDestPair object.</returns>
+        private static IEnumerable<string> GetMatchingFiles(string root, SrcDestPair pair)
+        {
+            // Start constructing the path that we will call EnumerateFiles with by removing 
+            // any preceding exclamation marks.
+            string pathPattern = pair.src.TrimStart('!');
+
+            // If the filepath represents a file that exists (instead of being a pattern)
+            // then just return that.
+            if (File.Exists(Path.Combine(root, pathPattern)))
+            {
+                return new[] { Path.Combine(root, pathPattern) };
+            }
+
+            // The convention we use for our package description json files is that a double
+            // asterisk at the end of a pattern indicates that the pattern should be matched 
+            // recursively.
+            bool shouldRecurse = pathPattern.EndsWith("**");
+
+            // Default behavior is to not recursively match the pattern.
+            SearchOption searchOption = SearchOption.TopDirectoryOnly;
+
+            // If we are supposed to recurse.
+            if (shouldRecurse)
+            {
+                // If we are going to recurse, we need to modify the string we will pass to 
+                // Directory.EnumerateFiles, because it does not support the double asterisk
+                // convention.
+                pathPattern = pathPattern[..^1];
+
+                // Set the search option accordingly
+                searchOption = SearchOption.AllDirectories;
+            }
+
+            // Split the pattern into respective directory and file patterns, in order to 
+            // call Directory.EnumerateFiles.
+            SplitPathAndFilePatterns(pathPattern, out string directoryPattern, out string filePattern);
+
+            // If the directory does not exist, then stop
+            if (!Directory.Exists(directoryPattern))
+            {
+                return new List<string>();
+            }
+
+            return Directory.EnumerateFiles(Path.Combine(root, directoryPattern), filePattern, searchOption);
+        }
+
+        /// <summary>
+        /// Takes a string pattern, and splits it into a directory path pattern and a file pattern. If no file
+        /// pattern is found, a default one matching all files ("*") will be set.
+        /// </summary>
+        /// <param name="pattern">The pattern to split into components.</param>
+        /// <param name="directoryPattern">The component of the pattern representing the directory.</param>
+        /// <param name="filePattern">The component of the pattern representing the file.</param>
+        private static void SplitPathAndFilePatterns(string pattern, out string directoryPattern, out string filePattern)
+        {
+            // Find the last directory separator
+            // TODO: Deal properly with platform differences of forward / backward slashes.
+            int lastSeparatorIndex = pattern.LastIndexOf('/');
+
+            // Separate the path and pattern
+            directoryPattern = pattern[..lastSeparatorIndex];
+            filePattern = pattern[(lastSeparatorIndex + 1)..];
+
+            // Check if the pattern is actually a directory (no wildcards present)
+            if (!filePattern.Contains("*") && !filePattern.Contains("?"))
+            {
+                // If so, treat the entire input as a directory path and use a default pattern
+                directoryPattern = pattern;
+                filePattern = "*"; // Default pattern to match all files
             }
         }
 

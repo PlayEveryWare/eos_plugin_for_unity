@@ -50,6 +50,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         /// To explicitly exclude a file or set of files, preface the filepath provided with an
         /// exclamation mark. In the case where files are being excluded like this, the dest
         /// field should be left empty - as its value will be ignored.
+        ///
+        /// TODO: Because of existing files that currently use the field "src", this is the name
+        ///       used. However, it rightfully should be called "src_pattern"
         /// </summary>
         [SerializeField] 
         public string src;

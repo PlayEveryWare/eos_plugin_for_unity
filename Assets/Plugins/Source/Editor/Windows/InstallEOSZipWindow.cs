@@ -248,10 +248,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     
                     var packageDescription = PackageUtility.ReadPackageDescription(pathToImportDescDirectory + platformImportInfo.descPath);
 
-                    var fileResults = PackageUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
+                    var fileResults = PackageUtility.DetermineFileCopyTasks(tmpDir, packageDescription);
                     // This should be the correct directory.
                     var projectDir = FileUtility.GetProjectPath();
-                    PackageUtility.CopyFilesToDirectory(projectDir, fileResults);
+                    PackageUtility.ExecuteCopyFileTasks(projectDir, fileResults);
                 }
             }
             finally
