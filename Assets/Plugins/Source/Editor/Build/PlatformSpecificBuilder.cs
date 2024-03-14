@@ -176,5 +176,18 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             return string.Empty;
         }
+
+        /// <summary>
+        /// Determines if the build is a standalone build.
+        /// </summary>
+        /// <returns>True if the build is standalone, false otherwise.</returns>
+        protected bool IsStandalone()
+        {
+#if UNITY_STANDALONE
+            return true;
+#else
+            return false;
+#endif
+        }
     }
 }
