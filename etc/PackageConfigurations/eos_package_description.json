@@ -91,6 +91,9 @@
         {"src":"Assets/Plugins/Windows/Core.meta", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/Core/*.cs", "dest": "Runtime/Windows/Core/"},
         {"src":"Assets/Plugins/Windows/Core/*.cs.meta", "dest": "Runtime/Windows/Core/"},
+        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Editor/Windows.meta"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Editor/Windows/"},
 
         {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
