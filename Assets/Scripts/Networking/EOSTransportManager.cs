@@ -983,20 +983,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         /// <param name="reliability">Which level of reliability the packet should be sent with.</param>
         public void SendPacket(ProductUserId remoteUserId, string socketName, byte[] packet, byte channel = 0, bool allowDelayedDelivery = false, PacketReliability reliability = PacketReliability.ReliableOrdered)
         {
+            var packetAsArraySegment = new ArraySegment<byte>(packet);
+            SendPacket(remoteUserId, socketName, packetAsArraySegment, channel, allowDelayedDelivery, reliability);
+        }
+
+        /// <summary>
+        /// Sends a packet to a given remote user on an open connection using the specified reliability.
+        /// </summary>
+        /// <param name="remoteUserId">The id of the remote user to send a packet to.</param>
+        /// <param name="socketName">The name of the socket the connection is open on.</param>
+        /// <param name="packet">The packet to be sent.</param>
+        /// <param name="channel">Which channel the packet should be sent on.</param>
+        /// <param name="allowDelayedDelivery">If <c>false</c> and there is not an existing connection to the peer, the data will be dropped.</param>
+        /// <param name="reliability">Which level of reliability the packet should be sent with.</param>
+        public void SendPacket(ProductUserId remoteUserId, string socketName, ArraySegment<byte> packet, byte channel = 0, bool allowDelayedDelivery = false, PacketReliability reliability = PacketReliability.ReliableOrdered)
+        {
             if (remoteUserId.IsValid() == false)
             {
                 printError($"EOSTransportManager.SendPacket: Invalid parameters, RemoteUserId '{remoteUserId}' is invalid.");
                 return;
             }
 
-            if (packet.Length <= 0)
+            if (packet.Count <= 0)
             {
                 printError("EOSTransportManager.SendPacket: Invalid parameters, packet is empty.");
                 return;
             }
-            if (packet.Length > (MaxPacketSize - FragmentHeaderSize) * MaxFragments)
+            if (packet.Count > (MaxPacketSize - FragmentHeaderSize) * MaxFragments)
             {
-                printError($"EOSTransportManager.SendPacket: Fragmenting packet of size {packet.Length} would require more than {MaxFragments} fragments and cannot be sent.");
+                printError($"EOSTransportManager.SendPacket: Fragmenting packet of size {packet.Count} would require more than {MaxFragments} fragments and cannot be sent.");
                 return;
             }
 
@@ -1015,9 +1030,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
 
             // Split the data into fragments if necessary. One extra is added to account for the remainder after filling as many packets as possible.
-            int numFragments = (packet.Length / (MaxPacketSize - FragmentHeaderSize)) + 1;
+            int numFragments = (packet.Count / (MaxPacketSize - FragmentHeaderSize)) + 1;
             // The size of the remainder packet added to the count above
-            int lastPacketSize = packet.Length - ((numFragments - 1) * (MaxPacketSize - FragmentHeaderSize));
+            int lastPacketSize = packet.Count - ((numFragments - 1) * (MaxPacketSize - FragmentHeaderSize));
 
             // If there is no remainder (data was evenly split into full packets), we don't need the extra packet
             if(lastPacketSize == 0)
@@ -1027,12 +1042,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             }
 
             int currentOffset = 0;
-            List<byte[]> messages = new List<byte[]>();
 
             ushort OutgoingFragmentedIndex = connection.GetNextMessageIndex();
+            byte[] fragmentBuffer = new byte[MaxPacketSize];
             for (ushort i = 0; i < numFragments; ++i)
             {
-                byte[] fragment = new byte[Mathf.Min( (packet.Length - currentOffset) + FragmentHeaderSize, MaxPacketSize)];
+                var fragment = new ArraySegment<byte>(fragmentBuffer, 0, Mathf.Min((packet.Count - currentOffset) + FragmentHeaderSize, MaxPacketSize));
                 // 4 Packet header: Bytes 1 and 2 hold the packed id, while 3 and 4 hold the fragment number, with the last bit used as a flag to mark the final fragment.
                 fragment[0] = (byte)(OutgoingFragmentedIndex >> 8);
                 fragment[1] = (byte)OutgoingFragmentedIndex;
@@ -1040,16 +1055,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 fragment[3] = (byte)(i & short.MaxValue);
 
                 int length = i == numFragments - 1 ? lastPacketSize : MaxPacketSize - FragmentHeaderSize;
-                Array.Copy(packet, currentOffset,
-                            fragment, FragmentHeaderSize, length);
 
-                messages.Add(fragment);
-                currentOffset += fragment.Length-FragmentHeaderSize;
-            }
+                ArraySegment<byte> packetSegment = packet.Slice(currentOffset, length);
+                packetSegment.CopyTo(fragment.Slice(FragmentHeaderSize));
 
-            for (int i = 0; i < numFragments; ++i)
-            {
-                byte[] fragment = messages[i];
+
+                currentOffset += fragment.Count - FragmentHeaderSize;
 
                 // Send Packet
                 SocketId socketId = new SocketId()
@@ -1065,7 +1076,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                     AllowDelayedDelivery = allowDelayedDelivery,
                     Channel = channel,
                     Reliability = reliability,
-                    Data = new ArraySegment<byte>(fragment),
+                    Data = fragment,
                 };
 
                 Result result = P2PHandle.SendPacket(ref options);
