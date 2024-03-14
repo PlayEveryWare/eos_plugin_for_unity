@@ -26,6 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using PlayEveryWare.EpicOnlineServices.Editor;
     using UnityEditor.Build.Reporting;
     using System.IO;
+    using UnityEditor.Build;
     using UnityEngine;
     using Utility;
 
@@ -152,6 +153,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     Debug.LogError(e.Data);
                 }
             };
+
+            if (false == process.Start())
+            {
+                throw new BuildFailedException($"Failed to run the BootstrapperTool \"{pathToEOSBootStrapperTool}\".");
+            }
 
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
