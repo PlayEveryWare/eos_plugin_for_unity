@@ -80,6 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         /// <summary>
         /// Implement this function on a per-platform basis to provide custom logic for the platform being compiled.
+        /// Any overriding implementations should first call the base implementation.
         /// </summary>
         /// <param name="report"></param>
         public virtual void PreBuild(BuildReport report)
@@ -89,11 +90,17 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         /// <summary>
         /// Implement this function on a per-platform basis to provide custom logic for the platform being compiled.
+        /// Any overriding implementations should first call the base implementation.
         /// </summary>
         /// <param name="report"></param>
         public virtual void PostBuild(BuildReport report)
         {
-            // Default post-build behavior is empty for the time being.
+            // The only standalone platforms that are supported are WIN/OSX/Linux
+            if (IsStandalone())
+            {
+                // Configure easy-anti-cheat.
+                EACPostBuild.ConfigureEAC(report);
+            }
         }
 
         /// <summary>
@@ -175,6 +182,24 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         public virtual string GetPlatformString()
         {
             return string.Empty;
+        }
+
+        /// <summary>
+        /// Determines if the build is a standalone build.
+        /// </summary>
+        /// <returns>True if the build is standalone, false otherwise.</returns>
+        protected bool IsStandalone()
+        {
+            // It is unclear from the Unity documentation what the meaning of "UNITY_STANDALONE" is,
+            // although it can be reasonably inferred from context that it will be defined if any
+            // of the following specific standalone scripting defines exist, for the sake of future-
+            // proofing the scenario where a new standalone platform is introduced, each of the three
+            // standalone platforms that the EOS Plugin current supports are explicitly checked here.
+#if UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN
+            return true;
+#else
+            return false;
+#endif
         }
     }
 }
