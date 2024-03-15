@@ -22,8 +22,11 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Codice.CM.Client.Differences.Merge;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
+    using UnityEditor;
     using UnityEngine;
 
 #if UNITY_EDITOR // only use reflection in the editor
@@ -51,12 +54,63 @@ namespace PlayEveryWare.EpicOnlineServices
             Directory = directory;
         }
 
-        public string Filepath
+        public static async Task<T> CreateAsync<T>() where T : Config, new()
+        {
+            T instance = new();
+            await instance.InitializeAsync();
+            return instance;
+        }
+
+        protected async Task InitializeAsync()
+        {
+            await ReadAsync();
+        }
+
+        public string FilePath
         {
             get
             {
                 return Path.Combine(Directory, Filename);
             }
+        }
+
+        protected async Task ReadAsync()
+        {
+            bool configFileExists = File.Exists(FilePath);
+
+            if (configFileExists)
+            {
+                using (StreamReader reader = new(FilePath))
+                {
+                    string configJSON = await reader.ReadToEndAsync();
+                    JsonUtility.FromJsonOverwrite(configJSON, this);
+                }
+            }
+            else
+            {
+                // If the config file does not currently exist, create it 
+                // when it is being read.
+                await WriteAsync();
+            }
+        }
+
+        public async Task WriteAsync(bool prettyPrint = true)
+        {
+            string configAsJSON = JsonUtility.ToJson(this, prettyPrint);
+            
+            FileInfo configFile = new(FilePath);
+            configFile.Directory?.Create();
+
+            using (StreamWriter writer = new(FilePath))
+            {
+                await writer.WriteAsync(configAsJSON);
+            }
+
+            await Task.Run(() =>
+            {
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            });
         }
 
 #if UNITY_EDITOR // Cloning, and determining equality or default-ness of a Config only happens in the editor.

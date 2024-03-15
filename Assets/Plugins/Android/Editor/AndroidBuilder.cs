@@ -327,8 +327,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static void ConfigureEOSDependentLibrary()
         {
-            string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
-            var eosConfigFile = new ConfigHandler<EOSConfig>(configFilePath);
+            var eosConfigFile = new ConfigHandler<EOSConfig>();
             eosConfigFile.Read();
             string clientIDAsLower = eosConfigFile.Data.clientID.ToLower();
 

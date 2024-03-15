@@ -22,6 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
+    using System.Threading.Tasks;
+
     // Interface for allowing adding additional config files to the Config editor
     public interface IConfigEditor
     {
@@ -34,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <summary>
         /// Loads the config values from disk.
         /// </summary>
-        void Load();
+        Task Load();
 
         /// <summary>
         /// Saves the configuration to disk.
@@ -45,6 +47,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// <summary>
         /// Render the editor for the configuration values.
         /// </summary>
-        void Render();
+        Task Render();
     }
 }

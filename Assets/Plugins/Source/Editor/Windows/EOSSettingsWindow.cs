@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
     using Utility;
@@ -133,19 +134,19 @@ _WIN32 || _WIN64
 
         // read data from json file, if it exists
         // TODO: Handle different versions of the file?
-        private void LoadConfigFromDisk()
+        private async Task LoadConfigFromDisk()
         {
             if (!Directory.Exists(GetConfigDirectory()))
             {
                 Directory.CreateDirectory(GetConfigDirectory());
             }
 
-            mainEOSConfigFile.Read();
-            steamEOSConfigFile.Read();
+            await mainEOSConfigFile.Read();
+            await steamEOSConfigFile.Read();
 
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                platformSpecificConfigEditor.Load();
+                await platformSpecificConfigEditor.Load();
             }
         }
 
@@ -165,10 +166,10 @@ _WIN32 || _WIN64
             return keywords;
         }
 
-        protected override void Setup()
+        protected override async Task AsyncSetup()
         {
-            mainEOSConfigFile = new ConfigHandler<EOSConfig>(GetConfigPath(EOSPackageInfo.ConfigFileName));
-            steamEOSConfigFile = new ConfigHandler<EOSSteamConfig>(GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
+            mainEOSConfigFile = new ConfigHandler<EOSConfig>();
+            steamEOSConfigFile = new ConfigHandler<EOSSteamConfig>();
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>
                 {
@@ -185,12 +186,13 @@ _WIN32 || _WIN64
             int i = 2;
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                platformSpecificConfigEditor.Load();
+                await platformSpecificConfigEditor.Load();
                 toolbarTitleStrings[i] = platformSpecificConfigEditor.GetLabelText();
                 i++;
             }
 
-            LoadConfigFromDisk();
+            await LoadConfigFromDisk();
+            await base.AsyncSetup();
         }
 
         private void SaveToJSONConfig(bool prettyPrint)
@@ -356,7 +358,7 @@ _WIN32 || _WIN64
                 }
                 if (!success)
                 {
-                    Debug.LogError("Failed to retrive Steamworks SDK version from Steamworks.NET");
+                    Debug.LogError("Failed to retrieve Steamworks SDK version from Steamworks.NET");
                 }
             }
         }
@@ -385,6 +387,7 @@ _WIN32 || _WIN64
                     {
                         platformSpecificConfigEditors[toolbarInt - 2].Render();
                     }
+
                     break;
             }
 
@@ -407,5 +410,6 @@ _WIN32 || _WIN64
                 EditorUtility.RevealInFinder(GetConfigDirectory());
             }
         }
+
     }
 }

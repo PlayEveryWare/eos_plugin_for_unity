@@ -174,8 +174,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             eosVersionConfigSection.Load();
 
-            string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
-            var eosConfigFile = new ConfigHandler<EOSConfig>(configFilePath);
+            var eosConfigFile = new ConfigHandler<EOSConfig>();
             eosConfigFile.Read();
 
             var previousProdVer = eosConfigFile.Data.productVersion;

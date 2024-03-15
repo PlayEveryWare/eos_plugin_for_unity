@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using System.IO;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all implementing classes.
@@ -36,7 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         protected ConfigEditor(string labelText)
         {
             _labelText = labelText;
-            //ConfigHandler = new ConfigHandler<T>(Path.Combine(ConfigDirectory, config_filename));
+            ConfigHandler = new ConfigHandler<T>();
         }
 
         public string GetLabelText()
@@ -49,14 +50,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return ConfigHandler;
         }
 
-        public void Load()
+        public async Task Load()
         {
-            ConfigHandler.Read();
-        }
-
-        public bool HasUnsavedChanges()
-        {
-            return ConfigHandler.HasChanges;
+            await ConfigHandler.Read();
         }
 
         public void Save(bool prettyPrint)
@@ -66,11 +62,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public abstract void RenderContents();
 
-        public void Render()
+        public async Task Render()
         {
             if (ConfigHandler == null)
             {
-                Load();
+                await Load();
             }
 
             RenderContents();

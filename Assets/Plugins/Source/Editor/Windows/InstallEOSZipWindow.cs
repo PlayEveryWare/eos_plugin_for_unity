@@ -31,6 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Build;
     using EpicOnlineServices.Utility;
+    using System.Threading.Tasks;
     using Utility;
 
     public class InstallEOSZipWindow : EOSEditorWindow
@@ -191,72 +192,80 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         
         protected override void RenderWindow()
         {
-            GUILayout.Label("Install EOS Files into project");
-            
-            DrawPresets();
-            foreach (var platformImportInfo in importInfoList.platformImportInfoList)
-            {
-                GUIEditorUtility.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
-            }
+                GUILayout.Label("Install EOS Files into project");
 
-            GUILayout.Label("");
-            GUILayout.Label("Select Zip Path");
-            GUILayout.BeginHorizontal(GUIStyle.none);
-            if (GUILayout.Button("Select", GUILayout.Width(100)))
-            {
-                pathToZipFile = EditorUtility.OpenFilePanel("Pick Zip File", "", "zip");
-            }
-            GUILayout.Label(pathToZipFile);
-            GUILayout.EndHorizontal();
-
-            if (GUILayout.Button("Install"))
-            {
-                string tmpDir = PackageFileUtility.GenerateTemporaryBuildPath();
-
-                try
+                DrawPresets();
+                foreach (var platformImportInfo in importInfoList.platformImportInfoList)
                 {
-                    UnzipFile(pathToZipFile, tmpDir);
-
-                    var toConvert = new List<string>();
-                    // Convert files to a consistant line ending
-                    foreach (var entity in Directory.EnumerateFiles(tmpDir, "*", SearchOption.AllDirectories))
-                    {
-                        if (Path.GetExtension(entity) == ".cs")
-                        {
-                            toConvert.Add(entity);
-                        }
-                    }
-
-                    for (int i = 0; i < toConvert.Count; ++i)
-                    {
-                        var entity = toConvert[i];
-                        EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity), (float)i / toConvert.Count);
-                        PackageFileUtility.Dos2UnixLineEndings(entity);
-                    }
-                    EditorUtility.ClearProgressBar();
-
-
-                    foreach (var platformImportInfo in importInfoList.platformImportInfoList)
-                    {
-                        if (platformImportInfo.isGettingImported)
-                        {
-                            var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
-                            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-
-                            var fileResults = PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
-                            // This should be the correct directory
-                            var projectDir = PackageFileUtility.GetProjectPath();
-                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
-                        }
-                    }
-
+                    GUIEditorUtility.AssigningBoolField(platformImportInfo.platform,
+                        ref platformImportInfo.isGettingImported, 300);
                 }
-                finally
+
+                GUILayout.Label("");
+                GUILayout.Label("Select Zip Path");
+                GUILayout.BeginHorizontal(GUIStyle.none);
+                if (GUILayout.Button("Select", GUILayout.Width(100)))
                 {
-                    //clean up unzipped files on success or error
-                    Directory.Delete(tmpDir, true);
+                    pathToZipFile = EditorUtility.OpenFilePanel("Pick Zip File", "", "zip");
                 }
-            }
+
+                GUILayout.Label(pathToZipFile);
+                GUILayout.EndHorizontal();
+
+                if (GUILayout.Button("Install"))
+                {
+                    string tmpDir = PackageFileUtility.GenerateTemporaryBuildPath();
+
+                    try
+                    {
+                        UnzipFile(pathToZipFile, tmpDir);
+
+                        var toConvert = new List<string>();
+                        // Convert files to a consistant line ending
+                        foreach (var entity in Directory.EnumerateFiles(tmpDir, "*", SearchOption.AllDirectories))
+                        {
+                            if (Path.GetExtension(entity) == ".cs")
+                            {
+                                toConvert.Add(entity);
+                            }
+                        }
+
+                        for (int i = 0; i < toConvert.Count; ++i)
+                        {
+                            var entity = toConvert[i];
+                            EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity),
+                                (float)i / toConvert.Count);
+                            PackageFileUtility.Dos2UnixLineEndings(entity);
+                        }
+
+                        EditorUtility.ClearProgressBar();
+
+
+                        foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+                        {
+                            if (platformImportInfo.isGettingImported)
+                            {
+                                var JSONPackageDescription =
+                                    File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
+                                var packageDescription =
+                                    JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+
+                                var fileResults =
+                                    PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir,
+                                        packageDescription);
+                                // This should be the correct directory
+                                var projectDir = PackageFileUtility.GetProjectPath();
+                                PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
+                            }
+                        }
+
+                    }
+                    finally
+                    {
+                        //clean up unzipped files on success or error
+                        Directory.Delete(tmpDir, true);
+                    }
+                }
         }
     }
 }

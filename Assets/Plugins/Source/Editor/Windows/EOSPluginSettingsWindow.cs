@@ -28,6 +28,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using System.Threading.Tasks;
     using Utility;
 
     /// <summary>
