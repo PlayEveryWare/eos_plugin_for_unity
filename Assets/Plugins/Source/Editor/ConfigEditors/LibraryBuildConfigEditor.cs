@@ -27,10 +27,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
     public class LibraryBuildConfigEditor : ConfigEditor<LibraryBuildConfig>
     {
-        public LibraryBuildConfigEditor() : base("Platform Library Build Settings",
-            "eos_plugin_library_build_config.json")
-        {
-        }
+        public LibraryBuildConfigEditor() : 
+            base("Platform Library Build Settings")
+        { }
 
         public override void RenderContents()
         {

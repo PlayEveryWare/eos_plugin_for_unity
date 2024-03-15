@@ -26,6 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 
     public class PackagingConfig : Config
     {
+        public PackagingConfig() : base("eos_plugin_packaging_config.json") { }
         public string customBuildDirectoryPath;
         public string pathToJSONPackageDescription;
         public string pathToOutput;

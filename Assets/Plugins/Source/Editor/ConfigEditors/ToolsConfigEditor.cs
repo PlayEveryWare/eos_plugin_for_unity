@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
     public class ToolsConfigEditor : ConfigEditor<ToolsConfig>
     {
-        public ToolsConfigEditor() : base("Tools", "eos_plugin_tools_config.json") { }
+        public ToolsConfigEditor() : base("Tools") { }
 
         public override void RenderContents()
         {

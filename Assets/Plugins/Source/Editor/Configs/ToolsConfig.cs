@@ -32,6 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     [Serializable]
     public class ToolsConfig : Config
     {
+        public ToolsConfig() : base("eos_plugin_tools_config.json") { }
+
         /// <value><c>Path To EAC integrity tool</c> The path to find the tool used for generating EAC certs</value>
         public string pathToEACIntegrityTool;
         public string pathToEACIntegrityConfig;

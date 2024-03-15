@@ -27,18 +27,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all implementing classes.
     /// </summary>
-    /// <typeparam name="T">Indented to be a type accepted by the templated class EOSConfigFile.</typeparam>
+    /// <typeparam name="T">Intended to be a type accepted by the templated class EOSConfigFile.</typeparam>
     public abstract class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config, new()
     {
-        private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
-
         private readonly string _labelText;
         protected ConfigHandler<T> ConfigHandler;
 
-        protected ConfigEditor(string labelText, string config_filename)
+        protected ConfigEditor(string labelText)
         {
             _labelText = labelText;
-            ConfigHandler = new ConfigHandler<T>(Path.Combine(ConfigDirectory, config_filename));
+            //ConfigHandler = new ConfigHandler<T>(Path.Combine(ConfigDirectory, config_filename));
         }
 
         public string GetLabelText()

@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
     public class PrebuildConfigEditor : ConfigEditor<PrebuildConfig>
     {
-        public PrebuildConfigEditor() : base("Prebuild Settings", "eos_plugin_version_config.json") { }
+        public PrebuildConfigEditor() : base("Prebuild Settings") { }
 
         /// <summary>
         /// It's possible for the config file to not load in certain cases (like making test builds).

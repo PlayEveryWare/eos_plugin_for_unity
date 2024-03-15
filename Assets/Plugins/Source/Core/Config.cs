@@ -24,10 +24,12 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Linq;
+    using UnityEngine;
 
 #if UNITY_EDITOR // only use reflection in the editor
     using System.Collections.Generic;
     using System.Reflection;
+    using System.IO;
 #endif
 
     /// <summary>
@@ -37,6 +39,26 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public abstract class Config : ICloneable
     {
+        protected static readonly string ConfigDirectory = Path.Combine(Application.dataPath, "StreamingAssets", "EOS");
+        protected readonly string Filename;
+        protected readonly string Directory;
+
+        protected Config(string filename) : this(filename, ConfigDirectory) { }
+
+        protected Config(string filename, string directory)
+        {
+            Filename = filename;
+            Directory = directory;
+        }
+
+        public string Filepath
+        {
+            get
+            {
+                return Path.Combine(Directory, Filename);
+            }
+        }
+
 #if UNITY_EDITOR // Cloning, and determining equality or default-ness of a Config only happens in the editor.
         /// <summary>
         /// Determines whether or not the values in the Config have their
@@ -51,7 +73,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
 #endif
-
 
         /// <summary>
         /// Returns member-wise clone of configuration data

@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
     public class SigningConfigEditor : ConfigEditor<SigningConfig>
     {
-        public SigningConfigEditor() : base("Code Signing", "eos_plugin_signing_config.json") { }
+        public SigningConfigEditor() : base("Code Signing") { }
 
         [MenuItem("Tools/EOS Plugin/Sign DLLs")]
         static void SignAllDLLs()

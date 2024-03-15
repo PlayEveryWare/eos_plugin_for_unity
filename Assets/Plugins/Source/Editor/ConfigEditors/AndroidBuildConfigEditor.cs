@@ -26,8 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
     public class AndroidBuildConfigEditor : ConfigEditor<AndroidBuildConfig>
     {
-        public AndroidBuildConfigEditor() : base("Android Build Settings",
-            "eos_plugin_android_build_config.json")
+        public AndroidBuildConfigEditor() : base("Android Build Settings")
         {
         }
 

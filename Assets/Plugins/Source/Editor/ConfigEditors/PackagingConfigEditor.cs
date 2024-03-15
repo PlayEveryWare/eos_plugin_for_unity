@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
     public class PackagingConfigEditor : ConfigEditor<PackagingConfig>
     {
-        public PackagingConfigEditor() : base("Packaging", "eos_plugin_packaging_config.json") { }
+        public PackagingConfigEditor() : base("Packaging") { }
 
         public PackagingConfig GetCurrentConfig()
         {

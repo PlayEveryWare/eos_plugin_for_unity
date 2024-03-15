@@ -37,7 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         protected PlatformManager.Platform Platform;
 
         protected PlatformConfigEditor(PlatformManager.Platform platform) :
-            base(PlatformManager.GetFullName(platform), PlatformManager.GetConfigFilePath(platform))
+            base(PlatformManager.GetFullName(platform))
         {
             this.Platform = platform;
         }
