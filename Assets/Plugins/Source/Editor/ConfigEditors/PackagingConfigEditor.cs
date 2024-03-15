@@ -31,21 +31,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public PackagingConfig GetCurrentConfig()
         {
-            return ConfigHandler.Data;
+            return config;
         }
 
         public override void RenderContents()
         {
-            string pathToJSONPackageDescription = (ConfigHandler.Data.pathToJSONPackageDescription);
-            string customBuildDirectoryPath = (ConfigHandler.Data.customBuildDirectoryPath);
-            string pathToOutput = (ConfigHandler.Data.pathToOutput);
+            string pathToJSONPackageDescription = (config.pathToJSONPackageDescription);
+            string customBuildDirectoryPath = (config.customBuildDirectoryPath);
+            string pathToOutput = (config.pathToOutput);
             GUIEditorUtility.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
             GUIEditorUtility.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
             GUIEditorUtility.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
 
-            ConfigHandler.Data.pathToJSONPackageDescription = pathToJSONPackageDescription;
-            ConfigHandler.Data.customBuildDirectoryPath = customBuildDirectoryPath;
-            ConfigHandler.Data.pathToOutput = pathToOutput;
+            config.pathToJSONPackageDescription = pathToJSONPackageDescription;
+            config.customBuildDirectoryPath = customBuildDirectoryPath;
+            config.pathToOutput = pathToOutput;
         }
     }
 }

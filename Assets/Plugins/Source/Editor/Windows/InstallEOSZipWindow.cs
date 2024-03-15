@@ -71,60 +71,54 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         static public void UnzipEntry(ZipArchiveEntry zipEntry, string pathName)
         {
-            using (var destStream = File.OpenWrite(pathName))
-            {
-                zipEntry.Open().CopyTo(destStream);
-            }
+            using var destStream = File.OpenWrite(pathName);
+            zipEntry.Open().CopyTo(destStream);
         }
 
         
         static public void UnzipFile(string pathToZipFile, string dest)
         {
             // unzip files
-            using (var filestream = new FileStream(pathToZipFile, FileMode.Open))
+            using var filestream = new FileStream(pathToZipFile, FileMode.Open);
+            using var zipArchive = new ZipArchive(filestream);
+            string extraPath = "";
+            //search for guaranteed file to check if SDK root is inside any extraneous subfolders
+            foreach (var zipEntry in zipArchive.Entries)
             {
-                using (var zipArchive = new ZipArchive(filestream))
+                if (zipEntry.FullName.EndsWith("SDK/Tools/EOSBootstrapper.exe"))
                 {
-                    string extraPath = "";
-                    //search for guaranteed file to check if SDK root is inside any extraneous subfolders
-                    foreach (var zipEntry in zipArchive.Entries)
-                    {
-                        if (zipEntry.FullName.EndsWith("SDK/Tools/EOSBootstrapper.exe"))
-                        {
-                            extraPath = zipEntry.FullName.Replace("SDK/Tools/EOSBootstrapper.exe", "");
-                            break;
-                        }
-                    }
-
-                    int zipCount = zipArchive.Entries.Count;
-                    float i = 0.0f;
-                    foreach (var zipEntry in zipArchive.Entries)
-                    {
-                        if (string.IsNullOrWhiteSpace(zipEntry.Name))
-                        {
-                            i += 1.0f;
-                            continue;
-                        }
-
-                        EditorUtility.DisplayProgressBar("Unzipping file", "Unzipping " + Path.GetFileName(pathToZipFile), i / zipCount);
-                        string targetPath = zipEntry.FullName;
-                        if (!string.IsNullOrEmpty(extraPath))
-                        {
-                            targetPath = targetPath.Replace(extraPath, "");
-                        }
-                        string pathName = Path.Combine(dest, targetPath);
-                        string parentDirectory = Path.GetDirectoryName(pathName);
-                        if (!Directory.Exists(parentDirectory))
-                        {
-                            Directory.CreateDirectory(parentDirectory);
-                        }
-
-                        UnzipEntry(zipEntry, pathName);
-                        i += 1.0f;
-                    }
-                    EditorUtility.ClearProgressBar();
+                    extraPath = zipEntry.FullName.Replace("SDK/Tools/EOSBootstrapper.exe", "");
+                    break;
                 }
             }
+
+            int zipCount = zipArchive.Entries.Count;
+            float i = 0.0f;
+            foreach (var zipEntry in zipArchive.Entries)
+            {
+                if (string.IsNullOrWhiteSpace(zipEntry.Name))
+                {
+                    i += 1.0f;
+                    continue;
+                }
+
+                EditorUtility.DisplayProgressBar("Unzipping file", "Unzipping " + Path.GetFileName(pathToZipFile), i / zipCount);
+                string targetPath = zipEntry.FullName;
+                if (!string.IsNullOrEmpty(extraPath))
+                {
+                    targetPath = targetPath.Replace(extraPath, "");
+                }
+                string pathName = Path.Combine(dest, targetPath);
+                string parentDirectory = Path.GetDirectoryName(pathName);
+                if (!Directory.Exists(parentDirectory))
+                {
+                    Directory.CreateDirectory(parentDirectory);
+                }
+
+                UnzipEntry(zipEntry, pathName);
+                i += 1.0f;
+            }
+            EditorUtility.ClearProgressBar();
         }
         
         protected override void Setup()

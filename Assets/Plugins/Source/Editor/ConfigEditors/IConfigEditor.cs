@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         /// Saves the configuration to disk.
         /// </summary>
         /// <param name="prettyPrint">Whether or not to format the JSON in a more human-readable manner.</param>
-        void Save(bool prettyPrint);
+        Task Save(bool prettyPrint);
 
         /// <summary>
         /// Render the editor for the configuration values.

@@ -432,100 +432,102 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         public static void ConfigureEAC(BuildReport report)
         {
-            if (ScriptingDefineUtility.IsEOSDisabled(report.summary.platform))
-            {
-                return;
-            }
+            // TODO: Re-enable
 
-            // Get the output path, and install the launcher if on a target that supports it
-            if (report.summary.platform == BuildTarget.StandaloneWindows ||
-                report.summary.platform == BuildTarget.StandaloneWindows64 ||
-                report.summary.platform == BuildTarget.StandaloneOSX ||
-                report.summary.platform == BuildTarget.StandaloneLinux64)
-            {
-                // Determine whether or not to install EAC
-                var editorToolsConfigSection = new ToolsConfigEditor();
-                ToolsConfig editorToolConfig = null;
-                bool useEAC = false;
+//            if (ScriptingDefineUtility.IsEOSDisabled(report.summary.platform))
+//            {
+//                return;
+//            }
 
-                editorToolsConfigSection.Load();
+//            // Get the output path, and install the launcher if on a target that supports it
+//            if (report.summary.platform == BuildTarget.StandaloneWindows ||
+//                report.summary.platform == BuildTarget.StandaloneWindows64 ||
+//                report.summary.platform == BuildTarget.StandaloneOSX ||
+//                report.summary.platform == BuildTarget.StandaloneLinux64)
+//            {
+//                // Determine whether or not to install EAC
+//                var editorToolsConfigSection = new ToolsConfigEditor();
+//                ToolsConfig editorToolConfig = null;
+//                bool useEAC = false;
 
-                editorToolConfig = editorToolsConfigSection.GetConfig().Data;
-                if (editorToolConfig != null)
-                {
-                    useEAC = editorToolConfig.useEAC;
-                }
+//                editorToolsConfigSection.Load();
 
-                // if EAC is not supposed to be installed, then stop here
-                if (!useEAC)
-                {
-                    return;
-                }
+//                editorToolConfig = editorToolsConfigSection.GetConfig().Data;
+//                if (editorToolConfig != null)
+//                {
+//                    useEAC = editorToolConfig.useEAC;
+//                }
 
-                InstallEACFiles(report);
+//                // if EAC is not supposed to be installed, then stop here
+//                if (!useEAC)
+//                {
+//                    return;
+//                }
 
-                if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACSplashImage))
-                {
-                    CopySplashImage(report, editorToolConfig.pathToEACSplashImage);
-                }
+//                InstallEACFiles(report);
 
-#if UNITY_EDITOR_WIN
-                if (report.summary.platform == BuildTarget.StandaloneWindows ||
-                    report.summary.platform == BuildTarget.StandaloneWindows64)
-                {
-                    string bootstrapperName = null;
-                    if (editorToolConfig != null)
-                    {
-                        bootstrapperName = editorToolConfig.bootstrapperNameOverride;
-                    }
+//                if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACSplashImage))
+//                {
+//                    CopySplashImage(report, editorToolConfig.pathToEACSplashImage);
+//                }
 
-                    if (string.IsNullOrWhiteSpace(bootstrapperName))
-                    {
-                        bootstrapperName = "EOSBootstrapper.exe";
-                    }
+//#if UNITY_EDITOR_WIN
+//                if (report.summary.platform == BuildTarget.StandaloneWindows ||
+//                    report.summary.platform == BuildTarget.StandaloneWindows64)
+//                {
+//                    string bootstrapperName = null;
+//                    if (editorToolConfig != null)
+//                    {
+//                        bootstrapperName = editorToolConfig.bootstrapperNameOverride;
+//                    }
 
-                    if (!bootstrapperName.EndsWith(".exe"))
-                    {
-                        bootstrapperName += ".exe";
-                    }
+//                    if (string.IsNullOrWhiteSpace(bootstrapperName))
+//                    {
+//                        bootstrapperName = "EOSBootstrapper.exe";
+//                    }
 
-                    string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
+//                    if (!bootstrapperName.EndsWith(".exe"))
+//                    {
+//                        bootstrapperName += ".exe";
+//                    }
 
-                    string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
+//                    string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
 
-                    string bootstrapperTarget =
-                        useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
+//                    string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
 
-                    InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
-                        bootstrapperName);
-                }
-#endif
+//                    string bootstrapperTarget =
+//                        useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
 
-                if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
-                    !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACCertificate))
-                {
-                    bool defaultTool = false;
-                    string toolPath = editorToolConfig.pathToEACIntegrityTool;
-                    if (string.IsNullOrWhiteSpace(toolPath))
-                    {
-                        toolPath = GetDefaultIntegrityToolPath();
-                        defaultTool = true;
-                    }
+//                    InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
+//                        bootstrapperName);
+//                }
+//#endif
 
-                    string cfgPath = editorToolConfig.pathToEACIntegrityConfig;
-                    if (string.IsNullOrWhiteSpace(cfgPath) && defaultTool)
-                    {
-                        //use default cfg if no cfg is specified and default tool path is used
-                        cfgPath = GetDefaultIntegrityConfigPath();
-                    }
+//                if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
+//                    !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACCertificate))
+//                {
+//                    bool defaultTool = false;
+//                    string toolPath = editorToolConfig.pathToEACIntegrityTool;
+//                    if (string.IsNullOrWhiteSpace(toolPath))
+//                    {
+//                        toolPath = GetDefaultIntegrityToolPath();
+//                        defaultTool = true;
+//                    }
 
-                    if (!string.IsNullOrWhiteSpace(toolPath))
-                    {
-                        GenerateIntegrityCert(report, toolPath, GetEOSConfig().productID,
-                            editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate, cfgPath);
-                    }
-                }
-            }
+//                    string cfgPath = editorToolConfig.pathToEACIntegrityConfig;
+//                    if (string.IsNullOrWhiteSpace(cfgPath) && defaultTool)
+//                    {
+//                        //use default cfg if no cfg is specified and default tool path is used
+//                        cfgPath = GetDefaultIntegrityConfigPath();
+//                    }
+
+//                    if (!string.IsNullOrWhiteSpace(toolPath))
+//                    {
+//                        GenerateIntegrityCert(report, toolPath, GetEOSConfig().productID,
+//                            editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate, cfgPath);
+//                    }
+//                }
+//            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public override void RenderContents()
         {
-            GUIEditorUtility.AssigningBoolField("Link EOS Library Dynamically", ref ConfigHandler.Data.DynamicallyLinkEOSLibrary);
+            GUIEditorUtility.AssigningBoolField("Link EOS Library Dynamically", ref config.DynamicallyLinkEOSLibrary);
         }
     }
 }

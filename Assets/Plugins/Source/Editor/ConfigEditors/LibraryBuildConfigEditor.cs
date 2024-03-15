@@ -33,15 +33,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public override void RenderContents()
         {
-            string msbuildPath = (ConfigHandler.Data.msbuildPath);
-            string makePath = (ConfigHandler.Data.makePath);
-            bool msbuildDebug = ConfigHandler.Data.msbuildDebug;
+            string msbuildPath = (config.msbuildPath);
+            string makePath = (config.makePath);
+            bool msbuildDebug = config.msbuildDebug;
             GUIEditorUtility.AssigningPath("MSBuild path", ref msbuildPath, "Select MSBuild", labelWidth: 80);
             GUIEditorUtility.AssigningPath("Make path", ref makePath, "Select make", labelWidth: 80);
             GUIEditorUtility.AssigningBoolField("Use debug config for MSBuild", ref msbuildDebug, labelWidth: 180);
-            ConfigHandler.Data.msbuildPath = msbuildPath;
-            ConfigHandler.Data.makePath = makePath;
-            ConfigHandler.Data.msbuildDebug = msbuildDebug;
+            config.msbuildPath = msbuildPath;
+            config.makePath = makePath;
+            config.msbuildDebug = msbuildDebug;
         }
     }
 }

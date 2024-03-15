@@ -29,15 +29,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     {
         public PrebuildConfigEditor() : base("Prebuild Settings") { }
 
-        /// <summary>
-        /// It's possible for the config file to not load in certain cases (like making test builds).
-        /// </summary>
-        public bool IsValid => ConfigHandler != null;
-
         public override void RenderContents()
         {
             GUIEditorUtility.AssigningBoolField("Use Unity App Version for the EOS product version",
-                ref ConfigHandler.Data.useAppVersionAsProductVersion);
+                ref config.useAppVersionAsProductVersion);
         }
     }
 }

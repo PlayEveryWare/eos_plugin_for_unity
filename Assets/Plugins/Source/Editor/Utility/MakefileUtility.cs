@@ -104,55 +104,60 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         private static string GetMSBuildPath()
         {
-            var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Load();
+            // TODO: Re-enable
+            //var configEditor = new LibraryBuildConfigEditor();
+            //configEditor.Load();
 
-            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
-            {
-                return configEditor.GetConfig().Data.msbuildPath;
-            }
-            else if (RunProcess("where", "msbuild", printOutput: false, printError: false) != 0)
-            {
-                return "msbuild";
-            }
-            else
-            {
-                return null;
-            }
+            //if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
+            //{
+            //    return configEditor.GetConfig().Data.msbuildPath;
+            //}
+            //else if (RunProcess("where", "msbuild", printOutput: false, printError: false) != 0)
+            //{
+            //    return "msbuild";
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+            return "msbuild";
         }
 
         private static string GetMakePath()
         {
-            var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Load();
+            //var configEditor = new LibraryBuildConfigEditor();
+            //configEditor.Load();
 
-            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.makePath))
-            {
-                return configEditor.GetConfig().Data.makePath;
-            }
-            else if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
-            {
-                return "make";
-            }
-            else
-            {
-                return null;
-            }
+            //if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.makePath))
+            //{
+            //    return configEditor.GetConfig().Data.makePath;
+            //}
+            //else if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
+            //{
+            //    return "make";
+            //}
+            //else
+            //{
+            //    return null;
+            //}
+            return "make";
         }
 
         private static bool IsMSBuildDebugEnabled()
         {
-            var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Load();
+            //var configEditor = new LibraryBuildConfigEditor();
+            //configEditor.Load();
 
-            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
-            {
-                return configEditor.GetConfig().Data.msbuildDebug;
-            }
-            else
-            {
-                return false;
-            }
+            //if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
+            //{
+            //    return configEditor.GetConfig().Data.msbuildDebug;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+
+            return false;
         }
 
         public static void RunMSBuild(string solutionName, string platform, string workingDir = "")

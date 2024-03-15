@@ -23,9 +23,11 @@
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
     using Editor;
+    using Editor.Config;
     using Editor.Utility;
     using System;
     using System.IO;
+    using System.Threading.Tasks;
     using UnityEditor;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
@@ -151,7 +153,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// </summary>
         private static void ConfigureVersions()
         {
-            AutoSetProductVersion();
+            // TODO: DANGEROUS WAITING. There Isn't a reason I can think of that AutoSetProductVersion
+            //       task would fail, but that's just the kind of thing that could end up in an inf 
+            //       loop
+            AutoSetProductVersion().Wait(10000);
 
             const string packageVersionPath = "Assets/Resources/eosPluginVersion.asset";
             string packageVersion = EOSPackageInfo.GetPackageVersion();
@@ -167,32 +172,15 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <summary>
         /// Determines whether the Application Version is supposed to be used as the product version, and (if so) sets it accordingly.
         /// </summary>
-        private static void AutoSetProductVersion()
+        private static async Task AutoSetProductVersion()
         {
 #if !EOS_DISABLE
-            var eosVersionConfigSection = new PrebuildConfigEditor();
+            var eosConfig = await Config.Get<EOSConfig>();
+            var eosVersionConfig = await Config.Get<PrebuildConfig>();
 
-            eosVersionConfigSection.Load();
-
-            var eosConfigFile = new ConfigHandler<EOSConfig>();
-            eosConfigFile.Read();
-
-            var previousProdVer = eosConfigFile.Data.productVersion;
-            var currentSectionConfig = eosVersionConfigSection.GetConfig().Data;
-
-            if (currentSectionConfig == null)
+            if (eosVersionConfig.useAppVersionAsProductVersion)
             {
-                return;
-            }
-
-            if (currentSectionConfig.useAppVersionAsProductVersion)
-            {
-                eosConfigFile.Data.productVersion = Application.version;
-            }
-
-            if (previousProdVer != eosConfigFile.Data.productVersion)
-            {
-                eosConfigFile.Write(true);
+                eosConfig.productVersion = Application.version;
             }
 #endif
         }

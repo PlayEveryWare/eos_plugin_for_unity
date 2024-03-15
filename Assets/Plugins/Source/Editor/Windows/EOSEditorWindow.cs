@@ -139,6 +139,7 @@ public abstract class EOSEditorWindow : EditorWindow
     {
         // default implementation does nothing.
         await Task.Run(() => { });
+        Debug.Log("Window has been initialized.");
         _initializedState = State.Initialized;
     }
 
@@ -147,6 +148,7 @@ public abstract class EOSEditorWindow : EditorWindow
     /// </summary>
     protected virtual void Setup()
     {
+        Debug.Log("Synchronous setup running.");
         foreach (var fieldKeyPair in RetainableFields)
         {
             if (fieldKeyPair.Field.FieldType.IsValueType)
@@ -201,6 +203,7 @@ public abstract class EOSEditorWindow : EditorWindow
         if (_initializedState is State.Initialized or State.Initializing) return;
 
         _initializedState = State.Initializing;
+        Debug.Log("Initializing window");
 
         // Otherwise, run the setup function
         Setup();

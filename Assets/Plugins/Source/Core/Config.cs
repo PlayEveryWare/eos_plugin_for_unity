@@ -40,13 +40,14 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Unity
     /// </summary>
     [Serializable]
-    public abstract class Config : ICloneable
+    public abstract class Config : ICloneable, IAsyncDisposable
     {
-        protected static readonly string ConfigDirectory = Path.Combine(Application.dataPath, "StreamingAssets", "EOS");
         protected readonly string Filename;
         protected readonly string Directory;
 
-        protected Config(string filename) : this(filename, ConfigDirectory) { }
+        private string _lastReadJsonString;
+
+        protected Config(string filename) : this(filename, Path.Combine(Application.streamingAssetsPath, "EOS")) { }
 
         protected Config(string filename, string directory)
         {
@@ -54,16 +55,11 @@ namespace PlayEveryWare.EpicOnlineServices
             Directory = directory;
         }
 
-        public static async Task<T> CreateAsync<T>() where T : Config, new()
+        public static async Task<T> Get<T>() where T : Config, new()
         {
             T instance = new();
-            await instance.InitializeAsync();
+            await instance.ReadAsync();
             return instance;
-        }
-
-        protected async Task InitializeAsync()
-        {
-            await ReadAsync();
         }
 
         public string FilePath
@@ -82,8 +78,8 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 using (StreamReader reader = new(FilePath))
                 {
-                    string configJSON = await reader.ReadToEndAsync();
-                    JsonUtility.FromJsonOverwrite(configJSON, this);
+                    _lastReadJsonString = await reader.ReadToEndAsync();
+                    JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
                 }
             }
             else
@@ -350,6 +346,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     MemberValue = field.GetValue(instance)
                 };
             }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await WriteAsync(true);
         }
 
         #endregion

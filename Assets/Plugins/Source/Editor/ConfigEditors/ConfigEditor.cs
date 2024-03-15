@@ -32,12 +32,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     public abstract class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config, new()
     {
         private readonly string _labelText;
-        protected ConfigHandler<T> ConfigHandler;
+        protected T config;
 
         protected ConfigEditor(string labelText)
         {
             _labelText = labelText;
-            ConfigHandler = new ConfigHandler<T>();
         }
 
         public string GetLabelText()
@@ -45,26 +44,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return _labelText;
         }
 
-        public ConfigHandler<T> GetConfig()
-        {
-            return ConfigHandler;
-        }
-
         public async Task Load()
         {
-            await ConfigHandler.Read();
+            config = await EpicOnlineServices.Config.Get<T>();
         }
 
-        public void Save(bool prettyPrint)
+        public async Task Save(bool prettyPrint)
         {
-            ConfigHandler.Write(prettyPrint);
+            await config.WriteAsync(prettyPrint);
         }
 
         public abstract void RenderContents();
 
         public async Task Render()
         {
-            if (ConfigHandler == null)
+            if (config == null)
             {
                 await Load();
             }
