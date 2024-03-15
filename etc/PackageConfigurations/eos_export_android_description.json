@@ -1,6 +1,6 @@
 {
     "source_to_dest": [
-        {"comment": "--------------------------------Prerelease platforms-----------------------------------------"},
+
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/*.cs", "dest": "Runtime/EOS_SDK/Generated/Android/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Android/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Android/"},
