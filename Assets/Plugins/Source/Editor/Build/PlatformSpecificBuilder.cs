@@ -203,9 +203,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         }
 
         /// <summary>
-        /// Checks to see that native code for the platform has been compiled. Will list all missing files in the error log before throwing an exception.
+        /// Checks to see that native code for the platform has been compiled.
+        /// Will list all missing files in the error log before throwing an exception.
         /// </summary>
-        /// <exception cref="BuildFailedException">Will be thrown if any expected output binary file is missing</exception>
+        /// <exception cref="BuildFailedException">Will be thrown if any expected output binary file is missing.</exception>
         private void ValidateNativeBinaries()
         {
             bool prerequisitesSatisfied = true;

@@ -51,6 +51,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     {
         public WindowsBuilder32() : base("Plugins/Windows/x86")
         {
+            // TODO: These libraries do not appear to be building properly - and the process
+            //       also appears to delete the x64 libraries. It's possible that both things
+            //       are caused by some other process.
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
                 "DynamicLibraryLoaderHelper-x86.dll",
