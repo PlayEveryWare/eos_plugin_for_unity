@@ -44,6 +44,9 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.IO;
+    using System.Linq;
+
     public class UILoginMenu : MonoBehaviour
     {
         [Header("Authentication UI")]
@@ -72,6 +75,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
 
+        /// <summary>
+        /// This field contains information about the scenes that the user can select from.
+        /// </summary>
+        [Header("Scene Information")] 
+        public SceneData SceneInformation;
+
         [Header("Controller")]
         public GameObject UIFirstSelected;
         public GameObject UIFindSelectable;
@@ -98,6 +107,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Awake()
         {
+            Debug.Log("Awake called for UILoginMenu");
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
 #if UNITY_EDITOR
@@ -118,6 +128,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH)
             Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
 #endif
+            Debug.Log("Awake has finished.");
         }
 
         private void CacheIdInputField(string value)
@@ -128,18 +139,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private void CacheTokenField(string value)
         {
             TokenGlobalCache = value;
-        }
-
-        public void OnDemoSceneChange(int value)
-        {
-            string sceneName = SceneSwitcherDropDown.options[value]?.text;
-            if (string.IsNullOrWhiteSpace(sceneName) || value == 0)
-            {
-                return;
-            }
-            sceneName = sceneName.Replace(" ", "").Replace("&", "And");
-            Debug.LogFormat("UILoginMenu (OnDemoSceneChanged): value = {0}", sceneName);
-            SceneManager.LoadScene(sceneName);
         }
 
         public void OnDropdownChange(int value)
@@ -214,6 +213,70 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             ConfigureUIForLogin();
 
             system = EventSystem.current;
+
+            // Populate the Scene dropdown.
+            SetupSceneDropdown();
+        }
+
+        private void SetupSceneDropdown()
+        {
+            // Get the currently active scene name.
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            string currentSceneFriendlyName = string.Empty;
+            
+            // To store the friendly names for the scenes.
+            List<string> sceneFriendlyNames = new();
+
+            // Loop through the scene information provided.
+            foreach (var sceneInfo in SceneInformation.scenes)
+            {
+                // Check to make sure it's a valid scene. This should prevent
+                // the scene data asset from ever listing scenes that cannot be loaded.
+                if (!SceneUtility.IsValidSceneName(sceneInfo.sceneName))
+                {
+                    throw new InvalidDataException($"Invalid scene name provided in SceneData asset.");
+                }
+                // Check to make sure that the scene actually exists
+                // look for the friendly name of the current active scene.
+                if (sceneInfo.sceneName == currentSceneName)
+                    currentSceneFriendlyName = sceneInfo.friendlyName;
+
+                // populate the list of friendly names for the scene.
+                sceneFriendlyNames.Add(sceneInfo.friendlyName);
+            }
+
+            // Check to make sure that the friendly name for the scene was found.
+            if (string.IsNullOrEmpty(currentSceneFriendlyName))
+            {
+                throw new InvalidDataException($"Cannot find friendly name for scene name \"{currentSceneName}\".");
+            }
+
+            // alphabetize the scene names.
+            sceneFriendlyNames.Sort();
+
+            // Add the sorted list of friendly names to the dropdown, clearing the options first.
+            SceneSwitcherDropDown.ClearOptions();
+            SceneSwitcherDropDown.AddOptions(sceneFriendlyNames);
+
+            // Determine which scene to indicate is currently loaded.
+            int currentSceneIndex = sceneFriendlyNames.IndexOf(currentSceneFriendlyName);
+
+            // Set that index to be the current value.
+            SceneSwitcherDropDown.value = currentSceneIndex;
+
+            // Listen for the value to change, and load the selected scene when it does.
+            SceneSwitcherDropDown.onValueChanged.AddListener(index =>
+            {
+                string friendlySceneNameSelected = SceneSwitcherDropDown.options[index]?.text;
+
+                var sceneToLoad = SceneInformation.scenes
+                    .Where(info => info.friendlyName == friendlySceneNameSelected)
+                    .Select(info => info.sceneName)
+                    .FirstOrDefault();
+
+                Debug.LogFormat("UILoginMenu (OnDemoSceneChanged): value = {0}", sceneToLoad);
+                SceneManager.LoadScene(sceneToLoad);
+            });
         }
 
         private void EnterPressedToLogin()
