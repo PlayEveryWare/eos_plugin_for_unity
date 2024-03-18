@@ -59,10 +59,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             return provider;
         }
 
-        [MenuItem("Tools/EOS Plugin/Configuration")]
+        [MenuItem("Tools/EOS Plugin/Plugin Configuration")]
         public static void ShowWindow()
         {
-            GetWindow<EOSPluginSettingsWindow>("EOS Plugin Config");
+            GetWindow<EOSPluginSettingsWindow>("EOS Plugin Configuration");
         }
 
         private static string GetConfigDirectory()

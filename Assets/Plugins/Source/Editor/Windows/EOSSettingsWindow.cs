@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSSettingsWindow : EOSEditorWindow
     {
-        private static readonly string WindowTitle = "EOS Dev Portal Configuration";
+        private static readonly string WindowTitle = "EOS Configuration";
         private const string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
         private List<IConfigEditor> platformSpecificConfigEditors;
@@ -52,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         ConfigHandler<EOSSteamConfig> steamEOSConfigFile;
 
-        [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
+        [MenuItem("Tools/EOS Plugin/EOS Configuration")]
         public static void ShowWindow()
         {
             GetWindow<EOSSettingsWindow>(WindowTitle);
