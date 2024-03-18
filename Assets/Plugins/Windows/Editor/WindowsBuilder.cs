@@ -168,7 +168,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    Debug.Log(e.Data);
+                    Debug.Log($"BootstrapperTool stdout: \"{e.Data}\"");
                 }
             };
 
@@ -176,13 +176,15 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             {
                 if (!string.IsNullOrEmpty(e.Data))
                 {
-                    Debug.LogError(e.Data);
+                    Debug.LogError($"BootstrapperTool stderr: \"{e.Data}\"");
                 }
             };
 
             if (false == process.Start())
             {
-                throw new BuildFailedException($"Failed to run the BootstrapperTool \"{pathToEOSBootStrapperTool}\".");
+                throw new BuildFailedException(
+                    $"Failed to run the BootstrapperTool \"{pathToEOSBootStrapperTool}\". Please see log for more details."
+                    );
             }
 
             process.BeginOutputReadLine();
