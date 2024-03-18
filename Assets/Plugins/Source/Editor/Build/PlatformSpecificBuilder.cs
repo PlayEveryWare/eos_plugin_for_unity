@@ -29,6 +29,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
     using Debug = UnityEngine.Debug;
+    using UnityEditor;
+    using PlayEveryWare.EpicOnlineServices.Editor;
 
     public abstract class PlatformSpecificBuilder : IPlatformSpecificBuilder
     {
@@ -85,7 +87,14 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="report"></param>
         public virtual void PreBuild(BuildReport report)
         {
-            EnsurePlatformPrerequisites();
+            // Check to make sure that the platform configuration exists
+            CheckPlatformConfiguration();
+
+            // Configure the version numbers per user defined preferences
+            ConfigureVersion();
+
+            // Check to make sure that the binaries for the platform exist, and build them if necessary.
+            CheckPlatformBinaries();
         }
 
         /// <summary>
@@ -104,11 +113,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         }
 
         /// <summary>
-        /// Check for platform specific prerequisites. If this method is overridden, be sure to start by calling the
+        /// Check for platform specific binaries. If this method is overridden, be sure to start by calling the
         /// base implementation, because it will check for the presence of config files, and handle checking for
         /// native code and compiling it for you, and you can then add additional checks in the overriden implementation.
         /// </summary>
-        protected virtual void EnsurePlatformPrerequisites()
+        protected virtual void CheckPlatformBinaries()
         {
             BuildUtility.FindVSInstallations();
 
@@ -118,10 +127,79 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             BuildUtility.ValidatePlatformConfiguration();
 
             // Build any native libraries that need to be built for the platform
-            BuildNativeBinaries();
+            // TODO: Consider having the "rebuild" be a setting users can determine.
+            BuildNativeBinaries(true);
 
             // Validate that the binaries built are now in the correct location
             ValidateNativeBinaries();
+        }
+
+        /// <summary>
+        /// Checks to make sure that the platform configuration file exists where it is expected to be
+        /// TODO: Add configuration validation.
+        /// </summary>
+        private static void CheckPlatformConfiguration()
+        {
+            string configFilePath = PlatformManager.GetConfigFilePath();
+            if (!File.Exists(configFilePath))
+            {
+                throw new BuildFailedException($"Expected config file \"{configFilePath}\" for platform {PlatformManager.GetFullName(PlatformManager.CurrentPlatform)} does not exist.");
+            }
+        }
+
+        /// <summary>
+        /// Completes all configuration tasks.
+        /// </summary>
+        private static void ConfigureVersion()
+        {
+            AutoSetProductVersion();
+
+            const string packageVersionPath = "Assets/Resources/eosPluginVersion.asset";
+            string packageVersion = EOSPackageInfo.GetPackageVersion();
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+            {
+                AssetDatabase.CreateFolder("Assets", "Resources");
+            }
+            TextAsset versionAsset = new(packageVersion);
+            AssetDatabase.CreateAsset(versionAsset, packageVersionPath);
+            AssetDatabase.SaveAssets();
+        }
+
+        /// <summary>
+        /// Determines whether the Application Version is supposed to be used as the product version, and (if so) sets it accordingly.
+        /// </summary>
+        private static void AutoSetProductVersion()
+        {
+            var eosVersionConfigSection = new PrebuildConfigEditor();
+
+            eosVersionConfigSection.Load();
+
+            string configFilePath = Path.Combine(
+                Application.streamingAssetsPath,
+                "EOS",
+                EOSPackageInfo.ConfigFileName
+            );
+
+            var eosConfigFile = new ConfigHandler<EOSConfig>(configFilePath);
+            eosConfigFile.Read();
+
+            var previousProdVer = eosConfigFile.Data.productVersion;
+            var currentSectionConfig = eosVersionConfigSection.GetConfig().Data;
+
+            if (currentSectionConfig == null)
+            {
+                return;
+            }
+
+            if (currentSectionConfig.useAppVersionAsProductVersion)
+            {
+                eosConfigFile.Data.productVersion = Application.version;
+            }
+
+            if (previousProdVer != eosConfigFile.Data.productVersion)
+            {
+                eosConfigFile.Write(true);
+            }
         }
 
         /// <summary>
@@ -154,18 +232,21 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <summary>
         /// Looks for any missing output files, and tries to build the project file corresponding to it if the file is missing.
         /// </summary>
-        private void BuildNativeBinaries()
+        private void BuildNativeBinaries(bool rebuild = false)
         {
             var projectsToBuild = new HashSet<string>();
+
             foreach (string projectFile in _projectFileToBinaryFilesMap.Keys)
             {
-                if (_projectFileToBinaryFilesMap[projectFile].Any(outputFile => !File.Exists(outputFile)))
+                // If either rebuild is set to true, or the binary file does not exist.
+                if (rebuild || _projectFileToBinaryFilesMap[projectFile].Any(outputFile => !File.Exists(outputFile)))
                 {
+                    // Add the project to the list of things to build.
                     projectsToBuild.Add(projectFile);
                 }
             }
 
-            // Build any project that needs to be built
+            // Build any project that needs to be built.
             foreach (string project in projectsToBuild)
             {
                 BuildUtility.BuildNativeLibrary(project, _nativeCodeOutputDirectory);

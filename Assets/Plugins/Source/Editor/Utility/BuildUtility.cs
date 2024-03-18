@@ -304,7 +304,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                                     $" /t:Clean;Rebuild" +
                                     $" /p:Configuration={configuration}" +
                                     // TODO: Re-implement GetPlatformString to re-enable this component?
-                                    // NOTE: This may not be necessary, because typically the platform to build against is defined within the project and/or solution file.
+                                    // NOTE: This may not be necessary, because typically the platform to build against
+                                    // is defined within the project and/or solution file.
                                     //$" /p:Platform={PlatformManager.GetPlatformString()}" +
                                     $" /p:OutDir={binaryOutput}";
 
@@ -342,6 +343,13 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             }
         }
 
+        /// <summary>
+        /// Given a fully qualified path to a Makefile, build the project, placing the resulting
+        /// binary files in the directory indicated.
+        /// </summary>
+        /// <param name="makefileFilePath">Fully-qualified path to the Makefile to build.</param>
+        /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
+        /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
         private static void BuildFromMakefile(string makefileFilePath, string binaryOutput)
         {
             if (!CheckWSLInstalled())
@@ -404,14 +412,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 CreateNoWindow = true
             };
 
-            using (Process process = Process.Start(startInfo))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    Debug.Log(result);
-                }
-            }
+            using Process process = Process.Start(startInfo);
+            using StreamReader reader = process.StandardOutput;
+            string result = reader.ReadToEnd();
+            Debug.Log(result);
         }
 
         /// <summary>

@@ -22,26 +22,52 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
+    using Editor;
     using PlayEveryWare.EpicOnlineServices.Editor.Config;
-    using PlayEveryWare.EpicOnlineServices.Editor;
     using UnityEditor.Build.Reporting;
     using System.IO;
     using UnityEditor.Build;
     using UnityEngine;
     using Utility;
 
-    public class WindowsBuilder : PlatformSpecificBuilder
+    /// <summary>
+    /// WindowsBuilder for 64-bit deployment.
+    /// </summary>
+    public class WindowsBuilder64 : WindowsBuilder
+    {
+        public WindowsBuilder64() : base("Plugins/Windows/x64")
+        {
+            AddProjectFileToBinaryMapping(
+                "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
+                "DynamicLibraryLoaderHelper-x64.dll",
+                "GfxPluginNativeRender-x64.dll");
+        }
+    }
+
+    /// <summary>
+    /// WindowsBuilder for 32-bit deployment.
+    /// </summary>
+    public class WindowsBuilder32 : WindowsBuilder
+    {
+        public WindowsBuilder32() : base("Plugins/Windows/x86")
+        {
+            AddProjectFileToBinaryMapping(
+                "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
+                "DynamicLibraryLoaderHelper-x86.dll",
+                "GfxPluginNativeRender-x86.dll");
+        }
+    }
+
+    /// <summary>
+    /// Base implementation for a WindowsBuilder. Cannot be instantiated, but is used
+    /// as base implementation for both 64 and 32 bit flavors of Windows.
+    /// </summary>
+    public abstract class WindowsBuilder : PlatformSpecificBuilder
     {
         private const string ProjectPathToEOSBootstrapperTool = "tools/bin/EOSBootstrapperTool.exe";
 
-        public WindowsBuilder() : base("Plugins/Windows")
-        {
-            // TODO/NOTE: Add support for 32-bit project to binary file mapping?
-            AddProjectFileToBinaryMapping(
-                "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
-                "x64/DynamicLibraryLoaderHelper-x64.dll",
-                "x64/GfxPluginNativeRender-x64.dll");
-        }
+        protected WindowsBuilder(string nativeBinaryDirectory) :
+            base(nativeBinaryDirectory) {   }
 
         public override void PostBuild(BuildReport report)
         {
