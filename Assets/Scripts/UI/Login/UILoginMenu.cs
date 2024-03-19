@@ -287,136 +287,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-#if ENABLE_INPUT_SYSTEM
-        public void Update()
-        {
-            var keyboard = Keyboard.current;
-
-            if (system.currentSelectedGameObject != null && system.currentSelectedGameObject != selectedGameObject)
-            {
-                selectedGameObject = system.currentSelectedGameObject;
-            }
-
-            // Prevent deselection by either reselecting the previously selected or the first selected in EventSystem
-            if (system.currentSelectedGameObject == null || system.currentSelectedGameObject?.activeInHierarchy == false)
-            {
-                // Make sure the selected object is still visible. If it's hidden, then don't select an invisible object.
-                if (selectedGameObject == null || selectedGameObject?.activeInHierarchy == false)
-                {
-                    selectedGameObject = system.firstSelectedGameObject;
-                }
-
-                system.SetSelectedGameObject(selectedGameObject);
-            }
-
-            // Disable game input if Overlay is visible and has exclusive input
-            if (system != null && system.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-            {
-                if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-                {
-                    Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
-                    EventSystem.current.sendNavigationEvents = false;
-                    EventSystem.current.currentInputModule.enabled = false;
-                    return;w
-                }
-                else
-                {
-                    Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
-                    EventSystem.current.sendNavigationEvents = true;
-                    EventSystem.current.currentInputModule.enabled = true;
-                }
-            }
-
-            if (keyboard != null
-                && system.currentSelectedGameObject != null)
-            {
-                // Tab between input fields
-                if (keyboard.tabKey.wasPressedThisFrame)
-                {
-                    Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
-                    if (keyboard.shiftKey.isPressed)
-                    {
-                        next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
-                    }
-
-                    // Make sure the object is active or exit out if no more objects are found
-                    while (next != null && !next.gameObject.activeSelf)
-                    {
-                        next = next.FindSelectableOnDown();
-                    }
-
-                    if (next != null)
-                    {
-                        InputField inputField = next.GetComponent<InputField>();
-                        UIConsoleInputField consoleInputField = next.GetComponent<UIConsoleInputField>();
-                        if (inputField != null)
-                        {
-                            inputField.OnPointerClick(new PointerEventData(system));
-                            system.SetSelectedGameObject(next.gameObject);
-                        }
-                        else if (consoleInputField != null)
-                        {
-                            consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
-                            system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
-                        }
-                        else
-                        {
-                            system.SetSelectedGameObject(next.gameObject);
-                        }
-                    }
-                    else
-                    {
-                        next = FindTopUISelectable();
-                        system.SetSelectedGameObject(next.gameObject);
-                    }
-                }
-                else if (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame)
-                {
-                    // Enter pressed in an input field
-                    InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
-                    UIConsoleInputField consoleInputField = system.currentSelectedGameObject.GetComponent<UIConsoleInputField>();
-                    if (inputField != null || consoleInputField != null)
-                    {
-                        EnterPressedToLogin();
-                    }
-                }
-            }
-
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            bool nothingSelected = system != null && system.currentSelectedGameObject == null;
-            bool inactiveButtonSelected = system != null && system.currentSelectedGameObject != null && !system.currentSelectedGameObject.activeInHierarchy;
-
-            var gamepad = Gamepad.current;
-            if ((nothingSelected || inactiveButtonSelected)
-                && gamepad != null && gamepad.wasUpdatedThisFrame)
-            {
-                if (UIFirstSelected.activeSelf == true)
-                {
-                    system.SetSelectedGameObject(UIFirstSelected);
-                }
-                else if (UIFindSelectable?.activeSelf == true)
-                {
-                    system.SetSelectedGameObject(UIFindSelectable);
-                }
-                else
-                {
-                    var selectables = GameObject.FindObjectsOfType<Selectable>(false);
-                    foreach (var selectable in selectables)
-                    {
-                        if (selectable.navigation.mode != Navigation.Mode.None)
-                        {
-                            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
-                            break;
-                        }
-                    }
-                }
-
-                Debug.Log("Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = " + system.currentSelectedGameObject);
-            }
-            signInWithAppleManager?.Update();
-        }
-#else
-
         public void Update()
         {
             // Prevent Deselection
@@ -435,7 +305,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 system.SetSelectedGameObject(selectedGameObject);
             }
 
-#if UNITY_PS4 || UNITY_PS5
+//#if UNITY_PS4 || UNITY_PS5
             // Disable game input if Overlay is visible and has exclusive input
             if (system != null && system.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
             {
@@ -443,64 +313,100 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
                     system.sendNavigationEvents = false;
+                    system.currentInputModule.enabled = false;
                     return;
                 }
                 else
                 {
                     Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
                     system.sendNavigationEvents = true;
+                    system.currentInputModule.enabled = true;
                 }
             }
-#endif
+//#endif
 
             // Controller: Detect if nothing is selected and controller input detected, and set default
             bool nothingSelected = system != null && system.currentSelectedGameObject == null;
             bool inactiveButtonSelected = system != null && system.currentSelectedGameObject != null && !system.currentSelectedGameObject.activeInHierarchy;
 
-            if ((nothingSelected || inactiveButtonSelected)
-                && (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f))
+            bool wasInputDetected = false;
+#if ENABLE_INPUT_SYSTEM
+            var gamepad = Gamepad.current;
+            wasInputDetected = (null != gamepad && gamepad.wasUpdatedThisFrame);
+#else
+            wasInputDetected = Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f;
+#endif
+
+            if ((nothingSelected || inactiveButtonSelected) && wasInputDetected)
             {
-                if (UIFirstSelected.activeInHierarchy == true)
+                if (UIFirstSelected.activeInHierarchy)
                 {
                     system.SetSelectedGameObject(UIFirstSelected);
                 }
-                else if (UIFindSelectable?.activeSelf == true)
+                else if (UIFindSelectable != null && UIFindSelectable.activeSelf)
                 {
                     system.SetSelectedGameObject(UIFindSelectable);
                 }
                 else
                 {
-                    var selectables = GameObject.FindObjectsOfType<Selectable>(false);
+                    var selectables = FindObjectsOfType<Selectable>(false);
                     foreach (var selectable in selectables)
                     {
-                        if (selectable.navigation.mode != Navigation.Mode.None)
-                        {
-                            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
-                            break;
-                        }
+                        // Skip if the selectable's navigation mode is none.
+                        if (selectable.navigation.mode == Navigation.Mode.None) { continue; }
+
+                        EventSystem.current.SetSelectedGameObject(selectable.gameObject);
+                        break;
                     }
                 }
 
                 Debug.Log("Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = " + system.currentSelectedGameObject);
             }
 
-            // Tab between input fields
-            if (Input.GetKeyDown(KeyCode.Tab)
-                && system.currentSelectedGameObject != null)
-            {
-                Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+            // Indicates in which direction the tabbing should happen (shift-tab goes backwards)
+            bool traverseFocusableAscending = true;
 
-                InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
+            // Determines whether "tab" or the equivalent action was indicated by the input.
+            bool shouldChangeSelectable = false;
+
+            // Indicates whether enter was pressed 
+            bool wasEnterPressed = false;
+#if ENABLE_INPUT_SYSTEM
+            var keyboard = Keyboard.current;
+            shouldChangeSelectable = keyboard.tabKey.wasPressedThisFrame;
+            traverseFocusableAscending = !keyboard.shiftKey.isPressed;
+            wasEnterPressed = !shouldChangeSelectable && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame);
+#else
+            shouldChangeSelectable = Input.GetKeyDown(KeyCode.Tab);
+            traverseFocusableAscending = Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift);
+            wasEnterPressed = !shouldChangeSelectable && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter));
+#endif
+
+            #region Handle Tab Input
+
+            // Tab between input fields
+            if (shouldChangeSelectable && system.currentSelectedGameObject != null)
+            {
+                Selectable next = traverseFocusableAscending ? system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown() : system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
 
                 if (next != null)
                 {
-                    InputField inputfield = next.GetComponent<InputField>();
-                    if (inputfield != null)
+                    InputField inputField = next.GetComponent<InputField>();
+                    UIConsoleInputField consoleInputField = next.GetComponent<UIConsoleInputField>();
+                    if (inputField != null)
                     {
-                        inputfield.OnPointerClick(new PointerEventData(system));
+                        inputField.OnPointerClick(new PointerEventData(system));
+                        system.SetSelectedGameObject(next.gameObject);
                     }
-
-                    system.SetSelectedGameObject(next.gameObject);
+                    else if (consoleInputField != null)
+                    {
+                        consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
+                        system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
+                    }
+                    else
+                    {
+                        system.SetSelectedGameObject(next.gameObject);
+                    }
                 }
                 else
                 {
@@ -509,11 +415,30 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 }
             }
 
+            #endregion
+
+            #region Handle Enter
+
+            // NOTE: Previously, this was only checked when the new Input System was being used
+            // TODO: Test behavior of "Enter" for both input systems.
+            if (wasEnterPressed)
+            {
+                InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
+                UIConsoleInputField consoleInputField =
+                    system.currentSelectedGameObject.GetComponent<UIConsoleInputField>();
+
+                if (inputField != null || consoleInputField != null)
+                {
+                    EnterPressedToLogin();
+                }
+            }
+
+            #endregion
+
             signInWithAppleManager?.Update();
         }
-#endif
 
-        private Selectable FindTopUISelectable()
+            private Selectable FindTopUISelectable()
         {
             Selectable currentTop = Selectable.allSelectablesArray[0];
             double currentTopYaxis = currentTop.transform.position.y;
