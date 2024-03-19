@@ -287,6 +287,174 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// If no GameObject is selected, but one was selected before - then determines if the
+        /// de-selected GameObject should actually still be detected. If so, brings focus back
+        /// to the previously selected game object. If not, then the first selected GameObject
+        /// is focused. Broadly speaking, this prevents a focus state wherein no GameObject has
+        /// focus.
+        /// </summary>
+        /// <param name="previouslySelectedGameObject">Reference to the GameObject that had focus on the last update.</param>
+        private static void PreventDeselection(ref GameObject previouslySelectedGameObject)
+        {
+            // Prevent Deselection
+            if (EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject != previouslySelectedGameObject)
+            {
+                previouslySelectedGameObject = EventSystem.current.currentSelectedGameObject;
+            }
+            else if (EventSystem.current.currentSelectedGameObject == null || EventSystem.current.currentSelectedGameObject.activeInHierarchy == false)
+            {
+                // If there is no selected object, or if the currently selected object is not visible.
+                if (previouslySelectedGameObject == null || previouslySelectedGameObject.activeInHierarchy == false)
+                {
+                    // Then set the currently selected object to be the first selected game object.
+                    previouslySelectedGameObject = EventSystem.current.firstSelectedGameObject;
+                }
+
+                EventSystem.current.SetSelectedGameObject(previouslySelectedGameObject);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether input should be passed to the scene, or if it should be skipped.
+        /// This is in-order to prevent input from being handled when the EOS overlay is active.
+        /// </summary>
+        /// <returns>True if input should be handled, false if not.</returns>
+        private static bool ShouldInputBeHandled()
+        {
+            // TODO: Clarify why this is only evaluated for PS4 and PS5
+#if UNITY_PS4 || UNITY_PS5
+            // TODO: Simplify this conditional - it's sort of confusing to read despite doing exactly what we want
+            if (null == EventSystem.current || EventSystem.current.sendNavigationEvents == !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+            {
+                return true;
+            }
+
+            bool shouldHandle = !EOSManager.Instance.IsOverlayOpenWithExclusiveInput();
+                
+            Debug.Log($"Input {(shouldHandle ? "enabled" : "disabled")} due to EOS Overlay.");
+#if ENABLE_INPUT_SYSTEM
+            EventSystem.current.currentInputModule.enabled = shouldHandle;
+#else
+            EventSystem.current.sendNavigationEvents = shouldHandle;
+#endif
+
+            return shouldHandle;
+#else
+            return true;
+#endif
+        }
+
+        /// <summary>
+        /// Determines whether a GameObject needs to be set as selected.
+        /// </summary>
+        /// <returns>Returns true if a GameObject needs to be set, false otherwise.</returns>
+        private static bool ShouldSetSelectedGameObject()
+        {
+            bool wasInputDetected = false;
+
+#if ENABLE_INPUT_SYSTEM
+            var gamepad = Gamepad.current;
+            wasInputDetected = (null != gamepad && gamepad.wasUpdatedThisFrame);
+#else
+            wasInputDetected = Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f;
+#endif
+            // If there was no input, or if there is a currently selected game object that is active,
+            // then stop the process.
+            return (false == wasInputDetected ||
+                    (null != EventSystem.current.currentSelectedGameObject &&
+                     EventSystem.current.currentSelectedGameObject.activeInHierarchy));
+        }
+
+
+        /// <summary>
+        /// Determines which GameObject should be selected.
+        /// </summary>
+        /// <param name="firstGameObject">Reference to the GameObject that is considered to be the "first" in tab focus order.</param>
+        /// <param name="findSelectable">Reference to the GameObject that can be used to find other selectables if doing so is necessary.</param>
+        private static void SetSelectedGameObject(ref GameObject firstGameObject, ref GameObject findSelectable)
+        {
+            if (firstGameObject.activeInHierarchy)
+            {
+                EventSystem.current.SetSelectedGameObject(firstGameObject);
+            }
+            else if (findSelectable.activeSelf)
+            {
+                EventSystem.current.SetSelectedGameObject(findSelectable);
+            }
+            else
+            {
+                var nextSelectable = FindObjectsOfType<Selectable>(false)
+                    .FirstOrDefault(s => s.navigation.mode != Navigation.Mode.None);
+                if (null != nextSelectable)
+                {
+                    EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
+                }
+            }
+
+            Debug.Log($"Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = \"{EventSystem.current.currentSelectedGameObject}\".");
+        }
+
+        private static void HandleTabInput()
+        {
+            // Stop handling if Tab is not pressed, or if there is no currently selected game object.
+            if (!Input.GetKeyDown(KeyCode.Tab) || null == EventSystem.current.currentSelectedGameObject)
+            {
+                return;
+            }
+
+            Selectable next = EventSystem.current.currentSelectedGameObject
+                .GetComponent<Selectable>().FindSelectableOnDown();
+
+            if (next != null)
+            {
+                // If the "next" control getting focus has an input field component.
+                if (next.TryGetComponent<InputField>(out var inputField))
+                {
+                    // Then simulate a pointer click on that component.
+                    inputField.OnPointerClick(new PointerEventData(EventSystem.current));
+                }
+            }
+            else
+            {
+                // Find the navigable selectable with the highest y position (highest on the
+                // screen), and set "next" to that selectable.
+                next = Selectable.allSelectablesArray
+                    .Where(selectable => selectable.navigation.mode != Navigation.Mode.None)
+                    .OrderByDescending(selectable => selectable.transform.position.y)
+                    .FirstOrDefault();
+            }
+
+            // If a "next" control has been found, then set the selected game object to the
+            // game object associated with it.
+            if (next != null)
+            {
+                EventSystem.current.SetSelectedGameObject(next.gameObject);
+            }
+        }
+
+        private static void HandleInput(ref GameObject previouslySelected, ref GameObject firstSelected,
+            ref GameObject findSelectable)
+        {
+            // Prevents game object from being de-selected.
+            // NOTE: This seems to intentionally be called *before* determining if input should be handled.
+            // TODO: Determine whether it should be called after determining if input should be handled.
+            PreventDeselection(ref previouslySelected);
+
+            // Determines whether or not to handle the input (typically not if the EOS overlay is active).
+            // If input should not be handled, then the process stops here.
+            if (!ShouldInputBeHandled()) { return; }
+
+            // Set the selected GameObject if doing so is necessary.
+            if (ShouldSetSelectedGameObject())
+            {
+                SetSelectedGameObject(ref firstSelected, ref findSelectable);
+            }
+
+            // If tab was pressed, progress the selected control to the next appropriate one.
+            //HandleTabInput();
+        }
+
         public void Update()
         {
             // Prevent Deselection
@@ -305,25 +473,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 system.SetSelectedGameObject(selectedGameObject);
             }
 
-//#if UNITY_PS4 || UNITY_PS5
-            // Disable game input if Overlay is visible and has exclusive input
-            if (system != null && system.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
+            // Skip if input should be ignored.
+            if (false == ShouldInputBeHandled())
             {
-                if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-                {
-                    Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
-                    system.sendNavigationEvents = false;
-                    system.currentInputModule.enabled = false;
-                    return;
-                }
-                else
-                {
-                    Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
-                    system.sendNavigationEvents = true;
-                    system.currentInputModule.enabled = true;
-                }
+                return;
             }
-//#endif
 
             // Controller: Detect if nothing is selected and controller input detected, and set default
             bool nothingSelected = system != null && system.currentSelectedGameObject == null;
@@ -369,25 +523,36 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Determines whether "tab" or the equivalent action was indicated by the input.
             bool shouldChangeSelectable = false;
 
-            // Indicates whether enter was pressed 
-            bool wasEnterPressed = false;
 #if ENABLE_INPUT_SYSTEM
             var keyboard = Keyboard.current;
             shouldChangeSelectable = keyboard.tabKey.wasPressedThisFrame;
             traverseFocusableAscending = !keyboard.shiftKey.isPressed;
-            wasEnterPressed = !shouldChangeSelectable && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame);
 #else
             shouldChangeSelectable = Input.GetKeyDown(KeyCode.Tab);
             traverseFocusableAscending = Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift);
-            wasEnterPressed = !shouldChangeSelectable && (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter));
 #endif
 
+            // Indicates whether enter was pressed 
+            bool wasEnterPressed = false;
+#if ENABLE_INPUT_SYSTEM
+            wasEnterPressed = !shouldChangeSelectable && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame);
+#else
+            wasEnterPressed = !shouldChangeSelectable &&
+                              (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter));
+#endif
             #region Handle Tab Input
 
             // Tab between input fields
             if (shouldChangeSelectable && system.currentSelectedGameObject != null)
             {
                 Selectable next = traverseFocusableAscending ? system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown() : system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
+
+                // NOTE: Previously the following while loop was only executed when ENABLE_INPUT_SYSTEM is set.
+                // TODO: Confirm no regressions in functionality.
+                while (null != next && !next.gameObject.activeSelf)
+                {
+                    next = traverseFocusableAscending ? next.FindSelectableOnDown() : next.FindSelectableOnUp();
+                }
 
                 if (next != null)
                 {

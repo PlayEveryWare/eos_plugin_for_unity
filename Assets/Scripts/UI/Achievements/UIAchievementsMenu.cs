@@ -101,22 +101,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSAchievementManager>();
         }
 
-#if ENABLE_INPUT_SYSTEM
         private void Update()
         {
             // Controller: Detect if nothing is selected and controller input detected, and set default
-            var gamepad = Gamepad.current;
-
-            if (UIFirstSelected.activeSelf == true
-                && EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null
-                && gamepad != null && gamepad.wasUpdatedThisFrame)
+            if (UIFirstSelected.activeSelf != true
+                || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
+                || !InputUtility.IsGamepadActive())
             {
-                // Controller
-                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+                return;
             }
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
         }
-#endif
 
         public void ShowMenu()
         {

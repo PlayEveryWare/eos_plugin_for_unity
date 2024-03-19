@@ -86,5 +86,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             return Input.GetKeyDown(keycode);
         }
+
+        /// <summary>
+        /// Determines whether or not the Gamepad is active.
+        /// </summary>
+        /// <returns>True if the game pad is active, false otherwise.</returns>
+        public static bool IsGamepadActive()
+        {
+#if ENABLE_INPUT_SYSTEM
+            return (null != Gamepad.current && Gamepad.current.wasUpdatedThisFrame);
+#else
+            // NOTE: This method of determining gamepad activity is potentially inconclusive
+            //       it's possible that the input axis' are both 0.0f with an active gamepad,
+            //       but this is not likely.
+            return Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f;
+#endif
+        }
     }
 }
