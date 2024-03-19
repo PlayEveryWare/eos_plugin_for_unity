@@ -317,7 +317,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
                     EventSystem.current.sendNavigationEvents = false;
                     EventSystem.current.currentInputModule.enabled = false;
-                    return;
+                    return;w
                 }
                 else
                 {
@@ -436,24 +436,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
 #if UNITY_PS4 || UNITY_PS5
-            /* // Overlay handles 'R3', input is always sent
-            if (Input.GetButtonDown("R3"))
-            {
-                Debug.Log("UILoginMenu (Update): R3 pressed, socialOverlayActivated=" + socialOverlayActivated);
-                if(socialOverlayActivated)
-                {
-                    // Show overlay
-                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().ShowFriendsOverlay(null);
-                }
-                else
-                {
-                    // Hide Overlay
-                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().HideFriendsOverlay(null);
-                }
-                socialOverlayActivated = !socialOverlayActivated;
-            }
-            */
-
             // Disable game input if Overlay is visible and has exclusive input
             if (system != null && system.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
             {
