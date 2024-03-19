@@ -1,0 +1,90 @@
+/*
+ * Copyright (c) 2024 PlayEveryWare
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
+
+namespace PlayEveryWare.EpicOnlineServices.Samples
+{
+    using UnityEngine;
+
+    /// <summary>
+    /// Used to abstract away the differences between the modern input system and the legacy
+    /// input system.
+    /// </summary>
+    public static class InputUtility
+    {
+        /*
+         * NOTE:
+         *
+         * There is a discrepancy in the language between the new input system and
+         * the legacy system in that the new system makes a distinction between
+         * whether a key was pressed or is pressed. The legacy system only
+         * determines whether the given key is down or not.
+         *
+         * This is why there is a difference in tense between TabWasPressed and
+         * ShiftIsPressed - the language that best describes the typical usage for
+         * the key is used.
+         *
+         * Despite the difference in tense, when utilizing the legacy input system
+         * both functions merely check if the key in question is down.
+         */
+
+        /// <summary>
+        /// Determines if the tab or tab equivalent was pressed this frame.
+        /// </summary>
+        /// <returns>True if tab or tab equivalent was pressed this frame.</returns>
+        public static bool TabWasPressed()
+        {
+#if ENABLE_INPUT_SYSTEM
+            return Keyboard.current.tabKey.wasPressedThisFrame;
+#else
+            return KeyDown(KeyCode.Tab);
+#endif
+        }
+
+        /// <summary>
+        /// Determines if the shift key or shift key equivalent is currently pressed.
+        /// </summary>
+        /// <returns>True if the shift key or shift key equivalent is currently pressed.</returns>
+        public static bool ShiftIsPressed()
+        {
+#if ENABLE_INPUT_SYSTEM
+            return Keyboard.current.shiftKey.isPressed;
+#else
+            return KeyDown(KeyCode.RightShift) || KeyDown(KeyCode.LeftShift);
+#endif
+        }
+
+        /// <summary>
+        /// Private helper function to determine if a specific key is down - just to limit
+        /// the amount of code that interacts with the input system directly.
+        /// </summary>
+        /// <param name="keycode">Which key to check.</param>
+        /// <returns>True if the indicated key is down, false otherwise.</returns>
+        private static bool KeyDown(KeyCode keycode)
+        {
+            return Input.GetKeyDown(keycode);
+        }
+    }
+}
