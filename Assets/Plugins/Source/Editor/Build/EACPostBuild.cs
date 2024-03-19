@@ -316,9 +316,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             string destDir = Path.GetDirectoryName(report.summary.outputPath);
             string pathToInstallFrom = GetPathToPlatformSpecificAssets(report);
 
-            if (!string.IsNullOrEmpty(pathToInstallFrom))
-                return;
-
             List<string> filestoInstall = GetPostBuildFiles(report);
             List<string> directoriesToInstall = GetPostBuildDirectories(report);
 
