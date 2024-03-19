@@ -351,14 +351,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <returns>Returns true if a GameObject needs to be set, false otherwise.</returns>
         private static bool ShouldSetSelectedGameObject()
         {
-            bool wasInputDetected = false;
+            bool wasInputDetected = InputUtility.WasGamepadUsedLastFrame() || InputUtility.WasMouseUsedLastFrame();
 
-#if ENABLE_INPUT_SYSTEM
-            var gamepad = Gamepad.current;
-            wasInputDetected = (null != gamepad && gamepad.wasUpdatedThisFrame);
-#else
-            wasInputDetected = Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f;
-#endif
             // If there was no input, or if there is a currently selected game object that is active,
             // then stop the process.
             return (false == wasInputDetected ||
@@ -381,6 +375,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             else if (findSelectable.activeSelf)
             {
                 EventSystem.current.SetSelectedGameObject(findSelectable);
+                
+                Debug.Log($"Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = \"{EventSystem.current.currentSelectedGameObject}\".");
             }
             else
             {
@@ -391,17 +387,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
                 }
             }
-
-            Debug.Log($"Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = \"{EventSystem.current.currentSelectedGameObject}\".");
         }
 
         private static void HandleTabInput()
         {
-            // Stop handling if Tab is not pressed, or if there is no currently selected game object.
-            if (!InputUtility.TabWasPressed() || null == EventSystem.current.currentSelectedGameObject)
+            // Stop handling if Tab is not pressed, or if there is no current event system.
+            if (!InputUtility.TabWasPressed() || null == EventSystem.current || null == EventSystem.current.currentSelectedGameObject)
             {
                 return;
             }
+
+            Debug.Log("Handling tab press.");
 
             // Find the next selectable by selecting up or down based on whether the shift or shift equivalent is pressed.
             Selectable next = (InputUtility.ShiftIsPressed())
@@ -411,10 +407,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // NOTE: Previously the following while loop was only executed when ENABLE_INPUT_SYSTEM is set.
             // TODO: Confirm no regressions in functionality.
-            while (null != next && !next.gameObject.activeSelf)
-            {
-                next = InputUtility.ShiftIsPressed() ? next.FindSelectableOnDown() : next.FindSelectableOnUp();
-            }
+            //while (null != next && !next.gameObject.activeSelf)
+            //{
+            //    next = InputUtility.ShiftIsPressed() ? next.FindSelectableOnDown() : next.FindSelectableOnUp();
+            //}
 
             if (next != null)
             {

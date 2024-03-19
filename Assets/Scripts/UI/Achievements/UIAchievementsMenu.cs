@@ -84,12 +84,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnEnable()
         {
-            achievementManager.AddNotifyAchievementDataUpdated(OnAchievementDataUpdated);
+            achievementManager?.AddNotifyAchievementDataUpdated(OnAchievementDataUpdated);
         }
 
         private void OnDisable()
         {
-            achievementManager.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
+            achievementManager?.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
         }
 
         private void OnDestroy()
