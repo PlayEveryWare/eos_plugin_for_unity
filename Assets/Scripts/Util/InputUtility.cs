@@ -88,10 +88,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         /// <summary>
-        /// Determines whether or not the Gamepad is active.
+        /// Determines whether or not the Gamepad was used last frame.
         /// </summary>
         /// <returns>True if the game pad is active, false otherwise.</returns>
-        public static bool IsGamepadActive()
+        public static bool WasGamepadUsedLastFrame()
         {
 #if ENABLE_INPUT_SYSTEM
             return (null != Gamepad.current && Gamepad.current.wasUpdatedThisFrame);
@@ -100,6 +100,35 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             //       it's possible that the input axis' are both 0.0f with an active gamepad,
             //       but this is not likely.
             return Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f;
+#endif
+        }
+
+        /// <summary>
+        /// Determines whether or not the keyboard was used last frame.
+        /// </summary>
+        /// <returns>True if the keyboard was used last frame, false otherwise.</returns>
+        public static bool WasKeyboardUsedLastFrame()
+        {
+#if ENABLE_INPUT_SYSTEM
+            return Keyboard.current.wasUpdatedThisFrame;
+#else
+            return Input.anyKeyDown;
+#endif
+        }
+
+        /// <summary>
+        /// Determines whether or not the mouse was used last frame.
+        /// </summary>
+        /// <returns>True if the mouse was used last frame, false otherwise.</returns>
+        public static bool WasMouseUsedLastFrame()
+        {
+#if ENABLE_INPUT_SYSTEM
+            return Mouse.current != null && Mouse.current.wasUpdatedThisFrame;
+#else
+            // NOTE: This method of determining mouse activity is potentially inconclusive
+            //       it's possible that the input axis' are both 0.0f with an active mouse,
+            //       but this is not likely.
+            return Input.GetAxis("Mouse X") != 0.0f || Input.GetAxis("Mouse Y") != 0.0f;
 #endif
         }
     }
