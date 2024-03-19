@@ -398,13 +398,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         private static void HandleTabInput()
         {
             // Stop handling if Tab is not pressed, or if there is no currently selected game object.
-            if (!Input.GetKeyDown(KeyCode.Tab) || null == EventSystem.current.currentSelectedGameObject)
+            if (!InputUtility.TabWasPressed() || null == EventSystem.current.currentSelectedGameObject)
             {
                 return;
             }
 
-            Selectable next = EventSystem.current.currentSelectedGameObject
-                .GetComponent<Selectable>().FindSelectableOnDown();
+            // Find the next selectable by selecting up or down based on whether the shift or shift equivalent is pressed.
+            Selectable next = (InputUtility.ShiftIsPressed())
+                ? EventSystem.current.currentSelectedGameObject
+                    .GetComponent<Selectable>().FindSelectableOnUp()
+                : EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+
+            // NOTE: Previously the following while loop was only executed when ENABLE_INPUT_SYSTEM is set.
+            // TODO: Confirm no regressions in functionality.
+            while (null != next && !next.gameObject.activeSelf)
+            {
+                next = InputUtility.ShiftIsPressed() ? next.FindSelectableOnDown() : next.FindSelectableOnUp();
+            }
 
             if (next != null)
             {
@@ -433,6 +443,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
+        /// <summary>
+        /// Handles Enter or Enter equivalent to press the login.
+        /// </summary>
+        private void HandleEnterInput()
+        {
+            // Skip if enter wasn't pressed, if the event system is null, or if there is no currently selected game object
+            if (!InputUtility.WasEnterPressed() || null == EventSystem.current ||
+                null == EventSystem.current.currentSelectedGameObject)
+            {
+                return;
+            }
+            // NOTE: Previously, this was only checked when the new Input System was being used
+            // TODO: Test behavior of "Enter" for both input systems.
+            InputField inputField = EventSystem.current.currentSelectedGameObject.GetComponent<InputField>();
+            UIConsoleInputField consoleInputField = EventSystem.current.currentSelectedGameObject.GetComponent<UIConsoleInputField>();
+
+            if (inputField != null || consoleInputField != null)
+            {
+                EnterPressedToLogin();
+            }
+        }
+
+        /// <summary>
+        /// Handles a variety of common input tasks executed every frame.
+        /// </summary>
+        /// <param name="previouslySelected">The GameObject that was most recently selected.</param>
+        /// <param name="firstSelected">The firstselectable (typically UIFirstSelected which is the GameObject controller for the scene.</param>
+        /// <param name="findSelectable">The findSelectable.</param>
         private static void HandleInput(ref GameObject previouslySelected, ref GameObject firstSelected,
             ref GameObject findSelectable)
         {
@@ -452,173 +490,19 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
 
             // If tab was pressed, progress the selected control to the next appropriate one.
-            //HandleTabInput();
+            HandleTabInput();
         }
 
         public void Update()
-        {
-            // Prevent Deselection
-            if (system.currentSelectedGameObject != null && system.currentSelectedGameObject != selectedGameObject)
+        { 
+            HandleInput(ref selectedGameObject, ref UIFirstSelected, ref UIFindSelectable);
+
+            HandleEnterInput();
+
+            if (null != signInWithAppleManager)
             {
-                selectedGameObject = system.currentSelectedGameObject;
+                signInWithAppleManager.Update();
             }
-            else if (system.currentSelectedGameObject == null || system.currentSelectedGameObject?.activeInHierarchy == false)
-            {
-                // Make sure the selected object is still visible. If it's hidden, then don't select an invisible object.
-                if (selectedGameObject == null || selectedGameObject?.activeInHierarchy == false)
-                {
-                    selectedGameObject = system.firstSelectedGameObject;
-                }
-
-                system.SetSelectedGameObject(selectedGameObject);
-            }
-
-            // Skip if input should be ignored.
-            if (false == ShouldInputBeHandled())
-            {
-                return;
-            }
-
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            bool nothingSelected = system != null && system.currentSelectedGameObject == null;
-            bool inactiveButtonSelected = system != null && system.currentSelectedGameObject != null && !system.currentSelectedGameObject.activeInHierarchy;
-
-            bool wasInputDetected = false;
-#if ENABLE_INPUT_SYSTEM
-            var gamepad = Gamepad.current;
-            wasInputDetected = (null != gamepad && gamepad.wasUpdatedThisFrame);
-#else
-            wasInputDetected = Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f;
-#endif
-
-            if ((nothingSelected || inactiveButtonSelected) && wasInputDetected)
-            {
-                if (UIFirstSelected.activeInHierarchy)
-                {
-                    system.SetSelectedGameObject(UIFirstSelected);
-                }
-                else if (UIFindSelectable != null && UIFindSelectable.activeSelf)
-                {
-                    system.SetSelectedGameObject(UIFindSelectable);
-                }
-                else
-                {
-                    var selectables = FindObjectsOfType<Selectable>(false);
-                    foreach (var selectable in selectables)
-                    {
-                        // Skip if the selectable's navigation mode is none.
-                        if (selectable.navigation.mode == Navigation.Mode.None) { continue; }
-
-                        EventSystem.current.SetSelectedGameObject(selectable.gameObject);
-                        break;
-                    }
-                }
-
-                Debug.Log("Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = " + system.currentSelectedGameObject);
-            }
-
-            // Indicates in which direction the tabbing should happen (shift-tab goes backwards)
-            bool traverseFocusableAscending = true;
-
-            // Determines whether "tab" or the equivalent action was indicated by the input.
-            bool shouldChangeSelectable = false;
-
-#if ENABLE_INPUT_SYSTEM
-            var keyboard = Keyboard.current;
-            shouldChangeSelectable = keyboard.tabKey.wasPressedThisFrame;
-            traverseFocusableAscending = !keyboard.shiftKey.isPressed;
-#else
-            shouldChangeSelectable = Input.GetKeyDown(KeyCode.Tab);
-            traverseFocusableAscending = Input.GetKeyDown(KeyCode.RightShift) || Input.GetKeyDown(KeyCode.LeftShift);
-#endif
-
-            // Indicates whether enter was pressed 
-            bool wasEnterPressed = false;
-#if ENABLE_INPUT_SYSTEM
-            wasEnterPressed = !shouldChangeSelectable && (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame);
-#else
-            wasEnterPressed = !shouldChangeSelectable &&
-                              (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter));
-#endif
-            #region Handle Tab Input
-
-            // Tab between input fields
-            if (shouldChangeSelectable && system.currentSelectedGameObject != null)
-            {
-                Selectable next = traverseFocusableAscending ? system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown() : system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
-
-                // NOTE: Previously the following while loop was only executed when ENABLE_INPUT_SYSTEM is set.
-                // TODO: Confirm no regressions in functionality.
-                while (null != next && !next.gameObject.activeSelf)
-                {
-                    next = traverseFocusableAscending ? next.FindSelectableOnDown() : next.FindSelectableOnUp();
-                }
-
-                if (next != null)
-                {
-                    InputField inputField = next.GetComponent<InputField>();
-                    UIConsoleInputField consoleInputField = next.GetComponent<UIConsoleInputField>();
-                    if (inputField != null)
-                    {
-                        inputField.OnPointerClick(new PointerEventData(system));
-                        system.SetSelectedGameObject(next.gameObject);
-                    }
-                    else if (consoleInputField != null)
-                    {
-                        consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
-                        system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
-                    }
-                    else
-                    {
-                        system.SetSelectedGameObject(next.gameObject);
-                    }
-                }
-                else
-                {
-                    next = FindTopUISelectable();
-                    system.SetSelectedGameObject(next.gameObject);
-                }
-            }
-
-            #endregion
-
-            #region Handle Enter
-
-            // NOTE: Previously, this was only checked when the new Input System was being used
-            // TODO: Test behavior of "Enter" for both input systems.
-            if (wasEnterPressed)
-            {
-                InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
-                UIConsoleInputField consoleInputField =
-                    system.currentSelectedGameObject.GetComponent<UIConsoleInputField>();
-
-                if (inputField != null || consoleInputField != null)
-                {
-                    EnterPressedToLogin();
-                }
-            }
-
-            #endregion
-
-            signInWithAppleManager?.Update();
-        }
-
-            private Selectable FindTopUISelectable()
-        {
-            Selectable currentTop = Selectable.allSelectablesArray[0];
-            double currentTopYaxis = currentTop.transform.position.y;
-
-            foreach (Selectable s in Selectable.allSelectablesArray)
-            {
-                if (s.transform.position.y > currentTopYaxis &&
-                    s.navigation.mode != Navigation.Mode.None)
-                {
-                    currentTop = s;
-                    currentTopYaxis = s.transform.position.y;
-                }
-            }
-
-            return currentTop;
         }
 
         private void ConfigureUIForDevAuthLogin()

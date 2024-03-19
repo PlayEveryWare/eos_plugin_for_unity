@@ -57,7 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public static bool TabWasPressed()
         {
 #if ENABLE_INPUT_SYSTEM
-            return Keyboard.current.tabKey.wasPressedThisFrame;
+            return null != Keyboard.current && Keyboard.current.tabKey.wasPressedThisFrame;
 #else
             return KeyDown(KeyCode.Tab);
 #endif
@@ -70,9 +70,23 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public static bool ShiftIsPressed()
         {
 #if ENABLE_INPUT_SYSTEM
-            return Keyboard.current.shiftKey.isPressed;
+            return null != Keyboard.current && Keyboard.current.shiftKey.isPressed;
 #else
             return KeyDown(KeyCode.RightShift) || KeyDown(KeyCode.LeftShift);
+#endif
+        }
+
+        /// <summary>
+        /// Determines if the enter or numpad enter key or it's equivalent was pressed.
+        /// </summary>
+        /// <returns>True if the enter or numpad enter key or equivalent is currently pressed.</returns>
+        public static bool WasEnterPressed()
+        {
+#if ENABLE_INPUT_SYSTEM
+            return null != Keyboard.current && 
+                          (Keyboard.current.enteryKey.wasPressedThisFrame || Keyboard.current.numpadEnterKey.wasPressedThisFrame);
+#else
+            return KeyDown(KeyCode.Return) || KeyDown(KeyCode.KeypadEnter);
 #endif
         }
 
@@ -110,7 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public static bool WasKeyboardUsedLastFrame()
         {
 #if ENABLE_INPUT_SYSTEM
-            return Keyboard.current.wasUpdatedThisFrame;
+            return null != Keyboard.current && Keyboard.current.wasUpdatedThisFrame;
 #else
             return Input.anyKeyDown;
 #endif

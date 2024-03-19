@@ -28,10 +28,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
 using Epic.OnlineServices;
 using Epic.OnlineServices.Achievements;
 using Epic.OnlineServices.Ecom;
@@ -106,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Controller: Detect if nothing is selected and controller input detected, and set default
             if (UIFirstSelected.activeSelf != true
                 || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
-                || !InputUtility.IsGamepadActive())
+                || !InputUtility.WasGamepadUsedLastFrame())
             {
                 return;
             }
