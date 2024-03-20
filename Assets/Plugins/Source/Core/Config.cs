@@ -40,7 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Unity
     /// </summary>
     [Serializable]
-    public abstract class Config : ICloneable, IAsyncDisposable
+    public abstract class Config : ICloneable
     {
         protected readonly string Filename;
         protected readonly string Directory;
@@ -346,11 +346,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     MemberValue = field.GetValue(instance)
                 };
             }
-        }
-
-        public async ValueTask DisposeAsync()
-        {
-            await WriteAsync(true);
         }
 
         #endregion
