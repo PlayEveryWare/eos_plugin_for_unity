@@ -22,7 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using Codice.CM.Client.Differences.Merge;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
