@@ -20,6 +20,7 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;
@@ -63,3 +64,5 @@ namespace PlayEveryWare.EpicOnlineServices
         uint IEOSCreateOptions.TickBudgetInMilliseconds { get => options.TickBudgetInMilliseconds; set => options.TickBudgetInMilliseconds = value; }
     }
 }
+
+#endif //EOS_DISABLED
