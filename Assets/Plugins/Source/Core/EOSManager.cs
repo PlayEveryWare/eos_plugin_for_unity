@@ -48,6 +48,11 @@
 #define USE_EOS_DYNAMIC_BINDINGS
 #endif
 
+using UnityEngine;
+using System;
+using System.Collections.Generic;
+using System.Collections;
+
 #if !EOS_DISABLE
 using Epic.OnlineServices.Platform;
 using Epic.OnlineServices;
@@ -59,14 +64,13 @@ using Epic.OnlineServices.UI;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+
+#if !EOS_DISABLE
     using Epic.OnlineServices.Presence;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
+
     using System.Diagnostics;
     using System.Globalization;
     using System.IO;
-    using UnityEngine;
     using UnityEngine.Assertions;
     using AddNotifyLoginStatusChangedOptions = Epic.OnlineServices.Auth.AddNotifyLoginStatusChangedOptions;
     using Credentials = Epic.OnlineServices.Auth.Credentials;
@@ -76,6 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginCallbackInfo = Epic.OnlineServices.Auth.LoginCallbackInfo;
     using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
+#endif
 
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of

@@ -20,6 +20,7 @@
  * SOFTWARE.
  */
 
+#if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;
@@ -54,3 +55,5 @@ namespace PlayEveryWare.EpicOnlineServices
         public InitializeThreadAffinity? OverrideThreadAffinity { get => options.OverrideThreadAffinity; set => options.OverrideThreadAffinity = value; }
     }
 }
+
+#endif // EOS_DISABLED
