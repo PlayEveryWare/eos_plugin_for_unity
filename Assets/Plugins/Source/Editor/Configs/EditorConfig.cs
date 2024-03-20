@@ -22,16 +22,34 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
-    using EpicOnlineServices.Utility;
-    using System.IO;
+    using System.Threading.Tasks;
+    using UnityEditor;
+    using UnityEngine;
     using Config = EpicOnlineServices.Config;
 
     /// <summary>
     /// Used for configurations that are editor-only.
+    /// Configurations are serialized into JSON strings, and then added to EditorPrefs
+    /// using their filename as the key.
     /// </summary>
     public abstract class EditorConfig : Config
     {
-        private static readonly string EditorConfigDirectory = Path.Combine(FileUtility.GetProjectPath(), "etc/config/");
-        protected EditorConfig(string filename) : base(filename, EditorConfigDirectory) { }
+        protected EditorConfig(string filename) : base(filename, string.Empty) { }
+
+        public override Task WriteAsync(bool prettyPrint = true)
+        {
+            // TODO: Add JSON schemas for validation.
+            string configAsJSON = JsonUtility.ToJson(this, prettyPrint);
+            EditorPrefs.SetString(Filename, configAsJSON);
+            return Task.CompletedTask;
+        }
+
+        protected override Task ReadAsync()
+        {
+            // TODO: Add JSON schemas for validation.
+            string configAsJSON = EditorPrefs.GetString(Filename);
+            JsonUtility.FromJsonOverwrite(configAsJSON, this);
+            return Task.CompletedTask;
+        }
     }
 }

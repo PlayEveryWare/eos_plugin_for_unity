@@ -70,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        protected async Task ReadAsync()
+        protected virtual async Task ReadAsync()
         {
             bool configFileExists = File.Exists(FilePath);
 
@@ -90,7 +90,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
-        public async Task WriteAsync(bool prettyPrint = true)
+        public virtual async Task WriteAsync(bool prettyPrint = true)
         {
             string configAsJSON = JsonUtility.ToJson(this, prettyPrint);
             
