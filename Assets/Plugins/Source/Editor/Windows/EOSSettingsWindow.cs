@@ -193,7 +193,7 @@ _WIN32 || _WIN64
             await base.AsyncSetup();
         }
 
-        private async Task SaveToJSONConfig(bool prettyPrint)
+        private async Task Save(bool prettyPrint)
         {
             await mainEOSConfigFile.WriteAsync(prettyPrint);
             await steamEOSConfigFile.WriteAsync(prettyPrint);
@@ -400,7 +400,8 @@ _WIN32 || _WIN64
             GUIEditorUtility.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
             if (GUILayout.Button("Save All Changes"))
             {
-                SaveToJSONConfig(prettyPrint);
+                // Save NOTE: if this times out, then there will be problems.
+                Save(prettyPrint).Wait();
             }
 
             if (GUILayout.Button("Show in Explorer"))

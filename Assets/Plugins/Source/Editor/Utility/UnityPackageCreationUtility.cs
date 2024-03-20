@@ -32,7 +32,9 @@ using UnityEditor.Build;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using Build;
+    using Config;
     using EpicOnlineServices.Utility;
+    using Config = EpicOnlineServices.Config;
 
     // Helper to allow for StartCoroutine to be used from a static context
     public class CoroutineExecutor : MonoBehaviour
@@ -66,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// <summary>
         /// Contains section of package.json file pertaining to configuration
         /// </summary>
-        public static PackagingConfigEditor packageConfig;
+        //public static PackagingConfigEditor packageConfig;
 
         /// <summary>
         /// This is used in order to use StartCoroutine from a static context.
@@ -78,9 +80,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         static UnityPackageCreationUtility()
         {
-            packageConfig = new PackagingConfigEditor();
-            packageConfig.Load();
-
+            var packageConfig = Config.Get<PackagingConfig>().Result;
+            
             // Configure UI defaults
             jsonPackageFile = Path.Combine(
                 Application.dataPath,
@@ -89,20 +90,20 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 "PackageConfigurations",
                 "eos_package_description.json");
 
-            var currentConfig = packageConfig.GetCurrentConfig();
-            if (!string.IsNullOrEmpty(currentConfig.pathToJSONPackageDescription))
+
+            if (!string.IsNullOrEmpty(packageConfig.pathToJSONPackageDescription))
             {
-                jsonPackageFile = currentConfig.pathToJSONPackageDescription;
+                jsonPackageFile = packageConfig.pathToJSONPackageDescription;
             }
 
-            if (!string.IsNullOrEmpty(currentConfig.pathToOutput))
+            if (!string.IsNullOrEmpty(packageConfig.pathToOutput))
             {
-                pathToOutput = currentConfig.pathToOutput;
+                pathToOutput = packageConfig.pathToOutput;
             }
 
-            if (!string.IsNullOrEmpty(currentConfig.customBuildDirectoryPath))
+            if (!string.IsNullOrEmpty(packageConfig.customBuildDirectoryPath))
             {
-                customOutputDirectory = currentConfig.customBuildDirectoryPath;
+                customOutputDirectory = packageConfig.customBuildDirectoryPath;
             }
         }
 

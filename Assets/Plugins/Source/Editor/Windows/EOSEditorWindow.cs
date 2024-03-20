@@ -46,18 +46,6 @@ public abstract class EOSEditorWindow : EditorWindow
         public string Key { get; }
     }
 
-    private enum State
-    {
-        Uninitialized,
-        Initializing,
-        Initialized
-    }
-
-    /// <summary>
-    /// Keeps track of whether the window has been initialized.
-    /// </summary>
-    private State _initializedState;
-
     /// <summary>
     /// Determines whether or not the editor window resizes itself.
     /// </summary>
@@ -97,6 +85,9 @@ public abstract class EOSEditorWindow : EditorWindow
     /// </summary>
     private readonly string _preferencesKey;
 
+    private Task _initializeTask;
+    private bool _initialized;
+
     protected EOSEditorWindow(float minimumHeight = 50f, float minimumWidth = 50f, string preferencesOverrideKey = null)
     {
         // Set the preferences key either to the full name of the deriving type, or the provided override value.
@@ -104,6 +95,27 @@ public abstract class EOSEditorWindow : EditorWindow
 
         AbsoluteMinimumWindowHeight = minimumHeight;
         AbsoluteMinimumWindowWidth = minimumWidth;
+    }
+
+    private void OnEnable()
+    {
+        _initializeTask = Initialize();
+        EditorApplication.update += CheckForInitialized;
+    }
+
+    private void OnDisable()
+    {
+        EditorApplication.update -= CheckForInitialized;
+    }
+
+    private void CheckForInitialized()
+    {
+        if (_initializeTask.IsCompleted && !_initialized)
+        {
+            _initialized = true;
+            Repaint();
+            EditorApplication.update -= CheckForInitialized;
+        }
     }
 
     /// <summary>
@@ -140,7 +152,6 @@ public abstract class EOSEditorWindow : EditorWindow
         // default implementation does nothing.
         await Task.Run(() => { });
         Debug.Log("Window has been initialized.");
-        _initializedState = State.Initialized;
     }
 
     /// <summary>
@@ -199,13 +210,8 @@ public abstract class EOSEditorWindow : EditorWindow
     /// </summary>
     private async Task Initialize()
     {
-        // return if the window has already been initialized.
-        if (_initializedState is State.Initialized or State.Initializing) return;
-
-        _initializedState = State.Initializing;
         Debug.Log("Initializing window");
 
-        // Otherwise, run the setup function
         Setup();
 
         await AsyncSetup();
@@ -234,12 +240,8 @@ public abstract class EOSEditorWindow : EditorWindow
     /// </summary>
     public void OnGUI()
     {
-        // Call initialize, in case it hasn't already happened
-        // TODO: Add timeout and/or UI loading indication
-        Initialize();
-
         // don't do anything if the state is still 
-        if (_initializedState != State.Initialized)
+        if (!_initialized)
             return;
 
         // if padding should be applied to the window

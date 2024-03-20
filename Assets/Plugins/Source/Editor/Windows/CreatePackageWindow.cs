@@ -30,8 +30,11 @@ using System;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using Config;
+    using System.Runtime.InteropServices;
     using System.Threading.Tasks;
     using Utility;
+    using Config = EpicOnlineServices.Config;
 
     [Serializable]
     public class CreatePackageWindow : EOSEditorWindow
@@ -48,82 +51,77 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void RenderWindow()
         {
-                GUILayout.Space(10f);
+            var packagingConfig = Config.Get<PackagingConfig>().Result;
+            GUILayout.Space(10f);
 
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(10f);
+            GUIEditorUtility.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
+            {
+                var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
+                if (!string.IsNullOrWhiteSpace(outputDir))
+                {
+                    UPCUtil.pathToOutput = outputDir;
+                    packagingConfig.pathToOutput = outputDir;
+                    packagingConfig.WriteAsync().Wait();
+                }
+            }
+
+            
+            GUILayout.Space(10f);
+            GUILayout.EndHorizontal();
+
+            showJSON = EditorGUILayout.Foldout(showJSON, "Advanced");
+            if (showJSON)
+            {
                 GUILayout.BeginHorizontal();
                 GUILayout.Space(10f);
-                GUIEditorUtility.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
+                GUIEditorUtility.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
                 if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
                 {
-                    var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
-                    if (!string.IsNullOrWhiteSpace(outputDir))
+                    var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
+                    if (!string.IsNullOrWhiteSpace(jsonFile))
                     {
-                        UPCUtil.pathToOutput = outputDir;
-                        UPCUtil.packageConfig.GetCurrentConfig().pathToOutput = UPCUtil.pathToOutput;
+                        UPCUtil.jsonPackageFile = jsonFile;
+                        packagingConfig.pathToJSONPackageDescription = jsonFile;
+                        packagingConfig.WriteAsync().Wait();
                     }
                 }
 
                 GUILayout.Space(10f);
                 GUILayout.EndHorizontal();
+            }
 
-                showJSON = EditorGUILayout.Foldout(showJSON, "Advanced");
-                if (showJSON)
-                {
-                    GUILayout.BeginHorizontal();
-                    GUILayout.Space(10f);
-                    GUIEditorUtility.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
-                    if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
-                    {
-                        var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
-                        if (!string.IsNullOrWhiteSpace(jsonFile))
-                        {
-                            UPCUtil.jsonPackageFile = jsonFile;
-                            UPCUtil.packageConfig.GetCurrentConfig().pathToJSONPackageDescription =
-                                UPCUtil.jsonPackageFile;
-                        }
-                    }
+            GUILayout.Space(20f);
 
-                    GUILayout.Space(10f);
-                    GUILayout.EndHorizontal();
-                }
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20f);
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
+            {
+                packagingConfig.WriteAsync().Wait();
+                UPCUtil.CreateUPMTarball(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+                OnPackageCreated(UPCUtil.pathToOutput);
+            }
 
-                GUILayout.Space(20f);
+            if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
+            {
+                packagingConfig.WriteAsync().Wait();
+                // Creating the dot unity package file is asynchronous, so don't display a popup
+                UPCUtil.CreateDotUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+            }
 
-                GUILayout.BeginHorizontal();
-                GUILayout.Space(20f);
-                GUILayout.FlexibleSpace();
-                if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
-                {
-                    if (SaveConfiguration())
-                    {
-                        UPCUtil.CreateUPMTarball(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
-                        OnPackageCreated(UPCUtil.pathToOutput);
-                    }
-                }
+            if (GUILayout.Button("Export Directory", GUILayout.MaxWidth(200)))
+            {
+                packagingConfig.WriteAsync().Wait();
+                UPCUtil.CreateUPM(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+                OnPackageCreated(UPCUtil.pathToOutput);
+            }
 
-                if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
-                {
-                    if (SaveConfiguration())
-                    {
-                        // Creating the dot unity package file is asynchronous, so don't display a popup
-                        UPCUtil.CreateDotUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
-
-                        //OnPackageCreated(UPCUtil.pathToOutput);
-                    }
-                }
-
-                if (GUILayout.Button("Export Directory", GUILayout.MaxWidth(200)))
-                {
-                    if (SaveConfiguration())
-                    {
-                        UPCUtil.CreateUPM(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
-                        OnPackageCreated(UPCUtil.pathToOutput);
-                    }
-                }
-
-                GUILayout.FlexibleSpace();
-                GUILayout.Space(20f);
-                GUILayout.EndHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.Space(20f);
+            GUILayout.EndHorizontal();
         }
 
         private void OnPackageCreated(string outputPath)
@@ -132,18 +130,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 "Package created",
                 $"Package was successfully created at \"{outputPath}\"",
                 "Ok");
-        }
-
-        private bool SaveConfiguration()
-        {
-            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) &&
-                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
-            {
-                return false;
-            }
-
-            UPCUtil.packageConfig.Save(true);
-            return true;
         }
 
         private bool OnEmptyOutputPath(ref string output)
