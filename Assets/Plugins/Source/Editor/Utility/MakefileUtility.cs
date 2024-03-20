@@ -31,6 +31,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
     using System.Threading.Tasks;
     using Config = EpicOnlineServices.Config;
 
+    /// <summary>
+    /// TODO: This needs to be deprecated - the new build system is ready to replace it. That is - you
+    /// no longer ever need to run this tool from the toolbar.
+    /// </summary>
+
     [InitializeOnLoad]
     public static partial class MakefileUtility
     {
@@ -44,18 +49,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
 
         [MenuItem("Tools/EOS Plugin/Build Libraries/Win32")]
-        public static void BuildLibrariesWin32()
+        public static async Task BuildLibrariesWin32()
         {
 #if UNITY_EDITOR_WIN
-            BuildWindows("x86");
+            await BuildWindows("x86");
 #endif
         }
 
         [MenuItem("Tools/EOS Plugin/Build Libraries/Win64")]
-        public static void BuildLibrariesWin64()
+        public static async Task BuildLibrariesWin64()
         {
 #if UNITY_EDITOR_WIN
-            BuildWindows("x64");
+            await BuildWindows("x64");
 #endif
         }
 
@@ -140,20 +145,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             {
                 return null;
             }
-            return "make";
         }
 
         private static async Task<bool> IsMSBuildDebugEnabled()
         {
             var libraryConfig = await Config.Get<LibraryBuildConfig>();
-            if (!string.IsNullOrWhiteSpace(libraryConfig.msbuildPath))
-            {
-                return libraryConfig.msbuildDebug;
-            }
-            else
-            {
-                return false;
-            }
+            return !string.IsNullOrWhiteSpace(libraryConfig.msbuildPath) && libraryConfig.msbuildDebug;
         }
 
         public static async Task RunMSBuild(string solutionName, string platform, string workingDir = "")
@@ -213,21 +210,24 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             var process = new System.Diagnostics.Process { StartInfo = procInfo };
             if (printOutput)
             {
-                process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-                    if (!string.IsNullOrEmpty(e.Data))
+                process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
+                {
+                    if (string.IsNullOrEmpty(e.Data))
                     {
-                        if (ErrorRegex.IsMatch(e.Data))
-                        {
-                            Debug.LogError(e.Data);
-                        }
-                        else if (WarningRegex.IsMatch(e.Data))
-                        {
-                            Debug.LogWarning(e.Data);
-                        }
-                        else
-                        {
-                            Debug.Log(e.Data);
-                        }
+                        return;
+                    }
+
+                    if (ErrorRegex.IsMatch(e.Data))
+                    {
+                        Debug.LogError(e.Data);
+                    }
+                    else if (WarningRegex.IsMatch(e.Data))
+                    {
+                        Debug.LogWarning(e.Data);
+                    }
+                    else
+                    {
+                        Debug.Log(e.Data);
                     }
                 });
             }
