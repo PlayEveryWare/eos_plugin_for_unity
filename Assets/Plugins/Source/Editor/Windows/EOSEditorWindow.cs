@@ -27,6 +27,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
+    using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
 
@@ -45,10 +46,17 @@ public abstract class EOSEditorWindow : EditorWindow
         public string Key { get; }
     }
 
+    private enum State
+    {
+        Uninitialized,
+        Initializing,
+        Initialized
+    }
+
     /// <summary>
     /// Keeps track of whether the window has been initialized.
     /// </summary>
-    private bool _initialized;
+    private State _initializedState;
 
     /// <summary>
     /// Determines whether or not the editor window resizes itself.
@@ -122,10 +130,25 @@ public abstract class EOSEditorWindow : EditorWindow
     }
 
     /// <summary>
+    /// Async function. Base implementation is done, but completes the process of setup by marking
+    /// the window as initialized, so it is important that deriving classes call the base implementation
+    /// at the END of their overriding function.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual async Task AsyncSetup()
+    {
+        // default implementation does nothing.
+        await Task.Run(() => { });
+        Debug.Log("Window has been initialized.");
+        _initializedState = State.Initialized;
+    }
+
+    /// <summary>
     /// Implement this method to initialize the contents of the editor window. Be sure to always call the base implementation if you override it.
     /// </summary>
     protected virtual void Setup()
     {
+        Debug.Log("Synchronous setup running.");
         foreach (var fieldKeyPair in RetainableFields)
         {
             if (fieldKeyPair.Field.FieldType.IsValueType)
@@ -174,16 +197,18 @@ public abstract class EOSEditorWindow : EditorWindow
     /// <summary>
     /// Wrapper function to call the setup function defined by deriving classes. This allows keeping track of whether the window has been set up.
     /// </summary>
-    private void Initialize()
+    private async Task Initialize()
     {
         // return if the window has already been initialized.
-        if (_initialized) return;
+        if (_initializedState is State.Initialized or State.Initializing) return;
+
+        _initializedState = State.Initializing;
+        Debug.Log("Initializing window");
 
         // Otherwise, run the setup function
         Setup();
 
-        // mark the window as being initialized
-        _initialized = true;
+        await AsyncSetup();
     }
 
     /// <summary>
@@ -210,7 +235,12 @@ public abstract class EOSEditorWindow : EditorWindow
     public void OnGUI()
     {
         // Call initialize, in case it hasn't already happened
+        // TODO: Add timeout and/or UI loading indication
         Initialize();
+
+        // don't do anything if the state is still 
+        if (_initializedState != State.Initialized)
+            return;
 
         // if padding should be applied to the window
         if (_isPadded)

@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class EOSSteamConfig : Config
     {
+        public EOSSteamConfig() : base("eos_steam_config.json") { }
         public List<string> flags;
         public string overrideLibraryPath;
 

@@ -23,22 +23,20 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
     using System.IO;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Contains implementations of IConfigEditor that are common to all implementing classes.
     /// </summary>
-    /// <typeparam name="T">Indented to be a type accepted by the templated class EOSConfigFile.</typeparam>
+    /// <typeparam name="T">Intended to be a type accepted by the templated class EOSConfigFile.</typeparam>
     public abstract class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config, new()
     {
-        private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
-
         private readonly string _labelText;
-        protected ConfigHandler<T> ConfigHandler;
+        protected T config;
 
-        protected ConfigEditor(string labelText, string config_filename)
+        protected ConfigEditor(string labelText)
         {
             _labelText = labelText;
-            ConfigHandler = new ConfigHandler<T>(Path.Combine(ConfigDirectory, config_filename));
         }
 
         public string GetLabelText()
@@ -46,33 +44,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             return _labelText;
         }
 
-        public ConfigHandler<T> GetConfig()
+        public async Task Load()
         {
-            return ConfigHandler;
+            config = await EpicOnlineServices.Config.Get<T>();
         }
 
-        public void Load()
+        public async Task Save(bool prettyPrint)
         {
-            ConfigHandler.Read();
-        }
-
-        public bool HasUnsavedChanges()
-        {
-            return ConfigHandler.HasChanges;
-        }
-
-        public void Save(bool prettyPrint)
-        {
-            ConfigHandler.Write(prettyPrint);
+            await config.WriteAsync(prettyPrint);
         }
 
         public abstract void RenderContents();
 
-        public void Render()
+        public async Task Render()
         {
-            if (ConfigHandler == null)
+            if (config == null)
             {
-                Load();
+                await Load();
             }
 
             RenderContents();

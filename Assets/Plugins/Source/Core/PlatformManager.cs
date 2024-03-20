@@ -216,7 +216,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 Application.dataPath,
                 "StreamingAssets",
                 "EOS",
-                GetPlatformConfigFileName(platform)
+                GetConfigFileName(platform)
                 );
         }
 
@@ -257,7 +257,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <param name="platform">The platform to get the JSON file name of.</param>
         /// <returns>The JSON file that contains configuration values for the given platform.</returns>
-        private static string GetPlatformConfigFileName(Platform platform)
+        public static string GetConfigFileName(Platform platform)
         {
             return PlatformInformation[platform].ConfigFileName;
         }

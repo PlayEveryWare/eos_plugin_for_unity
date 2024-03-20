@@ -28,6 +28,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 
     public class SigningConfig : Config
     {
+        public SigningConfig() : base("eos_plugin_signing_config.json") { }
+
         public string pathToSignTool;
         public string pathToPFX;
         public string pfxPassword;

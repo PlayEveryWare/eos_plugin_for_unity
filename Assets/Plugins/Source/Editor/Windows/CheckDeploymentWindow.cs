@@ -28,6 +28,8 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using System.Threading.Tasks;
+
     [Serializable]
     public class CheckDeploymentWindow : EOSEditorWindow
     {

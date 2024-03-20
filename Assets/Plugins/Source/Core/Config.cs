@@ -22,12 +22,17 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Codice.CM.Client.Differences.Merge;
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
+    using UnityEditor;
+    using UnityEngine;
 
 #if UNITY_EDITOR // only use reflection in the editor
     using System.Collections.Generic;
     using System.Reflection;
+    using System.IO;
 #endif
 
     /// <summary>
@@ -35,8 +40,75 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Unity
     /// </summary>
     [Serializable]
-    public abstract class Config : ICloneable
+    public abstract class Config : ICloneable, IAsyncDisposable
     {
+        protected readonly string Filename;
+        protected readonly string Directory;
+
+        private string _lastReadJsonString;
+
+        protected Config(string filename) : this(filename, Path.Combine(Application.streamingAssetsPath, "EOS")) { }
+
+        protected Config(string filename, string directory)
+        {
+            Filename = filename;
+            Directory = directory;
+        }
+
+        public static async Task<T> Get<T>() where T : Config, new()
+        {
+            T instance = new();
+            await instance.ReadAsync();
+            return instance;
+        }
+
+        public string FilePath
+        {
+            get
+            {
+                return Path.Combine(Directory, Filename);
+            }
+        }
+
+        protected async Task ReadAsync()
+        {
+            bool configFileExists = File.Exists(FilePath);
+
+            if (configFileExists)
+            {
+                using (StreamReader reader = new(FilePath))
+                {
+                    _lastReadJsonString = await reader.ReadToEndAsync();
+                    JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+                }
+            }
+            else
+            {
+                // If the config file does not currently exist, create it 
+                // when it is being read.
+                await WriteAsync();
+            }
+        }
+
+        public async Task WriteAsync(bool prettyPrint = true)
+        {
+            string configAsJSON = JsonUtility.ToJson(this, prettyPrint);
+            
+            FileInfo configFile = new(FilePath);
+            configFile.Directory?.Create();
+
+            using (StreamWriter writer = new(FilePath))
+            {
+                await writer.WriteAsync(configAsJSON);
+            }
+
+            await Task.Run(() =>
+            {
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            });
+        }
+
 #if UNITY_EDITOR // Cloning, and determining equality or default-ness of a Config only happens in the editor.
         /// <summary>
         /// Determines whether or not the values in the Config have their
@@ -51,7 +123,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
 #endif
-
 
         /// <summary>
         /// Returns member-wise clone of configuration data
@@ -275,6 +346,11 @@ namespace PlayEveryWare.EpicOnlineServices
                     MemberValue = field.GetValue(instance)
                 };
             }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await WriteAsync(true);
         }
 
         #endregion

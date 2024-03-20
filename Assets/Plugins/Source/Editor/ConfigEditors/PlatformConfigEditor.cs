@@ -37,7 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         protected PlatformManager.Platform Platform;
 
         protected PlatformConfigEditor(PlatformManager.Platform platform) :
-            base(PlatformManager.GetFullName(platform), PlatformManager.GetConfigFilePath(platform))
+            base(PlatformManager.GetFullName(platform))
         {
             this.Platform = platform;
         }
@@ -54,18 +54,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             GUILayout.Label($"{PlatformManager.GetFullName(Platform)} Override Configuration Values",
                 EditorStyles.boldLabel);
 
-            GUIEditorUtility.AssigningFlagTextField("Override Platform Flags (Separated by '|')", ref ConfigHandler.Data.overrideValues.platformOptionsFlags, 250);
+            GUIEditorUtility.AssigningFlagTextField("Override Platform Flags (Separated by '|')", ref config.overrideValues.platformOptionsFlags, 250);
 
-            GUIEditorUtility.AssigningFloatToStringField("Override initial button delay for overlay", ref ConfigHandler.Data.overrideValues.initialButtonDelayForOverlay, 250);
+            GUIEditorUtility.AssigningFloatToStringField("Override initial button delay for overlay", ref config.overrideValues.initialButtonDelayForOverlay, 250);
 
-            GUIEditorUtility.AssigningFloatToStringField("Override repeat button delay for overlay", ref ConfigHandler.Data.overrideValues.repeatButtonDelayForOverlay, 250);
+            GUIEditorUtility.AssigningFloatToStringField("Override repeat button delay for overlay", ref config.overrideValues.repeatButtonDelayForOverlay, 250);
 
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: networkWork", ref ConfigHandler.Data.overrideValues.ThreadAffinity_networkWork);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: storageIO", ref ConfigHandler.Data.overrideValues.ThreadAffinity_storageIO);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: webSocketIO", ref ConfigHandler.Data.overrideValues.ThreadAffinity_webSocketIO);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: P2PIO", ref ConfigHandler.Data.overrideValues.ThreadAffinity_P2PIO);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref ConfigHandler.Data.overrideValues.ThreadAffinity_HTTPRequestIO);
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: RTCIO", ref ConfigHandler.Data.overrideValues.ThreadAffinity_RTCIO);
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: networkWork", ref config.overrideValues.ThreadAffinity_networkWork);
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: storageIO", ref config.overrideValues.ThreadAffinity_storageIO);
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: webSocketIO", ref config.overrideValues.ThreadAffinity_webSocketIO);
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: P2PIO", ref config.overrideValues.ThreadAffinity_P2PIO);
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref config.overrideValues.ThreadAffinity_HTTPRequestIO);
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: RTCIO", ref config.overrideValues.ThreadAffinity_RTCIO);
 
         }
 
