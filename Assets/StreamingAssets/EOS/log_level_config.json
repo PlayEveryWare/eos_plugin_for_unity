@@ -1,0 +1,136 @@
+{
+    "logCategoryLevelPairs": [
+        {
+            "category": "Core",
+            "level": "Warning"
+        },
+        {
+            "category": "Auth",
+            "level": "Warning"
+        },
+        {
+            "category": "Friends",
+            "level": "Warning"
+        },
+        {
+            "category": "Presence",
+            "level": "Warning"
+        },
+        {
+            "category": "UserInfo",
+            "level": "Warning"
+        },
+        {
+            "category": "HttpSerialization",
+            "level": "Warning"
+        },
+        {
+            "category": "Ecom",
+            "level": "Warning"
+        },
+        {
+            "category": "P2P",
+            "level": "Warning"
+        },
+        {
+            "category": "Sessions",
+            "level": "Warning"
+        },
+        {
+            "category": "RateLimiter",
+            "level": "Warning"
+        },
+        {
+            "category": "PlayerDataStorage",
+            "level": "Warning"
+        },
+        {
+            "category": "Analytics",
+            "level": "Warning"
+        },
+        {
+            "category": "Messaging",
+            "level": "Warning"
+        },
+        {
+            "category": "Connect",
+            "level": "Warning"
+        },
+        {
+            "category": "Overlay",
+            "level": "Warning"
+        },
+        {
+            "category": "Achievements",
+            "level": "Warning"
+        },
+        {
+            "category": "Stats",
+            "level": "Warning"
+        },
+        {
+            "category": "Ui",
+            "level": "Warning"
+        },
+        {
+            "category": "Lobby",
+            "level": "Warning"
+        },
+        {
+            "category": "Leaderboards",
+            "level": "Warning"
+        },
+        {
+            "category": "Keychain",
+            "level": "Warning"
+        },
+        {
+            "category": "IntegratedPlatform",
+            "level": "Warning"
+        },
+        {
+            "category": "TitleStorage",
+            "level": "Warning"
+        },
+        {
+            "category": "Mods",
+            "level": "Warning"
+        },
+        {
+            "category": "AntiCheat",
+            "level": "Warning"
+        },
+        {
+            "category": "Reports",
+            "level": "Warning"
+        },
+        {
+            "category": "Sanctions",
+            "level": "Warning"
+        },
+        {
+            "category": "ProgressionSnapshots",
+            "level": "Warning"
+        },
+        {
+            "category": "Kws",
+            "level": "Warning"
+        },
+        {
+            "category": "Rtc",
+            "level": "Warning"
+        },
+        {
+            "category": "RTCAdmin",
+            "level": "Warning"
+        },
+        {
+            "category": "CustomInvites",
+            "level": "Warning"
+        },
+        {
+            "category": "AllCategories",
+            "level": "Warning"
+        }
+    ]
+}
