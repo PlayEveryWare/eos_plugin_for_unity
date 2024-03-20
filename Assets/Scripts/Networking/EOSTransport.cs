@@ -155,14 +155,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
                 }
             }
 
-            // Construct our packet to be sent (ie. the payload array segment)
-            byte[] packet = new byte[payload.Count];
-            Array.Copy(payload.Array, payload.Offset, // Source
-                       packet, 0,                     // Destination
-                       payload.Count);                // Length to copy
-
-
-            P2PManager.SendPacket(userId, P2PSocketName, packet, 0, false, reliability);
+            P2PManager.SendPacket(userId, P2PSocketName, payload, 0, false, reliability);
         }
 
         /// <summary>
