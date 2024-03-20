@@ -100,10 +100,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
 
-#if UNITY_PS4
-        //private bool socialOverlayActivated = false;
-#endif
-
         private void Awake()
         {
             Debug.Log("Awake called for UILoginMenu");
@@ -213,21 +209,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             // Populate the Scene dropdown.
             SetupSceneDropdown();
-        }
-
-        private static void GetAllSelectables()
-        {
-            var AllSelectables = Selectable.allSelectablesArray
-                .Where(selectable => selectable.navigation.mode != Navigation.Mode.None && selectable.isActiveAndEnabled && selectable.gameObject.activeInHierarchy)
-                .OrderByDescending(selectable => selectable.transform.position.y);
-
-            string output = $"Selected: {EventSystem.current.currentSelectedGameObject.name} \n";
-            foreach (var s in AllSelectables)
-            {
-                output += $"{(s == EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>() ? "[X] " : "[ ] ")} {s.gameObject.name} \n";
-            }
-
-            Debug.Log(output);
         }
 
         private void SetupSceneDropdown()
@@ -387,7 +368,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 .FirstOrDefault(s => s.navigation.mode != Navigation.Mode.None);
             if (null != nextSelectable)
             {
-                Debug.Log("Setting selected game object to the first selectables game object.");
                 EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
             }
         }
@@ -400,7 +380,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-             GetAllSelectables();
             // Find the next selectable by selecting up or down based on whether the shift or shift equivalent is pressed.
             Selectable next = (InputUtility.ShiftIsPressed())
                 ? EventSystem.current.currentSelectedGameObject
@@ -439,11 +418,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (next != null)
             {
                 EventSystem.current.SetSelectedGameObject(next.gameObject);
-                if (next.gameObject.name == "LogoutButton")
-                {
-                    Debug.Log("We're on the logout button!");
-                }
-                Debug.Log($"Newly focused control: \"{next.gameObject.name}\".");
             }
         }
 
