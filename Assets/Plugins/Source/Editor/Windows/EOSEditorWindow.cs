@@ -20,7 +20,8 @@
  * SOFTWARE.
  */
 
-    using System;
+using PlasticGui.WorkspaceWindow.BranchExplorer;
+using System;
     using System.CodeDom;
     using System.Collections;
     using System.Collections.Generic;
@@ -85,7 +86,14 @@ public abstract class EOSEditorWindow : EditorWindow
     /// </summary>
     private readonly string _preferencesKey;
 
+    /// <summary>
+    /// Used to asynchronously carry out any tasks associated with initializing the window.
+    /// </summary>
     private Task _initializeTask;
+
+    /// <summary>
+    /// Indicates whether or not the window has been initialized.
+    /// </summary>
     private bool _initialized;
 
     protected EOSEditorWindow(float minimumHeight = 50f, float minimumWidth = 50f, string preferencesOverrideKey = null)
@@ -108,6 +116,9 @@ public abstract class EOSEditorWindow : EditorWindow
         EditorApplication.update -= CheckForInitialized;
     }
 
+    /// <summary>
+    /// Checks to see if the windows has been initialized.
+    /// </summary>
     private void CheckForInitialized()
     {
         if (_initializeTask.IsCompleted && !_initialized)
@@ -159,31 +170,29 @@ public abstract class EOSEditorWindow : EditorWindow
     /// </summary>
     protected virtual void Setup()
     {
-        Debug.Log("Synchronous setup running.");
-        foreach (var fieldKeyPair in RetainableFields)
+        foreach (var (field, key) in RetainableFields)
         {
-            if (fieldKeyPair.Field.FieldType.IsValueType)
+            if (field.FieldType.IsValueType)
             {
-                if (typeof(int) == fieldKeyPair.Field.FieldType)
+                if (typeof(int) != field.FieldType) { continue;}
+                
+                if (TryReadPreference(key, out int value))
                 {
-                    if (TryReadPreference(fieldKeyPair.Key, out int value))
-                    {
-                        fieldKeyPair.Field.SetValue(this, value);
-                    }
+                    field.SetValue(this, value);
                 }
             }
             else
             {
                 MethodInfo tryReadPreferenceMethod = GetType().GetMethod("TryReadObjectPreference",
                         BindingFlags.NonPublic | BindingFlags.Instance)?
-                    .MakeGenericMethod(fieldKeyPair.Field.FieldType);
+                    .MakeGenericMethod(field.FieldType);
 
-                object[] args = new object[] { fieldKeyPair.Key, null };
+                object[] args = { key, null };
 
                 bool success = (bool)tryReadPreferenceMethod?.Invoke(this, args)!;
                 if (success)
                 {
-                    fieldKeyPair.Field.SetValue(this, args[1]);
+                    field.SetValue(this, args[1]);
                 }
             }
         }
@@ -194,9 +203,9 @@ public abstract class EOSEditorWindow : EditorWindow
     /// </summary>
     protected virtual void Teardown()
     {
-        foreach (var fieldKeyPair in RetainableFields)
+        foreach (var (field, key) in RetainableFields)
         {
-            SavePreference(fieldKeyPair.Key, fieldKeyPair.Field.GetValue(this));
+            SavePreference(key, field.GetValue(this));
         }
     }
 
@@ -210,8 +219,6 @@ public abstract class EOSEditorWindow : EditorWindow
     /// </summary>
     private async Task Initialize()
     {
-        Debug.Log("Initializing window");
-
         Setup();
 
         await AsyncSetup();

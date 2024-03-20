@@ -22,29 +22,26 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
-    using Editor.Utility;
     using UnityEditor.Build.Reporting;
     using UnityEditor;
     using UnityEngine;
     using System.IO;
     using PlayEveryWare.EpicOnlineServices;
-    using PlayEveryWare.EpicOnlineServices.Editor;
     using System.Collections.Generic;
     using System;
-    using PlayEveryWare.EpicOnlineServices.Editor.Build;
     using PlayEveryWare.EpicOnlineServices.Editor.Config;
+    using System.Threading.Tasks;
 
-    public class EACPostBuild
+    public class EACUtility
     {
         private static readonly HashSet<string> postBuildFilesOptional =
-            new HashSet<string>() { "[ExeName].eac", "EasyAntiCheat/SplashScreen.png" };
+            new() { "[ExeName].eac", "EasyAntiCheat/SplashScreen.png" };
 
         //files with contents that need string vars replaced
-        private static readonly HashSet<string> postBuildFilesWithVars =
-            new HashSet<string>() { "EasyAntiCheat/Settings.json" };
+        private static readonly HashSet<string> postBuildFilesWithVars = new() { "EasyAntiCheat/Settings.json" };
 
         // TODO: From an organizational perspective - this function ought to be implemented
-        //       somewhere other than EACPostBuild, as it's functionality is used in several
+        //       somewhere other than EACUtility, as it's functionality is used in several
         //       places in the build process that have little to do with EAC.
         public static string GetPathToEOSBin()
         {
@@ -65,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static string GetPathToPlatformSpecificAssets(BuildReport report)
         {
-            string platformDirectoryName = null;
+            string platformDirectoryName;
             switch (report.summary.platform)
             {
                 case BuildTarget.StandaloneLinux64:
@@ -135,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         }
 
         //use anticheat_integritytool to hash protected files and generate certificate for EAC
-        private static void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID,
+        private static async Task GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID,
             string keyFileName, string certFileName, string configFile = null)
         {
             string installPathForExe = report.summary.outputPath;
@@ -155,7 +152,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             try
             {
-                ReplaceFileContentVars(newCfgPath, buildExeName);
+                await ReplaceFileContentVars(newCfgPath, buildExeName);
                 configFile = newCfgPath;
 
                 string integrityToolArgs =
@@ -268,7 +265,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             return directories;
         }
 
-        private static void InstallEACFiles(BuildReport report)
+        private static async Task InstallEACFiles(BuildReport report)
         {
             string destDir = Path.GetDirectoryName(report.summary.outputPath);
             string pathToInstallFrom = GetPathToPlatformSpecificAssets(report);
@@ -324,7 +321,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
                     if (postBuildFilesWithVars.Contains(fileToInstall))
                     {
-                        ReplaceFileContentVars(destPathname, buildExeName);
+                        await ReplaceFileContentVars(destPathname, buildExeName);
                     }
                 }
                 else if (!postBuildFilesOptional.Contains(fileToInstall))
@@ -352,14 +349,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             File.Copy(imagePath, destPath, true);
         }
 
-        private static EOSConfig GetEOSConfig()
-        {
-            string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
-            var configDataAsString = File.ReadAllText(configFilePath);
-            var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
-            return configData;
-        }
-
         private static string ReplaceFileNameVars(string filename, string buildExeName)
         {
             filename = filename.Replace("[UnityProductName]", Application.productName);
@@ -367,10 +356,12 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             return filename;
         }
 
-        private static void ReplaceFileContentVars(string filepath, string buildExeName)
+        private static async Task ReplaceFileContentVars(string filepath, string buildExeName)
         {
-            var fileContents = File.ReadAllText(filepath);
-            EOSConfig eosConfig = GetEOSConfig();
+            using StreamReader reader = new(filepath);
+            string fileContents = await reader.ReadToEndAsync();
+
+            EOSConfig eosConfig = await Config.Get<EOSConfig>();
 
             var sb = new System.Text.StringBuilder(fileContents);
 
@@ -384,107 +375,52 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             fileContents = sb.ToString();
 
-            File.WriteAllText(filepath, fileContents);
+            await using StreamWriter writer = new(fileContents);
+            await writer.WriteAsync(fileContents);
         }
 
-        public static void ConfigureEAC(BuildReport report)
+        public static async Task ConfigureEAC(BuildReport report)
         {
-            // TODO: Re-enable
+            ToolsConfig toolsConfig = await Config.Get<ToolsConfig>();
+            
+            // if EAC is not supposed to be installed, then stop here
+            if (!toolsConfig.useEAC)
+            {
+                return;
+            }
 
-//            if (ScriptingDefineUtility.IsEOSDisabled(report.summary.platform))
-//            {
-//                return;
-//            }
+            await InstallEACFiles(report);
 
-//            // Get the output path, and install the launcher if on a target that supports it
-//            if (report.summary.platform == BuildTarget.StandaloneWindows ||
-//                report.summary.platform == BuildTarget.StandaloneWindows64 ||
-//                report.summary.platform == BuildTarget.StandaloneOSX ||
-//                report.summary.platform == BuildTarget.StandaloneLinux64)
-//            {
-//                // Determine whether or not to install EAC
-//                var editorToolsConfigSection = new ToolsConfigEditor();
-//                ToolsConfig editorToolConfig = null;
-//                bool useEAC = false;
+            if (!string.IsNullOrWhiteSpace(toolsConfig.pathToEACSplashImage))
+            {
+                CopySplashImage(report, toolsConfig.pathToEACSplashImage);
+            }
 
-//                editorToolsConfigSection.Load();
+            if (!string.IsNullOrWhiteSpace(toolsConfig.pathToEACPrivateKey) &&
+                !string.IsNullOrWhiteSpace(toolsConfig.pathToEACCertificate))
+            {
+                bool defaultTool = false;
+                string toolPath = toolsConfig.pathToEACIntegrityTool;
+                if (string.IsNullOrWhiteSpace(toolPath))
+                {
+                    toolPath = GetDefaultIntegrityToolPath();
+                    defaultTool = true;
+                }
 
-//                editorToolConfig = editorToolsConfigSection.GetConfig().Data;
-//                if (editorToolConfig != null)
-//                {
-//                    useEAC = editorToolConfig.useEAC;
-//                }
+                string cfgPath = toolsConfig.pathToEACIntegrityConfig;
+                if (string.IsNullOrWhiteSpace(cfgPath) && defaultTool)
+                {
+                    //use default cfg if no cfg is specified and default tool path is used
+                    cfgPath = GetDefaultIntegrityConfigPath();
+                }
 
-//                // if EAC is not supposed to be installed, then stop here
-//                if (!useEAC)
-//                {
-//                    return;
-//                }
-
-//                InstallEACFiles(report);
-
-//                if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACSplashImage))
-//                {
-//                    CopySplashImage(report, editorToolConfig.pathToEACSplashImage);
-//                }
-
-//#if UNITY_EDITOR_WIN
-//                if (report.summary.platform == BuildTarget.StandaloneWindows ||
-//                    report.summary.platform == BuildTarget.StandaloneWindows64)
-//                {
-//                    string bootstrapperName = null;
-//                    if (editorToolConfig != null)
-//                    {
-//                        bootstrapperName = editorToolConfig.bootstrapperNameOverride;
-//                    }
-
-//                    if (string.IsNullOrWhiteSpace(bootstrapperName))
-//                    {
-//                        bootstrapperName = "EOSBootstrapper.exe";
-//                    }
-
-//                    if (!bootstrapperName.EndsWith(".exe"))
-//                    {
-//                        bootstrapperName += ".exe";
-//                    }
-
-//                    string pathToEOSBootStrapperTool = Path.Combine(GetPathToEOSBin(), "EOSBootstrapperTool.exe");
-
-//                    string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
-
-//                    string bootstrapperTarget =
-//                        useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
-
-//                    InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
-//                        bootstrapperName);
-//                }
-//#endif
-
-//                if (!string.IsNullOrWhiteSpace(editorToolConfig.pathToEACPrivateKey) &&
-//                    !string.IsNullOrWhiteSpace(editorToolConfig.pathToEACCertificate))
-//                {
-//                    bool defaultTool = false;
-//                    string toolPath = editorToolConfig.pathToEACIntegrityTool;
-//                    if (string.IsNullOrWhiteSpace(toolPath))
-//                    {
-//                        toolPath = GetDefaultIntegrityToolPath();
-//                        defaultTool = true;
-//                    }
-
-//                    string cfgPath = editorToolConfig.pathToEACIntegrityConfig;
-//                    if (string.IsNullOrWhiteSpace(cfgPath) && defaultTool)
-//                    {
-//                        //use default cfg if no cfg is specified and default tool path is used
-//                        cfgPath = GetDefaultIntegrityConfigPath();
-//                    }
-
-//                    if (!string.IsNullOrWhiteSpace(toolPath))
-//                    {
-//                        GenerateIntegrityCert(report, toolPath, GetEOSConfig().productID,
-//                            editorToolConfig.pathToEACPrivateKey, editorToolConfig.pathToEACCertificate, cfgPath);
-//                    }
-//                }
-//            }
+                if (!string.IsNullOrWhiteSpace(toolPath))
+                {
+                    var productId = (await Config.Get<EOSConfig>()).productID;
+                    await GenerateIntegrityCert(report, toolPath, productId,
+                        toolsConfig.pathToEACPrivateKey, toolsConfig.pathToEACCertificate, cfgPath);
+                }
+            }
         }
     }
 }

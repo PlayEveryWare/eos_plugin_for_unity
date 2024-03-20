@@ -143,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             string pathToEOSBootStrapperTool, string bootstrapperFileName)
         {
             string installPathForEOSBootStrapper = Path.Combine(installDirectory, bootstrapperFileName);
-            string workingDirectory = EACPostBuild.GetPathToEOSBin();
+            string workingDirectory = EACUtility.GetPathToEOSBin();
             string bootStrapperArgs = ""
                                       + $" --output-path \"{installPathForEOSBootStrapper}\""
                                       + $" --app-path \"{appFilenameExe}\"";

@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             if (IsStandalone())
             {
                 // Configure easy-anti-cheat.
-                EACPostBuild.ConfigureEAC(report);
+                EACUtility.ConfigureEAC(report).Wait();
             }
         }
 
