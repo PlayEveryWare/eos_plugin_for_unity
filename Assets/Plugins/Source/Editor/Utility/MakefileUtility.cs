@@ -27,6 +27,10 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Config;
+    using System.Threading.Tasks;
+    using Config = EpicOnlineServices.Config;
+
     [InitializeOnLoad]
     public static partial class MakefileUtility
     {
@@ -102,86 +106,78 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #endif
         }
 
-        private static string GetMSBuildPath()
+        private static async Task<string> GetMSBuildPath()
         {
-            // TODO: Re-enable
-            //var configEditor = new LibraryBuildConfigEditor();
-            //configEditor.Load();
+            var libraryConfig = await Config.Get<LibraryBuildConfig>();
 
-            //if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
-            //{
-            //    return configEditor.GetConfig().Data.msbuildPath;
-            //}
-            //else if (RunProcess("where", "msbuild", printOutput: false, printError: false) != 0)
-            //{
-            //    return "msbuild";
-            //}
-            //else
-            //{
-            //    return null;
-            //}
-            return "msbuild";
+            if (!string.IsNullOrWhiteSpace(libraryConfig.msbuildPath))
+            {
+                return libraryConfig.msbuildPath;
+            }
+            else if (RunProcess("where", "msbuild", printOutput: false, printError: false) != 0)
+            {
+                return "msbuild";
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        private static string GetMakePath()
+        private static async Task<string> GetMakePath()
         {
-            //var configEditor = new LibraryBuildConfigEditor();
-            //configEditor.Load();
+            var libraryConfig = await Config.Get<LibraryBuildConfig>();
 
-            //if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.makePath))
-            //{
-            //    return configEditor.GetConfig().Data.makePath;
-            //}
-            //else if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
-            //{
-            //    return "make";
-            //}
-            //else
-            //{
-            //    return null;
-            //}
+            if (!string.IsNullOrWhiteSpace(libraryConfig.makePath))
+            {
+                return libraryConfig.makePath;
+            }
+            else if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
+            {
+                return "make";
+            }
+            else
+            {
+                return null;
+            }
             return "make";
         }
 
-        private static bool IsMSBuildDebugEnabled()
+        private static async Task<bool> IsMSBuildDebugEnabled()
         {
-            //var configEditor = new LibraryBuildConfigEditor();
-            //configEditor.Load();
-
-            //if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
-            //{
-            //    return configEditor.GetConfig().Data.msbuildDebug;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-
-            return false;
+            var libraryConfig = await Config.Get<LibraryBuildConfig>();
+            if (!string.IsNullOrWhiteSpace(libraryConfig.msbuildPath))
+            {
+                return libraryConfig.msbuildDebug;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public static void RunMSBuild(string solutionName, string platform, string workingDir = "")
+        public static async Task RunMSBuild(string solutionName, string platform, string workingDir = "")
         {
-            string msbuildPath = GetMSBuildPath();
+            string msbuildPath = await GetMSBuildPath();
             if (string.IsNullOrWhiteSpace(msbuildPath))
             {
                 Debug.LogError("msbuild not found");
             }
             else
             {
-                string buildConfig = IsMSBuildDebugEnabled() ? "Debug" : "Release";
+                string buildConfig = await IsMSBuildDebugEnabled() ? "Debug" : "Release";
                 RunProcess(msbuildPath, $"{solutionName} /t:Clean;Rebuild /p:Configuration={buildConfig} /p:Platform={platform}", workingDir);
             }
         }
 
-        private static void BuildWindows(string platform)
+        private static async Task BuildWindows(string platform)
         {
-            RunMSBuild("DynamicLibraryLoaderHelper.sln", platform, "lib/NativeCode/DynamicLibraryLoaderHelper");
+            await RunMSBuild("DynamicLibraryLoaderHelper.sln", platform, "lib/NativeCode/DynamicLibraryLoaderHelper");
         }
 
-        private static void RunMake(string makefileDir)
+        private static async Task RunMake(string makefileDir)
         {
-            string makePath = GetMakePath();
+            string makePath = await GetMakePath();
             if (string.IsNullOrWhiteSpace(makePath))
             {
                 Debug.LogError("make command not found");
@@ -192,14 +188,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        private static void BuildMac()
+        private static async Task BuildMac()
         {
-            RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_macOS");
+            await RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_macOS");
         }
 
-        private static void BuildLinux()
+        private static async Task BuildLinux()
         {
-            RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_Linux");
+            await RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_Linux");
         }
 
         private static int RunProcess(string processPath, string arguments, string workingDir = "", bool printOutput = true, bool printError = true)
