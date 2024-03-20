@@ -85,7 +85,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public GameObject UIFirstSelected;
         public GameObject UIFindSelectable;
 
-        private EventSystem system;
         private GameObject selectedGameObject;
 
         //use to indicate Connect login instead of Auth
@@ -211,8 +210,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             _OriginalloginButtonText = loginButtonText.text;
             InitConnectDropdown();
             ConfigureUIForLogin();
-
-            system = EventSystem.current;
 
             // Populate the Scene dropdown.
             SetupSceneDropdown();

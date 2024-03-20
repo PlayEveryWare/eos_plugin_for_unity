@@ -1578,14 +1578,14 @@ namespace PlayEveryWare.EpicOnlineServices
                     s_state = EOSState.ShuttingDown;
                     print("Shutting down eos and releasing handles");
                     // Not doing this in the editor, because it doesn't seem to be an issue there
-//#if !UNITY_EDITOR_OSX
+#if !UNITY_EDITOR_OSX
 #if !UNITY_EDITOR
                     Debug.Log("Running garbage collection.");
                     System.GC.Collect();
 
                     Debug.Log("Waiting for pending finalizers.");
                     System.GC.WaitForPendingFinalizers();
-//#endif
+#endif
                     Debug.Log("Releasing the EOS Platform Interface.");
                     GetEOSPlatformInterface()?.Release();
 
