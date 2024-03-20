@@ -218,6 +218,21 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             SetupSceneDropdown();
         }
 
+        private static void GetAllSelectables()
+        {
+            var AllSelectables = Selectable.allSelectablesArray
+                .Where(selectable => selectable.navigation.mode != Navigation.Mode.None && selectable.isActiveAndEnabled && selectable.gameObject.activeInHierarchy)
+                .OrderByDescending(selectable => selectable.transform.position.y);
+
+            string output = $"Selected: {EventSystem.current.currentSelectedGameObject.name} \n";
+            foreach (var s in AllSelectables)
+            {
+                output += $"{(s == EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>() ? "[X] " : "[ ] ")} {s.gameObject.name} \n";
+            }
+
+            Debug.Log(output);
+        }
+
         private void SetupSceneDropdown()
         {
             // Get the currently active scene name.
@@ -368,24 +383,15 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         /// <param name="findSelectable">Reference to the GameObject that can be used to find other selectables if doing so is necessary.</param>
         private static void SetSelectedGameObject(ref GameObject firstGameObject, ref GameObject findSelectable)
         {
-            if (firstGameObject.activeInHierarchy)
+            if (null != EventSystem.current.currentSelectedGameObject)
+                return;
+
+            var nextSelectable = FindObjectsOfType<Selectable>(false)
+                .FirstOrDefault(s => s.navigation.mode != Navigation.Mode.None);
+            if (null != nextSelectable)
             {
-                EventSystem.current.SetSelectedGameObject(firstGameObject);
-            }
-            else if (findSelectable.activeSelf)
-            {
-                EventSystem.current.SetSelectedGameObject(findSelectable);
-                
-                Debug.Log($"Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = \"{EventSystem.current.currentSelectedGameObject}\".");
-            }
-            else
-            {
-                var nextSelectable = FindObjectsOfType<Selectable>(false)
-                    .FirstOrDefault(s => s.navigation.mode != Navigation.Mode.None);
-                if (null != nextSelectable)
-                {
-                    EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
-                }
+                Debug.Log("Setting selected game object to the first selectables game object.");
+                EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
             }
         }
 
@@ -397,20 +403,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            Debug.Log("Handling tab press.");
-
+             GetAllSelectables();
             // Find the next selectable by selecting up or down based on whether the shift or shift equivalent is pressed.
             Selectable next = (InputUtility.ShiftIsPressed())
                 ? EventSystem.current.currentSelectedGameObject
                     .GetComponent<Selectable>().FindSelectableOnUp()
-                : EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+                : EventSystem.current.currentSelectedGameObject
+                    .GetComponent<Selectable>().FindSelectableOnDown();
 
             // NOTE: Previously the following while loop was only executed when ENABLE_INPUT_SYSTEM is set.
             // TODO: Confirm no regressions in functionality.
-            //while (null != next && !next.gameObject.activeSelf)
-            //{
-            //    next = InputUtility.ShiftIsPressed() ? next.FindSelectableOnDown() : next.FindSelectableOnUp();
-            //}
+            while (null != next && !next.gameObject.activeSelf)
+            {
+                next = InputUtility.ShiftIsPressed() ? next.FindSelectableOnDown() : next.FindSelectableOnUp();
+            }
 
             if (next != null)
             {
@@ -426,7 +432,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // Find the navigable selectable with the highest y position (highest on the
                 // screen), and set "next" to that selectable.
                 next = Selectable.allSelectablesArray
-                    .Where(selectable => selectable.navigation.mode != Navigation.Mode.None)
+                    .Where(selectable => selectable.navigation.mode != Navigation.Mode.None && selectable.gameObject.activeInHierarchy && selectable.gameObject.activeSelf)
                     .OrderByDescending(selectable => selectable.transform.position.y)
                     .FirstOrDefault();
             }
@@ -436,6 +442,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (next != null)
             {
                 EventSystem.current.SetSelectedGameObject(next.gameObject);
+                if (next.gameObject.name == "LogoutButton")
+                {
+                    Debug.Log("We're on the logout button!");
+                }
+                Debug.Log($"Newly focused control: \"{next.gameObject.name}\".");
             }
         }
 
