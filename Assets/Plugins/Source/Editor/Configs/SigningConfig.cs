@@ -24,9 +24,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
-    using Config = EpicOnlineServices.Config;
-
-    public class SigningConfig : Config
+    public class SigningConfig : EditorConfig
     {
         public SigningConfig() : base("eos_plugin_signing_config.json") { }
 

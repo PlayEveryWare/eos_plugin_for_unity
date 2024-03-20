@@ -22,9 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
-    using Config = EpicOnlineServices.Config;
-
-    public class PackagingConfig : Config
+    public class PackagingConfig : EditorConfig
     {
         public PackagingConfig() : base("eos_plugin_packaging_config.json") { }
         public string customBuildDirectoryPath;

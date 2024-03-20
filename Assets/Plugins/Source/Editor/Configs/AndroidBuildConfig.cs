@@ -22,10 +22,9 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
-    using Config = EpicOnlineServices.Config;
 
     [Serializable]
-    public class AndroidBuildConfig : Config
+    public class AndroidBuildConfig : EditorConfig
     {
         public AndroidBuildConfig() : base("eos_plugin_android_build_config.json") { }
 

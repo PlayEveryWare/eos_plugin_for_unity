@@ -23,14 +23,13 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
-    using Config = EpicOnlineServices.Config;
-
+    
     /// <summary>
     /// Represents the EOS Plugin Configuration used for values that might 
     /// vary depending  on the environment that one is running Unity from.
     /// </summary>
     [Serializable]
-    public class ToolsConfig : Config
+    public class ToolsConfig : EditorConfig
     {
         public ToolsConfig() : base("eos_plugin_tools_config.json") { }
 
