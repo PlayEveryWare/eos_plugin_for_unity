@@ -213,8 +213,7 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string GetConfigFilePath(Platform platform)
         {
             return Path.Combine(
-                Application.dataPath,
-                "StreamingAssets",
+                Application.streamingAssetsPath,
                 "EOS",
                 GetPlatformConfigFileName(platform)
                 );
