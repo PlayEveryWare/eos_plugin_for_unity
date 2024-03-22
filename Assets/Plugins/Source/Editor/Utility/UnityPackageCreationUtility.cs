@@ -66,11 +66,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         public static string customOutputDirectory = "";
 
         /// <summary>
-        /// Contains section of package.json file pertaining to configuration
-        /// </summary>
-        //public static PackagingConfigEditor packageConfig;
-
-        /// <summary>
         /// This is used in order to use StartCoroutine from a static context.
         /// </summary>
         public static CoroutineExecutor executorInstance;
