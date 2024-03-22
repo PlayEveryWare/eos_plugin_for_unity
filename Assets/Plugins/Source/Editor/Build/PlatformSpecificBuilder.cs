@@ -250,7 +250,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             // Build any project that needs to be built.
             foreach (string project in projectsToBuild)
             {
-                BuildUtility.BuildNativeLibrary(project, _nativeCodeOutputDirectory);
+                if (!BuildUtility.BuildNativeLibrary(project, _nativeCodeOutputDirectory))
+                {
+
+                }
             }
         }
 
