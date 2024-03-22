@@ -22,8 +22,12 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
+    using Editor.Config;
     using Editor.Utility;
     using System;
+    using System.IO;
+    using System.Threading.Tasks;
+    using UnityEditor;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
@@ -106,7 +110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 return;
             }
 
-            // perform the pre-build task for the platform using it's builder.
+            // Perform the pre-build task for the platform using its builder.
             GetBuilder()?.PreBuild(report);
         }
 
@@ -122,7 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 return;
             }
 
-            // Perform the post-build task for the platform using it's builder.
+            // Perform the post-build task for the platform using its builder.
             GetBuilder()?.PostBuild(report);
         }
     }

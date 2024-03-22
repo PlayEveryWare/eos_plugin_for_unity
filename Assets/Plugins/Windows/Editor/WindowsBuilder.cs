@@ -79,7 +79,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             ConfigureAndInstallBootstrapper(report);
         }
 
-        private static void ConfigureAndInstallBootstrapper(BuildReport report)
+        private static async void ConfigureAndInstallBootstrapper(BuildReport report)
         {
             /*
              * NOTE:
@@ -109,22 +109,14 @@ namespace PlayEveryWare.EpicOnlineServices.Build
              * that are difficult to diagnose.
              */
 
-            // Determine whether or not to install EAC
-            var editorToolsConfigSection = new ToolsConfigEditor();
-            bool useEAC = false;
-
-            editorToolsConfigSection.Load();
-
-            ToolsConfig editorToolConfig = editorToolsConfigSection.GetConfig().Data;
-            if (editorToolConfig != null)
-            {
-                useEAC = editorToolConfig.useEAC;
-            }
+            // Determine whether to install EAC
+            
+            ToolsConfig toolsConfig = await Config.Get<ToolsConfig>();
 
             string bootstrapperName = null;
-            if (editorToolConfig != null)
+            if (toolsConfig != null)
             {
-                bootstrapperName = editorToolConfig.bootstrapperNameOverride;
+                bootstrapperName = toolsConfig.bootstrapperNameOverride;
             }
 
             if (string.IsNullOrWhiteSpace(bootstrapperName))
@@ -141,8 +133,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
 
-            string bootstrapperTarget =
-                useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
+            string bootstrapperTarget = toolsConfig.useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
 
             InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
                 bootstrapperName);
@@ -152,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             string pathToEOSBootStrapperTool, string bootstrapperFileName)
         {
             string installPathForEOSBootStrapper = Path.Combine(installDirectory, bootstrapperFileName);
-            string workingDirectory = EACPostBuild.GetPathToEOSBin();
+            string workingDirectory = EACUtility.GetPathToEOSBin();
             string bootStrapperArgs = ""
                                       + $" --output-path \"{installPathForEOSBootStrapper}\""
                                       + $" --app-path \"{appFilenameExe}\"";

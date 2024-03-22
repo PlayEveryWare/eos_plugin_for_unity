@@ -33,16 +33,18 @@ using UnityEngine.InputSystem;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.Network
 {
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+
     public class P2PTransportPresenceData
     {
-        public const string ValidIdenfier = "P2PTRANSPORT";
+        public const string ValidIdentifier = "P2PTRANSPORT";
 
         public string SceneIdentifier;
         public string ServerUserId;
 
         public bool IsValid()
         {
-            return SceneIdentifier == ValidIdenfier;
+            return SceneIdentifier == ValidIdentifier;
         }
     }
 
@@ -311,7 +313,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         {
             var joinData = new P2PTransportPresenceData()
             {
-                SceneIdentifier = P2PTransportPresenceData.ValidIdenfier,
+                SceneIdentifier = P2PTransportPresenceData.ValidIdentifier,
                 ServerUserId = serverUserId.ToString()
             };
 

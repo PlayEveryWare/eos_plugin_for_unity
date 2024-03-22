@@ -30,7 +30,11 @@ using System;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using Config;
+    using System.Runtime.InteropServices;
+    using System.Threading.Tasks;
     using Utility;
+    using Config = EpicOnlineServices.Config;
 
     [Serializable]
     public class CreatePackageWindow : EOSEditorWindow
@@ -47,6 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void RenderWindow()
         {
+            var packagingConfig = Config.Get<PackagingConfig>().Result;
             GUILayout.Space(10f);
 
             GUILayout.BeginHorizontal();
@@ -58,10 +63,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 if (!string.IsNullOrWhiteSpace(outputDir))
                 {
                     UPCUtil.pathToOutput = outputDir;
-                    UPCUtil.packageConfig.GetCurrentConfig().pathToOutput = UPCUtil.pathToOutput;
+                    packagingConfig.pathToOutput = outputDir;
+                    packagingConfig.WriteAsync().Wait();
                 }
             }
 
+            
             GUILayout.Space(10f);
             GUILayout.EndHorizontal();
 
@@ -77,7 +84,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     if (!string.IsNullOrWhiteSpace(jsonFile))
                     {
                         UPCUtil.jsonPackageFile = jsonFile;
-                        UPCUtil.packageConfig.GetCurrentConfig().pathToJSONPackageDescription = UPCUtil.jsonPackageFile;
+                        packagingConfig.pathToJSONPackageDescription = jsonFile;
+                        packagingConfig.WriteAsync().Wait();
                     }
                 }
 
@@ -92,31 +100,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
             {
-                if (SaveConfiguration())
-                {
-                    UPCUtil.CreateUPMTarball(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
-                    OnPackageCreated(UPCUtil.pathToOutput);
-                }
+                packagingConfig.WriteAsync().Wait();
+                UPCUtil.CreateUPMTarball(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+                OnPackageCreated(UPCUtil.pathToOutput);
             }
 
             if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
             {
-                if (SaveConfiguration())
-                {
-                    // Creating the dot unity package file is asynchronous, so don't display a popup
-                    UPCUtil.CreateDotUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
-
-                    //OnPackageCreated(UPCUtil.pathToOutput);
-                }
+                packagingConfig.WriteAsync().Wait();
+                // Creating the dot unity package file is asynchronous, so don't display a popup
+                UPCUtil.CreateDotUnityPackage(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
             }
 
             if (GUILayout.Button("Export Directory", GUILayout.MaxWidth(200)))
             {
-                if (SaveConfiguration())
-                {
-                    UPCUtil.CreateUPM(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
-                    OnPackageCreated(UPCUtil.pathToOutput);
-                }
+                packagingConfig.WriteAsync().Wait();
+                UPCUtil.CreateUPM(UPCUtil.pathToOutput, UPCUtil.jsonPackageFile);
+                OnPackageCreated(UPCUtil.pathToOutput);
             }
 
             GUILayout.FlexibleSpace();
@@ -130,18 +130,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 "Package created",
                 $"Package was successfully created at \"{outputPath}\"",
                 "Ok");
-        }
-
-        private bool SaveConfiguration()
-        {
-            if (string.IsNullOrWhiteSpace(UPCUtil.pathToOutput) &&
-                false == OnEmptyOutputPath(ref UPCUtil.pathToOutput))
-            {
-                return false;
-            }
-
-            UPCUtil.packageConfig.Save(true);
-            return true;
         }
 
         private bool OnEmptyOutputPath(ref string output)

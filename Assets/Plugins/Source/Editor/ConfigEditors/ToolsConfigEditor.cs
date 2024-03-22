@@ -27,17 +27,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
     public class ToolsConfigEditor : ConfigEditor<ToolsConfig>
     {
-        public ToolsConfigEditor() : base("Tools", "eos_plugin_tools_config.json") { }
+        public ToolsConfigEditor() : base("Tools") { }
 
         public override void RenderContents()
         {
-            string pathToIntegrityTool = (ConfigHandler.Data.pathToEACIntegrityTool);
-            string pathToIntegrityConfig = (ConfigHandler.Data.pathToEACIntegrityConfig);
-            string pathToEACCertificate = (ConfigHandler.Data.pathToEACCertificate);
-            string pathToEACPrivateKey = (ConfigHandler.Data.pathToEACPrivateKey);
-            string pathToEACSplashImage = (ConfigHandler.Data.pathToEACSplashImage);
-            string bootstrapOverideName = (ConfigHandler.Data.bootstrapperNameOverride);
-            bool useEAC = ConfigHandler.Data.useEAC;
+            string pathToIntegrityTool = (config.pathToEACIntegrityTool);
+            string pathToIntegrityConfig = (config.pathToEACIntegrityConfig);
+            string pathToEACCertificate = (config.pathToEACCertificate);
+            string pathToEACPrivateKey = (config.pathToEACPrivateKey);
+            string pathToEACSplashImage = (config.pathToEACSplashImage);
+            string bootstrapOverideName = (config.bootstrapperNameOverride);
+            bool useEAC = config.useEAC;
 
             GUIEditorUtility.AssigningPath("Path to EAC Integrity Tool", ref pathToIntegrityTool, "Select EAC Integrity Tool",
                 tooltip: "EOS SDK tool used to generate EAC certificate from file hashes");
@@ -53,13 +53,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
             GUIEditorUtility.AssigningBoolField("Use EAC", ref useEAC, tooltip: "If set to true, uses the EAC");
             GUIEditorUtility.AssigningTextField("Bootstrapper Name Override", ref bootstrapOverideName, labelWidth: 180, tooltip: "Name to use instead of 'Bootstrapper.exe'");
 
-            ConfigHandler.Data.pathToEACIntegrityTool = pathToIntegrityTool;
-            ConfigHandler.Data.pathToEACIntegrityConfig = pathToIntegrityConfig;
-            ConfigHandler.Data.pathToEACPrivateKey = pathToEACPrivateKey;
-            ConfigHandler.Data.pathToEACCertificate = pathToEACCertificate;
-            ConfigHandler.Data.pathToEACSplashImage = pathToEACSplashImage;
-            ConfigHandler.Data.useEAC = useEAC;
-            ConfigHandler.Data.bootstrapperNameOverride = bootstrapOverideName;
+            config.pathToEACIntegrityTool = pathToIntegrityTool;
+            config.pathToEACIntegrityConfig = pathToIntegrityConfig;
+            config.pathToEACPrivateKey = pathToEACPrivateKey;
+            config.pathToEACCertificate = pathToEACCertificate;
+            config.pathToEACSplashImage = pathToEACSplashImage;
+            config.useEAC = useEAC;
+            config.bootstrapperNameOverride = bootstrapOverideName;
         }
     }
 }
