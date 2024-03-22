@@ -22,7 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor
 {
-    using System.IO;
     using System.Threading.Tasks;
 
     /// <summary>
