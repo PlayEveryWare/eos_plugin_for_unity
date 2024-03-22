@@ -38,6 +38,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor.Build;
     using Debug = UnityEngine.Debug;
 
+    /// <summary>
+    /// Contains functions to carry out a variety of tasks related to building.
+    /// </summary>
     public static class BuildUtility
     {
         /// <summary>
@@ -60,6 +63,14 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             /// </summary>
             public string[] Toolsets;
         }
+
+        /// <summary>
+        /// Delegate defining the function signature of a function capable of building the native code at the indicated project file path.
+        /// </summary>
+        /// <param name="projectFilePath">Path to the project file.</param>
+        /// <param name="binaryOutput">Location to output the results to.</param>
+        /// <returns>True if the build was successful, false otherwise.</returns>
+        private delegate bool BuildNativeLibraryDelegate(string projectFilePath, string binaryOutput);
 
         /// <summary>
         /// Used to store information about all the installations of Visual Studio on the current system.
@@ -255,14 +266,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             installation = null;
             return false;
         }
-
-        /// <summary>
-        /// Delegate defining the function signature of a function capable of building the native code at the indicated project file path.
-        /// </summary>
-        /// <param name="projectFilePath">Path to the project file.</param>
-        /// <param name="binaryOutput">Location to output the results to.</param>
-        /// <returns>True if the build was successful, false otherwise.</returns>
-        private delegate bool BuildNativeLibraryDelegate(string projectFilePath, string binaryOutput);
 
         /// <summary>
         /// Given a project filepath, return a function capable of building the project at the indicated path.
