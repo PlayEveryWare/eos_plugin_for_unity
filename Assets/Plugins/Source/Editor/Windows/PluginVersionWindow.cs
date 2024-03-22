@@ -27,8 +27,6 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
-    using System.Threading.Tasks;
-
     /// <summary>
     /// Unity Editor tool to display plug-in version information.
     /// </summary>
