@@ -1,0 +1,15 @@
+{
+    "source_to_dest": [
+        {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam.meta"},
+        {"src":"Assets/Scripts/Steam/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam/"},
+
+        {"src":"Assets/Plugins/Source/Editor/Utility.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs.meta", "dest": "Editor/Utility/"}
+    ],
+    "blacklist": [
+        "*.png"
+    ]
+}

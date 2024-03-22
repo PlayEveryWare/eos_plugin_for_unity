@@ -1,0 +1,36 @@
+{
+    "source_to_dest": [
+        {"comment": "----------------------------Linux---------------------------------------------"},
+        
+        {"src":"Assets/Plugins/Linux.meta", "dest": "Runtime/"},
+        
+        {"src":"Assets/Plugins/Linux/license.txt", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/license.txt.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.so", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.so.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.cs", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/*.cs.meta", "dest": "Runtime/Linux/"},
+        
+        {"src":"Assets/Plugins/Linux/Core.meta", "dest": "Runtime/Linux/"},
+        {"src":"Assets/Plugins/Linux/Core/*", "dest": "Runtime/Linux/Core/"},
+        
+        {"src":"Assets/Plugins/Linux/Editor.meta", "dest": "Editor/Linux.meta"},
+        {"src":"Assets/Plugins/Linux/Editor/*.cs", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.cs.meta", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.asmref", "dest": "Editor/Linux/"},
+        {"src":"Assets/Plugins/Linux/Editor/*.asmref.meta", "dest": "Editor/Linux/"},
+        
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/eac_launcher", "dest": "PlatformSpecificAssets~/EOS/Linux/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Licenses/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/Localization/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Linux/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Linux/EasyAntiCheat/"},
+        
+        {"comment": "----------------------------End Linux---------------------------------------------"}
+    ],
+    "blacklist": [
+        "*.png"
+    ]
+}

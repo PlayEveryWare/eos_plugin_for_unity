@@ -1,0 +1,7 @@
+{
+    "packagePresetList": [
+         {"name":"Public","platformList":["Public","Shared","Android","Linux","Mac","iOS","Windows","Steam"]},
+         {"name":"Standalone","platformList":["Shared","Linux","Mac","Windows"]},
+         {"name":"Mobile","platformList":["Shared","Android","iOS"]}
+    ]
+}

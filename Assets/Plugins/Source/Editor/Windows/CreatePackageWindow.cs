@@ -39,10 +39,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         bool showJSON = false;
 
+        bool buildWithPresets = false;
+
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
         {
             GetWindow<CreatePackageWindow>("Create Package");
+        }
+
+        protected override void Setup()
+        {
+            UnityPackageCreationUtility.ReloadPackageDescriptions();
         }
 
         protected override void RenderWindow()
@@ -90,6 +97,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.FlexibleSpace();
+
+
             if (GUILayout.Button("Create UPM Package", GUILayout.MaxWidth(200)))
             {
                 if (SaveConfiguration())
@@ -122,6 +131,43 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.FlexibleSpace();
             GUILayout.Space(20f);
             GUILayout.EndHorizontal();
+
+
+            GUILayout.Space(10f);
+
+            buildWithPresets = GUILayout.Toggle(buildWithPresets, "Build with Presets");
+
+            if (buildWithPresets)
+            {   
+                GUILayout.Label("UPM Presets Build Tool");
+
+                foreach (var package in UnityPackageCreationUtility.packagePlatformsDict)
+                {
+                    GUILayout.BeginHorizontal();
+
+                    UnityPackageCreationUtility.isPackageExported[package.Key] = GUILayout.Toggle(UnityPackageCreationUtility.isPackageExported[package.Key], package.Key, "button", GUILayout.MaxWidth(100));
+
+                    foreach (var platform in package.Value)
+                    {
+                        GUILayout.Label(platform, GUILayout.MaxWidth(80));
+                    }
+
+                    GUILayout.EndHorizontal();
+
+                }
+
+                if (GUILayout.Button("Create Selected UPMs ", GUILayout.MaxWidth(200)))
+                {
+                    foreach (var package in UnityPackageCreationUtility.packagePlatformsDict)
+                    {
+                        if (UnityPackageCreationUtility.isPackageExported[package.Key])
+                        {
+                            UnityPackageCreationUtility.CreateUPMTarballV2(package.Key);
+                            OnPackageCreated(UnityPackageCreationUtility.pathToOutput);
+                        }
+                    }
+                }
+            }
         }
 
         private void OnPackageCreated(string outputPath)

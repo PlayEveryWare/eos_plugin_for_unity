@@ -1,0 +1,6 @@
+{
+    "source_to_dest": [
+        {"src":"etc/PackageTemplate/Public/package.json", "dest" : ""},
+        {"src":"etc/PackageTemplate/Public/package.json.meta", "dest" : ""}
+    ]
+}
