@@ -244,7 +244,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 }
 
                 installation = vs;
-                return true;
+                return (0 == missingToolsets.Count);
             }
 
             Debug.LogWarning($"Cannot find installation of Visual Studio of major version {vsVersionRequired.Major}");
