@@ -27,6 +27,15 @@ using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
+    using Config;
+    using System.Threading.Tasks;
+    using Config = EpicOnlineServices.Config;
+
+    /// <summary>
+    /// TODO: This needs to be deprecated - the new build system is ready to replace it. That is - you
+    /// no longer ever need to run this tool from the toolbar.
+    /// </summary>
+
     [InitializeOnLoad]
     public static partial class MakefileUtility
     {
@@ -40,18 +49,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
 
         [MenuItem("Tools/EOS Plugin/Build Libraries/Win32")]
-        public static void BuildLibrariesWin32()
+        public static async Task BuildLibrariesWin32()
         {
 #if UNITY_EDITOR_WIN
-            BuildWindows("x86");
+            await BuildWindows("x86");
 #endif
         }
 
         [MenuItem("Tools/EOS Plugin/Build Libraries/Win64")]
-        public static void BuildLibrariesWin64()
+        public static async Task BuildLibrariesWin64()
         {
 #if UNITY_EDITOR_WIN
-            BuildWindows("x64");
+            await BuildWindows("x64");
 #endif
         }
 
@@ -102,14 +111,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #endif
         }
 
-        private static string GetMSBuildPath()
+        private static async Task<string> GetMSBuildPath()
         {
-            var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Load();
+            var libraryConfig = await Config.Get<LibraryBuildConfig>();
 
-            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
+            if (!string.IsNullOrWhiteSpace(libraryConfig.msbuildPath))
             {
-                return configEditor.GetConfig().Data.msbuildPath;
+                return libraryConfig.msbuildPath;
             }
             else if (RunProcess("where", "msbuild", printOutput: false, printError: false) != 0)
             {
@@ -121,14 +129,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        private static string GetMakePath()
+        private static async Task<string> GetMakePath()
         {
-            var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Load();
+            var libraryConfig = await Config.Get<LibraryBuildConfig>();
 
-            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.makePath))
+            if (!string.IsNullOrWhiteSpace(libraryConfig.makePath))
             {
-                return configEditor.GetConfig().Data.makePath;
+                return libraryConfig.makePath;
             }
             else if (RunProcess("which", "make", printOutput: false, printError: false) != 0)
             {
@@ -140,43 +147,34 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        private static bool IsMSBuildDebugEnabled()
+        private static async Task<bool> IsMSBuildDebugEnabled()
         {
-            var configEditor = new LibraryBuildConfigEditor();
-            configEditor.Load();
-
-            if (configEditor.GetConfig().Data != null && !string.IsNullOrWhiteSpace(configEditor.GetConfig().Data.msbuildPath))
-            {
-                return configEditor.GetConfig().Data.msbuildDebug;
-            }
-            else
-            {
-                return false;
-            }
+            var libraryConfig = await Config.Get<LibraryBuildConfig>();
+            return !string.IsNullOrWhiteSpace(libraryConfig.msbuildPath) && libraryConfig.msbuildDebug;
         }
 
-        public static void RunMSBuild(string solutionName, string platform, string workingDir = "")
+        public static async Task RunMSBuild(string solutionName, string platform, string workingDir = "")
         {
-            string msbuildPath = GetMSBuildPath();
+            string msbuildPath = await GetMSBuildPath();
             if (string.IsNullOrWhiteSpace(msbuildPath))
             {
                 Debug.LogError("msbuild not found");
             }
             else
             {
-                string buildConfig = IsMSBuildDebugEnabled() ? "Debug" : "Release";
+                string buildConfig = await IsMSBuildDebugEnabled() ? "Debug" : "Release";
                 RunProcess(msbuildPath, $"{solutionName} /t:Clean;Rebuild /p:Configuration={buildConfig} /p:Platform={platform}", workingDir);
             }
         }
 
-        private static void BuildWindows(string platform)
+        private static async Task BuildWindows(string platform)
         {
-            RunMSBuild("DynamicLibraryLoaderHelper.sln", platform, "lib/NativeCode/DynamicLibraryLoaderHelper");
+            await RunMSBuild("DynamicLibraryLoaderHelper.sln", platform, "lib/NativeCode/DynamicLibraryLoaderHelper");
         }
 
-        private static void RunMake(string makefileDir)
+        private static async Task RunMake(string makefileDir)
         {
-            string makePath = GetMakePath();
+            string makePath = await GetMakePath();
             if (string.IsNullOrWhiteSpace(makePath))
             {
                 Debug.LogError("make command not found");
@@ -187,14 +185,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
         }
 
-        private static void BuildMac()
+        private static async Task BuildMac()
         {
-            RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_macOS");
+            await RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_macOS");
         }
 
-        private static void BuildLinux()
+        private static async Task BuildLinux()
         {
-            RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_Linux");
+            await RunMake("lib/NativeCode/DynamicLibraryLoaderHelper_Linux");
         }
 
         private static int RunProcess(string processPath, string arguments, string workingDir = "", bool printOutput = true, bool printError = true)
@@ -212,21 +210,24 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             var process = new System.Diagnostics.Process { StartInfo = procInfo };
             if (printOutput)
             {
-                process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) => {
-                    if (!string.IsNullOrEmpty(e.Data))
+                process.OutputDataReceived += new System.Diagnostics.DataReceivedEventHandler((sender, e) =>
+                {
+                    if (string.IsNullOrEmpty(e.Data))
                     {
-                        if (ErrorRegex.IsMatch(e.Data))
-                        {
-                            Debug.LogError(e.Data);
-                        }
-                        else if (WarningRegex.IsMatch(e.Data))
-                        {
-                            Debug.LogWarning(e.Data);
-                        }
-                        else
-                        {
-                            Debug.Log(e.Data);
-                        }
+                        return;
+                    }
+
+                    if (ErrorRegex.IsMatch(e.Data))
+                    {
+                        Debug.LogError(e.Data);
+                    }
+                    else if (WarningRegex.IsMatch(e.Data))
+                    {
+                        Debug.LogWarning(e.Data);
+                    }
+                    else
+                    {
+                        Debug.Log(e.Data);
                     }
                 });
             }

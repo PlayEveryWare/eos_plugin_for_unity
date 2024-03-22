@@ -35,7 +35,8 @@ namespace PlayEveryWare.EpicOnlineServices
         public List<string> flags;
         public EOSConfig overrideValues;
 
-        protected PlatformConfig(PlatformManager.Platform platform)
+        protected PlatformConfig(PlatformManager.Platform platform) : 
+            base(PlatformManager.GetConfigFileName(platform))
         {
             this.Platform = platform;
         }

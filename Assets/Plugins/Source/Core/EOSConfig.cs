@@ -47,6 +47,8 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class EOSConfig : Config
     {
+        public EOSConfig() : base("EpicOnlineServicesConfig.json") { }
+
         /// <value><c>Product Name</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string productName;
 

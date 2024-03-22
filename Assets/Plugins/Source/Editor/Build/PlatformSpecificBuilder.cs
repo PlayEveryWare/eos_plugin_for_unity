@@ -22,6 +22,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
+    using Editor.Config;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -108,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             if (IsStandalone())
             {
                 // Configure easy-anti-cheat.
-                EACPostBuild.ConfigureEAC(report);
+                EACUtility.ConfigureEAC(report).Wait();
             }
         }
 
@@ -168,37 +169,20 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <summary>
         /// Determines whether the Application Version is supposed to be used as the product version, and (if so) sets it accordingly.
         /// </summary>
-        private static void AutoSetProductVersion()
+        private static async void AutoSetProductVersion()
         {
-            var eosVersionConfigSection = new PrebuildConfigEditor();
+            var eosConfig = await Config.Get<EOSConfig>();
+            var prebuildConfig = await Config.Get<PrebuildConfig>();
+            var previousProdVer = eosConfig.productVersion;
 
-            eosVersionConfigSection.Load();
-
-            string configFilePath = Path.Combine(
-                Application.streamingAssetsPath,
-                "EOS",
-                EOSPackageInfo.ConfigFileName
-            );
-
-            var eosConfigFile = new ConfigHandler<EOSConfig>(configFilePath);
-            eosConfigFile.Read();
-
-            var previousProdVer = eosConfigFile.Data.productVersion;
-            var currentSectionConfig = eosVersionConfigSection.GetConfig().Data;
-
-            if (currentSectionConfig == null)
+            if (prebuildConfig.useAppVersionAsProductVersion)
             {
-                return;
+                eosConfig.productVersion = Application.version;
             }
 
-            if (currentSectionConfig.useAppVersionAsProductVersion)
+            if (previousProdVer != eosConfig.productVersion)
             {
-                eosConfigFile.Data.productVersion = Application.version;
-            }
-
-            if (previousProdVer != eosConfigFile.Data.productVersion)
-            {
-                eosConfigFile.Write(true);
+                await eosConfig.WriteAsync(true);
             }
         }
 

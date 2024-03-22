@@ -27,6 +27,8 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+
     /// <summary>
     /// Unity Editor tool to display plug-in version information.
     /// </summary>
@@ -99,7 +101,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
 
         }
-        
+
         protected override void RenderWindow()
         {
             GUILayout.BeginHorizontal();
@@ -110,7 +112,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.Label("Epic Online Services Plugin For Unity:", EditorStyles.boldLabel);
             GUILayout.Label(eos_plugin_version);
             GUILayout.EndHorizontal();
-
         }
     }
 }

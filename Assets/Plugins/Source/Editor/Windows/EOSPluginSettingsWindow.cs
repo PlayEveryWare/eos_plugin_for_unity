@@ -28,6 +28,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using System.Threading.Tasks;
     using Utility;
 
     /// <summary>
@@ -36,11 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSPluginSettingsWindow : EOSEditorWindow
     {
-        private const string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
-
-        private List<IConfigEditor> configurationSectionEditors;
-
-        bool prettyPrint = false;
+        private List<IConfigEditor> configEditors;
 
         [SettingsProvider]
         public static SettingsProvider CreateSettingsProvider()
@@ -65,16 +62,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GetWindow<EOSPluginSettingsWindow>("EOS Plugin Configuration");
         }
 
-        private static string GetConfigDirectory()
-        {
-            return System.IO.Path.Combine(Application.dataPath, "..", ConfigDirectory);
-        }
-
-        public static string GetConfigPath(string configFilename)
-        {
-            return System.IO.Path.Combine(GetConfigDirectory(), configFilename);
-        }
-
         public static bool IsAsset(string configFilepath)
         {
             var assetDir = new DirectoryInfo(Application.dataPath);
@@ -93,22 +80,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             return isParent;
         }
 
-        private void LoadConfigFromDisk()
+        protected override async Task AsyncSetup()
         {
-            if (!Directory.Exists(GetConfigDirectory()))
-            {
-                Directory.CreateDirectory(GetConfigDirectory());
-            }
-
-            foreach (var configurationSectionEditor in configurationSectionEditors)
-            {
-                configurationSectionEditor.Load();
-            }
-        }
-
-        protected override void Setup()
-        {
-            configurationSectionEditors ??= new List<IConfigEditor>
+            configEditors ??= new List<IConfigEditor>
                 {
                     new PrebuildConfigEditor(),
                     new ToolsConfigEditor(),
@@ -118,14 +92,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     new PackagingConfigEditor()
                 };
 
-            LoadConfigFromDisk();
+            foreach (var editor in configEditors)
+            {
+                await editor.Load();
+            }
         }
 
         protected override void RenderWindow()
         {
-            if (configurationSectionEditors.Count > 0)
+            if (configEditors.Count > 0)
             {
-                foreach (var configurationSectionEditor in configurationSectionEditors)
+                foreach (var configurationSectionEditor in configEditors)
                 {
                     GUILayout.Label(configurationSectionEditor.GetLabelText(), EditorStyles.boldLabel);
                     GUIEditorUtility.HorizontalLine(Color.white);
@@ -134,20 +111,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 }
             }
 
-            GUIEditorUtility.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint);
             GUI.SetNextControlName("Save");
             if (GUILayout.Button("Save All Changes"))
             {
                 GUI.FocusControl("Save");
-                Save(prettyPrint);
+                Save();
             }
         }
 
-        private void Save(bool prettyPrint)
+        protected override void Teardown()
         {
-            foreach (var configurationSectionEditor in configurationSectionEditors)
+            base.Teardown();
+            Save();
+        }
+
+        private void Save()
+        {
+            foreach (var configurationSectionEditor in configEditors)
             {
-                configurationSectionEditor.Save(prettyPrint);
+                configurationSectionEditor.Save();
             }
 
             AssetDatabase.SaveAssets();
