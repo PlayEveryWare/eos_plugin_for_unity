@@ -102,7 +102,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Awake()
         {
-            Debug.Log("Awake called for UILoginMenu");
             idInputField.InputField.onEndEdit.AddListener(CacheIdInputField);
             tokenInputField.InputField.onEndEdit.AddListener(CacheTokenField);
 #if UNITY_EDITOR
@@ -123,7 +122,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 #if !ENABLE_INPUT_SYSTEM && (UNITY_XBOXONE || UNITY_GAMECORE_XBOXONE || UNITY_GAMECORE_SCARLETT || UNITY_PS4 || UNITY_PS5 || UNITY_SWITCH)
             Debug.LogError("Input currently handled by Input Manager. Input System Package is required for controller support on consoles.");
 #endif
-            Debug.Log("Awake has finished.");
         }
 
         private void CacheIdInputField(string value)
@@ -223,12 +221,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // Loop through the scene information provided.
             foreach (var sceneInfo in SceneInformation.scenes)
             {
+                // TODO: Currently, checking to see if scene is a valid name does not work.
+                //       It functions properly in the editor, but there is apparently some
+                //       trickery that is unclear regarding getting scene names during runtime.
+                //       This should be investigated further, but is fine for the time being.
                 // Check to make sure it's a valid scene. This should prevent
                 // the scene data asset from ever listing scenes that cannot be loaded.
-                if (!SceneUtility.IsValidSceneName(sceneInfo.sceneName))
-                {
-                    throw new InvalidDataException($"Invalid scene name provided in SceneData asset.");
-                }
+                //if (!SceneUtility.IsValidSceneName(sceneInfo.sceneName))
+                //{
+                //    foreach(var name in SceneUtility.GetSceneNames())
+                //        Debug.Log($"Scene name: \"{name}\".");
+                //    throw new InvalidDataException($"Invalid scene name \"{sceneInfo.sceneName}\" provided in SceneData asset.");
+                //}
                 // Check to make sure that the scene actually exists
                 // look for the friendly name of the current active scene.
                 if (sceneInfo.sceneName == currentSceneName)

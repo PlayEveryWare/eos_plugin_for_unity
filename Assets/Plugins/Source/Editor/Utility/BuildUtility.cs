@@ -251,7 +251,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 }
             }
 
-            Debug.LogWarning($"Cannot find installation of Visual Studio of major version {vsVersionRequired.Major}");
+            Debug.LogWarning($"Cannot find installation of Visual Studio of major version {vsVersionRequired.Major} containing the requisite platform toolsets.");
             installation = null;
             return false;
         }
@@ -315,7 +315,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             if (!TryGetCompatibleTools(solutionFilePath, out VSInstallation tools))
             {
-                Debug.LogError($"Cannot build native code libraries.");
+                //Debug.LogError($"Cannot build native code libraries.");
                 //throw new BuildFailedException("Build failed. View log for details.");
                 return false;
             }
