@@ -270,8 +270,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             string destDir = Path.GetDirectoryName(report.summary.outputPath);
             string pathToInstallFrom = GetPathToPlatformSpecificAssets(report);
 
-            if (!string.IsNullOrEmpty(pathToInstallFrom))
+            if (string.IsNullOrEmpty(pathToInstallFrom))
+            {
+                Debug.LogError($"Error installing Easy Anti Cheat files - the path to install from was empty.");
                 return;
+            }
 
             List<string> filestoInstall = GetPostBuildFiles(report);
             List<string> directoriesToInstall = GetPostBuildDirectories(report);
