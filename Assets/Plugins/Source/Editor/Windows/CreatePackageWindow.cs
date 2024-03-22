@@ -39,6 +39,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         bool showJSON = false;
 
+        bool buildWithPresets = false;
+
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
         {
@@ -52,20 +54,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override void RenderWindow()
         {
-            foreach (var package in UnityPackageCreationUtility.packagePlatformsDict)
-            {
-                GUILayout.BeginHorizontal();
-
-                UnityPackageCreationUtility.isPackageExported[package.Key] = GUILayout.Toggle(UnityPackageCreationUtility.isPackageExported[package.Key], package.Key, "button", GUILayout.MaxWidth(100));
-
-                foreach (var platform in package.Value)
-                {
-                    GUILayout.Label(platform, GUILayout.MaxWidth(80));
-                }
-
-                GUILayout.EndHorizontal();
-            }
-
             GUILayout.Space(10f);
 
             GUILayout.BeginHorizontal();
@@ -83,18 +71,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
             GUILayout.Space(10f);
             GUILayout.EndHorizontal();
-
-            if (GUILayout.Button("Create UPM Package V2", GUILayout.MaxWidth(200)))
-            {
-                foreach (var package in UnityPackageCreationUtility.packagePlatformsDict)
-                {
-                    if (UnityPackageCreationUtility.isPackageExported[package.Key])
-                    {
-                        UnityPackageCreationUtility.CreateUPMTarballV2(package.Key);
-                        OnPackageCreated(UnityPackageCreationUtility.pathToOutput);
-                    }
-                }
-            }
 
             showJSON = EditorGUILayout.Foldout(showJSON, "Advanced");
             if (showJSON)
@@ -155,6 +131,43 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.FlexibleSpace();
             GUILayout.Space(20f);
             GUILayout.EndHorizontal();
+
+
+            GUILayout.Space(10f);
+
+            buildWithPresets = GUILayout.Toggle(buildWithPresets, "Build with Presets");
+
+            if (buildWithPresets)
+            {   
+                GUILayout.Label("UPM Presets Build Tool");
+
+                foreach (var package in UnityPackageCreationUtility.packagePlatformsDict)
+                {
+                    GUILayout.BeginHorizontal();
+
+                    UnityPackageCreationUtility.isPackageExported[package.Key] = GUILayout.Toggle(UnityPackageCreationUtility.isPackageExported[package.Key], package.Key, "button", GUILayout.MaxWidth(100));
+
+                    foreach (var platform in package.Value)
+                    {
+                        GUILayout.Label(platform, GUILayout.MaxWidth(80));
+                    }
+
+                    GUILayout.EndHorizontal();
+
+                }
+
+                if (GUILayout.Button("Create Selected UPMs ", GUILayout.MaxWidth(200)))
+                {
+                    foreach (var package in UnityPackageCreationUtility.packagePlatformsDict)
+                    {
+                        if (UnityPackageCreationUtility.isPackageExported[package.Key])
+                        {
+                            UnityPackageCreationUtility.CreateUPMTarballV2(package.Key);
+                            OnPackageCreated(UnityPackageCreationUtility.pathToOutput);
+                        }
+                    }
+                }
+            }
         }
 
         private void OnPackageCreated(string outputPath)
