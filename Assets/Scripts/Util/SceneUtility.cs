@@ -26,6 +26,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
     using System.Linq;
     using UnityEditor;
 
+#if !UNITY_EDITOR
+    using UnityEngine.SceneManagement;
+#endif
+
     /// <summary>
     /// SceneUtility is used to interact with scenes in a Unity Project.
     /// </summary>

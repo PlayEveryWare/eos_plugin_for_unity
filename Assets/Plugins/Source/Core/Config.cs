@@ -31,8 +31,9 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR // only use reflection in the editor
     using System.Collections.Generic;
     using System.Reflection;
-    using System.IO;
 #endif
+
+    using System.IO;
 
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
@@ -41,7 +42,10 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Unity
     /// </summary>
     [Serializable]
-    public abstract class Config : ICloneable
+    public abstract class Config
+#if UNITY_EDITOR
+        : ICloneable
+#endif
     {
         protected readonly string Filename;
         protected readonly string Directory;
