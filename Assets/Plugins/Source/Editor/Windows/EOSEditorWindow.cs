@@ -163,7 +163,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             // default implementation does nothing.
             await Task.Run(() => { });
-            Debug.Log("Window has been initialized.");
         }
 
         /// <summary>

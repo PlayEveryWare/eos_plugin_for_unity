@@ -61,10 +61,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [SettingsProvider]
         public static SettingsProvider CreateProjectSettingsProvider()
         {
+            Debug.Log("Inside the CreateProjectSettingsProvider function");
             var eosPluginEditorConfigEditor = CreateInstance<EOSSettingsWindow>();
-            var keywords = eosPluginEditorConfigEditor.GetKeywords();
+            Debug.Log("CreateInstance has been called for the EOSSettingsWindow.");
+            string[] keywords = {"Epic", "EOS", "Online", "Services", "PlayEveryWare"};
             // mark the editor window as being embedded, so it skips auto formatting stuff.
+            Debug.Log("Keywords have been retrieved");
             eosPluginEditorConfigEditor.SetIsEmbedded(true);
+            Debug.Log("Embedded has been set to true.");
             var provider = new SettingsProvider($"Preferences/{WindowTitle}", SettingsScope.Project)
             {
                 label = WindowTitle,
@@ -148,6 +152,7 @@ _WIN32 || _WIN64
             if (null == platformSpecificConfigEditors)
             {
                 Setup();
+                AsyncSetup();
             }
 
             IList<string> keywords = new List<string>();

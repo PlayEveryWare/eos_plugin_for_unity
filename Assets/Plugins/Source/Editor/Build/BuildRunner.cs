@@ -22,7 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
-    using Editor;
     using Editor.Config;
     using Editor.Utility;
     using System;
@@ -111,7 +110,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 return;
             }
 
-            // perform the pre-build task for the platform using it's builder.
+            // Perform the pre-build task for the platform using its builder.
             GetBuilder()?.PreBuild(report);
         }
 
@@ -127,58 +126,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 return;
             }
 
-            // Perform the post-build task for the platform using it's builder.
+            // Perform the post-build task for the platform using its builder.
             GetBuilder()?.PostBuild(report);
-        }
-
-        /// <summary>
-        /// Checks to make sure that the platform configuration file exists where it is expected to be
-        /// TODO: Add configuration validation.
-        /// </summary>
-        private static void CheckPlatformConfiguration()
-        {
-            string configFilePath = PlatformManager.GetConfigFilePath();
-            if (!File.Exists(configFilePath))
-            {
-                throw new BuildFailedException($"Expected config file \"{configFilePath}\" for platform {PlatformManager.GetFullName(PlatformManager.CurrentPlatform)} does not exist.");
-            }
-        }
-
-        /// <summary>
-        /// Completes all configuration tasks.
-        /// </summary>
-        private static void ConfigureVersions()
-        {
-            // TODO: DANGEROUS WAITING. There Isn't a reason I can think of that AutoSetProductVersion
-            //       task would fail, but that's just the kind of thing that could end up in an inf 
-            //       loop
-            AutoSetProductVersion().Wait(10000);
-
-            const string packageVersionPath = "Assets/Resources/eosPluginVersion.asset";
-            string packageVersion = EOSPackageInfo.GetPackageVersion();
-            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-            {
-                AssetDatabase.CreateFolder("Assets", "Resources");
-            }
-            TextAsset versionAsset = new(packageVersion);
-            AssetDatabase.CreateAsset(versionAsset, packageVersionPath);
-            AssetDatabase.SaveAssets();
-        }
-
-        /// <summary>
-        /// Determines whether the Application Version is supposed to be used as the product version, and (if so) sets it accordingly.
-        /// </summary>
-        private static async Task AutoSetProductVersion()
-        {
-#if !EOS_DISABLE
-            var eosConfig = await Config.Get<EOSConfig>();
-            var eosVersionConfig = await Config.Get<PrebuildConfig>();
-
-            if (eosVersionConfig.useAppVersionAsProductVersion)
-            {
-                eosConfig.productVersion = Application.version;
-            }
-#endif
         }
     }
 }

@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
              * that are difficult to diagnose.
              */
 
-            // Determine whether or not to install EAC
+            // Determine whether to install EAC
             
             ToolsConfig toolsConfig = await Config.Get<ToolsConfig>();
 

@@ -171,12 +171,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// </summary>
         private static async void AutoSetProductVersion()
         {
-            string configFilePath = Path.Combine(
-                Application.streamingAssetsPath,
-                "EOS",
-                EOSPackageInfo.ConfigFileName
-            );
-
             var eosConfig = await Config.Get<EOSConfig>();
             var prebuildConfig = await Config.Get<PrebuildConfig>();
             var previousProdVer = eosConfig.productVersion;
