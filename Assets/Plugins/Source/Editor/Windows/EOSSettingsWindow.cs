@@ -37,9 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class EOSSettingsWindow : EOSEditorWindow
     {
-        private static readonly string WindowTitle = "EOS Configuration";
-        private const string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
-
+        private const string WindowTitle = "EOS Configuration";
         private List<IConfigEditor> platformSpecificConfigEditors;
 
         int toolbarInt;
@@ -59,7 +57,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             GetWindow<EOSSettingsWindow>(WindowTitle);
         }
-
 
         [SettingsProvider]
         public static SettingsProvider CreateProjectSettingsProvider()
@@ -91,21 +88,20 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             return Path.Combine(GetConfigDirectory(), configFilename);
         }
 
-        private string GetWindowsPluginDirectory()
-        {
-            return "";
-        }
-
         private string GenerateEOSGeneratedFile(EOSConfig aEOSConfig)
         {
-            return string.Format(String.Join("\n", "#define EOS_PRODUCT_NAME \"{0}\"", "#define EOS_PRODUCT_VERSION \"{1}\"", "#define EOS_SANDBOX_ID \"{2}\"", "#define EOS_PRODUCT_ID \"{3}\"", "#define EOS_DEPLOYMENT_ID \"{4}\"", "#define EOS_CLIENT_SECRET \"{5}\"", "#define EOS_CLIENT_ID \"{6}\""), aEOSConfig.productName,
-            aEOSConfig.productVersion,
-            aEOSConfig.productID,
-            aEOSConfig.sandboxID,
-            aEOSConfig.deploymentID,
-            aEOSConfig.clientSecret,
-            aEOSConfig.clientID) +
-            @"
+            return string.Format(
+                       String.Join("\n", "#define EOS_PRODUCT_NAME \"{0}\"", "#define EOS_PRODUCT_VERSION \"{1}\"",
+                           "#define EOS_SANDBOX_ID \"{2}\"", "#define EOS_PRODUCT_ID \"{3}\"",
+                           "#define EOS_DEPLOYMENT_ID \"{4}\"", "#define EOS_CLIENT_SECRET \"{5}\"",
+                           "#define EOS_CLIENT_ID \"{6}\""), aEOSConfig.productName,
+                       aEOSConfig.productVersion,
+                       aEOSConfig.productID,
+                       aEOSConfig.sandboxID,
+                       aEOSConfig.deploymentID,
+                       aEOSConfig.clientSecret,
+                       aEOSConfig.clientID) +
+                   @"
 _WIN32 || _WIN64
 #define PLATFORM_WINDOWS 1
 #endif
@@ -131,7 +127,6 @@ _WIN32 || _WIN64
         ;
         }";
         }
-
 
         // read data from json file, if it exists
         // TODO: Handle different versions of the file?
@@ -170,12 +165,9 @@ _WIN32 || _WIN64
             steamEOSConfigFile = await Config.Get<EOSSteamConfig>();
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>
-                {
-                    new LinuxConfigEditor(),
-                    new AndroidConfigEditor(),
-                    new IOSConfigEditor(),
-                    new MacOSConfigEditor()
-                };
+            {
+                new LinuxConfigEditor(), new AndroidConfigEditor(), new IOSConfigEditor(), new MacOSConfigEditor()
+            };
 
             toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];
             toolbarTitleStrings[0] = "Main";
@@ -193,14 +185,14 @@ _WIN32 || _WIN64
             await base.AsyncSetup();
         }
 
-        private async Task Save(bool prettyPrint)
+        private async Task Save(bool usePrettyFormat)
         {
-            await mainEOSConfigFile.WriteAsync(prettyPrint);
-            await steamEOSConfigFile.WriteAsync(prettyPrint);
+            await mainEOSConfigFile.WriteAsync(usePrettyFormat);
+            await steamEOSConfigFile.WriteAsync(usePrettyFormat);
 
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                await platformSpecificConfigEditor.Save(prettyPrint);
+                await platformSpecificConfigEditor.Save(usePrettyFormat);
             }
 
 #if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
@@ -212,7 +204,6 @@ _WIN32 || _WIN64
             AssetDatabase.Refresh();
         }
 
-
         private void OnDefaultGUI()
         {
             GUILayout.Label("Epic Online Services", EditorStyles.boldLabel);
@@ -222,51 +213,74 @@ _WIN32 || _WIN64
             EditorGUIUtility.labelWidth = 200;
 
             // TODO: Id the Product Name userfacing? If so, we need loc
-            GUIEditorUtility.AssigningTextField("Product Name", ref mainEOSConfigFile.productName, tooltip: "Product Name defined in the EOS Development Portal");
+            GUIEditorUtility.AssigningTextField("Product Name", ref mainEOSConfigFile.productName,
+                tooltip: "Product Name defined in the EOS Development Portal");
 
             // TODO: bool to take product version form application version; should be automatic?
-            GUIEditorUtility.AssigningTextField("Product Version", ref mainEOSConfigFile.productVersion, tooltip: "Version of Product");
-            GUIEditorUtility.AssigningTextField("Product ID", ref mainEOSConfigFile.productID, tooltip: "Product ID defined in the EOS Development Portal");
-            GUIEditorUtility.AssigningTextField("Sandbox ID", ref mainEOSConfigFile.sandboxID, tooltip: "Sandbox ID defined in the EOS Development Portal");
-            GUIEditorUtility.AssigningTextField("Deployment ID", ref mainEOSConfigFile.deploymentID, tooltip: "Deployment ID defined in the EOS Development Portal");
+            GUIEditorUtility.AssigningTextField("Product Version", ref mainEOSConfigFile.productVersion,
+                tooltip: "Version of Product");
+            GUIEditorUtility.AssigningTextField("Product ID", ref mainEOSConfigFile.productID,
+                tooltip: "Product ID defined in the EOS Development Portal");
+            GUIEditorUtility.AssigningTextField("Sandbox ID", ref mainEOSConfigFile.sandboxID,
+                tooltip: "Sandbox ID defined in the EOS Development Portal");
+            GUIEditorUtility.AssigningTextField("Deployment ID", ref mainEOSConfigFile.deploymentID,
+                tooltip: "Deployment ID defined in the EOS Development Portal");
 
-            GUIEditorUtility.AssigningBoolField("Is Server", ref mainEOSConfigFile.isServer, tooltip: "Set to 'true' if the application is a dedicated game serve");
+            GUIEditorUtility.AssigningBoolField("Is Server", ref mainEOSConfigFile.isServer,
+                tooltip: "Set to 'true' if the application is a dedicated game serve");
 
             EditorGUILayout.LabelField("Sandbox Deployment Overrides");
             if (mainEOSConfigFile.sandboxDeploymentOverrides == null)
             {
                 mainEOSConfigFile.sandboxDeploymentOverrides = new List<SandboxDeploymentOverride>();
             }
+
             for (int i = 0; i < mainEOSConfigFile.sandboxDeploymentOverrides.Count; ++i)
             {
                 EditorGUILayout.BeginHorizontal();
-                GUIEditorUtility.AssigningTextField("Sandbox ID", ref mainEOSConfigFile.sandboxDeploymentOverrides[i].sandboxID, tooltip: "Deployment ID will be overridden when Sandbox ID is set to this", labelWidth: 70);
-                mainEOSConfigFile.sandboxDeploymentOverrides[i].sandboxID = mainEOSConfigFile.sandboxDeploymentOverrides[i].sandboxID.Trim();
-                GUIEditorUtility.AssigningTextField("Deployment ID", ref mainEOSConfigFile.sandboxDeploymentOverrides[i].deploymentID, tooltip: "Deployment ID to use for override", labelWidth: 90);
-                mainEOSConfigFile.sandboxDeploymentOverrides[i].deploymentID = mainEOSConfigFile.sandboxDeploymentOverrides[i].deploymentID.Trim();
+                GUIEditorUtility.AssigningTextField("Sandbox ID",
+                    ref mainEOSConfigFile.sandboxDeploymentOverrides[i].sandboxID,
+                    tooltip: "Deployment ID will be overridden when Sandbox ID is set to this", labelWidth: 70);
+                mainEOSConfigFile.sandboxDeploymentOverrides[i].sandboxID =
+                    mainEOSConfigFile.sandboxDeploymentOverrides[i].sandboxID.Trim();
+                GUIEditorUtility.AssigningTextField("Deployment ID",
+                    ref mainEOSConfigFile.sandboxDeploymentOverrides[i].deploymentID,
+                    tooltip: "Deployment ID to use for override", labelWidth: 90);
+                mainEOSConfigFile.sandboxDeploymentOverrides[i].deploymentID =
+                    mainEOSConfigFile.sandboxDeploymentOverrides[i].deploymentID.Trim();
                 if (GUILayout.Button("Remove", GUILayout.MaxWidth(70)))
                 {
                     mainEOSConfigFile.sandboxDeploymentOverrides.RemoveAt(i);
                 }
+
                 EditorGUILayout.EndHorizontal();
             }
+
             if (GUILayout.Button("Add", GUILayout.MaxWidth(100)))
             {
                 mainEOSConfigFile.sandboxDeploymentOverrides.Add(new SandboxDeploymentOverride());
             }
 
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: networkWork", ref mainEOSConfigFile.ThreadAffinity_networkWork,
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: networkWork",
+                ref mainEOSConfigFile.ThreadAffinity_networkWork,
                 tooltip: "(Optional) Specifies thread affinity for network management that is not IO");
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: storageIO", ref mainEOSConfigFile.ThreadAffinity_storageIO,
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: storageIO",
+                ref mainEOSConfigFile.ThreadAffinity_storageIO,
                 tooltip: "(Optional) Specifies affinity for threads that will interact with a storage device");
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: webSocketIO", ref mainEOSConfigFile.ThreadAffinity_webSocketIO,
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: webSocketIO",
+                ref mainEOSConfigFile.ThreadAffinity_webSocketIO,
                 tooltip: "(Optional) Specifies affinity for threads that generate web socket IO");
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: P2PIO", ref mainEOSConfigFile.ThreadAffinity_P2PIO,
-                tooltip: "(Optional) Specifies affinity for any thread that will generate IO related to P2P traffic and management");
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref mainEOSConfigFile.ThreadAffinity_HTTPRequestIO,
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: P2PIO",
+                ref mainEOSConfigFile.ThreadAffinity_P2PIO,
+                tooltip:
+                "(Optional) Specifies affinity for any thread that will generate IO related to P2P traffic and management");
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: HTTPRequestIO",
+                ref mainEOSConfigFile.ThreadAffinity_HTTPRequestIO,
                 tooltip: "(Optional) Specifies affinity for any thread that will generate http request IO");
-            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: RTCIO", ref mainEOSConfigFile.ThreadAffinity_RTCIO,
-                tooltip: "(Optional) Specifies affinity for any thread that will generate IO related to RTC traffic and management");
+            GUIEditorUtility.AssigningULongToStringField("Thread Affinity: RTCIO",
+                ref mainEOSConfigFile.ThreadAffinity_RTCIO,
+                tooltip:
+                "(Optional) Specifies affinity for any thread that will generate IO related to RTC traffic and management");
 
             string timeBudgetAsSting = "";
 
@@ -274,7 +288,9 @@ _WIN32 || _WIN64
             {
                 timeBudgetAsSting = mainEOSConfigFile.tickBudgetInMilliseconds.ToString();
             }
-            GUIEditorUtility.AssigningTextField("Time Budget in milliseconds", ref timeBudgetAsSting, tooltip: "(Optional) Define the maximum amount of execution time the EOS SDK can use each frame");
+
+            GUIEditorUtility.AssigningTextField("Time Budget in milliseconds", ref timeBudgetAsSting,
+                tooltip: "(Optional) Define the maximum amount of execution time the EOS SDK can use each frame");
 
             if (timeBudgetAsSting.Length != 0)
             {
@@ -297,15 +313,19 @@ _WIN32 || _WIN64
             // This will be used on Windows via the nativerender code, unless otherwise specified
             EditorGUILayout.Separator();
             GUILayout.Label("Default Client Credentials", EditorStyles.boldLabel);
-            GUIEditorUtility.AssigningTextField("Client ID", ref mainEOSConfigFile.clientID, tooltip: "Client ID defined in the EOS Development Portal");
-            GUIEditorUtility.AssigningTextField("Client Secret", ref mainEOSConfigFile.clientSecret, tooltip: "Client Secret defined in the EOS Development Portal");
+            GUIEditorUtility.AssigningTextField("Client ID", ref mainEOSConfigFile.clientID,
+                tooltip: "Client ID defined in the EOS Development Portal");
+            GUIEditorUtility.AssigningTextField("Client Secret", ref mainEOSConfigFile.clientSecret,
+                tooltip: "Client Secret defined in the EOS Development Portal");
             GUI.SetNextControlName("KeyText");
-            GUIEditorUtility.AssigningTextField("Encryption Key", ref mainEOSConfigFile.encryptionKey, tooltip: "Used to decode files previously encoded and stored in EOS");
+            GUIEditorUtility.AssigningTextField("Encryption Key", ref mainEOSConfigFile.encryptionKey,
+                tooltip: "Used to decode files previously encoded and stored in EOS");
             GUI.SetNextControlName("GenerateButton");
             if (GUILayout.Button("Generate"))
             {
                 //generate random 32-byte hex sequence
-                var rng = new Random(SystemInfo.deviceUniqueIdentifier.GetHashCode() * (int)(EditorApplication.timeSinceStartup * 1000));
+                var rng = new Random(SystemInfo.deviceUniqueIdentifier.GetHashCode() *
+                                     (int)(EditorApplication.timeSinceStartup * 1000));
                 var keyBytes = new byte[32];
                 rng.NextBytes(keyBytes);
                 mainEOSConfigFile.encryptionKey = BitConverter.ToString(keyBytes).Replace("-", "");
@@ -319,25 +339,33 @@ _WIN32 || _WIN64
             if (!mainEOSConfigFile.IsEncryptionKeyValid())
             {
                 int keyLength = mainEOSConfigFile.encryptionKey?.Length ?? 0;
-                EditorGUILayout.HelpBox("Used for Player Data Storage and Title Storage. Must be left blank if unused. Encryption key must be 64 hex characters (0-9,A-F). Current length is " + keyLength + ".", MessageType.Warning);
+                EditorGUILayout.HelpBox(
+                    "Used for Player Data Storage and Title Storage. Must be left blank if unused. Encryption key must be 64 hex characters (0-9,A-F). Current length is " +
+                    keyLength + ".", MessageType.Warning);
             }
 
-            GUIEditorUtility.AssigningFlagTextField("Platform Flags (Seperated by '|')", ref mainEOSConfigFile.platformOptionsFlags, 190,
+            GUIEditorUtility.AssigningFlagTextField("Platform Flags (Seperated by '|')",
+                ref mainEOSConfigFile.platformOptionsFlags, 190,
                 "Flags used to initialize EOS Platform. Available flags are defined in PlatformFlags.cs");
-            GUIEditorUtility.AssigningFlagTextField("Auth Scope Flags (Seperated by '|')", ref mainEOSConfigFile.authScopeOptionsFlags, 210,
+            GUIEditorUtility.AssigningFlagTextField("Auth Scope Flags (Seperated by '|')",
+                ref mainEOSConfigFile.authScopeOptionsFlags, 210,
                 "Flags used to specify Auth Scope during login. Available flags are defined in AuthScopeFlags.cs");
 
-            GUIEditorUtility.AssigningBoolField("Always send Input to Overlay", ref mainEOSConfigFile.alwaysSendInputToOverlay, 190,
+            GUIEditorUtility.AssigningBoolField("Always send Input to Overlay",
+                ref mainEOSConfigFile.alwaysSendInputToOverlay, 190,
                 "If true, the plugin will always send input to the overlay from the C# side to native, and handle showing the overlay. This doesn't always mean input makes it to the EOS SDK.");
         }
 
         private void OnSteamGUI()
         {
             GUILayout.Label("Steam Configuration Values", EditorStyles.boldLabel);
-            GUIEditorUtility.AssigningFlagTextField("Steam Flags (Seperated by '|')", ref steamEOSConfigFile.flags, 190);
+            GUIEditorUtility.AssigningFlagTextField("Steam Flags (Seperated by '|')", ref steamEOSConfigFile.flags,
+                190);
             GUIEditorUtility.AssigningTextField("Override Library path", ref steamEOSConfigFile.overrideLibraryPath);
-            GUIEditorUtility.AssigningUintField("Steamworks SDK major version", ref steamEOSConfigFile.steamSDKMajorVersion, 190);
-            GUIEditorUtility.AssigningUintField("Steamworks SDK minor version", ref steamEOSConfigFile.steamSDKMinorVersion, 190);
+            GUIEditorUtility.AssigningUintField("Steamworks SDK major version",
+                ref steamEOSConfigFile.steamSDKMajorVersion, 190);
+            GUIEditorUtility.AssigningUintField("Steamworks SDK minor version",
+                ref steamEOSConfigFile.steamSDKMinorVersion, 190);
 
             if (GUILayout.Button("Update from Steamworks.NET", GUILayout.MaxWidth(200)))
             {
@@ -354,6 +382,7 @@ _WIN32 || _WIN64
                         steamEOSConfigFile.steamSDKMinorVersion = minor;
                     }
                 }
+
                 if (!success)
                 {
                     Debug.LogError("Failed to retrieve Steamworks SDK version from Steamworks.NET");
@@ -400,7 +429,6 @@ _WIN32 || _WIN64
             GUIEditorUtility.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
             if (GUILayout.Button("Save All Changes"))
             {
-                // Save NOTE: if this times out, then there will be problems.
                 Save(prettyPrint).Wait();
             }
 
@@ -409,6 +437,5 @@ _WIN32 || _WIN64
                 EditorUtility.RevealInFinder(GetConfigDirectory());
             }
         }
-
     }
 }
