@@ -29,6 +29,7 @@
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     public abstract class EOSEditorWindow : EditorWindow
     {

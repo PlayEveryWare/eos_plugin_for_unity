@@ -27,6 +27,8 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+
     /// <summary>
     /// Unity Editor tool to display plug-in version information.
     /// </summary>

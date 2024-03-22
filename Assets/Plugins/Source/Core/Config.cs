@@ -34,6 +34,8 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.IO;
 #endif
 
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
     /// Unity

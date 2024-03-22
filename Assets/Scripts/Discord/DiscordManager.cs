@@ -34,6 +34,8 @@ using System.Threading.Tasks;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.Discord
 {
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+
     [DisallowMultipleComponent]
     public class DiscordManager : MonoBehaviour
     {

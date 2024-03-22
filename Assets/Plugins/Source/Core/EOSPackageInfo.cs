@@ -22,6 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+
     public static class EOSPackageInfo
     {
         /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
@@ -50,7 +52,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 var pathToManifest = System.IO.Path.Combine(UnityEngine.Application.dataPath, "..",
                     "etc/PackageTemplate", "package.json");
                 var contents = System.IO.File.ReadAllText(pathToManifest);
-                var versionData = UnityEngine.JsonUtility.FromJson<VersionReader>(contents);
+                var versionData = JsonUtility.FromJson<VersionReader>(contents);
                 return versionData.version;
             }
             catch
