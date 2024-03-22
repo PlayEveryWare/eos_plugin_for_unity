@@ -75,11 +75,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (configFileExists)
             {
-                using (StreamReader reader = new(FilePath))
-                {
-                    _lastReadJsonString = await reader.ReadToEndAsync();
-                    JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
-                }
+                using StreamReader reader = new(FilePath);
+                _lastReadJsonString = await reader.ReadToEndAsync();
+                JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
             }
             else
             {

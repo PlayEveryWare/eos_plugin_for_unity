@@ -256,7 +256,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             if (_isPadded)
             {
                 // The area in which to add controls - this keeps all content padded within the window.
-                Rect paddedArea = new Rect(Padding, Padding, position.width - (2 * Padding),
+                Rect paddedArea = new(
+                    Padding,
+                    Padding,
+                    position.width - (2 * Padding),
                     position.height - (2 * Padding));
 
                 // Begin the padded area
