@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
-{
+//namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
+//{
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -124,6 +124,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             if (_initializeTask.IsCompleted && !_initialized)
             {
+                Debug.Log("Window has been intialized.");
                 _initialized = true;
                 Repaint();
                 EditorApplication.update -= CheckForInitialized;
@@ -415,4 +416,4 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             return true;
         }
     }
-}
+//}

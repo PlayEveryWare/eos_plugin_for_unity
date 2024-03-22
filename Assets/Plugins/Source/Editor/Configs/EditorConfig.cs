@@ -22,6 +22,8 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using EpicOnlineServices.Utility;
+    using System.IO;
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
@@ -34,22 +36,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     /// </summary>
     public abstract class EditorConfig : Config
     {
-        protected EditorConfig(string filename) : base(filename, string.Empty) { }
+        protected EditorConfig(string filename) : base(filename, Path.Combine(FileUtility.GetProjectPath(), "etc/config/")) { }
 
-        public override Task WriteAsync(bool prettyPrint = true)
+        // Overridden functionality changes the default parameter value for updateAssetDatabase, because EditorConfig
+        // should not be anywhere within Assets.
+        public override async Task WriteAsync(bool prettyPrint = true, bool updateAssetDatabase = false)
         {
-            // TODO: Add JSON schemas for validation.
-            string configAsJSON = JsonUtility.ToJson(this, prettyPrint);
-            EditorPrefs.SetString(Filename, configAsJSON);
-            return Task.CompletedTask;
-        }
-
-        protected override Task ReadAsync()
-        {
-            // TODO: Add JSON schemas for validation.
-            string configAsJSON = EditorPrefs.GetString(Filename);
-            JsonUtility.FromJsonOverwrite(configAsJSON, this);
-            return Task.CompletedTask;
+            // Override the base function
+            await base.WriteAsync(prettyPrint, updateAssetDatabase);
         }
     }
 }

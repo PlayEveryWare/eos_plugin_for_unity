@@ -54,6 +54,11 @@ namespace PlayEveryWare.EpicOnlineServices
             Directory = directory;
         }
 
+        /// <summary>
+        /// Retrieves the indicated Config object, reading its values into memory.
+        /// </summary>
+        /// <typeparam name="T">The Config to retrieve.</typeparam>
+        /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static async Task<T> Get<T>() where T : Config, new()
         {
             T instance = new();
@@ -61,6 +66,9 @@ namespace PlayEveryWare.EpicOnlineServices
             return instance;
         }
 
+        /// <summary>
+        /// Returns the fully-qualified path to the file that holds the configuration values.
+        /// </summary>
         public string FilePath
         {
             get
@@ -81,45 +89,65 @@ namespace PlayEveryWare.EpicOnlineServices
             }
             else
             {
+                // This conditional exists because writing a config file is only something
+                // that should ever happen in the editor.
+#if UNITY_EDITOR
                 // If the config file does not currently exist, create it 
-                // when it is being read.
+                // when it is being read (which is fair to do in the editor)
                 await WriteAsync();
+#else
+                // If the editor is not running, then the config file not
+                // existing should throw an error.
+                throw new FileNotFoundException($"Config file \"{FilePath}\" does not exist.");
+#endif
             }
         }
 
-        public virtual async Task WriteAsync(bool prettyPrint = true)
+        // Functions declared below should only ever be utilized in the editor. They are 
+        // so divided to guarantee separation of concerns.
+#if UNITY_EDITOR
+
+        /// <summary>
+        /// Asynchronously writes the configuration value to file.
+        /// </summary>
+        /// <param name="prettyPrint">Whether to output "pretty" JSON to the file.</param>
+        /// <param name="updateAssetDatabase">Indicates whether to update the asset database after writing.</param>
+        /// <returns>Task</returns>
+        public virtual async Task WriteAsync(bool prettyPrint = true, bool updateAssetDatabase = true)
         {
-            string configAsJSON = JsonUtility.ToJson(this, prettyPrint);
-            
             FileInfo configFile = new(FilePath);
             configFile.Directory?.Create();
 
-            using (StreamWriter writer = new(FilePath))
+            await using (StreamWriter writer = new(FilePath))
             {
-                await writer.WriteAsync(configAsJSON);
+                var json = JsonUtility.ToJson(this, prettyPrint);
+                await writer.WriteAsync(json);
             }
 
-            await Task.Run(() =>
+            // If the asset database should be updated, then do the thing.
+            if (updateAssetDatabase)
             {
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
-            });
+                await Task.Run(() =>
+                {
+                    AssetDatabase.SaveAssets();
+                    AssetDatabase.Refresh();
+                });
+            }
         }
 
-#if UNITY_EDITOR // Cloning, and determining equality or default-ness of a Config only happens in the editor.
+
         /// <summary>
-        /// Determines whether or not the values in the Config have their
+        /// Determines whether the values in the Config have their
         /// default values
         /// </summary>
         /// <returns>
-        /// True if the Config has it's default values, false otherwise.
+        /// True if the Config has its default values, false otherwise.
         /// </returns>
         public bool IsDefault()
         {
             return IsDefault(this);
         }
 
-#endif
 
         /// <summary>
         /// Returns member-wise clone of configuration data
@@ -131,7 +159,6 @@ namespace PlayEveryWare.EpicOnlineServices
             return this.MemberwiseClone();
         }
 
-#if UNITY_EDITOR
         #region Functions to help determine if a config has default values
 
         /// <summary>
