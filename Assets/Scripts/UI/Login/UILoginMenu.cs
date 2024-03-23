@@ -136,7 +136,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             TokenGlobalCache = value;
         }
 
-        public void OnDropdownChange(int value)
+        public void OnLoginTypeChanged(int value)
         {
             switch (value)
             {
@@ -767,30 +767,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void InitConnectDropdown()
         {
-            List<Dropdown.OptionData> connectOptions = new List<Dropdown.OptionData>();
+            List<string> externalCredentialTypeLabels = (from ExternalCredentialType type in Enum.GetValues(typeof(ExternalCredentialType))
+                where type.IsDemoed() 
+                select type.ToString()).ToList();
 
-            List<ExternalCredentialType> credentialTypes = new List<ExternalCredentialType>
-            {//include all implemented ones here, so users can see all options across platforms (use the configure connect method to turn off access in bad cases)
-                ExternalCredentialType.DeviceidAccessToken,
-                ExternalCredentialType.AppleIdToken,
-                //ExternalCredentialType.GogSessionTicket,
-                //ExternalCredentialType.GoogleIdToken,
-                ExternalCredentialType.OculusUseridNonce,
-                //ExternalCredentialType.ItchioJwt,
-                //ExternalCredentialType.ItchioKey,
-                //ExternalCredentialType.AmazonAccessToken
-                ExternalCredentialType.SteamSessionTicket,
-                ExternalCredentialType.SteamAppTicket,
-                ExternalCredentialType.DiscordAccessToken,
-                ExternalCredentialType.OpenidAccessToken,
-            };
+            externalCredentialTypeLabels.Sort();
 
-            foreach (ExternalCredentialType type in credentialTypes)
-            {
-                connectOptions.Add(new Dropdown.OptionData() { text = type.ToString() });
-            }
-
-            connectTypeDropdown.options = connectOptions;
+            connectTypeDropdown.options = externalCredentialTypeLabels.Select(
+                label => new Dropdown.OptionData() { text=label }).ToList();
         }
 
         private void ConfigureUIForLogin()
