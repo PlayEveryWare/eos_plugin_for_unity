@@ -125,7 +125,6 @@
         {
             if (_initializeTask.IsCompleted && !_initialized)
             {
-                Debug.Log("Window has been intialized.");
                 _initialized = true;
                 Repaint();
                 EditorApplication.update -= CheckForInitialized;
