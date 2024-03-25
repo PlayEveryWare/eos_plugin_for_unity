@@ -28,6 +28,8 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using EpicOnlineServices.Utility;
+
     [Serializable]
     public class CheckDeploymentWindow : EOSEditorWindow
     {
@@ -49,11 +51,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GetWindow<CheckDeploymentWindow>("Deployment Checker");
         }
 
-        public string GetRepositoryRoot()
-        {
-            return Path.Combine(Application.dataPath, "..");
-        }
-
         protected override void Setup()
         {
             // We set auto-resize to false here because this window has a text area, and it doesn't play
@@ -67,22 +64,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         {
             if (GUILayout.Button(ChangelogFile))
             {
-                LoadTextFile(Path.Combine(GetRepositoryRoot(), PackageDirectory, ChangelogFile));
+                LoadTextFile(Path.Combine(FileUtility.GetProjectPath(), ChangelogFile));
             }
 
             if (GUILayout.Button(PackageJsonFile))
             {
-                LoadTextFile(Path.Combine(GetRepositoryRoot(), PackageDirectory, PackageJsonFile));
+                LoadTextFile(Path.Combine(FileUtility.GetProjectPath(), PackageDirectory, PackageJsonFile));
             }
 
             if (GUILayout.Button(EOSWindows32DllFile))
             {
-                LoadDLLFile(Path.Combine(GetRepositoryRoot(), WindowsPluginDirectory, EOSWindows32DllFile));
+                LoadDLLFile(Path.Combine(FileUtility.GetProjectPath(), WindowsPluginDirectory, EOSWindows32DllFile));
             }
 
             if (GUILayout.Button(EOSWindows64DllFile))
             {
-                LoadDLLFile(Path.Combine(GetRepositoryRoot(), WindowsPluginDirectory, EOSWindows64DllFile));
+                LoadDLLFile(Path.Combine(FileUtility.GetProjectPath(), WindowsPluginDirectory, EOSWindows64DllFile));
             }
 
             if (!string.IsNullOrWhiteSpace(currentPath))
