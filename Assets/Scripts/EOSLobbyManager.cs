@@ -1644,7 +1644,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             foreach(LobbyMember lobbyMember in CurrentLobby.Members)
             { 
-                if(lobbyMember.ProductId == data.LocalUserId)
+                if(lobbyMember.ProductId != data.LocalUserId)
                 {
                     continue;
                 }
