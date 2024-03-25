@@ -22,9 +22,15 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using UnityEditor;
+    using UnityEngine;
+
+#if !UNITY_EDITOR
+    using UnityEngine.SceneManagement;
+#endif
 
     /// <summary>
     /// SceneUtility is used to interact with scenes in a Unity Project.
@@ -41,11 +47,34 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             // When running in the editor, the SceneManager is a little weird, so 
             // if we are in the editor we check to see if the scene is valid a different
             // way.
+            Debug.Log($"Determining if \"{sceneName}\" is a valid scene name.");
 #if UNITY_EDITOR
             return EditorBuildSettings.scenes
                 .Any(scene => sceneName == Path.GetFileNameWithoutExtension(scene.path));
 #else
-            return SceneManager.GetSceneByName(sceneName).buildIndex != -1;
+            foreach(string name in GetSceneNames())
+            {
+                Debug.Log($"SceneName: \"{name}\".");
+                if (sceneName == name)
+                    return true;
+            }
+
+            return false;
+#endif
+        }
+
+        public static IEnumerable<string> GetSceneNames()
+        {
+#if UNITY_EDITOR
+            return EditorBuildSettings.scenes
+                .Select(scene => Path.GetFileNameWithoutExtension(scene.path));
+#else
+            Debug.Log($"Scene count: {SceneManager.sceneCount}");
+            for (int i = 0; i < SceneManager.sceneCount; ++i)
+            {
+                var scene = SceneManager.GetSceneByBuildIndex(i);
+                yield return Path.GetFileNameWithoutExtension(scene.path);
+            }
 #endif
         }
     }

@@ -38,6 +38,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor.Build;
     using Debug = UnityEngine.Debug;
 
+    /// <summary>
+    /// Contains functions to carry out a variety of tasks related to building.
+    /// </summary>
     public static class BuildUtility
     {
         /// <summary>
@@ -60,6 +63,14 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             /// </summary>
             public string[] Toolsets;
         }
+
+        /// <summary>
+        /// Delegate defining the function signature of a function capable of building the native code at the indicated project file path.
+        /// </summary>
+        /// <param name="projectFilePath">Path to the project file.</param>
+        /// <param name="binaryOutput">Location to output the results to.</param>
+        /// <returns>True if the build was successful, false otherwise.</returns>
+        private delegate bool BuildNativeLibraryDelegate(string projectFilePath, string binaryOutput);
 
         /// <summary>
         /// Used to store information about all the installations of Visual Studio on the current system.
@@ -243,13 +254,40 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     Debug.LogWarning($"PlatformToolset \"{toolset}\" is missing for VS {vs.Version.Major}.");
                 }
 
-                installation = vs;
-                return true;
+                // If there are no missing toolsets, then return this installation as the installation to use.
+                if (0 == missingToolsets.Count)
+                {
+                    installation = vs;
+                    return true;
+                }
             }
 
-            Debug.LogWarning($"Cannot find installation of Visual Studio of major version {vsVersionRequired.Major}");
+            Debug.LogWarning($"Cannot find installation of Visual Studio of major version {vsVersionRequired.Major} containing the requisite platform toolsets.");
             installation = null;
             return false;
+        }
+
+        /// <summary>
+        /// Given a project filepath, return a function capable of building the project at the indicated path.
+        /// </summary>
+        /// <param name="projectFilePath">The path to the project to be built.</param>
+        /// <returns>A delegate function to use to build the project at the given filepath.</returns>
+        /// <exception cref="NotImplementedException">If the project path contains a project type that is not supported, this will be thrown.</exception>
+        private static BuildNativeLibraryDelegate FindNativeLibraryBuildFunction(string projectFilePath)
+        {
+            if (Path.GetExtension(projectFilePath) == ".sln")
+            {
+                return BuildFromSolutionFile;
+            }
+            else if (Path.GetFileName(projectFilePath) == "Makefile")
+            {
+                return BuildFromMakefile;
+            }
+            else
+            {
+                throw new NotImplementedException(
+                    $"Unfamiliar with type of project file at \"{projectFilePath}\". Current supported project files are solution (.sln) files, or makefiles (Makefile).");
+            }
         }
 
         /// <summary>
@@ -259,23 +297,13 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="projectFilePath">Fully-qualified path to the project file to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
         /// <exception cref="BuildFailedException">If building fails, a BuildFailedException is thrown.</exception>
-        public static void BuildNativeLibrary(string projectFilePath, string binaryOutput)
+        public static bool BuildNativeLibrary(string projectFilePath, string binaryOutput)
         {
             Debug.Log($"Building native libraries from project file {projectFilePath}");
 
-            if (Path.GetExtension(projectFilePath) == ".sln")
-            {
-                BuildFromSolutionFile(projectFilePath, binaryOutput);
-            }
-            else if (Path.GetFileName(projectFilePath) == "Makefile")
-            {
-                BuildFromMakefile(projectFilePath, binaryOutput);
-            }
-            else
-            {
-                throw new BuildFailedException(
-                    $"Unfamiliar with type of project file at \"{projectFilePath}\". Current supported project files are solution (.sln) files, or makefiles (Makefile).");
-            }
+            var buildDelegate = FindNativeLibraryBuildFunction(projectFilePath);
+
+            return buildDelegate(projectFilePath, binaryOutput);
         }
 
         /// <summary>
@@ -285,12 +313,14 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="solutionFilePath">Fully-qualified path to the solution file to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
         /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
-        private static void BuildFromSolutionFile(string solutionFilePath, string binaryOutput)
+        /// <returns>True if the build was successful, false otherwise.</returns>
+        private static bool BuildFromSolutionFile(string solutionFilePath, string binaryOutput)
         {
             if (!TryGetCompatibleTools(solutionFilePath, out VSInstallation tools))
             {
-                Debug.LogError($"Cannot build native library.");
-                throw new BuildFailedException("Build failed. View log for details.");
+                //Debug.LogError($"Cannot build native code libraries.");
+                //throw new BuildFailedException("Build failed. View log for details.");
+                return false;
             }
 
             string configuration = "Release";
@@ -320,26 +350,26 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 CreateNoWindow = true
             };
 
-            using (var process = Process.Start(processStartInfo))
+            using var process = Process.Start(processStartInfo);
+            string output = process?.StandardOutput.ReadToEnd();
+            string errors = process?.StandardError.ReadToEnd();
+
+            process?.WaitForExit();
+
+            if (0 == process?.ExitCode)
             {
-                string output = process?.StandardOutput.ReadToEnd();
-                string errors = process?.StandardError.ReadToEnd();
-
-                process?.WaitForExit();
-
-                if (0 == process?.ExitCode)
-                {
-                    Debug.Log(output);
-                    Debug.Log($"Succeeded in building native code library \"{solutionFilePath}\"");
-                }
-                else
-                {
-                    // msbuild might succeed to not build - it did it's job if it determines that it cannot build
-                    errors = "" == errors ? output : errors;
-                    Debug.LogError(errors);
-                    Debug.LogError($"Failed to build solution \"{solutionFilePath}\"");
-                    throw new BuildFailedException($"Failed to build solution \"{solutionFilePath}\"");
-                }
+                Debug.Log(output);
+                Debug.Log($"Succeeded in building native code library \"{solutionFilePath}\"");
+                return true;
+            }
+            else
+            {
+                // msbuild might succeed to not build - it did its job if it determines that it cannot build
+                errors = "" == errors ? output : errors;
+                Debug.LogError(errors);
+                Debug.LogError($"Failed to build solution \"{solutionFilePath}\"");
+                //throw new BuildFailedException($"Failed to build solution \"{solutionFilePath}\"");
+                return false;
             }
         }
 
@@ -350,24 +380,29 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="makefileFilePath">Fully-qualified path to the Makefile to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
         /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
-        private static void BuildFromMakefile(string makefileFilePath, string binaryOutput)
+        private static bool BuildFromMakefile(string makefileFilePath, string binaryOutput)
         {
             if (!CheckWSLInstalled())
             {
                 Debug.LogError("Windows Subsystem for Linux is not installed. On Windows, WSL is required in order to properly compile native libraries that are required for running the EOS Plugin on the Linux platform. Please install WSL and rebuild.");
-                throw new BuildFailedException("Failed to run Makefile. Please see log for further details.");
+                //throw new BuildFailedException("Failed to run Makefile. Please see log for further details.");
             }
 
             // Check for required packages and install if missing
-            string checkAndInstallPackagesCmd = "bash -c \"which clang || sudo apt-get update && sudo apt-get install -y clang; " +
-                                                "which make || sudo apt-get install -y make;\"";
+            const string checkAndInstallPackagesCmd = "bash -c \"which clang || sudo apt-get update && sudo apt-get install -y clang; " +
+                                                      "which make || sudo apt-get install -y make;\"";
+
+            string makeFilePath = Path.GetDirectoryName(makefileFilePath);
 
             // Command to run the makefile
-            string makeCmd = "bash -c \"cd /path/to/your/makefile/directory && make\"";
+            string makeCmd = $"bash -c \"cd \"{makeFilePath}\" && make\"";
 
             // Execute commands
             RunWSLCommand(checkAndInstallPackagesCmd);
             RunWSLCommand(makeCmd);
+
+            // TODO: Properly implement check here. False is returned to bring attention to this needing to be implemented.
+            return false;
         }
 
         /// <summary>
@@ -376,7 +411,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <returns>True if WSL is installed, False otherwise.</returns>
         private static bool CheckWSLInstalled()
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo()
+            ProcessStartInfo startInfo = new()
             {
                 FileName = "cmd.exe",
                 Arguments = "/c wsl -l",
@@ -386,15 +421,13 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 CreateNoWindow = true
             };
 
-            using (Process process = Process.Start(startInfo))
-            {
-                string output = process.StandardOutput.ReadToEnd();
-                string err = process.StandardError.ReadToEnd();
-                process.WaitForExit();
+            using Process process = Process.Start(startInfo);
+            string output = process.StandardOutput.ReadToEnd();
+            string err = process.StandardError.ReadToEnd();
+            process.WaitForExit();
 
-                // If the command executes successfully, WSL is installed
-                return process.ExitCode == 0 && string.IsNullOrEmpty(err);
-            }
+            // If the command executes successfully, WSL is installed
+            return process.ExitCode == 0 && string.IsNullOrEmpty(err);
         }
 
         /// <summary>
@@ -403,7 +436,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="command">The command to run in WSL</param>
         private static void RunWSLCommand(string command)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo()
+            ProcessStartInfo startInfo = new()
             {
                 FileName = "wsl.exe",
                 Arguments = command,
@@ -509,7 +542,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         /// <summary>
         /// Given a fully-qualified path to a project file, parses the project file to determine which toolsets
-        /// it requires in order to be build.
+        /// it requires in order to be built.
         /// </summary>
         /// <param name="projectFilepath">Fully-qualified path to a project file.</param>
         /// <returns>Collection of string representations of the toolsets that the indicated project file requires in order to compile properly.</returns>
