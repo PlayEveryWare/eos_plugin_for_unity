@@ -34,6 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using Build;
     using Config;
     using EpicOnlineServices.Utility;
+    using System;
     using Config = EpicOnlineServices.Config;
 
     // Helper to allow for StartCoroutine to be used from a static context
@@ -45,64 +46,37 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     public static class UnityPackageCreationUtility
     {
         /// <summary>
+        /// Defines the different kinds of packages that can be created.
+        /// </summary>
+        public enum PackageType
+        {
+            /// <summary>
+            /// UPM is just a directory with the proper structure and a package.json file.
+            /// </summary>
+            UPM,
+            
+            /// <summary>
+            /// UPMTarball is the same as UPM, except it is compressed into a tarball.
+            /// </summary>
+            UPMTarball,
+
+            /// <summary>
+            /// DotUnity creates a .unitypackage formatted package.
+            /// </summary>
+            DotUnity
+        };
+
+        /// <summary>
         /// This is where we will store the request we sent to Unity to make the
         /// package.
         /// </summary>
         public static UnityEditor.PackageManager.Requests.PackRequest packRequest;
 
         /// <summary>
-        /// This is the path to the package.json file.
-        /// </summary>
-        public static string jsonPackageFile = "";
-
-        /// <summary>
-        /// The path to output to
-        /// </summary>
-        public static string pathToOutput = "";
-
-        /// <summary>
-        /// If there is a specific directory to build to, it's stored here
-        /// </summary>
-        public static string customOutputDirectory = "";
-
-        /// <summary>
         /// This is used in order to use StartCoroutine from a static context.
         /// </summary>
         public static CoroutineExecutor executorInstance;
-
-        /// <summary>
-        /// Static constructor
-        /// </summary>
-        static UnityPackageCreationUtility()
-        {
-            var packageConfig = Config.Get<PackagingConfig>().Result;
-            
-            // Configure UI defaults
-            jsonPackageFile = Path.Combine(
-                Application.dataPath,
-                "..",
-                "etc",
-                "PackageConfigurations",
-                "eos_package_description.json");
-
-
-            if (!string.IsNullOrEmpty(packageConfig.pathToJSONPackageDescription))
-            {
-                jsonPackageFile = packageConfig.pathToJSONPackageDescription;
-            }
-
-            if (!string.IsNullOrEmpty(packageConfig.pathToOutput))
-            {
-                pathToOutput = packageConfig.pathToOutput;
-            }
-
-            if (!string.IsNullOrEmpty(packageConfig.customBuildDirectoryPath))
-            {
-                customOutputDirectory = packageConfig.customBuildDirectoryPath;
-            }
-        }
-
-
+        
         private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
         {
             var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
@@ -112,19 +86,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return packageDescription;
         }
 
-
-        private static string GetPackageOutputFolder()
-        {
-            if (customOutputDirectory != null &&
-                customOutputDirectory.Length > 0)
-            {
-                return customOutputDirectory;
-            }
-
-            return PackageFileUtility.GenerateTemporaryBuildPath();
-        }
-
-
         private static void CopyFilesToPackageDirectory(string packageFolder,
             List<FileInfoMatchingResult> fileInfoForFilesToCompress)
         {
@@ -133,7 +94,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 fileInfoForFilesToCompress,
                 WriteVersionInfo);
         }
-
 
         private static void WriteVersionInfo(string destPath)
         {
@@ -160,15 +120,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             }
         }
 
-
-
-
-        public static void CreateUPMTarball(string outputPath, string json_file)
+        private static void CreateUPMTarball(string outputPath, string json_file)
         {
-            UnityEngine.Debug.Log("DEBUG " + json_file);
             var JSONPackageDescription = File.ReadAllText(json_file);
             var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-            string packageFolder = GetPackageOutputFolder();
+            string packageFolder = PackageFileUtility.GenerateTemporaryBuildPath();
             var filesToCompress = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
             CopyFilesToPackageDirectory(
@@ -195,9 +151,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 )
             );
         }
-
-
-        public static void CreateDotUnityPackage(string outputPath, string json_file,
+        
+        private static void CreateDotUnityPackage(string outputPath, string json_file,
             string packageName = "pew_eos_plugin.unitypackage")
         {
             var JSONPackageDescription = File.ReadAllText(json_file);
@@ -220,7 +175,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);
         }
 
-        public static void CreateUPM(string outputPath, string json_file)
+        private static void CreateUPM(string outputPath, string json_file)
         {
             var packageDescription = ReadPackageDescription(json_file);
 
@@ -229,6 +184,30 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             CopyFilesToPackageDirectory(outputPath, filesToCopy);
         }
 
+        public static void CreatePackage(PackageType packageType, bool clean = true, bool ignoreGit = true)
+        {
+            var packagingConfig = Config.Get<PackagingConfig>().Result;
+
+            if (clean)
+            {
+                FileUtility.CleanDirectory(packagingConfig.pathToOutput, ignoreGit);
+            }
+
+            switch (packageType)
+            {
+                case PackageType.UPM:
+                    CreateUPM(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription);
+                    break;
+                case PackageType.UPMTarball:
+                    CreateUPMTarball(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription);
+                    break;
+                case PackageType.DotUnity:
+                    CreateDotUnityPackage(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(packageType), packageType, null);
+            }
+        }
 
         // Helper coroutine for making the client package.
         private static IEnumerator StartMakingTarball(string packageFolder, string outputPath)
