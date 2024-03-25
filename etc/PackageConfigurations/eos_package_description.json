@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
-        {"src":"etc/PackageTemplate/CHANGELOG.md", "dest" : "CHANGELOG.md"},
-        {"src":"etc/PackageTemplate/CHANGELOG.md.meta", "dest" : ""},
+        {"src":"CHANGELOG.md", "dest" : "CHANGELOG.md"},
+        {"src":"CHANGELOG.md.meta", "dest" : ""},
         {"src":"license.md", "dest" : "LICENSE.md"},
         {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/package.json", "dest" : ""},
