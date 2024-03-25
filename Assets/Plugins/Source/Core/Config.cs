@@ -30,10 +30,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
 #if UNITY_EDITOR // only use reflection in the editor
     using System.Collections.Generic;
-    using System.Reflection;
-#endif
-
+    using System.Reflection;   
     using System.IO;
+#endif
 
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
