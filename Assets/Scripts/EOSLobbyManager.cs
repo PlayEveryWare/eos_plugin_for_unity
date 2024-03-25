@@ -816,7 +816,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 metadataCount);
 
             // Ensure this update is for our room
-            if (string.IsNullOrEmpty(CurrentLobby.RTCRoomName) || CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(CurrentLobby.RTCRoomName) || !CurrentLobby.RTCRoomName.Equals(data.RoomName, StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
