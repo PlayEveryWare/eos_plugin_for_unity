@@ -29,7 +29,6 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
 
 #if UNITY_EDITOR // only use reflection in the editor
-    using Codice.Client.Common.FsNodeReaders;
     using System.Collections.Generic;
     using System.Reflection;   
     using System.IO;
