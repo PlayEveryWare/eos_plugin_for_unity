@@ -771,7 +771,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if(EOSManager.Instance.GetLocalUserId() != data.LocalUserId)
+            if(EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
                 return;
             }
