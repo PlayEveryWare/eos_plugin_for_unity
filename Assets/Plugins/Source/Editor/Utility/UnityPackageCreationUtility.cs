@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using Config;
     using EpicOnlineServices.Utility;
     using System;
+    using System.Threading.Tasks;
     using Config = EpicOnlineServices.Config;
 
     // Helper to allow for StartCoroutine to be used from a static context
@@ -184,9 +185,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             CopyFilesToPackageDirectory(outputPath, filesToCopy);
         }
 
-        public static void CreatePackage(PackageType packageType, bool clean = true, bool ignoreGit = true)
+        public static async Task CreatePackage(PackageType packageType, bool clean = true, bool ignoreGit = true)
         {
-            var packagingConfig = Config.Get<PackagingConfig>().Result;
+            var packagingConfig = await Config.Get<PackagingConfig>();
 
             if (clean)
             {

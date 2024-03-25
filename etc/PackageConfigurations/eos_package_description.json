@@ -35,7 +35,8 @@
         {"src":"Assets/Plugins/Source/Core/*.asmdef.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs.meta", "dest": "Runtime/Core/"},
-        
+        {"src":"Assets/Plugins/Source/Core/Utility/*.cs", "dest": "Runtime/Core/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/*.cs.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
@@ -390,7 +391,8 @@
         {"src":"Assets/Plugins/Android/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/Android/"},
 
         {"src":"Assets/Plugins/Android/Core.meta", "dest": "Runtime/Android/"},
-        {"src":"Assets/Plugins/Android/Core/*", "dest": "Runtime/Android/Core/"},
+        {"src":"Assets/Plugins/Android/Core/*.cs", "dest": "Runtime/Android/Core/"},
+        {"src":"Assets/Plugins/Android/Core/*.cs.meta", "dest": "Runtime/Android/Core/"},
 
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
@@ -407,7 +409,8 @@
         {"src":"Assets/Plugins/iOS/*.mm", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/*.mm.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/Core.meta", "dest": "Runtime/iOS/"},
-        {"src":"Assets/Plugins/iOS/Core/*", "dest": "Runtime/iOS/Core/"},
+        {"src":"Assets/Plugins/iOS/Core/*.cs", "dest": "Runtime/iOS/Core/"},
+        {"src":"Assets/Plugins/iOS/Core/*.cs.meta", "dest": "Runtime/iOS/Core/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework.meta", "dest": "Runtime/iOS/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK", "dest": "Runtime/iOS/EOSSDK.framework/"},
         {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},

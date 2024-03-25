@@ -199,14 +199,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             switch (packageType)
             {
                 case PackageType.UPMTarBall:
-                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.UPMTarball, true, true);
+                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.UPMTarball, true, true).Wait();
                     break;
                 case PackageType.DotUnity:
-                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.DotUnity, true, true);
+                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.DotUnity, true, true).Wait();
                     break;
                 case PackageType.UPMDirectory:
                 default:
-                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.UPM, true, true);
+                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.UPM, true, true).Wait();
                     break;
 
             }

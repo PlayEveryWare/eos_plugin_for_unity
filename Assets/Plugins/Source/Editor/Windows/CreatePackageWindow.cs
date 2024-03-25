@@ -31,6 +31,7 @@ using System;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Config;
+    using System.Threading.Tasks;
     using Utility;
     using Config = EpicOnlineServices.Config;
 
@@ -48,15 +49,22 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [RetainPreference("IgnoreGitWhenCleaning")]
         private bool _ignoreGitWhenCleaning = true;
 
+        private PackagingConfig packagingConfig;
+
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
         {
             GetWindow<CreatePackageWindow>("Create Package");
         }
 
+        protected override async Task AsyncSetup()
+        {
+            packagingConfig = await Config.Get<PackagingConfig>();
+            await base.AsyncSetup();
+        }
+
         protected override void RenderWindow()
         {
-            var packagingConfig = Config.Get<PackagingConfig>().Result;
             GUILayout.Space(10f);
 
             GUILayout.BeginHorizontal();
@@ -77,7 +85,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             if (packagingConfig.pathToOutput != outputPath)
             {
                 packagingConfig.pathToOutput = outputPath;
-                packagingConfig.WriteAsync(true, false).Wait();
+                packagingConfig.Write(true, false);
             }
 
             
@@ -87,9 +95,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             _showAdvanced = EditorGUILayout.Foldout(_showAdvanced, "Advanced");
             if (_showAdvanced)
             {
-                GUILayout.BeginHorizontal();
                 GUILayout.Space(10f);
 
+                GUILayout.BeginVertical();
                 GUIEditorUtility.AssigningBoolField("Clean target directory", ref _cleanBeforeCreate, 200f,
                     "Cleans the output target directory before creating the package.");
 
@@ -98,6 +106,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
                 var jsonPackageFile = packagingConfig.pathToJSONPackageDescription;
 
+                GUILayout.BeginHorizontal();
                 GUIEditorUtility.AssigningTextField("JSON Description Path", ref jsonPackageFile);
                 if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
                 {
@@ -107,15 +116,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                         jsonPackageFile = jsonFile;
                     }
                 }
+                GUILayout.EndHorizontal();
 
                 if (jsonPackageFile != packagingConfig.pathToJSONPackageDescription)
                 {
                     packagingConfig.pathToJSONPackageDescription = jsonPackageFile;
-                    packagingConfig.WriteAsync(true, false).Wait();
+                    packagingConfig.Write(true, false);
                 }
 
+                GUILayout.EndVertical();
                 GUILayout.Space(10f);
-                GUILayout.EndHorizontal();
+                
             }
 
             GUILayout.Space(20f);
@@ -123,27 +134,46 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             GUILayout.BeginHorizontal();
             GUILayout.Space(20f);
             GUILayout.FlexibleSpace();
+
+            if (_createPackageTask != null)
+            {
+                GUI.enabled = _createPackageTask.IsCompleted != false;
+            }
             if (GUILayout.Button("Create UPM Tarball", GUILayout.MaxWidth(200)))
             {
-                UPMUtility.CreatePackage(UPMUtility.PackageType.UPMTarball, _cleanBeforeCreate, _ignoreGitWhenCleaning);
+                EditorApplication.update += CheckForPackageCreated;
+                _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.UPMTarball, _cleanBeforeCreate, _ignoreGitWhenCleaning);
                 OnPackageCreated(packagingConfig.pathToOutput);
             }
 
             if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
             {
-                // Creating the dot unity package file is asynchronous, so don't display a popup
-                UPMUtility.CreatePackage(UPMUtility.PackageType.DotUnity, _cleanBeforeCreate, _ignoreGitWhenCleaning);
+                EditorApplication.update += CheckForPackageCreated;
+                _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.DotUnity, _cleanBeforeCreate, _ignoreGitWhenCleaning);
             }
 
             if (GUILayout.Button("UPM Directory", GUILayout.MaxWidth(200)))
             {
-                UPMUtility.CreatePackage(UPMUtility.PackageType.UPM, _cleanBeforeCreate, _ignoreGitWhenCleaning);
+                EditorApplication.update += CheckForPackageCreated;
+                _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.UPM, _cleanBeforeCreate, _ignoreGitWhenCleaning);
                 OnPackageCreated(packagingConfig.pathToOutput);
             }
 
             GUILayout.FlexibleSpace();
             GUILayout.Space(20f);
             GUILayout.EndHorizontal();
+        }
+
+        private Task _createPackageTask;
+        private bool _packageCreated = false;
+
+        private void CheckForPackageCreated()
+        {
+            if (_createPackageTask.IsCompleted && !_packageCreated)
+            {
+                _packageCreated = true;
+                EditorApplication.update -= CheckForPackageCreated;
+            }
         }
 
         private void OnPackageCreated(string outputPath)

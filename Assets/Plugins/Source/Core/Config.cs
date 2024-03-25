@@ -29,6 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using UnityEngine;
 
 #if UNITY_EDITOR // only use reflection in the editor
+    using Codice.Client.Common.FsNodeReaders;
     using System.Collections.Generic;
     using System.Reflection;   
     using System.IO;
@@ -108,6 +109,26 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        protected virtual void Read()
+        {
+            bool configFileExists = File.Exists(FilePath);
+
+            if (configFileExists)
+            {
+                using StreamReader reader = new(FilePath);
+                _lastReadJsonString = reader.ReadToEnd();
+                JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+            }
+            else
+            {
+#if UNITY_EDITOR
+                Write();
+#else
+                throw new FileNotFoundException($"Config file \"{FilePath}\" does not exist.");
+#endif
+            }
+        }
+
         // Functions declared below should only ever be utilized in the editor. They are 
         // so divided to guarantee separation of concerns.
 #if UNITY_EDITOR
@@ -137,6 +158,27 @@ namespace PlayEveryWare.EpicOnlineServices
                     AssetDatabase.SaveAssets();
                     AssetDatabase.Refresh();
                 });
+            }
+        }
+
+        /// <summary>
+        /// Synchronously writes the configuration value to file.
+        /// </summary>
+        /// <param name="prettyPrint">Whether to output "pretty" JSON to the file.</param>
+        /// <param name="updateAssetDatabase">Indicates whether to update the asset database after writing.</param>
+        public virtual void Write(bool prettyPrint = true, bool updateAssetDatabase = true)
+        {
+            FileInfo configFile = new(FilePath);
+            configFile.Directory?.Create();
+
+            using StreamWriter writer = new (FilePath);
+            var json = JsonUtility.ToJson(this, prettyPrint);
+            writer.Write(json);
+
+            if (updateAssetDatabase)
+            {
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
             }
         }
 
