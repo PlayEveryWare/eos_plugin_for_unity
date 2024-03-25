@@ -28,13 +28,9 @@ using System.Text.RegularExpressions;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 {
     using Config;
+    using EpicOnlineServices.Build;
     using System.Threading.Tasks;
     using Config = EpicOnlineServices.Config;
-
-    /// <summary>
-    /// TODO: This needs to be deprecated - the new build system is ready to replace it. That is - you
-    /// no longer ever need to run this tool from the toolbar.
-    /// </summary>
 
     [InitializeOnLoad]
     public static partial class MakefileUtility
@@ -49,18 +45,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         }
 
         [MenuItem("Tools/EOS Plugin/Build Libraries/Win32")]
-        public static async Task BuildLibrariesWin32()
+        public static void BuildLibrariesWin32()
         {
 #if UNITY_EDITOR_WIN
-            await BuildWindows("x86");
+            (new WindowsBuilder32()).BuildNativeCode();
 #endif
         }
 
         [MenuItem("Tools/EOS Plugin/Build Libraries/Win64")]
-        public static async Task BuildLibrariesWin64()
+        public static void BuildLibrariesWin64()
         {
 #if UNITY_EDITOR_WIN
-            await BuildWindows("x64");
+            (new WindowsBuilder64()).BuildNativeCode();
 #endif
         }
 
@@ -111,24 +107,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 #endif
         }
 
-        private static async Task<string> GetMSBuildPath()
-        {
-            var libraryConfig = await Config.Get<LibraryBuildConfig>();
-
-            if (!string.IsNullOrWhiteSpace(libraryConfig.msbuildPath))
-            {
-                return libraryConfig.msbuildPath;
-            }
-            else if (RunProcess("where", "msbuild", printOutput: false, printError: false) != 0)
-            {
-                return "msbuild";
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         private static async Task<string> GetMakePath()
         {
             var libraryConfig = await Config.Get<LibraryBuildConfig>();
@@ -145,31 +123,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             {
                 return null;
             }
-        }
-
-        private static async Task<bool> IsMSBuildDebugEnabled()
-        {
-            var libraryConfig = await Config.Get<LibraryBuildConfig>();
-            return !string.IsNullOrWhiteSpace(libraryConfig.msbuildPath) && libraryConfig.msbuildDebug;
-        }
-
-        public static async Task RunMSBuild(string solutionName, string platform, string workingDir = "")
-        {
-            string msbuildPath = await GetMSBuildPath();
-            if (string.IsNullOrWhiteSpace(msbuildPath))
-            {
-                Debug.LogError("msbuild not found");
-            }
-            else
-            {
-                string buildConfig = await IsMSBuildDebugEnabled() ? "Debug" : "Release";
-                RunProcess(msbuildPath, $"{solutionName} /t:Clean;Rebuild /p:Configuration={buildConfig} /p:Platform={platform}", workingDir);
-            }
-        }
-
-        private static async Task BuildWindows(string platform)
-        {
-            await RunMSBuild("DynamicLibraryLoaderHelper.sln", platform, "lib/NativeCode/DynamicLibraryLoaderHelper");
         }
 
         private static async Task RunMake(string makefileDir)

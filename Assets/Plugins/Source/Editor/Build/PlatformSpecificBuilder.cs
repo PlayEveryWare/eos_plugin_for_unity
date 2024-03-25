@@ -114,6 +114,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             }
         }
 
+        public virtual void BuildNativeCode()
+        {
+            BuildUtility.BuildNativeBinaries(_projectFileToBinaryFilesMap, _nativeCodeOutputDirectory, true);
+        }
+
         /// <summary>
         /// Check for platform specific binaries. If this method is overridden, be sure to start by calling the
         /// base implementation, because it will check for the presence of config files, and handle checking for
@@ -130,7 +135,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             // Build any native libraries that need to be built for the platform
             // TODO: Consider having the "rebuild" be a setting users can determine.
-            BuildNativeBinaries(true);
+            BuildNativeCode();
 
             // Validate that the binaries built are now in the correct location
             ValidateNativeBinaries();
@@ -212,87 +217,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             if (!prerequisitesSatisfied)
             {
                 throw new BuildFailedException($"Prerequisites for platform were not met. View logs for details.");
-            }
-        }
-
-        /// <summary>
-        /// Looks for any missing output files, and tries to build the project file corresponding to it if the file is missing.
-        /// </summary>
-        private void BuildNativeBinaries(bool rebuild = false)
-        {
-            var projectsToBuild = new HashSet<string>();
-
-            IDictionary<string, string> cachedProjectOutput = new Dictionary<string, string>();
-
-            foreach (string projectFile in _projectFileToBinaryFilesMap.Keys)
-            {
-                string[] binaryFiles = _projectFileToBinaryFilesMap[projectFile];
-
-                if (binaryFiles.All(File.Exists))
-                {
-                    Debug.Log($"Caching the existing binaries for project \"{projectFile}\".");
-                    var cachedDirectory = CacheExistingBinaries(binaryFiles);
-                    cachedProjectOutput.Add(projectFile, cachedDirectory);
-                }
-
-                // If either rebuild is set to true, or the binary file does not exist.
-                if (rebuild || binaryFiles.Any(outputFile => !File.Exists(outputFile)))
-                {
-                    // Add the project to the list of things to build.
-                    projectsToBuild.Add(projectFile);
-                }
-            }
-
-            // Build any project that needs to be built.
-            foreach (string project in projectsToBuild)
-            {
-                bool projectBuildSuccessfully = BuildUtility.BuildNativeLibrary(project, _nativeCodeOutputDirectory);
-                
-                // if the build was successful, skip processing
-                if (projectBuildSuccessfully) { continue; }
-
-                // If a cache exists containing previous binaries, restore the cache.
-                if (cachedProjectOutput.TryGetValue(project, out string cacheDirectory))
-                {
-                    Debug.Log($"Restoring binaries that were cached for project \"{project}\".");
-                    RestoreCachedBinaries(project, cacheDirectory);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Takes an enumerable of filepaths and moves them to a temporary directory, returning the path to that directory.
-        /// </summary>
-        /// <param name="files">The filepaths to move.</param>
-        /// <returns>The path to the temporary directory in which to store the files temporarily.</returns>
-        private static string CacheExistingBinaries(IEnumerable<string> files)
-        {
-            string temporaryDirectory = FileUtility.GenerateTempDirectory();
-
-            foreach (string filepath in files)
-            {
-                string filename = Path.GetFileName(filepath);
-                File.Move(filepath, Path.Combine(temporaryDirectory, filepath));
-            }
-
-            return temporaryDirectory;
-        }
-
-        private void RestoreCachedBinaries(string project, string cacheDirectory)
-        {
-            // To move cached binaries back to original locations, first a filename-to-directory lookup map must be made
-            Dictionary<string, string> fileToDestination = new();
-            foreach (var outputPath in _projectFileToBinaryFilesMap[project])
-            {
-                string filename = Path.GetFileName(outputPath);
-                string destination = Path.GetDirectoryName(outputPath);
-                fileToDestination.Add(filename, destination);
-            }
-
-            foreach (var cachedFile in Directory.GetFiles(cacheDirectory))
-            {
-                string cachedFileName = Path.GetFileName(cachedFile);
-                File.Move(cachedFile, Path.Combine(fileToDestination[cachedFileName], cachedFileName));
             }
         }
 
