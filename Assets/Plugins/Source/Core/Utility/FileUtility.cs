@@ -124,5 +124,4 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
     }
-    }
 }
