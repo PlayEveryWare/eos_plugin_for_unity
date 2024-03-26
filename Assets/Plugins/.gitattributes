@@ -1,2 +1,1 @@
-UnityEditorSharedDictionary.dll filter=lfs diff=lfs merge=lfs -text
-*.cs diff=csharp text eol=lf
+UnityEditorSharedDictionary.dll filter=lfs diff=lfs merge=lfs binary
