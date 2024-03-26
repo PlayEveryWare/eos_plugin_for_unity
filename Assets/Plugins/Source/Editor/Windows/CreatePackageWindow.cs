@@ -155,9 +155,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 OnPackageCreated(packagingConfig.pathToOutput);
             }
 
-            // Disable UPM tarball and .unitypackage creation for the time being.
-            GUI.enabled = false;
-
             if (GUILayout.Button("Create UPM Tarball", GUILayout.MaxWidth(200)))
             {
                 EditorApplication.update += CheckForPackageCreated;
@@ -165,6 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 OnPackageCreated(packagingConfig.pathToOutput);
             }
 
+            GUI.enabled = false; // Disable UPM .unitypackage for the time being.
             if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
             {
                 EditorApplication.update += CheckForPackageCreated;
