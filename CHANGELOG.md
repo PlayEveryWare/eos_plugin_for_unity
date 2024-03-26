@@ -2,39 +2,33 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Inprogress
-### Unreleased
+# [3.1.0] - 2023-03-25
 ### Added
-### Changed
-### Removed
-### Fixed
+- feat: Added extension methods to be used by sample scripts.
+- feat: Moved checks for input to `InputUtility` class for better abstraction.
+- feat: Introduced `SceneData` asset for improved scene dropdown functionality.
+- feat: Implemented placeholder function for potentially returning platform-specific strings to pass to MSBuild.
+- feat: Added functionality to the `EOSEditorWindow` from a separate project that introduced some new functionality.
+- feat: iOS bluetooth audio support.
+- feat: Allowed custom RTC options for more flexible RTC configuration.
+- feat: Implemented `await/async` pattern for editor windows.
+- build: Introduced `BuildRunner`, and `PlatformSpecificBuilder` classes to streamline the build process.
+- feat: Updated to EOS SDK 1.16.1 for Windows, Android, Linux, iOS, macOS.
+- build: Compile new versions of the x64 binaries `DynamicLibraryLoaderHelper` and `GfxPluginNativeRender`.
+- build: Fix prebuild task on Windows that generates native code DLLs.
 
-#[3.1.0] - 2023-03-25
-### Added
-feat: Added extension methods to be used by sample scripts.
-feat: Moved checks for input to `InputUtility` class for better abstraction.
-feat: Introduced `SceneData` asset for improved scene dropdown functionality.
-feat: Implemented placeholder function for potentially returning platform-specific strings to pass to MSBuild.
-feat: Added functionality to the `EOSEditorWindow` from a separate project that introduced some new functionality.
-feat: iOS bluetooth audio support.
-feat: Allowed custom RTC options for more flexible RTC configuration.
-feat: Implemented `await/async` pattern for editor windows.
-build: Introduced `BuildRunner`, and `PlatformSpecificBuilder` classes to streamline the build process.
-feat: Updated to EOS SDK 1.16.1 for Windows, Android, Linux, iOS, macOS.
-build: Compile new versions of the x64 binaries `DynamicLibraryLoaderHelper` and `GfxPluginNativeRender`.
-build: Fix prebuild task on Windows that generates native code DLLs.
 ### Fixed
-fix: Fixed issue in EOSLobbyManager where conditional was not completely accurate.
-fix: Corrected some issues with scripting defines that broke when Unity editor is not in use.
-fix: Resolved error caused by some code accidentally not being between EOS_DISABLE blocks.
-doc: Updated documentation to expand list of supported platforms.
-fix: Restored config values being written to disk - but had them written outside of the Assets directory.
-fix: Fixed misleading comment in `Config Editor`.
-doc: Added note regarding the 32-bit build process for Windows.
-fix: Addressed `Press to talk lag` in RTC.
-fix: Corrected the configuration and handling of Bootstrapper and EAC setups.
-fix: Fixed package description to resolve issues with package creation and subsequent plugin importing.
-fix: Renamed invalidAuthType to connect to clarify functionality.
+- fix: Fixed issue in EOSLobbyManager where conditional was not completely accurate.
+- fix: Corrected some issues with scripting defines that broke when Unity editor is not in use.
+- fix: Resolved error caused by some code accidentally not being between EOS_DISABLE blocks.
+- doc: Updated documentation to expand list of supported platforms.
+- fix: Restored config values being written to disk - but had them written outside of the Assets directory.
+- fix: Fixed misleading comment in `Config Editor`.
+- doc: Added note regarding the 32-bit build process for Windows.
+- fix: Addressed `Press to talk lag` in RTC.
+- fix: Corrected the configuration and handling of Bootstrapper and EAC setups.
+- fix: Fixed package description to resolve issues with package creation and subsequent plugin importing.
+- fix: Renamed invalidAuthType to connect to clarify functionality.
 
 ##[3.0.3] - 2023-11-14
 ### Inprogress
