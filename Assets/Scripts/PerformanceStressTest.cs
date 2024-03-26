@@ -106,6 +106,17 @@ public class GaseousArray
 }
 public class PerformanceStressTest : MonoBehaviour
 {
+    public class UISliderToText : MonoBehaviour
+    {
+        public Slider sliderObject;
+        public Text SliderText;
+
+        public void updateText()
+        {
+            SliderText.text = (sliderObject.value.ToString());
+        }
+    }
+
     //CPU Test 
     int threads = 0;
     List<Thread> threadList;
@@ -113,7 +124,7 @@ public class PerformanceStressTest : MonoBehaviour
     public Slider threadSlider;
     public Slider targetUtilizationSlider;
     private float targetUtilization;
-    public UISliderToText coreSliderScript;
+    private UISliderToText _coreSliderScript;
 
     //GPU Test
     public GameObject gpuRenderObjects;
@@ -192,11 +203,11 @@ public class PerformanceStressTest : MonoBehaviour
         threadOverride = !threadOverride;
         if(threadOverride)
         {
-            coreSliderScript.SliderText.text = (threads.ToString());
+            _coreSliderScript.SliderText.text = (threads.ToString());
         }
         else
         {
-            coreSliderScript.updateText();
+            _coreSliderScript.updateText();
         }
     }
 
