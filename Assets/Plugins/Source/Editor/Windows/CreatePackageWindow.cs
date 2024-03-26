@@ -139,6 +139,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             {
                 GUI.enabled = _createPackageTask.IsCompleted != false;
             }
+
+            if (GUILayout.Button("Export UPM Directory", GUILayout.MaxWidth(200)))
+            {
+                EditorApplication.update += CheckForPackageCreated;
+                _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.UPM, _cleanBeforeCreate, _ignoreGitWhenCleaning);
+                OnPackageCreated(packagingConfig.pathToOutput);
+            }
+
+            // Disable UPM tarball and .unitypackage creation for the time being.
+            GUI.enabled = false;
+
             if (GUILayout.Button("Create UPM Tarball", GUILayout.MaxWidth(200)))
             {
                 EditorApplication.update += CheckForPackageCreated;
@@ -152,12 +163,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.DotUnity, _cleanBeforeCreate, _ignoreGitWhenCleaning);
             }
 
-            if (GUILayout.Button("UPM Directory", GUILayout.MaxWidth(200)))
-            {
-                EditorApplication.update += CheckForPackageCreated;
-                _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.UPM, _cleanBeforeCreate, _ignoreGitWhenCleaning);
-                OnPackageCreated(packagingConfig.pathToOutput);
-            }
+            GUI.enabled = true;
 
             GUILayout.FlexibleSpace();
             GUILayout.Space(20f);

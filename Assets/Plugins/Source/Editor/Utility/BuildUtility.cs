@@ -73,6 +73,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <returns>True if the build was successful, false otherwise.</returns>
         private delegate bool BuildNativeLibraryDelegate(string projectFilePath, string binaryOutput);
 
+        static BuildUtility()
+        {
+            FindVSInstallations();
+        }
+
         /// <summary>
         /// Used to store information about all the installations of Visual Studio on the current system.
         /// </summary>
