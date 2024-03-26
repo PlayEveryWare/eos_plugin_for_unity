@@ -35,7 +35,8 @@
         {"src":"Assets/Plugins/Source/Core/*.asmdef.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs.meta", "dest": "Runtime/Core/"},
-        
+        {"src":"Assets/Plugins/Source/Core/Utility/*.cs", "dest": "Runtime/Core/Utility/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/*.cs.meta", "dest": "Runtime/Core/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
@@ -62,7 +63,9 @@
         {"src":"Assets/Plugins/Source/Editor/Configs/*.cs", "dest": "Editor/Configs/"},
         {"src":"Assets/Plugins/Source/Editor/Configs/*.cs.meta", "dest": "Editor/Configs/"},
         
-
+        {"src":"Assets/Plugins/Source/Editor/Windows.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/*.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/*.cs.meta", "dest": "Editor/Windows/"},
 
         {"comment": "----------------------------Standalone---------------------------------------------"},
         {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},

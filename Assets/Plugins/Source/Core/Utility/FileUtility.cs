@@ -83,5 +83,45 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             return await File.ReadAllTextAsync(path);
         }
+
+        public static void CleanDirectory(string directoryPath, bool ignoreGit = true)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                Debug.LogWarning($"Cannot clean directory \"{directoryPath}\", because it does not exist.");
+                return;
+            }
+
+            try
+            {
+                foreach (string subDir in Directory.GetDirectories(directoryPath, "*", SearchOption.AllDirectories))
+                {
+                    // Skip .git directories 
+                    if (ignoreGit && subDir.EndsWith(".git")) { continue; }
+
+                    Directory.Delete(subDir, true);
+                }
+
+                foreach (string file in Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories))
+                {
+                    string fileName = Path.GetFileName(file);
+                    if (fileName is ".gitignore" or ".gitattributes")
+                    {
+                        if (Path.GetDirectoryName(file) == directoryPath)
+                        {
+                            continue; // Skip these files if they are in the root directory
+                        }
+                    }
+
+                    File.Delete(file);
+                }
+
+                Debug.Log($"Finished cleaning directory \"{directoryPath}\".");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"An error occurred while cleaning \"{directoryPath}\": {ex.Message}");
+            }
+        }
     }
 }
