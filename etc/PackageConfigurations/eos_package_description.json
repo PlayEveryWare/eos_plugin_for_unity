@@ -63,6 +63,10 @@
         {"src":"Assets/Plugins/Source/Editor/Configs/*.cs", "dest": "Editor/Configs/"},
         {"src":"Assets/Plugins/Source/Editor/Configs/*.cs.meta", "dest": "Editor/Configs/"},
         
+        {"src":"Assets/Plugins/Source/Editor/Windows.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/*.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/*.cs.meta", "dest": "Editor/Windows/"},
+        
 
 
         {"comment": "----------------------------Standalone---------------------------------------------"},

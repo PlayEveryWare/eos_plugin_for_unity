@@ -178,6 +178,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static void CreateUPM(string outputPath, string json_file)
         {
+            if (!File.Exists(json_file))
+            {
+                Debug.LogError($"Could not read package description file \"{json_file}\", it does not exist.");
+                return;
+            }
             var packageDescription = ReadPackageDescription(json_file);
 
             var filesToCopy = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);

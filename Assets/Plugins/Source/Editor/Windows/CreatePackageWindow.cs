@@ -31,6 +31,8 @@ using System;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Config;
+    using EpicOnlineServices.Utility;
+    using System.IO;
     using System.Threading.Tasks;
     using Utility;
     using Config = EpicOnlineServices.Config;
@@ -39,7 +41,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     public class CreatePackageWindow : EOSEditorWindow
     {
         const string DEFAULT_OUTPUT_DIRECTORY = "Build";
-
+        private const string DefaultPackageDescription = "etc/PackageConfigurations/eos_package_description.json";
+        
         [RetainPreference("ShowAdvanced")]
         private bool _showAdvanced = false;
 
@@ -60,6 +63,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override async Task AsyncSetup()
         {
             packagingConfig = await Config.Get<PackagingConfig>();
+
+            if (string.IsNullOrEmpty(packagingConfig.pathToJSONPackageDescription))
+            {
+                packagingConfig.pathToJSONPackageDescription =
+                    Path.Combine(FileUtility.GetProjectPath(), DefaultPackageDescription);
+                await packagingConfig.WriteAsync();
+            }
             await base.AsyncSetup();
         }
 
@@ -77,8 +87,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 if (!string.IsNullOrWhiteSpace(outputDir))
                 {
                     outputPath = outputDir;
-                    //packagingConfig.pathToOutput = outputDir;
-                    //packagingConfig.WriteAsync().Wait();
                 }
             }
 
