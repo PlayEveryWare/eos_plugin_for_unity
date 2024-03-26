@@ -66,8 +66,6 @@
         {"src":"Assets/Plugins/Source/Editor/Windows.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/Windows/*.cs", "dest": "Editor/Windows/"},
         {"src":"Assets/Plugins/Source/Editor/Windows/*.cs.meta", "dest": "Editor/Windows/"},
-        
-
 
         {"comment": "----------------------------Standalone---------------------------------------------"},
         {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
