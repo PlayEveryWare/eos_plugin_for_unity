@@ -129,7 +129,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 bootstrapperName += ".exe";
             }
 
-            string pathToEOSBootStrapperTool = Path.Combine(PackageFileUtility.GetProjectPath(), ProjectPathToEOSBootstrapperTool);
+            string pathToEOSBootStrapperTool = Path.Combine(FileUtility.GetProjectPath(), ProjectPathToEOSBootstrapperTool);
 
             string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
 

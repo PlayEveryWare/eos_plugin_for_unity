@@ -247,7 +247,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                                     PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir,
                                         packageDescription);
                                 // This should be the correct directory
-                                var projectDir = PackageFileUtility.GetProjectPath();
+                                var projectDir = FileUtility.GetProjectPath();
                                 PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
                             }
                         }

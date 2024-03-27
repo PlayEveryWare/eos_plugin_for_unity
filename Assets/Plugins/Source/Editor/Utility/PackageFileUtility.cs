@@ -73,21 +73,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             return filepaths;
         }
-
-        
-        public static string GetNormalizedCurrentWorkingDirectory()
-        {
-            string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
-            return currentWorkingDir;
-        }
-
-        
-        public static string GetProjectPath()
-        {
-            return Application.dataPath + "/..";
-
-        }
-
         
         // Root is often "./"
         public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
