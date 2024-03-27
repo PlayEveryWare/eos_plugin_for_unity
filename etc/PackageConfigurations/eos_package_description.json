@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
         {"src":"CHANGELOG.md", "dest" : "CHANGELOG.md"},
-        {"src":"CHANGELOG.md.meta", "dest" : ""},
+        {"src":"CHANGELOG.md.meta", "dest" : "CHANGELOG.md.meta"},
         {"src":"license.md", "dest" : "LICENSE.md"},
         {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/package.json", "dest" : ""},
@@ -35,6 +35,7 @@
         {"src":"Assets/Plugins/Source/Core/*.asmdef.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs.meta", "dest": "Runtime/Core/"},
+        {"src":"Assets/Plugins/Source/Core/Utility.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/Utility/*.cs", "dest": "Runtime/Core/Utility/"},
         {"src":"Assets/Plugins/Source/Core/Utility/*.cs.meta", "dest": "Runtime/Core/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
