@@ -39,10 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using Config = EpicOnlineServices.Config;
 
     // Helper to allow for StartCoroutine to be used from a static context
-    public class CoroutineExecutor : MonoBehaviour
-    {
-    }
-
+    public class CoroutineExecutor : MonoBehaviour { }
 
     public static class UnityPackageCreationUtility
     {
@@ -123,16 +120,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static void CreateUPMTarball(string outputPath, string json_file)
         {
-            var JSONPackageDescription = File.ReadAllText(json_file);
-            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-            string packageFolder = PackageFileUtility.GenerateTemporaryBuildPath();
-            var filesToCompress = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
-
-            CopyFilesToPackageDirectory(
-                packageFolder,
-                filesToCompress
-            );
-
+            string tempOutput = PackageFileUtility.GenerateTemporaryBuildPath();
+            
+            CreateUPM(tempOutput, json_file);
+            
             if (!executorInstance)
             {
                 executorInstance = UnityEngine.Object.FindObjectOfType<
@@ -147,7 +138,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             executorInstance.StartCoroutine(
                 StartMakingTarball(
-                    packageFolder,
+                    tempOutput,
                     outputPath
                 )
             );
@@ -207,9 +198,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 case PackageType.UPMTarball:
                     CreateUPMTarball(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription);
                     break;
-                case PackageType.DotUnity:
-                    CreateDotUnityPackage(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription);
-                    break;
+                case PackageType.DotUnity: // Deprecated
                 default:
                     throw new ArgumentOutOfRangeException(nameof(packageType), packageType, null);
             }
@@ -233,6 +222,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                         "Error making package " + packRequest.Error.message);
                 }
             }
+
+            // Delete the packageFolder - as when making a tarball it is only a temporary directory
+            Directory.Delete(packageFolder, true);
         }
     }
 }
