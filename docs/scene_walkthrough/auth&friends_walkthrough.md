@@ -9,4 +9,4 @@ This demo showcases an implementation of the friends list into a game UI. The pa
 ![Friends Tab](../images/eos_sdk_friends_panel.png)
 
 > [!NOTE]
-> More documentation on the Auth and Friends interface can be found [here](https://dev.epicgames.com/docs/epic-account-services/auth), with more specific information on the friends interface [here](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface).
+> See [Epic's documentation on the Auth interface](https://dev.epicgames.com/docs/epic-account-services/auth) as well as [Epic's documentation on the Friends interface](https://dev.epicgames.com/docs/epic-account-services/eos-friends-interface) for more information on each respective topic.

@@ -35,4 +35,4 @@ This demo showcases the sessions interface, users can create, manage and join se
 ![Current Sessions](../images/eos_sdk_sessions_current_sessions.png)
 
 > [!NOTE]
-> More documentation on the sessions interface can be found [here](https://dev.epicgames.com/docs/game-services/sessions).
+> See [Epic's documentation on the sessions interface](https://dev.epicgames.com/docs/game-services/sessions) for more information.

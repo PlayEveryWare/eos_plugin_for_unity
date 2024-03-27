@@ -9,4 +9,4 @@ The Peer 2 Peer demo showcases the peer 2 peer interface. This is done through a
 ![P2P Chat](../images/eos_sdk_p2p.png)
 
 > [!NOTE]
-> More documentation on the Peer 2 Peer interface can be found [here](https://dev.epicgames.com/docs/game-services/p-2-p).
+> See [Epic's Peer 2 Peer documentation](https://dev.epicgames.com/docs/game-services/p-2-p) for more information.

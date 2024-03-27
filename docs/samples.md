@@ -36,7 +36,7 @@ The included samples show examples of fully functional [feature implementations]
 > [!IMPORTANT]
 > The plugin must be <a href="/docs/configure_plugin.md">configured</a> for samples to be functional. Some Samples may not be accessible if the extra packs were not <a href="http://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/README.md#importing-samples">imported</a>.
 
-Sample walkthroughs for each scene can be found [here](/docs/Walkthrough.md).
+Checkout our [Sample Walkthroughs](/docs/Walkthrough.md) for a scene-by-scene walkthrough of each sample.
 
 <details>
   <summary><b>Steps to run a sample in editor</b></summary>
@@ -56,7 +56,7 @@ Sample walkthroughs for each scene can be found [here](/docs/Walkthrough.md).
     ![Auth and Friends Screenshot](/docs/images/sample_screen_account_login.gif)
 
     > [!NOTE]
-    > Additional info on login type options, implementation, and use cases can be found [here](/docs/player_authentication.md).
+    > Additional info on login type options, implementation, and use cases can be found in our [Player Authentication](/docs/player_authentication.md) document.
 
 </details>
 
@@ -88,6 +88,6 @@ Sample walkthroughs for each scene can be found [here](/docs/Walkthrough.md).
     ![Auth and Friends Screenshot](/docs/images/sample_screen_account_login.gif)
 
     > [!NOTE]
-    > Additional info on login type options, implementation, and use cases can be found [here](/docs/player_authentication.md).
+    > Additional info on login type options, implementation, and use cases can be found in our [Player Authentication](/docs/player_authentication.md) document.
 
 </details>

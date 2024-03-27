@@ -74,7 +74,7 @@ Examples:
 `(style)`: Changes to a either code or documentation that are style only.
 `(comments)`: Used for changes that only add comments.
 
-More details [here](https://www.conventionalcommits.org/en/v1.0.0/).
+More details see the documentation for [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
 ### Change-list Style Guide
 TODO: There isn't a change-list yet, but it will probably follow https://keepachangelog.com/en/1.0.0/.

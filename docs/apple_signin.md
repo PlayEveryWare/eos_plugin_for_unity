@@ -40,7 +40,7 @@ Take EOS-Unity-Plugin as example, add this code block in `EOSOnPostProcessBuild.
 
 ### PostProcess Build Settings for Xcode project (macOS)
 
-The automated method could be found [here](https://github.com/lupidan/apple-signin-unity/blob/master/docs/macOS_NOTES.md). 
+Documentation regarding automated method could be found in the [macOS_NOTES.md](https://github.com/lupidan/apple-signin-unity/blob/master/docs/macOS_NOTES.md) file within the [Apple-Signing-Unity](https://github.com/lupidan/apple-signin-unity/) repository created by [lupidan](https://github.com/lupidan/).
 
 Here is an alternative that relies on creating an XCode project for the game, make a couple of configurations, then build from the xproject.
 
@@ -56,7 +56,7 @@ Here is an alternative that relies on creating an XCode project for the game, ma
 
 ### Sample Apple Sign In Scripts
 
-Here is a sample script tested in EOS-Unity-Plugin, which is modified from the example Unity's Documents [here](https://docs.unity.com/authentication/en/manual/SettingupAppleSignin)
+Here is a sample script tested in EOS-Unity-Plugin, which is modified from the example [Unity's Document on Setting Up Apple Signin](https://docs.unity.com/authentication/en/manual/SettingupAppleSignin).
 
 ```cs
 using UnityEngine;

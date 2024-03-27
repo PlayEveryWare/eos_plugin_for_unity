@@ -21,9 +21,9 @@ There are two login interfaces:
 * **Auth Login**       for authorizing an **Epic Account** and related services 
 * **Connect Login**    for connecting the **User** for one **ProductID (Game)**
 
-More information about the distinction can be found [here](https://dev.epicgames.com/en-US/news/accessing-eos-game-services-with-the-connect-interface#a-brief-summary-of-auth-vs-connect-interfaces)
+More information about the distinction can be found in the Epic news release ["A Brief Summary of Auth VS Connect Interfaces"](https://dev.epicgames.com/en-US/news/accessing-eos-game-services-with-the-connect-interface#a-brief-summary-of-auth-vs-connect-interfaces).
 
-For information on how to authenticate a user via Apple, check out [this](/docs/apple_signin.md) guide.
+For information on how to authenticate a user via Apple, check out our [Apple Sign-In guide](/docs/apple_signin.md).
 
 ### Auth Login
 
@@ -34,7 +34,7 @@ For information on how to authenticate a user via Apple, check out [this](/docs/
 * **External Auth** is currently only for Steam session ticket login on these platforms
 * **Exchange Code** is for logging in on Epic Game Store deployments
 
-A list of which `LoginCredentialType` to use on which platform could be found [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/login_type_by_platform.md)
+A list of which `LoginCredentialType` to use on which platform could be found in our documentation here: [Login Type by Platform](https://github.com/PlayEveryWare/eos_plugin_for_unity/tree/development/docs/login_type_by_platform.md)
 
 ### Connect Login
 

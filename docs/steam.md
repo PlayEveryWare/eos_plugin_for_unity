@@ -9,7 +9,7 @@ This document is a guide to connect the dots between EOS SDK and Steam SDK.
 ## Prerequisites
 
 - Install Steam SDK version `1.57` minimum.  
-- Have Steam added as an `Indentity Provider` for your game (see [here](https://dev.epicgames.com/docs/dev-portal/identity-provider-management#steam) for how to do that).
+- Have Steam added as an [Indentity Provider](https://dev.epicgames.com/docs/dev-portal/identity-provider-management#steam) for your game.
 
 ## External C# Wrappers for the Steam SDK
 
