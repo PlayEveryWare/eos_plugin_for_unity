@@ -98,7 +98,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 {
                     // Skip .git directories 
                     if (ignoreGit && subDir.EndsWith(".git")) { continue; }
-
+                    
+                    // TODO: This is a little bit dangerous as one developer has found out. If the output directory is not
+                    //       empty, and contains directories and files unrelated to output, this will (without prompting)
+                    //       delete them. So, if you're outputting to, say the "Desktop" directory, it will delete everything
+                    //       on your desktop (zoinks!)
                     Directory.Delete(subDir, true);
                 }
 
