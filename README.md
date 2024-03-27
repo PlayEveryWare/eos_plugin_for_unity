@@ -97,7 +97,7 @@ Once imported into your project, be sure to [Configure the Plugin](/docs/configu
 
 # Support / Contact
 
-PlayEveryWare EOS Plugin for Unity documentation can be found right here on GitHub.
+PlayEveryWare EOS Plugin for Unity documentation can be found here on GitHub.
 
 For issues related to integration or usage of the EOS Unity plugin, please create a `New Issue` under the [Issues](https://github.com/PlayEveryWare/eos_plugin_for_unity/issues) tab.
 
