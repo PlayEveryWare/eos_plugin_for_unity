@@ -162,7 +162,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 OnPackageCreated(packagingConfig.pathToOutput);
             }
 
-            GUI.enabled = false; // Disable UPM .unitypackage for the time being.
+            GUI.enabled = false; // Disable UPM .unitypackage for the time being - it's functionality has fallen behind greatly.
             if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
             {
                 EditorApplication.update += CheckForPackageCreated;
