@@ -32,6 +32,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Editor;
     using Editor.Build;
+    using Extensions;
+    using System.Linq;
 
     public class PackageFileUtility
     {
@@ -77,93 +79,46 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         // Root is often "./"
         public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
         {
-            var fileInfos = new List<FileInfoMatchingResult>();
-            List<SrcDestPair> ignoreList = new List<SrcDestPair>();
+            List<FileInfoMatchingResult> fileInfos = new();
+            List<SrcDestPair> ignoreList = new();
+
+            // TODO: Replace the path separator logic with system-specific things / methods provided by Mono.
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
-            var toolsSection = new ToolsConfigEditor();
-            toolsSection?.Load();
-
-            foreach (var srcToDestKeyValues in packageDescription.source_to_dest)
+            // Iterate through the SrcDestPair entries that are not merely comments.
+            foreach (var srcDestPair in packageDescription.source_to_dest.Where(p => !p.IsCommentOnly()))
             {
-                if (srcToDestKeyValues.IsCommentOnly() || (srcToDestKeyValues.comment != null && srcToDestKeyValues.comment.StartsWith("//")))
+                // If the SrcDestPair has an ignore_regex, then add it to the list of pairs that are to be interpreted as ignore patterns,
+                // and move on to the next SrcDestPair.
+                if (!string.IsNullOrEmpty(srcDestPair.ignore_regex))
                 {
+                    ignoreList.Add(srcDestPair);
                     continue;
                 }
-                if (!string.IsNullOrEmpty(srcToDestKeyValues.ignore_regex))
+
+                // If the source file exists, and if the SrcDestPair has a sha1 value, AND if that sha1 value no longer matches, then
+                // log a warning / error indicating that there is a SHA mismatch. (This is typically to help when binaries need updating).
+                var srcFileInfo = new FileInfo(srcDestPair.src);
+                if (srcFileInfo.Exists && !string.IsNullOrEmpty(srcDestPair.sha1) && srcFileInfo.ComputeSHA() != srcDestPair.sha1)
                 {
-                    ignoreList.Add(srcToDestKeyValues);
-                    continue;
+                    // If there is a SHA mismatch, and if there is a unique error message added to the SrcDestPair, then make certain
+                    // to utilize it when logging the warning, as it likely has information pertinent to the developer.
+                    string errorMessageToUse = string.IsNullOrEmpty(srcDestPair.sha1_mismatch_error)
+                        ? "SHA1 mismatch"                  // Use a standard error message.
+                        : srcDestPair.sha1_mismatch_error; // Use the error message in the Json.
+                 
+                    Debug.LogWarning(
+                        $"Copy error for file \"{srcDestPair.src}\": {errorMessageToUse}");
                 }
-
-                SearchOption searchOption = srcToDestKeyValues.recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-                var srcFileInfo = new FileInfo(srcToDestKeyValues.src);
-
-                // Find instead the part of the path that does exist on disk
-                if (!srcFileInfo.Exists)
-                {
-                    srcFileInfo = new FileInfo(srcFileInfo.DirectoryName);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(srcToDestKeyValues.sha1))
-                    {
-                        string computedSHA = "";
-
-                        using (SHA1 fileSHA = SHA1.Create())
-                        {
-                            byte[] computedHash = null;
-
-                            using (var srcFileStream = srcFileInfo.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                            {
-                                srcFileStream.Position = 0;
-                                computedHash = fileSHA.ComputeHash(srcFileStream);
-                            }
-                            StringBuilder formatedStr = new StringBuilder(computedHash.Length * 2);
-                            foreach (byte b in computedHash)
-                            {
-                                formatedStr.AppendFormat("{0:x2}", b);
-                            }
-                            computedSHA = formatedStr.ToString();
-                        }
-                        if (computedSHA != srcToDestKeyValues.sha1)
-                        {
-                            string errorMessageToUse = string.IsNullOrEmpty(srcToDestKeyValues.sha1_mismatch_error) ? "SHA1 mismatch" : srcToDestKeyValues.sha1_mismatch_error;
-                            Debug.LogWarning("Copy error for file (" + srcToDestKeyValues.src + ") :" + srcToDestKeyValues.sha1_mismatch_error);
-                        }
-                    }
-                }
-
-                IEnumerable<string> collectedFiles;
-
-                if (string.IsNullOrEmpty(srcToDestKeyValues.pattern))
-                {
-                    collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src, searchOption);
-                }
-                else
-                {
-                    collectedFiles = Directory.EnumerateFiles(Path.Combine(root, srcToDestKeyValues.src), srcToDestKeyValues.pattern, searchOption);
-                }
-
-                foreach (var entry in collectedFiles)
-                {
-                    FileInfo srcItem = new FileInfo(Path.GetFullPath(entry).Replace('\\', '/').Replace(currentWorkingDir,""));
-                    var newItem = new FileInfoMatchingResult();
-                    if (srcToDestKeyValues.recursive && Directory.Exists(Path.Combine(root, srcToDestKeyValues.src)))
-                    {
-                        newItem.relativePath = Path.GetRelativePath(Path.Combine(root, srcToDestKeyValues.src), entry);
-                    }
-                    newItem.fileInfo = srcItem;
-                    newItem.originalSrcDestPair = srcToDestKeyValues;
-
-                    fileInfos.Add(newItem);
-                }
-
+                
+                fileInfos.AddRange(FindMatchingFiles(root, currentWorkingDir, srcDestPair));
             }
 
+            // Prune the list of fileInfos to remove any entries that should be ignored according to the ignore list.
             fileInfos = fileInfos.FindAll((e) => {
                 foreach (var ignorePattern in ignoreList)
                 {
+                    // TODO: Replace the path separator logic with system-specific things / methods provided by Mono.
                     var regex = new Regex(ignorePattern.ignore_regex.Replace(@"\\", @"\"));
                     var normalizedPath = e.fileInfo.FullName.Replace('\\', '/').Replace(currentWorkingDir, "");
                     if (regex.IsMatch(normalizedPath))
@@ -177,50 +132,57 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return fileInfos;
         }
 
-        
-        const int BYTES_TO_READ = sizeof(Int64); //check 4 bytes at a time
-        static bool FilesAreEqual(FileInfo first, FileInfo second)
+        /// <summary>
+        /// Given a root directory, the current working directory, and a given SrcDestPair, find all the matching files.
+        /// </summary>
+        /// <param name="root">The root path within which to find matching files.</param>
+        /// <param name="currentWorkingDir">
+        /// The current working directory
+        /// TODO: Document why this is a needed parameter, needing to keep track of current working directory seems like
+        ///       a strange state to keep track of while accomplishing this task.
+        /// </param>
+        /// <param name="pair">The SrcDestPair to find the matching files for.</param>
+        /// <returns>An IEnumerable of all the FileInfoMatchingResult structs that represent the files that match the SrcDestPair given the root directory and the current working directory.</returns>
+        private static IEnumerable<FileInfoMatchingResult> FindMatchingFiles(string root, string currentWorkingDir, SrcDestPair pair)
         {
-            if (first.Exists != second.Exists)
-                return false;
-
-            if (!first.Exists && !second.Exists)
-                return true;
-
-            if (first.Length != second.Length)
-                return false;
-
-            if (string.Equals(first.FullName, second.FullName, StringComparison.OrdinalIgnoreCase))
-                return true;
-
-            int iterations = (int)Math.Ceiling((double)first.Length / BYTES_TO_READ);
-
-            using (FileStream fs1 = first.OpenRead())
-            using (FileStream fs2 = second.OpenRead())
+            IEnumerable<string> collectedFiles;
+            SearchOption searchOption = pair.recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            if (string.IsNullOrEmpty(pair.pattern))
             {
-                byte[] one = new byte[BYTES_TO_READ];
-                byte[] two = new byte[BYTES_TO_READ];
-
-                for (int i = 0; i < iterations; i++)
-                {
-                    fs1.Read(one, 0, BYTES_TO_READ);
-                    fs2.Read(two, 0, BYTES_TO_READ);
-
-                    if (BitConverter.ToInt64(one, 0) != BitConverter.ToInt64(two, 0))
-                        return false;
-                }
+                collectedFiles = Directory.EnumerateFiles(root, pair.src, searchOption);
+            }
+            else
+            {
+                collectedFiles = Directory.EnumerateFiles(Path.Combine(root, pair.src), pair.pattern, searchOption);
             }
 
-            return true;
-        }
+            foreach (var entry in collectedFiles)
+            {
+                FileInfo srcItem = new(Path.GetFullPath(entry).Replace('\\', '/').Replace(currentWorkingDir, ""));
+                var newItem = new FileInfoMatchingResult();
+                if (pair.recursive && Directory.Exists(Path.Combine(root, pair.src)))
+                {
+                    newItem.relativePath = Path.GetRelativePath(Path.Combine(root, pair.src), entry);
+                }
+                newItem.fileInfo = srcItem;
+                newItem.originalSrcDestPair = pair;
 
+                yield return newItem;
+            }
+        }
         
-        public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress, Action<string> postProcessCallback = null)
+        public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> filesToCopy, Action<string> onCopyComplete = null)
         {
+            // TODO: A major improvement to this system would be to automatically include .meta files, and gracefully
+            //       handle instances where the meta file *should* exist, but does not - gracefully in this context
+            //       would mean that if the .meta file exists, it should just be copied over; whereas if there is a
+            //       file entry copied over that does not have a corresponding meta file in the source, it indicates
+            //       that a meta file entry is MISSING from the source, and that should stop the creation of a package.
+
+
             Directory.CreateDirectory(packageFolder);
 
-
-            foreach (var fileInfo in fileInfoForFilesToCompress)
+            foreach (var fileInfo in filesToCopy)
             {
                 FileInfo src = fileInfo.fileInfo;
                 string dest = fileInfo.GetDestination();
@@ -229,19 +191,17 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 string finalDestinationParent = Path.GetDirectoryName(finalDestinationPath);
                 bool isDestinationADirectory = dest.EndsWith("/") || dest.Length == 0;
 
-                if (!Directory.Exists(finalDestinationParent))
+                if (!string.IsNullOrEmpty(finalDestinationParent) && !Directory.Exists(finalDestinationParent))
                 {
                     Directory.CreateDirectory(finalDestinationParent);
                 }
 
                 // If it ends in a '/', treat it as a directory to move to
-                if (!Directory.Exists(finalDestinationPath))
+                if (!Directory.Exists(finalDestinationPath) && isDestinationADirectory)
                 {
-                    if (isDestinationADirectory)
-                    {
-                        Directory.CreateDirectory(finalDestinationPath);
-                    }
+                    Directory.CreateDirectory(finalDestinationPath);
                 }
+
                 string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
 
                 // Ensure we can write over the dest path
@@ -251,13 +211,16 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     destPathFileInfo.IsReadOnly = false;
                 }
 
-                if (fileInfo.originalSrcDestPair.copy_identical || !FilesAreEqual(new FileInfo(src.FullName), new FileInfo(destPath)))
+                if (fileInfo.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(new FileInfo(destPath)))
                 {
                     File.Copy(src.FullName, destPath, true);
                 }                
-                postProcessCallback?.Invoke(destPath);
+
+                // TODO: This seems to be intended for use as a UI mechanism for tracking progress of file copy
+                //       however, it is actually used as if it is called when all files have been copied. Either
+                //       code that references this needs to change, or this needs to be moved to outside the loop.
+                onCopyComplete?.Invoke(destPath);
             }
         }
-
     }
 }

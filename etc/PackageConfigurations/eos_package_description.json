@@ -52,6 +52,11 @@
         {"src":"Assets/Plugins/Source/Editor/Utility/*.cs", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/*.cs.meta", "dest": "Editor/Utility/"},
         
+        {"src":"Assets/Plugins/Source/Editor/Utility/Extensions.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs", "dest": "Editor/Utility/Extensions/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs.meta", "dest": "Editor/Utility/Extensions/"}
+
+
         {"src":"Assets/Plugins/Source/Editor/Build.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/Build/*.cs", "dest": "Editor/Build/"},
         {"src":"Assets/Plugins/Source/Editor/Build/*.cs.meta", "dest": "Editor/Build/"},

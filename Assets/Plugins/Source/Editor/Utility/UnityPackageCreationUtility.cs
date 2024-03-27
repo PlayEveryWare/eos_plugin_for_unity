@@ -77,20 +77,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         
         private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
         {
-            var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
+            var JSONPackageDescription = FileUtility.ReadAllText(pathToJSONPackageDescription);
 
             var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
 
             return packageDescription;
-        }
-
-        private static void CopyFilesToPackageDirectory(string packageFolder,
-            List<FileInfoMatchingResult> fileInfoForFilesToCompress)
-        {
-            PackageFileUtility.CopyFilesToDirectory(
-                packageFolder,
-                fileInfoForFilesToCompress,
-                WriteVersionInfo);
         }
 
         private static void WriteVersionInfo(string destPath)
@@ -174,11 +165,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 Debug.LogError($"Could not read package description file \"{json_file}\", it does not exist.");
                 return;
             }
-            var packageDescription = ReadPackageDescription(json_file);
+
+            var packageDescription = JsonUtility.FromJsonFile<PackageDescription>(json_file);
 
             var filesToCopy = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
-            CopyFilesToPackageDirectory(outputPath, filesToCopy);
+            PackageFileUtility.CopyFilesToDirectory(outputPath, filesToCopy, WriteVersionInfo);
         }
 
         public static async Task CreatePackage(PackageType packageType, bool clean = true, bool ignoreGit = true)
