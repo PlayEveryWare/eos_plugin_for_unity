@@ -35,51 +35,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
     public class PackageFileUtility
     {
-        public static string GenerateTemporaryBuildPath()
-        {
-            return Application.temporaryCachePath + "/Output-" + System.Guid.NewGuid().ToString() + "/";
-        }
-        
-        public static void Dos2UnixLineEndings(string srcFilename, string destFilename)
-        {
-            const byte CR = 0x0d;
-
-            var fileAsBytes = File.ReadAllBytes(srcFilename);
-
-            using (var filestream = File.OpenWrite(destFilename))
-            {
-                var writer = new BinaryWriter(filestream);
-                int filePosition = 0;
-                int indexOfDOSNewline = 0;
-
-                do
-                {
-                    indexOfDOSNewline = Array.IndexOf<byte>(fileAsBytes, CR, filePosition);
-
-                    if (indexOfDOSNewline >= 0)
-                    {
-                        writer.Write(fileAsBytes, filePosition, indexOfDOSNewline - filePosition);
-                        filePosition = indexOfDOSNewline + 1;
-                    }
-                    else if (filePosition < fileAsBytes.Length)
-                    {
-                        writer.Write(fileAsBytes, filePosition, fileAsBytes.Length - filePosition);
-                    }
-
-                } while (indexOfDOSNewline > 0);
-
-                // truncate trailing garbage.
-                filestream.SetLength(filestream.Position);
-            }
-        }
-
-        
-        public static void Dos2UnixLineEndings(string filename)
-        {
-            Dos2UnixLineEndings(filename, filename);
-        }
-
-        
         /// <summary>
         /// 
         /// </summary>

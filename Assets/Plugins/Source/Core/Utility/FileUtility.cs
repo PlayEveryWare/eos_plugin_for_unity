@@ -75,6 +75,16 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
         /// <summary>
+        /// Writes all text to the indicated file.
+        /// </summary>
+        /// <param name="path">Filepath to the file to write to.</param>
+        /// <param name="content">The content to write to the file.</param>
+        public static void WriteAllText(string path, string content)
+        {
+            File.WriteAllText(path, content);
+        }
+
+        /// <summary>
         /// Asynchronously reads all text from the indicated file.
         /// </summary>
         /// <param name="path">The file to read from.</param>
@@ -83,6 +93,22 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             return await File.ReadAllTextAsync(path);
         }
+
+        #region Line Ending Manipulations
+
+        public static void ConvertDosToUnixLineEndings(string filename)
+        {
+            ConvertDosToUnixLineEndings(filename, filename);
+        }
+
+        public static void ConvertDosToUnixLineEndings(string srcFilename, string destFilename)
+        {
+            string fileContents = ReadAllText(srcFilename);
+            fileContents = fileContents.Replace("\r\n", "\n");
+            WriteAllText(destFilename, fileContents);
+        }
+
+        #endregion
 
         public static void CleanDirectory(string directoryPath, bool ignoreGit = true)
         {

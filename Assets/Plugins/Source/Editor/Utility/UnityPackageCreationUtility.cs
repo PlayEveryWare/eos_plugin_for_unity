@@ -120,7 +120,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static void CreateUPMTarball(string outputPath, string json_file)
         {
-            string tempOutput = PackageFileUtility.GenerateTemporaryBuildPath();
+            string tempOutput = FileUtility.GenerateTempDirectory();
             
             CreateUPM(tempOutput, json_file);
             
