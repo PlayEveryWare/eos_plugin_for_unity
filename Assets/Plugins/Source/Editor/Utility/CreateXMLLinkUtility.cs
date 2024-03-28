@@ -31,7 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         [MenuItem("Tools/EOS Plugin/Create link.xml")]
         static void CreateLinkXml()
         {
-            var linkSourceFilePath = Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Editor", "link.xml");
+            var linkSourceFilePath = Path.Combine("Packages", EOSPackageInfo.PackageName, "Editor", "link.xml");
             var linkDestPath = Path.Combine("Assets", "EOS");
             var linkDestFilePath = Path.Combine(linkDestPath, "link.xml");
             if (File.Exists(linkSourceFilePath))
@@ -58,7 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         [MenuItem("Tools/EOS Plugin/Create link.xml", true)]
         static bool ValidateCreateLinkXml()
         {
-            return Directory.Exists(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Editor"));
+            return Directory.Exists(Path.Combine("Packages", EOSPackageInfo.PackageName, "Editor"));
         }
     }
 }

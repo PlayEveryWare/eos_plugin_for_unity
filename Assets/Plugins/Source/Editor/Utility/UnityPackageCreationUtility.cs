@@ -85,40 +85,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return packageDescription;
         }
 
-        //private static void CopyFilesToPackageDirectory(string packageFolder,
-        //    List<FileInfoMatchingResult> fileInfoForFilesToCompress)
-        //{
-        //    PackageFileUtility.CopyFilesToDirectory(
-        //        packageFolder,
-        //        fileInfoForFilesToCompress,
-        //        WriteVersionInfo);
-        //}
-
-        private static void WriteVersionInfo(string destPath)
-        {
-            if (Path.GetFileName(destPath) == "EOSPackageInfo.cs")
-            {
-                string version = EOSPackageInfo.GetPackageVersion();
-                string contents = File.ReadAllText(destPath);
-                string start = "//VERSION START";
-                string end = "//VERSION END";
-                var startIndex = contents.IndexOf(start) + start.Length;
-                var endIndex = contents.IndexOf(end);
-                var newFunction =
-                    @"
-    public static string GetPackageVersion()
-    {
-        return """ + version + @""";
-    }
-    ";
-                string newContents = contents.Substring(0, startIndex)
-                                     + newFunction
-                                     + contents.Substring(endIndex);
-
-                File.WriteAllText(destPath, newContents);
-            }
-        }
-
         public struct CreatePackageProgressInfo
         {
             public int FilesCopied;

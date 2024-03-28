@@ -70,6 +70,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void Start()
         {
+            UIDebugLogText.font = Resources.Load<Font>("SourceCodePro");
+            UIDebugLogText.fontSize = 14;
+            UIDebugLogText.fontStyle = FontStyle.Bold;
+
             expanded = false;
             visible = true;
 

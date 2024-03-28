@@ -46,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         public static string GetPathToEOSBin()
         {
             string projectPathToBin = Path.Combine(Application.dataPath, "../tools/bin/");
-            string packagePathToBin = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() + "/bin~/");
+            string packagePathToBin = Path.GetFullPath("Packages/" + EOSPackageInfo.PackageName + "/bin~/");
 
             if (Directory.Exists(packagePathToBin))
             {
@@ -78,7 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     break;
             }
 
-            string packagePathname = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() +
+            string packagePathname = Path.GetFullPath("Packages/" + EOSPackageInfo.PackageName +
                                                       "/PlatformSpecificAssets~/EOS/" + platformDirectoryName + "/");
             string platformSpecificPathname = Path.Combine(Application.dataPath,
                 "../etc/PlatformSpecificAssets/EOS/" + platformDirectoryName + "/");
@@ -116,7 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             string projectPathToCfg = Path.Combine(Application.dataPath,
                 "Plugins/Standalone/Editor/anticheat_integritytool.cfg");
-            string packagePathToCfg = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(),
+            string packagePathToCfg = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.PackageName,
                 "Editor/Standalone/anticheat_integritytool.cfg"));
 
             if (File.Exists(packagePathToCfg))

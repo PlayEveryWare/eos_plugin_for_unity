@@ -1,6 +1,7 @@
 {
     "source_to_dest": [
         {"src":"Assets/Resources/SourceCodePro.ttf", "dest":"Resources~/"},
+        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Resources~/"}
         {"src":"CHANGELOG.md", "dest" : "CHANGELOG.md"},
         {"src":"LICENSE.md", "dest": "LICENSE.md" },
         {"src":"README.md", "dest": "README.md" },
@@ -528,7 +529,7 @@
         {"src":"Assets/Scenes/StandardSamples.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
-            
+        {"src":"Assets/Scenes/SampleScenes.asset", "dest": "Assets~/Scenes/"},
         {"src":"Assets/Materials/StandardSamplesMaterials.meta", "dest": "Samples~/Samples/StandardSamples/Materials.meta"},
         {"src":"Assets/Materials/StandardSamplesMaterials/*", "dest": "Samples~/Samples/StandardSamples/Materials/"},
 

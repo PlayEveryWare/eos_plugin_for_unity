@@ -166,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             AutoSetProductVersion();
 
             const string packageVersionPath = "Assets/Resources/eosPluginVersion.asset";
-            string packageVersion = EOSPackageInfo.GetPackageVersion();
+            string packageVersion = EOSPackageInfo.Version;
             if (!AssetDatabase.IsValidFolder("Assets/Resources"))
             {
                 AssetDatabase.CreateFolder("Assets", "Resources");
