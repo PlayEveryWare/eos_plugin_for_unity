@@ -27,12 +27,9 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
-
-#if UNITY_EDITOR // only use reflection in the editor
     using System.Collections.Generic;
     using System.Reflection;   
     using System.IO;
-#endif
 
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 

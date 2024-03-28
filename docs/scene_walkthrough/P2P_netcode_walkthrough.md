@@ -15,5 +15,5 @@ Upon import, the `com.unity.netcode.gameobjects` package that this scene require
 *Default version `1.0.2`.  Verified Working Versions `1.5.1` , `1.5.2`*  
 
 > [!NOTE]
-> More documentation on the P2P interface can be found [here](https://dev.epicgames.com/docs/game-services/p-2-p).
+> See [Epic's documentation on the P2P interface](https://dev.epicgames.com/docs/game-services/p-2-p) for more information.
 

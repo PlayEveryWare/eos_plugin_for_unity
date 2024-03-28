@@ -33,7 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         public override void PreBuild(BuildReport report)
         {
             string macOSPackagePluginFolder =
-                Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Runtime", "macOS");
+                Path.Combine("Packages", EOSPackageInfo.PackageName, "Runtime", "macOS");
             if (File.Exists(Path.Combine(macOSPackagePluginFolder, "libDynamicLibraryLoaderHelper.dylib")) &&
                 File.Exists(Path.Combine(macOSPackagePluginFolder, "MicrophoneUtility_macos.dylib")))
             {

@@ -50,7 +50,7 @@ public class DLLHandle : SafeHandle
     {
         string uwpPluginsPath = Path.Combine(Application.streamingAssetsPath, "..", "..");
         string pluginsPath = Path.Combine(Application.dataPath, "Plugins");
-        string packagedPluginPath = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(), "Runtime"));
+        string packagedPluginPath = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.PackageName, "Runtime"));
         var pluginPaths = new List<string>();
 
         pluginPaths.Add(pluginsPath);

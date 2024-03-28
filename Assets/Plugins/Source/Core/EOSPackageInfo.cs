@@ -22,52 +22,25 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using System.Runtime.CompilerServices;
+    using UnityEditor.PackageManager.UI;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     public static class EOSPackageInfo
     {
-        /// <value>Hard-coded configuration file name ("EpicOnlineServicesConfig.json")</value>
         public static readonly string ConfigFileName = "EpicOnlineServicesConfig.json";
 
-        public const string UnknownVersion = "?.?.?";
+        /*
+         * TODO:
+         *
+         * The automated process utilized previously to read and write values to CS files to indicate version and package name
+         * was fragile and had too much overhead. For the time being, it has been replaced by hard-coded values, but in the
+         * near future it is important that these values change as part of the build process in an automated fashion that does
+         * not involve editing source code files.
+         */
 
-        //-------------------------------------------------------------------------
+        public const string Version = "3.1.0";
 
-        public static string GetPackageName()
-        {
-            return "com.playeveryware.eos";
-        }
-
-        //-------------------------------------------------------------------------
-        //VERSION START
-        private struct VersionReader
-        {
-            public string version;
-        }
-
-        public static string GetPackageVersion()
-        {
-            try
-            {
-                var pathToManifest = System.IO.Path.Combine(UnityEngine.Application.dataPath, "..",
-                    "etc/PackageTemplate", "package.json");
-                var contents = System.IO.File.ReadAllText(pathToManifest);
-                var versionData = JsonUtility.FromJson<VersionReader>(contents);
-                return versionData.version;
-            }
-            catch
-            {
-                var versionAsset = UnityEngine.Resources.Load<UnityEngine.TextAsset>("eosPluginVersion");
-                if (versionAsset != null)
-                {
-                    return versionAsset.text;
-                }
-                else
-                {
-                    return UnknownVersion;
-                }
-            }
-        }
-        //VERSION END
+        public const string PackageName = "com.playeveryware.eos";
     }
 }

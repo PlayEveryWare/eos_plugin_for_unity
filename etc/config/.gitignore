@@ -1,4 +1,4 @@
 # As the "config" values typically stored in eos_plugin_packaging config are
 # "user preferences" (ie: not configurations that are typically shared between
 # a team of developers), changes to this config file are excluded from git
-eos_plugin_packaging.json
+eos_plugin_packaging_config.json

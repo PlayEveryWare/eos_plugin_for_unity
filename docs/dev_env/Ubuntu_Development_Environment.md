@@ -69,7 +69,7 @@ You'll be prompted to trust the key (type yes and hit enter). This command shoul
 
 ### Step 4: Clone the EOS Plugin Repository
 
-It is important that you have the latest version of `git` installed, so that you can use `git lfs`. See [here](https://itsfoss.com/install-git-ubuntu/) for an excellent guide an installing the latest version of `git`
+It is important that you have the latest version of `git` installed, so that you can use `git lfs`. See the following link for an excellent guide an installing the latest version of `git` on Ubuntu: [Install Git [on] Ubuntu](https://itsfoss.com/install-git-ubuntu/).
 
 > [!NOTE]
 > Simply installing `git` via apt is not sufficient.
@@ -137,4 +137,4 @@ If you are using Hyper-V, and failed to increase the size of the disk before ins
     # Note no space this time!
     ```
 
-10. Now you should have the extra space available to you. If this doesn't work, you can find some other suggestions [here](https://superuser.com/questions/1716141/how-to-expand-ubuntu-20-04-lts-filesystem-volume-on-hyper-v).
+10. Now you should have the extra space available to you. If this doesn't work, you can find some other suggestions [on this SuperUser.com question thread](https://superuser.com/questions/1716141/how-to-expand-ubuntu-20-04-lts-filesystem-volume-on-hyper-v).

@@ -96,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static string GetPlatformSpecificAssetsPath(string subpath)
         {
-            string packagePathname = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.GetPackageName(),
+            string packagePathname = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.PackageName,
                 "PlatformSpecificAssets~", subpath));
             string streamingAssetsSamplesPathname =
                 Path.Combine(Application.dataPath, "..", "etc", "PlatformSpecificAssets", subpath);
@@ -352,7 +352,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static async Task DetermineLibraryLinkingMethod()
         {
-            string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.GetPackageName() +
+            string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.PackageName +
                                                   "/PlatformSpecificAssets~/EOS/Android/");
             string androidAssetFilepath = Application.dataPath + "/../etc/PlatformSpecificAssets/EOS/Android/";
 

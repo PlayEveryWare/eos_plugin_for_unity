@@ -2,7 +2,7 @@
 
 # Configuring the Plugin
 
-To function, the plugin needs some information from your EOS project. Epic Docs on how to set up your project can be found [here](https://dev.epicgames.com/docs/epic-account-services/getting-started?sessionInvalidated=true).
+To function, the plugin needs some information from your EOS project. Be sure to read the Epic Documentation on [getting started](https://dev.epicgames.com/docs/epic-account-services/getting-started?sessionInvalidated=true) with Epic Online Services.
 
 1) Open your Unity project with the integrated EOS Unity Plugin. 
 2) In the Unity editor, Open ```Tools -> EOS Plugin -> Dev Portal Configuration```.
@@ -14,7 +14,7 @@ To function, the plugin needs some information from your EOS project. Epic Docs 
 3) From the [Developer Portal](https://dev.epicgames.com/portal/), copy the configuration values listed below, and paste them into the similarly named fields in the editor tool window pictured above:
 
      > [!NOTE]
-     > Addtional information about configuration settings can be found [here](https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface).
+     > For more detailed information, check out Epic's Documentation on [Creating the Platform Interface](https://dev.epicgames.com/docs/game-services/eos-platform-interface#creating-the-platform-interface).
 
     * ProductName
     * ProductVersion

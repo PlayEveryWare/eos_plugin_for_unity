@@ -32,14 +32,12 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 {
     using Editor;
     using Editor.Build;
+    using Editor.Utility;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     public class PackageFileUtility
     {
-        public static string GenerateTemporaryBuildPath()
-        {
-            return Application.temporaryCachePath + "/Output-" + System.Guid.NewGuid().ToString() + "/";
-        }
-        
         public static void Dos2UnixLineEndings(string srcFilename, string destFilename)
         {
             const byte CR = 0x0d;
@@ -72,13 +70,11 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 filestream.SetLength(filestream.Position);
             }
         }
-
         
         public static void Dos2UnixLineEndings(string filename)
         {
             Dos2UnixLineEndings(filename, filename);
         }
-
         
         /// <summary>
         /// 
@@ -118,21 +114,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             return filepaths;
         }
-
-        
-        public static string GetNormalizedCurrentWorkingDirectory()
-        {
-            string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
-            return currentWorkingDir;
-        }
-
-        
-        public static string GetProjectPath()
-        {
-            return Application.dataPath + "/..";
-
-        }
-
         
         // Root is often "./"
         public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
@@ -274,12 +255,31 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return true;
         }
 
-        
-        public static void CopyFilesToDirectory(string packageFolder, List<FileInfoMatchingResult> fileInfoForFilesToCompress, Action<string> postProcessCallback = null)
+        private static void Shuffle<T>(IList<T> list)
+        {
+            System.Random rng = new();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = rng.Next(n + 1);
+                (list[k], list[n]) = (list[n], list[k]);
+            }
+        }
+
+        public static async Task CopyFilesToDirectory(
+            string packageFolder, 
+            List<FileInfoMatchingResult> fileInfoForFilesToCompress, 
+            IProgress<UnityPackageCreationUtility.CreatePackageProgressInfo> progress = null,
+            CancellationToken cancellationToken = default,
+            Action<string> postProcessCallback = null)
         {
             Directory.CreateDirectory(packageFolder);
 
+            long sizeOfFilesToCopy = 0L;
+            List<(string from, string to, long size)> fileCopyOperations = new();
 
+            // First create the directory structure
             foreach (var fileInfo in fileInfoForFilesToCompress)
             {
                 FileInfo src = fileInfo.fileInfo;
@@ -313,11 +313,43 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
                 if (fileInfo.originalSrcDestPair.copy_identical || !FilesAreEqual(new FileInfo(src.FullName), new FileInfo(destPath)))
                 {
-                    File.Copy(src.FullName, destPath, true);
-                }                
+                    fileCopyOperations.Add((src.FullName, destPath, src.Length));
+                    sizeOfFilesToCopy += src.Length;
+                }   
+                
                 postProcessCallback?.Invoke(destPath);
             }
-        }
 
+            const float ProgressUpdateIntervalInSeconds = 1.5f;
+            DateTime progressLastUpdated = DateTime.Now;
+
+            int filesCopied = 0;
+
+            // Shuffling the file copy operations makes the file copy task have a more even rate of progress
+            // when the task is measured by number of bytes moved vs number of bytes that need to move.
+            Shuffle(fileCopyOperations);
+
+            long sizeOfCopiedFiles = 0L;
+            foreach ((string from, string to, long size) in fileCopyOperations)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                
+                await Task.Run(() => File.Copy(from, to, true), cancellationToken);
+
+                filesCopied++;
+                sizeOfCopiedFiles += size;
+
+                if (null != progress && (DateTime.Now - progressLastUpdated).TotalSeconds >= ProgressUpdateIntervalInSeconds)
+                {
+                    progress.Report(new UnityPackageCreationUtility.CreatePackageProgressInfo()
+                    {
+                        FilesCopied = filesCopied,
+                        TotalFilesToCopy = fileCopyOperations.Count,
+                        SizeOfFilesCopied = sizeOfCopiedFiles,
+                        TotalSizeOfFilesToCopy = sizeOfFilesToCopy
+                    });
+                }
+            }
+        }
     }
 }

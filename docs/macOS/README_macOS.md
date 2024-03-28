@@ -8,7 +8,7 @@
 ## Prerequisites:
 
 > [!NOTE]
-> Most environment setup tasks can be accomplished by executing the setup script located [here](/tools/scripts/setup-macos.sh) by running the following command from within a terminal window at the root of the repository:
+> Most environment setup tasks can be accomplished by executing the [setup-macos.sh](/tools/scripts/setup-macos.sh) script located in the `/tools/scripts/` directory by running the following command from within a terminal window at the root of the repository:
 > ```
 > ./tools/scripts/setup-macos.sh
 > ```

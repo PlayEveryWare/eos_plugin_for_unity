@@ -4,27 +4,32 @@
 ---
 
 ## Questions
-- [Why does the plugin fail to work after changing configuration?](#why-does-the-plugin-fail-to-work-after-changing-configuration)
-- [How do I override sandbox or deployment IDs when publishing on the Epic Games Store?](#how-do-i-override-sandbox-or-deployment-ids-when-publishing-on-the-epic-games-store)
-- [How do I get the Epic Username?](#how-do-i-get-the-epic-username)
-- [Can a title pass a custom device ID? How does one do that?](#can-a-title-pass-a-custom-device-id-how-does-one-do-that)
-- [Are there alternatives to storing the config files in the StreamingAssets directory? Why is the file there?](#are-there-alternatives-to-storing-the-config-files-in-streaming-assets-why-is-the-file-there)
-- [Why does the Demo Scene fail to load?](#why-does-the-demo-scene-fail-to-load)
-- [What is the correct way to log into the Epic Games Store?](#what-is-the-correct-way-to-log-into-the-epic-games-store)
-- [Do I or my players need an Epic Games Account?](#do-i-or-my-players-need-an-epic-games-account)
-- [What does the "DllNotFoundException" error mean?](#what-does-the-dllnotfoundexception-error-mean)
-- [Why am I getting overlay errors?](#why-am-i-getting-overlay-errors)
-- [Missing native libraries?](#missing-native-libraries)
-- [How do I debug the native dll?](#how-do-i-debug-the-native-dll)
+- [ Frequently Asked Questions (FAQ)](#-frequently-asked-questions-faq)
+  - [Questions](#questions)
+  - [Why does the plugin fail to work after changing configuration?](#why-does-the-plugin-fail-to-work-after-changing-configuration)
+  - [How do I override sandbox or deployment IDs when publishing on the Epic Games Store?](#how-do-i-override-sandbox-or-deployment-ids-when-publishing-on-the-epic-games-store)
+  - [How do I get the Epic Username?](#how-do-i-get-the-epic-username)
+  - [Can a title pass a custom device ID? How does one do that?](#can-a-title-pass-a-custom-device-id-how-does-one-do-that)
+  - [Are there alternatives to storing the config files in Streaming Assets? Why is the file there?](#are-there-alternatives-to-storing-the-config-files-in-streaming-assets-why-is-the-file-there)
+  - [Why does the Demo Scene fail to load?](#why-does-the-demo-scene-fail-to-load)
+  - [What is the correct way to log into the Epic Games Store?](#what-is-the-correct-way-to-log-into-the-epic-games-store)
+    - [Exchange Code](#exchange-code)
+  - [Do I or my players need an Epic Games Account?](#do-i-or-my-players-need-an-epic-games-account)
+    - [As a developer](#as-a-developer)
+    - [As a player](#as-a-player)
+  - [What does the "DllNotFoundException" error mean?](#what-does-the-dllnotfoundexception-error-mean)
+  - [Why am I getting Overlay Errors?](#why-am-i-getting-overlay-errors)
+  - [Missing Native Libraries?](#missing-native-libraries)
+  - [How do I debug the native DLL?](#how-do-i-debug-the-native-dll)
 
 ## Why does the plugin fail to work after changing configuration?
 
 To rerun in UnityEditor without rebooting, we must reload the EOS SDK dll between runs.  
-To find out why and how to do so look [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/docs/unity_specific.md).
+To find out why and how to do so look see our documentation on [Unity Specific aspects of implementing EOS](https://github.com/PlayEveryWare/eos_plugin_for_unity/blob/development/docs/unity_specific.md).
 
 ## How do I override sandbox or deployment IDs when publishing on the Epic Games Store?
 
-This functionality is outlined in [here](/docs/epic_game_store.md#overriding-sandbox-andor-deployment-id).
+This functionality is outlined in our [document on the Epic Game Store](/docs/epic_game_store.md#overriding-sandbox-andor-deployment-id).
 
 ## How do I get the Epic Username?
 It depends on what one means by "Username".
@@ -108,7 +113,7 @@ EOSManager.Instance.StartLoginWithLoginTypeAndToken(
 As a developer you will need to have an Epic Games account in order to interact with the [EOS Developer Portal](https://dev.epicgames.com/portal) and manage your product.
 
 ### As a player
-Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed [here](/docs/login_type_by_platform.md).
+Players are given multiple login options, which are slightly different from platform to platform. Details of which login methods are supported by each platform are listed in our documentation outlining [login type by platform](/docs/login_type_by_platform.md).
 
 ## What does the "DllNotFoundException" error mean? 
 
@@ -118,7 +123,7 @@ Which mainly happens when adding the UPM `via git url`
 To fix this you may do one of the following:
 
 - Initialize git lfs on the package folder (from a command window `git lfs install`).
-- Add the UPM `via tarball` downloaded [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases) instead.
+- Add the UPM `via tarball` downloaded the [releases](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases) on GitHub instead.
 
 ## Why am I getting Overlay Errors?
 Overlay errors are most likely due to not having the overlay installed, this is done in two steps:

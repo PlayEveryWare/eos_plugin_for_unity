@@ -32,7 +32,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Config;
     using EpicOnlineServices.Utility;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Threading;
     using System.Threading.Tasks;
     using Utility;
     using Config = EpicOnlineServices.Config;
@@ -40,7 +42,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     [Serializable]
     public class CreatePackageWindow : EOSEditorWindow
     {
-        const string DEFAULT_OUTPUT_DIRECTORY = "Build";
         private const string DefaultPackageDescription = "etc/PackageConfigurations/eos_package_description.json";
         
         [RetainPreference("ShowAdvanced")]
@@ -52,7 +53,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [RetainPreference("IgnoreGitWhenCleaning")]
         private bool _ignoreGitWhenCleaning = true;
 
-        private PackagingConfig packagingConfig;
+        private PackagingConfig _packagingConfig;
+
+        private CancellationTokenSource _createPackageCancellationTokenSource;
 
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
@@ -62,153 +65,250 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override async Task AsyncSetup()
         {
-            packagingConfig = await Config.Get<PackagingConfig>();
+            _packagingConfig = await Config.Get<PackagingConfig>();
 
-            if (string.IsNullOrEmpty(packagingConfig.pathToJSONPackageDescription))
+            if (string.IsNullOrEmpty(_packagingConfig.pathToJSONPackageDescription))
             {
-                packagingConfig.pathToJSONPackageDescription =
+                _packagingConfig.pathToJSONPackageDescription =
                     Path.Combine(FileUtility.GetProjectPath(), DefaultPackageDescription);
-                await packagingConfig.WriteAsync();
+                await _packagingConfig.WriteAsync();
             }
             await base.AsyncSetup();
         }
 
+        protected static bool SelectOutputDirectory(ref string path)
+        {
+            string selectedPath = EditorUtility.OpenFolderPanel(
+                "Pick output directory",
+                Path.GetDirectoryName(FileUtility.GetProjectPath()),
+                "");
+
+            if (string.IsNullOrEmpty(selectedPath) || !Directory.Exists(selectedPath))
+            {
+                return false;
+            }
+
+            path = selectedPath;
+            return true;
+        }
+
+        protected override void Teardown()
+        {
+            base.Teardown();
+
+            if (_createPackageCancellationTokenSource != null)
+            {
+                _createPackageCancellationTokenSource.Cancel();
+                _createPackageCancellationTokenSource.Dispose();
+                _createPackageCancellationTokenSource = null;
+            }
+        }
+
         protected override void RenderWindow()
         {
-            GUILayout.Space(10f);
+            if (_operationInProgress)
+            {
+                GUI.enabled = false;
+            }
 
             GUILayout.BeginHorizontal();
             GUILayout.Space(10f);
-            var outputPath = packagingConfig.pathToOutput;
-            GUIEditorUtility.AssigningTextField("Output Path", ref outputPath);
+            var outputPath = _packagingConfig.pathToOutput;
+            GUIEditorUtility.AssigningTextField("Output Path", ref outputPath, 100f);
             if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
             {
-                var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
-                if (!string.IsNullOrWhiteSpace(outputDir))
+                if (SelectOutputDirectory(ref outputPath))
                 {
-                    outputPath = outputDir;
+                    _packagingConfig.pathToOutput = outputPath;
+                    _packagingConfig.Write();
                 }
             }
 
-            if (packagingConfig.pathToOutput != outputPath)
-            {
-                packagingConfig.pathToOutput = outputPath;
-                packagingConfig.Write(true, false);
-            }
-
-            
-            GUILayout.Space(10f);
             GUILayout.EndHorizontal();
 
-            _showAdvanced = EditorGUILayout.Foldout(_showAdvanced, "Advanced");
-            if (_showAdvanced)
-            {
-                GUILayout.Space(10f);
+            GUILayout.Space(10f);
 
-                GUILayout.BeginVertical();
-                GUIEditorUtility.AssigningBoolField("Clean target directory", ref _cleanBeforeCreate, 200f,
-                    "Cleans the output target directory before creating the package.");
+            GUIEditorUtility.RenderFoldout(ref _showAdvanced, "Hide Advanced Options", "Show Advanced Options", RenderAdvanced);
 
-                GUIEditorUtility.AssigningBoolField("Don't clean .git directory", ref _ignoreGitWhenCleaning, 200f, "" +
-                    "When cleaning the output target directory, don't delete any .git files.");
-
-                var jsonPackageFile = packagingConfig.pathToJSONPackageDescription;
-
-                GUILayout.BeginHorizontal();
-                GUIEditorUtility.AssigningTextField("JSON Description Path", ref jsonPackageFile);
-                if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
-                {
-                    var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
-                    if (!string.IsNullOrWhiteSpace(jsonFile))
-                    {
-                        jsonPackageFile = jsonFile;
-                    }
-                }
-                GUILayout.EndHorizontal();
-
-                if (jsonPackageFile != packagingConfig.pathToJSONPackageDescription)
-                {
-                    packagingConfig.pathToJSONPackageDescription = jsonPackageFile;
-                    packagingConfig.Write(true, false);
-                }
-
-                GUILayout.EndVertical();
-                GUILayout.Space(10f);
-                
-            }
-
-            GUILayout.Space(20f);
+            GUILayout.Space(10f);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Space(20f);
             GUILayout.FlexibleSpace();
 
-            if (_createPackageTask != null)
+            List<(string buttonLabel, UPMUtility.PackageType packageToMake, bool enableButton)> buttons = new()
             {
-                GUI.enabled = _createPackageTask.IsCompleted != false;
-            }
+                ("UPM Directory", UPMUtility.PackageType.UPM,        true),
+                ("UPM Tarball",   UPMUtility.PackageType.UPMTarball, true),
+                (".unitypackage", UPMUtility.PackageType.DotUnity,   false)
+            };
 
-            if (GUILayout.Button("Export UPM Directory", GUILayout.MaxWidth(200)))
+            foreach ((string buttonLabel, UPMUtility.PackageType packageToMake, bool enabled) in buttons)
             {
-                EditorApplication.update += CheckForPackageCreated;
-                _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.UPM, _cleanBeforeCreate, _ignoreGitWhenCleaning);
-                OnPackageCreated(packagingConfig.pathToOutput);
+                GUI.enabled = enabled && !_operationInProgress;
+                if (GUILayout.Button($"Export {buttonLabel}", GUILayout.MaxWidth(200)))
+                {
+                    StartCreatePackageAsync(packageToMake);
+                }
+                GUI.enabled = _operationInProgress;
             }
-
-            if (GUILayout.Button("Create UPM Tarball", GUILayout.MaxWidth(200)))
-            {
-                EditorApplication.update += CheckForPackageCreated;
-                _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.UPMTarball, _cleanBeforeCreate, _ignoreGitWhenCleaning);
-                OnPackageCreated(packagingConfig.pathToOutput);
-            }
-
-            GUI.enabled = false; // Disable UPM .unitypackage for the time being - it's functionality has fallen behind greatly.
-            if (GUILayout.Button("Create .unitypackage", GUILayout.MaxWidth(200)))
-            {
-                EditorApplication.update += CheckForPackageCreated;
-                _createPackageTask = UPMUtility.CreatePackage(UPMUtility.PackageType.DotUnity, _cleanBeforeCreate, _ignoreGitWhenCleaning);
-            }
-
-            GUI.enabled = true;
 
             GUILayout.FlexibleSpace();
             GUILayout.Space(20f);
             GUILayout.EndHorizontal();
-        }
 
-        private Task _createPackageTask;
-        private bool _packageCreated = false;
+            /*
+             * NOTES:
+             *
+             * There are several things here that need to be fixed:
+             *
+             * 1. When a package creation task is canceled, and started again, the previous progress text and values
+             *    briefly appears. This should be cleared.
+             * 2. All this fanciness around label positioning and progress bar, etc. Really needs to be moved out
+             *    of this class and abstracted into static contexts.
+             * 3. The trade-off between how fast a package can be created and how frequently the UI is updated has
+             *    not been optimized. All that is known for certain is that the UI is smooth, but ends up costing
+             *    too much in overhead, ending up in slower package creation.
+             * 4. For exporting a UPM Tarball, none of the progress indicators capture the work that is done to compress
+             *    the output. Basically, it just shows the progress of copying the files to the temporary directory, then
+             *    it will stop showing progress (appearing to be completed) when in reality the compressed tgz file will
+             *    continue to be created.
+             * 5. Currently, the "Clean directory", and "Ignore .git directory" options default to true, and the UI
+             *    does not change the behavior.
+             */
 
-        private void CheckForPackageCreated()
-        {
-            if (_createPackageTask.IsCompleted && !_packageCreated)
+            if (_operationInProgress)
             {
-                _packageCreated = true;
-                EditorApplication.update -= CheckForPackageCreated;
+                GUILayout.BeginVertical();
+                GUILayout.Space(20f);
+                GUI.enabled = true;
+
+                // Make a taller progress bar
+                var progressBarRect = EditorGUILayout.GetControlRect();
+                progressBarRect.height *= 2;
+
+                GUIStyle customLabelStyle = new(EditorStyles.label)
+                {
+                    font = MonoFont, fontSize = 14, normal = { textColor = Color.white }, fontStyle = FontStyle.Bold
+                };
+
+                Vector2 labelSize = customLabelStyle.CalcSize(new GUIContent(_progressText));
+                
+                Rect labelRect = new(
+                    progressBarRect.x + (progressBarRect.width - labelSize.x) / 2,
+                    progressBarRect.y + (progressBarRect.height - labelSize.y) / 2,
+                    labelSize.x,
+                    labelSize.y);
+
+                EditorGUI.ProgressBar(progressBarRect, _progress, "");
+
+                GUI.Label(labelRect, _progressText, customLabelStyle);
+
+                GUILayout.Space(20f);
+                if (GUILayout.Button("Cancel"))
+                {
+                    _createPackageCancellationTokenSource?.Cancel();
+                    FileUtility.CleanDirectory(_packagingConfig.pathToOutput);
+                    _progress = 0.0f;
+                    _progressText = "";
+                }
+                GUILayout.EndVertical();
             }
         }
 
-        private void OnPackageCreated(string outputPath)
-        {
-            EditorUtility.DisplayDialog(
-                "Package created",
-                $"Package was successfully created at \"{outputPath}\"",
-                "Ok");
-        }
+        private bool _operationInProgress;
+        private float _progress;
+        private string _progressText;
 
-        private bool OnEmptyOutputPath(ref string output)
+        protected void RenderAdvanced()
         {
-            // Display dialog saying no output path was provided, and offering to default to the 'Build' directory.
-            if (EditorUtility.DisplayDialog(
-                    "Empty output path",
-                    $"No output path was provided, do you want to use {DEFAULT_OUTPUT_DIRECTORY}?",
-                    "Yes", "Cancel"))
+            GUILayout.BeginVertical();
+            GUILayout.Space(5f);
+            var jsonPackageFile = _packagingConfig.pathToJSONPackageDescription;
+            
+            GUILayout.BeginHorizontal();
+            GUIEditorUtility.AssigningTextField("JSON Description Path", ref jsonPackageFile, 150f);
+            if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
             {
-                output = DEFAULT_OUTPUT_DIRECTORY;
-                return true;
+                var jsonFile = EditorUtility.OpenFilePanel(
+                    "Pick JSON Package Description",
+                    Path.Combine(FileUtility.GetProjectPath(), Path.GetDirectoryName(DefaultPackageDescription)),
+                    "json");
+
+                if (!string.IsNullOrWhiteSpace(jsonFile))
+                {
+                    jsonPackageFile = jsonFile;
+                }
+            }
+            GUILayout.EndHorizontal();
+
+            if (jsonPackageFile != _packagingConfig.pathToJSONPackageDescription)
+            {
+                _packagingConfig.pathToJSONPackageDescription = jsonPackageFile;
+                _packagingConfig.Write(true, false);
             }
 
-            return false;
+            GUIEditorUtility.AssigningBoolField("Clean target directory", ref _cleanBeforeCreate, 150f,
+                "Cleans the output target directory before creating the package.");
+
+            GUIEditorUtility.AssigningBoolField("Don't clean .git directory", ref _ignoreGitWhenCleaning, 150f,
+                "When cleaning the output target directory, don't delete any .git files.");
+
+            GUILayout.EndVertical();
+            GUILayout.Space(10f);
+        }
+
+        private async void StartCreatePackageAsync(UPMUtility.PackageType type)
+        {
+            _createPackageCancellationTokenSource = new();
+            _operationInProgress = true;
+
+            var progressHandler = new Progress<UnityPackageCreationUtility.CreatePackageProgressInfo>(value =>
+            {
+                var fileCountStrSize = value.TotalFilesToCopy.ToString().Length;
+                string filesCopiedStrFormat = "{0," + fileCountStrSize + "}";
+                var filesCopiedCountStr = String.Format(filesCopiedStrFormat, value.FilesCopied);
+                var filesToCopyCountStr = String.Format(filesCopiedStrFormat, value.TotalFilesToCopy);
+
+                _progress = value.SizeOfFilesCopied / (float)value.TotalSizeOfFilesToCopy;
+                _progressText = $"{filesCopiedCountStr} out of {filesToCopyCountStr} files copied";
+                Repaint();
+            });
+
+            try
+            {
+                string outputPath = _packagingConfig.pathToOutput;
+
+                // if the output path is empty or doesn't exist, prompt for the user to select one
+                if (string.IsNullOrEmpty(outputPath) || !Directory.Exists(outputPath))
+                {
+                    if (SelectOutputDirectory(ref outputPath))
+                    {
+                        _packagingConfig.pathToOutput = outputPath;
+                        _packagingConfig.Write();
+                    }
+                    else
+                    {
+                        EditorUtility.DisplayDialog("Package Export Canceled",
+                            "An output directory was not selected, so package export has been canceled.",
+                            "ok");
+                        return;
+                    }
+                }
+
+                await UPMUtility.CreatePackage(type, progressHandler, _createPackageCancellationTokenSource.Token);
+            }
+            catch (OperationCanceledException ex)
+            {
+                _progressText = $"Operation Canceled: {ex.Message}";
+            }
+            finally
+            {
+                _operationInProgress = false;
+                _progressText = "";
+                _progress = 0f;
+                _createPackageCancellationTokenSource?.Dispose();
+                _createPackageCancellationTokenSource = null;
+            }
         }
     }
 }
