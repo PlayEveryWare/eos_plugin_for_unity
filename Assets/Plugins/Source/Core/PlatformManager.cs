@@ -143,6 +143,15 @@ namespace PlayEveryWare.EpicOnlineServices
             };
 
         /// <summary>
+        /// Get the config type for the current platform.
+        /// </summary>
+        /// <returns>The config type for the current platform.</returns>
+        public static Type GetConfigType()
+        {
+            return GetConfigType(PlatformManager.CurrentPlatform);
+        }
+
+        /// <summary>
         /// Returns the type of the PlatformConfig that holds configuration values for the indicated Platform.
         /// </summary>
         /// <param name="platform">The Platform to get the specific PlatformConfig type of.</param>

@@ -81,7 +81,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>Task</returns>
         public static async Task<string> ReadAllTextAsync(string path)
         {
+            
             return await File.ReadAllTextAsync(path);
+        }
+
+        public static void NormalizePath(ref string path)
+        {
+            char toReplace = Path.DirectorySeparatorChar == '\\' ? '/' : '\\';
+            path = path.Replace(toReplace, Path.DirectorySeparatorChar);
         }
 
         public static void CleanDirectory(string directoryPath, bool ignoreGit = true)
@@ -103,7 +110,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     //       empty, and contains directories and files unrelated to output, this will (without prompting)
                     //       delete them. So, if you're outputting to, say the "Desktop" directory, it will delete everything
                     //       on your desktop (zoinks!)
-                    Directory.Delete(subDir, true);
+                    if (Directory.Exists(subDir))
+                        Directory.Delete(subDir, true);
                 }
 
                 foreach (string file in Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories))
@@ -117,14 +125,15 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                         }
                     }
 
-                    File.Delete(file);
+                    if (File.Exists(file))
+                        File.Delete(file);
                 }
 
                 Debug.Log($"Finished cleaning directory \"{directoryPath}\".");
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"An error occurred while cleaning \"{directoryPath}\": {ex.Message}");
+                Debug.Log($"An error (which was ignored) occurred while cleaning \"{directoryPath}\": {ex.Message}");
             }
         }
     }
