@@ -209,6 +209,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 if (GUILayout.Button("Install"))
                 {
                     string tmpDir = FileUtility.GenerateTempDirectory();
+
                     try
                     {
                         UnzipFile(pathToZipFile, tmpDir);
@@ -248,7 +249,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                                         packageDescription);
                                 // This should be the correct directory
                                 var projectDir = FileUtility.GetProjectPath();
-                                PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
+                                // TODO: Async not tested here.
+                                PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults).Wait();
                             }
                         }
 

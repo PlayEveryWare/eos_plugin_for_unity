@@ -131,6 +131,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             Debug.Log("Checking for platform-specific prerequisites.");
 
             // Validate the configuration for the platform
+            // TODO-RELEASE: When in UPM form - this fails when you try and build for the first time, but 
+            //               subsequent builds don't fail on the configuration being missing, instead they
+            //               fail at a later point.
             BuildUtility.ValidatePlatformConfiguration();
 
             // Build any native libraries that need to be built for the platform
@@ -138,6 +141,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             BuildNativeCode();
 
             // Validate that the binaries built are now in the correct location
+            // TODO-RELEASE: When in UPM form - this fails because the project files do not exist.
             ValidateNativeBinaries();
         }
 
@@ -162,7 +166,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             AutoSetProductVersion();
 
             const string packageVersionPath = "Assets/Resources/eosPluginVersion.asset";
-            string packageVersion = EOSPackageInfo.GetPackageVersion();
+            string packageVersion = EOSPackageInfo.Version;
             if (!AssetDatabase.IsValidFolder("Assets/Resources"))
             {
                 AssetDatabase.CreateFolder("Assets", "Resources");

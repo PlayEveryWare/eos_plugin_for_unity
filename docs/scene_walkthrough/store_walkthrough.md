@@ -8,4 +8,4 @@ This demo showcases the store interface through a faux store.
 
 
 > [!NOTE]
-> More documentation on the store can be found [here](https://dev.epicgames.com/docs/epic-games-store/services/ecom/ecom-overview).
+> See [Epic's documentation on the store](https://dev.epicgames.com/docs/epic-games-store/services/ecom/ecom-overview) for more information.

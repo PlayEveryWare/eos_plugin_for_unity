@@ -26,7 +26,7 @@ The following command-line argument is the only one introduced by this project:
 `-EOSPluginOutput` 
 The directory in which the newly created tarball should be placed.
 
-The following command-line arguments are used and defined _by Unity_, and you can read the docs on them in fuller detail [here](https://docs.unity.com/ugs/en-us/manual/ccd/manual/UnityCCDCLI):
+The following command-line arguments are used and defined _by Unity_, and Unity provides fairly [detailed documentation on command-line options](https://docs.unity.com/ugs/en-us/manual/ccd/manual/UnityCCDCLI):
 
 `-batchMode`
 Indicates whether Unity should launch a window or run 'headless'.

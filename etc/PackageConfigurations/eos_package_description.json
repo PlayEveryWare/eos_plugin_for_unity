@@ -1,14 +1,18 @@
 {
     "source_to_dest": [
+        {"src":"Assets/Resources/SourceCodePro.ttf", "dest":"Resources~/"},
+        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Resources~/"},
         {"src":"CHANGELOG.md", "dest" : "CHANGELOG.md"},
-        {"src":"CHANGELOG.md.meta", "dest" : "CHANGELOG.md.meta"},
-        {"src":"license.md", "dest" : "LICENSE.md"},
-        {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
+        {"src":"LICENSE.md", "dest": "LICENSE.md" },
+        {"src":"README.md", "dest": "README.md" },
         {"src":"etc/PackageTemplate/package.json", "dest" : ""},
         {"src":"etc/PackageTemplate/package.json.meta", "dest" : ""},
-
-        {"src":"docs/upm_readme.md", "dest" : "README.md"},
+        {"src":"etc/PackageTemplate/README.md", "dest" : ""},
         {"src":"etc/PackageTemplate/README.md.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/CHANGELOG.md", "dest" : ""},
+        {"src":"etc/PackageTemplate/CHANGELOG.md.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/LICENSE.md", "dest" : ""},
+        {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/Editor.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/Runtime.meta", "dest" : ""},
         {"src":"docs/class_description.md", "dest" : "Documentation~/"},
@@ -54,7 +58,7 @@
         
         {"src":"Assets/Plugins/Source/Editor/Utility/Extensions.meta", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs", "dest": "Editor/Utility/Extensions/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs.meta", "dest": "Editor/Utility/Extensions/"}
+        {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs.meta", "dest": "Editor/Utility/Extensions/"},
 
 
         {"src":"Assets/Plugins/Source/Editor/Build.meta", "dest": "Editor/"},
@@ -431,9 +435,6 @@
 
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
-
-        {"src":"etc/PackageTemplate/.sample.json", "dest" : ""},
-
         {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/StandardSamples/"},
         {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
         {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
@@ -533,7 +534,7 @@
         {"src":"Assets/Scenes/StandardSamples.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
-            
+        {"src":"Assets/Scenes/SampleScenes.asset", "dest": "Assets~/Scenes/"},
         {"src":"Assets/Materials/StandardSamplesMaterials.meta", "dest": "Samples~/Samples/StandardSamples/Materials.meta"},
         {"src":"Assets/Materials/StandardSamplesMaterials/*", "dest": "Samples~/Samples/StandardSamples/Materials/"},
 

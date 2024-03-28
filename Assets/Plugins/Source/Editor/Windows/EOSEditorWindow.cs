@@ -31,6 +31,7 @@
     using UnityEngine;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
+    [Serializable]
     public abstract class EOSEditorWindow : EditorWindow
     {
         /// <summary>
@@ -74,7 +75,7 @@
         private readonly float AbsoluteMinimumWindowWidth;
 
         /// <summary>
-        /// Determines whether or not the window is being rendered within another window (like the Preferences window)
+        /// Determines whether the window is being rendered within another window (like the Preferences window)
         /// </summary>
         private bool? _isEmbedded;
 
@@ -91,9 +92,11 @@
         private Task _initializeTask;
 
         /// <summary>
-        /// Indicates whether or not the window has been initialized.
+        /// Indicates whether the window has been initialized.
         /// </summary>
         private bool _initialized;
+
+        protected static Font MonoFont;
 
         protected EOSEditorWindow(float minimumHeight = 50f, float minimumWidth = 50f,
             string preferencesOverrideKey = null)
@@ -167,10 +170,16 @@
         }
 
         /// <summary>
-        /// Implement this method to initialize the contents of the editor window. Be sure to always call the base implementation if you override it.
+        /// Implement this method to initialize the contents of the editor window. Be sure to always call the base implementation first if you override it.
         /// </summary>
         protected virtual void Setup()
         {
+            // Load the mono font
+            if (null == MonoFont)
+            {
+                MonoFont = Resources.Load<Font>("SourceCodePro");
+            }
+
             foreach (var (field, key) in RetainableFields)
             {
                 if (field.FieldType.IsValueType)

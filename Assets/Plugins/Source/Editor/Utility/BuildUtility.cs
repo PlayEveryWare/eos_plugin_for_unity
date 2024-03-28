@@ -26,6 +26,7 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
+    using Codice.Client.IssueTracker;
     using Newtonsoft.Json.Linq;
     using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
@@ -582,6 +583,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="rebuild">Whether to rebuild the libraries each time.</param>
         public static void BuildNativeBinaries(IDictionary<string, string[]> projectToBinaryMap, string outputDirectory, bool rebuild = false)
         {
+            // TODO-RELEASE: This breaks when in UPM mode.
             var projectsToBuild = new HashSet<string>();
 
             IDictionary<string, string> cachedProjectOutput = new Dictionary<string, string>();
@@ -597,11 +599,26 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     cachedProjectOutput.Add(projectFile, cachedDirectory);
                 }
 
-                // If either rebuild is set to true, or the binary file does not exist.
-                if (rebuild || binaryFiles.Any(outputFile => !File.Exists(outputFile)))
+                if (rebuild)
                 {
-                    // Add the project to the list of things to build.
+                    Debug.LogWarning($"Because rebuild = {rebuild}, project file \"{projectFile}\" has been marked for rebuilding.");
                     projectsToBuild.Add(projectFile);
+                    continue;
+                }
+
+                var missingBinaryFiles = binaryFiles.Where(outputFile => !File.Exists(outputFile)).ToList();
+                if (missingBinaryFiles.Count > 0)
+                {
+                    StringBuilder missingBinaryFilesMessage = new($"Project file \"{projectFile}\" has been marked for rebuilding, because the following binary files are missing: \n");
+                    foreach (var missingBinaryFile in missingBinaryFiles)
+                    {
+                        missingBinaryFilesMessage.AppendLine($"\"{missingBinaryFile}\"");
+                    }
+
+                    Debug.LogWarning(missingBinaryFilesMessage.ToString());
+
+                    projectsToBuild.Add(projectFile);
+                    continue;
                 }
             }
 

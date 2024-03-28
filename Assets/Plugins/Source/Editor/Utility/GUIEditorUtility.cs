@@ -24,6 +24,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 {
     using System;
     using System.Collections.Generic;
+    using System.Security.Cryptography;
     using UnityEditor;
     using UnityEngine;
 
@@ -33,6 +34,32 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         {
             label ??= "";
             return tooltip == null ? new GUIContent(label) : new GUIContent(label, tooltip);
+        }
+
+        /// <summary>
+        /// Render a foldout.
+        /// </summary>
+        /// <param name="isOpen">The state of the foldout.</param>
+        /// <param name="hideLabel">Text to display when the foldout is shown.</param>
+        /// <param name="showLabel">Text to display when the foldout is closed.</param>
+        /// <param name="renderContents">Function to call when foldout is open.</param>
+        public static void RenderFoldout(ref bool isOpen, string hideLabel, string showLabel, Action renderContents)
+        {
+            isOpen = EditorGUILayout.Foldout(isOpen, (isOpen) ? hideLabel : showLabel);
+
+            if (!isOpen)
+            {
+                return;
+            }
+
+            // This simulates the foldout being indented
+            GUILayout.BeginVertical();
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20f);
+            renderContents();
+            GUILayout.EndHorizontal();
+            GUILayout.Space(10f);
+            GUILayout.EndVertical();
         }
 
         public static void AssigningFlagTextField(string label, ref List<string> flags, float labelWidth = -1, string tooltip = null)

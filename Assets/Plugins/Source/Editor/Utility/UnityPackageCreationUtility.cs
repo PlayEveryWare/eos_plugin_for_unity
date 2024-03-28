@@ -35,6 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
     using Config;
     using EpicOnlineServices.Utility;
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using Config = EpicOnlineServices.Config;
 
@@ -84,57 +85,37 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             return packageDescription;
         }
 
-        private static void WriteVersionInfo(string destPath)
+        public struct CreatePackageProgressInfo
         {
-            if (Path.GetFileName(destPath) == "EOSPackageInfo.cs")
-            {
-                string version = EOSPackageInfo.GetPackageVersion();
-                string contents = File.ReadAllText(destPath);
-                string start = "//VERSION START";
-                string end = "//VERSION END";
-                var startIndex = contents.IndexOf(start) + start.Length;
-                var endIndex = contents.IndexOf(end);
-                var newFunction =
-                    @"
-    public static string GetPackageVersion()
-    {
-        return """ + version + @""";
-    }
-    ";
-                string newContents = contents.Substring(0, startIndex)
-                                     + newFunction
-                                     + contents.Substring(endIndex);
-
-                File.WriteAllText(destPath, newContents);
-            }
+            public int FilesCopied;
+            public int TotalFilesToCopy;
+            public long SizeOfFilesCopied;
+            public long TotalSizeOfFilesToCopy;
         }
 
-        private static void CreateUPMTarball(string outputPath, string json_file)
+        public static async Task CreatePackage(PackageType packageType, IProgress<CreatePackageProgressInfo> progress = null, CancellationToken cancellationToken = default)
         {
-            string tempOutput = FileUtility.GenerateTempDirectory();
-            
-            CreateUPM(tempOutput, json_file);
-            
-            if (!executorInstance)
-            {
-                executorInstance = UnityEngine.Object.FindObjectOfType<
-                    CoroutineExecutor>();
+            var packagingConfig = await Config.Get<PackagingConfig>();
 
-                if (!executorInstance)
-                {
-                    executorInstance = new GameObject(
-                        "CoroutineExecutor").AddComponent<CoroutineExecutor>();
-                }
+            FileUtility.CleanDirectory(packagingConfig.pathToOutput, true);
+
+            switch (packageType)
+            {
+                case PackageType.UPM:
+                    await CreateUPM(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription, progress, cancellationToken);
+                    break;
+                case PackageType.UPMTarball:
+                    await CreateUPMTarball(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription, progress, cancellationToken);
+                    break;
+                case PackageType.DotUnity: // Deprecated
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(packageType), packageType, null);
             }
 
-            executorInstance.StartCoroutine(
-                StartMakingTarball(
-                    tempOutput,
-                    outputPath
-                )
-            );
+            // Validate the package inasmuch as possible.
+            ValidatePackage(packagingConfig.pathToOutput);
         }
-        
+
         private static void CreateDotUnityPackage(string outputPath, string json_file,
             string packageName = "pew_eos_plugin.unitypackage")
         {
@@ -158,8 +139,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);
         }
 
-        private static void CreateUPM(string outputPath, string json_file)
+        private static async Task CreateUPM(string outputPath, string json_file, IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
         {
+            /*
+             * NOTES:
+             *
+             * A preliminary step that can be automated is that the README.md, CHANGELOG.md, and LICENSE.md files
+             * are supposed to be exported to the root directory of the UPM, and they need to have .meta files,
+             * but these files are not stored within the Assets directory, so Unity doesn't generate them for us.
+             *
+             * Options to resolve this are myriad, but currently the process is manual.
+             *
+             */
             if (!File.Exists(json_file))
             {
                 Debug.LogError($"Could not read package description file \"{json_file}\", it does not exist.");
@@ -170,29 +161,59 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             var filesToCopy = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
 
-            PackageFileUtility.CopyFilesToDirectory(outputPath, filesToCopy, WriteVersionInfo);
+            await PackageFileUtility.CopyFilesToDirectory(outputPath, filesToCopy, progress, cancellationToken);
         }
 
-        public static async Task CreatePackage(PackageType packageType, bool clean = true, bool ignoreGit = true)
+        private static async Task CreateUPMTarball(string outputPath, string json_file, IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
         {
-            var packagingConfig = await Config.Get<PackagingConfig>();
+            string tempOutput = FileUtility.GenerateTempDirectory();
 
-            if (clean)
+            await CreateUPM(tempOutput, json_file, progress, cancellationToken);
+
+            if (!executorInstance)
             {
-                FileUtility.CleanDirectory(packagingConfig.pathToOutput, ignoreGit);
+                executorInstance = UnityEngine.Object.FindObjectOfType<
+                    CoroutineExecutor>();
+
+                if (!executorInstance)
+                {
+                    executorInstance = new GameObject(
+                        "CoroutineExecutor").AddComponent<CoroutineExecutor>();
+                }
             }
 
-            switch (packageType)
+            executorInstance.StartCoroutine(
+                StartMakingTarball(
+                    tempOutput,
+                    outputPath
+                )
+            );
+        }
+
+        /// <summary>
+        /// Given the path to an exported package, run some basic checks and log warnings around any potential issues that can be determined.
+        /// </summary>
+        /// <param name="packagePath">Path to exported package.</param>
+        private static void ValidatePackage(string packagePath)
+        {
+            FileUtility.NormalizePath(ref packagePath);
+
+            // Get all entries.
+            var allEntries = Directory.GetFileSystemEntries(packagePath);
+
+            foreach (var entry in allEntries)
             {
-                case PackageType.UPM:
-                    CreateUPM(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription);
-                    break;
-                case PackageType.UPMTarball:
-                    CreateUPMTarball(packagingConfig.pathToOutput, packagingConfig.pathToJSONPackageDescription);
-                    break;
-                case PackageType.DotUnity: // Deprecated
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(packageType), packageType, null);
+                // Skip if the entry is a meta file.
+                if (File.Exists(entry) && Path.GetExtension(entry) == ".meta") { continue; }
+
+                // If the entry contains a "~", then it's special and doesn't need a meta file.
+                if (entry.Contains('~')) { continue; }
+
+                // Otherwise - check to make sure that there is a meta file that corresponds to the file system entry.
+                if (!allEntries.Contains($"{entry}.meta"))
+                {
+                    Debug.LogWarning($"Item \"{entry}\" in output package directory \"{packagePath}\" does not have a corresponding .meta file. This will likely cause errors when the package is subsequently imported.");
+                }
             }
         }
 
