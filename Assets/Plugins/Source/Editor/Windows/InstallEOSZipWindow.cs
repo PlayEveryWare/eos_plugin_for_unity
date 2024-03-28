@@ -208,7 +208,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
                 if (GUILayout.Button("Install"))
                 {
-                    string tmpDir = PackageFileUtility.GenerateTemporaryBuildPath();
+                    string tmpDir = FileUtility.GenerateTempDirectory();
 
                     try
                     {
@@ -248,8 +248,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                                     PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir,
                                         packageDescription);
                                 // This should be the correct directory
-                                var projectDir = PackageFileUtility.GetProjectPath();
-                                PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
+                                var projectDir = FileUtility.GetProjectPath();
+                                // TODO: Async not tested here.
+                                PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults).Wait();
                             }
                         }
 
