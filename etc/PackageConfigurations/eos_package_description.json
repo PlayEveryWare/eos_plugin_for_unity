@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
         {"src":"Assets/Resources/SourceCodePro.ttf", "dest":"Resources~/"},
-        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Resources~/"}
+        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Resources~/"},
         {"src":"CHANGELOG.md", "dest" : "CHANGELOG.md"},
         {"src":"LICENSE.md", "dest": "LICENSE.md" },
         {"src":"README.md", "dest": "README.md" },
