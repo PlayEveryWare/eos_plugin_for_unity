@@ -38,9 +38,9 @@ To setup your environment on windows, follow these steps (or you can run the scr
 
 ### macOS
 
-See [here](/docs/macOS/README_macOS.md) to read our guide on setting up your environment on macOS.
+See [Our macOS README](/docs/macOS/README_macOS.md) for a detailed guide on setting up your environment on macOS.
 
-You can run [this](/tools/scripts/setup-macos.sh) script `tools/scripts/setup-macos.sh` from a terminal to accomplish most of the setup steps, or read the aforementioned guide for details.
+You can run the [setup-macos.sh](/tools/scripts/setup-macos.sh) script (located in the `tools/scripts/` directory) from a terminal to accomplish most of the setup steps, or read the aforementioned guide for details.
 
 ## Building Native Libraries
 
@@ -61,7 +61,7 @@ See [standards.md](/docs/standards.md).
 
 ## Core Classes
 
-Descriptions for some of the core classes can be found [here](/docs/class_description.md).
+See our [Class Descriptions document](/docs/class_description.md) for an outline of what some of the core classes do.
 
 ## Create your own UPM
 

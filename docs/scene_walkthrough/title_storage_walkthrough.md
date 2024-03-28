@@ -16,4 +16,4 @@ This demo showcases the title storage interface. This functions similar to the p
     - ``File Contents`` Displays the contents of the selected file.
 
  > [!NOTE]
- > More documentation on the Title Storage interface can be found [here](https://dev.epicgames.com/docs/game-services/title-storage)
+ > See [Epic's documentation on the Title Storage interface](https://dev.epicgames.com/docs/game-services/title-storage) for more information.

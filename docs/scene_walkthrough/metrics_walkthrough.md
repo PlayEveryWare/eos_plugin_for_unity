@@ -9,4 +9,4 @@ The Metrics demo showcases the player metrics interface, allowing for game use a
 
 
 > [!NOTE]
-> More documentation on the metrics interface can be found [here](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).
+> See [Epic's documentation on the metrics interface](https://dev.epicgames.com/docs/game-services/eos-metrics-interface) for more information.

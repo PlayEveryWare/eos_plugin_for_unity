@@ -11,4 +11,4 @@ This demo showcases the leaderboard functionality to track scores across the pla
 ![Leaderboards](../images/eos_sdk_leaderboards.png)
 
 > [!NOTE]
-> More documentation on the Leaderboard interface can be found [here](https://dev.epicgames.com/docs/game-services/leaderboards).
+> See [Epic's documentation on the Leaderboard interface](https://dev.epicgames.com/docs/game-services/leaderboards) for more information.

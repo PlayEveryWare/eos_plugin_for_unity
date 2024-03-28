@@ -201,7 +201,7 @@ Example markdown linking to a specific section of another document:
 
 For inline code formatting, use single ticks. This is useful to highlight certain words to indicate that they are variables, or to clearly identify things like menu paths to follow.
 
-In order to display code blocks, put the code you wish to display between two lines containing only three ticks. For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown). See [here](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) for a list of all the languages that GitHub Flavored Markdown supports.
+In order to display code blocks, put the code you wish to display between two lines containing only three ticks. For code blocks, make sure to add to the first set of three ticks the language that the code snippet is in, so that syntax highlighting is accomplished (for instance you can use `cs` to indicate that the block is C#, or `markdown` to indicate that it's a code snippet in markdown). See the [SUPPORTED_LANGUAGES.md](https://github.com/highlightjs/highlight.js/blob/main/SUPPORTED_LANGUAGES.md) document within the [highlightjs](https://github.com/highlightjs) repository on GitHub for a list of all the languages that GitHub Flavored Markdown supports.
 
 > [!IMPORTANT]
 > When you are providing a code example, it may be necessary to break coding standards for the sake of readability. One circumstance where this is particularly true is with code that would normally require horizontal scrolling to fully view. If a line of code within the codeblock exceeds 130 characters, be sure to add line breaks following  [this](https://se-education.org/guides/conventions/csharp.html#2-maximum-line-length-is-130-characters) guide.
@@ -303,7 +303,7 @@ Surprise!
 
 ## Mermaid:
 
-Mermaid is the formatting we use for displaying flowcharts. From the perspective of style guidelines, these flowcharts can be thought of as images, with the added functionality that they are interactive. See [here](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams) for a guide on creating diagrams using Mermaid.
+Mermaid is the formatting we use for displaying flowcharts. From the perspective of style guidelines, these flowcharts can be thought of as images, with the added functionality that they are interactive. See [GitHub's documentation for a guide on creating diagrams using Mermaid](https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/creating-diagrams).
 
 ## Alerts:
 
