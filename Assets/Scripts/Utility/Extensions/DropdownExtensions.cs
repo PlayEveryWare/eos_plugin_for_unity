@@ -22,8 +22,6 @@
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using UnityEngine.UI;
 
     public static class DropdownExtensions
