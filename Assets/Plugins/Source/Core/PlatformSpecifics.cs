@@ -58,10 +58,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 return Config;
             }
 
-            string configPath = PlatformManager.GetConfigFilePath(Platform);
-            string configAsData = File.ReadAllText(configPath);
-            Config = JsonUtility.FromJson<T>(configAsData);
-            return Config;
+            return JsonUtility.FromJsonFile<T>(
+                PlatformManager.GetConfigFilePath(Platform)
+            );
         }
 
         #endregion

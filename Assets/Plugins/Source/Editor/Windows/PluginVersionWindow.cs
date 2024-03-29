@@ -70,10 +70,9 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             return "com.playeveryware.eos";
         }
 
-        private void ConfigureEOSPluginVersionFieldFromPath(string pathToJSONPackage)
+        private void ConfigureEOSPluginVersionFieldFromPath(string path)
         {
-            var packageAsJSONString = File.ReadAllText(pathToJSONPackage);
-            UPMPackage package = JsonUtility.FromJson<UPMPackage>(packageAsJSONString);
+            UPMPackage package = JsonUtility.FromJsonFile<UPMPackage>(path);
             eos_plugin_version = package.version;
         }
 

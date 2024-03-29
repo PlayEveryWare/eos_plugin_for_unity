@@ -119,9 +119,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         private static void CreateDotUnityPackage(string outputPath, string json_file,
             string packageName = "pew_eos_plugin.unitypackage")
         {
-            var JSONPackageDescription = File.ReadAllText(json_file);
-
-            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+            var packageDescription = JsonUtility.FromJsonFile<PackageDescription>(json_file);
 
             // Transform PackageDescription into a list of actual files that can be
             // copied to a directory that can be zipped 

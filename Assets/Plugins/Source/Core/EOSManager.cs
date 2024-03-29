@@ -556,22 +556,12 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             //-------------------------------------------------------------------------
-            private EOSConfig LoadEOSConfigFileFromPath(string eosFinalConfigPath)
-            {
-                string configDataAsString = FileUtility.ReadAllText(eosFinalConfigPath);
-                var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
-
-                print("Loaded config file: " + configDataAsString);
-                return configData;
-            }
-
-            //-------------------------------------------------------------------------
             public void Init(IEOSCoroutineOwner coroutineOwner, string configFileName)
             {
                 string eosFinalConfigPath = Path.Combine(Application.streamingAssetsPath, "EOS", configFileName);
                 if (loadedEOSConfig == null)
                 {
-                    loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
+                    loadedEOSConfig = JsonUtility.FromJsonFile<EOSConfig>(eosFinalConfigPath);
                 }
 
                 if (GetEOSPlatformInterface() != null)

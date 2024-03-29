@@ -36,6 +36,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
     public class InstallEOSZipWindow : EOSEditorWindow
     {
+        private const string PlatformImportInfoListFileName = "eos_platform_import_info_list.json";
+
         [Serializable]
         private class PlatformImportInfo
         {
@@ -123,9 +125,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         
         protected override void Setup()
         {
-            pathToImportDescDirectory = Application.dataPath + "/../etc/EOSImportDesriptions/";
-            var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + "eos_platform_import_info_list.json");
-            importInfoList = JsonUtility.FromJson<PlatformImportInfoList>(JSONPackageDescription);
+            pathToImportDescDirectory = Path.Combine(FileUtility.GetProjectPath(), "etc/EOSImportDesriptions/", PlatformImportInfoListFileName);
+            importInfoList = JsonUtility.FromJsonFile<PlatformImportInfoList>(pathToImportDescDirectory);
         }
 
         private void DrawPresets()
@@ -237,10 +238,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     {
                         if (platformImportInfo.isGettingImported)
                         {
-                            var JSONPackageDescription =
-                                File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
                             var packageDescription =
-                                JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+                                JsonUtility.FromJsonFile<PackageDescription>(pathToImportDescDirectory + platformImportInfo.descPath);
 
                             var fileResults =
                                 PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir,
