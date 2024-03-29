@@ -33,6 +33,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor;
     using UnityEditor.Build.Reporting;
     using UnityEngine;
+    using Utility;
 
     public class AndroidBuilder : PlatformSpecificBuilder
     {
@@ -265,7 +266,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static void WriteConfigMacros(string filepath)
         {
-            var contents = File.ReadAllText(filepath);
+            var contents = FileUtility.ReadAllText(filepath);
             string apiVersion = GetTargetAPI().ToString();
             string buildTools = GetBuildTools();
             string newContents = contents.Replace("**APIVERSION**", apiVersion)
