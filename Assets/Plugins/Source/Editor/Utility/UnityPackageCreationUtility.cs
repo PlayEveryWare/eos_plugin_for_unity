@@ -75,15 +75,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// This is used in order to use StartCoroutine from a static context.
         /// </summary>
         public static CoroutineExecutor executorInstance;
-        
-        private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
-        {
-            var JSONPackageDescription = FileUtility.ReadAllText(pathToJSONPackageDescription);
-
-            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-
-            return packageDescription;
-        }
 
         public struct CreatePackageProgressInfo
         {
