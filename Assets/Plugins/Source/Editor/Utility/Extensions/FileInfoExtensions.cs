@@ -20,18 +20,12 @@
  * SOFTWARE.
  */
 
-// TODO: Make sure to enclose this properly in scripting defines so that it is only enabled for Windows platforms.
-//       Alternatively, implement it so that it behaves as expected on a Linux machine (ie running the Makefile
-//       natively.
-
 namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
     using System;
     using System.IO;
-    using System.Runtime.ExceptionServices;
     using System.Security.Cryptography;
     using System.Text;
-    using UnityEngine;
 
     public static class FileInfoExtensions
     {
