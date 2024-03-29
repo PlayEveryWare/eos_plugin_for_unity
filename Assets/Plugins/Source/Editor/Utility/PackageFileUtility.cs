@@ -24,13 +24,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    using Editor;
     using Editor.Build;
     using Extensions;
     using System.Linq;
@@ -40,44 +37,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
     public class PackageFileUtility
     {
-        public static void Dos2UnixLineEndings(string srcFilename, string destFilename)
-        {
-            const byte CR = 0x0d;
-
-            var fileAsBytes = File.ReadAllBytes(srcFilename);
-
-            using (var filestream = File.OpenWrite(destFilename))
-            {
-                var writer = new BinaryWriter(filestream);
-                int filePosition = 0;
-                int indexOfDOSNewline = 0;
-
-                do
-                {
-                    indexOfDOSNewline = Array.IndexOf<byte>(fileAsBytes, CR, filePosition);
-
-                    if (indexOfDOSNewline >= 0)
-                    {
-                        writer.Write(fileAsBytes, filePosition, indexOfDOSNewline - filePosition);
-                        filePosition = indexOfDOSNewline + 1;
-                    }
-                    else if (filePosition < fileAsBytes.Length)
-                    {
-                        writer.Write(fileAsBytes, filePosition, fileAsBytes.Length - filePosition);
-                    }
-
-                } while (indexOfDOSNewline > 0);
-
-                // truncate trailing garbage.
-                filestream.SetLength(filestream.Position);
-            }
-        }
-        
-        public static void Dos2UnixLineEndings(string filename)
-        {
-            Dos2UnixLineEndings(filename, filename);
-        }
-        
         /// <summary>
         /// 
         /// </summary>
@@ -211,18 +170,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 yield return newItem;
             }
         }
-        
-        private static void Shuffle<T>(IList<T> list)
-        {
-            System.Random rng = new();
-            int n = list.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = rng.Next(n + 1);
-                (list[k], list[n]) = (list[n], list[k]);
-            }
-        }
 
         public static async Task CopyFilesToDirectory(
             string packageFolder, 
@@ -289,7 +236,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
             // Shuffling the file copy operations makes the file copy task have a more even rate of progress
             // when the task is measured by number of bytes moved vs number of bytes that need to move.
-            Shuffle(fileCopyOperations);
+            fileCopyOperations.Shuffle();
 
             long sizeOfCopiedFiles = 0L;
             foreach ((string from, string to, long size) in fileCopyOperations)
