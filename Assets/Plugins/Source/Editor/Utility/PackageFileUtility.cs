@@ -38,46 +38,17 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     public class PackageFileUtility
     {
         /// <summary>
-        /// 
+        /// Interval with which to update progress UI when there are progresses to report.
         /// </summary>
-        /// <param name="root">Where the files start from</param>
-        /// <param name="packageDescription"></param>
-        /// <returns></returns>
-        public static List<string> GetFilePathsMatchingPackageDescription(string root, PackageDescription packageDescription)
-        {
-            var filepaths = new List<string>();
-            foreach(var srcToDestKeyValues in packageDescription.source_to_dest)
-            {
-                if (srcToDestKeyValues.IsCommentOnly() || (srcToDestKeyValues.comment != null && srcToDestKeyValues.comment.StartsWith("//")))
-                {
-                    continue;
-                }
-                if (!string.IsNullOrEmpty(srcToDestKeyValues.ignore_regex))
-                {
-                    continue;
-                }
+        private const double UpdateProgressIntervalInSeconds = 1.5;
 
-                SearchOption searchOption = srcToDestKeyValues.recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-                var collectedFiles = Directory.EnumerateFiles(root, srcToDestKeyValues.src, searchOption);
-                foreach (var entry in collectedFiles)
-                {
-                    if (root.StartsWith("./"))
-                    {
-                        // Remove the "./", as it makes the AssetDatabase.ExportPackage code break
-                        filepaths.Add(entry.Remove(0, 2));
-                    }
-                    else
-                    {
-                        filepaths.Add(entry);
-                    }
-                }
-            }
-
-            return filepaths;
-        }
-        
-        // Root is often "./"
-        public static List<FileInfoMatchingResult> GetFileInfoMatchingPackageDescription(string root, PackageDescription packageDescription)
+        /// <summary>
+        /// Generates a list of FileInfoMatchingResults that represent the contents of the package to create.
+        /// </summary>
+        /// <param name="root">Where to search for the files to create the package out of.</param>
+        /// <param name="packageDescription">The package description.</param>
+        /// <returns>List of FileInfoMatchingResults that represent the contents of the package to create.</returns>
+        public static List<FileInfoMatchingResult> FindPackageFiles(string root, PackageDescription packageDescription)
         {
             List<FileInfoMatchingResult> fileInfos = new();
             List<SrcDestPair> ignoreList = new();
@@ -110,8 +81,18 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                     Debug.LogWarning(
                         $"Copy error for file \"{srcDestPair.src}\": {errorMessageToUse}");
                 }
-                
-                fileInfos.AddRange(FindMatchingFiles(root, currentWorkingDir, srcDestPair));
+
+                var matchingFiles = FindMatchingFiles(root, currentWorkingDir, srcDestPair);
+
+                if (null == matchingFiles)
+                {
+                    // Log a warning indicating that no matching files were found for the srcDestPair
+                    Debug.LogWarning($"Source \"{srcDestPair.src}\" did not match any files.");
+                }
+                else
+                {
+                    fileInfos.AddRange(matchingFiles);
+                }
             }
 
             // Prune the list of fileInfos to remove any entries that should be ignored according to the ignore list.
@@ -171,9 +152,122 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
+        /// <summary>
+        /// Determine the file operations to perform in order to create the package.
+        /// </summary>
+        /// <param name="destination">The destination at which to create the package.</param>
+        /// <param name="matchingResults">The matching results, determined by evaluating the package description json file.</param>
+        /// <param name="directoriesToCreate">The directories to create before copy files.</param>
+        /// <param name="filesToCopy">The file copy operations that need to take place to create the package.</param>
+        private static void GetFileSystemOperations(
+            string destination, 
+            List<FileInfoMatchingResult> matchingResults, 
+            out List<string> directoriesToCreate,
+            out List<(string from, string to, long size)> filesToCopy)
+        {
+            filesToCopy = new();
+            directoriesToCreate = new();
+
+            foreach (var file in matchingResults)
+            {
+                FileInfo src = file.fileInfo;
+                string dest = file.GetDestination();
+
+                string finalDestinationPath = Path.Combine(destination, dest);
+                string finalDestinationParent = Path.GetDirectoryName(finalDestinationPath);
+                bool isDestinationADirectory = dest.EndsWith("/") || dest.Length == 0;
+
+                if (!string.IsNullOrEmpty(finalDestinationParent) && !Directory.Exists(finalDestinationParent))
+                {
+                    directoriesToCreate.Add(finalDestinationParent);
+                }
+
+                if (!Directory.Exists(finalDestinationPath) && isDestinationADirectory)
+                {
+                    directoriesToCreate.Add(finalDestinationPath);
+                }
+
+                string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
+
+                if (file.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(new FileInfo(destPath)))
+                {
+                    filesToCopy.Add((src.FullName, destPath, src.Length));
+                }
+            }
+
+            // Order the directories by length of path, and make the list unique.
+            directoriesToCreate = directoriesToCreate.Distinct().OrderBy(d => d.Length).ToList();
+        }
+
+        /// <summary>
+        /// Run the copy operations, reporting the progress.
+        /// </summary>
+        /// <param name="operations">File copy operations to perform.</param>
+        /// <param name="progress">Progress reporter.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Task</returns>
+        private static async Task RunCopyOperations(
+            List<(string from, string to, long size)> operations,
+            IProgress<UnityPackageCreationUtility.CreatePackageProgressInfo> progress,
+            CancellationToken cancellationToken)
+        {
+            // Determine the total size of files that need to be copied.
+            long sizeOfFilesToCopy = operations.Sum(op => op.size);
+
+            // Used to measure how long it's been since the progress has been reported.
+            DateTime progressLastUpdated = DateTime.Now;
+
+            // Used to keep track of how many files have been copied.
+            int filesCopied = 0;
+
+            // Shuffling the file copy operations makes the file copy task have a more even rate of progress
+            // when the task is measured by number of bytes moved vs number of bytes that need to move.
+            operations.Shuffle();
+
+            // Keeps track of how many bytes have been copied.
+            long sizeOfCopiedFiles = 0L;
+
+            // Execute each file copy operation.
+            foreach ((string from, string to, long size) in operations)
+            {
+                // Make sure to throw an exception if a cancellation was requested of the token.
+                cancellationToken.ThrowIfCancellationRequested();
+
+                // Run the file copy asynchronously, passing on the cancellation token.
+                await Task.Run(() => File.Copy(from, to, true), cancellationToken);
+
+                // Increment the number of files copied.
+                filesCopied++;
+
+                // Update the number of bytes that have been copied.
+                sizeOfCopiedFiles += size;
+
+                // If there is a progress, and if the number of seconds elapsed has passed, then report the progress.
+                if (null != progress && progressLastUpdated.TryLap(UpdateProgressIntervalInSeconds))
+                {
+                    progress.Report(new UnityPackageCreationUtility.CreatePackageProgressInfo()
+                    {
+                        FilesCopied = filesCopied,
+                        TotalFilesToCopy = operations.Count,
+                        SizeOfFilesCopied = sizeOfCopiedFiles,
+                        TotalSizeOfFilesToCopy = sizeOfFilesToCopy
+                    });
+                }
+            }
+        }
+
+        /// <summary>
+        /// Copies files to a directory to create a UPM package. Directory structure to create is inferred.
+        /// </summary>
+        /// <param name="destination">The destination into which to copy the files.</param>
+        /// <param name="matchingResults">The list of files that represent the contents of the package to create.</param>
+        /// <param name="progress">Used to report progress to UI.</param>
+        /// <param name="cancellationToken">Used to cancel the operation if requested.</param>
+        /// <param name="postProcessCallback">Method to call when files have been copied.</param>
+        /// <returns>Task</returns>
         public static async Task CopyFilesToDirectory(
-            string packageFolder, 
-            List<FileInfoMatchingResult> fileInfoForFilesToCompress, 
+            string destination, 
+            List<FileInfoMatchingResult> matchingResults, 
             IProgress<UnityPackageCreationUtility.CreatePackageProgressInfo> progress = null,
             CancellationToken cancellationToken = default,
             Action<string> postProcessCallback = null)
@@ -185,80 +279,25 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             //       that a meta file entry is MISSING from the source, and that should stop the creation of a package.
 
 
-            Directory.CreateDirectory(packageFolder);
+            Directory.CreateDirectory(destination);
 
-            long sizeOfFilesToCopy = 0L;
-            List<(string from, string to, long size)> fileCopyOperations = new();
+            GetFileSystemOperations(destination, matchingResults, out List<string> directoriesToCreate, out List<(string from, string to, long size)> copyOperations);
 
-            // First create the directory structure
-            foreach (var fileInfo in fileInfoForFilesToCompress)
+            // Create the directory structure
+            foreach (string directory in directoriesToCreate)
             {
-                FileInfo src = fileInfo.fileInfo;
-                string dest = fileInfo.GetDestination();
-
-                string finalDestinationPath = Path.Combine(packageFolder, dest);
-                string finalDestinationParent = Path.GetDirectoryName(finalDestinationPath);
-                bool isDestinationADirectory = dest.EndsWith("/") || dest.Length == 0;
-
-                if (!string.IsNullOrEmpty(finalDestinationParent) && !Directory.Exists(finalDestinationParent))
+                var dInfo = Directory.CreateDirectory(directory);
+                if (!dInfo.Exists)
                 {
-                    Directory.CreateDirectory(finalDestinationParent);
-                }
-
-                // If it ends in a '/', treat it as a directory to move to
-                if (!Directory.Exists(finalDestinationPath) && isDestinationADirectory)
-                {
-                    Directory.CreateDirectory(finalDestinationPath);
-                }
-
-                string destPath = isDestinationADirectory ? Path.Combine(finalDestinationPath, src.Name) : finalDestinationPath;
-
-                // Ensure we can write over the dest path
-                if (File.Exists(destPath))
-                {
-                    var destPathFileInfo = new System.IO.FileInfo(destPath);
-                    destPathFileInfo.IsReadOnly = false;
-                }
-
-                if (fileInfo.originalSrcDestPair.copy_identical || !src.AreContentsSemanticallyEqual(new FileInfo(destPath)))
-                {
-                    fileCopyOperations.Add((src.FullName, destPath, src.Length));
-                    sizeOfFilesToCopy += src.Length;
-                }   
-                
-                postProcessCallback?.Invoke(destPath);
-            }
-
-            const float ProgressUpdateIntervalInSeconds = 1.5f;
-            DateTime progressLastUpdated = DateTime.Now;
-
-            int filesCopied = 0;
-
-            // Shuffling the file copy operations makes the file copy task have a more even rate of progress
-            // when the task is measured by number of bytes moved vs number of bytes that need to move.
-            fileCopyOperations.Shuffle();
-
-            long sizeOfCopiedFiles = 0L;
-            foreach ((string from, string to, long size) in fileCopyOperations)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                
-                await Task.Run(() => File.Copy(from, to, true), cancellationToken);
-
-                filesCopied++;
-                sizeOfCopiedFiles += size;
-
-                if (null != progress && (DateTime.Now - progressLastUpdated).TotalSeconds >= ProgressUpdateIntervalInSeconds)
-                {
-                    progress.Report(new UnityPackageCreationUtility.CreatePackageProgressInfo()
-                    {
-                        FilesCopied = filesCopied,
-                        TotalFilesToCopy = fileCopyOperations.Count,
-                        SizeOfFilesCopied = sizeOfCopiedFiles,
-                        TotalSizeOfFilesToCopy = sizeOfFilesToCopy
-                    });
+                    Debug.LogWarning($"Could not create directory \"{directory}\".");
                 }
             }
+            
+            // Copy the files
+            await RunCopyOperations(copyOperations, progress, cancellationToken);
+
+            // Execute callback
+            postProcessCallback?.Invoke(destination);
         }
     }
 }

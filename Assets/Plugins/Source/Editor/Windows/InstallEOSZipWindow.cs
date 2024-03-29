@@ -242,7 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                                 JsonUtility.FromJsonFile<PackageDescription>(pathToImportDescDirectory + platformImportInfo.descPath);
 
                             var fileResults =
-                                PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir,
+                                PackageFileUtility.FindPackageFiles(tmpDir,
                                     packageDescription);
                             // This should be the correct directory
                             var projectDir = FileUtility.GetProjectPath();

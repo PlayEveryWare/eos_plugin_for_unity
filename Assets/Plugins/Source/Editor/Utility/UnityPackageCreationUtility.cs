@@ -107,27 +107,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             ValidatePackage(packagingConfig.pathToOutput);
         }
 
-        private static void CreateDotUnityPackage(string outputPath, string json_file,
-            string packageName = "pew_eos_plugin.unitypackage")
-        {
-            var packageDescription = JsonUtility.FromJsonFile<PackageDescription>(json_file);
-
-            // Transform PackageDescription into a list of actual files that can be
-            // copied to a directory that can be zipped 
-            string gzipFilePathName = Path.Combine(outputPath, packageName);
-
-            List<string> filesToCompress =
-                PackageFileUtility.GetFilePathsMatchingPackageDescription("./", packageDescription);
-
-            var toExport = filesToCompress.Where(
-                (path) => { return !path.Contains(".meta"); }
-            ).ToArray();
-
-            var options = ExportPackageOptions.Interactive;
-
-            AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);
-        }
-
         private static async Task CreateUPM(string outputPath, string json_file, IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
         {
             /*
@@ -148,7 +127,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
             var packageDescription = JsonUtility.FromJsonFile<PackageDescription>(json_file);
 
-            var filesToCopy = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
+            var filesToCopy = PackageFileUtility.FindPackageFiles("./", packageDescription);
 
             await PackageFileUtility.CopyFilesToDirectory(outputPath, filesToCopy, progress, cancellationToken);
         }
