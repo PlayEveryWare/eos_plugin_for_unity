@@ -37,22 +37,48 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// and returns the fully-qualified path to the newly created directory.
         /// </summary>
         /// <returns>Fully-qualified file path to the newly generated directory.</returns>
-        public static string GenerateTempDirectory()
+        public static bool TryGetTempDirectory(out string path)
         {
             // Generate a temporary directory path.
-            string tempDirectory = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+            string tempPath = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
 
             // If (by some crazy miracle) the directory path already exists, keep generating until there is a new one.
-            while (Directory.Exists(tempDirectory))
+            if (Directory.Exists(tempPath))
             {
-                tempDirectory = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+                Debug.LogWarning($"The temporary directory created collided with an existing temporary directory of the same name. This is very unlikely.");
+                tempPath = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+
+                if (Directory.Exists(tempPath))
+                {
+                    Debug.LogError($"When generating a temporary directory, the temporary directory generated collided twice with already existing directories of the same name. This is very unlikely.");
+                    path = null;
+                    return false;
+                }
             }
 
-            // Create the directory.
-            Directory.CreateDirectory(tempDirectory);
+            try
+            {
+                // Create the directory.
+                var dInfo = Directory.CreateDirectory(tempPath);
 
+                // Make sure the directory exists.
+                if (!dInfo.Exists)
+                {
+                    Debug.LogError($"Could not generate temporary directory.");
+                    path = null;
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"Could not generate temporary directory: {e.Message}");
+                path = null;
+                return false;
+            }
+            
             // return the fully-qualified path to the newly created directory.
-            return Path.GetFullPath(tempDirectory);
+            path = Path.GetFullPath(tempPath);
+            return true;
         }
 
         /// <summary>
@@ -71,7 +97,43 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>The contents of the file at the indicated path as a string.</returns>
         public static string ReadAllText(string path)
         {
-            return File.ReadAllText(path);
+            string text;
+#if UNITY_ANDROID
+            using var request = UnityEngine.Networking.UnityWebRequest.Get(filePath);
+            request.timeout = 2; //seconds till timeout
+            request.SendWebRequest();
+
+            // Wait until webRequest completed
+            while (!request.isDone) { }
+
+#if UNITY_2020_1_OR_NEWER
+            if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Requesting " + filePath + ", please make sure it exists.");
+                throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
+            }
+#else
+            if (request.isNetworkError || request.isHttpError)
+            {
+                Debug.Log("Requesting " + filePath + ", please make sure it exists and is a valid config");
+                throw new Exception("UnityWebRequest didn't succeed : Network or HTTP Error");
+            }
+#endif
+            text = request.downloadHandler.text;
+#else
+            text = File.ReadAllText(path);
+#endif
+            return text;
+        }
+
+        /// <summary>
+        /// Asynchronously reads all text from the indicated file.
+        /// </summary>
+        /// <param name="path">The file to read from.</param>
+        /// <returns>Task</returns>
+        public static async Task<string> ReadAllTextAsync(string path)
+        {
+            return await File.ReadAllTextAsync(path);
         }
 
         /// <summary>
@@ -82,17 +144,6 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static void WriteAllText(string path, string content)
         {
             File.WriteAllText(path, content);
-        }
-
-        /// <summary>
-        /// Asynchronously reads all text from the indicated file.
-        /// </summary>
-        /// <param name="path">The file to read from.</param>
-        /// <returns>Task</returns>
-        public static async Task<string> ReadAllTextAsync(string path)
-        {
-            
-            return await File.ReadAllTextAsync(path);
         }
 
         #region Line Ending Manipulations
@@ -111,18 +162,27 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         #endregion
 
+        /// <summary>
+        /// Normalizes a string path by replacing all directory separator characters with the
+        /// directory separator character that is used on the system.
+        /// </summary>
+        /// <param name="path">The path to normalize.</param>
         public static void NormalizePath(ref string path)
         {
             char toReplace = Path.DirectorySeparatorChar == '\\' ? '/' : '\\';
             path = path.Replace(toReplace, Path.DirectorySeparatorChar);
         }
 
+        /// <summary>
+        /// Cleans the given directory by removing all contents from it. 
+        /// </summary>
+        /// <param name="directoryPath">Path to clean.</param>
+        /// <param name="ignoreGit">Whether to ignore ".git" directory and any files that start with ".git" in the root of the directory being cleaned.</param>
         public static void CleanDirectory(string directoryPath, bool ignoreGit = true)
         {
             if (!Directory.Exists(directoryPath))
             {
-                Debug.LogWarning($"Cannot clean directory \"{directoryPath}\", because it does not exist.");
-                return;
+                throw new DirectoryNotFoundException($"Could not find directory \"{directoryPath}\" to clean.");
             }
 
             try
@@ -143,12 +203,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 foreach (string file in Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories))
                 {
                     string fileName = Path.GetFileName(file);
-                    if (fileName is ".gitignore" or ".gitattributes")
+                    if (fileName is ".gitignore" or ".gitattributes" && Path.GetDirectoryName(file) == directoryPath)
                     {
-                        if (Path.GetDirectoryName(file) == directoryPath)
-                        {
-                            continue; // Skip these files if they are in the root directory
-                        }
+                        continue; // Skip these files if they are in the root directory
                     }
 
                     if (File.Exists(file))

@@ -81,7 +81,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
 #endif
-    
+    using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
@@ -558,18 +558,7 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private EOSConfig LoadEOSConfigFileFromPath(string eosFinalConfigPath)
             {
-                string configDataAsString = "";
-#if UNITY_ANDROID && !UNITY_EDITOR
-                configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
-#else
-                if (!File.Exists(eosFinalConfigPath))
-                {
-                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath +
-                                        " exists and is a valid config");
-                }
-
-                configDataAsString = File.ReadAllText(eosFinalConfigPath);
-#endif
+                string configDataAsString = FileUtility.ReadAllText(eosFinalConfigPath);
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
 
                 print("Loaded config file: " + configDataAsString);

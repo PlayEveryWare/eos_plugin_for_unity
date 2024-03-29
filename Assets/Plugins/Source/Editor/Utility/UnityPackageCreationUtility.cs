@@ -166,28 +166,29 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         private static async Task CreateUPMTarball(string outputPath, string json_file, IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
         {
-            string tempOutput = FileUtility.GenerateTempDirectory();
-
-            await CreateUPM(tempOutput, json_file, progress, cancellationToken);
-
-            if (!executorInstance)
+            if (FileUtility.TryGetTempDirectory(out string tempOutput))
             {
-                executorInstance = UnityEngine.Object.FindObjectOfType<
-                    CoroutineExecutor>();
+                await CreateUPM(tempOutput, json_file, progress, cancellationToken);
 
                 if (!executorInstance)
                 {
-                    executorInstance = new GameObject(
-                        "CoroutineExecutor").AddComponent<CoroutineExecutor>();
-                }
-            }
+                    executorInstance = UnityEngine.Object.FindObjectOfType<
+                        CoroutineExecutor>();
 
-            executorInstance.StartCoroutine(
-                StartMakingTarball(
-                    tempOutput,
-                    outputPath
-                )
-            );
+                    if (!executorInstance)
+                    {
+                        executorInstance = new GameObject(
+                            "CoroutineExecutor").AddComponent<CoroutineExecutor>();
+                    }
+                }
+
+                executorInstance.StartCoroutine(
+                    StartMakingTarball(
+                        tempOutput,
+                        outputPath
+                    )
+                );
+            }
         }
 
         /// <summary>
