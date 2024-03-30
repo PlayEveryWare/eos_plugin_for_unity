@@ -31,6 +31,7 @@ using System;
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Config;
+    using Controls;
     using EpicOnlineServices.Utility;
     using System.Collections.Generic;
     using System.IO;
@@ -56,6 +57,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private PackagingConfig _packagingConfig;
 
         private CancellationTokenSource _createPackageCancellationTokenSource;
+
+        private bool _operationInProgress;
+        private float _progress;
+        private string _progressText;
 
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
@@ -103,7 +108,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 _createPackageCancellationTokenSource = null;
             }
         }
-
+        
         protected override void RenderWindow()
         {
             if (_operationInProgress)
@@ -138,8 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             List<(string buttonLabel, UPMUtility.PackageType packageToMake, bool enableButton)> buttons = new()
             {
                 ("UPM Directory", UPMUtility.PackageType.UPM,        true),
-                ("UPM Tarball",   UPMUtility.PackageType.UPMTarball, true),
-                (".unitypackage", UPMUtility.PackageType.DotUnity,   false)
+                ("UPM Tarball",   UPMUtility.PackageType.UPMTarball, true)
             };
 
             foreach ((string buttonLabel, UPMUtility.PackageType packageToMake, bool enabled) in buttons)
@@ -161,63 +165,33 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
              *
              * There are several things here that need to be fixed:
              *
-             * 1. When a package creation task is canceled, and started again, the previous progress text and values
-             *    briefly appears. This should be cleared.
-             * 2. All this fanciness around label positioning and progress bar, etc. Really needs to be moved out
-             *    of this class and abstracted into static contexts.
-             * 3. The trade-off between how fast a package can be created and how frequently the UI is updated has
+             * 1. The trade-off between how fast a package can be created and how frequently the UI is updated has
              *    not been optimized. All that is known for certain is that the UI is smooth, but ends up costing
              *    too much in overhead, ending up in slower package creation.
-             * 4. For exporting a UPM Tarball, none of the progress indicators capture the work that is done to compress
+             * 2. For exporting a UPM Tarball, none of the progress indicators capture the work that is done to compress
              *    the output. Basically, it just shows the progress of copying the files to the temporary directory, then
              *    it will stop showing progress (appearing to be completed) when in reality the compressed tgz file will
              *    continue to be created.
-             * 5. Currently, the "Clean directory", and "Ignore .git directory" options default to true, and the UI
+             * 3. Currently, the "Clean directory", and "Ignore .git directory" options default to true, and the UI
              *    does not change the behavior.
              */
 
             if (_operationInProgress)
             {
-                GUILayout.BeginVertical();
-                GUILayout.Space(20f);
-                GUI.enabled = true;
-
-                // Make a taller progress bar
-                var progressBarRect = EditorGUILayout.GetControlRect();
-                progressBarRect.height *= 2;
-
-                GUIStyle customLabelStyle = new(EditorStyles.label)
-                {
-                    font = MonoFont, fontSize = 14, normal = { textColor = Color.white }, fontStyle = FontStyle.Bold
-                };
-
-                Vector2 labelSize = customLabelStyle.CalcSize(new GUIContent(_progressText));
-                
-                Rect labelRect = new(
-                    progressBarRect.x + (progressBarRect.width - labelSize.x) / 2,
-                    progressBarRect.y + (progressBarRect.height - labelSize.y) / 2,
-                    labelSize.x,
-                    labelSize.y);
-
-                EditorGUI.ProgressBar(progressBarRect, _progress, "");
-
-                GUI.Label(labelRect, _progressText, customLabelStyle);
-
-                GUILayout.Space(20f);
-                if (GUILayout.Button("Cancel"))
-                {
-                    _createPackageCancellationTokenSource?.Cancel();
-                    FileUtility.CleanDirectory(_packagingConfig.pathToOutput);
-                    _progress = 0.0f;
-                    _progressText = "";
-                }
-                GUILayout.EndVertical();
+                RenderProgressBar();
             }
         }
 
-        private bool _operationInProgress;
-        private float _progress;
-        private string _progressText;
+        protected void RenderProgressBar()
+        {
+            CancellableAsyncProgressBar.Render(
+                _progress, _progressText, _createPackageCancellationTokenSource, () =>
+                {
+                    FileUtility.CleanDirectory(_packagingConfig.pathToOutput);
+                    _progress = 0f;
+                    _progressText = null;
+                });
+        }
 
         protected void RenderAdvanced()
         {
@@ -259,10 +233,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private async void StartCreatePackageAsync(UPMUtility.PackageType type)
         {
-            _createPackageCancellationTokenSource = new();
+            _createPackageCancellationTokenSource = new CancellationTokenSource();
             _operationInProgress = true;
 
-            var progressHandler = new Progress<UnityPackageCreationUtility.CreatePackageProgressInfo>(value =>
+            var progressHandler = new Progress<UPMUtility.CreatePackageProgressInfo>(value =>
             {
                 var fileCountStrSize = value.TotalFilesToCopy.ToString().Length;
                 string filesCopiedStrFormat = "{0," + fileCountStrSize + "}";
@@ -284,7 +258,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     if (SelectOutputDirectory(ref outputPath))
                     {
                         _packagingConfig.pathToOutput = outputPath;
-                        _packagingConfig.Write();
+                        await _packagingConfig.WriteAsync();
                     }
                     else
                     {
@@ -296,6 +270,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 }
 
                 await UPMUtility.CreatePackage(type, progressHandler, _createPackageCancellationTokenSource.Token);
+                
+                //if (createPackageTask.IsCompletedSuccessfully)
+                //{
+                //    if (EditorUtility.DisplayDialog("Package Created", "Package was successfully created",
+                //            "Open Output Path", "Close"))
+                //    {
+                //        FileUtility.OpenFolder(outputPath);
+                //    }
+                //}
             }
             catch (OperationCanceledException ex)
             {

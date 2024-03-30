@@ -84,7 +84,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             public long TotalSizeOfFilesToCopy;
         }
 
-        public static async Task CreatePackage(PackageType packageType, IProgress<CreatePackageProgressInfo> progress = null, CancellationToken cancellationToken = default)
+        public static async Task CreatePackage(
+            PackageType packageType, 
+            IProgress<CreatePackageProgressInfo> progress = null, 
+            CancellationToken cancellationToken = default)
         {
             var packagingConfig = await Config.Get<PackagingConfig>();
 
@@ -125,9 +128,21 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 return;
             }
 
-            var packageDescription = JsonUtility.FromJsonFile<PackageDescription>(json_file);
-
-            var filesToCopy = PackageFileUtility.FindPackageFiles("./", packageDescription);
+            PackageDescription packageDescription;
+            try
+            {
+                packageDescription = JsonUtility.FromJsonFile<PackageDescription>(json_file);
+            }
+            catch
+            {
+                Debug.LogError($"JSON syntax error in file: \"{json_file}\". See log for details.");
+                return;
+            }
+            
+            var filesToCopy = PackageFileUtility.FindPackageFiles(
+                FileUtility.GetProjectPath(), 
+                packageDescription
+            );
 
             await PackageFileUtility.CopyFilesToDirectory(outputPath, filesToCopy, progress, cancellationToken);
         }
