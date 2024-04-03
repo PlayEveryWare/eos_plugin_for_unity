@@ -524,15 +524,8 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
                 integratedPlatformOptionsContainer.Release();
 #endif
-                if (platformInterface != null)
-                {
-                    return platformInterface;
-                }
-                else
-                {
-                    print($"Error creating platform interface:");
-                    return null;
-                }
+                return platformInterface;
+               
             }
 
             //-------------------------------------------------------------------------
