@@ -517,7 +517,13 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
                 platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
 
-                return PlatformInterface.Create(ref (platformOptions as EOSCreateOptions).options);
+                PlatformInterface platformInterface = PlatformInterface.Create(ref (platformOptions as EOSCreateOptions).options);
+
+#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
+                integratedPlatformOptionsContainer.Release();
+#endif
+                return platformInterface;
+               
             }
 
             //-------------------------------------------------------------------------
