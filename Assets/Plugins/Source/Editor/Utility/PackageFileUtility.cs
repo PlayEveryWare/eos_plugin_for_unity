@@ -128,13 +128,24 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             IEnumerable<string> collectedFiles;
             SearchOption searchOption = pair.recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-            if (string.IsNullOrEmpty(pair.pattern))
+
+            string searchPattern = pair.src;
+            string path = root;
+
+            if (!string.IsNullOrEmpty(pair.pattern))
             {
-                collectedFiles = Directory.EnumerateFiles(root, pair.src, searchOption);
+                searchPattern = pair.pattern;
+                path = Path.Combine(root, pair.src);
             }
-            else
+
+            try
             {
-                collectedFiles = Directory.EnumerateFiles(Path.Combine(root, pair.src), pair.pattern, searchOption);
+                collectedFiles = Directory.EnumerateFiles(path, searchPattern, searchOption);
+            }
+            catch(Exception e)
+            {
+                Debug.LogWarning($"Error enumerating files at \"{root}\": \"{e.Message}\".");
+                throw;
             }
 
             foreach (var entry in collectedFiles)
