@@ -48,11 +48,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         [RetainPreference("ShowAdvanced")]
         private bool _showAdvanced = false;
 
-        [RetainPreference("CleanBeforeCreate")]
-        private bool _cleanBeforeCreate = true;
+        // TODO: Re-enable the following fields once their values are actually utilized
+        //       in the package creation process.
+        //[RetainPreference("CleanBeforeCreate")]
+        //private bool _cleanBeforeCreate = true;
 
-        [RetainPreference("IgnoreGitWhenCleaning")]
-        private bool _ignoreGitWhenCleaning = true;
+        //[RetainPreference("IgnoreGitWhenCleaning")]
+        //private bool _ignoreGitWhenCleaning = true;
 
         private PackagingConfig _packagingConfig;
 
@@ -221,11 +223,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 _packagingConfig.Write(true, false);
             }
 
-            GUIEditorUtility.AssigningBoolField("Clean target directory", ref _cleanBeforeCreate, 150f,
-                "Cleans the output target directory before creating the package.");
+            // TODO: Utilize these values in the package creation process, and re-enable the render of the 
+            //       controls that enable the user to manipulate them. For the time being the implementation
+            //       is such that both options are defaulted to "true."
+            //GUIEditorUtility.AssigningBoolField("Clean target directory", ref _cleanBeforeCreate, 150f,
+            //    "Cleans the output target directory before creating the package.");
 
-            GUIEditorUtility.AssigningBoolField("Don't clean .git directory", ref _ignoreGitWhenCleaning, 150f,
-                "When cleaning the output target directory, don't delete any .git files.");
+            //GUIEditorUtility.AssigningBoolField("Don't clean .git directory", ref _ignoreGitWhenCleaning, 150f,
+            //    "When cleaning the output target directory, don't delete any .git files.");
 
             GUILayout.EndVertical();
             GUILayout.Space(10f);
@@ -270,15 +275,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 }
 
                 await UPMUtility.CreatePackage(type, progressHandler, _createPackageCancellationTokenSource.Token);
-                
-                //if (createPackageTask.IsCompletedSuccessfully)
-                //{
-                //    if (EditorUtility.DisplayDialog("Package Created", "Package was successfully created",
-                //            "Open Output Path", "Close"))
-                //    {
-                //        FileUtility.OpenFolder(outputPath);
-                //    }
-                //}
+
+                if (EditorUtility.DisplayDialog("Package Created", "Package was successfully created",
+                        "Open Output Path", "Close"))
+                {
+                    FileUtility.OpenFolder(outputPath);
+                }
             }
             catch (OperationCanceledException ex)
             {
