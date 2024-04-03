@@ -64,7 +64,13 @@
         {"src":"Assets/Plugins/Source/Editor/Utility/Steamworks_Utility.cs.meta", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/GUIEditorUtility.cs", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/GUIEditorUtility.cs.meta", "dest": "Editor/Utility/"},
-        
+        {"src":"Assets/Plugins/Source/Editor/Utility/BuildUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/BuildUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/UnityPackageCreationUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/UnityPackageCreationUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs.meta", "dest": "Editor/Utility/"},
+
         {"src":"Assets/Plugins/Source/Editor/Utility/Extensions.meta", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs", "dest": "Editor/Utility/Extensions/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs.meta", "dest": "Editor/Utility/Extensions/"},
