@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
-        {"src":"Assets/Resources/SourceCodePro.ttf", "dest":"Resources~/"},
-        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Resources~/"},
+        {"src":"Assets/Resources/SourceCodePro.ttf", "dest":"Samples~/Samples/StandardSamples/Materials/"},
+        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Samples~/Samples/StandardSamples/Materials/"},
         {"src":"CHANGELOG.md", "dest" : "CHANGELOG.md"},
         {"src":"LICENSE.md", "dest": "LICENSE.md" },
         {"src":"README.md", "dest": "README.md" },
@@ -505,6 +505,9 @@
         {"src":"Assets/Scripts/UI/Store/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
         {"src":"Assets/Scripts/UI/Store/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
 
+        {"src":"Assets/Scripts/UI/SceneData.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
+        {"src":"Assets/Scripts/UI/SceneData.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
+
         {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util.meta"},
         {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
         {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
@@ -537,7 +540,8 @@
         {"src":"Assets/Scenes/StandardSamples.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
-        {"src":"Assets/Scenes/SampleScenes.asset", "dest": "Assets~/Scenes/"},
+        {"src":"Assets/Scenes/SampleScenes.asset", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
+        {"src":"Assets/Scenes/SampleScenes.asset.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
         {"src":"Assets/Materials/StandardSamplesMaterials.meta", "dest": "Samples~/Samples/StandardSamples/Materials.meta"},
         {"src":"Assets/Materials/StandardSamplesMaterials/*", "dest": "Samples~/Samples/StandardSamples/Materials/"},
 
