@@ -42,12 +42,16 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             catch (JsonReaderException ex)
             {
                 Debug.LogError($"Invalid JSON: {ex.Message}");
+#if UNITY_EDITOR
                 throw;
+#endif
             }
             catch (Exception ex)
             {
                 Debug.LogError($"An error occurred: {ex.Message}");
+#if UNITY_EDITOR
                 throw;
+#endif
             }
         }
 
