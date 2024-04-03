@@ -505,19 +505,13 @@
         {"src":"Assets/Scripts/UI/Store/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
         {"src":"Assets/Scripts/UI/Store/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
 
-        {"src":"Assets/Scripts/UI/SceneData.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
-        {"src":"Assets/Scripts/UI/SceneData.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
-
-        {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util.meta"},
-        {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
-        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
-
         {"src":"Assets/Scripts/Utility.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/Utility/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/Utility/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        
         {"src":"Assets/Scripts/Utility/Extensions.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
         {"src":"Assets/Scripts/Utility/Extensions/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/Extensions/"},
         {"src":"Assets/Scripts/Utility/Extensions/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/Extensions/"},
-        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
-        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
         
 
         {"src":"Assets/Scripts/Core.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Core.meta"},
