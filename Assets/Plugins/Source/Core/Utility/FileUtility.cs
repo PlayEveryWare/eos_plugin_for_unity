@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             {
                 Debug.LogWarning(
                     $"The temporary directory created collided with an existing temporary directory of the same name. This is very unlikely.");
-                tempPath = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+                tempPath = Path.Combine(Application.temporaryCachePath, $"Output-{Guid.NewGuid()}/");
 
                 if (Directory.Exists(tempPath))
                 {
