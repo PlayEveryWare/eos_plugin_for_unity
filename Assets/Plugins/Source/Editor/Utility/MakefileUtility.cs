@@ -93,7 +93,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         public static void BuildLibrariesLinux()
         {
 #if UNITY_EDITOR_LINUX
-            BuildLinux();
+            Task.Run(() => BuildLinux());
 #endif
         }
 
