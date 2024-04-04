@@ -117,7 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (GetConfig() != null)
             {
                 Debug.Log("GetConfig() is not null");
-                if (initializeOptions.OverrideThreadAffinity.HasValue)
+                if (initializeOptions.OverrideThreadAffinity.HasValue && null != Config.overrideValues)
                 {
                     var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
                     overrideThreadAffinity.NetworkWork = Config.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
