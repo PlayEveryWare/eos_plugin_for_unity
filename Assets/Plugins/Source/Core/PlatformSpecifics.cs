@@ -53,14 +53,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public T GetConfig()
         {
-            if (Config != null)
+            if (Config == null)
             {
-                return Config;
+                Config = JsonUtility.FromJsonFile<T>(
+                    PlatformManager.GetConfigFilePath(Platform)
+                );
             }
 
-            return JsonUtility.FromJsonFile<T>(
-                PlatformManager.GetConfigFilePath(Platform)
-            );
+            return Config;
         }
 
         #endregion
