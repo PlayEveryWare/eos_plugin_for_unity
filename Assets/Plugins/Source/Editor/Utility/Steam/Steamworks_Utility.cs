@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 #if DISABLESTEAMWORKS
             return "Steamworks not imported or not supported on platform";
 #else
-        return Steamworks.Version.SteamworksSDKVersion;
+            return Steamworks.Version.SteamworksSDKVersion;
 #endif
         }
     }
