@@ -32,6 +32,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// </summary>
     public static class FileUtility
     {
+        // Note: "\r\n" (Windows), "\n" (Unix/Linux), "\r" (older Macs)
+        private static readonly string[] LineEndings = new[] { "\r\n", "\n", "\r" };
+
         /// <summary>
         /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
         /// and returns the fully-qualified path to the newly created directory.
@@ -45,12 +48,14 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             // If (by some crazy miracle) the directory path already exists, keep generating until there is a new one.
             if (Directory.Exists(tempPath))
             {
-                Debug.LogWarning($"The temporary directory created collided with an existing temporary directory of the same name. This is very unlikely.");
+                Debug.LogWarning(
+                    $"The temporary directory created collided with an existing temporary directory of the same name. This is very unlikely.");
                 tempPath = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
 
                 if (Directory.Exists(tempPath))
                 {
-                    Debug.LogError($"When generating a temporary directory, the temporary directory generated collided twice with already existing directories of the same name. This is very unlikely.");
+                    Debug.LogError(
+                        $"When generating a temporary directory, the temporary directory generated collided twice with already existing directories of the same name. This is very unlikely.");
                     path = null;
                     return false;
                 }
@@ -75,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 path = null;
                 return false;
             }
-            
+
             // return the fully-qualified path to the newly created directory.
             path = Path.GetFullPath(tempPath);
             return true;
@@ -124,6 +129,19 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             text = File.ReadAllText(path);
 #endif
             return text;
+        }
+
+        public static async Task<string[]> ReadAllLinesAsync(string path)
+        {
+            return await File.ReadAllLinesAsync(path);
+        }
+
+        public static string[] ReadAllLines(string path, StringSplitOptions splitOptions = StringSplitOptions.None)
+        {
+            // Use ReadAllText so platform-specific implementation of Android will function properly
+            string fileContents = ReadAllText(path);
+
+            return fileContents.Split(LineEndings, splitOptions);
         }
 
         /// <summary>

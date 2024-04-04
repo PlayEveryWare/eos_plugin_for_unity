@@ -93,8 +93,7 @@ static string SteamDllName = "steam_api.dll";
 
             if (File.Exists(steamEOSFinalConfigPath))
             {
-                var steamConfigDataAsString = System.IO.File.ReadAllText(steamEOSFinalConfigPath);
-                var steamConfigData = JsonUtility.FromJson<EOSSteamConfig>(steamConfigDataAsString);
+                var steamConfigData = JsonUtility.FromJsonFile<EOSSteamConfig>(steamEOSFinalConfigPath);
                 var integratedPlatforms = new Epic.OnlineServices.IntegratedPlatform.Options[1];
 
                 integratedPlatforms[0] = new Epic.OnlineServices.IntegratedPlatform.Options();
