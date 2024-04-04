@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
     using System.IO;
+    using Utility;
     using UnityEditor.Build.Reporting;
 
 #if UNITY_IOS // This conditional is here so that no compiler errors will happen if the Unity Editor is not configured to build for iOS
