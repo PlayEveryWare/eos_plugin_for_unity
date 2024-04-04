@@ -180,6 +180,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static int GetTargetAPI()
         {
+            //  NOTE: The following section is conditionally enabled because otherwise, if the user
+            //        does not have the Android module installed, it will cause build errors.
+#if UNITY_ANDROID 
             var playerApiTarget = PlayerSettings.Android.targetSdkVersion;
             if (playerApiTarget == AndroidSdkVersions.AndroidApiLevelAuto)
             {
@@ -214,10 +217,16 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             {
                 return (int)playerApiTarget;
             }
+#else
+            return -1; // this should never happen
+#endif
         }
 
         private static string GetBuildTools()
         {
+            //  NOTE: The following section is conditionally enabled because otherwise, if the user
+            //        does not have the Android module installed, it will cause build errors.
+#if UNITY_ANDROID
             var toolsRegex = new Regex(@"(\d+)\.(\d+)\.(\d+)");
             int maxMajor = 0, maxMinor = 0, maxPatch = 0;
             //find highest usable build tools version
@@ -262,6 +271,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             {
                 return $"{maxMajor}.{maxMinor}.{maxPatch}";
             }
+#else
+            return "NOBUILDTOOLS"; // this should never happen.
+#endif
         }
 
         private static void WriteConfigMacros(string filepath)
