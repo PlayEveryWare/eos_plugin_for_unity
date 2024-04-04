@@ -104,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             string text;
 #if UNITY_ANDROID
-            using var request = UnityEngine.Networking.UnityWebRequest.Get(filePath);
+            using var request = UnityEngine.Networking.UnityWebRequest.Get(path);
             request.timeout = 2; //seconds till timeout
             request.SendWebRequest();
 
@@ -114,13 +114,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #if UNITY_2020_1_OR_NEWER
             if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
             {
-                Debug.Log("Requesting " + filePath + ", please make sure it exists.");
+                Debug.Log($"Requesting \"{path}\", please make sure it exists.");
                 throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
             }
 #else
             if (request.isNetworkError || request.isHttpError)
             {
-                Debug.Log("Requesting " + filePath + ", please make sure it exists and is a valid config");
+                Debug.Log($"Requesting \"{path}\", please make sure it exists and is a valid config");
                 throw new Exception("UnityWebRequest didn't succeed : Network or HTTP Error");
             }
 #endif
