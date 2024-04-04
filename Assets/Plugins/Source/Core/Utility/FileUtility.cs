@@ -43,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static bool TryGetTempDirectory(out string path)
         {
             // Generate a temporary directory path.
-            string tempPath = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+            string tempPath = Path.Combine(Application.temporaryCachePath, $"Output-{Guid.NewGuid()}/");
 
             // If (by some crazy miracle) the directory path already exists, keep generating until there is a new one.
             if (Directory.Exists(tempPath))
