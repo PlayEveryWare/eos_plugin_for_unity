@@ -43,8 +43,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             InstallEOSDependentLibrary();
             ConfigureGradleTemplateProperties();
-            ConfigureEOSDependentLibrary().Wait();
-            DetermineLibraryLinkingMethod().Wait();
+            ConfigureEOSDependentLibrary();
+            DetermineLibraryLinkingMethod();
         }
 
         private static string GetAndroidEOSValuesConfigPath()
@@ -327,9 +327,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         }
 
-        private static async Task ConfigureEOSDependentLibrary()
+        private static void ConfigureEOSDependentLibrary()
         {
-            string clientIDAsLower = (await Config.Get<EOSConfig>()).clientID.ToLower();
+            string clientIDAsLower = (Config.Get<EOSConfig>()).clientID.ToLower();
 
             var pathToEOSValuesConfig = GetAndroidEOSValuesConfigPath();
             var currentEOSValuesConfigAsXML = new System.Xml.XmlDocument();
@@ -351,7 +351,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             }
         }
 
-        private static async Task DetermineLibraryLinkingMethod()
+        private static void DetermineLibraryLinkingMethod()
         {
             string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.PackageName +
                                                   "/PlatformSpecificAssets~/EOS/Android/");
@@ -362,7 +362,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     ? packagePath
                     : androidAssetFilepath; //From Package or From Assets(EOS Plugin Repo)
 
-            string linkType = (await Config.Get<AndroidBuildConfig>()).DynamicallyLinkEOSLibrary
+            string linkType = (Config.Get<AndroidBuildConfig>()).DynamicallyLinkEOSLibrary
                 ? "dynamic-stdc++/"
                 : "static-stdc++/"; //Dynamic or Static       
 
