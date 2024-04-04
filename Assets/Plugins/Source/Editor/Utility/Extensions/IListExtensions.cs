@@ -22,14 +22,34 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Extensions
 {
+    using System;
     using System.Collections.Generic;
+    using System.Threading;
 
+    /// <summary>
+    /// Provides extension methods to classes that implement the IList generic interface.
+    /// </summary>
     public static class IListExtensions
     {
+        /// <summary>
+        /// This creates a thread-safe static instance of a random number generator,
+        /// so that shuffling in multi-threaded scenarios works in a consistent manner.
+        /// Each time the value of this is read, a different instance of Random is returned,
+        /// one that is both static, and safe to use in the thread that is reading the value.
+        /// </summary>
+        private static readonly ThreadLocal<Random> s_threadLocalRandom =
+            new(() => new Random(Guid.NewGuid().GetHashCode()));
+
+        /// <summary>
+        /// Shuffles a list using the Fisher-Yates shuffle algorithm; which is much faster
+        /// than generating a Guid for each item, then sorting by Guid.
+        /// </summary>
+        /// <typeparam name="T">Type of the list.</typeparam>
+        /// <param name="list">The list to shuffle the contents of.</param>
         public static void Shuffle<T>(this IList<T> list)
         {
-            System.Random rng = new();
             int n = list.Count;
+            Random rng = s_threadLocalRandom.Value;
             while (n > 1)
             {
                 n--;
