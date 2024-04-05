@@ -3545,7 +3545,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: c22ff4d82f2cd5d489cbfc12aa8599b9, type: 3}
     m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 0
@@ -5871,10 +5871,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6411696358722502628}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aaab24e9fb1e30488c21cc648730268, type: 3}
+  m_Script: {fileID: 11500000, guid: ec6bbc808b1cd5240a9c6b46afa68881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Source: {fileID: 4072375487614121481}
+  Source: {fileID: 0}
 --- !u!114 &4356777429081137721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7076,7 +7076,6 @@ GameObject:
   - component: {fileID: 7652914440796134110}
   - component: {fileID: 1494162889137976193}
   - component: {fileID: 9056929422829736593}
-  - component: {fileID: 9038525813409747073}
   - component: {fileID: 3016960713352229432}
   m_Layer: 5
   m_Name: ReadmeButton
@@ -7200,19 +7199,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &9038525813409747073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9127517703051387943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aaab24e9fb1e30488c21cc648730268, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Source: {fileID: 4072375487614121481}
 --- !u!114 &3016960713352229432
 MonoBehaviour:
   m_ObjectHideFlags: 0
