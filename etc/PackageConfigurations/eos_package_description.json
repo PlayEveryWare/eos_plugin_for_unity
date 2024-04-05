@@ -42,6 +42,9 @@
         {"src":"Assets/Plugins/Source/Core/Utility.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/Utility/*.cs", "dest": "Runtime/Core/Utility/"},
         {"src":"Assets/Plugins/Source/Core/Utility/*.cs.meta", "dest": "Runtime/Core/Utility/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions.meta", "dest": "Runtime/Core/Utility/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions/*.cs", "dest": "Runtime/Core/Utility/Extensions/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions/*.cs.meta", "dest": "Runtime/Core/Utility/Extensions/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
@@ -66,15 +69,8 @@
         {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs.meta", "dest": "Editor/Utility/"},
 
-        {"src":"Assets/Plugins/Source/Editor/Utility/Extensions.meta", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs", "dest": "Editor/Utility/Extensions/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/Extensions/*.cs.meta", "dest": "Editor/Utility/Extensions/"},
-
-        {"src":"Assets/Plugins/Source/Editor/Utility/Steam.meta", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/*.cs", "dest": "Editor/Utility/Steam/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/*.cs.meta", "dest": "Editor/Utility/Steam/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/Steam/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/Steam/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/Steam/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/Steam/"},
 
         {"src":"Assets/Plugins/Source/Editor/Build.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/Build/*.cs", "dest": "Editor/Build/"},
