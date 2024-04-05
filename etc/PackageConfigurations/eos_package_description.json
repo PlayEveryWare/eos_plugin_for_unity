@@ -521,8 +521,8 @@
         {"src":"Assets/Scripts/UI/Store/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
 
         {"src":"Assets/Scripts/Utility.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
-        {"src":"Assets/Scripts/Utility/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
-        {"src":"Assets/Scripts/Utility/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/Utility/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
+        {"src":"Assets/Scripts/Utility/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
         
         {"src":"Assets/Scripts/Utility/Extensions.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
         {"src":"Assets/Scripts/Utility/Extensions/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/Extensions/"},
