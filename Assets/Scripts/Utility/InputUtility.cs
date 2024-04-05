@@ -84,7 +84,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
 #if ENABLE_INPUT_SYSTEM
             return null != Keyboard.current && 
-                          (Keyboard.current.enteryKey.wasPressedThisFrame || Keyboard.current.numpadEnterKey.wasPressedThisFrame);
+                          (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.numpadEnterKey.wasPressedThisFrame);
 #else
             return KeyDown(KeyCode.Return) || KeyDown(KeyCode.KeypadEnter);
 #endif
