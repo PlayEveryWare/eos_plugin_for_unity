@@ -184,7 +184,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 foreach (string file in Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories))
                 {
                     string fileName = Path.GetFileName(file);
-                    if (fileName is ".gitignore" or ".gitattributes")
+                    if (fileName is ".gitignore" or ".gitattributes" && Path.GetDirectoryName(file) == directoryPath)
                     {
                         if (Path.GetDirectoryName(file) == directoryPath)
                         {
@@ -203,5 +203,29 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 Debug.Log($"An error (which was ignored) occurred while cleaning \"{directoryPath}\": {ex.Message}");
             }
         }
+
+#if UNITY_EDITOR
+        public static void OpenFolder(string path)
+        {
+            // Correctly format the path based on the operating system.
+            // For Windows, the path format is fine as is.
+            // For macOS, use the "open" command.
+            // For Linux, use the "xdg-open" command.
+            path = path.Replace("/", "\\"); // Replace slashes for Windows compatibility
+
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                System.Diagnostics.Process.Start("explorer.exe", path);
+            }
+            else if (Application.platform == RuntimePlatform.OSXEditor)
+            {
+                System.Diagnostics.Process.Start("open", path);
+            }
+            else if (Application.platform == RuntimePlatform.LinuxEditor)
+            {
+                System.Diagnostics.Process.Start("xdg-open", path);
+            }
+        }
+#endif
     }
 }

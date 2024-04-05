@@ -222,6 +222,18 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             IProgress<UnityPackageCreationUtility.CreatePackageProgressInfo> progress,
             CancellationToken cancellationToken)
         {
+            // Determine the total size of files that need to be copied.
+            long sizeOfFilesToCopy = operations.Sum(op => op.size);
+
+            // Used to measure how long it's been since the progress has been reported.
+            DateTime progressLastUpdated = DateTime.Now;
+
+            // Used to keep track of how many files have been copied.
+            int filesCopied = 0;
+
+            // Keeps track of how many bytes have been copied.
+            long sizeOfCopiedFiles = 0L;
+
             // Execute each file copy operation.
             foreach ((string from, string to, long size) in operations)
             {
@@ -231,7 +243,26 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 // Run the file copy asynchronously, passing on the cancellation token.
                 await Task.Run(() => File.Copy(from, to, true), cancellationToken);
 
-                // TODO: Implement UI for reporting the progress of file copy operations
+                // Increment the number of files copied.
+                filesCopied++;
+
+                // Update the number of bytes that have been copied.
+                sizeOfCopiedFiles += size;
+
+                if (null == progress ||
+                    (DateTime.Now - progressLastUpdated).TotalSeconds < UpdateProgressIntervalInSeconds)
+                {
+                    continue;
+                }
+
+                progressLastUpdated = DateTime.Now;
+                progress.Report(new UnityPackageCreationUtility.CreatePackageProgressInfo()
+                {
+                    FilesCopied = filesCopied,
+                    TotalFilesToCopy = operations.Count,
+                    SizeOfFilesCopied = sizeOfCopiedFiles,
+                    TotalSizeOfFilesToCopy = sizeOfFilesToCopy
+                });
             }
         }
 
