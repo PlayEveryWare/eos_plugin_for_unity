@@ -592,9 +592,9 @@
 	{"comment": "-------------------------------End Performance Stress Test Sample-----------------------------------------"},
 
 
-        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
-        {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},
-        {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/Readme/"}
+        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/StandardSamples/"},
+        {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/StandardSamples/Readme/"},
+        {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/StandardSamples/Readme/"}
     ],
     "blacklist": [
         "*.png"
