@@ -137,7 +137,7 @@ namespace PlayEveryWare.EpicOnlineServices
     public interface IPlatformSpecifics
     {
 #if !EOS_DISABLE
-        string GetTempDir();
+
        // Int32 IsReadyForNetworkActivity();
 
         void AddPluginSearchPaths(ref List<string> pluginPaths);
