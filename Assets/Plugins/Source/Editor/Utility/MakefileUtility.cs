@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         private static async Task<string> GetMakePath()
         {
-            var libraryConfig = await Config.Get<LibraryBuildConfig>();
+            var libraryConfig = await Config.GetAsync<LibraryBuildConfig>();
 
             if (!string.IsNullOrWhiteSpace(libraryConfig.makePath))
             {

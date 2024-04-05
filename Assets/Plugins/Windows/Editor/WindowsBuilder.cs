@@ -111,7 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             // Determine whether to install EAC
             
-            ToolsConfig toolsConfig = await Config.Get<ToolsConfig>();
+            ToolsConfig toolsConfig = await Config.GetAsync<ToolsConfig>();
 
             string bootstrapperName = null;
             if (toolsConfig != null)

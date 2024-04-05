@@ -145,8 +145,8 @@ _WIN32 || _WIN64
 
         protected override async Task AsyncSetup()
         {
-            mainEOSConfigFile = await Config.Get<EOSConfig>();
-            steamEOSConfigFile = await Config.Get<EOSSteamConfig>();
+            mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
+            steamEOSConfigFile = await Config.GetAsync<EOSSteamConfig>();
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>
             {

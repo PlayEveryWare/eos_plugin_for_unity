@@ -181,8 +181,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// </summary>
         private static async void AutoSetProductVersion()
         {
-            var eosConfig = await Config.Get<EOSConfig>();
-            var prebuildConfig = await Config.Get<PrebuildConfig>();
+            var eosConfig = await Config.GetAsync<EOSConfig>();
+            var prebuildConfig = await Config.GetAsync<PrebuildConfig>();
             var previousProdVer = eosConfig.productVersion;
 
             if (prebuildConfig.useAppVersionAsProductVersion)

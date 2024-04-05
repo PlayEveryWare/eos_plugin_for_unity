@@ -61,10 +61,22 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static async Task<T> Get<T>() where T : Config, new()
+        public static async Task<T> GetAsync<T>() where T : Config, new()
         {
             T instance = new();
             await instance.ReadAsync();
+            return instance;
+        }
+
+        /// <summary>
+        /// Retrieves the indicated Config object, reading its values into memory.
+        /// </summary>
+        /// <typeparam name="T">The Config to retrieve.</typeparam>
+        /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
+        public static T Get<T>() where T : Config, new()
+        {
+            T instance = new();
+            instance.Read();
             return instance;
         }
 

@@ -65,7 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override async Task AsyncSetup()
         {
-            _packagingConfig = await Config.Get<PackagingConfig>();
+            _packagingConfig = await Config.GetAsync<PackagingConfig>();
 
             if (string.IsNullOrEmpty(_packagingConfig.pathToJSONPackageDescription))
             {

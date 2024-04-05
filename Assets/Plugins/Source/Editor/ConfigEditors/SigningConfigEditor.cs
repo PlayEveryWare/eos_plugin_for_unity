@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         [MenuItem("Tools/EOS Plugin/Sign DLLs")]
         static async Task SignAllDLLs()
         {
-            var signConfig = await EpicOnlineServices.Config.Get<SigningConfig>();
+            var signConfig = await EpicOnlineServices.Config.GetAsync<SigningConfig>();
 
             // stop if there are no dlls to sign
             if (signConfig.dllPaths == null)
@@ -56,7 +56,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
         static async Task<bool> CanSignDLLs()
         {
 #if UNITY_EDITOR_WIN
-            var signConfig = await EpicOnlineServices.Config.Get<SigningConfig>();
+            var signConfig = await EpicOnlineServices.Config.GetAsync<SigningConfig>();
             return (signConfig.dllPaths != null);
 #else
             return false;

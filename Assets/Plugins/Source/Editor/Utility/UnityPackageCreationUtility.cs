@@ -95,7 +95,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 
         public static async Task CreatePackage(PackageType packageType, IProgress<CreatePackageProgressInfo> progress = null, CancellationToken cancellationToken = default)
         {
-            var packagingConfig = await Config.Get<PackagingConfig>();
+            var packagingConfig = await Config.GetAsync<PackagingConfig>();
 
             FileUtility.CleanDirectory(packagingConfig.pathToOutput, true);
 
