@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
 #if DISABLESTEAMWORKS
             return "Steamworks not imported or not supported on platform";
 #else
-        return Steamworks.Version.SteamworksSDKVersion;
+            return Steamworks.Version.SteamworksSDKVersion;
 #endif
         }
     }

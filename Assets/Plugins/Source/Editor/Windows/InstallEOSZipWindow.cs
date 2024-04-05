@@ -1,24 +1,24 @@
 ﻿/*
- * Copyright (c) 2024 PlayEveryWare
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+* Copyright (c) 2024 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,6 +36,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
     public class InstallEOSZipWindow : EOSEditorWindow
     {
+        private const string PlatformImportInfoListFileName = "eos_platform_import_info_list.json";
+
         [Serializable]
         private class PlatformImportInfo
         {
@@ -75,7 +77,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             zipEntry.Open().CopyTo(destStream);
         }
 
-        
+
         static public void UnzipFile(string pathToZipFile, string dest)
         {
             // unzip files
@@ -120,12 +122,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
             EditorUtility.ClearProgressBar();
         }
-        
+
         protected override void Setup()
         {
-            pathToImportDescDirectory = Application.dataPath + "/../etc/EOSImportDesriptions/";
-            var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + "eos_platform_import_info_list.json");
-            importInfoList = JsonUtility.FromJson<PlatformImportInfoList>(JSONPackageDescription);
+            pathToImportDescDirectory = Path.Combine(FileUtility.GetProjectPath(), "etc/EOSImportDesriptions/", PlatformImportInfoListFileName);
+            string json = File.ReadAllText(pathToImportDescDirectory);
+            importInfoList = JsonUtility.FromJson<PlatformImportInfoList>(json);
         }
 
         private void DrawPresets()
@@ -183,84 +185,83 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
             GUILayout.EndHorizontal();
         }
-        
+
         protected override void RenderWindow()
         {
-                GUILayout.Label("Install EOS Files into project");
+            GUILayout.Label("Install EOS Files into project");
 
-                DrawPresets();
-                foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+            DrawPresets();
+            foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+            {
+                GUIEditorUtility.AssigningBoolField(platformImportInfo.platform,
+                    ref platformImportInfo.isGettingImported, 300);
+            }
+
+            GUILayout.Label("");
+            GUILayout.Label("Select Zip Path");
+            GUILayout.BeginHorizontal(GUIStyle.none);
+            if (GUILayout.Button("Select", GUILayout.Width(100)))
+            {
+                pathToZipFile = EditorUtility.OpenFilePanel("Pick Zip File", "", "zip");
+            }
+
+            GUILayout.Label(pathToZipFile);
+            GUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Install") && FileUtility.TryGetTempDirectory(out string tmpDir))
+            {
+                try
                 {
-                    GUIEditorUtility.AssigningBoolField(platformImportInfo.platform,
-                        ref platformImportInfo.isGettingImported, 300);
-                }
+                    UnzipFile(pathToZipFile, tmpDir);
 
-                GUILayout.Label("");
-                GUILayout.Label("Select Zip Path");
-                GUILayout.BeginHorizontal(GUIStyle.none);
-                if (GUILayout.Button("Select", GUILayout.Width(100)))
-                {
-                    pathToZipFile = EditorUtility.OpenFilePanel("Pick Zip File", "", "zip");
-                }
-
-                GUILayout.Label(pathToZipFile);
-                GUILayout.EndHorizontal();
-
-                if (GUILayout.Button("Install"))
-                {
-                    string tmpDir = FileUtility.GenerateTempDirectory();
-
-                    try
+                    var toConvert = new List<string>();
+                    // Convert files to a consistant line ending
+                    foreach (var entity in Directory.EnumerateFiles(tmpDir, "*", SearchOption.AllDirectories))
                     {
-                        UnzipFile(pathToZipFile, tmpDir);
-
-                        var toConvert = new List<string>();
-                        // Convert files to a consistant line ending
-                        foreach (var entity in Directory.EnumerateFiles(tmpDir, "*", SearchOption.AllDirectories))
+                        if (Path.GetExtension(entity) == ".cs")
                         {
-                            if (Path.GetExtension(entity) == ".cs")
-                            {
-                                toConvert.Add(entity);
-                            }
+                            toConvert.Add(entity);
                         }
-
-                        for (int i = 0; i < toConvert.Count; ++i)
-                        {
-                            var entity = toConvert[i];
-                            EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity),
-                                (float)i / toConvert.Count);
-                            PackageFileUtility.Dos2UnixLineEndings(entity);
-                        }
-
-                        EditorUtility.ClearProgressBar();
-
-
-                        foreach (var platformImportInfo in importInfoList.platformImportInfoList)
-                        {
-                            if (platformImportInfo.isGettingImported)
-                            {
-                                var JSONPackageDescription =
-                                    File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
-                                var packageDescription =
-                                    JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-
-                                var fileResults =
-                                    PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir,
-                                        packageDescription);
-                                // This should be the correct directory
-                                var projectDir = FileUtility.GetProjectPath();
-                                // TODO: Async not tested here.
-                                PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults).Wait();
-                            }
-                        }
-
                     }
-                    finally
+
+                    for (int i = 0; i < toConvert.Count; ++i)
                     {
-                        //clean up unzipped files on success or error
-                        Directory.Delete(tmpDir, true);
+                        var entity = toConvert[i];
+                        EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity),
+                            (float)i / toConvert.Count);
+                        FileUtility.ConvertDosToUnixLineEndings(entity);
                     }
+
+                    EditorUtility.ClearProgressBar();
+
+
+                    foreach (var platformImportInfo in importInfoList.platformImportInfoList)
+                    {
+                        if (platformImportInfo.isGettingImported)
+                        {
+                            string path = pathToImportDescDirectory + platformImportInfo.descPath;
+                            string json = File.ReadAllText(path);
+                            var packageDescription =
+                                JsonUtility.FromJson<PackageDescription>(json);
+
+                            var fileResults =
+                                PackageFileUtility.FindPackageFiles(tmpDir,
+                                    packageDescription);
+                            // This should be the correct directory
+                            var projectDir = FileUtility.GetProjectPath();
+                            // TODO: Async not tested here.
+                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults).Wait();
+                        }
+                    }
+
                 }
+                finally
+                {
+                    //clean up unzipped files on success or error
+                    Directory.Delete(tmpDir, true);
+                }
+            }
+
         }
     }
 }

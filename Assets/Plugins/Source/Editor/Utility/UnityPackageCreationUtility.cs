@@ -116,29 +116,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
             ValidatePackage(packagingConfig.pathToOutput);
         }
 
-        private static void CreateDotUnityPackage(string outputPath, string json_file,
-            string packageName = "pew_eos_plugin.unitypackage")
-        {
-            var JSONPackageDescription = File.ReadAllText(json_file);
-
-            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-
-            // Transform PackageDescription into a list of actual files that can be
-            // copied to a directory that can be zipped 
-            string gzipFilePathName = Path.Combine(outputPath, packageName);
-
-            List<string> filesToCompress =
-                PackageFileUtility.GetFilePathsMatchingPackageDescription("./", packageDescription);
-
-            var toExport = filesToCompress.Where(
-                (path) => { return !path.Contains(".meta"); }
-            ).ToArray();
-
-            var options = ExportPackageOptions.Interactive;
-
-            AssetDatabase.ExportPackage(toExport, gzipFilePathName, options);
-        }
-
         private static async Task CreateUPM(string outputPath, string json_file, IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
         {
             /*
@@ -156,16 +133,25 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
                 Debug.LogError($"Could not read package description file \"{json_file}\", it does not exist.");
                 return;
             }
-            var packageDescription = ReadPackageDescription(json_file);
 
-            var filesToCopy = PackageFileUtility.GetFileInfoMatchingPackageDescription("./", packageDescription);
+            PackageDescription packageDescription = ReadPackageDescription(json_file);
+            
+            var filesToCopy = PackageFileUtility.FindPackageFiles(
+                FileUtility.GetProjectPath(),
+                packageDescription
+            );
 
             await PackageFileUtility.CopyFilesToDirectory(outputPath, filesToCopy, progress, cancellationToken);
         }
 
-        private static async Task CreateUPMTarball(string outputPath, string json_file, IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
+        private static async Task CreateUPMTarball(string outputPath, string json_file,
+            IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
         {
-            string tempOutput = FileUtility.GenerateTempDirectory();
+            if (!FileUtility.TryGetTempDirectory(out string tempOutput))
+            {
+                throw new BuildFailedException(
+                    "Could not create temporary directory into which to place files for compression.");
+            }
 
             await CreateUPM(tempOutput, json_file, progress, cancellationToken);
 
