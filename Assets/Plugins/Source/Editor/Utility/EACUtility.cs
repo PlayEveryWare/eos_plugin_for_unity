@@ -364,7 +364,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             using StreamReader reader = new(filepath);
             string fileContents = await reader.ReadToEndAsync();
 
-            EOSConfig eosConfig = await Config.Get<EOSConfig>();
+            EOSConfig eosConfig = await Config.GetAsync<EOSConfig>();
 
             var sb = new System.Text.StringBuilder(fileContents);
 
@@ -384,7 +384,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         public static async Task ConfigureEAC(BuildReport report)
         {
-            ToolsConfig toolsConfig = await Config.Get<ToolsConfig>();
+            ToolsConfig toolsConfig = await Config.GetAsync<ToolsConfig>();
             
             // if EAC is not supposed to be installed, then stop here
             if (!toolsConfig.useEAC)
@@ -419,7 +419,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
                 if (!string.IsNullOrWhiteSpace(toolPath))
                 {
-                    var productId = (await Config.Get<EOSConfig>()).productID;
+                    var productId = (await Config.GetAsync<EOSConfig>()).productID;
                     await GenerateIntegrityCert(report, toolPath, productId,
                         toolsConfig.pathToEACPrivateKey, toolsConfig.pathToEACCertificate, cfgPath);
                 }

@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
     using System.IO;
+    using Utility;
     using UnityEditor.Build.Reporting;
 
 #if UNITY_IOS // This conditional is here so that no compiler errors will happen if the Unity Editor is not configured to build for iOS
@@ -41,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             PBXProject proj = new();
 
-            proj.ReadFromString(File.ReadAllText(projPath));
+            proj.ReadFromString(FileUtility.ReadAllText(projPath));
 
             string targetGUID = proj.GetUnityMainTargetGuid();
             string unityTargetGUID = proj.GetUnityFrameworkTargetGuid();
@@ -52,7 +53,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             proj.AddFrameworkToProject(targetGUID, "SafariServices.framework", true);
             proj.AddFrameworkToProject(targetGUID, "AuthenticationServices.framework", true);
 
-            File.WriteAllText(projPath, proj.WriteToString());
+            FileUtility.WriteAllText(projPath, proj.WriteToString());
 #endif
         }
     }

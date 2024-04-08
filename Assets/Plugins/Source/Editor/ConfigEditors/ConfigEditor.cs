@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         public async Task Load()
         {
-            config = await EpicOnlineServices.Config.Get<T>();
+            config = await EpicOnlineServices.Config.GetAsync<T>();
         }
 
         public async Task Save(bool prettyPrint)

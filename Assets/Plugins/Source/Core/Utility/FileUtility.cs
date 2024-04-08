@@ -32,6 +32,9 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
     /// </summary>
     public static class FileUtility
     {
+        // Note: "\r\n" (Windows), "\n" (Unix/Linux), "\r" (older Macs)
+        private static readonly string[] LineEndings = new[] { "\r\n", "\n", "\r" };
+
         /// <summary>
         /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
         /// and returns the fully-qualified path to the newly created directory.
@@ -40,17 +43,19 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         public static bool TryGetTempDirectory(out string path)
         {
             // Generate a temporary directory path.
-            string tempPath = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+            string tempPath = Path.Combine(Application.temporaryCachePath, $"Output-{Guid.NewGuid()}/");
 
             // If (by some crazy miracle) the directory path already exists, keep generating until there is a new one.
             if (Directory.Exists(tempPath))
             {
-                Debug.LogWarning($"The temporary directory created collided with an existing temporary directory of the same name. This is very unlikely.");
-                tempPath = Path.Combine(Application.temporaryCachePath, $"/Output-{Guid.NewGuid()}/");
+                Debug.LogWarning(
+                    $"The temporary directory created collided with an existing temporary directory of the same name. This is very unlikely.");
+                tempPath = Path.Combine(Application.temporaryCachePath, $"Output-{Guid.NewGuid()}/");
 
                 if (Directory.Exists(tempPath))
                 {
-                    Debug.LogError($"When generating a temporary directory, the temporary directory generated collided twice with already existing directories of the same name. This is very unlikely.");
+                    Debug.LogError(
+                        $"When generating a temporary directory, the temporary directory generated collided twice with already existing directories of the same name. This is very unlikely.");
                     path = null;
                     return false;
                 }
@@ -75,7 +80,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 path = null;
                 return false;
             }
-            
+
             // return the fully-qualified path to the newly created directory.
             path = Path.GetFullPath(tempPath);
             return true;
@@ -99,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             string text;
 #if UNITY_ANDROID
-            using var request = UnityEngine.Networking.UnityWebRequest.Get(filePath);
+            using var request = UnityEngine.Networking.UnityWebRequest.Get(path);
             request.timeout = 2; //seconds till timeout
             request.SendWebRequest();
 
@@ -109,13 +114,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 #if UNITY_2020_1_OR_NEWER
             if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
             {
-                Debug.Log("Requesting " + filePath + ", please make sure it exists.");
+                Debug.Log($"Requesting \"{path}\", please make sure it exists.");
                 throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
             }
 #else
             if (request.isNetworkError || request.isHttpError)
             {
-                Debug.Log("Requesting " + filePath + ", please make sure it exists and is a valid config");
+                Debug.Log($"Requesting \"{path}\", please make sure it exists and is a valid config");
                 throw new Exception("UnityWebRequest didn't succeed : Network or HTTP Error");
             }
 #endif
@@ -124,6 +129,19 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             text = File.ReadAllText(path);
 #endif
             return text;
+        }
+
+        public static async Task<string[]> ReadAllLinesAsync(string path)
+        {
+            return await File.ReadAllLinesAsync(path);
+        }
+
+        public static string[] ReadAllLines(string path, StringSplitOptions splitOptions = StringSplitOptions.None)
+        {
+            // Use ReadAllText so platform-specific implementation of Android will function properly
+            string fileContents = ReadAllText(path);
+
+            return fileContents.Split(LineEndings, splitOptions);
         }
 
         /// <summary>

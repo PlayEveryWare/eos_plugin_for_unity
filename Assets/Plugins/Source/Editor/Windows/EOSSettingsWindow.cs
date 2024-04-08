@@ -145,8 +145,8 @@ _WIN32 || _WIN64
 
         protected override async Task AsyncSetup()
         {
-            mainEOSConfigFile = await Config.Get<EOSConfig>();
-            steamEOSConfigFile = await Config.Get<EOSSteamConfig>();
+            mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
+            steamEOSConfigFile = await Config.GetAsync<EOSSteamConfig>();
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>
             {
@@ -413,7 +413,7 @@ _WIN32 || _WIN64
             GUIEditorUtility.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
             if (GUILayout.Button("Save All Changes"))
             {
-                Save(prettyPrint).Wait();
+                Task.Run(() => Save(prettyPrint));
             }
 
             if (GUILayout.Button("Show in Explorer"))

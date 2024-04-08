@@ -53,14 +53,14 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public T GetConfig()
         {
-            if (Config != null)
+            if (Config == null)
             {
-                return Config;
+                Config = JsonUtility.FromJsonFile<T>(
+                    PlatformManager.GetConfigFilePath(Platform)
+                );
             }
 
-            return JsonUtility.FromJsonFile<T>(
-                PlatformManager.GetConfigFilePath(Platform)
-            );
+            return Config;
         }
 
         #endregion
@@ -117,7 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices
             if (GetConfig() != null)
             {
                 Debug.Log("GetConfig() is not null");
-                if (initializeOptions.OverrideThreadAffinity.HasValue)
+                if (initializeOptions.OverrideThreadAffinity.HasValue && null != Config.overrideValues)
                 {
                     var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
                     overrideThreadAffinity.NetworkWork = Config.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);

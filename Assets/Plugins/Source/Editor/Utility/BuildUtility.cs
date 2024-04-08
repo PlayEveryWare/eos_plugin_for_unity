@@ -474,7 +474,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             // Get the directory for the solution, because all project files will be relative to it
             string solutionDirectory = Path.GetDirectoryName(solutionFilePath);
 
-            string[] solutionLines = File.ReadAllLines(solutionFilePath);
+            string[] solutionLines = FileUtility.ReadAllLines(solutionFilePath);
 
             // first find the version of visual studio required
             vsVersion = ParseSolutionFileForVSVersion(solutionLines);
@@ -557,7 +557,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             var toolsets = new HashSet<string>();
             // scan the project file for platform toolsets.
-            string[] projectLines = File.ReadAllLines(projectFilepath);
+            string[] projectLines = FileUtility.ReadAllLines(projectFilepath);
             Regex toolsetRegex = new("<PlatformToolset>(.*)</PlatformToolset>", RegexOptions.Compiled);
             foreach (string projectLine in projectLines)
             {

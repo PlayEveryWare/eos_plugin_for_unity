@@ -25,7 +25,7 @@ public class EOSSignInWithAppleOnPostProcess_iOS
             
             PBXProject proj = new PBXProject();
         
-            proj.ReadFromString(System.IO.File.ReadAllText(projPath));
+            proj.ReadFromString(FileUtility.ReadAllText(projPath));
             var manager = new ProjectCapabilityManager(projPath, "Entitlements.entitlements", null, proj.GetUnityMainTargetGuid());
             manager.AddSignInWithAppleWithCompatibility(proj.GetUnityFrameworkTargetGuid());
             manager.WriteToFile();

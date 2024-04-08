@@ -43,8 +43,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             InstallEOSDependentLibrary();
             ConfigureGradleTemplateProperties();
-            ConfigureEOSDependentLibrary().Wait();
-            DetermineLibraryLinkingMethod().Wait();
+            ConfigureEOSDependentLibrary();
+            DetermineLibraryLinkingMethod();
         }
 
         private static string GetAndroidEOSValuesConfigPath()
@@ -180,6 +180,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         private static int GetTargetAPI()
         {
+            //  NOTE: The following section is conditionally enabled because otherwise, if the user
+            //        does not have the Android module installed, it will cause build errors.
+#if UNITY_ANDROID 
             var playerApiTarget = PlayerSettings.Android.targetSdkVersion;
             if (playerApiTarget == AndroidSdkVersions.AndroidApiLevelAuto)
             {
@@ -214,10 +217,16 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             {
                 return (int)playerApiTarget;
             }
+#else
+            return -1; // this should never happen
+#endif
         }
 
         private static string GetBuildTools()
         {
+            //  NOTE: The following section is conditionally enabled because otherwise, if the user
+            //        does not have the Android module installed, it will cause build errors.
+#if UNITY_ANDROID
             var toolsRegex = new Regex(@"(\d+)\.(\d+)\.(\d+)");
             int maxMajor = 0, maxMinor = 0, maxPatch = 0;
             //find highest usable build tools version
@@ -262,6 +271,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             {
                 return $"{maxMajor}.{maxMinor}.{maxPatch}";
             }
+#else
+            return "NOBUILDTOOLS"; // this should never happen.
+#endif
         }
 
         private static void WriteConfigMacros(string filepath)
@@ -327,9 +339,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         }
 
-        private static async Task ConfigureEOSDependentLibrary()
+        private static void ConfigureEOSDependentLibrary()
         {
-            string clientIDAsLower = (await Config.Get<EOSConfig>()).clientID.ToLower();
+            string clientIDAsLower = (Config.Get<EOSConfig>()).clientID.ToLower();
 
             var pathToEOSValuesConfig = GetAndroidEOSValuesConfigPath();
             var currentEOSValuesConfigAsXML = new System.Xml.XmlDocument();
@@ -351,7 +363,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             }
         }
 
-        private static async Task DetermineLibraryLinkingMethod()
+        private static void DetermineLibraryLinkingMethod()
         {
             string packagePath = Path.GetFullPath("Packages/" + EOSPackageInfo.PackageName +
                                                   "/PlatformSpecificAssets~/EOS/Android/");
@@ -362,7 +374,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     ? packagePath
                     : androidAssetFilepath; //From Package or From Assets(EOS Plugin Repo)
 
-            string linkType = (await Config.Get<AndroidBuildConfig>()).DynamicallyLinkEOSLibrary
+            string linkType = (Config.Get<AndroidBuildConfig>()).DynamicallyLinkEOSLibrary
                 ? "dynamic-stdc++/"
                 : "static-stdc++/"; //Dynamic or Static       
 
