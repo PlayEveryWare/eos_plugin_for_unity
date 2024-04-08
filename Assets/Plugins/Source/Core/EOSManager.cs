@@ -471,7 +471,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 IEOSCreateOptions platformOptions = new EOSCreateOptions();
-                platformOptions.CacheDirectory = Application.temporaryCachePath;
+                platformOptions.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.IsServer = configData.isServer;
                 platformOptions.Flags =
 #if UNITY_EDITOR

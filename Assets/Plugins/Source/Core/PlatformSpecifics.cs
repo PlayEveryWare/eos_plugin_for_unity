@@ -49,6 +49,11 @@ namespace PlayEveryWare.EpicOnlineServices
         
         #region Virtual methods that have a default behavior, but may need to be overwritten by deriving classes.
 
+        public virtual string GetTempDir()
+        {
+            return Application.temporaryCachePath;
+        }
+
         public virtual void InitializeOverlay(IEOSCoroutineOwner owner)
         {
             // default behavior is to take no action.
