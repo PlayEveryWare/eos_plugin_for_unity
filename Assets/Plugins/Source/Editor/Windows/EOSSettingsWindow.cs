@@ -122,7 +122,6 @@ _WIN32 || _WIN64
 
         protected override async Task AsyncSetup()
         {
-            Debug.Log($"Calling AsyncSetup for window \"{WindowTitle}\".");
             if (!Directory.Exists(ConfigDirectory))
             {
                 Directory.CreateDirectory(ConfigDirectory);
@@ -148,7 +147,6 @@ _WIN32 || _WIN64
                 i++;
             }
 
-            Debug.Log($"Finished AsyncSetup for window \"{WindowTitle}\".");
             await base.AsyncSetup();
         }
 
@@ -359,7 +357,6 @@ _WIN32 || _WIN64
 
         protected override void RenderWindow()
         {
-            Debug.Log($"Calling RenderWindow for window \"{WindowTitle}\".");
             int xCount = (int)(EditorGUIUtility.currentViewWidth / 200);
             toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitleStrings, xCount);
             switch (toolbarInt)
