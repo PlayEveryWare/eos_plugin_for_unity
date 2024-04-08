@@ -40,6 +40,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private const string WindowTitle = "EOS Configuration";
         private List<IConfigEditor> platformSpecificConfigEditors;
 
+        private static readonly string ConfigDirectory = Path.Combine("Assets", "StreamingAssets", "EOS");
+
         int toolbarInt;
         string[] toolbarTitleStrings;
 
@@ -76,16 +78,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             };
 
             return provider;
-        }
-
-        private static string GetConfigDirectory()
-        {
-            return Path.Combine("Assets", "StreamingAssets", "EOS");
-        }
-
-        public static string GetConfigPath(string configFilename)
-        {
-            return Path.Combine(GetConfigDirectory(), configFilename);
         }
 
         private string GenerateEOSGeneratedFile(EOSConfig aEOSConfig)
@@ -128,25 +120,15 @@ _WIN32 || _WIN64
         }";
         }
 
-        // read data from json file, if it exists
-        // TODO: Handle different versions of the file?
-        private async Task LoadConfigFromDisk()
-        {
-            if (!Directory.Exists(GetConfigDirectory()))
-            {
-                Directory.CreateDirectory(GetConfigDirectory());
-            }
-
-            foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                await platformSpecificConfigEditor.Load();
-            }
-        }
-
         protected override async Task AsyncSetup()
         {
-            mainEOSConfigFile = await Config.Get<EOSConfig>();
-            steamEOSConfigFile = await Config.Get<EOSSteamConfig>();
+            if (!Directory.Exists(ConfigDirectory))
+            {
+                Directory.CreateDirectory(ConfigDirectory);
+            }
+
+            mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
+            steamEOSConfigFile = await Config.GetAsync<EOSSteamConfig>();
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>
             {
@@ -165,7 +147,6 @@ _WIN32 || _WIN64
                 i++;
             }
 
-            await LoadConfigFromDisk();
             await base.AsyncSetup();
         }
 
@@ -374,17 +355,10 @@ _WIN32 || _WIN64
             }
         }
 
-        // TODO: create way to hook up new platforms dynamically 
-        private string[] CreateToolbarTitles()
-        {
-            return toolbarTitleStrings;
-        }
-
         protected override void RenderWindow()
         {
-            string[] toolbarTitlesToUse = CreateToolbarTitles();
             int xCount = (int)(EditorGUIUtility.currentViewWidth / 200);
-            toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitlesToUse, xCount);
+            toolbarInt = GUILayout.SelectionGrid(toolbarInt, toolbarTitleStrings, xCount);
             switch (toolbarInt)
             {
                 case 0:
@@ -403,22 +377,22 @@ _WIN32 || _WIN64
             }
 
 #if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
-        if (GUILayout.Button("Pick Path For Generated C File"))
-        {
-            eosGeneratedCFilePath = EditorUtility.OpenFolderPanel("Pick Path For Generated C File", "", "");
-        }
+            if (GUILayout.Button("Pick Path For Generated C File"))
+            {
+                eosGeneratedCFilePath = EditorUtility.OpenFolderPanel("Pick Path For Generated C File", "", "");
+            }
 #endif
             EditorGUILayout.Separator();
             GUILayout.Label("Config Format Options", EditorStyles.boldLabel);
             GUIEditorUtility.AssigningBoolField("Save JSON in 'Pretty' Format", ref prettyPrint, 190);
             if (GUILayout.Button("Save All Changes"))
             {
-                Save(prettyPrint).Wait();
+                Task.Run(() => Save(prettyPrint));
             }
 
             if (GUILayout.Button("Show in Explorer"))
             {
-                EditorUtility.RevealInFinder(GetConfigDirectory());
+                EditorUtility.RevealInFinder(ConfigDirectory);
             }
         }
     }

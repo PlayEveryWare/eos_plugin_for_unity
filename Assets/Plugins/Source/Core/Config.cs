@@ -61,10 +61,22 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static async Task<T> Get<T>() where T : Config, new()
+        public static async Task<T> GetAsync<T>() where T : Config, new()
         {
             T instance = new();
             await instance.ReadAsync();
+            return instance;
+        }
+
+        /// <summary>
+        /// Retrieves the indicated Config object, reading its values into memory.
+        /// </summary>
+        /// <typeparam name="T">The Config to retrieve.</typeparam>
+        /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
+        public static T Get<T>() where T : Config, new()
+        {
+            T instance = new();
+            instance.Read();
             return instance;
         }
 
@@ -83,13 +95,10 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             bool configFileExists = File.Exists(FilePath);
 
-            if (configFileExists)
-            {
-                using StreamReader reader = new(FilePath);
-                _lastReadJsonString = await reader.ReadToEndAsync();
-                JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
-            }
-            else
+            // If the file does not already exist, then save it before reading it, a default
+            // json will be put in the correct place, and therefore a default set of config
+            // values will be loaded.
+            if (!configFileExists)
             {
                 // This conditional exists because writing a config file is only something
                 // that should ever happen in the editor.
@@ -103,6 +112,10 @@ namespace PlayEveryWare.EpicOnlineServices
                 throw new FileNotFoundException($"Config file \"{FilePath}\" does not exist.");
 #endif
             }
+
+            using StreamReader reader = new(FilePath);
+            _lastReadJsonString = await reader.ReadToEndAsync();
+            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
         protected virtual void Read()
@@ -147,14 +160,14 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             // If the asset database should be updated, then do the thing.
-            if (updateAssetDatabase)
-            {
-                await Task.Run(() =>
-                {
-                    AssetDatabase.SaveAssets();
-                    AssetDatabase.Refresh();
-                });
-            }
+            //if (updateAssetDatabase)
+            //{
+            //    await Task.Run(() =>
+            //    {
+            //        AssetDatabase.SaveAssets();
+            //        AssetDatabase.Refresh();
+            //    });
+            //}
         }
 
         /// <summary>

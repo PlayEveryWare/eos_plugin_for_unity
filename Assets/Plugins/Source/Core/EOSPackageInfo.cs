@@ -22,10 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System.Runtime.CompilerServices;
-    using UnityEditor.PackageManager.UI;
-    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
-
     public static class EOSPackageInfo
     {
         public static readonly string ConfigFileName = "EpicOnlineServicesConfig.json";

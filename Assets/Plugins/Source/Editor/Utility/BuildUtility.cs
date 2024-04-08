@@ -646,7 +646,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <returns>The path to the temporary directory in which to store the files temporarily.</returns>
         private static string CacheExistingBinaries(IEnumerable<string> files)
         {
-            string temporaryDirectory = FileUtility.GenerateTempDirectory();
+            if (!PackageFileUtility.TryGetTempDirectory(out string temporaryDirectory))
+            {
+                Debug.LogWarning("Could not create temporary directory to cache existing binaries.");
+                return string.Empty;
+            }
 
             foreach (string filepath in files)
             {

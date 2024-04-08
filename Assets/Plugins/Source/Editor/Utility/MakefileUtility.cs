@@ -93,7 +93,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         public static void BuildLibrariesLinux()
         {
 #if UNITY_EDITOR_LINUX
-            BuildLinux();
+            Task.Run(BuildLinux);
 #endif
         }
 
@@ -109,7 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
 
         private static async Task<string> GetMakePath()
         {
-            var libraryConfig = await Config.Get<LibraryBuildConfig>();
+            var libraryConfig = await Config.GetAsync<LibraryBuildConfig>();
 
             if (!string.IsNullOrWhiteSpace(libraryConfig.makePath))
             {

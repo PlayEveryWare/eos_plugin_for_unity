@@ -1,7 +1,7 @@
 {
     "source_to_dest": [
-        {"src":"Assets/Resources/SourceCodePro.ttf", "dest":"Resources~/"},
-        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Resources~/"},
+        {"src":"Assets/Resources/SourceCodePro.ttf", "dest":"Samples~/Samples/StandardSamples/Materials/"},
+        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Samples~/Samples/StandardSamples/Materials/"},
         {"src":"CHANGELOG.md", "dest" : "CHANGELOG.md"},
         {"src":"LICENSE.md", "dest": "LICENSE.md" },
         {"src":"README.md", "dest": "README.md" },
@@ -42,6 +42,9 @@
         {"src":"Assets/Plugins/Source/Core/Utility.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/Utility/*.cs", "dest": "Runtime/Core/Utility/"},
         {"src":"Assets/Plugins/Source/Core/Utility/*.cs.meta", "dest": "Runtime/Core/Utility/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions.meta", "dest": "Runtime/Core/Utility/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions/*.cs", "dest": "Runtime/Core/Utility/Extensions/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions/*.cs.meta", "dest": "Runtime/Core/Utility/Extensions/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
@@ -51,11 +54,25 @@
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
         
         {"src":"Assets/Plugins/Source/Editor/Utility.meta", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs.meta", "dest": "Editor/Utility/"},
-        
+        {"src":"Assets/Plugins/Source/Editor/Utility/EACUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/EACUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/ScriptingDefineUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/ScriptingDefineUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/GUIEditorUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/GUIEditorUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/BuildUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/BuildUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/UnityPackageCreationUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/UnityPackageCreationUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs.meta", "dest": "Editor/Utility/"},
+
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/*.cs", "dest": "Editor/Utility/Steam/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/*.cs.meta", "dest": "Editor/Utility/Steam/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/Steam/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/Steam/"},
+
         {"src":"Assets/Plugins/Source/Editor/Build.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/Build/*.cs", "dest": "Editor/Build/"},
         {"src":"Assets/Plugins/Source/Editor/Build/*.cs.meta", "dest": "Editor/Build/"},
@@ -69,8 +86,15 @@
         {"src":"Assets/Plugins/Source/Editor/Configs/*.cs.meta", "dest": "Editor/Configs/"},
         
         {"src":"Assets/Plugins/Source/Editor/Windows.meta", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/Windows/*.cs", "dest": "Editor/Windows/"},
-        {"src":"Assets/Plugins/Source/Editor/Windows/*.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSEditorWindow.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSEditorWindow.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSPluginSettingsWindow.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSPluginSettingsWindow.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSSettingsWindow.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSSettingsWindow.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/PluginVersionWindow.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/PluginVersionWindow.cs.meta", "dest": "Editor/Windows/"},
+        
 
         {"comment": "----------------------------Standalone---------------------------------------------"},
         {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
@@ -497,16 +521,13 @@
         {"src":"Assets/Scripts/UI/Store/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
         {"src":"Assets/Scripts/UI/Store/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
 
-        {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util.meta"},
-        {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
-        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
-
         {"src":"Assets/Scripts/Utility.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/Utility/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
+        {"src":"Assets/Scripts/Utility/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
+        
         {"src":"Assets/Scripts/Utility/Extensions.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
         {"src":"Assets/Scripts/Utility/Extensions/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/Extensions/"},
         {"src":"Assets/Scripts/Utility/Extensions/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/Extensions/"},
-        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
-        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
         
 
         {"src":"Assets/Scripts/Core.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Core.meta"},
@@ -529,7 +550,8 @@
         {"src":"Assets/Scenes/StandardSamples.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
-        {"src":"Assets/Scenes/SampleScenes.asset", "dest": "Assets~/Scenes/"},
+        {"src":"Assets/Scenes/SampleScenes.asset", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
+        {"src":"Assets/Scenes/SampleScenes.asset.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
         {"src":"Assets/Materials/StandardSamplesMaterials.meta", "dest": "Samples~/Samples/StandardSamples/Materials.meta"},
         {"src":"Assets/Materials/StandardSamplesMaterials/*", "dest": "Samples~/Samples/StandardSamples/Materials/"},
 
@@ -571,9 +593,9 @@
 	{"comment": "-------------------------------End Performance Stress Test Sample-----------------------------------------"},
 
 
-        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
-        {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},
-        {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/Readme/"}
+        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/StandardSamples/"},
+        {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/StandardSamples/Readme/"},
+        {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/StandardSamples/Readme/"}
     ],
     "blacklist": [
         "*.png"

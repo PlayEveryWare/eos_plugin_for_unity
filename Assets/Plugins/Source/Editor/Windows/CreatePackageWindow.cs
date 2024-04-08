@@ -56,6 +56,10 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         private PackagingConfig _packagingConfig;
 
         private CancellationTokenSource _createPackageCancellationTokenSource;
+        
+        private bool _operationInProgress;
+        private float _progress;
+        private string _progressText;
 
         [MenuItem("Tools/EOS Plugin/Create Package")]
         public static void ShowWindow()
@@ -65,7 +69,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         protected override async Task AsyncSetup()
         {
-            _packagingConfig = await Config.Get<PackagingConfig>();
+            _packagingConfig = await Config.GetAsync<PackagingConfig>();
 
             if (string.IsNullOrEmpty(_packagingConfig.pathToJSONPackageDescription))
             {
@@ -206,18 +210,14 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 GUILayout.Space(20f);
                 if (GUILayout.Button("Cancel"))
                 {
-                    _createPackageCancellationTokenSource?.Cancel();
                     FileUtility.CleanDirectory(_packagingConfig.pathToOutput);
                     _progress = 0.0f;
                     _progressText = "";
+                    _createPackageCancellationTokenSource?.Cancel();
                 }
                 GUILayout.EndVertical();
             }
         }
-
-        private bool _operationInProgress;
-        private float _progress;
-        private string _progressText;
 
         protected void RenderAdvanced()
         {
@@ -296,6 +296,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 }
 
                 await UPMUtility.CreatePackage(type, progressHandler, _createPackageCancellationTokenSource.Token);
+
+                if (EditorUtility.DisplayDialog("Package Created", "Package was successfully created",
+                        "Open Output Path", "Close"))
+                {
+                    FileUtility.OpenDirectory(outputPath);
+                }
             }
             catch (OperationCanceledException ex)
             {

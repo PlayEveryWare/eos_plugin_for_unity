@@ -64,6 +64,50 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return Path.GetFullPath(Path.Combine(Application.dataPath, "../"));
         }
 
+#if UNITY_EDITOR
+        
+        #region Line Ending Manipulations
+
+        public static void ConvertDosToUnixLineEndings(string filename)
+        {
+            ConvertDosToUnixLineEndings(filename, filename);
+        }
+
+        public static void ConvertDosToUnixLineEndings(string srcFilename, string destFilename)
+        {
+            const byte CR = 0x0d;
+
+            var fileAsBytes = File.ReadAllBytes(srcFilename);
+
+            using (var filestream = File.OpenWrite(destFilename))
+            {
+                var writer = new BinaryWriter(filestream);
+                int filePosition = 0;
+                int indexOfDOSNewline = 0;
+
+                do
+                {
+                    indexOfDOSNewline = Array.IndexOf<byte>(fileAsBytes, CR, filePosition);
+
+                    if (indexOfDOSNewline >= 0)
+                    {
+                        writer.Write(fileAsBytes, filePosition, indexOfDOSNewline - filePosition);
+                        filePosition = indexOfDOSNewline + 1;
+                    }
+                    else if (filePosition < fileAsBytes.Length)
+                    {
+                        writer.Write(fileAsBytes, filePosition, fileAsBytes.Length - filePosition);
+                    }
+
+                } while (indexOfDOSNewline > 0);
+
+                // truncate trailing garbage.
+                filestream.SetLength(filestream.Position);
+            }
+        }
+
+        #endregion
+#endif
         /// <summary>
         /// Reads all text from the indicated file.
         /// </summary>
@@ -91,6 +135,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             path = path.Replace(toReplace, Path.DirectorySeparatorChar);
         }
 
+#if UNITY_EDITOR
+
         public static void CleanDirectory(string directoryPath, bool ignoreGit = true)
         {
             if (!Directory.Exists(directoryPath))
@@ -117,7 +163,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 foreach (string file in Directory.GetFiles(directoryPath, "*", SearchOption.AllDirectories))
                 {
                     string fileName = Path.GetFileName(file);
-                    if (fileName is ".gitignore" or ".gitattributes")
+                    if (fileName is ".gitignore" or ".gitattributes" && Path.GetDirectoryName(file) == directoryPath)
                     {
                         if (Path.GetDirectoryName(file) == directoryPath)
                         {
@@ -136,5 +182,29 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
                 Debug.Log($"An error (which was ignored) occurred while cleaning \"{directoryPath}\": {ex.Message}");
             }
         }
+
+
+        public static void OpenDirectory(string path)
+        {
+            // Correctly format the path based on the operating system.
+            // For Windows, the path format is fine as is.
+            // For macOS, use the "open" command.
+            // For Linux, use the "xdg-open" command.
+            path = path.Replace("/", "\\"); // Replace slashes for Windows compatibility
+
+            if (Application.platform == RuntimePlatform.WindowsEditor)
+            {
+                System.Diagnostics.Process.Start("explorer.exe", path);
+            }
+            else if (Application.platform == RuntimePlatform.OSXEditor)
+            {
+                System.Diagnostics.Process.Start("open", path);
+            }
+            else if (Application.platform == RuntimePlatform.LinuxEditor)
+            {
+                System.Diagnostics.Process.Start("xdg-open", path);
+            }
+        }
+#endif
     }
 }

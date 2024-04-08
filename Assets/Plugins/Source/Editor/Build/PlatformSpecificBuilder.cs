@@ -32,6 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using Debug = UnityEngine.Debug;
     using UnityEditor;
     using PlayEveryWare.EpicOnlineServices.Editor;
+    using System.Threading.Tasks;
     using Utility;
 
     public abstract class PlatformSpecificBuilder : IPlatformSpecificBuilder
@@ -110,7 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             if (IsStandalone())
             {
                 // Configure easy-anti-cheat.
-                EACUtility.ConfigureEAC(report).Wait();
+                Task.Run(() => EACUtility.ConfigureEAC(report));
             }
         }
 
@@ -181,8 +182,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// </summary>
         private static async void AutoSetProductVersion()
         {
-            var eosConfig = await Config.Get<EOSConfig>();
-            var prebuildConfig = await Config.Get<PrebuildConfig>();
+            var eosConfig = await Config.GetAsync<EOSConfig>();
+            var prebuildConfig = await Config.GetAsync<PrebuildConfig>();
             var previousProdVer = eosConfig.productVersion;
 
             if (prebuildConfig.useAppVersionAsProductVersion)
