@@ -20,12 +20,13 @@
  * SOFTWARE.
  */
 
-//namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
-//{
+namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
+{
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Text;
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
@@ -131,6 +132,23 @@
                 _initialized = true;
                 Repaint();
                 EditorApplication.update -= CheckForInitialized;
+
+                if (!_initializeTask.IsCompletedSuccessfully)
+                {
+                    StringBuilder errorMessageBuilder = new($"There were some exceptions initializing the window: \n");
+
+                    if (_initializeTask.Exception?.InnerExceptions != null)
+                    {
+                        foreach (var e in _initializeTask.Exception?.InnerExceptions)
+                        {
+                            errorMessageBuilder.AppendLine(e.Message);
+                        }
+                    }
+
+                    string errorMessage = errorMessageBuilder.ToString();
+
+                    Debug.LogError(errorMessage);
+                }
             }
         }
 
@@ -141,20 +159,6 @@
         protected void SetAutoResize(bool autoResize)
         {
             _autoResize = autoResize;
-        }
-
-        /// <summary>
-        /// Enumerates the fields that have the Retainable attribute set on them.
-        /// </summary>
-        private IEnumerable<(FieldInfo Field, string Key)> RetainableFields
-        {
-            get
-            {
-                return from field in GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                    let attribute = field.GetCustomAttribute<RetainPreference>()
-                    where attribute != null
-                    select (Field: field, KeyInfo: ((RetainPreference)attribute).Key);
-            }
         }
 
         /// <summary>
@@ -180,32 +184,7 @@
                 MonoFont = Resources.Load<Font>("SourceCodePro");
             }
 
-            foreach (var (field, key) in RetainableFields)
-            {
-                if (field.FieldType.IsValueType)
-                {
-                    if (typeof(int) != field.FieldType) { continue; }
-
-                    if (TryReadPreference(key, out int value))
-                    {
-                        field.SetValue(this, value);
-                    }
-                }
-                else
-                {
-                    MethodInfo tryReadPreferenceMethod = GetType().GetMethod("TryReadObjectPreference",
-                            BindingFlags.NonPublic | BindingFlags.Instance)?
-                        .MakeGenericMethod(field.FieldType);
-
-                    object[] args = { key, null };
-
-                    bool success = (bool)tryReadPreferenceMethod?.Invoke(this, args)!;
-                    if (success)
-                    {
-                        field.SetValue(this, args[1]);
-                    }
-                }
-            }
+            LoadWindowPreferences();
         }
 
         /// <summary>
@@ -213,10 +192,7 @@
         /// </summary>
         protected virtual void Teardown()
         {
-            foreach (var (field, key) in RetainableFields)
-            {
-                SavePreference(key, field.GetValue(this));
-            }
+            SaveWindowPreferences();
         }
 
         /// <summary>
@@ -342,6 +318,66 @@
             this.maxSize = new Vector2(Screen.width, minHeight);
         }
 
+        #region Preferences
+
+        /// <summary>
+        /// Enumerates the fields that have the Retainable attribute set on them.
+        /// </summary>
+        private IEnumerable<(FieldInfo Field, string Key)> RetainableFields
+        {
+            get
+            {
+                return from field in GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                    let attribute = field.GetCustomAttribute<RetainPreference>()
+                    where attribute != null
+                    select (Field: field, KeyInfo: ((RetainPreference)attribute).Key);
+            }
+        }
+
+        /// <summary>
+        /// Saves preferences for the window, if there are any.
+        /// </summary>
+        protected void SaveWindowPreferences()
+        {
+            foreach (var (field, key) in RetainableFields)
+            {
+                SavePreference(key, field.GetValue(this));
+            }
+        }
+
+        /// <summary>
+        /// Loads preferences for the window, if there are any.
+        /// </summary>
+        protected void LoadWindowPreferences()
+        {
+            foreach (var (field, key) in RetainableFields)
+            {
+                if (field.FieldType.IsValueType)
+                {
+                    if (typeof(int) != field.FieldType) { continue; }
+
+                    if (TryReadPreference(key, out int value))
+                    {
+                        field.SetValue(this, value);
+                    }
+                }
+                else
+                {
+                    MethodInfo tryReadPreferenceMethod = GetType().GetMethod("TryReadObjectPreference",
+                            BindingFlags.NonPublic | BindingFlags.Instance)?
+                        .MakeGenericMethod(field.FieldType);
+
+                    object[] args = { key, null };
+
+                    bool success = (bool)tryReadPreferenceMethod?.Invoke(this, args)!;
+                    if (success)
+                    {
+                        field.SetValue(this, args[1]);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Saves an object to editor preferences using a given key.
         /// </summary>
@@ -424,5 +460,8 @@
             value = EditorPrefs.GetInt(key);
             return true;
         }
+
+        #endregion
+
     }
-//}
+}
