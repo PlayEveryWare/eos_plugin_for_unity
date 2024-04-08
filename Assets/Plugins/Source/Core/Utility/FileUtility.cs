@@ -205,7 +205,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         }
 
 #if UNITY_EDITOR
-        public static void OpenFolder(string path)
+        public static void OpenDirectory(string path)
         {
             // Correctly format the path based on the operating system.
             // For Windows, the path format is fine as is.

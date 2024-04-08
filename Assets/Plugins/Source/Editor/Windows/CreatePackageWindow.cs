@@ -300,7 +300,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                 if (EditorUtility.DisplayDialog("Package Created", "Package was successfully created",
                         "Open Output Path", "Close"))
                 {
-                    FileUtility.OpenFolder(outputPath);
+                    FileUtility.OpenDirectory(outputPath);
                 }
             }
             catch (OperationCanceledException ex)
