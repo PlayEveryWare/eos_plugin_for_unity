@@ -64,6 +64,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return Path.GetFullPath(Path.Combine(Application.dataPath, "../"));
         }
 
+#if UNITY_EDITOR
         /// <summary>
         /// Generates a unique and new temporary directory inside the Temporary Cache Path as determined by Unity,
         /// and returns the fully-qualified path to the newly created directory.
@@ -115,6 +116,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             return true;
         }
 
+
         #region Line Ending Manipulations
 
         public static void ConvertDosToUnixLineEndings(string filename)
@@ -124,13 +126,39 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
 
         public static void ConvertDosToUnixLineEndings(string srcFilename, string destFilename)
         {
-            string fileContents = ReadAllText(srcFilename);
-            fileContents = fileContents.Replace("\r\n", "\n");
-            File.WriteAllText(destFilename, fileContents);
+            const byte CR = 0x0d;
+
+            var fileAsBytes = File.ReadAllBytes(srcFilename);
+
+            using (var filestream = File.OpenWrite(destFilename))
+            {
+                var writer = new BinaryWriter(filestream);
+                int filePosition = 0;
+                int indexOfDOSNewline = 0;
+
+                do
+                {
+                    indexOfDOSNewline = Array.IndexOf<byte>(fileAsBytes, CR, filePosition);
+
+                    if (indexOfDOSNewline >= 0)
+                    {
+                        writer.Write(fileAsBytes, filePosition, indexOfDOSNewline - filePosition);
+                        filePosition = indexOfDOSNewline + 1;
+                    }
+                    else if (filePosition < fileAsBytes.Length)
+                    {
+                        writer.Write(fileAsBytes, filePosition, fileAsBytes.Length - filePosition);
+                    }
+
+                } while (indexOfDOSNewline > 0);
+
+                // truncate trailing garbage.
+                filestream.SetLength(filestream.Position);
+            }
         }
 
         #endregion
-
+#endif
         /// <summary>
         /// Reads all text from the indicated file.
         /// </summary>
@@ -157,6 +185,8 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             char toReplace = Path.DirectorySeparatorChar == '\\' ? '/' : '\\';
             path = path.Replace(toReplace, Path.DirectorySeparatorChar);
         }
+
+#if UNITY_EDITOR
 
         public static void CleanDirectory(string directoryPath, bool ignoreGit = true)
         {
@@ -204,7 +234,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             }
         }
 
-#if UNITY_EDITOR
+
         public static void OpenDirectory(string path)
         {
             // Correctly format the path based on the operating system.
