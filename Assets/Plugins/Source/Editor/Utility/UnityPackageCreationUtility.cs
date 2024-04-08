@@ -147,7 +147,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         private static async Task CreateUPMTarball(string outputPath, string json_file,
             IProgress<CreatePackageProgressInfo> progress, CancellationToken cancellationToken)
         {
-            if (!FileUtility.TryGetTempDirectory(out string tempOutput))
+            if (!PackageFileUtility.TryGetTempDirectory(out string tempOutput))
             {
                 throw new BuildFailedException(
                     "Could not create temporary directory into which to place files for compression.");
