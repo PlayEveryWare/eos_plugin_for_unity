@@ -27,6 +27,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
     using Codice.Client.IssueTracker;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
@@ -77,9 +78,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     Path.Combine(FileUtility.GetProjectPath(), "Packages", "manifest.json")
                 );
 
-                Manifest manifest = JsonUtility.FromJson<Manifest>(manifestJson);
+                Manifest manifest = JsonConvert.DeserializeObject<Manifest>(manifestJson);
 
-                if (manifest.dependencies.ContainsKey(EOSPackageInfo.PackageName))
+                if (manifest != null && manifest.dependencies.ContainsKey(EOSPackageInfo.PackageName))
                 {
                     return true;
                 }

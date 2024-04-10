@@ -363,6 +363,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         {
             using StreamReader reader = new(filepath);
             string fileContents = reader.ReadToEnd();
+            reader.Close();
 
             EOSConfig eosConfig = Config.Get<EOSConfig>();
 

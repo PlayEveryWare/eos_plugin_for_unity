@@ -62,7 +62,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         protected PlatformSpecificBuilder(string nativeCodeOutputDirectory)
         {
             _nativeCodeOutputDirectory = Path.Combine(
-                BuildUtility.DeployedAsUPM ? Path.GetFullPath("Runtime") : Application.dataPath,
+                Application.dataPath,
                 nativeCodeOutputDirectory);
 
             _projectFileToBinaryFilesMap = new Dictionary<string, string[]>();
@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         protected void AddProjectFileToBinaryMapping(string projectFile, params string[] binaryFiles)
         {
             string fullyQualifiedOutputPath = Path.Combine(
-                BuildUtility.DeployedAsUPM ? Path.GetFullPath("Runtime") : Application.dataPath, 
+                Application.dataPath, 
                 _nativeCodeOutputDirectory);
 
             string[] fullyQualifiedBinaryPaths = new string[binaryFiles.Length];
@@ -149,12 +149,16 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             // Validate the configuration for the platform
             BuildUtility.ValidatePlatformConfiguration();
 
-            // Build any native libraries that need to be built for the platform
-            // TODO: Consider having the "rebuild" be a setting users can determine.
-            BuildNativeCode();
+            // Only try and build the native libraries when not deployed as a UPM.
+            if (false == BuildUtility.DeployedAsUPM)
+            {
+                // Build any native libraries that need to be built for the platform
+                // TODO: Consider having the "rebuild" be a setting users can determine.
+                BuildNativeCode();
 
-            // Validate that the binaries built are now in the correct location
-            ValidateNativeBinaries();
+                // Validate that the binaries built are now in the correct location
+                ValidateNativeBinaries();
+            }
         }
 
         /// <summary>
