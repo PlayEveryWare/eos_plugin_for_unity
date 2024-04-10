@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1526980366}
-  m_IndirectSpecularColor: {r: 1.1158099, g: 1.0351701, b: 1.0710709, a: 1}
+  m_IndirectSpecularColor: {r: NaN, g: Infinity, b: NaN, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -667,7 +667,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   threadSlider: {fileID: 468946941}
   targetUtilizationSlider: {fileID: 602240424}
-  coreSliderScript: {fileID: 241428217}
   gpuRenderObjects: {fileID: 1637510164}
   memorySlider: {fileID: 141326354}
 --- !u!1 &241428215
@@ -2644,7 +2643,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 803874765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f492d2ccc97634d44ba5b241f141deb2, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f7f072c827ea4546989fb95f9548627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 25
