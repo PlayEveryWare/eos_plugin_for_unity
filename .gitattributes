@@ -1,13 +1,37 @@
+# The following line is not git-lfs related, it simply instructs git to use the
+# C# diff driver for *.cs files, to consider them text files, and to enforce
+# a line feed as the end of line character.
 *.cs diff=csharp text eol=lf
-*.cginc text
+
+# Files to consider text, and enforce the eol being LF
+*.md   text eol=lf
+*.json text eol=lf
+*.meta text eol=lf
+*.yaml text eol=lf
+
+# Other files that should be considered text files
+*.cginc  text
 *.shader text
 
-*.mat merge=unityyamlmerge eol=lf
-*.anim merge=unityyamlmerge eol=lf
-*.unity merge=unityyamlmerge eol=lf
-*.prefab merge=unityyamlmerge eol=lf
+# Filetypes that should be considered binary files (regardless of if they are
+# stored using git-lfs):
+*.dll   binary
+*.aar   binary
+*.so    binary
+*.dylib binary
+*.exe   binary
+*.png   binary
+*.jpg   binary
+*.gif   binary
+*.ttf   binary
+
+# These files should be merged using the UnityYamlMerge diff driver:
+*.mat               merge=unityyamlmerge eol=lf
+*.anim              merge=unityyamlmerge eol=lf
+*.unity             merge=unityyamlmerge eol=lf
+*.prefab            merge=unityyamlmerge eol=lf
 *.physicsMaterial2D merge=unityyamlmerge eol=lf
-*.physicMaterial merge=unityyamlmerge eol=lf
-*.asset merge=unityyamlmerge eol=lf
-*.meta merge=unityyamlmerge eol=lf
-*.controller merge=unityyamlmerge eol=lf
+*.physicMaterial    merge=unityyamlmerge eol=lf
+*.asset             merge=unityyamlmerge eol=lf
+*.meta              merge=unityyamlmerge eol=lf
+*.controller        merge=unityyamlmerge eol=lf

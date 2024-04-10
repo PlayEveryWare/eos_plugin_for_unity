@@ -3,7 +3,25 @@ guid: e54754184689ed948b6113351d625d9a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - SceneInformation: {fileID: 11400000, guid: 7f27989ec7bd19d4f9f81899a6d00faf, type: 2}
+  - DemoTitle: {instanceID: 0}
+  - SceneSwitcherDropDown: {instanceID: 0}
+  - loginTypeDropdown: {instanceID: 0}
+  - idContainer: {instanceID: 0}
+  - idText: {instanceID: 0}
+  - idInputField: {instanceID: 0}
+  - tokenText: {instanceID: 0}
+  - tokenInputField: {instanceID: 0}
+  - tokenTooltip: {instanceID: 0}
+  - connectTypeContainer: {instanceID: 0}
+  - connectTypeDropdown: {instanceID: 0}
+  - loginButtonText: {instanceID: 0}
+  - loginButton: {instanceID: 0}
+  - logoutButton: {instanceID: 0}
+  - removePersistentTokenButton: {instanceID: 0}
+  - UIFirstSelected: {instanceID: 0}
+  - UIFindSelectable: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

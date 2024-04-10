@@ -1,24 +1,24 @@
 ﻿/*
- * Copyright (c) 2024 PlayEveryWare
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+* Copyright (c) 2024 PlayEveryWare
+* 
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+* 
+* The above copyright notice and this permission notice shall be included in all
+* copies or substantial portions of the Software.
+* 
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+* SOFTWARE.
+*/
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,10 +31,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     using Build;
     using EpicOnlineServices.Utility;
+    using System.Threading.Tasks;
     using Utility;
 
     public class InstallEOSZipWindow : EOSEditorWindow
     {
+        private const string PlatformImportInfoListFileName = "eos_platform_import_info_list.json";
+
         [Serializable]
         private class PlatformImportInfo
         {
@@ -70,67 +73,61 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         static public void UnzipEntry(ZipArchiveEntry zipEntry, string pathName)
         {
-            using (var destStream = File.OpenWrite(pathName))
-            {
-                zipEntry.Open().CopyTo(destStream);
-            }
+            using var destStream = File.OpenWrite(pathName);
+            zipEntry.Open().CopyTo(destStream);
         }
 
-        
+
         static public void UnzipFile(string pathToZipFile, string dest)
         {
             // unzip files
-            using (var filestream = new FileStream(pathToZipFile, FileMode.Open))
+            using var filestream = new FileStream(pathToZipFile, FileMode.Open);
+            using var zipArchive = new ZipArchive(filestream);
+            string extraPath = "";
+            //search for guaranteed file to check if SDK root is inside any extraneous subfolders
+            foreach (var zipEntry in zipArchive.Entries)
             {
-                using (var zipArchive = new ZipArchive(filestream))
+                if (zipEntry.FullName.EndsWith("SDK/Tools/EOSBootstrapper.exe"))
                 {
-                    string extraPath = "";
-                    //search for guaranteed file to check if SDK root is inside any extraneous subfolders
-                    foreach (var zipEntry in zipArchive.Entries)
-                    {
-                        if (zipEntry.FullName.EndsWith("SDK/Tools/EOSBootstrapper.exe"))
-                        {
-                            extraPath = zipEntry.FullName.Replace("SDK/Tools/EOSBootstrapper.exe", "");
-                            break;
-                        }
-                    }
-
-                    int zipCount = zipArchive.Entries.Count;
-                    float i = 0.0f;
-                    foreach (var zipEntry in zipArchive.Entries)
-                    {
-                        if (string.IsNullOrWhiteSpace(zipEntry.Name))
-                        {
-                            i += 1.0f;
-                            continue;
-                        }
-
-                        EditorUtility.DisplayProgressBar("Unzipping file", "Unzipping " + Path.GetFileName(pathToZipFile), i / zipCount);
-                        string targetPath = zipEntry.FullName;
-                        if (!string.IsNullOrEmpty(extraPath))
-                        {
-                            targetPath = targetPath.Replace(extraPath, "");
-                        }
-                        string pathName = Path.Combine(dest, targetPath);
-                        string parentDirectory = Path.GetDirectoryName(pathName);
-                        if (!Directory.Exists(parentDirectory))
-                        {
-                            Directory.CreateDirectory(parentDirectory);
-                        }
-
-                        UnzipEntry(zipEntry, pathName);
-                        i += 1.0f;
-                    }
-                    EditorUtility.ClearProgressBar();
+                    extraPath = zipEntry.FullName.Replace("SDK/Tools/EOSBootstrapper.exe", "");
+                    break;
                 }
             }
+
+            int zipCount = zipArchive.Entries.Count;
+            float i = 0.0f;
+            foreach (var zipEntry in zipArchive.Entries)
+            {
+                if (string.IsNullOrWhiteSpace(zipEntry.Name))
+                {
+                    i += 1.0f;
+                    continue;
+                }
+
+                EditorUtility.DisplayProgressBar("Unzipping file", "Unzipping " + Path.GetFileName(pathToZipFile), i / zipCount);
+                string targetPath = zipEntry.FullName;
+                if (!string.IsNullOrEmpty(extraPath))
+                {
+                    targetPath = targetPath.Replace(extraPath, "");
+                }
+                string pathName = Path.Combine(dest, targetPath);
+                string parentDirectory = Path.GetDirectoryName(pathName);
+                if (!Directory.Exists(parentDirectory))
+                {
+                    Directory.CreateDirectory(parentDirectory);
+                }
+
+                UnzipEntry(zipEntry, pathName);
+                i += 1.0f;
+            }
+            EditorUtility.ClearProgressBar();
         }
-        
+
         protected override void Setup()
         {
-            pathToImportDescDirectory = Application.dataPath + "/../etc/EOSImportDesriptions/";
-            var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + "eos_platform_import_info_list.json");
-            importInfoList = JsonUtility.FromJson<PlatformImportInfoList>(JSONPackageDescription);
+            pathToImportDescDirectory = Path.Combine(FileUtility.GetProjectPath(), "etc/EOSImportDesriptions/", PlatformImportInfoListFileName);
+            string json = File.ReadAllText(pathToImportDescDirectory);
+            importInfoList = JsonUtility.FromJson<PlatformImportInfoList>(json);
         }
 
         private void DrawPresets()
@@ -188,15 +185,16 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             }
             GUILayout.EndHorizontal();
         }
-        
+
         protected override void RenderWindow()
         {
             GUILayout.Label("Install EOS Files into project");
-            
+
             DrawPresets();
             foreach (var platformImportInfo in importInfoList.platformImportInfoList)
             {
-                GUIEditorUtility.AssigningBoolField(platformImportInfo.platform, ref platformImportInfo.isGettingImported, 300);
+                GUIEditorUtility.AssigningBoolField(platformImportInfo.platform,
+                    ref platformImportInfo.isGettingImported, 300);
             }
 
             GUILayout.Label("");
@@ -206,13 +204,12 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
             {
                 pathToZipFile = EditorUtility.OpenFilePanel("Pick Zip File", "", "zip");
             }
+
             GUILayout.Label(pathToZipFile);
             GUILayout.EndHorizontal();
 
-            if (GUILayout.Button("Install"))
+            if (GUILayout.Button("Install") && PackageFileUtility.TryGetTempDirectory(out string tmpDir))
             {
-                string tmpDir = PackageFileUtility.GenerateTemporaryBuildPath();
-
                 try
                 {
                     UnzipFile(pathToZipFile, tmpDir);
@@ -230,9 +227,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     for (int i = 0; i < toConvert.Count; ++i)
                     {
                         var entity = toConvert[i];
-                        EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity), (float)i / toConvert.Count);
-                        PackageFileUtility.Dos2UnixLineEndings(entity);
+                        EditorUtility.DisplayProgressBar("Converting line endings", Path.GetFileName(entity),
+                            (float)i / toConvert.Count);
+                        FileUtility.ConvertDosToUnixLineEndings(entity);
                     }
+
                     EditorUtility.ClearProgressBar();
 
 
@@ -240,13 +239,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     {
                         if (platformImportInfo.isGettingImported)
                         {
-                            var JSONPackageDescription = File.ReadAllText(pathToImportDescDirectory + platformImportInfo.descPath);
-                            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
+                            string path = pathToImportDescDirectory + platformImportInfo.descPath;
+                            string json = File.ReadAllText(path);
+                            var packageDescription =
+                                JsonUtility.FromJson<PackageDescription>(json);
 
-                            var fileResults = PackageFileUtility.GetFileInfoMatchingPackageDescription(tmpDir, packageDescription);
+                            var fileResults =
+                                PackageFileUtility.FindPackageFiles(tmpDir,
+                                    packageDescription);
                             // This should be the correct directory
-                            var projectDir = PackageFileUtility.GetProjectPath();
-                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults);
+                            var projectDir = FileUtility.GetProjectPath();
+                            // TODO: Async not tested here.
+                            PackageFileUtility.CopyFilesToDirectory(projectDir, fileResults).Wait();
                         }
                     }
 
@@ -257,6 +261,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                     Directory.Delete(tmpDir, true);
                 }
             }
+
         }
     }
 }

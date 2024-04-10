@@ -24,33 +24,185 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Linq;
-
-#if UNITY_EDITOR // only use reflection in the editor
+    using System.Threading.Tasks;
+    using UnityEditor;
+    using UnityEngine;
     using System.Collections.Generic;
-    using System.Reflection;
-#endif
+    using System.Reflection;   
+    using System.IO;
+
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
     /// Unity
     /// </summary>
     [Serializable]
-    public abstract class Config : ICloneable
+    public abstract class Config
+#if UNITY_EDITOR
+        : ICloneable
+#endif
     {
-#if UNITY_EDITOR // Cloning, and determining equality or default-ness of a Config only happens in the editor.
+        protected readonly string Filename;
+        protected readonly string Directory;
+
+        private string _lastReadJsonString;
+
+        protected Config(string filename) : this(filename, Path.Combine(Application.streamingAssetsPath, "EOS")) { }
+
+        protected Config(string filename, string directory)
+        {
+            Filename = filename;
+            Directory = directory;
+        }
+
         /// <summary>
-        /// Determines whether or not the values in the Config have their
+        /// Retrieves the indicated Config object, reading its values into memory.
+        /// </summary>
+        /// <typeparam name="T">The Config to retrieve.</typeparam>
+        /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
+        public static async Task<T> GetAsync<T>() where T : Config, new()
+        {
+            T instance = new();
+            await instance.ReadAsync();
+            return instance;
+        }
+
+        /// <summary>
+        /// Retrieves the indicated Config object, reading its values into memory.
+        /// </summary>
+        /// <typeparam name="T">The Config to retrieve.</typeparam>
+        /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
+        public static T Get<T>() where T : Config, new()
+        {
+            T instance = new();
+            instance.Read();
+            return instance;
+        }
+
+        /// <summary>
+        /// Returns the fully-qualified path to the file that holds the configuration values.
+        /// </summary>
+        public string FilePath
+        {
+            get
+            {
+                return Path.Combine(Directory, Filename);
+            }
+        }
+
+        protected virtual async Task ReadAsync()
+        {
+            bool configFileExists = File.Exists(FilePath);
+
+            // If the file does not already exist, then save it before reading it, a default
+            // json will be put in the correct place, and therefore a default set of config
+            // values will be loaded.
+            if (!configFileExists)
+            {
+                // This conditional exists because writing a config file is only something
+                // that should ever happen in the editor.
+#if UNITY_EDITOR
+                // If the config file does not currently exist, create it 
+                // when it is being read (which is fair to do in the editor)
+                await WriteAsync();
+#else
+                // If the editor is not running, then the config file not
+                // existing should throw an error.
+                throw new FileNotFoundException($"Config file \"{FilePath}\" does not exist.");
+#endif
+            }
+
+            using StreamReader reader = new(FilePath);
+            _lastReadJsonString = await reader.ReadToEndAsync();
+            JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+        }
+
+        protected virtual void Read()
+        {
+            bool configFileExists = File.Exists(FilePath);
+
+            if (configFileExists)
+            {
+                using StreamReader reader = new(FilePath);
+                _lastReadJsonString = reader.ReadToEnd();
+                JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
+            }
+            else
+            {
+#if UNITY_EDITOR
+                Write();
+#else
+                throw new FileNotFoundException($"Config file \"{FilePath}\" does not exist.");
+#endif
+            }
+        }
+
+        // Functions declared below should only ever be utilized in the editor. They are 
+        // so divided to guarantee separation of concerns.
+#if UNITY_EDITOR
+
+        /// <summary>
+        /// Asynchronously writes the configuration value to file.
+        /// </summary>
+        /// <param name="prettyPrint">Whether to output "pretty" JSON to the file.</param>
+        /// <param name="updateAssetDatabase">Indicates whether to update the asset database after writing.</param>
+        /// <returns>Task</returns>
+        public virtual async Task WriteAsync(bool prettyPrint = true, bool updateAssetDatabase = true)
+        {
+            FileInfo configFile = new(FilePath);
+            configFile.Directory?.Create();
+
+            await using (StreamWriter writer = new(FilePath))
+            {
+                var json = JsonUtility.ToJson(this, prettyPrint);
+                await writer.WriteAsync(json);
+            }
+
+            // If the asset database should be updated, then do the thing.
+            //if (updateAssetDatabase)
+            //{
+            //    await Task.Run(() =>
+            //    {
+            //        AssetDatabase.SaveAssets();
+            //        AssetDatabase.Refresh();
+            //    });
+            //}
+        }
+
+        /// <summary>
+        /// Synchronously writes the configuration value to file.
+        /// </summary>
+        /// <param name="prettyPrint">Whether to output "pretty" JSON to the file.</param>
+        /// <param name="updateAssetDatabase">Indicates whether to update the asset database after writing.</param>
+        public virtual void Write(bool prettyPrint = true, bool updateAssetDatabase = true)
+        {
+            FileInfo configFile = new(FilePath);
+            configFile.Directory?.Create();
+
+            using StreamWriter writer = new (FilePath);
+            var json = JsonUtility.ToJson(this, prettyPrint);
+            writer.Write(json);
+
+            if (updateAssetDatabase)
+            {
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+        }
+
+
+        /// <summary>
+        /// Determines whether the values in the Config have their
         /// default values
         /// </summary>
         /// <returns>
-        /// True if the Config has it's default values, false otherwise.
+        /// True if the Config has its default values, false otherwise.
         /// </returns>
         public bool IsDefault()
         {
             return IsDefault(this);
         }
-
-#endif
 
 
         /// <summary>
@@ -63,7 +215,6 @@ namespace PlayEveryWare.EpicOnlineServices
             return this.MemberwiseClone();
         }
 
-#if UNITY_EDITOR
         #region Functions to help determine if a config has default values
 
         /// <summary>

@@ -12,4 +12,4 @@ This demo showcases the custom invite functionality allowing for messaging with 
 
 
 > [!NOTE] 
-> More documentation on the Custom Invites interface can be found [here](https://dev.epicgames.com/docs/game-services/custom-invites-interface).
+> See [Epic's documentation on the Custom Invites interface](https://dev.epicgames.com/docs/game-services/custom-invites-interface) for more information.

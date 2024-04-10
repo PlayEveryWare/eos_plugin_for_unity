@@ -2313,8 +2313,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1158252006}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnDropdownChange
+        m_TargetAssemblyTypeName: PlayEveryWare.EpicOnlineServices.Samples.UILoginMenu,
+          com.playeveryware.eos.samples
+        m_MethodName: OnLoginTypeChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3233,6 +3234,7 @@ MonoBehaviour:
   OnLogout:
     m_PersistentCalls:
       m_Calls: []
+  SceneInformation: {fileID: 11400000, guid: 7f27989ec7bd19d4f9f81899a6d00faf, type: 2}
   UIFirstSelected: {fileID: 5557305858590710653}
   UIFindSelectable: {fileID: 0}
 --- !u!114 &267222081342121065
@@ -4008,54 +4010,10 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options:
-    - m_Text: '[Select Demo Scene]'
-      m_Image: {fileID: 0}
-    - m_Text: Achievements
-      m_Image: {fileID: 0}
-    - m_Text: Auth & Friends
-      m_Image: {fileID: 0}
-    - m_Text: Custom Invites
-      m_Image: {fileID: 0}
-    - m_Text: Leaderboards
-      m_Image: {fileID: 0}
-    - m_Text: Lobbies
-      m_Image: {fileID: 0}
-    - m_Text: Metrics
-      m_Image: {fileID: 0}
-    - m_Text: Peer 2 Peer
-      m_Image: {fileID: 0}
-    - m_Text: Performance Stress Test
-      m_Image: {fileID: 0}
-    - m_Text: Player Data Storage
-      m_Image: {fileID: 0}
-    - m_Text: Player Reports & Sanctions
-      m_Image: {fileID: 0}
-    - m_Text: Sessions & Matchmaking
-      m_Image: {fileID: 0}
-    - m_Text: Store
-      m_Image: {fileID: 0}
-    - m_Text: Title Storage
-      m_Image: {fileID: 0}
-    - m_Text: P2P Netcode
-      m_Image: {fileID: 0}
-    - m_Text: High Frequency P2P
-      m_Image: {fileID: 0}
+    m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1158252006}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: OnDemoSceneChange
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_AlphaFadeSpeed: 0.15
 --- !u!114 &8443061495434532995
 MonoBehaviour:
@@ -4455,7 +4413,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[Select Demo Scene]'
+  m_Text: 
 --- !u!1 &7741696142291567263
 GameObject:
   m_ObjectHideFlags: 0

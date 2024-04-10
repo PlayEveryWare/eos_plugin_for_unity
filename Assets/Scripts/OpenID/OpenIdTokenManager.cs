@@ -28,6 +28,8 @@ using UnityEngine.Networking;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples.OpenId
 {
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+
     //This sample uses a Google Cloud Function to implement a basic OpenID authentication server.
     //Before using the OpenIdRequestManager, a NodeJS cloud function must be created on Google Cloud Platform
     //using the index.js and package.json files found in the CloudFunction directory and a private key added by setting an environment variable named SECRET.

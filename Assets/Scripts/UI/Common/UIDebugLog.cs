@@ -336,7 +336,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 UIDebugLogText.text = GetLastEntries();
                 if (!userScroll)
                 {
-                    Invoke("ScrollToBottom", 0.1f);
+                    Invoke(nameof(ScrollToBottom), 0.1f);
                 }
             }
 

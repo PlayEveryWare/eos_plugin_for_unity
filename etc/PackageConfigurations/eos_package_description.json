@@ -1,14 +1,18 @@
 {
     "source_to_dest": [
-        {"src":"etc/PackageTemplate/CHANGELOG.md", "dest" : "CHANGELOG.md"},
-        {"src":"etc/PackageTemplate/CHANGELOG.md.meta", "dest" : ""},
-        {"src":"license.md", "dest" : "LICENSE.md"},
-        {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
+        {"src":"Assets/Resources/SourceCodePro.ttf", "dest":"Samples~/Samples/StandardSamples/Materials/"},
+        {"src":"Assets/Resources/SourceCodePro.ttf.meta", "dest":"Samples~/Samples/StandardSamples/Materials/"},
+        {"src":"CHANGELOG.md", "dest" : "CHANGELOG.md"},
+        {"src":"LICENSE.md", "dest": "LICENSE.md" },
+        {"src":"README.md", "dest": "README.md" },
         {"src":"etc/PackageTemplate/package.json", "dest" : ""},
         {"src":"etc/PackageTemplate/package.json.meta", "dest" : ""},
-
-        {"src":"docs/upm_readme.md", "dest" : "README.md"},
+        {"src":"etc/PackageTemplate/README.md", "dest" : ""},
         {"src":"etc/PackageTemplate/README.md.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/CHANGELOG.md", "dest" : ""},
+        {"src":"etc/PackageTemplate/CHANGELOG.md.meta", "dest" : ""},
+        {"src":"etc/PackageTemplate/LICENSE.md", "dest" : ""},
+        {"src":"etc/PackageTemplate/LICENSE.md.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/Editor.meta", "dest" : ""},
         {"src":"etc/PackageTemplate/Runtime.meta", "dest" : ""},
         {"src":"docs/class_description.md", "dest" : "Documentation~/"},
@@ -35,7 +39,12 @@
         {"src":"Assets/Plugins/Source/Core/*.asmdef.meta", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs", "dest": "Runtime/Core/"},
         {"src":"Assets/Plugins/Source/Core/*.cs.meta", "dest": "Runtime/Core/"},
-        
+        {"src":"Assets/Plugins/Source/Core/Utility.meta", "dest": "Runtime/Core/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/*.cs", "dest": "Runtime/Core/Utility/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/*.cs.meta", "dest": "Runtime/Core/Utility/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions.meta", "dest": "Runtime/Core/Utility/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions/*.cs", "dest": "Runtime/Core/Utility/Extensions/"},
+        {"src":"Assets/Plugins/Source/Core/Utility/Extensions/*.cs.meta", "dest": "Runtime/Core/Utility/Extensions/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/com.playeveryware.eos-Editor.asmdef.meta", "dest": "Editor/"},
         {"src":"Assets/Plugins/Source/Editor/csc.rsp", "dest": "Editor/"},
@@ -45,11 +54,48 @@
         {"src":"Assets/Plugins/Source/Editor/*.cs.meta", "dest": "Editor/"},
         
         {"src":"Assets/Plugins/Source/Editor/Utility.meta", "dest": "Editor/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs", "dest": "Editor/Utility/"},
-        {"src":"Assets/Plugins/Source/Editor/Utility/*.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/EACUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/EACUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/ScriptingDefineUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/ScriptingDefineUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/GUIEditorUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/GUIEditorUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/BuildUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/BuildUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/UnityPackageCreationUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/UnityPackageCreationUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs.meta", "dest": "Editor/Utility/"},
+
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/*.cs", "dest": "Editor/Utility/Steam/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/*.cs.meta", "dest": "Editor/Utility/Steam/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/com.playeveryware.eos-Editor.steam.utility.asmdef", "dest": "Editor/Utility/Steam/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/Steam/com.playeveryware.eos-Editor.steam.utility.asmdef.meta", "dest": "Editor/Utility/Steam/"},
+
+        {"src":"Assets/Plugins/Source/Editor/Build.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Build/*.cs", "dest": "Editor/Build/"},
+        {"src":"Assets/Plugins/Source/Editor/Build/*.cs.meta", "dest": "Editor/Build/"},
+
+        {"src":"Assets/Plugins/Source/Editor/ConfigEditors.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/ConfigEditors/*.cs", "dest": "Editor/ConfigEditors/"},
+        {"src":"Assets/Plugins/Source/Editor/ConfigEditors/*.cs.meta", "dest": "Editor/ConfigEditors/"},
+
+        {"src":"Assets/Plugins/Source/Editor/Configs.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Configs/*.cs", "dest": "Editor/Configs/"},
+        {"src":"Assets/Plugins/Source/Editor/Configs/*.cs.meta", "dest": "Editor/Configs/"},
         
+        {"src":"Assets/Plugins/Source/Editor/Windows.meta", "dest": "Editor/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSEditorWindow.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSEditorWindow.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSPluginSettingsWindow.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSPluginSettingsWindow.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSSettingsWindow.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/EOSSettingsWindow.cs.meta", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/PluginVersionWindow.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Source/Editor/Windows/PluginVersionWindow.cs.meta", "dest": "Editor/Windows/"},
+        
+
         {"comment": "----------------------------Standalone---------------------------------------------"},
         {"src":"Assets/Plugins/Standalone/Editor.meta", "dest": "Editor/Standalone.meta"},
         {"src":"Assets/Plugins/Standalone/Editor/*", "dest": "Editor/Standalone/"},
@@ -74,8 +120,17 @@
         {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt", "dest": "Runtime/windows/x86/"},
         {"src":"Assets/Plugins/Windows/x86/ThirdPartySoftwareNotice.txt.meta", "dest": "Runtime/windows/x86/"},
 
+        {"src":"Assets/Plugins/Windows/Core.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/Core/*.cs", "dest": "Runtime/Windows/Core/"},
+        {"src":"Assets/Plugins/Windows/Core/*.cs.meta", "dest": "Runtime/Windows/Core/"},
+        {"src":"Assets/Plugins/Windows/Editor.meta", "dest": "Editor/Windows.meta"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs", "dest": "Editor/Windows/"},
+        {"src":"Assets/Plugins/Windows/Editor/*.cs.meta", "dest": "Editor/Windows/"},
+
         {"src":"Assets/Plugins/Windows/*.cs", "dest": "Runtime/Windows/"},
         {"src":"Assets/Plugins/Windows/*.cs.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/Core.meta", "dest": "Runtime/Windows/"},
+        {"src":"Assets/Plugins/Windows/Core/*", "dest": "Runtime/Windows/Core/"},
 
         {"src":"etc/PlatformSpecificAssets/EOS/Windows/EOSBootstrapper.exe", "dest": "PlatformSpecificAssets~/EOS/Windows/"},
         {"src":"tools/bin/EOSBootstrapperTool.exe", "dest": "bin~/"},
@@ -399,9 +454,6 @@
 
         {"comment": "--------------------------------End Prerelease platforms-----------------------------------------"},
 
-
-        {"src":"etc/PackageTemplate/.sample.json", "dest" : ""},
-
         {"src":"Assets/Prefab.meta", "dest": "Samples~/Samples/StandardSamples/"},
         {"src":"Assets/Prefab/*.prefab", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
         {"src":"Assets/Prefab/*.prefab.meta", "dest": "Samples~/Samples/StandardSamples/Prefab/"},
@@ -411,12 +463,73 @@
         {"src":"Assets/Scripts/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
         {"src":"Assets/Scripts/*.asmdef.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
         {"src":"Assets/Scripts/*.asmdef", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
-        {"src":"Assets/Scripts/UI.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI.meta"},
+       
         {"src":"Assets/Scripts/UI/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
         {"src":"Assets/Scripts/UI/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/"},
-        {"src":"Assets/Scripts/Util.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util.meta"},
-        {"src":"Assets/Scripts/Util/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
-        {"src":"Assets/Scripts/Util/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Util/"},
+        {"src":"Assets/Scripts/UI/Achievements.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Achievements.meta"},
+        {"src":"Assets/Scripts/UI/Achievements/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Achievements/"},
+        {"src":"Assets/Scripts/UI/Achievements/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Achievements/"},
+        {"src":"Assets/Scripts/UI/Common.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Common.meta"},
+        {"src":"Assets/Scripts/UI/Common/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Common/"},
+        {"src":"Assets/Scripts/UI/Common/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Common/"},
+        {"src":"Assets/Scripts/UI/CustomInvites.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/CustomInvites.meta"},
+        {"src":"Assets/Scripts/UI/CustomInvites/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/CustomInvites/"},
+        {"src":"Assets/Scripts/UI/CustomInvites/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/CustomInvites/"},
+        {"src":"Assets/Scripts/UI/Friends.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Friends.meta"},
+        {"src":"Assets/Scripts/UI/Friends/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Friends/"},
+        {"src":"Assets/Scripts/UI/Friends/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Friends/"},
+        {"src":"Assets/Scripts/UI/Leaderboard.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Leaderboard.meta"},
+        {"src":"Assets/Scripts/UI/Leaderboard/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Leaderboard/"},
+        {"src":"Assets/Scripts/UI/Leaderboard/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Leaderboard/"},
+        {"src":"Assets/Scripts/UI/Lobbies.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Lobbies.meta"},
+        {"src":"Assets/Scripts/UI/Lobbies/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Lobbies/"},
+        {"src":"Assets/Scripts/UI/Lobbies/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Lobbies/"},
+        {"src":"Assets/Scripts/UI/Login.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Login.meta"},
+        {"src":"Assets/Scripts/UI/Login/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Login/"},
+        {"src":"Assets/Scripts/UI/Login/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Login/"},
+        {"src":"Assets/Scripts/UI/MatchMaking.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/MatchMaking.meta"},
+        {"src":"Assets/Scripts/UI/MatchMaking/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/MatchMaking/"},
+        {"src":"Assets/Scripts/UI/MatchMaking/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/MatchMaking/"},
+        {"src":"Assets/Scripts/UI/Metrics.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Metrics.meta"},
+        {"src":"Assets/Scripts/UI/Metrics/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Metrics/"},
+        {"src":"Assets/Scripts/UI/Metrics/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Metrics/"},
+        
+        {"src":"Assets/Scripts/UI/Peer2Peer.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Peer2Peer.meta"},
+        {"src":"Assets/Scripts/UI/Peer2Peer/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Peer2Peer/"},
+        {"src":"Assets/Scripts/UI/Peer2Peer/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Peer2Peer/"},
+        {"src":"Assets/Scripts/UI/Peer2Peer/HighFrequency.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Peer2Peer/HighFrequency.meta"},
+        {"src":"Assets/Scripts/UI/Peer2Peer/HighFrequency/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Peer2Peer/HighFrequency/"},
+        {"src":"Assets/Scripts/UI/Peer2Peer/HighFrequency/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Peer2Peer/HighFrequency/"},
+        
+        {"src":"Assets/Scripts/UI/PlayerReports.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/PlayerReports.meta"},
+        {"src":"Assets/Scripts/UI/PlayerReports/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/PlayerReports/"},
+        {"src":"Assets/Scripts/UI/PlayerReports/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/PlayerReports/"},
+        
+        {"src":"Assets/Scripts/UI/Storage.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage.meta"},
+        {"src":"Assets/Scripts/UI/Storage/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage/"},
+        {"src":"Assets/Scripts/UI/Storage/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage/"},
+
+        {"src":"Assets/Scripts/UI/Storage/Player.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage/"},
+        {"src":"Assets/Scripts/UI/Storage/Player/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage/Player/"},
+        {"src":"Assets/Scripts/UI/Storage/Player/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage/Player/"},
+
+        {"src":"Assets/Scripts/UI/Storage/Title.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage/"},
+        {"src":"Assets/Scripts/UI/Storage/Title/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage/Title/"},
+        {"src":"Assets/Scripts/UI/Storage/Title/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Storage/Title/"},
+
+        {"src":"Assets/Scripts/UI/Store.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store.meta"},
+        {"src":"Assets/Scripts/UI/Store/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
+        {"src":"Assets/Scripts/UI/Store/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/UI/Store/"},
+
+        {"src":"Assets/Scripts/Utility.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/"},
+        {"src":"Assets/Scripts/Utility/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
+        {"src":"Assets/Scripts/Utility/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
+        
+        {"src":"Assets/Scripts/Utility/Extensions.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/"},
+        {"src":"Assets/Scripts/Utility/Extensions/*.cs", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/Extensions/"},
+        {"src":"Assets/Scripts/Utility/Extensions/*.cs.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Utility/Extensions/"},
+        
+
         {"src":"Assets/Scripts/Core.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Core.meta"},
         {"src":"Assets/Scripts/Core/*", "dest": "Samples~/Samples/StandardSamples/Scripts/Core/"},
         {"src":"Assets/Scripts/Steam.meta", "dest": "Samples~/Samples/StandardSamples/Scripts/Steam.meta"},
@@ -437,7 +550,8 @@
         {"src":"Assets/Scenes/StandardSamples.meta", "dest": "Samples~/Samples/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
         {"src":"Assets/Scenes/StandardSamples/*.unity.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
-            
+        {"src":"Assets/Scenes/SampleScenes.asset", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
+        {"src":"Assets/Scenes/SampleScenes.asset.meta", "dest": "Samples~/Samples/StandardSamples/Scenes/"},
         {"src":"Assets/Materials/StandardSamplesMaterials.meta", "dest": "Samples~/Samples/StandardSamples/Materials.meta"},
         {"src":"Assets/Materials/StandardSamplesMaterials/*", "dest": "Samples~/Samples/StandardSamples/Materials/"},
 
@@ -452,7 +566,9 @@
         {"src":"Assets/Materials/NetcodeMaterials/*", "dest": "Samples~/Samples/P2PNetcodeSample/Materials/"},
 
         {"src":"Assets/Scripts/Networking.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/Networking.meta"},
-        {"src":"Assets/Scripts/Networking/*", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/Networking/"},
+        {"src":"Assets/Scripts/Networking/*.cs", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/Networking/"},
+        {"src":"Assets/Scripts/Networking/*.cs.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/Networking/"},
+        
         {"src":"Assets/Scripts/UI/P2PNetcode.meta", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/UI.meta"},
         {"src":"Assets/Scripts/UI/P2PNetcode/*", "dest": "Samples~/Samples/P2PNetcodeSample/Scripts/UI/"},
 
@@ -477,9 +593,9 @@
 	{"comment": "-------------------------------End Performance Stress Test Sample-----------------------------------------"},
 
 
-        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/"},
-        {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/Readme/"},
-        {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/Readme/"}
+        {"src":"Assets/Readme.meta", "dest": "Samples~/Samples/StandardSamples/"},
+        {"src":"Assets/Readme/*.txt", "dest": "Samples~/Samples/StandardSamples/Readme/"},
+        {"src":"Assets/Readme/*.txt.meta", "dest": "Samples~/Samples/StandardSamples/Readme/"}
     ],
     "blacklist": [
         "*.png"

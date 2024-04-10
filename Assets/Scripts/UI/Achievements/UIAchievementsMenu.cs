@@ -28,10 +28,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
 using Epic.OnlineServices;
 using Epic.OnlineServices.Achievements;
 using Epic.OnlineServices.Ecom;
@@ -88,12 +84,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void OnEnable()
         {
-            achievementManager.AddNotifyAchievementDataUpdated(OnAchievementDataUpdated);
+            achievementManager?.AddNotifyAchievementDataUpdated(OnAchievementDataUpdated);
         }
 
         private void OnDisable()
         {
-            achievementManager.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
+            achievementManager?.RemoveNotifyAchievementDataUpdated(OnAchievementDataUpdated);
         }
 
         private void OnDestroy()
@@ -101,22 +97,20 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             EOSManager.Instance.RemoveManager<EOSAchievementManager>();
         }
 
-#if ENABLE_INPUT_SYSTEM
         private void Update()
         {
             // Controller: Detect if nothing is selected and controller input detected, and set default
-            var gamepad = Gamepad.current;
-
-            if (UIFirstSelected.activeSelf == true
-                && EventSystem.current != null && EventSystem.current.currentSelectedGameObject == null
-                && gamepad != null && gamepad.wasUpdatedThisFrame)
+            if (UIFirstSelected.activeSelf != true
+                || EventSystem.current == null || EventSystem.current.currentSelectedGameObject != null
+                || !InputUtility.WasGamepadUsedLastFrame())
             {
-                // Controller
-                EventSystem.current.SetSelectedGameObject(UIFirstSelected);
-                Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
+                return;
             }
+
+            // Controller
+            EventSystem.current.SetSelectedGameObject(UIFirstSelected);
+            Debug.Log("Nothing currently selected, default to UIFirstSelected: EventSystem.current.currentSelectedGameObject = " + EventSystem.current.currentSelectedGameObject);
         }
-#endif
 
         public void ShowMenu()
         {

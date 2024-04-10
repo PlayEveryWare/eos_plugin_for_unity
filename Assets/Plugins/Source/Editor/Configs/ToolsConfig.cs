@@ -23,15 +23,16 @@
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     using System;
-    using Config = EpicOnlineServices.Config;
-
+    
     /// <summary>
     /// Represents the EOS Plugin Configuration used for values that might 
     /// vary depending  on the environment that one is running Unity from.
     /// </summary>
     [Serializable]
-    public class ToolsConfig : Config
+    public class ToolsConfig : EditorConfig
     {
+        public ToolsConfig() : base("eos_plugin_tools_config.json") { }
+
         /// <value><c>Path To EAC integrity tool</c> The path to find the tool used for generating EAC certs</value>
         public string pathToEACIntegrityTool;
         public string pathToEACIntegrityConfig;

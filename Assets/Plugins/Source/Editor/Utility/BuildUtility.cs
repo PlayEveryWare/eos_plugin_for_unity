@@ -26,7 +26,10 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
+    using Codice.Client.IssueTracker;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using PlayEveryWare.EpicOnlineServices.Utility;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -38,8 +41,58 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor.Build;
     using Debug = UnityEngine.Debug;
 
+    /// <summary>
+    /// Contains functions to carry out a variety of tasks related to building.
+    /// </summary>
     public static class BuildUtility
     {
+        private static Nullable<bool> s_isDeployedAsUPM;
+
+        private class Manifest
+        {
+            public Dictionary<string, string> dependencies;
+        }
+
+        /// <summary>
+        /// Whether the plugin is deployed as a UPM or not.
+        /// </summary>
+        public static bool DeployedAsUPM
+        {
+            get
+            {
+                s_isDeployedAsUPM ??= IsDeployedAsUPM();
+
+                return s_isDeployedAsUPM.Value;
+            }
+        }
+
+        /// <summary>
+        /// Determine if deployed as UPM by checking to see if the manifest has an entry for the package.
+        /// </summary>
+        /// <returns>True if the plugin is deployed as UPM, false otherwise.</returns>
+        private static bool IsDeployedAsUPM()
+        {
+            try
+            {
+                string manifestJson = FileUtility.ReadAllText(
+                    Path.Combine(FileUtility.GetProjectPath(), "Packages", "manifest.json")
+                );
+
+                Manifest manifest = JsonConvert.DeserializeObject<Manifest>(manifestJson);
+
+                if (manifest != null && manifest.dependencies.ContainsKey(EOSPackageInfo.PackageName))
+                {
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"There was a problem determining if deployed via UPM: \"{e.Message}\".");
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Contains information regarding a specific installation of Visual Studio.
         /// </summary>
@@ -59,6 +112,19 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             /// The toolsets that are installed with the installation of Visual Studio.
             /// </summary>
             public string[] Toolsets;
+        }
+
+        /// <summary>
+        /// Delegate defining the function signature of a function capable of building the native code at the indicated project file path.
+        /// </summary>
+        /// <param name="projectFilePath">Path to the project file.</param>
+        /// <param name="binaryOutput">Location to output the results to.</param>
+        /// <returns>True if the build was successful, false otherwise.</returns>
+        private delegate bool BuildNativeLibraryDelegate(string projectFilePath, string binaryOutput);
+
+        static BuildUtility()
+        {
+            FindVSInstallations();
         }
 
         /// <summary>
@@ -243,13 +309,40 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                     Debug.LogWarning($"PlatformToolset \"{toolset}\" is missing for VS {vs.Version.Major}.");
                 }
 
-                installation = vs;
-                return true;
+                // If there are no missing toolsets, then return this installation as the installation to use.
+                if (0 == missingToolsets.Count)
+                {
+                    installation = vs;
+                    return true;
+                }
             }
 
-            Debug.LogWarning($"Cannot find installation of Visual Studio of major version {vsVersionRequired.Major}");
+            Debug.LogWarning($"Cannot find installation of Visual Studio of major version {vsVersionRequired.Major} containing the requisite platform toolsets.");
             installation = null;
             return false;
+        }
+
+        /// <summary>
+        /// Given a project filepath, return a function capable of building the project at the indicated path.
+        /// </summary>
+        /// <param name="projectFilePath">The path to the project to be built.</param>
+        /// <returns>A delegate function to use to build the project at the given filepath.</returns>
+        /// <exception cref="NotImplementedException">If the project path contains a project type that is not supported, this will be thrown.</exception>
+        private static BuildNativeLibraryDelegate FindNativeLibraryBuildFunction(string projectFilePath)
+        {
+            if (Path.GetExtension(projectFilePath) == ".sln")
+            {
+                return BuildFromSolutionFile;
+            }
+            else if (Path.GetFileName(projectFilePath) == "Makefile")
+            {
+                return BuildFromMakefile;
+            }
+            else
+            {
+                throw new NotImplementedException(
+                    $"Unfamiliar with type of project file at \"{projectFilePath}\". Current supported project files are solution (.sln) files, or makefiles (Makefile).");
+            }
         }
 
         /// <summary>
@@ -259,23 +352,13 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="projectFilePath">Fully-qualified path to the project file to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
         /// <exception cref="BuildFailedException">If building fails, a BuildFailedException is thrown.</exception>
-        public static void BuildNativeLibrary(string projectFilePath, string binaryOutput)
+        public static bool BuildNativeLibrary(string projectFilePath, string binaryOutput)
         {
             Debug.Log($"Building native libraries from project file {projectFilePath}");
 
-            if (Path.GetExtension(projectFilePath) == ".sln")
-            {
-                BuildFromSolutionFile(projectFilePath, binaryOutput);
-            }
-            else if (Path.GetFileName(projectFilePath) == "Makefile")
-            {
-                BuildFromMakefile(projectFilePath, binaryOutput);
-            }
-            else
-            {
-                throw new BuildFailedException(
-                    $"Unfamiliar with type of project file at \"{projectFilePath}\". Current supported project files are solution (.sln) files, or makefiles (Makefile).");
-            }
+            var buildDelegate = FindNativeLibraryBuildFunction(projectFilePath);
+
+            return buildDelegate(projectFilePath, binaryOutput);
         }
 
         /// <summary>
@@ -285,12 +368,14 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="solutionFilePath">Fully-qualified path to the solution file to build.</param>
         /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
         /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
-        private static void BuildFromSolutionFile(string solutionFilePath, string binaryOutput)
+        /// <returns>True if the build was successful, false otherwise.</returns>
+        private static bool BuildFromSolutionFile(string solutionFilePath, string binaryOutput)
         {
             if (!TryGetCompatibleTools(solutionFilePath, out VSInstallation tools))
             {
-                Debug.LogError($"Cannot build native library.");
-                throw new BuildFailedException("Build failed. View log for details.");
+                //Debug.LogError($"Cannot build native code libraries.");
+                //throw new BuildFailedException("Build failed. View log for details.");
+                return false;
             }
 
             string configuration = "Release";
@@ -304,7 +389,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                                     $" /t:Clean;Rebuild" +
                                     $" /p:Configuration={configuration}" +
                                     // TODO: Re-implement GetPlatformString to re-enable this component?
-                                    // NOTE: This may not be necessary, because typically the platform to build against is defined within the project and/or solution file.
+                                    // NOTE: This may not be necessary, because typically the platform to build against
+                                    // is defined within the project and/or solution file.
                                     //$" /p:Platform={PlatformManager.GetPlatformString()}" +
                                     $" /p:OutDir={binaryOutput}";
 
@@ -319,47 +405,59 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 CreateNoWindow = true
             };
 
-            using (var process = Process.Start(processStartInfo))
+            using var process = Process.Start(processStartInfo);
+            string output = process?.StandardOutput.ReadToEnd();
+            string errors = process?.StandardError.ReadToEnd();
+
+            process?.WaitForExit();
+
+            if (0 == process?.ExitCode)
             {
-                string output = process?.StandardOutput.ReadToEnd();
-                string errors = process?.StandardError.ReadToEnd();
-
-                process?.WaitForExit();
-
-                if (0 == process?.ExitCode)
-                {
-                    Debug.Log(output);
-                    Debug.Log($"Succeeded in building native code library \"{solutionFilePath}\"");
-                }
-                else
-                {
-                    // msbuild might succeed to not build - it did it's job if it determines that it cannot build
-                    errors = "" == errors ? output : errors;
-                    Debug.LogError(errors);
-                    Debug.LogError($"Failed to build solution \"{solutionFilePath}\"");
-                    throw new BuildFailedException($"Failed to build solution \"{solutionFilePath}\"");
-                }
+                Debug.Log(output);
+                Debug.Log($"Succeeded in building native code library \"{solutionFilePath}\"");
+                return true;
+            }
+            else
+            {
+                // msbuild might succeed to not build - it did its job if it determines that it cannot build
+                errors = "" == errors ? output : errors;
+                Debug.LogError(errors);
+                Debug.LogError($"Failed to build solution \"{solutionFilePath}\"");
+                //throw new BuildFailedException($"Failed to build solution \"{solutionFilePath}\"");
+                return false;
             }
         }
 
-        private static void BuildFromMakefile(string makefileFilePath, string binaryOutput)
+        /// <summary>
+        /// Given a fully qualified path to a Makefile, build the project, placing the resulting
+        /// binary files in the directory indicated.
+        /// </summary>
+        /// <param name="makefileFilePath">Fully-qualified path to the Makefile to build.</param>
+        /// <param name="binaryOutput">Fully-qualified path to output the results to.</param>
+        /// <exception cref="BuildFailedException">Thrown if building fails.</exception>
+        private static bool BuildFromMakefile(string makefileFilePath, string binaryOutput)
         {
             if (!CheckWSLInstalled())
             {
                 Debug.LogError("Windows Subsystem for Linux is not installed. On Windows, WSL is required in order to properly compile native libraries that are required for running the EOS Plugin on the Linux platform. Please install WSL and rebuild.");
-                throw new BuildFailedException("Failed to run Makefile. Please see log for further details.");
+                //throw new BuildFailedException("Failed to run Makefile. Please see log for further details.");
             }
 
             // Check for required packages and install if missing
-            string checkAndInstallPackagesCmd = "bash -c \"which clang || sudo apt-get update && sudo apt-get install -y clang; " +
-                                                "which make || sudo apt-get install -y make;\"";
+            const string checkAndInstallPackagesCmd = "bash -c \"which clang || sudo apt-get update && sudo apt-get install -y clang; " +
+                                                      "which make || sudo apt-get install -y make;\"";
+
+            string makeFilePath = Path.GetDirectoryName(makefileFilePath);
 
             // Command to run the makefile
-            string makeCmd = "bash -c \"cd /path/to/your/makefile/directory && make\"";
+            string makeCmd = $"bash -c \"cd \"{makeFilePath}\" && make\"";
 
             // Execute commands
             RunWSLCommand(checkAndInstallPackagesCmd);
             RunWSLCommand(makeCmd);
+
+            // TODO: Properly implement check here. False is returned to bring attention to this needing to be implemented.
+            return false;
         }
 
         /// <summary>
@@ -368,7 +466,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <returns>True if WSL is installed, False otherwise.</returns>
         private static bool CheckWSLInstalled()
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo()
+            ProcessStartInfo startInfo = new()
             {
                 FileName = "cmd.exe",
                 Arguments = "/c wsl -l",
@@ -378,15 +476,13 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 CreateNoWindow = true
             };
 
-            using (Process process = Process.Start(startInfo))
-            {
-                string output = process.StandardOutput.ReadToEnd();
-                string err = process.StandardError.ReadToEnd();
-                process.WaitForExit();
+            using Process process = Process.Start(startInfo);
+            string output = process.StandardOutput.ReadToEnd();
+            string err = process.StandardError.ReadToEnd();
+            process.WaitForExit();
 
-                // If the command executes successfully, WSL is installed
-                return process.ExitCode == 0 && string.IsNullOrEmpty(err);
-            }
+            // If the command executes successfully, WSL is installed
+            return process.ExitCode == 0 && string.IsNullOrEmpty(err);
         }
 
         /// <summary>
@@ -395,7 +491,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="command">The command to run in WSL</param>
         private static void RunWSLCommand(string command)
         {
-            ProcessStartInfo startInfo = new ProcessStartInfo()
+            ProcessStartInfo startInfo = new()
             {
                 FileName = "wsl.exe",
                 Arguments = command,
@@ -404,14 +500,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 CreateNoWindow = true
             };
 
-            using (Process process = Process.Start(startInfo))
-            {
-                using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    Debug.Log(result);
-                }
-            }
+            using Process process = Process.Start(startInfo);
+            using StreamReader reader = process.StandardOutput;
+            string result = reader.ReadToEnd();
+            Debug.Log(result);
         }
 
         /// <summary>
@@ -421,11 +513,14 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="vsVersion">The version of VS required by the solution file.</param>
         /// <param name="toolsets">The toolsets required by the solution file.</param>
         /// <exception cref="FileNotFoundException">Thrown if either the solution file does not exist, or if any of it's project files do not exist.</exception>
-        private static void DetermineVSPrerequisites(string solutionFilePath, out Version vsVersion, out IList<string> toolsets)
+        private static void DetermineVSPrerequisites(string solutionFilePath, out Version vsVersion,
+            out IList<string> toolsets)
         {
             // if there is no solution file
             if (string.IsNullOrEmpty(solutionFilePath) || false == File.Exists(solutionFilePath))
+            {
                 throw new FileNotFoundException($"Could not find solution file \"{solutionFilePath}\"");
+            }
 
             // Get the directory for the solution, because all project files will be relative to it
             string solutionDirectory = Path.GetDirectoryName(solutionFilePath);
@@ -505,7 +600,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         /// <summary>
         /// Given a fully-qualified path to a project file, parses the project file to determine which toolsets
-        /// it requires in order to be build.
+        /// it requires in order to be built.
         /// </summary>
         /// <param name="projectFilepath">Fully-qualified path to a project file.</param>
         /// <returns>Collection of string representations of the toolsets that the indicated project file requires in order to compile properly.</returns>
@@ -529,5 +624,116 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             return toolsets.ToList();
         }
+
+
+        /// <summary>
+        /// Builds native binary files given a mapping of project file to binary file, and an output directory.
+        /// </summary>
+        /// <param name="projectToBinaryMap">Dictionary that maps project file (sln or Makefile) with binary output files.</param>
+        /// <param name="outputDirectory">The directory to output the native binaries to.</param>
+        /// <param name="rebuild">Whether to rebuild the libraries each time.</param>
+        public static void BuildNativeBinaries(IDictionary<string, string[]> projectToBinaryMap, string outputDirectory, bool rebuild = false)
+        {
+            var projectsToBuild = new HashSet<string>();
+
+            IDictionary<string, string> cachedProjectOutput = new Dictionary<string, string>();
+
+            foreach (string projectFile in projectToBinaryMap.Keys)
+            {
+                string[] binaryFiles = projectToBinaryMap[projectFile];
+
+                if (binaryFiles.All(File.Exists))
+                {
+                    Debug.Log($"Caching the existing binaries for project \"{projectFile}\".");
+                    var cachedDirectory = CacheExistingBinaries(binaryFiles);
+                    cachedProjectOutput.Add(projectFile, cachedDirectory);
+                }
+
+                if (rebuild)
+                {
+                    Debug.LogWarning($"Because rebuild = {rebuild}, project file \"{projectFile}\" has been marked for rebuilding.");
+                    projectsToBuild.Add(projectFile);
+                    continue;
+                }
+
+                var missingBinaryFiles = binaryFiles.Where(outputFile => !File.Exists(outputFile)).ToList();
+                if (missingBinaryFiles.Count > 0)
+                {
+                    StringBuilder missingBinaryFilesMessage = new($"Project file \"{projectFile}\" has been marked for rebuilding, because the following binary files are missing: \n");
+                    foreach (var missingBinaryFile in missingBinaryFiles)
+                    {
+                        missingBinaryFilesMessage.AppendLine($"\"{missingBinaryFile}\"");
+                    }
+
+                    Debug.LogWarning(missingBinaryFilesMessage.ToString());
+
+                    projectsToBuild.Add(projectFile);
+                    continue;
+                }
+            }
+
+            // Build any project that needs to be built.
+            foreach (string project in projectsToBuild)
+            {
+                bool projectBuildSuccessfully = BuildUtility.BuildNativeLibrary(project, outputDirectory);
+
+                // if the build was successful, skip processing
+                if (projectBuildSuccessfully) { continue; }
+
+                // If a cache exists containing previous binaries, restore the cache.
+                if (cachedProjectOutput.TryGetValue(project, out string cacheDirectory))
+                {
+                    Debug.Log($"Restoring binaries that were cached for project \"{project}\".");
+                    RestoreCachedBinaries(projectToBinaryMap, project, cacheDirectory);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Takes an enumerable of filepaths and moves them to a temporary directory, returning the path to that directory.
+        /// </summary>
+        /// <param name="files">The filepaths to move.</param>
+        /// <returns>The path to the temporary directory in which to store the files temporarily.</returns>
+        private static string CacheExistingBinaries(IEnumerable<string> files)
+        {
+            if (!PackageFileUtility.TryGetTempDirectory(out string temporaryDirectory))
+            {
+                Debug.LogWarning("Could not create temporary directory to cache existing binaries.");
+                return string.Empty;
+            }
+
+            foreach (string filepath in files)
+            {
+                string filename = Path.GetFileName(filepath);
+                File.Move(filepath, Path.Combine(temporaryDirectory, filepath));
+            }
+
+            return temporaryDirectory;
+        }
+
+        /// <summary>
+        /// Restores cached binaries to their original location.
+        /// </summary>
+        /// <param name="projectFileToBinaryMap">Dictionary that maps project file to binary output files.</param>
+        /// <param name="project">The project whose binary files should be restored.</param>
+        /// <param name="cacheDirectory">The directory in which the binary files were cached.</param>
+        private static void RestoreCachedBinaries(IDictionary<string, string[]> projectFileToBinaryMap, string project, string cacheDirectory)
+        {
+            // To move cached binaries back to original locations, first a filename-to-directory lookup map must be made
+            Dictionary<string, string> fileToDestination = new();
+            foreach (var outputPath in projectFileToBinaryMap[project])
+            {
+                string filename = Path.GetFileName(outputPath);
+                string destination = Path.GetDirectoryName(outputPath);
+                fileToDestination.Add(filename, destination);
+            }
+
+            foreach (var cachedFile in Directory.GetFiles(cacheDirectory))
+            {
+                string cachedFileName = Path.GetFileName(cachedFile);
+                File.Move(cachedFile, Path.Combine(fileToDestination[cachedFileName], cachedFileName));
+            }
+        }
+
     }
 }

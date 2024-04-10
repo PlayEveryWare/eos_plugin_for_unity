@@ -667,7 +667,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   threadSlider: {fileID: 468946941}
   targetUtilizationSlider: {fileID: 602240424}
-  coreSliderScript: {fileID: 241428217}
   gpuRenderObjects: {fileID: 1637510164}
   memorySlider: {fileID: 141326354}
 --- !u!1 &241428215
@@ -3766,7 +3765,7 @@ PrefabInstance:
     - target: {fileID: 6385380291453459038, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6385380291460701031, guid: 11e4648022445f041b4c867ff8f3fd94,
         type: 3}

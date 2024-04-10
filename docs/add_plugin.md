@@ -21,11 +21,11 @@ The following document outlines the two methods with which you can add the plugi
 8. Finally, [Configure the Plugin](/docs/configure_plugin.md).
 
 > [!NOTE]
-> The Unity doc for adding a git url can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
+> For additional details, see the [Unity Documentation for adding a UPM via Git URL](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-giturl.html).
 
 ## Adding the package from a tarball
 
-1. Download the latest release UPM tarball, `"com.playeveryware.eos-[version].tgz"` [here](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases).
+1. Download the latest release UPM tarball, `"com.playeveryware.eos-[version].tgz"` ([Releases](https://github.com/PlayEveryWare/eos_plugin_for_unity/releases)).
 
     > [!WARNING]
     > Do *not* attempt to create a tarball yourself from the source, unless you know what you are doing with respect to [Git LFS](https://docs.github.com/en/repositories/working-with-files/managing-large-files/configuring-git-large-file-storage).
@@ -46,5 +46,5 @@ The following document outlines the two methods with which you can add the plugi
 8. Finally, <a href="#configuring-the-plugin">configure the plugin</a>.
 
 > [!NOTE]
-> The Unity doc for adding a tarball can be found [here](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
+> For additional details, see the [Unity Documentation for adding a UPM via Tarball](https://docs.unity3d.com/2021.3/Documentation/Manual/upm-ui-tarball.html).
 

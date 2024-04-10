@@ -22,10 +22,11 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
-    using Editor;
+    using Editor.Config;
     using Editor.Utility;
     using System;
     using System.IO;
+    using System.Threading.Tasks;
     using UnityEditor;
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
@@ -57,7 +58,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 builder = new MacOSBuilder();
                 PlatformManager.CurrentPlatform = PlatformManager.Platform.macOS;
 #elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-                builder = new WindowsBuilder();
+#if UNITY_64
+                builder = new WindowsBuilder64();
+#else
+                builder = new WindowsBuilder32();
+#endif
                 PlatformManager.CurrentPlatform = PlatformManager.Platform.Windows;
 #else
                 /*
@@ -97,20 +102,15 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="report">The pre-process build report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
+            bool eosDisabled = ScriptingDefineUtility.IsEOSDisabled(report);
+
             // Don't do any preprocessing if EOS has been disabled.
-            if (ScriptingDefineUtility.IsEOSDisabled(report))
+            if (eosDisabled)
             {
                 return;
             }
 
-            // Check to make sure that the configuration file for the platform being 
-            // built against exists.
-            CheckPlatformConfiguration();
-
-            // Do the various version-related tasks that need to be configured.
-            ConfigureVersions();
-
-            // perform the pre-build task for the platform using it's builder.
+            // Perform the pre-build task for the platform using its builder.
             GetBuilder()?.PreBuild(report);
         }
 
@@ -126,76 +126,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 return;
             }
 
-            // perform the post-build task for the platform using it's builder.
+            // Perform the post-build task for the platform using its builder.
             GetBuilder()?.PostBuild(report);
-
-            // Configure EAC (Note that this only happens on "standalone" builds.
-            EACPostBuild.ConfigureEAC(report);
-        }
-
-        /// <summary>
-        /// Checks to make sure that the platform configuration file exists where it is expected to be
-        /// TODO: Add configuration validation.
-        /// </summary>
-        private static void CheckPlatformConfiguration()
-        {
-            string configFilePath = PlatformManager.GetConfigFilePath();
-            if (!File.Exists(configFilePath))
-            {
-                throw new BuildFailedException($"Expected config file \"{configFilePath}\" for platform {PlatformManager.GetFullName(PlatformManager.CurrentPlatform)} does not exist.");
-            }
-        }
-
-        /// <summary>
-        /// Completes all configuration tasks.
-        /// </summary>
-        private static void ConfigureVersions()
-        {
-            AutoSetProductVersion();
-
-            const string packageVersionPath = "Assets/Resources/eosPluginVersion.asset";
-            string packageVersion = EOSPackageInfo.GetPackageVersion();
-            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
-            {
-                AssetDatabase.CreateFolder("Assets", "Resources");
-            }
-            TextAsset versionAsset = new(packageVersion);
-            AssetDatabase.CreateAsset(versionAsset, packageVersionPath);
-            AssetDatabase.SaveAssets();
-        }
-
-        /// <summary>
-        /// Determines whether the Application Version is supposed to be used as the product version, and (if so) sets it accordingly.
-        /// </summary>
-        private static void AutoSetProductVersion()
-        {
-#if !EOS_DISABLE
-            var eosVersionConfigSection = new PrebuildConfigEditor();
-
-            eosVersionConfigSection.Load();
-
-            string configFilePath = Path.Combine(Application.streamingAssetsPath, "EOS", EOSPackageInfo.ConfigFileName);
-            var eosConfigFile = new ConfigHandler<EOSConfig>(configFilePath);
-            eosConfigFile.Read();
-
-            var previousProdVer = eosConfigFile.Data.productVersion;
-            var currentSectionConfig = eosVersionConfigSection.GetConfig().Data;
-
-            if (currentSectionConfig == null)
-            {
-                return;
-            }
-
-            if (currentSectionConfig.useAppVersionAsProductVersion)
-            {
-                eosConfigFile.Data.productVersion = Application.version;
-            }
-
-            if (previousProdVer != eosConfigFile.Data.productVersion)
-            {
-                eosConfigFile.Write(true);
-            }
-#endif
         }
     }
 }

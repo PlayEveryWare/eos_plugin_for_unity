@@ -194,28 +194,23 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
             }
 
             // Create package
-
+            // TODO: Join build systems - note the duplicate existence of the PackageType enum.
 
             switch (packageType)
             {
                 case PackageType.UPMTarBall:
-                    UnityPackageCreationUtility.CreateUPMTarball(OutputDirectory, jsonFile);
+                    UnityPackageCreationUtility
+                        .CreatePackage(UnityPackageCreationUtility.PackageType.UPMTarball, null).Wait();
                     break;
                 case PackageType.DotUnity:
-                    UnityPackageCreationUtility.CreateDotUnityPackage(OutputDirectory, jsonFile);
+                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.DotUnity, null).Wait();
                     break;
                 case PackageType.UPMDirectory:
                 default:
-                    UnityPackageCreationUtility.CreateUPM(OutputDirectory, jsonFile);
+                    UnityPackageCreationUtility.CreatePackage(UnityPackageCreationUtility.PackageType.UPM, null).Wait();
                     break;
 
             }
-
-            /*
-            Debug.Log(
-                "EOS Plugin Exported to \"" +
-                UnityPackageCreationUtility.packRequest.Result.tarballPath);
-            */
         }
 
         /// <summary>

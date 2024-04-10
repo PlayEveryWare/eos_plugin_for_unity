@@ -20,16 +20,12 @@
 * SOFTWARE.
 */
 
+using PlayEveryWare.EpicOnlineServices.Samples;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
-
 using System;
 
 public class UIConsoleInputField : MonoBehaviour
@@ -96,41 +92,21 @@ public class UIConsoleInputField : MonoBehaviour
     }
     public void InputFieldOnClick()
     {
-#if ENABLE_INPUT_SYSTEM
-        var gamepad = Gamepad.current;
-        if (gamepad != null && gamepad.wasUpdatedThisFrame)
+        // If the event system is null
+        if (EventSystem.current == null ||
+            // If there is no currently selected game object
+            EventSystem.current.currentSelectedGameObject == null ||
+            // If the InputField is already the selected game object
+            (EventSystem.current.currentSelectedGameObject == InputField.gameObject) ||
+            // If neither the gamepad, keyboard, or mouse were used in the last frame
+            (!InputUtility.WasGamepadUsedLastFrame() && !InputUtility.WasKeyboardUsedLastFrame() &&
+             !InputUtility.WasMouseUsedLastFrame()))
         {
-            Debug.Log("KeyboardManager.InputFileOnClick(): Gamepad detected.");
-
-            //KeyboardUI.instance.ShowKeyboard(InputField.text, OnKeyboardCompleted);
-            EventSystem.current.SetSelectedGameObject(InputField.gameObject);
-        }
-
-        if(EventSystem.current != null && EventSystem.current.currentSelectedGameObject != null
-            && EventSystem.current.currentSelectedGameObject == InputField.gameObject)
-        {
-            Debug.Log("InputField already selected.");
+            // Don't do anything
             return;
         }
 
-        var keyboard = Keyboard.current;
-        if (keyboard != null && keyboard.wasUpdatedThisFrame)
-        {
-            Debug.Log("KeyboardManager.InputFileOnClick(): Keyboard detected.");
-
-            EventSystem.current.SetSelectedGameObject(InputField.gameObject);
-        }
-
-        var mouse = Mouse.current;
-        if (mouse != null && mouse.wasUpdatedThisFrame)
-        {
-            Debug.Log("KeyboardManager.InputFileOnClick(): Mouse detected.");
-            EventSystem.current.SetSelectedGameObject(InputField.gameObject);
-        }
-#else
-        // Keyboard & Mouse
         EventSystem.current.SetSelectedGameObject(InputField.gameObject);
-#endif
     }
 
     private void OnKeyboardCompleted(string result)

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b153e2f0fc5cf9c489d0d65233f64f25, type: 3}
+  m_Name: SampleScenes
+  m_EditorClassIdentifier: 
+  scenes:
+  - sceneName: Achievements
+    friendlyName: Achievements
+  - sceneName: AuthAndFriends
+    friendlyName: Auth & Friends
+  - sceneName: CustomInvites
+    friendlyName: Custom Invites
+  - sceneName: Leaderboards
+    friendlyName: Leaderboards
+  - sceneName: Lobbies
+    friendlyName: Lobbies
+  - sceneName: Metrics
+    friendlyName: Metrics
+  - sceneName: Peer2Peer
+    friendlyName: Peer 2 Peer
+  - sceneName: PerformanceStressTest
+    friendlyName: Performance Stress Test
+  - sceneName: PlayerDataStorage
+    friendlyName: Player Data Storage
+  - sceneName: PlayerReportsAndSanctions
+    friendlyName: Player Reports & Sanctions
+  - sceneName: SessionsAndMatchmaking
+    friendlyName: Sessions & Matchmaking
+  - sceneName: Store
+    friendlyName: Store
+  - sceneName: TitleStorage
+    friendlyName: Title Storage
+  - sceneName: P2PNetcode
+    friendlyName: P2P Netcode
+  - sceneName: HighFrequencyP2P
+    friendlyName: High Frequency P2P

@@ -40,5 +40,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// </summary>
         /// <param name="report">The BuildReport for the postbuild task.</param>
         public void PostBuild(BuildReport report);
+
+        public void BuildNativeCode();
     }
 }

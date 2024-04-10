@@ -25,48 +25,60 @@ using UnityEngine.UI;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class UISampleSceneUIContainer : MonoBehaviour, ISampleSceneUI
     {
+        /// <summary>
+        /// Container for the sample scene UI.
+        /// </summary>
         public LayoutElement ContainerLayout;
-        private float initialFlexHeight;
+
+        /// <summary>
+        /// Cache to keep track of the initial height of the flexible height for the ContainerLayout.
+        /// </summary>
+        private float InitialFlexHeight;
 
         private void Start()
         {
-            var rt = transform as RectTransform;
-            initialFlexHeight = ContainerLayout.flexibleHeight;
+            // Set the initial flex height.
+            InitialFlexHeight = ContainerLayout.flexibleHeight;
         }
 
         public void ShowMenu()
         {
-            var childElements = GetComponentsInChildren<ISampleSceneUI>(true);
-            foreach (var childElement in childElements)
+            foreach (var scene in GetContainedSampleScenes())
             {
-                if ((childElement as MonoBehaviour)?.gameObject == gameObject)
-                {
-                    continue;
-                }
-
-                childElement.ShowMenu();
+                scene.ShowMenu();
             }
         }
 
         public void HideMenu()
         {
-            var childElements = GetComponentsInChildren<ISampleSceneUI>(true);
-            foreach (var childElement in childElements)
+            foreach (var scene in GetContainedSampleScenes())
             {
-                if ((childElement as MonoBehaviour)?.gameObject == gameObject)
-                {
-                    continue;
-                }
-
-                childElement.HideMenu();
+                scene.HideMenu();
             }
         }
 
+        /// <summary>
+        /// Gets all children ISampleSceneUI objects that are not this one.
+        /// </summary>
+        /// <returns>Enumerable of sample scenes contained within.</returns>
+        private IEnumerable<ISampleSceneUI> GetContainedSampleScenes()
+        {
+            return GetComponentsInChildren<ISampleSceneUI>(true).Where(element =>
+                element is MonoBehaviour behaviour && behaviour.gameObject != gameObject);
+        }
+
+        /// <summary>
+        /// Sets the visibility of the demo container by changing the height to zero, or restoring the height to what it initially was set to on Start.
+        /// </summary>
+        /// <param name="visible">Whether or not to hide the demo scene container.</param>
         public void SetVisible(bool visible)
         {
-            ContainerLayout.flexibleHeight = visible ? initialFlexHeight : 0;
+            ContainerLayout.flexibleHeight = visible ? InitialFlexHeight : 0;
         }
     }
 }

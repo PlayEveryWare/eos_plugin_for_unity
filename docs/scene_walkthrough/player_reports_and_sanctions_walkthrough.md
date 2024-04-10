@@ -13,4 +13,4 @@ This demo showcases the reports interface and sanctions interface. This is done 
 ![Reports](../images/eos_sdk_player_reports_and_sanctions.png)
 
 > [!NOTE]
-> More documentation on the reports interface can be found [here](https://dev.epicgames.com/docs/game-services/reports-interface), and more documentation on the sanctions interface can be found [here](https://dev.epicgames.com/docs/game-services/sanctions-interface).
+> See [Epic's documentation on the reports interface](https://dev.epicgames.com/docs/game-services/reports-interface), and [Epic's documentation on the sanctions interface](https://dev.epicgames.com/docs/game-services/sanctions-interface) respectively for more information.

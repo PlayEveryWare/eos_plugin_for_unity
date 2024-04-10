@@ -22,15 +22,169 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
-    public class WindowsBuilder : PlatformSpecificBuilder
+    using Editor;
+    using PlayEveryWare.EpicOnlineServices.Editor.Config;
+    using UnityEditor.Build.Reporting;
+    using System.IO;
+    using UnityEditor.Build;
+    using UnityEngine;
+    using Utility;
+
+    /// <summary>
+    /// WindowsBuilder for 64-bit deployment.
+    /// </summary>
+    public class WindowsBuilder64 : WindowsBuilder
     {
-        public WindowsBuilder() : base("Plugins/Windows")
+        public WindowsBuilder64() : base("Plugins/Windows/x64")
         {
-            // TODO/NOTE: Add support for 32-bit project to binary file mapping?
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
-                "x64/DynamicLibraryLoaderHelper-x64.dll",
-                "x64/GfxPluginNativeRender-x64.dll");
+                "DynamicLibraryLoaderHelper-x64.dll",
+                "GfxPluginNativeRender-x64.dll");
+        }
+    }
+
+    /// <summary>
+    /// WindowsBuilder for 32-bit deployment.
+    /// </summary>
+    public class WindowsBuilder32 : WindowsBuilder
+    {
+        public WindowsBuilder32() : base("Plugins/Windows/x86")
+        {
+            // TODO: These libraries do not appear to be building properly - and the process
+            //       also appears to delete the x64 libraries. It's possible that both things
+            //       are caused by some other process.
+            AddProjectFileToBinaryMapping(
+                "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
+                "DynamicLibraryLoaderHelper-x86.dll",
+                "GfxPluginNativeRender-x86.dll");
+        }
+    }
+
+    /// <summary>
+    /// Base implementation for a WindowsBuilder. Cannot be instantiated, but is used
+    /// as base implementation for both 64 and 32 bit flavors of Windows.
+    /// </summary>
+    public abstract class WindowsBuilder : PlatformSpecificBuilder
+    {
+        private const string ProjectPathToEOSBootstrapperTool = "tools/bin/EOSBootstrapperTool.exe";
+
+        protected WindowsBuilder(string nativeBinaryDirectory) :
+            base(nativeBinaryDirectory) {   }
+
+        public override void PostBuild(BuildReport report)
+        {
+            base.PostBuild(report);
+
+            ConfigureAndInstallBootstrapper(report);
+        }
+
+        private static async void ConfigureAndInstallBootstrapper(BuildReport report)
+        {
+            /*
+             * NOTE:
+             *
+             * The following code functions properly, but exposes some poor design with
+             * respect to the build process. For starters, in order to determine whether
+             * EAC is installed, this function must instantiate a config editor. It would
+             * be nice if there was a way to query the config values via a static property
+             * like this:
+             *
+             * if (ToolsConfig.UseEAC) { ... }
+             *
+             * However, that does not actually answer the question that needs answering
+             * in the context of installing the bootstrapper. This answers the question
+             * "Is EAC supposed to be configured?" Because if the answer is yes, then
+             * the bootstrapper tool needs to use EACLauncher.exe as the target.
+             *
+             * The reason it is insufficient to answer the question "Is EAC supposed to be
+             * configured?" for this purpose is that it doesn't determine if EAC *IS*
+             * configured. This current solution relies on the fact that the steps happen
+             * to be in-order.
+             *
+             * Rectifying these design flaws is beyond the scope of what needs to be done
+             * right now, but this note remains for the sake of future Build engineers
+             * wishing to improve the system, and future developers who may encounter
+             * build issues surrounding the Bootstrapper and/or the Easy Anti-Cheat system
+             * that are difficult to diagnose.
+             */
+
+            // Determine whether to install EAC
+            
+            ToolsConfig toolsConfig = await Config.GetAsync<ToolsConfig>();
+
+            string bootstrapperName = null;
+            if (toolsConfig != null)
+            {
+                bootstrapperName = toolsConfig.bootstrapperNameOverride;
+            }
+
+            if (string.IsNullOrWhiteSpace(bootstrapperName))
+            {
+                bootstrapperName = "EOSBootstrapper.exe";
+            }
+
+            if (!bootstrapperName.EndsWith(".exe"))
+            {
+                bootstrapperName += ".exe";
+            }
+
+            string pathToEOSBootStrapperTool = Path.Combine(EACUtility.GetPathToEOSBin(), "EOSBootstrapperTool.exe");
+
+            string installDirectory = Path.GetDirectoryName(report.summary.outputPath);
+
+            string bootstrapperTarget = toolsConfig.useEAC ? "EACLauncher.exe" : Path.GetFileName(report.summary.outputPath);
+
+            InstallBootStrapper(bootstrapperTarget, installDirectory, pathToEOSBootStrapperTool,
+                bootstrapperName);
+        }
+
+        private static void InstallBootStrapper(string appFilenameExe, string installDirectory,
+            string pathToEOSBootStrapperTool, string bootstrapperFileName)
+        {
+            string installPathForEOSBootStrapper = Path.Combine(installDirectory, bootstrapperFileName);
+            string workingDirectory = EACUtility.GetPathToEOSBin();
+            string bootStrapperArgs = ""
+                                      + $" --output-path \"{installPathForEOSBootStrapper}\""
+                                      + $" --app-path \"{appFilenameExe}\"";
+
+            var procInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = pathToEOSBootStrapperTool, Arguments = bootStrapperArgs,
+                UseShellExecute = false,
+                WorkingDirectory = workingDirectory,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            };
+
+            var process = new System.Diagnostics.Process { StartInfo = procInfo };
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    Debug.Log($"BootstrapperTool stdout: \"{e.Data}\"");
+                }
+            };
+
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    Debug.LogError($"BootstrapperTool stderr: \"{e.Data}\"");
+                }
+            };
+
+            if (false == process.Start())
+            {
+                throw new BuildFailedException(
+                    $"Failed to run the BootstrapperTool \"{pathToEOSBootStrapperTool}\". Please see log for more details."
+                    );
+            }
+
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            process.WaitForExit();
+            process.Close();
         }
     }
 }

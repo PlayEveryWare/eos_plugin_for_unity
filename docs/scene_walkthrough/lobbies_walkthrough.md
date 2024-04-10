@@ -41,4 +41,4 @@ This demo showcases the lobby and includes a voice chat interface in a combined 
 
 
 > [!NOTE]
-> More documentation on the lobby interface can be found [here](https://dev.epicgames.com/docs/game-services/lobbies).
+> See [Epic's documentation on the lobby interface](https://dev.epicgames.com/docs/game-services/lobbies) for more information.

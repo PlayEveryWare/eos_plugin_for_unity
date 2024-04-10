@@ -44,6 +44,9 @@ using PlayEveryWare.EpicOnlineServices;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
+    using System.IO;
+    using System.Linq;
+
     public class UILoginMenu : MonoBehaviour
     {
         [Header("Authentication UI")]
@@ -72,11 +75,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         public UnityEvent OnLogin;
         public UnityEvent OnLogout;
 
+        /// <summary>
+        /// This field contains information about the scenes that the user can select from.
+        /// </summary>
+        [Header("Scene Information")] 
+        public SceneData SceneInformation;
+
         [Header("Controller")]
         public GameObject UIFirstSelected;
         public GameObject UIFindSelectable;
 
-        private EventSystem system;
         private GameObject selectedGameObject;
 
         //use to indicate Connect login instead of Auth
@@ -91,10 +99,6 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         // Retain Id/Token inputs across scenes
         public static string IdGlobalCache = string.Empty;
         public static string TokenGlobalCache = string.Empty;
-
-#if UNITY_PS4
-        //private bool socialOverlayActivated = false;
-#endif
 
         private void Awake()
         {
@@ -130,19 +134,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             TokenGlobalCache = value;
         }
 
-        public void OnDemoSceneChange(int value)
-        {
-            string sceneName = SceneSwitcherDropDown.options[value]?.text;
-            if (string.IsNullOrWhiteSpace(sceneName) || value == 0)
-            {
-                return;
-            }
-            sceneName = sceneName.Replace(" ", "").Replace("&", "And");
-            Debug.LogFormat("UILoginMenu (OnDemoSceneChanged): value = {0}", sceneName);
-            SceneManager.LoadScene(sceneName);
-        }
-
-        public void OnDropdownChange(int value)
+        public void OnLoginTypeChanged(int value)
         {
             switch (value)
             {
@@ -213,7 +205,75 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             InitConnectDropdown();
             ConfigureUIForLogin();
 
-            system = EventSystem.current;
+            // Populate the Scene dropdown.
+            SetupSceneDropdown();
+        }
+
+        private void SetupSceneDropdown()
+        {
+            // Get the currently active scene name.
+            string currentSceneName = SceneManager.GetActiveScene().name;
+            string currentSceneFriendlyName = string.Empty;
+            
+            // To store the friendly names for the scenes.
+            List<string> sceneFriendlyNames = new();
+
+            // Loop through the scene information provided.
+            foreach (var sceneInfo in SceneInformation.scenes)
+            {
+                // TODO: Currently, checking to see if scene is a valid name does not work.
+                //       It functions properly in the editor, but there is apparently some
+                //       trickery that is unclear regarding getting scene names during runtime.
+                //       This should be investigated further, but is fine for the time being.
+                // Check to make sure it's a valid scene. This should prevent
+                // the scene data asset from ever listing scenes that cannot be loaded.
+                //if (!SceneUtility.IsValidSceneName(sceneInfo.sceneName))
+                //{
+                //    foreach(var name in SceneUtility.GetSceneNames())
+                //        Debug.Log($"Scene name: \"{name}\".");
+                //    throw new InvalidDataException($"Invalid scene name \"{sceneInfo.sceneName}\" provided in SceneData asset.");
+                //}
+                // Check to make sure that the scene actually exists
+                // look for the friendly name of the current active scene.
+                if (sceneInfo.sceneName == currentSceneName)
+                    currentSceneFriendlyName = sceneInfo.friendlyName;
+
+                // populate the list of friendly names for the scene.
+                sceneFriendlyNames.Add(sceneInfo.friendlyName);
+            }
+
+            // Check to make sure that the friendly name for the scene was found.
+            if (string.IsNullOrEmpty(currentSceneFriendlyName))
+            {
+                throw new InvalidDataException($"Cannot find friendly name for scene name \"{currentSceneName}\".");
+            }
+
+            // alphabetize the scene names.
+            sceneFriendlyNames.Sort();
+
+            // Add the sorted list of friendly names to the dropdown, clearing the options first.
+            SceneSwitcherDropDown.ClearOptions();
+            SceneSwitcherDropDown.AddOptions(sceneFriendlyNames);
+
+            // Determine which scene to indicate is currently loaded.
+            int currentSceneIndex = sceneFriendlyNames.IndexOf(currentSceneFriendlyName);
+
+            // Set that index to be the current value.
+            SceneSwitcherDropDown.value = currentSceneIndex;
+
+            // Listen for the value to change, and load the selected scene when it does.
+            SceneSwitcherDropDown.onValueChanged.AddListener(index =>
+            {
+                string friendlySceneNameSelected = SceneSwitcherDropDown.options[index]?.text;
+
+                var sceneToLoad = SceneInformation.scenes
+                    .Where(info => info.friendlyName == friendlySceneNameSelected)
+                    .Select(info => info.sceneName)
+                    .FirstOrDefault();
+
+                Debug.LogFormat("UILoginMenu (OnDemoSceneChanged): value = {0}", sceneToLoad);
+                SceneManager.LoadScene(sceneToLoad);
+            });
         }
 
         private void EnterPressedToLogin()
@@ -224,266 +284,207 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
         }
 
-#if ENABLE_INPUT_SYSTEM
-        public void Update()
-        {
-            var keyboard = Keyboard.current;
-
-            if (system.currentSelectedGameObject != null && system.currentSelectedGameObject != selectedGameObject)
-            {
-                selectedGameObject = system.currentSelectedGameObject;
-            }
-
-            // Prevent deselection by either reselecting the previously selected or the first selected in EventSystem
-            if (system.currentSelectedGameObject == null || system.currentSelectedGameObject?.activeInHierarchy == false)
-            {
-                // Make sure the selected object is still visible. If it's hidden, then don't select an invisible object.
-                if (selectedGameObject == null || selectedGameObject?.activeInHierarchy == false)
-                {
-                    selectedGameObject = system.firstSelectedGameObject;
-                }
-
-                system.SetSelectedGameObject(selectedGameObject);
-            }
-
-            // Disable game input if Overlay is visible and has exclusive input
-            if (system != null && system.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-            {
-                if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-                {
-                    Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
-                    EventSystem.current.sendNavigationEvents = false;
-                    EventSystem.current.currentInputModule.enabled = false;
-                    return;
-                }
-                else
-                {
-                    Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
-                    EventSystem.current.sendNavigationEvents = true;
-                    EventSystem.current.currentInputModule.enabled = true;
-                }
-            }
-
-            if (keyboard != null
-                && system.currentSelectedGameObject != null)
-            {
-                // Tab between input fields
-                if (keyboard.tabKey.wasPressedThisFrame)
-                {
-                    Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
-                    if (keyboard.shiftKey.isPressed)
-                    {
-                        next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
-                    }
-
-                    // Make sure the object is active or exit out if no more objects are found
-                    while (next != null && !next.gameObject.activeSelf)
-                    {
-                        next = next.FindSelectableOnDown();
-                    }
-
-                    if (next != null)
-                    {
-                        InputField inputField = next.GetComponent<InputField>();
-                        UIConsoleInputField consoleInputField = next.GetComponent<UIConsoleInputField>();
-                        if (inputField != null)
-                        {
-                            inputField.OnPointerClick(new PointerEventData(system));
-                            system.SetSelectedGameObject(next.gameObject);
-                        }
-                        else if (consoleInputField != null)
-                        {
-                            consoleInputField.InputField.OnPointerClick(new PointerEventData(system));
-                            system.SetSelectedGameObject(consoleInputField.InputField.gameObject);
-                        }
-                        else
-                        {
-                            system.SetSelectedGameObject(next.gameObject);
-                        }
-                    }
-                    else
-                    {
-                        next = FindTopUISelectable();
-                        system.SetSelectedGameObject(next.gameObject);
-                    }
-                }
-                else if (keyboard.enterKey.wasPressedThisFrame || keyboard.numpadEnterKey.wasPressedThisFrame)
-                {
-                    // Enter pressed in an input field
-                    InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
-                    UIConsoleInputField consoleInputField = system.currentSelectedGameObject.GetComponent<UIConsoleInputField>();
-                    if (inputField != null || consoleInputField != null)
-                    {
-                        EnterPressedToLogin();
-                    }
-                }
-            }
-
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            bool nothingSelected = system != null && system.currentSelectedGameObject == null;
-            bool inactiveButtonSelected = system != null && system.currentSelectedGameObject != null && !system.currentSelectedGameObject.activeInHierarchy;
-
-            var gamepad = Gamepad.current;
-            if ((nothingSelected || inactiveButtonSelected)
-                && gamepad != null && gamepad.wasUpdatedThisFrame)
-            {
-                if (UIFirstSelected.activeSelf == true)
-                {
-                    system.SetSelectedGameObject(UIFirstSelected);
-                }
-                else if (UIFindSelectable?.activeSelf == true)
-                {
-                    system.SetSelectedGameObject(UIFindSelectable);
-                }
-                else
-                {
-                    var selectables = GameObject.FindObjectsOfType<Selectable>(false);
-                    foreach (var selectable in selectables)
-                    {
-                        if (selectable.navigation.mode != Navigation.Mode.None)
-                        {
-                            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
-                            break;
-                        }
-                    }
-                }
-
-                Debug.Log("Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = " + system.currentSelectedGameObject);
-            }
-            signInWithAppleManager?.Update();
-        }
-#else
-
-        public void Update()
+        /// <summary>
+        /// If no GameObject is selected, but one was selected before - then determines if the
+        /// de-selected GameObject should actually still be detected. If so, brings focus back
+        /// to the previously selected game object. If not, then the first selected GameObject
+        /// is focused. Broadly speaking, this prevents a focus state wherein no GameObject has
+        /// focus.
+        /// </summary>
+        /// <param name="previouslySelectedGameObject">Reference to the GameObject that had focus on the last update.</param>
+        private static void PreventDeselection(ref GameObject previouslySelectedGameObject)
         {
             // Prevent Deselection
-            if (system.currentSelectedGameObject != null && system.currentSelectedGameObject != selectedGameObject)
+            if (EventSystem.current.currentSelectedGameObject != null && EventSystem.current.currentSelectedGameObject != previouslySelectedGameObject)
             {
-                selectedGameObject = system.currentSelectedGameObject;
+                previouslySelectedGameObject = EventSystem.current.currentSelectedGameObject;
             }
-            else if (system.currentSelectedGameObject == null || system.currentSelectedGameObject?.activeInHierarchy == false)
+            else if (EventSystem.current.currentSelectedGameObject == null || EventSystem.current.currentSelectedGameObject.activeInHierarchy == false)
             {
-                // Make sure the selected object is still visible. If it's hidden, then don't select an invisible object.
-                if (selectedGameObject == null || selectedGameObject?.activeInHierarchy == false)
+                // If there is no selected object, or if the currently selected object is not visible.
+                if (previouslySelectedGameObject == null || previouslySelectedGameObject.activeInHierarchy == false)
                 {
-                    selectedGameObject = system.firstSelectedGameObject;
+                    // Then set the currently selected object to be the first selected game object.
+                    previouslySelectedGameObject = EventSystem.current.firstSelectedGameObject;
                 }
 
-                system.SetSelectedGameObject(selectedGameObject);
+                EventSystem.current.SetSelectedGameObject(previouslySelectedGameObject);
             }
-
-#if UNITY_PS4 || UNITY_PS5
-            /* // Overlay handles 'R3', input is always sent
-            if (Input.GetButtonDown("R3"))
-            {
-                Debug.Log("UILoginMenu (Update): R3 pressed, socialOverlayActivated=" + socialOverlayActivated);
-                if(socialOverlayActivated)
-                {
-                    // Show overlay
-                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().ShowFriendsOverlay(null);
-                }
-                else
-                {
-                    // Hide Overlay
-                    EOSManager.Instance.GetOrCreateManager<EOSFriendsManager>().HideFriendsOverlay(null);
-                }
-                socialOverlayActivated = !socialOverlayActivated;
-            }
-            */
-
-            // Disable game input if Overlay is visible and has exclusive input
-            if (system != null && system.sendNavigationEvents != !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-            {
-                if (EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
-                {
-                    Debug.LogWarning("UILoginMenu (Update): Game Input (sendNavigationEvents) Disabled.");
-                    system.sendNavigationEvents = false;
-                    return;
-                }
-                else
-                {
-                    Debug.Log("UILoginMenu (Update): Game Input (sendNavigationEvents) Enabled.");
-                    system.sendNavigationEvents = true;
-                }
-            }
-#endif
-
-            // Controller: Detect if nothing is selected and controller input detected, and set default
-            bool nothingSelected = system != null && system.currentSelectedGameObject == null;
-            bool inactiveButtonSelected = system != null && system.currentSelectedGameObject != null && !system.currentSelectedGameObject.activeInHierarchy;
-
-            if ((nothingSelected || inactiveButtonSelected)
-                && (Input.GetAxis("Horizontal") != 0.0f || Input.GetAxis("Vertical") != 0.0f))
-            {
-                if (UIFirstSelected.activeInHierarchy == true)
-                {
-                    system.SetSelectedGameObject(UIFirstSelected);
-                }
-                else if (UIFindSelectable?.activeSelf == true)
-                {
-                    system.SetSelectedGameObject(UIFindSelectable);
-                }
-                else
-                {
-                    var selectables = GameObject.FindObjectsOfType<Selectable>(false);
-                    foreach (var selectable in selectables)
-                    {
-                        if (selectable.navigation.mode != Navigation.Mode.None)
-                        {
-                            EventSystem.current.SetSelectedGameObject(selectable.gameObject);
-                            break;
-                        }
-                    }
-                }
-
-                Debug.Log("Nothing currently selected, default to UIFirstSelected: system.currentSelectedGameObject = " + system.currentSelectedGameObject);
-            }
-
-            // Tab between input fields
-            if (Input.GetKeyDown(KeyCode.Tab)
-                && system.currentSelectedGameObject != null)
-            {
-                Selectable next = system.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
-
-                InputField inputField = system.currentSelectedGameObject.GetComponent<InputField>();
-
-                if (next != null)
-                {
-                    InputField inputfield = next.GetComponent<InputField>();
-                    if (inputfield != null)
-                    {
-                        inputfield.OnPointerClick(new PointerEventData(system));
-                    }
-
-                    system.SetSelectedGameObject(next.gameObject);
-                }
-                else
-                {
-                    next = FindTopUISelectable();
-                    system.SetSelectedGameObject(next.gameObject);
-                }
-            }
-
-            signInWithAppleManager?.Update();
         }
-#endif
 
-        private Selectable FindTopUISelectable()
+        /// <summary>
+        /// Determines whether input should be passed to the scene, or if it should be skipped.
+        /// This is in-order to prevent input from being handled when the EOS overlay is active.
+        /// </summary>
+        /// <returns>True if input should be handled, false if not.</returns>
+        private static bool ShouldInputBeHandled()
         {
-            Selectable currentTop = Selectable.allSelectablesArray[0];
-            double currentTopYaxis = currentTop.transform.position.y;
-
-            foreach (Selectable s in Selectable.allSelectablesArray)
+            // TODO: Clarify why this is only evaluated for PS4 and PS5
+#if UNITY_PS4 || UNITY_PS5
+            // TODO: Simplify this conditional - it's sort of confusing to read despite doing exactly what we want
+            if (null == EventSystem.current || EventSystem.current.sendNavigationEvents == !EOSManager.Instance.IsOverlayOpenWithExclusiveInput())
             {
-                if (s.transform.position.y > currentTopYaxis &&
-                    s.navigation.mode != Navigation.Mode.None)
-                {
-                    currentTop = s;
-                    currentTopYaxis = s.transform.position.y;
-                }
+                return true;
             }
 
-            return currentTop;
+            bool shouldHandle = !EOSManager.Instance.IsOverlayOpenWithExclusiveInput();
+                
+            Debug.Log($"Input {(shouldHandle ? "enabled" : "disabled")} due to EOS Overlay.");
+#if ENABLE_INPUT_SYSTEM
+            EventSystem.current.currentInputModule.enabled = shouldHandle;
+#else
+            EventSystem.current.sendNavigationEvents = shouldHandle;
+#endif
+
+            return shouldHandle;
+#else
+            return true;
+#endif
+        }
+
+        /// <summary>
+        /// Determines whether a GameObject needs to be set as selected.
+        /// </summary>
+        /// <returns>Returns true if a GameObject needs to be set, false otherwise.</returns>
+        private static bool ShouldSetSelectedGameObject()
+        {
+            bool wasInputDetected = InputUtility.WasGamepadUsedLastFrame() || InputUtility.WasMouseUsedLastFrame();
+
+            // If there was no input, or if there is a currently selected game object that is active,
+            // then stop the process.
+            return (false == wasInputDetected ||
+                    (null != EventSystem.current.currentSelectedGameObject &&
+                     EventSystem.current.currentSelectedGameObject.activeInHierarchy));
+        }
+
+
+        /// <summary>
+        /// Determines which GameObject should be selected.
+        /// </summary>
+        /// <param name="firstGameObject">Reference to the GameObject that is considered to be the "first" in tab focus order.</param>
+        /// <param name="findSelectable">Reference to the GameObject that can be used to find other selectables if doing so is necessary.</param>
+        private static void SetSelectedGameObject(ref GameObject firstGameObject, ref GameObject findSelectable)
+        {
+            if (null != EventSystem.current.currentSelectedGameObject)
+                return;
+
+            var nextSelectable = FindObjectsOfType<Selectable>(false)
+                .FirstOrDefault(s => s.navigation.mode != Navigation.Mode.None);
+            if (null != nextSelectable)
+            {
+                EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
+            }
+        }
+
+        private static void HandleTabInput()
+        {
+            // Stop handling if Tab is not pressed, or if there is no current event system.
+            if (!InputUtility.TabWasPressed() || null == EventSystem.current || null == EventSystem.current.currentSelectedGameObject)
+            {
+                return;
+            }
+
+            // Find the next selectable by selecting up or down based on whether the shift or shift equivalent is pressed.
+            Selectable next = (InputUtility.ShiftIsPressed())
+                ? EventSystem.current.currentSelectedGameObject
+                    .GetComponent<Selectable>().FindSelectableOnUp()
+                : EventSystem.current.currentSelectedGameObject
+                    .GetComponent<Selectable>().FindSelectableOnDown();
+
+            // NOTE: Previously the following while loop was only executed when ENABLE_INPUT_SYSTEM is set.
+            // TODO: Confirm no regressions in functionality.
+            while (null != next && !next.gameObject.activeSelf)
+            {
+                next = InputUtility.ShiftIsPressed() ? next.FindSelectableOnDown() : next.FindSelectableOnUp();
+            }
+
+            if (next != null)
+            {
+                // If the "next" control getting focus has an input field component.
+                if (next.TryGetComponent<InputField>(out var inputField))
+                {
+                    // Then simulate a pointer click on that component.
+                    inputField.OnPointerClick(new PointerEventData(EventSystem.current));
+                }
+            }
+            else
+            {
+                // Find the navigable selectable with the highest y position (highest on the
+                // screen), and set "next" to that selectable.
+                next = Selectable.allSelectablesArray
+                    .Where(selectable => selectable.navigation.mode != Navigation.Mode.None && selectable.gameObject.activeInHierarchy && selectable.gameObject.activeSelf)
+                    .OrderByDescending(selectable => selectable.transform.position.y)
+                    .FirstOrDefault();
+            }
+
+            // If a "next" control has been found, then set the selected game object to the
+            // game object associated with it.
+            if (next != null)
+            {
+                EventSystem.current.SetSelectedGameObject(next.gameObject);
+            }
+        }
+
+        /// <summary>
+        /// Handles Enter or Enter equivalent to press the login.
+        /// </summary>
+        private void HandleEnterInput()
+        {
+            // Skip if enter wasn't pressed, if the event system is null, or if there is no currently selected game object
+            if (!InputUtility.WasEnterPressed() || null == EventSystem.current ||
+                null == EventSystem.current.currentSelectedGameObject)
+            {
+                return;
+            }
+            // NOTE: Previously, this was only checked when the new Input System was being used
+            // TODO: Test behavior of "Enter" for both input systems.
+            InputField inputField = EventSystem.current.currentSelectedGameObject.GetComponent<InputField>();
+            UIConsoleInputField consoleInputField = EventSystem.current.currentSelectedGameObject.GetComponent<UIConsoleInputField>();
+
+            if (inputField != null || consoleInputField != null)
+            {
+                EnterPressedToLogin();
+            }
+        }
+
+        /// <summary>
+        /// Handles a variety of common input tasks executed every frame.
+        /// </summary>
+        /// <param name="previouslySelected">The GameObject that was most recently selected.</param>
+        /// <param name="firstSelected">The firstselectable (typically UIFirstSelected which is the GameObject controller for the scene.</param>
+        /// <param name="findSelectable">The findSelectable.</param>
+        private static void HandleInput(ref GameObject previouslySelected, ref GameObject firstSelected,
+            ref GameObject findSelectable)
+        {
+            // Prevents game object from being de-selected.
+            // NOTE: This seems to intentionally be called *before* determining if input should be handled.
+            // TODO: Determine whether it should be called after determining if input should be handled.
+            PreventDeselection(ref previouslySelected);
+
+            // Determines whether or not to handle the input (typically not if the EOS overlay is active).
+            // If input should not be handled, then the process stops here.
+            if (!ShouldInputBeHandled()) { return; }
+
+            // Set the selected GameObject if doing so is necessary.
+            if (ShouldSetSelectedGameObject())
+            {
+                SetSelectedGameObject(ref firstSelected, ref findSelectable);
+            }
+
+            // If tab was pressed, progress the selected control to the next appropriate one.
+            HandleTabInput();
+        }
+
+        public void Update()
+        { 
+            HandleInput(ref selectedGameObject, ref UIFirstSelected, ref UIFindSelectable);
+
+            HandleEnterInput();
+
+            if (null != signInWithAppleManager)
+            {
+                signInWithAppleManager.Update();
+            }
         }
 
         private void ConfigureUIForDevAuthLogin()
@@ -770,30 +771,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private void InitConnectDropdown()
         {
-            List<Dropdown.OptionData> connectOptions = new List<Dropdown.OptionData>();
+            List<string> externalCredentialTypeLabels = (from ExternalCredentialType type in Enum.GetValues(typeof(ExternalCredentialType))
+                where type.IsDemoed() 
+                select type.ToString()).ToList();
 
-            List<ExternalCredentialType> credentialTypes = new List<ExternalCredentialType>
-            {//include all implemented ones here, so users can see all options across platforms (use the configure connect method to turn off access in bad cases)
-                ExternalCredentialType.DeviceidAccessToken,
-                ExternalCredentialType.AppleIdToken,
-                //ExternalCredentialType.GogSessionTicket,
-                //ExternalCredentialType.GoogleIdToken,
-                ExternalCredentialType.OculusUseridNonce,
-                //ExternalCredentialType.ItchioJwt,
-                //ExternalCredentialType.ItchioKey,
-                //ExternalCredentialType.AmazonAccessToken
-                ExternalCredentialType.SteamSessionTicket,
-                ExternalCredentialType.SteamAppTicket,
-                ExternalCredentialType.DiscordAccessToken,
-                ExternalCredentialType.OpenidAccessToken,
-            };
+            externalCredentialTypeLabels.Sort();
 
-            foreach (ExternalCredentialType type in credentialTypes)
-            {
-                connectOptions.Add(new Dropdown.OptionData() { text = type.ToString() });
-            }
-
-            connectTypeDropdown.options = connectOptions;
+            connectTypeDropdown.options = externalCredentialTypeLabels.Select(
+                label => new Dropdown.OptionData() { text=label }).ToList();
         }
 
         private void ConfigureUIForLogin()

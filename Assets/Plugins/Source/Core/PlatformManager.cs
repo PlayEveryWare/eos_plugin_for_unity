@@ -143,6 +143,15 @@ namespace PlayEveryWare.EpicOnlineServices
             };
 
         /// <summary>
+        /// Get the config type for the current platform.
+        /// </summary>
+        /// <returns>The config type for the current platform.</returns>
+        public static Type GetConfigType()
+        {
+            return GetConfigType(PlatformManager.CurrentPlatform);
+        }
+
+        /// <summary>
         /// Returns the type of the PlatformConfig that holds configuration values for the indicated Platform.
         /// </summary>
         /// <param name="platform">The Platform to get the specific PlatformConfig type of.</param>
@@ -213,10 +222,9 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string GetConfigFilePath(Platform platform)
         {
             return Path.Combine(
-                Application.dataPath,
-                "StreamingAssets",
+                Application.streamingAssetsPath,
                 "EOS",
-                GetPlatformConfigFileName(platform)
+                GetConfigFileName(platform)
                 );
         }
 
@@ -257,7 +265,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <param name="platform">The platform to get the JSON file name of.</param>
         /// <returns>The JSON file that contains configuration values for the given platform.</returns>
-        private static string GetPlatformConfigFileName(Platform platform)
+        public static string GetConfigFileName(Platform platform)
         {
             return PlatformInformation[platform].ConfigFileName;
         }

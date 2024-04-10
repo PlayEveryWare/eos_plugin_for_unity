@@ -19,17 +19,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+#if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using UnityEngine;
+    using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig, new()
     {
         protected PlatformManager.Platform Platform;
-        protected T Config;
 
         #region Methods for which the functionality is shared (consider these "sealed")
 
@@ -38,33 +40,19 @@ namespace PlayEveryWare.EpicOnlineServices
             this.Platform = platform;
         }
 
-        public string GetTempDir()
-        {
-            return UnityEngine.Application.temporaryCachePath;
-        }
-
         public string GetDynamicLibraryExtension()
         {
             return PlatformManager.GetDynamicLibraryExtension(Platform);
         }
 
-        public T GetConfig()
-        {
-            if (Config != null)
-            {
-                return Config;
-            }
-
-            string configPath = PlatformManager.GetConfigFilePath(Platform);
-            string configAsData = File.ReadAllText(configPath);
-            Config = JsonUtility.FromJson<T>(configAsData);
-            return Config;
-        }
-
         #endregion
-
-
+        
         #region Virtual methods that have a default behavior, but may need to be overwritten by deriving classes.
+
+        public virtual string GetTempDir()
+        {
+            return Application.temporaryCachePath;
+        }
 
         public virtual void InitializeOverlay(IEOSCoroutineOwner owner)
         {
@@ -112,28 +100,36 @@ namespace PlayEveryWare.EpicOnlineServices
                 throw new Exception("ConfigureSystemInitOptions: initializeOptions is null!");
             }
 
-            if (GetConfig() != null)
+            string configPath = PlatformManager.GetConfigFilePath(Platform);
+            string configJson = File.ReadAllText(configPath);
+            T config = JsonUtility.FromJson<T>(configJson);
+
+            if (config != null && initializeOptions.OverrideThreadAffinity.HasValue)
             {
-                Debug.Log("GetConfig() is not null");
-                if (initializeOptions.OverrideThreadAffinity.HasValue)
-                {
-                    var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
-                    overrideThreadAffinity.NetworkWork = Config.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
-                    overrideThreadAffinity.StorageIo = Config.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
-                    overrideThreadAffinity.WebSocketIo = Config.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
-                    overrideThreadAffinity.P2PIo = Config.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
-                    overrideThreadAffinity.HttpRequestIo = Config.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
-                    overrideThreadAffinity.RTCIo = Config.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
-                    initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
-                }
+                Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
+                var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
+                overrideThreadAffinity.NetworkWork = config.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
+                overrideThreadAffinity.StorageIo = config.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
+                overrideThreadAffinity.WebSocketIo = config.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
+                overrideThreadAffinity.P2PIo = config.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
+                overrideThreadAffinity.HttpRequestIo = config.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
+                overrideThreadAffinity.RTCIo = config.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
+                initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
             }
         }
 
+        /// <summary>
+        /// Indicates whether the platform is ready for network activity.
+        /// TODO: Determine where this is used, and why it isn't a boolean.
+        /// </summary>
+        /// <returns>1 if network is ready, 0 otherwise</returns>
         public virtual Int32 IsReadyForNetworkActivity()
         {
+            // Default behavior is to assume that the platform is always ready for network activity.
             return 1;
         }
 
         #endregion
     }
 }
+#endif //!EOS_DISABLE
