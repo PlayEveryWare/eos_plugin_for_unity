@@ -90,7 +90,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void ToggleHighFrequencySending()
         {
-            Peer2PeerManager.sendActive = !Peer2PeerManager.sendActive;
+            if (Peer2PeerManager != null)
+            {
+                Peer2PeerManager.sendActive = !Peer2PeerManager.sendActive;
+            }
         }
         private void Update()
         {

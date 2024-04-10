@@ -132,7 +132,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         }
 
         //use anticheat_integritytool to hash protected files and generate certificate for EAC
-        private static async Task GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID,
+        private static void GenerateIntegrityCert(BuildReport report, string pathToEACIntegrityTool, string productID,
             string keyFileName, string certFileName, string configFile = null)
         {
             string installPathForExe = report.summary.outputPath;
@@ -152,7 +152,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             try
             {
-                await ReplaceFileContentVars(newCfgPath, buildExeName);
+                ReplaceFileContentVars(newCfgPath, buildExeName);
                 configFile = newCfgPath;
 
                 string integrityToolArgs =
@@ -265,7 +265,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             return directories;
         }
 
-        private static async Task InstallEACFiles(BuildReport report)
+        private static void InstallEACFiles(BuildReport report)
         {
             string destDir = Path.GetDirectoryName(report.summary.outputPath);
             string pathToInstallFrom = GetPathToPlatformSpecificAssets(report);
@@ -324,7 +324,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
                     if (postBuildFilesWithVars.Contains(fileToInstall))
                     {
-                        await ReplaceFileContentVars(destPathname, buildExeName);
+                        ReplaceFileContentVars(destPathname, buildExeName);
                     }
                 }
                 else if (!postBuildFilesOptional.Contains(fileToInstall))
@@ -359,12 +359,13 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             return filename;
         }
 
-        private static async Task ReplaceFileContentVars(string filepath, string buildExeName)
+        private static void ReplaceFileContentVars(string filepath, string buildExeName)
         {
             using StreamReader reader = new(filepath);
-            string fileContents = await reader.ReadToEndAsync();
+            string fileContents = reader.ReadToEnd();
+            reader.Close();
 
-            EOSConfig eosConfig = await Config.GetAsync<EOSConfig>();
+            EOSConfig eosConfig = Config.Get<EOSConfig>();
 
             var sb = new System.Text.StringBuilder(fileContents);
 
@@ -378,13 +379,13 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             fileContents = sb.ToString();
 
-            await using StreamWriter writer = new(fileContents);
-            await writer.WriteAsync(fileContents);
+            using StreamWriter writer = new(filepath);
+            writer.Write(fileContents);
         }
 
-        public static async Task ConfigureEAC(BuildReport report)
+        public static void ConfigureEAC(BuildReport report)
         {
-            ToolsConfig toolsConfig = await Config.GetAsync<ToolsConfig>();
+            ToolsConfig toolsConfig = Config.Get<ToolsConfig>();
             
             // if EAC is not supposed to be installed, then stop here
             if (!toolsConfig.useEAC)
@@ -392,7 +393,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 return;
             }
 
-            await InstallEACFiles(report);
+            InstallEACFiles(report);
 
             if (!string.IsNullOrWhiteSpace(toolsConfig.pathToEACSplashImage))
             {
@@ -419,8 +420,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
                 if (!string.IsNullOrWhiteSpace(toolPath))
                 {
-                    var productId = (await Config.GetAsync<EOSConfig>()).productID;
-                    await GenerateIntegrityCert(report, toolPath, productId,
+                    var productId = (Config.Get<EOSConfig>()).productID;
+                    GenerateIntegrityCert(report, toolPath, productId,
                         toolsConfig.pathToEACPrivateKey, toolsConfig.pathToEACCertificate, cfgPath);
                 }
             }
