@@ -6,3 +6,5 @@
 *.iobj.meta
 *.ipdb
 *.ipdb.meta
+*.idb
+*.idb.meta
