@@ -75,7 +75,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="binaryFiles">Paths of any expected binary files, relative to the native code output directory defined for the builder.</param>
         protected void AddProjectFileToBinaryMapping(string projectFile, params string[] binaryFiles)
         {
-            string fullyQualifiedOutputPath = Path.Combine(Application.dataPath, _nativeCodeOutputDirectory);
+            string fullyQualifiedOutputPath = Path.Combine(
+                BuildUtility.DeployedAsUPM ? Path.GetFullPath("Runtime") : Application.dataPath, 
+                _nativeCodeOutputDirectory);
 
             string[] fullyQualifiedBinaryPaths = new string[binaryFiles.Length];
             for (int i = 0; i < binaryFiles.Length; i++)
