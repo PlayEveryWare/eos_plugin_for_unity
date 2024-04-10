@@ -61,7 +61,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="nativeCodeOutputDirectory">The filepath to the location of the binary files, relative to the Assets directory.</param>
         protected PlatformSpecificBuilder(string nativeCodeOutputDirectory)
         {
-            _nativeCodeOutputDirectory = Path.Combine(Application.dataPath, nativeCodeOutputDirectory);
+            _nativeCodeOutputDirectory = Path.Combine(
+                BuildUtility.DeployedAsUPM ? Path.GetFullPath("Runtime") : Application.dataPath,
+                nativeCodeOutputDirectory);
+
             _projectFileToBinaryFilesMap = new Dictionary<string, string[]>();
         }
 
@@ -111,13 +114,23 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             if (IsStandalone())
             {
                 // Configure easy-anti-cheat.
-                Task.Run(() => EACUtility.ConfigureEAC(report));
+                EACUtility.ConfigureEAC(report);
             }
         }
 
         public virtual void BuildNativeCode()
         {
-            BuildUtility.BuildNativeBinaries(_projectFileToBinaryFilesMap, _nativeCodeOutputDirectory, true);
+            // Only try to build native code if all the project files exist.
+            // This is mostly to prevent an attempt to build native binaries when the plugin is deployed
+            // via UPM.
+            if (_projectFileToBinaryFilesMap.Keys.All(File.Exists))
+            {
+                BuildUtility.BuildNativeBinaries(_projectFileToBinaryFilesMap, _nativeCodeOutputDirectory, true);
+            }
+            else
+            {
+                Debug.Log("Project files for native code compilation not found, skipping.");
+            }
         }
 
         /// <summary>
@@ -132,9 +145,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             Debug.Log("Checking for platform-specific prerequisites.");
 
             // Validate the configuration for the platform
-            // TODO-RELEASE: When in UPM form - this fails when you try and build for the first time, but 
-            //               subsequent builds don't fail on the configuration being missing, instead they
-            //               fail at a later point.
             BuildUtility.ValidatePlatformConfiguration();
 
             // Build any native libraries that need to be built for the platform
@@ -142,7 +152,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             BuildNativeCode();
 
             // Validate that the binaries built are now in the correct location
-            // TODO-RELEASE: When in UPM form - this fails because the project files do not exist.
             ValidateNativeBinaries();
         }
 

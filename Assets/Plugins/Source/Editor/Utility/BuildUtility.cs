@@ -45,6 +45,53 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     /// </summary>
     public static class BuildUtility
     {
+        private static Nullable<bool> s_isDeployedAsUPM;
+
+        private class Manifest
+        {
+            public Dictionary<string, string> dependencies;
+        }
+
+        /// <summary>
+        /// Whether the plugin is deployed as a UPM or not.
+        /// </summary>
+        public static bool DeployedAsUPM
+        {
+            get
+            {
+                s_isDeployedAsUPM ??= IsDeployedAsUPM();
+
+                return s_isDeployedAsUPM.Value;
+            }
+        }
+
+        /// <summary>
+        /// Determine if deployed as UPM by checking to see if the manifest has an entry for the package.
+        /// </summary>
+        /// <returns>True if the plugin is deployed as UPM, false otherwise.</returns>
+        private static bool IsDeployedAsUPM()
+        {
+            try
+            {
+                string manifestJson = FileUtility.ReadAllText(
+                    Path.Combine(FileUtility.GetProjectPath(), "Packages", "manifest.json")
+                );
+
+                Manifest manifest = JsonUtility.FromJson<Manifest>(manifestJson);
+
+                if (manifest.dependencies.ContainsKey(EOSPackageInfo.PackageName))
+                {
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"There was a problem determining if deployed via UPM: \"{e.Message}\".");
+            }
+
+            return false;
+        }
+
         /// <summary>
         /// Contains information regarding a specific installation of Visual Studio.
         /// </summary>
@@ -465,11 +512,14 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="vsVersion">The version of VS required by the solution file.</param>
         /// <param name="toolsets">The toolsets required by the solution file.</param>
         /// <exception cref="FileNotFoundException">Thrown if either the solution file does not exist, or if any of it's project files do not exist.</exception>
-        private static void DetermineVSPrerequisites(string solutionFilePath, out Version vsVersion, out IList<string> toolsets)
+        private static void DetermineVSPrerequisites(string solutionFilePath, out Version vsVersion,
+            out IList<string> toolsets)
         {
             // if there is no solution file
             if (string.IsNullOrEmpty(solutionFilePath) || false == File.Exists(solutionFilePath))
+            {
                 throw new FileNotFoundException($"Could not find solution file \"{solutionFilePath}\"");
+            }
 
             // Get the directory for the solution, because all project files will be relative to it
             string solutionDirectory = Path.GetDirectoryName(solutionFilePath);
@@ -583,7 +633,6 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <param name="rebuild">Whether to rebuild the libraries each time.</param>
         public static void BuildNativeBinaries(IDictionary<string, string[]> projectToBinaryMap, string outputDirectory, bool rebuild = false)
         {
-            // TODO-RELEASE: This breaks when in UPM mode.
             var projectsToBuild = new HashSet<string>();
 
             IDictionary<string, string> cachedProjectOutput = new Dictionary<string, string>();
