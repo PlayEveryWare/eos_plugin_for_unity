@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         /// </summary>
         public static CoroutineExecutor executorInstance;
         
-        private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
+        public static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
         {
             var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
 
@@ -203,7 +203,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         }
 
         // Helper coroutine for making the client package.
-        private static IEnumerator StartMakingTarball(string packageFolder, string outputPath)
+        public static IEnumerator StartMakingTarball(string packageFolder, string outputPath)
         {
             packRequest = UnityEditor.PackageManager.Client.Pack(packageFolder, outputPath);
 
