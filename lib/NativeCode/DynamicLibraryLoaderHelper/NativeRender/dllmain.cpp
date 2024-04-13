@@ -170,8 +170,6 @@ extern "C"
 {
     void __declspec(dllexport) __stdcall UnityPluginLoad(void* unityInterfaces);
     void __declspec(dllexport) __stdcall UnityPluginUnload();
-
-    void __declspec(dllexport) __stdcall UnloadEOS();
 }
 
 //-------------------------------------------------------------------------
@@ -1515,21 +1513,6 @@ DLL_EXPORT(void) UnityPluginUnload()
     s_eos_sdk_overlay_lib_handle = nullptr;
 
     global_log_close();
-}
-
-//-------------------------------------------------------------------------
-DLL_EXPORT(void) UnloadEOS()
-{
-    if (EOS_Shutdown_ptr)
-    {
-        log_inform("EOS shutdown");
-        EOS_Shutdown_ptr();
-    }
-    if (s_eos_sdk_lib_handle)
-    {
-        log_inform("Unload eos sdk handle");
-        unload_library(s_eos_sdk_lib_handle);
-    }
 }
 
 //-------------------------------------------------------------------------

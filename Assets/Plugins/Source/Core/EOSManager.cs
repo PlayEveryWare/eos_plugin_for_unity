@@ -614,7 +614,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_state = EOSState.Starting;
 
                 LoadEOSLibraries();
-                NativeCallToUnloadEOS();
 
                 var epicArgs = GetCommandLineArgsFromEpicLauncher();
 

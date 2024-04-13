@@ -20,14 +20,9 @@
 * SOFTWARE.
 */
 
-//#define USE_MANUAL_METHOD_LOADING
-
-// TODO: confirm that the overlay doesn't work on macOS
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR && !UNITY_IOS && !UNITY_STANDALONE_OSX
 #define USE_EOS_GFX_PLUGIN_NATIVE_RENDER
 #endif
-
-//#define USE_WSA_DYNAMIC_LOAD
 
 #if UNITY_64 || UNITY_WSA
 #define PLATFORM_64BITS
@@ -81,9 +76,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 "GfxPluginNativeRender-unknown";
 #endif
 
-            [DllImport(GfxPluginNativeRenderPath)]
-            static extern void UnloadEOS();
-
             [DllImport(GfxPluginNativeRenderPath,CallingConvention = CallingConvention.StdCall)]
             static extern IntPtr EOS_GetPlatformInterface();
 
@@ -93,40 +85,6 @@ namespace PlayEveryWare.EpicOnlineServices
             static extern void global_log_flush_with_function(IntPtr ptr);
 #endif
 
-            static void NativeCallToUnloadEOS()
-            {
-#if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
-                DynamicLoadGFXNativeMethodsForWSA();
-                UnloadEOS();
-#endif
-            }
-
-            static private void DynamicLoadGFXNativeMethodsForWSA()
-            {
-#if UNITY_WSA_10_0 && USE_EOS_GFX_PLUGIN_NATIVE_RENDER && USE_WSA_DYNAMIC_LOAD
-                var gfxPluginName = "";
-
-                if (UnityEngine.Application.platform == UnityEngine.RuntimePlatform.WSAPlayerX86)
-                {
-                    gfxPluginName = "GfxPluginNativeRender-x86";
-                }
-                else if (UnityEngine.Application.platform == UnityEngine.RuntimePlatform.WSAPlayerX64)
-                {
-                    gfxPluginName = "GfxPluginNativeRender-x64";
-                }
-
-                var gfxLibraryHandle = LoadDynamicLibrary(gfxPluginName);
-
-                if (gfxLibraryHandle == null)
-                {
-                    throw new Exception("bad lib for gfxplugin name!");
-                }
-
-                UnloadEOS = (UnloadEOS_delegate)gfxLibraryHandle.LoadFunctionAsDelegate(typeof(UnloadEOS_delegate), "UnloadEOS");
-                EOS_GetPlatformInterface = (EOS_GetPlatformInterface_delegate)gfxLibraryHandle.LoadFunctionAsDelegate(typeof(EOS_GetPlatformInterface_delegate), "EOS_GetPlatformInterface");
-#endif
-            }
-
 
             //-------------------------------------------------------------------------
             public PlatformInterface GetEOSPlatformInterface()
@@ -134,8 +92,6 @@ namespace PlayEveryWare.EpicOnlineServices
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
                 if (s_eosPlatformInterface == null && s_state != EOSState.Shutdown)
                 {
-                    //DynamicLoadGFXNativeMethodsForWSA();
-
                     // Try to log any messages stored when starting up the Plugin.
                     IntPtr logErrorFunctionPointer = Marshal.GetFunctionPointerForDelegate(new PrintDelegateType(SimplePrintStringCallback));
                     SimplePrintStringCallback("Start of Early EOS LOG:");
@@ -209,6 +165,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 System.GC.WaitForPendingFinalizers();
             }
 
+            //-------------------------------------------------------------------------
             static public void LoadDelegatesWithEOSBindingAPI()
             {
 #if EOS_DYNAMIC_BINDINGS
