@@ -1,0 +1,7 @@
+apiRules:
+- include:
+    uidRegex: ^PlayEveryWare\.EpicOnlineServices*
+    type: Namespace
+- exclude:
+    uidRegex: ^Epic\.
+    type: Namespace

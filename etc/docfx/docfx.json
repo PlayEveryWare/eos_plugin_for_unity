@@ -3,16 +3,18 @@
     {
       "src": [
         {
-          "src": "../../",
+          "src": "../../Assets/",
           "files": [
-              "com.playeveryware.*.csproj"
+              "**.cs"
           ]
         }
       ],
       "dest": "api",
+      "filter": "filter.yml",
       "disableGitFeatures": false,
-      "disableDefaultFilter": false,
+      "disableDefaultFilter": true,
       "ignoreErrors":true,
+      "allowCompilationErrors": true,
       "properties": {
         "DefineConstants":"EOS_DISABLE;EOS_DYNAMIC_BINDINGS"
       }
