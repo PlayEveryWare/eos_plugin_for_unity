@@ -65,16 +65,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #if !EOS_DISABLE
             static private PlatformInterface s_eosPlatformInterface;
 
-            public const string EOSBinaryName =
-#if !EOS_DYNAMIC_BINDINGS
-                Epic.OnlineServices.Config.LibraryName;
-#else
-                // NOTE: This constant was selected because it is the value assigned to
-                //       Epic.OnlineServices.Config.LibraryName when the platform cannot
-                //       be determined. It is set this way to accommodate the generation
-                //       of docfx documentation.
-                "EOSSDK-UnknownPlatform-Shipping";
-#endif
+            public const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
 
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
             public const string GfxPluginNativeRenderPath =

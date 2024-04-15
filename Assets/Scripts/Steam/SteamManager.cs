@@ -355,10 +355,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 #endif
         }
 
+        /// NOTE: This conditional is here because if EOS_DISABLE is enabled, the members referenced
+        ///       in this code block will not exist on EOSManager.
+#if !EOS_DISABLE
         public void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
         {
 #if DISABLESTEAMWORKS
-            onLoginCallback?.Invoke(new Epic.OnlineServices.Auth.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
+            onLoginCallback?.Invoke(new Epic.OnlineServices.Auth.LoginCallbackInfo()
+            {
+                ResultCode = Epic.OnlineServices.Result.UnexpectedError
+            });
 #else
 
             string steamId = GetSteamID();
@@ -411,6 +417,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             });
 #endif
         }
+
+#endif
     }
 }
 
