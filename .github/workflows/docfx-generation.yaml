@@ -1,0 +1,24 @@
+name: DocFX Generation
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+  
+    steps:
+        # Check out the repository
+      - name: checkout self
+        uses: actions/checkout@v4
+
+        # Setup unity (based on the ProjectSettings.txt file)
+      - uses: xrtk/unity-setup@v7
+        with:
+          build-targets: StandaloneLinux64
+      
+        # Activate Unity License using GitHub secrets
+      - uses: xrtk/activate-unity-license@v5.1
+        with:
+          username: ${{ secrets.UNITY_USERNAME }}
+          password: ${{ secrets.UNITY_PASSWORD }}
+          license-type: 'Professional'
+          serial: $${{ secrets.UNITY_SERIAL }}
