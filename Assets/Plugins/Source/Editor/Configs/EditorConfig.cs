@@ -38,6 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     {
         protected EditorConfig(string filename) : base(filename, Path.Combine(FileUtility.GetProjectPath(), "etc/config/")) { }
 
+#if UNITY_EDITOR
         // Overridden functionality changes the default parameter value for updateAssetDatabase, because EditorConfig
         // should not be anywhere within Assets.
         public override async Task WriteAsync(bool prettyPrint = true, bool updateAssetDatabase = false)
@@ -45,5 +46,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
             // Override the base function
             await base.WriteAsync(prettyPrint, updateAssetDatabase);
         }
+#endif
     }
 }
