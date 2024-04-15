@@ -11,9 +11,14 @@
       ],
       "dest": "api",
       "disableGitFeatures": false,
-      "disableDefaultFilter": false
+      "disableDefaultFilter": false,
+      "ignoreErrors":true,
+      "properties": {
+        "DefineConstants":"EOS_DYNAMIC_BINDINGS"
+      }
     }
   ],
+  "allowCompilationErrors":true,
   "build": {
     "content": [
       {
