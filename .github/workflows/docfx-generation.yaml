@@ -1,9 +1,6 @@
 name: DocFX Generation
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - stable
 jobs:
   publish-docs:
     runs-on: ubuntu-latest
