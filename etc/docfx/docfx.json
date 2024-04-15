@@ -3,12 +3,6 @@
     {
       "src": [
         {
-          "src": "../../Assets/Plugins/",
-          "files": [
-              "EOSConfig.cs"
-          ]
-        },
-        {
           "src": "../../Assets/Plugins/Source/",
           "files": [
               "*.cs"
