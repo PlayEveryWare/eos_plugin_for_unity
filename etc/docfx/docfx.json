@@ -3,34 +3,15 @@
     {
       "src": [
         {
-          "src": "../../Assets/Plugins/",
+          "src": "../../",
           "files": [
-              "EOSConfig.cs"
-          ]
-        },
-        {
-          "src": "../../Assets/Plugins/Source/",
-          "files": [
-              "*.cs"
-          ]
-        },
-        {
-          "src": "../../Assets/Plugins/Source/Editor/",
-          "files": [
-              "*.cs"
-          ]
-        },
-        {
-          "src": "../../Assets/Scripts/",
-          "files": [
-              "*.cs"
+              "*.csproj"
           ]
         }
       ],
       "dest": "api",
-      "filter": "filter.yml",
       "disableGitFeatures": false,
-      "disableDefaultFilter": true
+      "disableDefaultFilter": false
     }
   ],
   "build": {
