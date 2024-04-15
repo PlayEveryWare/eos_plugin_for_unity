@@ -5,7 +5,7 @@
         {
           "src": "../../",
           "files": [
-              "*.csproj"
+              "com.playeveryware.*.csproj"
           ]
         }
       ],
@@ -14,7 +14,7 @@
       "disableDefaultFilter": false,
       "ignoreErrors":true,
       "properties": {
-        "DefineConstants":"EOS_DYNAMIC_BINDINGS"
+        "DefineConstants":"EOS_DISABLE;EOS_DYNAMIC_BINDINGS"
       }
     }
   ],
