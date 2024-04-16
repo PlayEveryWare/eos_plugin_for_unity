@@ -78,7 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         
         private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
         {
-            var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
+            var JSONPackageDescription = FileUtility.ReadAllText(pathToJSONPackageDescription);
 
             var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
 

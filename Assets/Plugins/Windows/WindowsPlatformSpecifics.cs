@@ -48,6 +48,8 @@ using UnityEngine.Scripting;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Utility;
+
     //-------------------------------------------------------------------------
     public class WindowsPlatformSpecifics : PlatformSpecifics<WindowsConfig>
     {
@@ -148,7 +150,7 @@ static string SteamDllName = "steam_api.dll";
 
                 if (File.Exists(steamEOSFinalConfigPath))
                 {
-                    var steamConfigDataAsString = System.IO.File.ReadAllText(steamEOSFinalConfigPath);
+                    var steamConfigDataAsString = FileUtility.ReadAllText(steamEOSFinalConfigPath);
                     var steamConfigData = JsonUtility.FromJson<EOSSteamConfig>(steamConfigDataAsString);
                     var integratedPlatforms = new Epic.OnlineServices.IntegratedPlatform.Options[1];
 
