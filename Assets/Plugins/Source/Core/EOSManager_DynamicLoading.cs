@@ -24,7 +24,7 @@
 #define USE_EOS_GFX_PLUGIN_NATIVE_RENDER
 #endif
 
-#if UNITY_64 || UNITY_WSA
+#if UNITY_64
 #define PLATFORM_64BITS
 // As far as I know, on Windows, if it isn't 64 bit, it's 32 bit
 #elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
@@ -67,7 +67,7 @@ namespace PlayEveryWare.EpicOnlineServices
             public const string GfxPluginNativeRenderPath =
 #if UNITY_STANDALONE_OSX 
                 "GfxPluginNativeRender-macOS";
-#elif (UNITY_STANDALONE_WIN || UNITY_WSA) && PLATFORM_64BITS
+#elif UNITY_STANDALONE_WIN && PLATFORM_64BITS
                 "GfxPluginNativeRender-x64";
 #elif (UNITY_STANDALONE_WIN) && PLATFORM_32BITS
                 "GfxPluginNativeRender-x86";
