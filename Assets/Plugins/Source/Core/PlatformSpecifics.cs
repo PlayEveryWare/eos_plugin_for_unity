@@ -102,8 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             string configPath = PlatformManager.GetConfigFilePath(Platform);
-            string configJson = FileUtility.ReadAllText(configPath);
-            T config = JsonUtility.FromJson<T>(configJson);
+            T config = JsonUtility.FromJsonFile<T>(configPath);
 
             if (config != null && initializeOptions.OverrideThreadAffinity.HasValue)
             {

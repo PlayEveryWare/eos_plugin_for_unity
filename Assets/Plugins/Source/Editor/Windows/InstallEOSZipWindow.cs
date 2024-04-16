@@ -126,8 +126,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         protected override void Setup()
         {
             pathToImportDescDirectory = Path.Combine(FileUtility.GetProjectPath(), "etc/EOSImportDesriptions/", PlatformImportInfoListFileName);
-            string json = FileUtility.ReadAllText(pathToImportDescDirectory);
-            importInfoList = JsonUtility.FromJson<PlatformImportInfoList>(json);
+            importInfoList = JsonUtility.FromJsonFile<PlatformImportInfoList>(pathToImportDescDirectory);
         }
 
         private void DrawPresets()
@@ -240,9 +239,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
                         if (platformImportInfo.isGettingImported)
                         {
                             string path = pathToImportDescDirectory + platformImportInfo.descPath;
-                            string json = FileUtility.ReadAllText(path);
                             var packageDescription =
-                                JsonUtility.FromJson<PackageDescription>(json);
+                                JsonUtility.FromJsonFile<PackageDescription>(path);
 
                             var fileResults =
                                 PackageFileUtility.FindPackageFiles(tmpDir,
