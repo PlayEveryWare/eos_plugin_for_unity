@@ -26,7 +26,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
-    using Codice.Client.IssueTracker;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using PlayEveryWare.EpicOnlineServices.Utility;
