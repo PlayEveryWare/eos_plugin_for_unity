@@ -67,10 +67,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             public const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
 
-
 #if USE_EOS_GFX_PLUGIN_NATIVE_RENDER
             public const string GfxPluginNativeRenderPath =
-#if UNITY_STANDALONE_OSX 
+#if UNITY_STANDALONE_OSX
                 "GfxPluginNativeRender-macOS";
 #elif (UNITY_STANDALONE_WIN || UNITY_WSA) && PLATFORM_64BITS
                 "GfxPluginNativeRender-x64";

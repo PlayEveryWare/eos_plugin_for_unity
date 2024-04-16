@@ -3,36 +3,24 @@
     {
       "src": [
         {
-          "src": "../../Assets/Plugins/",
+          "src": "../../Assets/",
           "files": [
-              "EOSConfig.cs"
-          ]
-        },
-        {
-          "src": "../../Assets/Plugins/Source/",
-          "files": [
-              "*.cs"
-          ]
-        },
-        {
-          "src": "../../Assets/Plugins/Source/Editor/",
-          "files": [
-              "*.cs"
-          ]
-        },
-        {
-          "src": "../../Assets/Scripts/",
-          "files": [
-              "*.cs"
+              "**.cs"
           ]
         }
       ],
       "dest": "api",
       "filter": "filter.yml",
       "disableGitFeatures": false,
-      "disableDefaultFilter": true
+      "disableDefaultFilter": true,
+      "ignoreErrors":true,
+      "allowCompilationErrors": true,
+      "properties": {
+        "DefineConstants":"EOS_DISABLE;EOS_DYNAMIC_BINDINGS"
+      }
     }
   ],
+  "allowCompilationErrors":true,
   "build": {
     "content": [
       {
@@ -70,7 +58,8 @@
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],
     "template": [
-      "default"
+      "default",
+      "templates/modern"
     ],
     "postProcessors": [],
     "markdownEngineName": "markdig",
