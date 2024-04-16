@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using System.IO;
     using UnityEngine;
+    using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig, new()

@@ -27,6 +27,7 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using EpicOnlineServices.Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
