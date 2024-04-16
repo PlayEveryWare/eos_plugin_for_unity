@@ -117,27 +117,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         {
             string text = string.Empty;
 #if UNITY_ANDROID && !UNITY_EDITOR
-            using var request = UnityEngine.Networking.UnityWebRequest.Get(filePath);
-            request.timeout = 2; //seconds till timeout
-            request.SendWebRequest();
-
-            //Wait till webRequest completed
-            while (!request.isDone) { }
-
-#if UNITY_2020_1_OR_NEWER
-            if (request.result != UnityEngine.Networking.UnityWebRequest.Result.Success)
-            {
-                Debug.Log("Requesting " + filePath + ", please make sure it exists and is a valid config");
-                throw new Exception("UnityWebRequest didn't succeed, Result : " + request.result);
-            }
-#else
-            if (request.isNetworkError || request.isHttpError)
-            {
-                Debug.Log("Requesting " + filePath + ", please make sure it exists and is a valid config");
-                throw new Exception("UnityWebRequest didn't succeed : Network or HTTP Error");
-            }
-#endif
-            text = request.downloadHandler.text;
+            text = AndroidFileIOHelper.ReadAllText(path);
 #else
             text = File.ReadAllText(path);
 #endif
