@@ -38,6 +38,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     {
         protected EditorConfig(string filename) : base(filename, Path.Combine(FileUtility.GetProjectPath(), "etc/config/")) { }
 
+        // NOTE: This compiler block is here because the base class "Config" has
+        //       the WriteAsync function surrounded by the same conditional.
 #if UNITY_EDITOR
         // Overridden functionality changes the default parameter value for updateAssetDatabase, because EditorConfig
         // should not be anywhere within Assets.
@@ -48,4 +50,5 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         }
 #endif
     }
+    
 }
