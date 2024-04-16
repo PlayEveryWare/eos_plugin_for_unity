@@ -31,6 +31,7 @@
 #endif
 
 //#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
+using PlayEveryWare.EpicOnlineServices.Utility;
 using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
@@ -93,7 +94,7 @@ static string SteamDllName = "steam_api.dll";
 
             if (File.Exists(steamEOSFinalConfigPath))
             {
-                var steamConfigDataAsString = System.IO.File.ReadAllText(steamEOSFinalConfigPath);
+                var steamConfigDataAsString = FileUtility.ReadAllText(steamEOSFinalConfigPath);
                 var steamConfigData = JsonUtility.FromJson<EOSSteamConfig>(steamConfigDataAsString);
                 var integratedPlatforms = new Epic.OnlineServices.IntegratedPlatform.Options[1];
 

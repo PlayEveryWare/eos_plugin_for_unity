@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using System.IO;
     using UnityEngine;
+    using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig, new()
@@ -101,7 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             string configPath = PlatformManager.GetConfigFilePath(Platform);
-            string configJson = File.ReadAllText(configPath);
+            string configJson = FileUtility.ReadAllText(configPath);
             T config = JsonUtility.FromJson<T>(configJson);
 
             if (config != null && initializeOptions.OverrideThreadAffinity.HasValue)

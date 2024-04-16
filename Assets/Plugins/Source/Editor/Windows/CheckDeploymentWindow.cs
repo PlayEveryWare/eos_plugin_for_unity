@@ -99,7 +99,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private void LoadTextFile(string filepath)
         {
-            content = File.ReadAllText(filepath);
+            content = FileUtility.ReadAllText(filepath);
             currentPath = filepath;
         }
 
