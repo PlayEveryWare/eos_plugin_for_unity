@@ -32,20 +32,14 @@ namespace PlayEveryWare.EpicOnlineServices
         #region Platform-specific stuff
 
         public
-#if !UNITY_EDITOR
-        Epic.OnlineServices.Platform.InitializeOptions
-#else
-#if UNITY_STANDALONE_WIN || UNITY_IOS || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
-        Epic.OnlineServices.Platform.InitializeOptions
-#elif UNITY_ANDROID
-        Epic.OnlineServices.Platform.AndroidInitializeOptions
-#else
-        // Leaving "else" open so that if a new platform comes along we'll catch it.
-#endif
+#if UNITY_EDITOR
+            InitializeOptions
+#elif UNITY_ANDROID // NOTE: Android is the only public platform with unique initialize options.
+            AndroidInitializeOptions
 #endif
         options;
 
-        #endregion
+#endregion
 
         public IntPtr AllocateMemoryFunction { get => options.AllocateMemoryFunction; set => options.AllocateMemoryFunction = value; }
         public IntPtr ReallocateMemoryFunction { get => options.ReallocateMemoryFunction; set => options.ReallocateMemoryFunction = value; }
