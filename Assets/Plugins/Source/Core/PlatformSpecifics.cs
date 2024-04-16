@@ -102,6 +102,7 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             string configPath = PlatformManager.GetConfigFilePath(Platform);
+            
             T config = JsonUtility.FromJsonFile<T>(configPath);
 
             if (config != null && initializeOptions.OverrideThreadAffinity.HasValue)
@@ -129,7 +130,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return 1;
         }
 
-        #endregion
+#endregion
     }
 }
 #endif //!EOS_DISABLE
