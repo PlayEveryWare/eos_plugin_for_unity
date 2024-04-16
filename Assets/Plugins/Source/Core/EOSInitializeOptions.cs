@@ -32,10 +32,10 @@ namespace PlayEveryWare.EpicOnlineServices
         #region Platform-specific stuff
 
         public
-#if UNITY_EDITOR
-            InitializeOptions
-#elif UNITY_ANDROID // NOTE: Android is the only public platform with unique initialize options.
+#if UNITY_ANDROID
             AndroidInitializeOptions
+#else
+            InitializeOptions
 #endif
         options;
 
