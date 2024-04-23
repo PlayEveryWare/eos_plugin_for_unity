@@ -90,7 +90,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Exception while creating builder: {e.Message}");
+                Debug.LogError($"Exception while creating builder: {e.Message}");
+                throw new BuildFailedException(e);
             }
 
             return builder;
