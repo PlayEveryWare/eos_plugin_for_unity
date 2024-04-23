@@ -42,7 +42,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
     public class IOSPlatformSpecifics : PlatformSpecifics<IOSConfig>
     {
-        public IOSPlatformSpecifics() : base(PlatformManager.Platform.iOS) { }
+        public IOSPlatformSpecifics() : base(PlatformManager.Platform.iOS, ".dylib") { }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()

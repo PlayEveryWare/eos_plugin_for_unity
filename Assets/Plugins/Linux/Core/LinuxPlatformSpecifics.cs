@@ -68,7 +68,7 @@ static string SteamDllName = "steam_api.dll";
 
         private static GCHandle SteamOptionsGCHandle;
 
-        public LinuxPlatformSpecifics() : base(PlatformManager.Platform.Linux) { }
+        public LinuxPlatformSpecifics() : base(PlatformManager.Platform.Linux, ".so") { }
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

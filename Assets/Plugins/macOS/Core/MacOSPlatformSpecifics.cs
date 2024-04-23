@@ -47,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
     //-------------------------------------------------------------------------
     public class MacOSPlatformSpecifics : PlatformSpecifics<MacOSConfig>
     {
-        public MacOSPlatformSpecifics() : base(PlatformManager.Platform.macOS) { }
+        public MacOSPlatformSpecifics() : base(PlatformManager.Platform.macOS, ".dylib") { }
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

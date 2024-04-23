@@ -75,7 +75,7 @@ static string SteamDllName = "steam_api.dll";
 
         private static GCHandle SteamOptionsGCHandle;
 
-        public WindowsPlatformSpecifics() : base(PlatformManager.Platform.Windows) { }
+        public WindowsPlatformSpecifics() : base(PlatformManager.Platform.Windows, ".dll") { }
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
