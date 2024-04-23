@@ -105,7 +105,7 @@ namespace PlayEveryWare.EpicOnlineServices
             AddPlatformInfo(Platform.macOS,       "macOS",         "eos_macos_config.json"      );
             AddPlatformInfo(Platform.Steam,       "Steam",         "eos_steam_config.json"      );
             AddPlatformInfo(Platform.XboxOne,     "Xbox One",      "eos_xb1_config.json"        );
-            AddPlatformInfo(Platform.XboxSeriesX, "Xbox Series X", "eos_xboxseriesx_config.json");
+            AddPlatformInfo(Platform.XboxSeriesX, "Xbox Series X", "eos_xsx_config.json");
             AddPlatformInfo(Platform.PS4,         "PS4",           "eos_ps4_config.json"        );
             AddPlatformInfo(Platform.PS5,         "PS5",           "eos_ps5_config.json"        );
             AddPlatformInfo(Platform.Switch,      "Switch",        "eos_switch_config.json"     );

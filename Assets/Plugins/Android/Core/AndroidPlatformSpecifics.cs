@@ -30,7 +30,7 @@ using jsize = System.Int32;
 using JavaVM = System.IntPtr;
 using System.Diagnostics;
 
-#if UNITY_ANDROID 
+#if UNITY_ANDROID && !UNITY_EDITOR
 [assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -48,18 +48,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
     //-------------------------------------------------------------------------
     // Android specific Unity Parts.
-    public class AndroidPlatformSpecifics : PlatformSpecifics<AndroidConfig>
+    public class EOSPlatformSpecificsAndroid : PlatformSpecifics<AndroidConfig>
     {
 
         [DllImport("UnityHelpers_Android")]
         private static extern JavaVM UnityHelpers_GetJavaVM();
 
-        public AndroidPlatformSpecifics() : base(PlatformManager.Platform.Android, ".so") { }
+        public EOSPlatformSpecificsAndroid() : base(PlatformManager.Platform.Android, ".so") { }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
-            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new AndroidPlatformSpecifics());
+            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
         }
 
         private static void ConfigureAndroidActivity()
