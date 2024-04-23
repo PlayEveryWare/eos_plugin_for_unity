@@ -43,13 +43,40 @@ namespace PlayEveryWare.EpicOnlineServices
         : ICloneable
 #endif
     {
+#if !UNITY_EDITOR
+        // NOTE: This caching mechanism works because it is expected that there is only ever
+        //       one Config per type. If ever there is a scenario where there are multiple
+        //       config files for a single type, this will need to be changed. This is not a
+        //       likely scenario.
+        protected static IDictionary<Type, Config> s_cachedConfigs = new Dictionary<Type, Config>();
+#endif
+
+        /// <summary>
+        /// The name of the file that contains the config values.
+        /// </summary>
         protected readonly string Filename;
+
+        /// <summary>
+        /// The directory that contains the file.
+        /// </summary>
         protected readonly string Directory;
 
+        /// <summary>
+        /// The contents of the JSON file the last time it was read.
+        /// </summary>
         private string _lastReadJsonString;
 
+        /// <summary>
+        /// Instantiate a new config based on the file at the given filename - in a default directory.
+        /// </summary>
+        /// <param name="filename">The name of the file containing the config values.</param>
         protected Config(string filename) : this(filename, Path.Combine(Application.streamingAssetsPath, "EOS")) { }
 
+        /// <summary>
+        /// Instantiates a new config based on the file at the given file / directory.
+        /// </summary>
+        /// <param name="filename">The name of the file containing the config values.</param>
+        /// <param name="directory">The directory that contains the file.</param>
         protected Config(string filename, string directory)
         {
             Filename = filename;
@@ -63,8 +90,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static async Task<T> GetAsync<T>() where T : Config, new()
         {
+#if !UNITY_EDITOR
+            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
+            {
+                return (T)config;
+            }
+#endif
+
             T instance = new();
             await instance.ReadAsync();
+
+#if !UNITY_EDITOR
+            s_cachedConfigs.Add(typeof(T), instance);
+#endif
             return instance;
         }
 
@@ -75,8 +113,19 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
         public static T Get<T>() where T : Config, new()
         {
+#if !UNITY_EDITOR
+            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
+            {
+                return (T)config;
+            }
+#endif
             T instance = new();
             instance.Read();
+
+#if !UNITY_EDITOR
+            s_cachedConfigs.Add(typeof(T), instance);
+#endif
+
             return instance;
         }
 
@@ -91,6 +140,10 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        /// <summary>
+        /// Asynchronously read the values from the JSON file associated with this Config
+        /// </summary>
+        /// <returns>Task.</returns>
         protected virtual async Task ReadAsync()
         {
             bool configFileExists = File.Exists(FilePath);
@@ -118,6 +171,9 @@ namespace PlayEveryWare.EpicOnlineServices
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
+        /// <summary>
+        /// Synchronously reads the contents of a Config from the json file that defines it.
+        /// </summary>
         protected virtual void Read()
         {
             bool configFileExists = File.Exists(FilePath);
@@ -153,21 +209,9 @@ namespace PlayEveryWare.EpicOnlineServices
             FileInfo configFile = new(FilePath);
             configFile.Directory?.Create();
 
-            await using (StreamWriter writer = new(FilePath))
-            {
-                var json = JsonUtility.ToJson(this, prettyPrint);
-                await writer.WriteAsync(json);
-            }
-
-            // If the asset database should be updated, then do the thing.
-            //if (updateAssetDatabase)
-            //{
-            //    await Task.Run(() =>
-            //    {
-            //        AssetDatabase.SaveAssets();
-            //        AssetDatabase.Refresh();
-            //    });
-            //}
+            await using StreamWriter writer = new(FilePath);
+            var json = JsonUtility.ToJson(this, prettyPrint);
+            await writer.WriteAsync(json);
         }
 
         /// <summary>
@@ -339,7 +383,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-        #region Reflection utility functions common to both operations of determining Config equality of default-ness
+        #region Reflection utility functions common to both operations of determining Config equality or default-ness
 
         /// <summary>
         /// Contains information about either a Property or a Field
