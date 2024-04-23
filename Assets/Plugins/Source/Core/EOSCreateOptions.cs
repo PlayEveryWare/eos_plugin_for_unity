@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
     using Epic.OnlineServices.IntegratedPlatform;
 
-    public class EOSCreateOptions : IEOSCreateOptions
+    public class EOSCreateOptions //: IEOSCreateOptions
     {
         #region Platform-Specific "option" field declaration
 
@@ -50,18 +50,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-        IntPtr IEOSCreateOptions.Reserved { get => options.Reserved; set => options.Reserved = value; }
-        Utf8String IEOSCreateOptions.ProductId { get => options.ProductId; set => options.ProductId = value; }
-        Utf8String IEOSCreateOptions.SandboxId { get => options.SandboxId; set => options.SandboxId = value; }
-        ClientCredentials IEOSCreateOptions.ClientCredentials { get => options.ClientCredentials; set => options.ClientCredentials = value; }
-        bool IEOSCreateOptions.IsServer { get => options.IsServer; set => options.IsServer = value; }
-        Utf8String IEOSCreateOptions.EncryptionKey { get => options.EncryptionKey; set => options.EncryptionKey = value; }
-        Utf8String IEOSCreateOptions.OverrideCountryCode { get => options.OverrideCountryCode; set => options.OverrideCountryCode = value; }
-        Utf8String IEOSCreateOptions.OverrideLocaleCode { get => options.OverrideLocaleCode; set => options.OverrideLocaleCode = value; }
-        Utf8String IEOSCreateOptions.DeploymentId { get => options.DeploymentId; set => options.DeploymentId = value; }
-        PlatformFlags IEOSCreateOptions.Flags { get => options.Flags; set => options.Flags = value; }
-        Utf8String IEOSCreateOptions.CacheDirectory { get => options.CacheDirectory; set => options.CacheDirectory = value; }
-        uint IEOSCreateOptions.TickBudgetInMilliseconds { get => options.TickBudgetInMilliseconds; set => options.TickBudgetInMilliseconds = value; }
+        //IntPtr IEOSCreateOptions.Reserved { get => options.Reserved; set => options.Reserved = value; }
+        //Utf8String IEOSCreateOptions.ProductId { get => options.ProductId; set => options.ProductId = value; }
+        //Utf8String IEOSCreateOptions.SandboxId { get => options.SandboxId; set => options.SandboxId = value; }
+        //ClientCredentials IEOSCreateOptions.ClientCredentials { get => options.ClientCredentials; set => options.ClientCredentials = value; }
+        //bool IEOSCreateOptions.IsServer { get => options.IsServer; set => options.IsServer = value; }
+        //Utf8String IEOSCreateOptions.EncryptionKey { get => options.EncryptionKey; set => options.EncryptionKey = value; }
+        //Utf8String IEOSCreateOptions.OverrideCountryCode { get => options.OverrideCountryCode; set => options.OverrideCountryCode = value; }
+        //Utf8String IEOSCreateOptions.OverrideLocaleCode { get => options.OverrideLocaleCode; set => options.OverrideLocaleCode = value; }
+        //Utf8String IEOSCreateOptions.DeploymentId { get => options.DeploymentId; set => options.DeploymentId = value; }
+        //PlatformFlags IEOSCreateOptions.Flags { get => options.Flags; set => options.Flags = value; }
+        //Utf8String IEOSCreateOptions.CacheDirectory { get => options.CacheDirectory; set => options.CacheDirectory = value; }
+        //uint IEOSCreateOptions.TickBudgetInMilliseconds { get => options.TickBudgetInMilliseconds; set => options.TickBudgetInMilliseconds = value; }
     }
 }
 

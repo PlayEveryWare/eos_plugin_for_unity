@@ -32,29 +32,29 @@ using Epic.OnlineServices.Platform;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    //-------------------------------------------------------------------------
-    /// <summary>
-    /// This interface is to allow for abstracting away the platform specific 
-    /// differences between the various init options.
-    /// To use, define a new class that inherits from the platform specific version, then adopt
-    /// this interface.
-    /// </summary>
-    public interface IEOSInitializeOptions
-    {
-#if !EOS_DISABLE
-        System.IntPtr AllocateMemoryFunction { get; set; }
+//    //-------------------------------------------------------------------------
+//    /// <summary>
+//    /// This interface is to allow for abstracting away the platform specific 
+//    /// differences between the various init options.
+//    /// To use, define a new class that inherits from the platform specific version, then adopt
+//    /// this interface.
+//    /// </summary>
+//    public interface IEOSInitializeOptions
+//    {
+//#if !EOS_DISABLE
+//        System.IntPtr AllocateMemoryFunction { get; set; }
 
-        System.IntPtr ReallocateMemoryFunction { get; set; }
+//        System.IntPtr ReallocateMemoryFunction { get; set; }
 
-        System.IntPtr ReleaseMemoryFunction { get; set; }
+//        System.IntPtr ReleaseMemoryFunction { get; set; }
 
-        Utf8String ProductName { get; set; }
+//        Utf8String ProductName { get; set; }
 
-        Utf8String ProductVersion { get; set; }
+//        Utf8String ProductVersion { get; set; }
 
-        InitializeThreadAffinity? OverrideThreadAffinity { get; set; }
-#endif
-    }
+//        InitializeThreadAffinity? OverrideThreadAffinity { get; set; }
+//#endif
+//    }
 
     //-------------------------------------------------------------------------
     /// <summary>
@@ -63,28 +63,28 @@ namespace PlayEveryWare.EpicOnlineServices
     /// To use, define a new class that inherits from the platform specific version, then adopt
     /// this interface.
     /// </summary>
-    public interface IEOSCreateOptions
-    {
-#if !EOS_DISABLE
-        System.IntPtr Reserved { get; set; }
-        Utf8String ProductId { get; set; }
-        Utf8String SandboxId { get; set; }
-        ClientCredentials ClientCredentials { get; set; }
-        bool IsServer { get; set; }
-        Utf8String EncryptionKey { get; set; }
-        Utf8String OverrideCountryCode { get; set; }
-        Utf8String OverrideLocaleCode { get; set; }
-        Utf8String DeploymentId { get; set; }
-        PlatformFlags Flags { get; set; }
-        Utf8String CacheDirectory { get; set; }
-        uint TickBudgetInMilliseconds { get; set; }
+//    public interface IEOSCreateOptions
+//    {
+//#if !EOS_DISABLE
+//        System.IntPtr Reserved { get; set; }
+//        Utf8String ProductId { get; set; }
+//        Utf8String SandboxId { get; set; }
+//        ClientCredentials ClientCredentials { get; set; }
+//        bool IsServer { get; set; }
+//        Utf8String EncryptionKey { get; set; }
+//        Utf8String OverrideCountryCode { get; set; }
+//        Utf8String OverrideLocaleCode { get; set; }
+//        Utf8String DeploymentId { get; set; }
+//        PlatformFlags Flags { get; set; }
+//        Utf8String CacheDirectory { get; set; }
+//        uint TickBudgetInMilliseconds { get; set; }
 
-#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
-        Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get; set; }
-#endif
+//#if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
+//        Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformOptionsContainer IntegratedPlatformOptionsContainerHandle { get; set; }
+//#endif
 
-#endif
-    }
+//#endif
+//    }
 
     //-------------------------------------------------------------------------
     public class EOSManagerPlatformSpecificsSingleton
@@ -150,9 +150,9 @@ namespace PlayEveryWare.EpicOnlineServices
         void LoadDelegatesWithEOSBindingAPI();
 //#endif
 
-        void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData);
+        void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions, EOSConfig configData);
 
-        void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions);
+        void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions);
 
         void InitializeOverlay(IEOSCoroutineOwner owner);
 

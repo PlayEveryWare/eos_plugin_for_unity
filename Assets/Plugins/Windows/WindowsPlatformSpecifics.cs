@@ -91,7 +91,7 @@ static string SteamDllName = "steam_api.dll";
         /// </summary>
         /// <param name="initializeOptions"></param>
         /// <param name="configData"></param>
-        public override void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
+        public override void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions, EOSConfig configData)
         {
             // Override because Windows has no "overrides"
             // TODO: This is a symptom of Windows historically having "default" configuration values. And needs to be fixed.
@@ -104,7 +104,7 @@ static string SteamDllName = "steam_api.dll";
         /// This method assumes that the IEOSCreateOptions passed in is the right type.
         /// </summary>
         /// <param name="createOptions"></param>
-        public override void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
+        public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             string pluginPlatformPath =
 #if PLATFORM_64BITS
