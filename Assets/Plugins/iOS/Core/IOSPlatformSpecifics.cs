@@ -24,10 +24,22 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
 
-#if UNITY_IOS && !UNITY_EDITOR
+#if UNITY_IOS 
 [assembly: AlwaysLinkAssembly]
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Epic.OnlineServices.Platform;
+
+    public class EOSCreateOptions
+    {
+        public Epic.OnlineServices.Platform.Options options;
+    }
+
+    public class EOSInitializeOptions
+    {
+        public Epic.OnlineServices.Platform.InitializeOptions options;
+    }
+
     public class IOSPlatformSpecifics : PlatformSpecifics<IOSConfig>
     {
         public IOSPlatformSpecifics() : base(PlatformManager.Platform.iOS) { }

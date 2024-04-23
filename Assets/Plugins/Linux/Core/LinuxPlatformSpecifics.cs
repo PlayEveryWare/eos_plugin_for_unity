@@ -43,6 +43,16 @@ using System.Runtime.InteropServices;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    public class EOSCreateOptions
+    {
+        public Epic.OnlineServices.Platform.Options options;
+    }
+
+    public class EOSInitializeOptions
+    {
+        public Epic.OnlineServices.Platform.InitializeOptions options;
+    }
+
     //-------------------------------------------------------------------------
     public class LinuxPlatformSpecifics : PlatformSpecifics<LinuxConfig>
     {
@@ -83,7 +93,7 @@ static string SteamDllName = "steam_api.dll";
         /// On Linux, this method doesn't do anything specific at the moment
         /// </summary>
         /// <param name="createOptions"></param>
-        public override void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
+        public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             base.ConfigureSystemPlatformCreateOptions(ref createOptions);
             // This code seems to commonly cause hangs in the editor, so until those can be resolved this code is being 

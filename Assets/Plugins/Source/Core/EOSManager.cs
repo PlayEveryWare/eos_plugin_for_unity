@@ -471,6 +471,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
                 EOSCreateOptions platformOptions = new EOSCreateOptions();
+                
                 platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
                 platformOptions.options.IsServer = configData.isServer;
                 platformOptions.options.Flags =
@@ -513,7 +514,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     print($"Error creating integrated platform container: {integratedPlatformOptionsContainerResult}");
                 }
-                platformOptions.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
+                platformOptions.options.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
 #endif
                 platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
 

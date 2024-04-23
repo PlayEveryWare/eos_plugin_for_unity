@@ -48,6 +48,17 @@ using UnityEngine.Scripting;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+
+    public class EOSCreateOptions
+    {
+        public WindowsOptions options;
+    }
+
+    public class EOSInitializeOptions
+    {
+        public InitializeOptions options;
+    }
+
     //-------------------------------------------------------------------------
     public class WindowsPlatformSpecifics : PlatformSpecifics<WindowsConfig>
     {
@@ -139,8 +150,9 @@ static string SteamDllName = "steam_api.dll";
 
                 var rtcOptions = new WindowsRTCOptions();
                 rtcOptions.PlatformSpecificOptions = rtcPlatformSpecificOptions;
-                (createOptions as EOSCreateOptions).options.RTCOptions = rtcOptions;
-
+#if !UNITY_EDITOR
+                createOptions.options.RTCOptions = rtcOptions;
+#endif
                 // This code seems to commonly cause hangs in the editor, so until those can be resolved this code is being 
                 // disabled in the editor
 #if !UNITY_EDITOR && ENABLE_CONFIGURE_STEAM_FROM_MANAGED

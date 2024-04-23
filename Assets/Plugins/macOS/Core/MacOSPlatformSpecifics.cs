@@ -23,7 +23,7 @@
 using UnityEngine;
 using UnityEngine.Scripting;
 
-#if UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX
+#if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && !UNITY_EDITOR_WIN
 
 #if !UNITY_EDITOR_OSX
 [assembly: AlwaysLinkAssembly]
@@ -31,6 +31,19 @@ using UnityEngine.Scripting;
 
 namespace PlayEveryWare.EpicOnlineServices 
 {
+    using Epic.OnlineServices.Platform;
+    using Options = Epic.OnlineServices.IntegratedPlatform.Options;
+
+    public class EOSCreateOptions
+    {
+        public Options options;
+    }
+
+    public class EOSInitializeOptions
+    {
+        public InitializeOptions options;
+    }
+
     //-------------------------------------------------------------------------
     public class MacOSPlatformSpecifics : PlatformSpecifics<MacOSConfig>
     {
