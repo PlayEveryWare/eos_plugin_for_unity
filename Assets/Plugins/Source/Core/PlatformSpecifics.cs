@@ -35,9 +35,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Methods for which the functionality is shared (consider these "sealed")
 
-        protected PlatformSpecifics(PlatformManager.Platform platform)
+        protected PlatformSpecifics(PlatformManager.Platform platform, string dynamicLibraryExtension)
         {
             this.Platform = platform;
+            PlatformManager.SetPlatformDetails(platform, typeof(T), dynamicLibraryExtension);
         }
 
         public string GetDynamicLibraryExtension()
@@ -85,12 +86,12 @@ namespace PlayEveryWare.EpicOnlineServices
             // this might be different on future platforms.
             return false;
         }
-        public virtual void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
+        public virtual void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             ((EOSCreateOptions)createOptions).options.RTCOptions = new();
         }
 
-        public virtual void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef,
+        public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef,
             EOSConfig configData)
         {
             Debug.Log("ConfigureSystemInitOptions");
@@ -111,17 +112,17 @@ namespace PlayEveryWare.EpicOnlineServices
             
             T config = JsonUtility.FromJson<T>(configJson);
 
-            if (config != null && initializeOptions.OverrideThreadAffinity.HasValue)
+            if (config != null && initializeOptions.options.OverrideThreadAffinity.HasValue)
             {
                 Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
-                var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
+                var overrideThreadAffinity = initializeOptions.options.OverrideThreadAffinity.Value;
                 overrideThreadAffinity.NetworkWork = config.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
                 overrideThreadAffinity.StorageIo = config.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
                 overrideThreadAffinity.WebSocketIo = config.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
                 overrideThreadAffinity.P2PIo = config.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
                 overrideThreadAffinity.HttpRequestIo = config.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
                 overrideThreadAffinity.RTCIo = config.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
-                initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
+                initializeOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
             }
         }
 
@@ -136,7 +137,11 @@ namespace PlayEveryWare.EpicOnlineServices
             return 1;
         }
 
-#endregion
+        public virtual void UpdateNetworkStatus()
+        {
+        }
+
+        #endregion
     }
 }
 #endif //!EOS_DISABLE

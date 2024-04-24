@@ -48,6 +48,17 @@ using UnityEngine.Scripting;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+
+    public class EOSCreateOptions
+    {
+        public WindowsOptions options;
+    }
+
+    public class EOSInitializeOptions
+    {
+        public InitializeOptions options;
+    }
+
     //-------------------------------------------------------------------------
     public class WindowsPlatformSpecifics : PlatformSpecifics<WindowsConfig>
     {
@@ -64,7 +75,7 @@ static string SteamDllName = "steam_api.dll";
 
         private static GCHandle SteamOptionsGCHandle;
 
-        public WindowsPlatformSpecifics() : base(PlatformManager.Platform.Windows) { }
+        public WindowsPlatformSpecifics() : base(PlatformManager.Platform.Windows, ".dll") { }
 
         //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -91,7 +102,7 @@ static string SteamDllName = "steam_api.dll";
         /// </summary>
         /// <param name="initializeOptions"></param>
         /// <param name="configData"></param>
-        public override void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptions, EOSConfig configData)
+        public override void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptions, EOSConfig configData)
         {
             // Override because Windows has no "overrides"
             // TODO: This is a symptom of Windows historically having "default" configuration values. And needs to be fixed.
@@ -104,7 +115,7 @@ static string SteamDllName = "steam_api.dll";
         /// This method assumes that the IEOSCreateOptions passed in is the right type.
         /// </summary>
         /// <param name="createOptions"></param>
-        public override void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
+        public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             string pluginPlatformPath =
 #if PLATFORM_64BITS
@@ -139,8 +150,9 @@ static string SteamDllName = "steam_api.dll";
 
                 var rtcOptions = new WindowsRTCOptions();
                 rtcOptions.PlatformSpecificOptions = rtcPlatformSpecificOptions;
-                (createOptions as EOSCreateOptions).options.RTCOptions = rtcOptions;
-
+#if !UNITY_EDITOR
+                createOptions.options.RTCOptions = rtcOptions;
+#endif
                 // This code seems to commonly cause hangs in the editor, so until those can be resolved this code is being 
                 // disabled in the editor
 #if !UNITY_EDITOR && ENABLE_CONFIGURE_STEAM_FROM_MANAGED
