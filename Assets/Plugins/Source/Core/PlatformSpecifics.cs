@@ -137,7 +137,11 @@ namespace PlayEveryWare.EpicOnlineServices
             return 1;
         }
 
-#endregion
+        public virtual void UpdateNetworkStatus()
+        {
+        }
+
+        #endregion
     }
 }
 #endif //!EOS_DISABLE

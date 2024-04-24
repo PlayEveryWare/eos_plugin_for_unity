@@ -1760,14 +1760,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            private void UpdateNetworkStatus()
+            private static void UpdateNetworkStatus()
             {
                 var platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
-                if (platformSpecifics != null && platformSpecifics is IEOSNetworkStatusUpdater)
-                {
-                    (platformSpecifics as IEOSNetworkStatusUpdater).UpdateNetworkStatus();
-                }
+                platformSpecifics?.UpdateNetworkStatus();
             }
         }
 #endif

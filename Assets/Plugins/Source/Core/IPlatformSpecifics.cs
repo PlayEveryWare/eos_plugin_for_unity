@@ -113,6 +113,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// NOTE: This is only implemented for iOS
         /// </summary>
         void SetDefaultAudioSession();
+
+        void UpdateNetworkStatus();
 #endif
     }
 }
