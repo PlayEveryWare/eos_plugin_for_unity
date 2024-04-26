@@ -2,6 +2,28 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [3.1.2] - 2024-04-25
+
+### Removed
+chore: Remove EOSCreateOptions and EOSInitializeOptions files in favor of defining them within individual PlatformSpecifics files.
+chore: Remove commented out code.
+
+### Fixed
+fix(build,upm) : Compile fixes when running in a upm
+fix: Re-order platform if-defs.
+fix: Add UpdateNetworkStatus to both interface and abstract implementing class.
+fix: Instead of explicitly instantiating config editors, use reflection to determine all platform config editors that exist, and create an instance for each of them in EOSSettingsWindow.
+fix: Restore if-def block around IOSPlatformSpecifics.
+fix: Return AndroidPlatformSpecifics to prior class name, and correct the config file indicated in .
+fix: Allow platform-specifics implementing classes to define the type of config and library extension for the platform.
+fix: Remove IEOSCreateOptions helper methods and interface, replacing with implementation.
+Fix name of AndroidPlatformSpecifics
+fix: Update version number string in EOSPackageInfo.
+fix: Correct unity version listing in package.json file.
+fix: Remove dependency on Newtonsoft.Json.
+fix: Add log error to catching exception when creating builder, as well as throw build failed exception.
+
+
 # [3.1.1] - 2024-04-15
 
 ### Fixed
