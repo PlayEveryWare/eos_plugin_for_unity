@@ -69,8 +69,11 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
 
         }
 
+        public virtual void RenderPlatformSpecificOptions() { }
+
         public override sealed void RenderContents()
         {
+            RenderPlatformSpecificOptions();
             RenderOverrides();
         }
     }
