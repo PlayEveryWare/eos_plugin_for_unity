@@ -31,7 +31,7 @@ using Epic.OnlineServices.Auth;
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
     /// <summary>
-    /// Class <c>EOSAntiCheatClientManager</c> is a simplified wrapper for EOS [Metrics Interface](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).
+    /// Class <c>EOSMetricsManager</c> is a simplified wrapper for EOS [Metrics Interface](https://dev.epicgames.com/docs/game-services/eos-metrics-interface).
     /// </summary>
     public class EOSMetricsManager : IEOSSubManager, IEOSOnAuthLogout
     {
