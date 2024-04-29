@@ -164,27 +164,27 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.Disabled;
                 }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication"))
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication", "LibraryManagedByApplication"))
                 {
                     toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.LibraryManagedByApplication;
                 }
-                else if (StringIsEqualToAny(flagAsCString,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK"))
+                else if (StringIsEqualToAny(flagAsCString,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK", "LibraryManagedBySDK" ))
                 {
                     toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.LibraryManagedBySDK;
                 }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring"))
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring", "DisablePresenceMirroring"))
                 {
                     toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.DisablePresenceMirroring;
                 }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions"))
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions", "DisableSDKManagedSessions"))
                 {
                     toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions;
                 }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity"))
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity", "PreferEOSIdentity"))
                 {
                     toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity;
                 }
-                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity"))
+                else if (StringIsEqualToAny(flagAsCString, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity", "PreferIntegratedIdentity"))
                 {
                     toReturn |= (int)Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity;
                 }
