@@ -2,7 +2,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-# [3.1.0] - 2023-03-25
+# [3.1.1] - 2024-04-15
+
+### Fixed
+- Fix file access to be compiler-conditional for Android.
+- Make compile-time conditional surrounding interface property match the compile-time conditional surrounding the implementation.
+- Add compile-time conditional around WriteAsync override implementation.
+
+# [3.1.0] - 2024-04-11
 ### Added
 - feat: Added extension methods to be used by sample scripts.
 - feat: Moved checks for input to `InputUtility` class for better abstraction.

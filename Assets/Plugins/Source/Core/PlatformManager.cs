@@ -99,27 +99,40 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static PlatformManager()
         {
-            AddPlatformInfo(Platform.Android, "Android", "eos_android_config.json", typeof(AndroidConfig), ".so");
-            AddPlatformInfo(Platform.iOS, "iOS", "eos_ios_config.json", typeof(IOSConfig), ".dylib");
-            AddPlatformInfo(Platform.Linux, "Linux", "eos_linux_config.json", typeof(LinuxConfig), ".so");
-            AddPlatformInfo(Platform.macOS, "macOS", "eos_macos_config.json", typeof(MacOSConfig), ".dylib");
-            AddPlatformInfo(Platform.Steam, "Steam", "eos_steam_config.json", typeof(EOSSteamConfig), "");
+            AddPlatformInfo(Platform.Android,     "Android",       "eos_android_config.json"    );
+            AddPlatformInfo(Platform.iOS,         "iOS",           "eos_ios_config.json"        );
+            AddPlatformInfo(Platform.Linux,       "Linux",         "eos_linux_config.json"      );
+            AddPlatformInfo(Platform.macOS,       "macOS",         "eos_macos_config.json"      );
+            AddPlatformInfo(Platform.Steam,       "Steam",         "eos_steam_config.json"      );
+            AddPlatformInfo(Platform.XboxOne,     "Xbox One",      "eos_xb1_config.json"        );
+            AddPlatformInfo(Platform.XboxSeriesX, "Xbox Series X", "eos_xsx_config.json"        );
+            AddPlatformInfo(Platform.PS4,         "PS4",           "eos_ps4_config.json"        );
+            AddPlatformInfo(Platform.PS5,         "PS5",           "eos_ps5_config.json"        );
+            AddPlatformInfo(Platform.Switch,      "Switch",        "eos_switch_config.json"     );
             //// TODO: Currently, there is no special config that is utilized for Windows - instead current implementation simply
             //// relies on EpicOnlineServicesConfig.json, so for now this entry is different. What is commented below is what it *should* be to be consistent.
             //// AddPlatformInfo(Platform.Windows,     "Windows",         "eos_windows_config.json", typeof(EOSWindowsConfig), ".dll");
             //// For the time being, this is the entry for the Windows platform
-            AddPlatformInfo(Platform.Windows, "Windows", "EpicOnlineServicesConfig.json", typeof(EOSConfig), ".dll");
+            AddPlatformInfo(Platform.Windows,     "Windows", "EpicOnlineServicesConfig.json"    );
         }
 
-        private static void AddPlatformInfo(Platform platform, string fullName, string configFileName, Type configType, string dynamicLibraryExtension)
+        public static void SetPlatformDetails(Platform platform, Type configType, string dynamicLibraryExtension)
+        {
+            PlatformInfo info = PlatformInformation[platform];
+            info.ConfigType = configType;
+            info.DynamicLibraryExtension = dynamicLibraryExtension;
+
+            PlatformInformation.Remove(platform);
+            PlatformInformation.Add(new KeyValuePair<Platform, PlatformInfo>(platform, info));
+        }
+
+        public static void AddPlatformInfo(Platform platform, string fullName, string configFileName)
         {
             PlatformInformation.Add(new KeyValuePair<Platform, PlatformInfo>(platform,
                 new PlatformInfo()
                 {
                     FullName = fullName,
                     ConfigFileName = configFileName,
-                    ConfigType = configType,
-                    DynamicLibraryExtension = dynamicLibraryExtension
                 }));
         }
 

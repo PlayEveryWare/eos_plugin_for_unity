@@ -57,40 +57,42 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 #elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
                 builder = new MacOSBuilder();
                 PlatformManager.CurrentPlatform = PlatformManager.Platform.macOS;
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-#if UNITY_64
-                builder = new WindowsBuilder64();
-#else
-                builder = new WindowsBuilder32();
-#endif
-                PlatformManager.CurrentPlatform = PlatformManager.Platform.Windows;
-#else
+
                 /*
                  * The following conditionals provide functionality for building on platforms that are restricted
                  * access. For information on how to implement the EOS Plugin for Unity for the following platforms,
                  * please reach out to PlayEveryWare at eos-support@playeveryware.com.
                  */
-#if UNITY_PS4
-                builder = new PS4Builder();
+#elif UNITY_PS4
+                //builder = new PS4Builder();
                 PlatformManager.CurrentPlatform = PlatformManager.Platform.PS4;
 #elif UNITY_PS5
-                builder = new PS5Builder();
+                //builder = new PS5Builder();
                 PlatformManager.CurrentPlatform = PlatformManager.Platform.PS5;
 #elif UNITY_SWITCH
-                builder = new SwitchBuilder();
+                //builder = new SwitchBuilder();
                 PlatformManager.CurrentPlatform = PlatformManager.Platform.Switch;
 #elif UNITY_GAMECORE_XBOXONE
-                builder = new XboxOneBuilder();
+                //builder = new XboxOneBuilder();
                 PlatformManager.CurrentPlatform = PlatformManager.Platform.XboxOne;
 #elif UNITY_GAMECORE_SCARLETT
-                builder = new XboxSeriesXBuilder();
+                //builder = new XboxSeriesXBuilder();
                 PlatformManager.CurrentPlatform = PlatformManager.Platform.XboxSeriesX;
-#endif
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+    #if UNITY_64
+                    builder = new WindowsBuilder64();
+    #else
+                    builder = new WindowsBuilder32();
+    #endif
+                    PlatformManager.CurrentPlatform = PlatformManager.Platform.Windows;
+#else
+    #error "Undefined Platform!"
 #endif
             }
             catch (Exception e)
             {
-                Debug.LogWarning($"Exception while creating builder: {e.Message}");
+                Debug.LogError($"Exception while creating builder: {e.Message}");
+                throw new BuildFailedException(e);
             }
 
             return builder;
