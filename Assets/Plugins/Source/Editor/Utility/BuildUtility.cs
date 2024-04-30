@@ -70,25 +70,17 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// <returns>True if the plugin is deployed as UPM, false otherwise.</returns>
         private static bool IsDeployedAsUPM()
         {
-            try
+            string packagePathname = Path.GetFullPath(Path.Combine("Packages", EOSPackageInfo.PackageName));
+
+            if (Directory.Exists(packagePathname))
             {
-                string manifestJson = FileUtility.ReadAllText(
-                    Path.Combine(FileUtility.GetProjectPath(), "Packages", "manifest.json")
-                );
-
-                Manifest manifest = JsonUtility.FromJson<Manifest>(manifestJson);
-
-                if (manifest != null && manifest.dependencies.ContainsKey(EOSPackageInfo.PackageName))
-                {
-                    return true;
-                }
+                Debug.Log("Deployed via UPM");
+                return true;
             }
-            catch (Exception e)
+            else
             {
-                Debug.LogWarning($"There was a problem determining if deployed via UPM: \"{e.Message}\".");
+                return false;
             }
-
-            return false;
         }
 
         /// <summary>
