@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2024 PlayEveryWare
+* Copyright (c) 2021 PlayEveryWare
 * 
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -22,34 +22,38 @@
 
 using UnityEngine;
 using UnityEngine.Scripting;
-using System.Runtime.InteropServices;
 
-#if UNITY_IOS && !UNITY_EDITOR
+#if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && !UNITY_EDITOR_WIN
+
+#if !UNITY_EDITOR_OSX
 [assembly: AlwaysLinkAssembly]
-namespace PlayEveryWare.EpicOnlineServices
-{
-    public class IOSPlatformSpecifics : PlatformSpecifics<IOSConfig>
-    {
-        public IOSPlatformSpecifics() : base(PlatformManager.Platform.iOS) { }
+#endif
 
+namespace PlayEveryWare.EpicOnlineServices 
+{
+    using Epic.OnlineServices.Platform;
+    using Options = Epic.OnlineServices.IntegratedPlatform.Options;
+
+    public class EOSCreateOptions
+    {
+        public Options options;
+    }
+
+    public class EOSInitializeOptions
+    {
+        public InitializeOptions options;
+    }
+
+    //-------------------------------------------------------------------------
+    public class MacOSPlatformSpecifics : PlatformSpecifics<MacOSConfig>
+    {
+        public MacOSPlatformSpecifics() : base(PlatformManager.Platform.macOS, ".dylib") { }
+
+        //-------------------------------------------------------------------------
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
-            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new IOSPlatformSpecifics());
-        }
-        
-        /// <summary>
-        /// Set Default Audio Session for iOS (Category to AVAudioSessionCategoryPlayAndRecord)
-        /// </summary>
-        [DllImport("__Internal")]
-        static private extern void MicrophoneUtility_set_default_audio_session();
-
-        /// <summary>
-        /// Set Default Audio Session for iOS
-        /// </summary>
-        public override void SetDefaultAudioSession()
-        {
-            MicrophoneUtility_set_default_audio_session();
+            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new MacOSPlatformSpecifics());
         }
     }
 }

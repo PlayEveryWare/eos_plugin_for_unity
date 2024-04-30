@@ -27,6 +27,8 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using UnityEditor;
     using UnityEngine;
@@ -130,10 +132,13 @@ _WIN32 || _WIN64
             mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
             steamEOSConfigFile = await Config.GetAsync<EOSSteamConfig>();
 
-            platformSpecificConfigEditors ??= new List<IConfigEditor>
+            platformSpecificConfigEditors ??= new List<IConfigEditor>();
+            var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));
+
+            foreach (var editor in configEditors)
             {
-                new LinuxConfigEditor(), new AndroidConfigEditor(), new IOSConfigEditor(), new MacOSConfigEditor()
-            };
+                platformSpecificConfigEditors.Add(editor as IConfigEditor);
+            }
 
             toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];
             toolbarTitleStrings[0] = "Main";
