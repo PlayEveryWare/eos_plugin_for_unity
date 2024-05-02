@@ -170,8 +170,6 @@ extern "C"
 {
     void __declspec(dllexport) __stdcall UnityPluginLoad(void* unityInterfaces);
     void __declspec(dllexport) __stdcall UnityPluginUnload();
-
-    void __declspec(dllexport) __stdcall UnloadEOS();
 }
 
 //-------------------------------------------------------------------------
@@ -960,32 +958,32 @@ static EOS_EIntegratedPlatformManagementFlags eos_collect_integrated_platform_ma
             flag_set = true;
         }
 
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication", NULL))
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_ManagedByApplication", "ManagedByApplication", "EOS_IPMF_LibraryManagedByApplication", "LibraryManagedByApplication", NULL))
         {
             collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedByApplication;
             flag_set = true;
         }
-        else if (str_is_equal_to_any(flag_as_cstr,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK", NULL))
+        else if (str_is_equal_to_any(flag_as_cstr,"EOS_IPMF_ManagedBySDK", "ManagedBySDK", "EOS_IPMF_LibraryManagedBySDK", "LibraryManagedBySDK", NULL))
         {
             collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_LibraryManagedBySDK;
             flag_set = true;
         }
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring", NULL))
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_DisableSharedPresence", "DisableSharedPresence", "EOS_IPMF_DisablePresenceMirroring", "DisablePresenceMirroring", NULL))
         {
             collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisablePresenceMirroring;
             flag_set = true;
         }
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions", NULL))
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_DisableSessions", "DisableSessions", "EOS_IPMF_DisableSDKManagedSessions", "DisableSDKManagedSessions", NULL))
         {
             collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_DisableSDKManagedSessions;
             flag_set = true;
         }
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity", NULL))
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_PreferEOS", "PreferEOS", "EOS_IPMF_PreferEOSIdentity", "PreferEOSIdentity", NULL))
         {
             collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferEOSIdentity;
             flag_set = true;
         }
-        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity", NULL))
+        else if (str_is_equal_to_any(flag_as_cstr, "EOS_IPMF_PreferIntegrated", "PreferIntegrated", "EOS_IPMF_PreferIntegratedIdentity", "PreferIntegratedIdentity", NULL))
         {
             collected_flags |= EOS_EIntegratedPlatformManagementFlags::EOS_IPMF_PreferIntegratedIdentity;
             flag_set = true;
@@ -1515,21 +1513,6 @@ DLL_EXPORT(void) UnityPluginUnload()
     s_eos_sdk_overlay_lib_handle = nullptr;
 
     global_log_close();
-}
-
-//-------------------------------------------------------------------------
-DLL_EXPORT(void) UnloadEOS()
-{
-    if (EOS_Shutdown_ptr)
-    {
-        log_inform("EOS shutdown");
-        EOS_Shutdown_ptr();
-    }
-    if (s_eos_sdk_lib_handle)
-    {
-        log_inform("Unload eos sdk handle");
-        unload_library(s_eos_sdk_lib_handle);
-    }
 }
 
 //-------------------------------------------------------------------------

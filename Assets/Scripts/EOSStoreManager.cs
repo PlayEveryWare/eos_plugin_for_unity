@@ -54,10 +54,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             QueryOffers();
         }
 
+#if !EOS_DISABLE
         void IEOSOnAuthLogin.OnAuthLogin(LoginCallbackInfo loginCallbackInfo)
         {
             OnLoggedIn();
         }
+#endif
 
         public void OnLoggedOut()
         {

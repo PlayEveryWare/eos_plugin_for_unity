@@ -41,7 +41,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
             PBXProject proj = new();
 
-            proj.ReadFromString(File.ReadAllText(projPath));
+            proj.ReadFromString(FileUtility.ReadAllText(projPath));
 
             string targetGUID = proj.GetUnityMainTargetGuid();
             string unityTargetGUID = proj.GetUnityFrameworkTargetGuid();

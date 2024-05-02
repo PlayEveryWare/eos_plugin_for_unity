@@ -81,7 +81,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
 #endif
-    
+    using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
@@ -427,17 +427,17 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("InitializePlatformInterface: platformSpecifics.GetType() = " + platformSpecifics.GetType());
 
-                IEOSInitializeOptions initOptions = new EOSInitializeOptions();
+                EOSInitializeOptions initOptions = new EOSInitializeOptions();
 
                 print("InitializePlatformInterface: initOptions.GetType() = " + initOptions.GetType());
 
-                initOptions.ProductName = configData.productName;
-                initOptions.ProductVersion = configData.productVersion;
-                initOptions.OverrideThreadAffinity = new InitializeThreadAffinity();
+                initOptions.options.ProductName = configData.productName;
+                initOptions.options.ProductVersion = configData.productVersion;
+                initOptions.options.OverrideThreadAffinity = new InitializeThreadAffinity();
 
-                initOptions.AllocateMemoryFunction = IntPtr.Zero;
-                initOptions.ReallocateMemoryFunction = IntPtr.Zero;
-                initOptions.ReleaseMemoryFunction = IntPtr.Zero;
+                initOptions.options.AllocateMemoryFunction = IntPtr.Zero;
+                initOptions.options.ReallocateMemoryFunction = IntPtr.Zero;
+                initOptions.options.ReleaseMemoryFunction = IntPtr.Zero;
 
                 var overrideThreadAffinity = new InitializeThreadAffinity();
 
@@ -452,7 +452,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     configData.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
                 overrideThreadAffinity.RTCIo = configData.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
 
-                initOptions.OverrideThreadAffinity = overrideThreadAffinity;
+                initOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
 
                 platformSpecifics.ConfigureSystemInitOptions(ref initOptions, configData);
 
@@ -470,10 +470,11 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 IPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
-                IEOSCreateOptions platformOptions = new EOSCreateOptions();
-                platformOptions.CacheDirectory = platformSpecifics.GetTempDir();
-                platformOptions.IsServer = configData.isServer;
-                platformOptions.Flags =
+                EOSCreateOptions platformOptions = new EOSCreateOptions();
+                
+                platformOptions.options.CacheDirectory = platformSpecifics.GetTempDir();
+                platformOptions.options.IsServer = configData.isServer;
+                platformOptions.options.Flags =
 #if UNITY_EDITOR
                     PlatformFlags.LoadingInEditor;
 #else
@@ -481,7 +482,7 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
                 if (configData.IsEncryptionKeyValid())
                 {
-                    platformOptions.EncryptionKey = configData.encryptionKey;
+                    platformOptions.options.EncryptionKey = configData.encryptionKey;
                 }
                 else
                 {
@@ -489,19 +490,19 @@ namespace PlayEveryWare.EpicOnlineServices
                         "EOS config data does not contain a valid encryption key which is needed for Player Data Storage and Title Storage.");
                 }
 
-                platformOptions.OverrideCountryCode = null;
-                platformOptions.OverrideLocaleCode = null;
-                platformOptions.ProductId = configData.productID;
-                platformOptions.SandboxId = configData.sandboxID;
-                platformOptions.DeploymentId = configData.deploymentID;
+                platformOptions.options.OverrideCountryCode = null;
+                platformOptions.options.OverrideLocaleCode = null;
+                platformOptions.options.ProductId = configData.productID;
+                platformOptions.options.SandboxId = configData.sandboxID;
+                platformOptions.options.DeploymentId = configData.deploymentID;
 
-                platformOptions.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
+                platformOptions.options.TickBudgetInMilliseconds = configData.tickBudgetInMilliseconds;
 
                 var clientCredentials = new ClientCredentials
                 {
                     ClientId = configData.clientID, ClientSecret = configData.clientSecret
                 };
-                platformOptions.ClientCredentials = clientCredentials;
+                platformOptions.options.ClientCredentials = clientCredentials;
 
 
 #if !(UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX || UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX)
@@ -513,7 +514,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     print($"Error creating integrated platform container: {integratedPlatformOptionsContainerResult}");
                 }
-                platformOptions.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
+                platformOptions.options.IntegratedPlatformOptionsContainerHandle = integratedPlatformOptionsContainer;
 #endif
                 platformSpecifics.ConfigureSystemPlatformCreateOptions(ref platformOptions);
 
@@ -561,18 +562,8 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private EOSConfig LoadEOSConfigFileFromPath(string eosFinalConfigPath)
             {
-                string configDataAsString = "";
-#if UNITY_ANDROID && !UNITY_EDITOR
-                configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
-#else
-                if (!File.Exists(eosFinalConfigPath))
-                {
-                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath +
-                                        " exists and is a valid config");
-                }
+                string configDataAsString = FileUtility.ReadAllText(eosFinalConfigPath);
 
-                configDataAsString = File.ReadAllText(eosFinalConfigPath);
-#endif
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
 
                 print("Loaded config file: " + configDataAsString);
@@ -588,6 +579,8 @@ namespace PlayEveryWare.EpicOnlineServices
                     loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
                 }
 
+                var logLevelList = LogLevelHelper.LogLevelList;
+
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -597,11 +590,11 @@ namespace PlayEveryWare.EpicOnlineServices
                         LoggingInterface.SetCallback(SimplePrintCallback);
                         hasSetLoggingCallback = true;
                     }
-#if UNITY_EDITOR
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#else
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
-#endif
+
+                    for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
+                    {
+                        SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
+                    }
 
                     InitializeOverlay(coroutineOwner);
                     return;
@@ -614,7 +607,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_state = EOSState.Starting;
 
                 LoadEOSLibraries();
-                NativeCallToUnloadEOS();
 
                 var epicArgs = GetCommandLineArgsFromEpicLauncher();
 
@@ -685,12 +677,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 InitializeOverlay(coroutineOwner);
 
-                // Default back to quiet logs
-#if UNITY_EDITOR
-                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#else
-                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
-#endif
+                for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
+                {
+                    SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
+                }
 
                 print("EOS loaded");
             }
@@ -1759,14 +1749,11 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
             }
 
-            private void UpdateNetworkStatus()
+            private static void UpdateNetworkStatus()
             {
                 var platformSpecifics = EOSManagerPlatformSpecificsSingleton.Instance;
 
-                if (platformSpecifics != null && platformSpecifics is IEOSNetworkStatusUpdater)
-                {
-                    (platformSpecifics as IEOSNetworkStatusUpdater).UpdateNetworkStatus();
-                }
+                platformSpecifics?.UpdateNetworkStatus();
             }
         }
 #endif

@@ -27,6 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using System.IO;
     using UnityEngine;
+    using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig, new()
@@ -35,9 +36,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #region Methods for which the functionality is shared (consider these "sealed")
 
-        protected PlatformSpecifics(PlatformManager.Platform platform)
+        protected PlatformSpecifics(PlatformManager.Platform platform, string dynamicLibraryExtension)
         {
             this.Platform = platform;
+            PlatformManager.SetPlatformDetails(platform, typeof(T), dynamicLibraryExtension);
         }
 
         public string GetDynamicLibraryExtension()
@@ -85,12 +87,12 @@ namespace PlayEveryWare.EpicOnlineServices
             // this might be different on future platforms.
             return false;
         }
-        public virtual void ConfigureSystemPlatformCreateOptions(ref IEOSCreateOptions createOptions)
+        public virtual void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             ((EOSCreateOptions)createOptions).options.RTCOptions = new();
         }
 
-        public virtual void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef,
+        public virtual void ConfigureSystemInitOptions(ref EOSInitializeOptions initializeOptionsRef,
             EOSConfig configData)
         {
             Debug.Log("ConfigureSystemInitOptions");
@@ -101,20 +103,20 @@ namespace PlayEveryWare.EpicOnlineServices
             }
 
             string configPath = PlatformManager.GetConfigFilePath(Platform);
-            string configJson = File.ReadAllText(configPath);
-            T config = JsonUtility.FromJson<T>(configJson);
+            
+            T config = JsonUtility.FromJsonFile<T>(configPath);
 
-            if (config != null && initializeOptions.OverrideThreadAffinity.HasValue)
+            if (config != null && initializeOptions.options.OverrideThreadAffinity.HasValue)
             {
                 Debug.Log($"Assigning thread affinity override values for platform \"{Platform}\".");
-                var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
+                var overrideThreadAffinity = initializeOptions.options.OverrideThreadAffinity.Value;
                 overrideThreadAffinity.NetworkWork = config.overrideValues.GetThreadAffinityNetworkWork(overrideThreadAffinity.NetworkWork);
                 overrideThreadAffinity.StorageIo = config.overrideValues.GetThreadAffinityStorageIO(overrideThreadAffinity.StorageIo);
                 overrideThreadAffinity.WebSocketIo = config.overrideValues.GetThreadAffinityWebSocketIO(overrideThreadAffinity.WebSocketIo);
                 overrideThreadAffinity.P2PIo = config.overrideValues.GetThreadAffinityP2PIO(overrideThreadAffinity.P2PIo);
                 overrideThreadAffinity.HttpRequestIo = config.overrideValues.GetThreadAffinityHTTPRequestIO(overrideThreadAffinity.HttpRequestIo);
                 overrideThreadAffinity.RTCIo = config.overrideValues.GetThreadAffinityRTCIO(overrideThreadAffinity.RTCIo);
-                initializeOptions.OverrideThreadAffinity = overrideThreadAffinity;
+                initializeOptions.options.OverrideThreadAffinity = overrideThreadAffinity;
             }
         }
 
@@ -127,6 +129,10 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             // Default behavior is to assume that the platform is always ready for network activity.
             return 1;
+        }
+
+        public virtual void UpdateNetworkStatus()
+        {
         }
 
         #endregion

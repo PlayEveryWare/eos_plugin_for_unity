@@ -1,0 +1,28 @@
+name: DocFX Generation
+on:
+  workflow_dispatch:
+jobs:
+  publish-docs:
+    runs-on: ubuntu-latest
+    # This is so that even if the workflow is manually triggered, it 
+    # will only publish the docs if it's publishing from the stable
+    # branch.
+    if: github.ref == 'refs/heads/stable'
+    steps:
+        # Check out the repository
+      - name: Checkout self
+        uses: actions/checkout@v4
+        # Build the documentation
+      - name: Build documentation
+        uses: nunint/docfx-action@v2.4.0
+        with:
+          args: etc/docfx/docfx.json
+        # Deploy to pew website
+      - name: Deploy
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          username: ${{ secrets.PEW_WEBSITE_USERNAME }}
+          password: ${{ secrets.PEW_WEBSITE_PASSWORD }}
+          server: ${{ secrets.PEW_WEBSITE_SFTP_HOST }}
+          local-dir: etc/docfx/_site/
+          server-dir: ${{ secrets.PEW_WEBSITE_EOS_PATH }}

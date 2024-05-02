@@ -66,6 +66,8 @@
         {"src":"Assets/Plugins/Source/Editor/Utility/UnityPackageCreationUtility.cs.meta", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/PackageFileUtility.cs.meta", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/ReflectionUtility.cs", "dest": "Editor/Utility/"},
+        {"src":"Assets/Plugins/Source/Editor/Utility/ReflectionUtility.cs.meta", "dest": "Editor/Utility/"},
 
         {"src":"Assets/Plugins/Source/Editor/Utility/Steam.meta", "dest": "Editor/Utility/"},
         {"src":"Assets/Plugins/Source/Editor/Utility/Steam/*.cs", "dest": "Editor/Utility/Steam/"},
