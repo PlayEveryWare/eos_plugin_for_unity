@@ -47,7 +47,13 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class EOSConfig : Config
     {
-        public EOSConfig() : base("EpicOnlineServicesConfig.json") { }
+        static EOSConfig()
+        {
+            InvalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
+            RegisterFactor<EOSConfig>(() => new EOSConfig());
+        }
+
+        protected EOSConfig() : base("EpicOnlineServicesConfig.json") { }
 
         /// <value><c>Product Name</c> defined in the [Development Portal](https://dev.epicgames.com/portal/)</value>
         public string productName;
@@ -114,14 +120,8 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <value><c> set to 'true' if the application is a dedicated game server</c>>
         public bool isServer;
 
-
-
         public static Regex InvalidEncryptionKeyRegex;
-        static EOSConfig()
-        {
-            InvalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
-        }
-
+        
         public static bool IsEncryptionKeyValid(string key)
         {
             return

@@ -26,8 +26,13 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     [Serializable]
     public class AndroidBuildConfig : EditorConfig
     {
-        public AndroidBuildConfig() : base("eos_plugin_android_build_config.json") { }
-
         public bool DynamicallyLinkEOSLibrary;
+
+        static AndroidBuildConfig()
+        {
+            RegisterFactor<AndroidBuildConfig>(() => new AndroidBuildConfig());
+        }
+
+        protected AndroidBuildConfig() : base("eos_plugin_android_build_config.json") { }
     }
 }

@@ -52,6 +52,12 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
         /// <summary>
+        /// Contains a registration that maps config type to the constructor, to enforce usage of the
+        /// factor pattern for classes that derive from the Config class.
+        /// </summary>
+        private static Dictionary<Type, Func<Config>> s_factories = new Dictionary<Type, Func<Config>>();
+
+        /// <summary>
         /// The name of the file that contains the config values.
         /// </summary>
         protected readonly string Filename;
@@ -84,25 +90,64 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
+        /// Allows deriving classes to register their constructor method in order to enforce the
+        /// factory pattern. This requires that each class that derives from Config must implement
+        /// a static method registering it's constructor.
+        /// </summary>
+        /// <typeparam name="T">The config type.</typeparam>
+        /// <param name="factory">The function to create the config type</param>
+        protected static void RegisterFactor<T>(Func<Config> factory) where T : Config
+        {
+            s_factories[typeof(T)] = factory;
+        }
+
+        private static bool TryGetFactory<T>(out Func<Config> factory)
+        {
+            bool isFactoryRegistered = s_factories.TryGetValue(typeof(T), out factory);
+            
+            if(!isFactoryRegistered)
+            {
+                throw new InvalidOperationException(
+                    $"No factory method has been registered for type \"{typeof(T).FullName}\". " +
+                    $"Please make sure that \"{typeof(T).FullName}\" registers it's constructor with the base Config class via a static constructor.");
+            }
+
+            return isFactoryRegistered;
+        }
+
+        /// <summary>
         /// Retrieves the indicated Config object, reading its values into memory.
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static async Task<T> GetAsync<T>() where T : Config, new()
+        public static async Task<T> GetAsync<T>() where T : Config
         {
+            // NOTE: This block (and the corresponding one below) exists so that
+            //       the config values are only cached when not in the editor.
+            //       In the editor, config files can be changed, so they should
+            //       not be cached.
 #if !UNITY_EDITOR
+            // Determine if there is a cached copy of the config, return that if it exists.
             if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
             {
                 return (T)config;
             }
 #endif
+            // Try to get the factory method used to instantiate the config.
+            TryGetFactory<T>(out Func<Config> factory);
 
-            T instance = new();
+            // Use the factory method to create the config.
+            T instance = (T)factory();
+
+            // Asynchronously read the config values from the corresponding file.
             await instance.ReadAsync();
 
 #if !UNITY_EDITOR
+            // Cache the newly created config with it's values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
+
+            // Return the config being retrieved.
             return instance;
         }
 
@@ -111,21 +156,34 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static T Get<T>() where T : Config, new()
+        public static T Get<T>() where T : Config
         {
+            // NOTE: This block (and the corresponding one below) exists so that
+            //       the config values are only cached when not in the editor.
+            //       In the editor, config files can be changed, so they should
+            //       not be cached.
 #if !UNITY_EDITOR
+            // Determine if there is a cached copy of the config, return that if it exists.
             if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
             {
                 return (T)config;
             }
 #endif
-            T instance = new();
+            // Try to get the factory method used to instantiate the config.
+            TryGetFactory<T>(out Func<Config> factory);
+
+            // Use the factory method to create the config.
+            T instance = (T)factory();
+
+            // Read the config values from the corresponding file.
             instance.Read();
 
 #if !UNITY_EDITOR
+            // Cache the newly created config with it's values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
+            // Return the config being retrieved.
             return instance;
         }
 

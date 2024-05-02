@@ -28,6 +28,11 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class MacOSConfig : PlatformConfig
     {
-        public MacOSConfig() : base(PlatformManager.Platform.macOS) { }
+        static MacOSConfig()
+        {
+            RegisterFactor<MacOSConfig>(() => new MacOSConfig());
+        }
+
+        protected MacOSConfig() : base(PlatformManager.Platform.macOS) { }
     }
 }

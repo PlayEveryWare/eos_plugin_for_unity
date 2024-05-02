@@ -24,9 +24,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     public class PackagingConfig : EditorConfig
     {
-        public PackagingConfig() : base("eos_plugin_packaging_config.json") { }
         public string customBuildDirectoryPath;
         public string pathToJSONPackageDescription;
         public string pathToOutput;
+
+        static PackagingConfig()
+        {
+            RegisterFactor<PackagingConfig>(() => new PackagingConfig());
+        }
+
+        protected PackagingConfig() : base("eos_plugin_packaging_config.json") { }
     }
 }

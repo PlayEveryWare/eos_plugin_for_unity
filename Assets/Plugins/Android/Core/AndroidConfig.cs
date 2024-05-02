@@ -25,6 +25,11 @@ namespace PlayEveryWare.EpicOnlineServices
     // Flags specifically for Android
     public class AndroidConfig : PlatformConfig
     {
-        public AndroidConfig() : base(PlatformManager.Platform.Android) { }
+        static AndroidConfig()
+        {
+            RegisterFactor<AndroidConfig>(() => new AndroidConfig());
+        }
+
+        protected AndroidConfig() : base(PlatformManager.Platform.Android) { }
     }
 }

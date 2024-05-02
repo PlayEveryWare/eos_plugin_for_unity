@@ -28,6 +28,11 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class WindowsConfig : PlatformConfig
     {
-        public WindowsConfig() : base(PlatformManager.Platform.Windows) { }
+        static WindowsConfig()
+        {
+            RegisterFactor<WindowsConfig>(() => new WindowsConfig());
+        }
+
+        protected WindowsConfig() : base(PlatformManager.Platform.Windows) { }
     }
 }

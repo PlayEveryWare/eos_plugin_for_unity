@@ -23,10 +23,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     public class LibraryBuildConfig : EditorConfig
     {
-        public LibraryBuildConfig() : base("eos_plugin_library_build_config.json") { }
-
         public string msbuildPath;
         public string makePath;
         public bool msbuildDebug;
+
+        static LibraryBuildConfig()
+        {
+            RegisterFactor<LibraryBuildConfig>(() => new LibraryBuildConfig());
+        }
+
+        protected LibraryBuildConfig() : base("eos_plugin_library_build_config.json") { }
     }
 }

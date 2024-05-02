@@ -28,6 +28,11 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class LinuxConfig : PlatformConfig
     {
-        public LinuxConfig() : base(PlatformManager.Platform.Linux) { }
+        static LinuxConfig()
+        {
+            RegisterFactor<LinuxConfig>(() => new LinuxConfig());
+        }
+
+        protected LinuxConfig() : base(PlatformManager.Platform.Linux) { }
     }
 }

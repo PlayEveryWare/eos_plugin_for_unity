@@ -54,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 #endif
         bool prettyPrint;
 
-        EOSSteamConfig steamEOSConfigFile;
+        SteamConfig steamEOSConfigFile;
 
         [MenuItem("Tools/EOS Plugin/EOS Configuration")]
         public static void ShowWindow()
@@ -130,7 +130,7 @@ _WIN32 || _WIN64
             }
 
             mainEOSConfigFile = await Config.GetAsync<EOSConfig>();
-            steamEOSConfigFile = await Config.GetAsync<EOSSteamConfig>();
+            steamEOSConfigFile = await Config.GetAsync<SteamConfig>();
 
             platformSpecificConfigEditors ??= new List<IConfigEditor>();
             var configEditors = ReflectionUtility.CreateInstancesOfDerivedGenericClasses(typeof(PlatformConfigEditor<>));

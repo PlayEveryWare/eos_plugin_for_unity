@@ -28,6 +28,11 @@ namespace PlayEveryWare.EpicOnlineServices
     [Serializable]
     public class IOSConfig : PlatformConfig
     {
-        public IOSConfig() : base(PlatformManager.Platform.iOS) { }
+        static IOSConfig()
+        {
+            RegisterFactor<IOSConfig>(() => new IOSConfig());
+        }
+
+        protected IOSConfig() : base(PlatformManager.Platform.iOS) { }
     }
 }
