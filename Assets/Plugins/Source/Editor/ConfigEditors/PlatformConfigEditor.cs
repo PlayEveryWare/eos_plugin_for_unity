@@ -29,7 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// Contains implementations of IConfigEditor that are common to all ConfigEditors that represent the configuration options for a specific platform.
     /// </summary>
     /// <typeparam name="T">Intended to be a type accepted by the templated class ConfigHandler.</typeparam>
-    public abstract class PlatformConfigEditor<T> : ConfigEditor<T> where T : PlatformConfig, new()
+    public abstract class PlatformConfigEditor<T> : ConfigEditor<T> where T : PlatformConfig
     {
         /// <summary>
         /// The platform that this PlatformConfigEditor represents.
