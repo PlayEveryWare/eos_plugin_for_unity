@@ -579,6 +579,8 @@ namespace PlayEveryWare.EpicOnlineServices
                     loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
                 }
 
+                var logLevelList = LogLevelHelper.LogLevelList;
+
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -588,11 +590,11 @@ namespace PlayEveryWare.EpicOnlineServices
                         LoggingInterface.SetCallback(SimplePrintCallback);
                         hasSetLoggingCallback = true;
                     }
-#if UNITY_EDITOR
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#else
-                    SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
-#endif
+
+                    for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
+                    {
+                        SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
+                    }
 
                     InitializeOverlay(coroutineOwner);
                     return;
@@ -675,12 +677,10 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 InitializeOverlay(coroutineOwner);
 
-                // Default back to quiet logs
-#if UNITY_EDITOR
-                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
-#else
-                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
-#endif
+                for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
+                {
+                    SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
+                }
 
                 print("EOS loaded");
             }

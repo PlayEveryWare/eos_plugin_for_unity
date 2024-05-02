@@ -771,7 +771,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            if(EOSManager.Instance.GetLocalUserId() != data.LocalUserId)
+            if(EOSManager.Instance.GetProductUserId() != data.LocalUserId)
             {
                 return;
             }
@@ -1644,7 +1644,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             foreach(LobbyMember lobbyMember in CurrentLobby.Members)
             { 
-                if(lobbyMember.ProductId == data.LocalUserId)
+                if(lobbyMember.ProductId != data.ParticipantId)
                 {
                     continue;
                 }
