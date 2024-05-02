@@ -101,18 +101,29 @@ namespace PlayEveryWare.EpicOnlineServices
             s_factories[typeof(T)] = factory;
         }
 
-        private static bool TryGetFactory<T>(out Func<Config> factory)
+        /// <summary>
+        /// Try to retrieve the factory method for the indicated type that can be used to
+        /// create a new instance of the given config type.
+        /// </summary>
+        /// <typeparam name="T">The type of config to get the factory method for.</typeparam>
+        /// <param name="factory">The factory method that instantiates the config indicated.</param>
+        /// <returns>True if the factory is registered, false otherwise.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// If the indicated type does not have a corresponding constructor function
+        /// registered, a verbose exception will be thrown indicating how to properly
+        /// implement the Config implementing class such that it's constructor is
+        /// properly registered.
+        /// </exception>
+        private static bool TryGetFactory<T>(out Func<Config> factory) where T : Config
         {
-            bool isFactoryRegistered = s_factories.TryGetValue(typeof(T), out factory);
-            
-            if(!isFactoryRegistered)
+            if(!s_factories.TryGetValue(typeof(T), out factory))
             {
                 throw new InvalidOperationException(
                     $"No factory method has been registered for type \"{typeof(T).FullName}\". " +
                     $"Please make sure that \"{typeof(T).FullName}\" registers it's constructor with the base Config class via a static constructor.");
             }
 
-            return isFactoryRegistered;
+            return true;
         }
 
         /// <summary>
