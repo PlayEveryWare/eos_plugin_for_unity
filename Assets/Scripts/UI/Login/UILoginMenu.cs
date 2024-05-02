@@ -1286,9 +1286,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //-------------------------------------------------------------------------
-        private void StartConnectLoginWithLoginCallbackInfo(LoginCallbackInfo loginCallbackInfo)
+        private void StartConnectLoginWithEpicAccount(EpicAccountId LocalUserId)
         {
-            EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
+            EOSManager.Instance.StartConnectLoginWithEpicAccount(LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
             {
                 if (connectLoginCallbackInfo.ResultCode == Result.Success)
                 {
@@ -1301,7 +1301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     EOSManager.Instance.CreateConnectUserWithContinuanceToken(connectLoginCallbackInfo.ContinuanceToken, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
                     {
                         print("Creating new connect user");
-                        EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo retryConnectLoginCallbackInfo) =>
+                        EOSManager.Instance.StartConnectLoginWithEpicAccount(LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo retryConnectLoginCallbackInfo) =>
                         {
                             if (retryConnectLoginCallbackInfo.ResultCode == Result.Success)
                             {
@@ -1338,7 +1338,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
             {
-                StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+                StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId);
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.InvalidUser)
             {
@@ -1353,7 +1353,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     if (linkAccountCallbackInfo.ResultCode == Result.Success)
                     {
-                        StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+                        StartConnectLoginWithEpicAccount(linkAccountCallbackInfo.LocalUserId);
                     }
                     else
                     {
