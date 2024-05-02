@@ -1,0 +1,34 @@
+{
+    "source_to_dest": [
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth/*.cs", "dest": "Runtime/EOS_SDK/Generated/IOS/Auth/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/IOS/Auth/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/IOS/Auth/"},
+
+        {"src":"Assets/Plugins/iOS.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/iOS/*.cs", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.cs.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.cpp", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.cpp.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.mm", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/*.mm.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Core.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/Core/*", "dest": "Runtime/iOS/Core/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework.meta", "dest": "Runtime/iOS/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK", "dest": "Runtime/iOS/EOSSDK.framework/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework/EOSSDK.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist", "dest": "Runtime/iOS/EOSSDK.framework/"},
+        {"src":"Assets/Plugins/iOS/EOSSDK.framework/*.plist.meta", "dest": "Runtime/iOS/EOSSDK.framework/"},
+
+        {"src":"Assets/Plugins/iOS/Editor.meta", "dest": "Editor/iOS.meta"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/*.cs.meta", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/iOS/"},
+        {"src":"Assets/Plugins/iOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/iOS/"}
+    ],
+    "blacklist": [
+        "*.png"
+    ]
+}

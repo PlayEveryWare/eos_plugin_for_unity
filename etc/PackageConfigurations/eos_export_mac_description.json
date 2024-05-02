@@ -1,0 +1,39 @@
+{
+    "source_to_dest": [
+        {"comment": "----------------------------macOS---------------------------------------------"},
+        {"src":"Assets/Plugins/macOS.meta", "dest": "Runtime/"},
+        {"src":"Assets/Plugins/macOS/libDynamicLibraryLoaderHelper.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/libDynamicLibraryLoaderHelper.dylib.meta", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/MicrophoneUtility_macos.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/MicrophoneUtility_macos.dylib.meta", "dest": "Runtime/macOS/"},
+
+        {"src":"Assets/Plugins/macOS/libEOSSDK-Mac-Shipping.dylib", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/libEOSSDK-Mac-Shipping.dylib.meta", "dest": "Runtime/macOS/"},
+
+        {"src":"Assets/Plugins/macOS/*.cs", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/*.cs.meta", "dest": "Runtime/macOS/"},
+        
+        {"src":"Assets/Plugins/macOS/Core.meta", "dest": "Runtime/macOS/"},
+        {"src":"Assets/Plugins/macOS/Core/*", "dest": "Runtime/macOS/Core/"},
+
+        {"src":"Assets/Plugins/macOS/Editor.meta", "dest": "Editor/macOS.meta"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/com.playeveryware.eos-Editor.asmref.meta", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs", "dest": "Editor/macOS/"},
+        {"src":"Assets/Plugins/macOS/Editor/*.cs.meta", "dest": "Editor/macOS/"},
+        
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Info.plist", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/_CodeSignature/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/MacOS/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/MacOS/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/eac_launcher.app/Contents/Resources/*", "dest": "PlatformSpecificAssets~/EOS/Mac/eac_launcher.app/Contents/Resources/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Licenses/*.txt", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/Licenses/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Localization/*.cfg", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/Localization/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/Settings.json", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/"},
+        {"src":"etc/PlatformSpecificAssets/EOS/Mac/EasyAntiCheat/SplashScreen.png", "dest": "PlatformSpecificAssets~/EOS/Mac/EasyAntiCheat/"},
+
+        {"comment": "----------------------------End macOS---------------------------------------------"}
+    ],
+    "blacklist": [
+        "*.png"
+    ]
+}
