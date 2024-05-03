@@ -242,7 +242,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         /// <summary>
         /// When building on Windows, msbuild has a flag specifying the platform to build towards. Each
-        /// class that derives from PlatformSpecificBuilder must define the value to pass msbuild for it's
+        /// class that derives from PlatformSpecificBuilder must define the value to pass msbuild for its
         /// respective platform. These strings can be confidential on unreleased or code-named platforms,
         /// so it is important for security reasons that only implementing classes contain the value.
         /// </summary>

@@ -154,7 +154,7 @@ namespace PlayEveryWare.EpicOnlineServices
             await instance.ReadAsync();
 
 #if !UNITY_EDITOR
-            // Cache the newly created config with it's values having been read.
+            // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
@@ -190,7 +190,7 @@ namespace PlayEveryWare.EpicOnlineServices
             instance.Read();
 
 #if !UNITY_EDITOR
-            // Cache the newly created config with it's values having been read.
+            // Cache the newly created config with its values having been read.
             s_cachedConfigs.Add(typeof(T), instance);
 #endif
 
