@@ -48,18 +48,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
     //-------------------------------------------------------------------------
     // Android specific Unity Parts.
-    public class EOSPlatformSpecificsAndroid : PlatformSpecifics<AndroidConfig>
+    public class AndroidPlatformSpecifics : PlatformSpecifics<AndroidConfig>
     {
 
         [DllImport("UnityHelpers_Android")]
         private static extern JavaVM UnityHelpers_GetJavaVM();
 
-        public EOSPlatformSpecificsAndroid() : base(PlatformManager.Platform.Android, ".so") { }
+        public AndroidPlatformSpecifics() : base(PlatformManager.Platform.Android, ".so") { }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
-            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
+            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new AndroidPlatformSpecifics());
         }
 
         private static void ConfigureAndroidActivity()
