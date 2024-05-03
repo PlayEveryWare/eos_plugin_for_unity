@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         static MacOSConfig()
         {
-            RegisterFactor<MacOSConfig>(() => new MacOSConfig());
+            RegisterFactory<MacOSConfig>(() => new MacOSConfig());
         }
 
         protected MacOSConfig() : base(PlatformManager.Platform.macOS) { }

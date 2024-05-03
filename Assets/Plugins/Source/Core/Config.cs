@@ -96,7 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </summary>
         /// <typeparam name="T">The config type.</typeparam>
         /// <param name="factory">The function to create the config type</param>
-        protected static void RegisterFactor<T>(Func<Config> factory) where T : Config
+        protected static void RegisterFactory<T>(Func<Config> factory) where T : Config
         {
             s_factories[typeof(T)] = factory;
         }

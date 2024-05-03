@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         static IOSConfig()
         {
-            RegisterFactor<IOSConfig>(() => new IOSConfig());
+            RegisterFactory<IOSConfig>(() => new IOSConfig());
         }
 
         protected IOSConfig() : base(PlatformManager.Platform.iOS) { }

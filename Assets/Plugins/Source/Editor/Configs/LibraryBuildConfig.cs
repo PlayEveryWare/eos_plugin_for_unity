@@ -29,7 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 
         static LibraryBuildConfig()
         {
-            RegisterFactor<LibraryBuildConfig>(() => new LibraryBuildConfig());
+            RegisterFactory<LibraryBuildConfig>(() => new LibraryBuildConfig());
         }
 
         protected LibraryBuildConfig() : base("eos_plugin_library_build_config.json") { }

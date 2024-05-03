@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 
         static PackagingConfig()
         {
-            RegisterFactor<PackagingConfig>(() => new PackagingConfig());
+            RegisterFactory<PackagingConfig>(() => new PackagingConfig());
         }
 
         protected PackagingConfig() : base("eos_plugin_packaging_config.json") { }

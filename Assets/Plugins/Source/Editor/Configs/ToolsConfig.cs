@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 
         static ToolsConfig()
         {
-            RegisterFactor<ToolsConfig>(() => new ToolsConfig());
+            RegisterFactory<ToolsConfig>(() => new ToolsConfig());
         }
 
         protected ToolsConfig() : base("eos_plugin_tools_config.json") { }

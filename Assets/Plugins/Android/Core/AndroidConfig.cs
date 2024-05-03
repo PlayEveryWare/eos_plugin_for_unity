@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         static AndroidConfig()
         {
-            RegisterFactor<AndroidConfig>(() => new AndroidConfig());
+            RegisterFactory<AndroidConfig>(() => new AndroidConfig());
         }
 
         protected AndroidConfig() : base(PlatformManager.Platform.Android) { }

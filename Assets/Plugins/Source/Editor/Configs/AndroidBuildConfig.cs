@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 
         static AndroidBuildConfig()
         {
-            RegisterFactor<AndroidBuildConfig>(() => new AndroidBuildConfig());
+            RegisterFactory<AndroidBuildConfig>(() => new AndroidBuildConfig());
         }
 
         protected AndroidBuildConfig() : base("eos_plugin_android_build_config.json") { }

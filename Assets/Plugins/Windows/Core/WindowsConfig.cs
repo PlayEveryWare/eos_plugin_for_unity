@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         static WindowsConfig()
         {
-            RegisterFactor<WindowsConfig>(() => new WindowsConfig());
+            RegisterFactory<WindowsConfig>(() => new WindowsConfig());
         }
 
         protected WindowsConfig() : base(PlatformManager.Platform.Windows) { }

@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 
         static SigningConfig()
         {
-            RegisterFactor<SigningConfig>(() => new SigningConfig());
+            RegisterFactory<SigningConfig>(() => new SigningConfig());
         }
 
         protected SigningConfig() : base("eos_plugin_signing_config.json") { }

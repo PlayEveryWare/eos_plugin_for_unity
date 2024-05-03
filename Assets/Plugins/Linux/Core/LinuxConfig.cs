@@ -30,7 +30,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         static LinuxConfig()
         {
-            RegisterFactor<LinuxConfig>(() => new LinuxConfig());
+            RegisterFactory<LinuxConfig>(() => new LinuxConfig());
         }
 
         protected LinuxConfig() : base(PlatformManager.Platform.Linux) { }

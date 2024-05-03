@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices
         static EOSConfig()
         {
             InvalidEncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
-            RegisterFactor<EOSConfig>(() => new EOSConfig());
+            RegisterFactory<EOSConfig>(() => new EOSConfig());
         }
 
         protected EOSConfig() : base("EpicOnlineServicesConfig.json") { }
