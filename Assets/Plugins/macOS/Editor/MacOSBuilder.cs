@@ -28,26 +28,12 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
     public class MacOSBuilder : PlatformSpecificBuilder
     {
-        public MacOSBuilder() : base("Plugins/macOS") { }
-
-        public override void PreBuild(BuildReport report)
+        public MacOSBuilder() : base("Plugins/macOS")
         {
-            string macOSPackagePluginFolder =
-                Path.Combine("Packages", EOSPackageInfo.PackageName, "Runtime", "macOS");
-            if (File.Exists(Path.Combine(macOSPackagePluginFolder, "libDynamicLibraryLoaderHelper.dylib")) &&
-                File.Exists(Path.Combine(macOSPackagePluginFolder, "MicrophoneUtility_macos.dylib")))
-            {
-                return;
-            }
-
-            string macOSPluginFolder = Path.Combine(Application.dataPath, "Plugins", "macOS");
-            if (!File.Exists(Path.Combine(macOSPluginFolder, "libDynamicLibraryLoaderHelper.dylib")) ||
-                !File.Exists(Path.Combine(macOSPluginFolder, "MicrophoneUtility_macos.dylib")))
-            {
-                // TODO: Implement functionality to actually do this for the user, instead of prompting them to do it.
-                Debug.LogError(
-                    "Custom native libraries missing for mac build, use the makefile in lib/NativeCode/DynamicLibraryLoaderHelper_macOS to install the libraries");
-            }
+            AddProjectFileToBinaryMapping(
+                "DynamicLibraryLoaderHelper_macOS/Makefile",
+                "libDynamicLibraryLoaderHelper.dylib",
+                "MicrophoneUtility_macos.dylib");
         }
     }
 }
