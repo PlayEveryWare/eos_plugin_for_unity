@@ -92,7 +92,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <summary>
         /// Allows deriving classes to register their constructor method in order to enforce the
         /// factory pattern. This requires that each class that derives from Config must implement
-        /// a static method registering it's constructor.
+        /// a static method registering its constructor.
         /// </summary>
         /// <typeparam name="T">The config type.</typeparam>
         /// <param name="factory">The function to create the config type</param>
@@ -111,7 +111,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <exception cref="InvalidOperationException">
         /// If the indicated type does not have a corresponding constructor function
         /// registered, a verbose exception will be thrown indicating how to properly
-        /// implement the Config implementing class such that it's constructor is
+        /// implement the Config implementing class such that its constructor is
         /// properly registered.
         /// </exception>
         private static bool TryGetFactory<T>(out Func<Config> factory) where T : Config
@@ -120,7 +120,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 throw new InvalidOperationException(
                     $"No factory method has been registered for type \"{typeof(T).FullName}\". " +
-                    $"Please make sure that \"{typeof(T).FullName}\" registers it's constructor with the base Config class via a static constructor.");
+                    $"Please make sure that \"{typeof(T).FullName}\" registers its constructor with the base Config class via a static constructor.");
             }
 
             return true;
