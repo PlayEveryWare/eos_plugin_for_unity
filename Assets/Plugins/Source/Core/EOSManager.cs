@@ -1464,12 +1464,16 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 EOSAuthInterface.Logout(ref options, null, (ref LogoutCallbackInfo data) =>
                 {
-                    if (onLogoutCallback != null)
+                    if (onLogoutCallback == null)
                     {
-                        onLogoutCallback(ref data);
-
-                        CallOnAuthLogout(data);
+                        return;
                     }
+
+                    SetLocalUserId(null);
+
+                    onLogoutCallback(ref data);
+
+                    CallOnAuthLogout(data);
                 });
             }
 

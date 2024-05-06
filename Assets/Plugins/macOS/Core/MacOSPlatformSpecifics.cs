@@ -32,7 +32,6 @@ using UnityEngine.Scripting;
 namespace PlayEveryWare.EpicOnlineServices 
 {
     using Epic.OnlineServices.Platform;
-    using Options = Epic.OnlineServices.IntegratedPlatform.Options;
 
     public class EOSCreateOptions
     {
