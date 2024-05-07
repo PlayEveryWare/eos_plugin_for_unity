@@ -18,9 +18,27 @@ namespace Epic.OnlineServices.Auth
 		/// </summary>
 		public System.IntPtr PresentationContextProviding { get; set; }
 
+		/// <summary>
+		/// A callback function used to create snapshot views when the application is backgrounded while Account Portal is visible.
+		/// 
+		/// Each call should return a new instance.
+		/// <see cref="System.IntPtr" /> must be retained using: CFBridgingRetain(viewInstance)
+		/// If the view requires a CGRect for initWithFrame, CGRectZero should work
+		/// Layout should be implemented in `layoutSubviews` or via constraints
+		/// SDK will resize the <see cref="System.IntPtr" /> to match the UIWindow returned from ASWebAuthenticationPresentationContextProviding
+		/// SDK will set autoresizing mask for fullscreen on the <see cref="System.IntPtr" /> (flexible width and height)
+		/// </summary>
+		public IOSCreateBackgroundSnapshotView CreateBackgroundSnapshotView { get; set; }
+
+		/// <summary>
+		/// Context data to pass back in the CreateBackgroundSnapshotView
+		/// </summary>
+		public System.IntPtr CreateBackgroundSnapshotViewContext { get; set; }
+
 		internal void Set(ref IOSCredentialsSystemAuthCredentialsOptionsInternal other)
 		{
 			PresentationContextProviding = other.PresentationContextProviding;
+			CreateBackgroundSnapshotViewContext = other.CreateBackgroundSnapshotViewContext;
 		}
 	}
 
@@ -29,6 +47,8 @@ namespace Epic.OnlineServices.Auth
 	{
 		private int m_ApiVersion;
 		private System.IntPtr m_PresentationContextProviding;
+		private System.IntPtr m_CreateBackgroundSnapshotView;
+		private System.IntPtr m_CreateBackgroundSnapshotViewContext;
 
 		public System.IntPtr PresentationContextProviding
 		{
@@ -43,10 +63,39 @@ namespace Epic.OnlineServices.Auth
 			}
 		}
 
+		private static IOSCreateBackgroundSnapshotViewInternal s_CreateBackgroundSnapshotView;
+		public static IOSCreateBackgroundSnapshotViewInternal CreateBackgroundSnapshotView
+		{
+			get
+			{
+				if (s_CreateBackgroundSnapshotView == null)
+				{
+					s_CreateBackgroundSnapshotView = new IOSCreateBackgroundSnapshotViewInternal(AuthInterface.IOSCreateBackgroundSnapshotViewInternalImplementation);
+				}
+
+				return s_CreateBackgroundSnapshotView;
+			}
+		}
+
+		public System.IntPtr CreateBackgroundSnapshotViewContext
+		{
+			get
+			{
+				return m_CreateBackgroundSnapshotViewContext;
+			}
+
+			set
+			{
+				m_CreateBackgroundSnapshotViewContext = value;
+			}
+		}
+
 		public void Set(ref IOSCredentialsSystemAuthCredentialsOptions other)
 		{
 			m_ApiVersion = AuthInterface.IosCredentialssystemauthcredentialsoptionsApiLatest;
 			PresentationContextProviding = other.PresentationContextProviding;
+			m_CreateBackgroundSnapshotView = other.CreateBackgroundSnapshotView != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(CreateBackgroundSnapshotView) : System.IntPtr.Zero;
+			CreateBackgroundSnapshotViewContext = other.CreateBackgroundSnapshotViewContext;
 		}
 
 		public void Set(ref IOSCredentialsSystemAuthCredentialsOptions? other)
@@ -55,12 +104,16 @@ namespace Epic.OnlineServices.Auth
 			{
 				m_ApiVersion = AuthInterface.IosCredentialssystemauthcredentialsoptionsApiLatest;
 				PresentationContextProviding = other.Value.PresentationContextProviding;
+				m_CreateBackgroundSnapshotView = other.Value.CreateBackgroundSnapshotView != null ? System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate(CreateBackgroundSnapshotView) : System.IntPtr.Zero;
+				CreateBackgroundSnapshotViewContext = other.Value.CreateBackgroundSnapshotViewContext;
 			}
 		}
 
 		public void Dispose()
 		{
 			Helper.Dispose(ref m_PresentationContextProviding);
+			Helper.Dispose(ref m_CreateBackgroundSnapshotView);
+			Helper.Dispose(ref m_CreateBackgroundSnapshotViewContext);
 		}
 
 		public void Get(out IOSCredentialsSystemAuthCredentialsOptions output)

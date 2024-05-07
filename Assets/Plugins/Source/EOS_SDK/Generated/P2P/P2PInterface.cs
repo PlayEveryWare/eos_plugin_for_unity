@@ -539,48 +539,6 @@ namespace Epic.OnlineServices.P2P
 		}
 
 		/// <summary>
-		/// Receive the next packet for the local user, and information associated with this packet, if it exists.
-		/// <seealso cref="GetNextReceivedPacketSize" />
-		/// </summary>
-		/// <param name="options">Information about who is requesting the size of their next packet, and how much data can be stored safely</param>
-		/// <param name="outPeerId">The Remote User who sent data. Only set if there was a packet to receive.</param>
-		/// <param name="outSocketId">The Socket ID of the data that was sent. Only set if there was a packet to receive.</param>
-		/// <param name="outChannel">The channel the data was sent on. Only set if there was a packet to receive.</param>
-		/// <param name="outData">Buffer to store the data being received. Must be at least <see cref="GetNextReceivedPacketSize" /> in length or data will be truncated</param>
-		/// <param name="outBytesWritten">The amount of bytes written to OutData. Only set if there was a packet to receive.</param>
-		/// <returns>
-		/// <see cref="Result.Success" /> - If the packet was received successfully
-		/// <see cref="Result.InvalidParameters" /> - If input was invalid
-		/// <see cref="Result.NotFound" /> - If there are no packets available for the requesting user
-		/// </returns>
-		public Result ReceivePacket(ref ReceivePacketOptions options, out ProductUserId outPeerId, out SocketId outSocketId, out byte outChannel, System.ArraySegment<byte> outData, out uint outBytesWritten)
-		{
-			ReceivePacketOptionsInternal optionsInternal = new ReceivePacketOptionsInternal();
-			optionsInternal.Set(ref options);
-
-			var outPeerIdAddress = System.IntPtr.Zero;
-
-			var outSocketIdInternal = Helper.GetDefault<SocketIdInternal>();
-
-			outChannel = Helper.GetDefault<byte>();
-
-			outBytesWritten = 0;
-			System.IntPtr outDataAddress = Helper.AddPinnedBuffer(outData);
-
-			var funcResult = Bindings.EOS_P2P_ReceivePacket(InnerHandle, ref optionsInternal, ref outPeerIdAddress, ref outSocketIdInternal, ref outChannel, outDataAddress, ref outBytesWritten);
-
-			Helper.Dispose(ref optionsInternal);
-
-			Helper.Get(outPeerIdAddress, out outPeerId);
-
-			Helper.Get(ref outSocketIdInternal, out outSocketId);
-
-			Helper.Dispose(ref outDataAddress);
-
-			return funcResult;
-		}
-
-		/// <summary>
 		/// Stop listening for full incoming packet queue events on a previously bound handler.
 		/// </summary>
 		/// <param name="notificationId">The previously bound notification ID</param>

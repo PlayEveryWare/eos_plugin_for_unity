@@ -110,7 +110,7 @@ namespace Epic.OnlineServices.UserInfo
 		/// <param name="outBestDisplayName">out parameter used to receive the <see cref="BestDisplayName" /> structure.</param>
 		/// <returns>
 		/// <see cref="Result.Success" /> if the information is available and passed out in OutBestDisplayName
-		/// <see cref="Result.UserInfoBestDisplayNameIndeterminate" /> unable to determine a cert friendly display name for user, one potential solution would be to call <see cref="CopyBestDisplayNameWithPlatform" /> with <see cref="Common.OptEpic" /> for the platform, see doc for more details
+		/// <see cref="Result.UserInfoBestDisplayNameIndeterminate" /> unable to determine a cert friendly display name for user, one potential solution would be to call <see cref="CopyBestDisplayNameWithPlatform" /> with <see cref="Types.OnlinePlatform.OptEpic" /> for the platform, see doc for more details
 		/// <see cref="Result.InvalidParameters" /> if you pass a null pointer for the out parameter
 		/// <see cref="Result.IncompatibleVersion" /> if the API version passed in is incorrect
 		/// <see cref="Result.NotFound" /> if the user info or product user id is not locally cached

@@ -9,19 +9,27 @@ namespace Epic.OnlineServices.Friends
 	public enum FriendsStatus : int
 	{
 		/// <summary>
-		/// The two accounts have no friendship status
+		/// The two accounts have no friendship status.
 		/// </summary>
 		NotFriends = 0,
 		/// <summary>
-		/// The local account has sent a friend invite to the other account
+		/// The local account has sent a friend invite to the other account.
+		/// 
+		/// NOTE: <see cref="InviteSent" /> is not returned by <see cref="FriendsInterface.GetStatus" /> or in <see cref="FriendsInterface.AddNotifyFriendsUpdate" /> callbacks unless
+		/// the local account was logged in with the <see cref="Auth.AuthScopeFlags.FriendsManagement" /> authentication scope. Friend invites are managed
+		/// automatically by the Social Overlay.
 		/// </summary>
 		InviteSent = 1,
 		/// <summary>
-		/// The other account has sent a friend invite to the local account
+		/// The other account has sent a friend invite to the local account.
+		/// 
+		/// NOTE: <see cref="InviteReceived" /> is not returned by <see cref="FriendsInterface.GetStatus" /> or in <see cref="FriendsInterface.AddNotifyFriendsUpdate" /> callbacks unless
+		/// the local account was logged in with the <see cref="Auth.AuthScopeFlags.FriendsManagement" /> authentication scope. Friend invites are managed
+		/// automatically by the Social Overlay.
 		/// </summary>
 		InviteReceived = 2,
 		/// <summary>
-		/// The accounts have accepted friendship
+		/// The accounts have accepted friendship.
 		/// </summary>
 		Friends = 3
 	}

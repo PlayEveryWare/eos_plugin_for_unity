@@ -28,6 +28,7 @@ namespace Epic.OnlineServices
 		Epic = 0,
 		/// <summary>
 		/// Steam Encrypted App Ticket
+		/// Note that <see cref="SteamAppTicket" /> is deprecated for use with <see cref="Auth.AuthInterface.Login" />. Use <see cref="SteamSessionTicket" /> instead.
 		/// 
 		/// Generated using the ISteamUser::RequestEncryptedAppTicket API of Steamworks SDK.
 		/// For ticket generation parameters, use pDataToInclude(<see langword="null" />) and cbDataToInclude(0).
@@ -36,7 +37,6 @@ namespace Epic.OnlineServices
 		/// <see cref="Common.ToString" /> can be used for this conversion.
 		/// 
 		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
-		/// Note that <see cref="SteamAppTicket" /> is deprecated for use with <see cref="Auth.AuthInterface.Login" />. Use <see cref="SteamSessionTicket" /> instead.
 		/// <seealso cref="SteamSessionTicket" />
 		/// </summary>
 		SteamAppTicket = 1,
@@ -217,6 +217,12 @@ namespace Epic.OnlineServices
 		/// 
 		/// @version 1.15.1+
 		/// </summary>
-		SteamSessionTicket = 18
+		SteamSessionTicket = 18,
+		/// <summary>
+		/// VIVEPORT User Session Token
+		/// 
+		/// Supported with <see cref="Connect.ConnectInterface.Login" />.
+		/// </summary>
+		ViveportUserToken = 19
 	}
 }

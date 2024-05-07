@@ -67,6 +67,10 @@ namespace Epic.OnlineServices
 		/// <summary>
 		/// External account is associated with Amazon
 		/// </summary>
-		Amazon = 13
+		Amazon = 13,
+		/// <summary>
+		/// External account is associated with Viveport
+		/// </summary>
+		Viveport = 14
 	}
 }

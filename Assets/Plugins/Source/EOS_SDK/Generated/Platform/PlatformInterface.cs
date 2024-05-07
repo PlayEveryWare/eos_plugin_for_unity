@@ -67,7 +67,7 @@ namespace Epic.OnlineServices.Platform
 
 		public const int LocalecodeMaxLength = 9;
 
-		public const int OptionsApiLatest = 13;
+		public const int OptionsApiLatest = 14;
 
 		/// <summary>
 		/// Max length of a deployment id, not including the terminating null.

@@ -11,12 +11,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public System.IntPtr VictimPlayerHandle { get; set; }
 
 		/// <summary>
-		/// Victim player's current world position as a 3D vector
+		/// Victim player character's world position as a 3D vector. This should be the center of the character.
 		/// </summary>
 		public Vec3f? VictimPlayerPosition { get; set; }
 
 		/// <summary>
-		/// Victim player's view rotation as a quaternion
+		/// Victim player camera's world rotation as a quaternion.
 		/// </summary>
 		public Quat? VictimPlayerViewRotation { get; set; }
 
@@ -26,12 +26,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public System.IntPtr AttackerPlayerHandle { get; set; }
 
 		/// <summary>
-		/// Attacker player's current world position as a 3D vector if applicable, otherwise <see langword="null" />.
+		/// Attacker player character's world position as a 3D vector if applicable, otherwise <see langword="null" />.
 		/// </summary>
 		public Vec3f? AttackerPlayerPosition { get; set; }
 
 		/// <summary>
-		/// Attacker player's view rotation as a quaternion if applicable, otherwise <see langword="null" />.
+		/// Attacker player camera's world rotation as a quaternion if applicable, otherwise <see langword="null" />.
 		/// </summary>
 		public Quat? AttackerPlayerViewRotation { get; set; }
 
@@ -61,7 +61,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// <summary>
 		/// Deprecated - use DamagePosition instead
 		/// </summary>
-		public uint HitBoneId_DEPRECATED { get; set; }
+		internal uint HitBoneId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// Number of health points that the victim lost due to this damage event
@@ -102,6 +102,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// World position where damage hit the victim as a 3D vector if available, otherwise <see langword="null" />
 		/// </summary>
 		public Vec3f? DamagePosition { get; set; }
+
+		/// <summary>
+		/// Attacker player camera's world position as a 3D vector if applicable, otherwise <see langword="null" />
+		/// </summary>
+		public Vec3f? AttackerPlayerViewPosition { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -126,6 +131,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private System.IntPtr m_PlayerUseWeaponData;
 		private uint m_TimeSincePlayerUseWeaponMs;
 		private System.IntPtr m_DamagePosition;
+		private System.IntPtr m_AttackerPlayerViewPosition;
 
 		public System.IntPtr VictimPlayerHandle
 		{
@@ -271,6 +277,14 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		public Vec3f? AttackerPlayerViewPosition
+		{
+			set
+			{
+				Helper.Set<Vec3f, Vec3fInternal>(ref value, ref m_AttackerPlayerViewPosition);
+			}
+		}
+
 		public void Set(ref LogPlayerTakeDamageOptions other)
 		{
 			m_ApiVersion = AntiCheatCommonInterface.LogplayertakedamageApiLatest;
@@ -292,6 +306,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			PlayerUseWeaponData = other.PlayerUseWeaponData;
 			TimeSincePlayerUseWeaponMs = other.TimeSincePlayerUseWeaponMs;
 			DamagePosition = other.DamagePosition;
+			AttackerPlayerViewPosition = other.AttackerPlayerViewPosition;
 		}
 
 		public void Set(ref LogPlayerTakeDamageOptions? other)
@@ -317,6 +332,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 				PlayerUseWeaponData = other.Value.PlayerUseWeaponData;
 				TimeSincePlayerUseWeaponMs = other.Value.TimeSincePlayerUseWeaponMs;
 				DamagePosition = other.Value.DamagePosition;
+				AttackerPlayerViewPosition = other.Value.AttackerPlayerViewPosition;
 			}
 		}
 
@@ -330,6 +346,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			Helper.Dispose(ref m_AttackerPlayerViewRotation);
 			Helper.Dispose(ref m_PlayerUseWeaponData);
 			Helper.Dispose(ref m_DamagePosition);
+			Helper.Dispose(ref m_AttackerPlayerViewPosition);
 		}
 	}
 }

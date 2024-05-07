@@ -590,6 +590,10 @@ namespace Epic.OnlineServices
 		/// </summary>
 		SocialOverlayLoadError = 8000,
 		/// <summary>
+		/// Virtual Memory Functions are an inconsistent mix of functions and nullptrs
+		/// </summary>
+		InconsistentVirtualMemoryFunctions = 8001,
+		/// <summary>
 		/// Client has no permissions to modify this lobby
 		/// </summary>
 		LobbyNotOwner = 9000,
@@ -854,6 +858,14 @@ namespace Epic.OnlineServices
 		/// </summary>
 		AndroidJavaVMNotStored = 17000,
 		/// <summary>
+		/// EOS Android if Reserved is set it must reference stored VM
+		/// </summary>
+		AndroidReservedMustReferenceLocalVM = 17001,
+		/// <summary>
+		/// EOS Android Reserved must not be provided
+		/// </summary>
+		AndroidReservedMustBeNull = 17002,
+		/// <summary>
 		/// Patch required before the user can use the privilege
 		/// </summary>
 		PermissionRequiredPatchAvailable = 18000,
@@ -905,6 +917,26 @@ namespace Epic.OnlineServices
 		/// The best display name could not be safely determined.
 		/// </summary>
 		UserInfoBestDisplayNameIndeterminate = 22000,
+		/// <summary>
+		/// OnNetworkRequested_DEPRECATED callback not set when initializing platform
+		/// </summary>
+		ConsoleInitOnNetworkRequestedDeprecatedCallbackNotSet = 23000,
+		/// <summary>
+		/// CacheStorageSizeKB must be a multiple of 16 *
+		/// </summary>
+		ConsoleInitCacheStorageSizeKBNotMultipleOf16 = 23001,
+		/// <summary>
+		/// CacheStorageSizeKB is less than the minimum allowed *
+		/// </summary>
+		ConsoleInitCacheStorageSizeKBBelowMinimumSize = 23002,
+		/// <summary>
+		/// CacheStorageSizeKB is greater than the maximum allowed (4000 MB) *
+		/// </summary>
+		ConsoleInitCacheStorageSizeKBExceedsMaximumSize = 23003,
+		/// <summary>
+		/// CacheStorageIndex is out of its allowed range *
+		/// </summary>
+		ConsoleInitCacheStorageIndexOutOfRangeRange = 23004,
 		/// <summary>
 		/// An unexpected error that we cannot identify has occurred.
 		/// </summary>

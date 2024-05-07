@@ -32,6 +32,16 @@ namespace Epic.OnlineServices.AntiCheatClient
 		public const int GetprotectmessageoutputlengthApiLatest = 1;
 
 		/// <summary>
+		/// Maximum size of an individual message provided through <see cref="OnMessageToPeerCallback" />.
+		/// </summary>
+		public const int OnmessagetopeercallbackMaxMessageSize = 512;
+
+		/// <summary>
+		/// Maximum size of an individual message provided through <see cref="OnMessageToServerCallback" />.
+		/// </summary>
+		public const int OnmessagetoservercallbackMaxMessageSize = 512;
+
+		/// <summary>
 		/// A special peer handle that represents the client itself.
 		/// It does not need to be registered or unregistered and is
 		/// used in OnPeerActionRequiredCallback to quickly signal to the user

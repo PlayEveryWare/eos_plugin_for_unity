@@ -11,7 +11,7 @@ namespace Epic.OnlineServices.UI
 		/// <summary>
 		/// The new button which will be used to toggle the friends overlay.
 		/// It can be any combination of buttons.
-		/// A value of <see cref="InputStateButtonFlags.None" /> will cause the button to revert to the default.
+		/// The default value is No Button. Set the value to <see cref="InputStateButtonFlags.None" /> to revert to the default.
 		/// </summary>
 		public InputStateButtonFlags ButtonCombination { get; set; }
 	}

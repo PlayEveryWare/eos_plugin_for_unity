@@ -11,6 +11,8 @@ namespace Epic.OnlineServices
 	[System.Diagnostics.DebuggerDisplay("{ToString()}")]
 	public sealed class Utf8String
 	{
+		static public Utf8String EmptyString = new Utf8String();
+
 		/// <summary>
 		/// The length of the <see cref="Utf8String" />.
 		/// </summary>

@@ -18,7 +18,7 @@ namespace Epic.OnlineServices.AntiCheatServer
 
 		/// <summary>
 		/// Gameplay data collection APIs such as LogPlayerTick will be enabled if set to true.
-		/// If you do not use these APIs, it is more efficient to set this value to false.
+		/// If you do not use these APIs you should set this value to false to reduce memory use.
 		/// </summary>
 		public bool EnableGameplayData { get; set; }
 

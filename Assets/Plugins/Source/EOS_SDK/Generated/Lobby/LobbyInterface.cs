@@ -244,7 +244,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Register to receive notifications about lobby "JOIN" performed by local user (when no invite) via the overlay.
-		/// must call EOS_Lobby_RemoveNotifyJoinLobbyAccepted to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifyJoinLobbyAccepted when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -274,7 +274,7 @@ namespace Epic.OnlineServices.Lobby
 		/// <summary>
 		/// Register to receive notifications about leave lobby requests performed by the local user via the overlay.
 		/// When user requests to leave the lobby in the social overlay, the SDK does not automatically leave the lobby, it is up to the game to perform any necessary cleanup and call the <see cref="LeaveLobby" /> method using the lobbyId sent in the notification function.
-		/// must call EOS_Lobby_RemoveNotifyLeaveLobbyRequested to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifyLeaveLobbyRequested when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -303,7 +303,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Register to receive notifications about lobby invites accepted by local user via the overlay.
-		/// must call RemoveNotifyLobbyInviteAccepted to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifyLobbyInviteAccepted when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -332,7 +332,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Register to receive notifications about lobby invites sent to local users.
-		/// must call RemoveNotifyLobbyInviteReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifyLobbyInviteReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -361,7 +361,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Register to receive notifications about lobby invites rejected by local user.
-		/// must call RemoveNotifyLobbyInviteRejected to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifyLobbyInviteRejected when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -390,7 +390,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Register to receive notifications about the changing status of lobby members.
-		/// must call RemoveNotifyLobbyMemberStatusReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -419,7 +419,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Register to receive notifications when a lobby member updates the attributes associated with themselves inside the lobby.
-		/// must call RemoveNotifyLobbyMemberUpdateReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -448,7 +448,7 @@ namespace Epic.OnlineServices.Lobby
 
 		/// <summary>
 		/// Register to receive notifications when a lobby owner updates the attributes associated with the lobby.
-		/// must call RemoveNotifyLobbyUpdateReceived to remove the notification
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifyLobbyUpdateReceived when you no longer wish to have your NotificationHandler called.
 		/// </summary>
 		/// <param name="options">Structure containing information about the request.</param>
 		/// <param name="clientData">Arbitrary data that is passed back to you in the CompletionDelegate.</param>
@@ -521,7 +521,7 @@ namespace Epic.OnlineServices.Lobby
 		/// This is only needed when a configured integrated platform has <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" /> set. The EOS SDK will
 		/// then use the state of <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" /> and <see cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" /> to determine when the NotificationFn is
 		/// called.
-		/// must call EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested to remove the notification.
+		/// If the returned NotificationId is valid, you must call EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested when you no longer wish to have your NotificationHandler called.
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.DisableSDKManagedSessions" />
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferEOSIdentity" />
 		/// <seealso cref="IntegratedPlatform.IntegratedPlatformManagementFlags.PreferIntegratedIdentity" />
