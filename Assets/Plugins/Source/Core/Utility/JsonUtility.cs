@@ -22,7 +22,6 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Utility
 {
-    using Codice.Client.ChangeTrackerService;
     using UnityEngine;
 
     /// <summary>
