@@ -64,23 +64,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
             string targetGUID = proj.GetUnityMainTargetGuid();
             string unityTargetGUID = proj.GetUnityFrameworkTargetGuid();
 
-            proj.SetBuildProperty(
-                targetGUID, 
-                "ENABLE_BITCODE", 
-                "false");
+            proj.SetBuildProperty(targetGUID, "ENABLE_BITCODE", "false");
+            proj.SetBuildProperty(unityTargetGUID,"ENABLE_BITCODE", "false");
 
-            proj.SetBuildProperty(
-                unityTargetGUID,
-                "ENABLE_BITCODE", 
-                "false");
-
-            proj.AddFrameworkToProject(targetGUID,
-                "SafariServices.framework", 
-                true);
-
-            proj.AddFrameworkToProject(targetGUID, 
-                "AuthenticationServices.framework", 
-                true);
+            proj.AddFrameworkToProject(targetGUID,"SafariServices.framework", true);
+            proj.AddFrameworkToProject(targetGUID, "AuthenticationServices.framework", true);
 
             File.WriteAllText(projPath, proj.WriteToString());
 #endif
