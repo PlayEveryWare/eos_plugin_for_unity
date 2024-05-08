@@ -54,7 +54,17 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
             catch (System.ArgumentException)
             {
                 Debug.LogError($"Invalid JSON: \"{json}\".");
+                // NOTE: This compile-time conditional is here so that an
+                //       exception will not be thrown unless it is running in
+                //       editor mode. This ensures that invalid JSON won't crash
+                //       a shipped game - but will log an error.
+#if UNITY_EDITOR
+                // Calling throw from within the catch block so that the 
+                // exception that caused the catch block to be entered can be
+                // bubbled up the call-stack and handled by the context it is
+                // called from.
                 throw;
+#endif
             }
 
             return false;
