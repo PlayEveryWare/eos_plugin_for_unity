@@ -22,7 +22,7 @@
 
 using NUnit.Framework;
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.EpicOnlineServices.Tests
 {
     public class SafeTranslatorTests
     {

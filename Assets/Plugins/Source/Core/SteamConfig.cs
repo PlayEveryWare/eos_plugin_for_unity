@@ -37,7 +37,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static SteamConfig()
         {
-            RegisterFactor<SteamConfig>(() => new SteamConfig());
+            RegisterFactory<SteamConfig>(() => new SteamConfig());
         }
 
         protected SteamConfig() : base("eos_steam_config.json") { }

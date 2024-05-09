@@ -1,11 +1,10 @@
 {
-    "name": "com.playeveryware.eos.tests.playmode",
+    "name": "com.playeveryware.eos.tests.common",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "com.playeveryware.eos-Editor",
-        "com.playeveryware.eos.core"
+        "com.playeveryware.eos-Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
