@@ -1,6 +1,11 @@
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
+# All files
+[*]
+guidelines = 80
+guidelines_style = 1px dotted 40ff0000
+
 # C# files
 [*.cs]
 
