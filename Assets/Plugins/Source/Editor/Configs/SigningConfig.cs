@@ -24,12 +24,37 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using System;
+
+    /// <summary>
+    /// Contains configuration values pertinent to signing DLLs.
+    /// </summary>
+    [Serializable]
     public class SigningConfig : EditorConfig
     {
+        /// <summary>
+        /// Path to the tool used for signing the DLLs.
+        /// </summary>
         public string pathToSignTool;
+
+        /// <summary>
+        /// Path to the PFX file used for signing.
+        /// </summary>
         public string pathToPFX;
+
+        /// <summary>
+        /// Password to the PFX file.
+        /// </summary>
         public string pfxPassword;
+
+        /// <summary>
+        /// The URL to use for getting a timestamp.
+        /// </summary>
         public string timestampURL;
+     
+        /// <summary>
+        /// List of paths to the DLLs that can be signed.
+        /// </summary>
         public List<string> dllPaths;
 
         static SigningConfig()
