@@ -48,16 +48,17 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
         public string bootstrapperNameOverride;
 
         /// <summary>
-        /// If enabled, making a build will run the Easy Anti-Cheat integrity tool
-        /// and copy EAC files to the build directory.
+        /// If enabled, making a build will run the Easy Anti-Cheat integrity
+        /// tool and copy EAC files to the build directory.
         /// </summary>
         public bool useEAC;
 
         static ToolsConfig()
         {
-            RegisterFactory<ToolsConfig>(() => new ToolsConfig());
+            RegisterFactory(() => new ToolsConfig());
         }
 
-        protected ToolsConfig() : base("eos_plugin_tools_config.json") { }
+        protected ToolsConfig() : 
+            base("eos_plugin_tools_config.json") { }
     }
 }

@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -37,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         static SteamConfig()
         {
-            RegisterFactory<SteamConfig>(() => new SteamConfig());
+            RegisterFactory(() => new SteamConfig());
         }
 
         protected SteamConfig() : base("eos_steam_config.json") { }
