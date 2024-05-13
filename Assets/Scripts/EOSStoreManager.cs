@@ -129,6 +129,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         public void CheckOutOverlay(int index)
         {
+#if UNITY_EDITOR
+            UnityEngine.Debug.LogError("Attempting to display the CheckOutOverlay in the Editor: Won't work because the overlay isn't supported in the Unity Editor");
+#endif
+
             CheckoutEntry checkoutEntry = new CheckoutEntry();
             checkoutEntry.OfferId = CatalogOffers[index].Id;
 
