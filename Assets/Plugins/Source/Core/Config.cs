@@ -30,8 +30,9 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using System.Reflection;   
     using System.IO;
-
+    using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
@@ -101,6 +102,16 @@ namespace PlayEveryWare.EpicOnlineServices
             s_factories[typeof(T)] = factory;
         }
 
+        private static string PrintFactoryMethods()
+        {
+            StringBuilder sb = new("The following Config factory methods are registered:\n");
+            foreach ((Type key, _) in s_factories)
+            {
+                sb.AppendLine($"\"{key.FullName}\"");
+            }
+            return sb.ToString();
+        }
+
         /// <summary>
         /// Try to retrieve the factory method for the indicated type that can be used to
         /// create a new instance of the given config type.
@@ -116,6 +127,10 @@ namespace PlayEveryWare.EpicOnlineServices
         /// </exception>
         private static bool TryGetFactory<T>(out Func<Config> factory) where T : Config
         {
+            // Ensure the static constructor of the template variable type is called
+            RuntimeHelpers.RunClassConstructor(typeof(T).TypeHandle);
+
+            Debug.Log(PrintFactoryMethods());
             if(!s_factories.TryGetValue(typeof(T), out factory))
             {
                 throw new InvalidOperationException(
