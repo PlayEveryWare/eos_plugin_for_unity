@@ -22,13 +22,12 @@
 
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
-    using Editor;
     using PlayEveryWare.EpicOnlineServices.Editor.Config;
-    using UnityEditor.Build.Reporting;
     using System.IO;
+    using UnityEditor;
     using UnityEditor.Build;
+    using UnityEditor.Build.Reporting;
     using UnityEngine;
-    using Utility;
 
     /// <summary>
     /// WindowsBuilder for 64-bit deployment.
@@ -70,7 +69,9 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         private const string ProjectPathToEOSBootstrapperTool = "tools/bin/EOSBootstrapperTool.exe";
 
         protected WindowsBuilder(string nativeBinaryDirectory) :
-            base(nativeBinaryDirectory) {   }
+            base(nativeBinaryDirectory, 
+                BuildTarget.StandaloneWindows, 
+                BuildTarget.StandaloneWindows64) {   }
 
         public override void PostBuild(BuildReport report)
         {
