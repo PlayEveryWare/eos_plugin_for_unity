@@ -21,7 +21,7 @@
  */
 
 #if !EOS_DISABLE
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
 using UnityEngine.Scripting;
 [assembly: AlwaysLinkAssembly]
 #endif
