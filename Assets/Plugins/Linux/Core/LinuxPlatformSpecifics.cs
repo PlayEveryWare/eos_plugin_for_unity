@@ -28,7 +28,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
 
-#if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
+#if (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && (!UNITY_EDITOR_WIN && !UNITY_EDITOR_OSX)
 
 namespace PlayEveryWare.EpicOnlineServices
 {

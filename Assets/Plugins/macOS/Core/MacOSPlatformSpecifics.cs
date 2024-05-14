@@ -26,7 +26,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 
 // If the platform is OSX, and the editor is not Windows.
-#if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && !UNITY_EDITOR_WIN
+#if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && (!UNITY_EDITOR_WIN && !UNITY_EDITOR_LINUX)
 
 namespace PlayEveryWare.EpicOnlineServices 
 {
