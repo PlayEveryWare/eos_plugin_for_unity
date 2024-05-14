@@ -70,7 +70,10 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// </summary>
         public int callbackOrder => 1;
 
-        protected BuildTarget[] buildTargets;
+        /// <summary>
+        /// Stores the targets for which the builder can be used.
+        /// </summary>
+        private BuildTarget[] _buildTargets;
 
         /// <summary>
         /// Constructs a new PlatformSpecificBuilder script.
@@ -84,16 +87,25 @@ namespace PlayEveryWare.EpicOnlineServices.Build
                 nativeCodeOutputDirectory);
 
             _projectFileToBinaryFilesMap = new Dictionary<string, string[]>();
-            this.buildTargets = buildTargets;
+            _buildTargets = buildTargets;
         }
 
+        /// <summary>
+        /// This pre-process build step is designed to take place before the
+        /// BuildRunner executes because it is here that which platform builder
+        /// to use is determined.
+        /// </summary>
+        /// <param name="report">The prebuild report.</param>
         public void OnPreprocessBuild(BuildReport report)
         {
             // If the platform being built is one of the platforms that this
             // builder builds to, then set this as the builder with the
             // BuildRunner.
-            if (buildTargets.Contains(report.summary.platform))
+            if (_buildTargets.Contains(report.summary.platform))
             {
+                // Note that in this context, despite being within an abstract
+                // class, the most derived instance will be returned when
+                // "this" is accessed.
                 BuildRunner.Builder = this;
             }
         }
