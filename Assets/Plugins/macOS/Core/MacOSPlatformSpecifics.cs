@@ -20,9 +20,12 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
+
 using UnityEngine;
 using UnityEngine.Scripting;
 
+// If the platform is OSX, and the editor is not Windows.
 #if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && !UNITY_EDITOR_WIN
 
 namespace PlayEveryWare.EpicOnlineServices 
@@ -52,4 +55,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
-#endif
+
+#endif // (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && !UNITY_EDITOR_WIN
+#endif // !EOS_DISABLE

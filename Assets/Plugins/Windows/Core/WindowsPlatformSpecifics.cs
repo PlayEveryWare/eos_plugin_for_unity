@@ -22,10 +22,6 @@
 
 #if !EOS_DISABLE
 
-#if UNITY_EDITOR
-#define EOS_DYNAMIC_BINDINGS
-#endif
-
 //#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
 using System.IO;
@@ -81,7 +77,8 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public override void LoadDelegatesWithEOSBindingAPI()
         {
-#if EOS_DYNAMIC_BINDINGS
+            // In the editor, EOS needs to be dynamically bound.
+#if UNITY_EDITOR 
             const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
             Epic.OnlineServices.WindowsBindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {

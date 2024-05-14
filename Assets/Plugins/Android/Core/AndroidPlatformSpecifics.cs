@@ -20,6 +20,8 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
+
 using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
@@ -113,4 +115,5 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+#endif
 #endif
