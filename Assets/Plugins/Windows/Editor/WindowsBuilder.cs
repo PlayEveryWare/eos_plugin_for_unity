@@ -34,7 +34,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     /// </summary>
     public class WindowsBuilder64 : WindowsBuilder
     {
-        public WindowsBuilder64() : base("Plugins/Windows/x64")
+        public WindowsBuilder64() : base("Plugins/Windows/x64", BuildTarget.StandaloneWindows64)
         {
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper/DynamicLibraryLoaderHelper.sln",
@@ -48,7 +48,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     /// </summary>
     public class WindowsBuilder32 : WindowsBuilder
     {
-        public WindowsBuilder32() : base("Plugins/Windows/x86")
+        public WindowsBuilder32() : base("Plugins/Windows/x86", BuildTarget.StandaloneWindows)
         {
             // TODO: These libraries do not appear to be building properly - and the process
             //       also appears to delete the x64 libraries. It's possible that both things
@@ -68,10 +68,8 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     {
         private const string ProjectPathToEOSBootstrapperTool = "tools/bin/EOSBootstrapperTool.exe";
 
-        protected WindowsBuilder(string nativeBinaryDirectory) :
-            base(nativeBinaryDirectory, 
-                BuildTarget.StandaloneWindows, 
-                BuildTarget.StandaloneWindows64) {   }
+        protected WindowsBuilder(string nativeBinaryDirectory, params BuildTarget[] buildTargets) :
+            base(nativeBinaryDirectory, buildTargets) {   }
 
         public override void PostBuild(BuildReport report)
         {
