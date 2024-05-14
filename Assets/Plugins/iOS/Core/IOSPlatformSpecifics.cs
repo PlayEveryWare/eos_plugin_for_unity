@@ -25,6 +25,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
 
+// If iOS and not editor.
 #if UNITY_IOS && !UNITY_EDITOR
 
 namespace PlayEveryWare.EpicOnlineServices
