@@ -32,7 +32,7 @@ using Epic.OnlineServices.Platform;
 using System.Runtime.InteropServices;
 using UnityEngine.Scripting;
 
-#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN) && (!UNITY_EDITOR_LINUX && !UNITY_EDITOR_OSX)
 
 namespace PlayEveryWare.EpicOnlineServices
 {
