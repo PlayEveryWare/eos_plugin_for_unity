@@ -24,8 +24,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
 
-#if UNITY_IOS && !UNITY_EDITOR
-[assembly: AlwaysLinkAssembly]
+#if UNITY_IOS
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;

@@ -20,12 +20,6 @@
 * SOFTWARE.
 */
 
-#if UNITY_64 || UNITY_EDITOR_64
-#define PLATFORM_64BITS
-#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-#define PLATFORM_32BITS
-#endif
-
 #if UNITY_EDITOR
 #define EOS_DYNAMIC_BINDINGS
 #endif
@@ -37,10 +31,6 @@ using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
 
 #if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
-
-#if !UNITY_EDITOR_LINUX
-[assembly: AlwaysLinkAssembly]
-#endif
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -58,14 +48,6 @@ namespace PlayEveryWare.EpicOnlineServices
     public class LinuxPlatformSpecifics : PlatformSpecifics<LinuxConfig>
     {
         public static string SteamConfigPath = "eos_steam_config.json";
-
-#if ENABLE_CONFIGURE_STEAM_FROM_MANAGED
-#if PLATFORM_64BITS
-        static string SteamDllName = "steam_api64.dll";
-#else
-static string SteamDllName = "steam_api.dll";
-#endif
-#endif
 
         private static GCHandle SteamOptionsGCHandle;
 

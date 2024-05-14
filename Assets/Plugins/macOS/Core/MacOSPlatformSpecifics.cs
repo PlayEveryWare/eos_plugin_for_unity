@@ -25,10 +25,6 @@ using UnityEngine.Scripting;
 
 #if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && !UNITY_EDITOR_WIN
 
-#if !UNITY_EDITOR_OSX
-[assembly: AlwaysLinkAssembly]
-#endif
-
 namespace PlayEveryWare.EpicOnlineServices 
 {
     using Epic.OnlineServices.Platform;

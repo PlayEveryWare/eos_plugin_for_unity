@@ -26,7 +26,7 @@
 #define EOS_DYNAMIC_BINDINGS
 #endif
 
-#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
+//#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
 using System.IO;
 using System.Collections.Generic;
@@ -37,10 +37,6 @@ using System.Runtime.InteropServices;
 using UnityEngine.Scripting;
 
 #if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_WSA_10_0)
-
-#if !UNITY_EDITOR_WIN
-[assembly: AlwaysLinkAssembly]
-#endif
 
 namespace PlayEveryWare.EpicOnlineServices
 {

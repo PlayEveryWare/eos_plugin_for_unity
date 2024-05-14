@@ -30,8 +30,7 @@ using jsize = System.Int32;
 using JavaVM = System.IntPtr;
 using System.Diagnostics;
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-[assembly: AlwaysLinkAssembly]
+#if UNITY_ANDROID
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;
