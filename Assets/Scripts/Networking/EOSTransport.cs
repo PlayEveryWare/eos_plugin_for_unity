@@ -310,6 +310,18 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
         public override ulong GetCurrentRtt(ulong clientId)
         {
             Debug.Assert(IsInitialized);
+            /*
+             * RTT can be calculated by subtracting the time at which
+             * DateTime.Now is sent from the time at which it is returned from
+             * the opponent.
+             *
+             * You can implement it by sending DateTime in your request, and
+             * subsequently subtracting that value from DateTime.Now when the
+             * response is received.
+             *
+             * It is not currently implemented due to the complexity it would
+             * add to the samples.
+             */
             return 0;
         }
 
