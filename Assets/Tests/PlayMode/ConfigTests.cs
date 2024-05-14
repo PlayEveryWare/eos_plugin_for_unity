@@ -71,20 +71,10 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
         [Test]
         public static void Get_ConfigDerivedClass_Valid()
         {
-
-            // Setup by forcing the static constructors to execute for the known
-            // classes that derive from Config.
-            var derivedTypes = FindDerivedTypes<Config>();
-
             // Iterate through the types that derive from the base abstract
             // Config class.
-            foreach (var type in derivedTypes)
+            foreach (var type in FindDerivedTypes<Config>())
             {
-                // Make sure that the static constructor is called before its
-                // factory method is tested.
-                ConstructorInfo staticConstructor = type.TypeInitializer;
-                staticConstructor?.Invoke(null, null);
-
                 // Get the "generic" version of the get method (factory method
                 // used to retrieve a Config of a certain type.
                 var getMethod = typeof(Config).GetMethod("Get");
