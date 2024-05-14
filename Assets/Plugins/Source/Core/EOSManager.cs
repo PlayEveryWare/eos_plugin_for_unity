@@ -579,8 +579,6 @@ namespace PlayEveryWare.EpicOnlineServices
                     loadedEOSConfig = LoadEOSConfigFileFromPath(eosFinalConfigPath);
                 }
 
-                var logLevelList = LogLevelHelper.LogLevelList;
-
                 if (GetEOSPlatformInterface() != null)
                 {
                     print("Init completed with existing EOS PlatformInterface");
@@ -590,11 +588,11 @@ namespace PlayEveryWare.EpicOnlineServices
                         LoggingInterface.SetCallback(SimplePrintCallback);
                         hasSetLoggingCallback = true;
                     }
-
-                    for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
-                    {
-                        SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
-                    }
+#if UNITY_EDITOR
+                    SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#else
+                    SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
+#endif
 
                     InitializeOverlay(coroutineOwner);
                     return;
@@ -677,10 +675,12 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 InitializeOverlay(coroutineOwner);
 
-                for (int logCategoryIndex = 0; logCategoryIndex < logLevelList.Count; logCategoryIndex++)
-                {
-                    SetLogLevel((LogCategory)logCategoryIndex, logLevelList[logCategoryIndex]);
-                }
+                // Default back to quiet logs
+#if UNITY_EDITOR
+                SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
+#else
+                SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
+#endif
 
                 print("EOS loaded");
             }
@@ -1464,12 +1464,16 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 EOSAuthInterface.Logout(ref options, null, (ref LogoutCallbackInfo data) =>
                 {
-                    if (onLogoutCallback != null)
+                    if (onLogoutCallback == null)
                     {
-                        onLogoutCallback(ref data);
-
-                        CallOnAuthLogout(data);
+                        return;
                     }
+
+                    SetLocalUserId(null);
+
+                    onLogoutCallback(ref data);
+
+                    CallOnAuthLogout(data);
                 });
             }
 

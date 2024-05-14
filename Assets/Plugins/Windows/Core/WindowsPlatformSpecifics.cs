@@ -20,6 +20,7 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
 #if UNITY_64 || UNITY_EDITOR_64
 #define PLATFORM_64BITS
 #elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
@@ -204,4 +205,4 @@ static string SteamDllName = "steam_api.dll";
     }
 }
 #endif
-
+#endif // !EOS_DISABLE
