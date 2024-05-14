@@ -76,7 +76,7 @@ namespace PlayEveryWare.EpicOnlineServices.Tests
             foreach (var type in FindDerivedTypes<Config>())
             {
                 // Get the "generic" version of the get method (factory method
-                // used to retrieve a Config of a certain type.
+                // used to retrieve a Config of a certain type).
                 var getMethod = typeof(Config).GetMethod("Get");
 
                 // Do not continue if the factory method could not be created.
