@@ -44,6 +44,7 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// </returns>
         private static bool TryFromJson<T>(string json, out T obj)
         {
+            obj = default;
             try
             {
                 obj = UnityEngine.JsonUtility.FromJson<T>(json);
