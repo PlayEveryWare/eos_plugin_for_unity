@@ -28,7 +28,8 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
 
-#if (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX) && (!UNITY_EDITOR_WIN && !UNITY_EDITOR_OSX)
+// If standalone linux and not editor, or the linux editor
+#if (UNITY_STANDALONE_LINUX && !UNITY_EDITOR) || UNITY_EDITOR_LINUX
 
 namespace PlayEveryWare.EpicOnlineServices
 {
