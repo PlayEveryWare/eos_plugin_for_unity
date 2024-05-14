@@ -21,17 +21,12 @@
 */
 
 #if !EOS_DISABLE
-#if UNITY_64 || UNITY_EDITOR_64
-#define PLATFORM_64BITS
-#elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
-#define PLATFORM_32BITS
-#endif
 
 #if UNITY_EDITOR
 #define EOS_DYNAMIC_BINDINGS
 #endif
 
-//#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
+#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
 using System.IO;
 using System.Collections.Generic;
@@ -68,10 +63,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string SteamConfigPath = "eos_steam_config.json";
 
 #if ENABLE_CONFIGURE_STEAM_FROM_MANAGED
-#if PLATFORM_64BITS
-        static string SteamDllName = "steam_api64.dll";
+        private static readonly string SteamDllName = 
+#if UNITY_64
+        "steam_api64.dll";
 #else
-static string SteamDllName = "steam_api.dll";
+        "steam_api.dll";
 #endif
 #endif
 
@@ -120,12 +116,10 @@ static string SteamDllName = "steam_api.dll";
         public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             string pluginPlatformPath =
-#if PLATFORM_64BITS
+#if UNITY_64
             "x64";
-#elif PLATFORM_32BITS
-            "x86";
 #else
-            "";
+            "x86";
 #endif
 
             if (pluginPlatformPath.Length > 0)
