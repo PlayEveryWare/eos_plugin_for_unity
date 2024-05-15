@@ -26,9 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
     public class LinuxBuilder : PlatformSpecificBuilder
     {
-        public LinuxBuilder() : base(
-            "Plugins/Linux",
-            BuildTarget.StandaloneLinux64)
+        public LinuxBuilder() : base("Plugins/Linux", BuildTarget.StandaloneLinux64)
         {
             AddProjectFileToBinaryMapping(
                 "DynamicLibraryLoaderHelper_Linux/Makefile",

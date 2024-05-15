@@ -29,9 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
     public class MacOSBuilder : PlatformSpecificBuilder
     {
-        public MacOSBuilder() : base(
-            "Plugins/macOS",
-            BuildTarget.StandaloneOSX) { }
+        public MacOSBuilder() : base("Plugins/macOS",BuildTarget.StandaloneOSX) { }
 
         public override void PreBuild(BuildReport report)
         {

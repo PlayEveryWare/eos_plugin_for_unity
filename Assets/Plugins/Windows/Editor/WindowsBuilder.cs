@@ -68,8 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     {
         private const string ProjectPathToEOSBootstrapperTool = "tools/bin/EOSBootstrapperTool.exe";
 
-        protected WindowsBuilder(string nativeBinaryDirectory, params BuildTarget[] buildTargets) :
-            base(nativeBinaryDirectory, buildTargets) {   }
+        protected WindowsBuilder(string nativeBinaryDirectory, params BuildTarget[] buildTargets) : base(nativeBinaryDirectory, buildTargets) {   }
 
         public override void PostBuild(BuildReport report)
         {
