@@ -33,7 +33,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
             RegisterFactory(() => new AndroidBuildConfig());
         }
 
-        protected AndroidBuildConfig() : 
-            base("eos_plugin_android_build_config.json") { }
+        protected AndroidBuildConfig() : base("eos_plugin_android_build_config.json") { }
     }
 }

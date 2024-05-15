@@ -32,7 +32,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
             RegisterFactory(() => new LibraryBuildConfig());
         }
 
-        protected LibraryBuildConfig() : 
-            base("eos_plugin_library_build_config.json") { }
+        protected LibraryBuildConfig() : base("eos_plugin_library_build_config.json") { }
     }
 }

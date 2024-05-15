@@ -33,7 +33,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
             RegisterFactory(() => new PackagingConfig());
         }
 
-        protected PackagingConfig() :
-            base("eos_plugin_packaging_config.json") { }
+        protected PackagingConfig() : base("eos_plugin_packaging_config.json") { }
     }
 }

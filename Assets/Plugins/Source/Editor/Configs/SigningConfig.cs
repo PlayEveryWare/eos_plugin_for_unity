@@ -62,7 +62,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
             RegisterFactory(() => new SigningConfig());
         }
 
-        protected SigningConfig() : 
-            base("eos_plugin_signing_config.json") { }
+        protected SigningConfig() : base("eos_plugin_signing_config.json") { }
     }
 }

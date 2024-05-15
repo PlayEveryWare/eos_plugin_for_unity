@@ -39,7 +39,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
             RegisterFactory(() => new PrebuildConfig());
         }
 
-        protected PrebuildConfig() : 
-            base("eos_plugin_version_config.json") { }
+        protected PrebuildConfig() : base("eos_plugin_version_config.json") { }
     }
 }

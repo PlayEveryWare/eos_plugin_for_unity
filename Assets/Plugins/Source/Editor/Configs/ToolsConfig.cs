@@ -58,7 +58,6 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
             RegisterFactory(() => new ToolsConfig());
         }
 
-        protected ToolsConfig() : 
-            base("eos_plugin_tools_config.json") { }
+        protected ToolsConfig() : base("eos_plugin_tools_config.json") { }
     }
 }
