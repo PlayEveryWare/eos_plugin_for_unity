@@ -20,12 +20,14 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
 using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
 
+// If iOS and not editor.
 #if UNITY_IOS && !UNITY_EDITOR
-[assembly: AlwaysLinkAssembly]
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;
@@ -65,4 +67,5 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+#endif
 #endif

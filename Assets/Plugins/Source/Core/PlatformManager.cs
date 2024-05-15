@@ -156,6 +156,17 @@ namespace PlayEveryWare.EpicOnlineServices
             };
 
         /// <summary>
+        /// Get the platform that matches the given build target.
+        /// </summary>
+        /// <param name="target">The build target being built for.</param>
+        /// <param name="platform">The platform for that build target.</param>
+        /// <returns>True if platform was determined, false otherwise.</returns>
+        public static bool TryGetPlatform(BuildTarget target, out Platform platform)
+        {
+            return TargetToPlatformsMap.TryGetValue(target, out platform);
+        }
+
+        /// <summary>
         /// Get the config type for the current platform.
         /// </summary>
         /// <returns>The config type for the current platform.</returns>
