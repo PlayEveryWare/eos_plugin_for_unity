@@ -28,10 +28,22 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
     public class BuildRunner : IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
+        /// <summary>
+        /// Callback Order for BuildRunner is 1 because all
+        /// PlatformSpecificBuilder implementations should have their callback
+        /// set to 0 so that they can register themselves where appropriate.
+        /// </summary>
         public int callbackOrder => 1;
 
+        /// <summary>
+        /// Private value for public property (separated for easier debugging)
+        /// </summary>
         private static PlatformSpecificBuilder s_builder;
 
+        /// <summary>
+        /// Stores an instance of the builder that is to be used by the
+        /// BuildRunner.
+        /// </summary>
         public static PlatformSpecificBuilder Builder
         {
             get
