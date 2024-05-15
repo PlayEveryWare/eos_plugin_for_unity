@@ -37,7 +37,6 @@ using UnityEngine.Scripting;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    using System.Runtime.CompilerServices;
     using Utility;
 
     public class EOSCreateOptions

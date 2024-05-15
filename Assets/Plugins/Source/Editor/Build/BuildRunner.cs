@@ -26,8 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using UnityEditor.Build;
     using UnityEditor.Build.Reporting;
 
-    public class BuildRunner : IPreprocessBuildWithReport, 
-        IPostprocessBuildWithReport
+    public class BuildRunner : IPreprocessBuildWithReport, IPostprocessBuildWithReport
     {
         public int callbackOrder => 1;
 
