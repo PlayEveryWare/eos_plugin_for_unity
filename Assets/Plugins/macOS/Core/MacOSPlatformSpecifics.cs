@@ -20,14 +20,13 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
+
 using UnityEngine;
 using UnityEngine.Scripting;
 
-#if (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && !UNITY_EDITOR_WIN
-
-#if !UNITY_EDITOR_OSX
-[assembly: AlwaysLinkAssembly]
-#endif
+// If standalone osx and not editor, or the osx editor.
+#if (UNITY_STANDALONE_OSX && !UNITY_EDITOR) || UNITY_EDITOR_OSX
 
 namespace PlayEveryWare.EpicOnlineServices 
 {
@@ -56,4 +55,6 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
-#endif
+
+#endif // (UNITY_STANDALONE_OSX || UNITY_EDITOR_OSX) && !UNITY_EDITOR_WIN
+#endif // !EOS_DISABLE
