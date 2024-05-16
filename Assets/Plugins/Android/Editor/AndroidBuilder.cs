@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
     public class AndroidBuilder : PlatformSpecificBuilder
     {
-        public AndroidBuilder() : base("Plugins/Android") { }
+        public AndroidBuilder() : base("Plugins/Android", BuildTarget.Android) { }
 
         public override void PreBuild(BuildReport report)
         {

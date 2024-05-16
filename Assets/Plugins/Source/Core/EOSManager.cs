@@ -33,13 +33,6 @@
 #define USE_STATIC_EOS_VARIABLE
 #endif
 
-#if UNITY_64
-#define PLATFORM_64BITS
-#elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
-#define PLATFORM_32BITS
-#endif
-
-
 //#define ENABLE_DEBUG_EOSMANAGER
 
 // If using a 1.12 or newer, this allows the eos manager to use the new

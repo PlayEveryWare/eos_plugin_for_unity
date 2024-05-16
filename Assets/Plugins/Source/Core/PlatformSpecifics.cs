@@ -21,12 +21,17 @@
  */
 
 #if !EOS_DISABLE
+#if !UNITY_EDITOR
+using UnityEngine.Scripting;
+[assembly: AlwaysLinkAssembly]
+#endif
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using UnityEngine;
+    using UnityEngine.Scripting;
     using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
