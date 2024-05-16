@@ -31,20 +31,33 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     [Serializable]
     public class ToolsConfig : EditorConfig
     {
-        public ToolsConfig() : base("eos_plugin_tools_config.json") { }
-
-        /// <value><c>Path To EAC integrity tool</c> The path to find the tool used for generating EAC certs</value>
+        /// <summary>
+        /// The path to find the tool used for generating EAC certs.
+        /// </summary>
         public string pathToEACIntegrityTool;
+
         public string pathToEACIntegrityConfig;
         public string pathToDefaultCertificate;
         public string pathToEACPrivateKey;
         public string pathToEACCertificate;
         public string pathToEACSplashImage;
 
-        /// <value><c>Bootstrapper override name</c>Optional override name for EOSBootstrapper.exe</value>
+        /// <summary>
+        /// Optional override name for EOSBootstrapper.exe.
+        /// </summary>
         public string bootstrapperNameOverride;
 
-        /// <value><c>Use EAC</c>If enabled, making a build will run the Easy Anti-Cheat integrity tool and copy EAC files to the build directory</value>
+        /// <summary>
+        /// If enabled, making a build will run the Easy Anti-Cheat integrity
+        /// tool and copy EAC files to the build directory.
+        /// </summary>
         public bool useEAC;
+
+        static ToolsConfig()
+        {
+            RegisterFactory(() => new ToolsConfig());
+        }
+
+        protected ToolsConfig() : base("eos_plugin_tools_config.json") { }
     }
 }
