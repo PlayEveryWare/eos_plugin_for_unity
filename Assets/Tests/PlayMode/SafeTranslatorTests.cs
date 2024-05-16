@@ -22,8 +22,10 @@
 
 using NUnit.Framework;
 
-namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
+namespace PlayEveryWare.EpicOnlineServices.Tests
 {
+    using Editor.Utility;
+
     public class SafeTranslatorTests
     {
         private delegate bool TryConvertDelegate<TInput, TOutput>(TInput input, out TOutput output);

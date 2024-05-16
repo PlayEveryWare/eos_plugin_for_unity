@@ -27,7 +27,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using System;
 
     [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    struct EOSSteamInternal : IDisposable
+    struct SteamInternal : IDisposable
     {
         public int ApiVersion;
         public IntPtr m_OverrideLibraryPath;

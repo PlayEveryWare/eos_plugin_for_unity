@@ -23,6 +23,7 @@
 namespace PlayEveryWare.EpicOnlineServices.Build
 {
     using System.IO;
+    using UnityEditor;
     using UnityEditor.Build.Reporting;
     using Utility;
 
@@ -38,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     /// </summary>
     public class IOSBuilder : PlatformSpecificBuilder
     {
-        public IOSBuilder() : base("Plugins/iOS") { }
+        public IOSBuilder() : base("Plugins/iOS", BuildTarget.iOS) { }
 
         /// <summary>
         /// Perform post build tasks that are unique to the iOS platform.
