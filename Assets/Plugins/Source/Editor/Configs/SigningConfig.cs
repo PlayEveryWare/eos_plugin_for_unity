@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,14 +24,44 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
+    using System;
+
+    /// <summary>
+    /// Contains configuration values pertinent to signing DLLs.
+    /// </summary>
+    [Serializable]
     public class SigningConfig : EditorConfig
     {
-        public SigningConfig() : base("eos_plugin_signing_config.json") { }
-
+        /// <summary>
+        /// Path to the tool used for signing the DLLs.
+        /// </summary>
         public string pathToSignTool;
+
+        /// <summary>
+        /// Path to the PFX file used for signing.
+        /// </summary>
         public string pathToPFX;
+
+        /// <summary>
+        /// Password to the PFX file.
+        /// </summary>
         public string pfxPassword;
+
+        /// <summary>
+        /// The URL to use for getting a timestamp.
+        /// </summary>
         public string timestampURL;
+     
+        /// <summary>
+        /// List of paths to the DLLs that can be signed.
+        /// </summary>
         public List<string> dllPaths;
+
+        static SigningConfig()
+        {
+            RegisterFactory(() => new SigningConfig());
+        }
+
+        protected SigningConfig() : base("eos_plugin_signing_config.json") { }
     }
 }

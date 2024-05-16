@@ -22,19 +22,24 @@
 
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
     [Serializable]
-    public class EOSSteamConfig : Config
+    public class SteamConfig : Config
     {
-        public EOSSteamConfig() : base("eos_steam_config.json") { }
         public List<string> flags;
         public string overrideLibraryPath;
 
         public uint steamSDKMajorVersion;
         public uint steamSDKMinorVersion;
+
+        static SteamConfig()
+        {
+            RegisterFactory(() => new SteamConfig());
+        }
+
+        protected SteamConfig() : base("eos_steam_config.json") { }
     }
 }
 

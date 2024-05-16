@@ -27,7 +27,18 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
     [Serializable]
     public class PrebuildConfig : EditorConfig
     {
-        public PrebuildConfig() : base("eos_plugin_version_config.json") { }
+        /// <summary>
+        /// Indicates that the application version should be set to the same as
+        /// the value in
+        /// the EOS Configuration for version.
+        /// </summary>
         public bool useAppVersionAsProductVersion;
+
+        static PrebuildConfig()
+        {
+            RegisterFactory(() => new PrebuildConfig());
+        }
+
+        protected PrebuildConfig() : base("eos_plugin_version_config.json") { }
     }
 }

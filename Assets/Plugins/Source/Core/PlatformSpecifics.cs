@@ -35,8 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
-
-    public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig, new()
+    public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig
     {
         protected PlatformManager.Platform Platform;
 
