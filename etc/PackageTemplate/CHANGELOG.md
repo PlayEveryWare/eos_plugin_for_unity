@@ -2,6 +2,58 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [3.2.0] - 2024-05-16
+
+### New Features
+- **EOS SDK Upgrade**:
+  - Upgrade included EOS SDK to version `1.16.2`
+  
+- **Log Configuration**:
+  - Introduced log configuration during application startup.
+  - Added example log level config file.
+  - Added editor window for log level config.
+  - Added helper for converting strings to enums.
+
+- **Project Utilities**:
+  - Added project utility to scan for common Unity project errors.
+
+### Fixes
+- **General Fixes**:
+  - Updated Unity Asset settings for standalone Linux builds.
+  - Corrected various code-style issues.
+  - Fixed grammar and corrected method signatures.
+
+- **Scripting Defines**:
+  - Simplified scripting define conditionals for multiple platforms.
+  - Corrected compiler conditionals for Android from Windows Editor.
+  - Restored the usage of `EOS_DYNAMIC_BINDINGS` and other scripting defines.
+
+- **Build Improvements**:
+  - Rebuilt native code binaries for Win64 and Win32.
+  - Utilized `Task.Run` for BuildMac to avoid async warnings.
+  - Disabled non-functional window used to install eos zip.
+
+- **JSON Utility**:
+  - Updated `JsonUtility` to remove `Newtonsoft` dependency.
+  - Added compile-time conditionals for `JsonUtility` validation tasks.
+  - Corrected and simplified JSON handling in various scenarios.
+
+- **Factory Pattern and Config Classes**:
+  - Implemented factory pattern to ensure proper instantiation of Config classes.
+  - Added runtime helper for type initializers in factory methods.
+  - Added missing using statements and comments.
+
+### Documentation and Comments
+- Added comments to missing members and methods.
+- Improved docfx site generation logic and updated theme.
+- Defined `EOS_DYNAMIC_BINDINGS` constant for docfx builds.
+
+### Miscellaneous
+- Updated package version numbers and changelog entries.
+- Removed deprecated and un-referenced AndroidInitOptions.
+- Added .gitignore entries for files generated during docfx generation.
+- Tracked Linux `libDynamicLibraryLoaderHelper.so` with Git LFS.
+
 # [3.1.3] - 2024-04-29
 
 ### Fixed
