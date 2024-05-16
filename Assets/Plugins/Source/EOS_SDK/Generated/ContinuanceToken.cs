@@ -48,8 +48,8 @@ namespace Epic.OnlineServices
 
 			// Call the EOS_ContinuanceToken_ToString function will a null buffer address to determine the correct buffer length.
 			// Discard the result of this call because it is not relevant. 
-			_ = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, null, ref inOutBufferLength);
-			
+			_ = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, IntPtr.Zero, ref inOutBufferLength);
+
 			var funcResult = Bindings.EOS_ContinuanceToken_ToString(InnerHandle, outBufferAddress, ref inOutBufferLength);
 
 			Helper.Get(outBufferAddress, out outBuffer);
