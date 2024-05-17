@@ -246,6 +246,14 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/*.cs", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/"},
 
+        {"src":"Assets/Plugins/Source/EOS_SDK/Overrides.meta", "dest": "Runtime/EOS_SDK/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Overrides/*.cs", "dest": "Runtime/EOS_SDK/Overrides/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Overrides/*.cs.meta", "dest": "Runtime/EOS_SDK/Overrides/"},
+
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCData.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCData/*.cs", "dest": "Runtime/EOS_SDK/Generated/RTCData/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/RTCData/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/RTCData/"},
+
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Achievements.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Achievements/*.cs", "dest": "Runtime/EOS_SDK/Generated/Achievements/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Achievements/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Achievements/"},
