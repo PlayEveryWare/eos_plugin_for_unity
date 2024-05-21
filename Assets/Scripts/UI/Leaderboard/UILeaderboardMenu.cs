@@ -127,7 +127,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogErrorFormat("UILeaderboardMenu (QueryRanksCompleted): returned result error: {0}", result);
 
                 // Even if we failed, try to refresh the leaderboard again later
-                if (refreshLeaderboardCoroutine != null) this.StopCoroutine(refreshLeaderboardCoroutine);
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    this.StopCoroutine(refreshLeaderboardCoroutine);
+                }
                 refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsBetweenLeaderboardRefreshes));
 
                 return;
@@ -162,7 +165,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
 
-                if (refreshLeaderboardCoroutine != null) this.StopCoroutine(refreshLeaderboardCoroutine);
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    this.StopCoroutine(refreshLeaderboardCoroutine);
+                }
                 refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsBetweenLeaderboardRefreshes));
             }
         }
@@ -245,7 +251,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 Debug.LogErrorFormat("UILeaderboardMenu (QueryUserScoresCompleted): returned result error: {0}", result);
 
                 // Even if we failed, try to refresh the leaderboard again later
-                if (refreshLeaderboardCoroutine != null) this.StopCoroutine(refreshLeaderboardCoroutine);
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    this.StopCoroutine(refreshLeaderboardCoroutine);
+                }
                 refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsBetweenLeaderboardRefreshes));
 
                 return;
@@ -303,7 +312,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     }
                 }
 
-                if (refreshLeaderboardCoroutine != null) this.StopCoroutine(refreshLeaderboardCoroutine);
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    this.StopCoroutine(refreshLeaderboardCoroutine);
+                }
                 refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsBetweenLeaderboardRefreshes));
             }
         }
