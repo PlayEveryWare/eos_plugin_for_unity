@@ -29,6 +29,7 @@ using Epic.OnlineServices.Leaderboards;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Epic.OnlineServices.Stats;
 
 namespace PlayEveryWare.EpicOnlineServices.Samples
 {
@@ -62,6 +63,28 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
         private EOSLeaderboardManager LeaderboardManager;
         private EOSFriendsManager PlayerManager;
+
+        /// <summary>
+        /// If this value is greater than 0, then every time this number of seconds pass, the current viewed leaderboard will refresh.
+        /// The internal timer for this resets whenever a leaderboard is queried.
+        /// There is no way to determine when a successfully ingested stat has been fully processed, and that stat proliferated to the leaderboards in the back end.
+        /// Periodic refreshing of the leaderboard is one way to get up to date information.
+        /// Note that per user, you should never request stats more than 100 times a minute.
+        /// </summary>
+        public float SecondsBetweenLeaderboardRefreshes = 30;
+
+        /// <summary>
+        /// If this value is greater than 0, after a successful <see cref="IngestStatOnClick"/>, this amount of seconds will be waited before refreshing the current leaderboard.
+        /// There's no promise that a successfully ingested stat means that it is proliferated across other Epic Online Services systems, like leaderboards.
+        /// This delay is a guess at how long to reasonably wait before requerying the leaderboard to reflect the newly ingested stat.
+        /// </summary>
+        public float SecondsAfterStatIngestedToRefresh = 2;
+
+        /// <summary>
+        /// Reference to the coroutine for waiting for leaderboard refreshes.
+        /// Having a reference to it allows for slightly more powerful control of the coroutine.
+        /// </summary>
+        private Coroutine refreshLeaderboardCoroutine { get; set; }
 
         private void Start()
         {
@@ -102,6 +125,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if(result != Result.Success)
             {
                 Debug.LogErrorFormat("UILeaderboardMenu (QueryRanksCompleted): returned result error: {0}", result);
+
+                // Even if we failed, try to refresh the leaderboard again later
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    StopCoroutine(refreshLeaderboardCoroutine);
+                }
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsBetweenLeaderboardRefreshes));
+
                 return;
             }
 
@@ -133,6 +164,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         uiEntry.ScoreTxt.text = record.Score.ToString();
                     }
                 }
+
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    StopCoroutine(refreshLeaderboardCoroutine);
+                }
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsBetweenLeaderboardRefreshes));
             }
         }
 
@@ -164,7 +201,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                     if (kvp.Key.Equals(currentSelectedDefinitionLeaderboardId, StringComparison.OrdinalIgnoreCase))
                     {
-                        // TODO: Update Ranks/UserScores
+                        RefreshCurrentSelectedLeaderboard();
                     }
                 }
             }
@@ -212,6 +249,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             if (result != Result.Success)
             {
                 Debug.LogErrorFormat("UILeaderboardMenu (QueryUserScoresCompleted): returned result error: {0}", result);
+
+                // Even if we failed, try to refresh the leaderboard again later
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    StopCoroutine(refreshLeaderboardCoroutine);
+                }
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsBetweenLeaderboardRefreshes));
+
                 return;
             }
 
@@ -266,6 +311,12 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                         }
                     }
                 }
+
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    StopCoroutine(refreshLeaderboardCoroutine);
+                }
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsBetweenLeaderboardRefreshes));
             }
         }
 
@@ -303,7 +354,14 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 return;
             }
 
-            LeaderboardManager.IngestStat(currentSelectedDefinitionStatName, amount);
+            LeaderboardManager.IngestStat(currentSelectedDefinitionStatName, amount, (ref IngestStatCompleteCallbackInfo ingestedCallbackInfo) => 
+            {
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    StopCoroutine(refreshLeaderboardCoroutine);
+                }
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
+            });
         }
 
         public void ShowMenu()
@@ -334,6 +392,48 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             CurrentSelectedLeaderboardTxt.text = $"{currentSelectedDefinitionLeaderboardId} - " +
                 $"{currentSelectedDefinitionStatName} - {Enum.GetName(typeof(LeaderboardGroup), currentGroup)}";
+        }
+
+        /// <summary>
+        /// If a leaderboard is selected, re-query and re-display its values.
+        /// </summary>
+        public void RefreshCurrentSelectedLeaderboard()
+        {
+            if (string.IsNullOrEmpty(currentSelectedDefinitionLeaderboardId))
+            {
+                Debug.Log($"UILeaderboardMenu (RefreshCurrentSelectedLeaderboard): No leaderboard selected.");
+                return;
+            }
+
+            if (currentGroup == LeaderboardGroup.Friends)
+            {
+                ShowFriendsOnClick();
+            }
+            else
+            {
+                ShowGlobalOnClick();
+            }
+        }
+
+        /// <summary>
+        /// Coroutine that yields for <see cref="SecondsBetweenLeaderboardRefreshes"/>, then calls RefreshCurrentSelectedLeaderboard.
+        /// Caller needs to re-call this to refresh after delay again.
+        /// </summary>
+        private System.Collections.IEnumerator RefreshCurrentLeaderboardAfterWait(float secondsToWait)
+        {
+            if (secondsToWait <= 0)
+            {
+                // No-op
+                yield break;
+            }
+
+            Debug.Log($"UILeaderboardMenu (RefreshCurrentLeaderboardAfterWait): Waiting {secondsToWait} seconds to refresh leaderboard...");
+
+            yield return new WaitForSeconds(secondsToWait);
+
+            Debug.Log($"UILeaderboardMenu (RefreshCurrentLeaderboardAfterWait): Waiting time has passed, refreshing leaderboard.");
+
+            RefreshCurrentSelectedLeaderboard();
         }
     }
 }
