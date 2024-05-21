@@ -129,9 +129,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // Even if we failed, try to refresh the leaderboard again later
                 if (refreshLeaderboardCoroutine != null)
                 {
-                    this.StopCoroutine(refreshLeaderboardCoroutine);
+                    StopCoroutine(refreshLeaderboardCoroutine);
                 }
-                refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsBetweenLeaderboardRefreshes));
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsBetweenLeaderboardRefreshes));
 
                 return;
             }
@@ -167,9 +167,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (refreshLeaderboardCoroutine != null)
                 {
-                    this.StopCoroutine(refreshLeaderboardCoroutine);
+                    StopCoroutine(refreshLeaderboardCoroutine);
                 }
-                refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsBetweenLeaderboardRefreshes));
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsBetweenLeaderboardRefreshes));
             }
         }
 
@@ -253,9 +253,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 // Even if we failed, try to refresh the leaderboard again later
                 if (refreshLeaderboardCoroutine != null)
                 {
-                    this.StopCoroutine(refreshLeaderboardCoroutine);
+                    StopCoroutine(refreshLeaderboardCoroutine);
                 }
-                refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsBetweenLeaderboardRefreshes));
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsBetweenLeaderboardRefreshes));
 
                 return;
             }
@@ -314,9 +314,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
                 if (refreshLeaderboardCoroutine != null)
                 {
-                    this.StopCoroutine(refreshLeaderboardCoroutine);
+                    StopCoroutine(refreshLeaderboardCoroutine);
                 }
-                refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsBetweenLeaderboardRefreshes));
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsBetweenLeaderboardRefreshes));
             }
         }
 
@@ -356,8 +356,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             LeaderboardManager.IngestStat(currentSelectedDefinitionStatName, amount, (ref IngestStatCompleteCallbackInfo ingestedCallbackInfo) => 
             {
-                if (refreshLeaderboardCoroutine != null) this.StopCoroutine(refreshLeaderboardCoroutine);
-                refreshLeaderboardCoroutine = this.StartCoroutine(RefreshCurrentLeaderboardAfterWait(this.SecondsAfterStatIngestedToRefresh));
+                if (refreshLeaderboardCoroutine != null)
+                {
+                    StopCoroutine(refreshLeaderboardCoroutine);
+                }
+                refreshLeaderboardCoroutine = StartCoroutine(RefreshCurrentLeaderboardAfterWait(SecondsAfterStatIngestedToRefresh));
             });
         }
 

@@ -452,7 +452,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         {
             // Create an empty callback to pass to the function
             OnIngestStatCompleteCallback callback = (ref IngestStatCompleteCallbackInfo emptyCallback) => { };
-            this.IngestStat(statName, amount, callback);
+            IngestStat(statName, amount, callback);
         }
 
         /// <summary>Call to ingest the stat values into EOS Stat interface.</summary>
@@ -479,7 +479,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             OnIngestStatCompleteCallback combinedCallback = (ref IngestStatCompleteCallbackInfo callbackForCombined) => 
             {
-                this.StatsIngestCallbackFn(ref callbackForCombined);
+                StatsIngestCallbackFn(ref callbackForCombined);
                 ingestStatCallback(ref callbackForCombined);
             };
 
