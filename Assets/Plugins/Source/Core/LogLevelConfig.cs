@@ -31,10 +31,10 @@ namespace PlayEveryWare.EpicOnlineServices
         public string category;
         public string level;
 
-        public LogCategoryLevelPair(string _category, string _level)
+        public LogCategoryLevelPair(string category, string level)
         {
-            category = _category;
-            level = _level;
+            this.category = category;
+            this.level = level;
         }
     }
 
