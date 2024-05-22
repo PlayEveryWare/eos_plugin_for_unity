@@ -25,6 +25,7 @@ using UnityEditor;
 using System;
 using System.Collections.Generic;
 
+#if !EOS_DISABLE
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
     public class LogLevelWindow : EOSEditorWindow
@@ -114,3 +115,4 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
         }
     }
 }
+#endif
