@@ -25,7 +25,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using Epic.OnlineServices.Logging;
-
+using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -40,32 +40,12 @@ namespace PlayEveryWare.EpicOnlineServices
             get { return Enum.GetNames(typeof(LogLevel)); }
         }
 
-        public static LogLevelConfig LoadLogLevelConfigFileFromPath(string logLevelConfigPath)
-        {
-            string configDataAsString = "";
-#if UNITY_ANDROID && !UNITY_EDITOR
-            configDataAsString = AndroidFileIOHelper.ReadAllText(logLevelConfigPath);
-#else
-
-            if (!File.Exists(logLevelConfigPath))
-            {
-                throw new Exception("Couldn't find Log Level Config file: Please ensure log_level_config.json exists and is a valid config");
-            }
-
-            configDataAsString = File.ReadAllText(logLevelConfigPath);
-#endif
-            var configData = JsonUtility.FromJson<LogLevelConfig>(configDataAsString);
-
-            Debug.Log("Loaded log level config file: " + configDataAsString);
-            return configData;
-        }
-
         public static List<LogLevel> LogLevelList
         {
             get
             {
-                LogLevelConfig logLevelConfig = LoadLogLevelConfigFileFromPath(Path.Combine(Application.streamingAssetsPath, "EOS", "log_level_config.json"));
-                
+                LogLevelConfig logLevelConfig = JsonUtility.FromJsonFile<LogLevelConfig>(Path.Combine(Application.streamingAssetsPath, "EOS", "log_level_config.json"));
+
                 var logLevels = new List<LogLevel>();
                 for (int i = 0; i < LogCategoryStringArray.Length - 1; i++)
                 {
