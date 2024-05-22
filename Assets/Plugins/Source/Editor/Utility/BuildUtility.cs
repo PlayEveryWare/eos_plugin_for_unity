@@ -127,7 +127,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         static BuildUtility()
         {
+            // Note: This conditional is here because it only makes sense to 
+            // look for visual studio installations if running on Windows.
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
             FindVSInstallations();
+#endif
         }
 
         /// <summary>
