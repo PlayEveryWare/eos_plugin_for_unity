@@ -46,7 +46,7 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
-	public static class Config
+	public static partial class Config
 	{
 		public const string LibraryName =
 		#if EOS_PLATFORM_WINDOWS_32 && EOS_UNITY
