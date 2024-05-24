@@ -370,6 +370,10 @@
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage/*.cs", "dest": "Runtime/EOS_SDK/Generated/TitleStorage/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/TitleStorage/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/TitleStorage/"},
 
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Types.meta", "dest": "Runtime/EOS_SDK/Generated/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Types/*.cs", "dest": "Runtime/EOS_SDK/Generated/Types/"},
+        {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Types/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Types/"},
+
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ui.meta", "dest": "Runtime/EOS_SDK/Generated/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ui/*.cs", "dest": "Runtime/EOS_SDK/Generated/Ui/"},
         {"src":"Assets/Plugins/Source/EOS_SDK/Generated/Ui/*.cs.meta", "dest": "Runtime/EOS_SDK/Generated/Ui/"},
