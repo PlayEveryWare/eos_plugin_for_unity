@@ -11,12 +11,12 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		public System.IntPtr PlayerHandle { get; set; }
 
 		/// <summary>
-		/// Player's current world position as a 3D vector
+		/// Player character's current world position as a 3D vector. This should be the center of the character.
 		/// </summary>
 		public Vec3f? PlayerPosition { get; set; }
 
 		/// <summary>
-		/// Player's view rotation as a quaternion
+		/// Player camera's current world rotation as a quaternion.
 		/// </summary>
 		public Quat? PlayerViewRotation { get; set; }
 
@@ -34,6 +34,11 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// Any movement state applicable
 		/// </summary>
 		public AntiCheatCommonPlayerMovementState PlayerMovementState { get; set; }
+
+		/// <summary>
+		/// Player camera's current world position as a 3D vector.
+		/// </summary>
+		public Vec3f? PlayerViewPosition { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]
@@ -46,6 +51,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		private int m_IsPlayerViewZoomed;
 		private float m_PlayerHealth;
 		private AntiCheatCommonPlayerMovementState m_PlayerMovementState;
+		private System.IntPtr m_PlayerViewPosition;
 
 		public System.IntPtr PlayerHandle
 		{
@@ -95,6 +101,14 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			}
 		}
 
+		public Vec3f? PlayerViewPosition
+		{
+			set
+			{
+				Helper.Set<Vec3f, Vec3fInternal>(ref value, ref m_PlayerViewPosition);
+			}
+		}
+
 		public void Set(ref LogPlayerTickOptions other)
 		{
 			m_ApiVersion = AntiCheatCommonInterface.LogplayertickApiLatest;
@@ -104,6 +118,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			IsPlayerViewZoomed = other.IsPlayerViewZoomed;
 			PlayerHealth = other.PlayerHealth;
 			PlayerMovementState = other.PlayerMovementState;
+			PlayerViewPosition = other.PlayerViewPosition;
 		}
 
 		public void Set(ref LogPlayerTickOptions? other)
@@ -117,6 +132,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 				IsPlayerViewZoomed = other.Value.IsPlayerViewZoomed;
 				PlayerHealth = other.Value.PlayerHealth;
 				PlayerMovementState = other.Value.PlayerMovementState;
+				PlayerViewPosition = other.Value.PlayerViewPosition;
 			}
 		}
 
@@ -125,6 +141,7 @@ namespace Epic.OnlineServices.AntiCheatCommon
 			Helper.Dispose(ref m_PlayerHandle);
 			Helper.Dispose(ref m_PlayerPosition);
 			Helper.Dispose(ref m_PlayerViewRotation);
+			Helper.Dispose(ref m_PlayerViewPosition);
 		}
 	}
 }

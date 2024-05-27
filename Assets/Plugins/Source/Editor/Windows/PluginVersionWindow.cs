@@ -27,6 +27,7 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 {
+    using EpicOnlineServices.Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
     /// <summary>
@@ -72,8 +73,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Windows
 
         private void ConfigureEOSPluginVersionFieldFromPath(string pathToJSONPackage)
         {
-            var packageAsJSONString = File.ReadAllText(pathToJSONPackage);
-            UPMPackage package = JsonUtility.FromJson<UPMPackage>(packageAsJSONString);
+            UPMPackage package = JsonUtility.FromJsonFile<UPMPackage>(pathToJSONPackage);
             eos_plugin_version = package.version;
         }
 

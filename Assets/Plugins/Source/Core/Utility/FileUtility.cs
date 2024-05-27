@@ -115,7 +115,13 @@ namespace PlayEveryWare.EpicOnlineServices.Utility
         /// <returns>The contents of the file at the indicated path as a string.</returns>
         public static string ReadAllText(string path)
         {
-            return File.ReadAllText(path);
+            string text = string.Empty;
+#if UNITY_ANDROID && !UNITY_EDITOR
+            text = AndroidFileIOHelper.ReadAllText(path);
+#else
+            text = File.ReadAllText(path);
+#endif
+            return text;
         }
 
         /// <summary>

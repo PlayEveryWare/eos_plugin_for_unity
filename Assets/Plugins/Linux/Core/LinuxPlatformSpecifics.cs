@@ -20,26 +20,16 @@
 * SOFTWARE.
 */
 
-#if UNITY_64 || UNITY_EDITOR_64
-#define PLATFORM_64BITS
-#elif UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-#define PLATFORM_32BITS
-#endif
-
-#if UNITY_EDITOR
-#define EOS_DYNAMIC_BINDINGS
-#endif
+#if !EOS_DISABLE
 
 //#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
+using PlayEveryWare.EpicOnlineServices.Utility;
 using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
 
-#if !UNITY_EDITOR_WIN && (UNITY_STANDALONE_LINUX || UNITY_EDITOR_LINUX)
-
-#if !UNITY_EDITOR_LINUX
-[assembly: AlwaysLinkAssembly]
-#endif
+// If standalone linux and not editor, or the linux editor
+#if (UNITY_STANDALONE_LINUX && !UNITY_EDITOR) || UNITY_EDITOR_LINUX
 
 namespace PlayEveryWare.EpicOnlineServices
 {
@@ -58,14 +48,6 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         public static string SteamConfigPath = "eos_steam_config.json";
 
-#if ENABLE_CONFIGURE_STEAM_FROM_MANAGED
-#if PLATFORM_64BITS
-        static string SteamDllName = "steam_api64.dll";
-#else
-static string SteamDllName = "steam_api.dll";
-#endif
-#endif
-
         private static GCHandle SteamOptionsGCHandle;
 
         public LinuxPlatformSpecifics() : base(PlatformManager.Platform.Linux, ".so") { }
@@ -81,7 +63,7 @@ static string SteamDllName = "steam_api.dll";
         //-------------------------------------------------------------------------
         public override void LoadDelegatesWithEOSBindingAPI()
         {
-#if EOS_DYNAMIC_BINDINGS
+#if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR
             // TODO: This code does not appear to do anything...
             const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
@@ -103,8 +85,8 @@ static string SteamDllName = "steam_api.dll";
 
             if (File.Exists(steamEOSFinalConfigPath))
             {
-                var steamConfigDataAsString = System.IO.File.ReadAllText(steamEOSFinalConfigPath);
-                var steamConfigData = JsonUtility.FromJson<EOSSteamConfig>(steamConfigDataAsString);
+                var steamConfigDataAsString = FileUtility.ReadAllText(steamEOSFinalConfigPath);
+                var steamConfigData = JsonUtility.FromJson<SteamConfig>(steamConfigDataAsString);
                 var integratedPlatforms = new Epic.OnlineServices.IntegratedPlatform.Options[1];
 
                 integratedPlatforms[0] = new Epic.OnlineServices.IntegratedPlatform.Options();
@@ -145,4 +127,4 @@ static string SteamDllName = "steam_api.dll";
     }
 }
 #endif
-
+#endif

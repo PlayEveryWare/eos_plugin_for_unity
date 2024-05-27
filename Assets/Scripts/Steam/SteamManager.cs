@@ -81,10 +81,11 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             byte[] buffer = new byte[bufferSize];
             uint ticketSize = 0;
             bool success = SteamUser.GetEncryptedAppTicket(buffer, bufferSize, out ticketSize);
+
             if (!success && (int)ticketSize > bufferSize)
             {
-                SteamUser.CancelAuthTicket(sessionTicketHandle);
                 bufferSize = (int)ticketSize;
+                buffer = new byte[bufferSize];
                 success = SteamUser.GetEncryptedAppTicket(buffer, bufferSize, out ticketSize);
             }
             if (!success)
@@ -95,6 +96,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
                 return;
             }
 
+            // Resize buffer to be the _exact_ ticketsize
             Array.Resize(ref buffer, (int)ticketSize);
             //convert to hex string
             encryptedAppTicket = System.BitConverter.ToString(buffer).Replace("-", "");
@@ -318,12 +320,17 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             authId.SetSteamID(SteamUser.GetSteamID());
             authId.SetGenericString("epiconlineservices");
             sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize, ref authId);
+
             if ((int)ticketSize > bufferSize)
             {
                 SteamUser.CancelAuthTicket(sessionTicketHandle);
                 bufferSize = (int)ticketSize;
+                buffer = new byte[bufferSize];
+
                 sessionTicketHandle = SteamUser.GetAuthSessionTicket(buffer, bufferSize, out ticketSize, ref authId);
             }
+
+            // Resize buffer to be the _exact_ ticketsize
             Array.Resize(ref buffer, (int)ticketSize);
             //convert to hex string
             sessionTicketString = System.BitConverter.ToString(buffer).Replace("-", "");
@@ -355,10 +362,16 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
 #endif
         }
 
+        /// NOTE: This conditional is here because if EOS_DISABLE is enabled, the members referenced
+        ///       in this code block will not exist on EOSManager.
+#if !EOS_DISABLE
         public void StartLoginWithSteam(EOSManager.OnAuthLoginCallback onLoginCallback)
         {
 #if DISABLESTEAMWORKS
-            onLoginCallback?.Invoke(new Epic.OnlineServices.Auth.LoginCallbackInfo() { ResultCode = Epic.OnlineServices.Result.UnexpectedError });
+            onLoginCallback?.Invoke(new Epic.OnlineServices.Auth.LoginCallbackInfo()
+            {
+                ResultCode = Epic.OnlineServices.Result.UnexpectedError
+            });
 #else
 
             string steamId = GetSteamID();
@@ -411,6 +424,8 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Steam
             });
 #endif
         }
+
+#endif
     }
 }
 

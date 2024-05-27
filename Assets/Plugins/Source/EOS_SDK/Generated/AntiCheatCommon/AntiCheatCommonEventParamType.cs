@@ -43,6 +43,10 @@ namespace Epic.OnlineServices.AntiCheatCommon
 		/// <summary>
 		/// <see cref="AntiCheatCommon.Quat" />
 		/// </summary>
-		Quat = 8
+		Quat = 8,
+		/// <summary>
+		/// <see cref="float" />
+		/// </summary>
+		Float = 9
 	}
 }

@@ -62,7 +62,7 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
-	public static class IOSBindings
+	public static partial class IOSBindings
 	{
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE1
 		private const string EOS_Auth_LoginName = "EOS_Auth_Login";

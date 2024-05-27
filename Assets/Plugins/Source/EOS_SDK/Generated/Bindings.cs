@@ -62,7 +62,7 @@ using System.Runtime.InteropServices;
 
 namespace Epic.OnlineServices
 {
-	public static class Bindings
+	public static partial class Bindings
 	{
 #if EOS_DYNAMIC_BINDINGS_NAME_TYPE1
 		private const string EOS_Achievements_AddNotifyAchievementsUnlockedName = "EOS_Achievements_AddNotifyAchievementsUnlocked";
@@ -180,6 +180,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Connect_IdToken_ReleaseName = "EOS_Connect_IdToken_Release";
 		private const string EOS_Connect_LinkAccountName = "EOS_Connect_LinkAccount";
 		private const string EOS_Connect_LoginName = "EOS_Connect_Login";
+		private const string EOS_Connect_LogoutName = "EOS_Connect_Logout";
 		private const string EOS_Connect_QueryExternalAccountMappingsName = "EOS_Connect_QueryExternalAccountMappings";
 		private const string EOS_Connect_QueryProductUserIdMappingsName = "EOS_Connect_QueryProductUserIdMappings";
 		private const string EOS_Connect_RemoveNotifyAuthExpirationName = "EOS_Connect_RemoveNotifyAuthExpiration";
@@ -545,11 +546,19 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_UpdateReceivingVolumeName = "EOS_RTCAudio_UpdateReceivingVolume";
 		private const string EOS_RTCAudio_UpdateSendingName = "EOS_RTCAudio_UpdateSending";
 		private const string EOS_RTCAudio_UpdateSendingVolumeName = "EOS_RTCAudio_UpdateSendingVolume";
+		private const string EOS_RTCData_AddNotifyDataReceivedName = "EOS_RTCData_AddNotifyDataReceived";
+		private const string EOS_RTCData_AddNotifyParticipantUpdatedName = "EOS_RTCData_AddNotifyParticipantUpdated";
+		private const string EOS_RTCData_RemoveNotifyDataReceivedName = "EOS_RTCData_RemoveNotifyDataReceived";
+		private const string EOS_RTCData_RemoveNotifyParticipantUpdatedName = "EOS_RTCData_RemoveNotifyParticipantUpdated";
+		private const string EOS_RTCData_SendDataName = "EOS_RTCData_SendData";
+		private const string EOS_RTCData_UpdateReceivingName = "EOS_RTCData_UpdateReceiving";
+		private const string EOS_RTCData_UpdateSendingName = "EOS_RTCData_UpdateSending";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "EOS_RTC_AddNotifyDisconnected";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "EOS_RTC_AddNotifyParticipantStatusChanged";
 		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "EOS_RTC_AddNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_BlockParticipantName = "EOS_RTC_BlockParticipant";
 		private const string EOS_RTC_GetAudioInterfaceName = "EOS_RTC_GetAudioInterface";
+		private const string EOS_RTC_GetDataInterfaceName = "EOS_RTC_GetDataInterface";
 		private const string EOS_RTC_JoinRoomName = "EOS_RTC_JoinRoom";
 		private const string EOS_RTC_LeaveRoomName = "EOS_RTC_LeaveRoom";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "EOS_RTC_RemoveNotifyDisconnected";
@@ -559,6 +568,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTC_SetSettingName = "EOS_RTC_SetSetting";
 		private const string EOS_Reports_SendPlayerBehaviorReportName = "EOS_Reports_SendPlayerBehaviorReport";
 		private const string EOS_Sanctions_CopyPlayerSanctionByIndexName = "EOS_Sanctions_CopyPlayerSanctionByIndex";
+		private const string EOS_Sanctions_CreatePlayerSanctionAppealName = "EOS_Sanctions_CreatePlayerSanctionAppeal";
 		private const string EOS_Sanctions_GetPlayerSanctionCountName = "EOS_Sanctions_GetPlayerSanctionCount";
 		private const string EOS_Sanctions_PlayerSanction_ReleaseName = "EOS_Sanctions_PlayerSanction_Release";
 		private const string EOS_Sanctions_QueryActivePlayerSanctionsName = "EOS_Sanctions_QueryActivePlayerSanctions";
@@ -796,6 +806,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Connect_IdToken_ReleaseName = "_EOS_Connect_IdToken_Release";
 		private const string EOS_Connect_LinkAccountName = "_EOS_Connect_LinkAccount";
 		private const string EOS_Connect_LoginName = "_EOS_Connect_Login";
+		private const string EOS_Connect_LogoutName = "_EOS_Connect_Logout";
 		private const string EOS_Connect_QueryExternalAccountMappingsName = "_EOS_Connect_QueryExternalAccountMappings";
 		private const string EOS_Connect_QueryProductUserIdMappingsName = "_EOS_Connect_QueryProductUserIdMappings";
 		private const string EOS_Connect_RemoveNotifyAuthExpirationName = "_EOS_Connect_RemoveNotifyAuthExpiration";
@@ -1161,11 +1172,19 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_UpdateReceivingVolumeName = "_EOS_RTCAudio_UpdateReceivingVolume";
 		private const string EOS_RTCAudio_UpdateSendingName = "_EOS_RTCAudio_UpdateSending";
 		private const string EOS_RTCAudio_UpdateSendingVolumeName = "_EOS_RTCAudio_UpdateSendingVolume";
+		private const string EOS_RTCData_AddNotifyDataReceivedName = "_EOS_RTCData_AddNotifyDataReceived";
+		private const string EOS_RTCData_AddNotifyParticipantUpdatedName = "_EOS_RTCData_AddNotifyParticipantUpdated";
+		private const string EOS_RTCData_RemoveNotifyDataReceivedName = "_EOS_RTCData_RemoveNotifyDataReceived";
+		private const string EOS_RTCData_RemoveNotifyParticipantUpdatedName = "_EOS_RTCData_RemoveNotifyParticipantUpdated";
+		private const string EOS_RTCData_SendDataName = "_EOS_RTCData_SendData";
+		private const string EOS_RTCData_UpdateReceivingName = "_EOS_RTCData_UpdateReceiving";
+		private const string EOS_RTCData_UpdateSendingName = "_EOS_RTCData_UpdateSending";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "_EOS_RTC_AddNotifyDisconnected";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "_EOS_RTC_AddNotifyParticipantStatusChanged";
 		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "_EOS_RTC_AddNotifyRoomStatisticsUpdated";
 		private const string EOS_RTC_BlockParticipantName = "_EOS_RTC_BlockParticipant";
 		private const string EOS_RTC_GetAudioInterfaceName = "_EOS_RTC_GetAudioInterface";
+		private const string EOS_RTC_GetDataInterfaceName = "_EOS_RTC_GetDataInterface";
 		private const string EOS_RTC_JoinRoomName = "_EOS_RTC_JoinRoom";
 		private const string EOS_RTC_LeaveRoomName = "_EOS_RTC_LeaveRoom";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "_EOS_RTC_RemoveNotifyDisconnected";
@@ -1175,6 +1194,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTC_SetSettingName = "_EOS_RTC_SetSetting";
 		private const string EOS_Reports_SendPlayerBehaviorReportName = "_EOS_Reports_SendPlayerBehaviorReport";
 		private const string EOS_Sanctions_CopyPlayerSanctionByIndexName = "_EOS_Sanctions_CopyPlayerSanctionByIndex";
+		private const string EOS_Sanctions_CreatePlayerSanctionAppealName = "_EOS_Sanctions_CreatePlayerSanctionAppeal";
 		private const string EOS_Sanctions_GetPlayerSanctionCountName = "_EOS_Sanctions_GetPlayerSanctionCount";
 		private const string EOS_Sanctions_PlayerSanction_ReleaseName = "_EOS_Sanctions_PlayerSanction_Release";
 		private const string EOS_Sanctions_QueryActivePlayerSanctionsName = "_EOS_Sanctions_QueryActivePlayerSanctions";
@@ -1412,6 +1432,7 @@ namespace Epic.OnlineServices
 		private const string EOS_Connect_IdToken_ReleaseName = "_EOS_Connect_IdToken_Release@4";
 		private const string EOS_Connect_LinkAccountName = "_EOS_Connect_LinkAccount@16";
 		private const string EOS_Connect_LoginName = "_EOS_Connect_Login@16";
+		private const string EOS_Connect_LogoutName = "_EOS_Connect_Logout@16";
 		private const string EOS_Connect_QueryExternalAccountMappingsName = "_EOS_Connect_QueryExternalAccountMappings@16";
 		private const string EOS_Connect_QueryProductUserIdMappingsName = "_EOS_Connect_QueryProductUserIdMappings@16";
 		private const string EOS_Connect_RemoveNotifyAuthExpirationName = "_EOS_Connect_RemoveNotifyAuthExpiration@12";
@@ -1777,11 +1798,19 @@ namespace Epic.OnlineServices
 		private const string EOS_RTCAudio_UpdateReceivingVolumeName = "_EOS_RTCAudio_UpdateReceivingVolume@16";
 		private const string EOS_RTCAudio_UpdateSendingName = "_EOS_RTCAudio_UpdateSending@16";
 		private const string EOS_RTCAudio_UpdateSendingVolumeName = "_EOS_RTCAudio_UpdateSendingVolume@16";
+		private const string EOS_RTCData_AddNotifyDataReceivedName = "_EOS_RTCData_AddNotifyDataReceived@16";
+		private const string EOS_RTCData_AddNotifyParticipantUpdatedName = "_EOS_RTCData_AddNotifyParticipantUpdated@16";
+		private const string EOS_RTCData_RemoveNotifyDataReceivedName = "_EOS_RTCData_RemoveNotifyDataReceived@12";
+		private const string EOS_RTCData_RemoveNotifyParticipantUpdatedName = "_EOS_RTCData_RemoveNotifyParticipantUpdated@12";
+		private const string EOS_RTCData_SendDataName = "_EOS_RTCData_SendData@8";
+		private const string EOS_RTCData_UpdateReceivingName = "_EOS_RTCData_UpdateReceiving@16";
+		private const string EOS_RTCData_UpdateSendingName = "_EOS_RTCData_UpdateSending@16";
 		private const string EOS_RTC_AddNotifyDisconnectedName = "_EOS_RTC_AddNotifyDisconnected@16";
 		private const string EOS_RTC_AddNotifyParticipantStatusChangedName = "_EOS_RTC_AddNotifyParticipantStatusChanged@16";
 		private const string EOS_RTC_AddNotifyRoomStatisticsUpdatedName = "_EOS_RTC_AddNotifyRoomStatisticsUpdated@16";
 		private const string EOS_RTC_BlockParticipantName = "_EOS_RTC_BlockParticipant@16";
 		private const string EOS_RTC_GetAudioInterfaceName = "_EOS_RTC_GetAudioInterface@4";
+		private const string EOS_RTC_GetDataInterfaceName = "_EOS_RTC_GetDataInterface@4";
 		private const string EOS_RTC_JoinRoomName = "_EOS_RTC_JoinRoom@16";
 		private const string EOS_RTC_LeaveRoomName = "_EOS_RTC_LeaveRoom@16";
 		private const string EOS_RTC_RemoveNotifyDisconnectedName = "_EOS_RTC_RemoveNotifyDisconnected@12";
@@ -1791,6 +1820,7 @@ namespace Epic.OnlineServices
 		private const string EOS_RTC_SetSettingName = "_EOS_RTC_SetSetting@8";
 		private const string EOS_Reports_SendPlayerBehaviorReportName = "_EOS_Reports_SendPlayerBehaviorReport@16";
 		private const string EOS_Sanctions_CopyPlayerSanctionByIndexName = "_EOS_Sanctions_CopyPlayerSanctionByIndex@12";
+		private const string EOS_Sanctions_CreatePlayerSanctionAppealName = "_EOS_Sanctions_CreatePlayerSanctionAppeal@16";
 		private const string EOS_Sanctions_GetPlayerSanctionCountName = "_EOS_Sanctions_GetPlayerSanctionCount@8";
 		private const string EOS_Sanctions_PlayerSanction_ReleaseName = "_EOS_Sanctions_PlayerSanction_Release@4";
 		private const string EOS_Sanctions_QueryActivePlayerSanctionsName = "_EOS_Sanctions_QueryActivePlayerSanctions@16";
@@ -2381,6 +2411,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Connect_LoginName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Connect_LoginName);
 			EOS_Connect_Login = (EOS_Connect_LoginDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_LoginDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Connect_LogoutName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Connect_LogoutName);
+			EOS_Connect_Logout = (EOS_Connect_LogoutDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Connect_LogoutDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Connect_QueryExternalAccountMappingsName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Connect_QueryExternalAccountMappingsName);
@@ -3842,6 +3876,34 @@ namespace Epic.OnlineServices
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCAudio_UpdateSendingVolumeName);
 			EOS_RTCAudio_UpdateSendingVolume = (EOS_RTCAudio_UpdateSendingVolumeDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCAudio_UpdateSendingVolumeDelegate));
 
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCData_AddNotifyDataReceivedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCData_AddNotifyDataReceivedName);
+			EOS_RTCData_AddNotifyDataReceived = (EOS_RTCData_AddNotifyDataReceivedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCData_AddNotifyDataReceivedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCData_AddNotifyParticipantUpdatedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCData_AddNotifyParticipantUpdatedName);
+			EOS_RTCData_AddNotifyParticipantUpdated = (EOS_RTCData_AddNotifyParticipantUpdatedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCData_AddNotifyParticipantUpdatedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCData_RemoveNotifyDataReceivedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCData_RemoveNotifyDataReceivedName);
+			EOS_RTCData_RemoveNotifyDataReceived = (EOS_RTCData_RemoveNotifyDataReceivedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCData_RemoveNotifyDataReceivedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCData_RemoveNotifyParticipantUpdatedName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCData_RemoveNotifyParticipantUpdatedName);
+			EOS_RTCData_RemoveNotifyParticipantUpdated = (EOS_RTCData_RemoveNotifyParticipantUpdatedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCData_RemoveNotifyParticipantUpdatedDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCData_SendDataName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCData_SendDataName);
+			EOS_RTCData_SendData = (EOS_RTCData_SendDataDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCData_SendDataDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCData_UpdateReceivingName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCData_UpdateReceivingName);
+			EOS_RTCData_UpdateReceiving = (EOS_RTCData_UpdateReceivingDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCData_UpdateReceivingDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTCData_UpdateSendingName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTCData_UpdateSendingName);
+			EOS_RTCData_UpdateSending = (EOS_RTCData_UpdateSendingDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTCData_UpdateSendingDelegate));
+
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_AddNotifyDisconnectedName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_AddNotifyDisconnectedName);
 			EOS_RTC_AddNotifyDisconnected = (EOS_RTC_AddNotifyDisconnectedDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_AddNotifyDisconnectedDelegate));
@@ -3861,6 +3923,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_GetAudioInterfaceName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_GetAudioInterfaceName);
 			EOS_RTC_GetAudioInterface = (EOS_RTC_GetAudioInterfaceDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_GetAudioInterfaceDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_GetDataInterfaceName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_GetDataInterfaceName);
+			EOS_RTC_GetDataInterface = (EOS_RTC_GetDataInterfaceDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_RTC_GetDataInterfaceDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_RTC_JoinRoomName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_RTC_JoinRoomName);
@@ -3897,6 +3963,10 @@ namespace Epic.OnlineServices
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Sanctions_CopyPlayerSanctionByIndexName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sanctions_CopyPlayerSanctionByIndexName);
 			EOS_Sanctions_CopyPlayerSanctionByIndex = (EOS_Sanctions_CopyPlayerSanctionByIndexDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sanctions_CopyPlayerSanctionByIndexDelegate));
+
+			functionPointer = getFunctionPointer(libraryHandle, EOS_Sanctions_CreatePlayerSanctionAppealName);
+			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sanctions_CreatePlayerSanctionAppealName);
+			EOS_Sanctions_CreatePlayerSanctionAppeal = (EOS_Sanctions_CreatePlayerSanctionAppealDelegate)Marshal.GetDelegateForFunctionPointer(functionPointer, typeof(EOS_Sanctions_CreatePlayerSanctionAppealDelegate));
 
 			functionPointer = getFunctionPointer(libraryHandle, EOS_Sanctions_GetPlayerSanctionCountName);
 			if (functionPointer == System.IntPtr.Zero) throw new DynamicBindingException(EOS_Sanctions_GetPlayerSanctionCountName);
@@ -4497,6 +4567,7 @@ namespace Epic.OnlineServices
 			EOS_Connect_IdToken_Release = null;
 			EOS_Connect_LinkAccount = null;
 			EOS_Connect_Login = null;
+			EOS_Connect_Logout = null;
 			EOS_Connect_QueryExternalAccountMappings = null;
 			EOS_Connect_QueryProductUserIdMappings = null;
 			EOS_Connect_RemoveNotifyAuthExpiration = null;
@@ -4862,11 +4933,19 @@ namespace Epic.OnlineServices
 			EOS_RTCAudio_UpdateReceivingVolume = null;
 			EOS_RTCAudio_UpdateSending = null;
 			EOS_RTCAudio_UpdateSendingVolume = null;
+			EOS_RTCData_AddNotifyDataReceived = null;
+			EOS_RTCData_AddNotifyParticipantUpdated = null;
+			EOS_RTCData_RemoveNotifyDataReceived = null;
+			EOS_RTCData_RemoveNotifyParticipantUpdated = null;
+			EOS_RTCData_SendData = null;
+			EOS_RTCData_UpdateReceiving = null;
+			EOS_RTCData_UpdateSending = null;
 			EOS_RTC_AddNotifyDisconnected = null;
 			EOS_RTC_AddNotifyParticipantStatusChanged = null;
 			EOS_RTC_AddNotifyRoomStatisticsUpdated = null;
 			EOS_RTC_BlockParticipant = null;
 			EOS_RTC_GetAudioInterface = null;
+			EOS_RTC_GetDataInterface = null;
 			EOS_RTC_JoinRoom = null;
 			EOS_RTC_LeaveRoom = null;
 			EOS_RTC_RemoveNotifyDisconnected = null;
@@ -4876,6 +4955,7 @@ namespace Epic.OnlineServices
 			EOS_RTC_SetSetting = null;
 			EOS_Reports_SendPlayerBehaviorReport = null;
 			EOS_Sanctions_CopyPlayerSanctionByIndex = null;
+			EOS_Sanctions_CreatePlayerSanctionAppeal = null;
 			EOS_Sanctions_GetPlayerSanctionCount = null;
 			EOS_Sanctions_PlayerSanction_Release = null;
 			EOS_Sanctions_QueryActivePlayerSanctions = null;
@@ -5458,6 +5538,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Connect_LoginDelegate(System.IntPtr handle, ref Connect.LoginOptionsInternal options, System.IntPtr clientData, Connect.OnLoginCallbackInternal completionDelegate);
 		internal static EOS_Connect_LoginDelegate EOS_Connect_Login;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Connect_LogoutDelegate(System.IntPtr handle, ref Connect.LogoutOptionsInternal options, System.IntPtr clientData, Connect.OnLogoutCallbackInternal completionDelegate);
+		internal static EOS_Connect_LogoutDelegate EOS_Connect_Logout;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_Connect_QueryExternalAccountMappingsDelegate(System.IntPtr handle, ref Connect.QueryExternalAccountMappingsOptionsInternal options, System.IntPtr clientData, Connect.OnQueryExternalAccountMappingsCallbackInternal completionDelegate);
@@ -6375,9 +6459,7 @@ namespace Epic.OnlineServices
 		internal delegate void EOS_P2P_QueryNATTypeDelegate(System.IntPtr handle, ref P2P.QueryNATTypeOptionsInternal options, System.IntPtr clientData, P2P.OnQueryNATTypeCompleteCallbackInternal completionDelegate);
 		internal static EOS_P2P_QueryNATTypeDelegate EOS_P2P_QueryNATType;
 
-		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
-		internal delegate Result EOS_P2P_ReceivePacketDelegate(System.IntPtr handle, ref P2P.ReceivePacketOptionsInternal options, ref System.IntPtr outPeerId, ref P2P.SocketIdInternal outSocketId, ref byte outChannel, System.IntPtr outData, ref uint outBytesWritten);
-		internal static EOS_P2P_ReceivePacketDelegate EOS_P2P_ReceivePacket;
+
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_P2P_RemoveNotifyIncomingPacketQueueFullDelegate(System.IntPtr handle, ulong notificationId);
@@ -6920,6 +7002,34 @@ namespace Epic.OnlineServices
 		internal static EOS_RTCAudio_UpdateSendingVolumeDelegate EOS_RTCAudio_UpdateSendingVolume;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCData_AddNotifyDataReceivedDelegate(System.IntPtr handle, ref RTCData.AddNotifyDataReceivedOptionsInternal options, System.IntPtr clientData, RTCData.OnDataReceivedCallbackInternal completionDelegate);
+		internal static EOS_RTCData_AddNotifyDataReceivedDelegate EOS_RTCData_AddNotifyDataReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate ulong EOS_RTCData_AddNotifyParticipantUpdatedDelegate(System.IntPtr handle, ref RTCData.AddNotifyParticipantUpdatedOptionsInternal options, System.IntPtr clientData, RTCData.OnParticipantUpdatedCallbackInternal completionDelegate);
+		internal static EOS_RTCData_AddNotifyParticipantUpdatedDelegate EOS_RTCData_AddNotifyParticipantUpdated;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCData_RemoveNotifyDataReceivedDelegate(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCData_RemoveNotifyDataReceivedDelegate EOS_RTCData_RemoveNotifyDataReceived;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCData_RemoveNotifyParticipantUpdatedDelegate(System.IntPtr handle, ulong notificationId);
+		internal static EOS_RTCData_RemoveNotifyParticipantUpdatedDelegate EOS_RTCData_RemoveNotifyParticipantUpdated;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate Result EOS_RTCData_SendDataDelegate(System.IntPtr handle, ref RTCData.SendDataOptionsInternal options);
+		internal static EOS_RTCData_SendDataDelegate EOS_RTCData_SendData;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCData_UpdateReceivingDelegate(System.IntPtr handle, ref RTCData.UpdateReceivingOptionsInternal options, System.IntPtr clientData, RTCData.OnUpdateReceivingCallbackInternal completionDelegate);
+		internal static EOS_RTCData_UpdateReceivingDelegate EOS_RTCData_UpdateReceiving;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_RTCData_UpdateSendingDelegate(System.IntPtr handle, ref RTCData.UpdateSendingOptionsInternal options, System.IntPtr clientData, RTCData.OnUpdateSendingCallbackInternal completionDelegate);
+		internal static EOS_RTCData_UpdateSendingDelegate EOS_RTCData_UpdateSending;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate ulong EOS_RTC_AddNotifyDisconnectedDelegate(System.IntPtr handle, ref RTC.AddNotifyDisconnectedOptionsInternal options, System.IntPtr clientData, RTC.OnDisconnectedCallbackInternal completionDelegate);
 		internal static EOS_RTC_AddNotifyDisconnectedDelegate EOS_RTC_AddNotifyDisconnected;
 
@@ -6938,6 +7048,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate System.IntPtr EOS_RTC_GetAudioInterfaceDelegate(System.IntPtr handle);
 		internal static EOS_RTC_GetAudioInterfaceDelegate EOS_RTC_GetAudioInterface;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate System.IntPtr EOS_RTC_GetDataInterfaceDelegate(System.IntPtr handle);
+		internal static EOS_RTC_GetDataInterfaceDelegate EOS_RTC_GetDataInterface;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate void EOS_RTC_JoinRoomDelegate(System.IntPtr handle, ref RTC.JoinRoomOptionsInternal options, System.IntPtr clientData, RTC.OnJoinRoomCallbackInternal completionDelegate);
@@ -6974,6 +7088,10 @@ namespace Epic.OnlineServices
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate Result EOS_Sanctions_CopyPlayerSanctionByIndexDelegate(System.IntPtr handle, ref Sanctions.CopyPlayerSanctionByIndexOptionsInternal options, ref System.IntPtr outSanction);
 		internal static EOS_Sanctions_CopyPlayerSanctionByIndexDelegate EOS_Sanctions_CopyPlayerSanctionByIndex;
+
+		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
+		internal delegate void EOS_Sanctions_CreatePlayerSanctionAppealDelegate(System.IntPtr handle, ref Sanctions.CreatePlayerSanctionAppealOptionsInternal options, System.IntPtr clientData, Sanctions.CreatePlayerSanctionAppealCallbackInternal completionDelegate);
+		internal static EOS_Sanctions_CreatePlayerSanctionAppealDelegate EOS_Sanctions_CreatePlayerSanctionAppeal;
 
 		[UnmanagedFunctionPointer(Config.LibraryCallingConvention)]
 		internal delegate uint EOS_Sanctions_GetPlayerSanctionCountDelegate(System.IntPtr handle, ref Sanctions.GetPlayerSanctionCountOptionsInternal options);
@@ -7799,6 +7917,9 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_Connect_Login(System.IntPtr handle, ref Connect.LoginOptionsInternal options, System.IntPtr clientData, Connect.OnLoginCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Connect_Logout(System.IntPtr handle, ref Connect.LogoutOptionsInternal options, System.IntPtr clientData, Connect.OnLogoutCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_Connect_QueryExternalAccountMappings(System.IntPtr handle, ref Connect.QueryExternalAccountMappingsOptionsInternal options, System.IntPtr clientData, Connect.OnQueryExternalAccountMappingsCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
@@ -8485,8 +8606,7 @@ namespace Epic.OnlineServices
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_P2P_QueryNATType(System.IntPtr handle, ref P2P.QueryNATTypeOptionsInternal options, System.IntPtr clientData, P2P.OnQueryNATTypeCompleteCallbackInternal completionDelegate);
 
-		[DllImport(Config.LibraryName)]
-		internal static extern Result EOS_P2P_ReceivePacket(System.IntPtr handle, ref P2P.ReceivePacketOptionsInternal options, ref System.IntPtr outPeerId, ref P2P.SocketIdInternal outSocketId, ref byte outChannel, System.IntPtr outData, ref uint outBytesWritten);
+
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_P2P_RemoveNotifyIncomingPacketQueueFull(System.IntPtr handle, ulong notificationId);
@@ -8894,6 +9014,27 @@ namespace Epic.OnlineServices
 		internal static extern void EOS_RTCAudio_UpdateSendingVolume(System.IntPtr handle, ref RTCAudio.UpdateSendingVolumeOptionsInternal options, System.IntPtr clientData, RTCAudio.OnUpdateSendingVolumeCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCData_AddNotifyDataReceived(System.IntPtr handle, ref RTCData.AddNotifyDataReceivedOptionsInternal options, System.IntPtr clientData, RTCData.OnDataReceivedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern ulong EOS_RTCData_AddNotifyParticipantUpdated(System.IntPtr handle, ref RTCData.AddNotifyParticipantUpdatedOptionsInternal options, System.IntPtr clientData, RTCData.OnParticipantUpdatedCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCData_RemoveNotifyDataReceived(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCData_RemoveNotifyParticipantUpdated(System.IntPtr handle, ulong notificationId);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern Result EOS_RTCData_SendData(System.IntPtr handle, ref RTCData.SendDataOptionsInternal options);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCData_UpdateReceiving(System.IntPtr handle, ref RTCData.UpdateReceivingOptionsInternal options, System.IntPtr clientData, RTCData.OnUpdateReceivingCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_RTCData_UpdateSending(System.IntPtr handle, ref RTCData.UpdateSendingOptionsInternal options, System.IntPtr clientData, RTCData.OnUpdateSendingCallbackInternal completionDelegate);
+
+		[DllImport(Config.LibraryName)]
 		internal static extern ulong EOS_RTC_AddNotifyDisconnected(System.IntPtr handle, ref RTC.AddNotifyDisconnectedOptionsInternal options, System.IntPtr clientData, RTC.OnDisconnectedCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
@@ -8907,6 +9048,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern System.IntPtr EOS_RTC_GetAudioInterface(System.IntPtr handle);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern System.IntPtr EOS_RTC_GetDataInterface(System.IntPtr handle);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern void EOS_RTC_JoinRoom(System.IntPtr handle, ref RTC.JoinRoomOptionsInternal options, System.IntPtr clientData, RTC.OnJoinRoomCallbackInternal completionDelegate);
@@ -8934,6 +9078,9 @@ namespace Epic.OnlineServices
 
 		[DllImport(Config.LibraryName)]
 		internal static extern Result EOS_Sanctions_CopyPlayerSanctionByIndex(System.IntPtr handle, ref Sanctions.CopyPlayerSanctionByIndexOptionsInternal options, ref System.IntPtr outSanction);
+
+		[DllImport(Config.LibraryName)]
+		internal static extern void EOS_Sanctions_CreatePlayerSanctionAppeal(System.IntPtr handle, ref Sanctions.CreatePlayerSanctionAppealOptionsInternal options, System.IntPtr clientData, Sanctions.CreatePlayerSanctionAppealCallbackInternal completionDelegate);
 
 		[DllImport(Config.LibraryName)]
 		internal static extern uint EOS_Sanctions_GetPlayerSanctionCount(System.IntPtr handle, ref Sanctions.GetPlayerSanctionCountOptionsInternal options);

@@ -18,6 +18,11 @@ namespace Epic.OnlineServices.Leaderboards
 		/// </summary>
 		public object ClientData { get; set; }
 
+		/// <summary>
+		/// The Leaderboard ID for the leaderboard that was queried.
+		/// </summary>
+		public Utf8String LeaderboardId { get; set; }
+
 		public Result? GetResultCode()
 		{
 			return ResultCode;
@@ -27,6 +32,7 @@ namespace Epic.OnlineServices.Leaderboards
 		{
 			ResultCode = other.ResultCode;
 			ClientData = other.ClientData;
+			LeaderboardId = other.LeaderboardId;
 		}
 	}
 
@@ -35,6 +41,7 @@ namespace Epic.OnlineServices.Leaderboards
 	{
 		private Result m_ResultCode;
 		private System.IntPtr m_ClientData;
+		private System.IntPtr m_LeaderboardId;
 
 		public Result ResultCode
 		{
@@ -72,10 +79,26 @@ namespace Epic.OnlineServices.Leaderboards
 			}
 		}
 
+		public Utf8String LeaderboardId
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_LeaderboardId, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_LeaderboardId);
+			}
+		}
+
 		public void Set(ref OnQueryLeaderboardRanksCompleteCallbackInfo other)
 		{
 			ResultCode = other.ResultCode;
 			ClientData = other.ClientData;
+			LeaderboardId = other.LeaderboardId;
 		}
 
 		public void Set(ref OnQueryLeaderboardRanksCompleteCallbackInfo? other)
@@ -84,12 +107,14 @@ namespace Epic.OnlineServices.Leaderboards
 			{
 				ResultCode = other.Value.ResultCode;
 				ClientData = other.Value.ClientData;
+				LeaderboardId = other.Value.LeaderboardId;
 			}
 		}
 
 		public void Dispose()
 		{
 			Helper.Dispose(ref m_ClientData);
+			Helper.Dispose(ref m_LeaderboardId);
 		}
 
 		public void Get(out OnQueryLeaderboardRanksCompleteCallbackInfo output)

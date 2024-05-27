@@ -2,17 +2,14 @@
 # C# diff driver for *.cs files, to consider them text files, and to enforce
 # a line feed as the end of line character.
 *.cs diff=csharp text eol=lf
-
 # Files to consider text, and enforce the eol being LF
 *.md   text eol=lf
 *.json text eol=lf
 *.meta text eol=lf
 *.yaml text eol=lf
-
 # Other files that should be considered text files
 *.cginc  text
 *.shader text
-
 # Filetypes that should be considered binary files (regardless of if they are
 # stored using git-lfs):
 *.dll   binary
@@ -24,7 +21,6 @@
 *.jpg   binary
 *.gif   binary
 *.ttf   binary
-
 # These files should be merged using the UnityYamlMerge diff driver:
 *.mat               merge=unityyamlmerge eol=lf
 *.anim              merge=unityyamlmerge eol=lf
@@ -35,3 +31,5 @@
 *.asset             merge=unityyamlmerge eol=lf
 *.meta              merge=unityyamlmerge eol=lf
 *.controller        merge=unityyamlmerge eol=lf
+
+Assets/Plugins/Linux/libDynamicLibraryLoaderHelper.so filter=lfs diff=lfs merge=lfs binary

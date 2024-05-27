@@ -906,31 +906,59 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             loginButtonText.text = _OriginalloginButtonText;
         }
 
-        //-------------------------------------------------------------------------
+        /// <summary>
+        /// Start a login operation using Steam.
+        /// </summary>
         private void StartLoginWithSteam()
         {
             var steamManager = Steam.SteamManager.Instance;
             string steamId = steamManager?.GetSteamID();
             string steamToken = steamManager?.GetSessionTicket();
-            if(steamId == null)
+
+            // Use a coroutine to accomplish a non-UI blocking delay between obtaining
+            // the steam session ticket and the login operation that uses it. This delay
+            // is implemented here in the Scene instead of the EOSManager. It is up to
+            // developers to determine how best to deal with timing issues, and we do not
+            // want to introduce delays to code that are outside the direct and explicit
+            // control of game developers. When you implement Steam authentication, you 
+            // may find that implementing such a delay improves your user's experience.
+            StartCoroutine(StartLoginWithSteamDelayed(() =>
             {
-                Debug.LogError("ExternalAuth failed: Steam ID not valid");
-            }
-            else if (steamToken == null)
-            {
-                Debug.LogError("ExternalAuth failed: Steam session ticket not valid");
-            }
-            else
-            {
-                EOSManager.Instance.StartLoginWithLoginTypeAndToken(
+                if (steamId == null)
+                {
+                    Debug.LogError("ExternalAuth failed: Steam ID not valid");
+                }
+                else if (steamToken == null)
+                {
+                    Debug.LogError("ExternalAuth failed: Steam session ticket not valid");
+                }
+                else
+                {
+                    EOSManager.Instance.StartLoginWithLoginTypeAndToken(
                         LoginCredentialType.ExternalAuth,
                         ExternalCredentialType.SteamSessionTicket,
                         steamId,
                         steamToken,
                         StartLoginWithLoginTypeAndTokenCallback);
-            }
+                }
+            }));
         }
 
+        /// <summary>
+        /// This function is to be called by MonoBehavior's "StartCoroutine" function. While it's
+        /// signature implies functionality unique to the situation of providing a non-blocking
+        /// delay to the steam login operation, it's functionality is generic and might later
+        /// be abstracted into a more generic function.
+        /// </summary>
+        /// <param name="action">The action to execute after the indicated seconds have elapsed.</param>
+        /// <param name="secondsToDelay">The seconds to wait before executing the indicated action.</param>
+        /// <returns>An enumerator.</returns>
+        private IEnumerator StartLoginWithSteamDelayed(Action action, float secondsToDelay = 0.5f)
+        {
+            yield return new WaitForSeconds(secondsToDelay);
+
+            action();
+        }
 
         //-------------------------------------------------------------------------
         // Username and password aren't always the username and password
@@ -1258,9 +1286,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
         }
 
         //-------------------------------------------------------------------------
-        private void StartConnectLoginWithLoginCallbackInfo(LoginCallbackInfo loginCallbackInfo)
+        private void StartConnectLoginWithEpicAccount(EpicAccountId LocalUserId)
         {
-            EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
+            EOSManager.Instance.StartConnectLoginWithEpicAccount(LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo connectLoginCallbackInfo) =>
             {
                 if (connectLoginCallbackInfo.ResultCode == Result.Success)
                 {
@@ -1273,7 +1301,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                     EOSManager.Instance.CreateConnectUserWithContinuanceToken(connectLoginCallbackInfo.ContinuanceToken, (Epic.OnlineServices.Connect.CreateUserCallbackInfo createUserCallbackInfo) =>
                     {
                         print("Creating new connect user");
-                        EOSManager.Instance.StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo retryConnectLoginCallbackInfo) =>
+                        EOSManager.Instance.StartConnectLoginWithEpicAccount(LocalUserId, (Epic.OnlineServices.Connect.LoginCallbackInfo retryConnectLoginCallbackInfo) =>
                         {
                             if (retryConnectLoginCallbackInfo.ResultCode == Result.Success)
                             {
@@ -1310,7 +1338,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.Success)
             {
-                StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+                StartConnectLoginWithEpicAccount(loginCallbackInfo.LocalUserId);
             }
             else if (loginCallbackInfo.ResultCode == Epic.OnlineServices.Result.InvalidUser)
             {
@@ -1325,7 +1353,7 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
                 {
                     if (linkAccountCallbackInfo.ResultCode == Result.Success)
                     {
-                        StartConnectLoginWithLoginCallbackInfo(loginCallbackInfo);
+                        StartConnectLoginWithEpicAccount(linkAccountCallbackInfo.LocalUserId);
                     }
                     else
                     {

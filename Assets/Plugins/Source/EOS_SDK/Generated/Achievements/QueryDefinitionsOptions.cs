@@ -19,12 +19,12 @@ namespace Epic.OnlineServices.Achievements
 		/// <summary>
 		/// Deprecated
 		/// </summary>
-		public EpicAccountId EpicUserId_DEPRECATED { get; set; }
+		internal EpicAccountId EpicUserId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// Deprecated
 		/// </summary>
-		public Utf8String[] HiddenAchievementIds_DEPRECATED { get; set; }
+		internal Utf8String[] HiddenAchievementIds_DEPRECATED { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]

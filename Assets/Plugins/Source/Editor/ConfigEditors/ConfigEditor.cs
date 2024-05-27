@@ -28,7 +28,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor
     /// Contains implementations of IConfigEditor that are common to all implementing classes.
     /// </summary>
     /// <typeparam name="T">Intended to be a type accepted by the templated class EOSConfigFile.</typeparam>
-    public abstract class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config, new()
+    public abstract class ConfigEditor<T> : IConfigEditor where T : EpicOnlineServices.Config
     {
         private readonly string _labelText;
         protected T config;

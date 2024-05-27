@@ -33,13 +33,6 @@
 #define USE_STATIC_EOS_VARIABLE
 #endif
 
-#if UNITY_64
-#define PLATFORM_64BITS
-#elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
-#define PLATFORM_32BITS
-#endif
-
-
 //#define ENABLE_DEBUG_EOSMANAGER
 
 // If using a 1.12 or newer, this allows the eos manager to use the new
@@ -81,8 +74,11 @@ namespace PlayEveryWare.EpicOnlineServices
     using LoginOptions = Epic.OnlineServices.Auth.LoginOptions;
     using LoginStatusChangedCallbackInfo = Epic.OnlineServices.Auth.LoginStatusChangedCallbackInfo;
 #endif
-    
+    using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+    using LogoutCallbackInfo = Epic.OnlineServices.Auth.LogoutCallbackInfo;
+    using LogoutOptions = Epic.OnlineServices.Auth.LogoutOptions;
+    using OnLogoutCallback = Epic.OnlineServices.Auth.OnLogoutCallback;
 
     /// <summary>
     /// One of the responsibilities of this class is to manage the lifetime of
@@ -562,18 +558,8 @@ namespace PlayEveryWare.EpicOnlineServices
             //-------------------------------------------------------------------------
             private EOSConfig LoadEOSConfigFileFromPath(string eosFinalConfigPath)
             {
-                string configDataAsString = "";
-#if UNITY_ANDROID && !UNITY_EDITOR
-                configDataAsString = AndroidFileIOHelper.ReadAllText(eosFinalConfigPath);
-#else
-                if (!File.Exists(eosFinalConfigPath))
-                {
-                    throw new Exception("Couldn't find EOS Config file: Please ensure " + eosFinalConfigPath +
-                                        " exists and is a valid config");
-                }
+                string configDataAsString = FileUtility.ReadAllText(eosFinalConfigPath);
 
-                configDataAsString = File.ReadAllText(eosFinalConfigPath);
-#endif
                 var configData = JsonUtility.FromJson<EOSConfig>(configDataAsString);
 
                 print("Loaded config file: " + configDataAsString);
@@ -615,7 +601,6 @@ namespace PlayEveryWare.EpicOnlineServices
                 s_state = EOSState.Starting;
 
                 LoadEOSLibraries();
-                NativeCallToUnloadEOS();
 
                 var epicArgs = GetCommandLineArgsFromEpicLauncher();
 
@@ -1475,12 +1460,16 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 EOSAuthInterface.Logout(ref options, null, (ref LogoutCallbackInfo data) =>
                 {
-                    if (onLogoutCallback != null)
+                    if (onLogoutCallback == null)
                     {
-                        onLogoutCallback(ref data);
-
-                        CallOnAuthLogout(data);
+                        return;
                     }
+
+                    SetLocalUserId(null);
+
+                    onLogoutCallback(ref data);
+
+                    CallOnAuthLogout(data);
                 });
             }
 

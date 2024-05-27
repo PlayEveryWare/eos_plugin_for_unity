@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in 
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -30,8 +30,9 @@ namespace PlayEveryWare.EpicOnlineServices
     using System.Collections.Generic;
     using System.Reflection;   
     using System.IO;
-
+    using System.Text;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents a set of configuration data for use by the EOS Plugin for
@@ -43,13 +44,61 @@ namespace PlayEveryWare.EpicOnlineServices
         : ICloneable
 #endif
     {
+#if !UNITY_EDITOR
+        // NOTE: This caching mechanism works because it is expected that there
+        //       is only ever one Config per type. If ever there is a scenario
+        //       where there are multiple config files for a single type, this
+        //       will need to be changed. This is not a likely scenario.
+        protected static IDictionary<Type, Config> s_cachedConfigs = 
+            new Dictionary<Type, Config>();
+#endif
+
+
+
+        /// <summary>
+        /// Contains a registration that maps config type to the constructor, to
+        /// enforce usage of the factor pattern for classes that derive from the
+        /// Config class.
+        /// </summary>
+        private static Dictionary<Type, Func<Config>> s_factories = 
+            new Dictionary<Type, Func<Config>>();
+
+        /// <summary>
+        /// The name of the file that contains the config values.
+        /// </summary>
         protected readonly string Filename;
+
+        /// <summary>
+        /// The directory that contains the file.
+        /// </summary>
         protected readonly string Directory;
 
+        /// <summary>
+        /// The contents of the JSON file the last time it was read.
+        /// </summary>
         private string _lastReadJsonString;
 
-        protected Config(string filename) : this(filename, Path.Combine(Application.streamingAssetsPath, "EOS")) { }
+        /// <summary>
+        /// Instantiate a new config based on the file at the given filename -
+        /// in a default directory.
+        /// </summary>
+        /// <param name="filename">
+        /// The name of the file containing the config values.
+        /// </param>
+        protected Config(string filename) : 
+            this(filename, Path.Combine(
+                Application.streamingAssetsPath, "EOS")) { }
 
+        /// <summary>
+        /// Instantiates a new config based on the file at the given file and
+        /// directory.
+        /// </summary>
+        /// <param name="filename">
+        /// The name of the file containing the config values.
+        /// </param>
+        /// <param name="directory">
+        /// The directory that contains the file.
+        /// </param>
         protected Config(string filename, string directory)
         {
             Filename = filename;
@@ -57,31 +106,132 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         /// <summary>
-        /// Retrieves the indicated Config object, reading its values into memory.
+        /// Allows deriving classes to register their constructor method in
+        /// order to enforce the factory pattern. This requires that each class
+        /// that derives from Config must implement a static method registering
+        /// its constructor.
+        /// </summary>
+        /// <typeparam name="T">The config type.</typeparam>
+        /// <param name="factory">The function to create the config type</param>
+        protected static void RegisterFactory<T>(Func<T> factory) 
+            where T : Config
+        {
+            s_factories[typeof(T)] = factory;
+        }
+
+        /// <summary>
+        /// Try to retrieve the factory method for the indicated type that can
+        /// be used to create a new instance of the given config type.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of config to get the factory method for.
+        /// </typeparam>
+        /// <param name="factory">
+        /// The factory method that instantiates the config indicated.
+        /// </param>
+        /// <returns>
+        /// True if the factory is registered, false otherwise.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        /// If the indicated type does not have a corresponding constructor
+        /// function registered, a verbose exception will be thrown indicating
+        /// how to properly implement the Config implementing class such that
+        /// its constructor is properly registered.
+        /// </exception>
+        private static bool TryGetFactory<T>(out Func<Config> factory) 
+            where T : Config
+        {
+            // Ensure static constructor of template variable type is called
+            RuntimeHelpers.RunClassConstructor(typeof(T).TypeHandle);
+
+            if(!s_factories.TryGetValue(typeof(T), out factory))
+            {
+                throw new InvalidOperationException(
+                    $"No factory method has been registered for " +
+                    $"type \"{typeof(T).FullName}\". " +
+                    $"Please make sure that \"{typeof(T).FullName}\" " +
+                    $"registers its constructor with the base Config class " +
+                    $"via a static constructor.");
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Retrieves indicated Config object, reading its values into memory.
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static async Task<T> GetAsync<T>() where T : Config, new()
+        public static async Task<T> GetAsync<T>() where T : Config
         {
-            T instance = new();
+            // NOTE: This block (and the corresponding one below) exists so that
+            //       the config values are only cached when not in the editor.
+            //       In the editor, config files can be changed, so they should
+            //       not be cached.
+#if !UNITY_EDITOR
+            // Return cached copy if it exists.
+            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
+            {
+                return (T)config;
+            }
+#endif
+            // Try to get the factory method used to instantiate the config.
+            TryGetFactory<T>(out Func<Config> factory);
+
+            // Use the factory method to create the config.
+            T instance = (T)factory();
+
+            // Asynchronously read config values from the corresponding file.
             await instance.ReadAsync();
+
+#if !UNITY_EDITOR
+            // Cache the newly created config with its values having been read.
+            s_cachedConfigs.Add(typeof(T), instance);
+#endif
+
+            // Return the config being retrieved.
             return instance;
         }
 
         /// <summary>
-        /// Retrieves the indicated Config object, reading its values into memory.
+        /// Retrieves indicated Config object, reading its values into memory.
         /// </summary>
         /// <typeparam name="T">The Config to retrieve.</typeparam>
         /// <returns>Task<typeparam name="T">Config type.</typeparam></returns>
-        public static T Get<T>() where T : Config, new()
+        public static T Get<T>() where T : Config
         {
-            T instance = new();
+            // NOTE: This block (and the corresponding one below) exists so that
+            //       the config values are only cached when not in the editor.
+            //       In the editor, config files can be changed, so they should
+            //       not be cached.
+#if !UNITY_EDITOR
+            // Return cached copy if it exists.
+            if (s_cachedConfigs.TryGetValue(typeof(T), out Config config))
+            {
+                return (T)config;
+            }
+#endif
+            // Try to get the factory method used to instantiate the config.
+            TryGetFactory<T>(out Func<Config> factory);
+
+            // Use the factory method to create the config.
+            T instance = (T)factory();
+
+            // Read the config values from the corresponding file.
             instance.Read();
+
+#if !UNITY_EDITOR
+            // Cache the newly created config with its values having been read.
+            s_cachedConfigs.Add(typeof(T), instance);
+#endif
+
+            // Return the config being retrieved.
             return instance;
         }
 
         /// <summary>
-        /// Returns the fully-qualified path to the file that holds the configuration values.
+        /// Returns the fully-qualified path to the file that holds the
+        /// configuration values.
         /// </summary>
         public string FilePath
         {
@@ -91,17 +241,22 @@ namespace PlayEveryWare.EpicOnlineServices
             }
         }
 
+        /// <summary>
+        /// Asynchronously read the values from the JSON file associated with
+        /// this Config
+        /// </summary>
+        /// <returns>Task.</returns>
         protected virtual async Task ReadAsync()
         {
             bool configFileExists = File.Exists(FilePath);
 
-            // If the file does not already exist, then save it before reading it, a default
-            // json will be put in the correct place, and therefore a default set of config
-            // values will be loaded.
+            // If the file does not already exist, then save it before reading
+            // it, a default json will be put in the correct place, and
+            // therefore a default set of config values will be loaded.
             if (!configFileExists)
             {
-                // This conditional exists because writing a config file is only something
-                // that should ever happen in the editor.
+                // This conditional exists because writing a config file is only
+                // something that should ever happen in the editor.
 #if UNITY_EDITOR
                 // If the config file does not currently exist, create it 
                 // when it is being read (which is fair to do in the editor)
@@ -109,7 +264,8 @@ namespace PlayEveryWare.EpicOnlineServices
 #else
                 // If the editor is not running, then the config file not
                 // existing should throw an error.
-                throw new FileNotFoundException($"Config file \"{FilePath}\" does not exist.");
+                throw new FileNotFoundException(
+                    $"Config file \"{FilePath}\" does not exist.");
 #endif
             }
 
@@ -118,6 +274,10 @@ namespace PlayEveryWare.EpicOnlineServices
             JsonUtility.FromJsonOverwrite(_lastReadJsonString, this);
         }
 
+        /// <summary>
+        /// Synchronously reads the contents of a Config from the json file that
+        /// defines it.
+        /// </summary>
         protected virtual void Read()
         {
             bool configFileExists = File.Exists(FilePath);
@@ -133,55 +293,68 @@ namespace PlayEveryWare.EpicOnlineServices
 #if UNITY_EDITOR
                 Write();
 #else
-                throw new FileNotFoundException($"Config file \"{FilePath}\" does not exist.");
+                throw new FileNotFoundException(
+                    $"Config file \"{FilePath}\" does not exist.");
 #endif
             }
         }
 
-        // Functions declared below should only ever be utilized in the editor. They are 
-        // so divided to guarantee separation of concerns.
+        // Functions declared below should only ever be utilized in the editor.
+        // They are so divided to guarantee separation of concerns.
 #if UNITY_EDITOR
 
         /// <summary>
         /// Asynchronously writes the configuration value to file.
         /// </summary>
-        /// <param name="prettyPrint">Whether to output "pretty" JSON to the file.</param>
-        /// <param name="updateAssetDatabase">Indicates whether to update the asset database after writing.</param>
+        /// <param name="prettyPrint">
+        /// Whether to output "pretty" JSON to the file.
+        /// </param>
+        /// <param name="updateAssetDatabase">
+        /// Indicates whether to update the asset database after writing.
+        /// </param>
         /// <returns>Task</returns>
-        public virtual async Task WriteAsync(bool prettyPrint = true, bool updateAssetDatabase = true)
+        public virtual async Task WriteAsync(
+            bool prettyPrint = true, 
+            bool updateAssetDatabase = true)
         {
             FileInfo configFile = new(FilePath);
             configFile.Directory?.Create();
 
-            await using (StreamWriter writer = new(FilePath))
-            {
-                var json = JsonUtility.ToJson(this, prettyPrint);
-                await writer.WriteAsync(json);
-            }
+            var json = JsonUtility.ToJson(this, prettyPrint);
 
-            // If the asset database should be updated, then do the thing.
-            //if (updateAssetDatabase)
-            //{
-            //    await Task.Run(() =>
-            //    {
-            //        AssetDatabase.SaveAssets();
-            //        AssetDatabase.Refresh();
-            //    });
-            //}
+            // If the json hasn't changed since it was last read, then
+            // take no action.
+            if (json == _lastReadJsonString)
+                return;
+
+            await using StreamWriter writer = new(FilePath);
+            await writer.WriteAsync(json);
         }
 
         /// <summary>
         /// Synchronously writes the configuration value to file.
         /// </summary>
-        /// <param name="prettyPrint">Whether to output "pretty" JSON to the file.</param>
-        /// <param name="updateAssetDatabase">Indicates whether to update the asset database after writing.</param>
-        public virtual void Write(bool prettyPrint = true, bool updateAssetDatabase = true)
+        /// <param name="prettyPrint">
+        /// Whether to output "pretty" JSON to the file.
+        /// </param>
+        /// <param name="updateAssetDatabase">
+        /// Indicates whether to update the asset database after writing.
+        /// </param>
+        public virtual void Write(
+            bool prettyPrint = true, 
+            bool updateAssetDatabase = true)
         {
             FileInfo configFile = new(FilePath);
             configFile.Directory?.Create();
 
-            using StreamWriter writer = new (FilePath);
             var json = JsonUtility.ToJson(this, prettyPrint);
+
+            // If the json hasn't changed since it was last read, then
+            // take no action.
+            if (json == _lastReadJsonString)
+                return;
+
+            using StreamWriter writer = new(FilePath);
             writer.Write(json);
 
             if (updateAssetDatabase)
@@ -245,22 +418,17 @@ namespace PlayEveryWare.EpicOnlineServices
              *
              */
 
-            foreach (MemberInfo memberInfo in IteratePropertiesAndFields(configInstance))
-            {
-                if (GetDefaultValue(memberInfo.MemberType) != memberInfo.MemberValue)
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return IteratePropertiesAndFields(configInstance)
+                .All(mInfo => 
+                    GetDefaultValue(mInfo.MemberType) == mInfo.MemberValue);
         }
 
 
         /// <summary>
-        /// Returns the default value for a given Type. When the given type is a List of string values,
-        /// it will return an empty list of that type (not null). When the given type is string,
-        /// it will return an empty string, not null.
+        /// Returns the default value for a given Type. When the given type is a
+        /// List of string values, it will return an empty list of that type
+        /// (not null). When the given type is string, it will return an empty
+        /// string, not null.
         /// </summary>
         /// <param name="type">The type to get the default value of.</param>
         /// <returns>The default value for the Type indicated.</returns>
@@ -294,8 +462,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public override bool Equals(object obj)
         {
-            // if the given object is null, or is not the same type, then they are
-            // not equal.
+            // if the given object is null, or is not the same type, then they
+            // are not equal.
             if (null == obj || this.GetType() != obj.GetType())
             {
                 return false;
@@ -305,8 +473,8 @@ namespace PlayEveryWare.EpicOnlineServices
             Config other = obj as Config;
 
             // get IEnumerable collections for the members of both instances
-            IEnumerable<MemberInfo> thisMembers = IteratePropertiesAndFields(this);
-            IEnumerable<MemberInfo> otherMembers = IteratePropertiesAndFields(other);
+            var thisMembers = IteratePropertiesAndFields(this);
+            var otherMembers = IteratePropertiesAndFields(other);
 
             // Use linq to determine if the sequences are equal
             return thisMembers.SequenceEqual(otherMembers);
@@ -339,7 +507,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         #endregion
 
-        #region Reflection utility functions common to both operations of determining Config equality of default-ness
+        #region Reflection utility functions
 
         /// <summary>
         /// Contains information about either a Property or a Field
@@ -351,7 +519,8 @@ namespace PlayEveryWare.EpicOnlineServices
 
             public bool Equals(MemberInfo a, MemberInfo b)
             {
-                // If the two members are not of the same type, then they can't be equal
+                // If the two members are not of the same type, then they can't
+                // be equal
                 if (a.MemberType != b.MemberType)
                 {
                     return false;
@@ -363,7 +532,8 @@ namespace PlayEveryWare.EpicOnlineServices
                     return true;
                 }
 
-                // if member info is for a member type that is a value type, then we
+                // if member info is for a member type that is a value type,
+                // then we
                 // can directly compare them
                 if (a.MemberType.IsValueType)
                 {
@@ -373,40 +543,59 @@ namespace PlayEveryWare.EpicOnlineServices
                 // otherwise, if the type of the members is a list of strings
                 if (a.MemberType == typeof(List<string>))
                 {
-                    // consider the member values to be equal if one is null and the other is empty
-                    return (a.MemberValue == null && (b.MemberValue as List<string>).Count == 0) ||
-                           ((a.MemberValue as List<string>).Count == 0 && b.MemberValue == null);
+                    // consider the member values to be equal if one is null and
+                    // the other is empty
+                    return ((a.MemberValue == null && 
+                             ((List<string>)b.MemberValue).Count == 0) 
+                            ||
+                            (((List<string>)a.MemberValue).Count == 0 && 
+                             b.MemberValue == null));
                 }
                 else if (a.MemberType == typeof(string))
                 {
-                    // consider the member values to be equal if they are both null and/or empty
+                    // consider the member values to be equal if they are both
+                    // null and/or empty
                     return (string.IsNullOrEmpty(b.MemberValue as string) &&
                             string.IsNullOrEmpty(a.MemberValue as string));
                 }
 
-                // if the member is a reference type, and it's neither a list of strings, nor a string
-                // then they can be directly compared.
+                // if the member is a reference type, and it's neither a list of
+                // strings, nor a string then they can be directly compared.
                 return a.MemberValue == b.MemberValue;
             }
 
             public int GetHashCode(MemberInfo memberInfo)
             {
-                return HashCode.Combine(memberInfo.MemberType, memberInfo.MemberValue);
+                return HashCode.Combine(
+                    memberInfo.MemberType, 
+                    memberInfo.MemberValue);
             }
         }
 
         /// <summary>
-        /// Gets an IEnumerable of the type / value pairs for each Field or Property matching the given BindingFlags on the given instance.
+        /// Gets an IEnumerable of the type / value pairs for each Field or
+        /// Property matching the given BindingFlags on the given instance.
         /// </summary>
         /// <typeparam name="T">Type of the given instance.</typeparam>
-        /// <param name="instance">Instance to iterate over the Field &amp; Property type / value pairs of.</param>
-        /// <param name="bindingAttr">BindingFlags to use when iterating over the Fields and Properties on the instance.</param>
-        /// <returns>IEnumerable of the type / value pairs for each Field or Property matching the given BindingFlags on the given instance.</returns>
-        private static IEnumerable<MemberInfo> IteratePropertiesAndFields<T>(T instance,
-            BindingFlags bindingAttr = BindingFlags.Public | BindingFlags.Instance)
+        /// <param name="instance">
+        /// Instance to iterate over the Field &amp; Property type / value pairs
+        /// of.
+        /// </param>
+        /// <param name="bindingAttr">
+        /// BindingFlags to use when iterating over the Fields and Properties on
+        /// the instance.
+        /// </param>
+        /// <returns>
+        /// IEnumerable of the type / value pairs for each Field or Property
+        /// matching the given BindingFlags on the given instance.
+        /// </returns>
+        private static IEnumerable<MemberInfo> IteratePropertiesAndFields<T>(
+            T instance,
+            BindingFlags bindingAttr = 
+                BindingFlags.Public | BindingFlags.Instance)
         {
             // go over the properties
-            foreach (PropertyInfo property in typeof(T).GetProperties(bindingAttr))
+            foreach (var property in typeof(T).GetProperties(bindingAttr))
             {
                 // make use of yield to return into an IEnumerable
                 yield return new MemberInfo()

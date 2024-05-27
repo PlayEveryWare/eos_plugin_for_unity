@@ -12,13 +12,13 @@ namespace Epic.OnlineServices.Lobby
 		/// The ID of the lobby to receive RTC Room connection change notifications for
 		/// This is deprecated and no longer needed. The notification is raised for any LobbyId or LocalUserId. If any filtering is required, the callback struct (<see cref="RTCRoomConnectionChangedCallbackInfo" />) has both a LobbyId and LocalUserId field.
 		/// </summary>
-		public Utf8String LobbyId_DEPRECATED { get; set; }
+		internal Utf8String LobbyId_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// The Product User ID of the local user in the lobby
 		/// This is deprecated and no longer needed. The notification is raised for any LobbyId or LocalUserId. If any filtering is required, the callback struct (<see cref="RTCRoomConnectionChangedCallbackInfo" />) has both a LobbyId and LocalUserId field.
 		/// </summary>
-		public ProductUserId LocalUserId_DEPRECATED { get; set; }
+		internal ProductUserId LocalUserId_DEPRECATED { get; set; }
 	}
 
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, Pack = 8)]

@@ -1049,10 +1049,10 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             {
                 var fragment = new ArraySegment<byte>(fragmentBuffer, 0, Mathf.Min((packet.Count - currentOffset) + FragmentHeaderSize, MaxPacketSize));
                 // 4 Packet header: Bytes 1 and 2 hold the packed id, while 3 and 4 hold the fragment number, with the last bit used as a flag to mark the final fragment.
-                fragment[0] = (byte)(OutgoingFragmentedIndex >> 8);
-                fragment[1] = (byte)OutgoingFragmentedIndex;
-                fragment[2] = (byte)(((i & short.MaxValue) >> 8) | (byte)(i == numFragments - 1 ? 128 : 0));
-                fragment[3] = (byte)(i & short.MaxValue);
+                fragment.Array[fragment.Offset + 0] = (byte)(OutgoingFragmentedIndex >> 8);
+                fragment.Array[fragment.Offset + 1] = (byte)OutgoingFragmentedIndex;
+                fragment.Array[fragment.Offset + 2] = (byte)(((i & short.MaxValue) >> 8) | (byte)(i == numFragments - 1 ? 128 : 0));
+                fragment.Array[fragment.Offset + 3] = (byte)(i & short.MaxValue);
 
                 int length = i == numFragments - 1 ? lastPacketSize : MaxPacketSize - FragmentHeaderSize;
 
@@ -1138,7 +1138,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples.Network
             var dataSegment = new ArraySegment<byte>(packet);
 
             //TODO: verify that this still works
-            Result result = P2PHandle.ReceivePacket(ref receivePacketOptions, out remoteUserId, out SocketId socketId, out channel, dataSegment, out uint bytesWritten);
+            remoteUserId = null;
+            SocketId socketId = default;
+            Result result = P2PHandle.ReceivePacket(ref receivePacketOptions, ref remoteUserId, ref socketId, out channel, dataSegment, out uint bytesWritten);
             socketName = socketId.SocketName;
             // No packets to be received?
             if (result == Result.NotFound)

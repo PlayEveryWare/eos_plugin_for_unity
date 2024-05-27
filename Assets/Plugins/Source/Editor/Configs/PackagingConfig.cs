@@ -8,8 +8,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,9 +24,15 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Config
 {
     public class PackagingConfig : EditorConfig
     {
-        public PackagingConfig() : base("eos_plugin_packaging_config.json") { }
         public string customBuildDirectoryPath;
         public string pathToJSONPackageDescription;
         public string pathToOutput;
+
+        static PackagingConfig()
+        {
+            RegisterFactory(() => new PackagingConfig());
+        }
+
+        protected PackagingConfig() : base("eos_plugin_packaging_config.json") { }
     }
 }

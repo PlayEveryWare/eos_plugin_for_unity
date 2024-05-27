@@ -21,15 +21,21 @@
  */
 
 #if !EOS_DISABLE
+#if !UNITY_EDITOR
+using UnityEngine.Scripting;
+[assembly: AlwaysLinkAssembly]
+#endif
 namespace PlayEveryWare.EpicOnlineServices
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using UnityEngine;
+    using UnityEngine.Scripting;
+    using Utility;
     using JsonUtility = PlayEveryWare.EpicOnlineServices.Utility.JsonUtility;
 
-    public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig, new()
+    public abstract class PlatformSpecifics<T> : IPlatformSpecifics where T : PlatformConfig
     {
         protected PlatformManager.Platform Platform;
 
@@ -103,14 +109,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             string configPath = PlatformManager.GetConfigFilePath(Platform);
             
-            string configJson =
-#if UNITY_ANDROID && !UNITY_EDITOR
-                AndroidFileIOHelper.ReadAllText(configPath);
-#else
-                File.ReadAllText(configPath);
-#endif
-            
-            T config = JsonUtility.FromJson<T>(configJson);
+            T config = JsonUtility.FromJsonFile<T>(configPath);
 
             if (config != null && initializeOptions.options.OverrideThreadAffinity.HasValue)
             {

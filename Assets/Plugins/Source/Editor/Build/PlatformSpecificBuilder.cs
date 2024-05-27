@@ -32,10 +32,12 @@ namespace PlayEveryWare.EpicOnlineServices.Build
     using Debug = UnityEngine.Debug;
     using UnityEditor;
     using PlayEveryWare.EpicOnlineServices.Editor;
+    using System;
     using System.Threading.Tasks;
     using Utility;
 
-    public abstract class PlatformSpecificBuilder : IPlatformSpecificBuilder
+    public abstract class PlatformSpecificBuilder : IPlatformSpecificBuilder,
+        IPreprocessBuildWithReport
     {
         /// <summary>
         /// For every platform, there are certain binary files that represent native console-specific implementations of the EOS plugin.
@@ -56,16 +58,56 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         private readonly static string NativeCodeDirectory = Path.Combine(Application.dataPath, "../lib/NativeCode");
 
         /// <summary>
+        /// Contains a mapping from BuildTarget to a specific platform builder.
+        /// </summary>
+        protected static IDictionary<BuildTarget, Type> s_builders =
+            new Dictionary<BuildTarget, Type>();
+
+        /// <summary>
+        /// Callback Order is set to 0 because the platform specific builders
+        /// need to execute first in-order to register themselves as builders
+        /// for their respective platforms.
+        /// </summary>
+        public int callbackOrder => 1;
+
+        /// <summary>
+        /// Stores the targets for which the builder can be used.
+        /// </summary>
+        private BuildTarget[] _buildTargets;
+
+        /// <summary>
         /// Constructs a new PlatformSpecificBuilder script.
         /// </summary>
         /// <param name="nativeCodeOutputDirectory">The filepath to the location of the binary files, relative to the Assets directory.</param>
-        protected PlatformSpecificBuilder(string nativeCodeOutputDirectory)
+        /// <param name="buildTargets">The BuildTargets that this builder runs for.</param>
+        protected PlatformSpecificBuilder(string nativeCodeOutputDirectory, params BuildTarget[] buildTargets)
         {
             _nativeCodeOutputDirectory = Path.Combine(
                 Application.dataPath,
                 nativeCodeOutputDirectory);
 
             _projectFileToBinaryFilesMap = new Dictionary<string, string[]>();
+            _buildTargets = buildTargets;
+        }
+
+        /// <summary>
+        /// This pre-process build step is designed to take place before the
+        /// BuildRunner executes because it is here that which platform builder
+        /// to use is determined.
+        /// </summary>
+        /// <param name="report">The prebuild report.</param>
+        public void OnPreprocessBuild(BuildReport report)
+        {
+            // If the platform being built is one of the platforms that this
+            // builder builds to, then set this as the builder with the
+            // BuildRunner.
+            if (_buildTargets.Contains(report.summary.platform))
+            {
+                // Note that in this context, despite being within an abstract
+                // class, the most derived instance will be returned when
+                // "this" is accessed.
+                BuildRunner.Builder = this;
+            }
         }
 
         /// <summary>
@@ -142,7 +184,11 @@ namespace PlayEveryWare.EpicOnlineServices.Build
         /// </summary>
         protected virtual void CheckPlatformBinaries()
         {
+            // Note: This compile conditional exists because it only makes sense
+            // to look for visual studio installations if running on windows.
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
             BuildUtility.FindVSInstallations();
+#endif
 
             Debug.Log("Checking for platform-specific prerequisites.");
 
@@ -242,7 +288,7 @@ namespace PlayEveryWare.EpicOnlineServices.Build
 
         /// <summary>
         /// When building on Windows, msbuild has a flag specifying the platform to build towards. Each
-        /// class that derives from PlatformSpecificBuilder must define the value to pass msbuild for it's
+        /// class that derives from PlatformSpecificBuilder must define the value to pass msbuild for its
         /// respective platform. These strings can be confidential on unreleased or code-named platforms,
         /// so it is important for security reasons that only implementing classes contain the value.
         /// </summary>

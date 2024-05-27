@@ -314,7 +314,9 @@ namespace PlayEveryWare.EpicOnlineServices.Samples
 
             byte[] data = new byte[nextPacketSizeBytes];
             var dataSegment = new ArraySegment<byte>(data);
-            Result result = P2PHandle.ReceivePacket(ref options, out ProductUserId peerId, out SocketId socketId, out byte outChannel, dataSegment, out uint bytesWritten);
+            ProductUserId peerId = null;
+            SocketId socketId = default;
+            Result result = P2PHandle.ReceivePacket(ref options, ref peerId, ref socketId, out byte outChannel, dataSegment, out uint bytesWritten);
 
             if (result == Result.NotFound)
             {

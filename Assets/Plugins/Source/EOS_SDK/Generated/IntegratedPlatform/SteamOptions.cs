@@ -7,6 +7,7 @@ namespace Epic.OnlineServices.IntegratedPlatform
 	/// Required initialization options to use with <see cref="Options" /> for Steam.
 	/// Steamworks API needs to be at least v1.13
 	/// Steam Sanitization requires at least v1.45
+	/// Starting Steamworks v1.58a onwards, SteamApiInterfaceVersionsArray is required when <see cref="IntegratedPlatformManagementFlags.LibraryManagedBySDK" /> is set.
 	/// <seealso cref="Options" />
 	/// </summary>
 	public struct SteamOptions
@@ -37,15 +38,58 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		/// <summary>
 		/// Used to specify the minor version of the Steam SDK your game is compiled against, e.g.:
 		/// 
-		/// Options.SteamMinorVersion = 57;
+		/// Options.SteamMinorVersion = 58;
 		/// </summary>
 		public uint SteamMinorVersion { get; set; }
+
+		/// <summary>
+		/// A pointer to a series of null terminated steam interface version names supported by the current steam dll.
+		/// 
+		/// This field is only required when the Integrated Platform Management flags has <see cref="IntegratedPlatformManagementFlags.LibraryManagedBySDK" /> set. Else must be set to <see langword="null" />.
+		/// 
+		/// Starting v1.58 the Steam initialization API requires this new field during initialization for version check validations.
+		/// 
+		/// Note: The pointer must be valid until after the execution of the <see cref="IntegratedPlatformOptionsContainer.Add" /> method.
+		/// 
+		/// This value must be constructed from the corresponding steam_api.h header of the steam dll version that is shipped with the game.
+		/// In the steam_api.h header, look for SteamAPI_InitEx() and copy the value of pszInternalCheckInterfaceVersions as it is.
+		/// 
+		/// For example in v1.58a its this:
+		/// const <see cref="byte" /> SteamInterfaceVersionsArray[] =
+		/// STEAMUTILS_INTERFACE_VERSION "\0"
+		/// STEAMNETWORKINGUTILS_INTERFACE_VERSION "\0"
+		/// ...
+		/// STEAMUSER_INTERFACE_VERSION "\0"
+		/// STEAMVIDEO_INTERFACE_VERSION "\0"
+		/// "\0";
+		/// </summary>
+		public Utf8String SteamApiInterfaceVersionsArray { get; set; }
+
+		/// <summary>
+		/// Size of the SteamApiInterfaceVersionsArray in bytes. Cannot exceed <see cref="IntegratedPlatformInterface.SteamMaxSteamapiinterfaceversionsarraySize" />.
+		/// 
+		/// This field is only required when the Integrated Platform Management flags has <see cref="IntegratedPlatformManagementFlags.LibraryManagedBySDK" /> set. Else must be set to 0.
+		/// 
+		/// Note: Since SteamInterfaceVersionsArray contains a series of null terminated strings, please ensure that strlen() is NOT used to calculate this field.
+		/// For instance, you can use the following to get the array length:
+		/// const <see cref="byte" /> SteamInterfaceVersionsArray[] =
+		/// STEAMUTILS_INTERFACE_VERSION "\0"
+		/// STEAMNETWORKINGUTILS_INTERFACE_VERSION "\0"
+		/// ...
+		/// STEAMVIDEO_INTERFACE_VERSION "\0"
+		/// "\0";
+		/// 
+		/// <see cref="uint" /> SteamApiInterfaceVersionsArrayBytes = sizeof(SteamApiInterfaceVersionsArray) // Note: sizeof() takes into account the last "\0" of the string literal;
+		/// </summary>
+		public uint SteamApiInterfaceVersionsArrayBytes { get; set; }
 
 		internal void Set(ref SteamOptionsInternal other)
 		{
 			OverrideLibraryPath = other.OverrideLibraryPath;
 			SteamMajorVersion = other.SteamMajorVersion;
 			SteamMinorVersion = other.SteamMinorVersion;
+			SteamApiInterfaceVersionsArray = other.SteamApiInterfaceVersionsArray;
+			SteamApiInterfaceVersionsArrayBytes = other.SteamApiInterfaceVersionsArrayBytes;
 		}
 	}
 
@@ -56,6 +100,8 @@ namespace Epic.OnlineServices.IntegratedPlatform
 		private System.IntPtr m_OverrideLibraryPath;
 		private uint m_SteamMajorVersion;
 		private uint m_SteamMinorVersion;
+		private System.IntPtr m_SteamApiInterfaceVersionsArray;
+		private uint m_SteamApiInterfaceVersionsArrayBytes;
 
 		public Utf8String OverrideLibraryPath
 		{
@@ -98,12 +144,42 @@ namespace Epic.OnlineServices.IntegratedPlatform
 			}
 		}
 
+		public Utf8String SteamApiInterfaceVersionsArray
+		{
+			get
+			{
+				Utf8String value;
+				Helper.Get(m_SteamApiInterfaceVersionsArray, out value);
+				return value;
+			}
+
+			set
+			{
+				Helper.Set(value, ref m_SteamApiInterfaceVersionsArray);
+			}
+		}
+
+		public uint SteamApiInterfaceVersionsArrayBytes
+		{
+			get
+			{
+				return m_SteamApiInterfaceVersionsArrayBytes;
+			}
+
+			set
+			{
+				m_SteamApiInterfaceVersionsArrayBytes = value;
+			}
+		}
+
 		public void Set(ref SteamOptions other)
 		{
 			m_ApiVersion = IntegratedPlatformInterface.SteamOptionsApiLatest;
 			OverrideLibraryPath = other.OverrideLibraryPath;
 			SteamMajorVersion = other.SteamMajorVersion;
 			SteamMinorVersion = other.SteamMinorVersion;
+			SteamApiInterfaceVersionsArray = other.SteamApiInterfaceVersionsArray;
+			SteamApiInterfaceVersionsArrayBytes = other.SteamApiInterfaceVersionsArrayBytes;
 		}
 
 		public void Set(ref SteamOptions? other)
@@ -114,12 +190,15 @@ namespace Epic.OnlineServices.IntegratedPlatform
 				OverrideLibraryPath = other.Value.OverrideLibraryPath;
 				SteamMajorVersion = other.Value.SteamMajorVersion;
 				SteamMinorVersion = other.Value.SteamMinorVersion;
+				SteamApiInterfaceVersionsArray = other.Value.SteamApiInterfaceVersionsArray;
+				SteamApiInterfaceVersionsArrayBytes = other.Value.SteamApiInterfaceVersionsArrayBytes;
 			}
 		}
 
 		public void Dispose()
 		{
 			Helper.Dispose(ref m_OverrideLibraryPath);
+			Helper.Dispose(ref m_SteamApiInterfaceVersionsArray);
 		}
 
 		public void Get(out SteamOptions output)

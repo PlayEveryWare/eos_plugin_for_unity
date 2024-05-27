@@ -4,7 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "com.playeveryware.eos-Editor"
+        "com.playeveryware.eos-Editor",
+        "com.playeveryware.eos.core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

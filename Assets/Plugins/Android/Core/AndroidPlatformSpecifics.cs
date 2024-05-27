@@ -20,6 +20,8 @@
 * SOFTWARE.
 */
 
+#if !EOS_DISABLE
+
 using UnityEngine;
 using UnityEngine.Scripting;
 using System.Runtime.InteropServices;
@@ -31,7 +33,7 @@ using JavaVM = System.IntPtr;
 using System.Diagnostics;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-[assembly: AlwaysLinkAssembly]
+
 namespace PlayEveryWare.EpicOnlineServices
 {
     using Epic.OnlineServices.Platform;
@@ -48,18 +50,18 @@ namespace PlayEveryWare.EpicOnlineServices
 
     //-------------------------------------------------------------------------
     // Android specific Unity Parts.
-    public class EOSPlatformSpecificsAndroid : PlatformSpecifics<AndroidConfig>
+    public class AndroidPlatformSpecifics : PlatformSpecifics<AndroidConfig>
     {
 
         [DllImport("UnityHelpers_Android")]
         private static extern JavaVM UnityHelpers_GetJavaVM();
 
-        public EOSPlatformSpecificsAndroid() : base(PlatformManager.Platform.Android, ".so") { }
+        public AndroidPlatformSpecifics() : base(PlatformManager.Platform.Android, ".so") { }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static public void Register()
         {
-            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new EOSPlatformSpecificsAndroid());
+            EOSManagerPlatformSpecificsSingleton.SetEOSManagerPlatformSpecificsInterface(new AndroidPlatformSpecifics());
         }
 
         private static void ConfigureAndroidActivity()
@@ -113,4 +115,5 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 }
+#endif
 #endif

@@ -37,7 +37,7 @@ namespace Epic.OnlineServices.Auth
 		/// <summary>
 		/// Deprecated field that is no longer used.
 		/// </summary>
-		public AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo_DEPRECATED { get; set; }
+		internal AccountFeatureRestrictedInfo? AccountFeatureRestrictedInfo_DEPRECATED { get; set; }
 
 		/// <summary>
 		/// The Epic Account ID that has been previously selected to be used for the current application.

@@ -20,15 +20,7 @@
 * SOFTWARE.
 */
 
-#if UNITY_64 || UNITY_EDITOR_64
-#define PLATFORM_64BITS
-#elif (UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN)
-#define PLATFORM_32BITS
-#endif
-
-#if UNITY_EDITOR
-#define EOS_DYNAMIC_BINDINGS
-#endif
+#if !EOS_DISABLE
 
 //#define ENABLE_CONFIGURE_STEAM_FROM_MANAGED
 
@@ -40,14 +32,12 @@ using Epic.OnlineServices.Platform;
 using System.Runtime.InteropServices;
 using UnityEngine.Scripting;
 
-#if (UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN || UNITY_WSA_10_0)
-
-#if !UNITY_EDITOR_WIN
-[assembly: AlwaysLinkAssembly]
-#endif
+// If standalone windows and not editor, or the windows editor.
+#if (UNITY_STANDALONE_WIN && !UNITY_EDITOR) || UNITY_EDITOR_WIN
 
 namespace PlayEveryWare.EpicOnlineServices
 {
+    using Utility;
 
     public class EOSCreateOptions
     {
@@ -66,10 +56,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string SteamConfigPath = "eos_steam_config.json";
 
 #if ENABLE_CONFIGURE_STEAM_FROM_MANAGED
-#if PLATFORM_64BITS
-        static string SteamDllName = "steam_api64.dll";
+        private static readonly string SteamDllName = 
+#if UNITY_64
+        "steam_api64.dll";
 #else
-static string SteamDllName = "steam_api.dll";
+        "steam_api.dll";
 #endif
 #endif
 
@@ -87,7 +78,8 @@ static string SteamDllName = "steam_api.dll";
         //-------------------------------------------------------------------------
         public override void LoadDelegatesWithEOSBindingAPI()
         {
-#if EOS_DYNAMIC_BINDINGS
+            // In the editor, EOS needs to be dynamically bound.
+#if EOS_DYNAMIC_BINDINGS || UNITY_EDITOR 
             const string EOSBinaryName = Epic.OnlineServices.Config.LibraryName;
             var eosLibraryHandle = EOSManager.EOSSingleton.LoadDynamicLibrary(EOSBinaryName);
             Epic.OnlineServices.WindowsBindings.Hook<DLLHandle>(eosLibraryHandle, (DLLHandle handle, string functionName) => {
@@ -118,12 +110,10 @@ static string SteamDllName = "steam_api.dll";
         public override void ConfigureSystemPlatformCreateOptions(ref EOSCreateOptions createOptions)
         {
             string pluginPlatformPath =
-#if PLATFORM_64BITS
+#if UNITY_64
             "x64";
-#elif PLATFORM_32BITS
-            "x86";
 #else
-            "";
+            "x86";
 #endif
 
             if (pluginPlatformPath.Length > 0)
@@ -160,8 +150,8 @@ static string SteamDllName = "steam_api.dll";
 
                 if (File.Exists(steamEOSFinalConfigPath))
                 {
-                    var steamConfigDataAsString = System.IO.File.ReadAllText(steamEOSFinalConfigPath);
-                    var steamConfigData = JsonUtility.FromJson<EOSSteamConfig>(steamConfigDataAsString);
+                    var steamConfigDataAsString = FileUtility.ReadAllText(steamEOSFinalConfigPath);
+                    var steamConfigData = JsonUtility.FromJson<SteamConfig>(steamConfigDataAsString);
                     var integratedPlatforms = new Epic.OnlineServices.IntegratedPlatform.Options[1];
 
                     integratedPlatforms[0] = new Epic.OnlineServices.IntegratedPlatform.Options();
@@ -203,4 +193,4 @@ static string SteamDllName = "steam_api.dll";
     }
 }
 #endif
-
+#endif // !EOS_DISABLE

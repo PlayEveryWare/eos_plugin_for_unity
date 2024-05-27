@@ -75,7 +75,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Build
         public static void BuildLibrariesMac()
         {
 #if UNITY_EDITOR_OSX
-            BuildMac();
+            Task.Run(BuildMac);
 #endif
         }
 

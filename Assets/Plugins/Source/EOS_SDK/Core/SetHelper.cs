@@ -172,8 +172,8 @@ namespace Epic.OnlineServices
 		}
 
 		internal static void Set<TFrom, TIntermediate>(ref TFrom? from, ref IntPtr to)
-			where TIntermediate : struct, ISettable<TFrom>
 			where TFrom : struct
+			where TIntermediate : struct, ISettable<TFrom>
 		{
 			Dispose(ref to);
 
@@ -182,8 +182,8 @@ namespace Epic.OnlineServices
 				return;
 			}
 
-			TIntermediate intermediate = new TIntermediate();
-			var sourceValue = from.Value;
+			TIntermediate intermediate = default(TIntermediate);
+			TFrom sourceValue = from.Value;
 			intermediate.Set(ref sourceValue);
 
 			to = AddAllocation(Marshal.SizeOf(typeof(TIntermediate)), intermediate);

@@ -1,0 +1,12 @@
+*.gif
+*.png
+eosconfig_ui.gif filter=lfs diff=lfs merge=lfs -text
+sample_screen_lobby.gif filter=lfs diff=lfs merge=lfs -text
+unity_install_samples.gif filter=lfs diff=lfs merge=lfs -text
+unity_package_git.gif filter=lfs diff=lfs merge=lfs -text
+unity_tools_eosconfig.gif filter=lfs diff=lfs merge=lfs -text
+dev_auth_tool.gif filter=lfs diff=lfs merge=lfs -text
+sample_screen_auth_friends.gif filter=lfs diff=lfs merge=lfs -text
+sample_screen_titlestorage.gif filter=lfs diff=lfs merge=lfs -text
+unity_package_tarball.gif filter=lfs diff=lfs merge=lfs -text
+pewlogo.png filter=lfs diff=lfs merge=lfs -text

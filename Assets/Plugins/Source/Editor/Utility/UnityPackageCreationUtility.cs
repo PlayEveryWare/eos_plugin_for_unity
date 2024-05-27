@@ -78,11 +78,7 @@ namespace PlayEveryWare.EpicOnlineServices.Editor.Utility
         
         private static PackageDescription ReadPackageDescription(string pathToJSONPackageDescription)
         {
-            var JSONPackageDescription = File.ReadAllText(pathToJSONPackageDescription);
-
-            var packageDescription = JsonUtility.FromJson<PackageDescription>(JSONPackageDescription);
-
-            return packageDescription;
+            return JsonUtility.FromJsonFile<PackageDescription>(pathToJSONPackageDescription);
         }
 
         public struct CreatePackageProgressInfo

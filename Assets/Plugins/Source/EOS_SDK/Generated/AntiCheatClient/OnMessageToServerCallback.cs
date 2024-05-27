@@ -6,9 +6,10 @@ namespace Epic.OnlineServices.AntiCheatClient
 	/// <summary>
 	/// Callback issued when a new message must be dispatched to the game server.
 	/// 
-	/// Messages contain opaque binary data of up to 256 bytes and must be transmitted
+	/// Messages contain opaque binary data and must be transmitted
 	/// to the game server using the game's own networking layer, then delivered
 	/// to the server anti-cheat instance using the <see cref="AntiCheatServer.AntiCheatServerInterface.ReceiveMessageFromClient" /> function.
+	/// The upper limit of the message size is <see cref="AntiCheatClientInterface.OnmessagetoservercallbackMaxMessageSize" />.
 	/// 
 	/// This callback is always issued from within <see cref="Platform.PlatformInterface.Tick" /> on its calling thread.
 	/// </summary>
